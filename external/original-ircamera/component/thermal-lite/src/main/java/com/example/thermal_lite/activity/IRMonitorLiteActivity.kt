@@ -48,7 +48,7 @@ import java.math.RoundingMode
  * 选取区域监听
  */
 @Route(path = RouterConfig.IR_THERMAL_MONITOR_LITE)
-open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTempListener {
+open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTempListener {
 
     private var selectIndex: SelectPositionBean? = null//选取点
     val irMonitorLiteFragment = IRMonitorLiteFragment()
@@ -75,8 +75,8 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTem
         motion_start_btn.setOnClickListener(this)
     }
 
-    private fun startChart(){
-        if (selectIndex == null){
+    private fun startChart() {
+        if (selectIndex == null) {
             return
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -98,10 +98,12 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTem
             var errorReadCount = 0
             while (true) {
                 delay(1000)
-                if (irMonitorLiteFragment!=null){
+                if (irMonitorLiteFragment != null) {
                     val result: LibIRTemp.TemperatureSampleResult = when (selectBean.type) {
                         1 -> irMonitorLiteFragment!!.getTemperatureView().getPointTemp(selectBean.startPosition)
-                        2 -> irMonitorLiteFragment!!.getTemperatureView().getLineTemp(Line(selectBean.startPosition, selectBean.endPosition))
+                        2 -> irMonitorLiteFragment!!.getTemperatureView()
+                            .getLineTemp(Line(selectBean.startPosition, selectBean.endPosition))
+
                         else -> irMonitorLiteFragment!!.getTemperatureView().getRectTemp(selectBean.getRect())
                     } ?: continue
                     if (isFirstRead) {
@@ -134,11 +136,13 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTem
         }
 
 
-        monitor_current_vol.text = getString(if (selectIndex!!.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
+        monitor_current_vol.text =
+            getString(if (selectIndex!!.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
         monitor_real_vol.visibility = if (selectIndex!!.type == 1) View.GONE else View.VISIBLE
         monitor_real_img.visibility = if (selectIndex!!.type == 1) View.GONE else View.VISIBLE
         recordThermal()//开始记录
     }
+
     private var showTask: Job? = null
 
     private var isRecord = false
@@ -146,6 +150,7 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTem
     private var canUpdate = false
 
     private var recordJob: Job? = null
+
     /**
      * 开始每隔1秒记录一个温度数据到数据库.
      */
@@ -216,7 +221,7 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTem
                 lifecycleScope.launch {
                     if (irMonitorLiteFragment.frameReady) {
                         lifecycleScope.launch {
-                            if (selectIndex == null){
+                            if (selectIndex == null) {
                                 return@launch
                             }
                             irMonitorLiteFragment?.stopTask()
@@ -259,8 +264,7 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTem
     }
 
 
-
-    var config : DataBean?= null
+    var config: DataBean? = null
     val basicGainGetValue = IntArray(1)
     var basicGainGetTime = 0L
 
@@ -268,22 +272,23 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTem
     override fun tempCorrectByTs(temp: Float?): Float {
         var tempNew = temp
         try {
-            if (config == null){
+            if (config == null) {
                 config = ConfigRepository.readConfig(false)
             }
             val defModel = DataBean()
             if (config!!.radiation == defModel.radiation &&
                 defModel.environment == config!!.environment &&
-                defModel.distance == config!!.distance){
+                defModel.distance == config!!.distance
+            ) {
                 return temp!!
             }
 
             //获取增益状态 PASS
-            if (System.currentTimeMillis() - basicGainGetTime > 5000L){
+            if (System.currentTimeMillis() - basicGainGetTime > 5000L) {
                 try {
                     val basicGainGet: IrcmdError? = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
                         ?.basicGainGet(basicGainGetValue)
-                }catch (e : Exception){
+                } catch (e: Exception) {
                     XLog.e("增益获取失败")
                 }
                 basicGainGetTime = System.currentTimeMillis()
@@ -310,16 +315,16 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener , ITsTem
                         " ems = " + params_array[1] + " ta = " + params_array[2] + " " +
                         "distance = " + params_array[4] + " hum = " + params_array[5]
             )
-        }catch (e : Exception){
+        } catch (e: Exception) {
             XLog.e("$TAG--温度修正异常：${e.message}")
-        }finally {
+        } finally {
             return tempNew ?: 0f
         }
     }
 
     override fun finish() {
         super.finish()
-        if(isRecord){
+        if (isRecord) {
             EventBus.getDefault().post(MonitorSaveEvent())
         }
     }

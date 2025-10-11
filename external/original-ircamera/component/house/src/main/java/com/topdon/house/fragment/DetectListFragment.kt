@@ -65,9 +65,11 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
                         intent.putExtra(ExtraKeyConfig.DETECT_ID, adapter.dataList[position].id)
                         startActivity(intent)
                     }
+
                     1 -> {//复制
                         viewModel.copyDetect(position, adapter.dataList[position] as HouseDetect)
                     }
+
                     2 -> {//删除
                         TipDialog.Builder(requireContext())
                             .setTitleMessage(getString(R.string.monitor_report_delete))
@@ -156,6 +158,7 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
                 intent.putExtra(ExtraKeyConfig.IS_TC007, arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false)
                 startActivity(intent)
             }
+
             cl_del -> {//批量删除
                 if (adapter.selectIndexList.isNotEmpty()) {
                     TipDialog.Builder(requireContext())

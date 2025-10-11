@@ -11,6 +11,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+
 import java.nio.ByteBuffer;
 
 import static com.example.opengl.render.IROpen3DTools.IntArrayToByteArray;
@@ -26,7 +27,7 @@ public class ImageColorTools {
         System.loadLibrary("opencv_java4");
     }
 
-    public static Bitmap testImageTe(byte[] buffer){
+    public static Bitmap testImageTe(byte[] buffer) {
         int[] temperature = new int[256 * 192 * 2];
         int[] image = new int[256 * 192 * 2];
 
@@ -60,7 +61,7 @@ public class ImageColorTools {
         src.put(0, 0, temp);
 
         Mat imageMat = new Mat(192, 256, CvType.CV_8UC2);
-        imageMat.put(0,0,IntArrayToByteArray(image));
+        imageMat.put(0, 0, IntArrayToByteArray(image));
 //        for (int i = 0; i < image.length; i += 2) {
 //            imageMat.put(i / 512, (i / 2) % 256, image[i]);
 //            imageMat.put(i / 512, (i / 2) % 256 + 1, image[i + 1]);
@@ -84,8 +85,8 @@ public class ImageColorTools {
             float temperature0 = (temperature[j] & 0xff) + (temperature[j + 1] & 0xff) * 256;
             temperature0 = (float) (temperature0 / 64 - 273.15);
             if (temperature0 >= customMinTemp && temperature0 <= customMaxTemp) {
-                int[] rgb = getOneColorByTempEx(customMaxTemp,customMinTemp,temperature0,colorList);
-                if (rgb!=null){
+                int[] rgb = getOneColorByTempEx(customMaxTemp, customMinTemp, temperature0, colorList);
+                if (rgb != null) {
                     imageDst[index] = (byte) rgb[0];
                     imageDst[index + 1] = (byte) rgb[1];
                     imageDst[index + 2] = (byte) rgb[2];
@@ -111,6 +112,7 @@ public class ImageColorTools {
 
         return outputBitmap;
     }
+
     public static Bitmap adjustPhotoRotation(Bitmap bm, final int orientationDegree) {
 
         Matrix m = new Matrix();
@@ -123,7 +125,8 @@ public class ImageColorTools {
         return null;
 
     }
-    public static Bitmap testImage2(byte[] buffer){
+
+    public static Bitmap testImage2(byte[] buffer) {
         int[] temperature = new int[256 * 192 * 2];
         int[] image = new int[256 * 192 * 2];
 
@@ -154,7 +157,7 @@ public class ImageColorTools {
         src.put(0, 0, temp);
 
         Mat imageMat = new Mat(192, 256, CvType.CV_8UC2);
-        imageMat.put(0,0,IntArrayToByteArray(image));
+        imageMat.put(0, 0, IntArrayToByteArray(image));
 //        for (int i = 0; i < image.length; i += 2) {
 //            imageMat.put(i / 512, (i / 2) % 256, image[i]);
 //            imageMat.put(i / 512, (i / 2) % 256 + 1, image[i + 1]);
@@ -198,7 +201,7 @@ public class ImageColorTools {
                 }
             }
         }
-        Log.e("执行耗时：",System.currentTimeMillis() - time+"//");
+        Log.e("执行耗时：", System.currentTimeMillis() - time + "//");
 //        Imgproc.cvtColor(imageColor, imageColor, Imgproc.COLOR_BGR2RGBA);
 //        byte[] imageDst = matToByteArray(imageColor);
 //        Bitmap outputBitmap = Bitmap.createBitmap(imageColor.width(),
@@ -217,7 +220,8 @@ public class ImageColorTools {
 
         return outputBitmap;
     }
-    public static Bitmap testImage(byte[] buffer){
+
+    public static Bitmap testImage(byte[] buffer) {
         int[] temperature = new int[256 * 192 * 2];
         byte[] image = new byte[256 * 192 * 2];
 
@@ -248,7 +252,7 @@ public class ImageColorTools {
         src.put(0, 0, temp);
 
         Mat imageMat = new Mat(192, 256, CvType.CV_8UC2);
-        imageMat.put(0,0,image);
+        imageMat.put(0, 0, image);
 //        for (int i = 0; i < image.length; i += 2) {
 //            imageMat.put(i / 512, (i / 2) % 256, image[i]);
 //            imageMat.put(i / 512, (i / 2) % 256 + 1, image[i + 1]);
@@ -293,7 +297,7 @@ public class ImageColorTools {
 //                }
 //            }
 //        }
-        Log.e("执行耗时：",System.currentTimeMillis() - time+"//");
+        Log.e("执行耗时：", System.currentTimeMillis() - time + "//");
 //        Imgproc.cvtColor(imageMat, imageMat, Imgproc.COLOR_BGR2RGBA);
 //        byte[] imageDst = matToByteArray(imageMat);
 //        Bitmap outputBitmap = Bitmap.createBitmap(imageMat.width(),
@@ -301,7 +305,7 @@ public class ImageColorTools {
 //        outputBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(imageDst));
         // Convert OpenCV Mat to Android Bitmap
         Bitmap outputBitmap = Bitmap.createBitmap(imageMat.cols(), imageMat.rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(imageMat, outputBitmap,true);
+        Utils.matToBitmap(imageMat, outputBitmap, true);
         // Display or use the resulting Bitmap as needed
         // For example, you can set this Bitmap to an ImageView
         // imageView.setImageBitmap(outputBitmap);
@@ -313,21 +317,16 @@ public class ImageColorTools {
         return outputBitmap;
     }
 
-    public static Bitmap  matToBitmap(Mat mat){
+    public static Bitmap matToBitmap(Mat mat) {
         Bitmap outputBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(mat, outputBitmap,true);
+        Utils.matToBitmap(mat, outputBitmap, true);
         mat.release();
         return outputBitmap;
     }
 
 
-
-
-
-
-
     public static int[] getOneColorByTempEx(float customMaxTemp, float customMinTemp, float nowTemp, int[] colorList) {
-        if (colorList == null){
+        if (colorList == null) {
             return null;
         }
         float tempValue = customMaxTemp - customMinTemp;
@@ -339,19 +338,19 @@ public class ImageColorTools {
 
         float avgColorIndex = ratio / avg;
         int addNumber = 0;
-        if ((ratio % avg) > 0){
+        if ((ratio % avg) > 0) {
             addNumber = 1;
         }
         int lowerColorIndex = (int) avgColorIndex + addNumber;
         float ratioInRegion = avgColorIndex - lowerColorIndex;
 
-        if (Math.abs(nowTemp -customMaxTemp)==0.1f) {
+        if (Math.abs(nowTemp - customMaxTemp) == 0.1f) {
             int lastColor = colorList[colorNumber];
             result[0] = (lastColor >> 16) & 0xFF;
             result[1] = (lastColor >> 8) & 0xFF;
             result[2] = lastColor & 0xFF;
             return result;
-        } else if (Math.abs(nowTemp -customMinTemp)==0.1f) {
+        } else if (Math.abs(nowTemp - customMinTemp) == 0.1f) {
             int firstColor = colorList[0];
             result[0] = (firstColor >> 16) & 0xFF;
             result[1] = (firstColor >> 8) & 0xFF;
@@ -360,7 +359,7 @@ public class ImageColorTools {
         }
         int startColor = colorList[lowerColorIndex - 1];
         int endColor = colorList[lowerColorIndex];
-        if (colorNumber != 1){
+        if (colorNumber != 1) {
             ratioInRegion = (ratio - (avg * (lowerColorIndex - 1))) / avg;
         }
         int r = interpolateR(startColor, endColor, ratioInRegion);
@@ -379,18 +378,21 @@ public class ImageColorTools {
         int red = (int) ((1 - ratio) * startR + ratio * endR);
         return red;
     }
+
     private static int interpolateG(int startColor, int endColor, double ratio) {
         int startG = (startColor >> 8) & 0xFF;
         int endG = (endColor >> 8) & 0xFF;
         int interpolatedG = (int) ((1 - ratio) * startG + ratio * endG);
         return interpolatedG;
     }
+
     private static int interpolateB(int startColor, int endColor, double ratio) {
         int startB = startColor & 0xFF;
         int endB = endColor & 0xFF;
         int interpolatedB = (int) ((1 - ratio) * startB + ratio * endB);
         return interpolatedB;
     }
+
     public static byte[] matToByteArrayBy4(Mat mat) {
         int rows = mat.rows();
         int cols = mat.cols();
@@ -399,6 +401,7 @@ public class ImageColorTools {
         mat.get(0, 0, byteArray);
         return byteArray;
     }
+
     public static byte[] matToByteArrayBy3(Mat mat) {
         int rows = mat.rows();
         int cols = mat.cols();
@@ -407,6 +410,7 @@ public class ImageColorTools {
         mat.get(0, 0, byteArray);
         return byteArray;
     }
+
     public static Bitmap bytes2Bimap(byte[] b) {
         if (b.length != 0) {
             return BitmapFactory.decodeByteArray(b, 0, b.length);

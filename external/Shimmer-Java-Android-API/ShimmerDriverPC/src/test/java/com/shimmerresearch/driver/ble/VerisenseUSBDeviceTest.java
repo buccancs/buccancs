@@ -19,235 +19,235 @@ import jssc.SerialPort;
 
 public class VerisenseUSBDeviceTest {
 
-	SerialPortByteCommunication radio1 = new SerialPortByteCommunication(new SerialPortCommJssc("COM4","COM4",SerialPort.BAUDRATE_115200));
-	//BleRadioByteCommunication radio1 = new BleRadioByteCommunication("00001800-0000-1000-8000-00805f9b34fb", "bleconsoleapp\\BLEConsoleApp1.exe");
-	SerialPortByteCommunication radio2 = new SerialPortByteCommunication(new SerialPortCommJssc("COM4","COM4",SerialPort.BAUDRATE_115200));
-	VerisenseProtocolByteCommunication protocol1 = new VerisenseProtocolByteCommunication(radio1);
-	VerisenseProtocolByteCommunication protocol2 = new VerisenseProtocolByteCommunication(radio2);
-	VerisenseDevice device1 = new VerisenseDevice();
-	VerisenseDevice device2 = new VerisenseDevice();
+    SerialPortByteCommunication radio1 = new SerialPortByteCommunication(new SerialPortCommJssc("COM4", "COM4", SerialPort.BAUDRATE_115200));
+    //BleRadioByteCommunication radio1 = new BleRadioByteCommunication("00001800-0000-1000-8000-00805f9b34fb", "bleconsoleapp\\BLEConsoleApp1.exe");
+    SerialPortByteCommunication radio2 = new SerialPortByteCommunication(new SerialPortCommJssc("COM4", "COM4", SerialPort.BAUDRATE_115200));
+    VerisenseProtocolByteCommunication protocol1 = new VerisenseProtocolByteCommunication(radio1);
+    VerisenseProtocolByteCommunication protocol2 = new VerisenseProtocolByteCommunication(radio2);
+    VerisenseDevice device1 = new VerisenseDevice();
+    VerisenseDevice device2 = new VerisenseDevice();
 
-	public void initialize() {
-		device1.setProtocol(COMMUNICATION_TYPE.USB, protocol1);
-		device2.setProtocol(COMMUNICATION_TYPE.USB, protocol2);
-		JFrame frame = new JFrame();
-		frame.setSize(333, 369);
-		frame.getContentPane().setLayout(null);
+    public static void main(String[] args) {
+        VerisenseUSBDeviceTest test = new VerisenseUSBDeviceTest();
+        test.initialize();
 
-		JButton btnNewButton = new JButton("Connect");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol1.connect();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnNewButton.setBounds(12, 13, 124, 25);
-		frame.getContentPane().add(btnNewButton);
+        // connect
 
-		JButton btnDisconnect = new JButton("Disconnect");
-		btnDisconnect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol1.disconnect();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnDisconnect.setBounds(12, 238, 124, 25);
-		frame.getContentPane().add(btnDisconnect);
+        // System.out.println(p);
+        // p.destroy();
+    }
 
-		JButton btnNewButton_1 = new JButton("Read Status");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol1.readStatus();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnNewButton_1.setBounds(12, 51, 124, 25);
-		frame.getContentPane().add(btnNewButton_1);
+    public void initialize() {
+        device1.setProtocol(COMMUNICATION_TYPE.USB, protocol1);
+        device2.setProtocol(COMMUNICATION_TYPE.USB, protocol2);
+        JFrame frame = new JFrame();
+        frame.setSize(333, 369);
+        frame.getContentPane().setLayout(null);
 
-		JButton btnNewButton_2 = new JButton("Read Data");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol1.readLoggedData();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnNewButton_2.setBounds(12, 127, 124, 25);
-		frame.getContentPane().add(btnNewButton_2);
+        JButton btnNewButton = new JButton("Connect");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol1.connect();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        btnNewButton.setBounds(12, 13, 124, 25);
+        frame.getContentPane().add(btnNewButton);
 
-		JButton button = new JButton("Connect");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol2.connect();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		button.setBounds(162, 13, 124, 25);
-		frame.getContentPane().add(button);
+        JButton btnDisconnect = new JButton("Disconnect");
+        btnDisconnect.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol1.disconnect();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        btnDisconnect.setBounds(12, 238, 124, 25);
+        frame.getContentPane().add(btnDisconnect);
 
-		JButton button_1 = new JButton("Read Status");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol2.readStatus();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		button_1.setBounds(162, 51, 124, 25);
-		frame.getContentPane().add(button_1);
+        JButton btnNewButton_1 = new JButton("Read Status");
+        btnNewButton_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol1.readStatus();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        btnNewButton_1.setBounds(12, 51, 124, 25);
+        frame.getContentPane().add(btnNewButton_1);
 
-		JButton button_2 = new JButton("Read Data");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol2.readLoggedData();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		button_2.setBounds(162, 127, 124, 25);
-		frame.getContentPane().add(button_2);
+        JButton btnNewButton_2 = new JButton("Read Data");
+        btnNewButton_2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol1.readLoggedData();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        btnNewButton_2.setBounds(12, 127, 124, 25);
+        frame.getContentPane().add(btnNewButton_2);
 
-		JButton button_3 = new JButton("Disconnect");
-		button_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol2.disconnect();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		button_3.setBounds(162, 238, 124, 25);
-		frame.getContentPane().add(button_3);
+        JButton button = new JButton("Connect");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol2.connect();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        button.setBounds(162, 13, 124, 25);
+        frame.getContentPane().add(button);
 
-		JButton btnStartstreaming = new JButton("StartStreaming");
-		btnStartstreaming.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol1.startStreaming();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnStartstreaming.setBounds(12, 165, 124, 25);
-		frame.getContentPane().add(btnStartstreaming);
+        JButton button_1 = new JButton("Read Status");
+        button_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol2.readStatus();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        button_1.setBounds(162, 51, 124, 25);
+        frame.getContentPane().add(button_1);
 
-		JButton btnStopstreaming = new JButton("StopStreaming");
-		btnStopstreaming.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol1.stopStreaming();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
+        JButton button_2 = new JButton("Read Data");
+        button_2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol2.readLoggedData();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        button_2.setBounds(162, 127, 124, 25);
+        frame.getContentPane().add(button_2);
 
-		btnStopstreaming.setBounds(12, 200, 124, 25);
-		frame.getContentPane().add(btnStopstreaming);
+        JButton button_3 = new JButton("Disconnect");
+        button_3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol2.disconnect();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        button_3.setBounds(162, 238, 124, 25);
+        frame.getContentPane().add(button_3);
 
-		JButton button_4 = new JButton("StartStreaming");
-		button_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol2.startStreaming();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		button_4.setBounds(162, 165, 124, 25);
-		frame.getContentPane().add(button_4);
+        JButton btnStartstreaming = new JButton("StartStreaming");
+        btnStartstreaming.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol1.startStreaming();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        btnStartstreaming.setBounds(12, 165, 124, 25);
+        frame.getContentPane().add(btnStartstreaming);
 
-		JButton button_5 = new JButton("StopStreaming");
-		button_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol2.stopStreaming();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		button_5.setBounds(162, 200, 124, 25);
-		frame.getContentPane().add(button_5);
+        JButton btnStopstreaming = new JButton("StopStreaming");
+        btnStopstreaming.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol1.stopStreaming();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
 
-		JButton btnReadOp = new JButton("Read Op");
-		btnReadOp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol1.readOperationalConfig();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnReadOp.setBounds(12, 89, 124, 25);
-		frame.getContentPane().add(btnReadOp);
+        btnStopstreaming.setBounds(12, 200, 124, 25);
+        frame.getContentPane().add(btnStopstreaming);
 
-		JButton btnReadOp_1 = new JButton("Read Op");
-		btnReadOp_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					protocol2.readOperationalConfig();
-				} catch (ShimmerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnReadOp_1.setBounds(162, 89, 124, 25);
-		frame.getContentPane().add(btnReadOp_1);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				protocol1.stop();
-				protocol2.stop();
-			}
-		});
-	}
+        JButton button_4 = new JButton("StartStreaming");
+        button_4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol2.startStreaming();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        button_4.setBounds(162, 165, 124, 25);
+        frame.getContentPane().add(button_4);
 
-	public static void main(String[] args) {
-		VerisenseUSBDeviceTest test = new VerisenseUSBDeviceTest();
-		test.initialize();
+        JButton button_5 = new JButton("StopStreaming");
+        button_5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol2.stopStreaming();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        button_5.setBounds(162, 200, 124, 25);
+        frame.getContentPane().add(button_5);
 
-		// connect
+        JButton btnReadOp = new JButton("Read Op");
+        btnReadOp.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol1.readOperationalConfig();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        btnReadOp.setBounds(12, 89, 124, 25);
+        frame.getContentPane().add(btnReadOp);
 
-		// System.out.println(p);
-		// p.destroy();
-	}
+        JButton btnReadOp_1 = new JButton("Read Op");
+        btnReadOp_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    protocol2.readOperationalConfig();
+                } catch (ShimmerException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        btnReadOp_1.setBounds(162, 89, 124, 25);
+        frame.getContentPane().add(btnReadOp_1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                protocol1.stop();
+                protocol2.stop();
+            }
+        });
+    }
 }

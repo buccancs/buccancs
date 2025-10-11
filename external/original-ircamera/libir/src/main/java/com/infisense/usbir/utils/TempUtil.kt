@@ -13,7 +13,7 @@ object TempUtil {
         if (point1.x == point2.x) {//垂直于 X 轴的直线
             val startY = point1.y.coerceAtMost(point2.y)
             val endY = point1.y.coerceAtLeast(point2.y)
-            for (i in startY .. endY) {
+            for (i in startY..endY) {
                 pointList.add(Point(point1.x, i))
             }
         } else {
@@ -22,14 +22,14 @@ object TempUtil {
             if (abs(k) <= 1) {//x轴正整数点较多
                 val startX = point1.x.coerceAtMost(point2.x)
                 val endX = point1.x.coerceAtLeast(point2.x)
-                for (i in startX .. endX) {
+                for (i in startX..endX) {
                     pointList.add(Point(i, (k * i + b).toInt()))
                 }
             } else {//y轴正整数点较多
                 if (k >= 0) {//左上到右下
                     val startY = point1.y.coerceAtMost(point2.y)
                     val endY = point1.y.coerceAtLeast(point2.y)
-                    for (y in startY .. endY) {
+                    for (y in startY..endY) {
                         pointList.add(Point(((y - b) / k).toInt(), y))
                     }
                 } else {//左下到右上

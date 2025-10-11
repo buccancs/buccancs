@@ -40,7 +40,8 @@ object CalibrationTools {
         var success = false
         // 标定前需要重置测温参数,否则温度标定不准
         if (irCmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_TPD) == 0) {
-            val result = irCmd.setTPDKtBtRecalPoint(CommonParams.TPDKtBtRecalPointType.RECAL_2_POINT_FIRST, pointTemp + 273)
+            val result =
+                irCmd.setTPDKtBtRecalPoint(CommonParams.TPDKtBtRecalPointType.RECAL_2_POINT_FIRST, pointTemp + 273)
             if (result == 0) {
                 success = true
             } else {
@@ -62,7 +63,8 @@ object CalibrationTools {
         var success = false
         // 标定前需要重置测温参数,否则温度标定不准
         if (irCmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_TPD) == 0) {
-            val result = irCmd.setTPDKtBtRecalPoint(CommonParams.TPDKtBtRecalPointType.RECAL_2_POINT_END, pointTemp + 273)
+            val result =
+                irCmd.setTPDKtBtRecalPoint(CommonParams.TPDKtBtRecalPointType.RECAL_2_POINT_END, pointTemp + 273)
             if (result == 0) {
                 success = true
             } else {
@@ -132,9 +134,15 @@ object CalibrationTools {
      */
     fun setGain(irCmd: IRCMD, type: Int) {
         if (type == 1) {
-            irCmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL, CommonParams.PropTPDParamsValue.GAINSELStatus.GAIN_SEL_HIGH)
+            irCmd.setPropTPDParams(
+                CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL,
+                CommonParams.PropTPDParamsValue.GAINSELStatus.GAIN_SEL_HIGH
+            )
         } else {
-            irCmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL, CommonParams.PropTPDParamsValue.GAINSELStatus.GAIN_SEL_LOW)
+            irCmd.setPropTPDParams(
+                CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL,
+                CommonParams.PropTPDParamsValue.GAINSELStatus.GAIN_SEL_LOW
+            )
         }
     }
 
@@ -192,7 +200,8 @@ object CalibrationTools {
      * 自动快门
      */
     fun autoShutter(irCmd: IRCMD?, flag: Boolean) {
-        val data = if (flag) CommonParams.PropAutoShutterParameterValue.StatusSwith.ON else CommonParams.PropAutoShutterParameterValue.StatusSwith.OFF
+        val data =
+            if (flag) CommonParams.PropAutoShutterParameterValue.StatusSwith.ON else CommonParams.PropAutoShutterParameterValue.StatusSwith.OFF
         irCmd?.setPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH, data)
     }
 
@@ -218,7 +227,11 @@ object CalibrationTools {
     /**
      * 设置Tpd
      */
-    private fun setTpdParams(irCmd: IRCMD?, params: CommonParams.PropTPDParams, value: CommonParams.PropTPDParamsValue): Int {
+    private fun setTpdParams(
+        irCmd: IRCMD?,
+        params: CommonParams.PropTPDParams,
+        value: CommonParams.PropTPDParamsValue
+    ): Int {
         return try {
             irCmd?.setPropTPDParams(params, value) ?: 0
         } catch (e: Exception) {

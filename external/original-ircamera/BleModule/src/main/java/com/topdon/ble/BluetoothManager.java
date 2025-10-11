@@ -39,11 +39,14 @@ public class BluetoothManager implements EventObserver {
     public static boolean iSReset = false;//是否复位
     public static boolean isSending = false;//是否正在发送蓝牙数据
     public static boolean isClickStopCharging = false;//是否点击了停止充电
+    public static boolean isReceiveBleData = false;//是否接收蓝牙数据
     private static BluetoothManager instance = null;
     private Device mDevice;
     private Connection connection;
-    public static boolean isReceiveBleData = false;//是否接收蓝牙数据
     private BluetoothGattCharacteristic writeCharact = null;
+
+    public BluetoothManager() {
+    }
 
     public static BluetoothManager getInstance() {
         if (instance == null)
@@ -51,7 +54,17 @@ public class BluetoothManager implements EventObserver {
         return instance;
     }
 
-    public BluetoothManager() {
+    public static void setBleData(String message) {
+//        String savePath = ActivityUtils.getTopActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");// HH:mm:ss
+//        //获取当前时间
+//        Date date = new Date(System.currentTimeMillis());
+//
+//        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
+//        //获取当前时间
+//        Date date1 = new Date(System.currentTimeMillis());
+//
+//        FileIOUtils.writeFileFromString(savePath + "/log/" + simpleDateFormat.format(date) + ".txt", simpleDateFormat1.format(date1) + ":" + message + "\n", true);
     }
 
     public Device getDevice() {
@@ -125,7 +138,7 @@ public class BluetoothManager implements EventObserver {
         return connection;
     }
 
-    public Connection connect(String mac,String name){
+    public Connection connect(String mac, String name) {
         ConnectionConfiguration configuration = new ConnectionConfiguration();
         configuration.setConnectTimeoutMillis(10000);
         configuration.setRequestTimeoutMillis(7000);
@@ -252,19 +265,6 @@ public class BluetoothManager implements EventObserver {
     public void onCharacteristicChanged(Device device, UUID service, UUID characteristic, byte[] value) {
         Log.e("ble_bcf_data", "接收蓝牙数据：" + StringUtils.toHex(value));
         EventBus.getDefault().post(value);
-    }
-
-    public static void setBleData(String message) {
-//        String savePath = ActivityUtils.getTopActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");// HH:mm:ss
-//        //获取当前时间
-//        Date date = new Date(System.currentTimeMillis());
-//
-//        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
-//        //获取当前时间
-//        Date date1 = new Date(System.currentTimeMillis());
-//
-//        FileIOUtils.writeFileFromString(savePath + "/log/" + simpleDateFormat.format(date) + ".txt", simpleDateFormat1.format(date1) + ":" + message + "\n", true);
     }
 
 }

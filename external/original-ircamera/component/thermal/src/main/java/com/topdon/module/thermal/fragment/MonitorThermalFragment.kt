@@ -125,6 +125,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
                         irSurfaceViewHeight = screenWidth * 360 / 270
                     }
                 }
+
                 0, 2 -> {
                     irSurfaceViewWidth = width
                     irSurfaceViewHeight = height
@@ -371,43 +372,53 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
                 ToastUtils.showShort("拍照")
                 picture()
             }
+
             1002 -> {
                 //录制
                 ToastUtils.showShort("录制")
                 video()
             }
+
             2001 -> {
                 //添加点
                 addPoint()
             }
+
             2002 -> {
                 //添加线
                 addLine()
             }
+
             2003 -> {
                 //添加围栏
                 addFence()
             }
+
             2004 -> {
                 //添加温度
                 onTempBtnClick()
             }
+
             2006 -> {
                 //清除还原
                 clearFence()
             }
+
             in 3000..3010 -> {
                 //设置伪彩
                 setColor(event.action)
             }
+
             in 5000..5010 -> {
                 //全屏
                 full()
             }
+
             10001 -> {
                 //开始记录
                 recordThermal()
             }
+
             10003 -> {
                 //停止记录
                 isRecord = false

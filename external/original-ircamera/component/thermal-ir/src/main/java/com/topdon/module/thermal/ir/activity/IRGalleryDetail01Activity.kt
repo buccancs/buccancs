@@ -59,6 +59,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
      * 当前展示图片在列表中的 position
      */
     private var position = 0
+
     /**
      * 从上一界面传递过来的，当前展示的图片列表.
      */
@@ -275,7 +276,8 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
             }
 
             ll_ir_ex -> {
-                TipDialog.Builder(this).setMessage(R.string.tip_album_temp_exportfile).setPositiveListener(R.string.app_confirm) {
+                TipDialog.Builder(this).setMessage(R.string.tip_album_temp_exportfile)
+                    .setPositiveListener(R.string.app_confirm) {
                         actionExcel()
                     }.setCancelListener(R.string.app_cancel) {}.setCanceled(true).create().show()
             }
@@ -315,7 +317,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onSaveFinishBean(imageGalleryEvent : ImageGalleryEvent) {
+    fun onSaveFinishBean(imageGalleryEvent: ImageGalleryEvent) {
         finish()
     }
 }

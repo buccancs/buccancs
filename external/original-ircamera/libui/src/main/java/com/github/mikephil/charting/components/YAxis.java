@@ -19,94 +19,65 @@ import com.github.mikephil.charting.utils.Utils;
 public class YAxis extends AxisBase {
 
     /**
-     * indicates if the bottom y-label entry is drawn or not
-     */
-    private boolean mDrawBottomYLabelEntry = true;
-
-    /**
-     * indicates if the top y-label entry is drawn or not
-     */
-    private boolean mDrawTopYLabelEntry = true;
-
-    /**
      * flag that indicates if the axis is inverted or not
      */
     protected boolean mInverted = false;
-
     /**
      * flag that indicates if the zero-line should be drawn regardless of other grid lines
      */
     protected boolean mDrawZeroLine = false;
-
-    /**
-     * flag indicating that auto scale min restriction should be used
-     */
-    private boolean mUseAutoScaleRestrictionMin = false;
-
-    /**
-     * flag indicating that auto scale max restriction should be used
-     */
-    private boolean mUseAutoScaleRestrictionMax = false;
-
     /**
      * Color of the zero line
      */
     protected int mZeroLineColor = Color.GRAY;
-
     /**
      * Width of the zero line in pixels
      */
     protected float mZeroLineWidth = 1f;
-
     /**
      * axis space from the largest value to the top in percent of the total axis range
      */
     protected float mSpacePercentTop = 10f;
-
     /**
      * axis space from the smallest value to the bottom in percent of the total axis range
      */
     protected float mSpacePercentBottom = 10f;
-
-    /**
-     * the position of the y-labels relative to the chart
-     */
-    private YAxisLabelPosition mPosition = YAxisLabelPosition.OUTSIDE_CHART;
-
-    /**
-     * enum for the position of the y-labels relative to the chart
-     */
-    public enum YAxisLabelPosition {
-        OUTSIDE_CHART, INSIDE_CHART
-    }
-
-    /**
-     * the side this axis object represents
-     */
-    private AxisDependency mAxisDependency;
-
     /**
      * the minimum width that the axis should take (in dp).
      * <p/>
      * default: 0.0
      */
     protected float mMinWidth = 0.f;
-
     /**
      * the maximum width that the axis can take (in dp).
      * use Inifinity for disabling the maximum
      * default: Float.POSITIVE_INFINITY (no maximum specified)
      */
     protected float mMaxWidth = Float.POSITIVE_INFINITY;
-
     /**
-     * Enum that specifies the axis a DataSet should be plotted against, either LEFT or RIGHT.
-     *
-     * @author Philipp Jahoda
+     * indicates if the bottom y-label entry is drawn or not
      */
-    public enum AxisDependency {
-        LEFT, RIGHT
-    }
+    private boolean mDrawBottomYLabelEntry = true;
+    /**
+     * indicates if the top y-label entry is drawn or not
+     */
+    private boolean mDrawTopYLabelEntry = true;
+    /**
+     * flag indicating that auto scale min restriction should be used
+     */
+    private boolean mUseAutoScaleRestrictionMin = false;
+    /**
+     * flag indicating that auto scale max restriction should be used
+     */
+    private boolean mUseAutoScaleRestrictionMax = false;
+    /**
+     * the position of the y-labels relative to the chart
+     */
+    private YAxisLabelPosition mPosition = YAxisLabelPosition.OUTSIDE_CHART;
+    /**
+     * the side this axis object represents
+     */
+    private AxisDependency mAxisDependency;
 
     public YAxis() {
         super();
@@ -204,6 +175,15 @@ public class YAxis extends AxisBase {
     }
 
     /**
+     * If this returns true, the y-axis is inverted.
+     *
+     * @return
+     */
+    public boolean isInverted() {
+        return mInverted;
+    }
+
+    /**
      * If this is set to true, the y-axis is inverted which means that low values are on top of
      * the chart, high values
      * on bottom.
@@ -212,15 +192,6 @@ public class YAxis extends AxisBase {
      */
     public void setInverted(boolean enabled) {
         mInverted = enabled;
-    }
-
-    /**
-     * If this returns true, the y-axis is inverted.
-     *
-     * @return
-     */
-    public boolean isInverted() {
-        return mInverted;
     }
 
     /**
@@ -238,15 +209,6 @@ public class YAxis extends AxisBase {
     }
 
     /**
-     * Sets the top axis space in percent of the full range. Default 10f
-     *
-     * @param percent
-     */
-    public void setSpaceTop(float percent) {
-        mSpacePercentTop = percent;
-    }
-
-    /**
      * Returns the top axis space in percent of the full range. Default 10f
      *
      * @return
@@ -256,12 +218,12 @@ public class YAxis extends AxisBase {
     }
 
     /**
-     * Sets the bottom axis space in percent of the full range. Default 10f
+     * Sets the top axis space in percent of the full range. Default 10f
      *
      * @param percent
      */
-    public void setSpaceBottom(float percent) {
-        mSpacePercentBottom = percent;
+    public void setSpaceTop(float percent) {
+        mSpacePercentTop = percent;
     }
 
     /**
@@ -271,6 +233,15 @@ public class YAxis extends AxisBase {
      */
     public float getSpaceBottom() {
         return mSpacePercentBottom;
+    }
+
+    /**
+     * Sets the bottom axis space in percent of the full range. Default 10f
+     *
+     * @param percent
+     */
+    public void setSpaceBottom(float percent) {
+        mSpacePercentBottom = percent;
     }
 
     public boolean isDrawZeroLineEnabled() {
@@ -371,7 +342,7 @@ public class YAxis extends AxisBase {
      * Returns true if autoscale restriction for axis min value is enabled
      */
     @Deprecated
-    public boolean isUseAutoScaleMinRestriction( ) {
+    public boolean isUseAutoScaleMinRestriction() {
         return mUseAutoScaleRestrictionMin;
     }
 
@@ -379,7 +350,7 @@ public class YAxis extends AxisBase {
      * Sets autoscale restriction for axis min value as enabled/disabled
      */
     @Deprecated
-    public void setUseAutoScaleMinRestriction( boolean isEnabled ) {
+    public void setUseAutoScaleMinRestriction(boolean isEnabled) {
         mUseAutoScaleRestrictionMin = isEnabled;
     }
 
@@ -395,10 +366,9 @@ public class YAxis extends AxisBase {
      * Sets autoscale restriction for axis max value as enabled/disabled
      */
     @Deprecated
-    public void setUseAutoScaleMaxRestriction( boolean isEnabled ) {
+    public void setUseAutoScaleMaxRestriction(boolean isEnabled) {
         mUseAutoScaleRestrictionMax = isEnabled;
     }
-
 
     @Override
     public void calculate(float dataMin, float dataMax) {
@@ -422,5 +392,22 @@ public class YAxis extends AxisBase {
         this.mAxisMaximum = mCustomAxisMax ? this.mAxisMaximum : max + (range / 100f) * getSpaceTop();
 
         this.mAxisRange = Math.abs(this.mAxisMinimum - this.mAxisMaximum);
+    }
+
+    /**
+     * enum for the position of the y-labels relative to the chart
+     */
+    public enum YAxisLabelPosition {
+        OUTSIDE_CHART, INSIDE_CHART
+    }
+
+
+    /**
+     * Enum that specifies the axis a DataSet should be plotted against, either LEFT or RIGHT.
+     *
+     * @author Philipp Jahoda
+     */
+    public enum AxisDependency {
+        LEFT, RIGHT
     }
 }

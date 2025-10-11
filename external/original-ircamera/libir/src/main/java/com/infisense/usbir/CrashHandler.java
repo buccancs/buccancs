@@ -25,12 +25,13 @@ import java.util.TimerTask;
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private static final String TAG = "CrashHandler";
-    private Thread.UncaughtExceptionHandler mDefaultHandler;
     private static CrashHandler crashHandler = new CrashHandler();
-
+    private Thread.UncaughtExceptionHandler mDefaultHandler;
     private Context mContext;
-    /** 错误日志文件 */
-    private File logFile ;
+    /**
+     * 错误日志文件
+     */
+    private File logFile;
 
     private CrashHandler() {
 
@@ -49,7 +50,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     public void init(Context context) {
         mContext = context;
-        logFile = new File(mContext.getCacheDir(),"crashLog.trace");
+        logFile = new File(mContext.getCacheDir(), "crashLog.trace");
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         //设置为线程默认的异常处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
@@ -140,7 +141,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             throws PackageManager.NameNotFoundException {
 
         PackageManager pm = mContext.getPackageManager();
-        PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(),PackageManager.GET_ACTIVITIES);
+        PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
         // 错误发生时间
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         pw.print("time : ");

@@ -12,6 +12,7 @@ class Fence(var w: Int = 256, var h: Int = 192, val srcRect: IntArray, rotateTyp
                 w = 192
                 h = 256
             }
+
             else -> {
                 w = 256
                 h = 192

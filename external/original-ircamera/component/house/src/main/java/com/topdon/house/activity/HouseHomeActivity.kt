@@ -107,11 +107,13 @@ class HouseHomeActivity : BaseActivity(), View.OnClickListener {
             iv_edit -> {//编辑
                 tabViewModel.isEditModeLD.value = true
             }
+
             iv_add -> {//添加
                 val newIntent = Intent(this, DetectAddActivity::class.java)
                 newIntent.putExtra(ExtraKeyConfig.IS_TC007, intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false))
                 startActivity(newIntent)
             }
+
             iv_exit_edit -> {//退出编辑
                 tabViewModel.isEditModeLD.value = false
             }

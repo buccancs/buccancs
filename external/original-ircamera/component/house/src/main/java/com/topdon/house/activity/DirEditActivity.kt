@@ -116,13 +116,16 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
+
             view_select_all -> {//全选、取消全选
                 adapter.isSelectAll = !adapter.isSelectAll
             }
+
             view_copy -> {//复制
                 adapter.copySelect()
                 TToast.shortToast(this@DirEditActivity, R.string.ts004_copy_success)
             }
+
             view_del -> {//删除
                 TipDialog.Builder(this)
                     .setTitleMessage(getString(R.string.tips_del_item_title))
@@ -138,6 +141,7 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
                     }
                     .create().show()
             }
+
             tv_add -> {//新增默认目录
                 recycler_view.isVisible = true
                 cl_bottom.isVisible = true
@@ -178,7 +182,11 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0)
         }
 
-        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
             val fromPosition = viewHolder.bindingAdapterPosition
             val toPosition = target.bindingAdapterPosition
             if (fromPosition < toPosition) {
@@ -205,6 +213,7 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
          * 当前已选中的数量.
          */
         private var selectCount = 0
+
         /**
          * 当前是否已全选 true-已全选 false-未全选
          */

@@ -40,39 +40,12 @@ import java.util.List;
  * @author: CaiSongL
  * @date: 2023/5/18 14:44
  */
-public class TestRecordActivity extends Activity{
+public class TestRecordActivity extends Activity {
 
     private final static String CLASS_LABEL = "RecordActivity";
     private final static String LOG_TAG = CLASS_LABEL;
-
-    private PowerManager.WakeLock mWakeLock;
-
-    private String ffmpeg_link;
-
-    long startTime = 0;
-    boolean recording = false;
-
-    private FFmpegFrameRecorder recorder;
-
-    private boolean isPreviewOn = false;
-
-    private int sampleAudioRateInHz = 44100;
-    private int imageWidth = 320;
-    private int imageHeight = 240;
-    private int frameRate = 30;
-
-    /* audio data getting thread */
-    private AudioRecord audioRecord;
-    private AudioRecordRunnable audioRecordRunnable;
-    private Thread audioThread;
-    volatile boolean runAudioThread = true;
-
-    /* video data getting thread */
-    private Camera cameraDevice;
-    private CameraView cameraView;
-
-    private Frame yuvImage = null;
-
+    /* The number of seconds in the continuous record loop (or 0 to disable loop). */
+    final int RECORD_LENGTH = 60 * 60;
     /* layout setting */
     private final int bg_screen_bx = 232;
     private final int bg_screen_by = 128;
@@ -82,15 +55,31 @@ public class TestRecordActivity extends Activity{
     private final int bg_height = 715;
     private final int live_width = 640;
     private final int live_height = 480;
-    private int screenWidth, screenHeight;
-    private Button btnRecorderControl;
-
-    /* The number of seconds in the continuous record loop (or 0 to disable loop). */
-    final int RECORD_LENGTH = 60 * 60;
+    long startTime = 0;
+    boolean recording = false;
+    volatile boolean runAudioThread = true;
     Frame[] images;
     long[] timestamps;
     ShortBuffer[] samples;
     int imagesIndex, samplesIndex;
+    private PowerManager.WakeLock mWakeLock;
+    private String ffmpeg_link;
+    private FFmpegFrameRecorder recorder;
+    private boolean isPreviewOn = false;
+    private int sampleAudioRateInHz = 44100;
+    private int imageWidth = 320;
+    private int imageHeight = 240;
+    private int frameRate = 30;
+    /* audio data getting thread */
+    private AudioRecord audioRecord;
+    private AudioRecordRunnable audioRecordRunnable;
+    private Thread audioThread;
+    /* video data getting thread */
+    private Camera cameraDevice;
+    private CameraView cameraView;
+    private Frame yuvImage = null;
+    private int screenWidth, screenHeight;
+    private Button btnRecorderControl;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,7 +130,7 @@ public class TestRecordActivity extends Activity{
             cameraView.stopPreview();
         }
 
-        if(cameraDevice != null) {
+        if (cameraDevice != null) {
             cameraDevice.stopPreview();
             cameraDevice.release();
             cameraDevice = null;
@@ -272,7 +261,7 @@ public class TestRecordActivity extends Activity{
 
         if (recorder != null && recording) {
             if (RECORD_LENGTH > 0) {
-                Log.v(LOG_TAG,"Writing frames");
+                Log.v(LOG_TAG, "Writing frames");
                 try {
                     int firstIndex = imagesIndex % samples.length;
                     int lastIndex = (imagesIndex - 1) % images.length;
@@ -309,13 +298,13 @@ public class TestRecordActivity extends Activity{
                         recorder.recordSamples(samples[i % samples.length]);
                     }
                 } catch (FFmpegFrameRecorder.Exception e) {
-                    Log.v(LOG_TAG,e.getMessage());
+                    Log.v(LOG_TAG, e.getMessage());
                     e.printStackTrace();
                 }
             }
 
             recording = false;
-            Log.v(LOG_TAG,"Finishing recording, calling stop and release on recorder");
+            Log.v(LOG_TAG, "Finishing recording, calling stop and release on recorder");
             try {
                 recorder.stop();
                 recorder.release();
@@ -386,7 +375,7 @@ public class TestRecordActivity extends Activity{
                 bufferReadResult = audioRecord.read(audioData.array(), 0, audioData.capacity());
                 audioData.limit(bufferReadResult);
                 if (bufferReadResult > 0) {
-                    Log.v(LOG_TAG,"bufferReadResult: " + bufferReadResult);
+                    Log.v(LOG_TAG, "bufferReadResult: " + bufferReadResult);
                     // If "recording" isn't true when start this thread, it never get's set according to this if statement...!!!
                     // Why?  Good question...
                     if (recording) {
@@ -394,20 +383,20 @@ public class TestRecordActivity extends Activity{
                             recorder.recordSamples(audioData);
                             //Log.v(LOG_TAG,"recording " + 1024*i + " to " + 1024*i+1024);
                         } catch (FFmpegFrameRecorder.Exception e) {
-                            Log.v(LOG_TAG,e.getMessage());
+                            Log.v(LOG_TAG, e.getMessage());
                             e.printStackTrace();
                         }
                     }
                 }
             }
-            Log.v(LOG_TAG,"AudioThread Finished, release audioRecord");
+            Log.v(LOG_TAG, "AudioThread Finished, release audioRecord");
 
             /* encoding finish, release recorder */
             if (audioRecord != null) {
                 audioRecord.stop();
                 audioRecord.release();
                 audioRecord = null;
-                Log.v(LOG_TAG,"audioRecord released");
+                Log.v(LOG_TAG, "audioRecord released");
             }
         }
     }
@@ -422,7 +411,7 @@ public class TestRecordActivity extends Activity{
 
         public CameraView(Context context, Camera camera) {
             super(context);
-            Log.w("camera","camera view");
+            Log.w("camera", "camera view");
             mCamera = camera;
             mHolder = getHolder();
             mHolder.addCallback(CameraView.this);
@@ -464,10 +453,10 @@ public class TestRecordActivity extends Activity{
             }
             camParams.setPreviewSize(imageWidth, imageHeight);
 
-            Log.v(LOG_TAG,"Setting imageWidth: " + imageWidth + " imageHeight: " + imageHeight + " frameRate: " + frameRate);
+            Log.v(LOG_TAG, "Setting imageWidth: " + imageWidth + " imageHeight: " + imageHeight + " frameRate: " + frameRate);
 
             camParams.setPreviewFrameRate(frameRate);
-            Log.v(LOG_TAG,"Preview Framerate: " + camParams.getPreviewFrameRate());
+            Log.v(LOG_TAG, "Preview Framerate: " + camParams.getPreviewFrameRate());
 
             mCamera.setParameters(camParams);
             startPreview();
@@ -510,17 +499,17 @@ public class TestRecordActivity extends Activity{
             }
             /* get video data */
             if (yuvImage != null && recording) {
-                ((ByteBuffer)yuvImage.image[0].position(0)).put(data);
+                ((ByteBuffer) yuvImage.image[0].position(0)).put(data);
 
                 if (RECORD_LENGTH <= 0) try {
-                    Log.v(LOG_TAG,"Writing Frame");
+                    Log.v(LOG_TAG, "Writing Frame");
                     long t = 1000 * (System.currentTimeMillis() - startTime);
                     if (t > recorder.getTimestamp()) {
                         recorder.setTimestamp(t);
                     }
                     recorder.record(yuvImage);
                 } catch (FFmpegFrameRecorder.Exception e) {
-                    Log.v(LOG_TAG,e.getMessage());
+                    Log.v(LOG_TAG, e.getMessage());
                     e.printStackTrace();
                 }
             }

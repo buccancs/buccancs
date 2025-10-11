@@ -45,8 +45,10 @@ class IRCorrectionLiteThreeActivity : BaseActivity() {
                     showCameraLoading()
                     delay(1000)
                     dismissCameraLoading()
-                    val intent = Intent(this@IRCorrectionLiteThreeActivity,
-                        IRCorrectionLiteFourActivity::class.java)
+                    val intent = Intent(
+                        this@IRCorrectionLiteThreeActivity,
+                        IRCorrectionLiteFourActivity::class.java
+                    )
                     startActivity(intent)
                     finish()
                 }

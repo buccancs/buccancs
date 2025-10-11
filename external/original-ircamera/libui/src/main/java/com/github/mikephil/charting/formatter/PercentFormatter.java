@@ -11,8 +11,7 @@ import java.text.DecimalFormat;
  *
  * @author Philipp Jahoda
  */
-public class PercentFormatter extends ValueFormatter
-{
+public class PercentFormatter extends ValueFormatter {
 
     public DecimalFormat mFormat;
     private PieChart pieChart;

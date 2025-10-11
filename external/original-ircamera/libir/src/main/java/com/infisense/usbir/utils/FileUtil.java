@@ -47,6 +47,7 @@ public class FileUtil {
 
     private static final String TAG = "FileUtil";
     private static final String DATA_SAVE_DIR = "InfiRay";
+    private static int sBufferSize = 524288;
 
     /**
      * @param context
@@ -133,9 +134,11 @@ public class FileUtil {
 //        }
     }
 
-    public static String getTableDirPath(){
-        return Utils.getApp().getCacheDir().getAbsolutePath()+"/table";
-    };
+    ;
+
+    public static String getTableDirPath() {
+        return Utils.getApp().getCacheDir().getAbsolutePath() + "/table";
+    }
 
     /**
      * @param bytes
@@ -152,7 +155,7 @@ public class FileUtil {
             fos.close();
             Log.i(TAG, fileTitle + " 保存成功");
         } catch (IOException e) {
-            Log.e(TAG, fileTitle + " 保存失败："+e.getMessage());
+            Log.e(TAG, fileTitle + " 保存失败：" + e.getMessage());
         }
     }
 
@@ -488,8 +491,6 @@ public class FileUtil {
         }
     }
 
-    private static int sBufferSize = 524288;
-
     /**
      * @param context
      * @param file
@@ -600,12 +601,13 @@ public class FileUtil {
     }
 
 
-    static String INFISENSE_SAVE_DIR(){
-       return Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+    static String INFISENSE_SAVE_DIR() {
+        return Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
     }
+
     //=== 设备信息存储到私有区域，app删除后一起删除
-    static String  DEVICE_DATA_SAVE_DIR (){
-       return Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+    static String DEVICE_DATA_SAVE_DIR() {
+        return Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
     }
 
     /**

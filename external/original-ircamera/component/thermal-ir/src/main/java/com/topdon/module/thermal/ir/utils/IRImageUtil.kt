@@ -45,13 +45,18 @@ object IRImageUtil {
             }
             Log.w("123", "lookUpTableData: ${lookUpTableData[1].toUByte()}")
             lookUpTable.put(0, 0, lookUpTableData)
-            val srcMat = Utils.loadResource(com.blankj.utilcode.util.Utils.getApp(), R.drawable.ic_main_menu_battery) //BGR
+            val srcMat =
+                Utils.loadResource(com.blankj.utilcode.util.Utils.getApp(), R.drawable.ic_main_menu_battery) //BGR
             val dstMat = Mat()
             Core.LUT(srcMat, lookUpTable, dstMat) //对比度
             Core.add(dstMat, Scalar(brightness, brightness, brightness), dstMat) //亮度
             val resultMat = Mat()
             Imgproc.cvtColor(dstMat, resultMat, Imgproc.COLOR_BGR2RGBA) //android对应图像格式
-            val bitmap = Bitmap.createBitmap(resultMat.size().width.toInt(), resultMat.size().height.toInt(), Bitmap.Config.ARGB_8888)
+            val bitmap = Bitmap.createBitmap(
+                resultMat.size().width.toInt(),
+                resultMat.size().height.toInt(),
+                Bitmap.Config.ARGB_8888
+            )
             Utils.matToBitmap(resultMat, bitmap)
             imageView.setImageBitmap(bitmap)
             srcMat.release()
@@ -104,7 +109,8 @@ object IRImageUtil {
         val preMat = Mat()
         Core.addWeighted(srcMat, 1.0, absDst, sharpen, 0.0, preMat) //融合
         Imgproc.cvtColor(preMat, dstMat, Imgproc.COLOR_BGR2RGBA) //android对应图像格式
-        val bitmap = Bitmap.createBitmap(dstMat.size().width.toInt(), dstMat.size().height.toInt(), Bitmap.Config.ARGB_8888)
+        val bitmap =
+            Bitmap.createBitmap(dstMat.size().width.toInt(), dstMat.size().height.toInt(), Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(dstMat, bitmap)
         imageView.setImageBitmap(bitmap)
         srcMat.release()

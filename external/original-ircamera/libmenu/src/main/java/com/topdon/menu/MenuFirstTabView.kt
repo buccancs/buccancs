@@ -51,7 +51,6 @@ class MenuFirstTabView : FrameLayout, View.OnClickListener {
     var onTabClickListener: ((v: MenuFirstTabView) -> Unit)? = null
 
 
-
     private lateinit var binding: ViewMenuFirstTabBinding
 
     constructor(context: Context) : this(context, null)
@@ -60,7 +59,12 @@ class MenuFirstTabView : FrameLayout, View.OnClickListener {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int): super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         if (isInEditMode) {
             LayoutInflater.from(context).inflate(R.layout.view_menu_first_tab, this, true)
         } else {

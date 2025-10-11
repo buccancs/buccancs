@@ -61,11 +61,13 @@ class VersionActivity : BaseActivity(), View.OnClickListener {
                     .withInt(PolicyActivity.KEY_THEME_TYPE, 1)
                     .navigation(this)
             }
+
             version_statement_policy_txt -> {
                 ARouter.getInstance().build(RouterConfig.POLICY)
                     .withInt(PolicyActivity.KEY_THEME_TYPE, 2)
                     .navigation(this)
             }
+
             version_statement_copyright_txt -> {
                 ARouter.getInstance().build(RouterConfig.POLICY)
                     .withInt(PolicyActivity.KEY_THEME_TYPE, 3)
@@ -74,7 +76,7 @@ class VersionActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private var appVersionUtil: AppVersionUtil?=null
+    private var appVersionUtil: AppVersionUtil? = null
     private fun checkAppVersion(isShow: Boolean) {
         if (appVersionUtil == null) {
             appVersionUtil = AppVersionUtil(this, object : AppVersionUtil.DotIsShowListener {

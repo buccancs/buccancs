@@ -41,29 +41,31 @@ class CaliperImageView : AppCompatImageView {
     }
 
 
-
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
     )
+
     private fun initView() {
-        originalBitmap = (resources.getDrawable(R.drawable.svg_ic_target_horizontal_person_green) as BitmapDrawable).bitmap
+        originalBitmap =
+            (resources.getDrawable(R.drawable.svg_ic_target_horizontal_person_green) as BitmapDrawable).bitmap
         originalBitmapWidth = originalBitmap?.width?.toFloat() ?: 0f
         originalBitmapHeight = originalBitmap?.height?.toFloat() ?: 0f
         visibility = View.GONE
     }
+
     fun setImageSize(imageWidth: Int, imageHeight: Int, parentViewWidth: Int, parentViewHeight: Int) {
         this.imageWidth = imageWidth
         this.imageHeight = imageHeight
-        if (parentViewWidth > 0){
+        if (parentViewWidth > 0) {
             this.parentViewWidth = parentViewWidth.toFloat()
-        }else{
+        } else {
             this.parentViewWidth = (parent as ViewGroup).measuredWidth.toFloat()
         }
-        if (parentViewHeight > 0){
+        if (parentViewHeight > 0) {
             this.parentViewHeight = parentViewHeight.toFloat()
-        }else{
+        } else {
             this.parentViewHeight = (parent as ViewGroup).measuredHeight.toFloat()
         }
         if (parentViewWidth > 0) {
@@ -75,15 +77,15 @@ class CaliperImageView : AppCompatImageView {
         showBitmapHeight = pxBitmapHeight * yscale
         showBitmapWidth = pxBitmapHeight * originalBitmapWidth / originalBitmapHeight * xscale
         visibility = View.VISIBLE
-        val layoutParams =  this.layoutParams
-        layoutParams.width  = showBitmapWidth.toInt()
+        val layoutParams = this.layoutParams
+        layoutParams.width = showBitmapWidth.toInt()
         layoutParams.height = showBitmapHeight.toInt()
         this.layoutParams = layoutParams
-        if (l== 0 && t == 0 && r == 0 && b == 0){
-            l = (parentViewWidth/2 - showBitmapWidth / 2).toInt()
-            r = (parentViewWidth/2 + showBitmapWidth / 2).toInt()
-            t = (parentViewHeight/2 - showBitmapHeight / 2).toInt()
-            b = (parentViewHeight/2 + showBitmapHeight / 2).toInt()
+        if (l == 0 && t == 0 && r == 0 && b == 0) {
+            l = (parentViewWidth / 2 - showBitmapWidth / 2).toInt()
+            r = (parentViewWidth / 2 + showBitmapWidth / 2).toInt()
+            t = (parentViewHeight / 2 - showBitmapHeight / 2).toInt()
+            b = (parentViewHeight / 2 + showBitmapHeight / 2).toInt()
         }
         layout(l, t, r, b)
         requestLayout()
@@ -106,6 +108,7 @@ class CaliperImageView : AppCompatImageView {
                     downX = event.getX()
                     downY = event.getY()
                 }
+
                 MotionEvent.ACTION_MOVE -> {
                     val xDistance: Float = event.getX() - downX
                     val yDistance: Float = event.getY() - downY
@@ -117,6 +120,7 @@ class CaliperImageView : AppCompatImageView {
                         layout(l, t, r, b)
                     }
                 }
+
                 MotionEvent.ACTION_UP -> isPressed = false
                 MotionEvent.ACTION_CANCEL -> isPressed = false
                 else -> {}

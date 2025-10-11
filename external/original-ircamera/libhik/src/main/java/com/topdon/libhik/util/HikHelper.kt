@@ -50,6 +50,7 @@ object HikHelper {
      * 当前设备用户 Id.
      */
     private var userId: Int = JavaInterface.USB_INVALID_USER_ID
+
     /**
      * 码流回调 Id，用于停止回调.
      */
@@ -59,6 +60,7 @@ object HikHelper {
      * 定时检查有没有回调过来的 Job
      */
     private var timeoutJob: Job? = null
+
     /**
      * 码流数据回调.
      */
@@ -113,6 +115,7 @@ object HikHelper {
      * 是否已成功初始化，用于判断是否需要调用 USB_Cleanup
      */
     private var hasInit = false
+
     /**
      * 初始化，确保设备已连接且有权限.
      * @return true-已成功初始化 false-初始化失败
@@ -143,6 +146,7 @@ object HikHelper {
      */
     @Volatile
     private var wantCheckTimeout = false
+
     /**
      * 开启码流回调.
      */
@@ -195,13 +199,14 @@ object HikHelper {
     /**
      * 设置整帧数据变更回调，注意，回调不在主线程！
      */
-    fun setFrameListener(listener : ((ByteArray, ByteArray) -> Unit)) {
+    fun setFrameListener(listener: ((ByteArray, ByteArray) -> Unit)) {
         streamCallBack.onFrameListener = listener
     }
+
     /**
      * 设置温度数据变更回调，注意，回调不在主线程！
      */
-    fun setTempListener(listener : ((ByteArray) -> Unit)) {
+    fun setTempListener(listener: ((ByteArray) -> Unit)) {
         streamCallBack.onTempListener = listener
     }
 
@@ -209,6 +214,7 @@ object HikHelper {
      * 给海康擦屁股，一段时间内没有回调的事件监听.
      */
     var onTimeoutListener: (() -> Unit)? = null
+
     /**
      * 机芯命令不支持并发执行，该回调为开启码流回调结束，在此执行配置设置.
      */
@@ -225,15 +231,18 @@ object HikHelper {
          * YUV 数组，YUY2 格式
          */
         private val yuvArray = ByteArray(256 * 192 * 2)
+
         /**
          * 温度数组
          */
         private val tempArray = ByteArray(256 * 192 * 2)
+
         /**
          * 温度数据变更回调.
          */
         @Volatile
         var onTempListener: ((ByteArray) -> Unit)? = null
+
         /**
          * 一帧数据（YUY2+温度）变更回调.
          */
@@ -275,7 +284,8 @@ object HikHelper {
             synchronized(this) {
                 System.arraycopy(dataArray, dataArray.size - yuvArray.size, yuvArray, 0, yuvArray.size)
                 for (i in tempArray.indices step 2) {
-                    val newValue = ((dataArray[4640 + i].toInt() and 0xff) or (dataArray[4640 + i + 1].toInt() and 0xff shl 8)) + 14272
+                    val newValue =
+                        ((dataArray[4640 + i].toInt() and 0xff) or (dataArray[4640 + i + 1].toInt() and 0xff shl 8)) + 14272
                     tempArray[i] = (newValue and 0xff).toByte()
                     tempArray[i + 1] = (newValue shr 8 and 0xff).toByte()
                 }

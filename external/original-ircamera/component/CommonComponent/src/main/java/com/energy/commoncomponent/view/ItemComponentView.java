@@ -45,17 +45,17 @@ public class ItemComponentView extends LinearLayout {
             CharSequence title_text = attributes.getText(R.styleable.item_component_item_title);
             mTitleTextView.setText(title_text);
             boolean switchEnable = attributes.getBoolean(R.styleable.item_component_item_switch_enable, false);
-            mSwitchCompat.setVisibility(switchEnable? View.VISIBLE : View.GONE);
+            mSwitchCompat.setVisibility(switchEnable ? View.VISIBLE : View.GONE);
 
             boolean buttonEnable = attributes.getBoolean(R.styleable.item_component_item_button_enable, false);
-            mPlayButtonView.setVisibility(buttonEnable? View.VISIBLE : View.GONE);
+            mPlayButtonView.setVisibility(buttonEnable ? View.VISIBLE : View.GONE);
 
             CharSequence button_text = attributes.getText(R.styleable.item_component_item_button_text);
             mPlayButtonView.setText(button_text);
 
             boolean valueEnable = attributes.getBoolean(R.styleable.item_component_item_value_enable, false);
-            mValueTextView.setVisibility(valueEnable? View.VISIBLE : View.GONE);
-            
+            mValueTextView.setVisibility(valueEnable ? View.VISIBLE : View.GONE);
+
             CharSequence value_text = attributes.getText(R.styleable.item_component_item_value_text);
             mValueTextView.setText(value_text);
 
@@ -72,20 +72,16 @@ public class ItemComponentView extends LinearLayout {
         });
     }
 
-    public interface OnItemClickListener {
-        void onItemClick();
-    }
-
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public void setTitle(String text) {
-        mTitleTextView.setText(text);
-    }
-
     public String getTitle() {
         return mTitleTextView.getText().toString();
+    }
+
+    public void setTitle(String text) {
+        mTitleTextView.setText(text);
     }
 
     public void setPlayButtonText(String text) {
@@ -97,15 +93,15 @@ public class ItemComponentView extends LinearLayout {
     }
 
     public void setSwitchCompatEnable(boolean switchCompatEnable) {
-        mSwitchCompat.setVisibility(switchCompatEnable? View.VISIBLE : View.GONE);
+        mSwitchCompat.setVisibility(switchCompatEnable ? View.VISIBLE : View.GONE);
     }
 
     public void setPlayButtonEnable(boolean playButtonEnable) {
-        mPlayButtonView.setVisibility(playButtonEnable? View.VISIBLE : View.GONE);
+        mPlayButtonView.setVisibility(playButtonEnable ? View.VISIBLE : View.GONE);
     }
 
     public void setValueTextViewEnable(boolean valueTextViewEnable) {
-        mValueTextView.setVisibility(valueTextViewEnable? View.VISIBLE : View.GONE);
+        mValueTextView.setVisibility(valueTextViewEnable ? View.VISIBLE : View.GONE);
     }
 
     public void setSwitchCompatChecked(boolean switchCompatChecked) {
@@ -132,6 +128,10 @@ public class ItemComponentView extends LinearLayout {
                 }
             }
         });
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick();
     }
 
     public interface OnSwitchCompatCheckListener {

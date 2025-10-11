@@ -39,9 +39,11 @@ public class ConnectedShimmersListFragment extends ListFragment {
         // Required empty public constructor
     }
 
-    //Container Activity must implement this interface
-    public interface OnShimmerDeviceSelectedListener {
-        public void onShimmerDeviceSelected(String macAddress, String deviceName, Boolean selected);
+    public static ConnectedShimmersListFragment newInstance() {
+        ConnectedShimmersListFragment fragment = new ConnectedShimmersListFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -55,24 +57,16 @@ public class ConnectedShimmersListFragment extends ListFragment {
         }
     }
 
-    public static ConnectedShimmersListFragment newInstance() {
-        ConnectedShimmersListFragment fragment = new ConnectedShimmersListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public void buildShimmersConnectedListView(final List<ShimmerDevice> deviceList, final Context context) {
-        if(isVisible()){
+        if (isVisible()) {
             shimmerDeviceList = deviceList;
             this.context = context;
-            if(deviceList == null) {
+            if (deviceList == null) {
                 //String[] displayList = {"Service not yet initialised"};
                 String[] displayList = {"No devices connected"};
                 ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, displayList);
                 setListAdapter(listAdapter);
-            }
-            else {
+            } else {
                 final String[] nameList = new String[deviceList.size()];
                 final String[] macList = new String[deviceList.size()];
                 final String[] displayList = new String[deviceList.size()];
@@ -93,11 +87,10 @@ public class ConnectedShimmersListFragment extends ListFragment {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if(selectedDeviceAddress != null && selectedDeviceAddress == macList[position]){
+                        if (selectedDeviceAddress != null && selectedDeviceAddress == macList[position]) {
                             selectedDeviceAddress = null;
                             selectedDevicePos = -1;
-                        }
-                        else{
+                        } else {
                             selectedDeviceAddress = macList[position];
                             selectedDevicePos = position;
                         }
@@ -122,8 +115,7 @@ public class ConnectedShimmersListFragment extends ListFragment {
                         String text = checkedTextView.getText().toString();
                         if (selectedDeviceAddress == null || !text.contains(selectedDeviceAddress)) {
                             listView.setItemChecked(i, false);
-                        }
-                        else {
+                        } else {
                             listView.setItemChecked(i, true);
                         }
                     }
@@ -134,7 +126,7 @@ public class ConnectedShimmersListFragment extends ListFragment {
 
     @Override
     public void onResume() {
-        if(savedListView != null && savedListAdapter != null) {
+        if (savedListView != null && savedListAdapter != null) {
             buildShimmersConnectedListView(shimmerDeviceList, context);
         } else {
             buildShimmersConnectedListView(null, getActivity().getApplicationContext());
@@ -146,7 +138,7 @@ public class ConnectedShimmersListFragment extends ListFragment {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
-        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+        if (pos < firstListItemPosition || pos > lastListItemPosition) {
             return listView.getAdapter().getView(pos, null, listView);
         } else {
             final int childIndex = pos - firstListItemPosition;
@@ -154,17 +146,22 @@ public class ConnectedShimmersListFragment extends ListFragment {
         }
     }
 
-    public void removeSelectedDevice(){
+    public void removeSelectedDevice() {
         selectedDeviceAddress = null;
         selectedDevicePos = -1;
     }
 
     public int getNumShimmersConnected() {
-        if(shimmerDeviceList != null) {
+        if (shimmerDeviceList != null) {
             return shimmerDeviceList.size();
         } else {
             return 0;
         }
+    }
+
+    //Container Activity must implement this interface
+    public interface OnShimmerDeviceSelectedListener {
+        public void onShimmerDeviceSelected(String macAddress, String deviceName, Boolean selected);
     }
 
 }

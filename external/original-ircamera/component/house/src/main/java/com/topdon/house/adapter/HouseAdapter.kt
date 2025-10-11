@@ -19,7 +19,8 @@ import kotlinx.android.synthetic.main.item_house_list.view.*
  * Created by LCG on 2024/8/28.
  */
 @SuppressLint("NotifyDataSetChanged")
-internal class HouseAdapter(val context: Context, val isDetect: Boolean) : RecyclerView.Adapter<HouseAdapter.ViewHolder>() {
+internal class HouseAdapter(val context: Context, val isDetect: Boolean) :
+    RecyclerView.Adapter<HouseAdapter.ViewHolder>() {
     var dataList: ArrayList<HouseBase> = ArrayList()
 
     /**
@@ -32,6 +33,7 @@ internal class HouseAdapter(val context: Context, val isDetect: Boolean) : Recyc
             onSelectChangeListener?.invoke(0)
             notifyItemRangeChanged(0, itemCount)
         }
+
     /**
      * 仅当处于编辑模式时，当前选中的 item index 列表.
      */
@@ -41,14 +43,17 @@ internal class HouseAdapter(val context: Context, val isDetect: Boolean) : Recyc
      * 更多被点击事件监听.
      */
     var onMoreClickListener: ((position: Int, v: View) -> Unit)? = null
+
     /**
      * 仅报告列表时，分享被点击事件监听.
      */
     var onShareClickListener: ((position: Int) -> Unit)? = null
+
     /**
      * item 点击事件监听.
      */
     var onItemClickListener: ((position: Int) -> Unit)? = null
+
     /**
      * 一个 item 选中或取消选中事件监听.
      */

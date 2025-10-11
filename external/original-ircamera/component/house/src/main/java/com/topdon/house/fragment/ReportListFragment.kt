@@ -157,6 +157,7 @@ internal class ReportListFragment : BaseFragment(), View.OnClickListener {
                 intent.putExtra(ExtraKeyConfig.IS_TC007, arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false)
                 startActivity(intent)
             }
+
             cl_del -> {//批量删除
                 if (adapter.selectIndexList.isNotEmpty()) {
                     TipDialog.Builder(requireContext())

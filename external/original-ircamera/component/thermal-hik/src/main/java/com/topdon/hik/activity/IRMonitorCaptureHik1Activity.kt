@@ -138,6 +138,7 @@ class IRMonitorCaptureHik1Activity : BaseBindingActivity<ActivityIrMonitorCaptur
             binding.btnSelect -> {//开始拾取点、线、面
                 showSelectDialog()
             }
+
             binding.btnStart -> {//跳转下一步
                 if (selectIndex == null) {
                     showSelectDialog()

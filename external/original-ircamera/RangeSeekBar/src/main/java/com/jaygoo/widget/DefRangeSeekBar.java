@@ -32,71 +32,37 @@ import androidx.annotation.IntDef;
 
 public class DefRangeSeekBar extends View {
 
-    private final static int MIN_INTERCEPT_DISTANCE = 100;
-
     //normal seekBar mode
     public final static int SEEKBAR_MODE_SINGLE = 1;
     //RangeSeekBar
     public final static int SEEKBAR_MODE_RANGE = 2;
-    public float stepsPaddingLeft;
-    public float stepsPaddingRight;
-
-    /**
-     * @hide
-     */
-    @IntDef({SEEKBAR_MODE_SINGLE, SEEKBAR_MODE_RANGE})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface SeekBarModeDef {
-    }
-
     //number according to the actual proportion of the number of arranged;
     public final static int TRICK_MARK_MODE_NUMBER = 0;
     //other equally arranged
     public final static int TRICK_MARK_MODE_OTHER = 1;
-
-    /**
-     * @hide
-     */
-    @IntDef({TRICK_MARK_MODE_NUMBER, TRICK_MARK_MODE_OTHER})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface TickMarkModeDef {
-    }
-
     //tick mark text gravity
     public final static int TICK_MARK_GRAVITY_LEFT = 0;
     public final static int TICK_MARK_GRAVITY_CENTER = 1;
     public final static int TICK_MARK_GRAVITY_RIGHT = 2;
-
-    /**
-     * @hide
-     */
-    @IntDef({TICK_MARK_GRAVITY_LEFT, TICK_MARK_GRAVITY_CENTER, TICK_MARK_GRAVITY_RIGHT})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface TickMarkGravityDef {
-    }
-
-    /**
-     * @hide
-     */
-    @IntDef({Gravity.TOP, Gravity.BOTTOM})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface TickMarkLayoutGravityDef {
-    }
-
-    /**
-     * @hide
-     */
-    @IntDef({Gravity.TOP, Gravity.CENTER, Gravity.BOTTOM})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface GravityDef {
-    }
-
-    public static class Gravity {
-        public final static int TOP = 0;
-        public final static int BOTTOM = 1;
-        public final static int CENTER = 2;
-    }
-
+    private final static int MIN_INTERCEPT_DISTANCE = 100;
+    public float stepsPaddingLeft;
+    public float stepsPaddingRight;
+    float touchDownX, touchDownY;
+    //剩余最小间隔的进度
+    float reservePercent;
+    boolean isScaleThumb = false;
+    Paint paint = new Paint();
+    RectF progressDefaultDstRect = new RectF();
+    RectF progressDstRect = new RectF();
+    Rect progressSrcRect = new Rect();
+    RectF stepDivRect = new RectF();
+    Rect tickMarkTextRect = new Rect();
+    SeekBar leftSB;
+    SeekBar rightSB;
+    SeekBar currTouchSB;
+    Bitmap progressBitmap;
+    Bitmap progressDefaultBitmap;
+    List<Bitmap> stepsBitmaps = new ArrayList<>();
     private int progressTop, progressBottom, progressLeft, progressRight;
     private int seekBarMode;
     //刻度模式：number根据数字实际比例排列；other 均分排列
@@ -123,23 +89,20 @@ public class DefRangeSeekBar extends View {
     //默认进度条颜色
     //the default color of the progress bar
     private int progressDefaultColor;
-
     //the drawable of seekBar in progress
     private int progressDrawableId;
     //the default Drawable of the progress bar
     private int progressDefaultDrawableId;
-
     //the progress height
     private int progressHeight;
     // the progress width
     private int progressWidth;
     //the range interval of RangeSeekBar
     private float minInterval;
-
     private int gravity;
+    //****************** the above is attr value  ******************//
     //enable RangeSeekBar two thumb Overlap
     private boolean enableThumbOverlap;
-
     //the color of step divs
     private int stepsColor;
     //the width of each step
@@ -155,32 +118,12 @@ public class DefRangeSeekBar extends View {
     private int stepsDrawableId;
     //True values set by the user
     private float minProgress, maxProgress;
-    //****************** the above is attr value  ******************//
-
     private boolean isEnable = true;
-    float touchDownX,touchDownY;
-    //剩余最小间隔的进度
-    float reservePercent;
-    boolean isScaleThumb = false;
-    Paint paint = new Paint();
-    RectF progressDefaultDstRect = new RectF();
-    RectF progressDstRect = new RectF();
-    Rect progressSrcRect = new Rect();
-    RectF stepDivRect = new RectF();
-    Rect tickMarkTextRect = new Rect();
-    SeekBar leftSB;
-    SeekBar rightSB;
-    SeekBar currTouchSB;
-    Bitmap progressBitmap;
-    Bitmap progressDefaultBitmap;
-    List<Bitmap> stepsBitmaps = new ArrayList<>();
     private int progressPaddingRight;
     private OnRangeChangedListener callback;
-
     public DefRangeSeekBar(Context context) {
         this(context, null);
     }
-
     public DefRangeSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttrs(attrs);
@@ -219,7 +162,6 @@ public class DefRangeSeekBar extends View {
         rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
     }
 
-
     private void initAttrs(AttributeSet attrs) {
         try {
             TypedArray t = getContext().obtainStyledAttributes(attrs, R.styleable.RangeSeekBar);
@@ -257,7 +199,6 @@ public class DefRangeSeekBar extends View {
         }
 
     }
-
 
     /**
      * measure progress bar position
@@ -384,7 +325,6 @@ public class DefRangeSeekBar extends View {
         }
     }
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -487,13 +427,13 @@ public class DefRangeSeekBar extends View {
         float extHeight = (stepsHeight - getProgressHeight()) / 2f;
         for (int k = 0; k <= steps; k++) {
             float x = getProgressLeft() + k * stepMarks - stepsWidth / 2f;
-            if (k == 0){
-                stepDivRect.set(x+stepsPaddingLeft, getProgressTop() - extHeight, x + stepsWidth+stepsPaddingLeft,
+            if (k == 0) {
+                stepDivRect.set(x + stepsPaddingLeft, getProgressTop() - extHeight, x + stepsWidth + stepsPaddingLeft,
                         getProgressBottom() + extHeight);
-            }else if (k == steps){
-                stepDivRect.set(x-stepsPaddingLeft, getProgressTop() - extHeight, x + stepsWidth - stepsPaddingRight,
+            } else if (k == steps) {
+                stepDivRect.set(x - stepsPaddingLeft, getProgressTop() - extHeight, x + stepsWidth - stepsPaddingRight,
                         getProgressBottom() + extHeight);
-            }else {
+            } else {
                 stepDivRect.set(x, getProgressTop() - extHeight, x + stepsWidth,
                         getProgressBottom() + extHeight);
             }
@@ -528,7 +468,6 @@ public class DefRangeSeekBar extends View {
         paint.setColor(progressDefaultColor);
         paint.setTextSize(tickMarkTextSize);
     }
-
 
     private void changeThumbActivateState(boolean hasActivate) {
         if (hasActivate && currTouchSB != null) {
@@ -573,7 +512,7 @@ public class DefRangeSeekBar extends View {
 
     //calculate currTouchSB percent by MotionEvent
     protected float calculateCurrentSeekBarPercent(float touchDownX) {
-        if (currTouchSB == null)return 0;
+        if (currTouchSB == null) return 0;
         float percent = (touchDownX - getProgressLeft()) * 1f / (progressWidth);
         if (touchDownX < getProgressLeft()) {
             percent = 0;
@@ -761,8 +700,6 @@ public class DefRangeSeekBar extends View {
 
     }
 
-    //******************* Attributes getter and setter *******************//
-
     public void setOnRangeChangedListener(OnRangeChangedListener listener) {
         callback = listener;
     }
@@ -800,7 +737,6 @@ public class DefRangeSeekBar extends View {
         }
         invalidate();
     }
-
 
     /**
      * 设置范围
@@ -874,6 +810,7 @@ public class DefRangeSeekBar extends View {
         return new SeekBarState[]{leftSeekBarState, rightSeekBarState};
     }
 
+    //******************* Attributes getter and setter *******************//
 
     @Override
     public void setEnabled(boolean enabled) {
@@ -925,21 +862,36 @@ public class DefRangeSeekBar extends View {
         return rightSB;
     }
 
-
     public int getProgressTop() {
         return progressTop;
+    }
+
+    public void setProgressTop(int progressTop) {
+        this.progressTop = progressTop;
     }
 
     public int getProgressBottom() {
         return progressBottom;
     }
 
+    public void setProgressBottom(int progressBottom) {
+        this.progressBottom = progressBottom;
+    }
+
     public int getProgressLeft() {
         return progressLeft;
     }
 
+    public void setProgressLeft(int progressLeft) {
+        this.progressLeft = progressLeft;
+    }
+
     public int getProgressRight() {
         return progressRight;
+    }
+
+    public void setProgressRight(int progressRight) {
+        this.progressRight = progressRight;
     }
 
     public int getProgressPaddingRight() {
@@ -990,6 +942,7 @@ public class DefRangeSeekBar extends View {
     /**
      * {@link #SEEKBAR_MODE_SINGLE} is single SeekBar
      * {@link #SEEKBAR_MODE_RANGE} is range SeekBar
+     *
      * @param seekBarMode
      */
     public void setSeekBarMode(@SeekBarModeDef int seekBarMode) {
@@ -1004,6 +957,7 @@ public class DefRangeSeekBar extends View {
     /**
      * {@link #TICK_MARK_GRAVITY_LEFT} is number tick mark, it will locate the position according to the value.
      * {@link #TICK_MARK_GRAVITY_RIGHT} is text tick mark, it will be equally positioned.
+     *
      * @param tickMarkMode
      */
     public void setTickMarkMode(@TickMarkModeDef int tickMarkMode) {
@@ -1035,6 +989,7 @@ public class DefRangeSeekBar extends View {
      * {@link #TICK_MARK_GRAVITY_LEFT}
      * {@link #TICK_MARK_GRAVITY_RIGHT}
      * {@link #TICK_MARK_GRAVITY_CENTER}
+     *
      * @param tickMarkGravity
      */
     public void setTickMarkGravity(@TickMarkGravityDef int tickMarkGravity) {
@@ -1105,7 +1060,6 @@ public class DefRangeSeekBar extends View {
         this.progressWidth = progressWidth;
     }
 
-
     public void setTypeface(Typeface typeFace) {
         paint.setTypeface(typeFace);
     }
@@ -1118,12 +1072,12 @@ public class DefRangeSeekBar extends View {
         this.enableThumbOverlap = enableThumbOverlap;
     }
 
-    public void setSteps(int steps) {
-        this.steps = steps;
-    }
-
     public int getSteps() {
         return steps;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
     }
 
     public int getStepsColor() {
@@ -1158,22 +1112,6 @@ public class DefRangeSeekBar extends View {
         this.stepsRadius = stepsRadius;
     }
 
-    public void setProgressTop(int progressTop) {
-        this.progressTop = progressTop;
-    }
-
-    public void setProgressBottom(int progressBottom) {
-        this.progressBottom = progressBottom;
-    }
-
-    public void setProgressLeft(int progressLeft) {
-        this.progressLeft = progressLeft;
-    }
-
-    public void setProgressRight(int progressRight) {
-        this.progressRight = progressRight;
-    }
-
     public int getTickMarkLayoutGravity() {
         return tickMarkLayoutGravity;
     }
@@ -1181,6 +1119,7 @@ public class DefRangeSeekBar extends View {
     /**
      * the tick mark layout gravity
      * Gravity.TOP and Gravity.BOTTOM
+     *
      * @param tickMarkLayoutGravity
      */
     public void setTickMarkLayoutGravity(@TickMarkLayoutGravityDef int tickMarkLayoutGravity) {
@@ -1194,6 +1133,7 @@ public class DefRangeSeekBar extends View {
     /**
      * the RangeSeekBar gravity
      * Gravity.TOP and Gravity.BOTTOM
+     *
      * @param gravity
      */
     public void setGravity(@GravityDef int gravity) {
@@ -1242,5 +1182,51 @@ public class DefRangeSeekBar extends View {
             stepsBitmaps.add(Utils.drawableToBitmap(getContext(), (int) stepsWidth, (int) stepsHeight, stepsDrawableIds.get(i)));
         }
         setStepsBitmaps(stepsBitmaps);
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({SEEKBAR_MODE_SINGLE, SEEKBAR_MODE_RANGE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SeekBarModeDef {
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({TRICK_MARK_MODE_NUMBER, TRICK_MARK_MODE_OTHER})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TickMarkModeDef {
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({TICK_MARK_GRAVITY_LEFT, TICK_MARK_GRAVITY_CENTER, TICK_MARK_GRAVITY_RIGHT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TickMarkGravityDef {
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({Gravity.TOP, Gravity.BOTTOM})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TickMarkLayoutGravityDef {
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({Gravity.TOP, Gravity.CENTER, Gravity.BOTTOM})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface GravityDef {
+    }
+
+    public static class Gravity {
+        public final static int TOP = 0;
+        public final static int BOTTOM = 1;
+        public final static int CENTER = 2;
     }
 }

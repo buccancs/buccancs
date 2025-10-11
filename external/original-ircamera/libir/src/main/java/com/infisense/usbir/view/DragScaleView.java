@@ -16,20 +16,11 @@ import android.widget.FrameLayout;
 import com.topdon.lib.core.utils.ScreenUtil;
 
 /**
- * @see <a href="http://www.cnblogs.com/a284628487/">...</a>
  * @author Cj
+ * @see <a href="http://www.cnblogs.com/a284628487/">...</a>
  *
  */
 public class DragScaleView extends FrameLayout implements View.OnTouchListener {
-    protected int screenWidth;
-    protected int screenHeight;
-    protected int lastX;
-    protected int lastY;
-    private int oriLeft;
-    private int oriRight;
-    private int oriTop;
-    private int oriBottom;
-    private int dragDirection;
     private static final int TOP = 0x15;
     private static final int LEFT = 0x16;
     private static final int BOTTOM = 0x17;
@@ -39,16 +30,17 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
     private static final int LEFT_BOTTOM = 0x13;
     private static final int RIGHT_BOTTOM = 0x14;
     private static final int CENTER = 0x19;
-    private int offset = 20;
+    protected int screenWidth;
+    protected int screenHeight;
+    protected int lastX;
+    protected int lastY;
     protected Paint paint = new Paint();
-
-    /**
-     * 初始化获取屏幕宽高
-     */
-    protected void initScreenW_H() {
-        screenHeight = ScreenUtil.getScreenHeight(getContext()) - 40;
-        screenWidth = ScreenUtil.getScreenWidth(getContext());
-    }
+    private int oriLeft;
+    private int oriRight;
+    private int oriTop;
+    private int oriBottom;
+    private int dragDirection;
+    private int offset = 20;
 
     public DragScaleView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -66,6 +58,14 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         super(context);
         setOnTouchListener(this);
         initScreenW_H();
+    }
+
+    /**
+     * 初始化获取屏幕宽高
+     */
+    protected void initScreenW_H() {
+        screenHeight = ScreenUtil.getScreenHeight(getContext()) - 40;
+        screenWidth = ScreenUtil.getScreenWidth(getContext());
     }
 
     @Override

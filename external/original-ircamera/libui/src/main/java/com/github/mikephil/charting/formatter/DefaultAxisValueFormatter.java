@@ -5,8 +5,7 @@ import java.text.DecimalFormat;
 /**
  * Created by philipp on 02/06/16.
  */
-public class DefaultAxisValueFormatter extends ValueFormatter
-{
+public class DefaultAxisValueFormatter extends ValueFormatter {
 
     /**
      * decimalformat for formatting

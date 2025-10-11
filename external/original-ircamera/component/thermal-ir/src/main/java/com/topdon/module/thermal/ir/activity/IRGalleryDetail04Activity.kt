@@ -50,10 +50,12 @@ class IRGalleryDetail04Activity : BaseActivity() {
      * true-远端数据 false-手机本地数据
      */
     private var isRemote = false
+
     /**
      * 当前展示图片在列表中的 position
      */
     private var position = 0
+
     /**
      * 从上一界面传递过来的，当前展示的图片列表.
      */
@@ -170,7 +172,12 @@ class IRGalleryDetail04Activity : BaseActivity() {
                 if (isSuccess) {
                     if (isDelLocal) {
                         File(FileConfig.ts004GalleryDir, data.name).delete()
-                        MediaScannerConnection.scanFile(this@IRGalleryDetail04Activity, arrayOf(FileConfig.ts004GalleryDir), null, null)
+                        MediaScannerConnection.scanFile(
+                            this@IRGalleryDetail04Activity,
+                            arrayOf(FileConfig.ts004GalleryDir),
+                            null,
+                            null
+                        )
                     }
 
                     dismissCameraLoading()
@@ -218,30 +225,40 @@ class IRGalleryDetail04Activity : BaseActivity() {
         showCameraLoading()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         Glide.with(this).downloadOnly().load(data.path).addListener(object : RequestListener<File> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<File>?, isFirstResource: Boolean): Boolean {
-                    dismissCameraLoading()
-                    ToastTools.showShort(R.string.liveData_save_error)
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                    return false
-                }
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<File>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                dismissCameraLoading()
+                ToastTools.showShort(R.string.liveData_save_error)
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                return false
+            }
 
-                override fun onResourceReady(
-                    resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean
-                ): Boolean {
-                    EventBus.getDefault().post(GalleryDownloadEvent(data.name))
-                    dismissCameraLoading()
-                    FileUtils.copy(resource, File(FileConfig.ts004GalleryDir, data.name))
-                    MediaScannerConnection.scanFile(this@IRGalleryDetail04Activity, arrayOf(FileConfig.ts004GalleryDir), null, null)
-                    ToastTools.showShort(R.string.tip_save_success)
-                    data.hasDownload = true
-                    iv_download.isSelected = dataList[position].hasDownload
-                    if (isToShare) {
-                        actionShare()
-                    }
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                    return false
+            override fun onResourceReady(
+                resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean
+            ): Boolean {
+                EventBus.getDefault().post(GalleryDownloadEvent(data.name))
+                dismissCameraLoading()
+                FileUtils.copy(resource, File(FileConfig.ts004GalleryDir, data.name))
+                MediaScannerConnection.scanFile(
+                    this@IRGalleryDetail04Activity,
+                    arrayOf(FileConfig.ts004GalleryDir),
+                    null,
+                    null
+                )
+                ToastTools.showShort(R.string.tip_save_success)
+                data.hasDownload = true
+                iv_download.isSelected = dataList[position].hasDownload
+                if (isToShare) {
+                    actionShare()
                 }
-            }).preload()
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                return false
+            }
+        }).preload()
     }
 
     inner class GalleryViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {

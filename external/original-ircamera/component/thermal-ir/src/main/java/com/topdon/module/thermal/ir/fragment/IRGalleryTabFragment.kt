@@ -33,10 +33,12 @@ class IRGalleryTabFragment : BaseFragment() {
      * 从上一界面传递过来的，图库是否有返回箭头
      */
     private var hasBackIcon = false
+
     /**
      * 从上一界面传递过来的，图库是否可切换 有线设备、TS004、TC007 目录
      */
     private var canSwitchDir = true
+
     /**
      * 从上一界面传递过来的，进入图库时初始的目录类型
      */

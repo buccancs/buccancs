@@ -18,14 +18,6 @@ public class CameraJpegView extends TextureView {
     private Runnable runnable;
     private Thread cameraThread;
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
-    public void setSyncimage(SynchronizedBitmap syncimage) {
-        this.syncimage = syncimage;
-    }
-
     public CameraJpegView(Context context) {
         this(context, null, 0);
     }
@@ -89,6 +81,14 @@ public class CameraJpegView extends TextureView {
             }
         };
 
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public void setSyncimage(SynchronizedBitmap syncimage) {
+        this.syncimage = syncimage;
     }
 
     public void start() {

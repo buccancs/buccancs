@@ -24,53 +24,49 @@ import java.util.UUID;
 
 public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
 
+    public ShimmerBluetooth.BT_STATE mState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+    public String mBluetoothAddress = "";
     //generic UUID for serial port protocol
     private UUID mSPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
-    public ShimmerBluetooth.BT_STATE mState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
-
-    public String mBluetoothAddress = "";
     transient private BluetoothAdapter mBluetoothAdapter;
-    transient  private BluetoothDevice device;
+    transient private BluetoothDevice device;
     transient private BluetoothSocket mBluetoothSocket;
     transient private DataInputStream mInStream;
     transient private OutputStream mOutStream;
     private transient SerialPortListener mShimmerSerialEventCallback;
     private boolean mUseListenerThread;
 
-    public ShimmerSerialPortAndroid(String bluetoothAddress){
+    public ShimmerSerialPortAndroid(String bluetoothAddress) {
         mBluetoothAddress = bluetoothAddress;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
-    public ShimmerSerialPortAndroid(String bluetoothAddress, boolean useListenerThread){
+    public ShimmerSerialPortAndroid(String bluetoothAddress, boolean useListenerThread) {
         mBluetoothAddress = bluetoothAddress;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mUseListenerThread = useListenerThread;
     }
 
     @Override
-    public void connect(){
+    public void connect() {
         System.out.println("initialize process shimmer serial port android");
         if (mState == ShimmerBluetooth.BT_STATE.DISCONNECTED) {
 
             createBluetoothSocket();
             connectBluetoothSocket();
 
-            if(mBluetoothSocket!=null) {
+            if (mBluetoothSocket != null) {
                 boolean isStream = getIOStreams();
-                if(isStream) {
+                if (isStream) {
                     mState = ShimmerBluetooth.BT_STATE.CONNECTED;
                     eventDeviceConnected();
-                }
-                else{
+                } else {
                     eventDeviceDisconnected();
                     Log.e("Shimmer", "Could not get IO Stream!");
                     NullPointerException e = new NullPointerException();
                     catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING);
                 }
-            }
-            else {
+            } else {
                 eventDeviceDisconnected();
                 Log.e("Shimmer", "Shimmer device is not online!");
                 NullPointerException e = new NullPointerException();
@@ -89,7 +85,7 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
         }
     }
 
-    private void connectBluetoothSocket(){
+    private void connectBluetoothSocket() {
         try {
             mBluetoothSocket.connect();
         } catch (IOException e) {
@@ -98,12 +94,12 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
         }
     }
 
-    private boolean getIOStreams(){
+    private boolean getIOStreams() {
         try {
             InputStream tmpIn = mBluetoothSocket.getInputStream();
-            mInStream =  new DataInputStream(tmpIn);
+            mInStream = new DataInputStream(tmpIn);
             mOutStream = mBluetoothSocket.getOutputStream();
-            if(mUseListenerThread) {
+            if (mUseListenerThread) {
                 startListening();
             }
         } catch (IOException e) {
@@ -113,63 +109,57 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
         return true;
     }
 
-    private void closeBluetoothSocket(){
+    private void closeBluetoothSocket() {
         try {
-            if(mBluetoothSocket != null) {
+            if (mBluetoothSocket != null) {
                 mBluetoothSocket.close();
             }
         } catch (IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING);
-        }
-        finally {
+        } finally {
             mBluetoothSocket = null;
         }
     }
 
-    private void closeInputStream(){
+    private void closeInputStream() {
         try {
-            if(mInStream != null) {
+            if (mInStream != null) {
                 mInStream.close();
             }
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING);
-        }
-        finally {
+        } finally {
             mInStream = null;
         }
     }
 
 
-
-    private void closeOutputStream(){
+    private void closeOutputStream() {
         try {
-            if(mOutStream != null) {
+            if (mOutStream != null) {
                 mOutStream.close();
             }
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING);
-        }
-        finally {
+        } finally {
             mOutStream = null;
         }
     }
 
 
     @Override
-    public void disconnect()  {
+    public void disconnect() {
         closeBTConnection();
         eventDeviceDisconnected();
     }
 
     @Override
-    public void closeSafely()  {
+    public void closeSafely() {
         closeBTConnection();
         eventDeviceDisconnected();
     }
 
-    private void closeBTConnection()  {
+    private void closeBTConnection() {
         closeInputStream();
         closeOutputStream();
         closeBluetoothSocket();
@@ -177,7 +167,7 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     }
 
     @Override
-    public void clearSerialPortRxBuffer()  {
+    public void clearSerialPortRxBuffer() {
 //        try {
 //            mInStream.skipBytes(mInStream.available());
 //        } catch (IOException e) {
@@ -186,16 +176,16 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     }
 
     @Override
-    public void txBytes(byte[] bytes)  {
+    public void txBytes(byte[] bytes) {
 
         synchronized (this) {
-            if (mState == ShimmerBluetooth.BT_STATE.DISCONNECTED ) return;
+            if (mState == ShimmerBluetooth.BT_STATE.DISCONNECTED) return;
         }
         // Perform the write unsynchronized
         write(bytes);
     }
 
-    private void write(byte[] buffer)  {
+    private void write(byte[] buffer) {
         try {
             mOutStream.write(buffer);
         } catch (IOException e) {
@@ -204,9 +194,9 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     }
 
     @Override
-    public byte[] rxBytes(int numBytes){
+    public byte[] rxBytes(int numBytes) {
         byte[] buffer = new byte[numBytes];
-        if (mInStream!=null) {
+        if (mInStream != null) {
             try {
                 mInStream.readFully(buffer, 0, numBytes);
                 return (buffer);
@@ -229,10 +219,10 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     }
 
     @Override
-    public boolean bytesAvailableToBeRead()  {
+    public boolean bytesAvailableToBeRead() {
         try {
-            if (mInStream!=null){
-                return mInStream.available() !=0 ? true : false;
+            if (mInStream != null) {
+                return mInStream.available() != 0 ? true : false;
             } else {
                 System.out.println("IN STREAM NULL");
                 return false;
@@ -244,7 +234,7 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     }
 
     @Override
-    public int availableBytes()  {
+    public int availableBytes() {
         try {
             return mInStream.available();
         } catch (IOException e) {
@@ -255,7 +245,7 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
 
     @Override
     public boolean isConnected() {
-        if (mBluetoothSocket!=null){
+        if (mBluetoothSocket != null) {
             return mBluetoothSocket.isConnected();
         }
         return false;
@@ -271,7 +261,7 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
         mShimmerSerialEventCallback = serialPortListener;
     }
 
-    private void catchException(Exception e, int errorCode)  {
+    private void catchException(Exception e, int errorCode) {
         e.printStackTrace();
         eventDeviceDisconnected();
 
@@ -312,7 +302,7 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
         thread.start();
     }
 
-    public BluetoothSocket getBluetoothSocket(){
+    public BluetoothSocket getBluetoothSocket() {
         return mBluetoothSocket;
     }
 

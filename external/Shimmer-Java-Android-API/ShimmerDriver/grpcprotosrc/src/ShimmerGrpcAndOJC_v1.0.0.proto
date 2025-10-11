@@ -18,18 +18,18 @@ service ShimmerServer {
 
   //Client asking for data
   rpc GetDataStream(StreamRequest) returns (stream ObjectCluster2) {}
-  
+
   //Client sending data
   rpc SendDataStream(stream ObjectCluster2) returns (HelloReply){}
-  
+
   rpc SendFileStream(stream FileByteTransfer) returns (HelloReply){}
-  
+
   rpc ConnectShimmer(ShimmerRequest) returns (CommandStatus){}
-  
+
   rpc DisconnectShimmer(ShimmerRequest) returns (CommandStatus){}
 
   rpc StartStreaming(ShimmerRequest) returns (CommandStatus){}
-  
+
   rpc StopStreaming(ShimmerRequest) returns (CommandStatus){}
 
   rpc CloseApplication(ShimmerRequest) returns (CommandStatus){}
@@ -37,7 +37,7 @@ service ShimmerServer {
 
   //ConsensysApi related
   rpc SetWorkspaceDirectory(StringMsg) returns (OperationRequest){}
-  
+
   rpc GetWorkspaceDirectory(StringMsg) returns (StringMsg){}
 
   rpc GetDockedShimmerInfo(StringMsg) returns (ShimmersInfo){}
@@ -66,22 +66,22 @@ service ShimmerServer {
   rpc GetInfoAllShimmers(StringMsg) returns (ShimmersInfo){}
 
   rpc GetEmulatedDevices(StringMsg) returns (EmulatedDevices){}
-  
-  
+
+
   //Noldus client related
   rpc GetPairedBtShimmers(StringMsg) returns (BluetoothDevicesDetails) {}
-    
+
   rpc GetDeviceStateStream(StreamRequest) returns (stream DeviceState) {}
 }
 
 message FileByteTransfer {
-	string name=1;
-	bytes data=2;
-	bool endoffile=3;
+  string name = 1;
+  bytes data = 2;
+  bool endoffile = 3;
 }
 
 message CommandStatus {
-	string status = 1;
+  string status = 1;
 }
 
 // The request message containing the user's name.
@@ -105,27 +105,27 @@ message StreamRequest {
 message ObjectCluster2 {
   string name = 1;
   string bluetoothAddress = 2;
-  
+
   enum CommunicationType {
     BT = 0;
     SD = 1;
     Radio_802_15_4 = 2;
   }
-  
+
   CommunicationType communicationType = 3;
 
   message FormatCluster2 {
-  	
-  	message DataCluster2{
-  		string unit = 1;
-    	double data = 2;	
-    	repeated double dataArray = 3;
-  	}
-  	map<string, DataCluster2> formatMap = 1;  
-    
+
+    message DataCluster2{
+      string unit = 1;
+      double data = 2;
+      repeated double dataArray = 3;
+    }
+    map<string, DataCluster2> formatMap = 1;
+
   }
-  map<string,FormatCluster2> dataMap = 4;
-  
+  map<string, FormatCluster2> dataMap = 4;
+
   int64 systemTime = 5;
   double calibratedTimeStamp = 6;
 }
@@ -181,55 +181,55 @@ message ShimmersInfo {
     string hwVersionParsed = 15;
     string expBrdVersionParsed = 16;
     string fwVersionParsed = 17;
-	repeated string pairedDevice = 18;
+    repeated string pairedDevice = 18;
 
-	int64 configTime = 19;
-	string configTimeParsed = 20;
+    int64 configTime = 19;
+    string configTimeParsed = 20;
 
-	//Applicable for GQ devices
-	Ieee802154Info ieee802154Info = 21;
+    //Applicable for GQ devices
+    Ieee802154Info ieee802154Info = 21;
   }
-  map<string,ShimmerInfo> shimmerMap = 3;
+  map<string, ShimmerInfo> shimmerMap = 3;
 }
 
 message BluetoothDevicesDetails {
-	bool state = 1;
-	string message = 2;
-	
-	message BluetoothDeviceDetails {
-		string comPort = 1;
-		string name = 2;
-		string macId = 3;
-		string deviceType = 4;
-		string lastConnectionState = 5;
-	}
-	
-	map<string,BluetoothDeviceDetails> deviceMap = 3;
+  bool state = 1;
+  string message = 2;
+
+  message BluetoothDeviceDetails {
+    string comPort = 1;
+    string name = 2;
+    string macId = 3;
+    string deviceType = 4;
+    string lastConnectionState = 5;
+  }
+
+  map<string, BluetoothDeviceDetails> deviceMap = 3;
 }
 
 enum BT_STATE {
-	DISCONNECTED = 0;
-	CONNECTING = 1;
-	CONNECTED = 2;
-	STREAMING = 3;
-	STREAMING_AND_SDLOGGING = 4;
-	SDLOGGING = 5;
-	CONFIGURING = 6;
-	CONNECTION_LOST = 7;
-	CONNECTION_FAILED = 8;
+  DISCONNECTED = 0;
+  CONNECTING = 1;
+  CONNECTED = 2;
+  STREAMING = 3;
+  STREAMING_AND_SDLOGGING = 4;
+  SDLOGGING = 5;
+  CONFIGURING = 6;
+  CONNECTION_LOST = 7;
+  CONNECTION_FAILED = 8;
 }
 
 message DeviceState {
-	string deviceName = 1;
-	string comPort = 2;
-	string macId = 3;
-	BT_STATE state = 4;
+  string deviceName = 1;
+  string comPort = 2;
+  string macId = 3;
+  BT_STATE state = 4;
 }
 
 message Ieee802154Info {
-    int32 radioChannel = 1;
-	int32 radioGroupId = 2;
-	int32 radioDeviceId = 3;
+  int32 radioChannel = 1;
+  int32 radioGroupId = 2;
+  int32 radioDeviceId = 3;
 }
 
 message InfoSpans {
@@ -241,8 +241,8 @@ message InfoSpans {
     string portBsl = 2;
     string portComms = 3;
   }
-  map<string,InfoSpan> spanMap = 3;
-  
+  map<string, InfoSpan> spanMap = 3;
+
   Ieee802154Info ieee802154Info = 4;
 }
 
@@ -257,6 +257,6 @@ message EmulatedDevices {
     repeated string hwDeviceInterfacePath = 3;
     bool isDeviceEnabled = 4;
   }
-  map<string,EmulatedDevice> emulatedDevicesMap = 4;
+  map<string, EmulatedDevice> emulatedDevicesMap = 4;
 }
 

@@ -38,7 +38,7 @@ class BreatheInterpolator implements TimeInterpolator {
 
     }
 
-    public void updateTime(){
+    public void updateTime() {
         String a = "";
         String[] as = a.split("");
     }

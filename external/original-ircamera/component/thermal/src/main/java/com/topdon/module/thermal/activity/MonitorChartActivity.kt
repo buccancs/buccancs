@@ -333,6 +333,7 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                 //秒
                 addPointToChart(bean)
             }
+
             2 -> {
                 //分
                 val addTime = 2 * 60 * 1000L
@@ -340,6 +341,7 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     queryLog(3)
                 }
             }
+
             3 -> {
                 //时
                 val addTime = 2 * 60 * 60 * 1000L
@@ -347,6 +349,7 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     queryLog(3)
                 }
             }
+
             4 -> {
                 //天(图表显示最后一个时间在昨天，要多加一天)
                 val addTime = 2 * 24 * 60 * 60 * 1000L
@@ -392,6 +395,7 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                         volDataSet.addEntry(entity)
                         Log.w("123", "添加一个数据:$entity")
                     }
+
                     "line" -> {
                         //第一条线
                         if (volDataSet == null) {
@@ -413,6 +417,7 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                         secondEntity.data = data
                         secondDataSet.addEntry(secondEntity)
                     }
+
                     else -> {
                         //第一条线
                         if (volDataSet == null) {
@@ -475,10 +480,12 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                 set.color = lineRed//曲线颜色
                 set.circleHoleColor = lineRed//坐标内部颜色
             }
+
             "blue" -> {
                 set.color = lineBlue//曲线颜色
                 set.circleHoleColor = lineBlue//坐标内部颜色
             }
+
             else -> {
                 set.color = lineGreen//曲线颜色
                 set.circleHoleColor = lineGreen//坐标内部颜色
@@ -572,6 +579,7 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     volDataSet.addEntry(entity)
                     Log.w("123", "添加一个数据:$entity")
                 }
+
                 "line" -> {
                     //第一条线
                     if (volDataSet == null) {
@@ -593,6 +601,7 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     secondEntity.data = it
                     secondDataSet.addEntry(secondEntity)
                 }
+
                 else -> {
                     //第一条线
                     if (volDataSet == null) {

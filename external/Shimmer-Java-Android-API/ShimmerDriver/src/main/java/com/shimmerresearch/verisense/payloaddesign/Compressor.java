@@ -13,15 +13,15 @@ import java.util.zip.Inflater;
  */
 
 /**
-*   HOW TO USE_(Compression)
-*   String stringToCompress = "My String to Compress";
-*   byte[] bytesCompressed = compressor.compress(stringToCompress);
-*
-*   Decompression
-*   String stringDecompressed = compressor.decompressToString(bytesCompressed);
-*   
-*   https://gist.github.com/ashmeh6/eaf7dafb1045587514b9d20e44621b5a
-*/
+ * HOW TO USE_(Compression)
+ * String stringToCompress = "My String to Compress";
+ * byte[] bytesCompressed = compressor.compress(stringToCompress);
+ * <p>
+ * Decompression
+ * String stringDecompressed = compressor.decompressToString(bytesCompressed);
+ * <p>
+ * https://gist.github.com/ashmeh6/eaf7dafb1045587514b9d20e44621b5a
+ */
 public class Compressor {
 
     public Compressor() {
@@ -45,18 +45,6 @@ public class Compressor {
                 0,
                 numberOfBytesAfterCompression
         );
-
-        return returnValues;
-    }
-
-    public byte[] compress(String stringToCompress) {
-        byte[] returnValues = null;
-
-        try {
-            returnValues = this.compress(stringToCompress.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException uee) {
-            uee.printStackTrace();
-        }
 
         return returnValues;
     }
@@ -102,6 +90,18 @@ public class Compressor {
         }
 
         inflater.end();
+
+        return returnValues;
+    }
+
+    public byte[] compress(String stringToCompress) {
+        byte[] returnValues = null;
+
+        try {
+            returnValues = this.compress(stringToCompress.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException uee) {
+            uee.printStackTrace();
+        }
 
         return returnValues;
     }

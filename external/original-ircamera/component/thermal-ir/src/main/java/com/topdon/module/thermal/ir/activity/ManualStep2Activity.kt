@@ -91,7 +91,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
     private val mDualHeight = 640
     private var mPseudoColors: Array<ByteArray?> = arrayOf()
     private var mFullScreenLayoutParams: FrameLayout.LayoutParams? = null
-    private var sId : String = ""
+    private var sId: String = ""
 
     /**
      * 手动配准的初始化参数
@@ -123,6 +123,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
     var seek_bar: SeekBar? = null
     var moveImageView: MoveImageView? = null
     var dualTextureView: SurfaceView? = null
+
     /**
      * 上一次执行 move 或 旋转操作的时间戳.
      */
@@ -135,19 +136,19 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         mThisActivity = this
         ivTakePhoto?.setVisibility(View.VISIBLE)
         ivTakePhoto?.setOnClickListener(View.OnClickListener {
-            if (!canOperate){
+            if (!canOperate) {
                 //拍照
                 takePhoto()
                 ivTakePhoto?.setText(R.string.app_ok)
                 tv_tips.text = getString(R.string.dual_light_correction_tips_3)
                 iv_tips.visibility = View.GONE
                 ll_seek_bar.visibility = View.VISIBLE
-            }else{
-                SharedManager.setManualAngle(snStr,seek_bar!!.progress)
+            } else {
+                SharedManager.setManualAngle(snStr, seek_bar!!.progress)
                 val byteArray = ByteArray(24)
                 mDualView?.dualUVCCamera?.setAlignFinish()
                 mDualView?.dualUVCCamera?.getManualRegistration(byteArray)
-                SharedManager.setManualData(snStr,byteArray)
+                SharedManager.setManualData(snStr, byteArray)
                 EventBus.getDefault().post(ManualFinishBean())
                 finish()
             }
@@ -326,14 +327,14 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
      * 目前使用的是人工配准的方式，提供配准后的数据文件放在asset目录下
      */
     open fun initDefIntegralArgsDISP_VALUE(typeLoadParameters: DualCameraParams.TypeLoadParameters) {
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             val parameters = IRCmdTool.getDualBytes(USBMonitorDualManager.getInstance().ircmd)
             val data = mDualView!!.dualUVCCamera.loadParameters(parameters, typeLoadParameters)
             dualDisp = IRCmdTool.dispNumber
             // 初始化默认值
             mDualView?.dualUVCCamera?.setDisp(dualDisp)
             mDualView?.startPreview()
-            Log.e("机芯数据加载成功","初始化完成:")
+            Log.e("机芯数据加载成功", "初始化完成:")
         }
     }
 
@@ -373,16 +374,18 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
     }
 
     override fun onDisconnect(device: UsbDevice, ctrlBlock: USBMonitor.UsbControlBlock) {
-        if (!canOperate && !userStop){
+        if (!canOperate && !userStop) {
             EventBus.getDefault().post(ManualFinishBean())
             finish()
         }
     }
+
     override fun onCancel(device: UsbDevice) {}
     override fun onIRCMDInit(ircmd: IRCMD) {
         snStr = IRCmdTool.getSNStr(ircmd)
         seek_bar?.progress = SharedManager.getManualAngle(snStr)
     }
+
     override fun onCompleteInit() {}
     override fun onSetPreviewSizeFail() {}
     private fun showLoadingDialog() {

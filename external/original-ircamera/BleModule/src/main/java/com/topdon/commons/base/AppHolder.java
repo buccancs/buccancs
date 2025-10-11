@@ -37,41 +37,24 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
         application = tryGetApplication();
         if (application != null) {
             application.registerActivityLifecycleCallbacks(this);
-        }       
-    }
-
-    private static final class Holder {
-        private static final AppHolder INSTANCE = new AppHolder();
-    }
-    
-    private static class RunningActivity {
-        String name;
-        WeakReference<Activity> weakActivity;
-
-        RunningActivity(String name, WeakReference<Activity> weakActivity) {
-            this.name = name;
-            this.weakActivity = weakActivity;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof RunningActivity)) return false;
-            RunningActivity runningActivity = (RunningActivity) o;
-            return name.equals(runningActivity.name);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(name);
         }
     }
-    
+
     @NonNull
     public static AppHolder getInstance() {
         return Holder.INSTANCE;
     }
-    
+
+    public static void initialize(@NonNull Application application) {
+        Objects.requireNonNull(application, "application is null");
+        //如果自动获取的和传入的不是同一个Application，重新注册生命周期监听
+        if (Holder.INSTANCE.application != null && Holder.INSTANCE.application != application) {
+            Holder.INSTANCE.application.unregisterActivityLifecycleCallbacks(Holder.INSTANCE);
+            application.registerActivityLifecycleCallbacks(Holder.INSTANCE);
+        }
+        Holder.INSTANCE.application = application;
+    }
+
     @SuppressLint("PrivateApi")
     @Nullable
     private Application tryGetApplication() {
@@ -92,7 +75,7 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         RunningActivity a = new RunningActivity(activity.getClass().getName(), new WeakReference<>(activity));
         if (!runningActivities.contains(a)) {
-            runningActivities.add(a);            
+            runningActivities.add(a);
         }
         topActivity = a;
     }
@@ -140,21 +123,11 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
             System.exit(0);
         }
     }
-    
-    public static void initialize(@NonNull Application application) {
-        Objects.requireNonNull(application, "application is null");
-        //如果自动获取的和传入的不是同一个Application，重新注册生命周期监听
-        if (Holder.INSTANCE.application != null && Holder.INSTANCE.application != application) {
-            Holder.INSTANCE.application.unregisterActivityLifecycleCallbacks(Holder.INSTANCE);
-            application.registerActivityLifecycleCallbacks(Holder.INSTANCE);
-        }
-        Holder.INSTANCE.application = application;        
-    }
-    
+
     public boolean isMainThread() {
         return Looper.myLooper() == mainLooper;
     }
-    
+
     @NonNull
     public Looper getMainLooper() {
         if (mainLooper == null) {
@@ -162,13 +135,13 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
         }
         return mainLooper;
     }
-    
+
     @NonNull
     public Context getContext() {
         Objects.requireNonNull(application, "The AppHolder has not been initialized, make sure to call AppHolder.initialize(app) first.");
         return application;
     }
-    
+
     @Nullable
     public PackageInfo getPackageInfo() {
         try {
@@ -197,7 +170,7 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
         }
         return false;
     }
-    
+
     //数组是否包含某元素
     private boolean contains(Object[] array, Object obj) {
         if (array != null && array.length > 0) {
@@ -209,7 +182,7 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
         }
         return false;
     }
-        
+
     /**
      * finish掉Activity
      */
@@ -272,7 +245,7 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
             }
         }
     }
-    
+
     @Nullable
     public Activity getActivity(String className) {
         for (RunningActivity runningActivity : runningActivities) {
@@ -282,11 +255,11 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
         }
         return null;
     }
-    
+
     public boolean isAllFinished() {
         return runningActivities.isEmpty();
     }
-    
+
     public List<Activity> getAllActivities() {
         List<Activity> activities = new ArrayList<>();
         for (RunningActivity runningActivity : runningActivities) {
@@ -312,8 +285,35 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
             }
         }
     }
-    
+
     public Activity getTopActivity() {
         return topActivity == null ? null : topActivity.weakActivity.get();
+    }
+
+    private static final class Holder {
+        private static final AppHolder INSTANCE = new AppHolder();
+    }
+
+    private static class RunningActivity {
+        String name;
+        WeakReference<Activity> weakActivity;
+
+        RunningActivity(String name, WeakReference<Activity> weakActivity) {
+            this.name = name;
+            this.weakActivity = weakActivity;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof RunningActivity)) return false;
+            RunningActivity runningActivity = (RunningActivity) o;
+            return name.equals(runningActivity.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name);
+        }
     }
 }

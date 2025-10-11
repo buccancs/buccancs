@@ -63,6 +63,7 @@ class DeviceAddActivity : BaseActivity() {
      * 从上一界面传递过来的，当前想要连接的设备是 TS004 还是 TC007.
      */
     private var isTS004 = true
+
     /**
      * 根据产品需求，初次进来需要按流程弹相应弹框申请相关权限及开启开关；
      * 但若该初次流程未成功走完，后续触发相应流程时不再弹框，用该变量进行区分。
@@ -80,7 +81,7 @@ class DeviceAddActivity : BaseActivity() {
     private val adapter = MyAdapter()
 
     override fun initContentView(): Int = R.layout.activity_device_add
-    var job : Job ?= null
+    var job: Job? = null
 
     override fun initView() {
         title_view.setLeftClickListener {
@@ -216,8 +217,12 @@ class DeviceAddActivity : BaseActivity() {
                     if (!isLocationEnable || !isWifiEnable || !isBtEnable) {
                         appendColor(", ", 0xff06aaff.toInt())
                     }
-                    val hasLocationPermission = XXPermissions.isGranted(this@DeviceAddActivity, Permission.ACCESS_FINE_LOCATION)
-                    appendColorAndClick(getString(if (hasLocationPermission) R.string.nearby_device_permissions else  R.string.ts004_location_permission), 0xff06aaff.toInt()) {
+                    val hasLocationPermission =
+                        XXPermissions.isGranted(this@DeviceAddActivity, Permission.ACCESS_FINE_LOCATION)
+                    appendColorAndClick(
+                        getString(if (hasLocationPermission) R.string.nearby_device_permissions else R.string.ts004_location_permission),
+                        0xff06aaff.toInt()
+                    ) {
                         requestPermission(0)
                     }
                 }
@@ -240,6 +245,7 @@ class DeviceAddActivity : BaseActivity() {
 
 
     private var openLocationDialog: TipDialog? = null
+
     /**
      * 显示开启位置信息开关提示弹框.
      */
@@ -277,6 +283,7 @@ class DeviceAddActivity : BaseActivity() {
 
 
     private var openBtDialog: TipDialog? = null
+
     /**
      * 显示开启 WIFI 开关提示弹框，该方法只在权限申请通过后调用，故而理论上已拥有相应权限.
      */
@@ -314,6 +321,7 @@ class DeviceAddActivity : BaseActivity() {
 
 
     private var openWifiDialog: TipDialog? = null
+
     /**
      * 显示开启 WIFI 开关提示弹框.
      */
@@ -362,6 +370,7 @@ class DeviceAddActivity : BaseActivity() {
      * 权限申请可能同时触发多次，用该变量进行控制。
      */
     private var isRequesting = false
+
     /**
      * 请求相应权限如定位、蓝牙权限.
      * @param actionType 所有权限授予后要执行的处理 0-不做任何处理 1-仅检测并弹出蓝牙开关弹框 2-检测并弹出所有需要的开关弹框
@@ -435,6 +444,7 @@ class DeviceAddActivity : BaseActivity() {
 
 
     private var timeoutEmptyJob: Job? = null
+
     /**
      * 开始蓝牙搜索，若缺少相应权限或开关未开启，则直接 return.
      */
@@ -471,9 +481,10 @@ class DeviceAddActivity : BaseActivity() {
                     stopBtScan()
 
                     tv_scan_state.setText(R.string.ts004_scan_nothing)
-                    tv_scan_tips.text = SpanBuilder().appendColorAndClick(getString(R.string.ts004_scan_again), 0xff06aaff.toInt()) {
-                        requestPermission(2)
-                    }
+                    tv_scan_tips.text =
+                        SpanBuilder().appendColorAndClick(getString(R.string.ts004_scan_again), 0xff06aaff.toInt()) {
+                            requestPermission(2)
+                        }
                 }
             }
         }
@@ -499,7 +510,8 @@ class DeviceAddActivity : BaseActivity() {
                 ARouter.getInstance().build(RouterConfig.IR_MONOCULAR).navigation(this)
             } else {
                 SharedManager.hasTC007 = true
-                ARouter.getInstance().build(RouterConfig.IR_MAIN).withBoolean(ExtraKeyConfig.IS_TC007, true).navigation(this)
+                ARouter.getInstance().build(RouterConfig.IR_MAIN).withBoolean(ExtraKeyConfig.IS_TC007, true)
+                    .navigation(this)
             }
             finish()
             return
@@ -542,9 +554,9 @@ class DeviceAddActivity : BaseActivity() {
     /**
      * 递归检查是否链接
      */
-    suspend fun examineConnect(){
+    suspend fun examineConnect() {
         delay(10 * 1000)
-        if (WebSocketProxy.getInstance().isConnected()){
+        if (WebSocketProxy.getInstance().isConnected()) {
             NetWorkUtils.switchNetwork(true) {
                 if (isTS004) {
                     TS004Repository.netWork = it
@@ -559,7 +571,7 @@ class DeviceAddActivity : BaseActivity() {
                         .navigation(this@DeviceAddActivity)
                 }
             }
-        }else{
+        } else {
             examineConnect()
         }
         dismissCameraLoading()

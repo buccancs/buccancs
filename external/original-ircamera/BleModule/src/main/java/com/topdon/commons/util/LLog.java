@@ -12,8 +12,11 @@ import com.topdon.ble.BuildConfig;
  * @date 2021/11/16 16:34
  */
 public class LLog {
+    /**
+     * 最大一次打印长度
+     */
+    public final static int MAX_LENGTH = 2000;
     private static boolean isDebug = BuildConfig.DEBUG;
-
 
     public static void d(String tag, String value) {
         XLog.tag(tag).d(value);
@@ -42,12 +45,6 @@ public class LLog {
 //            Log.e(tag, value);
 //        }
     }
-
-
-    /**
-     * 最大一次打印长度
-     */
-    public final static int MAX_LENGTH = 2000;
 
     /**
      * 适应最大长度打印

@@ -16,34 +16,34 @@ import com.shimmerresearch.verisense.sensors.SensorLSM6DS3;
 
 public class GyroOnTheFlyCalModuleVerisense extends GyroOnTheFlyCalModule {
 
-	private static final long serialVersionUID = -8105079411104081532L;
-	
-	public static final AlgorithmDetails algoGyroOnTheFlyCalVerisense = new AlgorithmDetails(
-			GENERAL_ALGORITHM_NAME,
-			GENERAL_ALGORITHM_NAME,
-			new ArrayList<String>(),
-			Configuration.Verisense.DerivedSensorsBitMask.GYRO_ON_THE_FLY_CAL,
-			Arrays.asList(Configuration.Verisense.SENSOR_ID.LSM6DS3_GYRO),
-			CHANNEL_UNITS.NO_UNITS);
-	{
-		algoGyroOnTheFlyCalVerisense.mSensorCheckMethod = SENSOR_CHECK_METHOD.ANY;
-	}
+    public static final AlgorithmDetails algoGyroOnTheFlyCalVerisense = new AlgorithmDetails(
+            GENERAL_ALGORITHM_NAME,
+            GENERAL_ALGORITHM_NAME,
+            new ArrayList<String>(),
+            Configuration.Verisense.DerivedSensorsBitMask.GYRO_ON_THE_FLY_CAL,
+            Arrays.asList(Configuration.Verisense.SENSOR_ID.LSM6DS3_GYRO),
+            CHANNEL_UNITS.NO_UNITS);
+    public static final Map<String, AlgorithmDetails> mAlgorithmMapRefVerisense;
+    private static final long serialVersionUID = -8105079411104081532L;
 
-	public static final Map<String, AlgorithmDetails> mAlgorithmMapRefVerisense;
-	static {
-		Map<String, AlgorithmDetails> aMap = new LinkedHashMap<String, AlgorithmDetails>();
-		aMap.put(algoGyroOnTheFlyCalVerisense.mAlgorithmName, algoGyroOnTheFlyCalVerisense);
-		mAlgorithmMapRefVerisense = Collections.unmodifiableMap(aMap);
-	}
+    static {
+        Map<String, AlgorithmDetails> aMap = new LinkedHashMap<String, AlgorithmDetails>();
+        aMap.put(algoGyroOnTheFlyCalVerisense.mAlgorithmName, algoGyroOnTheFlyCalVerisense);
+        mAlgorithmMapRefVerisense = Collections.unmodifiableMap(aMap);
+    }
 
-	public GyroOnTheFlyCalModuleVerisense(ShimmerDevice shimmerDevice, AlgorithmDetails algorithmDetails,
-			double samplingRateShimmer) {
-		super(shimmerDevice, algorithmDetails, samplingRateShimmer);
-		
-		super.setSensorId(Configuration.Verisense.SENSOR_ID.LSM6DS3_GYRO);
-		super.setGyroAxisLabels(SensorLSM6DS3.ObjectClusterSensorName.LSM6DS3_GYRO_X,
-				SensorLSM6DS3.ObjectClusterSensorName.LSM6DS3_GYRO_Y,
-				SensorLSM6DS3.ObjectClusterSensorName.LSM6DS3_GYRO_Z);
-	}
-	
+    {
+        algoGyroOnTheFlyCalVerisense.mSensorCheckMethod = SENSOR_CHECK_METHOD.ANY;
+    }
+
+    public GyroOnTheFlyCalModuleVerisense(ShimmerDevice shimmerDevice, AlgorithmDetails algorithmDetails,
+                                          double samplingRateShimmer) {
+        super(shimmerDevice, algorithmDetails, samplingRateShimmer);
+
+        super.setSensorId(Configuration.Verisense.SENSOR_ID.LSM6DS3_GYRO);
+        super.setGyroAxisLabels(SensorLSM6DS3.ObjectClusterSensorName.LSM6DS3_GYRO_X,
+                SensorLSM6DS3.ObjectClusterSensorName.LSM6DS3_GYRO_Y,
+                SensorLSM6DS3.ObjectClusterSensorName.LSM6DS3_GYRO_Z);
+    }
+
 }

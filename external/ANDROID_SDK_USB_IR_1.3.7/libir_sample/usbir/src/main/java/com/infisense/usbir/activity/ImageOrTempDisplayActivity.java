@@ -78,6 +78,14 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     protected View getContentView() {
         binding = ActivityImageOrTempDisplayBinding.inflate(getLayoutInflater());
         return binding.getRoot();
+    }
+
+    @Override
+    public void initView() {
+        binding.manualShutButton.setOnClickListener(this);
+        binding.btnImageTemp.setOnClickListener(this);
+        binding.btnImage.setOnClickListener(this);
+        binding.btnY16ModeSet.setOnClickListener(this);
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -104,14 +112,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    @Override
-    public void initView() {
-        binding.manualShutButton.setOnClickListener(this);
-        binding.btnImageTemp.setOnClickListener(this);
-        binding.btnImage.setOnClickListener(this);
-        binding.btnY16ModeSet.setOnClickListener(this);
-    }
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -402,6 +402,7 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             Log.e(TAG, "imageThread.join(): catch an interrupted exception");
         }
     }
+
 
 
 

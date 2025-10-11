@@ -26,27 +26,19 @@ import java.util.List;
 public class USBMonitorDualManager {
 
     public static final String TAG = "USBMonitorDualManager";
+    private static USBMonitorDualManager mInstance;
     private USBMonitor mUSBMonitor;
-
     private IRCMD mIrcmd;
-
     private Object mSyncs = new Object();
-
     private List<OnUSBConnectListener> mOnUSBConnectListeners = new ArrayList<>();
-
     private UVCCamera mIrUvcCamera;
-
     private UVCCamera mVlUvcCamera;
-
     private boolean mIrOpened;
     private boolean mVlOpened;
-
     private IFrameCallback mVlIFrameCallback;
 
     private USBMonitorDualManager() {
     }
-
-    private static USBMonitorDualManager mInstance;
 
     public static synchronized USBMonitorDualManager getInstance() {
         if (mInstance == null) {

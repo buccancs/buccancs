@@ -14,6 +14,7 @@ internal class TabViewModel(application: Application) : AndroidViewModel(applica
      * 是否处于编辑模式.
      */
     val isEditModeLD: MutableLiveData<Boolean> = MutableLiveData(false)
+
     /**
      * 当前选中数量.
      */

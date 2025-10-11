@@ -20,9 +20,9 @@ class BlankDevActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (SharedManager.getHasShowClause()) {
-            if (!App.instance.activityNameList.contains(IRMainActivity::class.simpleName)){
+            if (!App.instance.activityNameList.contains(IRMainActivity::class.simpleName)) {
                 ARouter.getInstance().build(RouterConfig.MAIN).navigation(this)
-                if (!SharedManager.isConnectAutoOpen){
+                if (!SharedManager.isConnectAutoOpen) {
                     ARouter.getInstance().build(RouterConfig.IR_MAIN).navigation(this)
                 }
             }

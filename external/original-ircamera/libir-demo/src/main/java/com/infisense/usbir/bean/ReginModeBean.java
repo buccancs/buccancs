@@ -6,16 +6,8 @@ public class ReginModeBean {
     private int pcColor;
 
     private int img;
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
     private Bitmap bitmap;
+    private String titleName;
 
     public ReginModeBean(int pcColor, String titleName) {
         this.pcColor = pcColor;
@@ -26,6 +18,14 @@ public class ReginModeBean {
         this.img = img;
         this.pcColor = pcColor;
         this.titleName = titleName;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public int getPcColor() {
@@ -43,8 +43,6 @@ public class ReginModeBean {
     public void setTitleName(String titleName) {
         this.titleName = titleName;
     }
-
-    private String titleName;
 
     public int getImg() {
         return img;

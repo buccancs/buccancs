@@ -71,18 +71,22 @@ class YapVideoEncoder(
                     colorFormat = format
                     break@lab
                 }
+
                 MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar -> {
                     colorFormat = format
                     break@lab
                 }
+
                 MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar -> {
                     colorFormat = format
                     break@lab
                 }
+
                 MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar -> {
                     colorFormat = format
                     break@lab
                 }
+
                 else -> break@lab
             }
         }
@@ -307,18 +311,21 @@ class YapVideoEncoder(
                 inputWidth,
                 inputHeight
             )
+
             MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar -> encodeYUV420P(
                 yuv,
                 argb,
                 inputWidth,
                 inputHeight
             )
+
             MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar -> encodeYUV420PSP(
                 yuv,
                 argb,
                 inputWidth,
                 inputHeight
             )
+
             MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar -> encodeYUV420PP(
                 yuv,
                 argb,

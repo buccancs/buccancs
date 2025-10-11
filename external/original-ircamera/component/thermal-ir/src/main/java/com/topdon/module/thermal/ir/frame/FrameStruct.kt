@@ -80,7 +80,7 @@ class FrameStruct() {
          * 将指定参数的数据转换为数组.
          */
         fun toCode(
-            name : String,
+            name: String,
             width: Int,
             height: Int,
             rotate: Int,
@@ -92,12 +92,12 @@ class FrameStruct() {
             textColor: Int,
             watermarkBean: WatermarkBean,
             alarmBean: AlarmBean,
-            gainStatus:Int,
-            textSize:Int,
-            environment:Float,
-            distance : Float,
-            radiation : Float,
-            isAmplify : Boolean
+            gainStatus: Int,
+            textSize: Int,
+            environment: Float,
+            distance: Float,
+            radiation: Float,
+            isAmplify: Boolean
         ): ByteArray {
             val resultArray = ByteArray(SIZE)
 
@@ -180,16 +180,15 @@ class FrameStruct() {
     var textColor = 0xffffffff.toInt()
     var watermarkBean = WatermarkBean()
     var alarmBean = AlarmBean()
-    var gainStatus : Int = 1 // 高低增益 1:低增益 0: 高增益
-    var textSize : Int = SizeUtils.sp2px(14f)
-    var environment : Float = 0f
-    var distance : Float = 0f
-    var radiation : Float = 0f
-    var isAmplify : Boolean = false
+    var gainStatus: Int = 1 // 高低增益 1:低增益 0: 高增益
+    var textSize: Int = SizeUtils.sp2px(14f)
+    var environment: Float = 0f
+    var distance: Float = 0f
+    var radiation: Float = 0f
+    var isAmplify: Boolean = false
 
 
-
-    constructor(data: ByteArray): this() {
+    constructor(data: ByteArray) : this() {
         len = (data[0].toInt() and 0xff shl 8) or (data[1].toInt() and 0xff)
 
         // [2,18)
@@ -237,7 +236,7 @@ class FrameStruct() {
         alarmBean = AlarmBean.loadFromArray(alarmArray)
         gainStatus = data[657].toInt()
         val tmpTextSize = (data[658].toInt() and 0xff shl 8) or (data[659].toInt() and 0xff)
-        if (tmpTextSize >= SizeUtils.sp2px(14f)){
+        if (tmpTextSize >= SizeUtils.sp2px(14f)) {
             textSize = tmpTextSize
         }
 

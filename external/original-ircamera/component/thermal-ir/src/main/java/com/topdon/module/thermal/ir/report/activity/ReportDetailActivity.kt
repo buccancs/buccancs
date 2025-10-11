@@ -28,7 +28,7 @@ import java.io.File
  * - 一份报告所有信息 [ExtraKeyConfig.REPORT_BEAN]
  */
 @Route(path = RouterConfig.REPORT_DETAIL)
-class ReportDetailActivity: BaseActivity() {
+class ReportDetailActivity : BaseActivity() {
 
     /**
      * 从上一界面传递过来的，报告所有信息.
@@ -72,7 +72,11 @@ class ReportDetailActivity: BaseActivity() {
                     val drawable = GlideLoader.getDrawable(this@ReportDetailActivity, irList[i].picture_url)
                     reportShowView.setImageDrawable(drawable)
                 }
-                ll_content.addView(reportShowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                ll_content.addView(
+                    reportShowView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
         }
     }
@@ -87,7 +91,8 @@ class ReportDetailActivity: BaseActivity() {
                 val name = reportBean?.report_info?.report_number
                 if (name != null) {
                     if (File(FileConfig.getPdfDir() + "/$name.pdf").exists() &&
-                        !TextUtils.isEmpty(pdfFilePath)) {
+                        !TextUtils.isEmpty(pdfFilePath)
+                    ) {
                         lifecycleScope.launch {
                             dismissCameraLoading()
                             actionShare()
@@ -95,8 +100,10 @@ class ReportDetailActivity: BaseActivity() {
                         return@launch
                     }
                 }
-                pdfFilePath = PDFHelp.savePdfFileByListView(name?:System.currentTimeMillis().toString(),
-                    scroll_view, getPrintViewList(),watermark_view)
+                pdfFilePath = PDFHelp.savePdfFileByListView(
+                    name ?: System.currentTimeMillis().toString(),
+                    scroll_view, getPrintViewList(), watermark_view
+                )
                 lifecycleScope.launch {
                     dismissCameraLoading()
                     actionShare()
@@ -124,7 +131,7 @@ class ReportDetailActivity: BaseActivity() {
         val result = ArrayList<View>()
         result.add(report_info_view)
         val childCount = ll_content.childCount
-        for (i in 0 until  childCount) {
+        for (i in 0 until childCount) {
             val childView = ll_content.getChildAt(i)
             if (childView is ReportIRShowView) {
                 result.addAll(childView.getPrintViewList())

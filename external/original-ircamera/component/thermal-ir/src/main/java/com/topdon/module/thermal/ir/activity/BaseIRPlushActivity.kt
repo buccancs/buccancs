@@ -96,7 +96,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     // 是否使用IRISP算法集成
     private val isUseIRISP = false
 
-    private var psedocolor: Array<ByteArray> ?= null
+    private var psedocolor: Array<ByteArray>? = null
 
     protected var dualDisp = 30
 
@@ -104,7 +104,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
      * camera 相机相关
      */
     private var vlUVCCamera: IRUVCDual? = null
-
 
 
     /**
@@ -120,21 +119,19 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     /**
      * 是否是双光设备
      */
-    abstract fun isDualIR() : Boolean
+    abstract fun isDualIR(): Boolean
 
     abstract fun setTemperatureViewType()
 
 
-    open fun setDispViewData(dualDisp : Int){
+    open fun setDispViewData(dualDisp: Int) {
 
     }
 
 
-
-
     override fun initView() {
         super.initView()
-        if (isDualIR()){
+        if (isDualIR()) {
             // defaultDataFlowMode 是 图像+温度，故而 SDK 返回的传感器原始宽度为 256x384
             // 那么一帧图像、一帧温度的尺寸就是 256x(384/2) = 256x192
             // 由于竖屏显示需要旋转，那么最终出图尺寸就是 192x256
@@ -162,7 +159,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     }
 
     private fun dualStart() {
-        if (!isDualIR()){
+        if (!isDualIR()) {
             return
         }
         /**
@@ -173,9 +170,9 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
         //在USBMonitorManager onConnect回调中打开可见光模组
         getTemperatureDualView().setUseIRISP(isUseIRISP)
         if (mCurrentFusionType == DualCameraParams.FusionType.IROnlyNoFusion) {
-            getTemperatureDualView().setImageSize(Const.IR_HEIGHT, Const.IR_WIDTH,null)
+            getTemperatureDualView().setImageSize(Const.IR_HEIGHT, Const.IR_WIDTH, null)
         } else {
-            getTemperatureDualView().setImageSize(dualCameraWidth, dualCameraHeight,null)
+            getTemperatureDualView().setImageSize(dualCameraWidth, dualCameraHeight, null)
         }
         setTemperatureViewType()
         getTemperatureDualView().start()
@@ -183,7 +180,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
 
     private var mIrHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
-            if (!isDualIR()){
+            if (!isDualIR()) {
                 return
             }
             if (msg.what == Const.RESTART_USB) {
@@ -194,7 +191,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
                  * 开可见光相机
                  * 需要确认好模组的pid和分辨率
                  */
-                lifecycleScope.launch(Dispatchers.Main){
+                lifecycleScope.launch(Dispatchers.Main) {
                     startVLCamera(vlPid, vlFps, vlCameraWidth, vlCameraHeight)
                     initDualCamera()
                     // 一体式
@@ -230,10 +227,10 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
      * 一体式
      */
     private fun initDefIntegralArgsDISPValue(typeLoadParameters: DualCameraParams.TypeLoadParameters) {
-        if (!isDualIR()){
+        if (!isDualIR()) {
             return
         }
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             val parameters = IRCmdTool.getDualBytes(USBMonitorManager.getInstance().ircmd)
             val data = dualView?.dualUVCCamera?.loadParameters(parameters, typeLoadParameters)
             dualDisp = IRCmdTool.dispNumber
@@ -245,7 +242,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     }
 
     private fun initDualCamera() {
-        if (!isDualIR()){
+        if (!isDualIR()) {
             return
         }
         if (dualView != null) {
@@ -258,7 +255,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             imageHeight, imageWidth,
             vlCameraWidth, vlCameraHeight,
             dualCameraWidth, dualCameraHeight,
-            isUseIRISP,dualRotate,this
+            isUseIRISP, dualRotate, this
         )
         dualView?.addFrameCallback(getTemperatureDualView())
         //
@@ -303,15 +300,16 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
         }
     }
 
-    protected fun setFusion(fusion : DualCameraParams.FusionType) {
+    protected fun setFusion(fusion: DualCameraParams.FusionType) {
         dualView?.setCurrentFusionType(fusion)
         getTemperatureDualView().setCurrentFusionType(fusion)
         if (fusion == DualCameraParams.FusionType.IROnlyNoFusion) {
-            getTemperatureDualView().setImageSize(Const.IR_HEIGHT, Const.IR_WIDTH,null)
+            getTemperatureDualView().setImageSize(Const.IR_HEIGHT, Const.IR_WIDTH, null)
         } else {
-            getTemperatureDualView().setImageSize(dualCameraWidth, dualCameraHeight,null)
+            getTemperatureDualView().setImageSize(dualCameraWidth, dualCameraHeight, null)
         }
     }
+
     /**
      * 可见光模组
      *
@@ -320,10 +318,11 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
      * @param cameraHeight 模组的分辨率高
      */
     private fun startVLCamera(pid: Int, fps: Int, cameraWidth: Int, cameraHeight: Int) {
-        if (!isDualIR()){
+        if (!isDualIR()) {
             return
         }
-        vlUVCCamera = IRUVCDual(cameraWidth,
+        vlUVCCamera = IRUVCDual(
+            cameraWidth,
             cameraHeight,
             this,
             pid,
@@ -368,7 +367,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     }
 
     private fun dualStop() {
-        if (!isDualIR()){
+        if (!isDualIR()) {
             return
         }
         isrun = false
@@ -423,6 +422,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     override fun onIRCMDInit(ircmd: IRCMD?) {
         setUVCCameraICMD(ircmd!!)
     }
+
     override fun onCompleteInit() {
         mIrHandler.sendEmptyMessage(Const.HIDE_LOADING)
     }
@@ -430,10 +430,11 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     override fun onSetPreviewSizeFail() {
         mIrHandler.sendEmptyMessage(Const.SHOW_RESTART_MESSAGE)
     }
+
     //预处理后红外ARGB数据 192 * 256 * 4
-    protected val preIrARGBData = ByteArray(256*192*4)
-    protected val preIrData = ByteArray(256*192*2)
-    protected val preTempData = ByteArray(256*192*2)
+    protected val preIrARGBData = ByteArray(256 * 192 * 4)
+    protected val preIrData = ByteArray(256 * 192 * 2)
+    protected val preTempData = ByteArray(256 * 192 * 2)
 
     override fun onIrFrame(irFrame: ByteArray?): ByteArray {
         /**
@@ -450,10 +451,10 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
 
     override fun switchAmplify() {
         lifecycleScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 try {
                     SupHelp.getInstance().initA4KCPP()
-                }catch (e : UnsatisfiedLinkError){
+                } catch (e: UnsatisfiedLinkError) {
                     SupHelp.getInstance().loadOpenclSuccess = false
                     runOnUiThread {
                         TipDialog.Builder(this@BaseIRPlushActivity)
@@ -465,7 +466,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
                     XLog.e("超分初始化失败")
                 }
             }
-            if (!SupHelp.getInstance().loadOpenclSuccess){
+            if (!SupHelp.getInstance().loadOpenclSuccess) {
                 return@launch
             }
             isOpenAmplify = !isOpenAmplify
@@ -473,9 +474,9 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
 
             title_view.setRight2Drawable(if (isOpenAmplify) R.drawable.svg_tisr_on else R.drawable.svg_tisr_off)
             SaveSettingUtil.isOpenAmplify = isOpenAmplify
-            if (isOpenAmplify){
+            if (isOpenAmplify) {
                 ToastUtils.showShort(R.string.tips_tisr_on)
-            }else{
+            } else {
                 ToastUtils.showShort(R.string.tips_tisr_off)
             }
         }
@@ -484,15 +485,14 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     override fun initAmplify(show: Boolean) {
         lifecycleScope.launch {
             title_view.setRight2Drawable(if (isOpenAmplify) R.drawable.svg_tisr_on else R.drawable.svg_tisr_off)
-            withContext(Dispatchers.IO){
-                if (isOpenAmplify){
+            withContext(Dispatchers.IO) {
+                if (isOpenAmplify) {
                     SupHelp.getInstance().initA4KCPP()
                 }
             }
             dualView?.isOpenAmplify = isOpenAmplify
         }
     }
-
 
 
 }

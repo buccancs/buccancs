@@ -55,19 +55,15 @@ import java.util.UUID;
 /**
  * 播放器Fragment
  */
-public class PlayFragment extends Fragment implements TextureView.SurfaceTextureListener{
-    protected static final String TAG = "PlayFragment";
-
+public class PlayFragment extends Fragment implements TextureView.SurfaceTextureListener {
     public static final String ARG_PARAM1 = "param1";
     public static final String ARG_TRANSPORT_MODE = "ARG_TRANSPORT_MODE";
     public static final String ARG_SEND_OPTION = "ARG_SEND_OPTION";
     public static final String ARG_PARAM3 = "param3";
     public static final String P_TC007 = "IS_TC007";
-
     public static final int RESULT_REND_START = 1;
     public static final int RESULT_REND_VIDEO_DISPLAY = 2;
     public static final int RESULT_REND_STOP = -1;
-
     // 等比例,最大化区域显示,不裁剪
     public static final int ASPECT_RATIO_INSIDE = 1;
     // 等比例,裁剪,裁剪区域可以通过拖拽展示\隐藏
@@ -76,36 +72,21 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     public static final int ASPECT_RATIO_CENTER_CROPS = 3;
     // 拉伸显示,铺满全屏
     public static final int FILL_WINDOW = 4;
-
-    private int mRatioType = ASPECT_RATIO_INSIDE;
-
+    protected static final String TAG = "PlayFragment";
     protected String mUrl;
     protected int mType;// 0或1表示TCP，2表示UDP
     protected int sendOption;
-
-    private ResultReceiver mRR;// ResultReceiver是一个用来接收其他进程回调结果的通用接口
-
     protected EasyPlayerClient mStreamRender;
     protected ResultReceiver mResultReceiver;
-
     protected int mWidth;
     protected int mHeight;
-
     protected View.OnLayoutChangeListener listener;
-
+    protected TextureView mSurfaceView;
+    protected ImageView cover;
+    private int mRatioType = ASPECT_RATIO_INSIDE;
+    private ResultReceiver mRR;// ResultReceiver是一个用来接收其他进程回调结果的通用接口
     private ImageView mRenderCover;
     private ImageView mTakePictureThumb;// 显示抓拍的图片
-    protected TextureView mSurfaceView;
-    private SurfaceTexture mSurfaceTexture;
-    protected ImageView cover;
-    private ImageView ivCover;
-
-    private MediaScannerConnection mScanner;
-
-    private AsyncTask<Void, Void, Bitmap> mLoadingPictureThumbTask;
-
-    private OnDoubleTapListener doubleTapListener;
-
     // 抓拍后隐藏thumb的task
     private final Runnable mAnimationHiddenTakePictureThumbTask = new Runnable() {
         @Override
@@ -119,24 +100,64 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
             });
         }
     };
+    private SurfaceTexture mSurfaceTexture;
+    private ImageView ivCover;
+    private MediaScannerConnection mScanner;
+    private AsyncTask<Void, Void, Bitmap> mLoadingPictureThumbTask;
+    private OnDoubleTapListener doubleTapListener;
+    private boolean isVideoDisplayed;
 
     public static PlayFragment newInstance(String url, int transportMode, int sendOption, ResultReceiver rr) {
-       return newInstance(url,transportMode,sendOption,rr,false);
+        return newInstance(url, transportMode, sendOption, rr, false);
     }
 
-    public static PlayFragment newInstance(String url, int transportMode, int sendOption, ResultReceiver rr,boolean isTs007) {
+    /* ======================== life cycle ======================== */
+
+    public static PlayFragment newInstance(String url, int transportMode, int sendOption, ResultReceiver rr, boolean isTs007) {
         PlayFragment fragment = new PlayFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, url);
         args.putInt(ARG_TRANSPORT_MODE, transportMode);
         args.putInt(ARG_SEND_OPTION, sendOption);
         args.putParcelable(ARG_PARAM3, rr);
-        args.putBoolean(P_TC007,isTs007);
+        args.putBoolean(P_TC007, isTs007);
         fragment.setArguments(args);
         return fragment;
     }
 
-    /* ======================== life cycle ======================== */
+    public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(path, options);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -147,7 +168,7 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
             sendOption = getArguments().getInt(ARG_SEND_OPTION);
             mRR = getArguments().getParcelable(ARG_PARAM3);
             boolean isTC007 = getArguments().getBoolean(P_TC007);
-            if (!isTC007){
+            if (!isTC007) {
                 setRetainInstance(true); // 保留Fragment实例不随Activity重新创建而销毁
             }
         }
@@ -168,8 +189,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         }
         return view;
     }
-
-    private boolean isVideoDisplayed;
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
@@ -284,7 +303,7 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         });
     }
 
-    public TextureView getTextureView(){
+    public TextureView getTextureView() {
         return mSurfaceView;
     }
 
@@ -298,11 +317,13 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     @Override
     public void onDestroyView() {
         ViewGroup parent = (ViewGroup) getView().getParent();
-        if (parent!=null){
+        if (parent != null) {
             parent.removeOnLayoutChangeListener(listener);
         }
         super.onDestroyView();
     }
+
+    /* ======================== private method ======================== */
 
     @Override
     public void onDestroy() {
@@ -326,8 +347,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
             }
         }
     }
-
-    /* ======================== private method ======================== */
 
     private void onVideoDisplayed() {
         View view = getView();
@@ -488,40 +507,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         }
     }
 
-    public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(path, options);
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
-
     private void saveBitmapInFile(final String path, Bitmap bitmap) {
         FileOutputStream fos = null;
 
@@ -630,7 +615,7 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
             }
 
             mSurfaceView.requestLayout();
-        }catch (Exception e){
+        } catch (Exception e) {
             XLog.d(e.getMessage());
         }
     }
@@ -668,13 +653,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
-    }
-
-
-    public interface OnDoubleTapListener {
-        void onDoubleTab(PlayFragment f);
-
-        void onSingleTab(PlayFragment f);
     }
 
     public boolean isAudioEnable() {
@@ -752,21 +730,28 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         renderView.requestLayout();
     }
 
+    protected boolean isLandscape() {
+        return getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+    }
+
+    public int getSurfaceViewWidth() {
+        return mSurfaceView.getMeasuredWidth();
+    }
+
+    public int getSurfaceViewHeight() {
+        return mSurfaceView.getMeasuredHeight();
+    }
+
+    public interface OnDoubleTapListener {
+        void onDoubleTab(PlayFragment f);
+
+        void onSingleTab(PlayFragment f);
+    }
+
     public static class ReverseInterpolator extends AccelerateDecelerateInterpolator {
         @Override
         public float getInterpolation(float paramFloat) {
             return super.getInterpolation(1.0f - paramFloat);
         }
-    }
-
-    protected boolean isLandscape() {
-        return getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
-    }
-
-    public int getSurfaceViewWidth(){
-        return mSurfaceView.getMeasuredWidth();
-    }
-    public int getSurfaceViewHeight(){
-        return mSurfaceView.getMeasuredHeight();
     }
 }

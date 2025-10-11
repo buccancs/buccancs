@@ -90,7 +90,9 @@
     <string name="pic_save_fail">图片保存失败</string>
     <string name="file_save_success">文件保存成功</string>
     <!-- -->
-    <string name="OTG_confirm">请先确认OTG功能处于开启状态\n\n本SDK适用于USB协议下的P2,tiny1C,tinyBE,mini256模组，请勿用于其它模组以避免造成模组损坏</string>
+    <string name="OTG_confirm">
+        请先确认OTG功能处于开启状态\n\n本SDK适用于USB协议下的P2,tiny1C,tinyBE,mini256模组，请勿用于其它模组以避免造成模组损坏
+    </string>
     <string name="display_image_temp">图像+温度</string>
     <string name="display_image">图像</string>
     <string name="display_temp">中间出图 设置</string>

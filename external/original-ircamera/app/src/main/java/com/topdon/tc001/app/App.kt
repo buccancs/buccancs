@@ -45,8 +45,9 @@ class App : BaseApplication() {
         }
     }
 
-    companion object{
+    companion object {
         lateinit var instance: App
+
         /**
          * 延时初始化
          */
@@ -60,13 +61,11 @@ class App : BaseApplication() {
     }
 
 
-
-
     override fun getSoftWareCode(): String = BuildConfig.SOFT_CODE
 
     override fun isDomestic(): Boolean = BuildConfig.ENV_TYPE == 1
 
-    val activityNameList : MutableList<String> = mutableListOf()
+    val activityNameList: MutableList<String> = mutableListOf()
 
     override fun onCreate() {
         super.onCreate()
@@ -95,7 +94,7 @@ class App : BaseApplication() {
             }
             SharedManager.setBaseHost(UrlConstant.BASE_URL) //更新app服务地址
         }
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(false);
         }
         CoroutineScope(Dispatchers.IO).launch {
@@ -104,9 +103,9 @@ class App : BaseApplication() {
         }
 //        CrashReport.initCrashReport(applicationContext, "cd1f9e26ee", false)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks{
+        registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                if (!activityNameList.contains(activity.javaClass.getSimpleName())){
+                if (!activityNameList.contains(activity.javaClass.getSimpleName())) {
                     activityNameList.add(activity.javaClass.getSimpleName())
                 }
             }
@@ -123,8 +122,10 @@ class App : BaseApplication() {
 
             override fun onActivityStopped(activity: Activity) {
             }
+
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
             }
+
             override fun onActivityDestroyed(activity: Activity) {
                 activityNameList.remove(activity.javaClass.getSimpleName())
             }

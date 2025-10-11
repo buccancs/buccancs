@@ -10,9 +10,10 @@ import java.util.ArrayList;
  */
 public abstract class BaseDualView {
 
-    protected ArrayList<OnFrameCallback> onFrameCallbacks;
     public DualUVCCamera dualUVCCamera;
-
+    public byte[] vlData;//原始可见光数据
+    public byte[] vlARGBData;
+    protected ArrayList<OnFrameCallback> onFrameCallbacks;
     protected int fusionLength;
     protected int irSize;
     protected int vlSize;
@@ -22,8 +23,6 @@ public abstract class BaseDualView {
     protected byte[] normalTempData;//原始温度数据
     protected byte[] mixDataRotate;
     protected byte[] irData;//原始红外数据
-    public byte[] vlData;//原始可见光数据
-    public byte[] vlARGBData;
 
     public BaseDualView() {
         onFrameCallbacks = new ArrayList<>();
@@ -39,15 +38,15 @@ public abstract class BaseDualView {
         vlARGBData = new byte[fusionLength];
     }
 
-    public interface OnFrameCallback {
-        void onFame(byte[] mixData, byte[] remapTempData, double fpsText);
-    }
-
     public void addFrameCallback(OnFrameCallback onFrameCallback) {
         onFrameCallbacks.add(onFrameCallback);
     }
 
     public void removeFrameCallback(OnFrameCallback onFrameCallback) {
         onFrameCallbacks.remove(onFrameCallback);
+    }
+
+    public interface OnFrameCallback {
+        void onFame(byte[] mixData, byte[] remapTempData, double fpsText);
     }
 }

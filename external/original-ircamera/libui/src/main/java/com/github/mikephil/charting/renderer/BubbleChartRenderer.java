@@ -26,6 +26,9 @@ import java.util.List;
 public class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     protected BubbleDataProvider mChart;
+    private float[] sizeBuffer = new float[4];
+    private float[] pointBuffer = new float[2];
+    private float[] _hsvBuffer = new float[3];
 
     public BubbleChartRenderer(BubbleDataProvider chart, ChartAnimator animator,
                                ViewPortHandler viewPortHandler) {
@@ -54,9 +57,6 @@ public class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
                 drawDataSet(c, set);
         }
     }
-
-    private float[] sizeBuffer = new float[4];
-    private float[] pointBuffer = new float[2];
 
     protected float getShapeSize(float entrySize, float maxSize, float reference, boolean normalizeSize) {
         final float factor = normalizeSize ? ((maxSize == 0f) ? 1f : (float) Math.sqrt(entrySize / maxSize)) :
@@ -184,8 +184,8 @@ public class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
                         Utils.drawImage(
                                 c,
                                 icon,
-                                (int)(x + iconsOffset.x),
-                                (int)(y + iconsOffset.y),
+                                (int) (x + iconsOffset.x),
+                                (int) (y + iconsOffset.y),
                                 icon.getIntrinsicWidth(),
                                 icon.getIntrinsicHeight());
                     }
@@ -205,8 +205,6 @@ public class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
     @Override
     public void drawExtras(Canvas c) {
     }
-
-    private float[] _hsvBuffer = new float[3];
 
     @Override
     public void drawHighlighted(Canvas c, Highlight[] indices) {

@@ -46,6 +46,7 @@ class IRMonitorActivity : BaseActivity(), View.OnClickListener {
                     }
                     .create().show()
             }
+
             motion_start_btn -> {
                 if (selectIndex == null) {
                     MonitorSelectDialog.Builder(this)

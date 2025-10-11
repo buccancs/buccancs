@@ -21,7 +21,8 @@ class ReportViewModel(application: Application) : AndroidViewModel(application) 
     /**
      * 所有房屋报告列表，调用 [queryAll] 会触发更改.
      */
-    val reportListLD =  MutableLiveData<List<HouseReport>>()
+    val reportListLD = MutableLiveData<List<HouseReport>>()
+
     /**
      * 查询所有房屋检测列表，结果通过 [reportListLD] 返回.
      */
@@ -36,6 +37,7 @@ class ReportViewModel(application: Application) : AndroidViewModel(application) 
      * 一项房屋报告，调用 [queryById] 会触发更改.
      */
     val reportLD = MutableLiveData<HouseReport?>()
+
     /**
      * 查询指定 id 的房屋报告数据，结果通过 [reportLD] 返回.
      */

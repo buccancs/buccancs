@@ -10,8 +10,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  * @deprecated Extend {@link ValueFormatter} instead
  */
 @Deprecated
-public interface IValueFormatter
-{
+public interface IValueFormatter {
 
     /**
      * Called when a value (from labels inside the chart) is formatted
@@ -23,7 +22,6 @@ public interface IValueFormatter
      * @param dataSetIndex    the index of the DataSet the entry in focus belongs to
      * @param viewPortHandler provides information about the current chart state (scale, translation, ...)
      * @return the formatted label ready for being drawn
-     *
      * @deprecated Extend {@link ValueFormatter} and override an appropriate method
      */
     @Deprecated

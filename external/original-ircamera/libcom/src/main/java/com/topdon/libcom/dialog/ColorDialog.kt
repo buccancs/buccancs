@@ -25,10 +25,10 @@ import com.topdon.libcom.adpter.DColorSelectAdapter
 class ColorDialog(color: Int) : DialogFragment() {
 
 
-    var positiveEvent  : ((color: Int)->Unit)? = null
+    var positiveEvent: ((color: Int) -> Unit)? = null
     var cancelEvent: (() -> Unit)? = null
 
-    var selColor : Int = color
+    var selColor: Int = color
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,11 +39,11 @@ class ColorDialog(color: Int) : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val cyView =  view.findViewById<RecyclerView>(R.id.color_picker_recycler)
+        val cyView = view.findViewById<RecyclerView>(R.id.color_picker_recycler)
         val pView = view.findViewById<ColorPickerView>(R.id.color_picker_view)
         val colorAdapter = DColorSelectAdapter(requireContext())
-        for (tmp in colorAdapter.colorBean){
-            if (Color.parseColor(tmp.color) == selColor){
+        for (tmp in colorAdapter.colorBean) {
+            if (Color.parseColor(tmp.color) == selColor) {
                 colorAdapter.selected(colorAdapter.colorBean.indexOf(tmp))
                 break
             }
@@ -51,9 +51,9 @@ class ColorDialog(color: Int) : DialogFragment() {
         cyView.layoutManager = GridLayoutManager(context, colorAdapter.itemCount)
         cyView.adapter = colorAdapter
         pView.setInitialColor(selColor)
-        pView.setColorListener(object : ColorListener{
+        pView.setColorListener(object : ColorListener {
             override fun onColorSelected(color: Int, fromUser: Boolean) {
-                if (fromUser){
+                if (fromUser) {
                     selColor = color
                     colorAdapter.selected(-1)
                 }

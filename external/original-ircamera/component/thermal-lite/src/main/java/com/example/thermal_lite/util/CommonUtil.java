@@ -13,6 +13,10 @@ import java.io.InputStream;
  */
 public class CommonUtil {
     public static final String TAG = "CommonUtil";
+    // 帧率展示
+    public static int mCount = 0;
+    private static long mTimeStart = 0;
+    private static double mFps = 0;
 
     public static byte[] getAssetData(Context mContext, String assetTauName) {
         byte[] tau_data = null;
@@ -73,10 +77,6 @@ public class CommonUtil {
         return Math.round(value * factor) / factor;
     }
 
-    // 帧率展示
-    public static int mCount = 0;
-    private static long mTimeStart = 0;
-    private static double mFps = 0;
     public static double showFps() {
         mCount++;
         if (mCount == 100) {

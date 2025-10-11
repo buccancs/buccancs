@@ -53,6 +53,7 @@ class MonitorActivity : BaseActivity(), View.OnClickListener {
             motion_log_btn -> {
                 ARouter.getInstance().build(RouterConfig.THERMAL_LOG_MP_CHART).navigation(this)
             }
+
             motion_btn -> {
                 MonitorSelectDialog.Builder(this)
                     .setTitle("请选择监控类型")
@@ -71,6 +72,7 @@ class MonitorActivity : BaseActivity(), View.OnClickListener {
                     .setCancelListener(R.string.app_cancel)
                     .create().show()
             }
+
             motion_start_btn -> {
                 ARouter.getInstance().build(RouterConfig.MONITOR_CHART)
                     .withInt("type", selectType)

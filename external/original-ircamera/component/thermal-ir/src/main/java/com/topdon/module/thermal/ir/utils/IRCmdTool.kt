@@ -23,7 +23,7 @@ object IRCmdTool {
     val TAG = "IRCmdTool"
     var dispNumber = 30
 
-    fun getDualBytes(irCmd: IRCMD?):ByteArray {
+    fun getDualBytes(irCmd: IRCMD?): ByteArray {
         val calibrationDataSize = 192
         val INIT_ALIGN_DATA = floatArrayOf(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f)
 
@@ -36,27 +36,29 @@ object IRCmdTool {
         val productTypeData = ByteArray(2)
         System.arraycopy(oemInfo, 0, calibrationData, 0, calibrationData.size)
         System.arraycopy(oemInfo, calibrationDataSize, productTypeData, 0, productTypeData.size)
-        System.arraycopy(oemInfo, calibrationDataSize+productTypeData.size, dispData,
-            0, dispData.size)
-        System.arraycopy(oemInfo,256,snData,0,snData.size)
+        System.arraycopy(
+            oemInfo, calibrationDataSize + productTypeData.size, dispData,
+            0, dispData.size
+        )
+        System.arraycopy(oemInfo, 256, snData, 0, snData.size)
         try {
             var str = String(dispData)
-            str = str.replace(Regex("[^-\\d]"),"")
+            str = str.replace(Regex("[^-\\d]"), "")
             dispNumber = str.toInt()
-            if (dispNumber > 60){
-                dispNumber = dispNumber/10
+            if (dispNumber > 60) {
+                dispNumber = dispNumber / 10
             }
-            if (dispNumber < -20){
+            if (dispNumber < -20) {
                 dispNumber = -20
             }
-            XLog.w("配准信息:", ""+dispNumber)
-        }catch (e:Exception){
+            XLog.w("配准信息:", "" + dispNumber)
+        } catch (e: Exception) {
             XLog.w("配准数据异常")
         }
         val snList = String(snData).split(";")
-        val snStr = if (snList.isNotEmpty() && snList[0].contains("sn",true)){
-            snList[0].replace("SN:","")
-        }else{
+        val snStr = if (snList.isNotEmpty() && snList[0].contains("sn", true)) {
+            snList[0].replace("SN:", "")
+        } else {
             ""
         }
         val parameters = ByteArray(calibrationDataSize + 1 + 24)
@@ -93,15 +95,15 @@ object IRCmdTool {
         return parameters
     }
 
-    fun getSNStr(irCmd: IRCMD?) : String{
+    fun getSNStr(irCmd: IRCMD?): String {
         val oemInfo = ByteArray(512)
         irCmd?.oemRead(CommonParams.ProductType.P2, oemInfo)
         val snData = ByteArray(256)
-        System.arraycopy(oemInfo,256,snData,0,snData.size)
+        System.arraycopy(oemInfo, 256, snData, 0, snData.size)
         val snList = String(snData).split(";")
-        return if (snList.isNotEmpty() && snList[0].contains("sn",true)){
-            snList[0].replace("SN:","")
-        }else{
+        return if (snList.isNotEmpty() && snList[0].contains("sn", true)) {
+            snList[0].replace("SN:", "")
+        } else {
             ""
         }
     }
@@ -213,7 +215,11 @@ object IRCmdTool {
     /**
      * 设置Tpd
      */
-    private fun setTpdParams(irCmd: IRCMD?, params: CommonParams.PropTPDParams, value: CommonParams.PropTPDParamsValue): Int {
+    private fun setTpdParams(
+        irCmd: IRCMD?,
+        params: CommonParams.PropTPDParams,
+        value: CommonParams.PropTPDParamsValue
+    ): Int {
         return try {
             irCmd?.setPropTPDParams(params, value) ?: 0
         } catch (e: Exception) {
@@ -225,7 +231,11 @@ object IRCmdTool {
     /**
      * 设置图像参数
      */
-    private fun setImageParams(irCmd: IRCMD?, params: CommonParams.PropImageParams, value: CommonParams.PropImageParamsValue): Int {
+    private fun setImageParams(
+        irCmd: IRCMD?,
+        params: CommonParams.PropImageParams,
+        value: CommonParams.PropImageParamsValue
+    ): Int {
         return try {
             irCmd?.setPropImageParams(params, value) ?: 0
         } catch (e: Exception) {
@@ -285,7 +295,8 @@ object IRCmdTool {
      * 自动快门
      */
     fun autoShutter(irCmd: IRCMD?, flag: Boolean) {
-        val data = if (flag) CommonParams.PropAutoShutterParameterValue.StatusSwith.ON else CommonParams.PropAutoShutterParameterValue.StatusSwith.OFF
+        val data =
+            if (flag) CommonParams.PropAutoShutterParameterValue.StatusSwith.ON else CommonParams.PropAutoShutterParameterValue.StatusSwith.OFF
         irCmd?.setPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH, data)
     }
 

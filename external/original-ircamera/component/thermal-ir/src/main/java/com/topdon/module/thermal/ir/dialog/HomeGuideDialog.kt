@@ -51,11 +51,13 @@ class HomeGuideDialog(context: Context, private val currentStep: Int) : Dialog(c
                 cl_guide_2.isVisible = false
                 cl_guide_3.isVisible = false
             }
+
             2 -> {
                 cl_guide_1.isVisible = false
                 cl_guide_2.isVisible = true
                 cl_guide_3.isVisible = false
             }
+
             3 -> {
                 cl_guide_1.isVisible = false
                 cl_guide_2.isVisible = false

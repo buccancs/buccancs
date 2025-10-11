@@ -15,13 +15,13 @@ import com.shimmerresearch.androidinstrumentdriver.R;
 
 public class DataSyncFragment extends Fragment {
 
-    Context context;
     public EditText editTextParticipantName;
     public EditText editTextTrialName;
     public TextView TextViewPayloadIndex;
     public TextView TextViewSpeed;
     public TextView TextViewDirectory;
     public Button ButtonDataSync;
+    Context context;
 
     public DataSyncFragment() {
         // Required empty public constructor

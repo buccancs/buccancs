@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class FileUtil {
 
-    private static String path = Environment.getExternalStorageDirectory() +"/EasyPlayerRTSP";
+    private static String path = Environment.getExternalStorageDirectory() + "/EasyPlayerRTSP";
 
     public static String getPicturePath(String url) {
         return path + "/" + urlDir(url) + "/picture";

@@ -69,10 +69,13 @@
     <string name="person_old_password">古いパスワードを入力してください</string>
     <string name="person_new_password">新しいパスワードを入力してください</string>
     <string name="person_new_password2">新しいパスワードをもう一度入力してください</string>
-    <string name="app_submit_success">成功に送信しました！\nご配慮、ごサポート、ありがとうございました。私たちはお客様のフィードバックを真面目に処理します。</string>
+    <string name="app_submit_success">
+        成功に送信しました！\nご配慮、ごサポート、ありがとうございました。私たちはお客様のフィードバックを真面目に処理します。
+    </string>
     <string name="setting_firmware_update_latest_version">すでに最新バージョンです。</string>
     <string name="setting_firmware_update_get_information">バージョン情報の取得中、お待ちください…</string>
-    <string name="setting_firmware_update_get_information_error">バージョン情報の取得が失敗して、再試行してください。</string>
+    <string name="setting_firmware_update_get_information_error">バージョン情報の取得が失敗して、再試行してください。
+    </string>
     <string name="setting_firmware_update_updating">ファームウェアの更新中、お待ちください…</string>
     <string name="setting_firmware_update_updating_error">ファームウェアの更新が失敗して、再試行してください。</string>
     <string name="setting_firmware_update_updating_successful">ファームウェアの更新が成功しました。</string>
@@ -83,7 +86,9 @@
     <string name="setting_firmware_update_unknown">未知の設備、再接続してください。</string>
     <string name="setting_firmware_update_checking">データを確認して、お待ちください。</string>
     <string name="firmware_update_tip">モバイルネットワークでの作業中、ダウンロードを続行しますか？</string>
-    <string name="firmware_update_close_tip">注意：ファームウェアの更新中では、現在のページまたはアプリケーションを終了せず、画面を明るくしてください。</string>
+    <string name="firmware_update_close_tip">
+        注意：ファームウェアの更新中では、現在のページまたはアプリケーションを終了せず、画面を明るくしてください。
+    </string>
     <string name="battery_test_explain">声明</string>
     <string name="test_results_delete_success">削除が成功しました</string>
     <string name="test_results_delete_failed">一部のデータの削除が失敗しました</string>
@@ -168,21 +173,40 @@
     <string name="chart_temperature_low">最低高温</string>
     <string name="chart_temperature">温度</string>
     <string name="question1">TC001、TS001を携帯に接続した後、応答がないのはなぜですか？</string>
-    <string name="answer1">次の手順に従って質問を解決する。\na）お使いの携帯電話がAndroid6.0以上かどうかを確認します。 \nb）電話の設定でOTGがあるかどうか、およびオンになっているかどうかを確認します。一部の電話では、[設定]でOTGを検索し、手動でオンにする必要があります。 \nc）TC001、TS001の青色LEDが点灯しているかどうかを確認します。点灯しなかったら、お使いの携帯電話が設備と正常に接続されていない、またはお使いの携帯電話がOTG機能をサポートできません。 \nd）APPのダウンロードを確認し、必要な権限を与えます。 \ne）TC001、TS001を取り外して、再度接続します。それでも応答がない場合は、顧客サービス担当者に連絡してください。</string>
+    <string name="answer1">次の手順に従って質問を解決する。\na）お使いの携帯電話がAndroid6.0以上かどうかを確認します。
+        \nb）電話の設定でOTGがあるかどうか、およびオンになっているかどうかを確認します。一部の電話では、[設定]でOTGを検索し、手動でオンにする必要があります。
+        \nc）TC001、TS001の青色LEDが点灯しているかどうかを確認します。点灯しなかったら、お使いの携帯電話が設備と正常に接続されていない、またはお使いの携帯電話がOTG機能をサポートできません。
+        \nd）APPのダウンロードを確認し、必要な権限を与えます。
+        \ne）TC001、TS001を取り外して、再度接続します。それでも応答がない場合は、顧客サービス担当者に連絡してください。
+    </string>
     <string name="question2">画像が鮮明でなく、温度が正確でない場合は、どうしたほうがいいか？</string>
-    <string name="answer2">非冷却赤外線検出器の動作特性によって、右上のシャッターアイコンを押して画面を定期的に更新する必要があります。これは、より鮮明な画像と正確な温度測定が保証されます。</string>
+    <string name="answer2">
+        非冷却赤外線検出器の動作特性によって、右上のシャッターアイコンを押して画面を定期的に更新する必要があります。これは、より鮮明な画像と正確な温度測定が保証されます。
+    </string>
     <string name="question3">TC001、TS001は、水中、ガラス窓の外、服の下、または皮膚の下の状況を検出できますか？</string>
-    <string name="answer3">赤外線検出器は、8〜14umの長波赤外線領域を検出することに使用されますが、物体の表面の温度しか測定できません。水やガラスを通して測定することはできません。</string>
+    <string name="answer3">
+        赤外線検出器は、8〜14umの長波赤外線領域を検出することに使用されますが、物体の表面の温度しか測定できません。水やガラスを通して測定することはできません。
+    </string>
     <string name="question4">なぜ測定温度が正確ではありませんか？</string>
-    <string name="answer4">TC001、TS001は温度分解能が±2％で、通常の温度範囲が-20〜150°C（4〜302°F）、高温範囲が150〜550°C（302〜1022°F）です。テストする前に、APPで対応する範囲を選択してください。</string>
+    <string name="answer4">
+        TC001、TS001は温度分解能が±2％で、通常の温度範囲が-20〜150°C（4〜302°F）、高温範囲が150〜550°C（302〜1022°F）です。テストする前に、APPで対応する範囲を選択してください。
+    </string>
     <string name="question5">TC001、TS001は放射線を放出したら、人体の健康に危ないですか？</string>
-    <string name="answer5">TC001、TS001は有害な放射を放出しなく、物体に関する熱情報のみを収集するため、気にせずに自由に使用できます。</string>
+    <string name="answer5">
+        TC001、TS001は有害な放射を放出しなく、物体に関する熱情報のみを収集するため、気にせずに自由に使用できます。
+    </string>
     <string name="question6">設備に近づくと、なぜ温度測定値が上がるのですか？</string>
-    <string name="answer6">赤外線は大気を過ごして減衰できます。距離が長いほど減衰が強くなり、長距離で測定した温度の精度が低下します。正確な温度データを取得する必要があるユーザーなら、測定したい距離（最大5メートル）を[個人情報]-[設定]-[温度補正]-[スポットまでの距離]に入力して、補正された温度を取得できます。</string>
+    <string name="answer6">
+        赤外線は大気を過ごして減衰できます。距離が長いほど減衰が強くなり、長距離で測定した温度の精度が低下します。正確な温度データを取得する必要があるユーザーなら、測定したい距離（最大5メートル）を[個人情報]-[設定]-[温度補正]-[スポットまでの距離]に入力して、補正された温度を取得できます。
+    </string>
     <string name="question7">なぜカチッという音がするのですか？ 「シャッター移動」とはどういう意味ですか？</string>
-    <string name="answer7">赤外線画像装置の温度は、使用中にわずかに変化します。それで、定期的な内部温度校正が必要です。内部校正はミニ電気モーター制御で閉じるし、つくし、それでこの音が鳴ります。業界では「シャッター移動」として知られています。</string>
+    <string name="answer7">
+        赤外線画像装置の温度は、使用中にわずかに変化します。それで、定期的な内部温度校正が必要です。内部校正はミニ電気モーター制御で閉じるし、つくし、それでこの音が鳴ります。業界では「シャッター移動」として知られています。
+    </string>
     <string name="question8">赤外線温度測定に影響を与える外部要因は何ですか？</string>
-    <string name="answer8">ターゲットオブジェクトの表面の放射率。 \n周囲温度：物体は周囲の物体から放射される赤外線を反射して、物体自体の温度測定に影響を与えます。\n大気温度：大気も赤外線を放射します。\n大気透過率：物体から放射される赤外線は大気で減衰されます。\nスポットまでの距離：大気で物体から放射される赤外線は距離が長いほど減衰は強くなります。</string>
+    <string name="answer8">ターゲットオブジェクトの表面の放射率。
+        \n周囲温度：物体は周囲の物体から放射される赤外線を反射して、物体自体の温度測定に影響を与えます。\n大気温度：大気も赤外線を放射します。\n大気透過率：物体から放射される赤外線は大気で減衰されます。\nスポットまでの距離：大気で物体から放射される赤外線は距離が長いほど減衰は強くなります。
+    </string>
     <string name="setting_unit">温度単位</string>
     <string name="app_celsius">摂氏</string>
     <string name="chart_temperature_fahrenheit">華氏</string>
@@ -209,9 +233,12 @@
     <string name="color_p10">レインボー5</string>
     <string name="color_p11">ブラックヒート</string>
     <string name="config_add_tip">最大10個のモードを追加できます</string>
-    <string name="tip_otg">電話に接続して設備が検出されない場合は、電話のシステム設定で「OTG」を検索してオンにしてください。</string>
+    <string name="tip_otg">
+        電話に接続して設備が検出されない場合は、電話のシステム設定で「OTG」を検索してオンにしてください。
+    </string>
     <string name="tip_otg_no_show">再び提示なし</string>
-    <string name="tip_target_sdk">現在の携帯電話システムは接続できません。互換性のあるバージョンを更新してみてください</string>
+    <string name="tip_target_sdk">現在の携帯電話システムは接続できません。互換性のあるバージョンを更新してみてください
+    </string>
     <string name="tip_log_type">データタイプを選択</string>
     <string name="detail_date">時間</string>
     <string name="detail_info">情報</string>
@@ -234,7 +261,9 @@
     <string name="third_party_components">サードパーティコンポーネント</string>
     <string name="app_edit">編集</string>
     <string name="Limite_di_9carte">9 つ以内で選択してください</string>
-    <string name="app_delete_album_prompt">アプリにはこのファイルを削除する権限がありません。携帯電話のアルバムに移動して削除してください</string>
+    <string name="app_delete_album_prompt">
+        アプリにはこのファイルを削除する権限がありません。携帯電話のアルバムに移動して削除してください
+    </string>
     <string name="app_save_image">画像を保存しますか?</string>
     <string name="app_tip">ヒント</string>
     <string name="device_loading_tip">ローディング…</string>
@@ -248,7 +277,7 @@
     <string name="search_learn_more">もっと勉強する</string>
     <string name="app_auto_photo">バースト撮影</string>
     <string name="app_watemarking">ウォーターマーク</string>
-    <string name="app_pictures_photo">バースト撮影間隔（秒） </string>
+    <string name="app_pictures_photo">バースト撮影間隔（秒）</string>
     <string name="app_photo_number">バースト撮影枚数</string>
     <string name="iOS_infrared">赤外線</string>
     <string name="iOS_merge">デュアルライト</string>
@@ -259,7 +288,9 @@
     <string name="date_time">タイムと日付</string>
     <string name="get_address">アドレスの取得</string>
     <string name="save_setting_model">セットを保存する</string>
-    <string name="save_setting_tips">この機能を有効にすると、設定した機能が保存されます。自動シャッター、撮影モード、擬似カラー、画像モード、および擬似カラーバー（オン/オフ）。</string>
+    <string name="save_setting_tips">
+        この機能を有効にすると、設定した機能が保存されます。自動シャッター、撮影モード、擬似カラー、画像モード、および擬似カラーバー（オン/オフ）。
+    </string>
     <string name="get_current_address">現在のアドレスを取得しています</string>
     <string name="get_Location_failed">アドレスを取得できません</string>
     <string name="off_photography">タイマーオフ</string>
@@ -268,17 +299,29 @@
     <string name="seconds_dalay_6">6s</string>
     <string name="shutter_open">自動シャッターが開く</string>
     <string name="shutter_off">自動シャッターオフ</string>
-    <string name="shutter_tips">正確な時間測定を確保するために、サーモグラフのシャッターは数十秒おきに起動し、ビデオが断続的になることがあります。もっとスムーズなビデオが好きな場合は、自動シャッタをオフにします。</string>
+    <string name="shutter_tips">
+        正確な時間測定を確保するために、サーモグラフのシャッターは数十秒おきに起動し、ビデオが断続的になることがあります。もっとスムーズなビデオが好きな場合は、自動シャッタをオフにします。
+    </string>
     <string name="mirror">ミラーリング</string>
     <string name="operation_guide">操作ガイド</string>
     <string name="preview_step_1">1.画像をドラッグする</string>
     <string name="preview_step_2">2.拡大縮小する</string>
     <string name="preview_step_3">3.画像を回転する</string>
-    <string name="app_microphone_content">アプリがマイクロフォンにアクセスできません。設定でアプリへのマイクロフォンアクセスを有効にしてください。</string>
-    <string name="app_location_content">アプリが位置情報にアクセスできません。設定でアプリへの位置情報アクセスを有効にしてください。</string>
-    <string name="app_album_content">アプリが写真にアクセスできません。設定でアプリへの写真アクセスを有効にしてください。</string>
-    <string name="app_camera_content">アプリがカメラにアクセスできません。設定でアプリへのカメラアクセスを有効にしてください。</string>
-    <string name="app_storage_content">アプリがストレージにアクセスできません。設定でアプリへのストレージアクセスを有効にしてください。</string>
+    <string name="app_microphone_content">
+        アプリがマイクロフォンにアクセスできません。設定でアプリへのマイクロフォンアクセスを有効にしてください。
+    </string>
+    <string name="app_location_content">
+        アプリが位置情報にアクセスできません。設定でアプリへの位置情報アクセスを有効にしてください。
+    </string>
+    <string name="app_album_content">
+        アプリが写真にアクセスできません。設定でアプリへの写真アクセスを有効にしてください。
+    </string>
+    <string name="app_camera_content">
+        アプリがカメラにアクセスできません。設定でアプリへのカメラアクセスを有効にしてください。
+    </string>
+    <string name="app_storage_content">
+        アプリがストレージにアクセスできません。設定でアプリへのストレージアクセスを有効にしてください。
+    </string>
     <string name="app_open">設定へ行く</string>
     <string name="album_report_aleart">携帯電話のストレージが不足しているため、ビデオ録画が停止しました。</string>
     <string name="tip_video_record">ビデオ録画は60分までです。</string>
@@ -315,7 +358,7 @@
     <string name="album_report_pdf">PDFファイルを生成する</string>
     <string name="album_report_pdf_share">PDFファイルを共有する</string>
     <string name="home_report_lists">レポートを表示</string>
-    <string name="report_preview_name"> 名前</string>
+    <string name="report_preview_name">名前</string>
     <string name="report_preview_value">値</string>
     <string name="report_create_success">PDFファイルが正常に生成されました</string>
     <string name="album_report_watermark">レポートのウォーターマーク</string>
@@ -338,7 +381,8 @@
     <string name="user_center">ユーザー情報</string>
     <string name="album_report_exit_tips">レポートの生成を終了しますか？</string>
     <string name="album_report_on_edit">この画像には温度データがないため、編集はサポートされていません。</string>
-    <string name="tips_two_light_not_video">デュアルライトモードではビデオの録画はしばらくサポートされていません</string>
+    <string name="tips_two_light_not_video">デュアルライトモードではビデオの録画はしばらくサポートされていません
+    </string>
     <string name="start_fail_and_restart">起動に失敗しました！アプリを終了して再度開いてください</string>
     <string name="app_Low_temperature">低温</string>
 
@@ -355,7 +399,9 @@
     <string name="pseudo_custom_tips">異なる温度範囲に基づいて色をパーソナライズすることができます。</string>
     <string name="pseudo_set_tips1">1.色をカスタマイズするための希望の温度範囲を設定します。</string>
     <string name="pseudo_set_tips2">2.希望の色を設定します。</string>
-    <string name="pseudo_set_tips3">3.サーマルイメージ内のある領域が所定の温度範囲外になった場合は、その領域の好みの色を指定してください。</string>
+    <string name="pseudo_set_tips3">
+        3.サーマルイメージ内のある領域が所定の温度範囲外になった場合は、その領域の好みの色を指定してください。
+    </string>
     <string name="pseudo_recommend">推薦</string>
     <string name="pseudo_type_black_red">黒赤</string>
     <string name="pseudo_type_nature">ナチュラル</string>
@@ -363,10 +409,18 @@
     <string name="pseudo_over_grey">勾配灰色</string>
     <string name="pseudo_over_color">統一色</string>
     <string name="tip_export_data">輸出データ</string>
-    <string name="tip_correction_1">1.高温源用のサーマルイメージャを長期間使用すると、ブラックスポット効果が発生する可能性があります。これに対処するには、キャリブレーション機能を使用してイメージを復元することができます。</string>
-    <string name="tip_correction_2_title">2.サーマル・イメージャーを携帯電話に接続し、レンズを黒く反射しない表面に向けます。表面は以下の要件を満たすこと。</string>
-    <string name="tip_correction_2_content">表面温度が均一であること(黒い金属板、木製板、プラスチック板など)\n・装置と表面との距離が5 ~ 10cmであること\n・撮影画像が表面で覆われること\n・キャリブレーション処理は暗い環境で行うこと。</string>
-    <string name="tip_correction_3">3.サーマルイメージャをブラックボードに向けて、「キャリブレーションを開始」をタップし、キャリ60秒を待ってブレーション処理を完了させます。キャリブレーション中は、画面をオフにしたり、他のアプリに切り替えたりしないでください。</string>
+    <string name="tip_correction_1">
+        1.高温源用のサーマルイメージャを長期間使用すると、ブラックスポット効果が発生する可能性があります。これに対処するには、キャリブレーション機能を使用してイメージを復元することができます。
+    </string>
+    <string name="tip_correction_2_title">
+        2.サーマル・イメージャーを携帯電話に接続し、レンズを黒く反射しない表面に向けます。表面は以下の要件を満たすこと。
+    </string>
+    <string name="tip_correction_2_content">表面温度が均一であること(黒い金属板、木製板、プラスチック板など)\n・装置と表面との距離が5
+        ~ 10cmであること\n・撮影画像が表面で覆われること\n・キャリブレーション処理は暗い環境で行うこと。
+    </string>
+    <string name="tip_correction_3">
+        3.サーマルイメージャをブラックボードに向けて、「キャリブレーションを開始」をタップし、キャリ60秒を待ってブレーション処理を完了させます。キャリブレーション中は、画面をオフにしたり、他のアプリに切り替えたりしないでください。
+    </string>
     <string name="correction_title">イメージ・キャリブレーション</string>
     <string name="button_correction">キャリブレーション</string>
     <string name="start_correction">キャリブレーション開始</string>
@@ -374,7 +428,9 @@
     <string name="correction_complete">キャリブレーション</string>
     <string name="correction_fail">キャリブレーション失敗</string>
     <string name="tips_cancel_correction">キャリブレーション・プロセスをキャンセルしたいですか?</string>
-    <string name="tip_temper_fasecolor">現在カスタムモードになっていますが、ダイナミック・レンダリング・モードに切り替えてください。</string>
+    <string name="tip_temper_fasecolor">
+        現在カスタムモードになっていますが、ダイナミック・レンダリング・モードに切り替えてください。
+    </string>
     <string name="tip_temp_min_point1">最大と最小の温度差が0.1以上であることを確認してください。</string>
     <string name="tip_album_temp_exportfile">温度データをexcelファイルに輸出しますか?</string>
     <string name="tip_change_pseudo_mode">ダイナミック・レンダリングモードに切り替えますか?</string>
@@ -423,10 +479,16 @@
     <string name="main_tab_second_target_help">ヘルプ</string>
     <string name="main_tab_second_compass">コンパス</string>
     <string name="coordinate_mode">較正モード</string>
-    <string name="coordinate_tips">キャリブレーションモードでは、温度値ではなく、画像の最高温度または最低温度点のみが表示されます。</string>
+    <string name="coordinate_tips">
+        キャリブレーションモードでは、温度値ではなく、画像の最高温度または最低温度点のみが表示されます。
+    </string>
     <string name="tips_ai">AI識別</string>
-    <string name="tips_ai_content">動的識別：画像に入ってくる物体を検出するために使用します。使用時は画面をそのままにしてください。\n高温のソース：画像内の比較的高温の領域を特定する。\n低温のソース：画像内の比較的低温の領域を特定する。</string>
-    <string name="tips_observe_photo_content">温度テストは、観測モードではサポートされていません。\n撮影した画像は再編集できません。</string>
+    <string name="tips_ai_content">
+        動的識別：画像に入ってくる物体を検出するために使用します。使用時は画面をそのままにしてください。\n高温のソース：画像内の比較的高温の領域を特定する。\n低温のソース：画像内の比較的低温の領域を特定する。
+    </string>
+    <string name="tips_observe_photo_content">
+        温度テストは、観測モードではサポートされていません。\n撮影した画像は再編集できません。
+    </string>
     <string name="setting_img_setting">画像設定</string>
 
     <string name="func_test_distance">距離</string>
@@ -440,18 +502,26 @@
     <string name="ts004_guide_text2">1.モード切替ボタンを3秒間押し続けます。</string>
     <string name="ts004_guide_text3">2.画面でのWi-Fiを有効にします。</string>
     <string name="ts004_guide_text4">接続</string>
-    <string name="ts004_guide_text5">3.携帯電話をデバイスWi-Fi “%1$s”に接続します。(Wi-Fi名称：TS004_XXXX; Wi-Fiパスワード:12345678)</string>
+    <string name="ts004_guide_text5">3.携帯電話をデバイスWi-Fi “%1$s”に接続します。(Wi-Fi名称：TS004_XXXX;
+        Wi-Fiパスワード:12345678)
+    </string>
     <string name="ts004_guide_text6">その他</string>
     <string name="ts004_guide_text7">それでも接続できない場合は“%1$s”を参照してください。</string>
     <string name="ts004_guide_text8">接続できない場合は、以下の手順をお試しください：</string>
-    <string name="ts004_guide_text9">1.デバイスが完全に充電され、電源が入っていることを確認します。または、デバイスを再起動します。</string>
+    <string name="ts004_guide_text9">
+        1.デバイスが完全に充電され、電源が入っていることを確認します。または、デバイスを再起動します。
+    </string>
     <string name="ts004_guide_text10">2.デバイスを携帯電話に十分近く(50メートル以内)に置きます。</string>
-    <string name="ts004_guide_text11">3.携帯電話をデバイスのWi-Fiに接続します。(Wi-Fi名称：TS004_XXXX; Wi-Fiパスワード:12345678)</string>
+    <string name="ts004_guide_text11">3.携帯電話をデバイスのWi-Fiに接続します。(Wi-Fi名称：TS004_XXXX;
+        Wi-Fiパスワード:12345678)
+    </string>
     <string name="ts004_guide_text12">それでも接続できない場合は、833-629-4832までお問い合わせください。</string>
     <string name="app_location_accuracy_content">正確な位置にアクセスしていません。設定しますか?</string>
     <string name="device_switch_tips">接続成功しました。切替しますか?</string>
     <string name="ts004_reset_tip1">%1$sを工場出荷時の設定に戻します。</string>
-    <string name="ts004_reset_tip2">工場出荷時の設定に復元すると、カメラに保存されているすべての写真とビデオがフォーマットされ、デバイスが工場出荷時の設定にリセットされます。工場出荷時の設定に復元しますか?</string>
+    <string name="ts004_reset_tip2">
+        工場出荷時の設定に復元すると、カメラに保存されているすべての写真とビデオがフォーマットされ、デバイスが工場出荷時の設定にリセットされます。工場出荷時の設定に復元しますか?
+    </string>
     <string name="ts004_reset_tip3">工場出荷時の設定に復元します。</string>
     <string name="ts004_reset_tip4">工場出荷時の設定に正常に復元します。</string>
     <string name="color_p12">リミックス</string>
@@ -460,7 +530,9 @@
     <string name="ts004_msg_copy">コピー情報</string>
     <string name="ts004_copy_success">コピー成功</string>
     <string name="more_storage_reset">フォーマット・ストレージ</string>
-    <string name="more_storage_reset1">フォーマット後、TS004に保存されているすべての写真とビデオはクリアされ、復元することはできません。ストレージをフォーマットしますか?</string>
+    <string name="more_storage_reset1">
+        フォーマット後、TS004に保存されているすべての写真とビデオはクリアされ、復元することはできません。ストレージをフォーマットしますか?
+    </string>
     <string name="update_new_version">新バージョン見つかりました！</string>
     <string name="dialog_go_upgrade">アップデートし始めます</string>
     <string name="connect_auto_open">接続後、デバイスは自動的に起動します。</string>
@@ -476,13 +548,22 @@
     <string name="target_tips_title">この機能は、カメラと対象物との距離を大まかに測定するために使用します。</string>
     <string name="target_tips_step_1">1.監視タイプをタップして、監視するオブジェクトを選択します。</string>
     <string name="target_tips_step_2">2.ターゲットをタップして、ターゲットスタイルを選択します。</string>
-    <string name="target_tips_step_3">3.ターゲットまたはカメラを移動して、オブジェクトをターゲットの中心に揃えます。</string>
-    <string name="target_tips_step_4">4.対象物とターゲットでの数(カメラと対象物の距離)を観察します。下の写真のように、カメラと対象物の距離は20 mです。</string>
+    <string name="target_tips_step_3">3.ターゲットまたはカメラを移動して、オブジェクトをターゲットの中心に揃えます。
+    </string>
+    <string name="target_tips_step_4">4.対象物とターゲットでの数(カメラと対象物の距離)を観察します。下の写真のように、カメラと対象物の距離は20
+        mです。
+    </string>
     <string name="target_tips_tip_content">注:現在、4種類のオブジェクトの参照高さが利用可能です。</string>
 
-    <string name="permission_request_camera_app">%1$sは、カメラがプロフィール写真を変更したり、フィードバックを与えるために写真を撮ることを許可するように要求しています。</string>
-    <string name="permission_request_location_app">%1$sが近くのBluetoothデバイスを検索するために現在地識別の許可を求めています。</string>
-    <string name="permission_request_storage_app">%1$sはプロファイル設定のためにローカルファイルを保存したり画像を読んだりするためにストレージ権限を要求しています。</string>
+    <string name="permission_request_camera_app">
+        %1$sは、カメラがプロフィール写真を変更したり、フィードバックを与えるために写真を撮ることを許可するように要求しています。
+    </string>
+    <string name="permission_request_location_app">
+        %1$sが近くのBluetoothデバイスを検索するために現在地識別の許可を求めています。
+    </string>
+    <string name="permission_request_storage_app">
+        %1$sはプロファイル設定のためにローカルファイルを保存したり画像を読んだりするためにストレージ権限を要求しています。
+    </string>
     <string name="privacy_tips">同意されない場合、当社の製品またはサービスを使用することはできません。</string>
     <string name="privacy_cancel">反対とキャンセル</string>
     <string name="privacy_confirm">同意と使用</string>
@@ -495,15 +576,22 @@
     <string name="tips_download_information">ダウンロード情報</string>
     <string name="installation_package_download_progress">インストールパッケージのダウンロードの進捗状況</string>
     <string name="installation_package_downloading">インストールパッケージのダウンロード</string>
-    <string name="installation_package_downloading_tips">ダウンロードを開始します通知で進捗状況を確認してください</string>
+    <string name="installation_package_downloading_tips">ダウンロードを開始します通知で進捗状況を確認してください
+    </string>
     <string name="welcome_use_app">%1$sへようこそ</string>
 
     <!--日语-->
 
     <string name="dual_light_correction">二重光補正</string>
-    <string name="dual_light_correction_tips_1">2台のカメラの焦点が合っていないため、2台のカメラで異なる距離から撮影された画像が合っていません。\nこの機能は画像の位置合わせを個別に行うのに役立ちます。</string>
-    <string name="dual_light_correction_tips_2">1.カメラから約0.5 mの距離で熱源(手のひらなど)を画像に残します。\n2.タップして写真を撮ります。</string>
-    <string name="dual_light_correction_tips_3">1.画像をドラッグして整列させます。\n2.プログレスバーをスクロールして、配置する角度を調整します。\n3.ボタンを押して修正を完了します。</string>
+    <string name="dual_light_correction_tips_1">
+        2台のカメラの焦点が合っていないため、2台のカメラで異なる距離から撮影された画像が合っていません。\nこの機能は画像の位置合わせを個別に行うのに役立ちます。
+    </string>
+    <string name="dual_light_correction_tips_2">1.カメラから約0.5
+        mの距離で熱源(手のひらなど)を画像に残します。\n2.タップして写真を撮ります。
+    </string>
+    <string name="dual_light_correction_tips_3">
+        1.画像をドラッグして整列させます。\n2.プログレスバーをスクロールして、配置する角度を調整します。\n3.ボタンを押して修正を完了します。
+    </string>
 
     <string name="menu_thermal_visible_light">可視光</string>
     <string name="menu_thermal_imaging">赤外線</string>
@@ -519,12 +607,16 @@
     <string name="temp_text_sup_big">超巨大</string>
     <string name="menu_thermal_font">フォント</string>
 
-    <string name="text_p_umeng">より優れた機能エクスペリエンスを提供するために、当社の製品にはデータ統計とログ収集のために Umeng+SDK が統合されており、SDK はデバイスの ID とアカウント情報を収集します。</string>
+    <string name="text_p_umeng">より優れた機能エクスペリエンスを提供するために、当社の製品にはデータ統計とログ収集のために
+        Umeng+SDK が統合されており、SDK はデバイスの ID とアカウント情報を収集します。
+    </string>
 
     <!--TS004-->
     <string name="ts004_connection_device">有線接続されたデバイス</string>
     <string name="ts004_auto_save">電話に自動保存します</string>
-    <string name="ts004_save_tips">これを有効にすると、写真撮影やビデオ録画のためにアプリに接続すると、写真とビデオが携帯電話にローカルに自動保存されます。</string>
+    <string name="ts004_save_tips">
+        これを有効にすると、写真撮影やビデオ録画のためにアプリに接続すると、写真とビデオが携帯電話にローカルに自動保存されます。
+    </string>
     <string name="ts004_disconnect_tips1">携帯電話のWi-Fiリストのデバイスを切断できます。</string>
     <string name="ts004_disconnect_tips2">1.携帯電話のWi-Fiリストを開きます。</string>
     <string name="ts004_disconnect_tips3">2.TS004のWi-Fiを削除します。</string>
@@ -545,9 +637,14 @@
     <string name="ts004_scan_nothing">デバイスは発見しません。</string>
     <string name="ts004_scan_again">もう一回スキャンします</string>
     <string name="ts004_bluetooth_auth">必要なデバイス情報を携帯電話に接続するには、Bluetooth許可が必要です。</string>
-    <string name="ts004_bluetooth_tips">デバイスを検出するには、Bluetoothを有効にする必要があります。許可しますか?</string>
-    <string name="ts004_location_auth">デバイス接続用のWi-Fiリストを取得するには、電話に接続するために位置情報許可が必要です。</string>
-    <string name="ts004_exact_location_auth">デバイス接続用のWi-Fiリストを取得するために、携帯電話に接続するには、正確な位置情報許可が必要です。</string>
+    <string name="ts004_bluetooth_tips">デバイスを検出するには、Bluetoothを有効にする必要があります。許可しますか?
+    </string>
+    <string name="ts004_location_auth">
+        デバイス接続用のWi-Fiリストを取得するには、電話に接続するために位置情報許可が必要です。
+    </string>
+    <string name="ts004_exact_location_auth">
+        デバイス接続用のWi-Fiリストを取得するために、携帯電話に接続するには、正確な位置情報許可が必要です。
+    </string>
     <string name="ts004_location_tips">デバイスを検出するために位置許可が必要です。許可しますか?</string>
     <string name="ts004_wlan_auth">デバイスと電話機間の通信のために電話機に接続するには、WLAN許可が必要です。</string>
     <string name="ts004_wlan_tips">デバイスを検出するには、WLAN許可が必要です。許可しますか?</string>
@@ -571,17 +668,23 @@
     <string name="user_device_connecting_fail">接続に失败しました!</string>
     <string name="liveData_save_error">保存に失败しました!</string>
     <string name="also_del_from_phone_album">携帯のアルバムにも収録されています</string>
-    <string name="upgrade_bind_error">装置はバインドされています。以前バインドしたアカウントでログインしてください。</string>
-    <string name="fireware_restart_tips">ファームウェアのアップグレードが完了すると、デバイスは自動的に再起動します。</string>
+    <string name="upgrade_bind_error">装置はバインドされています。以前バインドしたアカウントでログインしてください。
+    </string>
+    <string name="fireware_restart_tips">ファームウェアのアップグレードが完了すると、デバイスは自動的に再起動します。
+    </string>
     <string name="device_disconnect_alert">切断</string>
     <string name="device_reset_alert">デバイスは工場出荷時設定にリセットされ、シャットダウンされています。</string>
     <string name="ts004_tisr_title">TISRを有効にします</string>
-    <string name="ts004_tisr_tips">TISRを有効にすると、AIアルゴリズムに基づいて画像の解像度が上がり、消費電力も増加します。</string>
+    <string name="ts004_tisr_tips">
+        TISRを有効にすると、AIアルゴリズムに基づいて画像の解像度が上がり、消費電力も増加します。
+    </string>
     <string name="app_bluetooth">Bluetooth</string>
     <string name="ts004_auth_location">位置</string>
     <string name="ts004_auth_location_accuracy">正確な位置</string>
     <string name="ts004_local_network">ローカル・ネットワーク</string>
-    <string name="ts004_local_network_open">デバイスを接続するには、ローカル・ネットワークを有効にする必要があります。有効にしますか?</string>
+    <string name="ts004_local_network_open">
+        デバイスを接続するには、ローカル・ネットワークを有効にする必要があります。有効にしますか?
+    </string>
     <string name="ts004_store_systom">システム</string>
     <string name="ts004_connect_tips">チップ接続</string>
     <string name="operation_failed_tips">失敗</string>
@@ -593,13 +696,20 @@
     <string name="ts004_faq_q1">TS004は水中、ガラス越し、壁越しに物体を検出できますか?</string>
     <string name="ts004_faq_a1">赤外線検出器主8 ~ 14μm長波赤外線地域、しか表面温度を测るために使う。</string>
     <string name="ts004_faq_q2">TS004に接続できる電話はありますか?</string>
-    <string name="ts004_faq_a2">現在、TS004はAndroid7以降のOSを搭載した機種とiOS 11以降のOSを搭載した機種に対応しています。</string>
+    <string name="ts004_faq_a2">現在、TS004はAndroid7以降のOSを搭載した機種とiOS
+        11以降のOSを搭載した機種に対応しています。
+    </string>
     <string name="ts004_faq_q3">カメラの焦点は固定ですか、調整可能ですか。</string>
-    <string name="ts004_faq_a3">赤外線カメラは、固定焦点が付属しています。ビューファインダ内に表示される画像の鮮明度を最適化するため、ジオプトリ調整ノブを回すことができます。</string>
+    <string name="ts004_faq_a3">
+        赤外線カメラは、固定焦点が付属しています。ビューファインダ内に表示される画像の鮮明度を最適化するため、ジオプトリ調整ノブを回すことができます。
+    </string>
     <string name="ts004_faq_q4">TS004を使用して動画を録画する期間はどのくらいですか?</string>
-    <string name="ts004_faq_a4">TS004のバッテリーが切れる前に動画を撮り続けることができます。しかし、TS004は自動的に20分ごとにビデオを保存します。</string>
+    <string name="ts004_faq_a4">
+        TS004のバッテリーが切れる前に動画を撮り続けることができます。しかし、TS004は自動的に20分ごとにビデオを保存します。
+    </string>
     <string name="ts004_faq_q5">撮影した熱画像をPCで見るにはどうすればいいですか?</string>
-    <string name="ts004_faq_a5">TS004をUSBケーブルでPCに接続すると、TS004に保存されている熱画像を見ることができます。</string>
+    <string name="ts004_faq_a5">TS004をUSBケーブルでPCに接続すると、TS004に保存されている熱画像を見ることができます。
+    </string>
 
     <!-- TC001 老 APP 引流 -->
     <string name="gallery_transfer">ギャラリー転送</string>
@@ -609,14 +719,23 @@
     <!-- 3.70 -->
     <string name="user_jump">スキップ</string>
     <string name="tc_guide_tips1">リアルタイム監視グラフと履歴を表示レコードを監視します。</string>
-    <string name="tc_guide_tips2">正確な温度測定を保証するためには、温度測定の前に関連するパラメータを設定してください。</string>
-    <string name="tc_guide_tips3">赤外線デバイスを挿入した後、サーマルイメージング有効をタップして、温度測定します。</string>
-    <string name="tc_temp_guide_tips1">試験対象物の放射率を変更します。誤った放射率は、最終的な温度測定結果に影響を与えます。</string>
+    <string name="tc_guide_tips2">正確な温度測定を保証するためには、温度測定の前に関連するパラメータを設定してください。
+    </string>
+    <string name="tc_guide_tips3">赤外線デバイスを挿入した後、サーマルイメージング有効をタップして、温度測定します。
+    </string>
+    <string name="tc_temp_guide_tips1">
+        試験対象物の放射率を変更します。誤った放射率は、最終的な温度測定結果に影響を与えます。
+    </string>
     <string name="tc_temp_guide_tips2">一般的な材料の放射率をチェックします。</string>
     <string name="tc_high_temp_test">高温度試験</string>
-    <string name="tc_high_temp_test_tips1">正確な温度測定を行うためには、電流放射率が正しいかどうかを確認してください。間違っている場合は、</string>
-    <string name="tc_high_temp_test_tips2">をタップして変更します。誤った放射率は、最終的な温度測定結果に影響します。</string>
-    <string name="tc_temp_test_tips">正確な温度測定を行うためには、温度測定の前に放射率パラメータが正しいかどうかを確認してください。そうしないと、温度測定結果に影響を与える可能性があります。</string>
+    <string name="tc_high_temp_test_tips1">
+        正確な温度測定を行うためには、電流放射率が正しいかどうかを確認してください。間違っている場合は、
+    </string>
+    <string name="tc_high_temp_test_tips2">をタップして変更します。誤った放射率は、最終的な温度測定結果に影響します。
+    </string>
+    <string name="tc_temp_test_tips">
+        正確な温度測定を行うためには、温度測定の前に放射率パラメータが正しいかどうかを確認してください。そうしないと、温度測定結果に影響を与える可能性があります。
+    </string>
     <string name="tc_temp_test_materials">参考資料</string>
     <string name="tc_modify_params">パラメータ修正</string>
     <string name="reference_item9">雪</string>
@@ -630,7 +749,9 @@
     <string name="tc_connect_line">有線接続</string>
     <string name="tc_connect_wifi">無線接続</string>
     <string name="tc_delete_device">装置削除</string>
-    <string name="tc_delete_device_tips">現在のデバイスタイプを削除することを確認しますか?必要に応じて、右上のボタンをタップして、このデバイスタイプを再度追加します。</string>
+    <string name="tc_delete_device_tips">
+        現在のデバイスタイプを削除することを確認しますか?必要に応じて、右上のボタンをタップして、このデバイスタイプを再度追加します。
+    </string>
     <string name="tc_has_line_device">有線装置</string>
     <string name="tc_reset_tips">すべてのデバイス設定が工場出荷時の設定に復元されます。復元するかを確認しますか?</string>
     <string name="coming_soon">お楽しみにしてください…</string>
@@ -643,12 +764,17 @@
     <string name="pseudo_color_switch">切り替えモードはデフォルトの偽彩に戻り、切り替えを確認しますか</string>
     <string name="firmware_up_success">ファームウェアのアップグレードに成功しました。トップページに戻りますか？</string>
     <string name="ts004_network">無線データ</string>
-    <string name="ts004_network_open">デバイスを接続するにはワイヤレスデータをオンにする必要があります。オンになっていますか?</string>
+    <string name="ts004_network_open">
+        デバイスを接続するにはワイヤレスデータをオンにする必要があります。オンになっていますか?
+    </string>
     <string name="tc_guide_tips4">接続が成功したら、クリックして温度検出用の赤外線画像をオンにします。</string>
     <string name="tc_unsupport_mode">ホワイトヒートとブラックヒートは等温定規をサポートしていません</string>
-    <string name="app_bluetooth_content">Bluetooth（近くのデバイス）にアクセスする権限がありません。設定に行くかどうか</string>
+    <string name="app_bluetooth_content">Bluetooth（近くのデバイス）にアクセスする権限がありません。設定に行くかどうか
+    </string>
     <string name="nearby_device_permissions">近傍デバイス権限</string>
-    <string name="open_bt_switch_tips">携帯電話に接続するには、必要なデバイス情報を取得するためにBluetoothをオンにする必要があります</string>
+    <string name="open_bt_switch_tips">
+        携帯電話に接続するには、必要なデバイス情報を取得するためにBluetoothをオンにする必要があります
+    </string>
     <string name="wifi_connect_loading">15秒ほどかかると予想されます...</string>
     <string name="tc007_done_fast">頻繁な操作</string>
 
@@ -802,24 +928,60 @@
     <string name="abnormal_item20">前/後ロール・センター</string>
     <string name="abnormal_item21">ブレーキ・キャピラー</string>
     <string name="abnormal_item22">ブレーキ・ロータ</string>
-    <string name="abnormal_description1">イグニッションコイル温度はエンジン温度、周囲温度、イグニッションコイル負荷など多くの要因に影響されます。イグニッションコイルの温度が高すぎると、イグニッションコイルが破損したり、エンジンが発火する恐れがあります。イグニッション・コイル温度が低すぎると、イグニッション・コイルが動作していない可能性があります。熱イメージャを使用して点火コイル温度を監視します。温度が推奨範囲外になったり、ばらつきがある場合は、どのコイルが動作しているか、どのコイルが動作していないかを判断することができます。</string>
-    <string name="abnormal_description2">エキゾーストマニホールドの温度は、エンジンの稼働状態、エンジンの負荷、周囲温度、車両速度など、多くの要因に影響されます。エキゾーストマニホールドの温度が高すぎると、エンジンやエキゾーストシステムの他の部品に損傷を与えたり、火災の原因になることもあります。エキゾーストマニホールドの温度が低すぎると、エンジンのカーボン蓄積、始動困難などの問題を引き起こします。サーマルイメージャでエキゾーストマニホールド温度を監視します。温度が推奨範囲外になった場合や不均一な場合は、どのシリンダが異常な排気温度であるかを判断することができます。</string>
-    <string name="abnormal_description3">熱イメージャで触媒コンバーターを監視し ます。コンバータの出口温度は入口温度よりもはるかに高くすること。出口温度が入口温度よりも低い場合、コンバータが故障している可能性があります。</string>
-    <string name="abnormal_description4">空調コンプレッサーの軸受は、機械的応力と摩擦の影響を受け、軸受温度は、速度、負荷、潤滑条件、周囲温度、およびベルトの締め付けなどの多くの要因の影響を受けます。軸受温度が高すぎると、軸受の潤滑不良を引き起こし、軸受の寿命を短くし、軸受を損傷させることもあります。サーマルイメージャでベアリング温度を監視します。推奨温度範囲を超えたり、他の軸受と比較して温度が高くなったりすると、故障している可能性があります。</string>
-    <string name="abnormal_description5">オルタネータの軸受は機械的応力と摩擦の影響を受け、軸受温度は速度、負荷、潤滑条件、周囲温度、ベルトの締め付けなどの多くの要因に影響されます。軸受温度が高すぎると、軸受の潤滑不良を引き起こし、軸受の寿命を短くし、軸受を損傷させることもあります。熱イメージャでオルタネータの温度を監視します。推奨温度範囲を超えたり、他の軸受と比較して温度が高くなったりすると、故障している可能性があります。</string>
-    <string name="abnormal_description6">ウォーターポンプの軸受は、機械的応力と摩擦の影響を受け、軸受温度は、速度、負荷、潤滑条件、周囲温度、およびベルトの気密性などの多くの要因の影響を受けます。軸受温度が高すぎると、軸受の潤滑不良を引き起こし、軸受の寿命を短くし、軸受を損傷させることもあります。熱イメージャでウォーターポンプの温度を監視します。推奨温度範囲を超えたり、他の軸受と比較して温度が高くなったりすると、故障している可能性があります。</string>
-    <string name="abnormal_description7">ベルトテンショナーは機械的なストレスと摩擦の影響を受け、温度は速度、負荷、潤滑条件、周囲温度、ベルトの締め付けなどの多くの要因に影響されます。温度が高すぎると、軸受の潤滑不良を引き起こし、軸受の寿命を短くし、軸受を損傷させることもあります。熱イメージャでベルトテンショナー温度を監視します。ベルトテンショナーの温度が推奨範囲外に下がったり、他のベルトテンショナーよりも高くなったりすると、ベアリングが故障している可能性があります。</string>
-    <string name="abnormal_description8">熱イメージャでトランスミッションオイルクーラーを監視します。クーラーがうまく機能する場合、出口温度は入口温度よりもはるかに低いはずです。出口温度が入口温度に近い場合、またはクーラー温度が推奨範囲外になった場合、トランスミッションオイルクーラーが故障している可能性があります。</string>
-    <string name="abnormal_description9">クーラント流量制御弁は、冷却需要に応じてクーラント流量を線形に制御することができます。このように、エンジンの温度をよりよく制御することができます。バルブが閉じた状態や開口部が小さい状態になると、クーラントを大量に循環させることができず、エンジン水の過熱につながります。</string>
-    <string name="abnormal_description10">熱イメージャでインタークーラーを監視します。インタークーラーがうまく機能する場合、出口温度は入口温度よりもはるかに低いはずです。出口温度が入口温度に近い場合や、インタークーラーの温度が推奨範囲外になる場合は、インタークーラーが故障している可能性があります。</string>
-    <string name="abnormal_description11">サーモスタットの作動温度が正常に来るとき、サーモスタットはエンジン及びラジエーターの冷却剤が正常な温度でエンジン水を維持する大量に循環することを可能にする開始した。サーモスタットがオフの状態になると、クーラントを大量に循環させることができず、エンジン水が過熱してしまいます。</string>
-    <string name="abnormal_description12">エンジンブロックヒーターを110V電源に接続し、熱イメージャで監視します。電源が入るとヒーターの温度が上がります。そうでない場合、ヒーターまたはその回路が故障しています。</string>
-    <string name="abnormal_description13">熱イメージャでラジエーターを監視します。ラジエーターがうまく機能する場合、出口温度は入口温度よりもはるかに低いはずです。出口温度が入口温度に近い場合、またはラジエーター温度が推奨範囲外に低下した場合、ラジエーターが故障している可能性があります。</string>
-    <string name="abnormal_description14">バッテリケーブルの温度は、周囲温度やバッテリ負荷など、多くの要因に影響されます。熱イメージャを使用してケーブル温度を監視します。温度が高すぎると、過剰なバッテリ負荷、短絡または仮想接続、バッテリの損傷、充電システムの故障が原因である可能性があります。</string>
-    <string name="abnormal_description15">シートヒーターの温度は、周囲温度やヒーター負荷など、多くの要因に影響されます。熱イメージャでヒーターの温度を監視し、シートが有効に加熱できるかどうかを評価することができます。</string>
-    <string name="abnormal_description16">リアウィンドウのデフロスターの温度は、周囲温度やヒータ負荷など、多くの要因に影響されます。サーマルイメージャーでリアウィンドウのデフロスターのヒーター温度を監視し、有効にリアウィンドウのデフロスターを加熱できるかどうかを評価することができます。</string>
-    <string name="abnormal_description17">リアミラーヒータの温度は、周囲温度やヒータ負荷など多くの要因に影響されます。熱イメージャでヒーター温度を監視し、リアミラーが有効に加熱できるかどうかを評価することができます。</string>
-    <string name="abnormal_description18">ウィンドウ・モータの温度は、周囲温度やモータ負荷など、多くの要因に影響されます。熱イメージャでモータ温度を監視します。温度が高すぎる場合は、窓の昇降機構やモータ自体の故障が原因である可能性があります。</string>
+    <string name="abnormal_description1">
+        イグニッションコイル温度はエンジン温度、周囲温度、イグニッションコイル負荷など多くの要因に影響されます。イグニッションコイルの温度が高すぎると、イグニッションコイルが破損したり、エンジンが発火する恐れがあります。イグニッション・コイル温度が低すぎると、イグニッション・コイルが動作していない可能性があります。熱イメージャを使用して点火コイル温度を監視します。温度が推奨範囲外になったり、ばらつきがある場合は、どのコイルが動作しているか、どのコイルが動作していないかを判断することができます。
+    </string>
+    <string name="abnormal_description2">
+        エキゾーストマニホールドの温度は、エンジンの稼働状態、エンジンの負荷、周囲温度、車両速度など、多くの要因に影響されます。エキゾーストマニホールドの温度が高すぎると、エンジンやエキゾーストシステムの他の部品に損傷を与えたり、火災の原因になることもあります。エキゾーストマニホールドの温度が低すぎると、エンジンのカーボン蓄積、始動困難などの問題を引き起こします。サーマルイメージャでエキゾーストマニホールド温度を監視します。温度が推奨範囲外になった場合や不均一な場合は、どのシリンダが異常な排気温度であるかを判断することができます。
+    </string>
+    <string name="abnormal_description3">熱イメージャで触媒コンバーターを監視し
+        ます。コンバータの出口温度は入口温度よりもはるかに高くすること。出口温度が入口温度よりも低い場合、コンバータが故障している可能性があります。
+    </string>
+    <string name="abnormal_description4">
+        空調コンプレッサーの軸受は、機械的応力と摩擦の影響を受け、軸受温度は、速度、負荷、潤滑条件、周囲温度、およびベルトの締め付けなどの多くの要因の影響を受けます。軸受温度が高すぎると、軸受の潤滑不良を引き起こし、軸受の寿命を短くし、軸受を損傷させることもあります。サーマルイメージャでベアリング温度を監視します。推奨温度範囲を超えたり、他の軸受と比較して温度が高くなったりすると、故障している可能性があります。
+    </string>
+    <string name="abnormal_description5">
+        オルタネータの軸受は機械的応力と摩擦の影響を受け、軸受温度は速度、負荷、潤滑条件、周囲温度、ベルトの締め付けなどの多くの要因に影響されます。軸受温度が高すぎると、軸受の潤滑不良を引き起こし、軸受の寿命を短くし、軸受を損傷させることもあります。熱イメージャでオルタネータの温度を監視します。推奨温度範囲を超えたり、他の軸受と比較して温度が高くなったりすると、故障している可能性があります。
+    </string>
+    <string name="abnormal_description6">
+        ウォーターポンプの軸受は、機械的応力と摩擦の影響を受け、軸受温度は、速度、負荷、潤滑条件、周囲温度、およびベルトの気密性などの多くの要因の影響を受けます。軸受温度が高すぎると、軸受の潤滑不良を引き起こし、軸受の寿命を短くし、軸受を損傷させることもあります。熱イメージャでウォーターポンプの温度を監視します。推奨温度範囲を超えたり、他の軸受と比較して温度が高くなったりすると、故障している可能性があります。
+    </string>
+    <string name="abnormal_description7">
+        ベルトテンショナーは機械的なストレスと摩擦の影響を受け、温度は速度、負荷、潤滑条件、周囲温度、ベルトの締め付けなどの多くの要因に影響されます。温度が高すぎると、軸受の潤滑不良を引き起こし、軸受の寿命を短くし、軸受を損傷させることもあります。熱イメージャでベルトテンショナー温度を監視します。ベルトテンショナーの温度が推奨範囲外に下がったり、他のベルトテンショナーよりも高くなったりすると、ベアリングが故障している可能性があります。
+    </string>
+    <string name="abnormal_description8">
+        熱イメージャでトランスミッションオイルクーラーを監視します。クーラーがうまく機能する場合、出口温度は入口温度よりもはるかに低いはずです。出口温度が入口温度に近い場合、またはクーラー温度が推奨範囲外になった場合、トランスミッションオイルクーラーが故障している可能性があります。
+    </string>
+    <string name="abnormal_description9">
+        クーラント流量制御弁は、冷却需要に応じてクーラント流量を線形に制御することができます。このように、エンジンの温度をよりよく制御することができます。バルブが閉じた状態や開口部が小さい状態になると、クーラントを大量に循環させることができず、エンジン水の過熱につながります。
+    </string>
+    <string name="abnormal_description10">
+        熱イメージャでインタークーラーを監視します。インタークーラーがうまく機能する場合、出口温度は入口温度よりもはるかに低いはずです。出口温度が入口温度に近い場合や、インタークーラーの温度が推奨範囲外になる場合は、インタークーラーが故障している可能性があります。
+    </string>
+    <string name="abnormal_description11">
+        サーモスタットの作動温度が正常に来るとき、サーモスタットはエンジン及びラジエーターの冷却剤が正常な温度でエンジン水を維持する大量に循環することを可能にする開始した。サーモスタットがオフの状態になると、クーラントを大量に循環させることができず、エンジン水が過熱してしまいます。
+    </string>
+    <string name="abnormal_description12">
+        エンジンブロックヒーターを110V電源に接続し、熱イメージャで監視します。電源が入るとヒーターの温度が上がります。そうでない場合、ヒーターまたはその回路が故障しています。
+    </string>
+    <string name="abnormal_description13">
+        熱イメージャでラジエーターを監視します。ラジエーターがうまく機能する場合、出口温度は入口温度よりもはるかに低いはずです。出口温度が入口温度に近い場合、またはラジエーター温度が推奨範囲外に低下した場合、ラジエーターが故障している可能性があります。
+    </string>
+    <string name="abnormal_description14">
+        バッテリケーブルの温度は、周囲温度やバッテリ負荷など、多くの要因に影響されます。熱イメージャを使用してケーブル温度を監視します。温度が高すぎると、過剰なバッテリ負荷、短絡または仮想接続、バッテリの損傷、充電システムの故障が原因である可能性があります。
+    </string>
+    <string name="abnormal_description15">
+        シートヒーターの温度は、周囲温度やヒーター負荷など、多くの要因に影響されます。熱イメージャでヒーターの温度を監視し、シートが有効に加熱できるかどうかを評価することができます。
+    </string>
+    <string name="abnormal_description16">
+        リアウィンドウのデフロスターの温度は、周囲温度やヒータ負荷など、多くの要因に影響されます。サーマルイメージャーでリアウィンドウのデフロスターのヒーター温度を監視し、有効にリアウィンドウのデフロスターを加熱できるかどうかを評価することができます。
+    </string>
+    <string name="abnormal_description17">
+        リアミラーヒータの温度は、周囲温度やヒータ負荷など多くの要因に影響されます。熱イメージャでヒーター温度を監視し、リアミラーが有効に加熱できるかどうかを評価することができます。
+    </string>
+    <string name="abnormal_description18">
+        ウィンドウ・モータの温度は、周囲温度やモータ負荷など、多くの要因に影響されます。熱イメージャでモータ温度を監視します。温度が高すぎる場合は、窓の昇降機構やモータ自体の故障が原因である可能性があります。
+    </string>
 
     <!-- 房屋检测新增 -->
     <string name="vehicle_function">機能</string>
@@ -958,7 +1120,9 @@
 
     <string name="tips_tisr_on">イメージング スーパー解像度が有効になりました。</string>
     <string name="tips_tisr_off">イメージング スーパー解像度が無効になりました。</string>
-    <string name="tips_tisr_fail">お使いの携帯電話は OpenCL をサポートしていないため、イメージング スーパー解像度を有効にできません。</string>
+    <string name="tips_tisr_fail">お使いの携帯電話は OpenCL をサポートしていないため、イメージング
+        スーパー解像度を有効にできません。
+    </string>
 
     <!-- 4.70 -->
     <string name="testing_guidance">検出アドバイザ</string>

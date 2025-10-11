@@ -27,27 +27,29 @@ class ColorView : View {
      * 伪彩渐变颜色值数组.
      */
     var colors: IntArray = intArrayOf(0xfffbda00.toInt(), 0xffea0e0e.toInt(), 0xff6907af.toInt())
+
     /**
      * 伪彩渐变颜色对应的位置数组.
      */
     var positions: FloatArray = floatArrayOf(0f, 0.5f, 1f)
 
 
-
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     /**
      * 已选中时 paint 的 shader.
      */
     private var shaderSelectYes = LinearGradient(0f, 0f, 0f, 0f, colors, positions, Shader.TileMode.CLAMP)
+
     /**
      * 未选中时 paint 的 shader.
      */
     private var shaderSelectNot = LinearGradient(0f, 0f, 0f, 0f, colors, positions, Shader.TileMode.CLAMP)
+
     /**
      * 选中时的底部三角形
      */
     private val triangleDrawable: Drawable
-
 
 
     constructor(context: Context) : this(context, null)
@@ -56,7 +58,12 @@ class ColorView : View {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         paint.color = 0xffffffff.toInt()
         triangleDrawable = ContextCompat.getDrawable(context, R.drawable.svg_color_select)!!
     }
@@ -81,7 +88,12 @@ class ColorView : View {
         setMeasuredDimension(width, height)
 
         refreshShader()
-        triangleDrawable.setBounds((width - triangleSize) / 2, barHeight + margin, (width - triangleSize) / 2 + triangleSize, height)
+        triangleDrawable.setBounds(
+            (width - triangleSize) / 2,
+            barHeight + margin,
+            (width - triangleSize) / 2 + triangleSize,
+            height
+        )
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -95,7 +107,15 @@ class ColorView : View {
             paint.shader = null
             canvas.drawRoundRect(0f, 0f, width.toFloat(), barHeight.toFloat(), radius, radius, paint)
             paint.shader = shaderSelectYes
-            canvas.drawRoundRect(strokeSize, strokeSize, width - strokeSize, strokeSize + selectBarHeight, radius, radius, paint)
+            canvas.drawRoundRect(
+                strokeSize,
+                strokeSize,
+                width - strokeSize,
+                strokeSize + selectBarHeight,
+                radius,
+                radius,
+                paint
+            )
             triangleDrawable.draw(canvas)
         } else {
             val normalBarWidth: Int = (width * 50f / 62).toInt() //未选中时宽度50，整体宽度62
@@ -121,7 +141,8 @@ class ColorView : View {
         val strokeSize: Float = SizeUtils.dp2px(2f).toFloat() //描边宽度2dp
         val barHeight: Int = (measuredWidth * 73f / 62).toInt() //62和73是根据UI图 选中时含描边在内色块宽高比 62:73
         val selectBarHeight: Int = (barHeight - strokeSize * 2).toInt()
-        shaderSelectYes = LinearGradient(0f, strokeSize, 0f, strokeSize + selectBarHeight, colors, positions, Shader.TileMode.CLAMP)
+        shaderSelectYes =
+            LinearGradient(0f, strokeSize, 0f, strokeSize + selectBarHeight, colors, positions, Shader.TileMode.CLAMP)
 
         val normalBarWidth: Int = (measuredWidth * 50f / 62).toInt() //未选中时宽度50，整体宽度62
         val normalBarHeight: Int = (normalBarWidth * 60f / 50).toInt() //宽高比为 50:60

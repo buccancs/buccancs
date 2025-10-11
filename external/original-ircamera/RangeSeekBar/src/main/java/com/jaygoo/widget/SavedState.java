@@ -13,6 +13,15 @@ import android.view.View;
  * ================================================
  */
 public class SavedState extends View.BaseSavedState {
+    public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+        public SavedState createFromParcel(Parcel in) {
+            return new SavedState(in);
+        }
+
+        public SavedState[] newArray(int size) {
+            return new SavedState[size];
+        }
+    };
     public float minValue;
     public float maxValue;
     public float rangeInterval;
@@ -44,14 +53,4 @@ public class SavedState extends View.BaseSavedState {
         out.writeFloat(currSelectedMin);
         out.writeFloat(currSelectedMax);
     }
-
-    public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-        public SavedState createFromParcel(Parcel in) {
-            return new SavedState(in);
-        }
-
-        public SavedState[] newArray(int size) {
-            return new SavedState[size];
-        }
-    };
 }

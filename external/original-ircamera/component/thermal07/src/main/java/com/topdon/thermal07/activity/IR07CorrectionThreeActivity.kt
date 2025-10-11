@@ -32,8 +32,9 @@ class IR07CorrectionThreeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            val playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null,true)
-            supportFragmentManager.beginTransaction().setReorderingAllowed(true).add(R.id.fragment_container_view, playFragment).commit()
+            val playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null, true)
+            supportFragmentManager.beginTransaction().setReorderingAllowed(true)
+                .add(R.id.fragment_container_view, playFragment).commit()
         }
 
         val tvCorrection: TextView = findViewById(R.id.tv_correction)

@@ -16,7 +16,7 @@ import com.topdon.module.thermal.ir.fragment.IRPlushFragment
  **/
 @Route(path = RouterConfig.IR_IMG_PICK_PLUS)
 class ImagePickIRPlushActivity : BasePickImgActivity() {
-    var irFragment : IRPlushFragment ?= null
+    var irFragment: IRPlushFragment? = null
 
     override fun initView() {
         irFragment = if (savedInstanceState == null) {

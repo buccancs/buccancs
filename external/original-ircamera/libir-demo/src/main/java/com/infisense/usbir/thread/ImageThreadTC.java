@@ -36,6 +36,19 @@ public class ImageThreadTC extends Thread {
     private byte[] imageDst;
 
     /**
+     * @param imageWidth
+     * @param imageHeight
+     */
+    public ImageThreadTC(int imageWidth, int imageHeight) {
+        Log.i(TAG, "ImageThread create->imageWidth = " + imageWidth + " imageHeight = " + imageHeight);
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
+        imageYUV422 = new byte[imageWidth * imageHeight * 2];
+        imageARGB = new byte[imageWidth * imageHeight * 4];
+        imageDst = new byte[imageWidth * imageHeight * 4];
+    }
+
+    /**
      * @param syncimage
      */
     public void setSyncimage(SynchronizedBitmap syncimage) {
@@ -54,19 +67,6 @@ public class ImageThreadTC extends Thread {
      */
     public void setRotate(int rotate) {
         this.rotate = rotate;
-    }
-
-    /**
-     * @param imageWidth
-     * @param imageHeight
-     */
-    public ImageThreadTC(int imageWidth, int imageHeight) {
-        Log.i(TAG, "ImageThread create->imageWidth = " + imageWidth + " imageHeight = " + imageHeight);
-        this.imageWidth = imageWidth;
-        this.imageHeight = imageHeight;
-        imageYUV422 = new byte[imageWidth * imageHeight * 2];
-        imageARGB = new byte[imageWidth * imageHeight * 4];
-        imageDst = new byte[imageWidth * imageHeight * 4];
     }
 
     /**

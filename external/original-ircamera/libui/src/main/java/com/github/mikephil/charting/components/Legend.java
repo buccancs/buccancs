@@ -20,127 +20,83 @@ import java.util.List;
  */
 public class Legend extends ComponentBase {
 
-    public enum LegendForm {
-        /**
-         * Avoid drawing a form
-         */
-        NONE,
-
-        /**
-         * Do not draw the a form, but leave space for it
-         */
-        EMPTY,
-
-        /**
-         * Use default (default dataset's form to the legend's form)
-         */
-        DEFAULT,
-
-        /**
-         * Draw a square
-         */
-        SQUARE,
-
-        /**
-         * Draw a circle
-         */
-        CIRCLE,
-
-        /**
-         * Draw a horizontal line
-         */
-        LINE
-    }
-
-    public enum LegendHorizontalAlignment {
-        LEFT, CENTER, RIGHT
-    }
-
-    public enum LegendVerticalAlignment {
-        TOP, CENTER, BOTTOM
-    }
-
-    public enum LegendOrientation {
-        HORIZONTAL, VERTICAL
-    }
-
-    public enum LegendDirection {
-        LEFT_TO_RIGHT, RIGHT_TO_LEFT
-    }
-
+    /**
+     * the total width of the legend (needed width space)
+     */
+    public float mNeededWidth = 0f;
+    /**
+     * the total height of the legend (needed height space)
+     */
+    public float mNeededHeight = 0f;
+    public float mTextHeightMax = 0f;
+    public float mTextWidthMax = 0f;
     /**
      * The legend entries array
      */
     private LegendEntry[] mEntries = new LegendEntry[]{};
-
     /**
      * Entries that will be appended to the end of the auto calculated entries after calculating the legend.
      * (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
      */
     private LegendEntry[] mExtraEntries;
-
     /**
      * Are the legend labels/colors a custom value or auto calculated? If false,
      * then it's auto, if true, then custom. default false (automatic legend)
      */
     private boolean mIsLegendCustom = false;
-
     private LegendHorizontalAlignment mHorizontalAlignment = LegendHorizontalAlignment.LEFT;
     private LegendVerticalAlignment mVerticalAlignment = LegendVerticalAlignment.BOTTOM;
     private LegendOrientation mOrientation = LegendOrientation.HORIZONTAL;
     private boolean mDrawInside = false;
-
     /**
      * the text direction for the legend
      */
     private LegendDirection mDirection = LegendDirection.LEFT_TO_RIGHT;
-
     /**
      * the shape/form the legend colors are drawn in
      */
     private LegendForm mShape = LegendForm.SQUARE;
-
     /**
      * the size of the legend forms/shapes
      */
     private float mFormSize = 8f;
-
     /**
      * the size of the legend forms/shapes
      */
     private float mFormLineWidth = 3f;
-
     /**
      * Line dash path effect used for shapes that consist of lines.
      */
     private DashPathEffect mFormLineDashEffect = null;
-
     /**
      * the space between the legend entries on a horizontal axis, default 6f
      */
     private float mXEntrySpace = 6f;
-
     /**
      * the space between the legend entries on a vertical axis, default 5f
      */
     private float mYEntrySpace = 0f;
-
     /**
      * the space between the legend entries on a vertical axis, default 2f
      * private float mYEntrySpace = 2f; /** the space between the form and the
      * actual label/text
      */
     private float mFormToTextSpace = 5f;
-
     /**
      * the space that should be left between stacked forms
      */
     private float mStackSpace = 3f;
-
     /**
      * the maximum relative size out of the whole chart view in percent
      */
     private float mMaxSizePercent = 0.95f;
+    /**
+     * flag that indicates if word wrapping is enabled
+     */
+    private boolean mWordWrapEnabled = false;
+    private List<FSize> mCalculatedLabelSizes = new ArrayList<>(16);
+    private List<Boolean> mCalculatedLabelBreakPoints = new ArrayList<>(16);
+    private List<FSize> mCalculatedLineSizes = new ArrayList<>(16);
 
     /**
      * default constructor
@@ -167,6 +123,10 @@ public class Legend extends ComponentBase {
         this.mEntries = entries;
     }
 
+    public LegendEntry[] getEntries() {
+        return mEntries;
+    }
+
     /**
      * This method sets the automatically computed colors for the legend. Use setCustom(...) to set custom colors.
      *
@@ -174,10 +134,6 @@ public class Legend extends ComponentBase {
      */
     public void setEntries(List<LegendEntry> entries) {
         mEntries = entries.toArray(new LegendEntry[entries.size()]);
-    }
-
-    public LegendEntry[] getEntries() {
-        return mEntries;
     }
 
     /**
@@ -196,7 +152,7 @@ public class Legend extends ComponentBase {
         for (LegendEntry entry : mEntries) {
             final float formSize = Utils.convertDpToPixel(
                     Float.isNaN(entry.formSize)
-                    ? mFormSize : entry.formSize);
+                            ? mFormSize : entry.formSize);
             if (formSize > maxFormSize)
                 maxFormSize = formSize;
 
@@ -252,9 +208,9 @@ public class Legend extends ComponentBase {
 
     /**
      * Entries that will be appended to the end of the auto calculated
-     *   entries after calculating the legend.
+     * entries after calculating the legend.
      * (if the legend has already been calculated, you will need to call notifyDataSetChanged()
-     *   to let the changes take effect)
+     * to let the changes take effect)
      */
     public void setExtra(int[] colors, String[] labels) {
 
@@ -281,9 +237,9 @@ public class Legend extends ComponentBase {
      * Sets a custom legend's entries array.
      * * A null label will start a group.
      * This will disable the feature that automatically calculates the legend
-     *   entries from the datasets.
+     * entries from the datasets.
      * Call resetCustom() to re-enable automatic calculation (and then
-     *   notifyDataSetChanged() is needed to auto-calculate the legend again)
+     * notifyDataSetChanged() is needed to auto-calculate the legend again)
      */
     public void setCustom(LegendEntry[] entries) {
 
@@ -295,9 +251,9 @@ public class Legend extends ComponentBase {
      * Sets a custom legend's entries array.
      * * A null label will start a group.
      * This will disable the feature that automatically calculates the legend
-     *   entries from the datasets.
+     * entries from the datasets.
      * Call resetCustom() to re-enable automatic calculation (and then
-     *   notifyDataSetChanged() is needed to auto-calculate the legend again)
+     * notifyDataSetChanged() is needed to auto-calculate the legend again)
      */
     public void setCustom(List<LegendEntry> entries) {
 
@@ -431,15 +387,6 @@ public class Legend extends ComponentBase {
     }
 
     /**
-     * sets the size in dp of the legend forms, default 8f
-     *
-     * @param size
-     */
-    public void setFormSize(float size) {
-        mFormSize = size;
-    }
-
-    /**
      * returns the size in dp of the legend forms
      *
      * @return
@@ -449,12 +396,12 @@ public class Legend extends ComponentBase {
     }
 
     /**
-     * sets the line width in dp for forms that consist of lines, default 3f
+     * sets the size in dp of the legend forms, default 8f
      *
      * @param size
      */
-    public void setFormLineWidth(float size) {
-        mFormLineWidth = size;
+    public void setFormSize(float size) {
+        mFormSize = size;
     }
 
     /**
@@ -467,12 +414,12 @@ public class Legend extends ComponentBase {
     }
 
     /**
-     * Sets the line dash path effect used for shapes that consist of lines.
+     * sets the line width in dp for forms that consist of lines, default 3f
      *
-     * @param dashPathEffect
+     * @param size
      */
-    public void setFormLineDashEffect(DashPathEffect dashPathEffect) {
-        mFormLineDashEffect = dashPathEffect;
+    public void setFormLineWidth(float size) {
+        mFormLineWidth = size;
     }
 
     /**
@@ -480,6 +427,15 @@ public class Legend extends ComponentBase {
      */
     public DashPathEffect getFormLineDashEffect() {
         return mFormLineDashEffect;
+    }
+
+    /**
+     * Sets the line dash path effect used for shapes that consist of lines.
+     *
+     * @param dashPathEffect
+     */
+    public void setFormLineDashEffect(DashPathEffect dashPathEffect) {
+        mFormLineDashEffect = dashPathEffect;
     }
 
     /**
@@ -559,23 +515,14 @@ public class Legend extends ComponentBase {
     }
 
     /**
-     * the total width of the legend (needed width space)
+     * If this is set, then word wrapping the legend is enabled. This means the
+     * legend will not be cut off if too long.
+     *
+     * @return
      */
-    public float mNeededWidth = 0f;
-
-    /**
-     * the total height of the legend (needed height space)
-     */
-    public float mNeededHeight = 0f;
-
-    public float mTextHeightMax = 0f;
-
-    public float mTextWidthMax = 0f;
-
-    /**
-     * flag that indicates if word wrapping is enabled
-     */
-    private boolean mWordWrapEnabled = false;
+    public boolean isWordWrapEnabled() {
+        return mWordWrapEnabled;
+    }
 
     /**
      * Should the legend word wrap? / this is currently supported only for:
@@ -588,16 +535,6 @@ public class Legend extends ComponentBase {
      */
     public void setWordWrapEnabled(boolean enabled) {
         mWordWrapEnabled = enabled;
-    }
-
-    /**
-     * If this is set, then word wrapping the legend is enabled. This means the
-     * legend will not be cut off if too long.
-     *
-     * @return
-     */
-    public boolean isWordWrapEnabled() {
-        return mWordWrapEnabled;
     }
 
     /**
@@ -625,10 +562,6 @@ public class Legend extends ComponentBase {
     public void setMaxSizePercent(float maxSize) {
         mMaxSizePercent = maxSize;
     }
-
-    private List<FSize> mCalculatedLabelSizes = new ArrayList<>(16);
-    private List<Boolean> mCalculatedLabelBreakPoints = new ArrayList<>(16);
-    private List<FSize> mCalculatedLineSizes = new ArrayList<>(16);
 
     public List<FSize> getCalculatedLabelSizes() {
         return mCalculatedLabelSizes;
@@ -822,5 +755,52 @@ public class Legend extends ComponentBase {
 
         mNeededHeight += mYOffset;
         mNeededWidth += mXOffset;
+    }
+    public enum LegendForm {
+        /**
+         * Avoid drawing a form
+         */
+        NONE,
+
+        /**
+         * Do not draw the a form, but leave space for it
+         */
+        EMPTY,
+
+        /**
+         * Use default (default dataset's form to the legend's form)
+         */
+        DEFAULT,
+
+        /**
+         * Draw a square
+         */
+        SQUARE,
+
+        /**
+         * Draw a circle
+         */
+        CIRCLE,
+
+        /**
+         * Draw a horizontal line
+         */
+        LINE
+    }
+
+    public enum LegendHorizontalAlignment {
+        LEFT, CENTER, RIGHT
+    }
+
+    public enum LegendVerticalAlignment {
+        TOP, CENTER, BOTTOM
+    }
+
+    public enum LegendOrientation {
+        HORIZONTAL, VERTICAL
+    }
+
+    public enum LegendDirection {
+        LEFT_TO_RIGHT, RIGHT_TO_LEFT
     }
 }

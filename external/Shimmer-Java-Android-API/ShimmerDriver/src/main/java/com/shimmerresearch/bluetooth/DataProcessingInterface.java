@@ -13,35 +13,32 @@ import com.shimmerresearch.driver.ShimmerDevice;
  */
 public interface DataProcessingInterface {
 
-	/**
-	 * Initialise your method/algorithm here, this callback is called when
-	 * startstreaming is called
-	 */
-	
-	/**
-	 * Initialise Process Data here. This is called whenever the
-	 * startStreaming command is called and can be used to initialise
-	 * algorithms
-	 * 
-	 */
-	public void initializeProcessData(int samplingRate);
-	
-	/**
-	 * Process data here, algorithms can access the object cluster built by
-	 * the buildMsg method here
-	 * 
-	 * @param ojc
-	 *            the objectCluster built by the buildMsg method
-	 * @return the processed objectCluster
-	 */
-	public ObjectCluster processData(ObjectCluster ojc);
+    /**
+     * Initialise your method/algorithm here, this callback is called when
+     * startstreaming is called
+     */
 
-	
-	
-	
-	//TODO temporarily locating updateMapOfAlgorithmModules() in DataProcessing
-	public void updateMapOfAlgorithmModules();
+    /**
+     * Initialise Process Data here. This is called whenever the
+     * startStreaming command is called and can be used to initialise
+     * algorithms
+     *
+     */
+    public void initializeProcessData(int samplingRate);
 
-	public void updateMapOfAlgorithmModules(ShimmerDevice shimmerDevice);
+    /**
+     * Process data here, algorithms can access the object cluster built by
+     * the buildMsg method here
+     *
+     * @param ojc the objectCluster built by the buildMsg method
+     * @return the processed objectCluster
+     */
+    public ObjectCluster processData(ObjectCluster ojc);
+
+
+    //TODO temporarily locating updateMapOfAlgorithmModules() in DataProcessing
+    public void updateMapOfAlgorithmModules();
+
+    public void updateMapOfAlgorithmModules(ShimmerDevice shimmerDevice);
 
 }

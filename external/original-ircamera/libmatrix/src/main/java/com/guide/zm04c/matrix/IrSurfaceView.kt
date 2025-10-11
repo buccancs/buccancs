@@ -75,12 +75,14 @@ class IrSurfaceView : SurfaceView, SurfaceHolder.Callback {
                 mMatrix.postTranslate(h, 0f)
                 mMatrix.postScale(sca, sca)
             }
+
             180f -> {
                 val sca = ScreenUtils.getScreenWidth() / w
                 mMatrix.setRotate(rotate, 0f, 0f)
                 mMatrix.postTranslate(w, h)
                 mMatrix.postScale(sca, sca)
             }
+
             270f -> {
                 //矩阵转换
                 val sca = ScreenUtils.getScreenWidth() / h
@@ -88,6 +90,7 @@ class IrSurfaceView : SurfaceView, SurfaceHolder.Callback {
                 mMatrix.postTranslate(0f, w)
                 mMatrix.postScale(sca, sca)
             }
+
             else -> {
                 val sca = ScreenUtils.getScreenWidth() / w
                 mMatrix.postScale(sca, sca)

@@ -22,7 +22,8 @@ class ImagePickTC007Activity : BasePickImgActivity() {
     companion object {
         private const val RTSP_URL = "rtsp://192.168.40.1/stream0"
     }
-    var playFragment : PlayFragment ?= null
+
+    var playFragment: PlayFragment? = null
     override fun initView() {
 //        val layoutParams = fragmentContainerView.layoutParams as ConstraintLayout.LayoutParams
 //        layoutParams.dimensionRatio = "256:192"
@@ -30,19 +31,19 @@ class ImagePickTC007Activity : BasePickImgActivity() {
 //        layoutParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
 //        fragmentContainerView.layoutParams = layoutParams
         if (savedInstanceState == null) {
-            playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null,true)
+            playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null, true)
             supportFragmentManager.beginTransaction().add(R.id.fragment_container_view, playFragment!!).commit()
         }
     }
 
     override suspend fun getPickBitmap(): Bitmap? {
-        var resultBitmap : Bitmap ?= null
+        var resultBitmap: Bitmap? = null
         val photoBean = TC007Repository.getPhoto()
         if (200 == photoBean?.Code) {
             val bytes64 =
                 Base64.decode(photoBean.Data?.IRFile ?: photoBean.Data?.DCFile, Base64.DEFAULT)
             val bitmap = BitmapFactory.decodeByteArray(bytes64!!, 0, bytes64!!.size)
-            resultBitmap =  Bitmap.createScaledBitmap(
+            resultBitmap = Bitmap.createScaledBitmap(
                 bitmap, playFragment!!.surfaceViewWidth,
                 playFragment!!.surfaceViewHeight, true
             )
@@ -53,7 +54,6 @@ class ImagePickTC007Activity : BasePickImgActivity() {
     override fun initData() {
 
     }
-
 
 
 }

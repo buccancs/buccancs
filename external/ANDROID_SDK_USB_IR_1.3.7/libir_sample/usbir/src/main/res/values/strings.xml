@@ -8,7 +8,9 @@
     <string name="nav_ir_image_or_temp_display">Image/temp/Y16 display</string>
     <string name="nav_tools">FM update,read,write..</string>
     <!-- usb monitor connect activity -->
-    <string name="usb_monitor_tip">Test USBMonitor\'s plug-in process callback function, please note that the registration and de-registration must appear in pairs.</string>
+    <string name="usb_monitor_tip">Test USBMonitor\'s plug-in process callback function, please note that the
+        registration and de-registration must appear in pairs.
+    </string>
     <!-- title -->
     <string name="pseudo_mode">Pseu</string>
     <string name="temperature">Temp</string>
@@ -88,7 +90,9 @@
     <string name="pic_save_fail">Failed to save image</string>
     <string name="file_save_success">File saved successfully</string>
     <!-- -->
-    <string name="OTG_confirm">Please make sure the OTG function is turned on\n\nThis SDK is suitable for P2, tiny1C, tinyBE, mini256 modules under the USB protocol, please do not use other modules to avoid damage to the module</string>
+    <string name="OTG_confirm">Please make sure the OTG function is turned on\n\nThis SDK is suitable for P2, tiny1C,
+        tinyBE, mini256 modules under the USB protocol, please do not use other modules to avoid damage to the module
+    </string>
     <string name="display_image_temp">Image+Temp</string>
     <string name="display_image">Image</string>
     <string name="display_temp">Mid Img Set</string>
@@ -106,6 +110,8 @@
     <string name="dpc_auto">auto dead pixel calibration</string>
     <string name="custom_pseudo_create">create custom pseudo</string>
     <string name="custom_pseudo_convert">pseudo type convert</string>
-    <string name="input_correct_param">Please input the correction temp(℃) in order、ems(0-1)、ta(℃)，tu(℃)，distance(m)，hum(0-1)</string>
+    <string name="input_correct_param">Please input the correction temp(℃) in
+        order、ems(0-1)、ta(℃)，tu(℃)，distance(m)，hum(0-1)
+    </string>
 
 </resources>

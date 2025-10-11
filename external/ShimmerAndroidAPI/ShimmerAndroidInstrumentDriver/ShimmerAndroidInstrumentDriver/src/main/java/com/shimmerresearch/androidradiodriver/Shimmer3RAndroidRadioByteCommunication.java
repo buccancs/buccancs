@@ -2,8 +2,7 @@ package com.shimmerresearch.androidradiodriver;
 
 import java.util.UUID;
 
-public class Shimmer3RAndroidRadioByteCommunication extends VerisenseBleAndroidRadioByteCommunication{
-
+public class Shimmer3RAndroidRadioByteCommunication extends VerisenseBleAndroidRadioByteCommunication {
 
 
     /**

@@ -44,7 +44,7 @@ class IRLogMPChartActivity : BaseActivity() {
     private var startTime = 0L
 
     private val permissionList by lazy {
-        if (this.applicationInfo.targetSdkVersion >= 34){
+        if (this.applicationInfo.targetSdkVersion >= 34) {
             listOf(
                 Permission.WRITE_EXTERNAL_STORAGE,
             )
@@ -65,7 +65,8 @@ class IRLogMPChartActivity : BaseActivity() {
             dismissLoadingDialog()
 
             val isPoint = it?.isNotEmpty() == true && it.first().type == "point"
-            monitor_current_vol.text = getString(if (isPoint) R.string.chart_temperature else R.string.chart_temperature_high)
+            monitor_current_vol.text =
+                getString(if (isPoint) R.string.chart_temperature else R.string.chart_temperature_high)
             monitor_real_vol.visibility = if (isPoint) View.GONE else View.VISIBLE
             monitor_real_img.visibility = if (isPoint) View.GONE else View.VISIBLE
 
@@ -99,7 +100,10 @@ class IRLogMPChartActivity : BaseActivity() {
                                             var filePath: String? = null
                                             withContext(Dispatchers.IO) {
                                                 tempData?.get(0)?.let {
-                                                    filePath = ExcelUtil.exportExcel(tempData as java.util.ArrayList<ThermalEntity>?, "point" == it.type)
+                                                    filePath = ExcelUtil.exportExcel(
+                                                        tempData as java.util.ArrayList<ThermalEntity>?,
+                                                        "point" == it.type
+                                                    )
                                                 }
                                             }
                                             dismissLoadingDialog()
@@ -111,7 +115,12 @@ class IRLogMPChartActivity : BaseActivity() {
                                                 shareIntent.action = Intent.ACTION_SEND
                                                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
                                                 shareIntent.type = "application/xlsx"
-                                                startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
+                                                startActivity(
+                                                    Intent.createChooser(
+                                                        shareIntent,
+                                                        getString(R.string.battery_share)
+                                                    )
+                                                )
                                             }
                                         }
                                     } else {
@@ -125,7 +134,7 @@ class IRLogMPChartActivity : BaseActivity() {
                                 ) {
                                     if (doNotAskAgain) {
                                         //拒绝授权并且不再提醒
-                                        if (BaseApplication.instance.isDomestic()){
+                                        if (BaseApplication.instance.isDomestic()) {
                                             ToastUtils.showShort(getString(R.string.app_storage_content))
                                             return
                                         }
@@ -144,7 +153,7 @@ class IRLogMPChartActivity : BaseActivity() {
 
                             })
                     }
-                }.setCancelListener(R.string.app_cancel){
+                }.setCancelListener(R.string.app_cancel) {
                 }
                 .setCanceled(true)
                 .create().show()

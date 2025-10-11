@@ -11,7 +11,7 @@ import java.nio.ByteBuffer
  * 自定义渲染的相关配置.
  */
 @Parcelize
-data class CustomPseudoBean (
+data class CustomPseudoBean(
     var selectIndex: Int = 0,                       //当前选中色块在列表中 index
     var colors: IntArray? = null,                   //7 个色块颜色值
     var zAltitudes: IntArray? = null,               //7 个色块海拔
@@ -37,7 +37,7 @@ data class CustomPseudoBean (
             }
         }
 
-        fun toCustomPseudoBean(byteArray : ByteArray): CustomPseudoBean {
+        fun toCustomPseudoBean(byteArray: ByteArray): CustomPseudoBean {
             val buffer: ByteBuffer = ByteBuffer.wrap(byteArray)
 
             var colors: IntArray? = null
@@ -75,7 +75,7 @@ data class CustomPseudoBean (
             var customMaxColor = buffer.int
             val customRecommendIndex = buffer.int
             val isUseGray = buffer.get() == 0.toByte()
-            if (customMinColor == 0 && customMiddleColor == 0 && customMaxColor == 0){
+            if (customMinColor == 0 && customMiddleColor == 0 && customMaxColor == 0) {
                 maxTemp = 50f
                 minTemp = 0f
                 isColorCustom = true

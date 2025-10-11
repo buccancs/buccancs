@@ -24,7 +24,7 @@ public interface OnYearPickedListener {
     /**
      * 已选择的日期
      *
-     * @param year  年
+     * @param year 年
      */
     void onYearPicked(int year);
 

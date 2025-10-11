@@ -68,7 +68,7 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
         rly_inspector_signature.setOnClickListener(this)
         rly_house_owner_signature.setOnClickListener(this)
 
-        if(cl_sign.isShown){
+        if (cl_sign.isShown) {
             val mAppBarChildAt: View = lay_appbar.getChildAt(0)
             val mAppBarParams = mAppBarChildAt.layoutParams as AppBarLayout.LayoutParams
             mAppBarParams.scrollFlags = 0

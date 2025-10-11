@@ -7,6 +7,7 @@ package com.topdon.libcom.util
 open class SingletonHolder<out T, in A>(creator: (A) -> T) {
 
     private var creator: ((A) -> T)? = creator
+
     @Volatile
     private var instance: T? = null
 

@@ -28,10 +28,10 @@ public class TestVideoActivity extends AppCompatActivity {
         int transportMode = 1;
         int sendOption = 1;
         PreferenceManager.getDefaultSharedPreferences(this)
-            .edit()
+                .edit()
                 .putBoolean("use-sw-codec", true)
                 .apply();
-        mRenderFragment = PlayFragment.newInstance(url,transportMode,sendOption,null);
+        mRenderFragment = PlayFragment.newInstance(url, transportMode, sendOption, null);
         getSupportFragmentManager().beginTransaction().add(R.id.render_holder, mRenderFragment).commit();
     }
 }

@@ -39,7 +39,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
     }
 
@@ -138,7 +138,6 @@ dependencies {
 //    prodTopdonApi Deps.lms2
 //    insideChinaApi Deps.lms3
 //    prodTopdonInsideChinaApi Deps.lms3
-
 
 
     //javacv

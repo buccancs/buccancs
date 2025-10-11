@@ -5,14 +5,16 @@ import java.util.LinkedHashMap;
 import com.shimmerresearch.driver.Configuration.COMMUNICATION_TYPE;
 import com.shimmerresearch.driver.ShimmerDevice;
 
-/** This interface allows dynamic loading of algorithms based on Shimmer version information. It also serves as a good location to load default settings into an  
+/**
+ * This interface allows dynamic loading of algorithms based on Shimmer version information. It also serves as a good location to load default settings into an
+ *
  * @author Mark Nolan
  *
  */
 public interface AlgorithmLoaderInterface {
-	
-	public void initialiseSupportedAlgorithms(ShimmerDevice shimmerDevice, COMMUNICATION_TYPE commType);
-	
-	public LinkedHashMap<String, AlgorithmDetails> getMapOfSupportedAlgorithms(ShimmerDevice shimmerDevice);
+
+    public void initialiseSupportedAlgorithms(ShimmerDevice shimmerDevice, COMMUNICATION_TYPE commType);
+
+    public LinkedHashMap<String, AlgorithmDetails> getMapOfSupportedAlgorithms(ShimmerDevice shimmerDevice);
 
 }

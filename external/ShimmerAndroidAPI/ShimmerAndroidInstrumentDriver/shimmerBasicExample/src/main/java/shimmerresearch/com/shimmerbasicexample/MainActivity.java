@@ -43,6 +43,96 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private final static String LOG_TAG = "ShimmerBasicExample";
     Shimmer shimmer;
     Spinner spinner;
+    /**
+     * Messages from the Shimmer device including sensor data are received here
+     */
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+                case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
+                    if ((msg.obj instanceof ObjectCluster)) {
+
+                        //Print data to Logcat
+                        ObjectCluster objectCluster = (ObjectCluster) msg.obj;
+
+                        //Retrieve all possible formats for the current sensor device:
+                        Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
+                        FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
+                        double timeStampData = timeStampCluster.mData;
+                        Log.i(LOG_TAG, "Time Stamp: " + timeStampData);
+                        allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X);
+                        FormatCluster accelXCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
+                        if (accelXCluster != null) {
+                            double accelXData = accelXCluster.mData;
+                            Log.i(LOG_TAG, "Accel LN X: " + accelXData);
+                        }
+
+                        Collection<FormatCluster> allFormatsPRR = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL);
+                        FormatCluster prrCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormatsPRR, "CAL"));
+                        double PRR = prrCluster.mData;
+                        Log.i(LOG_TAG, "Packet Reception Rate: " + PRR);
+
+                    }
+                    break;
+                case Shimmer.MESSAGE_TOAST:
+                    /** Toast messages sent from {@link Shimmer} are received here. E.g. device xxxx now streaming.
+                     *  Note that display of these Toast messages is done automatically in the Handler in {@link com.shimmerresearch.android.shimmerService.ShimmerService} */
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
+                    break;
+                case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
+                    ShimmerBluetooth.BT_STATE state = null;
+                    String macAddress = "";
+
+                    if (msg.obj instanceof ObjectCluster) {
+                        state = ((ObjectCluster) msg.obj).mState;
+                        macAddress = ((ObjectCluster) msg.obj).getMacAddress();
+                    } else if (msg.obj instanceof CallbackObject) {
+                        state = ((CallbackObject) msg.obj).mState;
+                        macAddress = ((CallbackObject) msg.obj).mBluetoothAddress;
+                    }
+
+                    switch (state) {
+                        case CONNECTED:
+                            if (shimmer.getFirmwareVersionCode() >= 8) {
+                                if (!spinner.isEnabled()) {
+                                    switch (shimmer.getCurrentBtCommsCrcMode()) {
+                                        case OFF:
+                                            spinner.setSelection(0);
+                                            break;
+                                        case ONE_BYTE_CRC:
+                                            spinner.setSelection(1);
+                                            break;
+                                        case TWO_BYTE_CRC:
+                                            spinner.setSelection(2);
+                                            break;
+                                        default:
+                                    }
+                                }
+                                spinner.setEnabled(true);
+                            }
+                            break;
+                        case CONNECTING:
+                            break;
+                        case STREAMING:
+                            spinner.setEnabled(false);
+                            break;
+                        case STREAMING_AND_SDLOGGING:
+                            break;
+                        case SDLOGGING:
+                            break;
+                        case DISCONNECTED:
+                            spinner.setEnabled(false);
+                            spinner.setSelection(0);
+                            break;
+                    }
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +176,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         } else {
 
         }
-        shimmer = new Shimmer(mHandler,MainActivity.this);
+        shimmer = new Shimmer(mHandler, MainActivity.this);
         spinner = (Spinner) findViewById(R.id.crcSpinner);
         spinner.setEnabled(false);
         // Spinner click listener
@@ -104,8 +194,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(spinner.isEnabled()){
-            switch(position) {
+        if (spinner.isEnabled()) {
+            switch (position) {
                 case 0:
                     shimmer.disableBtCommsCrc();
                     break;
@@ -130,12 +220,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     }
 
     public void disconnectDevice(View v) {
-        if (shimmer!=null){
+        if (shimmer != null) {
             shimmer.disconnect();
         }
     }
 
-    public void startStreaming(View v) throws InterruptedException, IOException{
+    public void startStreaming(View v) throws InterruptedException, IOException {
         try {
             shimmer.startStreaming();
         } catch (ShimmerException e) {
@@ -143,115 +233,24 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         }
     }
 
-    public void stopStreaming(View v) throws IOException{
+    public void stopStreaming(View v) throws IOException {
         shimmer.stopStreaming();
     }
 
-
-    /**
-     * Messages from the Shimmer device including sensor data are received here
-     */
-    Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            switch (msg.what) {
-                case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
-                    if ((msg.obj instanceof ObjectCluster)) {
-
-                        //Print data to Logcat
-                        ObjectCluster objectCluster = (ObjectCluster) msg.obj;
-
-                        //Retrieve all possible formats for the current sensor device:
-                        Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
-                        FormatCluster timeStampCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
-                        double timeStampData = timeStampCluster.mData;
-                        Log.i(LOG_TAG, "Time Stamp: " + timeStampData);
-                        allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X);
-                        FormatCluster accelXCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
-                        if (accelXCluster!=null) {
-                            double accelXData = accelXCluster.mData;
-                            Log.i(LOG_TAG, "Accel LN X: " + accelXData);
-                        }
-
-                        Collection<FormatCluster> allFormatsPRR = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL);
-                        FormatCluster prrCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormatsPRR,"CAL"));
-                        double PRR = prrCluster.mData;
-                        Log.i(LOG_TAG, "Packet Reception Rate: " + PRR);
-
-                    }
-                    break;
-                case Shimmer.MESSAGE_TOAST:
-                    /** Toast messages sent from {@link Shimmer} are received here. E.g. device xxxx now streaming.
-                     *  Note that display of these Toast messages is done automatically in the Handler in {@link com.shimmerresearch.android.shimmerService.ShimmerService} */
-                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
-                    break;
-                case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
-                    ShimmerBluetooth.BT_STATE state = null;
-                    String macAddress = "";
-
-                    if (msg.obj instanceof ObjectCluster) {
-                        state = ((ObjectCluster) msg.obj).mState;
-                        macAddress = ((ObjectCluster) msg.obj).getMacAddress();
-                    } else if (msg.obj instanceof CallbackObject) {
-                        state = ((CallbackObject) msg.obj).mState;
-                        macAddress = ((CallbackObject) msg.obj).mBluetoothAddress;
-                    }
-
-                    switch (state) {
-                        case CONNECTED:
-                            if(shimmer.getFirmwareVersionCode() >= 8){
-                                if(!spinner.isEnabled()){
-                                    switch(shimmer.getCurrentBtCommsCrcMode()) {
-                                        case OFF:
-                                            spinner.setSelection(0);
-                                            break;
-                                        case ONE_BYTE_CRC:
-                                            spinner.setSelection(1);
-                                            break;
-                                        case TWO_BYTE_CRC:
-                                            spinner.setSelection(2);
-                                            break;
-                                        default:
-                                    }
-                                }
-                                spinner.setEnabled(true);
-                            }
-                            break;
-                        case CONNECTING:
-                            break;
-                        case STREAMING:
-                            spinner.setEnabled(false);
-                            break;
-                        case STREAMING_AND_SDLOGGING:
-                            break;
-                        case SDLOGGING:
-                            break;
-                        case DISCONNECTED:
-                            spinner.setEnabled(false);
-                            spinner.setSelection(0);
-                            break;
-                    }
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
-
     /**
      * Get the result from the paired devices dialog
+     *
      * @param requestCode
      * @param resultCode
      * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 2) {
+        if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
                 //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                shimmer = new Shimmer(mHandler,MainActivity.this);
+                shimmer = new Shimmer(mHandler, MainActivity.this);
                 shimmer.connect(macAdd, "default");                  //Connect to the selected device
             }
 

@@ -11,6 +11,7 @@ import com.topdon.module.user.R;
 public class ActivityUtil {
     /**
      * 跳转系统浏览器
+     *
      * @param mContext 上下文
      */
     public static void goSystemCustomer(Context mContext) {
@@ -21,6 +22,7 @@ public class ActivityUtil {
 
     /**
      * 跳转系统浏览器
+     *
      * @param mContext 上下文
      */
     public static void goSystemBrowser(Context mContext, String url) {

@@ -65,28 +65,152 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         implements ChartInterface {
 
     public static final String LOG_TAG = "MPAndroidChart";
-
+    /**
+     * paint for the grid background (only line and barchart)
+     */
+    public static final int PAINT_GRID_BACKGROUND = 4;
+    /**
+     * paint for the info text that is displayed when there are no values in the
+     * chart
+     */
+    public static final int PAINT_INFO = 7;
+    /**
+     * paint for the description text in the bottom right corner
+     */
+    public static final int PAINT_DESCRIPTION = 11;
+    /**
+     * paint for the hole in the middle of the pie chart
+     */
+    public static final int PAINT_HOLE = 13;
+    /**
+     * paint for the text in the middle of the pie chart
+     */
+    public static final int PAINT_CENTER_TEXT = 14;
+    /**
+     * paint used for the legend
+     */
+    public static final int PAINT_LEGEND_LABEL = 18;
     /**
      * flag that indicates if logging is enabled or not
      */
     protected boolean mLogEnabled = false;
-
     /**
      * object that holds all data that was originally set for the chart, before
      * it was modified or any filtering algorithms had been applied
      */
     protected T mData = null;
-
     /**
      * Flag that indicates if highlighting per tap (touch) is enabled
      */
     protected boolean mHighLightPerTapEnabled = true;
+    /**
+     * default value-formatter, number of digits depends on provided chart-data
+     */
+    protected DefaultValueFormatter mDefaultValueFormatter = new DefaultValueFormatter(0);
+    /**
+     * paint object used for drawing the description text in the bottom right
+     * corner of the chart
+     */
+    protected Paint mDescPaint;
+    /**
+     * paint object for drawing the information text when there are no values in
+     * the chart
+     */
+    protected Paint mInfoPaint;
+    /**
+     * the object representing the labels on the x-axis
+     */
+    protected XAxis mXAxis;
+    /**
+     * if true, touch gestures are enabled on the chart
+     */
+    protected boolean mTouchEnabled = true;
+    /**
+     * the object responsible for representing the description text
+     */
+    protected Description mDescription;
+    /**
+     * the legend object containing all data associated with the legend
+     */
+    protected Legend mLegend;
+    /**
+     * listener that is called when a value on the chart is selected
+     */
+    protected OnChartValueSelectedListener mSelectionListener;
+    protected ChartTouchListener mChartTouchListener;
+    protected LegendRenderer mLegendRenderer;
+    /**
+     * object responsible for rendering the data
+     */
+    protected DataRenderer mRenderer;
+    protected IHighlighter mHighlighter;
+    /**
+     * object that manages the bounds and drawing constraints of the chart
+     */
+    protected ViewPortHandler mViewPortHandler = new ViewPortHandler();
+    /**
+     * object responsible for animations
+     */
+    protected ChartAnimator mAnimator;
+    /**
+     * array of Highlight objects that reference the highlighted slices in the
+     * chart
+     */
+    protected Highlight[] mIndicesToHighlight;
+    /**
+     * The maximum distance in dp away from an entry causing it to highlight.
+     */
+    protected float mMaxHighlightDistance = 0f;
+    /**
+     * if set to true, the marker view is drawn when a value is clicked
+     */
+    protected boolean mDrawMarkers = true;
 
+    // public void initWithDummyData() {
+    // ColorTemplate template = new ColorTemplate();
+    // template.addColorsForDataSets(ColorTemplate.COLORFUL_COLORS,
+    // getContext());
+    //
+    // setColorTemplate(template);
+    // setDrawYValues(false);
+    //
+    // ArrayList<String> xVals = new ArrayList<String>();
+    // Calendar calendar = Calendar.getInstance();
+    // for (int i = 0; i < 12; i++) {
+    // xVals.add(calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT,
+    // Locale.getDefault()));
+    // }
+    //
+    // ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
+    // for (int i = 0; i < 3; i++) {
+    //
+    // ArrayList<Entry> yVals = new ArrayList<Entry>();
+    //
+    // for (int j = 0; j < 12; j++) {
+    // float val = (float) (Math.random() * 100);
+    // yVals.add(new Entry(val, j));
+    // }
+    //
+    // DataSet set = new DataSet(yVals, "DataSet " + i);
+    // dataSets.add(set); // add the datasets
+    // }
+    // // create a data object with the datasets
+    // ChartData data = new ChartData(xVals, dataSets);
+    // setData(data);
+    // invalidate();
+    // }
+    /**
+     * the view that represents the marker
+     */
+    protected IMarker mMarker;
+    /**
+     * tasks to be done after the view is setup
+     */
+    protected ArrayList<Runnable> mJobs = new ArrayList<Runnable>();
     /**
      * If set to true, chart continues to scroll after touch up
      */
     private boolean mDragDecelerationEnabled = true;
-
     /**
      * Deceleration friction coefficient in [0 ; 1] interval, higher values
      * indicate that speed will decrease slowly, for example if it set to 0, it
@@ -94,80 +218,14 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      * 0.999f automatically.
      */
     private float mDragDecelerationFrictionCoef = 0.9f;
-
-    /**
-     * default value-formatter, number of digits depends on provided chart-data
-     */
-    protected DefaultValueFormatter mDefaultValueFormatter = new DefaultValueFormatter(0);
-
-    /**
-     * paint object used for drawing the description text in the bottom right
-     * corner of the chart
-     */
-    protected Paint mDescPaint;
-
-    /**
-     * paint object for drawing the information text when there are no values in
-     * the chart
-     */
-    protected Paint mInfoPaint;
-
-    /**
-     * the object representing the labels on the x-axis
-     */
-    protected XAxis mXAxis;
-
-    /**
-     * if true, touch gestures are enabled on the chart
-     */
-    protected boolean mTouchEnabled = true;
-
-    /**
-     * the object responsible for representing the description text
-     */
-    protected Description mDescription;
-
-    /**
-     * the legend object containing all data associated with the legend
-     */
-    protected Legend mLegend;
-
-    /**
-     * listener that is called when a value on the chart is selected
-     */
-    protected OnChartValueSelectedListener mSelectionListener;
-
-    protected ChartTouchListener mChartTouchListener;
-
     /**
      * text that is displayed when the chart is empty
      */
     private String mNoDataText = "No chart data available.";
-
     /**
      * Gesture listener for custom callbacks when making gestures on the chart.
      */
     private OnChartGestureListener mGestureListener;
-
-    protected LegendRenderer mLegendRenderer;
-
-    /**
-     * object responsible for rendering the data
-     */
-    protected DataRenderer mRenderer;
-
-    protected IHighlighter mHighlighter;
-
-    /**
-     * object that manages the bounds and drawing constraints of the chart
-     */
-    protected ViewPortHandler mViewPortHandler = new ViewPortHandler();
-
-    /**
-     * object responsible for animations
-     */
-    protected ChartAnimator mAnimator;
-
     /**
      * Extra offsets to be appended to the viewport
      */
@@ -175,6 +233,14 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             mExtraRightOffset = 0.f,
             mExtraBottomOffset = 0.f,
             mExtraLeftOffset = 0.f;
+    /**
+     * flag that indicates if offsets calculation has already been done or not
+     */
+    private boolean mOffsetsCalculated = false;
+    /**
+     * unbind flag
+     */
+    private boolean mUnbind = false;
 
     /**
      * default constructor for initialization in code
@@ -191,6 +257,11 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         super(context, attrs);
         init();
     }
+
+    /**
+     * ################ ################ ################ ################
+     */
+    /** BELOW THIS CODE FOR HIGHLIGHTING */
 
     /**
      * even more awesome constructor
@@ -237,70 +308,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
         if (mLogEnabled)
             Log.i("", "Chart.init()");
-    }
-
-    // public void initWithDummyData() {
-    // ColorTemplate template = new ColorTemplate();
-    // template.addColorsForDataSets(ColorTemplate.COLORFUL_COLORS,
-    // getContext());
-    //
-    // setColorTemplate(template);
-    // setDrawYValues(false);
-    //
-    // ArrayList<String> xVals = new ArrayList<String>();
-    // Calendar calendar = Calendar.getInstance();
-    // for (int i = 0; i < 12; i++) {
-    // xVals.add(calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT,
-    // Locale.getDefault()));
-    // }
-    //
-    // ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
-    // for (int i = 0; i < 3; i++) {
-    //
-    // ArrayList<Entry> yVals = new ArrayList<Entry>();
-    //
-    // for (int j = 0; j < 12; j++) {
-    // float val = (float) (Math.random() * 100);
-    // yVals.add(new Entry(val, j));
-    // }
-    //
-    // DataSet set = new DataSet(yVals, "DataSet " + i);
-    // dataSets.add(set); // add the datasets
-    // }
-    // // create a data object with the datasets
-    // ChartData data = new ChartData(xVals, dataSets);
-    // setData(data);
-    // invalidate();
-    // }
-
-    /**
-     * Sets a new data object for the chart. The data object contains all values
-     * and information needed for displaying.
-     *
-     * @param data
-     */
-    public void setData(T data) {
-
-        mData = data;
-        mOffsetsCalculated = false;
-
-        if (data == null) {
-            return;
-        }
-
-        // calculate how many digits are needed
-        setupDefaultFormatter(data.getYMin(), data.getYMax());
-
-        for (IDataSet set : mData.getDataSets()) {
-            if (set.needsFormatter() || set.getValueFormatter() == mDefaultValueFormatter)
-                set.setValueFormatter(mDefaultValueFormatter);
-        }
-
-        // let the chart know there is new data
-        notifyDataSetChanged();
-
-        if (mLogEnabled)
-            Log.i(LOG_TAG, "Data is set.");
     }
 
     /**
@@ -384,11 +391,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         mDefaultValueFormatter.setup(digits);
     }
 
-    /**
-     * flag that indicates if offsets calculation has already been done or not
-     */
-    private boolean mOffsetsCalculated = false;
-
     @Override
     protected void onDraw(Canvas canvas) {
         // super.onDraw(canvas);
@@ -441,22 +443,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             c.drawText(mDescription.getText(), x, y, mDescPaint);
         }
     }
-
-    /**
-     * ################ ################ ################ ################
-     */
-    /** BELOW THIS CODE FOR HIGHLIGHTING */
-
-    /**
-     * array of Highlight objects that reference the highlighted slices in the
-     * chart
-     */
-    protected Highlight[] mIndicesToHighlight;
-
-    /**
-     * The maximum distance in dp away from an entry causing it to highlight.
-     */
-    protected float mMaxHighlightDistance = 0f;
 
     @Override
     public float getMaxHighlightDistance() {
@@ -549,10 +535,16 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
+     * ################ ################ ################ ################
+     */
+    /** BELOW CODE IS FOR THE MARKER VIEW */
+
+    /**
      * Highlights any y-value at the given x-value in the given DataSet.
      * Provide -1 as the dataSetIndex to undo all highlighting.
      * This method will call the listener.
-     * @param x The x-value to highlight
+     *
+     * @param x            The x-value to highlight
      * @param dataSetIndex The dataset index to search in
      */
     public void highlightValue(float x, int dataSetIndex) {
@@ -563,8 +555,9 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      * Highlights the value at the given x-value and y-value in the given DataSet.
      * Provide -1 as the dataSetIndex to undo all highlighting.
      * This method will call the listener.
-     * @param x The x-value to highlight
-     * @param y The y-value to highlight. Supply `NaN` for "any"
+     *
+     * @param x            The x-value to highlight
+     * @param y            The y-value to highlight. Supply `NaN` for "any"
      * @param dataSetIndex The dataset index to search in
      */
     public void highlightValue(float x, float y, int dataSetIndex) {
@@ -574,7 +567,8 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     /**
      * Highlights any y-value at the given x-value in the given DataSet.
      * Provide -1 as the dataSetIndex to undo all highlighting.
-     * @param x The x-value to highlight
+     *
+     * @param x            The x-value to highlight
      * @param dataSetIndex The dataset index to search in
      * @param callListener Should the listener be called for this change
      */
@@ -585,8 +579,9 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     /**
      * Highlights any y-value at the given x-value in the given DataSet.
      * Provide -1 as the dataSetIndex to undo all highlighting.
-     * @param x The x-value to highlight
-     * @param y The y-value to highlight. Supply `NaN` for "any"
+     *
+     * @param x            The x-value to highlight
+     * @param y            The y-value to highlight. Supply `NaN` for "any"
      * @param dataSetIndex The dataset index to search in
      * @param callListener Should the listener be called for this change
      */
@@ -598,6 +593,12 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             highlightValue(new Highlight(x, y, dataSetIndex), callListener);
         }
     }
+
+    /**
+     * ################ ################ ################ ################
+     * ANIMATIONS ONLY WORK FOR API LEVEL 11 (Android 3.0.x) AND HIGHER.
+     */
+    /** CODE BELOW THIS RELATED TO ANIMATION */
 
     /**
      * Highlights the values represented by the provided Highlight object
@@ -676,6 +677,15 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
+     * Returns an instance of the currently active touch listener.
+     *
+     * @return
+     */
+    public ChartTouchListener getOnTouchListener() {
+        return mChartTouchListener;
+    }
+
+    /**
      * Set a new (e.g. custom) ChartTouchListener NOTE: make sure to
      * setTouchEnabled(true); if you need touch gestures on the chart
      *
@@ -686,28 +696,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * Returns an instance of the currently active touch listener.
-     *
-     * @return
-     */
-    public ChartTouchListener getOnTouchListener() {
-        return mChartTouchListener;
-    }
-
-    /**
      * ################ ################ ################ ################
+     * ANIMATIONS ONLY WORK FOR API LEVEL 11 (Android 3.0.x) AND HIGHER.
      */
-    /** BELOW CODE IS FOR THE MARKER VIEW */
-
-    /**
-     * if set to true, the marker view is drawn when a value is clicked
-     */
-    protected boolean mDrawMarkers = true;
-
-    /**
-     * the view that represents the marker
-     */
-    protected IMarker mMarker;
+    /** CODE BELOW FOR PROVIDING EASING FUNCTIONS */
 
     /**
      * draws all MarkerViews on the highlighted positions
@@ -744,8 +736,8 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
                 // draw the marker
                 mMarker.draw(canvas, pos[0], pos[1]);
-            }catch (Exception exception){
-                Log.e("测试",exception.getMessage());
+            } catch (Exception exception) {
+                Log.e("测试", exception.getMessage());
             }
         }
     }
@@ -762,12 +754,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * ################ ################ ################ ################
-     * ANIMATIONS ONLY WORK FOR API LEVEL 11 (Android 3.0.x) AND HIGHER.
-     */
-    /** CODE BELOW THIS RELATED TO ANIMATION */
-
-    /**
      * Returns the animator responsible for animating chart values.
      *
      * @return
@@ -782,6 +768,18 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     public boolean isDragDecelerationEnabled() {
         return mDragDecelerationEnabled;
     }
+
+    /**
+     * ################ ################ ################ ################
+     * ANIMATIONS ONLY WORK FOR API LEVEL 11 (Android 3.0.x) AND HIGHER.
+     */
+    /** CODE BELOW FOR PREDEFINED EASING OPTIONS */
+
+    /**
+     * ################ ################ ################ ################
+     * ANIMATIONS ONLY WORK FOR API LEVEL 11 (Android 3.0.x) AND HIGHER.
+     */
+    /** CODE BELOW FOR ANIMATIONS WITHOUT EASING */
 
     /**
      * If set to true, chart continues to scroll after touch up. Default: true.
@@ -822,9 +820,8 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
     /**
      * ################ ################ ################ ################
-     * ANIMATIONS ONLY WORK FOR API LEVEL 11 (Android 3.0.x) AND HIGHER.
      */
-    /** CODE BELOW FOR PROVIDING EASING FUNCTIONS */
+    /** BELOW THIS ONLY GETTERS AND SETTERS */
 
     /**
      * Animates the drawing / rendering of the chart on both x- and y-axis with
@@ -851,7 +848,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      *
      * @param durationMillisX
      * @param durationMillisY
-     * @param easing         a custom easing function to be used on the animation phase
+     * @param easing          a custom easing function to be used on the animation phase
      */
     @RequiresApi(11)
     public void animateXY(int durationMillisX, int durationMillisY, EasingFunction easing) {
@@ -885,18 +882,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     public void animateY(int durationMillis, EasingFunction easing) {
         mAnimator.animateY(durationMillis, easing);
     }
-
-    /**
-     * ################ ################ ################ ################
-     * ANIMATIONS ONLY WORK FOR API LEVEL 11 (Android 3.0.x) AND HIGHER.
-     */
-    /** CODE BELOW FOR PREDEFINED EASING OPTIONS */
-
-    /**
-     * ################ ################ ################ ################
-     * ANIMATIONS ONLY WORK FOR API LEVEL 11 (Android 3.0.x) AND HIGHER.
-     */
-    /** CODE BELOW FOR ANIMATIONS WITHOUT EASING */
 
     /**
      * Animates the rendering of the chart on the x-axis with the specified
@@ -939,12 +924,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * ################ ################ ################ ################
-     */
-    /** BELOW THIS ONLY GETTERS AND SETTERS */
-
-
-    /**
      * Returns the object representing all x-labels, this method can be used to
      * acquire the XAxis object and modify it (e.g. change the position of the
      * labels, styling, etc.)
@@ -975,6 +954,15 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
+     * Returns the custom gesture listener.
+     *
+     * @return
+     */
+    public OnChartGestureListener getOnChartGestureListener() {
+        return mGestureListener;
+    }
+
+    /**
      * Sets a gesture-listener for the chart for custom callbacks when executing
      * gestures on the chart surface.
      *
@@ -982,15 +970,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      */
     public void setOnChartGestureListener(OnChartGestureListener l) {
         this.mGestureListener = l;
-    }
-
-    /**
-     * Returns the custom gesture listener.
-     *
-     * @return
-     */
-    public OnChartGestureListener getOnChartGestureListener() {
-        return mGestureListener;
     }
 
     /**
@@ -1065,13 +1044,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * Set an extra offset to be appended to the viewport's top
-     */
-    public void setExtraTopOffset(float offset) {
-        mExtraTopOffset = Utils.convertDpToPixel(offset);
-    }
-
-    /**
      * @return the extra offset to be appended to the viewport's top
      */
     public float getExtraTopOffset() {
@@ -1079,10 +1051,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * Set an extra offset to be appended to the viewport's right
+     * Set an extra offset to be appended to the viewport's top
      */
-    public void setExtraRightOffset(float offset) {
-        mExtraRightOffset = Utils.convertDpToPixel(offset);
+    public void setExtraTopOffset(float offset) {
+        mExtraTopOffset = Utils.convertDpToPixel(offset);
     }
 
     /**
@@ -1093,10 +1065,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * Set an extra offset to be appended to the viewport's bottom
+     * Set an extra offset to be appended to the viewport's right
      */
-    public void setExtraBottomOffset(float offset) {
-        mExtraBottomOffset = Utils.convertDpToPixel(offset);
+    public void setExtraRightOffset(float offset) {
+        mExtraRightOffset = Utils.convertDpToPixel(offset);
     }
 
     /**
@@ -1107,10 +1079,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * Set an extra offset to be appended to the viewport's left
+     * Set an extra offset to be appended to the viewport's bottom
      */
-    public void setExtraLeftOffset(float offset) {
-        mExtraLeftOffset = Utils.convertDpToPixel(offset);
+    public void setExtraBottomOffset(float offset) {
+        mExtraBottomOffset = Utils.convertDpToPixel(offset);
     }
 
     /**
@@ -1121,13 +1093,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * Set this to true to enable logcat outputs for the chart. Beware that
-     * logcat output decreases rendering performance. Default: disabled.
-     *
-     * @param enabled
+     * Set an extra offset to be appended to the viewport's left
      */
-    public void setLogEnabled(boolean enabled) {
-        mLogEnabled = enabled;
+    public void setExtraLeftOffset(float offset) {
+        mExtraLeftOffset = Utils.convertDpToPixel(offset);
     }
 
     /**
@@ -1137,6 +1106,16 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      */
     public boolean isLogEnabled() {
         return mLogEnabled;
+    }
+
+    /**
+     * Set this to true to enable logcat outputs for the chart. Beware that
+     * logcat output decreases rendering performance. Default: disabled.
+     *
+     * @param enabled
+     */
+    public void setLogEnabled(boolean enabled) {
+        mLogEnabled = enabled;
     }
 
     /**
@@ -1178,15 +1157,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
     /**
-     * sets the marker that is displayed when a value is clicked on the chart
-     *
-     * @param marker
-     */
-    public void setMarker(IMarker marker) {
-        mMarker = marker;
-    }
-
-    /**
      * returns the marker that is set as a marker view for the chart
      *
      * @return
@@ -1195,9 +1165,13 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return mMarker;
     }
 
-    @Deprecated
-    public void setMarkerView(IMarker v) {
-        setMarker(v);
+    /**
+     * sets the marker that is displayed when a value is clicked on the chart
+     *
+     * @param marker
+     */
+    public void setMarker(IMarker marker) {
+        mMarker = marker;
     }
 
     @Deprecated
@@ -1205,13 +1179,9 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return getMarker();
     }
 
-    /**
-     * Sets a new Description object for the chart.
-     *
-     * @param desc
-     */
-    public void setDescription(Description desc) {
-        this.mDescription = desc;
+    @Deprecated
+    public void setMarkerView(IMarker v) {
+        setMarker(v);
     }
 
     /**
@@ -1222,6 +1192,15 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      */
     public Description getDescription() {
         return mDescription;
+    }
+
+    /**
+     * Sets a new Description object for the chart.
+     *
+     * @param desc
+     */
+    public void setDescription(Description desc) {
+        this.mDescription = desc;
     }
 
     /**
@@ -1273,37 +1252,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         if (parent != null)
             parent.requestDisallowInterceptTouchEvent(false);
     }
-
-    /**
-     * paint for the grid background (only line and barchart)
-     */
-    public static final int PAINT_GRID_BACKGROUND = 4;
-
-    /**
-     * paint for the info text that is displayed when there are no values in the
-     * chart
-     */
-    public static final int PAINT_INFO = 7;
-
-    /**
-     * paint for the description text in the bottom right corner
-     */
-    public static final int PAINT_DESCRIPTION = 11;
-
-    /**
-     * paint for the hole in the middle of the pie chart
-     */
-    public static final int PAINT_HOLE = 13;
-
-    /**
-     * paint for the text in the middle of the pie chart
-     */
-    public static final int PAINT_CENTER_TEXT = 14;
-
-    /**
-     * paint used for the legend
-     */
-    public static final int PAINT_LEGEND_LABEL = 18;
 
     /**
      * set a new paint object for the specified parameter in the chart e.g.
@@ -1380,6 +1328,36 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      */
     public T getData() {
         return mData;
+    }
+
+    /**
+     * Sets a new data object for the chart. The data object contains all values
+     * and information needed for displaying.
+     *
+     * @param data
+     */
+    public void setData(T data) {
+
+        mData = data;
+        mOffsetsCalculated = false;
+
+        if (data == null) {
+            return;
+        }
+
+        // calculate how many digits are needed
+        setupDefaultFormatter(data.getYMin(), data.getYMax());
+
+        for (IDataSet set : mData.getDataSets()) {
+            if (set.needsFormatter() || set.getValueFormatter() == mDefaultValueFormatter)
+                set.setValueFormatter(mDefaultValueFormatter);
+        }
+
+        // let the chart know there is new data
+        notifyDataSetChanged();
+
+        if (mLogEnabled)
+            Log.i(LOG_TAG, "Data is set.");
     }
 
     /**
@@ -1472,7 +1450,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      * @return returns true on success, false on error
      */
     public boolean saveToPath(String title, String pathOnSD) {
-
 
 
         Bitmap b = getChartBitmap();
@@ -1604,11 +1581,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return saveToGallery(fileName, "", "MPAndroidChart-Library Save", CompressFormat.PNG, 40);
     }
 
-    /**
-     * tasks to be done after the view is setup
-     */
-    protected ArrayList<Runnable> mJobs = new ArrayList<Runnable>();
-
     public void removeViewportJob(Runnable job) {
         mJobs.remove(job);
     }
@@ -1713,11 +1685,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         if (mUnbind)
             unbindDrawables(this);
     }
-
-    /**
-     * unbind flag
-     */
-    private boolean mUnbind = false;
 
     /**
      * Unbind all drawables to avoid memory leaks.

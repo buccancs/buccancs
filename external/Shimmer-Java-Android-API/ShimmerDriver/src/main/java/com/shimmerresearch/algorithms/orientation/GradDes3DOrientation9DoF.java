@@ -2,7 +2,7 @@ package com.shimmerresearch.algorithms.orientation;
 
 
 /* Rev 0.2
- * 
+ *
  * Madgwick, Sebastian OH, Andrew JL Harrison, and Ravi Vaidyanathan. "Estimation of imu and marg orientation using a gradient descent algorithm." Rehabilitation Robotics (ICORR), 2011 IEEE International Conference on. IEEE, 2011.
  *
  * 3D orientation code taken from https://code.google.com/p/labview-quaternion-ahrs/ which is licensed under GNU_Lesser_GPL
@@ -38,39 +38,39 @@ package com.shimmerresearch.algorithms.orientation;
  *
  * @author Jong Chern Lim
  * @date   October, 2013
- * 
- * 
- * Changes since Rev 0.1 
+ *
+ *
+ * Changes since Rev 0.1
  * - updated java doc
- * 
+ *
  */
 
 /**
- * Use GradDes3DOrientation directly instead 
+ * Use GradDes3DOrientation directly instead
  */
 @Deprecated
-public class GradDes3DOrientation9DoF extends GradDes3DOrientation{
+public class GradDes3DOrientation9DoF extends GradDes3DOrientation {
 
-	/**
-	 * @param samplingPeriod
-	 * @see GradDes3DOrientation
-	 */
-	public GradDes3DOrientation9DoF(double samplingPeriod) {
-		super(samplingPeriod);
-	}
+    /**
+     * @param samplingPeriod
+     * @see GradDes3DOrientation
+     */
+    public GradDes3DOrientation9DoF(double samplingPeriod) {
+        super(samplingPeriod);
+    }
 
-	/**
-	 * @param beta
-	 * @param samplingPeriod
-	 * @param q0
-	 * @param q1
-	 * @param q2
-	 * @param q3
-	 * @see GradDes3DOrientation
-	 */
-	public GradDes3DOrientation9DoF(double beta, double samplingPeriod, double q0, double q1, double q2, double q3) {
-		super(beta, samplingPeriod, q0, q1, q2, q3);
-	}
+    /**
+     * @param beta
+     * @param samplingPeriod
+     * @param q0
+     * @param q1
+     * @param q2
+     * @param q3
+     * @see GradDes3DOrientation
+     */
+    public GradDes3DOrientation9DoF(double beta, double samplingPeriod, double q0, double q1, double q2, double q3) {
+        super(beta, samplingPeriod, q0, q1, q2, q3);
+    }
 
 
 }

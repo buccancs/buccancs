@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 public class AppUtils {
     /**
      * 通过反射类执行静态方法
+     *
      * @param className
      * @param methodName
      */
@@ -17,7 +18,8 @@ public class AppUtils {
             Class<?> clazz = Class.forName(className);
             Method method = clazz.getMethod(methodName);
             method.invoke(null);
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException |
+                 InvocationTargetException e) {
             e.printStackTrace();
         }
     }

@@ -59,7 +59,7 @@ import java.util.*
  * - 当前编辑的图片点线面全图温度数据: [ExtraKeyConfig.IMAGE_TEMP_BEAN] （本界面不使用，透传）
  */
 @Route(path = RouterConfig.REPORT_CREATE_FIRST)
-class ReportCreateFirstActivity: BaseActivity(), View.OnClickListener {
+class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
 
     /**
      * 从上一界面传递过来的，当前是否为 TC007 设备类型.
@@ -168,6 +168,7 @@ class ReportCreateFirstActivity: BaseActivity(), View.OnClickListener {
             tv_report_date -> {//报告日期
                 selectTime()
             }
+
             tv_preview -> {//预览
                 val reportInfoBean = buildReportInfo()
                 val reportConditionBean = buildReportCondition()
@@ -176,18 +177,23 @@ class ReportCreateFirstActivity: BaseActivity(), View.OnClickListener {
                     .withParcelable(ExtraKeyConfig.REPORT_CONDITION, reportConditionBean)
                     .navigation(this)
             }
+
             tv_next -> {//下一步
                 val reportInfoBean = buildReportInfo()
                 val reportConditionBean = buildReportCondition()
                 val imageTempBean: ImageTempBean? = intent.getParcelableExtra(ExtraKeyConfig.IMAGE_TEMP_BEAN)
                 ARouter.getInstance().build(RouterConfig.REPORT_CREATE_SECOND)
                     .withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
-                    .withString(ExtraKeyConfig.FILE_ABSOLUTE_PATH, intent.getStringExtra(ExtraKeyConfig.FILE_ABSOLUTE_PATH))
+                    .withString(
+                        ExtraKeyConfig.FILE_ABSOLUTE_PATH,
+                        intent.getStringExtra(ExtraKeyConfig.FILE_ABSOLUTE_PATH)
+                    )
                     .withParcelable(ExtraKeyConfig.IMAGE_TEMP_BEAN, imageTempBean)
                     .withParcelable(ExtraKeyConfig.REPORT_INFO, reportInfoBean)
                     .withParcelable(ExtraKeyConfig.REPORT_CONDITION, reportConditionBean)
                     .navigation(this)
             }
+
             img_location -> {
                 checkLocationPermission()
             }
@@ -195,7 +201,7 @@ class ReportCreateFirstActivity: BaseActivity(), View.OnClickListener {
     }
 
     @SuppressLint("MissingPermission")
-    private fun getLocation() : String? {
+    private fun getLocation(): String? {
         //1.获取位置管理器
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
@@ -211,12 +217,12 @@ class ReportCreateFirstActivity: BaseActivity(), View.OnClickListener {
             return null
         }
         var location = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if (location == null){
+        if (location == null) {
             location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         }
-        return if (location == null){
+        return if (location == null) {
             null
-        }else{
+        } else {
             getAddress(location)
 
         }
@@ -238,27 +244,27 @@ class ReportCreateFirstActivity: BaseActivity(), View.OnClickListener {
             e.printStackTrace()
         }
         var str = ""
-        if (result!=null && result.isNotEmpty()){
+        if (result != null && result.isNotEmpty()) {
             result?.get(0)?.let {
-                str +=  getNullString(it.adminArea)
-                if (TextUtils.isEmpty(it.subLocality) && !str.contains(getNullString(it.subAdminArea))){
-                    str +=  getNullString(it.subAdminArea)
+                str += getNullString(it.adminArea)
+                if (TextUtils.isEmpty(it.subLocality) && !str.contains(getNullString(it.subAdminArea))) {
+                    str += getNullString(it.subAdminArea)
                 }
-                if (!str.contains(getNullString(it.locality))){
-                    str +=  getNullString(it.locality)
+                if (!str.contains(getNullString(it.locality))) {
+                    str += getNullString(it.locality)
                 }
-                if (!str.contains(getNullString(it.subLocality))){
-                    str +=  getNullString(it.subLocality)
+                if (!str.contains(getNullString(it.subLocality))) {
+                    str += getNullString(it.subLocality)
                 }
             }
         }
         return str
     }
 
-    private fun getNullString(str : String?):String{
-        return if (str.isNullOrEmpty()){
+    private fun getNullString(str: String?): String {
+        return if (str.isNullOrEmpty()) {
             ""
-        }else{
+        } else {
             str
         }
     }
@@ -294,11 +300,11 @@ class ReportCreateFirstActivity: BaseActivity(), View.OnClickListener {
     }
 
 
-
     /**
      * 当前设置的报告日期时间戳.
      */
     private var startTime = 0L
+
     /**
      * 显示时间拾取弹窗
      */
@@ -364,42 +370,43 @@ class ReportCreateFirstActivity: BaseActivity(), View.OnClickListener {
                 permissionList
             ).request(object : OnPermissionCallback {
                 override fun onGranted(permissions: MutableList<String>, all: Boolean) {
-                    if (all){
+                    if (all) {
                         showLoadingDialog(R.string.get_current_address)
-                        lifecycleScope.launch{
-                            var addressText : String ?= ""
-                            withContext(Dispatchers.IO){
-                                addressText =  getLocation()
+                        lifecycleScope.launch {
+                            var addressText: String? = ""
+                            withContext(Dispatchers.IO) {
+                                addressText = getLocation()
                             }
                             dismissLoadingDialog()
-                            if (addressText == null){
+                            if (addressText == null) {
                                 TipDialog.Builder(this@ReportCreateFirstActivity)
                                     .setMessage(R.string.get_Location_failed)
                                     .setPositiveListener(R.string.app_ok)
                                     .setCanceled(false)
                                     .create().show()
-                            }else{
+                            } else {
                                 et_report_place.setText(addressText)
                             }
                         }
-                    }else{
+                    } else {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
+
                 override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                     if (never) {
                         // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        if (BaseApplication.instance.isDomestic()){
+                        if (BaseApplication.instance.isDomestic()) {
                             ToastUtils.showShort(getString(R.string.app_location_content))
                             return
                         }
                         TipDialog.Builder(this@ReportCreateFirstActivity)
                             .setTitleMessage(getString(R.string.app_tip))
                             .setMessage(getString(R.string.app_location_content))
-                            .setPositiveListener(R.string.app_open){
+                            .setPositiveListener(R.string.app_open) {
                                 XXPermissions.startPermissionActivity(this@ReportCreateFirstActivity, permissions);
                             }
-                            .setCancelListener(R.string.app_cancel){
+                            .setCancelListener(R.string.app_cancel) {
                             }
                             .setCanceled(true)
                             .create().show()

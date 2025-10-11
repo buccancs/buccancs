@@ -31,24 +31,28 @@ object EncodeYuvTools {
                 inputWidth,
                 inputHeight
             )
+
             COLOR_FormatYUV420Planar -> encodeYUV420P(
                 yuv,
                 argb,
                 inputWidth,
                 inputHeight
             )
+
             COLOR_FormatYUV420PackedSemiPlanar -> encodeYUV420PSP(
                 yuv,
                 argb,
                 inputWidth,
                 inputHeight
             )
+
             COLOR_FormatYUV420PackedPlanar -> encodeYUV420PP(
                 yuv,
                 argb,
                 inputWidth,
                 inputHeight
             )
+
             else -> encodeYUV420SP(
                 yuv,
                 argb,

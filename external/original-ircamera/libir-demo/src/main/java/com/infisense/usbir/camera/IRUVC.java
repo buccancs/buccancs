@@ -18,7 +18,7 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //
 //import java.util.List;
 //
-///**
+/// **
 // * 红外出图核心工具类
 // */
 //public class IRUVC {

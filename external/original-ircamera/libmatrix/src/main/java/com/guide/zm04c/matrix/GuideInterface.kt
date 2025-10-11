@@ -292,15 +292,15 @@ class GuideInterface {
             return
         }
         mNativeGuideCore!!.yuv2Bitmap(bitmap!!, yuv!!)
-/*
-        long time = System.currentTimeMillis();
-        count++;
-        if(count >= 1000 && count< 1030) {
-            FileUtils.Companion.saveFile(mFrame, "/sdcard/frame/" + time + ".raw", false);
-            FileUtils.Companion.saveFile(mYuv, "/sdcard/yuv/" + time + ".yuv", false);
-            FileUtils.Companion.saveBitmap2JpegFile(bitmap, "/sdcard/yuv/" + time + ".jpg");
-        }
-*/
+        /*
+                long time = System.currentTimeMillis();
+                count++;
+                if(count >= 1000 && count< 1030) {
+                    FileUtils.Companion.saveFile(mFrame, "/sdcard/frame/" + time + ".raw", false);
+                    FileUtils.Companion.saveFile(mYuv, "/sdcard/yuv/" + time + ".yuv", false);
+                    FileUtils.Companion.saveBitmap2JpegFile(bitmap, "/sdcard/yuv/" + time + ".jpg");
+                }
+        */
     }
 
     fun saveTempMatrix(path: String?) {

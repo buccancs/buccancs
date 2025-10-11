@@ -10,8 +10,7 @@ import java.text.DecimalFormat;
  * A formatter specifically for stacked BarChart that allows to specify whether the all stack values
  * or just the top value should be drawn.
  */
-public class StackedValueFormatter extends ValueFormatter
-{
+public class StackedValueFormatter extends ValueFormatter {
 
     /**
      * if true, all stack values of the stacked bar entry are drawn, else only top

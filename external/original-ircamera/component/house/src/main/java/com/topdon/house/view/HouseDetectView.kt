@@ -35,6 +35,7 @@ class HouseDetectView : FrameLayout {
      * 所有目录列表，仅用于全部收起及全部展开调用.
      */
     private var dirList: ArrayList<DirDetect> = ArrayList()
+
     /**
      * 目录+项目拆开的列表.
      */
@@ -59,7 +60,12 @@ class HouseDetectView : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes:Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         titleView = LayoutInflater.from(context).inflate(R.layout.item_report_add_head, this, false)
         titleView.isVisible = false
 
@@ -91,10 +97,12 @@ class HouseDetectView : FrameLayout {
      * 指定 position 位置的目录复制事件监听.
      */
     var onDirCopyListener: ((pair: Pair<Int, DirDetect>) -> Unit)? = null
+
     /**
      * 指定 position 位置的项目复制事件监听.
      */
     var onItemCopyListener: ((pair: Pair<Int, ItemDetect>) -> Unit)? = null
+
     /**
      * 指定 position 位置的项目删除事件监听.
      */
@@ -105,6 +113,7 @@ class HouseDetectView : FrameLayout {
      * 某个 item 的添加图片按钮点击事件监听.
      */
     var onImageAddListener: ((layoutIndex: Int, v: View, item: ItemDetect) -> Unit)? = null
+
     /**
      * 某个 item 的输入文字按钮点击事件监听.
      */
@@ -115,10 +124,12 @@ class HouseDetectView : FrameLayout {
      * 一个目录发生变更事件(3种状态数量变更)监听.
      */
     var onDirChangeListener: ((dirDetect: DirDetect) -> Unit)? = null
+
     /**
      * 一个目录展开或收起变更事件监听.
      */
     var onDirExpandListener: ((isExpand: Boolean) -> Unit)? = null
+
     /**
      * 一个项目发生变更(3种状态变更、图片删除)事件监听.
      */
@@ -222,8 +233,6 @@ class HouseDetectView : FrameLayout {
     }
 
 
-
-
     private inner class MyAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         /**
          * 切换 position 处目录的展开收起状态
@@ -258,9 +267,13 @@ class HouseDetectView : FrameLayout {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return if (viewType == 0) {
-                HeadViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_add_head, parent, false))
+                HeadViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_report_add_head, parent, false)
+                )
             } else {
-                ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_add_default, parent, false))
+                ItemViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_report_add_default, parent, false)
+                )
             }
         }
 
@@ -287,7 +300,8 @@ class HouseDetectView : FrameLayout {
                 holder.itemView.iv_del_image3.isVisible = itemDetect.image3.isNotEmpty()
                 holder.itemView.iv_image4.isVisible = itemDetect.image4.isNotEmpty()
                 holder.itemView.iv_del_image4.isVisible = itemDetect.image4.isNotEmpty()
-                holder.itemView.tv_image_count_tips.text = SpanBuilder(itemDetect.getImageSize().toString()).appendColor("/4", 0x80ffffff.toInt())
+                holder.itemView.tv_image_count_tips.text =
+                    SpanBuilder(itemDetect.getImageSize().toString()).appendColor("/4", 0x80ffffff.toInt())
                 if (itemDetect.image1.isNotEmpty()) {
                     Glide.with(context).load(itemDetect.image1).into(holder.itemView.iv_image1)
                 }
@@ -485,13 +499,24 @@ class HouseDetectView : FrameLayout {
     }
 
     private inner class MyOnLayoutChangeListener : OnLayoutChangeListener {
-        override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+        override fun onLayoutChange(
+            v: View?,
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int,
+            oldLeft: Int,
+            oldTop: Int,
+            oldRight: Int,
+            oldBottom: Int
+        ) {
             val seeFirstPosition = layoutManager.findFirstVisibleItemPosition()
             if (seeFirstPosition == RecyclerView.NO_POSITION || seeFirstPosition >= dataList.size) {
                 return
             }
             // notify 后旧 currentPosition 已不准确，需要刷新
-            currentPosition = if (dataList[seeFirstPosition] is DirDetect) seeFirstPosition else findDirPosition(seeFirstPosition)
+            currentPosition =
+                if (dataList[seeFirstPosition] is DirDetect) seeFirstPosition else findDirPosition(seeFirstPosition)
             titleView.translationY = 0f
             adapter.refreshDir(titleView, dataList[currentPosition] as DirDetect)
             onScrollListener.onScrolled(recyclerView, 0, 0)

@@ -22,41 +22,33 @@ import java.util.UUID;
  * Created by fengjibo on 2024/2/1.
  */
 public class RectDraw extends BaseDraw {
-    private static final String TAG = "BaseTemperatureView RectDraw";
-
-    private static final int MAX_RECT_COUNT = 3;
     public static final int OPERATE_STATUS_RECTANGLE_LEFT_TOP_CORNER = 0;
     public static final int OPERATE_STATUS_RECTANGLE_RIGHT_TOP_CORNER = 1;
     public static final int OPERATE_STATUS_RECTANGLE_RIGHT_BOTTOM_CORNER = 2;
     public static final int OPERATE_STATUS_RECTANGLE_LEFT_BOTTOM_CORNER = 3;
-
     public static final int OPERATE_STATUS_RECTANGLE_LEFT_EDGE = 4;
     public static final int OPERATE_STATUS_RECTANGLE_TOP_EDGE = 5;
     public static final int OPERATE_STATUS_RECTANGLE_RIGHT_EDGE = 6;
     public static final int OPERATE_STATUS_RECTANGLE_BOTTOM_EDGE = 7;
-
     public static final int OPERATE_STATUS_RECTANGLE_MOVE_ENTIRE = 8;
     public static final int OPERATE_STATUS_RECTANGLE_STATUS_ADD = 9;
     public static final int OPERATE_STATUS_RECTANGLE_STATUS_REMOVE = 10;
-
+    private static final String TAG = "BaseTemperatureView RectDraw";
+    private static final int MAX_RECT_COUNT = 3;
+    private final static int PIXCOUNT = 8;
+    private final int STROKE_WIDTH = 8;
+    private final int TEXT_SIZE = 14; // 文字大小
+    private final int TOUCH_TOLERANCE = 48;
     private LinkedList<RectView> mRectList;
     private Paint mRectPaint;
     private int LINE_STROKE_WIDTH;
-
     private Paint mBgPaint;
     private Paint.FontMetrics mFontMetrics;
     private Paint mTextPaint;
     private int mBgStrokeColor = Color.parseColor("#99000000");
     private int mBgColor = Color.parseColor("#CC1A1A1A");
-
-    private final int STROKE_WIDTH = 8;
-    private final int TEXT_SIZE = 14; // 文字大小
-    private final int TOUCH_TOLERANCE = 48;
     private RectView mTempRect;
-
     private int mOperateStatus = -1;
-
-    private final static int PIXCOUNT = 8;
 
     public RectDraw(Context context) {
         super(context);
@@ -92,6 +84,7 @@ public class RectDraw extends BaseDraw {
 
     /**
      * 添加一个矩形数据
+     *
      * @param startX
      * @param startY
      * @param endX
@@ -106,7 +99,7 @@ public class RectDraw extends BaseDraw {
                 String newLabel = "R" + (size + 1);
                 Log.d(TAG, "addRect newLabel : " + newLabel);
                 boolean hasSame = false;
-                for (int i = 0; i < mRectList.size(); i ++) {
+                for (int i = 0; i < mRectList.size(); i++) {
                     if (mRectList.get(i).getLabel().equals(newLabel)) {
                         //存在一样的
                         hasSame = true;
@@ -117,7 +110,7 @@ public class RectDraw extends BaseDraw {
 
                 if (hasSame) {
                     mRectList.add(rectView);
-                    for (int i = 0; i < mRectList.size(); i ++) {
+                    for (int i = 0; i < mRectList.size(); i++) {
                         mRectList.get(i).setLabel("R" + (i + 1));
                     }
                 } else {
@@ -130,7 +123,7 @@ public class RectDraw extends BaseDraw {
                 Log.d(TAG, "Rect remove and add");
                 mRectList.remove();
                 mRectList.add(rectView);
-                for (int i = 0; i < mRectList.size(); i ++) {
+                for (int i = 0; i < mRectList.size(); i++) {
                     mRectList.get(i).setLabel("R" + (i + 1));
                 }
                 mTouchIndex = MAX_RECT_COUNT - 1;
@@ -140,6 +133,7 @@ public class RectDraw extends BaseDraw {
 
     /**
      * 删除一个矩形数据
+     *
      * @param index
      */
     public void removeRect(int index) {
@@ -158,6 +152,7 @@ public class RectDraw extends BaseDraw {
 
     /**
      * 更新选中框的手势位置状态
+     *
      * @param startX
      * @param startY
      */
@@ -189,6 +184,7 @@ public class RectDraw extends BaseDraw {
 
     /**
      * 修改选中的框坐标
+     *
      * @param touchIndex
      * @param moveX
      * @param moveY
@@ -206,16 +202,16 @@ public class RectDraw extends BaseDraw {
         float rectBottom = rectView.mRect.bottom + moveY > mViewHeight ? mViewHeight : rectView.mRect.bottom + moveY;
 
         if (mOperateStatus == OPERATE_STATUS_RECTANGLE_MOVE_ENTIRE) {
-            mRectList.get(touchIndex).changeLocation((int)rectLeft, (int)rectTop, (int)rectRight, (int)rectBottom);
+            mRectList.get(touchIndex).changeLocation((int) rectLeft, (int) rectTop, (int) rectRight, (int) rectBottom);
         }
         if (mOperateStatus == OPERATE_STATUS_RECTANGLE_LEFT_EDGE) {
             if (rectLeft == rectRight) {
                 rectLeft -= PIXCOUNT;
             }
             if (rectView.mMovingRight < rectLeft) {
-                mRectList.get(touchIndex).changeLocation(rectView.mMovingRight, rectView.mMovingTop, (int)rectLeft, rectView.mMovingBottom);
+                mRectList.get(touchIndex).changeLocation(rectView.mMovingRight, rectView.mMovingTop, (int) rectLeft, rectView.mMovingBottom);
             } else {
-                mRectList.get(touchIndex).changeLocation((int)rectLeft, rectView.mMovingTop, rectView.mMovingRight, rectView.mMovingBottom);
+                mRectList.get(touchIndex).changeLocation((int) rectLeft, rectView.mMovingTop, rectView.mMovingRight, rectView.mMovingBottom);
             }
         }
         if (mOperateStatus == OPERATE_STATUS_RECTANGLE_TOP_EDGE) {
@@ -224,9 +220,9 @@ public class RectDraw extends BaseDraw {
             }
 
             if (rectView.mMovingBottom < rectView.mMovingLeft) {
-                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, rectView.mMovingBottom, rectView.mMovingRight, (int)rectTop);
+                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, rectView.mMovingBottom, rectView.mMovingRight, (int) rectTop);
             } else {
-                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, (int)rectTop, rectView.mMovingRight, rectView.mMovingBottom);
+                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, (int) rectTop, rectView.mMovingRight, rectView.mMovingBottom);
             }
         }
         if (mOperateStatus == OPERATE_STATUS_RECTANGLE_RIGHT_EDGE) {
@@ -234,9 +230,9 @@ public class RectDraw extends BaseDraw {
                 rectRight += PIXCOUNT;
             }
             if (rectRight < rectView.mMovingLeft) {
-                mRectList.get(touchIndex).changeLocation((int)rectRight, rectView.mMovingTop, rectView.mMovingLeft, rectView.mMovingBottom);
+                mRectList.get(touchIndex).changeLocation((int) rectRight, rectView.mMovingTop, rectView.mMovingLeft, rectView.mMovingBottom);
             } else {
-                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, rectView.mMovingTop, (int)rectRight, rectView.mMovingBottom);
+                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, rectView.mMovingTop, (int) rectRight, rectView.mMovingBottom);
             }
         }
         if (mOperateStatus == OPERATE_STATUS_RECTANGLE_BOTTOM_EDGE) {
@@ -244,13 +240,13 @@ public class RectDraw extends BaseDraw {
                 rectBottom += PIXCOUNT;
             }
             if (rectBottom < rectView.mMovingTop) {
-                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, (int)rectBottom, rectView.mMovingRight, rectView.mRect.top);
+                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, (int) rectBottom, rectView.mMovingRight, rectView.mRect.top);
             } else {
-                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, rectView.mRect.top, rectView.mMovingRight, (int)rectBottom);
+                mRectList.get(touchIndex).changeLocation(rectView.mMovingLeft, rectView.mRect.top, rectView.mMovingRight, (int) rectBottom);
             }
         }
         if (mOperateStatus == OPERATE_STATUS_RECTANGLE_LEFT_TOP_CORNER) {
-            tmpLeft = (int)rectLeft;
+            tmpLeft = (int) rectLeft;
             tmpRight = rectView.mMovingRight;
             if (rectView.mMovingRight < rectLeft) {
                 tmp = tmpLeft;
@@ -268,7 +264,7 @@ public class RectDraw extends BaseDraw {
         }
         if (mOperateStatus == OPERATE_STATUS_RECTANGLE_RIGHT_TOP_CORNER) {
             tmpLeft = rectView.mMovingLeft;
-            tmpRight = (int)rectRight;
+            tmpRight = (int) rectRight;
             if (rectRight < rectView.mMovingLeft) {
                 tmp = tmpLeft;
                 tmpLeft = tmpRight;
@@ -286,7 +282,7 @@ public class RectDraw extends BaseDraw {
         }
         if (mOperateStatus == OPERATE_STATUS_RECTANGLE_RIGHT_BOTTOM_CORNER) {
             tmpLeft = rectView.mMovingLeft;
-            tmpRight = (int)rectRight;
+            tmpRight = (int) rectRight;
 
             if (rectRight < rectView.mMovingLeft) {
                 tmp = tmpLeft;
@@ -324,7 +320,7 @@ public class RectDraw extends BaseDraw {
 
     @Override
     void onDraw(Canvas canvas, boolean isScroll) {
-        for (int i = 0; i < mRectList.size(); i ++) {
+        for (int i = 0; i < mRectList.size(); i++) {
             RectView rectView = mRectList.get(i);
 
             drawLabel(canvas, rectView);
@@ -343,6 +339,7 @@ public class RectDraw extends BaseDraw {
 
     /**
      * 绘制临时点
+     *
      * @param canvas
      * @param startX
      * @param startY
@@ -363,13 +360,14 @@ public class RectDraw extends BaseDraw {
 
     /**
      * 检查当前是否存在手势选中的框
+     *
      * @param x
      * @param y
      * @return
      */
     public int checkTouchRectInclude(int x, int y) {
         mTouchIndex = -1;
-        for (int i = 0; i < mRectList.size(); i ++) {
+        for (int i = 0; i < mRectList.size(); i++) {
             RectView rectView = mRectList.get(i);
 
             if (rectView.mRect.contains(x, y)) {
@@ -397,7 +395,8 @@ public class RectDraw extends BaseDraw {
         RectF tempRectF = new RectF();
 
         tempRectF.top = rectView.mMovingTop + (float) (rectView.mMovingBottom - rectView.mMovingTop) / 2;
-        tempRectF.bottom = rectView.mMovingTop + (float) (rectView.mMovingBottom - rectView.mMovingTop) / 2;;
+        tempRectF.bottom = rectView.mMovingTop + (float) (rectView.mMovingBottom - rectView.mMovingTop) / 2;
+        ;
         tempRectF.left = rectView.mMovingLeft + (float) (rectView.mMovingRight - rectView.mMovingLeft) / 2;
         tempRectF.right = rectView.mMovingLeft + (float) (rectView.mMovingRight - rectView.mMovingLeft) / 2;
 
@@ -444,9 +443,13 @@ public class RectDraw extends BaseDraw {
         return rectF;
     }
 
+    public LinkedList<RectView> getRectViewList() {
+        return mRectList;
+    }
+
     public static class RectView extends BaseView {
-        private Rect mRect;
         private static final float TOUCH_EXTRA = 10;//额外的触摸范围
+        private Rect mRect;
         private Bitmap mHighPointBitmap;
         private Bitmap mLowPointBitmap;
         private Point mHighTempPoint;
@@ -534,9 +537,5 @@ public class RectDraw extends BaseDraw {
         public void setMovingRight(int mMovingRight) {
             this.mMovingRight = mMovingRight;
         }
-    }
-
-    public LinkedList<RectView> getRectViewList() {
-        return mRectList;
     }
 }

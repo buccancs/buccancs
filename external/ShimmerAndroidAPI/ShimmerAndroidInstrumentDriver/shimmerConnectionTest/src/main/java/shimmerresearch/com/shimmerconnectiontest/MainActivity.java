@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
 
     private final static String LOG_TAG = "ShimmerConnectionTest";
     ShimmerBluetoothManagerAndroid btManager;
+    HashMap<Integer, Integer> ResultMap = new HashMap<>(); //-1,0,1 , unknown, fail, pass
     private EditText editTextShimmerStatus;
     private EditText editTextInterval;
     private EditText editTextSuccessCount;
@@ -51,7 +52,6 @@ public class MainActivity extends Activity {
     private EditText editTextRetryCountLimit;
     private EditText editTextRetryCount;
     private EditText editTextTotalRetries;
-
     private int interval = 0;
     private int successCount = 0;
     private int failureCount = 0;
@@ -61,12 +61,10 @@ public class MainActivity extends Activity {
     private int retryCountLimit = 5;
     private int durationBetweenTest = 1;
     private int totalRetries = 0;
-
     private String macAdd;
     private boolean isCurrentIterationSuccess;
     private boolean isTestStarted = false;
     private Timer timer;
-    HashMap<Integer,Integer> ResultMap = new HashMap<>(); //-1,0,1 , unknown, fail, pass
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +109,7 @@ public class MainActivity extends Activity {
         }
         if (!permissionGranted) {
             // Should we show an explanation?
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_SCAN,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, 110);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
 
         } else {
             //startServiceandBTManager();
@@ -119,17 +117,17 @@ public class MainActivity extends Activity {
 
     }
 
-    public void startTest(View v){
-        if(!isTestStarted){
+    public void startTest(View v) {
+        if (!isTestStarted) {
             totalRetries = 0;
-            if (btManager==null) {
+            if (btManager == null) {
                 try {
                     btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            if (btManager.getShimmer(macAdd)!=null) {
+            if (btManager.getShimmer(macAdd) != null) {
                 btManager.disconnectShimmer(macAdd);
             }
             Intent intent = new Intent(getApplicationContext(), ShimmerBluetoothDialog.class);
@@ -137,12 +135,12 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void stopTest(View v){
-        if(isTestStarted){
+    public void stopTest(View v) {
+        if (isTestStarted) {
             editTextInterval.setEnabled(true);
             editTextTotalIteration.setEnabled(true);
             editTextRetryCountLimit.setEnabled(true);
-            if(timer != null){
+            if (timer != null) {
                 timer.cancel();
             }
             isTestStarted = false;
@@ -150,6 +148,39 @@ public class MainActivity extends Activity {
     }
 
     /**
+     * Get the result from the paired devices dialog
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                //Get the Bluetooth mac address of the selected device:
+                macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
+                totalIterationLimit = Integer.parseInt(editTextTotalIteration.getText().toString());
+                retryCountLimit = Integer.parseInt(editTextRetryCountLimit.getText().toString());
+                currentIteration = 0;
+                successCount = 0;
+                failureCount = 0;
+                editTextFailureCount.setText(String.valueOf(failureCount));
+                editTextSuccessCount.setText(String.valueOf(successCount));
+                editTextTotalRetries.setText(String.valueOf(totalRetries));
+                editTextTestProgress.setText("0 of" + String.valueOf(totalIterationLimit));
+                editTextInterval.setEnabled(false);
+                editTextTotalIteration.setEnabled(false);
+                editTextRetryCountLimit.setEnabled(false);
+                isCurrentIterationSuccess = true;
+                isTestStarted = true;
+
+                timer = new Timer();
+                timer.schedule(new ConnectTask(), 0);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }    /**
      * Messages from the Shimmer device including sensor data are received here
      */
     Handler mHandler = new Handler() {
@@ -159,18 +190,18 @@ public class MainActivity extends Activity {
 
             switch (msg.what) {
                 case ShimmerBluetooth.MSG_IDENTIFIER_NOTIFICATION_MESSAGE:
-                    if (((CallbackObject)msg.obj).mIndicator==ShimmerBluetooth.NOTIFICATION_SHIMMER_FULLY_INITIALIZED) {
+                    if (((CallbackObject) msg.obj).mIndicator == ShimmerBluetooth.NOTIFICATION_SHIMMER_FULLY_INITIALIZED) {
 
 
-                            successCount += 1;
-                            ResultMap.put(currentIteration,1);
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    editTextSuccessCount.setText(String.valueOf(successCount));
-                                }
-                            });
-                            Log.i(LOG_TAG, "Success Count: " + successCount);
-                            btManager.disconnectShimmer(macAdd);
+                        successCount += 1;
+                        ResultMap.put(currentIteration, 1);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                editTextSuccessCount.setText(String.valueOf(successCount));
+                            }
+                        });
+                        Log.i(LOG_TAG, "Success Count: " + successCount);
+                        btManager.disconnectShimmer(macAdd);
                         if (isTestStarted) {
                             timer = new Timer();
                             timer.schedule(new ConnectTask(), Integer.parseInt(editTextInterval.getText().toString()) * 1000);
@@ -185,12 +216,12 @@ public class MainActivity extends Activity {
 
                         //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
-                        FormatCluster timeStampCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
+                        FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
                         Log.i(LOG_TAG, "Time Stamp: " + timeStampData);
                         allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X);
-                        FormatCluster accelXCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
-                        if (accelXCluster!=null) {
+                        FormatCluster accelXCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
+                        if (accelXCluster != null) {
                             double accelXData = accelXCluster.mData;
                             Log.i(LOG_TAG, "Accel LN X: " + accelXData);
                         }
@@ -217,7 +248,7 @@ public class MainActivity extends Activity {
                         case CONNECTED:
                             editTextShimmerStatus.setText("CONNECTED");
                             editTextShimmerDeviceName.setText(((ObjectCluster) msg.obj).getShimmerName());
-                            ResultMap.put(currentIteration,1);
+                            ResultMap.put(currentIteration, 1);
                             break;
                         case CONNECTING:
                             editTextShimmerStatus.setText("CONNECTING");
@@ -233,9 +264,9 @@ public class MainActivity extends Activity {
                             break;
                         case DISCONNECTED:
                             editTextShimmerStatus.setText("DISCONNECTED");
-                            if (ResultMap.get(currentIteration)==-1){
+                            if (ResultMap.get(currentIteration) == -1) {
                                 Log.i(LOG_TAG, "Disconnected State " + "Retry Count: " + Integer.toString(retryCount) + "; Total number of retries:" + totalRetries);
-                                if (retryCount<retryCountLimit) {
+                                if (retryCount < retryCountLimit) {
                                     retryCount++;
                                     totalRetries++;
                                     editTextRetryCount.setText(Integer.toString(retryCount));
@@ -251,7 +282,7 @@ public class MainActivity extends Activity {
                                     //shimmer.connect(macAdd, "default");
                                     Log.i(LOG_TAG, "Connect Called, retry count: " + Integer.toString(retryCount) + "; Total number of retries:" + totalRetries);
                                     btManager.removeShimmerDeviceBtConnected(macAdd);
-                                    btManager.putShimmerGlobalMap(macAdd,new Shimmer(mHandler,MainActivity.this));
+                                    btManager.putShimmerGlobalMap(macAdd, new Shimmer(mHandler, MainActivity.this));
                                     btManager.connectShimmerThroughBTAddress(macAdd);
                                     try {
                                         Thread.sleep(500);
@@ -260,7 +291,7 @@ public class MainActivity extends Activity {
                                     }
                                 } else {
 
-                                    if (ResultMap.get(currentIteration)==-1) {
+                                    if (ResultMap.get(currentIteration) == -1) {
                                         ResultMap.put(currentIteration, 0);
 
                                         timer.cancel();
@@ -268,10 +299,10 @@ public class MainActivity extends Activity {
                                         runOnUiThread(new Runnable() {
                                             public void run() {
                                                 editTextFailureCount.setText(String.valueOf(failureCount));
-                                                }
+                                            }
                                         });
                                     }
-                                    if (isTestStarted && currentIteration< totalIterationLimit) {
+                                    if (isTestStarted && currentIteration < totalIterationLimit) {
 
                                         Log.i(LOG_TAG, "Failure Count: " + failureCount);
 
@@ -288,40 +319,7 @@ public class MainActivity extends Activity {
         }
     };
 
-    /**
-     * Get the result from the paired devices dialog
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 2) {
-            if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
-                macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                totalIterationLimit = Integer.parseInt(editTextTotalIteration.getText().toString());
-                retryCountLimit = Integer.parseInt(editTextRetryCountLimit.getText().toString());
-                currentIteration = 0;
-                successCount = 0;
-                failureCount = 0;
-                editTextFailureCount.setText(String.valueOf(failureCount));
-                editTextSuccessCount.setText(String.valueOf(successCount));
-                editTextTotalRetries.setText(String.valueOf(totalRetries));
-                editTextTestProgress.setText("0 of" + String.valueOf(totalIterationLimit));
-                editTextInterval.setEnabled(false);
-                editTextTotalIteration.setEnabled(false);
-                editTextRetryCountLimit.setEnabled(false);
-                isCurrentIterationSuccess = true;
-                isTestStarted = true;
-
-                timer = new Timer();
-                timer.schedule(new ConnectTask(),0);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-    public class ConnectTask extends  TimerTask{
+    public class ConnectTask extends TimerTask {
         @Override
         public void run() {
             if (isTestStarted) {
@@ -352,7 +350,7 @@ public class MainActivity extends Activity {
                         }
                     });
                     //isCurrentIterationSuccess = false;
-                    ResultMap.put(currentIteration,-1);
+                    ResultMap.put(currentIteration, -1);
                     //shimmer = null;
                     //shimmer = new Shimmer(mHandler);
                     //shimmer.connect(macAdd, "default");
@@ -367,6 +365,8 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+
 
 
 }

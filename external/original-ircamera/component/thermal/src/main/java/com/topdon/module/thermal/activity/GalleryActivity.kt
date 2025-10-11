@@ -19,19 +19,21 @@ class GalleryActivity : BaseActivity() {
 
 //    override fun providerVMClass() = GalleryViewModel::class.java
 
-    private val permissionList by lazy{
-        if (this.applicationInfo.targetSdkVersion >= 34){
+    private val permissionList by lazy {
+        if (this.applicationInfo.targetSdkVersion >= 34) {
             listOf(
                 Permission.READ_MEDIA_VIDEO,
                 Permission.READ_MEDIA_IMAGES,
                 Permission.WRITE_EXTERNAL_STORAGE,
             )
-        } else if (this.applicationInfo.targetSdkVersion >= 33){
-            mutableListOf(Permission.READ_MEDIA_VIDEO,
+        } else if (this.applicationInfo.targetSdkVersion >= 33) {
+            mutableListOf(
+                Permission.READ_MEDIA_VIDEO,
                 Permission.READ_MEDIA_IMAGES,
-                Permission.WRITE_EXTERNAL_STORAGE)
-        }else{
-            mutableListOf(Permission.READ_EXTERNAL_STORAGE,Permission.WRITE_EXTERNAL_STORAGE)
+                Permission.WRITE_EXTERNAL_STORAGE
+            )
+        } else {
+            mutableListOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
@@ -42,7 +44,7 @@ class GalleryActivity : BaseActivity() {
         gallery_viewpager.adapter = ViewAdapter(this, supportFragmentManager)
         gallery_tab.setupWithViewPager(gallery_viewpager)
 
-        mRxPermissions!!.request( permissionList)
+        mRxPermissions!!.request(permissionList)
             .subscribe {
 
             }

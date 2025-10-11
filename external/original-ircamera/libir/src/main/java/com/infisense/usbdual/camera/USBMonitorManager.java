@@ -23,6 +23,7 @@ import java.util.List;
 
 public class USBMonitorManager {
     public static final String TAG = "USBMonitorManager";
+    private static USBMonitorManager mInstance;
     private USBMonitor mUSBMonitor;
     private UVCCamera mUvcCamera;
     private IRCMD mIrcmd;
@@ -39,7 +40,6 @@ public class USBMonitorManager {
     private long tempinfo = 0;
     private short[] nuc_table_high = new short[8192];
     private short[] nuc_table_low = new short[8192];
-
     private byte[] priv_high = new byte[1201];
     private byte[] priv_low = new byte[1201];
     private short[] kt_high = new short[1201];
@@ -51,18 +51,13 @@ public class USBMonitorManager {
     private CommonParams.GainStatus gainStatus = CommonParams.GainStatus.HIGH_GAIN;
     // 机芯温度
     private int[] curVtemp = new int[1];
-
     private List<OnUSBConnectListener> mOnUSBConnectListeners = new ArrayList<>();
-
     private boolean isTempReplacedWithTNREnabled;
-
     private boolean isReStart = false;
     private int mPid = 0;
 
     private USBMonitorManager() {
     }
-
-    private static USBMonitorManager mInstance;
 
     public static synchronized USBMonitorManager getInstance() {
         if (mInstance == null) {
@@ -149,6 +144,7 @@ public class USBMonitorManager {
                                 onUSBConnectListener.onDettach(device);
                             }
                         }
+
                         // called by connect to usb camera
                         // do open camera,start previewing
                         @Override
@@ -166,6 +162,7 @@ public class USBMonitorManager {
                                 }
                             }
                         }
+
                         // called by disconnect to usb camera
                         // do nothing
                         @Override

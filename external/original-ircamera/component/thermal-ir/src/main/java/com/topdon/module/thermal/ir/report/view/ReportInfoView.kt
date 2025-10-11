@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.view_report_info.view.*
 /**
  * 报告信息 - 预览 View.
  */
-class ReportInfoView: LinearLayout {
+class ReportInfoView : LinearLayout {
 
     constructor(context: Context) : this(context, null)
 
@@ -56,7 +56,8 @@ class ReportInfoView: LinearLayout {
 
         group_ambient_humidity.isVisible = conditionBean?.is_ambient_humidity == 1
         tv_ambient_humidity.text = conditionBean?.ambient_humidity
-        view_line_2.isVisible = conditionBean?.is_ambient_humidity == 1 && (conditionBean.is_test_distance == 1 || conditionBean.is_emissivity == 1)
+        view_line_2.isVisible =
+            conditionBean?.is_ambient_humidity == 1 && (conditionBean.is_test_distance == 1 || conditionBean.is_emissivity == 1)
 
         group_test_distance.isVisible = conditionBean?.is_test_distance == 1
         tv_test_distance.text = conditionBean?.test_distance

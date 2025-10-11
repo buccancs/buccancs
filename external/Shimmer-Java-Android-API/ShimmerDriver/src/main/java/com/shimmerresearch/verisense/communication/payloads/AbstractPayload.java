@@ -12,46 +12,45 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
  *
  */
 public abstract class AbstractPayload {
-	
-	public boolean isSuccess;
-	protected byte[] payloadContents;
 
-	public static final byte VALID_CONFIG_BYTE = 0x5A;
+    public static final byte VALID_CONFIG_BYTE = 0x5A;
+    protected static final String CONSOLE_DIVIDER_STRING = "********************************************************\n";
+    public boolean isSuccess;
+    protected byte[] payloadContents;
 
-	protected static final String CONSOLE_DIVIDER_STRING = "********************************************************\n";
+    public static long parseByteArrayAtIndex(byte[] byteArray, int startByteIndex, CHANNEL_DATA_TYPE dataType) {
+        return parseByteArrayAtIndex(byteArray, startByteIndex, dataType, CHANNEL_DATA_ENDIAN.LSB);
+    }
 
-	abstract public boolean parsePayloadContents(byte[] payloadContents);
-	abstract public byte[] generatePayloadContents();
+    public static long parseByteArrayAtIndex(byte[] byteArray, int startByteIndex, CHANNEL_DATA_TYPE dataType, CHANNEL_DATA_ENDIAN byteEndian) {
+        byte[] buf = new byte[dataType.getNumBytes()];
+        System.arraycopy(byteArray, startByteIndex, buf, 0, buf.length);
+        return UtilParseData.parseData(buf, dataType, byteEndian);
+    }
 
-	abstract public String generateDebugString();
+    public static String parseVerisenseId(byte[] payloadContents, int startIndex) {
+        byte[] idBytes = new byte[6];
+        System.arraycopy(payloadContents, startIndex, idBytes, 0, idBytes.length);
+        ArrayUtils.reverse(idBytes);
+        String verisenseId = UtilShimmer.bytesToHexString(idBytes);
+        verisenseId = verisenseId.toUpperCase();
+        return verisenseId;
+    }
 
-	public static long parseByteArrayAtIndex(byte[] byteArray, int startByteIndex, CHANNEL_DATA_TYPE dataType) {
-		return parseByteArrayAtIndex(byteArray, startByteIndex, dataType, CHANNEL_DATA_ENDIAN.LSB);
-	}
+    public static byte[] generateVerisenseIdBytes(String verisenseId) {
+        byte[] idBytes = UtilShimmer.hexStringToByteArray(verisenseId);
+        ArrayUtils.reverse(idBytes);
+        return idBytes;
+    }
 
-	public static long parseByteArrayAtIndex(byte[] byteArray, int startByteIndex, CHANNEL_DATA_TYPE dataType, CHANNEL_DATA_ENDIAN byteEndian) {
-		byte[] buf = new byte[dataType.getNumBytes()];
-		System.arraycopy(byteArray, startByteIndex, buf, 0, buf.length);
-		return UtilParseData.parseData(buf, dataType, byteEndian);
-	}
+    abstract public boolean parsePayloadContents(byte[] payloadContents);
 
-	public byte[] getPayloadContents() {
-		return payloadContents;
-	}
+    abstract public byte[] generatePayloadContents();
 
-	public static String parseVerisenseId(byte[] payloadContents, int startIndex) {
-		byte[] idBytes = new byte[6];
-		System.arraycopy(payloadContents, startIndex, idBytes, 0, idBytes.length);
-		ArrayUtils.reverse(idBytes);
-		String verisenseId = UtilShimmer.bytesToHexString(idBytes);
-		verisenseId = verisenseId.toUpperCase();
-		return verisenseId;
-	}
-	
-	public static byte[] generateVerisenseIdBytes(String verisenseId) {
-		byte[] idBytes = UtilShimmer.hexStringToByteArray(verisenseId);
-		ArrayUtils.reverse(idBytes);
-		return idBytes;
-	}
+    abstract public String generateDebugString();
+
+    public byte[] getPayloadContents() {
+        return payloadContents;
+    }
 
 }

@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import java.util.ArrayList;

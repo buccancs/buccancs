@@ -15,7 +15,11 @@ import kotlinx.android.synthetic.main.popup_three_pick.view.*
  *
  * Created by LCG on 2024/8/23.
  */
-internal class ThreePickPopup(val context: Context, strIdArray: List<Int>, private var onPickListener: (position: Int) -> Unit) : PopupWindow(), View.OnClickListener {
+internal class ThreePickPopup(
+    val context: Context,
+    strIdArray: List<Int>,
+    private var onPickListener: (position: Int) -> Unit
+) : PopupWindow(), View.OnClickListener {
 
     init {
         contentView = LayoutInflater.from(context).inflate(R.layout.popup_three_pick, null)
@@ -29,8 +33,12 @@ internal class ThreePickPopup(val context: Context, strIdArray: List<Int>, priva
         }
 
 
-        val widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((context.resources.displayMetrics.widthPixels * 0.42).toInt(), View.MeasureSpec.EXACTLY)
-        val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.heightPixels, View.MeasureSpec.AT_MOST)
+        val widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(
+            (context.resources.displayMetrics.widthPixels * 0.42).toInt(),
+            View.MeasureSpec.EXACTLY
+        )
+        val heightMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.heightPixels, View.MeasureSpec.AT_MOST)
         contentView.measure(widthMeasureSpec, heightMeasureSpec)
 
         width = contentView.measuredWidth
@@ -73,7 +81,12 @@ internal class ThreePickPopup(val context: Context, strIdArray: List<Int>, priva
             if (heightPixels - locationArray[1] - anchor.height - SizeUtils.dp2px(10f) > height) {//在 anchor 底部放得下
                 showAtLocation(anchor, Gravity.NO_GRAVITY, x, locationArray[1] + anchor.height + SizeUtils.dp2px(10f))
             } else {//下面放不下就放上面吧
-                showAtLocation(anchor, Gravity.NO_GRAVITY, x, (locationArray[1] - SizeUtils.dp2px(10f) - height).coerceAtLeast(0))
+                showAtLocation(
+                    anchor,
+                    Gravity.NO_GRAVITY,
+                    x,
+                    (locationArray[1] - SizeUtils.dp2px(10f) - height).coerceAtLeast(0)
+                )
             }
         }
     }

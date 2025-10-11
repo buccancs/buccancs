@@ -51,18 +51,22 @@ class TextInputActivity : BaseActivity(), View.OnClickListener {
                 setResult(RESULT_OK, intent)
                 finish()
             }
+
             tv_quick_input1 -> {
                 et_input.setText(et_input.text.toString() + tv_quick_input1.text)
                 et_input.setSelection(et_input.text.length)
             }
+
             tv_quick_input2 -> {
                 et_input.setText(et_input.text.toString() + tv_quick_input2.text)
                 et_input.setSelection(et_input.text.length)
             }
+
             tv_quick_input3 -> {
                 et_input.setText(et_input.text.toString() + tv_quick_input3.text)
                 et_input.setSelection(et_input.text.length)
             }
+
             tv_quick_input4 -> {
                 et_input.setText(et_input.text.toString() + tv_quick_input4.text)
                 et_input.setSelection(et_input.text.length)

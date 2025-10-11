@@ -18,16 +18,16 @@ service ShimmerBLEByteServer {
 
   //Client asking for data
   rpc GetTestDataStream(StreamRequest) returns (stream ObjectClusterByteArray) {}
-  
-    //Client sending data
+
+  //Client sending data
   rpc SendDataStream(stream ObjectClusterByteArray) returns (Reply){}
-  
+
   rpc ConnectShimmer(Request) returns (stream StateStatus) {}
-  
+
   rpc DisconnectShimmer(Request) returns (Reply);
-  
+
   rpc WriteBytesShimmer(WriteBytes) returns (Reply);
-  
+
   rpc SayHello (Request) returns (Reply);
 }
 
@@ -56,24 +56,24 @@ enum BluetoothState {
 }
 
 message StateStatus {
-	BluetoothState State = 1;
-	string message = 2;
+  BluetoothState State = 1;
+  string message = 2;
 }
 
 message ObjectClusterByteArray {
   string uuid = 1;
   string bluetoothAddress = 2;
-  
+
   enum CommunicationType {
     BT = 0;
     SD = 1;
     Radio_802_15_4 = 2;
   }
-  
+
   CommunicationType communicationType = 3;
-  
+
   int64 systemTime = 4;
   double calibratedTimeStamp = 5;
   bytes binary_data = 6;
-  
+
 }

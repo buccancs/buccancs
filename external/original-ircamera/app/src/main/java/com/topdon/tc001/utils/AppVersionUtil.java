@@ -58,7 +58,7 @@ public class AppVersionUtil {
         this.dotIsShowListener = dotIsShow;
     }
 
-    public void checkVersion( boolean isShowDialog) {
+    public void checkVersion(boolean isShowDialog) {
         if (dowanloadmanager == null) {
             dowanloadmanager = (DownloadManager) mContext.getSystemService(DOWNLOAD_SERVICE);
         }
@@ -83,7 +83,7 @@ public class AppVersionUtil {
                                     }
                                 }
                             }
-                            showUpdateDialog(mContext, appInfoBean.downloadPackageUrl, information,Integer.parseInt(appInfoBean.forcedUpgradeFlag));
+                            showUpdateDialog(mContext, appInfoBean.downloadPackageUrl, information, Integer.parseInt(appInfoBean.forcedUpgradeFlag));
                         }
                         if (dotIsShowListener != null) {
                             dotIsShowListener.isShow(true);
@@ -133,10 +133,10 @@ public class AppVersionUtil {
                     .setPositiveListener(R.string.app_confirm, new Function0<Unit>() {
                         @Override
                         public Unit invoke() {
-                            if(mDownloadId>0l){
+                            if (mDownloadId > 0l) {
                                 TToast.shortToast(mContext, mContext.getString(R.string.installation_package_downloading));
                                 return null;
-                            }else{
+                            } else {
                                 TToast.shortToast(mContext, mContext.getString(R.string.installation_package_downloading_tips));
                             }
                             startDownload(bean.downloadPackageUrl);
@@ -151,10 +151,10 @@ public class AppVersionUtil {
                     .setPositiveListener(R.string.app_confirm, new Function0<Unit>() {
                         @Override
                         public Unit invoke() {
-                            if(mDownloadId>0l){
+                            if (mDownloadId > 0l) {
                                 TToast.shortToast(mContext, mContext.getString(R.string.installation_package_downloading));
                                 return null;
-                            }else{
+                            } else {
                                 TToast.shortToast(mContext, mContext.getString(R.string.installation_package_downloading_tips));
                             }
                             startDownload(bean.downloadPackageUrl);
@@ -171,13 +171,6 @@ public class AppVersionUtil {
                     .create().show();
         }
     }
-
-    public interface DotIsShowListener {
-        void isShow(boolean show);
-
-        void version(String version);
-    }
-
 
     // 开始下载指定序号的apk文件
     private void startDownload(String url) {
@@ -208,21 +201,6 @@ public class AppVersionUtil {
         VersionTools.INSTANCE.setMDownloadId(mDownloadId);
     }
 
-
-    // 定义一个下载完成的广播接收器。用于接收下载完成事件
-    private class DownloadCompleteReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE))   // 下载完毕
-            {
-                // 从意图中解包获得下载编号
-                installApk();
-            }
-        }
-    }
-
-
     // 安装应用程序
     public void installApk() {
         mDownloadId = 0l;
@@ -242,7 +220,7 @@ public class AppVersionUtil {
         }
     }
 
-    public void showUpdateDialog(Context context, String url, String content,int forcedUpgradeFlag) {
+    public void showUpdateDialog(Context context, String url, String content, int forcedUpgradeFlag) {
         LmsUpdateDialog.Build.INSTANCE.setContentStr(content)
                 .setUpgradeFlag(forcedUpgradeFlag)
                 .setSureEvent(() -> {
@@ -337,6 +315,25 @@ public class AppVersionUtil {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public interface DotIsShowListener {
+        void isShow(boolean show);
+
+        void version(String version);
+    }
+
+    // 定义一个下载完成的广播接收器。用于接收下载完成事件
+    private class DownloadCompleteReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE))   // 下载完毕
+            {
+                // 从意图中解包获得下载编号
+                installApk();
+            }
         }
     }
 

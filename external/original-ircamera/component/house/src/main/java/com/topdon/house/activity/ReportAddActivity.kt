@@ -115,6 +115,7 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
                 newIntent.putExtra(ExtraKeyConfig.DETECT_ID, intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
                 startActivity(newIntent)
             }
+
             iv_expand -> {//展开收起
                 isAllExpand = !isAllExpand
                 if (isAllExpand) {
@@ -124,12 +125,14 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
                 }
                 iv_expand.isSelected = isAllExpand
             }
+
             tv_export_report -> {//导出报告
                 ARouter.getInstance().build(RouterConfig.REPORT_PREVIEW)
                     .withBoolean(ExtraKeyConfig.IS_REPORT, false)
                     .withLong(ExtraKeyConfig.LONG_ID, intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
                     .navigation(this)
             }
+
             tv_add -> {//新增默认目录
                 val detect: HouseDetect? = viewModel.detectLD.value
                 if (detect != null) {
@@ -143,6 +146,7 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
      * 当前正在编辑的项目，在 view_house_detect 中的 index.
      */
     private var editLayoutIndex = 0
+
     /**
      * 当前正在编辑的项目
      */
@@ -166,13 +170,21 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
             //项目添加图片
             editLayoutIndex = layoutIndex
             editItemDetect = item
-            ThreePickPopup(this, arrayListOf(R.string.person_headshot_phone, R.string.light_camera_take_photo, R.string.ir_camera_take_photo)) {
+            ThreePickPopup(
+                this,
+                arrayListOf(
+                    R.string.person_headshot_phone,
+                    R.string.light_camera_take_photo,
+                    R.string.ir_camera_take_photo
+                )
+            ) {
                 when (it) {
                     0 -> {//从相册获取
                         PermissionTool.requestImageRead(this) {
                             galleryPickResult.launch("image/*")
                         }
                     }
+
                     1 -> {//相机拍照
                         PermissionTool.requestCamera(this) {
                             val fileName = "Item${System.currentTimeMillis()}.png"
@@ -180,8 +192,11 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
                             lightPhotoResult.launch(file)
                         }
                     }
+
                     2 -> {//红外线拍照
-                        if ((isTC007 && !WebSocketProxy.getInstance().isTC007Connect()) || (!isTC007 && !DeviceTools.isConnect())) {
+                        if ((isTC007 && !WebSocketProxy.getInstance()
+                                .isTC007Connect()) || (!isTC007 && !DeviceTools.isConnect())
+                        ) {
                             TToast.shortToast(this@ReportAddActivity, R.string.device_disconnect)
                         } else {
                             val fileName = "Item${System.currentTimeMillis()}.png"
@@ -248,7 +263,6 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
         //项目列表编辑成功，刷新数据
         viewModel.queryById(intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

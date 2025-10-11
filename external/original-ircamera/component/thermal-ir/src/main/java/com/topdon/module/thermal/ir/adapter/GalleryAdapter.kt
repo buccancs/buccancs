@@ -68,11 +68,13 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      * 非编辑模式下 item 长按进入编辑模式事件监听.
      */
     var onLongEditListener: (() -> Unit)? = null
+
     /**
      * 选中数量变更回调.
      * data 当前选中的 item position 列表
      */
     var selectCallback: ((data: ArrayList<Int>) -> Unit)? = null
+
     /**
      * 非编辑模式时，item 点击事件监听.
      */

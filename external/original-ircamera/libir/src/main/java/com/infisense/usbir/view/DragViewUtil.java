@@ -1,12 +1,12 @@
 package com.infisense.usbir.view;
 
 
-
 import android.view.MotionEvent;
 import android.view.View;
 
 /**
  * 这个工具可以使任何一个view进行拖动。
+ *
  * @author: CaiSongL
  * @date: 2023/10/25 11:42
  */

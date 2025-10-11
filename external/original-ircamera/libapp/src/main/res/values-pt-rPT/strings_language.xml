@@ -69,21 +69,31 @@
     <string name="person_old_password">Introduza a palavra-passe antiga</string>
     <string name="person_new_password">Introduza a nova palavra-passe</string>
     <string name="person_new_password2">Introduza novamente a nova palavra-passe</string>
-    <string name="app_submit_success">Submetido!\nObrigado pela vossa atenção e apoio. Levaremos a sério o seu feedback.</string>
+    <string name="app_submit_success">Submetido!\nObrigado pela vossa atenção e apoio. Levaremos a sério o seu
+        feedback.
+    </string>
     <string name="setting_firmware_update_latest_version">Esta é já a versão mais recente.</string>
-    <string name="setting_firmware_update_get_information">Obtenção de informação sobre a versão. Por favor aguarde...</string>
-    <string name="setting_firmware_update_get_information_error">Falha na obtenção de informações sobre a versão. Por favor, tente novamente.</string>
+    <string name="setting_firmware_update_get_information">Obtenção de informação sobre a versão. Por favor aguarde...
+    </string>
+    <string name="setting_firmware_update_get_information_error">Falha na obtenção de informações sobre a versão. Por
+        favor, tente novamente.
+    </string>
     <string name="setting_firmware_update_updating">Actualizar o firmware. Por favor, aguarde...</string>
-    <string name="setting_firmware_update_updating_error">Falha na actualização do firmware. Por favor, tente novamente.</string>
+    <string name="setting_firmware_update_updating_error">Falha na actualização do firmware. Por favor, tente
+        novamente.
+    </string>
     <string name="setting_firmware_update_updating_successful">A actualização do firmware foi bem sucedida.</string>
     <string name="setting_firmware_update_version">Versão actual:</string>
     <string name="setting_firmware_update_uversion">Actualização disponível:</string>
     <string name="setting_firmware_update_content">Actualizações:</string>
-    <string name="setting_firmware_update_zip_error">Erro de ficheiro descomprimido. Por favor, descarregar novamente!</string>
+    <string name="setting_firmware_update_zip_error">Erro de ficheiro descomprimido. Por favor, descarregar novamente!
+    </string>
     <string name="setting_firmware_update_unknown">Dispositivo desconhecido. Por favor, voltar a ligar.</string>
     <string name="setting_firmware_update_checking">Verificação de dados. Por favor, aguarde.</string>
     <string name="firmware_update_tip">Trabalhar com rede móvel. Quer continuar a descarregar?</string>
-    <string name="firmware_update_close_tip">Nota: Quando o firmware estiver a actualizar, não saia da página ou aplicação actual, e mantenha o ecrã brilhante!</string>
+    <string name="firmware_update_close_tip">Nota: Quando o firmware estiver a actualizar, não saia da página ou
+        aplicação actual, e mantenha o ecrã brilhante!
+    </string>
     <string name="battery_test_explain">Declaração</string>
     <string name="test_results_delete_success">A eliminação foi bem sucedida</string>
     <string name="test_results_delete_failed">Falha em apagar alguns dados</string>
@@ -168,21 +178,56 @@
     <string name="chart_temperature_low">Temperatura Mais Baixa</string>
     <string name="chart_temperature">Temperatura</string>
     <string name="question1">Porque não há qualquer resposta depois de ligar o TC001、TS001 a um telefone?</string>
-    <string name="answer1">Siga os passos abaixo para identificar o problema:\na) Verifique se o seu telefone é Android 6.0 ou superior. \nb) Verifique se o OTG está disponível nas Configurações do seu telefone e se está Ligado. Para alguns telefones, é necessário pesquisar OTG em Definições e ligá-lo manualmente. \nc) Verificar se o indicador LED azul do TC001、TS001 está aceso. Se não, o seu telefone pode não estar em ligação normal com o dispositivo, ou o seu telefone não suporta a função OTG. \nd) Verifique se descarregou o APP e dê a autorização necessária. \n\e) Desligue e volte a ligar o TC001、TS001. Se ainda não houver qualquer resposta, ligue o pessoal de pós-venda.</string>
+    <string name="answer1">Siga os passos abaixo para identificar o problema:\na) Verifique se o seu telefone é Android
+        6.0 ou superior. \nb) Verifique se o OTG está disponível nas Configurações do seu telefone e se está Ligado.
+        Para alguns telefones, é necessário pesquisar OTG em Definições e ligá-lo manualmente. \nc) Verificar se o
+        indicador LED azul do TC001、TS001 está aceso. Se não, o seu telefone pode não estar em ligação normal com o
+        dispositivo, ou o seu telefone não suporta a função OTG. \nd) Verifique se descarregou o APP e dê a autorização
+        necessária. \n\e) Desligue e volte a ligar o TC001、TS001. Se ainda não houver qualquer resposta, ligue o pessoal
+        de pós-venda.
+    </string>
     <string name="question2">E se a imagem não estiver clara e a temperatura não for exacta?</string>
-    <string name="answer2">As características de funcionamento dos detectores infravermelhos não refrigerados requerem uma actualização periódica do ecrã, premindo o ícone do obturador no canto superior direito. Isto pode assegurar uma imagem mais clara e uma medição mais precisa da temperatura.</string>
-    <string name="question3">O TC001、TS001 pode detectar as cenas debaixo de água, através da janela de vidro, cobertas por roupa ou sob a pele?</string>
-    <string name="answer3">O detector de infravermelhos é utilizado para detectar a região de infravermelhos de onda longa de 8~14um, e só pode medir a temperatura da superfície do objecto. Não pode medir a temperatura através da água ou do vidro.</string>
+    <string name="answer2">As características de funcionamento dos detectores infravermelhos não refrigerados requerem
+        uma actualização periódica do ecrã, premindo o ícone do obturador no canto superior direito. Isto pode assegurar
+        uma imagem mais clara e uma medição mais precisa da temperatura.
+    </string>
+    <string name="question3">O TC001、TS001 pode detectar as cenas debaixo de água, através da janela de vidro, cobertas
+        por roupa ou sob a pele?
+    </string>
+    <string name="answer3">O detector de infravermelhos é utilizado para detectar a região de infravermelhos de onda
+        longa de 8~14um, e só pode medir a temperatura da superfície do objecto. Não pode medir a temperatura através da
+        água ou do vidro.
+    </string>
     <string name="question4">Porque é que a temperatura medida não é precisa?</string>
-    <string name="answer4">A resolução da temperatura de TC001、TS001 é de ±2% com um intervalo de temperatura normal de -20~150°C (-4~302°F) , e um intervalo de temperatura elevada de 150-550°C (302~1022°F). Por favor, seleccione a gama correspondente no APP antes de testar.</string>
+    <string name="answer4">A resolução da temperatura de TC001、TS001 é de ±2% com um intervalo de temperatura normal de
+        -20~150°C (-4~302°F) , e um intervalo de temperatura elevada de 150-550°C (302~1022°F). Por favor, seleccione a
+        gama correspondente no APP antes de testar.
+    </string>
     <string name="question5">O TC001、TS001 emite radiação e prejudica a saúde das pessoas?</string>
-    <string name="answer5">O TC001、TS001 não emite qualquer radiação nociva e apenas recolhe informação sobre o calor do objecto, por isso, sinta-se à vontade para o utilizar sem preocupações.</string>
-    <string name="question6">Porque é que a leitura da temperatura aumentará quando nos aproximarmos do dispositivo?</string>
-    <string name="answer6">A radiação infravermelha atenua-se após a sua passagem pela atmosfera. Quanto maior for a distância, mais forte será a atenuação, causando a precisão da temperatura medida a uma distância menor. Para utilizadores que precisam de obter dados precisos de temperatura, podem introduzir a distância a ser medida (máximo 5 metros) em Informação Pessoal - Definições - Correcção de Temperatura - Distância ao Ponto para obter a temperatura corrigida.</string>
+    <string name="answer5">O TC001、TS001 não emite qualquer radiação nociva e apenas recolhe informação sobre o calor do
+        objecto, por isso, sinta-se à vontade para o utilizar sem preocupações.
+    </string>
+    <string name="question6">Porque é que a leitura da temperatura aumentará quando nos aproximarmos do dispositivo?
+    </string>
+    <string name="answer6">A radiação infravermelha atenua-se após a sua passagem pela atmosfera. Quanto maior for a
+        distância, mais forte será a atenuação, causando a precisão da temperatura medida a uma distância menor. Para
+        utilizadores que precisam de obter dados precisos de temperatura, podem introduzir a distância a ser medida
+        (máximo 5 metros) em Informação Pessoal - Definições - Correcção de Temperatura - Distância ao Ponto para obter
+        a temperatura corrigida.
+    </string>
     <string name="question7">Porque é que existe um som de clique? O que significa " Obturador em Movimento"?</string>
-    <string name="answer7">A temperatura do gerador de imagens de infravermelhos irá mudar ligeiramente durante a utilização. Por conseguinte, é necessária uma calibração periódica da temperatura interna. A activação ou desactivação de tal calibração interna controlada por micro motor faz um tal som, que é conhecido na indústria como "obturador em movimento".</string>
+    <string name="answer7">A temperatura do gerador de imagens de infravermelhos irá mudar ligeiramente durante a
+        utilização. Por conseguinte, é necessária uma calibração periódica da temperatura interna. A activação ou
+        desactivação de tal calibração interna controlada por micro motor faz um tal som, que é conhecido na indústria
+        como "obturador em movimento".
+    </string>
     <string name="question8">Que factores externos irão afectar a medição da temperatura por infravermelhos?</string>
-    <string name="answer8">Emissividade da superfície do objecto alvo. \nTemperatura ambiente: O objecto irá reflectir os raios infravermelhos emitidos pelos objectos circundantes, o que afecta a medição da temperatura do próprio objecto.\nTemperatura atmosférica: A atmosfera também emite raios infravermelhos.\nA transmitância atmosférica: Os raios infra-vermelhos emitidos pelo objecto são atenuados na atmosfera.\nDistância à mancha: Quanto maior for a distância dos raios infravermelhos emitidos por um objecto na atmosfera, mais forte é a sua atenuação.</string>
+    <string name="answer8">Emissividade da superfície do objecto alvo. \nTemperatura ambiente: O objecto irá reflectir
+        os raios infravermelhos emitidos pelos objectos circundantes, o que afecta a medição da temperatura do próprio
+        objecto.\nTemperatura atmosférica: A atmosfera também emite raios infravermelhos.\nA transmitância atmosférica:
+        Os raios infra-vermelhos emitidos pelo objecto são atenuados na atmosfera.\nDistância à mancha: Quanto maior for
+        a distância dos raios infravermelhos emitidos por um objecto na atmosfera, mais forte é a sua atenuação.
+    </string>
     <string name="setting_unit">Unidade de temperatura</string>
     <string name="app_celsius">Celsius</string>
     <string name="chart_temperature_fahrenheit">Fahrenheit</string>
@@ -209,9 +254,13 @@
     <string name="color_p10">arco-íris 5</string>
     <string name="color_p11">calor negro</string>
     <string name="config_add_tip">Até 10 modos podem ser adicionados</string>
-    <string name="tip_otg">Se não for detectado após o dispositivo ser conectado ao telefone, procure por "OTG" nas configurações do sistema e ligue-o.</string>
+    <string name="tip_otg">Se não for detectado após o dispositivo ser conectado ao telefone, procure por "OTG" nas
+        configurações do sistema e ligue-o.
+    </string>
     <string name="tip_otg_no_show">Sem mais dicas</string>
-    <string name="tip_target_sdk">O sistema de telefonia móvel atual não pode ser conectado, você pode tentar atualizar a versão compatível</string>
+    <string name="tip_target_sdk">O sistema de telefonia móvel atual não pode ser conectado, você pode tentar atualizar
+        a versão compatível
+    </string>
     <string name="tip_log_type">Selecione o tipo de dados</string>
     <string name="detail_date">Tempo</string>
     <string name="detail_info">em formação</string>
@@ -235,7 +284,9 @@
     <string name="third_party_components">Componentes de terceiros</string>
     <string name="app_edit">editar</string>
     <string name="Limite_di_9carte">Escolha no máximo 9</string>
-    <string name="app_delete_album_prompt">APP não tem permissão para excluir este arquivo, por favor, vá para o álbum do celular para excluir</string>
+    <string name="app_delete_album_prompt">APP não tem permissão para excluir este arquivo, por favor, vá para o álbum
+        do celular para excluir
+    </string>
     <string name="app_save_image">Deseja salvar a imagem?</string>
     <string name="app_tip">Dicas</string>
     <string name="device_loading_tip">Carregando…</string>
@@ -259,7 +310,10 @@
     <string name="date_time">Hora e Data</string>
     <string name="get_address">Obter endereço</string>
     <string name="save_setting_model">Salvar Configurações</string>
-    <string name="save_setting_tips">As seguintes configurações definidas por você serão salvas se esta função for habilitada: Obturador Automático, Modo Disparo, Cores Falsas, Modo Imagem, e a Barra de Cores Falsas (ligado: desligado).</string>
+    <string name="save_setting_tips">As seguintes configurações definidas por você serão salvas se esta função for
+        habilitada: Obturador Automático, Modo Disparo, Cores Falsas, Modo Imagem, e a Barra de Cores Falsas (ligado:
+        desligado).
+    </string>
     <string name="get_current_address">Obtendo endereço atual</string>
     <string name="get_Location_failed">Erro ao obter endereço</string>
     <string name="off_photography">Temporizador desativado</string>
@@ -268,19 +322,34 @@
     <string name="seconds_dalay_6">6s</string>
     <string name="shutter_open">Obturador Automático Ativado</string>
     <string name="shutter_off">Obturador Automático Desativado</string>
-    <string name="shutter_tips">Para garantir medidas temporais precisas, o obturador da câmera térmica é ativado a cada dezena de segundos, o que causa travadas no vídeo. Se você preferir um vídeo mais suave, por favor desative o Obturador Automático.</string>
+    <string name="shutter_tips">Para garantir medidas temporais precisas, o obturador da câmera térmica é ativado a cada
+        dezena de segundos, o que causa travadas no vídeo. Se você preferir um vídeo mais suave, por favor desative o
+        Obturador Automático.
+    </string>
     <string name="mirror">Espelhamento</string>
     <string name="operation_guide">Guia de Operações</string>
     <string name="preview_step_1">1. Arrastar Imagem</string>
     <string name="preview_step_2">2. Aperte para Ampliar</string>
     <string name="preview_step_3">3. Girar Imagem</string>
-    <string name="app_microphone_content">O aplicativo não pode acessar seu Microfone. Ative o acesso ao Microfone em Configurações.</string>
-    <string name="app_location_content">O aplicativo não pode acessar sua localização. Ative o acesso à Localização em Configurações.</string>
-    <string name="app_album_content">O aplicativo não pode acessar suas Fotos. Ative o acesso às Fotos em Configurações.</string>
-    <string name="app_camera_content">O aplicativo não pode acessar sua Câmera. Ative o acesso à Câmera em Configurações.</string>
-    <string name="app_storage_content">O aplicativo não pode acessar seu Armazenamento. Ative o acesso ao armazenamento em Configurações.</string>
+    <string name="app_microphone_content">O aplicativo não pode acessar seu Microfone. Ative o acesso ao Microfone em
+        Configurações.
+    </string>
+    <string name="app_location_content">O aplicativo não pode acessar sua localização. Ative o acesso à Localização em
+        Configurações.
+    </string>
+    <string name="app_album_content">O aplicativo não pode acessar suas Fotos. Ative o acesso às Fotos em
+        Configurações.
+    </string>
+    <string name="app_camera_content">O aplicativo não pode acessar sua Câmera. Ative o acesso à Câmera em
+        Configurações.
+    </string>
+    <string name="app_storage_content">O aplicativo não pode acessar seu Armazenamento. Ative o acesso ao armazenamento
+        em Configurações.
+    </string>
     <string name="app_open">Ir para Configurações</string>
-    <string name="album_report_aleart">A gravação de vídeo parou devido ao espaço de armazenamento insuficiente do telefone.</string>
+    <string name="album_report_aleart">A gravação de vídeo parou devido ao espaço de armazenamento insuficiente do
+        telefone.
+    </string>
     <string name="tip_video_record">As gravações de vídeo são limitadas a 60 minutos.</string>
 
     <string name="temp_alarm_alarm">Alarme</string>
@@ -350,12 +419,18 @@
     <string name="album_excel_tips">Exportar um documento Excel demora cerca de 2 minutos. Deseja continuar?</string>
     <string name="title_color_mode">Modo Colorido</string>
     <string name="pseudo_dynamic_rendering_title">Renderização DInâmica</string>
-    <string name="pseudo_dynamic_rendering_tips">Este modo é a configuração padrão na qual as cores mudam de acordo com as flutuações de temperatura.</string>
+    <string name="pseudo_dynamic_rendering_tips">Este modo é a configuração padrão na qual as cores mudam de acordo com
+        as flutuações de temperatura.
+    </string>
     <string name="pseudo_custom_title">Modo Customizado</string>
-    <string name="pseudo_custom_tips">Permite que você personalize as cores com base em diferentes faixas de temperatura.</string>
+    <string name="pseudo_custom_tips">Permite que você personalize as cores com base em diferentes faixas de
+        temperatura.
+    </string>
     <string name="pseudo_set_tips1">1. Defina a faixa de temperatura desejada para customizar a cor.</string>
     <string name="pseudo_set_tips2">2. Defina as cores desejadas.</string>
-    <string name="pseudo_set_tips3">3. Em caso de que uma área na imagem térmica esteja fora da faixa de temperatura designada, por favor indique a cor preferida para aquela área específica.</string>
+    <string name="pseudo_set_tips3">3. Em caso de que uma área na imagem térmica esteja fora da faixa de temperatura
+        designada, por favor indique a cor preferida para aquela área específica.
+    </string>
     <string name="pseudo_recommend">Recomendado</string>
     <string name="pseudo_type_black_red">Preto vermelho</string>
     <string name="pseudo_type_nature">Natural</string>
@@ -363,10 +438,22 @@
     <string name="pseudo_over_grey">Cinza gradiente</string>
     <string name="pseudo_over_color">Cor uniforme</string>
     <string name="tip_export_data">Exportando dados</string>
-    <string name="tip_correction_1">1. O uso prolongado de imagens térmicas para fontes de altas temperatura pode ocasionar efeitos de pontos negros. Para corrigir isto, você pode utilizar a função de calibração para restaurar a imagem.</string>
-    <string name="tip_correction_2_title">2. Conecte o gerador de imagens térmicas ao seu telefone e aponte a lente em direção a uma superfície negra e sem reflexos. A superfície deve cumprir com os seguintes requisitos:</string>
-    <string name="tip_correction_2_content">A temperatura da superfície deve ser uniforme (pode ser uma placa de metal preta, placa de madeira ou placa de plástico, etc.) \n· A distância entre o dispositivo e a superfície deve ser de 5 a 10 cm\n· A imagem capturada deve ser coberta pela superfície\n· O processo de calibração deve ser realizado em um ambiente escuro.</string>
-    <string name="tip_correction_3">3. Direcione o gerador de imagens térmicas ao quadro negro, toque em "Iniciar calibração", e espere 60 segundos para completar o processo de calibração. Não desligue a tela ou mude para outros aplicativos durante o processo de calibração.</string>
+    <string name="tip_correction_1">1. O uso prolongado de imagens térmicas para fontes de altas temperatura pode
+        ocasionar efeitos de pontos negros. Para corrigir isto, você pode utilizar a função de calibração para restaurar
+        a imagem.
+    </string>
+    <string name="tip_correction_2_title">2. Conecte o gerador de imagens térmicas ao seu telefone e aponte a lente em
+        direção a uma superfície negra e sem reflexos. A superfície deve cumprir com os seguintes requisitos:
+    </string>
+    <string name="tip_correction_2_content">A temperatura da superfície deve ser uniforme (pode ser uma placa de metal
+        preta, placa de madeira ou placa de plástico, etc.) \n· A distância entre o dispositivo e a superfície deve ser
+        de 5 a 10 cm\n· A imagem capturada deve ser coberta pela superfície\n· O processo de calibração deve ser
+        realizado em um ambiente escuro.
+    </string>
+    <string name="tip_correction_3">3. Direcione o gerador de imagens térmicas ao quadro negro, toque em "Iniciar
+        calibração", e espere 60 segundos para completar o processo de calibração. Não desligue a tela ou mude para
+        outros aplicativos durante o processo de calibração.
+    </string>
     <string name="correction_title">Calibração de Imagem</string>
     <string name="button_correction">Calibrar</string>
     <string name="start_correction">Iniciar Calibração</string>
@@ -374,11 +461,15 @@
     <string name="correction_complete">Calibrado</string>
     <string name="correction_fail">Erro na calibração</string>
     <string name="tips_cancel_correction">Você deseja cancelar o processo de calibração?</string>
-    <string name="tip_temper_fasecolor">Você está atualmente no modo de Customização, por favor alterne para o modo Renderização Dinâmica.</string>
-    <string name="tip_temp_min_point1">Por favor garanta que a diferença entre as temperaturas máxima e mínima seja maior que 0.1.</string>
+    <string name="tip_temper_fasecolor">Você está atualmente no modo de Customização, por favor alterne para o modo
+        Renderização Dinâmica.
+    </string>
+    <string name="tip_temp_min_point1">Por favor garanta que a diferença entre as temperaturas máxima e mínima seja
+        maior que 0.1.
+    </string>
     <string name="tip_album_temp_exportfile">Você deseja exportar os dados de temperatura a um documento Excel?</string>
     <string name="tip_change_pseudo_mode">Você deseja trocar para o modo Renderização Dinâmica?</string>
-    <string name="color_p8_ios">Aureato </string>
+    <string name="color_p8_ios">Aureato</string>
 
     <string name="menu_3d_visual">Visão</string>
     <string name="menu_3d_calibrate">Calibração</string>
@@ -422,10 +513,18 @@
     <string name="main_tab_second_target_help">ajuda</string>
     <string name="main_tab_second_compass">Bússola</string>
     <string name="coordinate_mode">Modo Calibração</string>
-    <string name="coordinate_tips">O modo calibração somente exibe o ponto de temperatura mais alto ou mais baixo na imagem, e não o valor de temperatura.</string>
+    <string name="coordinate_tips">O modo calibração somente exibe o ponto de temperatura mais alto ou mais baixo na
+        imagem, e não o valor de temperatura.
+    </string>
     <string name="tips_ai">Reconhecimento de IA</string>
-    <string name="tips_ai_content">Reconhecimento Dinâmico: Usado para detectar objetos que ingressam na imagem. Mantenha a tela parada enquanto se utiliza este modo.\nFonte de Alta Temperatura: Identifica áreas de temperatura relativamente altas na imagem.\nFonte de Baixa Temperatura: Identifica áreas de temperatura relativamente baixas na imagem.</string>
-    <string name="tips_observe_photo_content">O teste de temperatura não pode ser utilizado no modo observação.\nImagens capturadas não podem ser reeditadas.</string>
+    <string name="tips_ai_content">Reconhecimento Dinâmico: Usado para detectar objetos que ingressam na imagem.
+        Mantenha a tela parada enquanto se utiliza este modo.\nFonte de Alta Temperatura: Identifica áreas de
+        temperatura relativamente altas na imagem.\nFonte de Baixa Temperatura: Identifica áreas de temperatura
+        relativamente baixas na imagem.
+    </string>
+    <string name="tips_observe_photo_content">O teste de temperatura não pode ser utilizado no modo observação.\nImagens
+        capturadas não podem ser reeditadas.
+    </string>
     <string name="setting_img_setting">Configurações de Imagem</string>
 
     <string name="func_test_distance">Distância</string>
@@ -439,18 +538,29 @@
     <string name="ts004_guide_text2">1. Pressione e mantenha o botão de alteração de modos por 3 segundos.</string>
     <string name="ts004_guide_text3">2. Habilitar Wi-Fi na tela.</string>
     <string name="ts004_guide_text4">Conectar</string>
-    <string name="ts004_guide_text5">3. Conecte seu telefone ao dispositivo Wi-Fi “%1$s”. (Nome do Wi-Fi: TS004_XXXX; senha do Wi-Fi: 12345678)</string>
+    <string name="ts004_guide_text5">3. Conecte seu telefone ao dispositivo Wi-Fi “%1$s”. (Nome do Wi-Fi: TS004_XXXX;
+        senha do Wi-Fi: 12345678)
+    </string>
     <string name="ts004_guide_text6">Mais</string>
     <string name="ts004_guide_text7">Caso a conexão ainda esteja falhando, por favor veja “%1$s”.</string>
     <string name="ts004_guide_text8">Caso o dispositivo não possa ser conectado, por favor tente o seguinte:</string>
-    <string name="ts004_guide_text9">1. Verifique para assegurar-se de que o dispositivo esteja completamente carregado e ativado. Ou reinicie o dispositivo.</string>
-    <string name="ts004_guide_text10">2. Posicione o dispositivo perto o suficiente do telefone (menos de 50 metros).</string>
-    <string name="ts004_guide_text11">3. Conecte seu telefone ao dispositivo Wi-Fi. (Nome do Wi-Fi: TS004_XXXX; senha do Wi-Fi: 12345678)</string>
-    <string name="ts004_guide_text12">Caso a conexão ainda esteja falhando, por favor entre em contato com o serviço ao cliente em 833-629-4832.</string>
+    <string name="ts004_guide_text9">1. Verifique para assegurar-se de que o dispositivo esteja completamente carregado
+        e ativado. Ou reinicie o dispositivo.
+    </string>
+    <string name="ts004_guide_text10">2. Posicione o dispositivo perto o suficiente do telefone (menos de 50 metros).
+    </string>
+    <string name="ts004_guide_text11">3. Conecte seu telefone ao dispositivo Wi-Fi. (Nome do Wi-Fi: TS004_XXXX; senha do
+        Wi-Fi: 12345678)
+    </string>
+    <string name="ts004_guide_text12">Caso a conexão ainda esteja falhando, por favor entre em contato com o serviço ao
+        cliente em 833-629-4832.
+    </string>
     <string name="app_location_accuracy_content">Sem acesso à sua localização exata. Deseja configurar?</string>
     <string name="device_switch_tips">Conectado com sucesso. Deseja alternar?</string>
     <string name="ts004_reset_tip1">Restaurar %1$s às configurações de fábrica.</string>
-    <string name="ts004_reset_tip2">Restaurar configurações de fábrica irá formatar todas as fotos e vídeos armazenados na câmera e reiniciar o dispositivo às configurações de fábrica. Deseja restaurar as configurações de fábrica?</string>
+    <string name="ts004_reset_tip2">Restaurar configurações de fábrica irá formatar todas as fotos e vídeos armazenados
+        na câmera e reiniciar o dispositivo às configurações de fábrica. Deseja restaurar as configurações de fábrica?
+    </string>
     <string name="ts004_reset_tip3">Restaurando as configurações de fábrica</string>
     <string name="ts004_reset_tip4">Restauração das configurações de fábrica bem-sucedida</string>
     <string name="color_p12">Remix</string>
@@ -459,7 +569,9 @@
     <string name="ts004_msg_copy">Copiar Informação</string>
     <string name="ts004_copy_success">Copiado com Sucesso</string>
     <string name="more_storage_reset">Formatar Armazenamento</string>
-    <string name="more_storage_reset1">Após a formatação, todas as fotos e vídeos salvos no TS004 serão apagados e não poderão ser recuperados. Deseja formatar o armazenamento?</string>
+    <string name="more_storage_reset1">Após a formatação, todas as fotos e vídeos salvos no TS004 serão apagados e não
+        poderão ser recuperados. Deseja formatar o armazenamento?
+    </string>
     <string name="update_new_version">Nova versão encontrada!</string>
     <string name="dialog_go_upgrade">Atualizar Agora</string>
     <string name="connect_auto_open">O dispositivo irá reiniciar automaticamente após a conexão.</string>
@@ -472,16 +584,28 @@
     <string name="compass_southwest">Sudoeste</string>
     <string name="compass_west">Oeste</string>
     <string name="target_tips_target_mode">Modo Alvo</string>
-    <string name="target_tips_title">Esta função é usada para medir aproximadamente a distância entre a câmera e o objeto.</string>
+    <string name="target_tips_title">Esta função é usada para medir aproximadamente a distância entre a câmera e o
+        objeto.
+    </string>
     <string name="target_tips_step_1">1. Toque em Tipo de Observação e escolha um objeto para observar.</string>
     <string name="target_tips_step_2">2. Toque em Alvo e escolha um estilo de alvo.</string>
     <string name="target_tips_step_3">3. Mova o alvo ou a câmera para alinhar o objeto com o centro do alvo.</string>
-    <string name="target_tips_step_4">4. Observe o objeto e o número no alvo (a distância entre a câmera e o objeto). Conforme mostrado na foto abaixo, a distância entre a câmera e o objeto é de 20 metros.</string>
-    <string name="target_tips_tip_content">Nota: Atualmente, alturas referenciais para 4 tipos de objetos estão disponíveis.</string>
+    <string name="target_tips_step_4">4. Observe o objeto e o número no alvo (a distância entre a câmera e o objeto).
+        Conforme mostrado na foto abaixo, a distância entre a câmera e o objeto é de 20 metros.
+    </string>
+    <string name="target_tips_tip_content">Nota: Atualmente, alturas referenciais para 4 tipos de objetos estão
+        disponíveis.
+    </string>
 
-    <string name="permission_request_camera_app">%1$s está pedindo permissão para sua câmera para permitir a troca da foto de perfil ou tirar fotos para dar feedback.</string>
-    <string name="permission_request_location_app">%1$s está pedindo permissão para acessar sua localização e buscar dispositivos Bluetooth próximos.</string>
-    <string name="permission_request_storage_app">%1$s está pedindo permissão de armazenamento para salvar arquivos locais ou ler fotos para configurações de perfil.</string>
+    <string name="permission_request_camera_app">%1$s está pedindo permissão para sua câmera para permitir a troca da
+        foto de perfil ou tirar fotos para dar feedback.
+    </string>
+    <string name="permission_request_location_app">%1$s está pedindo permissão para acessar sua localização e buscar
+        dispositivos Bluetooth próximos.
+    </string>
+    <string name="permission_request_storage_app">%1$s está pedindo permissão de armazenamento para salvar arquivos
+        locais ou ler fotos para configurações de perfil.
+    </string>
     <string name="privacy_tips">Se você discorda, você não conseguirá usar nosso produto ou serviço.</string>
     <string name="privacy_cancel">Discordar e Usar</string>
     <string name="privacy_confirm">Concordar e Usar</string>
@@ -494,15 +618,24 @@
     <string name="tips_download_information">Informação de Download</string>
     <string name="installation_package_download_progress">Progresso do download do pacote de instalação</string>
     <string name="installation_package_downloading">Baixando o pacote de instalação</string>
-    <string name="installation_package_downloading_tips">Começando a baixar Por favor, verifique o progresso nas Notificações</string>
+    <string name="installation_package_downloading_tips">Começando a baixar Por favor, verifique o progresso nas
+        Notificações
+    </string>
     <string name="welcome_use_app">Bem-vindo a %1$s</string>
 
     <!--葡萄牙语-->
 
     <string name="dual_light_correction">Correção de Luz Dupla</string>
-    <string name="dual_light_correction_tips_1">Como os focos das duas câmeras não estão alinhados, as imagens capturadas de diferentes distâncias pelas duas câmeras não estarão alinhadas.\nEsta função pode ajudar com o alinhamento de imagem separadamente.</string>
-    <string name="dual_light_correction_tips_2">1. Deixe uma fonte de calor (como a palma de sua mão) dentro da imagem a uma distância de aproximadamente 0.5 metros da câmera.\n2. Toque para tirar uma foto.</string>
-    <string name="dual_light_correction_tips_3">1. Arraste as imagens para alinhá-las.\n2. Role a barra de progresso para ajustar o ângulo de alinhamento.\n3. Pressione o botão OK para completar a correção.</string>
+    <string name="dual_light_correction_tips_1">Como os focos das duas câmeras não estão alinhados, as imagens
+        capturadas de diferentes distâncias pelas duas câmeras não estarão alinhadas.\nEsta função pode ajudar com o
+        alinhamento de imagem separadamente.
+    </string>
+    <string name="dual_light_correction_tips_2">1. Deixe uma fonte de calor (como a palma de sua mão) dentro da imagem a
+        uma distância de aproximadamente 0.5 metros da câmera.\n2. Toque para tirar uma foto.
+    </string>
+    <string name="dual_light_correction_tips_3">1. Arraste as imagens para alinhá-las.\n2. Role a barra de progresso
+        para ajustar o ângulo de alinhamento.\n3. Pressione o botão OK para completar a correção.
+    </string>
 
 
     <string name="menu_thermal_visible_light">Luz visível</string>
@@ -520,12 +653,16 @@
     <string name="temp_text_sup_big">Super grande</string>
     <string name="menu_thermal_font">Fonte</string>
 
-    <string name="text_p_umeng">Para fornecer uma melhor experiência funcional, nossos produtos integram Umeng+SDK para estatísticas de dados e coleta de registros. O SDK coletará a identificação do seu dispositivo e informações da conta</string>.
+    <string name="text_p_umeng">Para fornecer uma melhor experiência funcional, nossos produtos integram Umeng+SDK para
+        estatísticas de dados e coleta de registros. O SDK coletará a identificação do seu dispositivo e informações da
+        conta</string>.
 
     <!--TS004-->
     <string name="ts004_connection_device">Dispositivos conectados com fio</string>
     <string name="ts004_auto_save">Salvamento Automático em Seu Telefone</string>
-    <string name="ts004_save_tips">Quando ativado, ao conectar ao aplicativo para tomar fotos ou vídeos, as fotos e vídeos serão salvos automaticamente localmente em seu telefone.</string>
+    <string name="ts004_save_tips">Quando ativado, ao conectar ao aplicativo para tomar fotos ou vídeos, as fotos e
+        vídeos serão salvos automaticamente localmente em seu telefone.
+    </string>
     <string name="ts004_disconnect_tips1">Você poderá desconectar o dispositivo na lista Wi-Fi de seu telefone.</string>
     <string name="ts004_disconnect_tips2">1. Abra a lista Wi-Fi de seu telefone.</string>
     <string name="ts004_disconnect_tips3">2. Delete o Wi-Fi de TS004.</string>
@@ -540,18 +677,32 @@
     <string name="ts004_sure_open">Por favor, assegure-se de que está ativado.</string>
     <string name="ts004_wlan_open">Localização WLAN &amp; Bluetooth</string>
     <string name="ts004_scan_doing">Escaneando...</string>
-    <string name="ts004_device_open">Por favor, assegure-se de que o dispositivo esteja ligado e próximo ao telefone.</string>
+    <string name="ts004_device_open">Por favor, assegure-se de que o dispositivo esteja ligado e próximo ao telefone.
+    </string>
     <string name="user_connect">Conectar</string>
     <string name="user_device_connecting">Conectando...</string>
     <string name="ts004_scan_nothing">Dispositivo não encontrado.</string>
     <string name="ts004_scan_again">Escanear Novamente</string>
-    <string name="ts004_bluetooth_auth">Permissão de Bluetooth necessária para conectar ao telefone para informação de dispositivo necessária.</string>
-    <string name="ts004_bluetooth_tips">O Bluetooth precisa ser ativado para detecção do dispositivo. Quer conceder a permissão?</string>
-    <string name="ts004_location_auth">Permissão de localização é necessária para conectar o telefone para obtenção da lista Wi-Fi para a conexão do dispositivo.</string>
-    <string name="ts004_exact_location_auth">Permissão de localização exata é necessária para conectar o telefone para obtenção da lista Wi-Fi para a conexão do dispositivo.</string>
-    <string name="ts004_location_tips">Permissão de localização necessária para detectar o dispositivo. Quer conceder a permissão?</string>
-    <string name="ts004_wlan_auth">Permissão WLAN necessária para conectar ao telefone para comunicação entre o dispositivo e o telefone.</string>
-    <string name="ts004_wlan_tips">Permissão WLAN necessária para conexão do dispositivo. Quer conceder a permissão?</string>
+    <string name="ts004_bluetooth_auth">Permissão de Bluetooth necessária para conectar ao telefone para informação de
+        dispositivo necessária.
+    </string>
+    <string name="ts004_bluetooth_tips">O Bluetooth precisa ser ativado para detecção do dispositivo. Quer conceder a
+        permissão?
+    </string>
+    <string name="ts004_location_auth">Permissão de localização é necessária para conectar o telefone para obtenção da
+        lista Wi-Fi para a conexão do dispositivo.
+    </string>
+    <string name="ts004_exact_location_auth">Permissão de localização exata é necessária para conectar o telefone para
+        obtenção da lista Wi-Fi para a conexão do dispositivo.
+    </string>
+    <string name="ts004_location_tips">Permissão de localização necessária para detectar o dispositivo. Quer conceder a
+        permissão?
+    </string>
+    <string name="ts004_wlan_auth">Permissão WLAN necessária para conectar ao telefone para comunicação entre o
+        dispositivo e o telefone.
+    </string>
+    <string name="ts004_wlan_tips">Permissão WLAN necessária para conexão do dispositivo. Quer conceder a permissão?
+    </string>
     <string name="ts004_download_continue">Continuar</string>
     <string name="ts004_download_cancel">Cancelar</string>
     <string name="ts004_download_tips">O download falhou. Deseja continuar baixando?</string>
@@ -568,21 +719,30 @@
 
     <string name="ts004_storage_space">Espaço de Armazenamento TS004</string>
     <string name="electronic_manual">e-Manual</string>
-    <string name="ts004_wlan_open_android">Por favor, assegure-se de que o WLAN e a localização estejam ativados.</string>
+    <string name="ts004_wlan_open_android">Por favor, assegure-se de que o WLAN e a localização estejam ativados.
+    </string>
     <string name="user_device_connecting_fail">Erro de conexão!</string>
     <string name="liveData_save_error">Erro ao salvar</string>
     <string name="also_del_from_phone_album">Também Apagado do Álbum do Telefone</string>
-    <string name="upgrade_bind_error">O dispositivo foi vinculado. Por favor, entre com a conta vinculada anteriormente.</string>
-    <string name="fireware_restart_tips">O dispositivo irá reiniciar automaticamente após completar a melhoria de firmware.</string>
+    <string name="upgrade_bind_error">O dispositivo foi vinculado. Por favor, entre com a conta vinculada
+        anteriormente.
+    </string>
+    <string name="fireware_restart_tips">O dispositivo irá reiniciar automaticamente após completar a melhoria de
+        firmware.
+    </string>
     <string name="device_disconnect_alert">Desconectado</string>
     <string name="device_reset_alert">O dispositivo foi reiniciado às configurações de fábrica e desativado.</string>
     <string name="ts004_tisr_title">Habilitar TISR</string>
-    <string name="ts004_tisr_tips">Após a ativação do TISR, a resolução da imagem irá aumentar com base no algoritmo da IA e o consumo de energia também aumentará.</string>
+    <string name="ts004_tisr_tips">Após a ativação do TISR, a resolução da imagem irá aumentar com base no algoritmo da
+        IA e o consumo de energia também aumentará.
+    </string>
     <string name="app_bluetooth">Bluetooth</string>
     <string name="ts004_auth_location">Localização</string>
     <string name="ts004_auth_location_accuracy">Localização Exata</string>
     <string name="ts004_local_network">Rede Local</string>
-    <string name="ts004_local_network_open">A rede local precisa estar ativada para conectar-se ao dispositivo. Deseja ativá-la?</string>
+    <string name="ts004_local_network_open">A rede local precisa estar ativada para conectar-se ao dispositivo. Deseja
+        ativá-la?
+    </string>
     <string name="ts004_store_systom">Sistema</string>
     <string name="ts004_connect_tips">Dicas de Conexão</string>
     <string name="operation_failed_tips">Erro</string>
@@ -591,16 +751,27 @@
     <string name="ts004_location_permission">Permissão para Localização de Precisão</string>
     <string name="ts004_device_change">Você pode ativar esta função na Central Pessoal.</string>
     <string name="ts004_store_reset">O dispositivo irá reiniciar automaticamente após a formatação.</string>
-    <string name="ts004_faq_q1">O TS004 pode identificar objetos debaixo d’água, através de vidros ou de paredes?</string>
-    <string name="ts004_faq_a1">Não. Detectores infravermelhos detectam em sua maioria faixas infravermelhas de ondas entre 8 a 14μm, e podem ser usados apenas para medir temperaturas de superfícies.</string>
+    <string name="ts004_faq_q1">O TS004 pode identificar objetos debaixo d’água, através de vidros ou de paredes?
+    </string>
+    <string name="ts004_faq_a1">Não. Detectores infravermelhos detectam em sua maioria faixas infravermelhas de ondas
+        entre 8 a 14μm, e podem ser usados apenas para medir temperaturas de superfícies.
+    </string>
     <string name="ts004_faq_q2">Posso conectar qualquer telefone ao TS004?</string>
-    <string name="ts004_faq_a2">Atualmente, o TS004 é compatível com telefones de sistema operacional Android 7 ou mais atual e telefones com iOS 11 ou mais atual.</string>
+    <string name="ts004_faq_a2">Atualmente, o TS004 é compatível com telefones de sistema operacional Android 7 ou mais
+        atual e telefones com iOS 11 ou mais atual.
+    </string>
     <string name="ts004_faq_q3">O foco da câmera é fixo ou ajustável?</string>
-    <string name="ts004_faq_a3">A câmera infravermelha vem com o foco fixo. O usuário pode girar o botão de ajuste de dioptria para otimizar a nitidez da imagem exibida no monitor.</string>
+    <string name="ts004_faq_a3">A câmera infravermelha vem com o foco fixo. O usuário pode girar o botão de ajuste de
+        dioptria para otimizar a nitidez da imagem exibida no monitor.
+    </string>
     <string name="ts004_faq_q4">Por quanto tempo posso usar o TS004 para gravar vídeos?</string>
-    <string name="ts004_faq_a4">Você pode continuar gravando vídeos até que a bateria do TS004 se esgote. Porém, o TS004 irá automaticamente salvar os vídeos a cada 20 minutos.</string>
+    <string name="ts004_faq_a4">Você pode continuar gravando vídeos até que a bateria do TS004 se esgote. Porém, o TS004
+        irá automaticamente salvar os vídeos a cada 20 minutos.
+    </string>
     <string name="ts004_faq_q5">Como posso ver as imagens térmicas capturadas em um PC?</string>
-    <string name="ts004_faq_a5">Conecte o TS004 a um PC usando o cabo USB, e então você poderá visualizar as imagens térmicas armazenadas no TS004.</string>
+    <string name="ts004_faq_a5">Conecte o TS004 a um PC usando o cabo USB, e então você poderá visualizar as imagens
+        térmicas armazenadas no TS004.
+    </string>
 
     <!-- TC001 老 APP 引流 -->
     <string name="gallery_transfer">Transferência de Galeria</string>
@@ -610,14 +781,27 @@
     <!-- 3.70 -->
     <string name="user_jump">Pular</string>
     <string name="tc_guide_tips1">Ver gráficos de monitoramento em tempo real e registros de monitoramento.</string>
-    <string name="tc_guide_tips2">Para garantir uma medição precisa de temperatura, defina parâmetros relevantes antes da medição de temperatura.</string>
-    <string name="tc_guide_tips3">Após inserir o dispositivo infravermelho, toque em Ativar Imagem Térmica para medir a temperatura.</string>
-    <string name="tc_temp_guide_tips1">Modifique a emissão do alvo de testes. A emissão incorreta irá afetar o resultado da medição da temperatura final</string>
+    <string name="tc_guide_tips2">Para garantir uma medição precisa de temperatura, defina parâmetros relevantes antes
+        da medição de temperatura.
+    </string>
+    <string name="tc_guide_tips3">Após inserir o dispositivo infravermelho, toque em Ativar Imagem Térmica para medir a
+        temperatura.
+    </string>
+    <string name="tc_temp_guide_tips1">Modifique a emissão do alvo de testes. A emissão incorreta irá afetar o resultado
+        da medição da temperatura final
+    </string>
     <string name="tc_temp_guide_tips2">Verifique a emissão de materiais comuns.</string>
     <string name="tc_high_temp_test">Teste de Alta Temperatura</string>
-    <string name="tc_high_temp_test_tips1">Para garantir uma medição precisa de temperatura, confirme se a emissão atual está correta. Caso esteja incorreta, toque em</string>
-    <string name="tc_high_temp_test_tips2">para modificá-la. Emissões incorretas irão afetar o resultado da medição de temperatura final.</string>
-    <string name="tc_temp_test_tips">Para garantir uma medição precisa de temperatura, verifique se os parâmetros de emissão estão corretos antes de medir a temperatura, do contrário, isso poderá afetar os resultados de medição de temperatura.</string>
+    <string name="tc_high_temp_test_tips1">Para garantir uma medição precisa de temperatura, confirme se a emissão atual
+        está correta. Caso esteja incorreta, toque em
+    </string>
+    <string name="tc_high_temp_test_tips2">para modificá-la. Emissões incorretas irão afetar o resultado da medição de
+        temperatura final.
+    </string>
+    <string name="tc_temp_test_tips">Para garantir uma medição precisa de temperatura, verifique se os parâmetros de
+        emissão estão corretos antes de medir a temperatura, do contrário, isso poderá afetar os resultados de medição
+        de temperatura.
+    </string>
     <string name="tc_temp_test_materials">Material de Referência</string>
     <string name="tc_modify_params">Modificar Parâmetros</string>
     <string name="reference_item9">Neve</string>
@@ -631,25 +815,41 @@
     <string name="tc_connect_line">Conexão Cabeada</string>
     <string name="tc_connect_wifi">Conexão Sem-fio</string>
     <string name="tc_delete_device">Deletar Dispositivo</string>
-    <string name="tc_delete_device_tips">Confirma que deseja deletar o tipo de dispositivo atual? Toque no botão superior direito para adicionar este tipo de dispositivo novamente se necessário.</string>
+    <string name="tc_delete_device_tips">Confirma que deseja deletar o tipo de dispositivo atual? Toque no botão
+        superior direito para adicionar este tipo de dispositivo novamente se necessário.
+    </string>
     <string name="tc_has_line_device">Dispositivo Cabeado</string>
-    <string name="tc_reset_tips">Todas as configurações de dispositivo serão restauradas para a configuração de fábrica. Confirma esta restauração?</string>
+    <string name="tc_reset_tips">Todas as configurações de dispositivo serão restauradas para a configuração de fábrica.
+        Confirma esta restauração?
+    </string>
     <string name="coming_soon">Fique Ligado...</string>
 
     <!-- 3.90 -->
-    <string name="tc007_connect_tips1">1. Certifique-se de que o equipamento tem energia suficiente e está perto o suficiente</string>
+    <string name="tc007_connect_tips1">1. Certifique-se de que o equipamento tem energia suficiente e está perto o
+        suficiente
+    </string>
     <string name="tc007_connect_tips2">2. Ligue o Bluetooth e WiFi no seu telefone</string>
     <string name="tc007_connect_tips3">3. Entre na página de digitalização do APP</string>
     <string name="tc007_connect_tips4">4. Se a conexão continuar falhando, reinicie e tente conectar novamente</string>
-    <string name="pseudo_color_switch">Os modos de comutação irão regressar à pseudo- cor predefinida. Tem a certeza de mudar</string>
-    <string name="firmware_up_success">Atualização de firmware bem sucedida, você quer retornar à página inicial?</string>
+    <string name="pseudo_color_switch">Os modos de comutação irão regressar à pseudo- cor predefinida. Tem a certeza de
+        mudar
+    </string>
+    <string name="firmware_up_success">Atualização de firmware bem sucedida, você quer retornar à página inicial?
+    </string>
     <string name="ts004_network">dados sem fio</string>
-    <string name="ts004_network_open">Os dados sem fio precisam estar ativados para conectar o dispositivo. Está ligado?</string>
-    <string name="tc_guide_tips4">Depois que a conexão for bem-sucedida, clique para ativar a imagem térmica para detecção de temperatura.</string>
+    <string name="ts004_network_open">Os dados sem fio precisam estar ativados para conectar o dispositivo. Está
+        ligado?
+    </string>
+    <string name="tc_guide_tips4">Depois que a conexão for bem-sucedida, clique para ativar a imagem térmica para
+        detecção de temperatura.
+    </string>
     <string name="tc_unsupport_mode">O calor branco e o calor negro não suportam réguas isotérmicas</string>
-    <string name="app_bluetooth_content">Não tenho permissão para acessar o seu Bluetooth (dispositivos próximos).</string>
+    <string name="app_bluetooth_content">Não tenho permissão para acessar o seu Bluetooth (dispositivos próximos).
+    </string>
     <string name="nearby_device_permissions">Permissões do dispositivo próximo</string>
-    <string name="open_bt_switch_tips">Ao conectar-se a um telefone celular, o Bluetooth precisa ser ativado para obter as informações necessárias do dispositivo</string>
+    <string name="open_bt_switch_tips">Ao conectar-se a um telefone celular, o Bluetooth precisa ser ativado para obter
+        as informações necessárias do dispositivo
+    </string>
     <string name="wifi_connect_loading">A previsão é de 15s...</string>
     <string name="tc007_done_fast">Operações frequentes</string>
 
@@ -681,7 +881,9 @@
     <string name="create_report">Criar Relatório</string>
     <string name="paste">Copiar</string>
     <string name="monitor_report_delete">excluir relatório</string>
-    <string name="report_delete_tips">O relatório não pode ser visualizado ou editado após sua exclusão. Deseja excluí-lo?</string>
+    <string name="report_delete_tips">O relatório não pode ser visualizado ou editado após sua exclusão. Deseja
+        excluí-lo?
+    </string>
     <string name="edit_detection_report">Editar Relatório</string>
     <string name="monitor_report_export">Exportar Relatório</string>
     <string name="edit_directory">Editar Diretório</string>
@@ -717,8 +919,12 @@
     <string name="detect_dir4_item7">Armazenamento de Combustível &amp; Sistemas de Distribuição</string>
     <string name="detect_dir5_root">Eletricidade</string>
     <string name="detect_dir5_item2">Condutores de Entrada de Serviço</string>
-    <string name="detect_dir5_item3">Equipamentos de Serviço e Aterramento, Dispositivo de Sobretensão Principal, Painéis Principal e de Distribuição</string>
-    <string name="detect_dir5_item4">Condutores de Circuito Ramificado, Dispositivos de Sobretensão e Compatibilidade de Sua Amperagem &amp; Voltagem</string>
+    <string name="detect_dir5_item3">Equipamentos de Serviço e Aterramento, Dispositivo de Sobretensão Principal,
+        Painéis Principal e de Distribuição
+    </string>
+    <string name="detect_dir5_item4">Condutores de Circuito Ramificado, Dispositivos de Sobretensão e Compatibilidade de
+        Sua Amperagem &amp; Voltagem
+    </string>
     <string name="detect_dir5_item5">Dispositivos e Luminárias Conectados</string>
     <string name="detect_dir5_item6">Receptáculos de Polaridade e Aterramento</string>
     <string name="detect_dir5_item7">GFCI &amp; AFCI</string>
@@ -803,30 +1009,116 @@
     <string name="abnormal_item20">Rolo Central Dianteiro/Traseiro</string>
     <string name="abnormal_item21">Pinça de Frenagem</string>
     <string name="abnormal_item22">Rotor de Frenagem</string>
-    <string name="abnormal_description1">A temperatura da bobina de ignição é afetada por muitos fatores, como temperatura do motor, temperatura ambiente e carga da bobina de ignição. Caso a temperatura da bobina de ignição esteja muito alta, as bobinas de ignição podem ser danificadas ou até mesmo causar um incêndio no motor. Caso a temperatura da bobina de ignição esteja muito baixa, as bobinas de ignição podem não estar funcionando. Monitore a temperatura da bobina de ignição com um sensor de imagem térmica. Caso a temperatura caia abaixo do valor recomendado ou esteja desigual, é possível determinar quais bobinas estão funcionando e quais não estão.</string>
-    <string name="abnormal_description2">A temperatura do coletor de escapamento é afetada por muitos fatores, como o estado de funcionamento do motor, a carga do motor, a temperatura ambiente, e a velocidade do veículo. Caso a temperatura do coletor de escapamento esteja muito alta, o motor ou outras partes do sistema exaustor podem ser danificados, ou um incêndio poderá ocorrer. Caso a temperatura do coletor de escapamento esteja muito baixa, isso levará a um acúmulo de carbono no motor, o que gerará dificuldades e outros problemas. Monitore a temperatura do coletor de escapamento com um sensor de imagem térmica. Caso a temperatura caia abaixo do valor recomendado ou esteja desigual, é possível determinar quais cilindros apresentam temperatura de exaustão anormal.</string>
-    <string name="abnormal_description3">Monitore o conversor catalítico com um sensor de imagem térmica. A temperatura de saída do conversor deve ser muito mais alta que a temperatura de entrada. Caso a temperatura de saída esteja mais baixa que a temperatura de entrada, o conversor poderá ter falhado.</string>
-    <string name="abnormal_description4">O rolamento do compressor de ar condicionado está sujeito à pressão mecânica e fricção, e a temperatura do rolamento é afetada por diversos fatores, tais como velocidade, carga, condições de lubrificação, temperatura ambiente e aperto da correia. Caso a temperatura do rolamento esteja muito alta, isso levará a uma falha na lubrificação do rolamento, o que reduz a vida útil do rolamento e o danifica. Monitore a temperatura do rolamento com um sensor de imagem térmica. Caso a temperatura do rolamento caia abaixo do valor recomendado, ou esteja mais alta que a de outros rolamentos, este rolamento poderá estar com problemas.</string>
-    <string name="abnormal_description5">O rolamento do alternador está sujeito à pressão mecânica e fricção, e a temperatura do rolamento é afetada por diversos fatores, tais como velocidade, carga, condições de lubrificação, temperatura ambiente e aperto da correia. Caso a temperatura do rolamento esteja muito alta, isso levará a uma falha na lubrificação do rolamento, o que reduz a vida útil do rolamento e o danifica. Monitore a temperatura do alternador com um sensor de imagem térmica. Caso a temperatura do rolamento caia abaixo do valor recomendado, ou esteja mais alta que a de outros rolamentos, este rolamento poderá estar com problemas.</string>
-    <string name="abnormal_description6">O rolamento da bomba de água está sujeito à pressão mecânica e fricção, e a temperatura do rolamento é afetada por diversos fatores, tais como velocidade, carga, condições de lubrificação, temperatura ambiente e aperto da correia. Caso a temperatura do rolamento esteja muito alta, isso levará a uma falha na lubrificação do rolamento, o que reduz a vida útil do rolamento e o danifica. Monitore a temperatura da bomba de água com um sensor de imagem térmica. Caso a temperatura do rolamento caia abaixo do valor recomendado, ou esteja mais alta que a de outros rolamentos, este rolamento poderá estar com problemas.</string>
-    <string name="abnormal_description7">O tensionador de correia está sujeito à pressão mecânica e fricção, e sua temperatura é afetada por diversos fatores, tais como velocidade, carga, condições de lubrificação, temperatura ambiente e aperto da correia. Caso a temperatura esteja muito alta, isso levará a uma falha na lubrificação do rolamento, o que reduz a vida útil do rolamento e o danifica. Monitore a temperatura do tensionador de correia com um sensor de imagem térmica. Caso a temperatura de um tensionador de correia caia abaixo do valor recomendado, ou esteja mais alta que a de outros tensionadores de correia, este rolamento poderá estar com problemas.</string>
-    <string name="abnormal_description8">Monitore o refrigerador de fluido de transmissão com um sensor de imagem térmica. Quando o refrigerador funciona bem, a temperatura de saída deve ser muito menor que a temperatura de entrada. Caso a temperatura de saída esteja próxima da temperatura de entrada, ou caso a temperatura do refrigerador caia abaixo do valor recomendado, o refrigerador de fluido de transmissão pode estar com problemas.</string>
-    <string name="abnormal_description9">A válvula de controle de fluxo de refrigerante pode controlar linearmente o fluxo de refrigerante de acordo com a demanda de resfriamento. Desta maneira, ela pode controlas melhor a temperatura do motor. Caso a válvula esteja emperrada na posição fechada ou em uma posição com uma abertura pequena, o líquido refrigerante não poderá circular em grandes quantidades, o que levará a um sobreaquecimento da água do motor.</string>
-    <string name="abnormal_description10">Monitore o permutador com um sensor de imagem térmica. Quando o permutador funciona bem, a temperatura de saída deve ser muito menor que a temperatura de entrada. Caso a temperatura de saída esteja próxima da temperatura de entrada, ou caso a temperatura do permutador caia abaixo do valor recomendado, o permutador pode estar com problemas.</string>
-    <string name="abnormal_description11">Quando a temperatura de funcionamento do termostato voltar ao normal, o termostato se iniciará, injetando líquido refrigerante no motor e no radiador para circulação em grandes quantidades, o que manterá a água do motor em uma temperatura normal. Caso o termostato esteja emperrado em posição desligada, o líquido refrigerante não poderá circular em grandes quantidades, o que levará a um sobreaquecimento da água do motor.</string>
-    <string name="abnormal_description12">Conecte o aquecedor de bloco de motor a uma fonte de energia 110V e monitore-o com um sensor de imagem térmica. Quando a energia estiver ativada, a temperatura do aquecedor irá subir. Caso contrário, o aquecedor ou seu circuito terão falhado.</string>
-    <string name="abnormal_description13">Monitore o radiador com um sensor de imagem térmica. Quando o radiador funciona bem, a temperatura de saída deve ser muito menor que a temperatura de entrada. Caso a temperatura de saída esteja próxima da temperatura de entrada, ou caso a temperatura do radiador caia abaixo do valor recomendado, o radiador pode estar com problemas.</string>
-    <string name="abnormal_description14">A temperatura do cabo de bateria é afetada por diversos fatores, tais como temperatura ambiente, e carga de bateria. Monitore a temperatura do cabo com um sensor de imagem térmica. Caso a temperatura esteja muito alta, isto pode ser causado por recarga excessiva de bateria, curto-circuito ou conexão virtual, bateria danificada, e erros do sistema de recarga.</string>
-    <string name="abnormal_description15">A temperatura do aquecedor de assento é afetada por diversos fatores, tais como a temperatura ambiente, e a carga do aquecedor. Monitore a temperatura do aquecedor com um sensor de imagem térmica, e então você poderá analisar se o assento pode ser aquecido de maneira eficaz.</string>
-    <string name="abnormal_description16">A temperatura do desembaçador do vidro traseiro é afetada por diversos fatores, tais como temperatura ambiente, e carga do aquecedor. Monitore a temperatura do aquecedor do desembaçador do vidro traseiro com um sensor de imagem térmica, e então você poderá analisar se o desembaçador do vidro traseiro pode ser aquecido de maneira eficaz.</string>
-    <string name="abnormal_description17">A temperatura do aquecedor do vidro traseiro é afetada por diversos fatores, como a temperatura ambiente, e a carga do aquecedor. Monitore a temperatura do aquecedor com um sensor de imagem térmica, e então você poderá analisar se o vidro traseiro pode ser aquecido de maneira eficaz.</string>
-    <string name="abnormal_description18">A temperatura do motor da janela é afetada por diversos fatores, tais como a temperatura ambiente, e a carga do motor. Monitore a temperatura do motor com um sensor de imagem térmica. Caso a temperatura esteja muito alta, isso pode ser causado por uma falha no mecanismo de levantamento da janela ou pelo próprio motor.</string>
+    <string name="abnormal_description1">A temperatura da bobina de ignição é afetada por muitos fatores, como
+        temperatura do motor, temperatura ambiente e carga da bobina de ignição. Caso a temperatura da bobina de ignição
+        esteja muito alta, as bobinas de ignição podem ser danificadas ou até mesmo causar um incêndio no motor. Caso a
+        temperatura da bobina de ignição esteja muito baixa, as bobinas de ignição podem não estar funcionando. Monitore
+        a temperatura da bobina de ignição com um sensor de imagem térmica. Caso a temperatura caia abaixo do valor
+        recomendado ou esteja desigual, é possível determinar quais bobinas estão funcionando e quais não estão.
+    </string>
+    <string name="abnormal_description2">A temperatura do coletor de escapamento é afetada por muitos fatores, como o
+        estado de funcionamento do motor, a carga do motor, a temperatura ambiente, e a velocidade do veículo. Caso a
+        temperatura do coletor de escapamento esteja muito alta, o motor ou outras partes do sistema exaustor podem ser
+        danificados, ou um incêndio poderá ocorrer. Caso a temperatura do coletor de escapamento esteja muito baixa,
+        isso levará a um acúmulo de carbono no motor, o que gerará dificuldades e outros problemas. Monitore a
+        temperatura do coletor de escapamento com um sensor de imagem térmica. Caso a temperatura caia abaixo do valor
+        recomendado ou esteja desigual, é possível determinar quais cilindros apresentam temperatura de exaustão
+        anormal.
+    </string>
+    <string name="abnormal_description3">Monitore o conversor catalítico com um sensor de imagem térmica. A temperatura
+        de saída do conversor deve ser muito mais alta que a temperatura de entrada. Caso a temperatura de saída esteja
+        mais baixa que a temperatura de entrada, o conversor poderá ter falhado.
+    </string>
+    <string name="abnormal_description4">O rolamento do compressor de ar condicionado está sujeito à pressão mecânica e
+        fricção, e a temperatura do rolamento é afetada por diversos fatores, tais como velocidade, carga, condições de
+        lubrificação, temperatura ambiente e aperto da correia. Caso a temperatura do rolamento esteja muito alta, isso
+        levará a uma falha na lubrificação do rolamento, o que reduz a vida útil do rolamento e o danifica. Monitore a
+        temperatura do rolamento com um sensor de imagem térmica. Caso a temperatura do rolamento caia abaixo do valor
+        recomendado, ou esteja mais alta que a de outros rolamentos, este rolamento poderá estar com problemas.
+    </string>
+    <string name="abnormal_description5">O rolamento do alternador está sujeito à pressão mecânica e fricção, e a
+        temperatura do rolamento é afetada por diversos fatores, tais como velocidade, carga, condições de lubrificação,
+        temperatura ambiente e aperto da correia. Caso a temperatura do rolamento esteja muito alta, isso levará a uma
+        falha na lubrificação do rolamento, o que reduz a vida útil do rolamento e o danifica. Monitore a temperatura do
+        alternador com um sensor de imagem térmica. Caso a temperatura do rolamento caia abaixo do valor recomendado, ou
+        esteja mais alta que a de outros rolamentos, este rolamento poderá estar com problemas.
+    </string>
+    <string name="abnormal_description6">O rolamento da bomba de água está sujeito à pressão mecânica e fricção, e a
+        temperatura do rolamento é afetada por diversos fatores, tais como velocidade, carga, condições de lubrificação,
+        temperatura ambiente e aperto da correia. Caso a temperatura do rolamento esteja muito alta, isso levará a uma
+        falha na lubrificação do rolamento, o que reduz a vida útil do rolamento e o danifica. Monitore a temperatura da
+        bomba de água com um sensor de imagem térmica. Caso a temperatura do rolamento caia abaixo do valor recomendado,
+        ou esteja mais alta que a de outros rolamentos, este rolamento poderá estar com problemas.
+    </string>
+    <string name="abnormal_description7">O tensionador de correia está sujeito à pressão mecânica e fricção, e sua
+        temperatura é afetada por diversos fatores, tais como velocidade, carga, condições de lubrificação, temperatura
+        ambiente e aperto da correia. Caso a temperatura esteja muito alta, isso levará a uma falha na lubrificação do
+        rolamento, o que reduz a vida útil do rolamento e o danifica. Monitore a temperatura do tensionador de correia
+        com um sensor de imagem térmica. Caso a temperatura de um tensionador de correia caia abaixo do valor
+        recomendado, ou esteja mais alta que a de outros tensionadores de correia, este rolamento poderá estar com
+        problemas.
+    </string>
+    <string name="abnormal_description8">Monitore o refrigerador de fluido de transmissão com um sensor de imagem
+        térmica. Quando o refrigerador funciona bem, a temperatura de saída deve ser muito menor que a temperatura de
+        entrada. Caso a temperatura de saída esteja próxima da temperatura de entrada, ou caso a temperatura do
+        refrigerador caia abaixo do valor recomendado, o refrigerador de fluido de transmissão pode estar com problemas.
+    </string>
+    <string name="abnormal_description9">A válvula de controle de fluxo de refrigerante pode controlar linearmente o
+        fluxo de refrigerante de acordo com a demanda de resfriamento. Desta maneira, ela pode controlas melhor a
+        temperatura do motor. Caso a válvula esteja emperrada na posição fechada ou em uma posição com uma abertura
+        pequena, o líquido refrigerante não poderá circular em grandes quantidades, o que levará a um sobreaquecimento
+        da água do motor.
+    </string>
+    <string name="abnormal_description10">Monitore o permutador com um sensor de imagem térmica. Quando o permutador
+        funciona bem, a temperatura de saída deve ser muito menor que a temperatura de entrada. Caso a temperatura de
+        saída esteja próxima da temperatura de entrada, ou caso a temperatura do permutador caia abaixo do valor
+        recomendado, o permutador pode estar com problemas.
+    </string>
+    <string name="abnormal_description11">Quando a temperatura de funcionamento do termostato voltar ao normal, o
+        termostato se iniciará, injetando líquido refrigerante no motor e no radiador para circulação em grandes
+        quantidades, o que manterá a água do motor em uma temperatura normal. Caso o termostato esteja emperrado em
+        posição desligada, o líquido refrigerante não poderá circular em grandes quantidades, o que levará a um
+        sobreaquecimento da água do motor.
+    </string>
+    <string name="abnormal_description12">Conecte o aquecedor de bloco de motor a uma fonte de energia 110V e monitore-o
+        com um sensor de imagem térmica. Quando a energia estiver ativada, a temperatura do aquecedor irá subir. Caso
+        contrário, o aquecedor ou seu circuito terão falhado.
+    </string>
+    <string name="abnormal_description13">Monitore o radiador com um sensor de imagem térmica. Quando o radiador
+        funciona bem, a temperatura de saída deve ser muito menor que a temperatura de entrada. Caso a temperatura de
+        saída esteja próxima da temperatura de entrada, ou caso a temperatura do radiador caia abaixo do valor
+        recomendado, o radiador pode estar com problemas.
+    </string>
+    <string name="abnormal_description14">A temperatura do cabo de bateria é afetada por diversos fatores, tais como
+        temperatura ambiente, e carga de bateria. Monitore a temperatura do cabo com um sensor de imagem térmica. Caso a
+        temperatura esteja muito alta, isto pode ser causado por recarga excessiva de bateria, curto-circuito ou conexão
+        virtual, bateria danificada, e erros do sistema de recarga.
+    </string>
+    <string name="abnormal_description15">A temperatura do aquecedor de assento é afetada por diversos fatores, tais
+        como a temperatura ambiente, e a carga do aquecedor. Monitore a temperatura do aquecedor com um sensor de imagem
+        térmica, e então você poderá analisar se o assento pode ser aquecido de maneira eficaz.
+    </string>
+    <string name="abnormal_description16">A temperatura do desembaçador do vidro traseiro é afetada por diversos
+        fatores, tais como temperatura ambiente, e carga do aquecedor. Monitore a temperatura do aquecedor do
+        desembaçador do vidro traseiro com um sensor de imagem térmica, e então você poderá analisar se o desembaçador
+        do vidro traseiro pode ser aquecido de maneira eficaz.
+    </string>
+    <string name="abnormal_description17">A temperatura do aquecedor do vidro traseiro é afetada por diversos fatores,
+        como a temperatura ambiente, e a carga do aquecedor. Monitore a temperatura do aquecedor com um sensor de imagem
+        térmica, e então você poderá analisar se o vidro traseiro pode ser aquecido de maneira eficaz.
+    </string>
+    <string name="abnormal_description18">A temperatura do motor da janela é afetada por diversos fatores, tais como a
+        temperatura ambiente, e a carga do motor. Monitore a temperatura do motor com um sensor de imagem térmica. Caso
+        a temperatura esteja muito alta, isso pode ser causado por uma falha no mecanismo de levantamento da janela ou
+        pelo próprio motor.
+    </string>
 
     <!-- 房屋检测新增 -->
     <string name="vehicle_function">Função</string>
     <string name="ability_find">encontrar</string>
     <string name="ability_monitory">Visualização em tempo real da temperatura do objeto para gerar dados</string>
-    <string name="ability_house">Detecte problemas como vazamento de água, isolamento e condutividade térmica anormal</string>
+    <string name="ability_house">Detecte problemas como vazamento de água, isolamento e condutividade térmica anormal
+    </string>
     <string name="ability_car">Detecção de fontes de calor de vários componentes automotivos</string>
     <string name="no_detect">Não há detecção actualmente disponível</string>
     <string name="no_report">Não há relatórios disponíveis de momento</string>
@@ -839,7 +1131,8 @@
     <string name="house_state_replace">substituir</string>
     <string name="common_phrases">Frases comuns</string>
     <string name="device_disconnect">O dispositivo não está conectado, por favor conecte o dispositivo</string>
-    <string name="upload_img_limit">Suporte máximo para selecionar 4 imagens, exclua as imagens e tente novamente</string>
+    <string name="upload_img_limit">Suporte máximo para selecionar 4 imagens, exclua as imagens e tente novamente
+    </string>
     <string name="tips_del_item_title">Apagar o projecto?</string>
     <string name="tips_del_item_content">Tem a certeza de apagar o item seleccionado?</string>
     <string name="report_remark">Comentário</string>
@@ -904,7 +1197,8 @@
     <string name="material_nickel_plate_oxidized">Chapa de níquel (oxidada)</string>
     <string name="material_nickel_oxide">Óxido de níquel</string>
     <string name="material_nickel_alloy">Liga de níquel</string>
-    <string name="material_nickel_chromium_alloy_line">Fio de liga de níquel-cromo (resistente ao calor) (brilhante)</string>
+    <string name="material_nickel_chromium_alloy_line">Fio de liga de níquel-cromo (resistente ao calor) (brilhante)
+    </string>
     <string name="material_nickel_chromium_alloy">Liga de níquel-cromo</string>
     <string name="material_nickel_chromium_heat_resistance">Níquel cromo (resistente ao calor)</string>
     <string name="material_silver">Prata</string>
@@ -960,7 +1254,9 @@
 
     <string name="tips_tisr_on">A super resolução de imagem foi ativada.</string>
     <string name="tips_tisr_off">A super resolução de imagem foi desativada.</string>
-    <string name="tips_tisr_fail">O seu telefone não suporta OpenCL e não consegue activar a super resolução de imagem.</string>
+    <string name="tips_tisr_fail">O seu telefone não suporta OpenCL e não consegue activar a super resolução de
+        imagem.
+    </string>
 
     <!-- 4.70 -->
     <string name="testing_guidance">Orientação de ensaio</string>

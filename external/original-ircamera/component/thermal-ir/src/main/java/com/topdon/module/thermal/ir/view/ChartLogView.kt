@@ -146,6 +146,7 @@ class ChartLogView : LineChart {
                             }
                             XLog.w("DataSet:${set.entryCount}")
                         }
+
                         "line" -> {
                             var maxDataSet = lineData.getDataSetByIndex(0)//读取x为0的坐标点
                             if (maxDataSet == null) {
@@ -179,6 +180,7 @@ class ChartLogView : LineChart {
                             lineData.addDataSet(minDataSet)
                             XLog.w("DataSet:${maxDataSet.entryCount}")
                         }
+
                         else -> {
                             //max
                             var maxTempDataSet = lineData.getDataSetByIndex(0)//读取x为0的坐标点

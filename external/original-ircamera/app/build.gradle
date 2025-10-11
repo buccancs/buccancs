@@ -31,9 +31,9 @@ android {
 
         buildConfigField "String", "VERSION_DATE", "\"$dayStr\""
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
+                JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "cbd4eafc9049d751fc5a8c58",
-                JPUSH_CHANNEL : "developer-default",
+                JPUSH_CHANNEL: "developer-default",
         ]
 
         setProperty("archivesBaseName", "TC001-v${versionName}.google")
@@ -114,7 +114,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
     }
     flavorDimensions 'app'
@@ -189,9 +189,11 @@ android {
         }
     }
 }
+
 static def getYearStr() {
     return new Date().format('yy')
 }
+
 static def getDayStr() {
     return new Date().format('yyMMdd')
 }
@@ -224,7 +226,7 @@ def versionApk(variant, defaultConfig) {
             appName = nameStr + "_debug.apk"
         } else if (variant.name == "insideChinaRelease") {
             appName = nameStr + ".apk"
-        }else if (variant.name == "prodTopdonInsideChinaDebug") {
+        } else if (variant.name == "prodTopdonInsideChinaDebug") {
             appName = nameStr + "_debug.apk"
         } else if (variant.name == "prodTopdonInsideChinaRelease") {
             appName = nameStr + ".apk"

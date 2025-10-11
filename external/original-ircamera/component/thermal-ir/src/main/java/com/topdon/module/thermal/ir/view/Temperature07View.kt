@@ -19,7 +19,12 @@ class Temperature07View : TemperatureBaseView {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes:Int) : super(context, attrs, defStyleAttr, defStyleRes)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    )
 
     override fun onDraw(canvas: Canvas) {
         if (!isTouching) {
@@ -32,12 +37,12 @@ class Temperature07View : TemperatureBaseView {
             Mode.TREND -> {
                 //趋势图需求是在 TC007 项目暂停后加的，故而 TC007 没做
             }
+
             else -> {
 
             }
         }
     }
-
 
 
     /* **************************************** Touch **************************************** */

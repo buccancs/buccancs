@@ -133,7 +133,7 @@ public class Utils {
      * 0 is a == b
      */
     public static int compareFloat(float a, float b, int degree) {
-        if (Math.abs(a-b) < Math.pow(0.1, degree)) {
+        if (Math.abs(a - b) < Math.pow(0.1, degree)) {
             return 0;
         } else {
             if (a < b) {

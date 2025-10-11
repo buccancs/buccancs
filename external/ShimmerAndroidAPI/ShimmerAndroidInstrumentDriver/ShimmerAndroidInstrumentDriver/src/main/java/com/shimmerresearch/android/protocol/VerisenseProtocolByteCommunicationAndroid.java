@@ -29,7 +29,7 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
         super(byteComm);
     }
 
-    public void enableWriteToBinFile(Context context, Uri treeUri){
+    public void enableWriteToBinFile(Context context, Uri treeUri) {
         mContext = context;
         mTreeURI = treeUri;
     }
@@ -55,10 +55,10 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
 
     @Override
     public void readLoggedData() throws ShimmerException {
-        if (mContext==null || mTreeURI ==null){
+        if (mContext == null || mTreeURI == null) {
             throw new ShimmerException("Context and Uri needs to be set");
         }
-       super.readLoggedData();
+        super.readLoggedData();
     }
 
     protected void WritePayloadToBinFile(VerisenseMessage verisenseMessage) {
@@ -67,30 +67,30 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
             try {
                 DocumentFile pickedDir = DocumentFile.fromTreeUri(mContext, mTreeURI);
                 DocumentFile[] arrDF = pickedDir.listFiles();
-                for (DocumentFile file:arrDF) {
+                for (DocumentFile file : arrDF) {
                     System.out.println(file.getName());
                 }
                 //trial name
                 DocumentFile dfT = pickedDir.findFile(getTrialName());
-                if (dfT==null){
+                if (dfT == null) {
                     dfT = pickedDir.createDirectory(getTrialName());
                 }
 
                 //participant name
                 DocumentFile dfP = dfT.findFile(getParticipantID());
-                if(dfP==null) {
+                if (dfP == null) {
                     dfP = dfT.createDirectory(getParticipantID());
                 }
 
                 //uuid
                 DocumentFile dfUUID = dfP.findFile(mByteCommunication.getUuid());
-                if(dfUUID==null) {
+                if (dfUUID == null) {
                     dfUUID = dfP.createDirectory(mByteCommunication.getUuid());
                 }
 
                 //BinaryFiles
                 DocumentFile dfBF = dfUUID.findFile("BinaryFiles");
-                if(dfBF==null) {
+                if (dfBF == null) {
                     dfBF = dfUUID.createDirectory("BinaryFiles");
                 }
 

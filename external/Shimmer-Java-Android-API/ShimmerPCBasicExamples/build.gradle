@@ -18,8 +18,8 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
     flatDir {
-       dirs 'libs'
-   }
+        dirs 'libs'
+    }
     maven {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/ShimmerEngineering/Shimmer-Java-Android-API")
@@ -49,13 +49,13 @@ dependencies {
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
     testImplementation 'junit:junit:4.12'
-    
-    implementation project (':ShimmerDriver')
-    implementation project (':ShimmerDriverPC')
-	implementation project (':ShimmerBluetoothManager')
+
+    implementation project(':ShimmerDriver')
+    implementation project(':ShimmerDriverPC')
+    implementation project(':ShimmerBluetoothManager')
 //    compile(group: 'com.shimmerresearch', name: 'shimmerdriver', version: '0.10.0_alpha')
 //    compile(group: 'com.shimmerresearch', name: 'shimmerdriverpc', version: '0.10.0_alpha')
-    
+
     implementation name: 'ShimmerBiophysicalProcessingLibrary_Rev_0_11'
     implementation 'com.parse.bolts:bolts-tasks:1.4.0'
 }

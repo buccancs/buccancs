@@ -27,7 +27,7 @@
 //
 //import java.util.List;
 //
-///**
+/// **
 // * device -> bytes
 // * 红外出图核心工具类
 // */

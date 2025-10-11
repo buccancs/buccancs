@@ -37,8 +37,10 @@ import java.util.List;
  * @UpdateRemark:
  */
 public class IRUVCDual {
-    public String TAG = "IRUVC";
     private final Context mContext;
+    public String TAG = "IRUVC";
+    public DualUVCCamera dualUVCCamera;
+    public boolean rotate = false;
     private IFrameCallback iFrameCallback;
     private UVCCamera uvcCamera;
     private IRCMD ircmd;
@@ -76,55 +78,11 @@ public class IRUVCDual {
     private short[] kt_low = new short[1201];
     private short[] bt_high = new short[1201];
     private short[] bt_low = new short[1201];
-
     // 机芯温度
     private int[] curVtemp = new int[1];
-
     private ConnectCallback mConnectCallback;
-
-    public void setDualUVCCamera(DualUVCCamera dualUVCCamera) {
-        this.dualUVCCamera = dualUVCCamera;
-    }
-
-    public DualUVCCamera dualUVCCamera;
-
-    public void setPseudocolorMode(CommonParams.PseudoColorType pseudocolorMode) {
-        this.pseudocolorMode = pseudocolorMode;
-    }
-
     private CommonParams.PseudoColorType pseudocolorMode;
-
-    public void setCameraview(TextureView cameraview) {
-        this.cameraview = cameraview;
-    }
-
-    public void setmPid(int mPid) {
-        this.mPid = mPid;
-    }
-
-    public void setVid(int vid) {
-        this.vid = vid;
-    }
-
-    public void setHandler(Handler handler) {
-        this.handler = handler;
-    }
-
     private Handler handler;
-
-    public boolean rotate = false;
-
-    public void setRotate(boolean rotate) {
-        this.rotate = rotate;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public void setTemperature(byte[] temperature) {
-        this.temperature = temperature;
-    }
 
     /**
      * @param cameraWidth
@@ -497,6 +455,42 @@ public class IRUVCDual {
         });
     }
 
+    public void setDualUVCCamera(DualUVCCamera dualUVCCamera) {
+        this.dualUVCCamera = dualUVCCamera;
+    }
+
+    public void setPseudocolorMode(CommonParams.PseudoColorType pseudocolorMode) {
+        this.pseudocolorMode = pseudocolorMode;
+    }
+
+    public void setCameraview(TextureView cameraview) {
+        this.cameraview = cameraview;
+    }
+
+    public void setmPid(int mPid) {
+        this.mPid = mPid;
+    }
+
+    public void setVid(int vid) {
+        this.vid = vid;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public void setRotate(boolean rotate) {
+        this.rotate = rotate;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public void setTemperature(byte[] temperature) {
+        this.temperature = temperature;
+    }
+
     /**
      * @param cameraWidth
      * @param cameraHeight
@@ -731,10 +725,10 @@ public class IRUVCDual {
         int result = setPreviewSize(cameraWidth, cameraHeight);
         if (result == 0) {
             //
-            Log.d(TAG, "handleUSBConnect setPreviewSize success = " );
+            Log.d(TAG, "handleUSBConnect setPreviewSize success = ");
             startPreview();
         } else {
-            Log.d(TAG, "handleUSBConnect setPreviewSize fail = " );
+            Log.d(TAG, "handleUSBConnect setPreviewSize fail = ");
             stopPreview();
         }
 

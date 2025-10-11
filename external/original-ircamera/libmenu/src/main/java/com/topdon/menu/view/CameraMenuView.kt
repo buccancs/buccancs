@@ -33,12 +33,16 @@ class CameraMenuView : FrameLayout, View.OnClickListener {
     companion object {
         /** onCameraClickListener 的事件编码：拍照/录像 **/
         const val CODE_ACTION = 0
+
         /** onCameraClickListener 的事件编码：图库 **/
         const val CODE_GALLERY = 1
+
         /** onCameraClickListener 的事件编码：更多菜单 **/
         const val CODE_MORE = 2
+
         /** onCameraClickListener 的事件编码：切换到拍照 **/
         const val CODE_TO_PHOTO = 3
+
         /** onCameraClickListener 的事件编码：切换到录像 **/
         const val CODE_TO_VIDEO = 4
     }
@@ -119,7 +123,6 @@ class CameraMenuView : FrameLayout, View.OnClickListener {
     }
 
 
-
     private lateinit var binding: ViewCameraMenuBinding
 
     constructor(context: Context) : this(context, null)
@@ -128,7 +131,12 @@ class CameraMenuView : FrameLayout, View.OnClickListener {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         if (isInEditMode) {
             LayoutInflater.from(context).inflate(R.layout.view_camera_menu, this, true)
         } else {
@@ -164,15 +172,19 @@ class CameraMenuView : FrameLayout, View.OnClickListener {
                     onCameraClickListener?.invoke(CODE_ACTION)
                 }
             }
+
             binding.ivGallery -> {//图库
                 onCameraClickListener?.invoke(CODE_GALLERY)
             }
+
             binding.ivMore -> {//更多菜单
                 onCameraClickListener?.invoke(CODE_MORE)
             }
+
             binding.tvPhoto -> {//拍照文字
                 binding.viewPager2.currentItem = 0
             }
+
             binding.tvVideo -> {//视频文字
                 binding.viewPager2.currentItem = 1
             }
@@ -207,7 +219,8 @@ class CameraMenuView : FrameLayout, View.OnClickListener {
     class MenuCameraAdapter : RecyclerView.Adapter<MenuCameraAdapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = View(parent.context)
-            view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            view.layoutParams =
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             return ViewHolder(view)
         }
 
@@ -217,6 +230,6 @@ class CameraMenuView : FrameLayout, View.OnClickListener {
 
         override fun getItemCount(): Int = 2
 
-        class ViewHolder(rootView: View): RecyclerView.ViewHolder(rootView)
+        class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView)
     }
 }

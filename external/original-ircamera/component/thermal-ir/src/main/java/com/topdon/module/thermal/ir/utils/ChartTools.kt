@@ -19,7 +19,7 @@ object ChartTools {
         if (point1.x == point2.x) {//垂直于 X 轴的直线
             val startY = point1.y.coerceAtMost(point2.y)
             val endY = point1.y.coerceAtLeast(point2.y)
-            for (i in startY .. endY) {
+            for (i in startY..endY) {
                 pointList.add(Point(point1.x, i))
             }
         } else {
@@ -28,14 +28,14 @@ object ChartTools {
             if (abs(k) <= 1) {//x轴正整数点较多
                 val startX = point1.x.coerceAtMost(point2.x)
                 val endX = point1.x.coerceAtLeast(point2.x)
-                for (i in startX .. endX) {
+                for (i in startX..endX) {
                     pointList.add(Point(i, (k * i + b).toInt()))
                 }
             } else {//y轴正整数点较多
                 if (k >= 0) {//左上到右下
                     val startY = point1.y.coerceAtMost(point2.y)
                     val endY = point1.y.coerceAtLeast(point2.y)
-                    for (y in startY .. endY) {
+                    for (y in startY..endY) {
                         pointList.add(Point(((y - b) / k).toInt(), y))
                     }
                 } else {//左下到右上
@@ -100,12 +100,14 @@ object ChartTools {
                 maxVol = dataSet.yMax
                 minVol = dataSet.yMin
             }
+
             2 -> {
                 val dataSet1 = chart.data.getDataSetByIndex(0)
                 val dataSet2 = chart.data.getDataSetByIndex(1)
                 maxVol = if (dataSet1.yMax > dataSet2.yMax) dataSet1.yMax else dataSet2.yMax
                 minVol = if (dataSet1.yMin < dataSet2.yMin) dataSet1.yMin else dataSet2.yMin
             }
+
             3 -> {
                 val dataSet1 = chart.data.getDataSetByIndex(0)
                 val dataSet2 = chart.data.getDataSetByIndex(1)
@@ -116,6 +118,7 @@ object ChartTools {
                 maxVol = if (dataSet3.yMax > maxVol) dataSet3.yMax else maxVol
                 minVol = if (dataSet3.yMin < minVol) dataSet3.yMin else minVol
             }
+
             else -> {
                 return
             }

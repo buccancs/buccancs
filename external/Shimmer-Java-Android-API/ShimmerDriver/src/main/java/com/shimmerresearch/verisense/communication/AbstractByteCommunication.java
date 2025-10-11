@@ -4,23 +4,23 @@ import com.shimmerresearch.exceptions.ShimmerException;
 
 public abstract class AbstractByteCommunication {
 
-	protected ByteCommunicationListener mByteCommunicationListener;
+    protected ByteCommunicationListener mByteCommunicationListener;
 
-	public abstract void connect() throws ShimmerException;
+    public abstract void connect() throws ShimmerException;
 
-	public abstract void disconnect() throws ShimmerException;
+    public abstract void disconnect() throws ShimmerException;
 
-	public abstract void writeBytes(byte[] bytes);
+    public abstract void writeBytes(byte[] bytes);
 
-	public abstract void stop();
-	
-	public abstract String getUuid();
+    public abstract void stop();
 
-	public void setByteCommunicationListener(ByteCommunicationListener byteCommListener) {
-		mByteCommunicationListener = byteCommListener;
-	}
+    public abstract String getUuid();
 
-	public void removeRadioListenerList() {
-		mByteCommunicationListener = null;
-	}
+    public void setByteCommunicationListener(ByteCommunicationListener byteCommListener) {
+        mByteCommunicationListener = byteCommListener;
+    }
+
+    public void removeRadioListenerList() {
+        mByteCommunicationListener = null;
+    }
 }

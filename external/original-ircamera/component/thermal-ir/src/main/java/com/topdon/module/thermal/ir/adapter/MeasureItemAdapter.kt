@@ -48,7 +48,8 @@ class MeasureItemAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
             holder.name.visibility = View.VISIBLE
             holder.name.text = bean.name
             holder.name.isSelected = bean.code == selected
-            holder.name.setTextColor(ContextCompat.getColor(context, R.color.white)
+            holder.name.setTextColor(
+                ContextCompat.getColor(context, R.color.white)
 //               if (position == selected) ContextCompat.getColor(context, R.color.white)
 //                else ContextCompat.getColor(context, R.color.font_third_color)
             )

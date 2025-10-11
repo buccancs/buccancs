@@ -90,33 +90,39 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
                     .withBoolean(ExtraKeyConfig.IS_TC007, false)
                     .navigation(this@MoreActivity)
             }
+
             setting_tisr -> {//设置超分
                 ARouter.getInstance().build(RouterConfig.TISR).navigation(this@MoreActivity)
             }
+
             setting_auto_save -> {//自动保存到手机
                 ARouter.getInstance().build(RouterConfig.AUTO_SAVE).navigation(this@MoreActivity)
             }
+
             setting_storage_space -> {//TS004储存空间
                 ARouter.getInstance().build(RouterConfig.STORAGE_SPACE).navigation(this@MoreActivity)
             }
+
             setting_version -> {//固件版本
                 //由于双通道方案存在问题，V3.30临时使用 apk 内置固件升级包，此处注释强制登录逻辑
 //                if (LMS.getInstance().isLogin) {
-                    val firmwareData = firmwareViewModel.firmwareDataLD.value
-                    if (firmwareData != null) {
-                        showFirmwareUpDialog(firmwareData)
-                    } else {
-                        XLog.i("TS004 固件升级 - 点击查询")
-                        showCameraLoading()
-                        firmwareViewModel.queryFirmware(true)
-                    }
+                val firmwareData = firmwareViewModel.firmwareDataLD.value
+                if (firmwareData != null) {
+                    showFirmwareUpDialog(firmwareData)
+                } else {
+                    XLog.i("TS004 固件升级 - 点击查询")
+                    showCameraLoading()
+                    firmwareViewModel.queryFirmware(true)
+                }
 //                } else {
 //                    LMS.getInstance().activityLogin()
 //                }
             }
+
             setting_reset -> {//恢复出厂设置
                 restoreFactory()
             }
+
             setting_disconnect -> {//断开连接
                 ARouter.getInstance().build(RouterConfig.IR_MORE_HELP)
                     .withInt(Constants.SETTING_CONNECTION_TYPE, Constants.SETTING_DISCONNECTION)
@@ -224,7 +230,8 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
         lifecycleScope.launch {
             val versionBean = TS004Repository.getVersion()
             if (versionBean?.isSuccess() == true) {
-                item_setting_bottom_text.text = getString(R.string.setting_firmware_update_version) + "V" + versionBean.data?.firmware
+                item_setting_bottom_text.text =
+                    getString(R.string.setting_firmware_update_version) + "V" + versionBean.data?.firmware
             } else {
                 TToast.shortToast(this@MoreActivity, R.string.operation_failed_tips)
             }

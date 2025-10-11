@@ -62,7 +62,7 @@ import org.json.JSONObject
 @SuppressLint("NotifyDataSetChanged")
 class MainFragment : BaseFragment(), View.OnClickListener {
 
-    private lateinit var adapter : MyAdapter
+    private lateinit var adapter: MyAdapter
 
     override fun initContentView(): Int = R.layout.fragment_main
 
@@ -81,6 +81,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                         .withBoolean(ExtraKeyConfig.IS_TC007, false)
                         .navigation(requireContext())
                 }
+
                 ConnectType.TS004 -> {
                     if (WebSocketProxy.getInstance().isTS004Connect()) {
                         ARouter.getInstance().build(RouterConfig.IR_MONOCULAR).navigation(requireContext())
@@ -91,6 +92,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                             .navigation(requireContext())
                     }
                 }
+
                 ConnectType.TC007 -> {
                     ARouter.getInstance()
                         .build(RouterConfig.IR_MAIN)
@@ -103,8 +105,11 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             val popup = DelPopup(requireContext())
             popup.onDelListener = {
                 TipDialog.Builder(requireContext())
-                    .setTitleMessage(AppLanguageUtils.attachBaseContext(
-                        context, SharedManager.getLanguage(requireContext())).getString(R.string.tc_delete_device))
+                    .setTitleMessage(
+                        AppLanguageUtils.attachBaseContext(
+                            context, SharedManager.getLanguage(requireContext())
+                        ).getString(R.string.tc_delete_device)
+                    )
                     .setMessage(R.string.tc_delete_device_tips)
                     .setPositiveListener(R.string.report_delete) {
                         when (type) {
@@ -230,6 +235,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                 field = value
                 notifyItemRangeChanged(0, 3)
             }
+
         /**
          * TS004 当前是否已连接.
          */
@@ -238,6 +244,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                 field = value
                 notifyItemRangeChanged(0, itemCount)
             }
+
         /**
          * TC007 当前是否已连接.
          */
@@ -246,6 +253,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                 field = value
                 notifyItemRangeChanged(0, itemCount)
             }
+
         /**
          * TC007 设备电池信息.
          */
@@ -281,7 +289,8 @@ class MainFragment : BaseFragment(), View.OnClickListener {
 
             holder.itemView.tv_title.isVisible = hasTitle
             holder.itemView.tv_title.text = AppLanguageUtils.attachBaseContext(
-                holder.itemView.context, SharedManager.getLanguage(holder.itemView.context!!))
+                holder.itemView.context, SharedManager.getLanguage(holder.itemView.context!!)
+            )
                 .getString(if (type == ConnectType.LINE) R.string.tc_connect_line else R.string.tc_connect_wifi)
 
             holder.itemView.iv_bg.isSelected = hasConnect
@@ -290,19 +299,24 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             holder.itemView.tv_device_state.isSelected = hasConnect
             holder.itemView.tv_device_state.text = if (hasConnect) "online" else "offline"
             holder.itemView.tv_battery.isVisible = type == ConnectType.TC007 && hasConnectTC007 && tc007Battery != null
-            holder.itemView.battery_view.isVisible = type == ConnectType.TC007 && hasConnectTC007 && tc007Battery != null
+            holder.itemView.battery_view.isVisible =
+                type == ConnectType.TC007 && hasConnectTC007 && tc007Battery != null
 
             when (type) {
                 ConnectType.LINE -> {
-                    holder.itemView.tv_device_name.setText(AppLanguageUtils.attachBaseContext(
-                        holder.itemView.context, SharedManager.getLanguage(holder.itemView.context!!))
-                        .getString(R.string.tc_has_line_device))
+                    holder.itemView.tv_device_name.setText(
+                        AppLanguageUtils.attachBaseContext(
+                            holder.itemView.context, SharedManager.getLanguage(holder.itemView.context!!)
+                        )
+                            .getString(R.string.tc_has_line_device)
+                    )
                     if (hasConnect) {
                         holder.itemView.iv_image.setImageResource(R.drawable.ic_main_device_line_connect)
                     } else {
                         holder.itemView.iv_image.setImageResource(R.drawable.ic_main_device_line_disconnect)
                     }
                 }
+
                 ConnectType.TS004 -> {
                     holder.itemView.tv_device_name.text = "TS004"
                     if (hasConnect) {
@@ -311,6 +325,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                         holder.itemView.iv_image.setImageResource(R.drawable.ic_main_device_ts004_disconnect)
                     }
                 }
+
                 ConnectType.TC007 -> {
                     holder.itemView.tv_device_name.text = "TC007"
                     if (hasConnect) {
@@ -358,11 +373,13 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                                     return@setOnLongClickListener true
                                 }
                             }
+
                             ConnectType.TS004 -> {
                                 if (WebSocketProxy.getInstance().isTS004Connect()) {
                                     return@setOnLongClickListener true
                                 }
                             }
+
                             ConnectType.TC007 -> {
                                 if (WebSocketProxy.getInstance().isTC007Connect()) {
                                     return@setOnLongClickListener true
@@ -383,11 +400,13 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                 } else {
                     ConnectType.TC007
                 }
+
                 1 -> if (SharedManager.hasTcLine) {
                     if (SharedManager.hasTS004) ConnectType.TS004 else ConnectType.TC007
                 } else {
                     ConnectType.TC007
                 }
+
                 else -> ConnectType.TC007
             }
         }

@@ -54,7 +54,7 @@ class ReportPreviewAlbumAdapter(
         Glide.with(cxt).load(bean.photoPath).into(holder.itemView.riv_photo)
         holder.itemView.tv_name.text = bean.title
         holder.itemView.riv_photo.setOnClickListener {
-            jumpListener?.invoke(bean,position)
+            jumpListener?.invoke(bean, position)
         }
     }
 

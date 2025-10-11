@@ -13,7 +13,7 @@ class BaseDataTypeConvertUtils private constructor() {
 
     companion object {
         private val TAG = BaseDataTypeConvertUtils::class.java.simpleName
-        private var df: DecimalFormat ?= null
+        private var df: DecimalFormat? = null
 
         fun convertShort2LittleEndianByteArr(value: Short): ByteArray {
             val shortByteArray = ByteArray(2)
@@ -73,7 +73,7 @@ class BaseDataTypeConvertUtils private constructor() {
         fun float2StrWithOneDecimal(number: Float): String {
             try {
                 val pattern = "0.0"
-                if(df == null) {
+                if (df == null) {
                     val enlocale = Locale("en", "US")
                     df = NumberFormat.getNumberInstance(enlocale) as DecimalFormat
                 }
@@ -82,7 +82,7 @@ class BaseDataTypeConvertUtils private constructor() {
             } catch (e: Exception) {
                 val newNumber = Math.round(number * 10) / 10f
                 val str = newNumber.toString()
-                Logger.e(TAG,"float2StrWithOneDecimal number = " + number + " str = " + str);
+                Logger.e(TAG, "float2StrWithOneDecimal number = " + number + " str = " + str);
                 return str;
             }
         }
@@ -96,7 +96,7 @@ class BaseDataTypeConvertUtils private constructor() {
         fun float2StrWithTwoDecimal(number: Float): String {
             try {
                 val pattern = "0.00"
-                if(df == null) {
+                if (df == null) {
                     val enlocale = Locale("en", "US")
                     df = NumberFormat.getNumberInstance(enlocale) as DecimalFormat
                 }
@@ -105,7 +105,7 @@ class BaseDataTypeConvertUtils private constructor() {
             } catch (e: Exception) {
                 val newNumber = Math.round(number * 100) / 100f
                 val str = newNumber.toString()
-                Logger.e(TAG,"float2StrWithTwoDecimal number = " + number + " str = " + str);
+                Logger.e(TAG, "float2StrWithTwoDecimal number = " + number + " str = " + str);
                 return str;
             }
         }

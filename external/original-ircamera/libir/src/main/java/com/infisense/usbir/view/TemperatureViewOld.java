@@ -30,7 +30,7 @@
 //
 //import java.util.ArrayList;
 //
-///**
+/// **
 // *
 // */
 //public class TemperatureViewOld extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {

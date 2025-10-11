@@ -44,7 +44,7 @@ class IRCorrectionLiteFourActivity : BaseActivity() {
                 .setPositiveListener(R.string.app_yes) {
                     EventBus.getDefault().post(CorrectionFinishEvent())
                     finish()
-                }.setCancelListener(R.string.app_no){
+                }.setCancelListener(R.string.app_no) {
                 }
                 .create().show()
         }
@@ -67,25 +67,27 @@ class IRCorrectionLiteFourActivity : BaseActivity() {
 
         time_down_view.postDelayed({
             //开始矫正
-            if (time_down_view.downTimeWatcher == null){
-                time_down_view.setOnTimeDownListener(object : TimeDownView.DownTimeWatcher{
+            if (time_down_view.downTimeWatcher == null) {
+                time_down_view.setOnTimeDownListener(object : TimeDownView.DownTimeWatcher {
                     override fun onTime(num: Int) {
-                        if (num == 35){
+                        if (num == 35) {
                             lifecycleScope.launch(Dispatchers.IO) {
-                               result = irFragment.autoStart()
+                                result = irFragment.autoStart()
                             }
                         }
                     }
+
                     override fun onLastTime(num: Int) {
 
                     }
+
                     override fun onLastTimeFinish(num: Int) {
                         try {
-                            if (!result){
+                            if (!result) {
                                 ToastUtils.showShort("标定保存失败，请重新标定")
                                 return
                             }
-                            if (!this@IRCorrectionLiteFourActivity.isFinishing){
+                            if (!this@IRCorrectionLiteFourActivity.isFinishing) {
                                 TipDialog.Builder(this@IRCorrectionLiteFourActivity)
                                     .setMessage(R.string.correction_complete)
                                     .setPositiveListener(R.string.app_confirm) {
@@ -94,14 +96,14 @@ class IRCorrectionLiteFourActivity : BaseActivity() {
                                     }
                                     .create().show()
                             }
-                        }catch (e : Exception){
+                        } catch (e: Exception) {
 
                         }
                     }
                 })
             }
-            time_down_view.downSecond(time,false)
-        },2000)
+            time_down_view.downSecond(time, false)
+        }, 2000)
     }
 
     override fun initView() {
@@ -114,7 +116,7 @@ class IRCorrectionLiteFourActivity : BaseActivity() {
             .setPositiveListener(R.string.app_yes) {
                 EventBus.getDefault().post(CorrectionFinishEvent())
                 super.onBackPressed()
-            }.setCancelListener(R.string.app_no){
+            }.setCancelListener(R.string.app_no) {
             }
             .create().show()
     }

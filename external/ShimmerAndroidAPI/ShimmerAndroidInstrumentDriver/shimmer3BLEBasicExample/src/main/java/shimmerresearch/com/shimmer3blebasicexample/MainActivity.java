@@ -40,118 +40,10 @@ import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity {
     final static int REQUEST_CONNECT_SHIMMER = 2;
-    protected Handler mHandler;
     private final static String LOG_TAG = "Shimmer3BLEBasicExample";
+    protected Handler mHandler;
     Shimmer3BLEAndroid shimmer1;
     String macAddress = "E8:EB:1B:97:67:FC";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT);
-        boolean permissionGranted = true;
-        {
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = false;
-            }
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = false;
-            }
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = false;
-            }
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = false;
-            }
-        }
-        if (!permissionGranted) {
-            // Should we show an explanation?
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_SCAN,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, 110);
-
-        }
-
-
-        setContentView(R.layout.activity_main);
-        BleManager.getInstance().init(getApplication());
-
-        this.mHandler = handler;
-
-
-    }
-
-    public void connectDevice(View v) {
-        Intent pairedDevicesIntent = new Intent(getApplicationContext(), ShimmerBluetoothDialog.class);
-        startActivityForResult(pairedDevicesIntent, REQUEST_CONNECT_SHIMMER);
-        //device1.setProtocol(Configuration.COMMUNICATION_TYPE.BLUETOOTH, protocol1);
-        //shimmer1.connect("E8:EB:1B:97:67:FC", "default");
-    }
-
-    public void disconnectDevice(View v) {
-        Thread thread = new Thread(){
-            public void run(){
-                try {
-                    shimmer1.disconnect();
-                } catch (ShimmerException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        thread.start();
-
-
-    }
-
-    public void startStreaming(View v) throws InterruptedException, IOException, ShimmerException {
-        Thread thread = new Thread(){
-            public void run(){
-                try {
-                    shimmer1.startStreaming();
-                } catch (ShimmerException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        thread.start();
-    }
-
-    public void stopStreaming(View v) throws IOException, ShimmerException {
-        Thread thread = new Thread(){
-            public void run(){
-                shimmer1.stopStreaming();
-            }
-        };
-
-        thread.start();
-
-    }
-    public void startSpeedTest(View v) throws IOException, ShimmerException {
-        Thread thread = new Thread(){
-            public void run(){
-                //shimmer1.startSpeedTest();
-            }
-        };
-
-        thread.start();
-
-    }
-    public void stopSpeedTest(View v) throws IOException, ShimmerException {
-        Thread thread = new Thread(){
-            public void run(){
-                //shimmer1.stopSpeedTest();
-            }
-        };
-
-        thread.start();
-
-    }
-
-
     /**
      * Messages from the Shimmer device including sensor data are received here
      */
@@ -169,24 +61,24 @@ public class MainActivity extends AppCompatActivity {
 
                         //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
-                        FormatCluster timeStampCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
+                        FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
                         Log.i(LOG_TAG, "Time Stamp: " + timeStampData);
                         allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X);
-                        FormatCluster accelXCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
-                        if (accelXCluster!=null) {
+                        FormatCluster accelXCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
+                        if (accelXCluster != null) {
                             double accelXData = accelXCluster.mData;
                             Log.i(LOG_TAG, "Accel LN X: " + accelXData);
                         }
                         allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X);
-                        FormatCluster accelYCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
-                        if (accelYCluster!=null) {
+                        FormatCluster accelYCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
+                        if (accelYCluster != null) {
                             double accelYData = accelYCluster.mData;
                             Log.i(LOG_TAG, "Accel LN Y: " + accelYData);
                         }
                         allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X);
-                        FormatCluster accelZCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
-                        if (accelZCluster!=null) {
+                        FormatCluster accelZCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
+                        if (accelZCluster != null) {
                             double accelZData = accelZCluster.mData;
                             Log.i(LOG_TAG, "Accel LN Z: " + accelZData);
                         }
@@ -230,20 +122,129 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT);
+        boolean permissionGranted = true;
+        {
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = false;
+            }
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = false;
+            }
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = false;
+            }
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = false;
+            }
+        }
+        if (!permissionGranted) {
+            // Should we show an explanation?
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
+
+        }
+
+
+        setContentView(R.layout.activity_main);
+        BleManager.getInstance().init(getApplication());
+
+        this.mHandler = handler;
+
+
+    }
+
+    public void connectDevice(View v) {
+        Intent pairedDevicesIntent = new Intent(getApplicationContext(), ShimmerBluetoothDialog.class);
+        startActivityForResult(pairedDevicesIntent, REQUEST_CONNECT_SHIMMER);
+        //device1.setProtocol(Configuration.COMMUNICATION_TYPE.BLUETOOTH, protocol1);
+        //shimmer1.connect("E8:EB:1B:97:67:FC", "default");
+    }
+
+    public void disconnectDevice(View v) {
+        Thread thread = new Thread() {
+            public void run() {
+                try {
+                    shimmer1.disconnect();
+                } catch (ShimmerException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
+
+
+    }
+
+    public void startStreaming(View v) throws InterruptedException, IOException, ShimmerException {
+        Thread thread = new Thread() {
+            public void run() {
+                try {
+                    shimmer1.startStreaming();
+                } catch (ShimmerException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
+    }
+
+    public void stopStreaming(View v) throws IOException, ShimmerException {
+        Thread thread = new Thread() {
+            public void run() {
+                shimmer1.stopStreaming();
+            }
+        };
+
+        thread.start();
+
+    }
+
+    public void startSpeedTest(View v) throws IOException, ShimmerException {
+        Thread thread = new Thread() {
+            public void run() {
+                //shimmer1.startSpeedTest();
+            }
+        };
+
+        thread.start();
+
+    }
+
+    public void stopSpeedTest(View v) throws IOException, ShimmerException {
+        Thread thread = new Thread() {
+            public void run() {
+                //shimmer1.stopSpeedTest();
+            }
+        };
+
+        thread.start();
+
+    }
+
     /**
      * Get the result from the paired devices dialog
+     *
      * @param requestCode
      * @param resultCode
      * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CONNECT_SHIMMER) {
+        if (requestCode == REQUEST_CONNECT_SHIMMER) {
             if (resultCode == Activity.RESULT_OK) {
                 //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 String name = data.getStringExtra(EXTRA_DEVICE_NAME);
-                if (name!=null && name.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3R.toString())){
+                if (name != null && name.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3R.toString())) {
                     shimmer1 = new Shimmer3BLEAndroid(ShimmerVerDetails.HW_ID.SHIMMER_3R, macAdd, this.mHandler);
                 } else {
                     shimmer1 = new Shimmer3BLEAndroid(ShimmerVerDetails.HW_ID.SHIMMER_3, macAdd, this.mHandler);
@@ -252,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
                 SensorDataReceived sdr = this.new SensorDataReceived();
                 sdr.setWaitForData(shimmer1);
 
-                Thread thread = new Thread(){
-                    public void run(){
+                Thread thread = new Thread() {
+                    public void run() {
                         shimmer1.connect(macAdd, "default");
                     }
                 };
@@ -264,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public class SensorDataReceived extends BasicProcessWithCallBack {
 
         @Override
@@ -280,23 +282,26 @@ public class MainActivity extends AppCompatActivity {
             Object object = (Object) shimmerMSG.mB;
 
             if (ind == Shimmer.MSG_IDENTIFIER_STATE_CHANGE) {
-                CallbackObject callbackObject = (CallbackObject)object;
+                CallbackObject callbackObject = (CallbackObject) object;
 
                 if (callbackObject.mState == ShimmerBluetooth.BT_STATE.CONNECTING) {
-                } else if (callbackObject.mState == ShimmerBluetooth.BT_STATE.CONNECTED) {} else if (callbackObject.mState == ShimmerBluetooth.BT_STATE.DISCONNECTED
+                } else if (callbackObject.mState == ShimmerBluetooth.BT_STATE.CONNECTED) {
+                } else if (callbackObject.mState == ShimmerBluetooth.BT_STATE.DISCONNECTED
 //						|| callbackObject.mState == BT_STATE.NONE
-                        || callbackObject.mState == ShimmerBluetooth.BT_STATE.CONNECTION_LOST){
+                        || callbackObject.mState == ShimmerBluetooth.BT_STATE.CONNECTION_LOST) {
 
                 }
             } else if (ind == Shimmer.MSG_IDENTIFIER_NOTIFICATION_MESSAGE) {
-                CallbackObject callbackObject = (CallbackObject)object;
+                CallbackObject callbackObject = (CallbackObject) object;
                 int msg = callbackObject.mIndicator;
-                if (msg== Shimmer.NOTIFICATION_SHIMMER_FULLY_INITIALIZED){}
+                if (msg == Shimmer.NOTIFICATION_SHIMMER_FULLY_INITIALIZED) {
+                }
                 if (msg == Shimmer.NOTIFICATION_SHIMMER_STOP_STREAMING) {
 
                 } else if (msg == Shimmer.NOTIFICATION_SHIMMER_START_STREAMING) {
 
-                } else {}
+                } else {
+                }
             } else if (ind == Shimmer.MSG_IDENTIFIER_DATA_PACKET) {
 
                 double accelX = 0;
@@ -311,28 +316,24 @@ public class MainActivity extends AppCompatActivity {
                 ObjectCluster objc = (ObjectCluster) shimmerMSG.mB;
 
                 Collection<FormatCluster> adcFormats = objc.getCollectionOfFormatClusters(SensorKionixAccel.ObjectClusterSensorName.ACCEL_LN_X);
-                formatx = ((FormatCluster)ObjectCluster.returnFormatCluster(adcFormats, ChannelDetails.CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                formatx = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, ChannelDetails.CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
 
                 adcFormats = objc.getCollectionOfFormatClusters(SensorKionixAccel.ObjectClusterSensorName.ACCEL_LN_Y);
-                formaty = ((FormatCluster)ObjectCluster.returnFormatCluster(adcFormats, ChannelDetails.CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                formaty = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, ChannelDetails.CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
 
                 adcFormats = objc.getCollectionOfFormatClusters(SensorKionixAccel.ObjectClusterSensorName.ACCEL_LN_Z);
-                formatz = ((FormatCluster)ObjectCluster.returnFormatCluster(adcFormats, ChannelDetails.CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                formatz = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, ChannelDetails.CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
 
-                if(formatx != null) {
-                    System.out.println("X:"+formatx.mData +" Y:"+formaty.mData+" Z:"+formatz.mData);
+                if (formatx != null) {
+                    System.out.println("X:" + formatx.mData + " Y:" + formaty.mData + " Z:" + formatz.mData);
 
-                }
-                else {
+                } else {
                     System.out.println("ERROR! FormatCluster is Null!");
                 }
 
             } else if (ind == Shimmer.MSG_IDENTIFIER_PACKET_RECEPTION_RATE_OVERALL) {
 
             }
-
-
-
 
 
         }

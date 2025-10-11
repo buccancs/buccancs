@@ -40,6 +40,7 @@ class PseudoPickView : View {
             System.arraycopy(this, index, newArray, index + 1, this.size - index)
             return newArray
         }
+
         @CheckResult
         private fun FloatArray.add(index: Int, element: Float): FloatArray {
             val newArray = FloatArray(this.size + 1)
@@ -48,6 +49,7 @@ class PseudoPickView : View {
             System.arraycopy(this, index, newArray, index + 1, this.size - index)
             return newArray
         }
+
         @CheckResult
         private fun IntArray.removeAt(index: Int): IntArray {
             val newArray = IntArray(this.size - 1)
@@ -55,6 +57,7 @@ class PseudoPickView : View {
             System.arraycopy(this, index + 1, newArray, index, this.size - index - 1)
             return newArray
         }
+
         @CheckResult
         private fun FloatArray.removeAt(index: Int): FloatArray {
             val newArray = FloatArray(this.size - 1)
@@ -68,6 +71,7 @@ class PseudoPickView : View {
      * 绘制渐变条所用的 Paint.
      */
     private val barPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     /**
      * 绘制渐变条下面圆形色块所用的 Pint.
      */
@@ -77,6 +81,7 @@ class PseudoPickView : View {
      * 圆形色块选中时三角形 Drawable.
      */
     private val selectYesDrawable: Drawable
+
     /**
      * 圆形色块未选中时三角形 Drawable.
      */
@@ -93,20 +98,24 @@ class PseudoPickView : View {
      * 当前选中的圆形色块在列表中的 index.
      */
     var selectIndex = 0
+
     /**
      * 由于需求为完全重叠的多个圆形色块，只生效最上方的圆形色块，该数组保存原始的颜色数组.
      * 按 place 排序，若 place 相同则 zAltitude 越大的越靠后.
      * size 与 [actualColors]、[zAltitudes]、[places] 一致。
      */
     var sourceColors: IntArray = intArrayOf(0xff0000ff.toInt(), 0xffff0000.toInt(), 0xffffff00.toInt())
+
     /**
      * 由于需求为完全重叠的多个圆形色块，只生效最上方的圆形色块，该数组保存实际生效的颜色数组.
      */
     var actualColors: IntArray = intArrayOf(0xff0000ff.toInt(), 0xffff0000.toInt(), 0xffffff00.toInt())
+
     /**
      * 每个圆形色块对应的 z 轴海拔数组，用来在重叠时判断哪个圆形色块在上面。
      */
     var zAltitudes: IntArray = intArrayOf(0, 0, 0)
+
     /**
      * 每个圆形色块对应的位置数组.
      */
@@ -119,7 +128,12 @@ class PseudoPickView : View {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes:Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         selectYesDrawable = ContextCompat.getDrawable(context, R.drawable.svg_pseudo_triangle_select)!!
         selectNotDrawable = ContextCompat.getDrawable(context, R.drawable.svg_pseudo_triangle_not_select)!!
         selectYesDrawable.setBounds(0, 0, SizeUtils.dp2px(16f), SizeUtils.dp2px(10f))
@@ -139,7 +153,8 @@ class PseudoPickView : View {
         this.zAltitudes = zAltitudes
         this.places = places
         refreshActualColors()
-        barPaint.shader = LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+        barPaint.shader =
+            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
@@ -151,7 +166,8 @@ class PseudoPickView : View {
         sourceColors[selectIndex] = color
         actualColors[selectIndex] = color
         refreshActualColors()
-        barPaint.shader = LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+        barPaint.shader =
+            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
         invalidate()
     }
 
@@ -159,6 +175,7 @@ class PseudoPickView : View {
      * 需求要添加时颜色按 绿、黑、白、紫 循环，用该变量控制.
      */
     private var addCount = 0
+
     /**
      * 添加一个圆形色块
      */
@@ -194,7 +211,8 @@ class PseudoPickView : View {
         places = places.add(addIndex, 0.75f)
         selectIndex = addIndex
         refreshActualColors()
-        barPaint.shader = LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+        barPaint.shader =
+            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
@@ -220,7 +238,8 @@ class PseudoPickView : View {
             }
         }
         refreshActualColors()
-        barPaint.shader = LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+        barPaint.shader =
+            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
@@ -271,12 +290,11 @@ class PseudoPickView : View {
     }
 
 
-
-
     /**
      * 渐变条 Rect.
      */
     private val barRect = RectF()
+
     /**
      * 渐变条下面圆形色块选中时半径，单位 px.
      */
@@ -285,11 +303,18 @@ class PseudoPickView : View {
     @SuppressLint("DrawAllocation")
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthSize: Int = MeasureSpec.getSize(widthMeasureSpec)
-        barRect.set(selectRadius.toFloat(), 0f, (widthSize - selectRadius).toFloat(), ((widthSize - selectRadius * 2) * 30 / 311f).toInt().toFloat())
-        barPaint.shader = LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+        barRect.set(
+            selectRadius.toFloat(),
+            0f,
+            (widthSize - selectRadius).toFloat(),
+            ((widthSize - selectRadius * 2) * 30 / 311f).toInt().toFloat()
+        )
+        barPaint.shader =
+            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
 
         // 2dp 为渐变条与三角形间距
-        val wantHeight: Int = barRect.height().toInt() + SizeUtils.dp2px(2f) + selectNotDrawable.bounds.height() + selectRadius * 2
+        val wantHeight: Int =
+            barRect.height().toInt() + SizeUtils.dp2px(2f) + selectNotDrawable.bounds.height() + selectRadius * 2
 
         //宽度为 UNSPECIFIED 的情况目前不存在，不考虑；高度不为 wrap_content 的情况也不存在，不考虑
         setMeasuredDimension(widthSize, wantHeight)
@@ -311,7 +336,7 @@ class PseudoPickView : View {
             minZAltitude = minZAltitude.coerceAtMost(altitude)
             maxZAltitude = maxZAltitude.coerceAtLeast(altitude)
         }
-        for (altitude in minZAltitude .. maxZAltitude) {
+        for (altitude in minZAltitude..maxZAltitude) {
             for (i in zAltitudes.indices) {
                 if (zAltitudes[i] == altitude) {
                     val x: Float = barRect.left + barRect.width() * places[i]
@@ -340,14 +365,17 @@ class PseudoPickView : View {
      * Touch Down 时 x 轴坐标，用于计算滑动距离，从而判断是否触发滑动。
      */
     private var downX = 0
+
     /**
      * 是否需要接手 Touch 事件.
      */
     private var handleTouch = false
+
     /**
      * 当前选中的滑块是否可拖动，唯一的最左或最右不可滑动。
      */
     private var canDrag = false
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event == null) {
@@ -382,6 +410,7 @@ class PseudoPickView : View {
                     onSelectChangeListener?.invoke(selectIndex)
                 }
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val x = event.x.coerceAtLeast(barRect.left).coerceAtMost(barRect.right).toInt()
                 if (canDrag) {
@@ -431,7 +460,8 @@ class PseudoPickView : View {
                     places[newIndex] = newPlace
                     zAltitudes[newIndex] = calculateZAltitude(newPlace)
                     refreshActualColors()
-                    barPaint.shader = LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+                    barPaint.shader =
+                        LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
                     invalidate()
                 }
             }

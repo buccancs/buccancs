@@ -93,8 +93,8 @@ class VideoRecordFFmpeg(
     private val tempBg: TempLayout?,
     private val compassView: LinearCompassView? = null, //指南针
     private val dualView: DualViewWithExternalCameraCommonApi? = null,  // 双光
-    private val isTC007 : Boolean = false,
-    private val carView : View ?= null
+    private val isTC007: Boolean = false,
+    private val carView: View? = null
 ) : VideoRecord() {
 
     companion object {
@@ -105,7 +105,6 @@ class VideoRecordFFmpeg(
         var VIDEO_CODEC = avcodec.AV_CODEC_ID_MPEG4
         const val SAMPLE_AUDIO_RETE_INHZ = 44100
         const val AUDIO_CHANNELS = 1
-
 
 
         /**
@@ -594,6 +593,7 @@ class VideoRecordFFmpeg(
                 cameraViewBitmap = Bitmap.createBitmap(cameraView.width, cameraView.height, Bitmap.Config.ARGB_8888)
                 cameraView.getBitmap(cameraViewBitmap)
             }
+
             is LiteSurfaceView -> cameraViewBitmap = cameraView.scaleBitmap()
             is HikSurfaceView -> cameraViewBitmap = cameraView.getScaleBitmap()
             else -> cameraViewBitmap = Bitmap.createBitmap(cameraView.width, cameraView.height, Bitmap.Config.ARGB_8888)
@@ -611,6 +611,7 @@ class VideoRecordFFmpeg(
                     }
                 }
             }
+
             is TemperatureHikView -> {
                 temperatureView.draw(Canvas(cameraViewBitmap))
             }
@@ -645,10 +646,11 @@ class VideoRecordFFmpeg(
                 0,
             )
         }
-        if (carView?.isVisible == true){
+        if (carView?.isVisible == true) {
             cameraViewBitmap = BitmapUtils.mergeBitmap(
                 cameraViewBitmap,
-                carView?.drawToBitmap(), 0, 0)
+                carView?.drawToBitmap(), 0, 0
+            )
         }
         //指南针
         compassView?.let {
@@ -689,7 +691,11 @@ class VideoRecordFFmpeg(
         }
 
         //添加水印
-        val watermarkBean = if (isTC007){SharedManager.wifiWatermarkBean} else {SharedManager.watermarkBean}
+        val watermarkBean = if (isTC007) {
+            SharedManager.wifiWatermarkBean
+        } else {
+            SharedManager.watermarkBean
+        }
         if (watermarkBean.isOpen) {
             dstBitmap = drawCenterLable(
                 dstBitmap!!,

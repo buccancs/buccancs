@@ -54,214 +54,219 @@ public abstract void actionSettingResolver(ActionSetting ac);
  */
 public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
-	private static final long serialVersionUID = -5368287098255841194L;
-	
-	public int mPacketSize;
-	public transient List<RadioListener> mRadioListenerList = new ArrayList<RadioListener>();
-	public transient AbstractCommsProtocol mRadioProtocol = null; //pass the radio controls to the protocol, lite protocol can be replaced by any protocol
-	/** Hardware abstraction layer */
-	public InterfaceSerialPortHal mRadioHal;
-	
-	public CommsProtocolRadio(InterfaceSerialPortHal radioHal, AbstractCommsProtocol radioProtocol){
-		if(radioHal!=null){
-			mRadioHal = radioHal;
-			mRadioHal.clearByteLevelDataCommListener();
-			mRadioHal.setTimeout(AbstractSerialPortHal.SERIAL_PORT_TIMEOUT_2000);
-			
-			if(radioProtocol!=null){
-				mRadioProtocol = radioProtocol;
-				mRadioProtocol.setByteLevelDataComm(mRadioHal);
-			}
-			initialize();
-		}
-	}
-	
-	
-	private void initialize(){
-		mRadioHal.setVerboseMode(false,false);
-		mRadioHal.addByteLevelDataCommListener(new RadioByteLevelListener());
-		
-		if (mRadioHal.isConnected()){
-			mRadioHal.eventDeviceConnected();
-		}
-	}
-	
-	
-	public void addRadioListener(RadioListener radioListener){
-		mRadioListenerList.add(radioListener);
-	}
-	
-	public void removeRadioListenerList(){
-		mRadioListenerList.clear();
-	}
+    private static final long serialVersionUID = -5368287098255841194L;
 
-	
-	public void connect() throws ShimmerException{
-		try{
-			mRadioHal.connect();
-		}
-		catch (ShimmerException dE) {
-			disconnect();
-			throw(dE);
+    public int mPacketSize;
+    public transient List<RadioListener> mRadioListenerList = new ArrayList<RadioListener>();
+    public transient AbstractCommsProtocol mRadioProtocol = null; //pass the radio controls to the protocol, lite protocol can be replaced by any protocol
+    /**
+     * Hardware abstraction layer
+     */
+    public InterfaceSerialPortHal mRadioHal;
+
+    public CommsProtocolRadio(InterfaceSerialPortHal radioHal, AbstractCommsProtocol radioProtocol) {
+        if (radioHal != null) {
+            mRadioHal = radioHal;
+            mRadioHal.clearByteLevelDataCommListener();
+            mRadioHal.setTimeout(AbstractSerialPortHal.SERIAL_PORT_TIMEOUT_2000);
+
+            if (radioProtocol != null) {
+                mRadioProtocol = radioProtocol;
+                mRadioProtocol.setByteLevelDataComm(mRadioHal);
+            }
+            initialize();
         }
-	};
-	
-	public void disconnect() throws ShimmerException{
-		if(mRadioProtocol!=null){
-			mRadioProtocol.stopProtocol();
-		}
-		if(mRadioHal!=null){
-			try{
-				mRadioHal.disconnect();
-			}
-			catch (ShimmerException e) {
-				//TODO
-				eventError(e);
-				throw(e);
-	        } finally {
-	        	//TODO 2016/07/26 Not sure if this should be here
+    }
+
+
+    private void initialize() {
+        mRadioHal.setVerboseMode(false, false);
+        mRadioHal.addByteLevelDataCommListener(new RadioByteLevelListener());
+
+        if (mRadioHal.isConnected()) {
+            mRadioHal.eventDeviceConnected();
+        }
+    }
+
+
+    public void addRadioListener(RadioListener radioListener) {
+        mRadioListenerList.add(radioListener);
+    }
+
+    public void removeRadioListenerList() {
+        mRadioListenerList.clear();
+    }
+
+
+    public void connect() throws ShimmerException {
+        try {
+            mRadioHal.connect();
+        } catch (ShimmerException dE) {
+            disconnect();
+            throw (dE);
+        }
+    }
+
+    ;
+
+    public void disconnect() throws ShimmerException {
+        if (mRadioProtocol != null) {
+            mRadioProtocol.stopProtocol();
+        }
+        if (mRadioHal != null) {
+            try {
+                mRadioHal.disconnect();
+            } catch (ShimmerException e) {
+                //TODO
+                eventError(e);
+                throw (e);
+            } finally {
+                //TODO 2016/07/26 Not sure if this should be here
 //				mRadioHal=null;
-	        }
-		}
-	};
-	
-	public boolean isConnected(){
-		if(mRadioHal!=null){
-			return mRadioHal.isConnected();
-		}
-		return false;
-	}
+            }
+        }
+    }
 
-	public void stopStreaming(){
-		mRadioProtocol.stopStreaming();
-	}
-	
-	public void startStreaming(){
-		mRadioProtocol.startStreaming();
-	}
-	
-	public void startSDLogging(){
-		mRadioProtocol.startSDLogging();
-	}
-	
-	public void stopSDLogging() {
-		mRadioProtocol.stopSDLogging();
-	}
-	
-	public void startDataLogAndStreaming(){
-		mRadioProtocol.startDataLogAndStreaming();
-	}
-	
-	public void stopLoggingAndStreaming(){
-		mRadioProtocol.stopStreamingAndLogging();
-	}
+    ;
+
+    public boolean isConnected() {
+        if (mRadioHal != null) {
+            return mRadioHal.isConnected();
+        }
+        return false;
+    }
+
+    public void stopStreaming() {
+        mRadioProtocol.stopStreaming();
+    }
+
+    public void startStreaming() {
+        mRadioProtocol.startStreaming();
+    }
+
+    public void startSDLogging() {
+        mRadioProtocol.startSDLogging();
+    }
+
+    public void stopSDLogging() {
+        mRadioProtocol.stopSDLogging();
+    }
+
+    public void startDataLogAndStreaming() {
+        mRadioProtocol.startDataLogAndStreaming();
+    }
+
+    public void stopLoggingAndStreaming() {
+        mRadioProtocol.stopStreamingAndLogging();
+    }
 
 
-	/**
-	 * Transmits a command to the Shimmer device to enable the sensors. To enable multiple sensors an or operator should be used (e.g. writeEnabledSensors(SENSOR_ACCEL|SENSOR_GYRO|SENSOR_MAG)). Command should not be used consecutively. Valid values are SENSOR_ACCEL, SENSOR_GYRO, SENSOR_MAG, SENSOR_ECG, SENSOR_EMG, SENSOR_GSR, SENSOR_EXP_BOARD_A7, SENSOR_EXP_BOARD_A0, SENSOR_BRIDGE_AMP and SENSOR_HEART.
-    SENSOR_BATT
-	 * @param enabledSensors e.g SENSOR_ACCEL|SENSOR_GYRO|SENSOR_MAG
-	 */
-	public void writeEnabledSensors(long enabledSensors) {
-		mRadioProtocol.writeEnabledSensors(enabledSensors);
-	}
+    /**
+     * Transmits a command to the Shimmer device to enable the sensors. To enable multiple sensors an or operator should be used (e.g. writeEnabledSensors(SENSOR_ACCEL|SENSOR_GYRO|SENSOR_MAG)). Command should not be used consecutively. Valid values are SENSOR_ACCEL, SENSOR_GYRO, SENSOR_MAG, SENSOR_ECG, SENSOR_EMG, SENSOR_GSR, SENSOR_EXP_BOARD_A7, SENSOR_EXP_BOARD_A0, SENSOR_BRIDGE_AMP and SENSOR_HEART.
+     * SENSOR_BATT
+     *
+     * @param enabledSensors e.g SENSOR_ACCEL|SENSOR_GYRO|SENSOR_MAG
+     */
+    public void writeEnabledSensors(long enabledSensors) {
+        mRadioProtocol.writeEnabledSensors(enabledSensors);
+    }
 
-	public void toggleLed() {
-		mRadioProtocol.toggleLed();
-	}
+    public void toggleLed() {
+        mRadioProtocol.toggleLed();
+    }
 
-	public void readFWVersion() {
-		mRadioProtocol.readFWVersion();
-	}
+    public void readFWVersion() {
+        mRadioProtocol.readFWVersion();
+    }
 
-	public void readShimmerVersion() {
-		mRadioProtocol.readShimmerVersionNew();
-	}
+    public void readShimmerVersion() {
+        mRadioProtocol.readShimmerVersionNew();
+    }
 
-	public void readInfoMem(int startAddress, int size, int maxMemAddress) {
-		mRadioProtocol.readInfoMem(startAddress, size);
-	}
-	
-	public void writeInfoMem(int startAddress, byte[] buf, int maxMemAddress) {
-		mRadioProtocol.writeInfoMem(startAddress, buf);
-	}
+    public void readInfoMem(int startAddress, int size, int maxMemAddress) {
+        mRadioProtocol.readInfoMem(startAddress, size);
+    }
 
-	public void readCalibrationDump() {
-		mRadioProtocol.readCalibrationDump();
-	}
+    public void writeInfoMem(int startAddress, byte[] buf, int maxMemAddress) {
+        mRadioProtocol.writeInfoMem(startAddress, buf);
+    }
 
-	public void writeCalibrationDump(byte[] calibDump) {
-		mRadioProtocol.writeCalibrationDump(calibDump);
-	}
+    public void readCalibrationDump() {
+        mRadioProtocol.readCalibrationDump();
+    }
 
-	public void readPressureCalibrationCoefficients() {
-		mRadioProtocol.readPressureCalibrationCoefficients();
-	}
+    public void writeCalibrationDump(byte[] calibDump) {
+        mRadioProtocol.writeCalibrationDump(calibDump);
+    }
 
-	public void readExpansionBoardID() {
-		mRadioProtocol.readExpansionBoardID();
-	}
+    public void readPressureCalibrationCoefficients() {
+        mRadioProtocol.readPressureCalibrationCoefficients();
+    }
 
-	public void readLEDCommand() {
-		mRadioProtocol.readLEDCommand();
-	}
+    public void readExpansionBoardID() {
+        mRadioProtocol.readExpansionBoardID();
+    }
 
-	public void readStatusLogAndStream() {
-		mRadioProtocol.readStatusLogAndStream();
-	}
+    public void readLEDCommand() {
+        mRadioProtocol.readLEDCommand();
+    }
 
-	public void readBattery() {
-		mRadioProtocol.readBattery();
-	}
+    public void readStatusLogAndStream() {
+        mRadioProtocol.readStatusLogAndStream();
+    }
 
-	public void readRealTimeClock() {
-		mRadioProtocol.readRealTimeClock();
-	}
+    public void readBattery() {
+        mRadioProtocol.readBattery();
+    }
 
-	public void inquiry() {
-		mRadioProtocol.inquiry();
-	}
+    public void readRealTimeClock() {
+        mRadioProtocol.readRealTimeClock();
+    }
 
-	public void operationPrepare() {
-		mRadioProtocol.operationPrepare();
-	}
-	
-	public void operationStart(BT_STATE btState) {
-		mRadioProtocol.operationStart(btState);
-	}
+    public void inquiry() {
+        mRadioProtocol.inquiry();
+    }
 
-	public void setPacketSize(int expectedDataPacketSize) {
-		if(mRadioProtocol!=null){
-			mRadioProtocol.setPacketSize(expectedDataPacketSize);
-		}
-	}
-	
-	// -------------- Timers Start ----------------
-	public void startTimerCheckIfAlive() {
-		mRadioProtocol.startTimerCheckIfAlive();
-	}
-	
-	public void stopTimerCheckIfAlive() {
-		mRadioProtocol.stopTimerCheckIfAlive();
-	}
+    public void operationPrepare() {
+        mRadioProtocol.operationPrepare();
+    }
 
-	public void startTimerReadStatus() {
-		mRadioProtocol.startTimerReadStatus();
-	}
+    public void operationStart(BT_STATE btState) {
+        mRadioProtocol.operationStart(btState);
+    }
 
-	public void stopTimerReadStatus() {
-		mRadioProtocol.stopTimerReadStatus();
-	}
+    public void setPacketSize(int expectedDataPacketSize) {
+        if (mRadioProtocol != null) {
+            mRadioProtocol.setPacketSize(expectedDataPacketSize);
+        }
+    }
 
-	public void startTimerReadBattStatus() {
-		mRadioProtocol.startTimerReadBattStatus();
-	}
-	
-	public void stopTimerReadBattStatus() {
-		mRadioProtocol.stopTimerReadBattStatus();
-	}
-	// -------------- Timers End ----------------
-	
+    // -------------- Timers Start ----------------
+    public void startTimerCheckIfAlive() {
+        mRadioProtocol.startTimerCheckIfAlive();
+    }
+
+    public void stopTimerCheckIfAlive() {
+        mRadioProtocol.stopTimerCheckIfAlive();
+    }
+
+    public void startTimerReadStatus() {
+        mRadioProtocol.startTimerReadStatus();
+    }
+
+    public void stopTimerReadStatus() {
+        mRadioProtocol.stopTimerReadStatus();
+    }
+
+    public void startTimerReadBattStatus() {
+        mRadioProtocol.startTimerReadBattStatus();
+    }
+
+    public void stopTimerReadBattStatus() {
+        mRadioProtocol.stopTimerReadBattStatus();
+    }
+    // -------------- Timers End ----------------
+
 //	@Override
 //	protected void connectionLost() {
 //		closeConnection();
@@ -272,16 +277,17 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
 //	private void closeConnection(){
 //		disconnect();
 //		try {
-////			if (mIOThread != null) {
-////				mIOThread.stop = true;
-////				mIOThread = null;
-////				if(mUseProcessingThread){
-////				mPThread.stop = true;
-////				mPThread = null;
-////				}
-////			}
-////			mIsStreaming = false;
-////			mIsInitialised = false;
+
+    /// /			if (mIOThread != null) {
+    /// /				mIOThread.stop = true;
+    /// /				mIOThread = null;
+    /// /				if(mUseProcessingThread){
+    /// /				mPThread.stop = true;
+    /// /				mPThread = null;
+    /// /				}
+    /// /			}
+    /// /			mIsStreaming = false;
+    /// /			mIsInitialised = false;
 //
 //			setBluetoothRadioState(BT_STATE.DISCONNECTED);
 //			if (mSerialPort != null){
@@ -299,153 +305,158 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
 //			setBluetoothRadioState(BT_STATE.DISCONNECTED);
 //		}			
 //	}
+    @Override
+    protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
+        // TODO Auto-generated method stub
 
-	@Override
-	protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	public class RadioByteLevelListener implements ByteLevelDataCommListener {
+    }
 
-		@Override
-		public void eventConnected() {
-			for (RadioListener rl:mRadioListenerList){
-				rl.connected();
-			}
+    public void eventError(ShimmerException dE) {
+        for (RadioListener rl : mRadioListenerList) {
+            if (rl != null) {
+                rl.eventError(dE);
+            }
+        }
+    }
 
-			try {
-				mRadioProtocol.setProtocolListener(new CommsProtocolListener());
-			} catch (ShimmerException e) {
-				//TODO
-				eventError(e);
-			}
+    public class RadioByteLevelListener implements ByteLevelDataCommListener {
 
+        @Override
+        public void eventConnected() {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.connected();
+            }
 
-			mRadioProtocol.initialize();
-		}
-
-		@Override
-		public void eventDisconnected() {
-			for (RadioListener rl:mRadioListenerList){
-				rl.disconnected();
-			}
-		}
-	}
-	
-	public class CommsProtocolListener implements ProtocolListener{
-
-		@Override
-		public void eventAckReceived(int lastSentInstruction) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventAckReceived(lastSentInstruction);
-			}
-		}
-
-		@Override
-		public void eventNewPacket(byte[] packet, long pcTimestamp) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventNewPacket(packet, pcTimestamp);
-			}
-		}
-
-		@Override
-		public void eventNewResponse(byte[] respB) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventNewResponse(respB);
-			}
-		}
-		
-		@Override
-		public void eventResponseReceived(int responseCommand, Object parsedResponse) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventResponseReceived(responseCommand, parsedResponse);
-			}
-		}
+            try {
+                mRadioProtocol.setProtocolListener(new CommsProtocolListener());
+            } catch (ShimmerException e) {
+                //TODO
+                eventError(e);
+            }
 
 
+            mRadioProtocol.initialize();
+        }
 
-		@Override
-		public void hasStopStreaming() {
-			for (RadioListener rl:mRadioListenerList){
-				rl.hasStopStreamingCallback();
-			}
-		}
+        @Override
+        public void eventDisconnected() {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.disconnected();
+            }
+        }
+    }
 
-		@Override
-		public void eventLogAndStreamStatusChangedCallback(int lastSentInstruction) {
+    public class CommsProtocolListener implements ProtocolListener {
+
+        @Override
+        public void eventAckReceived(int lastSentInstruction) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventAckReceived(lastSentInstruction);
+            }
+        }
+
+        @Override
+        public void eventNewPacket(byte[] packet, long pcTimestamp) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventNewPacket(packet, pcTimestamp);
+            }
+        }
+
+        @Override
+        public void eventNewResponse(byte[] respB) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventNewResponse(respB);
+            }
+        }
+
+        @Override
+        public void eventResponseReceived(int responseCommand, Object parsedResponse) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventResponseReceived(responseCommand, parsedResponse);
+            }
+        }
+
+
+        @Override
+        public void hasStopStreaming() {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.hasStopStreamingCallback();
+            }
+        }
+
+        @Override
+        public void eventLogAndStreamStatusChangedCallback(int lastSentInstruction) {
 //			if (mSerialPort.isConnected()){
 //			mRadioProtocol.setPacketSize(41);
 //		}
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventLogAndStreamStatusChangedCallback(lastSentInstruction);
-			}
-		}
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventLogAndStreamStatusChangedCallback(lastSentInstruction);
+            }
+        }
 
-		@Override
-		public void eventAckInstruction(byte[] bs) {
-			for (RadioListener rl:mRadioListenerList){
+        @Override
+        public void eventAckInstruction(byte[] bs) {
+            for (RadioListener rl : mRadioListenerList) {
 //				rl.eventAckInstruction(bs);
-			}
-		}
+            }
+        }
 
-		@Override
-		public void eventByteResponseWhileStreaming(byte[] b) {
-			// TODO Auto-generated method stub
-			
-		}
+        @Override
+        public void eventByteResponseWhileStreaming(byte[] b) {
+            // TODO Auto-generated method stub
 
-		@Override
-		public void isNowStreaming() {
-			for (RadioListener rl:mRadioListenerList){
-				rl.isNowStreamingCallback();
-			}
-		}
+        }
 
-		@Override
-		public void sendStatusMSGtoUI(String msg) {
-			// TODO Auto-generated method stub
-			
-		}
+        @Override
+        public void isNowStreaming() {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.isNowStreamingCallback();
+            }
+        }
 
-		@Override
-		public void startOperation(BT_STATE currentOperation, int totalNumOfCmds) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.startOperationCallback(currentOperation, totalNumOfCmds);
-			}
-		}
+        @Override
+        public void sendStatusMSGtoUI(String msg) {
+            // TODO Auto-generated method stub
 
-		@Override
-		public void finishOperation(BT_STATE currentOperation) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.finishOperationCallback(currentOperation);
-			}
-		}
-		
-		@Override
-		public void sendProgressReport(BluetoothProgressReportPerCmd progressReportPerCmd) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.sendProgressReportCallback(progressReportPerCmd);
-			}
-		}
+        }
 
-		@Override
-		public void eventDockedStateChange() {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventDockedStateChange();
-			}
-		}
+        @Override
+        public void startOperation(BT_STATE currentOperation, int totalNumOfCmds) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.startOperationCallback(currentOperation, totalNumOfCmds);
+            }
+        }
 
-		@Override
-		public void initialiseStreamingCallback() {
-			int index = 0;
-			for (RadioListener rl:mRadioListenerList){
-				System.out.println("initialiseStreamingCallback:\t" + index++);
-				rl.initialiseStreamingCallback();
-			}
-			System.out.println("initialiseStreamingCallback:\tFINISHED");
-		}
+        @Override
+        public void finishOperation(BT_STATE currentOperation) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.finishOperationCallback(currentOperation);
+            }
+        }
+
+        @Override
+        public void sendProgressReport(BluetoothProgressReportPerCmd progressReportPerCmd) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.sendProgressReportCallback(progressReportPerCmd);
+            }
+        }
+
+        @Override
+        public void eventDockedStateChange() {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventDockedStateChange();
+            }
+        }
+
+        @Override
+        public void initialiseStreamingCallback() {
+            int index = 0;
+            for (RadioListener rl : mRadioListenerList) {
+                System.out.println("initialiseStreamingCallback:\t" + index++);
+                rl.initialiseStreamingCallback();
+            }
+            System.out.println("initialiseStreamingCallback:\tFINISHED");
+        }
 
 //		@Override
 //		public void eventSyncStates(boolean isDocked, boolean isInitialised, boolean isSdLogging, boolean isSensing, boolean isStreaming, boolean haveAttemptedToRead) {
@@ -454,69 +465,61 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
 //			}
 //		}
 
-		@Override
-		public void eventSetIsDocked(boolean isDocked) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventSetIsDocked(isDocked);
-			}
-		}
+        @Override
+        public void eventSetIsDocked(boolean isDocked) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventSetIsDocked(isDocked);
+            }
+        }
 
-		@Override
-		public void eventSetIsStreaming(boolean isStreaming) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventSetIsStreaming(isStreaming);
-			}
-		}
+        @Override
+        public void eventSetIsStreaming(boolean isStreaming) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventSetIsStreaming(isStreaming);
+            }
+        }
 
-		@Override
-		public void eventSetIsSensing(boolean isSensing) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventSetIsSensing(isSensing);
-			}
-		}
+        @Override
+        public void eventSetIsSensing(boolean isSensing) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventSetIsSensing(isSensing);
+            }
+        }
 
-		@Override
-		public void eventSetIsSDLogging(boolean isSdLogging) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventSetIsSDLogging(isSdLogging);
-			}
-		}
+        @Override
+        public void eventSetIsSDLogging(boolean isSdLogging) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventSetIsSDLogging(isSdLogging);
+            }
+        }
 
-		@Override
-		public void eventSetIsInitialised(boolean isInitialised) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventSetIsInitialised(isInitialised);
-			}
-		}
+        @Override
+        public void eventSetIsInitialised(boolean isInitialised) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventSetIsInitialised(isInitialised);
+            }
+        }
 
-		@Override
-		public void eventSetHaveAttemptedToRead(boolean haveAttemptedToRead) {
-			for (RadioListener rl:mRadioListenerList){
-				rl.eventSetHaveAttemptedToRead(haveAttemptedToRead);
-			}
-		}
+        @Override
+        public void eventSetHaveAttemptedToRead(boolean haveAttemptedToRead) {
+            for (RadioListener rl : mRadioListenerList) {
+                rl.eventSetHaveAttemptedToRead(haveAttemptedToRead);
+            }
+        }
 
-		@Override
-		public void eventKillConnectionRequest(ShimmerException dE) {
-			eventError(dE);
-			
-			try {
-				disconnect();
-			} catch (ShimmerException e) {
-				//TODO
-				eventError(e);
-			}
-		}
+        @Override
+        public void eventKillConnectionRequest(ShimmerException dE) {
+            eventError(dE);
 
-	}
+            try {
+                disconnect();
+            } catch (ShimmerException e) {
+                //TODO
+                eventError(e);
+            }
+        }
 
-	public void eventError(ShimmerException dE){
-		for (RadioListener rl:mRadioListenerList){
-			if(rl!=null){
-				rl.eventError(dE);
-			}
-		}
-	}
+    }
 
 
 }

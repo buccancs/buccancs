@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import com.github.mikephil.charting.highlight.Highlight;
@@ -26,6 +25,16 @@ public class PieData extends ChartData<IPieDataSet> {
     }
 
     /**
+     * Returns the DataSet this PieData object represents. A PieData object can
+     * only contain one DataSet.
+     *
+     * @return
+     */
+    public IPieDataSet getDataSet() {
+        return mDataSets.get(0);
+    }
+
+    /**
      * Sets the PieDataSet this data object should represent.
      *
      * @param dataSet
@@ -34,16 +43,6 @@ public class PieData extends ChartData<IPieDataSet> {
         mDataSets.clear();
         mDataSets.add(dataSet);
         notifyDataChanged();
-    }
-
-    /**
-     * Returns the DataSet this PieData object represents. A PieData object can
-     * only contain one DataSet.
-     *
-     * @return
-     */
-    public IPieDataSet getDataSet() {
-        return mDataSets.get(0);
     }
 
     /**

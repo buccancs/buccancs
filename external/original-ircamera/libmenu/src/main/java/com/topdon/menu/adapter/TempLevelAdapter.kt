@@ -50,15 +50,35 @@ internal class TempLevelAdapter(menuType: MenuType) : BaseMenuAdapter() {
     var onTempLevelListener: ((code: Int) -> Unit)? = null
 
 
-
     private val dataList: ArrayList<Data> = ArrayList(6)
 
     init {
-        dataList.add(Data(R.string.thermal_normal_temperature, R.drawable.selector_menu2_temp_level_1, IntRange(-20, 150), 1))
+        dataList.add(
+            Data(
+                R.string.thermal_normal_temperature,
+                R.drawable.selector_menu2_temp_level_1,
+                IntRange(-20, 150),
+                1
+            )
+        )
         if (menuType == MenuType.Lite) {
-            dataList.add(Data(R.string.thermal_high_temperature, R.drawable.selector_menu2_temp_level_1, IntRange(150, 450), 0))
+            dataList.add(
+                Data(
+                    R.string.thermal_high_temperature,
+                    R.drawable.selector_menu2_temp_level_1,
+                    IntRange(150, 450),
+                    0
+                )
+            )
         } else {
-            dataList.add(Data(R.string.thermal_high_temperature, R.drawable.selector_menu2_temp_level_1, IntRange(150, 550), 0))
+            dataList.add(
+                Data(
+                    R.string.thermal_high_temperature,
+                    R.drawable.selector_menu2_temp_level_1,
+                    IntRange(150, 550),
+                    0
+                )
+            )
         }
         dataList.add(Data(R.string.thermal_automatic, R.drawable.selector_menu2_temp_level_2, code = -1))
     }
@@ -92,5 +112,10 @@ internal class TempLevelAdapter(menuType: MenuType) : BaseMenuAdapter() {
 
     override fun getItemCount(): Int = dataList.size
 
-    data class Data(@StringRes val stringId: Int, @DrawableRes val drawableId: Int, val range: IntRange? = null, val code: Int)
+    data class Data(
+        @StringRes val stringId: Int,
+        @DrawableRes val drawableId: Int,
+        val range: IntRange? = null,
+        val code: Int
+    )
 }

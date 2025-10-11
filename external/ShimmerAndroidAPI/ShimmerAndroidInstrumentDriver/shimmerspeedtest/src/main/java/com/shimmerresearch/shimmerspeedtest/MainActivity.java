@@ -35,20 +35,19 @@ import com.shimmerresearch.shimmer3.communication.SpeedTestProtocol;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
     private static final int PERMISSION_REQUEST_BACKGROUND_LOCATION = 1;
     private static final int PERMISSION_REQUEST_FINE_LOCATION = 2;
+    private AppBarConfiguration appBarConfiguration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED
-    ||ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED)
-        {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_SCAN}, 2);
-            } else if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.M){
+                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN}, 2);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
                     if (this.checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
@@ -68,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                             });
                             builder.show();
-                        }
-                        else {
+                        } else {
                             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                             builder.setTitle("Functionality limited");
                             builder.setMessage("Since background location access has not been granted, this app will not be able to discover beacons in the background.  Please go to Settings -> Applications -> Permissions and grant background location access to this app.");
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     }
-                }else {
+                } else {
                     if (!this.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                                         Manifest.permission.ACCESS_BACKGROUND_LOCATION},
@@ -113,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-
 
 
     }

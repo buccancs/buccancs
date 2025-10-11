@@ -19,16 +19,13 @@ import java.util.Map;
 public class DeviceControlManager implements IDeviceConnectListener {
 
     private static final String TAG = "DualDeviceControlManager";
-
+    private static DeviceControlManager mInstance;
     private DeviceControlWorker mDeviceControlWorker;
-
     private HashMap<String, IDeviceConnectListener> mIDeviceConnectListeners;
 
     private DeviceControlManager() {
 
     }
-
-    private static DeviceControlManager mInstance;
 
     public static synchronized DeviceControlManager getInstance() {
         if (mInstance == null) {
@@ -49,7 +46,8 @@ public class DeviceControlManager implements IDeviceConnectListener {
 
     /**
      * 注册设备状态回调，可在activity或fragment中注册，用于UI的改变
-     * @param key 唯一标识
+     *
+     * @param key                    唯一标识
      * @param iDeviceConnectListener
      */
     public void addDeviceConnectListener(String key, IDeviceConnectListener iDeviceConnectListener) {
@@ -60,6 +58,7 @@ public class DeviceControlManager implements IDeviceConnectListener {
 
     /**
      * 取消注册设备状态回调
+     *
      * @param key
      */
     public void removeDeviceConnectListener(String key) {
@@ -84,6 +83,7 @@ public class DeviceControlManager implements IDeviceConnectListener {
 
     /**
      * 双光数据流出图
+     *
      * @param ctrlBlock
      */
     public void handleStartPreview(USBMonitor.UsbControlBlock ctrlBlock) {
@@ -126,7 +126,7 @@ public class DeviceControlManager implements IDeviceConnectListener {
     @Override
     public void onPrepareConnect() {
         //StartPreview前回调
-        for (Map.Entry<String, IDeviceConnectListener> entry: mIDeviceConnectListeners.entrySet()) {
+        for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onPrepareConnect();
         }
     }
@@ -134,7 +134,7 @@ public class DeviceControlManager implements IDeviceConnectListener {
     @Override
     public void onConnected() {
         //StartPreview成功前后回调，注意是子线程
-        for (Map.Entry<String, IDeviceConnectListener> entry: mIDeviceConnectListeners.entrySet()) {
+        for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onConnected();
         }
     }
@@ -142,7 +142,7 @@ public class DeviceControlManager implements IDeviceConnectListener {
     @Override
     public void onDisconnected() {
         //StopPreview成功前后回调，注意是子线程
-        for (Map.Entry<String, IDeviceConnectListener> entry: mIDeviceConnectListeners.entrySet()) {
+        for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onDisconnected();
         }
     }
@@ -150,7 +150,7 @@ public class DeviceControlManager implements IDeviceConnectListener {
     @Override
     public void onPaused() {
         //todo 自行定义Paused Task来实现
-        for (Map.Entry<String, IDeviceConnectListener> entry: mIDeviceConnectListeners.entrySet()) {
+        for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onPaused();
         }
     }
@@ -158,7 +158,7 @@ public class DeviceControlManager implements IDeviceConnectListener {
     @Override
     public void onResumed() {
         //todo 自行定义Resumed Task来实现
-        for (Map.Entry<String, IDeviceConnectListener> entry: mIDeviceConnectListeners.entrySet()) {
+        for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onResumed();
         }
     }

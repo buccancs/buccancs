@@ -35,6 +35,7 @@ public class TimeDownView : AppCompatTextView {
         gravity = Gravity.CENTER
         textSize = SizeUtils.sp2px(30f).toFloat()
     }
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
@@ -51,19 +52,19 @@ public class TimeDownView : AppCompatTextView {
      * @param seconds
      */
     fun downSecond(seconds: Int) {
-        downSecond(seconds,true)
+        downSecond(seconds, true)
     }
 
-    fun downSecond(seconds: Int,openAnimation: Boolean) {
-        if (seconds == 0){
+    fun downSecond(seconds: Int, openAnimation: Boolean) {
+        if (seconds == 0) {
             isRunning = false
             visibility = GONE
             downTimeWatcher?.onLastTimeFinish(seconds)
             onFinishListener?.invoke()
-        }else{
+        } else {
             visibility = VISIBLE
             isRunning = true
-            downTime(seconds, 1, 0, 1000,openAnimation)
+            downTime(seconds, 1, 0, 1000, openAnimation)
         }
     }
 
@@ -75,13 +76,13 @@ public class TimeDownView : AppCompatTextView {
      * @param delayMills    延迟启动倒计时（毫秒数）
      * @param intervalMills 倒计时间隔时间（毫秒数）
      */
-    fun downTime(downCount: Int, lastDown: Int, delayMills: Long, intervalMills: Long,startAnimate : Boolean) {
+    fun downTime(downCount: Int, lastDown: Int, delayMills: Long, intervalMills: Long, startAnimate: Boolean) {
         timer = Timer()
         this.downCount = downCount
         this.lastDown = lastDown
         this.delayMills = delayMills
         this.intervalMills = intervalMills
-        if (startAnimate){
+        if (startAnimate) {
             initDefaultAnimate()
         }
         downTimerTask = DownTimerTask()
@@ -139,11 +140,11 @@ public class TimeDownView : AppCompatTextView {
      * 每个倒计时事件监听.
      */
     var onTimeListener: ((time: Int) -> Unit)? = null
+
     /**
      * 倒计时结束事件监听.
      */
     var onFinishListener: (() -> Unit)? = null
-
 
 
     var downTimeWatcher: DownTimeWatcher? = null

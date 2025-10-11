@@ -39,12 +39,12 @@ class TemperatureEditView : TemperatureBaseView {
         var lineTemps = arrayListOf<LibIRTemp.TemperatureSampleResult>()
         var rectangleTemps = arrayListOf<LibIRTemp.TemperatureSampleResult>()
     }
+
     var tempListData = TemperatureList()
 
     private var irtemp: LibIRTemp = LibIRTemp()
     private var irTempData: ByteArray = byteArrayOf()
     var fullInfo: LibIRTemp.TemperatureSampleResult? = null
-
 
 
     /**
@@ -65,14 +65,18 @@ class TemperatureEditView : TemperatureBaseView {
     private fun getTSTemp(temp: Float): Float = iTsTempListenerWeakReference?.get()?.tempCorrectByTs(temp) ?: temp
 
 
-
     constructor(context: Context) : this(context, null)
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         tempListData.pointTemps.clear()
         tempListData.lineTemps.clear()
         tempListData.rectangleTemps.clear()

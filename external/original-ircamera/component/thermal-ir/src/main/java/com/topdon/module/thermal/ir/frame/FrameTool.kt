@@ -27,9 +27,10 @@ class FrameTool {
     private var maxLimit = -273f
     private var minLimit = -273f
     private var irImageHelp = IRImageHelp()
-//    private val scrBitmap = Bitmap.createBitmap(192, 256, Bitmap.Config.ARGB_8888)
+
+    //    private val scrBitmap = Bitmap.createBitmap(192, 256, Bitmap.Config.ARGB_8888)
     private val supImageData = ByteArray(imageWidth * imageHeight * 4 * 4)
-    private var dstArgbBytes: ByteArray ?= null
+    private var dstArgbBytes: ByteArray? = null
 
 
     fun read(bytes: ByteArray) {
@@ -78,9 +79,27 @@ class FrameTool {
         val dstTempBytes = ByteArray(srcTemperatureLen)
         System.arraycopy(temperatureBytes, 0, tempBytes, 0, srcTemperatureLen)
         when (rotate) {
-            ImageParams.ROTATE_270 -> LibIRProcess.rotateLeft90(tempBytes, imageRes, CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14, dstTempBytes)
-            ImageParams.ROTATE_90 -> LibIRProcess.rotateRight90(tempBytes, imageRes, CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14, dstTempBytes)
-            ImageParams.ROTATE_180 -> LibIRProcess.rotate180(tempBytes, imageRes, CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14, dstTempBytes)
+            ImageParams.ROTATE_270 -> LibIRProcess.rotateLeft90(
+                tempBytes,
+                imageRes,
+                CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14,
+                dstTempBytes
+            )
+
+            ImageParams.ROTATE_90 -> LibIRProcess.rotateRight90(
+                tempBytes,
+                imageRes,
+                CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14,
+                dstTempBytes
+            )
+
+            ImageParams.ROTATE_180 -> LibIRProcess.rotate180(
+                tempBytes,
+                imageRes,
+                CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14,
+                dstTempBytes
+            )
+
             else -> System.arraycopy(temperatureBytes, 0, dstTempBytes, 0, srcTemperatureLen)
         }
         return dstTempBytes
@@ -109,7 +128,7 @@ class FrameTool {
         customPseudoBean: CustomPseudoBean,
         maxTemperature: Float, minTemperature: Float,
         isAmplify: Boolean,
-        ): Bitmap? {
+    ): Bitmap? {
         maxLimit = max
         minLimit = min
         val imageBytesTemp = ByteArray(imageBytes.size)
@@ -122,7 +141,12 @@ class FrameTool {
         val minRGB = IntArray(3)
         if (customPseudoBean.isUseCustomPseudo) {
             //自定义渲染模式
-            LibIRProcess.convertYuyvMapToARGBPseudocolor(imageBytesTemp, pixNum.toLong(), CommonParams.PseudoColorType.PSEUDO_1, argbBytes)
+            LibIRProcess.convertYuyvMapToARGBPseudocolor(
+                imageBytesTemp,
+                pixNum.toLong(),
+                CommonParams.PseudoColorType.PSEUDO_1,
+                argbBytes
+            )
             val colorList: IntArray? = customPseudoBean.getColorList(struct.isTC007())
             val places: FloatArray? = customPseudoBean.getPlaceList()
             if (colorList != null) {
@@ -185,7 +209,8 @@ class FrameTool {
         }
 
         if ((struct.alarmBean.isHighOpen && struct.alarmBean.highTemp != Float.MAX_VALUE) ||
-            (struct.alarmBean.isLowOpen && struct.alarmBean.lowTemp != Float.MIN_VALUE)) {
+            (struct.alarmBean.isLowOpen && struct.alarmBean.lowTemp != Float.MIN_VALUE)
+        ) {
             try {
                 argbBytes = irImageHelp.contourDetection(
                     struct.alarmBean,
@@ -200,27 +225,35 @@ class FrameTool {
 
         argbBytesRotate(argbBytes, dstArgbBytes!!, rotate) //旋转
         val dstImageRes = getDstImageRes(rotate)
-        var scrBitmap : Bitmap ?= null
-        if (isAmplify){
+        var scrBitmap: Bitmap? = null
+        if (isAmplify) {
 //            scrBitmap = Bitmap.createBitmap(dstImageRes.width.code,
 //                dstImageRes.height.code, Bitmap.Config.ARGB_8888)
 //            scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(dstArgbBytes, 0, argbLen))
 //            return OpencvTools.supImageFourExToBitmap(scrBitmap)
             SupHelp.getInstance().initA4KCPP()
-            if (SupHelp.getInstance().loadOpenclSuccess){
-                OpencvTools.supImage(dstArgbBytes, dstImageRes.height.code,
-                    dstImageRes.width.code,supImageData)
-                scrBitmap = Bitmap.createBitmap(dstImageRes.width.code * 2,
-                    dstImageRes.height.code * 2, Bitmap.Config.ARGB_8888)
+            if (SupHelp.getInstance().loadOpenclSuccess) {
+                OpencvTools.supImage(
+                    dstArgbBytes, dstImageRes.height.code,
+                    dstImageRes.width.code, supImageData
+                )
+                scrBitmap = Bitmap.createBitmap(
+                    dstImageRes.width.code * 2,
+                    dstImageRes.height.code * 2, Bitmap.Config.ARGB_8888
+                )
                 scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(supImageData, 0, argbLen * 4))
-            }else{
-                scrBitmap = Bitmap.createBitmap(dstImageRes.width.code,
-                    dstImageRes.height.code, Bitmap.Config.ARGB_8888)
+            } else {
+                scrBitmap = Bitmap.createBitmap(
+                    dstImageRes.width.code,
+                    dstImageRes.height.code, Bitmap.Config.ARGB_8888
+                )
                 scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(dstArgbBytes, 0, argbLen))
             }
-        }else{
-            scrBitmap = Bitmap.createBitmap(dstImageRes.width.code,
-                dstImageRes.height.code, Bitmap.Config.ARGB_8888)
+        } else {
+            scrBitmap = Bitmap.createBitmap(
+                dstImageRes.width.code,
+                dstImageRes.height.code, Bitmap.Config.ARGB_8888
+            )
             scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(dstArgbBytes, 0, argbLen))
         }
         return scrBitmap
@@ -229,10 +262,12 @@ class FrameTool {
     /**
      * 获取原始图像的bitmap
      */
-    fun getBaseBitmap(rotate : ImageParams) : Bitmap{
+    fun getBaseBitmap(rotate: ImageParams): Bitmap {
         val dstImageRes = getDstImageRes(rotate)
-        val scrBitmap = Bitmap.createBitmap(dstImageRes.width.code,
-            dstImageRes.height.code, Bitmap.Config.ARGB_8888)
+        val scrBitmap = Bitmap.createBitmap(
+            dstImageRes.width.code,
+            dstImageRes.height.code, Bitmap.Config.ARGB_8888
+        )
         dstArgbBytes?.let {
             scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(it, 0, it.size))
         }
@@ -265,6 +300,7 @@ class FrameTool {
                 CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_ARGB8888,
                 dstArgbBytes
             )
+
             ImageParams.ROTATE_90 -> LibIRProcess.rotateRight90(
                 argbBytes,
                 imageRes,
@@ -272,7 +308,13 @@ class FrameTool {
                 dstArgbBytes
             )
 
-            ImageParams.ROTATE_180 -> LibIRProcess.rotate180(argbBytes, imageRes, CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_ARGB8888, dstArgbBytes)
+            ImageParams.ROTATE_180 -> LibIRProcess.rotate180(
+                argbBytes,
+                imageRes,
+                CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_ARGB8888,
+                dstArgbBytes
+            )
+
             else -> System.arraycopy(argbBytes, 0, dstArgbBytes, 0, argbBytes.size)
         }
     }

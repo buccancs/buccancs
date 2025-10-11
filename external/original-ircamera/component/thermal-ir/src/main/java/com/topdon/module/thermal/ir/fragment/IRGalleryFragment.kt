@@ -114,7 +114,12 @@ class IRGalleryFragment : BaseFragment() {
             if (it) {
                 TToast.shortToast(requireContext(), R.string.test_results_delete_success)
                 tabViewModel.isEditModeLD.value = false
-                MediaScannerConnection.scanFile(requireContext(), arrayOf(FileConfig.lineGalleryDir, FileConfig.ts004GalleryDir), null, null)
+                MediaScannerConnection.scanFile(
+                    requireContext(),
+                    arrayOf(FileConfig.lineGalleryDir, FileConfig.ts004GalleryDir),
+                    null,
+                    null
+                )
                 EventBus.getDefault().post(GalleryDelEvent())
             } else {
                 TToast.shortToast(requireContext(), R.string.test_results_delete_failed)
@@ -253,10 +258,12 @@ class IRGalleryFragment : BaseFragment() {
 
         if (deleteList.size > 0) {
             ConfirmSelectDialog(requireContext()).run {
-                setTitleStr(getString(
-                    R.string.tip_delete_chosen,
-                    deleteList.size
-                ))
+                setTitleStr(
+                    getString(
+                        R.string.tip_delete_chosen,
+                        deleteList.size
+                    )
+                )
                 setMessageRes(R.string.also_del_from_phone_album)
                 setShowMessage(currentDirType == DirType.TS004_REMOTE && hasOneDownload)
                 onConfirmClickListener = {
@@ -312,7 +319,12 @@ class IRGalleryFragment : BaseFragment() {
                     dismissLoadingDialog()
                     ToastTools.showShort(R.string.liveData_save_error)
                 }
-                MediaScannerConnection.scanFile(requireContext(), arrayOf(FileConfig.lineGalleryDir, FileConfig.ts004GalleryDir), null, null)
+                MediaScannerConnection.scanFile(
+                    requireContext(),
+                    arrayOf(FileConfig.lineGalleryDir, FileConfig.ts004GalleryDir),
+                    null,
+                    null
+                )
                 (context as? Activity)?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
         }

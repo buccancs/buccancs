@@ -30,9 +30,66 @@ public class FileUtils {
     public FileUtils(Context context) {
         this.context = context;
     }
-    public enum UriType {
-        FILE, FOLDER; // These are the constants of the enum
+
+    private static boolean fileExists(String filePath) {
+        File file = new File(filePath);
+
+        return file.exists();
     }
+
+    private static String getPathFromExtSD(String[] pathData) {
+        final String type = pathData[0];
+        final String relativePath = File.separator + pathData[1];
+        String fullPath = "";
+
+
+        Log.d(TAG, "MEDIA EXTSD TYPE: " + type);
+        Log.d(TAG, "Relative path: " + relativePath);
+        // on my Sony devices (4.4.4 & 5.1.1), `type` is a dynamic string
+        // something like "71F8-2C0A", some kind of unique id per storage
+        // don't know any API that can get the root path of that storage based on its id.
+        //
+        // so no "primary" type, but let the check here for other devices
+        if ("primary".equalsIgnoreCase(type)) {
+            fullPath = Environment.getExternalStorageDirectory() + relativePath;
+            if (fileExists(fullPath)) {
+                return fullPath;
+            }
+        }
+
+        if ("home".equalsIgnoreCase(type)) {
+            fullPath = "/storage/emulated/0/Documents" + relativePath;
+            if (fileExists(fullPath)) {
+                return fullPath;
+            }
+        }
+
+        // Environment.isExternalStorageRemovable() is `true` for external and internal storage
+        // so we cannot relay on it.
+        //
+        // instead, for each possible path, check if file exists
+        // we'll start with secondary storage as this could be our (physically) removable sd card
+        fullPath = System.getenv("SECONDARY_STORAGE") + relativePath;
+        if (fileExists(fullPath)) {
+            return fullPath;
+        }
+
+        fullPath = System.getenv("EXTERNAL_STORAGE") + relativePath;
+        if (fileExists(fullPath)) {
+            return fullPath;
+        }
+
+        return null;
+    }
+
+    private static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    private static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
     @SuppressLint("NewApi")
     public String getPath(final Uri uri, UriType uritype) {
         // check here to KITKAT or new version
@@ -46,9 +103,9 @@ public class FileUtils {
 
             if (isExternalStorageDocument(uri)) {
                 String docId = "";
-                if(uritype.equals(UriType.FOLDER)) {
+                if (uritype.equals(UriType.FOLDER)) {
                     docId = DocumentsContract.getTreeDocumentId(uri);
-                } else if(uritype.equals(UriType.FILE)) {
+                } else if (uritype.equals(UriType.FILE)) {
                     docId = DocumentsContract.getDocumentId(uri);
                 }
 
@@ -77,7 +134,7 @@ public class FileUtils {
                     final String id;
                     Cursor cursor = null;
                     try {
-                        cursor = context.getContentResolver().query(uri, new String[] {
+                        cursor = context.getContentResolver().query(uri, new String[]{
                                 MediaStore.MediaColumns.DISPLAY_NAME
                         }, null, null, null);
                         if (cursor != null && cursor.moveToFirst()) {
@@ -97,12 +154,12 @@ public class FileUtils {
                         if (id.startsWith("raw:")) {
                             return id.replaceFirst("raw:", "");
                         }
-                        String[] contentUriPrefixesToTry = new String[] {
+                        String[] contentUriPrefixesToTry = new String[]{
                                 "content://downloads/public_downloads",
                                 "content://downloads/my_downloads"
                         };
 
-                        for (String contentUriPrefix: contentUriPrefixesToTry) {
+                        for (String contentUriPrefix : contentUriPrefixesToTry) {
                             try {
                                 final Uri contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.valueOf(id));
 
@@ -153,7 +210,7 @@ public class FileUtils {
                 }
 
                 selection = "_id=?";
-                selectionArgs = new String[] {
+                selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -219,57 +276,6 @@ public class FileUtils {
         return copyFileToInternalStorage(uri, FALLBACK_COPY_FOLDER);
     }
 
-    private static boolean fileExists(String filePath) {
-        File file = new File(filePath);
-
-        return file.exists();
-    }
-
-    private static String getPathFromExtSD(String[] pathData) {
-        final String type = pathData[0];
-        final String relativePath = File.separator + pathData[1];
-        String fullPath = "";
-
-
-        Log.d(TAG, "MEDIA EXTSD TYPE: " + type);
-        Log.d(TAG, "Relative path: " + relativePath);
-        // on my Sony devices (4.4.4 & 5.1.1), `type` is a dynamic string
-        // something like "71F8-2C0A", some kind of unique id per storage
-        // don't know any API that can get the root path of that storage based on its id.
-        //
-        // so no "primary" type, but let the check here for other devices
-        if ("primary".equalsIgnoreCase(type)) {
-            fullPath = Environment.getExternalStorageDirectory() + relativePath;
-            if (fileExists(fullPath)) {
-                return fullPath;
-            }
-        }
-
-        if ("home".equalsIgnoreCase(type)) {
-            fullPath = "/storage/emulated/0/Documents" + relativePath;
-            if (fileExists(fullPath)) {
-                return fullPath;
-            }
-        }
-
-        // Environment.isExternalStorageRemovable() is `true` for external and internal storage
-        // so we cannot relay on it.
-        //
-        // instead, for each possible path, check if file exists
-        // we'll start with secondary storage as this could be our (physically) removable sd card
-        fullPath = System.getenv("SECONDARY_STORAGE") + relativePath;
-        if (fileExists(fullPath)) {
-            return fullPath;
-        }
-
-        fullPath = System.getenv("EXTERNAL_STORAGE") + relativePath;
-        if (fileExists(fullPath)) {
-            return fullPath;
-        }
-
-        return null;
-    }
-
     private String getDriveFilePath(Uri uri) {
         Uri returnUri = uri;
         Cursor returnCursor = context.getContentResolver().query(returnUri, null, null, null, null);
@@ -319,7 +325,7 @@ public class FileUtils {
     private String copyFileToInternalStorage(Uri uri, String newDirName) {
         Uri returnUri = uri;
 
-        Cursor returnCursor = context.getContentResolver().query(returnUri, new String[] {
+        Cursor returnCursor = context.getContentResolver().query(returnUri, new String[]{
                 OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE
         }, null, null, null);
 
@@ -395,14 +401,6 @@ public class FileUtils {
         return null;
     }
 
-    private static boolean isExternalStorageDocument(Uri uri) {
-        return "com.android.externalstorage.documents".equals(uri.getAuthority());
-    }
-
-    private static boolean isDownloadsDocument(Uri uri) {
-        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
-    }
-
     private boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
@@ -417,5 +415,9 @@ public class FileUtils {
 
     private boolean isGoogleDriveUri(Uri uri) {
         return "com.google.android.apps.docs.storage".equals(uri.getAuthority()) || "com.google.android.apps.docs.storage.legacy".equals(uri.getAuthority());
+    }
+
+    public enum UriType {
+        FILE, FOLDER; // These are the constants of the enum
     }
 }

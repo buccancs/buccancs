@@ -60,6 +60,7 @@ class ImagePickFromDialog(private val context: Context) : Dialog(context, R.styl
                 dismiss()
                 onSelectListener?.invoke(0)
             }
+
             contentView.tv_light_camera -> {//相机拍照
                 dismiss()
                 onSelectListener?.invoke(1)

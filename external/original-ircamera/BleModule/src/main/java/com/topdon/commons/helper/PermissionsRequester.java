@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * 动态申请权限
- * 
+ * <p>
  * date: 2019/8/6 15:33
  * author: chuanfeng.bi
  */
@@ -26,7 +26,7 @@ public class PermissionsRequester {
     private static final int PERMISSION_REQUEST_CODE = 10;
     private static final int REQUEST_CODE_WRITE_SETTINGS = 11;
     private static final int REQUEST_CODE_UNKNOWN_APP_SOURCES = 12;
-    
+
     private final List<String> allPermissions = new ArrayList<>();
     private final List<String> refusedPermissions = new ArrayList<>();
     private Callback callback;
@@ -37,17 +37,18 @@ public class PermissionsRequester {
     public PermissionsRequester(@NonNull Activity activity) {
         this.activity = activity;
     }
-    
+
     public PermissionsRequester(@NonNull Fragment fragment) {
         this.fragment = fragment;
     }
-    
+
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
 
     /**
      * 开始检查并申请权限
+     *
      * @param permissions 需要申请的权限
      */
     public void checkAndRequest(@NonNull List<String> permissions) {
@@ -63,7 +64,7 @@ public class PermissionsRequester {
     public boolean hasPermissions(@NonNull List<String> permissions) {
         return checkPermissions(permissions, true);
     }
-    
+
     @SuppressWarnings("all")
     private boolean checkPermissions(List<String> permissions, boolean onlyCheck) {
         Context context = activity != null ? activity : fragment.getContext();
@@ -162,10 +163,11 @@ public class PermissionsRequester {
             checking = false;
         }
     }
-    
+
     public interface Callback {
         /**
          * 请求结果
+         *
          * @param refusedPermissions 被拒绝的权限集合。size == 0时，表明申请的权限全部允许了
          */
         void onRequestResult(List<String> refusedPermissions);

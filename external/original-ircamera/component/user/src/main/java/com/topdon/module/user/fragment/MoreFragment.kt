@@ -53,6 +53,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
      * true-TC007 false-其他插件式设备
      */
     private var isTC007 = false
+
     /**
      * TC007 固件升级 ViewModel.
      */
@@ -82,7 +83,8 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             refresh07Connect(WebSocketProxy.getInstance().isTC007Connect())
         }
 
-        setting_item_auto_show.isChecked = if (isTC007) SharedManager.isConnect07AutoOpen else SharedManager.isConnectAutoOpen
+        setting_item_auto_show.isChecked =
+            if (isTC007) SharedManager.isConnect07AutoOpen else SharedManager.isConnectAutoOpen
         setting_item_auto_show.setOnCheckedChangeListener { _, isChecked ->
             if (isTC007) {
                 SharedManager.isConnect07AutoOpen = isChecked
@@ -91,15 +93,16 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             }
         }
 
-        setting_item_config_select.isChecked = if (isTC007) WifiSaveSettingUtil.isSaveSetting else SaveSettingUtil.isSaveSetting
+        setting_item_config_select.isChecked =
+            if (isTC007) WifiSaveSettingUtil.isSaveSetting else SaveSettingUtil.isSaveSetting
         setting_item_config_select.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 TipDialog.Builder(requireContext())
                     .setMessage(R.string.save_setting_tips)
                     .setPositiveListener(R.string.app_ok) {
-                        if (isTC007){
+                        if (isTC007) {
                             WifiSaveSettingUtil.isSaveSetting = true
-                        }else{
+                        } else {
                             SaveSettingUtil.isSaveSetting = true
                         }
                     }
@@ -109,10 +112,10 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                     .setCanceled(false)
                     .create().show()
             } else {
-                if (isTC007){
+                if (isTC007) {
                     WifiSaveSettingUtil.reset()
                     WifiSaveSettingUtil.isSaveSetting = false
-                }else{
+                } else {
                     SaveSettingUtil.reset()
                     SaveSettingUtil.isSaveSetting = false
                 }
@@ -159,48 +162,56 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-       when(v){
-           setting_item_model -> {//温度修正
-               ARouter.getInstance().build(RouterConfig.IR_SETTING).withBoolean(ExtraKeyConfig.IS_TC007, isTC007).navigation(requireContext())
-           }
-           setting_item_dual->{
-               ARouter.getInstance().build(RouterConfig.MANUAL_START).navigation(requireContext())
-           }
-           setting_item_unit -> {//温度单位
-               ARouter.getInstance().build(RouterConfig.UNIT).navigation(requireContext())
-           }
-           setting_item_correction->{//锅盖校正
-               ARouter.getInstance().build(RouterConfig.IR_CORRECTION).withBoolean(ExtraKeyConfig.IS_TC007, isTC007).navigation(requireContext())
-           }
-           setting_version -> {//TC007固件升级
-               //由于双通道方案存在问题，V3.30临时使用 apk 内置固件升级包，此处注释强制登录逻辑
+        when (v) {
+            setting_item_model -> {//温度修正
+                ARouter.getInstance().build(RouterConfig.IR_SETTING).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
+                    .navigation(requireContext())
+            }
+
+            setting_item_dual -> {
+                ARouter.getInstance().build(RouterConfig.MANUAL_START).navigation(requireContext())
+            }
+
+            setting_item_unit -> {//温度单位
+                ARouter.getInstance().build(RouterConfig.UNIT).navigation(requireContext())
+            }
+
+            setting_item_correction -> {//锅盖校正
+                ARouter.getInstance().build(RouterConfig.IR_CORRECTION).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
+                    .navigation(requireContext())
+            }
+
+            setting_version -> {//TC007固件升级
+                //由于双通道方案存在问题，V3.30临时使用 apk 内置固件升级包，此处注释强制登录逻辑
 //               if (LMS.getInstance().isLogin) {
-                   val firmwareData = firmwareViewModel.firmwareDataLD.value
-                   if (firmwareData != null) {
-                       showFirmwareUpDialog(firmwareData)
-                   } else {
-                       XLog.i("TC007 固件升级 - 点击查询")
-                       showLoadingDialog()
-                       firmwareViewModel.queryFirmware(false)
-                   }
+                val firmwareData = firmwareViewModel.firmwareDataLD.value
+                if (firmwareData != null) {
+                    showFirmwareUpDialog(firmwareData)
+                } else {
+                    XLog.i("TC007 固件升级 - 点击查询")
+                    showLoadingDialog()
+                    firmwareViewModel.queryFirmware(false)
+                }
 //               } else {
 //                   LMS.getInstance().activityLogin()
 //               }
-           }
-           setting_device_information -> {//TC007设备信息
-               if (WebSocketProxy.getInstance().isTC007Connect()) {
-                   ARouter.getInstance()
-                       .build(RouterConfig.DEVICE_INFORMATION)
-                       .withBoolean(ExtraKeyConfig.IS_TC007, true)
-                       .navigation(requireContext())
-               }
-           }
-           setting_reset -> {//TC007恢复出厂设置
-               if (WebSocketProxy.getInstance().isTC007Connect()) {
-                   restoreFactory()
-               }
-           }
-       }
+            }
+
+            setting_device_information -> {//TC007设备信息
+                if (WebSocketProxy.getInstance().isTC007Connect()) {
+                    ARouter.getInstance()
+                        .build(RouterConfig.DEVICE_INFORMATION)
+                        .withBoolean(ExtraKeyConfig.IS_TC007, true)
+                        .navigation(requireContext())
+                }
+            }
+
+            setting_reset -> {//TC007恢复出厂设置
+                if (WebSocketProxy.getInstance().isTC007Connect()) {
+                    restoreFactory()
+                }
+            }
+        }
     }
 
 
@@ -220,7 +231,8 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                 if (productBean == null) {
                     TToast.shortToast(requireContext(), R.string.operation_failed_tips)
                 } else {
-                    item_setting_bottom_text.text = getString(R.string.setting_firmware_update_version) + "V" + productBean.getVersionStr()
+                    item_setting_bottom_text.text =
+                        getString(R.string.setting_firmware_update_version) + "V" + productBean.getVersionStr()
                 }
             }
         } else {

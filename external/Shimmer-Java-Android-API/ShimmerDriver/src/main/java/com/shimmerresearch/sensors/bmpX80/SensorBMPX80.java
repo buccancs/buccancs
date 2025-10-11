@@ -17,108 +17,104 @@ import com.shimmerresearch.sensors.bmpX80.SensorBMP180.DatabaseConfigHandle;
 
 public abstract class SensorBMPX80 extends AbstractSensor {
 
-	private static final long serialVersionUID = 1772340408277892416L;
+    private static final long serialVersionUID = 1772340408277892416L;
 
-	//--------- Sensor specific variables start --------------
+    //--------- Sensor specific variables start --------------
+    public CalibDetailsBmpX80 mCalibDetailsBmpX80 = new CalibDetailsBmp180(); // = new CalibDetailsBmp280();
+    protected int mPressureResolution = 0;
 
-	protected int mPressureResolution = 0;
+    public SensorBMPX80(SENSORS sensorType, ShimmerVerObject svo) {
+        super(sensorType, svo);
+        // TODO Auto-generated constructor stub
+    }
 
-	public CalibDetailsBmpX80 mCalibDetailsBmpX80 = new CalibDetailsBmp180(); // = new CalibDetailsBmp280();
+    public SensorBMPX80(SENSORS sensorType, ShimmerDevice shimmerDevice) {
+        super(sensorType, shimmerDevice);
+        // TODO Auto-generated constructor stub
+    }
 
-	public class GuiLabelConfig{
-		public static final String PRESSURE_RESOLUTION = "Pressure Resolution";
-		public static final String PRESSURE_RATE = "Pressure Rate";
-	}
+    public abstract List<Double> getPressTempConfigValuesLegacy();
 
-	public class GuiLabelSensors{
-		public static final String PRESS_TEMP_BMPX80 = "Pressure & Temperature";
-	}
-	
-	// GUI Sensor Tiles
-	public class LABEL_SENSOR_TILE{
-		public static final String PRESSURE_TEMPERATURE = GuiLabelSensors.PRESS_TEMP_BMPX80;
-	}
-	
-	public abstract void setPressureResolution(int i);
-	public abstract List<Double> getPressTempConfigValuesLegacy();
+    public byte[] getRawCalibrationParameters(ShimmerVerObject svo) {
+        byte[] rawcal = new byte[1];
+        if (mShimmerVerObject.isShimmerGen3() || mShimmerVerObject.isShimmerGen3R() || mShimmerVerObject.isShimmerGen4()) {
+            // Mag + Pressure
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            try {
+                outputStream.write(5); // write the number of different calibration parameters
 
-	//--------- Sensor specific variables end --------------
+                outputStream.write(mCalibDetailsBmpX80.getPressureRawCoefficients().length);
+                outputStream.write(mCalibDetailsBmpX80.getPressureRawCoefficients());
+                rawcal = outputStream.toByteArray();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-	
-	public SensorBMPX80(SENSORS sensorType, ShimmerVerObject svo) {
-		super(sensorType, svo);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public SensorBMPX80(SENSORS sensorType, ShimmerDevice shimmerDevice) {
-		super(sensorType, shimmerDevice);
-		// TODO Auto-generated constructor stub
-	}
+        } else {
+            rawcal[0] = 0;
+        }
+        return rawcal;
+    }
 
+    public void parseCalParamByteArray(byte[] pressureResoRes, CALIB_READ_SOURCE calibReadSource) {
+        mCalibDetailsBmpX80.parseCalParamByteArray(pressureResoRes, calibReadSource);
+    }
 
-	public byte[] getRawCalibrationParameters(ShimmerVerObject svo){        
-		byte[] rawcal=new byte[1];
-		if(mShimmerVerObject.isShimmerGen3() || mShimmerVerObject.isShimmerGen3R() || mShimmerVerObject.isShimmerGen4()){
-			// Mag + Pressure
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
-			try {
-				outputStream.write(5); // write the number of different calibration parameters
+    //--------- Sensor specific variables end --------------
 
-				outputStream.write( mCalibDetailsBmpX80.getPressureRawCoefficients().length);
-				outputStream.write( mCalibDetailsBmpX80.getPressureRawCoefficients() );
-				rawcal = outputStream.toByteArray( );
-			} catch (IOException e) {
-				e.printStackTrace();
-			}			
+    public double[] calibratePressureSensorData(double uP, double uT) {
+        return mCalibDetailsBmpX80.calibratePressureSensorData(uP, uT);
+    }
 
-		} 
-		else {
-			rawcal[0]=0;
-		}
-		return rawcal;
-	}
+    public void retrievePressureCalibrationParametersFromPacket(byte[] pressureResoRes, CALIB_READ_SOURCE calibReadSource) {
+        mCalibDetailsBmpX80.parseCalParamByteArray(pressureResoRes, calibReadSource);
+        mCalibDetailsBmpX80.mRangeValue = getPressureResolution();
+    }
 
-	public void parseCalParamByteArray(byte[] pressureResoRes, CALIB_READ_SOURCE calibReadSource) {
-		mCalibDetailsBmpX80.parseCalParamByteArray(pressureResoRes, calibReadSource);
-	}
+    public int getPressureResolution() {
+        return mPressureResolution;
+    }
 
-	public double[] calibratePressureSensorData(double uP, double uT) {
-		return mCalibDetailsBmpX80.calibratePressureSensorData(uP, uT);
-	}
-	
-	public void retrievePressureCalibrationParametersFromPacket(byte[] pressureResoRes, CALIB_READ_SOURCE calibReadSource) {
-		mCalibDetailsBmpX80.parseCalParamByteArray(pressureResoRes, calibReadSource);
-		mCalibDetailsBmpX80.mRangeValue = getPressureResolution();
-	}
-	
-	public int getPressureResolution(){
-		return mPressureResolution;
-	}
-	
-	public void updateCurrentPressureCalibInUse(){
-		mCalibDetailsBmpX80.mRangeValue = getPressureResolution();
-	}
+    public abstract void setPressureResolution(int i);
 
-	@Override
-	public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-		ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
-		if(configByteLayout instanceof ConfigByteLayoutShimmer3){
-			ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) configByteLayout;
+    public void updateCurrentPressureCalibInUse() {
+        mCalibDetailsBmpX80.mRangeValue = getPressureResolution();
+    }
 
-			configBytes[configByteLayoutCast.idxConfigSetupByte3] |= (byte) ((getPressureResolution() & configByteLayoutCast.maskBMPX80PressureResolution) << configByteLayoutCast.bitShiftBMPX80PressureResolution);
-		}
+    @Override
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) configByteLayout;
+
+            configBytes[configByteLayoutCast.idxConfigSetupByte3] |= (byte) ((getPressureResolution() & configByteLayoutCast.maskBMPX80PressureResolution) << configByteLayoutCast.bitShiftBMPX80PressureResolution);
+        }
 
 //		System.out.println("Info Mem Pressure resolution:\t" + mPressureResolution_BMP280);
 //		System.out.println("Check");
-	}
+    }
 
-	@Override
-	public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-		ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
-		if(configByteLayout instanceof ConfigByteLayoutShimmer3){
-			ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) configByteLayout;
-			setPressureResolution((configBytes[configByteLayoutCast.idxConfigSetupByte3] >> configByteLayoutCast.bitShiftBMPX80PressureResolution) & configByteLayoutCast.maskBMPX80PressureResolution);
-		}
-	}
-	
+    @Override
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) configByteLayout;
+            setPressureResolution((configBytes[configByteLayoutCast.idxConfigSetupByte3] >> configByteLayoutCast.bitShiftBMPX80PressureResolution) & configByteLayoutCast.maskBMPX80PressureResolution);
+        }
+    }
+
+    public class GuiLabelConfig {
+        public static final String PRESSURE_RESOLUTION = "Pressure Resolution";
+        public static final String PRESSURE_RATE = "Pressure Rate";
+    }
+
+    public class GuiLabelSensors {
+        public static final String PRESS_TEMP_BMPX80 = "Pressure & Temperature";
+    }
+
+    // GUI Sensor Tiles
+    public class LABEL_SENSOR_TILE {
+        public static final String PRESSURE_TEMPERATURE = GuiLabelSensors.PRESS_TEMP_BMPX80;
+    }
+
 }

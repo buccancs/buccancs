@@ -39,7 +39,6 @@ public class IFrameData {
     public static int FRAME_LEN = FUSION_LEN + ORIGINAL_LEN + ORIGINAL_LEN + REMAP_TEMP_LEN + LIGHT_LEN + P_IN_P_LEN;
 
 
-
     /**
      * 将指定帧数据中 ARGB <b>融合图像数据</b> 复制到指定数组中.
      */

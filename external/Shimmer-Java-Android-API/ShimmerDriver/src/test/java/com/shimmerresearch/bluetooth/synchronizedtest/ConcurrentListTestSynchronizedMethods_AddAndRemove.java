@@ -1,110 +1,111 @@
 //This is related to test conducted in AA-192
 package com.shimmerresearch.bluetooth.synchronizedtest;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ConcurrentListTestSynchronizedMethods_AddAndRemove{
+public class ConcurrentListTestSynchronizedMethods_AddAndRemove {
 
-	Thread mCurrentThread;
-	private List<byte []> mListofInstructions = new  ArrayList<byte[]>();
-	
-	public static void main(String[] args) {
-		ConcurrentListTestSynchronizedMethods_AddAndRemove c = new ConcurrentListTestSynchronizedMethods_AddAndRemove();
-		c.startTest();
-		
-	}
-	
-	public synchronized void addinstruction(byte[] b){
-		mListofInstructions.add(b);
-	}
-	
-	public synchronized void removeinstruction(){
-		if (!mListofInstructions.isEmpty()){
-			byte[] b = mListofInstructions.remove(0);
-			if (b==null){
-				System.out.println("Null");
-			}
-		}
-	}
-	
-	public synchronized void clearinstructions(){
-		mListofInstructions.clear();
-	}
-	
-	public void startTest(){
-		listthreadadd t1 = new listthreadadd(this);
+    Thread mCurrentThread;
+    private List<byte[]> mListofInstructions = new ArrayList<byte[]>();
+
+    public static void main(String[] args) {
+        ConcurrentListTestSynchronizedMethods_AddAndRemove c = new ConcurrentListTestSynchronizedMethods_AddAndRemove();
+        c.startTest();
+
+    }
+
+    public synchronized void addinstruction(byte[] b) {
+        mListofInstructions.add(b);
+    }
+
+    public synchronized void removeinstruction() {
+        if (!mListofInstructions.isEmpty()) {
+            byte[] b = mListofInstructions.remove(0);
+            if (b == null) {
+                System.out.println("Null");
+            }
+        }
+    }
+
+    public synchronized void clearinstructions() {
+        mListofInstructions.clear();
+    }
+
+    public void startTest() {
+        listthreadadd t1 = new listthreadadd(this);
 		/*listthreadadd t2 = new listthreadadd(this);
 		Thread th2 = new Thread(t2);
 		*/
-		listthreadremove rt1 = new listthreadremove(this);
-		Thread th2 = new Thread(rt1);
+        listthreadremove rt1 = new listthreadremove(this);
+        Thread th2 = new Thread(rt1);
 		
 		/*listthreadclear ct1 = new listthreadclear(this);
 		Thread th2 = new Thread(ct1);
 		*/
-		
-		Thread th1 = new Thread(t1);
-		
-		
-		th1.start();
-		th2.start();
-	}
-	
-	class listthreadadd implements Runnable{
 
-		ConcurrentListTestSynchronizedMethods_AddAndRemove app;
-		
-		public listthreadadd(ConcurrentListTestSynchronizedMethods_AddAndRemove concurrentListTest2) {
-			app=concurrentListTest2;
-		}
+        Thread th1 = new Thread(t1);
 
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			for (int i=1;i<1000;i++){
-				byte[] b = {1,1};
-				app.addinstruction(b);
-			}
-		}
-		
-	}
-	
-	class listthreadremove implements Runnable{
 
-		ConcurrentListTestSynchronizedMethods_AddAndRemove app;
-		
-		public listthreadremove(ConcurrentListTestSynchronizedMethods_AddAndRemove concurrentListTest2) {
-			app=concurrentListTest2;
-		}
+        th1.start();
+        th2.start();
+    }
 
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			for (int i=1;i<1000;i++){
-				app.removeinstruction();
-			}
-		}
-		
-	}
+    class listthreadadd implements Runnable {
 
-	class listthreadclear implements Runnable{
+        ConcurrentListTestSynchronizedMethods_AddAndRemove app;
 
-		ConcurrentListTestSynchronizedMethods_AddAndRemove app;
-		
-		public listthreadclear(ConcurrentListTestSynchronizedMethods_AddAndRemove concurrentListTest2) {
-			app=concurrentListTest2;
-		}
+        public listthreadadd(ConcurrentListTestSynchronizedMethods_AddAndRemove concurrentListTest2) {
+            app = concurrentListTest2;
+        }
 
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			for (int i=1;i<1000;i++){
-				app.clearinstructions();
-			}
-		}
-		
-	}
-	
-	
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            for (int i = 1; i < 1000; i++) {
+                byte[] b = {1, 1};
+                app.addinstruction(b);
+            }
+        }
+
+    }
+
+    class listthreadremove implements Runnable {
+
+        ConcurrentListTestSynchronizedMethods_AddAndRemove app;
+
+        public listthreadremove(ConcurrentListTestSynchronizedMethods_AddAndRemove concurrentListTest2) {
+            app = concurrentListTest2;
+        }
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            for (int i = 1; i < 1000; i++) {
+                app.removeinstruction();
+            }
+        }
+
+    }
+
+    class listthreadclear implements Runnable {
+
+        ConcurrentListTestSynchronizedMethods_AddAndRemove app;
+
+        public listthreadclear(ConcurrentListTestSynchronizedMethods_AddAndRemove concurrentListTest2) {
+            app = concurrentListTest2;
+        }
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            for (int i = 1; i < 1000; i++) {
+                app.clearinstructions();
+            }
+        }
+
+    }
+
+
 }

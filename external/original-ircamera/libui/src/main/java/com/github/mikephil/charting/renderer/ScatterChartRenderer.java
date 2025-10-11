@@ -23,6 +23,7 @@ import java.util.List;
 public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
     protected ScatterDataProvider mChart;
+    float[] mPixelBuffer = new float[2];
 
     public ScatterChartRenderer(ScatterDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
@@ -45,8 +46,6 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
         }
     }
 
-    float[] mPixelBuffer = new float[2];
-
     protected void drawDataSet(Canvas c, IScatterDataSet dataSet) {
 
         if (dataSet.getEntryCount() < 1)
@@ -64,9 +63,9 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
             return;
         }
 
-        int max = (int)(Math.min(
-                Math.ceil((float)dataSet.getEntryCount() * mAnimator.getPhaseX()),
-                (float)dataSet.getEntryCount()));
+        int max = (int) (Math.min(
+                Math.ceil((float) dataSet.getEntryCount() * mAnimator.getPhaseX()),
+                (float) dataSet.getEntryCount()));
 
         for (int i = 0; i < max; i++) {
 
@@ -147,8 +146,8 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
                         Utils.drawImage(
                                 c,
                                 icon,
-                                (int)(positions[j] + iconsOffset.x),
-                                (int)(positions[j + 1] + iconsOffset.y),
+                                (int) (positions[j] + iconsOffset.x),
+                                (int) (positions[j + 1] + iconsOffset.y),
                                 icon.getIntrinsicWidth(),
                                 icon.getIntrinsicHeight());
                     }

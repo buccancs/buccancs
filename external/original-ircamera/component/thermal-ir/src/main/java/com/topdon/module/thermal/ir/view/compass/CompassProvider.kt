@@ -18,15 +18,15 @@ class CompassProvider(private val context: Context) {
 
     fun get(): ICompass {
         val smoothing = 1
-        val useTrueNorth =  true
+        val useTrueNorth = true
 
-        var source =  CompassSource.RotationVector
+        var source = CompassSource.RotationVector
 
         // Handle if the available sources have changed (not likely)
         val allSources = getAvailableSources(context)
 
         // There were no compass sensors found
-        if (allSources.isEmpty()){
+        if (allSources.isEmpty()) {
             return NullCompass()
         }
 

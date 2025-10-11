@@ -18,7 +18,7 @@ import com.topdon.module.thermal.ir.R
 class ImagePickIRLiteActivity : BasePickImgActivity() {
 
 
-    var irFragment : IRMonitorLiteFragment ?= null
+    var irFragment: IRMonitorLiteFragment? = null
 
     override fun initView() {
         irFragment = if (savedInstanceState == null) {

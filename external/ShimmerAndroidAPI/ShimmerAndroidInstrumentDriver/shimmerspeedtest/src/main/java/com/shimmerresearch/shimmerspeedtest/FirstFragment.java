@@ -33,127 +33,11 @@ import com.shimmerresearch.shimmer3.communication.SpeedTestProtocol;
 import com.shimmerresearch.verisense.communication.ByteCommunicationListener;
 
 public class FirstFragment extends Fragment {
+    final static int REQUEST_CONNECT_SHIMMER = 2;
     SpeedTestProtocol protocol;
     Shimmer shimmer;
     TextView tv;
-    final static int REQUEST_CONNECT_SHIMMER = 2;
-    @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        return inflater.inflate(R.layout.fragment_first, container, false);
-    }
-
     long time = System.currentTimeMillis();
-
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent pairedDevicesIntent = new Intent(getActivity().getApplicationContext(), ShimmerBluetoothDialog.class);
-                startActivityForResult(pairedDevicesIntent, REQUEST_CONNECT_SHIMMER);
-            }
-        });
-
-        view.findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                protocol.startSpeedTest();
-            }
-        });
-
-        view.findViewById(R.id.button_stop).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                protocol.stopSpeedTest();
-            }
-        });
-
-        view.findViewById(R.id.button_dc).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Thread thread = new Thread(){
-                    public void run(){
-
-                        if (protocol!=null){
-                            try {
-                                protocol.disconnect();
-                                shimmer.disconnect();
-                            } catch (ShimmerException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                };
-
-                thread.start();
-            }
-        });
-
-        tv = view.findViewById(R.id.textView);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) { //The devices paired list has returned a result
-            if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
-                String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
-                shimmer = new Shimmer(mHandler,getActivity().getApplicationContext());
-                VerisenseBleAndroidRadioByteCommunication port = null;
-                if (deviceName.toUpperCase().contains("SHIMMER3-")) {
-                    port = new Shimmer3BleAndroidRadioByteCommunication(macAdd);
-                } else if (deviceName.toUpperCase().contains("SHIMMER3R-")){
-                    port = new Shimmer3RAndroidRadioByteCommunication(macAdd);
-                } else {
-                    port = new VerisenseBleAndroidRadioByteCommunication(macAdd);
-                }
-
-                protocol = new SpeedTestProtocol(port);
-
-                protocol.setListener(new SpeedTestProtocol.SpeedTestResult() {
-                    @Override
-                    public void onNewResult(String s) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if ((System.currentTimeMillis()-time)>1000) {
-                                    time = System.currentTimeMillis();
-                                    tv.setText(s);
-                                }
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onConnected() {
-                        Toast.makeText(getActivity().getApplicationContext(), "Device Connected", Toast.LENGTH_LONG).show();
-                        tv.setText("Device Connected");
-                    }
-
-                    @Override
-                    public void onDisconnected() {
-                        Toast.makeText(getActivity().getApplicationContext(), "Device Disconnected", Toast.LENGTH_LONG).show();
-                        tv.setText("Device Disconnected");
-                    }
-                });
-
-                try {
-
-                    protocol.connect();
-                } catch (ShimmerException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     /**
      * Messages from the Shimmer device including sensor data are received here
      */
@@ -196,4 +80,120 @@ public class FirstFragment extends Fragment {
             super.handleMessage(msg);
         }
     };
+
+    @Override
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+        return inflater.inflate(R.layout.fragment_first, container, false);
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pairedDevicesIntent = new Intent(getActivity().getApplicationContext(), ShimmerBluetoothDialog.class);
+                startActivityForResult(pairedDevicesIntent, REQUEST_CONNECT_SHIMMER);
+            }
+        });
+
+        view.findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                protocol.startSpeedTest();
+            }
+        });
+
+        view.findViewById(R.id.button_stop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                protocol.stopSpeedTest();
+            }
+        });
+
+        view.findViewById(R.id.button_dc).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Thread thread = new Thread() {
+                    public void run() {
+
+                        if (protocol != null) {
+                            try {
+                                protocol.disconnect();
+                                shimmer.disconnect();
+                            } catch (ShimmerException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                };
+
+                thread.start();
+            }
+        });
+
+        tv = view.findViewById(R.id.textView);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) { //The devices paired list has returned a result
+            if (resultCode == Activity.RESULT_OK) {
+                //Get the Bluetooth mac address of the selected device:
+                String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
+                String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
+                shimmer = new Shimmer(mHandler, getActivity().getApplicationContext());
+                VerisenseBleAndroidRadioByteCommunication port = null;
+                if (deviceName.toUpperCase().contains("SHIMMER3-")) {
+                    port = new Shimmer3BleAndroidRadioByteCommunication(macAdd);
+                } else if (deviceName.toUpperCase().contains("SHIMMER3R-")) {
+                    port = new Shimmer3RAndroidRadioByteCommunication(macAdd);
+                } else {
+                    port = new VerisenseBleAndroidRadioByteCommunication(macAdd);
+                }
+
+                protocol = new SpeedTestProtocol(port);
+
+                protocol.setListener(new SpeedTestProtocol.SpeedTestResult() {
+                    @Override
+                    public void onNewResult(String s) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if ((System.currentTimeMillis() - time) > 1000) {
+                                    time = System.currentTimeMillis();
+                                    tv.setText(s);
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onConnected() {
+                        Toast.makeText(getActivity().getApplicationContext(), "Device Connected", Toast.LENGTH_LONG).show();
+                        tv.setText("Device Connected");
+                    }
+
+                    @Override
+                    public void onDisconnected() {
+                        Toast.makeText(getActivity().getApplicationContext(), "Device Disconnected", Toast.LENGTH_LONG).show();
+                        tv.setText("Device Disconnected");
+                    }
+                });
+
+                try {
+
+                    protocol.connect();
+                } catch (ShimmerException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

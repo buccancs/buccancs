@@ -45,27 +45,30 @@ class IR07CorrectionFourActivity : BaseActivity() {
         time_down_view = findViewById(R.id.time_down_view)
 
         if (savedInstanceState == null) {
-            val playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null,true)
-            supportFragmentManager.beginTransaction().setReorderingAllowed(true).add(R.id.fragment_container_view, playFragment).commit()
+            val playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null, true)
+            supportFragmentManager.beginTransaction().setReorderingAllowed(true)
+                .add(R.id.fragment_container_view, playFragment).commit()
         }
 
         time_down_view.postDelayed({
             //开始矫正
-            if (time_down_view.downTimeWatcher == null){
-                time_down_view.setOnTimeDownListener(object : TimeDownView.DownTimeWatcher{
+            if (time_down_view.downTimeWatcher == null) {
+                time_down_view.setOnTimeDownListener(object : TimeDownView.DownTimeWatcher {
                     override fun onTime(num: Int) {
-                        if (num == 20){
+                        if (num == 20) {
                             lifecycleScope.launch {
                                 isSuccess = TC007Repository.correction()
                             }
                         }
                     }
+
                     override fun onLastTime(num: Int) {
 
                     }
+
                     override fun onLastTimeFinish(num: Int) {
                         try {
-                            if (!this@IR07CorrectionFourActivity.isFinishing){
+                            if (!this@IR07CorrectionFourActivity.isFinishing) {
                                 TipDialog.Builder(this@IR07CorrectionFourActivity)
                                     .setMessage(if (isSuccess) R.string.correction_complete else R.string.correction_fail)
                                     .setPositiveListener(R.string.app_confirm) {
@@ -74,14 +77,14 @@ class IR07CorrectionFourActivity : BaseActivity() {
                                     }
                                     .create().show()
                             }
-                        }catch (e : Exception){
+                        } catch (e: Exception) {
 
                         }
                     }
                 })
             }
-            time_down_view.downSecond(time,false)
-        },2000)
+            time_down_view.downSecond(time, false)
+        }, 2000)
     }
 
     override fun initView() {
@@ -97,7 +100,7 @@ class IR07CorrectionFourActivity : BaseActivity() {
             .setMessage(R.string.tips_cancel_correction)
             .setPositiveListener(R.string.app_yes) {
                 exit()
-            }.setCancelListener(R.string.app_no){
+            }.setCancelListener(R.string.app_no) {
             }
             .create().show()
     }

@@ -31,29 +31,53 @@ import java.util.ArrayList;
  */
 public class TemperatureView extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
 
+    private static final int ACTION_MODE_INSERT = 0;
+    private static final int ACTION_MODE_MOVE = 1;
+    private static final int LINE_MOVE_ENTIRE = 0;
+    private static final int LINE_MOVE_POINT = 1;
+    private static final int LINE_START = 0;
+    private static final int LINE_END = 1;
+    private static final int RECTANGLE_MOVE_ENTIRE = 0;
+    private static final int RECTANGLE_MOVE_EDGE = 1;
+    private static final int RECTANGLE_MOVE_CORNER = 2;
+    private static final int RECTANGLE_LEFT_EDGE = 0;
+    private static final int RECTANGLE_TOP_EDGE = 1;
+    private static final int RECTANGLE_RIGHT_EDGE = 2;
+    private static final int RECTANGLE_BOTTOM_EDGE = 3;
+    private static final int RECTANGLE_LEFT_TOP_CORNER = 0;
+    private static final int RECTANGLE_RIGHT_TOP_CORNER = 1;
+    private static final int RECTANGLE_RIGHT_BOTTOM_CORNER = 2;
+    private static final int RECTANGLE_LEFT_BOTTOM_CORNER = 3;
+    private final static int PIXCOUNT = 5;
+    // type
+    public static int REGION_MODE_POINT = 0;
+    public static int REGION_MODE_LINE = 1;
+    public static int REGION_MODE_RECTANGLE = 2;
+    public static int REGION_MODE_CENTER = 3;
+    public static int REGION_MODE_CLEAN = 4;
     private final String TAG = "TemperatureView";
     private final int LINE_STROKE_WIDTH = SizeUtils.dp2px(1f);//点,线,面画笔大小
     private final int DOT_STROKE_WIDTH = SizeUtils.dp2px(1f);//圆点线宽
     private final int DOT_RADIUS = SizeUtils.dp2px(3f);//圆点半径
     private final int POINT_SIZE = SizeUtils.sp2px(8f);//十字架
     private final int TEXT_SIZE = SizeUtils.sp2px(12f);//文本大小
-
     //    private final int TOUCH_TOLERANCE = 48;
     private final int TOUCH_TOLERANCE = SizeUtils.sp2px(8f);
-
     private final int POINT_MAX_COUNT = 3;
     private final int LINE_MAX_COUNT = 3;
     private final int RECTANGLE_MAX_COUNT = 3;
-
-    private Runnable runnable;
     public Thread temperatureThread;
+    public LibIRTemp.TemperatureSampleResult centerResultList = null;
+    public ArrayList<LibIRTemp.TemperatureSampleResult> pointResultList = new ArrayList<>(3);
+    public ArrayList<LibIRTemp.TemperatureSampleResult> lineResultList = new ArrayList<>(3);
+    public ArrayList<LibIRTemp.TemperatureSampleResult> rectangleResultList = new ArrayList<>(3);
+    private Runnable runnable;
     private LibIRTemp irtemp;
     private IRCMD ircmd;
     private float minTemperature;
     private float maxTemperature;
     // 框里面的最高温和最低温
     private String RectMinTemp, RectMaxTemp;
-
     //private float scale = 0;
     private float xscale = 0;//图像缩放比例
     private float yscale = 0;
@@ -68,19 +92,8 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private Paint whitePaint;
     private Paint maxPaint;
     private Paint minPaint;
-
     private int actionMode;
-    private static final int ACTION_MODE_INSERT = 0;
-    private static final int ACTION_MODE_MOVE = 1;
-
     private float startX, startY, endX, endY;
-
-    // type
-    public static int REGION_MODE_POINT = 0;
-    public static int REGION_MODE_LINE = 1;
-    public static int REGION_MODE_RECTANGLE = 2;
-    public static int REGION_MODE_CENTER = 3;
-    public static int REGION_MODE_CLEAN = 4;
     /* point */
     private ArrayList<Point> points = new ArrayList<Point>();
     private Point movingPoint;
@@ -88,88 +101,21 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private ArrayList<Line> lines = new ArrayList<Line>();
     private Line movingLine;
     private int lineMoveType;
-    private static final int LINE_MOVE_ENTIRE = 0;
-    private static final int LINE_MOVE_POINT = 1;
     private int lineMovePoint;
-    private static final int LINE_START = 0;
-    private static final int LINE_END = 1;
-
     /* rectangle */
     private ArrayList<Rect> rectangles = new ArrayList<Rect>();
-
     private Rect movingRectangle;
     private int rectangleMoveType;
-    private static final int RECTANGLE_MOVE_ENTIRE = 0;
-    private static final int RECTANGLE_MOVE_EDGE = 1;
-    private static final int RECTANGLE_MOVE_CORNER = 2;
     private int rectangleMoveEdge;
-    private static final int RECTANGLE_LEFT_EDGE = 0;
-    private static final int RECTANGLE_TOP_EDGE = 1;
-    private static final int RECTANGLE_RIGHT_EDGE = 2;
-    private static final int RECTANGLE_BOTTOM_EDGE = 3;
     private int rectangleMoveCorner;
-    private static final int RECTANGLE_LEFT_TOP_CORNER = 0;
-    private static final int RECTANGLE_RIGHT_TOP_CORNER = 1;
-    private static final int RECTANGLE_RIGHT_BOTTOM_CORNER = 2;
-    private static final int RECTANGLE_LEFT_BOTTOM_CORNER = 3;
     private int imageWidth;
     private int imageHeight;
     private SynchronizedBitmap syncimage;
     private int temperatureRegionMode;
     private boolean runflag = true;
-
-    private final static int PIXCOUNT = 5;
     // 是否使用IRISP算法集成
     private boolean isUseIRISP = true;
     private byte[] temperature;
-
-    public LibIRTemp.TemperatureSampleResult centerResultList = null;
-    public ArrayList<LibIRTemp.TemperatureSampleResult> pointResultList = new ArrayList<>(3);
-    public ArrayList<LibIRTemp.TemperatureSampleResult> lineResultList = new ArrayList<>(3);
-    public ArrayList<LibIRTemp.TemperatureSampleResult> rectangleResultList = new ArrayList<>(3);
-
-    public LibIRTemp.TemperatureSampleResult getV() {
-        LibIRTemp.TemperatureSampleResult result = irtemp.getTemperatureOfLine(new Line(new Point(50, 100), new Point(100, 50)));
-        Log.w("123", "data tempDataRes_t:" + result.maxTemperature + ", h:" + result.minTemperature);
-        return result;
-    }
-
-    public void setImageSize(int imageWidth, int imageHeight) {
-        Log.w("123", "imageWidth: " + imageWidth + ", imageHeight: " + imageHeight);
-        this.imageWidth = imageWidth;
-        this.imageHeight = imageHeight;
-        if (viewWidth != 0)
-            xscale = (float) viewWidth / (float) imageWidth;
-        if (viewHeight != 0)
-            yscale = (float) viewHeight / (float) imageHeight;
-        irtemp = new LibIRTemp(imageWidth, imageHeight);
-
-        centerResultList = irtemp.new TemperatureSampleResult();
-        pointResultList.clear();
-        lineResultList.clear();
-        rectangleResultList.clear();
-        for (int i = 0; i < 3; i++) {
-            pointResultList.add(irtemp.new TemperatureSampleResult());
-            lineResultList.add(irtemp.new TemperatureSampleResult());
-            rectangleResultList.add(irtemp.new TemperatureSampleResult());
-        }
-    }
-
-    public void setIrcmd(IRCMD ircmd) {
-        this.ircmd = ircmd;
-    }
-
-    public void setSyncimage(SynchronizedBitmap syncimage) {
-        this.syncimage = syncimage;
-    }
-
-    public void setTemperatureRegionMode(int temperatureRegionMode) {
-        this.temperatureRegionMode = temperatureRegionMode;
-    }
-
-    public void setTemperature(byte[] temperature) {
-        this.temperature = temperature;
-    }
 
     public TemperatureView(final Context context) {
         this(context, null, 0);
@@ -177,25 +123,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
 
     public TemperatureView(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
-    }
-
-    /**
-     * 对于Y16数据，scale为64
-     * 对于Y14数据，scale为16
-     *
-     * @param useIRISP
-     */
-    public void setUseIRISP(boolean useIRISP) {
-        isUseIRISP = useIRISP;
-        if (isUseIRISP) {
-            if (irtemp != null) {
-                irtemp.setScale(16);
-            }
-        } else {
-            if (irtemp != null) {
-                irtemp.setScale(64);
-            }
-        }
     }
 
     public TemperatureView(final Context context, final AttributeSet attrs, final int defStyle) {
@@ -472,6 +399,68 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
             Log.d(TAG, "temperatureThread exit");
         };
 
+    }
+
+    public LibIRTemp.TemperatureSampleResult getV() {
+        LibIRTemp.TemperatureSampleResult result = irtemp.getTemperatureOfLine(new Line(new Point(50, 100), new Point(100, 50)));
+        Log.w("123", "data tempDataRes_t:" + result.maxTemperature + ", h:" + result.minTemperature);
+        return result;
+    }
+
+    public void setImageSize(int imageWidth, int imageHeight) {
+        Log.w("123", "imageWidth: " + imageWidth + ", imageHeight: " + imageHeight);
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
+        if (viewWidth != 0)
+            xscale = (float) viewWidth / (float) imageWidth;
+        if (viewHeight != 0)
+            yscale = (float) viewHeight / (float) imageHeight;
+        irtemp = new LibIRTemp(imageWidth, imageHeight);
+
+        centerResultList = irtemp.new TemperatureSampleResult();
+        pointResultList.clear();
+        lineResultList.clear();
+        rectangleResultList.clear();
+        for (int i = 0; i < 3; i++) {
+            pointResultList.add(irtemp.new TemperatureSampleResult());
+            lineResultList.add(irtemp.new TemperatureSampleResult());
+            rectangleResultList.add(irtemp.new TemperatureSampleResult());
+        }
+    }
+
+    public void setIrcmd(IRCMD ircmd) {
+        this.ircmd = ircmd;
+    }
+
+    public void setSyncimage(SynchronizedBitmap syncimage) {
+        this.syncimage = syncimage;
+    }
+
+    public void setTemperatureRegionMode(int temperatureRegionMode) {
+        this.temperatureRegionMode = temperatureRegionMode;
+    }
+
+    public void setTemperature(byte[] temperature) {
+        this.temperature = temperature;
+    }
+
+    /**
+     * 对于Y16数据，scale为64
+     * 对于Y14数据，scale为16
+     *
+     * @param useIRISP
+     */
+    public void setUseIRISP(boolean useIRISP) {
+        isUseIRISP = useIRISP;
+        if (isUseIRISP) {
+            if (irtemp != null) {
+                irtemp.setScale(16);
+            }
+        } else {
+            if (irtemp != null) {
+                irtemp.setScale(64);
+            }
+        }
     }
 
     @Override

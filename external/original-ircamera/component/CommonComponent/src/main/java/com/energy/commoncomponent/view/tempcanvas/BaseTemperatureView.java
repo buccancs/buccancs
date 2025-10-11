@@ -37,50 +37,34 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
      * 用于判断手势移动超出边界
      */
     private final static int BORDER_PX = 8;
-
-    private Context mContext;
-    private SurfaceHolder mSurfaceHolder;
-
-    private TempThread mTempThread;
-
-    private DrawThread mDrawThread;
-
-    private boolean mCanDraw = false;
-
-    private GestureDetector mGestureDetector;
-
     protected PointDraw mPointDraw;
     protected LineDraw mLineDraw;
     protected RectDraw mRectDraw;
-
-    private DrawModel mDrawModel = DrawModel.NONE;
-
-    private Object mCanvasLock = new Object();
-
-    private float mFirstX;//手指按下x坐标，相对父布局
-    private float mFirstY;//手指按下y坐标，相对父布局
-
-    private float mCurX;//当前手指x坐标，相对父布局
-    private float mCurY;//当前手指y坐标，相对父布局
-
-    private float mRawX;//当前手指x坐标，相对屏幕
-    private float mRawY;//当前手指y坐标，相对屏幕
-
-    private float mDistanceX;//当前手指距离上个点滑动的x轴距离
-    private float mDistanceY;//当前手指距离上个点滑动的y轴距离
-
     protected int mViewWidth;
     protected int mViewHeight;
-
     /**
      * 温度数据宽高
      */
     protected int mTempWidth;
     protected int mTempHeight;
-
     protected float xScale = 0;//实际渲染与原始图像宽高比
     protected float yScale = 0;//实际渲染与原始图像宽高比
-
+    private Context mContext;
+    private SurfaceHolder mSurfaceHolder;
+    private TempThread mTempThread;
+    private DrawThread mDrawThread;
+    private boolean mCanDraw = false;
+    private GestureDetector mGestureDetector;
+    private DrawModel mDrawModel = DrawModel.NONE;
+    private Object mCanvasLock = new Object();
+    private float mFirstX;//手指按下x坐标，相对父布局
+    private float mFirstY;//手指按下y坐标，相对父布局
+    private float mCurX;//当前手指x坐标，相对父布局
+    private float mCurY;//当前手指y坐标，相对父布局
+    private float mRawX;//当前手指x坐标，相对屏幕
+    private float mRawY;//当前手指y坐标，相对屏幕
+    private float mDistanceX;//当前手指距离上个点滑动的x轴距离
+    private float mDistanceY;//当前手指距离上个点滑动的y轴距离
     /**
      * 温度文字绘制相关
      */
@@ -101,6 +85,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
     }
 
     //------------------------ public method ------------------------------//
+
     /**
      * 开始绘制
      */
@@ -112,7 +97,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
     /**
      * 停止绘制
      */
-    public void stop () {
+    public void stop() {
         mDrawThread.isRun = false;
         if (mDrawThread != null) {
             mDrawThread.interrupt();
@@ -306,7 +291,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
                         }
                         break;
                     case DRAW_LINE:
-                        int indexLineTouch = mLineDraw.checkTouchLineInclude((int)mFirstX, (int)mFirstY);
+                        int indexLineTouch = mLineDraw.checkTouchLineInclude((int) mFirstX, (int) mFirstY);
                         Log.d(TAG, "indexLineTouch : " + indexLineTouch);
                         if (indexLineTouch != -1) {
                             //判断触碰线的面积
@@ -316,7 +301,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
                         }
                         break;
                     case DRAW_RECT:
-                        int indexRectTouch = mRectDraw.checkTouchRectInclude((int)mFirstX, (int)mFirstY);
+                        int indexRectTouch = mRectDraw.checkTouchRectInclude((int) mFirstX, (int) mFirstY);
                         Log.d(TAG, "indexRectTouch : " + indexRectTouch);
                         if (indexRectTouch != -1) {
                             mRectDraw.changeTouchRectOperateStatus(mFirstX, mFirstY);
@@ -479,7 +464,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
                         break;
                     case DRAW_LINE:
                         if (mLineDraw.getOperateStatus() == LineDraw.OPERATE_STATUS_LINE_ADD) {
-                            mLineDraw.addLine((int)mFirstX, (int)mFirstY, (int)mCurX, (int)mCurY);
+                            mLineDraw.addLine((int) mFirstX, (int) mFirstY, (int) mCurX, (int) mCurY);
                         } else if (mLineDraw.getOperateStatus() == LineDraw.OPERATE_STATUS_LINE_REMOVE) {
                             mLineDraw.removeLine(mLineDraw.getTouchInclude());
                         } else {
@@ -563,72 +548,6 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
     }
 
     /**
-     * 温度数据处理线程
-     * 通过libirtemp库获取点，线，框的对应最大最小温度，更新数据
-     * 不做绘制
-     */
-    private class TempThread extends Thread {
-        public boolean isRun;
-
-        public TempThread () {
-            isRun = true;
-        }
-
-        @Override
-        public void run() {
-            while(!Thread.currentThread().isInterrupted()) {
-                try {
-                    if (!isRun) {
-                        Thread.sleep(1000);
-                        continue;
-                    }
-
-                    Log.d(TAG, "TempThread running");
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "TempThread InterruptedException :" + e.getMessage());
-                    if (mTempThread != null) {
-                        mTempThread.interrupt();
-                        Log.d(TAG, "TempThread interrupt");
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * 绘制处理线程
-     */
-    private class DrawThread extends Thread {
-
-        public boolean isRun;
-
-        public DrawThread() {
-            isRun = true;
-        }
-
-        @Override
-        public void run() {
-            while(!Thread.currentThread().isInterrupted()) {
-
-                try {
-                    if (!isRun) {
-//                        Thread.sleep(384);
-                        continue;
-                    }
-
-                    doShapeDraw();
-                }catch (Exception e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "DrawThread InterruptedException :" + e.getMessage());
-                }
-            }
-        }
-    }
-
-
-    /**
      * 图形绘制
      */
     private void doShapeDraw() {
@@ -648,20 +567,20 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
                         || mRectDraw.getRectViewList().size() != 0) {
                     CopyOnWriteArrayList<TempResultBean> tempResultBeans = generateViewData(mPointDraw.getPointViewList(), mLineDraw.getLineViewList(), mRectDraw.getRectViewList());
 
-                    for (int i = 0; i < tempResultBeans.size(); i ++) {
+                    for (int i = 0; i < tempResultBeans.size(); i++) {
                         TempResultBean tempResultBean = tempResultBeans.get(i);
-                        for (int x = 0; x < mPointDraw.getPointViewList().size(); x ++) {
+                        for (int x = 0; x < mPointDraw.getPointViewList().size(); x++) {
                             if (mPointDraw.getPointViewList().get(x).getId().equals(tempResultBean.getId())) {
                                 mPointDraw.getPointViewList().get(x).setTempPoint(new Point(tempResultBean.getMax_temp_x(), tempResultBean.getMax_temp_y()));
                             }
                         }
-                        for (int y = 0; y < mLineDraw.getLineViewList().size(); y ++) {
+                        for (int y = 0; y < mLineDraw.getLineViewList().size(); y++) {
                             if (mLineDraw.getLineViewList().get(y).getId().equals(tempResultBean.getId())) {
                                 mLineDraw.getLineViewList().get(y).setHighTempPoint(new Point(tempResultBean.getMax_temp_x(), tempResultBean.getMax_temp_y()));
                                 mLineDraw.getLineViewList().get(y).setLowTempPoint(new Point(tempResultBean.getMin_temp_x(), tempResultBean.getMin_temp_y()));
                             }
                         }
-                        for (int z = 0; z < mRectDraw.getRectViewList().size(); z ++) {
+                        for (int z = 0; z < mRectDraw.getRectViewList().size(); z++) {
                             if (mRectDraw.getRectViewList().get(z).getId().equals(tempResultBean.getId())) {
                                 mRectDraw.getRectViewList().get(z).setHighTempPoint(new Point(tempResultBean.getMax_temp_x(), tempResultBean.getMax_temp_y()));
                                 mRectDraw.getRectViewList().get(z).setLowTempPoint(new Point(tempResultBean.getMin_temp_x(), tempResultBean.getMin_temp_y()));
@@ -709,13 +628,13 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
                         break;
                     case DRAW_LINE:
                         if (mLineDraw.getOperateStatus() == LineDraw.OPERATE_STATUS_LINE_ADD) {
-                            mLineDraw.onTempDraw(canvas, (int)mFirstX, (int)mFirstY, (int)mCurX, (int)mCurY);
+                            mLineDraw.onTempDraw(canvas, (int) mFirstX, (int) mFirstY, (int) mCurX, (int) mCurY);
                         }
 
                         break;
                     case DRAW_RECT:
                         if (mRectDraw.getOperateStatus() == RectDraw.OPERATE_STATUS_RECTANGLE_STATUS_ADD) {
-                            mRectDraw.onTempDraw(canvas, (int)mFirstX, (int)mFirstY, (int)mCurX, (int)mCurY);
+                            mRectDraw.onTempDraw(canvas, (int) mFirstX, (int) mFirstY, (int) mCurX, (int) mCurY);
                         }
 
                         break;
@@ -735,14 +654,13 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
         }
     }
 
-
     public abstract CopyOnWriteArrayList<TempResultBean> generateViewData(LinkedList<PointDraw.PointView> pointViews,
-                                          LinkedList<LineDraw.LineView> lineViews,
-                                          LinkedList<RectDraw.RectView> rectViews);
-
+                                                                          LinkedList<LineDraw.LineView> lineViews,
+                                                                          LinkedList<RectDraw.RectView> rectViews);
 
     /**
      * 绘制温度数据
+     *
      * @param context
      * @param screenDegree
      * @param canvas
@@ -776,7 +694,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
             TempResultBean result = tempResultBean.get(i);
             StringBuffer stringBuffer = new StringBuffer();
             if (result.getLabel().contains("P")) {
-                pointCount ++;
+                pointCount++;
                 stringBuffer.append(result.getLabel()).append(result.getContent()).append("\n").append(context.getString(R.string.temp_label)).append(result.getMaxTemperature()).append("\n");
             } else {
                 stringBuffer.append(result.getLabel()).append(result.getContent()).append("\n").append(context.getString(R.string.temp_max)).append(result.getMaxTemperature()).append("\n").append(context.getString(R.string.temp_avg)).append(result.getAverageTemperature()).append("\n").append(context.getString(R.string.temp_min)).append(result.getMinTemperature()).append("\n");
@@ -796,8 +714,73 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
             canvas.rotate(screenDegree);
             layout.draw(canvas);
             canvas.restore();
-            count ++;
-            startIndex ++;
+            count++;
+            startIndex++;
+        }
+    }
+
+    /**
+     * 温度数据处理线程
+     * 通过libirtemp库获取点，线，框的对应最大最小温度，更新数据
+     * 不做绘制
+     */
+    private class TempThread extends Thread {
+        public boolean isRun;
+
+        public TempThread() {
+            isRun = true;
+        }
+
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    if (!isRun) {
+                        Thread.sleep(1000);
+                        continue;
+                    }
+
+                    Log.d(TAG, "TempThread running");
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "TempThread InterruptedException :" + e.getMessage());
+                    if (mTempThread != null) {
+                        mTempThread.interrupt();
+                        Log.d(TAG, "TempThread interrupt");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 绘制处理线程
+     */
+    private class DrawThread extends Thread {
+
+        public boolean isRun;
+
+        public DrawThread() {
+            isRun = true;
+        }
+
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+
+                try {
+                    if (!isRun) {
+//                        Thread.sleep(384);
+                        continue;
+                    }
+
+                    doShapeDraw();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "DrawThread InterruptedException :" + e.getMessage());
+                }
+            }
         }
     }
 }

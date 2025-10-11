@@ -10,7 +10,7 @@ package com.infisense.usbir.thread.temp;//package com.infisense.usbir.thread;
 //
 //import java.nio.ByteBuffer;
 //
-///**
+/// **
 // *
 // */
 //public class ImageThreadTC extends Thread {

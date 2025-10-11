@@ -23,12 +23,15 @@ object IRTool {
     /**
      * 自动快门开关
      */
-    fun setAutoShutter(isAutoShutter : Boolean){
+    fun setAutoShutter(isAutoShutter: Boolean) {
         val basicAutoFFCStatusSet: IrcmdError? =
             DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
-                ?.basicAutoFFCStatusSet(if (isAutoShutter) CommonParams.AutoFFCStatus.AUTO_FFC_ENABLE
-                else CommonParams.AutoFFCStatus.AUTO_FFC_DISABLED)
-        Log.d(TAG,
+                ?.basicAutoFFCStatusSet(
+                    if (isAutoShutter) CommonParams.AutoFFCStatus.AUTO_FFC_ENABLE
+                    else CommonParams.AutoFFCStatus.AUTO_FFC_DISABLED
+                )
+        Log.d(
+            TAG,
             "basicAutoFFCStatusSet=$basicAutoFFCStatusSet"
         )
     }
@@ -36,9 +39,10 @@ object IRTool {
     /**
      * 手动打快门
      */
-    fun setOneShutter(){
+    fun setOneShutter() {
         val basicFFCUpdate = DeviceIrcmdControlManager.getInstance().ircmdEngine?.basicFFCUpdate()
-        Log.d(TAG,
+        Log.d(
+            TAG,
             "basicFFCUpdate=$basicFFCUpdate"
         )
     }
@@ -52,15 +56,15 @@ object IRTool {
      *
      * 自动 ([CameraItemBean.TYPE_TMP_ZD] = -1)
      */
-    fun basicGainSet(gainType : Int){
-        if (gainType == CameraItemBean.TYPE_TMP_ZD){
+    fun basicGainSet(gainType: Int) {
+        if (gainType == CameraItemBean.TYPE_TMP_ZD) {
             CameraPreviewManager.getInstance().setAutoSwitchGainEnable(true)
-        }else if (gainType == CameraItemBean.TYPE_TMP_C){
+        } else if (gainType == CameraItemBean.TYPE_TMP_C) {
             CameraPreviewManager.getInstance().setAutoSwitchGainEnable(false)
             val basicGainSet = DeviceIrcmdControlManager.getInstance().ircmdEngine
                 ?.basicGainSet(CommonParams.GainStatus.HIGH_GAIN)
             Log.d(TAG, "basicGainSet=$basicGainSet--$gainType")
-        }else if (gainType == CameraItemBean.TYPE_TMP_H){
+        } else if (gainType == CameraItemBean.TYPE_TMP_H) {
             CameraPreviewManager.getInstance().setAutoSwitchGainEnable(false)
             val basicGainSet = DeviceIrcmdControlManager.getInstance().ircmdEngine
                 ?.basicGainSet(CommonParams.GainStatus.LOW_GAIN)
@@ -71,17 +75,19 @@ object IRTool {
     /**
      * 对比度：参数是0-100
      */
-    fun basicGlobalContrastLevelSet(levelValue : Int){
+    fun basicGlobalContrastLevelSet(levelValue: Int) {
         val basicGlobalContrastLevelSetResult = DeviceIrcmdControlManager.getInstance().ircmdEngine
             ?.basicGlobalContrastLevelSet(levelValue)
-        Log.d(TAG,
+        Log.d(
+            TAG,
             "basicGlobalContrastLevelSet=$basicGlobalContrastLevelSetResult"
         )
     }
+
     /**
      * 锐度：参数是0-100，也就是细节
      */
-    fun basicImageDetailEnhanceLevelSet(levelValue : Int){
+    fun basicImageDetailEnhanceLevelSet(levelValue: Int) {
 //        val professionModeSetResult = DeviceIrcmdControlManager.getInstance().ircmdEngine
 //            .advProfessionModeSet(CommonParams.ProfessionMode.valueOf(0))
 //        val basicImageDetailEnhanceLevelSetResult = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
@@ -92,11 +98,13 @@ object IRTool {
     /**
      * 设置镜像
      */
-    fun basicMirrorAndFlipStatusSet(openMirror : Boolean){
+    fun basicMirrorAndFlipStatusSet(openMirror: Boolean) {
         //设置图像镜像或翻转 PASS
         val basicMirrorAndFlipStatusSet = DeviceIrcmdControlManager.getInstance().ircmdEngine
-            ?.basicMirrorAndFlipStatusSet(if (openMirror) CommonParams.MirrorFlipType.ONLY_FLIP else
-                CommonParams.MirrorFlipType.NO_MIRROR_OR_FLIP)
+            ?.basicMirrorAndFlipStatusSet(
+                if (openMirror) CommonParams.MirrorFlipType.ONLY_FLIP else
+                    CommonParams.MirrorFlipType.NO_MIRROR_OR_FLIP
+            )
         Log.d(TAG, "basicGlobalContrastLevelSet=$basicMirrorAndFlipStatusSet")
     }
 
@@ -115,7 +123,7 @@ object IRTool {
      * 如果观察标定没有问题，即可保存锅盖标定数据，可调用指令
      * mIrcmdEngine.basicSaveData(CommonParams.DeviceDataSaveType.BASIC_SAVE_RMCOVER_DATA);
      */
-    fun onceAuto() : Boolean{
+    fun onceAuto(): Boolean {
         //Setp2
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.basicRestoreDefaultData(CommonParams.DeviceRestoreTypeType.BASIC_RESTROE_RMCOVER_DATA)
@@ -140,11 +148,11 @@ object IRTool {
     /**
      * 高低增益模式下各做一组锅盖标定，如此模组的锅盖标定才是完整的流程
      */
-    suspend fun autoStart() : Boolean{
+    suspend fun autoStart(): Boolean {
         basicGainSet(CameraItemBean.TYPE_TMP_C)
         delay(2000)
         XLog.d(TAG, "onceAuto=start")
-        if (!onceAuto()){
+        if (!onceAuto()) {
             return false
         }
         XLog.d(TAG, "basicGainSet=start")
@@ -158,17 +166,19 @@ object IRTool {
     /**
      * 开启机芯内部环境变量修正
      */
-    fun advEnvCorrectSwitchSet(open : Boolean){
+    fun advEnvCorrectSwitchSet(open: Boolean) {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
-            ?.advEnvCorrectSwitchSet(if (open) CommonParams.BasicEnableStatus.BASIC_ENABLE
-            else CommonParams.BasicEnableStatus.BASIC_DISABLE)
+            ?.advEnvCorrectSwitchSet(
+                if (open) CommonParams.BasicEnableStatus.BASIC_ENABLE
+                else CommonParams.BasicEnableStatus.BASIC_DISABLE
+            )
     }
 
     /**
      * 机芯校正的
      * 反射率：range:1~16384
      */
-    fun advEnvCorrectEMSSet(value : Int){
+    fun advEnvCorrectEMSSet(value: Int) {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             .advEnvCorrectEMSSet(value);
     }
@@ -177,7 +187,7 @@ object IRTool {
      * 机芯校正的
      * 反射温度(units:Celsius)：range:233~373
      */
-    fun advEnvCorrectTUSet(value : Int){
+    fun advEnvCorrectTUSet(value: Int) {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.advEnvCorrectTUSet(value);
     }
@@ -191,7 +201,13 @@ object IRTool {
      * @param tau_data_L ByteArray 低增益修正表
      * @return Float
      */
-    fun temperatureCorrection(temp : Float, params_array: FloatArray, tau_data_H: ByteArray, tau_data_L: ByteArray,basicGainGetValue : Int) : Float {
+    fun temperatureCorrection(
+        temp: Float,
+        params_array: FloatArray,
+        tau_data_H: ByteArray,
+        tau_data_L: ByteArray,
+        basicGainGetValue: Int
+    ): Float {
         var newTemp = temp
         //获取增益状态 PASS
         try {
@@ -207,9 +223,9 @@ object IRTool {
                 params_array[5],
                 if (basicGainGetValue == 0) GainStatus.LOW_GAIN else GainStatus.HIGH_GAIN
             )
-        }catch (e : Exception){
+        } catch (e: Exception) {
             XLog.e("$TAG:temperatureCorrection-${e.message}")
-        }finally {
+        } finally {
             return newTemp
         }
     }
@@ -217,14 +233,13 @@ object IRTool {
     /**
      * 设置场景模式三
      */
-    fun setMode(){
+    fun setMode() {
 //        val professionModeSetResult = DeviceIrcmdControlManager.getInstance().ircmdEngine
 //            .advProfessionModeSet(CommonParams.ProfessionMode.valueOf(0))
 //        val ircmdError = DeviceIrcmdControlManager.getInstance().ircmdEngine
 //            .basicImageSceneModeSet(3)
 //        Log.d(TAG, "setModel=${ircmdError}")
     }
-
 
 
 }

@@ -8,11 +8,13 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+
 import static org.junit.Assert.*;
 
 
 /**
  * This are general bluetooth test for a Shimmer2R device, you will need to update the bluetooth address in order to run the test
+ *
  * @author Mas Azalya & Jong Chern
  * @version 001
  */
@@ -20,10 +22,10 @@ import static org.junit.Assert.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class AAPI_00001_Shimmer_GeneralBluetoothShimmer2R {
-    final private int DELAY_DURATION_MS = 3000;
-    private static Handler handler = null; //Handler not used for anything in this test so setting to null
-    final static Shimmer shimmer = new Shimmer (handler);
     private static final String mMacAddress = "00:06:66:43:B4:D6";
+    private static Handler handler = null; //Handler not used for anything in this test so setting to null
+    final static Shimmer shimmer = new Shimmer(handler);
+    final private int DELAY_DURATION_MS = 3000;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {

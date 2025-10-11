@@ -33,24 +33,39 @@ import javax.annotation.Nullable;
  */
 public class FileListActivity extends Activity {
 
+    public final static String INTENT_EXTRA_DIR_PATH = "DirectoryPath";
+    public final static String INTENT_EXTRA_PROVIDER_AUTHORITY = "FileProviderAuthority";
+    /**
+     * You can replace this with your own custom MIME type
+     */
+    protected final static String FILE_TYPE = "text/";
     protected Button cancelButton;
     protected ArrayAdapter<String> mFilesArrayAdapter;
     protected File[] filesArray;
     protected String[] fileNamesArray;
     protected ListView filesListView;
-
-    public final static String INTENT_EXTRA_DIR_PATH = "DirectoryPath";
-    public final static String INTENT_EXTRA_PROVIDER_AUTHORITY = "FileProviderAuthority";
-
-    /** Replace this with your own file provider's authority.
-     * This will be replaced with any String extras with name INTENT_EXTRA_PROVIDER_AUTHORITY that are passed along with the Intent */
+    /**
+     * Replace this with your own file provider's authority.
+     * This will be replaced with any String extras with name INTENT_EXTRA_PROVIDER_AUTHORITY that are passed along with the Intent
+     */
     protected String FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.shimmer.fileprovider";
-    /** Replace this with the directory you want to open.
-     * This will be replaced with any String extras with name INTENT_EXTRA_DIR_PATH that are passed along with the Intent */
+    /**
+     * Replace this with the directory you want to open.
+     * This will be replaced with any String extras with name INTENT_EXTRA_DIR_PATH that are passed along with the Intent
+     */
     protected String DIRECTORY_PATH = Environment.getExternalStorageDirectory().getPath() + "/Shimmer/";
-    /** You can replace this with your own custom MIME type */
-    protected final static String FILE_TYPE = "text/";
+    protected AdapterView.OnItemClickListener mFileClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //Get the file extension for the MIME type
+            String fileExtension = StringUtils.substringAfterLast(fileNamesArray[position], ".");
 
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(FileProvider.getUriForFile(FileListActivity.this, FILE_PROVIDER_AUTHORITY, filesArray[position]), FILE_TYPE + fileExtension);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(intent, "Open File"));
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +89,7 @@ public class FileListActivity extends Activity {
         cancelButton = (Button) findViewById(R.id.buttonCancel);
 
         File fileDir = new File(DIRECTORY_PATH);
-        if(!fileDir.exists()) {
+        if (!fileDir.exists()) {
             Toast.makeText(this, "Error! Directory does not exist.", Toast.LENGTH_LONG).show();
             finish();
         } else {
@@ -110,30 +125,17 @@ public class FileListActivity extends Activity {
     private void retrieveAnyStringExtras() {
         String dirPath = getIntent().getStringExtra(INTENT_EXTRA_DIR_PATH);
         String providerAuthority = getIntent().getStringExtra(INTENT_EXTRA_PROVIDER_AUTHORITY);
-        if(dirPath != null) {
-            if(!dirPath.equals("")) {
+        if (dirPath != null) {
+            if (!dirPath.equals("")) {
                 DIRECTORY_PATH = dirPath;
             }
         }
-        if(providerAuthority != null) {
-            if(!providerAuthority.equals("")) {
+        if (providerAuthority != null) {
+            if (!providerAuthority.equals("")) {
                 FILE_PROVIDER_AUTHORITY = providerAuthority;
             }
         }
     }
-
-    protected AdapterView.OnItemClickListener mFileClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //Get the file extension for the MIME type
-            String fileExtension = StringUtils.substringAfterLast(fileNamesArray[position], ".");
-
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(FileProvider.getUriForFile(FileListActivity.this, FILE_PROVIDER_AUTHORITY, filesArray[position]), FILE_TYPE + fileExtension);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(intent, "Open File"));
-        }
-    };
 
 
 }

@@ -146,6 +146,7 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
+
             cl_dir -> {//展开收起切换
                 adapter.isExpand = !adapter.isExpand
                 if (adapter.isExpand) {//切换到展开
@@ -156,13 +157,16 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                     cl_dir.setBackgroundResource(R.drawable.bg_corners10_solid_23202e)
                 }
             }
+
             view_select_all -> {//全选、取消全选
                 adapter.isSelectAll = !adapter.isSelectAll
             }
+
             view_copy -> {//复制
                 adapter.copySelect()
                 TToast.shortToast(this@ItemEditActivity, R.string.ts004_copy_success)
             }
+
             view_del -> {//删除
                 TipDialog.Builder(this)
                     .setTitleMessage(getString(R.string.tips_del_item_title))
@@ -205,7 +209,11 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
             return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0)
         }
 
-        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
             val fromPosition = viewHolder.bindingAdapterPosition
             val toPosition = target.bindingAdapterPosition
 
@@ -251,6 +259,7 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
          * 当前已选中的数量.
          */
         private var selectCount = 0
+
         /**
          * 当前是否已全选 true-已全选 false-未全选
          */
@@ -276,6 +285,7 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
          * 一个 item 选中或取消选中事件监听.
          */
         var onSelectChangeListener: ((selectSize: Int) -> Unit)? = null
+
         /**
          * 一个 item 状态变更事件监听.
          */

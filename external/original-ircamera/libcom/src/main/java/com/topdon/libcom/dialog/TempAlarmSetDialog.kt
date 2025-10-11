@@ -123,7 +123,7 @@ class TempAlarmSetDialog(
         cl_ringtone_select.isVisible = !isEdit && switch_alarm_ringtone.isChecked
         tv_alarm_ringtone.isVisible = !isEdit
         switch_alarm_ringtone.isVisible = !isEdit
-        if (hideAlarmMark){
+        if (hideAlarmMark) {
             tv_alarm_mark.visibility = View.GONE
             switch_alarm_mark.visibility = View.GONE
             cl_alarm_mark.visibility = View.GONE
@@ -156,12 +156,16 @@ class TempAlarmSetDialog(
     private fun save() {
         try {
             val inputHigh = if (switch_alarm_high.isChecked) {
-                if (et_alarm_high.text.isNotEmpty()) UnitTools.showToCValue(et_alarm_high.text.toString().toFloat()) else null
+                if (et_alarm_high.text.isNotEmpty()) UnitTools.showToCValue(
+                    et_alarm_high.text.toString().toFloat()
+                ) else null
             } else {
                 null
             }
             val inputLow = if (switch_alarm_low.isChecked) {
-                if (et_alarm_low.text.isNotEmpty()) UnitTools.showToCValue(et_alarm_low.text.toString().toFloat()) else null
+                if (et_alarm_low.text.isNotEmpty()) UnitTools.showToCValue(
+                    et_alarm_low.text.toString().toFloat()
+                ) else null
             } else {
                 null
             }
@@ -196,7 +200,7 @@ class TempAlarmSetDialog(
     }
 
     private fun showColorDialog(isHigh: Boolean) {
-        val colorPickDialog = ColorPickDialog(context, if (isHigh) alarmBean.highColor else alarmBean.lowColor,-1)
+        val colorPickDialog = ColorPickDialog(context, if (isHigh) alarmBean.highColor else alarmBean.lowColor, -1)
         colorPickDialog.onPickListener = { it: Int, i1: Int ->
             if (isHigh) {
                 alarmBean.highColor = it

@@ -1,7 +1,7 @@
 package com.shimmerresearch.driver;
 
 public interface ShimmerMsgCallback {
-	
-	public void newMsg(ShimmerMsg shimmerMsg);
+
+    public void newMsg(ShimmerMsg shimmerMsg);
 
 }

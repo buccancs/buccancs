@@ -18,9 +18,9 @@ data class ReportTempBean(
 
     val temperature: String? = null,//带单位符号的点温度，单位跟随用户配置
     val is_temperature: Int = 0,    //是否显示点温度
-): Parcelable {
+) : Parcelable {
 
-    constructor(temperature: String?, is_temperature: Int, comment: String?, is_comment: Int): this(
+    constructor(temperature: String?, is_temperature: Int, comment: String?, is_comment: Int) : this(
         null,
         0,
         null,

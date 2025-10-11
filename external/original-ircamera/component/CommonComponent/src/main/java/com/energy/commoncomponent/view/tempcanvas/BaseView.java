@@ -14,6 +14,7 @@ public abstract class BaseView {
     protected double mMinTemp;//最大温度
     protected double mAvgTemp;//最小温度
     protected int mPointSize = 0;
+
     public String getId() {
         return mId;
     }

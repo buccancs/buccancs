@@ -24,6 +24,7 @@ internal class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ViewHolder>() {
                 notifyDataSetChanged()
             }
         }
+
     /**
      * 选中变更事件监听.
      * index-选中伪彩在列表中的 index，也就 TC007 要用

@@ -35,16 +35,33 @@ public class SeekBar {
     public static final int INDICATOR_ALWAYS_HIDE = 1;
     public static final int INDICATOR_ALWAYS_SHOW_AFTER_TOUCH = 2;
     public static final int INDICATOR_ALWAYS_SHOW = 3;
-
-    @IntDef({INDICATOR_SHOW_WHEN_TOUCH, INDICATOR_ALWAYS_HIDE, INDICATOR_ALWAYS_SHOW_AFTER_TOUCH, INDICATOR_ALWAYS_SHOW})
-    public @interface IndicatorModeDef {
-    }
-
     public static final int WRAP_CONTENT = -1;
     public static final int MATCH_PARENT = -2;
+    //when you touch or move, the thumb will scale, default not scale
+    float thumbScaleRatio;
+    int left, right, top, bottom;
+    float currPercent;
+    float material = 0;
+    boolean isLeft;
+    Bitmap thumbBitmap;
+    Bitmap thumbInactivatedBitmap;
+    Bitmap indicatorBitmap;
+    ValueAnimator anim;
+    String userText2Draw;
+    boolean isActivate = false;
+    boolean isVisible = true;
+    RangeSeekBar rangeSeekBar;
+    String indicatorTextStringFormat;
+    Path indicatorArrowPath = new Path();
+    Rect indicatorTextRect = new Rect();
+    Rect indicatorRect = new Rect();
 
+    //****************** the above is attr value  ******************//
+    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    DecimalFormat indicatorTextDecimalFormat;
+    int scaleThumbWidth;
+    int scaleThumbHeight;
     private int indicatorShowMode;
-
     //进度提示背景的高度，宽度如果是0的话会自适应调整
     //Progress prompted the background height, width,
     private int indicatorHeight;
@@ -63,34 +80,7 @@ public class SeekBar {
     private int thumbInactivatedDrawableId;
     private int thumbWidth;
     private int thumbHeight;
-
-    //when you touch or move, the thumb will scale, default not scale
-    float thumbScaleRatio;
-
-    //****************** the above is attr value  ******************//
-
-    int left, right, top, bottom;
-    float currPercent;
-    float material = 0;
     private boolean isShowIndicator;
-    boolean isLeft;
-    Bitmap thumbBitmap;
-    Bitmap thumbInactivatedBitmap;
-    Bitmap indicatorBitmap;
-    ValueAnimator anim;
-    String userText2Draw;
-    boolean isActivate = false;
-    boolean isVisible = true;
-    RangeSeekBar rangeSeekBar;
-    String indicatorTextStringFormat;
-    Path indicatorArrowPath = new Path();
-    Rect indicatorTextRect = new Rect();
-    Rect indicatorRect = new Rect();
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    DecimalFormat indicatorTextDecimalFormat;
-    int scaleThumbWidth;
-    int scaleThumbHeight;
-
     public SeekBar(RangeSeekBar rangeSeekBar, AttributeSet attrs, boolean isLeft) {
         this.rangeSeekBar = rangeSeekBar;
         this.isLeft = isLeft;
@@ -169,7 +159,6 @@ public class SeekBar {
         bottom = y + getThumbHeight() / 2;
     }
 
-
     public void scaleThumb() {
         scaleThumbWidth = (int) getThumbScaleWidth();
         scaleThumbHeight = (int) getThumbScaleHeight();
@@ -213,7 +202,6 @@ public class SeekBar {
         onDrawThumb(canvas);
         canvas.restore();
     }
-
 
     /**
      * 绘制按钮
@@ -409,12 +397,12 @@ public class SeekBar {
         userText2Draw = text;
     }
 
-    public void setIndicatorTextDecimalFormat(String formatPattern) {
-        indicatorTextDecimalFormat = new DecimalFormat(formatPattern);
-    }
-
     public DecimalFormat getIndicatorTextDecimalFormat() {
         return indicatorTextDecimalFormat;
+    }
+
+    public void setIndicatorTextDecimalFormat(String formatPattern) {
+        indicatorTextDecimalFormat = new DecimalFormat(formatPattern);
     }
 
     public void setIndicatorTextStringFormat(String formatPattern) {
@@ -431,7 +419,6 @@ public class SeekBar {
             indicatorBitmap = BitmapFactory.decodeResource(getResources(), indicatorDrawableId);
         }
     }
-
 
     public int getIndicatorArrowSize() {
         return indicatorArrowSize;
@@ -586,17 +573,6 @@ public class SeekBar {
         return thumbDrawableId;
     }
 
-    public void setThumbDrawableId(@DrawableRes int thumbDrawableId, int width, int height) {
-        if (thumbDrawableId != 0 && getResources() != null && width > 0 && height > 0) {
-            this.thumbDrawableId = thumbDrawableId;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                thumbBitmap = Utils.drawableToBitmap(width, height, getResources().getDrawable(thumbDrawableId, null));
-            } else {
-                thumbBitmap = Utils.drawableToBitmap(width, height, getResources().getDrawable(thumbDrawableId));
-            }
-        }
-    }
-
     public void setThumbDrawableId(@DrawableRes int thumbDrawableId) {
         if (thumbWidth <= 0 || thumbHeight <= 0) {
             throw new IllegalArgumentException("please set thumbWidth and thumbHeight first!");
@@ -607,6 +583,17 @@ public class SeekBar {
                 thumbBitmap = Utils.drawableToBitmap(thumbWidth, thumbHeight, getResources().getDrawable(thumbDrawableId, null));
             } else {
                 thumbBitmap = Utils.drawableToBitmap(thumbWidth, thumbHeight, getResources().getDrawable(thumbDrawableId));
+            }
+        }
+    }
+
+    public void setThumbDrawableId(@DrawableRes int thumbDrawableId, int width, int height) {
+        if (thumbDrawableId != 0 && getResources() != null && width > 0 && height > 0) {
+            this.thumbDrawableId = thumbDrawableId;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                thumbBitmap = Utils.drawableToBitmap(width, height, getResources().getDrawable(thumbDrawableId, null));
+            } else {
+                thumbBitmap = Utils.drawableToBitmap(width, height, getResources().getDrawable(thumbDrawableId));
             }
         }
     }
@@ -655,7 +642,6 @@ public class SeekBar {
         paint.setTypeface(typeFace);
     }
 
-
     /**
      * when you touch or move, the thumb will scale, default not scale
      *
@@ -681,5 +667,9 @@ public class SeekBar {
     public float getProgress() {
         float range = rangeSeekBar.getMaxProgress() - rangeSeekBar.getMinProgress();
         return rangeSeekBar.getMinProgress() + range * currPercent;
+    }
+
+    @IntDef({INDICATOR_SHOW_WHEN_TOUCH, INDICATOR_ALWAYS_HIDE, INDICATOR_ALWAYS_SHOW_AFTER_TOUCH, INDICATOR_ALWAYS_SHOW})
+    public @interface IndicatorModeDef {
     }
 }

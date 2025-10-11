@@ -32,22 +32,21 @@
  *
  * @author Jong Chern Lim
  * @date   October, 2013
- * 
+ *
  * Changes since 0.2
  * - added callBackMethodQueue
- * 
+ *
  * Changes since 0.1
  * - included object to callable
- * 
+ *
  */
 
 package com.shimmerresearch.driver;
 
 
-public interface Callable  
-{  
+public interface Callable {
     public void callBackMethod(int i, Object ojc);
 
-	public void callBackMethod(ShimmerMsg s);
-	
+    public void callBackMethod(ShimmerMsg s);
+
 }  

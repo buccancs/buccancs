@@ -67,8 +67,8 @@ public class ZoomableDraggableView extends View {
     public void setImageSize(int imageWidth, int imageHeight) {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
-        viewWidth = ((ViewGroup)getParent()).getMeasuredWidth();
-        viewHeight = ((ViewGroup)getParent()).getMeasuredHeight();
+        viewWidth = ((ViewGroup) getParent()).getMeasuredWidth();
+        viewHeight = ((ViewGroup) getParent()).getMeasuredHeight();
         if (viewWidth != 0) {
             xscale = (float) viewWidth / (float) imageWidth;
         }
@@ -77,15 +77,15 @@ public class ZoomableDraggableView extends View {
         }
         showBitmapHeight = pxBitmapHeight / yscale;
         showBitmapHeightWidth = pxBitmapHeight * originalBitmapWidth / originalBitmapHeight * xscale;
-        showBitmap = BitmapUtils.scaleWithWH(originalBitmap,showBitmapHeightWidth,showBitmapHeight);
+        showBitmap = BitmapUtils.scaleWithWH(originalBitmap, showBitmapHeightWidth, showBitmapHeight);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.save();
         canvas.concat(matrix);
-        if (showBitmap!=null){
-            canvas.drawBitmap(showBitmap,matrix,paint);
+        if (showBitmap != null) {
+            canvas.drawBitmap(showBitmap, matrix, paint);
         }
         // 在此处绘制你的内容
         super.onDraw(canvas);

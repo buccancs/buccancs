@@ -21,15 +21,16 @@ class TempDrawHelper {
          * 点是一个十字架，该值为十字架的长度，单位 px.
          */
         private val POINT_SIZE: Int = SizeUtils.dp2px(16f)
+
         /**
          * 点、线、面、全图 最高温及最低温中心实心圆的半径，单位 px.
          */
         private val CIRCLE_RADIUS: Int = SizeUtils.dp2px(3f)
+
         /**
          * 温度值文字，与实心圆圆心的偏移量，防止文字与实心圆重叠，X轴为该值，Y轴为该值/2，单位 px.
          */
         private val TEMP_TEXT_OFFSET = SizeUtils.dp2px(6f)
-
 
 
         /**
@@ -49,7 +50,8 @@ class TempDrawHelper {
         /**
          * 获取可保证实心圆不会超出 View 界外的 Rect.
          */
-        fun getRect(width: Int, height: Int): Rect = Rect(CIRCLE_RADIUS, CIRCLE_RADIUS, width - CIRCLE_RADIUS, height - CIRCLE_RADIUS)
+        fun getRect(width: Int, height: Int): Rect =
+            Rect(CIRCLE_RADIUS, CIRCLE_RADIUS, width - CIRCLE_RADIUS, height - CIRCLE_RADIUS)
     }
 
 
@@ -72,22 +74,22 @@ class TempDrawHelper {
         }
 
 
-
-
-
     /**
      * 绘制 点、线、面、趋势图直线 Paint，白色.
      * 描边宽度 1dp.
      */
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     /**
      * 点、线、面、全图 低温点实心圆 Paint，蓝色.
      */
     private val bluePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     /**
      * 点、线、面、全图 高温点实心圆 Paint，红色.
      */
     private val redPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     /**
      * 高温温度文字、低温温度文字、趋势图 AB 两个字母、点线面名称 Paint，
      * 颜色默认白色，大小默认 14sp，可由文字颜色、大小设置更改.
@@ -143,10 +145,26 @@ class TempDrawHelper {
         val topF: Float = top.toFloat()
         val rightF: Float = right.toFloat()
         val bottomF: Float = bottom.toFloat()
-        val points = floatArrayOf(leftF, topF, rightF, topF, rightF, topF, rightF, bottomF, rightF, bottomF, leftF, bottomF, leftF, bottomF, leftF, topF)
+        val points = floatArrayOf(
+            leftF,
+            topF,
+            rightF,
+            topF,
+            rightF,
+            topF,
+            rightF,
+            bottomF,
+            rightF,
+            bottomF,
+            leftF,
+            bottomF,
+            leftF,
+            bottomF,
+            leftF,
+            topF
+        )
         canvas.drawLines(points, linePaint)
     }
-
 
 
     /**
@@ -241,7 +259,16 @@ class TempDrawHelper {
      *
      * 注意，不对 x、y 进行处理，传进来是哪就在哪绘制。
      */
-    fun drawPointRectName(canvas: Canvas, name: String, width: Int, height: Int, left: Int, top: Int, right: Int, bottom: Int) {
+    fun drawPointRectName(
+        canvas: Canvas,
+        name: String,
+        width: Int,
+        height: Int,
+        left: Int,
+        top: Int,
+        right: Int,
+        bottom: Int
+    ) {
         val fontMetrics: Paint.FontMetrics = textPaint.getFontMetrics()
         val textWidth: Float = textPaint.measureText(name)
         val textHeight: Float = -fontMetrics.top

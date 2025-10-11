@@ -27,13 +27,14 @@ import java.util.Objects;
  */
 public class EthnicEntity implements TextProvider, Serializable {
     private static final boolean IS_CHINESE;
-    private String code;
-    private String name;
-    private String spelling;
 
     static {
         IS_CHINESE = Locale.getDefault().getDisplayLanguage().contains("中文");
     }
+
+    private String code;
+    private String name;
+    private String spelling;
 
     public String getCode() {
         return code;

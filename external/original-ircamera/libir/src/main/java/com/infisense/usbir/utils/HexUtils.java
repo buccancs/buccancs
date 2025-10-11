@@ -7,6 +7,7 @@ public class HexUtils {
 
     /**
      * 将字节数组转换成十六进制的字符串
+     *
      * @return
      */
     public static String binaryToHexString(byte[] bytes) {

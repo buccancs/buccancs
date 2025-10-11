@@ -73,7 +73,7 @@ publishing {
                 username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }
-        }    
+        }
     }
 }
 
@@ -94,24 +94,24 @@ dependencies {
 
     // https://mvnrepository.com/artifact/io.grpc/grpc-all
     api group: 'io.grpc', name: 'grpc-all', version: '1.32.1'
-    
+
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
     api group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.6'
-    
+
     // https://mvnrepository.com/artifact/com.codeminders/hidapi
     api group: 'com.codeminders', name: 'hidapi', version: '1.1'
-    
+
     // https://mvnrepository.com/artifact/joda-time/joda-time
     api group: 'joda-time', name: 'joda-time', version: '2.9.4'
-    
+
     // https://mvnrepository.com/artifact/com.github.wendykierp/JTransforms
     api group: 'com.github.wendykierp', name: 'JTransforms', version: '3.1'
-    
+
     // The production code uses the SLF4J logging API at compile time
     api 'org.slf4j:slf4j-api:1.7.21'
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl
     testImplementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.21.1'
-    
+
     // https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api
     api("javax.annotation:javax.annotation-api:1.3.2")
 

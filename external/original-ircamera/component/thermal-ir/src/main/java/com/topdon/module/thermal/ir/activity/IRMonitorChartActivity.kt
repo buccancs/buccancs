@@ -57,7 +57,7 @@ import java.math.RoundingMode
  * 温度实时监控
  */
 @Route(path = RouterConfig.IR_MONITOR_CHART)
-class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
+class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
 
     /** 默认数据流模式：图像+温度复合数据 */
     protected var defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT
@@ -70,7 +70,7 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
      */
     private var selectBean: SelectPositionBean = SelectPositionBean()
 
-    private var ircmd: IRCMD?= null
+    private var ircmd: IRCMD? = null
     private val bean = ThermalBean()
     private var ts_data_H: ByteArray? = null
     private var ts_data_L: ByteArray? = null
@@ -88,7 +88,8 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
         ts_data_L = CommonUtils.getTauData(this@IRMonitorChartActivity, "ts/TS001_L.bin")
         selectBean = intent.getParcelableExtra("select")!!
 
-        monitor_current_vol.text = getString(if (selectBean.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
+        monitor_current_vol.text =
+            getString(if (selectBean.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
         monitor_real_vol.visibility = if (selectBean.type == 1) View.GONE else View.VISIBLE
         monitor_real_img.visibility = if (selectBean.type == 1) View.GONE else View.VISIBLE
 
@@ -158,19 +159,19 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
             temperatureView.postDelayed({
                 //初始配置,伪彩铁红
                 try {
-                    if (!isStop){
+                    if (!isStop) {
                         pseudoColorMode = 3
                         startUSB(false)
                         startISP()
                         temperatureView.start()
                         cameraView.start()
                         isrun = true
-                        if (!isRecord){
+                        if (!isRecord) {
                             recordThermal()//开始记录
                         }
                     }
-                }catch (e:Exception){
-                    Log.e("测试","//"+e.message)
+                } catch (e: Exception) {
+                    Log.e("测试", "//" + e.message)
                 }
             }, 1500)
         }
@@ -222,6 +223,7 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
     private var canUpdate = false
 
     private var recordJob: Job? = null
+
     /**
      * 开始每隔1秒记录一个温度数据到数据库.
      */
@@ -237,7 +239,7 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
             }
             var time = 0L
             while (isRecord) {
-                if (!isStop){
+                if (!isStop) {
                     if (canUpdate) {
                         val entity = ThermalEntity()
                         entity.userId = SharedManager.getUserId()
@@ -302,11 +304,11 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
         imageHeight = cameraWidth
         if (ScreenUtil.isPortrait(this)) {
             bitmap = Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
-            temperatureView.setImageSize(imageWidth, imageHeight,this@IRMonitorChartActivity)
+            temperatureView.setImageSize(imageWidth, imageHeight, this@IRMonitorChartActivity)
             rotateAngle = DeviceConfig.S_ROTATE_ANGLE
         } else {
             bitmap = Bitmap.createBitmap(imageHeight, imageWidth, Bitmap.Config.ARGB_8888)
-            temperatureView.setImageSize(imageHeight, imageWidth,this@IRMonitorChartActivity)
+            temperatureView.setImageSize(imageHeight, imageWidth, this@IRMonitorChartActivity)
             rotateAngle = DeviceConfig.ROTATE_ANGLE
         }
         cameraView.setSyncimage(syncimage)
@@ -347,8 +349,8 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
             imageThread!!.setBitmap(bitmap)
             imageThread!!.setRotate(rotateAngle)
             imageThread!!.start()
-        }catch (e : Exception){
-            Log.e("图像线程重复启动",e.message.toString())
+        } catch (e: Exception) {
+            Log.e("图像线程重复启动", e.message.toString())
         }
     }
 
@@ -357,7 +359,8 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
      * @param isRestart 是否是重启模组
      */
     private fun startUSB(isRestart: Boolean) {
-        iruvc = IRUVCTC(cameraWidth, cameraHeight, this@IRMonitorChartActivity, syncimage,
+        iruvc = IRUVCTC(
+            cameraWidth, cameraHeight, this@IRMonitorChartActivity, syncimage,
             defaultDataFlowMode, object : ConnectCallback {
                 override fun onCameraOpened(uvcCamera: UVCCamera) {
 
@@ -426,6 +429,7 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
     }
 
     private var isConfigWait = false
+
     //配置
     private fun configParam() {
         lifecycleScope.launch {
@@ -473,7 +477,7 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
             )
             iruvc?.let {
                 // 部分机型在关闭自动快门，初始会花屏
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     if (SaveSettingUtil.isAutoShutter) {
                         ircmd!!.setPropAutoShutterParameter(
                             CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH,
@@ -517,6 +521,7 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
                 temperatureView.addScalePoint(selectBean.startPosition)
                 temperatureView.temperatureRegionMode = REGION_MODE_POINT
             }
+
             2 -> {
                 //线
                 temperatureView.addScaleLine(
@@ -527,6 +532,7 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
                 )
                 temperatureView.temperatureRegionMode = REGION_MODE_LINE
             }
+
             3 -> {
                 //面
                 temperatureView.addScaleRectangle(
@@ -624,6 +630,7 @@ class IRMonitorChartActivity : BaseActivity(),ITsTempListener {
                 //准备图像
                 showCameraLoading()
             }
+
             101 -> {
                 //显示图像
                 dismissCameraLoading()

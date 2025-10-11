@@ -41,8 +41,8 @@ import static com.jaygoo.widget.VerticalRangeSeekBar.TEXT_DIRECTION_VERTICAL;
  */
 public class VerticalSeekBar extends SeekBar {
 
-    private int indicatorTextOrientation;
     VerticalRangeSeekBar verticalSeekBar;
+    private int indicatorTextOrientation;
 
     public VerticalSeekBar(DefRangeSeekBar defRangeSeekBar, AttributeSet attrs, boolean isLeft) {
         super(defRangeSeekBar, attrs, isLeft);

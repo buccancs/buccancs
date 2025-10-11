@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.components;
 
 import com.github.mikephil.charting.utils.Utils;
@@ -51,13 +50,10 @@ public class XAxis extends AxisBase {
      * the position of the x-labels relative to the chart
      */
     private XAxisPosition mPosition = XAxisPosition.TOP;
-
     /**
-     * enum for the position of the x-labels relative to the chart
+     * 是否要跳过第1个标签的绘制.
      */
-    public enum XAxisPosition {
-        TOP, BOTTOM, BOTH_SIDED, TOP_INSIDE, BOTTOM_INSIDE
-    }
+    private boolean isJumpFirstLabel = true;
 
     public XAxis() {
         super();
@@ -116,17 +112,18 @@ public class XAxis extends AxisBase {
         return mAvoidFirstLastClipping;
     }
 
-
-    /**
-     * 是否要跳过第1个标签的绘制.
-     */
-    private boolean isJumpFirstLabel = true;
-
     public boolean isJumpFirstLabel() {
         return isJumpFirstLabel;
     }
 
     public void setJumpFirstLabel(boolean jumpFirstLabel) {
         isJumpFirstLabel = jumpFirstLabel;
+    }
+
+    /**
+     * enum for the position of the x-labels relative to the chart
+     */
+    public enum XAxisPosition {
+        TOP, BOTTOM, BOTH_SIDED, TOP_INSIDE, BOTTOM_INSIDE
     }
 }

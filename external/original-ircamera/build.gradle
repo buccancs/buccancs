@@ -9,7 +9,7 @@ buildscript {
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
         // hms�� �������ɻ�Ϊ����ͨ������ֱ������
-        maven { url 'https://developer.huawei.com/repo/'}
+        maven { url 'https://developer.huawei.com/repo/' }
         // fcm�� �������� FCM ͨ������ֱ������
         maven { url "https://maven.google.com" }
         maven { url 'https://repo1.maven.org/maven2/' }

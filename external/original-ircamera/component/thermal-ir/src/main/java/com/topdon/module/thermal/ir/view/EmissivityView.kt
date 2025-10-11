@@ -27,6 +27,7 @@ class EmissivityView : View {
      * 是否顶部对齐
      */
     var isAlignTop = false
+
     /**
      * 是否需要绘制顶部横线
      */
@@ -36,6 +37,7 @@ class EmissivityView : View {
      * 要显示的文字列表.
      */
     private val textList: ArrayList<CharSequence> = ArrayList(3)
+
     /**
      * 执行绘制的 Layout 列表.
      */
@@ -52,7 +54,12 @@ class EmissivityView : View {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes:Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         linePaint.color = 0xff5b5961.toInt()
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = strokeWidth
@@ -111,7 +118,13 @@ class EmissivityView : View {
         if (drawTopLine) {
             canvas.drawLine(0f, strokeWidth / 2, contentWidth, strokeWidth / 2, linePaint)
         }
-        canvas.drawLine(0f, height.toFloat() - strokeWidth / 2, contentWidth, height.toFloat() - strokeWidth / 2, linePaint)
+        canvas.drawLine(
+            0f,
+            height.toFloat() - strokeWidth / 2,
+            contentWidth,
+            height.toFloat() - strokeWidth / 2,
+            linePaint
+        )
         canvas.drawLine(strokeWidth / 2, 0f, strokeWidth / 2, height.toFloat(), linePaint)
 
         val padding = SizeUtils.dp2px(12f).toFloat()

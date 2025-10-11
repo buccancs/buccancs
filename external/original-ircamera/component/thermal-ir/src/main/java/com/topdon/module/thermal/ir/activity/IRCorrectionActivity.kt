@@ -27,7 +27,7 @@ class IRCorrectionActivity : BaseActivity() {
 
     override fun initView() {
         tv_correction.setOnClickListener {
-            val jumpIntent = Intent(this,IRCorrectionTwoActivity::class.java)
+            val jumpIntent = Intent(this, IRCorrectionTwoActivity::class.java)
             jumpIntent.putExtra(ExtraKeyConfig.IS_TC007, intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false))
             startActivity(jumpIntent)
         }

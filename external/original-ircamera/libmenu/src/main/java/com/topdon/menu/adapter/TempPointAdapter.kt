@@ -47,7 +47,11 @@ internal class TempPointAdapter : BaseMenuAdapter() {
 
 
     private val dataArray: Array<Data> = arrayOf(
-        Data(R.string.main_tab_second_high_temperature_point, R.drawable.selector_menu2_temp_point_1, TempPointType.HIGH),
+        Data(
+            R.string.main_tab_second_high_temperature_point,
+            R.drawable.selector_menu2_temp_point_1,
+            TempPointType.HIGH
+        ),
         Data(R.string.main_tab_second_low_temperature_point, R.drawable.selector_menu2_temp_point_2, TempPointType.LOW),
         Data(R.string.thermal_delete, R.drawable.selector_menu2_del, TempPointType.DELETE),
     )

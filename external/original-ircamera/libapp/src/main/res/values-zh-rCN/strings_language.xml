@@ -169,21 +169,35 @@
     <string name="chart_temperature_low">最低温</string>
     <string name="chart_temperature">温度</string>
     <string name="question1">为什么TC001、TS001插到手机上后，没有任何反应？</string>
-    <string name="answer1">请按以下顺序逐步排查：\na)确认您的手机为安卓6.0以上机型；\nb)确认您的手机设置中是否有OTG选项，是否出于打开状态。部分手机需要在设置中搜索“OTG”并手动打开这个功能。\nc)观察TC001、TS001设备的蓝色LED指示灯是否点亮。如果指示灯熄灭，说明手机和设备连接不正常，或者您的手机不支持OTG功能；\nd)确认您已下载APP，并授予APP所有必要权限；\ne)重新插拔TC001、TS001，如果仍然没有反应，请联系售后人员进行处理。</string>
+    <string name="answer1">
+        请按以下顺序逐步排查：\na)确认您的手机为安卓6.0以上机型；\nb)确认您的手机设置中是否有OTG选项，是否出于打开状态。部分手机需要在设置中搜索“OTG”并手动打开这个功能。\nc)观察TC001、TS001设备的蓝色LED指示灯是否点亮。如果指示灯熄灭，说明手机和设备连接不正常，或者您的手机不支持OTG功能；\nd)确认您已下载APP，并授予APP所有必要权限；\ne)重新插拔TC001、TS001，如果仍然没有反应，请联系售后人员进行处理。
+    </string>
     <string name="question2">画面变糊、测温不准怎么办？</string>
-    <string name="answer2">由于非制冷型红外探测器的工作特性，需要每过一段时间对画面进行快门更新，即点击右上角快门图标。这样有利于获得更清晰的图像，以及更准确的温度。</string>
+    <string name="answer2">
+        由于非制冷型红外探测器的工作特性，需要每过一段时间对画面进行快门更新，即点击右上角快门图标。这样有利于获得更清晰的图像，以及更准确的温度。
+    </string>
     <string name="question3">TC001、TS001是否能观察水下、玻璃窗外、衣服下、皮肤下的场景？</string>
-    <string name="answer3">红外探测仪用于探测8~14um的长波红外区域，只能测到物体表面的温度。它无法透过水面或者玻璃进行观测温度。</string>
+    <string name="answer3">
+        红外探测仪用于探测8~14um的长波红外区域，只能测到物体表面的温度。它无法透过水面或者玻璃进行观测温度。
+    </string>
     <string name="question4">为什么测试温度没有很精准？</string>
-    <string name="answer4">TC001、TS001的温度分辨率为±2%，常温档位的温度范围为-20~150℃（-4~302°F），高温档位为150－550℃（302~1022°F）。请在APP中选择对应的档位后再进行测试。</string>
+    <string name="answer4">
+        TC001、TS001的温度分辨率为±2%，常温档位的温度范围为-20~150℃（-4~302°F），高温档位为150－550℃（302~1022°F）。请在APP中选择对应的档位后再进行测试。
+    </string>
     <string name="question5">TC001、TS001是否对人体有辐射危害？</string>
     <string name="answer5">TC001、TS001不会主动发出任何有害辐射，只采集物体热量信息，因此可以放心使用。</string>
     <string name="question6">为什么测远处的人温度偏低，靠近后温度示数会升高？</string>
-    <string name="answer6">由于红外辐射透过大气后会有衰减，距离越远衰减越强，因此远处测温精度会降低。对于需要得到精确温度数据的用户，可以在个人中心-设置-测温修正-距离修正中，输入待测距离（最大5米），得到修正后的温度。</string>
+    <string name="answer6">
+        由于红外辐射透过大气后会有衰减，距离越远衰减越强，因此远处测温精度会降低。对于需要得到精确温度数据的用户，可以在个人中心-设置-测温修正-距离修正中，输入待测距离（最大5米），得到修正后的温度。
+    </string>
     <string name="question7">为什么会听到“咔咔”的声音？红外热像仪中常说的“打快门“是什么意思？</string>
-    <string name="answer7">红外成像仪在使用过程中温度会产生微小变化。因此间隔一段时间需要做一次内部的温度校准。内部校准通过微型电机的控制进行关闭或打开，因此会听到该声音，行业内把这一动作称为“打快门”。</string>
+    <string name="answer7">
+        红外成像仪在使用过程中温度会产生微小变化。因此间隔一段时间需要做一次内部的温度校准。内部校准通过微型电机的控制进行关闭或打开，因此会听到该声音，行业内把这一动作称为“打快门”。
+    </string>
     <string name="question8">红外测温会受那些外部因素影响？</string>
-    <string name="answer8">目标表面发射率。\n环境温度：物体会反射周围物体发出的红外线，从而影响对物体本身的温度测量\n大气温度：大气也会发射红外线\n大气透过率：物体发出的红外线在大气中有衰减\n目标距离：物体发出的红外线在大气中随距离增加，衰减越严重。</string>
+    <string name="answer8">
+        目标表面发射率。\n环境温度：物体会反射周围物体发出的红外线，从而影响对物体本身的温度测量\n大气温度：大气也会发射红外线\n大气透过率：物体发出的红外线在大气中有衰减\n目标距离：物体发出的红外线在大气中随距离增加，衰减越严重。
+    </string>
     <string name="setting_unit">温度单位</string>
     <string name="app_celsius">摄氏度</string>
     <string name="chart_temperature_fahrenheit">华氏度</string>
@@ -260,7 +274,8 @@
     <string name="date_time">日期和时间</string>
     <string name="get_address">获取地址</string>
     <string name="save_setting_model">保存设置模式</string>
-    <string name="save_setting_tips">该功能打开后，会保存你如下设置的参数：自动快门、拍摄模式、伪彩、图像模式、伪彩条开关</string>
+    <string name="save_setting_tips">该功能打开后，会保存你如下设置的参数：自动快门、拍摄模式、伪彩、图像模式、伪彩条开关
+    </string>
     <string name="get_current_address">正在获取当前地址</string>
     <string name="get_Location_failed">位置获取失败</string>
     <string name="off_photography">关闭延时拍照</string>
@@ -269,7 +284,9 @@
     <string name="seconds_dalay_6">延时6秒</string>
     <string name="shutter_open">自动快门打开</string>
     <string name="shutter_off">自动快门关闭</string>
-    <string name="shutter_tips">为保证温度测试的精准性，快门会每隔数十秒自动工作一次。但这将会造成视频的卡顿。若您想保证视频的流畅性，可以关闭自动快门。</string>
+    <string name="shutter_tips">
+        为保证温度测试的精准性，快门会每隔数十秒自动工作一次。但这将会造成视频的卡顿。若您想保证视频的流畅性，可以关闭自动快门。
+    </string>
     <string name="mirror">镜像</string>
     <string name="operation_guide">操作指引</string>
     <string name="preview_step_1">1.拖动图像位置</string>
@@ -371,8 +388,12 @@
     <string name="tip_export_data">正在导出数据……</string>
     <string name="tip_correction_1">1、热成像仪长期对高温辐射源使用，可能会产生黑斑效果。通过本功能使图像恢复正常。</string>
     <string name="tip_correction_2_title">2、将热成像仪连接手机，将镜头面对一块黑色且不反光的平面，要求如下：</string>
-    <string name="tip_correction_2_content">· 平面的表面温度是均匀的（比如黑色的金属板、木板、塑料板等）\n· 设备距离平面的距离5~10cm\n· 拍摄画面被平面覆盖\n· 校正的环境应该是黑暗的</string>
-    <string name="tip_correction_3">3、将热成像仪面对黑色板子，点击“开始校正”等待60秒之后完成校正。校正过程中请勿熄灭屏幕或切换到其他应用。</string>
+    <string name="tip_correction_2_content">· 平面的表面温度是均匀的（比如黑色的金属板、木板、塑料板等）\n·
+        设备距离平面的距离5~10cm\n· 拍摄画面被平面覆盖\n· 校正的环境应该是黑暗的
+    </string>
+    <string name="tip_correction_3">
+        3、将热成像仪面对黑色板子，点击“开始校正”等待60秒之后完成校正。校正过程中请勿熄灭屏幕或切换到其他应用。
+    </string>
     <string name="correction_title">图像校正</string>
     <string name="dual_light_title">双光校正</string>
     <string name="button_correction">校准</string>
@@ -432,7 +453,9 @@
     <string name="coordinate_mode">标定模式</string>
     <string name="coordinate_tips">标定模式只显示面面内的最高温点或最低温点,无法显示温度值。</string>
     <string name="tips_ai">AI识别</string>
-    <string name="tips_ai_content">动态识别: 本功能用来侦测画面内进入的物体。使用时请保持画面静止。\n高温源: 识别画面内的相对高温区域。\n低温源: 识别画面内的相对低温区域。</string>
+    <string name="tips_ai_content">动态识别: 本功能用来侦测画面内进入的物体。使用时请保持画面静止。\n高温源:
+        识别画面内的相对高温区域。\n低温源: 识别画面内的相对低温区域。
+    </string>
     <string name="tips_observe_photo_content">观测模式下,不支持温度测试功能,\n拍摄的图像也无法进行二次编辑。</string>
     <string name="setting_img_setting">图像设置</string>
 
@@ -445,18 +468,21 @@
     <string name="compass_southeast">东南</string>
     <string name="compass_southwest">西南</string>
     <string name="compass_west">西</string>
-    
+
     <string name="target_tips_target_mode">标靶模式</string>
     <string name="target_tips_title">本功能用于粗略测试物体和镜头的距离。</string>
     <string name="target_tips_step_1">1.点击观测类型，选择观测的目标。</string>
     <string name="target_tips_step_2">2.点击靶标，选择靶标的样式。</string>
     <string name="target_tips_step_3">3.拖动靶标或移动镜头，使目标和靶标中心对齐。</string>
-    <string name="target_tips_step_4">4.观察目标和靶标上得数字，即镜头和目标物体得距离。如下图：目标物体和镜头距离20m。</string>
+    <string name="target_tips_step_4">4.观察目标和靶标上得数字，即镜头和目标物体得距离。如下图：目标物体和镜头距离20m。
+    </string>
     <string name="target_tips_tip_content">提示：目前提供4种目标的参考高度。</string>
 
-    <string name="permission_request_camera_app">%1$s想要请求你的相机权限，以实现头像修改、拍照进行问题反馈等功能。</string>
+    <string name="permission_request_camera_app">%1$s想要请求你的相机权限，以实现头像修改、拍照进行问题反馈等功能。
+    </string>
     <string name="permission_request_location_app">%1$s想要请求你的定位权限，用于搜索附近的蓝牙设备。</string>
-    <string name="permission_request_storage_app">%1$s想要请求你的存储权限，用于本地文件存储、读取图片设置头像等功能。</string>
+    <string name="permission_request_storage_app">%1$s想要请求你的存储权限，用于本地文件存储、读取图片设置头像等功能。
+    </string>
     <string name="privacy_tips">不同意将无法使用我们的产品与服务</string>
     <string name="privacy_cancel">不同意并退出</string>
     <string name="privacy_confirm">同意并使用</string>
@@ -474,9 +500,13 @@
 
 
     <string name="dual_light_correction">双光校正</string>
-    <string name="dual_light_correction_tips_1">由于两个摄像头的焦点不在同一条直线上，因此不同距离的双镜头画面会有偏差导致无法对齐。\n通过本功能可以单独进行画面的对齐。</string>
+    <string name="dual_light_correction_tips_1">
+        由于两个摄像头的焦点不在同一条直线上，因此不同距离的双镜头画面会有偏差导致无法对齐。\n通过本功能可以单独进行画面的对齐。
+    </string>
     <string name="dual_light_correction_tips_2">1.将温度源放在画面中，约0.5米远（比如手掌）。\n2.点击拍照。</string>
-    <string name="dual_light_correction_tips_3">1.拖动图像，将两个图像进行对齐；\n2.滑动进度条，使角度重合；\n3.点击确认键，完成校正。</string>
+    <string name="dual_light_correction_tips_3">
+        1.拖动图像，将两个图像进行对齐；\n2.滑动进度条，使角度重合；\n3.点击确认键，完成校正。
+    </string>
 
     <string name="menu_thermal_visible_light">可见光</string>
     <string name="menu_thermal_imaging">红外</string>
@@ -492,7 +522,9 @@
     <string name="temp_text_sup_big">超大</string>
     <string name="menu_thermal_font">字体</string>
 
-    <string name="text_p_umeng">为了提供更好的功能体验，我们的产品集成友盟+SDK进行数据统计和日志收集，SDK将采集您的设备标识和账户信息</string>
+    <string name="text_p_umeng">
+        为了提供更好的功能体验，我们的产品集成友盟+SDK进行数据统计和日志收集，SDK将采集您的设备标识和账户信息
+    </string>
 
     <!--TS004-->
     <string name="ts004_connection_device">有线连接设备</string>
@@ -518,7 +550,9 @@
     <string name="app_location_accuracy_content">没有权限访问您的精确位置，是否前往设置</string>
     <string name="device_switch_tips">连接成功，是否切换？</string>
     <string name="ts004_reset_tip1">恢复%1$s出厂设置</string>
-    <string name="ts004_reset_tip2">恢复出厂设置将格式化设备内存储的所有照片和录像，并将设备设置恢复到出厂状态。确认恢复吗？</string>
+    <string name="ts004_reset_tip2">
+        恢复出厂设置将格式化设备内存储的所有照片和录像，并将设备设置恢复到出厂状态。确认恢复吗？
+    </string>
     <string name="ts004_reset_tip3">恢复出厂设置中</string>
     <string name="ts004_reset_tip4">恢复出厂成功</string>
     <string name="color_p12">融合</string>
@@ -606,7 +640,8 @@
     <string name="ts004_faq_q4">我可以使用TS004录制多长时间的视频？</string>
     <string name="ts004_faq_a4">在TS004的电池耗尽之前您可以持续录制视频。TS004将每20分钟自动保存一次视频。</string>
     <string name="ts004_faq_q5">我如何在PC上查看用TS004拍摄的照片或录像？</string>
-    <string name="ts004_faq_a5">通过USB线将TS004连接到PC上，打开设备对应的文件夹即可查看存储在TS004上的照片或录像。</string>
+    <string name="ts004_faq_a5">通过USB线将TS004连接到PC上，打开设备对应的文件夹即可查看存储在TS004上的照片或录像。
+    </string>
 
     <!-- TC001 老 APP 引流 -->
     <string name="gallery_transfer">相册迁移</string>
@@ -637,7 +672,8 @@
     <string name="tc_connect_line">有线连接</string>
     <string name="tc_connect_wifi">无线连接</string>
     <string name="tc_delete_device">删除设备</string>
-    <string name="tc_delete_device_tips">是否确认删除当前设备类型，如有需要可随时通过右上角按钮重新添加该类型设备。</string>
+    <string name="tc_delete_device_tips">是否确认删除当前设备类型，如有需要可随时通过右上角按钮重新添加该类型设备。
+    </string>
     <string name="tc_has_line_device">有线设备</string>
     <string name="tc_reset_tips">设备的各项设置将恢复到出厂状态，确认恢复吗？</string>
     <string name="coming_soon">敬请期待…</string>
@@ -809,24 +845,60 @@
     <string name="abnormal_item20">前/后轴中心</string>
     <string name="abnormal_item21">制动钳</string>
     <string name="abnormal_item22">刹车盘</string>
-    <string name="abnormal_description1">点火线圈的温度受到多种因素的影响，如发动机温度、环境温度、点火线圈负载等。如果线圈温度过高，可能会损坏点火线圈，甚至引起发动机失火；如果线圈温度过低，可能是线圈不工作。使用热成像仪监测线圈温度，如果线圈的温度超出建议值范围或者使用热成像仪监测所有线圈的均匀热情况，这样就能判断出工作或不工作的线圈。</string>
-    <string name="abnormal_description2">排气歧管的温度受到多种因素的影响，如发动机的工作状态、发动机的负载、环境温度、车速等。如果排气歧管温度过高，可能会损坏发动机或者排气系统的其他部件，甚至引起火灾等危险；如果排气歧管温度过低，会导致发动机积碳、启动困难等问题。使用热成像仪监测排气歧管温度，如果排气歧管的温度超出建议值范围或者使用热成像仪监测所有排气歧管的均匀热情况，以便判断排气温度异常的气缸。</string>
-    <string name="abnormal_description3">使用热成像仪监测催化转换器。催化转化器的出口温度应该要比入口温度高的多，如果催化转换器出口温度比入口温度低，则催化转换器可能故障。</string>
-    <string name="abnormal_description4">空调压缩机的轴承承受机械应力和摩擦，其轴承温度受到多种因素的影响，如转速、负载、润滑条件、环境温度、皮带松紧度等。如果轴承温度过高，会导致轴承润滑失效，轴承寿命缩短，甚至引起轴承卡死或损坏。使用热成像仪监测空调压缩机轴承温度，如果轴承的温度超出建议值范围或者轴承的温度比其他轴承的温度过高，则可能是轴承故障的迹象。</string>
-    <string name="abnormal_description5">交流发电机的轴承承受机械应力和摩擦，其轴承温度受到多种因素的影响，如转速、负载、润滑条件、环境温度、皮带松紧度等。如果轴承温度过高，会导致轴承润滑失效，轴承寿命缩短，甚至引起轴承卡死或损坏。使用热成像仪监测交流发电机轴承温度，如果轴承的温度超出建议值范围或者轴承的温度比其他轴承的温度过高，则可能是轴承故障的迹象。</string>
-    <string name="abnormal_description6">水泵的轴承承受机械应力和摩擦，其轴承温度受到多种因素的影响，如转速、负载、润滑条件、环境温度、皮带松紧度等。如果轴承温度过高，会导致轴承润滑失效，轴承寿命缩短，甚至引起轴承卡死或损坏。使用热成像仪监测水泵轴承温度，如果轴承的温度超出建议值范围或者轴承的温度比其他轴承的温度过高，则可能是轴承故障的迹象。</string>
-    <string name="abnormal_description7">皮带张紧器承受机械应力和摩擦，其温度受到多种因素的影响，如转速、负载、润滑条件、环境温度、皮带松紧度等。如果皮带张紧器温度过高，会导致轴承润滑失效，轴承寿命缩短，甚至引起轴承卡死或损坏。使用热成像仪监测皮带张紧器温度，如果皮带张紧器的温度超出建议值范围或者比其他皮带轮的温度过高，则可能是轴承故障的迹象。</string>
-    <string name="abnormal_description8">使用热成像仪监测变速箱油冷却器。冷却器正常工作时，冷却器的出口温度应该要比入口温度低得多，如果冷却器的出口温度接近入口温度或者冷却器温度超出建议值范围，则变速箱油冷却器可能故障。</string>
-    <string name="abnormal_description9">冷却液流量控制阀可以根据冷却需求，线性控制冷却液流通量，更好的控制发动机温度。如果冷却液流量控制阀卡在关闭位置或开度小的位置，则冷却液无法大量循环，会导致发动机水温过高。</string>
-    <string name="abnormal_description10">使用热成像仪监测中冷器。中冷器正常工作时，中冷器的出口温度应该要比入口温度低得多，如果中冷器的出口温度接近入口温度或者中冷器温度超出建议值范围，则中冷器散热系统可能故障。</string>
-    <string name="abnormal_description11">当恒温器的工作温度达到正常时，恒温器会打开，允许发动机冷却液和散热器内的冷却液大量循环，使发动机水温保持在正常的工作温度。如果恒温器卡在关闭状态，则冷却液无法大量循环，会导致发动机水温过高。</string>
-    <string name="abnormal_description12">将发动机缸体加热器插入110V电源，并使用热成像仪监测缸体加热器。当通电时，发动机缸体加热器的温度应该升高，如果温度没有升高，则说明发动机缸体加热器或线路损坏。</string>
-    <string name="abnormal_description13">使用热成像仪监测散热器温度。散热器正常工作时，散热器的出口温度应该要比入口温度低得多，如果散热器的出口温度接近入口温度或者散热器温度超出建议值范围，则散热器可能故障。</string>
-    <string name="abnormal_description14">蓄电池电缆温度受到多种因素的影响，如环境温度、蓄电池负载等。使用热成像仪监测蓄电池电缆温度，如果蓄电池电缆温度过高，则可能是蓄电池负载过大、电路中有短路或虚接、电瓶损坏、充电系统故障等原因引起。</string>
-    <string name="abnormal_description15">座椅加热器温度受到多种因素的影响，如环境温度、加热器负载等。使用热成像仪监测座椅加热器温度，您可以评估座椅加热的有效性。</string>
-    <string name="abnormal_description16">后窗除雾器温度受到多种因素的影响，如环境温度、加热器负载等。使用热成像仪监测后窗除雾器加热温度，您可以评估后窗除雾器加热的有效性。</string>
-    <string name="abnormal_description17">后视镜加热器温度受到多种因素的影响，如环境温度、加热器负载等。使用热成像仪监测后视镜加热器温度，您可以评估后视镜加热的有效性。</string>
-    <string name="abnormal_description18">车窗电机温度受到多种因素的影响，如环境温度、电机负载等。使用热成像仪监测车窗电机温度，如果车窗电机温度过高，则可能是车窗升降机构或电机本身故障所致。</string>
+    <string name="abnormal_description1">
+        点火线圈的温度受到多种因素的影响，如发动机温度、环境温度、点火线圈负载等。如果线圈温度过高，可能会损坏点火线圈，甚至引起发动机失火；如果线圈温度过低，可能是线圈不工作。使用热成像仪监测线圈温度，如果线圈的温度超出建议值范围或者使用热成像仪监测所有线圈的均匀热情况，这样就能判断出工作或不工作的线圈。
+    </string>
+    <string name="abnormal_description2">
+        排气歧管的温度受到多种因素的影响，如发动机的工作状态、发动机的负载、环境温度、车速等。如果排气歧管温度过高，可能会损坏发动机或者排气系统的其他部件，甚至引起火灾等危险；如果排气歧管温度过低，会导致发动机积碳、启动困难等问题。使用热成像仪监测排气歧管温度，如果排气歧管的温度超出建议值范围或者使用热成像仪监测所有排气歧管的均匀热情况，以便判断排气温度异常的气缸。
+    </string>
+    <string name="abnormal_description3">
+        使用热成像仪监测催化转换器。催化转化器的出口温度应该要比入口温度高的多，如果催化转换器出口温度比入口温度低，则催化转换器可能故障。
+    </string>
+    <string name="abnormal_description4">
+        空调压缩机的轴承承受机械应力和摩擦，其轴承温度受到多种因素的影响，如转速、负载、润滑条件、环境温度、皮带松紧度等。如果轴承温度过高，会导致轴承润滑失效，轴承寿命缩短，甚至引起轴承卡死或损坏。使用热成像仪监测空调压缩机轴承温度，如果轴承的温度超出建议值范围或者轴承的温度比其他轴承的温度过高，则可能是轴承故障的迹象。
+    </string>
+    <string name="abnormal_description5">
+        交流发电机的轴承承受机械应力和摩擦，其轴承温度受到多种因素的影响，如转速、负载、润滑条件、环境温度、皮带松紧度等。如果轴承温度过高，会导致轴承润滑失效，轴承寿命缩短，甚至引起轴承卡死或损坏。使用热成像仪监测交流发电机轴承温度，如果轴承的温度超出建议值范围或者轴承的温度比其他轴承的温度过高，则可能是轴承故障的迹象。
+    </string>
+    <string name="abnormal_description6">
+        水泵的轴承承受机械应力和摩擦，其轴承温度受到多种因素的影响，如转速、负载、润滑条件、环境温度、皮带松紧度等。如果轴承温度过高，会导致轴承润滑失效，轴承寿命缩短，甚至引起轴承卡死或损坏。使用热成像仪监测水泵轴承温度，如果轴承的温度超出建议值范围或者轴承的温度比其他轴承的温度过高，则可能是轴承故障的迹象。
+    </string>
+    <string name="abnormal_description7">
+        皮带张紧器承受机械应力和摩擦，其温度受到多种因素的影响，如转速、负载、润滑条件、环境温度、皮带松紧度等。如果皮带张紧器温度过高，会导致轴承润滑失效，轴承寿命缩短，甚至引起轴承卡死或损坏。使用热成像仪监测皮带张紧器温度，如果皮带张紧器的温度超出建议值范围或者比其他皮带轮的温度过高，则可能是轴承故障的迹象。
+    </string>
+    <string name="abnormal_description8">
+        使用热成像仪监测变速箱油冷却器。冷却器正常工作时，冷却器的出口温度应该要比入口温度低得多，如果冷却器的出口温度接近入口温度或者冷却器温度超出建议值范围，则变速箱油冷却器可能故障。
+    </string>
+    <string name="abnormal_description9">
+        冷却液流量控制阀可以根据冷却需求，线性控制冷却液流通量，更好的控制发动机温度。如果冷却液流量控制阀卡在关闭位置或开度小的位置，则冷却液无法大量循环，会导致发动机水温过高。
+    </string>
+    <string name="abnormal_description10">
+        使用热成像仪监测中冷器。中冷器正常工作时，中冷器的出口温度应该要比入口温度低得多，如果中冷器的出口温度接近入口温度或者中冷器温度超出建议值范围，则中冷器散热系统可能故障。
+    </string>
+    <string name="abnormal_description11">
+        当恒温器的工作温度达到正常时，恒温器会打开，允许发动机冷却液和散热器内的冷却液大量循环，使发动机水温保持在正常的工作温度。如果恒温器卡在关闭状态，则冷却液无法大量循环，会导致发动机水温过高。
+    </string>
+    <string name="abnormal_description12">
+        将发动机缸体加热器插入110V电源，并使用热成像仪监测缸体加热器。当通电时，发动机缸体加热器的温度应该升高，如果温度没有升高，则说明发动机缸体加热器或线路损坏。
+    </string>
+    <string name="abnormal_description13">
+        使用热成像仪监测散热器温度。散热器正常工作时，散热器的出口温度应该要比入口温度低得多，如果散热器的出口温度接近入口温度或者散热器温度超出建议值范围，则散热器可能故障。
+    </string>
+    <string name="abnormal_description14">
+        蓄电池电缆温度受到多种因素的影响，如环境温度、蓄电池负载等。使用热成像仪监测蓄电池电缆温度，如果蓄电池电缆温度过高，则可能是蓄电池负载过大、电路中有短路或虚接、电瓶损坏、充电系统故障等原因引起。
+    </string>
+    <string name="abnormal_description15">
+        座椅加热器温度受到多种因素的影响，如环境温度、加热器负载等。使用热成像仪监测座椅加热器温度，您可以评估座椅加热的有效性。
+    </string>
+    <string name="abnormal_description16">
+        后窗除雾器温度受到多种因素的影响，如环境温度、加热器负载等。使用热成像仪监测后窗除雾器加热温度，您可以评估后窗除雾器加热的有效性。
+    </string>
+    <string name="abnormal_description17">
+        后视镜加热器温度受到多种因素的影响，如环境温度、加热器负载等。使用热成像仪监测后视镜加热器温度，您可以评估后视镜加热的有效性。
+    </string>
+    <string name="abnormal_description18">
+        车窗电机温度受到多种因素的影响，如环境温度、电机负载等。使用热成像仪监测车窗电机温度，如果车窗电机温度过高，则可能是车窗升降机构或电机本身故障所致。
+    </string>
 
     <!-- 房屋检测新增 -->
     <string name="vehicle_function">功能</string>

@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.view_report_ir_show.view.*
  *
  * 包含一张图片对应的 全图、点、线、面 预览信息.
  */
-class ReportIRShowView: LinearLayout {
+class ReportIRShowView : LinearLayout {
     companion object {
         private const val TYPE_FULL = 0 //全图
         private const val TYPE_POINT = 1//点
@@ -152,7 +152,8 @@ class ReportIRShowView: LinearLayout {
         cl_point2.tv_title.isVisible = !cl_point1.isVisible
         cl_point3.tv_title.isVisible = !cl_point1.isVisible && !cl_point2.isVisible
         cl_point4.tv_title.isVisible = !cl_point1.isVisible && !cl_point2.isVisible && !cl_point3.isVisible
-        cl_point5.tv_title.isVisible = !cl_point1.isVisible && !cl_point2.isVisible && !cl_point3.isVisible && !cl_point4.isVisible
+        cl_point5.tv_title.isVisible =
+            !cl_point1.isVisible && !cl_point2.isVisible && !cl_point3.isVisible && !cl_point4.isVisible
 
         val lineList = reportIRBean.line_data
         for (i in lineList.indices) {
@@ -167,7 +168,8 @@ class ReportIRShowView: LinearLayout {
         cl_line2.tv_title.isVisible = !cl_line1.isVisible
         cl_line3.tv_title.isVisible = !cl_line1.isVisible && !cl_line2.isVisible
         cl_line4.tv_title.isVisible = !cl_line1.isVisible && !cl_line2.isVisible && !cl_line3.isVisible
-        cl_line5.tv_title.isVisible = !cl_line1.isVisible && !cl_line2.isVisible && !cl_line3.isVisible && !cl_line4.isVisible
+        cl_line5.tv_title.isVisible =
+            !cl_line1.isVisible && !cl_line2.isVisible && !cl_line3.isVisible && !cl_line4.isVisible
 
         val rectList = reportIRBean.surface_data
         for (i in rectList.indices) {
@@ -182,7 +184,8 @@ class ReportIRShowView: LinearLayout {
         cl_rect2.tv_title.isVisible = !cl_rect1.isVisible
         cl_rect3.tv_title.isVisible = !cl_rect1.isVisible && !cl_rect2.isVisible
         cl_rect4.tv_title.isVisible = !cl_rect1.isVisible && !cl_rect2.isVisible && !cl_rect3.isVisible
-        cl_rect5.tv_title.isVisible = !cl_rect1.isVisible && !cl_rect2.isVisible && !cl_rect3.isVisible && !cl_rect4.isVisible
+        cl_rect5.tv_title.isVisible =
+            !cl_rect1.isVisible && !cl_rect2.isVisible && !cl_rect3.isVisible && !cl_rect4.isVisible
 
         // 把最后一条分割线藏起来
         if (rectList.isNotEmpty()) {
@@ -288,9 +291,12 @@ class ReportIRShowView: LinearLayout {
             }
         }
 
-        itemRoot.tv_range_title.isVisible = if (type == TYPE_POINT) tempBean.isTempOpen() else tempBean.isMinOpen() || tempBean.isMaxOpen()
-        itemRoot.tv_range_value.isVisible = if (type == TYPE_POINT) tempBean.isTempOpen() else tempBean.isMinOpen() || tempBean.isMaxOpen()
-        itemRoot.view_line_range.isVisible = if (type == TYPE_POINT) tempBean.isTempOpen() else tempBean.isMinOpen() || tempBean.isMaxOpen()
+        itemRoot.tv_range_title.isVisible =
+            if (type == TYPE_POINT) tempBean.isTempOpen() else tempBean.isMinOpen() || tempBean.isMaxOpen()
+        itemRoot.tv_range_value.isVisible =
+            if (type == TYPE_POINT) tempBean.isTempOpen() else tempBean.isMinOpen() || tempBean.isMaxOpen()
+        itemRoot.view_line_range.isVisible =
+            if (type == TYPE_POINT) tempBean.isTempOpen() else tempBean.isMinOpen() || tempBean.isMaxOpen()
         itemRoot.cl_average.isVisible = (type == TYPE_LINE || type == TYPE_RECT) && tempBean.isAverageOpen()
         itemRoot.cl_explain.isVisible = tempBean.isExplainOpen()
         itemRoot.tv_range_title.text = rangeTitle

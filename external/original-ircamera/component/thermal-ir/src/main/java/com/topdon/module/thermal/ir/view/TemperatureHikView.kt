@@ -35,6 +35,7 @@ class TemperatureHikView : TemperatureBaseView {
      * 计算温度的工具类.
      */
     private var libIRTemp = LibIRTemp()
+
     /**
      * 计算温度的线程.
      */
@@ -73,14 +74,17 @@ class TemperatureHikView : TemperatureBaseView {
      * 当尚未经过 onMeasure 调用添加点时，保存要添加的以 温度尺寸 为坐标的点，在 onMeasure 阶段添加。
      */
     private var wantAddPoint: Point? = null
+
     /**
      * 当尚未经过 onMeasure 调用添加点时，保存要添加的以 温度尺寸 为坐标的线，在 onMeasure 阶段添加。
      */
     private var wantAddLine: Line? = null
+
     /**
      * 当尚未经过 onMeasure 调用添加点时，保存要添加的以 温度尺寸 为坐标的面，在 onMeasure 阶段添加。
      */
     private var wantAddRect: Rect? = null
+
     /**
      * 添加一个以 温度尺寸 为坐标的点
      */
@@ -97,6 +101,7 @@ class TemperatureHikView : TemperatureBaseView {
             wantAddPoint = point
         }
     }
+
     /**
      * 添加一个以 温度尺寸 为坐标的线
      */
@@ -115,6 +120,7 @@ class TemperatureHikView : TemperatureBaseView {
             wantAddLine = line
         }
     }
+
     /**
      * 添加一个以 温度尺寸 为坐标的面
      */
@@ -152,10 +158,12 @@ class TemperatureHikView : TemperatureBaseView {
      * 未旋转前的温度数组.
      */
     private val sourceTempArray = ByteArray(256 * 192 * 2)
+
     /**
      * 旋转后的温度数组，趋势图要用，而 [libIRTemp] 又没提供方法读取里面的数据，只好再搞一份
      */
     private val rotateTempArray = ByteArray(256 * 192 * 2)
+
     /**
      * 刷新温度数据
      */
@@ -166,10 +174,28 @@ class TemperatureHikView : TemperatureBaseView {
 
             System.arraycopy(newData, 0, sourceTempArray, 0, sourceTempArray.size)
             when (rotateAngle) {
-                90 -> LibIRProcess.rotateLeft90(sourceTempArray, imageRes, IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14, rotateTempArray)
-                180 -> LibIRProcess.rotate180(sourceTempArray, imageRes, IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14, rotateTempArray)
-                270 -> LibIRProcess.rotateRight90(sourceTempArray, imageRes, IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14, rotateTempArray)
-                else  -> System.arraycopy(sourceTempArray, 0, rotateTempArray, 0, rotateTempArray.size)
+                90 -> LibIRProcess.rotateLeft90(
+                    sourceTempArray,
+                    imageRes,
+                    IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14,
+                    rotateTempArray
+                )
+
+                180 -> LibIRProcess.rotate180(
+                    sourceTempArray,
+                    imageRes,
+                    IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14,
+                    rotateTempArray
+                )
+
+                270 -> LibIRProcess.rotateRight90(
+                    sourceTempArray,
+                    imageRes,
+                    IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14,
+                    rotateTempArray
+                )
+
+                else -> System.arraycopy(sourceTempArray, 0, rotateTempArray, 0, rotateTempArray.size)
             }
 
             libIRTemp.setTempData(rotateTempArray)
@@ -186,7 +212,12 @@ class TemperatureHikView : TemperatureBaseView {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         imageRes.width = 256.toChar()
         imageRes.height = 192.toChar()
         setImageSize(192, 256)
@@ -342,7 +373,8 @@ class TemperatureHikView : TemperatureBaseView {
                     return
                 }
 
-                val centerResult = if (isShowFull) libIRTemp.getTemperatureOfPoint(Point(imageWidth / 2, imageHeight / 2)) else null
+                val centerResult =
+                    if (isShowFull) libIRTemp.getTemperatureOfPoint(Point(imageWidth / 2, imageHeight / 2)) else null
 
                 var trendResult: TemperatureSampleResult? = null
                 trendLine?.let {
@@ -405,7 +437,14 @@ class TemperatureHikView : TemperatureBaseView {
                     }
                 }
 
-                tempInfo = TempInfo(centerResult, if (isShowFull) fullResult else null, trendResult, pointResultList, lineResultList, rectResultList)
+                tempInfo = TempInfo(
+                    centerResult,
+                    if (isShowFull) fullResult else null,
+                    trendResult,
+                    pointResultList,
+                    lineResultList,
+                    rectResultList
+                )
                 mainHandler.post {
                     onTempResultListener?.invoke(tempInfo)
                 }

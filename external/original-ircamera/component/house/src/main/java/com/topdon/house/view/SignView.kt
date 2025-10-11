@@ -30,6 +30,7 @@ class SignView : View {
      * true-有签名 false-空白的
      */
     var hasSign = false
+
     /**
      * 是否有签名状态变更监听.
      */
@@ -51,7 +52,12 @@ class SignView : View {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes:Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         paint.color = 0xffffffff.toInt()
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = PAINT_WIDTH
@@ -119,6 +125,7 @@ class SignView : View {
                     invalidate()
                 }
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 path.reset()
             }

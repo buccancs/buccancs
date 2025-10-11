@@ -135,6 +135,7 @@ class IRThermal07Activity : BaseWifiActivity() {
 
     private var isTouchSeekBar: Boolean = false
     private var pseudoColorMode = WifiSaveSettingUtil.pseudoColorMode
+
     /**
      * 双光-融合度、设置-对比度、设置-锐度 PopupWindow，用于在点击其他操作时关掉.
      */
@@ -390,9 +391,9 @@ class IRThermal07Activity : BaseWifiActivity() {
     private fun showEmissivityTips() {
         val config = ConfigRepository.readConfig(false)
         var text = ""
-        for (tmp in IRConfigData.irConfigData(this)){
-            if (config.radiation.toString() == tmp.value){
-                if (text.isEmpty()){
+        for (tmp in IRConfigData.irConfigData(this)) {
+            if (config.radiation.toString() == tmp.value) {
+                if (text.isEmpty()) {
                     text = "${resources.getString(com.topdon.module.thermal.ir.R.string.tc_temp_test_materials)} : "
                 }
                 text += "${tmp.name}/"
@@ -435,9 +436,9 @@ class IRThermal07Activity : BaseWifiActivity() {
         title_view.setRightClickListener {
             val config = ConfigRepository.readConfig(true)
             var text = ""
-            for (tmp in IRConfigData.irConfigData(this)){
-                if (config.radiation.toString() == tmp.value){
-                    if (text.isEmpty()){
+            for (tmp in IRConfigData.irConfigData(this)) {
+                if (config.radiation.toString() == tmp.value) {
+                    if (text.isEmpty()) {
                         text = "${resources.getString(com.topdon.module.thermal.ir.R.string.tc_temp_test_materials)} : "
                     }
                     text += "${tmp.name}/"
@@ -451,9 +452,14 @@ class IRThermal07Activity : BaseWifiActivity() {
                 .build()
                 .showAsDropDown(title_view, 0, 0, Gravity.END)
         }
-        view_car_detect.findViewById<LinearLayout>(com.topdon.module.thermal.ir.R.id.ll_car_detect_info).setOnClickListener {
-            LongTextDialog(this, SharedManager.getCarDetectInfo()?.item, SharedManager.getCarDetectInfo()?.description).show()
-        }
+        view_car_detect.findViewById<LinearLayout>(com.topdon.module.thermal.ir.R.id.ll_car_detect_info)
+            .setOnClickListener {
+                LongTextDialog(
+                    this,
+                    SharedManager.getCarDetectInfo()?.item,
+                    SharedManager.getCarDetectInfo()?.description
+                ).show()
+            }
         thermal_recycler_night.isVideoMode = WifiSaveSettingUtil.isVideoMode //恢复拍照/录像状态
         thermal_recycler_night.onCameraClickListener = {
             setCamera(it)
@@ -720,8 +726,10 @@ class IRThermal07Activity : BaseWifiActivity() {
             val colorInt = (alpha shl 24) or (red shl 16) or (green shl 8) or blue
             val isotherm = Isotherm(colorInt.toLong(), textSize + 6 + (textSize - 14) * 1)
             TC007Repository.setFont(isotherm)
-            thermal_recycler_night.setSettingSelected(SettingType.FONT,
-                textColor != 0xffffffff.toInt() || textSize != 14)
+            thermal_recycler_night.setSettingSelected(
+                SettingType.FONT,
+                textColor != 0xffffffff.toInt() || textSize != 14
+            )
             //镜像
             param.flipMode = if (saveSetBean.isOpenMirror) 1 else 0
             if (TC007Repository.setParam(param)?.isSuccess() == true) {
@@ -759,12 +767,14 @@ class IRThermal07Activity : BaseWifiActivity() {
                     temperature_iv_lock.visibility = View.INVISIBLE
                     thermal_recycler_night.twoLightType = TwoLightType.TWO_LIGHT_1
                 }
+
                 SaveSettingUtil.FusionTypeMeanFusion -> {//双光2
                     TC007Repository.setMode(3)
                     temperature_iv_input.visibility = View.INVISIBLE
                     temperature_iv_lock.visibility = View.INVISIBLE
                     thermal_recycler_night.twoLightType = TwoLightType.TWO_LIGHT_2
                 }
+
                 SaveSettingUtil.FusionTypeIROnly -> {//单红外
                     TC007Repository.setMode(0)
                     temperature_iv_input.visibility = View.VISIBLE
@@ -787,12 +797,14 @@ class IRThermal07Activity : BaseWifiActivity() {
                     }
                     thermal_recycler_night.twoLightType = TwoLightType.IR
                 }
+
                 SaveSettingUtil.FusionTypeVLOnly -> {//可见光
                     TC007Repository.setMode(1)
                     temperature_iv_input.visibility = View.INVISIBLE
                     temperature_iv_lock.visibility = View.INVISIBLE
                     thermal_recycler_night.twoLightType = TwoLightType.LIGHT
                 }
+
                 SaveSettingUtil.FusionTypeTC007Fusion -> {//画中画
                     TC007Repository.setMode(2)
                     temperature_iv_input.visibility = View.INVISIBLE
@@ -840,6 +852,7 @@ class IRThermal07Activity : BaseWifiActivity() {
 
                 })
             }
+
             TwoLightType.TWO_LIGHT_2 -> {//双光2
                 //双光2
 //                mCurrentFusionType = DualCameraParams.FusionType.MeanFusion
@@ -860,6 +873,7 @@ class IRThermal07Activity : BaseWifiActivity() {
                     thermal_recycler_night.setTwoLightSelected(TwoLightType.BLEND_EXTENT, false)
                 })
             }
+
             TwoLightType.IR -> {//单红外
                 lifecycleScope.launch {
                     val data = TC007Repository.setMode(0)
@@ -873,6 +887,7 @@ class IRThermal07Activity : BaseWifiActivity() {
                 thermal_steering_view.visibility = View.GONE
                 thermal_recycler_night.setTwoLightSelected(TwoLightType.CORRECT, false)
             }
+
             TwoLightType.LIGHT -> {//单可见光
                 showCustomPseudoDialogOrNo(positiveListener = {
                     lifecycleScope.launch {
@@ -890,6 +905,7 @@ class IRThermal07Activity : BaseWifiActivity() {
                     thermal_recycler_night.setTwoLightSelected(TwoLightType.BLEND_EXTENT, false)
                 })
             }
+
             TwoLightType.CORRECT -> {//配准
                 if (isSelected) {
                     //配准
@@ -918,6 +934,7 @@ class IRThermal07Activity : BaseWifiActivity() {
                     thermal_steering_view.visibility = View.GONE
                 }
             }
+
             TwoLightType.P_IN_P -> {//画中画
                 showCustomPseudoDialogOrNo(positiveListener = {
                     lifecycleScope.launch {
@@ -935,6 +952,7 @@ class IRThermal07Activity : BaseWifiActivity() {
 
                 })
             }
+
             TwoLightType.BLEND_EXTENT -> {//融合度
                 if (isSelected) {
                     showCustomPseudoDialogOrNo(positiveListener = {
@@ -965,22 +983,27 @@ class IRThermal07Activity : BaseWifiActivity() {
                 cl_seek_bar.isVisible = saveSetBean.isOpenPseudoBar
                 thermal_recycler_night.setSettingSelected(SettingType.PSEUDO_BAR, saveSetBean.isOpenPseudoBar)
             }
+
             SettingType.CONTRAST -> {//对比度
                 if (!isSelected) {
                     showContrastPopup()
                 }
             }
+
             SettingType.DETAIL -> {//细节
                 if (!isSelected) {
                     showSharpnessPopup()
                 }
             }
+
             SettingType.ALARM -> {//预警
                 showTempAlarmSetDialog()
             }
+
             SettingType.ROTATE -> {
                 // TC007 目前不支持旋转
             }
+
             SettingType.FONT -> {//字体颜色
                 val colorPickDialog = ColorPickDialog(this, textColor, textSize, true)
                 colorPickDialog.onPickListener = { it: Int, textSize: Int ->
@@ -988,6 +1011,7 @@ class IRThermal07Activity : BaseWifiActivity() {
                 }
                 colorPickDialog.show()
             }
+
             SettingType.MIRROR -> {//镜像
                 saveSetBean.isOpenMirror = !saveSetBean.isOpenMirror
                 lifecycleScope.launch {
@@ -1000,9 +1024,11 @@ class IRThermal07Activity : BaseWifiActivity() {
                     }
                 }
             }
+
             SettingType.COMPASS -> {//指南针
                 // TC007 没有观测模式自然没有指南针
             }
+
             SettingType.WATERMARK -> {
                 //水印菜单只有 2D 编辑才有
             }
@@ -1080,7 +1106,12 @@ class IRThermal07Activity : BaseWifiActivity() {
     /**
      * 统一在此处处理设备端的参数设置
      */
-    private fun setConfigForIr(type: IrParam, data: Any?, isShowError: Boolean = false, netListener: (() -> Unit)? = null) {
+    private fun setConfigForIr(
+        type: IrParam,
+        data: Any?,
+        isShowError: Boolean = false,
+        netListener: (() -> Unit)? = null
+    ) {
         when (type) {
             IrParam.ParamTemperature -> {
                 //高低增益切换
@@ -1100,7 +1131,12 @@ class IRThermal07Activity : BaseWifiActivity() {
             IrParam.ParamPColor -> {
                 //伪彩样式切换
                 lifecycleScope.launch {
-                    TC007Repository.setPallete(PalleteBean(0, stander = Stander(data as Int, arrayListOf(200, 100, 80))))
+                    TC007Repository.setPallete(
+                        PalleteBean(
+                            0,
+                            stander = Stander(data as Int, arrayListOf(200, 100, 80))
+                        )
+                    )
                     netListener?.invoke()
                 }
             }
@@ -1121,8 +1157,10 @@ class IRThermal07Activity : BaseWifiActivity() {
                         textSize = data.textSize
                         WifiSaveSettingUtil.tempTextColor = data.textColor
                         WifiSaveSettingUtil.tempTextSize = data.textSize
-                        thermal_recycler_night.setSettingSelected(SettingType.FONT,
-                            data.textColor != 0xffffffff.toInt() || textSize != 14)
+                        thermal_recycler_night.setSettingSelected(
+                            SettingType.FONT,
+                            data.textColor != 0xffffffff.toInt() || textSize != 14
+                        )
                     } else {
                         if (isShowError) {
                             TToast.shortToast(this@IRThermal07Activity, R.string.operation_failed_tips)
@@ -1130,6 +1168,7 @@ class IRThermal07Activity : BaseWifiActivity() {
                     }
                 }
             }
+
             IrParam.ParamAlarm -> {
                 //预警
                 alarmBean.isMarkOpen = false//TC007统一关闭预警轮廓
@@ -1272,18 +1311,21 @@ class IRThermal07Activity : BaseWifiActivity() {
                     TC007Repository.setTempFrame(false)
                 }
             }
+
             FenceType.LINE -> {//线
                 geometry_view.mode = TemperatureBaseView.Mode.LINE
                 lifecycleScope.launch {
                     TC007Repository.setTempFrame(false)
                 }
             }
+
             FenceType.RECT -> {//面
                 geometry_view.mode = TemperatureBaseView.Mode.RECT
                 lifecycleScope.launch {
                     TC007Repository.setTempFrame(false)
                 }
             }
+
             FenceType.FULL -> {//全图
                 geometry_view.isShowFull = isSelected
                 geometry_view.mode = TemperatureBaseView.Mode.FULL
@@ -1291,9 +1333,11 @@ class IRThermal07Activity : BaseWifiActivity() {
                     TC007Repository.setTempFrame(true)
                 }
             }
+
             FenceType.TREND -> {//趋势图
                 // TODO: 实现趋势图逻辑
             }
+
             FenceType.DEL -> {//删除
                 geometry_view.mode = TemperatureBaseView.Mode.CLEAR
                 lifecycleScope.launch {
@@ -1314,18 +1358,22 @@ class IRThermal07Activity : BaseWifiActivity() {
             0 -> {// 拍照/录像
                 checkStoragePermission()
             }
+
             1 -> {//图库
                 ARouter.getInstance()
                     .build(RouterConfig.IR_GALLERY_HOME)
                     .withInt(ExtraKeyConfig.DIR_TYPE, GalleryRepository.DirType.TC007.ordinal)
                     .navigation()
             }
+
             2 -> {//更多菜单
                 settingCamera()
             }
+
             3 -> {//切换到拍照
                 WifiSaveSettingUtil.isVideoMode = false
             }
+
             4 -> {//切换到录像
                 WifiSaveSettingUtil.isVideoMode = true
             }
@@ -1633,9 +1681,9 @@ class IRThermal07Activity : BaseWifiActivity() {
                         watermarkBean.title,
                         watermarkBean.address,
                         if (watermarkBean.isAddTime) TimeTool.getNowTime() else "",
-                        if (temperature_seekbar.isVisible){
+                        if (temperature_seekbar.isVisible) {
                             temperature_seekbar.measuredWidth
-                        }else{
+                        } else {
                             0
                         }
                     )
@@ -1666,7 +1714,7 @@ class IRThermal07Activity : BaseWifiActivity() {
                         alarmBean = alarmBean,
                         0,
                         textSize = SizeUtils.sp2px(textSize.toFloat()),
-                        0f,0f,0f,
+                        0f, 0f, 0f,
                         false
                     )
                     ImageUtils.saveFrame(bs = imageEditBytes, capital = capital, name = name)
@@ -1845,20 +1893,23 @@ class IRThermal07Activity : BaseWifiActivity() {
         }
     }
 
-    private fun setCarDetectPrompt(){
+    private fun setCarDetectPrompt() {
         var carDetectInfo = SharedManager.getCarDetectInfo()
         var tvDetectPrompt = view_car_detect.findViewById<TextView>(R.id.tv_detect_prompt)
-        if(carDetectInfo == null){
-            tvDetectPrompt.text =  getString(R.string.abnormal_item1) + TemperatureUtil.getTempStr(40, 70)
-        }else{
+        if (carDetectInfo == null) {
+            tvDetectPrompt.text = getString(R.string.abnormal_item1) + TemperatureUtil.getTempStr(40, 70)
+        } else {
             var temperature = carDetectInfo.temperature.split("~")
-            tvDetectPrompt.text =  carDetectInfo.item + TemperatureUtil.getTempStr(temperature[0].toInt(), temperature[1].toInt())
+            tvDetectPrompt.text =
+                carDetectInfo.item + TemperatureUtil.getTempStr(temperature[0].toInt(), temperature[1].toInt())
         }
-        lay_car_detect_prompt.visibility = if(intent.getBooleanExtra(ExtraKeyConfig.IS_CAR_DETECT_ENTER,false)) View.VISIBLE else View.GONE
+        lay_car_detect_prompt.visibility =
+            if (intent.getBooleanExtra(ExtraKeyConfig.IS_CAR_DETECT_ENTER, false)) View.VISIBLE else View.GONE
         view_car_detect.findViewById<RelativeLayout>(com.topdon.module.thermal.ir.R.id.rl_content).setOnClickListener {
             CarDetectDialog(this) {
                 var temperature = it.temperature.split("~")
-                tvDetectPrompt.text =  it.item + TemperatureUtil.getTempStr(temperature[0].toInt(), temperature[1].toInt())
+                tvDetectPrompt.text =
+                    it.item + TemperatureUtil.getTempStr(temperature[0].toInt(), temperature[1].toInt())
             }.show()
         }
     }

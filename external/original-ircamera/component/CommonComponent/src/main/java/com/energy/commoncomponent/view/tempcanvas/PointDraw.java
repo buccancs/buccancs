@@ -25,31 +25,22 @@ import java.util.UUID;
  */
 public class PointDraw extends BaseDraw {
 
-    private static final String TAG = "BaseTemperatureView PointDraw";
     public static final int OPERATE_STATUS_POINT_IN_TOUCH = 0;
     public static final int OPERATE_STATUS_POINT_ADD = 1;
     public static final int OPERATE_STATUS_POINT_REMOVE = 2;
-
+    private static final String TAG = "BaseTemperatureView PointDraw";
     private static final int MAX_POINT_COUNT = 3;
-
+    private final int STROKE_WIDTH = 8;
+    private final int TEXT_SIZE = 14; // 文字大小
     private int TEXT_POINT_MARGIN; // 数字和点之间的距离
-
     private int LABEL_POINT_MARGIN;
-
     private LinkedList<PointView> mPointList;
-
     private PointView mTempPoint;//临时绘制的point，比如手势移动过程中
-
     private Paint mTextPaint;
     private Paint mBgPaint;
     private Paint.FontMetrics mFontMetrics;
-
     private int mBgStrokeColor = Color.parseColor("#99000000");
     private int mBgColor = Color.parseColor("#CC1A1A1A");
-
-    private final int STROKE_WIDTH = 8;
-    private final int TEXT_SIZE = 14; // 文字大小
-
     private int mOperateStatus = -1;
 
     public PointDraw(Context context) {
@@ -79,6 +70,7 @@ public class PointDraw extends BaseDraw {
 
     /**
      * 添加一个点数据
+     *
      * @param mode
      * @param centerX
      * @param centerY
@@ -91,7 +83,7 @@ public class PointDraw extends BaseDraw {
 
             String newLabel = "P" + (size + 1);
             boolean hasSame = false;
-            for (int i = 0; i < mPointList.size(); i ++) {
+            for (int i = 0; i < mPointList.size(); i++) {
                 if (mPointList.get(i).getLabel().equals(newLabel)) {
                     //存在一样的
                     hasSame = true;
@@ -102,7 +94,7 @@ public class PointDraw extends BaseDraw {
 
             if (hasSame) {
                 mPointList.add(pointView);
-                for (int i = 0; i < mPointList.size(); i ++) {
+                for (int i = 0; i < mPointList.size(); i++) {
                     mPointList.get(i).setLabel("P" + (i + 1));
                 }
             } else {
@@ -115,7 +107,7 @@ public class PointDraw extends BaseDraw {
             Log.d(TAG, "point remove and add");
             mPointList.remove();
             mPointList.add(pointView);
-            for (int i = 0; i < mPointList.size(); i ++) {
+            for (int i = 0; i < mPointList.size(); i++) {
                 mPointList.get(i).setLabel("P" + (i + 1));
             }
             mTouchIndex = MAX_POINT_COUNT - 1;
@@ -124,6 +116,7 @@ public class PointDraw extends BaseDraw {
 
     /**
      * 删除一个点数据
+     *
      * @param index
      */
     public void removePoint(int index) {
@@ -141,11 +134,12 @@ public class PointDraw extends BaseDraw {
 
     /**
      * 绘制所有点
+     *
      * @param canvas
      */
     @Override
     public void onDraw(Canvas canvas, boolean isScroll) {
-        for (int i = 0; i < mPointList.size(); i ++) {
+        for (int i = 0; i < mPointList.size(); i++) {
             PointView pointView = mPointList.get(i);
             drawLabel(canvas, pointView);
             canvas.drawBitmap(pointView.mPointBitmap, pointView.mCenterX - pointView.mPointSize / 2, pointView.mCenterY - pointView.mPointSize / 2, null);
@@ -159,6 +153,7 @@ public class PointDraw extends BaseDraw {
 
     /**
      * 绘制临时点
+     *
      * @param canvas
      * @param mode
      * @param centerX
@@ -237,6 +232,7 @@ public class PointDraw extends BaseDraw {
 
     /**
      * 修改选中的点坐标
+     *
      * @param touchIndex
      * @param centerX
      * @param centerY
@@ -250,13 +246,14 @@ public class PointDraw extends BaseDraw {
 
     /**
      * 检查当前是否存在手势选中的点
+     *
      * @param rawX
      * @param rawY
      * @return
      */
     public int checkTouchPointInclude(float rawX, float rawY) {
         mTouchIndex = -1;
-        for (int i = 0; i < mPointList.size(); i ++) {
+        for (int i = 0; i < mPointList.size(); i++) {
             PointView pointView = mPointList.get(i);
 
             if (pointView.mInRect.contains((int) rawX, (int) rawY)) {
@@ -265,6 +262,10 @@ public class PointDraw extends BaseDraw {
             }
         }
         return mTouchIndex;
+    }
+
+    public LinkedList<PointView> getPointViewList() {
+        return mPointList;
     }
 
     public static class PointView extends BaseView {
@@ -298,19 +299,19 @@ public class PointDraw extends BaseDraw {
             }
 
             mInRect = new Rect();
-            mInRect.left = (int)(mCenterX - mPointSize / 2 - TOUCH_EXTRA);
-            mInRect.right = (int)(mCenterX + mPointSize / 2 + TOUCH_EXTRA);
-            mInRect.top = (int)(mCenterY - mPointSize / 2 - TOUCH_EXTRA);
-            mInRect.bottom = (int)(mCenterY + mPointSize / 2 + TOUCH_EXTRA);
+            mInRect.left = (int) (mCenterX - mPointSize / 2 - TOUCH_EXTRA);
+            mInRect.right = (int) (mCenterX + mPointSize / 2 + TOUCH_EXTRA);
+            mInRect.top = (int) (mCenterY - mPointSize / 2 - TOUCH_EXTRA);
+            mInRect.bottom = (int) (mCenterY + mPointSize / 2 + TOUCH_EXTRA);
         }
 
         public void changeLocation(float centerX, float centerY) {
             mCenterX = centerX;
             mCenterY = centerY;
-            mInRect.left = (int)(mCenterX - mPointSize / 2 - TOUCH_EXTRA);
-            mInRect.right = (int)(mCenterX + mPointSize / 2 + TOUCH_EXTRA);
-            mInRect.top = (int)(mCenterY - mPointSize / 2 - TOUCH_EXTRA);
-            mInRect.bottom = (int)(mCenterY + mPointSize / 2 + TOUCH_EXTRA);
+            mInRect.left = (int) (mCenterX - mPointSize / 2 - TOUCH_EXTRA);
+            mInRect.right = (int) (mCenterX + mPointSize / 2 + TOUCH_EXTRA);
+            mInRect.top = (int) (mCenterY - mPointSize / 2 - TOUCH_EXTRA);
+            mInRect.bottom = (int) (mCenterY + mPointSize / 2 + TOUCH_EXTRA);
         }
 
         public float getCenterX() {
@@ -336,10 +337,6 @@ public class PointDraw extends BaseDraw {
         public void setTempPoint(Point mTempPoint) {
             this.mTempPoint = mTempPoint;
         }
-    }
-
-    public LinkedList<PointView> getPointViewList() {
-        return mPointList;
     }
 
 

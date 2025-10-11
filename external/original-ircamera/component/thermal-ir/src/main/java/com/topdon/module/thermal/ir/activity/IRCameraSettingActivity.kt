@@ -44,7 +44,7 @@ import java.util.*
 @Route(path = RouterConfig.IR_CAMERA_SETTING)
 class IRCameraSettingActivity : BaseActivity() {
 
-    companion object{
+    companion object {
         const val KEY_PRODUCT_TYPE = "key_product_type"
     }
 
@@ -65,10 +65,10 @@ class IRCameraSettingActivity : BaseActivity() {
 
     override fun initView() {
         productName = intent.getStringExtra(KEY_PRODUCT_TYPE) ?: ""
-        if (isTC007()){
+        if (isTC007()) {
             watermarkBean = SharedManager.wifiWatermarkBean//TC007只有水印
             continuousBean = SharedManager.continuousBean
-        }else{
+        } else {
             watermarkBean = SharedManager.watermarkBean
             continuousBean = SharedManager.continuousBean
         }
@@ -101,9 +101,9 @@ class IRCameraSettingActivity : BaseActivity() {
         tv_time_show.isVisible = watermarkBean.isAddTime
 
         tv_address.inputType = InputType.TYPE_NULL
-        if (TextUtils.isEmpty(watermarkBean.address)){
+        if (TextUtils.isEmpty(watermarkBean.address)) {
             tv_address.visibility = View.GONE
-        }else{
+        } else {
             tv_address.visibility = View.VISIBLE
             tv_address.text = watermarkBean.address
         }
@@ -111,57 +111,59 @@ class IRCameraSettingActivity : BaseActivity() {
         ed_address.setText(watermarkBean.address)
         tv_title_show.text = watermarkBean.title
         switch_delay.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked){
+            if (isChecked) {
                 cl_delay_more.visibility = View.VISIBLE
-            }else{
+            } else {
                 cl_delay_more.visibility = View.GONE
             }
             continuousBean.isOpen = isChecked
             SharedManager.continuousBean = continuousBean
         }
         switch_watermark.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked){
+            if (isChecked) {
                 cl_watermark_more.visibility = View.VISIBLE
                 cl_show_ep.visibility = View.VISIBLE
-            }else{
+            } else {
                 cl_watermark_more.visibility = View.GONE
                 cl_show_ep.visibility = View.GONE
             }
             watermarkBean.isOpen = isChecked
         }
         switch_time.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked){
+            if (isChecked) {
                 tv_time_show.text = TimeTool.getNowTime()
                 tv_time_show.visibility = View.VISIBLE
-            }else{
+            } else {
                 tv_time_show.visibility = View.GONE
             }
             watermarkBean.isAddTime = isChecked
         }
-        ed_title.addTextChangedListener(object : TextWatcher{
+        ed_title.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
+
             override fun afterTextChanged(s: Editable?) {
 
                 watermarkBean.title = ed_title.text.toString()
                 tv_title_show.text = watermarkBean.title
             }
         })
-        ed_address.addTextChangedListener(object : TextWatcher{
+        ed_address.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
+
             override fun afterTextChanged(s: Editable?) {
                 watermarkBean.address = ed_address.text.toString()
                 tv_address.text = watermarkBean.address
-                if (!watermarkBean.address.isNullOrEmpty()){
+                if (!watermarkBean.address.isNullOrEmpty()) {
                     tv_address.visibility = View.VISIBLE
-                }else{
+                } else {
                     tv_address.visibility = View.GONE
                 }
             }
@@ -175,12 +177,12 @@ class IRCameraSettingActivity : BaseActivity() {
         ly_auto.visibility = if (isTC007()) View.GONE else View.VISIBLE
     }
 
-    fun isTC007() : Boolean
-    {
+    fun isTC007(): Boolean {
         return productName.contains("TC007")
     }
+
     @SuppressLint("MissingPermission")
-    private fun getLocation() : String? {
+    private fun getLocation(): String? {
         //1.获取位置管理器
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
@@ -196,12 +198,12 @@ class IRCameraSettingActivity : BaseActivity() {
             return null
         }
         var location = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if (location == null){
+        if (location == null) {
             location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         }
-        return if (location == null){
+        return if (location == null) {
             null
-        }else{
+        } else {
             getAddress(location)
 
         }
@@ -241,6 +243,7 @@ class IRCameraSettingActivity : BaseActivity() {
             }
         }
     }
+
     @SuppressLint("MissingPermission")
     private fun getLastKnownLocation(): Location? {
         locationManager = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
@@ -272,38 +275,37 @@ class IRCameraSettingActivity : BaseActivity() {
             e.printStackTrace()
         }
         var str = ""
-        if (result!=null && result.isNotEmpty()){
+        if (result != null && result.isNotEmpty()) {
             result?.get(0)?.let {
-                str +=  getNullString(it.adminArea)
-                if (TextUtils.isEmpty(it.subLocality) && !str.contains(getNullString(it.subAdminArea))){
-                    str +=  getNullString(it.subAdminArea)
+                str += getNullString(it.adminArea)
+                if (TextUtils.isEmpty(it.subLocality) && !str.contains(getNullString(it.subAdminArea))) {
+                    str += getNullString(it.subAdminArea)
                 }
-                if (!str.contains(getNullString(it.locality))){
-                    str +=  getNullString(it.locality)
+                if (!str.contains(getNullString(it.locality))) {
+                    str += getNullString(it.locality)
                 }
-                if (!str.contains(getNullString(it.subLocality))){
-                    str +=  getNullString(it.subLocality)
+                if (!str.contains(getNullString(it.subLocality))) {
+                    str += getNullString(it.subLocality)
                 }
             }
         }
         return str
     }
 
-    private fun getNullString(str : String?):String{
-        return if (str.isNullOrEmpty()){
+    private fun getNullString(str: String?): String {
+        return if (str.isNullOrEmpty()) {
             ""
-        }else{
+        } else {
             str
         }
     }
 
 
-
     override fun onPause() {
         super.onPause()
-        if (isTC007()){
+        if (isTC007()) {
             SharedManager.wifiWatermarkBean = watermarkBean
-        }else{
+        } else {
             SharedManager.watermarkBean = watermarkBean
         }
     }
@@ -321,42 +323,43 @@ class IRCameraSettingActivity : BaseActivity() {
         XXPermissions.with(this@IRCameraSettingActivity)
             .permission(
                 permissionList
-            ).request(object :OnPermissionCallback{
+            ).request(object : OnPermissionCallback {
                 override fun onGranted(permissions: MutableList<String>, all: Boolean) {
-                    if (all){
+                    if (all) {
                         showLoadingDialog(R.string.get_current_address)
-                        lifecycleScope.launch{
-                            var addressText : String ?= ""
-                            withContext(Dispatchers.IO){
-                                addressText =  getLocation()
+                        lifecycleScope.launch {
+                            var addressText: String? = ""
+                            withContext(Dispatchers.IO) {
+                                addressText = getLocation()
                             }
                             dismissLoadingDialog()
-                            if (addressText == null){
+                            if (addressText == null) {
                                 ToastUtils.showShort(R.string.get_Location_failed)
-                            }else{
+                            } else {
                                 watermarkBean.address = addressText as String
                                 ed_address.setText(addressText)
                                 tv_address.visibility = View.VISIBLE
                                 tv_address.setText(addressText)
                             }
                         }
-                    }else{
+                    } else {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
+
                 override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                     if (never) {
                         // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                        if (BaseApplication.instance.isDomestic()){
+                        if (BaseApplication.instance.isDomestic()) {
                             ToastUtils.showShort(getString(R.string.app_location_content))
-                        }else{
+                        } else {
                             TipDialog.Builder(this@IRCameraSettingActivity)
                                 .setTitleMessage(getString(R.string.app_tip))
                                 .setMessage(getString(R.string.app_location_content))
-                                .setPositiveListener(R.string.app_open){
+                                .setPositiveListener(R.string.app_open) {
                                     XXPermissions.startPermissionActivity(this@IRCameraSettingActivity, permissions);
                                 }
-                                .setCancelListener(R.string.app_cancel){
+                                .setCancelListener(R.string.app_cancel) {
                                 }
                                 .setCanceled(true)
                                 .create().show()

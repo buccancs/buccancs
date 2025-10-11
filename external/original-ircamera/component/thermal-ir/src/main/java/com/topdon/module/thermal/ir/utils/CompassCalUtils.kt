@@ -6,20 +6,20 @@ import kotlin.math.roundToLong
 
 
 //获取真实的x坐标
-fun realX(str: String, x: Float,paint: Paint) = x - textWidth(str,paint) / 2f
+fun realX(str: String, x: Float, paint: Paint) = x - textWidth(str, paint) / 2f
 
-fun realY(str: String, y: Float,paint: Paint) = y - textHeight(str,paint) / 4f
+fun realY(str: String, y: Float, paint: Paint) = y - textHeight(str, paint) / 4f
 
-fun textWidth(text: String,paint: Paint): Float {
-    return textDimensions(text,paint).first
+fun textWidth(text: String, paint: Paint): Float {
+    return textDimensions(text, paint).first
 }
 
-fun textHeight(text: String,paint: Paint): Float {
-    return textDimensions(text,paint).second
+fun textHeight(text: String, paint: Paint): Float {
+    return textDimensions(text, paint).second
 }
 
 val measurementRect = Rect()
-fun textDimensions(text: String,paint: Paint): Pair<Float, Float> {
+fun textDimensions(text: String, paint: Paint): Pair<Float, Float> {
     paint.getTextBounds(text, 0, text.length, measurementRect)
     return measurementRect.width().toFloat() to measurementRect.height().toFloat()
 }

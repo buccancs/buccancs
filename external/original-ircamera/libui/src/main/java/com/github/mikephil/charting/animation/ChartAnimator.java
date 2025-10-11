@@ -14,18 +14,23 @@ import com.github.mikephil.charting.animation.Easing.EasingFunction;
  */
 public class ChartAnimator {
 
-    /** object that is updated upon animation update */
-    private AnimatorUpdateListener mListener;
-
-    /** The phase of drawn values on the y-axis. 0 - 1 */
+    /**
+     * The phase of drawn values on the y-axis. 0 - 1
+     */
     @SuppressWarnings("WeakerAccess")
     protected float mPhaseY = 1f;
-
-    /** The phase of drawn values on the x-axis. 0 - 1 */
+    /**
+     * The phase of drawn values on the x-axis. 0 - 1
+     */
     @SuppressWarnings("WeakerAccess")
     protected float mPhaseX = 1f;
+    /**
+     * object that is updated upon animation update
+     */
+    private AnimatorUpdateListener mListener;
 
-    public ChartAnimator() { }
+    public ChartAnimator() {
+    }
 
     @RequiresApi(11)
     public ChartAnimator(AnimatorUpdateListener listener) {
@@ -66,7 +71,7 @@ public class ChartAnimator {
      * Animates values along the X axis.
      *
      * @param durationMillis animation duration
-     * @param easing EasingFunction
+     * @param easing         EasingFunction
      */
     @RequiresApi(11)
     public void animateX(int durationMillis, EasingFunction easing) {
@@ -92,7 +97,7 @@ public class ChartAnimator {
      *
      * @param durationMillisX animation duration along the X axis
      * @param durationMillisY animation duration along the Y axis
-     * @param easing EasingFunction for both axes
+     * @param easing          EasingFunction for both axes
      */
     @RequiresApi(11)
     public void animateXY(int durationMillisX, int durationMillisY, EasingFunction easing) {
@@ -115,8 +120,8 @@ public class ChartAnimator {
      *
      * @param durationMillisX animation duration along the X axis
      * @param durationMillisY animation duration along the Y axis
-     * @param easingX EasingFunction for the X axis
-     * @param easingY EasingFunction for the Y axis
+     * @param easingX         EasingFunction for the X axis
+     * @param easingY         EasingFunction for the Y axis
      */
     @RequiresApi(11)
     public void animateXY(int durationMillisX, int durationMillisY, EasingFunction easingX,
@@ -149,7 +154,7 @@ public class ChartAnimator {
      * Animates values along the Y axis.
      *
      * @param durationMillis animation duration
-     * @param easing EasingFunction
+     * @param easing         EasingFunction
      */
     @RequiresApi(11)
     public void animateY(int durationMillis, EasingFunction easing) {

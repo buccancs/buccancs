@@ -4,7 +4,7 @@ data class MonocularBean(
     val res: Int,
     val name: String,
     val code: Int,
-    var isSelect : Boolean = false,
+    var isSelect: Boolean = false,
 )
 
 class MenuBean {
@@ -12,7 +12,7 @@ class MenuBean {
         const val TYPE_WHITE_HOT = 1
         const val TYPE_BLACK_HOT = 2
         const val TYPE_RED_HOT = 12
-        const val TYPE_BIRD= 16
+        const val TYPE_BIRD = 16
         const val TYPE_MIX = 5
 
         const val TYPE_GAIN_X1 = 1

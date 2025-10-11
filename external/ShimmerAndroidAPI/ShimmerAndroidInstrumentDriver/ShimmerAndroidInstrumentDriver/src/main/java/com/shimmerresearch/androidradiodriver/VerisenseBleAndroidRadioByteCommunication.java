@@ -32,21 +32,24 @@ import bolts.TaskCompletionSource;
  * Each instance of this class represents a ble radio that is used to communicate with a verisense device
  */
 public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommunication {
-    BleDevice mBleDevice;
     protected String TxID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
     protected String RxID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
     protected String ServiceID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E";
     protected UUID sid;
     protected UUID txid;
     protected UUID rxid;
+    BleDevice mBleDevice;
     String mMac;
     String uuid;
 
     //"DA:A6:19:F0:4A:D7"
     //"E7:45:2C:6D:6F:14"
+    TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
+    TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
     /**
      * Initialize a ble radio
-     * @param mac  mac address of the verisense device e.g. d0:2b:46:3d:a2:bb
+     *
+     * @param mac mac address of the verisense device e.g. d0:2b:46:3d:a2:bb
      */
     public VerisenseBleAndroidRadioByteCommunication(String mac) {
         mMac = mac;
@@ -55,8 +58,6 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
         rxid = UUID.fromString(RxID);
 
     }
-    TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
-    TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
     /**
      * Connect to the verisense device
@@ -79,7 +80,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
             @Override
             public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                mTaskMTU= new TaskCompletionSource<>();
+                mTaskMTU = new TaskCompletionSource<>();
                 BleManager.getInstance().setMtu(bleDevice, 251, new BleMtuChangedCallback() {
                     @Override
                     public void onSetMTUFailure(BleException exception) {
@@ -135,23 +136,23 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
     /**
      * Get services and start notify for characteristics changed
-     * @param bleDevice  BLE device
+     *
+     * @param bleDevice BLE device
      */
-    public void startServiceS(BleDevice bleDevice){
+    public void startServiceS(BleDevice bleDevice) {
         List<BluetoothGattService> services = BleManager.getInstance().getBluetoothGattServices(bleDevice);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 
 
-            for (BluetoothGattService service:services) {
+            for (BluetoothGattService service : services) {
                 System.out.println(service.getUuid());
-                if (service.getUuid().compareTo(sid)==0){
+                if (service.getUuid().compareTo(sid) == 0) {
                     for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
-                        if (characteristic.getUuid().compareTo(txid)==0){
+                        if (characteristic.getUuid().compareTo(txid) == 0) {
                             //newConnectedBLEDevice(bleDevice,characteristic);
                             CharSequence text = "TXID!";
-                        }
-                        else if (characteristic.getUuid().compareTo(rxid)==0){
-                            newConnectedBLEDevice(bleDevice,characteristic);
+                        } else if (characteristic.getUuid().compareTo(rxid) == 0) {
+                            newConnectedBLEDevice(bleDevice, characteristic);
                             CharSequence text = "RxID!";
                         }
                     }
@@ -164,7 +165,8 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
     /**
      * Start notify for characteristics changed
-     * @param bleDevice  BLE device
+     *
+     * @param bleDevice      BLE device
      * @param characteristic
      */
     public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
@@ -192,9 +194,9 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
                         @Override
                         public void onCharacteristicChanged(byte[] data) {
                             if (mByteCommunicationListener != null) {
-                                try{
+                                try {
                                     mByteCommunicationListener.eventNewBytesReceived(data);
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -213,7 +215,8 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
     /**
      * Write bytes to the verisense device
-     * @param bytes  byte array to be written
+     *
+     * @param bytes byte array to be written
      */
     @Override
     public void writeBytes(byte[] bytes) {
@@ -237,7 +240,8 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
     /**
      * Convert mac address to uuid
-     * @param MacID  e.g. d0:2b:46:3d:a2:bb
+     *
+     * @param MacID e.g. d0:2b:46:3d:a2:bb
      * @return uuid e.g. 00000000-0000-0000-0000-d02b463da2bb
      */
     public String convertMacIDtoUUID(String MacID) {

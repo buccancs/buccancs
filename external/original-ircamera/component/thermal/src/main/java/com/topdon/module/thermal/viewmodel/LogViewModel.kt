@@ -45,6 +45,7 @@ class LogViewModel : BaseViewModel() {
                         ) as ArrayList<ThermalEntity>
                     Log.w("123", "data size: ${dataList.size}")
                 }
+
                 2 -> {
                     //分
                     endTime = Date().time
@@ -56,6 +57,7 @@ class LogViewModel : BaseViewModel() {
                             endTime
                         ) as ArrayList<ThermalEntity>
                 }
+
                 3 -> {
                     //时
                     endTime = Date().time
@@ -67,6 +69,7 @@ class LogViewModel : BaseViewModel() {
                             endTime
                         ) as ArrayList<ThermalEntity>
                 }
+
                 else -> {
                     //天
                     dataList = AppDatabase.getInstance().thermalDao()
@@ -137,6 +140,7 @@ class LogViewModel : BaseViewModel() {
                     Log.w("chart", "电压数据:${bean.dataList.size}")
                     Log.w("chart", "电压数据max vol:${bean.maxVol},min vol:${bean.minVol}")
                 }
+
                 2 -> {
                     val resultList = AppDatabase.getInstance().thermalMinDao()
                         .queryByTime(
@@ -171,6 +175,7 @@ class LogViewModel : BaseViewModel() {
                     Log.w("chart", "电压数据:${bean.dataList.size}")
                     Log.w("chart", "电压数据max vol:${bean.maxVol},min vol:${bean.minVol}")
                 }
+
                 3 -> {
                     val resultList = AppDatabase.getInstance().thermalHourDao()
                         .queryByTime(
@@ -205,6 +210,7 @@ class LogViewModel : BaseViewModel() {
                     Log.w("chart", "电压数据:${bean.dataList.size}")
                     Log.w("chart", "电压数据max vol:${bean.maxVol},min vol:${bean.minVol}")
                 }
+
                 4 -> {
                     val resultList = AppDatabase.getInstance().thermalDayDao()
                         .queryByTime(
@@ -321,6 +327,7 @@ class LogViewModel : BaseViewModel() {
                             )
                         Log.w("chart", "电压数据:${bean.dataList.size}")
                     }
+
                     2 -> {
                         val resultList = AppDatabase.getInstance().thermalMinDao()
                             .queryByTime(
@@ -355,6 +362,7 @@ class LogViewModel : BaseViewModel() {
                             )
                         Log.w("chart", "电压数据:${bean.dataList.size}")
                     }
+
                     3 -> {
                         val resultList = AppDatabase.getInstance().thermalHourDao()
                             .queryByTime(
@@ -389,6 +397,7 @@ class LogViewModel : BaseViewModel() {
                             )
                         Log.w("chart", "电压数据:${bean.dataList.size}")
                     }
+
                     4 -> {
                         val resultList = AppDatabase.getInstance().thermalDayDao()
                             .queryByTime(
@@ -605,6 +614,7 @@ class LogViewModel : BaseViewModel() {
                 AppDatabase.getInstance().thermalMinDao()
                     .deleteRepeatVol(userId)
             }
+
             3 -> {
                 val hourTime = TimeTool.timeToMinute(System.currentTimeMillis(), 3)
                 //检查最新时间段有没有数据同步
@@ -663,6 +673,7 @@ class LogViewModel : BaseViewModel() {
                 //删除多余的数据
                 AppDatabase.getInstance().thermalHourDao().deleteRepeatVol(userId)
             }
+
             4 -> {
                 val todayStartTime =
                     TimeTool.timeToMinute(System.currentTimeMillis(), 4)//天只更新到今天凌晨的数据

@@ -23,7 +23,7 @@ class DistanceMeasureView : View {
     var distance = 0f
         private set
 
-    var moveListener :  ((distance: Float) -> Unit)? = null
+    var moveListener: ((distance: Float) -> Unit)? = null
 
     constructor(context: Context?) : super(context) {
         init()
@@ -83,7 +83,7 @@ class DistanceMeasureView : View {
 
                 // 根据触摸位置更新线的位置
                 if (Math.abs(newY - line1Y) < Math.abs(newY - line2Y)) {
-                    val abs =  line1Y - newY
+                    val abs = line1Y - newY
                     line1Y = newY
                     line2Y += abs
                 } else {

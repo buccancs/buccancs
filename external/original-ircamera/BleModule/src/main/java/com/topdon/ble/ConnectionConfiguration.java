@@ -24,6 +24,9 @@ public class ConnectionConfiguration {
      * 无限重连
      */
     public static final int TRY_RECONNECT_TIMES_INFINITE = -1;
+    @NonNull
+    final List<Pair<Integer, Integer>> scanIntervalPairsInAutoReconnection;
+    private final Map<String, WriteOptions> defaultWriteOptionsMap = new HashMap<>();
     int discoverServicesDelayMillis = 600;
     int connectTimeoutMillis = 10000;
     int requestTimeoutMillis = 3000;
@@ -34,9 +37,6 @@ public class ConnectionConfiguration {
     int transport = BluetoothDevice.TRANSPORT_LE;
     @RequiresApi(Build.VERSION_CODES.O)
     int phy = BluetoothDevice.PHY_LE_1M_MASK;
-    @NonNull
-    final List<Pair<Integer, Integer>> scanIntervalPairsInAutoReconnection;
-    private final Map<String, WriteOptions> defaultWriteOptionsMap = new HashMap<>();
 
     public ConnectionConfiguration() {
         scanIntervalPairsInAutoReconnection = new ArrayList<>();
@@ -143,7 +143,7 @@ public class ConnectionConfiguration {
         defaultWriteOptionsMap.put(service + ":" + characteristic, options);
         return this;
     }
-    
+
     @Nullable
     WriteOptions getDefaultWriteOptions(UUID service, UUID characteristic) {
         return defaultWriteOptionsMap.get(service + ":" + characteristic);

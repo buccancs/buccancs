@@ -43,7 +43,7 @@ class IR07MonitorCapture2Activity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            val playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null,true)
+            val playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null, true)
             supportFragmentManager.beginTransaction().add(R.id.fl_rtsp, playFragment).commit()
         }
     }
@@ -56,7 +56,8 @@ class IR07MonitorCapture2Activity : BaseActivity() {
 
         selectInfo = intent.getParcelableExtra("select")!!
 
-        monitor_current_vol.text = getString(if (selectInfo.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
+        monitor_current_vol.text =
+            getString(if (selectInfo.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
         monitor_real_vol.visibility = if (selectInfo.type == 1) View.GONE else View.VISIBLE
         monitor_real_img.visibility = if (selectInfo.type == 1) View.GONE else View.VISIBLE
 

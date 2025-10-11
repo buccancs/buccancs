@@ -27,35 +27,15 @@ public class VerticalRangeSeekBar extends DefRangeSeekBar {
 
     //text direction of VerticalRangeSeekBar. include indicator and tickMark
 
-    /**
-     * @hide
-     */
-    @IntDef({TEXT_DIRECTION_VERTICAL, TEXT_DIRECTION_HORIZONTAL})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface TextDirectionDef {
-    }
-
     public final static int TEXT_DIRECTION_VERTICAL = 1;
     public final static int TEXT_DIRECTION_HORIZONTAL = 2;
+    public final static int DIRECTION_LEFT = 1;
 
     //direction of VerticalRangeSeekBar
-
-    /**
-     * @hide
-     */
-    @IntDef({DIRECTION_LEFT, DIRECTION_RIGHT})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface DirectionDef {
-    }
-
-    public final static int DIRECTION_LEFT = 1;
     public final static int DIRECTION_RIGHT = 2;
-
     private int orientation = DIRECTION_LEFT;
     private int tickMarkDirection = TEXT_DIRECTION_VERTICAL;
-
     private int maxTickMarkWidth;
-
     public VerticalRangeSeekBar(Context context) {
         this(context, null);
     }
@@ -76,7 +56,6 @@ public class VerticalRangeSeekBar extends DefRangeSeekBar {
             e.printStackTrace();
         }
     }
-
 
     protected void initSeekBar(AttributeSet attrs) {
         leftSB = new VerticalSeekBar(this, attrs, true);
@@ -187,7 +166,6 @@ public class VerticalRangeSeekBar extends DefRangeSeekBar {
 
     }
 
-
     @Override
     protected int getTickMarkRawHeight() {
         if (maxTickMarkWidth > 0) return getTickMarkTextMargin() + maxTickMarkWidth;
@@ -256,6 +234,7 @@ public class VerticalRangeSeekBar extends DefRangeSeekBar {
      * set VerticalRangeSeekBar Orientation
      * {@link #DIRECTION_LEFT}
      * {@link #DIRECTION_RIGHT}
+     *
      * @param orientation
      */
     public void setOrientation(@DirectionDef int orientation) {
@@ -270,9 +249,26 @@ public class VerticalRangeSeekBar extends DefRangeSeekBar {
      * set tick mark text direction
      * {@link #TEXT_DIRECTION_VERTICAL}
      * {@link #TEXT_DIRECTION_HORIZONTAL}
+     *
      * @param tickMarkDirection
      */
     public void setTickMarkDirection(@TextDirectionDef int tickMarkDirection) {
         this.tickMarkDirection = tickMarkDirection;
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({TEXT_DIRECTION_VERTICAL, TEXT_DIRECTION_HORIZONTAL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TextDirectionDef {
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({DIRECTION_LEFT, DIRECTION_RIGHT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DirectionDef {
     }
 }

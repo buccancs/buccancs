@@ -75,7 +75,8 @@ object PDFUtil {
         } else {
             val resolver: ContentResolver = context.contentResolver
             val contentUri: Uri = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} = ? AND ${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
+            val selection =
+                "${MediaStore.MediaColumns.RELATIVE_PATH} = ? AND ${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
             val selectionArgs: Array<String> = arrayOf(FileConfig.documentsDir, houseReport.getPdfFileName())
             val delCount = resolver.delete(contentUri, selection, selectionArgs)
             return@withContext delCount > 0
@@ -114,7 +115,10 @@ object PDFUtil {
             titleText.paint.isFakeBoldText = true
             titleText.setTextColor(0xff333333.toInt())
             titleText.setPadding(SizeUtils.dp2px(13f), SizeUtils.dp2px(13f), SizeUtils.dp2px(13f), SizeUtils.dp2px(3f))
-            titleText.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+            titleText.measure(
+                MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+            )
             titleText.layout(0, 0, titleText.measuredWidth, titleText.measuredHeight)
 
             var hasAnyItem = false
@@ -127,14 +131,21 @@ object PDFUtil {
             if (hasAnyItem) {
                 //计算表头高度
                 val tabTitleView = LayoutInflater.from(context).inflate(R.layout.pdf_tab_title, null)
-                tabTitleView.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+                tabTitleView.measure(
+                    MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                )
                 tabTitleView.layout(0, 0, tabTitleView.measuredWidth, tabTitleView.measuredHeight)
 
                 //计算第1行item高度
                 val tabItemView = LayoutInflater.from(context).inflate(R.layout.pdf_tab_item, null)
                 tabItemView.tv_item_name.text = dirBean.itemList[0].itemName
-                tabItemView.tv_input.text = dirBean.itemList[0].inputText.ifEmpty { dirBean.itemList[0].getStateStr(context) }
-                tabItemView.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+                tabItemView.tv_input.text =
+                    dirBean.itemList[0].inputText.ifEmpty { dirBean.itemList[0].getStateStr(context) }
+                tabItemView.measure(
+                    MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                )
                 tabItemView.layout(0, 0, tabItemView.measuredWidth, tabItemView.measuredHeight)
 
                 if (hasUseHeight + margin + titleText.height + tabTitleView.measuredHeight + tabItemView.measuredHeight > pageHeight) {//1行item都显示不了，另起一页
@@ -162,7 +173,10 @@ object PDFUtil {
                     tabItemView.iv_warn.isVisible = itemBean.state == 2
                     tabItemView.iv_danger.isVisible = itemBean.state == 3
                     tabItemView.tv_input.text = itemBean.inputText.ifEmpty { itemBean.getStateStr(context) }
-                    tabItemView.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+                    tabItemView.measure(
+                        MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                    )
                     tabItemView.layout(0, 0, tabItemView.measuredWidth, tabItemView.measuredHeight)
 
                     if (hasUseHeight + tabItemView.height > pageHeight) {//1行item都显示不了，另起一页
@@ -209,7 +223,10 @@ object PDFUtil {
                 photoText.setText(R.string.album_menu_Photos)
                 photoText.setTextColor(0xff333333.toInt())
                 photoText.setPadding(SizeUtils.dp2px(13f), SizeUtils.dp2px(10f), SizeUtils.dp2px(13f), 0)
-                photoText.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+                photoText.measure(
+                    MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                )
                 photoText.layout(0, 0, photoText.measuredWidth, photoText.measuredHeight)
 
                 val imgLineView = LayoutInflater.from(context).inflate(R.layout.pdf_image_line, null)
@@ -217,7 +234,10 @@ object PDFUtil {
                 imgLineView.tv_item_name2.text = if (dataList.size > 1) dataList[1].itemName else ""
                 imgLineView.tv_item_name3.text = if (dataList.size > 2) dataList[2].itemName else ""
                 imgLineView.tv_item_name4.text = if (dataList.size > 3) dataList[3].itemName else ""
-                imgLineView.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+                imgLineView.measure(
+                    MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                )
                 imgLineView.layout(0, 0, imgLineView.measuredWidth, imgLineView.measuredHeight)
 
                 if (hasAnyItem) {//标题已在 itemShowView 绘制
@@ -263,7 +283,10 @@ object PDFUtil {
                     imgLineView.tv_item_name3.text = if (dataList.size > i * 4 + 2) dataList[i * 4 + 2].itemName else ""
                     imgLineView.tv_item_name4.text = if (dataList.size > i * 4 + 3) dataList[i * 4 + 3].itemName else ""
 
-                    imgLineView.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+                    imgLineView.measure(
+                        MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                    )
                     imgLineView.layout(0, 0, imgLineView.measuredWidth, imgLineView.measuredHeight)
 
                     for (j in 0 until 4) {
@@ -275,7 +298,8 @@ object PDFUtil {
                                 else -> imgLineView.iv_image4
                             }
                             val imagePath = dataList[i * 4 + j].imagePath
-                            val drawable = Glide.with(context).asDrawable().load(imagePath).submit(imageView.width, imageView.height).get()
+                            val drawable = Glide.with(context).asDrawable().load(imagePath)
+                                .submit(imageView.width, imageView.height).get()
                             imageView.setImageDrawable(drawable)
                         }
                     }
@@ -333,12 +357,21 @@ object PDFUtil {
                         pdfDocument.writeTo(outputStream)
 
                         //部分机型 resolver.insert() 返回的 Uri 用 id 拼的，导致分享时显示的文件名有问题，这里查询一遍
-                        val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} = ? AND ${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
-                        val selectionArgs: Array<String> = arrayOf(FileConfig.documentsDir, houseReport.getPdfFileName())
-                        val cursor: Cursor? = resolver.query(contentUri, arrayOf(MediaStore.MediaColumns.DATA), selection, selectionArgs, null)
+                        val selection =
+                            "${MediaStore.MediaColumns.RELATIVE_PATH} = ? AND ${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
+                        val selectionArgs: Array<String> =
+                            arrayOf(FileConfig.documentsDir, houseReport.getPdfFileName())
+                        val cursor: Cursor? = resolver.query(
+                            contentUri,
+                            arrayOf(MediaStore.MediaColumns.DATA),
+                            selection,
+                            selectionArgs,
+                            null
+                        )
                         if (cursor != null) {
                             if (cursor.moveToFirst()) {
-                                val data: String? = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))
+                                val data: String? =
+                                    cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))
                                 if (data != null) {
                                     pdfUri = UriUtils.file2Uri(File(data))
                                 }
@@ -363,11 +396,15 @@ object PDFUtil {
         } else {
             val resolver: ContentResolver = context.contentResolver
             val contentUri: Uri = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} = ? AND ${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
+            val selection =
+                "${MediaStore.MediaColumns.RELATIVE_PATH} = ? AND ${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
             val selectionArgs: Array<String> = arrayOf(FileConfig.documentsDir, pdfFileName)
-            val cursor: Cursor = resolver.query(contentUri, arrayOf(MediaStore.MediaColumns.DATA), selection, selectionArgs, null) ?: return null
+            val cursor: Cursor =
+                resolver.query(contentUri, arrayOf(MediaStore.MediaColumns.DATA), selection, selectionArgs, null)
+                    ?: return null
             if (cursor.moveToFirst()) {
-                val pdfFile = File(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)) ?: return null)
+                val pdfFile =
+                    File(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)) ?: return null)
                 cursor.close()
                 return if (pdfFile.exists()) UriUtils.file2Uri(pdfFile) else null
             } else {
@@ -388,20 +425,28 @@ object PDFUtil {
         headView.tv_cost_title.text = "${context.getString(R.string.detection_cost)}:"
 
         headView.tv_report_name.text = houseReport.name
-        headView.tv_time.text = context.getString(R.string.detect_time) + ": " + TimeUtils.millis2String(houseReport.detectTime, "yyyy-MM-dd HH:mm")
+        headView.tv_time.text = context.getString(R.string.detect_time) + ": " + TimeUtils.millis2String(
+            houseReport.detectTime,
+            "yyyy-MM-dd HH:mm"
+        )
         headView.tv_house_address.text = houseReport.address
 
         headView.tv_inspector_name.text = houseReport.inspectorName
         headView.tv_house_year.text = houseReport.year?.toString() ?: "--"
-        headView.tv_house_space.text = if (houseReport.houseSpace.isEmpty()) "--" else "${houseReport.houseSpace} ${houseReport.getSpaceUnitStr()}"
-        headView.tv_cost.text = if (houseReport.cost.isEmpty()) "--" else "${houseReport.getCostUnitStr()} ${houseReport.cost}"
+        headView.tv_house_space.text =
+            if (houseReport.houseSpace.isEmpty()) "--" else "${houseReport.houseSpace} ${houseReport.getSpaceUnitStr()}"
+        headView.tv_cost.text =
+            if (houseReport.cost.isEmpty()) "--" else "${houseReport.getCostUnitStr()} ${houseReport.cost}"
 
         val ivWidth = pageWidth - SizeUtils.dp2px(13f + 13f)
         val ivHeight = (pageWidth * 129 / 358f).toInt()
         val drawable = Glide.with(context).asDrawable().load(houseReport.imagePath).submit(ivWidth, ivHeight).get()
         headView.iv_house_image.setImageDrawable(drawable)
 
-        headView.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+        headView.measure(
+            MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
         headView.layout(0, 0, headView.measuredWidth, headView.measuredHeight)
 
         return headView
@@ -411,17 +456,22 @@ object PDFUtil {
     private fun buildFootView(context: Context, houseReport: HouseReport): View {
         val pageWidth = ScreenUtil.getScreenWidth(context).coerceAtMost(ScreenUtil.getScreenHeight(context))
         val footView = LayoutInflater.from(context).inflate(R.layout.pdf_foot, null)
-        footView.measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED))
+        footView.measure(
+            MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
         footView.layout(0, 0, footView.measuredWidth, footView.measuredHeight)
 
         val inspectorWidth = footView.iv_inspector_signature.width
         val inspectorHeight = footView.iv_inspector_signature.height
-        val inspectorDrawable = Glide.with(context).asDrawable().load(houseReport.inspectorBlackPath).submit(inspectorWidth, inspectorHeight).get()
+        val inspectorDrawable = Glide.with(context).asDrawable().load(houseReport.inspectorBlackPath)
+            .submit(inspectorWidth, inspectorHeight).get()
         footView.iv_inspector_signature.setImageDrawable(inspectorDrawable)
 
         val ownerWidth = footView.iv_house_owner_signature.width
         val ownerHeight = footView.iv_house_owner_signature.height
-        val ownerDrawable = Glide.with(context).asDrawable().load(houseReport.houseOwnerBlackPath).submit(ownerWidth, ownerHeight).get()
+        val ownerDrawable =
+            Glide.with(context).asDrawable().load(houseReport.houseOwnerBlackPath).submit(ownerWidth, ownerHeight).get()
         footView.iv_house_owner_signature.setImageDrawable(ownerDrawable)
 
         return footView

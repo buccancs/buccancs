@@ -112,7 +112,11 @@ object HikCmdUtil {
                         XLog.v("$TAG initConfig() 设置图像增强参数 $it")
                     }
                 } else {
-                    XLog.e("$TAG initConfig() 设置图像增强参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+                    XLog.e(
+                        "$TAG initConfig() 设置图像增强参数失败！错误码：${
+                            JavaInterface.getInstance().USB_GetLastError()
+                        }"
+                    )
                 }
             }
         } else {
@@ -130,7 +134,11 @@ object HikCmdUtil {
                         XLog.v("$TAG initConfig() 设置测温基本参数 $it")
                     }
                 } else {
-                    XLog.e("$TAG initConfig() 设置测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+                    XLog.e(
+                        "$TAG initConfig() 设置测温基本参数失败！错误码：${
+                            JavaInterface.getInstance().USB_GetLastError()
+                        }"
+                    )
                 }
             }
         } else {
@@ -161,7 +169,11 @@ object HikCmdUtil {
                 XLog.v("$TAG setAutoShutter() 发送自定协议参数 $it")
             }
         } else {
-            XLog.e("$TAG setAutoShutter() 发送自定协议参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+            XLog.e(
+                "$TAG setAutoShutter() 发送自定协议参数失败！错误码：${
+                    JavaInterface.getInstance().USB_GetLastError()
+                }"
+            )
         }
     }
 
@@ -185,7 +197,6 @@ object HikCmdUtil {
     }
 
 
-
     /**
      * 设置对比度.
      * @param contrast 取值范围 `[0,100]`
@@ -202,7 +213,6 @@ object HikCmdUtil {
             XLog.e("$TAG setContrast() 设置对比度参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
         }
     }
-
 
 
     /* ******************************  图像增强参数 ImageEnhancement  ****************************** */
@@ -222,13 +232,20 @@ object HikCmdUtil {
                     XLog.v("$TAG setEnhanceLevel() 设置图像增强参数 $it")
                 }
             } else {
-                XLog.e("$TAG setEnhanceLevel() 设置图像增强参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+                XLog.e(
+                    "$TAG setEnhanceLevel() 设置图像增强参数失败！错误码：${
+                        JavaInterface.getInstance().USB_GetLastError()
+                    }"
+                )
             }
         } else {
-            XLog.e("$TAG setEnhanceLevel() 获取图像增强参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+            XLog.e(
+                "$TAG setEnhanceLevel() 获取图像增强参数失败！错误码：${
+                    JavaInterface.getInstance().USB_GetLastError()
+                }"
+            )
         }
     }
-
 
 
     /* ******************************  视频调整参数 ImageVideoAdjust  ****************************** */
@@ -258,7 +275,6 @@ object HikCmdUtil {
     }
 
 
-
     /* ******************************  码流回调  ****************************** */
     /**
      * 添加码流回调.
@@ -279,7 +295,11 @@ object HikCmdUtil {
                         XLog.v("$TAG startStream() 设置视频调整参数 $it")
                     }
                 } else {
-                    XLog.e("$TAG startStream() 设置视频调整参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+                    XLog.e(
+                        "$TAG startStream() 设置视频调整参数失败！错误码：${
+                            JavaInterface.getInstance().USB_GetLastError()
+                        }"
+                    )
                 }
             }
         } else {
@@ -332,17 +352,21 @@ object HikCmdUtil {
 
         return callbackId
     }
+
     /**
      * 移除码流回调.
      */
     fun removeStreamCallback(userId: Int, callbackId: Int) {
         if (callbackId != JavaInterface.USB_INVALID_CHANNEL) {
             if (!JavaInterface.getInstance().USB_StopChannel(userId, callbackId)) {
-                XLog.w("$TAG removeStreamCallback() 移除码流回调失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+                XLog.w(
+                    "$TAG removeStreamCallback() 移除码流回调失败！错误码：${
+                        JavaInterface.getInstance().USB_GetLastError()
+                    }"
+                )
             }
         }
     }
-
 
 
     /* ******************************  测温基本参数 ThermometryBasicParam  ****************************** */
@@ -363,7 +387,11 @@ object HikCmdUtil {
                     XLog.v("$TAG setEmissivity() 设置测温基本参数 $it")
                 }
             } else {
-                XLog.e("$TAG setEmissivity() 设置测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+                XLog.e(
+                    "$TAG setEmissivity() 设置测温基本参数失败！错误码：${
+                        JavaInterface.getInstance().USB_GetLastError()
+                    }"
+                )
             }
         } else {
             XLog.e("$TAG setEmissivity() 获取测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
@@ -387,7 +415,11 @@ object HikCmdUtil {
                     XLog.v("$TAG setDistance() 设置测温基本参数 $it")
                 }
             } else {
-                XLog.e("$TAG setDistance() 设置测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+                XLog.e(
+                    "$TAG setDistance() 设置测温基本参数失败！错误码：${
+                        JavaInterface.getInstance().USB_GetLastError()
+                    }"
+                )
             }
         } else {
             XLog.e("$TAG setDistance() 获取测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
@@ -408,7 +440,14 @@ object HikCmdUtil {
             if (oldAuto == newAuto && (oldRange == newRange || newRange == 1.toByte())) {
                 return
             }
-            XLog.i("$TAG setTemperatureMode() 变更测温档位 ${getTempModeStr(oldAuto, oldRange)}->${getTempModeStr(newAuto, newRange)}")
+            XLog.i(
+                "$TAG setTemperatureMode() 变更测温档位 ${getTempModeStr(oldAuto, oldRange)}->${
+                    getTempModeStr(
+                        newAuto,
+                        newRange
+                    )
+                }"
+            )
             param.byTemperatureRangeAutoChangedEnabled = newAuto
             param.byTemperatureRange = newRange
             if (JavaInterface.getInstance().USB_SetThermometryBasicParam(userId, param)) {
@@ -416,10 +455,18 @@ object HikCmdUtil {
                     XLog.v("$TAG setTemperatureMode() 设置测温基本参数 $it")
                 }
             } else {
-                XLog.e("$TAG setTemperatureMode() 设置测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+                XLog.e(
+                    "$TAG setTemperatureMode() 设置测温基本参数失败！错误码：${
+                        JavaInterface.getInstance().USB_GetLastError()
+                    }"
+                )
             }
         } else {
-            XLog.e("$TAG setTemperatureMode() 获取测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
+            XLog.e(
+                "$TAG setTemperatureMode() 获取测温基本参数失败！错误码：${
+                    JavaInterface.getInstance().USB_GetLastError()
+                }"
+            )
         }
     }
 
@@ -429,11 +476,6 @@ object HikCmdUtil {
         }
         return if (range == 2.toByte()) "常温档" else "高温档"
     }
-
-
-
-
-
 
 
     private fun getCommandState(userId: Int): Int {

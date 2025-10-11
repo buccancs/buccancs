@@ -19,17 +19,17 @@ public enum RotateDegree {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public static RotateDegree valueOf(int value) {
         RotateDegree[] types = RotateDegree.values();
-        for(RotateDegree type: types){
+        for (RotateDegree type : types) {
             if (type.value == value) {
                 return type;
             }
         }
         return DEGREE_0;
+    }
+
+    public int getValue() {
+        return value;
     }
 }

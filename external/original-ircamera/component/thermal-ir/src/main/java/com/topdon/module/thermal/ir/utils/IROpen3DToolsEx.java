@@ -18,16 +18,16 @@ import static org.opencv.imgproc.Imgproc.cvtColor;
  * @author: CaiSongL
  * @date: 2023/10/26 19:58
  */
-public class IROpen3DToolsEx  extends IROpen3DTools {
+public class IROpen3DToolsEx extends IROpen3DTools {
 
-    private Mat img ;
+    private Mat img;
 
     @Override
     public void init(byte[] image_, int type) {
         long time = System.currentTimeMillis();
         rws = 192;
         cls = 256;
-        if (gray_image == null){
+        if (gray_image == null) {
             gray_image = new Mat();
         }
 
@@ -37,9 +37,9 @@ public class IROpen3DToolsEx  extends IROpen3DTools {
         normalize(img, img, 0, 255, NORM_MINMAX);
         img.convertTo(gray_image, CV_8UC1);
         image = new Mat();
-        applyColorMap(gray_image,image,15);
+        applyColorMap(gray_image, image, 15);
 //        image = psuColor(gray_image,type);
-        halfx = (float)rws / 2;
-        halfy = (float)cls / 2;
+        halfx = (float) rws / 2;
+        halfy = (float) cls / 2;
     }
 }

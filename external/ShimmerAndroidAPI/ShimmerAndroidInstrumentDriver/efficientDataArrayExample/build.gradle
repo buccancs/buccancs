@@ -5,7 +5,6 @@ android {
     compileSdkVersion 34
 
 
-
     defaultConfig {
         applicationId "com.shimmerresearch.efficientdataarrayexample"
         minSdkVersion 21

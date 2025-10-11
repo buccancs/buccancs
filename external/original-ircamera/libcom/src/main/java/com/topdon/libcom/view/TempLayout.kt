@@ -19,17 +19,17 @@ import com.topdon.libcom.R
  * @date: 2023/4/28 15:52
  */
 class TempLayout : LinearLayout {
-    companion object{
+    companion object {
         val TYPE_HOT = 1 //高温预警
         val TYPE_LT = 2 //低温预警
         val TYPE_A = 3  //高低温交叉预警
     }
 
     private var alphaAnimator: ObjectAnimator? = null
-    var rootV : View?= null
-    var bg : View ? = null
-    var isHot : Boolean  = true
-    var type  = -1
+    var rootV: View? = null
+    var bg: View? = null
+    var isHot: Boolean = true
+    var type = -1
 
     constructor(context: Context) : this(context, null)
 
@@ -60,10 +60,9 @@ class TempLayout : LinearLayout {
     )
 
 
-
-    fun startAnimation(type : Int){
+    fun startAnimation(type: Int) {
         this.visibility = View.VISIBLE
-        if (this.type != type){
+        if (this.type != type) {
             alphaAnimator?.cancel()
             alphaAnimator?.removeAllListeners()
             when (type) {
@@ -72,10 +71,12 @@ class TempLayout : LinearLayout {
                     alphaAnimator?.repeatCount = ValueAnimator.INFINITE
                     bg?.setBackgroundResource(R.drawable.ic_ir_read_bg)
                 }
+
                 TYPE_A -> {
                     alphaAnimator?.repeatCount = 0
                     alphaAnimator?.addListener(animatorListener)
                 }
+
                 else -> {
                     alphaAnimator?.repeatCount = ValueAnimator.INFINITE
                     isHot = false
@@ -91,22 +92,24 @@ class TempLayout : LinearLayout {
     var animatorListener: Animator.AnimatorListener = object : Animator.AnimatorListener {
         override fun onAnimationStart(animation: Animator) {
         }
+
         override fun onAnimationEnd(animation: Animator) {
-            if (this@TempLayout.visibility == View.VISIBLE){
+            if (this@TempLayout.visibility == View.VISIBLE) {
                 isHot = !isHot
-                if (isHot){
+                if (isHot) {
                     bg?.setBackgroundResource(R.drawable.ic_ir_read_bg)
-                }else{
+                } else {
                     bg?.setBackgroundResource(R.drawable.ic_ir_blue_bg)
                 }
                 alphaAnimator?.start()
             }
         }
+
         override fun onAnimationCancel(animation: Animator) {}
         override fun onAnimationRepeat(animation: Animator) {}
     }
 
-    fun stopAnimation(){
+    fun stopAnimation() {
         this.type = -1
         alphaAnimator?.removeAllListeners()
         this.visibility = View.GONE

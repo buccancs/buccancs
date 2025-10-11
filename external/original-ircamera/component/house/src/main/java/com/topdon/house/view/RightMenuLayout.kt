@@ -34,10 +34,12 @@ class RightMenuLayout : ConstraintLayout {
      * 触发展开收起时使用的 Scroller
      */
     private val scroller: Scroller
+
     /**
      * 视为滚动的距离
      */
     private val scaledTouchSlop: Int
+
     /**
      * 右侧菜单滑出右侧菜单的百分之多少后，将触发自动展开。
      */
@@ -101,6 +103,7 @@ class RightMenuLayout : ConstraintLayout {
                     currentOpenView?.close()
                 }
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val distanceX = abs(ev.x.toInt() - downX)
                 val distanceY = abs(ev.y.toInt() - downY)
@@ -109,6 +112,7 @@ class RightMenuLayout : ConstraintLayout {
                     return true
                 }
             }
+
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
 
             }
@@ -125,6 +129,7 @@ class RightMenuLayout : ConstraintLayout {
             MotionEvent.ACTION_MOVE -> {
                 scrollX = (downScrollX + downX - currentX).coerceAtMost(menuWidth).coerceAtLeast(0)
             }
+
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 if (abs(currentX - downX) < scaledTouchSlop) {
                     //搞了半天相当于什么都没动，原来什么状态就保持什么状态

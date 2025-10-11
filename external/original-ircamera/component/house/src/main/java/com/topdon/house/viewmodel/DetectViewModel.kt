@@ -20,7 +20,8 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
     /**
      * 所有房屋检测列表，调用 [queryAll] 会触发更改.
      */
-    val detectListLD =  MutableLiveData<List<HouseDetect>>()
+    val detectListLD = MutableLiveData<List<HouseDetect>>()
+
     /**
      * 查询所有房屋检测列表，结果通过 [detectListLD] 返回.
      */
@@ -35,6 +36,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
      * 一项房屋检测，调用 [queryById]、[insertDefaultDirs] 会触发更改.
      */
     val detectLD = MutableLiveData<HouseDetect?>()
+
     /**
      * 查询指定 id 的房屋检测数据，结果通过 [detectLD] 返回.
      */
@@ -43,6 +45,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
             detectLD.postValue(AppDatabase.getInstance().houseDetectDao().queryById(id))
         }
     }
+
     /**
      * 为指定检测插入默认的目录列表，结果通过 [detectLD] 返回.
      */
@@ -58,6 +61,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
      * 某个房屋检测下的某个目录信息，调用 [queryDirById] 会触发更改，注意目录所属检测信息未加载.
      */
     val dirLD = MutableLiveData<DirDetect>()
+
     /**
      * 查询指定 id 的目录信息，结果通过 [dirLD] 返回.
      */
@@ -72,6 +76,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
      * 复制房屋检测结果，调用 [copyDetect] 会触发更改.
      */
     val copyDetectLD = MutableLiveData<Pair<Int, HouseDetect>>()
+
     /**
      * 复制指定的检测，结果通过 [copyDetectLD] 返回.
      * @param position 不使用，透传
@@ -87,6 +92,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
      * 复制房屋检测目录结果，调用 [copyDir] 会触发更改.
      */
     val copyDirLD = MutableLiveData<Pair<Int, DirDetect>>()
+
     /**
      * 在指定的检测中，复制指定的目录，结果通过 [copyDirLD] 返回.
      * @param layoutIndex 不使用，透传
@@ -108,6 +114,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
      * 复制房屋检测项目结果，调用 [copyItem] 会触发更改.
      */
     val copyItemLD = MutableLiveData<Pair<Int, ItemDetect>>()
+
     /**
      * 在指定的检测中，复制指定的项目，结果通过 [copyItemLD] 返回.
      * @param layoutIndex 不使用，透传
@@ -129,6 +136,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
      * 删除房屋检测项目结果，调用 [delItem] 会触发更改.
      */
     val delItemLD = MutableLiveData<Pair<Int, ItemDetect>>()
+
     /**
      * 在指定的检测中，删除指定的项目，结果通过 [delItemLD] 返回.
      * @param layoutIndex 不使用，透传
@@ -181,6 +189,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
             AppDatabase.getInstance().houseDetectDao().updateDir(*dirDetect)
         }
     }
+
     /**
      * 更新项目信息.
      */

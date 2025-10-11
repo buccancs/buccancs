@@ -37,7 +37,7 @@ class IRCorrectionThreeActivity : BaseActivity() {
 
         tv_correction.setOnClickListener {
             if (fragment.frameReady) {
-                val intent = Intent(this,IRCorrectionFourActivity::class.java)
+                val intent = Intent(this, IRCorrectionFourActivity::class.java)
                 startActivity(intent)
                 finish()
             }

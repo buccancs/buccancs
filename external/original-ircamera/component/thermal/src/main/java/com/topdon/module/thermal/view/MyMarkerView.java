@@ -1,4 +1,3 @@
-
 package com.topdon.module.thermal.view;
 
 import android.annotation.SuppressLint;

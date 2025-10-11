@@ -14,6 +14,7 @@ public enum DeviceType {
     DEVICE_TYPE_GL1280("GL1280");
 
     private String type;
+
     DeviceType(String type) {
         this.type = type;
     }

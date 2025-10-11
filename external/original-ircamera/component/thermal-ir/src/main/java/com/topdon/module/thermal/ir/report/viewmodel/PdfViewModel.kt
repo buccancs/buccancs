@@ -34,7 +34,7 @@ class PdfViewModel : BaseViewModel() {
 
 
     //获取报告列表
-    fun getReportData(isTC007: Boolean, page: Int){
+    fun getReportData(isTC007: Boolean, page: Int) {
         if (!NetworkUtil.isConnected(Utils.getApp())) {
             TToast.shortToast(Utils.getApp(), R.string.lms_setting_http_error)
             listData.postValue(null)
@@ -47,12 +47,12 @@ class PdfViewModel : BaseViewModel() {
     }
 
 
-    private suspend fun getReportDataRepository(isTC007: Boolean, page:Int) : ReportData? {
+    private suspend fun getReportDataRepository(isTC007: Boolean, page: Int): ReportData? {
         var result: ReportData? = null
         val downLatch = CountDownLatch(1)
-        HttpHelp.getFirstReportData(isTC007, page,object : IResponseCallback{
+        HttpHelp.getFirstReportData(isTC007, page, object : IResponseCallback {
             override fun onResponse(p0: String?) {
-                result = Gson().fromJson(p0,ReportData::class.java)
+                result = Gson().fromJson(p0, ReportData::class.java)
 //                val testData : MutableList<ReportData.Records?> = mutableListOf()
 //                var tmp = ReportData.Records()
 //                tmp.uploadTime = TimeTool.getNowTime()
@@ -69,6 +69,7 @@ class PdfViewModel : BaseViewModel() {
 //                result?.data?.records = testData
                 downLatch.countDown()
             }
+
             override fun onFail(p0: Exception?) {
                 result = ReportData()
                 result?.msg = p0?.message

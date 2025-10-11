@@ -39,12 +39,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 abstract class AbstractScanner implements Scanner {
     final ScanConfiguration configuration;
     final BluetoothAdapter bluetoothAdapter;
+    final Logger logger;
     private final Handler mainHandler;
-    private boolean isScanning;
     private final List<ScanListener> scanListeners = new CopyOnWriteArrayList<>();
     private final SparseArray<BluetoothProfile> proxyBluetoothProfiles = new SparseArray<>();
-    final Logger logger;
     private final DeviceCreator deviceCreator;
+    private boolean isScanning;
 
     AbstractScanner(EasyBLE easyBle, BluetoothAdapter bluetoothAdapter) {
         this.bluetoothAdapter = bluetoothAdapter;
@@ -53,7 +53,7 @@ abstract class AbstractScanner implements Scanner {
         logger = easyBle.getLogger();
         deviceCreator = easyBle.getDeviceCreator();
     }
-    
+
     @Override
     public void addScanListener(ScanListener listener) {
         if (!scanListeners.contains(listener)) {
@@ -170,14 +170,14 @@ abstract class AbstractScanner implements Scanner {
             parseScanResult(device, false);
         } else {
             ScanRecord record = result.getScanRecord();
-            parseScanResult(device, false, result, result.getRssi(), record == null ? null : record.getBytes());            
+            parseScanResult(device, false, result, result.getRssi(), record == null ? null : record.getBytes());
         }
     }
 
     private void parseScanResult(BluetoothDevice device, boolean isConnectedBySys) {
         parseScanResult(device, isConnectedBySys, null, -120, null);
     }
-    
+
     void parseScanResult(BluetoothDevice device, boolean isConnectedBySys, ScanResult result, int rssi, byte[] scanRecord) {
         if ((configuration.onlyAcceptBleDevice && device.getType() != BluetoothDevice.DEVICE_TYPE_LE) ||
                 !device.getAddress().matches("^[0-9A-F]{2}(:[0-9A-F]{2}){5}$")) {
@@ -248,7 +248,7 @@ abstract class AbstractScanner implements Scanner {
             isScanning = scanning;
         }
     }
-    
+
     @CallSuper
     @Override
     public void stopScan(boolean quietly) {
@@ -276,8 +276,6 @@ abstract class AbstractScanner implements Scanner {
         }
     }
 
-    private final Runnable stopScanRunnable = () -> stopScan(false);
-
     //蓝牙是否开启
     private boolean isBtEnabled() {
         if (bluetoothAdapter.isEnabled()) {
@@ -291,8 +289,8 @@ abstract class AbstractScanner implements Scanner {
             }
         }
         return false;
-    }
-    
+    }    private final Runnable stopScanRunnable = () -> stopScan(false);
+
     @Override
     public void onBluetoothOff() {
         synchronized (this) {
@@ -311,7 +309,7 @@ abstract class AbstractScanner implements Scanner {
      * 是否可搜索
      */
     protected abstract boolean isReady();
-    
+
     /**
      * 执行搜索
      */
@@ -321,4 +319,6 @@ abstract class AbstractScanner implements Scanner {
      * 执行停止搜索
      */
     protected abstract void performStopScan();
+
+
 }

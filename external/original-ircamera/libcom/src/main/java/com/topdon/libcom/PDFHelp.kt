@@ -28,7 +28,12 @@ import java.io.FileOutputStream
  */
 object PDFHelp {
 
-    fun savePdfFileByListView(name: String, view: ScrollView, viewList: MutableList<View>, watermarkView: View): String {
+    fun savePdfFileByListView(
+        name: String,
+        view: ScrollView,
+        viewList: MutableList<View>,
+        watermarkView: View
+    ): String {
         val onePageHeight: Int = (view.width * 297f / 210f).toInt() // A4纸宽高比210:297
 
         var onePageContentHeight = 0f
@@ -56,7 +61,8 @@ object PDFHelp {
                 canvas.drawRect(0f, 0f, view.width.toFloat(), onePageHeight.toFloat(), paint)
 
                 if (index == 0) {
-                    val bgTopDrawable: Drawable? = ContextCompat.getDrawable(view.context, R.drawable.ic_report_create_bg_top)
+                    val bgTopDrawable: Drawable? =
+                        ContextCompat.getDrawable(view.context, R.drawable.ic_report_create_bg_top)
                     bgTopDrawable?.setBounds(0, 0, view.width, (view.width * 1026 / 1125f).toInt())
                     bgTopDrawable?.draw(canvas)
                 }

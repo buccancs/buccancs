@@ -62,138 +62,132 @@ import com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE;
 
 
 public class ShimmerTCPExampleActivity extends Activity {
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
 
     Timer mTimer;
-    private Shimmer mShimmerDevice1 = null;
     DataOutputStream dOut = null;
     Socket clientSocket;
-    String FromServer="";
+    String FromServer = "";
     String ToServer;
     boolean firstTime = true;
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        mShimmerDevice1 = new Shimmer(this, mHandler,"RightArm",false); 
-        String bluetoothAddress="00:06:66:66:96:86";
-        mShimmerDevice1.connect(bluetoothAddress,"default"); 
-        Log.d("ConnectionStatus","Trying"); 
-        
-        
-       
-        
-    }
-    
- // The Handler that gets information back from the BluetoothChatService
+    private Shimmer mShimmerDevice1 = null;
+    // The Handler that gets information back from the BluetoothChatService
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) { // handlers have a what identifier which is used to identify the type of msg
-            case Shimmer.MESSAGE_READ:
-            	if ((msg.obj instanceof ObjectCluster)){	// within each msg an object can be include, objectclusters are used to represent the data structure of the shimmer device
-            	    ObjectCluster objectCluster =  (ObjectCluster) msg.obj;
-            	    byte[] dataojc = objectCluster.serialize();
-            	    if(dOut!=null){
-            	    try {
-						dOut.writeInt(dataojc.length);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-            	    try {
-						dOut.write(dataojc);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-            	    } else {
-            	    	System.out.print("dout fail \n");
-            	    }
+                case Shimmer.MESSAGE_READ:
+                    if ((msg.obj instanceof ObjectCluster)) {    // within each msg an object can be include, objectclusters are used to represent the data structure of the shimmer device
+                        ObjectCluster objectCluster = (ObjectCluster) msg.obj;
+                        byte[] dataojc = objectCluster.serialize();
+                        if (dOut != null) {
+                            try {
+                                dOut.writeInt(dataojc.length);
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            try {
+                                dOut.write(dataojc);
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        } else {
+                            System.out.print("dout fail \n");
+                        }
 
-		 	    	
-            	}
-                break;
-                 case Shimmer.MESSAGE_TOAST:
-                	Log.d("toast",msg.getData().getString(Shimmer.TOAST));
-                	Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST),
+
+                    }
+                    break;
+                case Shimmer.MESSAGE_TOAST:
+                    Log.d("toast", msg.getData().getString(Shimmer.TOAST));
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST),
                             Toast.LENGTH_SHORT).show();
-                break;
+                    break;
 
-                 case Shimmer.MESSAGE_STATE_CHANGE:
-
-
-                     switch (((ObjectCluster)msg.obj).mState) {
-                     case CONNECTED:
+                case Shimmer.MESSAGE_STATE_CHANGE:
 
 
-                         
-              	    	if (firstTime){
-              	    	mShimmerDevice1.writeEnabledSensors(ShimmerObject.SENSOR_ACCEL);
-              	    	Thread thread = new Thread()
-              			{
-              			    @Override
-              			    public void run() {
-              			    	try {
-              			    		clientSocket = new Socket("10.1.1.1", 5000);
-              				        dOut = new DataOutputStream(clientSocket.getOutputStream());
-              					} catch (UnknownHostException e) {
-              						// TODO Auto-generated catch block
-              						e.printStackTrace();
-              					} catch (IOException e) {
-              						// TODO Auto-generated catch block
-              						e.printStackTrace();
-              					}
-              			    }
-              			};
+                    switch (((ObjectCluster) msg.obj).mState) {
+                        case CONNECTED:
 
-              			thread.start();
-              	    	
-              	    	
-              	        Log.d("ConnectionStatus","Successful");
-              	
-              	        mShimmerDevice1.startStreaming();
-              	        firstTime = false;
-              	    	}
-                         break;
-                     case CONNECTING:
 
-	                    	Log.d("ConnectionStatus","Connecting");
-                         break;
-                     case STREAMING:
-                     	break;
-                     case STREAMING_AND_SDLOGGING:
-                     	break;
-                     case SDLOGGING:
-                    	 break;
-                     case DISCONNECTED:
-                    	 	Log.d("ConnectionStatus","No State");
-                         break;
-                     }
-                	 
-                	 
-                	 
-                	
-                break;
-                
+                            if (firstTime) {
+                                mShimmerDevice1.writeEnabledSensors(ShimmerObject.SENSOR_ACCEL);
+                                Thread thread = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            clientSocket = new Socket("10.1.1.1", 5000);
+                                            dOut = new DataOutputStream(clientSocket.getOutputStream());
+                                        } catch (UnknownHostException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                };
+
+                                thread.start();
+
+
+                                Log.d("ConnectionStatus", "Successful");
+
+                                mShimmerDevice1.startStreaming();
+                                firstTime = false;
+                            }
+                            break;
+                        case CONNECTING:
+
+                            Log.d("ConnectionStatus", "Connecting");
+                            break;
+                        case STREAMING:
+                            break;
+                        case STREAMING_AND_SDLOGGING:
+                            break;
+                        case SDLOGGING:
+                            break;
+                        case DISCONNECTED:
+                            Log.d("ConnectionStatus", "No State");
+                            break;
+                    }
+
+
+                    break;
+
             }
         }
     };
 
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        mShimmerDevice1 = new Shimmer(this, mHandler, "RightArm", false);
+        String bluetoothAddress = "00:06:66:66:96:86";
+        mShimmerDevice1.connect(bluetoothAddress, "default");
+        Log.d("ConnectionStatus", "Trying");
 
 
-	  public synchronized void shimmerTimer(int seconds) {
-	        mTimer = new Timer();
-	        mTimer.schedule(new responseTask(), seconds*1000);
-		}
-	    
-	    class responseTask extends TimerTask {
-	        public void run() {
-	        	//mShimmerDevice1.stopStreaming();
-	        	//mShimmerDevice1.writeEnabledSensors(Shimmer.SENSOR_ACCEL);
-	        	//mShimmerDevice1.startStreaming();
-	        	shimmerTimer(5); //Disconnect in 30 seconds
-	        }
-	    }
     }
+
+    public synchronized void shimmerTimer(int seconds) {
+        mTimer = new Timer();
+        mTimer.schedule(new responseTask(), seconds * 1000);
+    }
+
+    class responseTask extends TimerTask {
+        public void run() {
+            //mShimmerDevice1.stopStreaming();
+            //mShimmerDevice1.writeEnabledSensors(Shimmer.SENSOR_ACCEL);
+            //mShimmerDevice1.startStreaming();
+            shimmerTimer(5); //Disconnect in 30 seconds
+        }
+    }
+}
     
 
 

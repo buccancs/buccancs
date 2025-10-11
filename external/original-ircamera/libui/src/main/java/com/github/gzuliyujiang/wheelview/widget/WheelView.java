@@ -71,7 +71,21 @@ public class WheelView extends View implements Runnable {
     public static final int SCROLL_STATE_DRAGGING = ScrollState.DRAGGING;
     @Deprecated
     public static final int SCROLL_STATE_SCROLLING = ScrollState.SCROLLING;
-
+    private final Handler handler = new Handler();
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.LINEAR_TEXT_FLAG);
+    private final Scroller scroller;
+    private final Rect rectDrawn = new Rect();
+    private final Rect rectIndicatorHead = new Rect();
+    private final Rect rectIndicatorFoot = new Rect();
+    private final Rect rectCurrentItem = new Rect();
+    private final Camera camera = new Camera();
+    private final Matrix matrixRotate = new Matrix();
+    private final Matrix matrixDepth = new Matrix();
+    private final int minimumVelocity;
+    private final int maximumVelocity;
+    private final int touchSlop;
+    private final AttributeSet attrs;
+    public int itemHeight, halfItemHeight;
     protected List<?> data = new ArrayList<>();
     protected WheelFormatter formatter;
     protected Object defaultItem;
@@ -97,24 +111,12 @@ public class WheelView extends View implements Runnable {
     protected boolean curvedEnabled;
     protected int curvedMaxAngle = 90;
     protected int curvedIndicatorSpace;
-
-    private final Handler handler = new Handler();
-    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.LINEAR_TEXT_FLAG);
-    private final Scroller scroller;
     private VelocityTracker tracker;
     private OnWheelChangedListener onWheelChangedListener;
-    private final Rect rectDrawn = new Rect();
-    private final Rect rectIndicatorHead = new Rect();
-    private final Rect rectIndicatorFoot = new Rect();
-    private final Rect rectCurrentItem = new Rect();
-    private final Camera camera = new Camera();
-    private final Matrix matrixRotate = new Matrix();
-    private final Matrix matrixDepth = new Matrix();
     private int lastScrollPosition;
     private int drawnItemCount;
     private int halfDrawnItemCount;
     private int textMaxWidth, textMaxHeight;
-    public int itemHeight, halfItemHeight;
     private int halfWheelHeight;
     private int minFlingYCoordinate, maxFlingYCoordinate;
     private int wheelCenterXCoordinate, wheelCenterYCoordinate;
@@ -122,12 +124,8 @@ public class WheelView extends View implements Runnable {
     private int scrollOffsetYCoordinate;
     private int lastPointYCoordinate;
     private int downPointYCoordinate;
-    private final int minimumVelocity;
-    private final int maximumVelocity;
-    private final int touchSlop;
     private boolean isClick;
     private boolean isForceFinishScroll;
-    private final AttributeSet attrs;
 
     public WheelView(Context context) {
         this(context, null);

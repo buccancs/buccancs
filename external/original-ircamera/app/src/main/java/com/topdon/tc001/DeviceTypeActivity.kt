@@ -41,12 +41,14 @@ class DeviceTypeActivity : BaseActivity() {
                             .withBoolean("isTS004", true)
                             .navigation(this@DeviceTypeActivity)
                     }
+
                     IRDeviceType.TC007 -> {
                         ARouter.getInstance()
                             .build(RouterConfig.IR_DEVICE_ADD)
                             .withBoolean("isTS004", false)
                             .navigation(this@DeviceTypeActivity)
                     }
+
                     else -> {
                         ARouter.getInstance()
                             .build(RouterConfig.IR_MAIN)
@@ -86,7 +88,7 @@ class DeviceTypeActivity : BaseActivity() {
 
         var onItemClickListener: ((type: IRDeviceType) -> Unit)? = null
 
-        private data class ItemInfo(val isTitle:Boolean, val firstType: IRDeviceType, val secondType: IRDeviceType?)
+        private data class ItemInfo(val isTitle: Boolean, val firstType: IRDeviceType, val secondType: IRDeviceType?)
 
         private val dataList: ArrayList<ItemInfo> = arrayListOf(
             ItemInfo(true, IRDeviceType.TS001, IRDeviceType.TC001),
@@ -104,7 +106,8 @@ class DeviceTypeActivity : BaseActivity() {
             val firstType: IRDeviceType = dataList[position].firstType
             val secondType: IRDeviceType? = dataList[position].secondType
             holder.itemView.tv_title.isVisible = dataList[position].isTitle
-            holder.itemView.tv_title.text = context.getString(if (firstType.isLine()) R.string.tc_connect_line else R.string.tc_connect_wifi)
+            holder.itemView.tv_title.text =
+                context.getString(if (firstType.isLine()) R.string.tc_connect_line else R.string.tc_connect_wifi)
 
             holder.itemView.tv_item1.text = firstType.getDeviceName()
             when (firstType) {

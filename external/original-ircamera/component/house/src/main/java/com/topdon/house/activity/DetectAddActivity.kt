@@ -55,12 +55,13 @@ import java.util.Locale
  * Created by LCG on 2024/8/21.
  */
 class DetectAddActivity : BaseActivity(), View.OnClickListener {
-    private val viewModel: DetectViewModel  by viewModels()
+    private val viewModel: DetectViewModel by viewModels()
 
     /**
      * 仅当编辑模式时，从上一界面传递过来的，要编辑的房屋检测 Id.
      */
     private var editId: Long = 0
+
     /**
      * 当前编辑或新增的房屋检测信息.
      */
@@ -122,11 +123,16 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
         tv_create_report.setOnClickListener(this)
 
         // 给各个标题添加红色*号
-        tv_detect_name_title.text = SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.album_report_name))
-        tv_inspector_name_title.text = SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.inspector_name))
-        tv_detect_time_title.text = SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.detect_time))
-        tv_house_address_title.text = SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.house_detail_address))
-        tv_house_image_title.text = SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.house_image))
+        tv_detect_name_title.text =
+            SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.album_report_name))
+        tv_inspector_name_title.text =
+            SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.inspector_name))
+        tv_detect_time_title.text =
+            SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.detect_time))
+        tv_house_address_title.text =
+            SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.house_detail_address))
+        tv_house_image_title.text =
+            SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.house_image))
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -143,9 +149,11 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             tv_detect_time -> {//检测时间
                 showDetectTimeDialog()
             }
+
             iv_address_location -> {//房屋地址定位图标
                 getLocation()
             }
+
             iv_house_image -> {//房屋图片
                 ImagePickFromDialog(this)
                     .setSelectListener {
@@ -163,6 +171,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                     .show()
             }
+
             tv_house_year -> {//建筑年份
                 YearPicker(this, houseDetect.year).also {
                     it.setTitle(R.string.year_built)
@@ -172,6 +181,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
+
             tv_house_space_unit -> {//建筑面积单位
                 StrArrayPicker(this, resources.getStringArray(R.array.area), SharedManager.houseSpaceUnit).also {
                     it.setTitle(R.string.area)
@@ -182,6 +192,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
+
             tv_cost_unit -> {//检测费用单位
                 StrArrayPicker(this, resources.getStringArray(R.array.currency), SharedManager.costUnit).also {
                     it.setTitle(R.string.diagnosis_unit)
@@ -192,6 +203,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
+
             tv_create_report -> {//创建报告 or 编辑报告
                 val reportName = et_detect_name.text.toString()
                 if (reportName.isEmpty()) {
@@ -245,7 +257,10 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     if (editId == 0L) {
                         val newIntent = Intent(this@DetectAddActivity, ReportAddActivity::class.java)
                         newIntent.putExtra(ExtraKeyConfig.DETECT_ID, houseDetect.id)
-                        newIntent.putExtra(ExtraKeyConfig.IS_TC007, intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false))
+                        newIntent.putExtra(
+                            ExtraKeyConfig.IS_TC007,
+                            intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
+                        )
                         startActivity(newIntent)
                     }
                     dismissLoadingDialog()

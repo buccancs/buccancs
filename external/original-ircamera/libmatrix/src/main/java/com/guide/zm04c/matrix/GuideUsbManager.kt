@@ -68,13 +68,13 @@ class GuideUsbManager {
     }
 
     fun isUsbValid(): Boolean {
-/*
-        if (mConnection == null || mEndpointDataIn == null || mEndpointControlIn == null || mEndpointControlOut == null) {
-            return false;
-        } else {
-            return true;
-        }
-*/
+        /*
+                if (mConnection == null || mEndpointDataIn == null || mEndpointControlIn == null || mEndpointControlOut == null) {
+                    return false;
+                } else {
+                    return true;
+                }
+        */
         return true
     }
 
@@ -115,32 +115,32 @@ class GuideUsbManager {
         }
     }
 
-/*
-    private void findInterface() {
+    /*
+        private void findInterface() {
 
-        if (mUsbDevice != null) {
+            if (mUsbDevice != null) {
 
-            int count = mUsbDevice.getInterfaceCount();
-            if (count == 1) {
-                mUsbInterface = mUsbDevice.getInterface(0);
-            } else {
-                for (int i = 0; i < count; i++) {
-                    UsbInterface usbInterface = mUsbDevice.getInterface(i);
-                    // 根据手上的设备做一些判断，其实这些信息都可以在枚举到设备时打印出来
-                    if (usbInterface.getEndpointCount() == 2 && usbInterface.getAlternateSetting() == 1) {
-                        mUsbInterface = usbInterface;
-                        mConnectCode = ResultCode.SUCC_FIND_DEVICE_INTERFACE;
-                        break;
+                int count = mUsbDevice.getInterfaceCount();
+                if (count == 1) {
+                    mUsbInterface = mUsbDevice.getInterface(0);
+                } else {
+                    for (int i = 0; i < count; i++) {
+                        UsbInterface usbInterface = mUsbDevice.getInterface(i);
+                        // 根据手上的设备做一些判断，其实这些信息都可以在枚举到设备时打印出来
+                        if (usbInterface.getEndpointCount() == 2 && usbInterface.getAlternateSetting() == 1) {
+                            mUsbInterface = usbInterface;
+                            mConnectCode = ResultCode.SUCC_FIND_DEVICE_INTERFACE;
+                            break;
+                        }
                     }
-                }
 
-                if (mUsbInterface == null) {
-                    mConnectCode = ResultCode.ERROR_NOT_FIND_INTERFACE;
+                    if (mUsbInterface == null) {
+                        mConnectCode = ResultCode.ERROR_NOT_FIND_INTERFACE;
+                    }
                 }
             }
         }
-    }
-*/
+    */
 
     /*
     private void findInterface() {

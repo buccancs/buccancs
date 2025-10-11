@@ -36,71 +36,48 @@ import static com.infisense.usbdual.camera.IFrameData.FRAME_LEN;
  */
 public class DualViewWithExternalCameraCommonApi extends BaseDualView {
 
+    public static final int MULTIPLE = 2;
     private final String TAG = "DualViewWithExternalCameraCommonApi";
-    private DualUVCCamera dualUVCCamera;
     private final IFrameCallback iFrameCallback;
     private final IIRFrameCallback irFrameCallback;
+    private final byte[] amplifyMixRotateArray;//融合的数据 640 * MULTIPLE * 480 * MULTIPLE
+    private final byte[] amplifyIRRotateArray;//单红外的数据 256 * MULTIPLE * 192 * MULTIPLE
     public SurfaceView cameraview;
     public boolean isRun = true;
     // 帧率展示
     public int count = 0;
-    private long timestart = 0;
-    private double fps = 0;
     //开启自动增益切换将auto_gain_switch和auto_gain_switch_running同时改为true
     public boolean auto_gain_switch = false;
     public boolean auto_gain_switch_running = true;
     public boolean auto_over_protect = false;
-    private LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
-    private LibIRProcess.GainSwitchParam_t gain_switch_param = new LibIRProcess.GainSwitchParam_t();
-    private CommonParams.GainStatus gainStatus = CommonParams.GainStatus.HIGH_GAIN;
     public Bitmap bitmap;
     public Bitmap supIROlyNoFusionBitmap;
     public Bitmap supMixBitmap;
     public Bitmap supIROlyBitmap;
-
+    public byte[] frameData = new byte[FRAME_LEN];//原始全部数据
+    public byte[] frameIrAndTempData = new byte[192 * 256 * 4];
+    public int rotate = 180; //镜头颠倒了，所以初始颠倒个180度
+    private DualUVCCamera dualUVCCamera;
+    private long timestart = 0;
+    private double fps = 0;
+    private LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
+    private LibIRProcess.GainSwitchParam_t gain_switch_param = new LibIRProcess.GainSwitchParam_t();
+    private CommonParams.GainStatus gainStatus = CommonParams.GainStatus.HIGH_GAIN;
     private boolean valid = false;
     private Bitmap mScaledBitmap;
     private Handler handler;
-
     // 是否使用IRISP算法集成
     private boolean isUseIRISP = false;
-
     private SurfaceNativeWindow mSurfaceNativeWindow;
     private Surface mSurface;
-
     private DualCameraParams.FusionType mCurrentFusionType;
     private boolean firstFrame = false;
     private byte[] irRGBAData;//原始红外数据 192 *256
     private byte[] preIrData;//预处理红外原始数据 192 *256 * 2
     private byte[] preTempData;//预处理温度原始数据 192 *256 * 2
     private byte[] preIrARGBData;//预处理后红外ARGB数据 192 * 256 * 4
-    public byte[] frameData = new byte[FRAME_LEN];//原始全部数据
-
-    public byte[] frameIrAndTempData = new byte[192 * 256 * 4];
-
-    public int rotate = 180; //镜头颠倒了，所以初始颠倒个180度
-
     private volatile boolean isOpenAmplify = false;
-    private final byte[] amplifyMixRotateArray;//融合的数据 640 * MULTIPLE * 480 * MULTIPLE
-    private final byte[] amplifyIRRotateArray;//单红外的数据 256 * MULTIPLE * 192 * MULTIPLE
-
-    public static final int MULTIPLE = 2;
-
-
-    public boolean isOpenAmplify() {
-        return isOpenAmplify;
-    }
-
-    public void setOpenAmplify(boolean openAmplify) {
-        isOpenAmplify = openAmplify;
-    }
-
-    /**
-     * @param handler
-     */
-    public void setHandler(Handler handler) {
-        this.handler = handler;
-    }
+    private boolean saveData = false;
 
     /**
      * @param cameraview
@@ -117,7 +94,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                                                CommonParams.DataFlowMode dataFlowMode,
                                                int irCameraWidth, int irCameraHeight, int vlCameraWidth, int vlCameraHeight,
                                                int dualCameraWidth, int dualCameraHeight,
-                                               boolean isUseIRISP,int rotate,IIRFrameCallback irFrameCallback) {
+                                               boolean isUseIRISP, int rotate, IIRFrameCallback irFrameCallback) {
         Const.CAMERA_WIDTH = vlCameraWidth;
         Const.CAMERA_HEIGHT = vlCameraHeight;
         Const.IR_WIDTH = irCameraHeight;
@@ -208,7 +185,8 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         irRGBAData = new byte[irSize * 4];
         preIrData = new byte[irSize * 2];//预处理红外原始数据 192 *256 * 2
         preTempData = new byte[irSize * 2];//预处理温度原始数据 192 *256 * 2
-        preIrARGBData = new byte[irSize * 2 * 2];;//预处理后红外ARGB数据 192 * 256 * 4
+        preIrARGBData = new byte[irSize * 2 * 2];
+        ;//预处理后红外ARGB数据 192 * 256 * 4
         iFrameCallback = new IFrameCallback() {
             /**
              * frame 所有数据集合 (CPU)
@@ -270,7 +248,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                         0, vlSize);
                 System.arraycopy(frame, 0, frameData, 0, FRAME_LEN); //无损数据
                 //合并原始红外数据和原始温度数据
-                System.arraycopy(frame, dualCameraWidth*dualCameraHeight*4, frameIrAndTempData, 0, frameIrAndTempData.length);
+                System.arraycopy(frame, dualCameraWidth * dualCameraHeight * 4, frameIrAndTempData, 0, frameIrAndTempData.length);
 
                 //画中画模式ScreenFusion:mixData 为单红外数据，格式ARGB，长度dualwidth * dualHeight * 4
 //                if (mCurrentFusionType == DualCameraParams.FusionType.ScreenFusion) {
@@ -293,34 +271,34 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
 
                 if (mCurrentFusionType == DualCameraParams.FusionType.IROnlyNoFusion) {
                     LibIRParse.converyArrayYuv422ToARGB(irData, Const.IR_WIDTH * Const.IR_HEIGHT, irRGBAData);
-                    if (isOpenAmplify){
-                        OpencvTools.supImage(irData,Const.IR_HEIGHT,Const.IR_WIDTH, amplifyIRRotateArray);
+                    if (isOpenAmplify) {
+                        OpencvTools.supImage(irData, Const.IR_HEIGHT, Const.IR_WIDTH, amplifyIRRotateArray);
                         if (mSurface != null) {
                             mSurfaceNativeWindow.onDrawFrame(mSurface, amplifyIRRotateArray,
                                     Const.IR_WIDTH * MULTIPLE,
                                     Const.IR_HEIGHT * MULTIPLE);
                         }
-                    }else {
+                    } else {
                         if (mSurface != null) {
                             mSurfaceNativeWindow.onDrawFrame(mSurface, irRGBAData, Const.IR_HEIGHT, Const.IR_WIDTH);
                         }
                     }
-                }else {
-                    if (isOpenAmplify){
-                        if (mCurrentFusionType == DualCameraParams.FusionType.IROnly){
-                            OpencvTools.supImageMix(mixData,Const.DUAL_HEIGHT,Const.DUAL_WIDTH, mixData);
+                } else {
+                    if (isOpenAmplify) {
+                        if (mCurrentFusionType == DualCameraParams.FusionType.IROnly) {
+                            OpencvTools.supImageMix(mixData, Const.DUAL_HEIGHT, Const.DUAL_WIDTH, mixData);
                             if (mSurface != null) {
                                 mSurfaceNativeWindow.onDrawFrame(mSurface, mixData, Const.DUAL_WIDTH, Const.DUAL_HEIGHT);
                             }
-                        }else {
-                            OpencvTools.supImage(mixData,Const.DUAL_HEIGHT,Const.DUAL_WIDTH, amplifyMixRotateArray);
+                        } else {
+                            OpencvTools.supImage(mixData, Const.DUAL_HEIGHT, Const.DUAL_WIDTH, amplifyMixRotateArray);
                             if (mSurface != null) {
                                 mSurfaceNativeWindow.onDrawFrame(mSurface, amplifyMixRotateArray,
                                         Const.DUAL_WIDTH * MULTIPLE,
                                         Const.DUAL_HEIGHT * MULTIPLE);
                             }
                         }
-                    }else {
+                    } else {
                         if (mSurface != null) {
                             mSurfaceNativeWindow.onDrawFrame(mSurface, mixData, Const.DUAL_WIDTH, Const.DUAL_HEIGHT);
                         }
@@ -388,6 +366,21 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         };
     }
 
+    public boolean isOpenAmplify() {
+        return isOpenAmplify;
+    }
+
+    public void setOpenAmplify(boolean openAmplify) {
+        isOpenAmplify = openAmplify;
+    }
+
+    /**
+     * @param handler
+     */
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
     public void resetAutoGainInfo() {
         auto_gain_switch_info.switched_flag = 0;
         auto_gain_switch_info.cur_switched_cnt = 0;
@@ -429,7 +422,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
 
     public void switchIrPreDataHandleEnable(boolean enable) {
         dualUVCCamera.setIrDataPreHandleEnable(enable);
-        dualUVCCamera.setIrFrameCallback(enable? irFrameCallback : null);
+        dualUVCCamera.setIrFrameCallback(enable ? irFrameCallback : null);
     }
 
     public byte[] getRemapTempData() {
@@ -437,32 +430,30 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
     }
 
     public Bitmap getScaledBitmap() {
-        if (isOpenAmplify){
-            if (mCurrentFusionType == DualCameraParams.FusionType.IROnlyNoFusion){
+        if (isOpenAmplify) {
+            if (mCurrentFusionType == DualCameraParams.FusionType.IROnlyNoFusion) {
                 //单红外模式
                 supIROlyNoFusionBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(amplifyIRRotateArray, 0,
                         supIROlyNoFusionBitmap.getWidth() * supIROlyNoFusionBitmap.getHeight() * 4));
                 mScaledBitmap = Bitmap.createScaledBitmap(supIROlyNoFusionBitmap,
-                        ((ViewGroup)cameraview.getParent()).getWidth(),
-                        ((ViewGroup)cameraview.getParent()).getHeight(), true);
-            }else if (mCurrentFusionType == DualCameraParams.FusionType.IROnly){
+                        ((ViewGroup) cameraview.getParent()).getWidth(),
+                        ((ViewGroup) cameraview.getParent()).getHeight(), true);
+            } else if (mCurrentFusionType == DualCameraParams.FusionType.IROnly) {
                 bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(mixData, 0, bitmap.getWidth() * bitmap.getHeight() * 4));
-                mScaledBitmap = Bitmap.createScaledBitmap(bitmap, ((ViewGroup)cameraview.getParent()).getWidth(),
-                        ((ViewGroup)cameraview.getParent()).getHeight(), true);
+                mScaledBitmap = Bitmap.createScaledBitmap(bitmap, ((ViewGroup) cameraview.getParent()).getWidth(),
+                        ((ViewGroup) cameraview.getParent()).getHeight(), true);
             } else {
                 supMixBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(mixData, 0, supMixBitmap.getWidth() * supMixBitmap.getHeight() * 4));
-                mScaledBitmap = Bitmap.createScaledBitmap(supMixBitmap, ((ViewGroup)cameraview.getParent()).getWidth(),
-                        ((ViewGroup)cameraview.getParent()).getHeight(), true);
+                mScaledBitmap = Bitmap.createScaledBitmap(supMixBitmap, ((ViewGroup) cameraview.getParent()).getWidth(),
+                        ((ViewGroup) cameraview.getParent()).getHeight(), true);
             }
-        }else {
+        } else {
             bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(mixData, 0, bitmap.getWidth() * bitmap.getHeight() * 4));
-            mScaledBitmap = Bitmap.createScaledBitmap(bitmap, ((ViewGroup)cameraview.getParent()).getWidth(),
-                    ((ViewGroup)cameraview.getParent()).getHeight(), true);
+            mScaledBitmap = Bitmap.createScaledBitmap(bitmap, ((ViewGroup) cameraview.getParent()).getWidth(),
+                    ((ViewGroup) cameraview.getParent()).getHeight(), true);
         }
         return mScaledBitmap;
     }
-
-    private boolean saveData = false;
 
     public void saveData() {
         saveData = true;

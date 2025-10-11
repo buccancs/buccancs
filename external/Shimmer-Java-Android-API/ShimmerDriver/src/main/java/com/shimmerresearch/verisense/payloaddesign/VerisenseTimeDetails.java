@@ -7,157 +7,154 @@ import com.shimmerresearch.verisense.payloaddesign.AsmBinaryFileConstants.BYTE_C
 import com.shimmerresearch.verisense.sensors.SensorVerisenseClock;
 
 public class VerisenseTimeDetails implements Serializable {
-	
-	private static final long serialVersionUID = -8512683733417198408L;
-	
-	public static final double DEFAULT_END_TIME_VALUE = Double.MIN_VALUE;
-	public static final double DEFAULT_START_TIME_VALUE = Double.MAX_VALUE;
 
-	// Arbitrarily chosen threshold for detecting whether time is set in Sensor.
-	public static final long TIME_MS_1980 = UtilVerisenseDriver.fromTimeStringToMilliseconds("1980/01/01 00:00:00", UtilVerisenseDriver.DATE_FORMAT_NO_MILLIS);
+    public static final double DEFAULT_END_TIME_VALUE = Double.MIN_VALUE;
+    public static final double DEFAULT_START_TIME_VALUE = Double.MAX_VALUE;
+    // Arbitrarily chosen threshold for detecting whether time is set in Sensor.
+    public static final long TIME_MS_1980 = UtilVerisenseDriver.fromTimeStringToMilliseconds("1980/01/01 00:00:00", UtilVerisenseDriver.DATE_FORMAT_NO_MILLIS);
+    private static final long serialVersionUID = -8512683733417198408L;
+    private long endTimeMinutes = 0;
+    private long endTimeTicks = 0;
+    private double endTimeMs = DEFAULT_END_TIME_VALUE;
+    private double startTimeMs = DEFAULT_START_TIME_VALUE;
 
-	private long endTimeMinutes = 0;
-	private long endTimeTicks = 0;
-	private double endTimeMs = DEFAULT_END_TIME_VALUE;
-	private double startTimeMs = DEFAULT_START_TIME_VALUE;
+    public VerisenseTimeDetails() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public VerisenseTimeDetails() {
-		// TODO Auto-generated constructor stub
-	}
+    public static double calculateStartTimeMs(double endTimeMs, long sampleCount, double timestampDiffInS) {
+        // minus 1 from number of samples as the last sample is at the end time
+        return (endTimeMs - ((sampleCount - 1) * timestampDiffInS * 1000));
+    }
 
-	public void setEndTimeAndCalculateMs(long endTimeMinutes, long endTimeTicks) {
-		setEndTimeMinutes(endTimeMinutes);
-		setEndTimeTicks(endTimeTicks);
-		
-		calculateEndTimeMs();
-	}
+    public static long parseTimeTicksAtIndex(byte[] byteBuffer, int currentByteIndex) {
+        long rtcEndTimeTicks = 0;
+        for (int i = 0; i < 3; i++) {
+            byte currentByte = byteBuffer[currentByteIndex++];
+            rtcEndTimeTicks += ((((long) currentByte) & 0xFF) << (i * 8));
+        }
+        return rtcEndTimeTicks;
+    }
 
-	public void calculateEndTimeMs() {
-		// Convert minutes and clock ticks to milliseconds
-		setEndTimeMs(SensorVerisenseClock.convertRtcMinutesAndTicksToMs(endTimeMinutes, endTimeTicks));
-	}
+    public static long parseTimeMinutesAtIndex(byte[] byteBuffer, int currentByteIndex) {
+        long rtcEndTimeMinutes = 0;
+        for (int i = 0; i < 4; i++) {
+            byte currentByte = byteBuffer[currentByteIndex++];
+            rtcEndTimeMinutes += ((((long) currentByte) & 0xFF) << (i * 8));
+        }
+        return rtcEndTimeMinutes;
+    }
 
-	public String getEndTimeStr() {
-		return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long)getEndTimeMs());
-	}
-	
-	public double getStartTimeMs() {
-		return startTimeMs;
-	}
-	
-	public void setStartTimeMs(double calculatedStartTimeMs) {
-		startTimeMs = calculatedStartTimeMs;
-	}
-	
-	public String getStartTimeStr() {
-		return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long)getStartTimeMs());
-	}
+    public static double parseTimeMsFromMinutesAndTicksAtIndex(byte[] byteBuffer, int currentByteIndex) {
+        long rtcTimeMinutes = parseTimeMinutesAtIndex(byteBuffer, currentByteIndex);
+        long rtcTimeTicks = parseTimeTicksAtIndex(byteBuffer, currentByteIndex + 4);
+        return SensorVerisenseClock.convertRtcMinutesAndTicksToMs(rtcTimeMinutes, rtcTimeTicks);
+    }
 
-	public boolean isStartTimeSet() {
-		return startTimeMs != DEFAULT_START_TIME_VALUE;
-	}
+    public static byte[] generateMinutesAndTicksByteArray(double timeMs) {
+        double timeS = (double) timeMs / 1000;
+        long minutes = calculateMinutesFromSeconds(timeS);
+        long ticks = calculateTicksFromSeconds(timeS);
+        return generateMinutesAndTicksByteArray(minutes, ticks);
+    }
 
-	public void setEndTimeMs(double endTimeMs) {
-		this.endTimeMs = endTimeMs;
-	}
+    public static long calculateMinutesFromSeconds(double timeS) {
+        return (long) (timeS / 60);
+    }
 
-	public double getEndTimeMs() {
-		return endTimeMs;
-	}
+    public static long calculateTicksFromSeconds(double timeS) {
+        return (long) ((timeS % 60) * AsmBinaryFileConstants.TICKS_PER_SECOND);
+    }
 
-	public void setEndTimeMinutes(long endTimeMinutes) {
-		this.endTimeMinutes = endTimeMinutes;
-	}
+    public static byte[] generateMinutesAndTicksByteArray(long minutes, long ticks) {
+        byte[] bufArray = new byte[BYTE_COUNT.PAYLOAD_CONTENTS_RTC_BYTES];
+        for (int x = 0; x < 4; x++) {
+            bufArray[x] = (byte) ((minutes >> (x * 8)) & 0xFF);
+        }
+        for (int x = 0; x < 3; x++) {
+            bufArray[x + 4] = (byte) ((ticks >> (x * 8)) & 0xFF);
+        }
+        return bufArray;
+    }
 
-	public long getEndTimeMinutes() {
-		return endTimeMinutes;
-	}
+    public void setEndTimeAndCalculateMs(long endTimeMinutes, long endTimeTicks) {
+        setEndTimeMinutes(endTimeMinutes);
+        setEndTimeTicks(endTimeTicks);
 
-	public void setEndTimeTicks(long endTimeTicks) {
-		this.endTimeTicks = endTimeTicks;
-	}
+        calculateEndTimeMs();
+    }
 
-	public long getEndTimeTicks() {
-		return endTimeTicks;
-	}
+    public void calculateEndTimeMs() {
+        // Convert minutes and clock ticks to milliseconds
+        setEndTimeMs(SensorVerisenseClock.convertRtcMinutesAndTicksToMs(endTimeMinutes, endTimeTicks));
+    }
 
-	public boolean isEndTimeSet() {
-		return endTimeMs != DEFAULT_END_TIME_VALUE;
-	}
+    public String getEndTimeStr() {
+        return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getEndTimeMs());
+    }
 
-	public boolean isTimeSetInSensor() {
-		return endTimeMs < TIME_MS_1980;
-	}
+    public double getStartTimeMs() {
+        return startTimeMs;
+    }
 
-	public void calculateAndSetStartTimeMs(int sampleCount, double timestampDiffInS) {
-		setStartTimeMs(calculateStartTimeMs(getEndTimeMs(), sampleCount, timestampDiffInS));
-	}
-	
-	public double calculateDurationMs() {
-		return getEndTimeMs()-getStartTimeMs();
-	}
+    public void setStartTimeMs(double calculatedStartTimeMs) {
+        startTimeMs = calculatedStartTimeMs;
+    }
 
-	public String generateTimingReport() {
-		return ("Timimg [Start=" + (isStartTimeSet()? UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getStartTimeMs()):"Not set")
-		+ ", End=" + (isEndTimeSet()? UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getEndTimeMs()):"Not set")
-		+ ", Duration=" + ((isStartTimeSet()&&isEndTimeSet())? UtilVerisenseDriver.convertSecondsToHHmmssSSS(calculateDurationMs()/1000):UtilVerisenseDriver.FEATURE_NOT_AVAILABLE)
-		 + "]"
-		);
-	}
-	
-	public static double calculateStartTimeMs(double endTimeMs, long sampleCount, double timestampDiffInS) {
-		// minus 1 from number of samples as the last sample is at the end time
-		return (endTimeMs - ((sampleCount - 1) * timestampDiffInS * 1000));
-	}
+    public String getStartTimeStr() {
+        return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getStartTimeMs());
+    }
 
-	public static long parseTimeTicksAtIndex(byte[] byteBuffer, int currentByteIndex) {
-		long rtcEndTimeTicks = 0;
-		for(int i=0;i<3;i++) {
-			byte currentByte = byteBuffer[currentByteIndex++];
-			rtcEndTimeTicks += ((((long)currentByte)&0xFF)<<(i*8));
-		}
-		return rtcEndTimeTicks;
-	}
+    public boolean isStartTimeSet() {
+        return startTimeMs != DEFAULT_START_TIME_VALUE;
+    }
 
-	public static long parseTimeMinutesAtIndex(byte[] byteBuffer, int currentByteIndex) {
-		long rtcEndTimeMinutes = 0;
-		for(int i=0;i<4;i++) {
-			byte currentByte = byteBuffer[currentByteIndex++];
-			rtcEndTimeMinutes += ((((long)currentByte)&0xFF)<<(i*8));
-		}
-		return rtcEndTimeMinutes;
-	}
+    public double getEndTimeMs() {
+        return endTimeMs;
+    }
 
-	public static double parseTimeMsFromMinutesAndTicksAtIndex(byte[] byteBuffer, int currentByteIndex) {
-		long rtcTimeMinutes = parseTimeMinutesAtIndex(byteBuffer, currentByteIndex);
-		long rtcTimeTicks = parseTimeTicksAtIndex(byteBuffer, currentByteIndex+4);
-		return SensorVerisenseClock.convertRtcMinutesAndTicksToMs(rtcTimeMinutes, rtcTimeTicks);
-	}
+    public void setEndTimeMs(double endTimeMs) {
+        this.endTimeMs = endTimeMs;
+    }
 
-	public static byte[] generateMinutesAndTicksByteArray(double timeMs) {
-		double timeS = (double)timeMs/1000;
-		long minutes = calculateMinutesFromSeconds(timeS);
-		long ticks = calculateTicksFromSeconds(timeS);
-		return generateMinutesAndTicksByteArray(minutes, ticks);
-	}
+    public long getEndTimeMinutes() {
+        return endTimeMinutes;
+    }
 
-	public static long calculateMinutesFromSeconds(double timeS) {
-		return (long) (timeS / 60);
-	}
+    public void setEndTimeMinutes(long endTimeMinutes) {
+        this.endTimeMinutes = endTimeMinutes;
+    }
 
-	public static long calculateTicksFromSeconds(double timeS) {
-		return (long) ((timeS % 60) * AsmBinaryFileConstants.TICKS_PER_SECOND);
-	}
+    public long getEndTimeTicks() {
+        return endTimeTicks;
+    }
 
-	public static byte[] generateMinutesAndTicksByteArray(long minutes, long ticks) {
-		byte[] bufArray = new byte[BYTE_COUNT.PAYLOAD_CONTENTS_RTC_BYTES];
-		for(int x=0;x<4;x++) {
-			bufArray[x] = (byte) ((minutes>>(x*8))&0xFF);
-		}
-		for(int x=0;x<3;x++) {
-			bufArray[x+4] = (byte) ((ticks>>(x*8))&0xFF);
-		}
-		return bufArray;
-	}
+    public void setEndTimeTicks(long endTimeTicks) {
+        this.endTimeTicks = endTimeTicks;
+    }
+
+    public boolean isEndTimeSet() {
+        return endTimeMs != DEFAULT_END_TIME_VALUE;
+    }
+
+    public boolean isTimeSetInSensor() {
+        return endTimeMs < TIME_MS_1980;
+    }
+
+    public void calculateAndSetStartTimeMs(int sampleCount, double timestampDiffInS) {
+        setStartTimeMs(calculateStartTimeMs(getEndTimeMs(), sampleCount, timestampDiffInS));
+    }
+
+    public double calculateDurationMs() {
+        return getEndTimeMs() - getStartTimeMs();
+    }
+
+    public String generateTimingReport() {
+        return ("Timimg [Start=" + (isStartTimeSet() ? UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getStartTimeMs()) : "Not set")
+                + ", End=" + (isEndTimeSet() ? UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getEndTimeMs()) : "Not set")
+                + ", Duration=" + ((isStartTimeSet() && isEndTimeSet()) ? UtilVerisenseDriver.convertSecondsToHHmmssSSS(calculateDurationMs() / 1000) : UtilVerisenseDriver.FEATURE_NOT_AVAILABLE)
+                + "]"
+        );
+    }
 
 }

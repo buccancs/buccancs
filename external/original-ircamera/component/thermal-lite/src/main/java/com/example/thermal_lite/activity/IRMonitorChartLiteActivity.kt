@@ -46,7 +46,7 @@ import java.math.RoundingMode
  * 温度实时监控
  */
 @Route(path = RouterConfig.IR_MONITOR_CHART_LITE)
-class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
+class IRMonitorChartLiteActivity : BaseActivity(), ITsTempListener {
 
     /**
      * 从上一界面传递过来的，当前选中的 点/线/面 信息.
@@ -54,7 +54,7 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
     private var selectBean: SelectPositionBean = SelectPositionBean()
 
     private val bean = ThermalBean()
-    var irMonitorLiteFragment : IRMonitorLiteFragment ?= null
+    var irMonitorLiteFragment: IRMonitorLiteFragment? = null
     protected var tau_data_H: ByteArray? = null
     protected var tau_data_L: ByteArray? = null
 
@@ -65,12 +65,14 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
         super.onCreate(savedInstanceState)
         selectBean = intent.getParcelableExtra("select")!!
         lifecycleScope.launch {
-            withContext(Dispatchers.IO){
-                if (BaseApplication.instance.tau_data_H == null){
-                    BaseApplication.instance.tau_data_H = CommonUtil.getAssetData(mContext, IrConst.TAU_HIGH_GAIN_ASSET_PATH)
+            withContext(Dispatchers.IO) {
+                if (BaseApplication.instance.tau_data_H == null) {
+                    BaseApplication.instance.tau_data_H =
+                        CommonUtil.getAssetData(mContext, IrConst.TAU_HIGH_GAIN_ASSET_PATH)
                 }
-                if (BaseApplication.instance.tau_data_L == null){
-                    BaseApplication.instance.tau_data_L = CommonUtil.getAssetData(mContext, IrConst.TAU_LOW_GAIN_ASSET_PATH)
+                if (BaseApplication.instance.tau_data_L == null) {
+                    BaseApplication.instance.tau_data_L =
+                        CommonUtil.getAssetData(mContext, IrConst.TAU_LOW_GAIN_ASSET_PATH)
                 }
             }
             delay(1000)
@@ -93,7 +95,8 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
             }
         }
 
-        monitor_current_vol.text = getString(if (selectBean.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
+        monitor_current_vol.text =
+            getString(if (selectBean.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
         monitor_real_vol.visibility = if (selectBean.type == 1) View.GONE else View.VISIBLE
         monitor_real_img.visibility = if (selectBean.type == 1) View.GONE else View.VISIBLE
 
@@ -116,10 +119,12 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
             var errorReadCount = 0
             while (true) {
                 delay(1000)
-                if (irMonitorLiteFragment!=null){
+                if (irMonitorLiteFragment != null) {
                     val result: LibIRTemp.TemperatureSampleResult = when (selectBean.type) {
                         1 -> irMonitorLiteFragment!!.getTemperatureView().getPointTemp(selectBean.startPosition)
-                        2 -> irMonitorLiteFragment!!.getTemperatureView().getLineTemp(Line(selectBean.startPosition, selectBean.endPosition))
+                        2 -> irMonitorLiteFragment!!.getTemperatureView()
+                            .getLineTemp(Line(selectBean.startPosition, selectBean.endPosition))
+
                         else -> irMonitorLiteFragment!!.getTemperatureView().getRectTemp(selectBean.getRect())
                     } ?: continue
                     if (isFirstRead) {
@@ -169,7 +174,6 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
     }
 
 
-
     override fun onDestroy() {
         super.onDestroy()
         recordJob?.cancel()
@@ -185,6 +189,7 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
     private var canUpdate = false
 
     private var recordJob: Job? = null
+
     /**
      * 开始每隔1秒记录一个温度数据到数据库.
      */
@@ -234,6 +239,7 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
                 //准备图像
                 showCameraLoading()
             }
+
             101 -> {
                 //显示图像
                 dismissCameraLoading()
@@ -242,7 +248,7 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
     }
 
 
-    var config : DataBean ?= null
+    var config: DataBean? = null
     val basicGainGetValue = IntArray(1)
     var basicGainGetTime = 0L
 
@@ -250,22 +256,23 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
     override fun tempCorrectByTs(temp: Float?): Float {
         var tempNew = temp
         try {
-            if (config == null){
+            if (config == null) {
                 config = ConfigRepository.readConfig(false)
             }
             val defModel = DataBean()
             if (config!!.radiation == defModel.radiation &&
                 defModel.environment == config!!.environment &&
-                defModel.distance == config!!.distance){
+                defModel.distance == config!!.distance
+            ) {
                 return temp!!
             }
 
             //获取增益状态 PASS
-            if (System.currentTimeMillis() - basicGainGetTime > 5000L){
+            if (System.currentTimeMillis() - basicGainGetTime > 5000L) {
                 try {
                     val basicGainGet: IrcmdError? = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
                         ?.basicGainGet(basicGainGetValue)
-                }catch (e : Exception){
+                } catch (e: Exception) {
                     XLog.e("增益获取失败")
                 }
                 basicGainGetTime = System.currentTimeMillis()
@@ -292,9 +299,9 @@ class IRMonitorChartLiteActivity : BaseActivity(),ITsTempListener {
                         " ems = " + params_array[1] + " ta = " + params_array[2] + " " +
                         "distance = " + params_array[4] + " hum = " + params_array[5]
             )
-        }catch (e : Exception){
+        } catch (e: Exception) {
             XLog.e("$TAG--温度修正异常：${e.message}")
-        }finally {
+        } finally {
             return tempNew ?: 0f
         }
     }

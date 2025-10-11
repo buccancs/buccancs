@@ -1,14 +1,13 @@
 from __future__ import print_function
 
+import grpc
 import random
 import time
-
-import grpc
-
 from time import sleep
 
 from ShimmerGrpcPythonLib import ShimmerGrpcAndOJC_pb2
 from ShimmerGrpcPythonLib import ShimmerGrpcAndOJC_pb2_grpc
+
 
 def connectToServer():
     address = 'localhost:50051'
@@ -29,9 +28,12 @@ def helloServer(stub):
     response = stub.SayHello(ShimmerGrpcAndOJC_pb2.HelloRequest(name='Helbling'))
     print('\tResponse: ' + response.message)
 
+
 def closeApplication(stub):
     print('Requesting to close Application...')
     response = stub.CloseApplication(ShimmerGrpcAndOJC_pb2.ShimmerRequest())
+
+
 #    print('\tResponse: ' + response.message)
 
 def getWorkspaceDirectory(stub):
@@ -39,18 +41,22 @@ def getWorkspaceDirectory(stub):
     response = stub.GetWorkspaceDirectory(ShimmerGrpcAndOJC_pb2.StringMsg(message=''))
     print('\tWorkspace Directory=' + response.message)
 
+
 def setWorkspaceDirectory(stub):
-    newWorkspace='C:/Users/Shimmer/Documents/StroKare_Workspace/'
+    newWorkspace = 'C:/Users/Shimmer/Documents/StroKare_Workspace/'
     print('Setting Workspace Directory to: ' + newWorkspace)
     response = stub.SetWorkspaceDirectory(ShimmerGrpcAndOJC_pb2.StringMsg(message=newWorkspace))
-#    print('\tPass? ' + str(response.isSuccess))
-#    print('\tMessage=' + response.message)
+    #    print('\tPass? ' + str(response.isSuccess))
+    #    print('\tMessage=' + response.message)
     print(response)
+
 
 def getDockedShimmerInfo(stub):
     print('Getting docked Shimmers...\n')
     response = stub.GetDockedShimmerInfo(ShimmerGrpcAndOJC_pb2.StringMsg(message=''))
     print(response)
+
+
 #    for key in response.shimmerMap:
 #      shimmer = response.shimmerMap[key]
 #      print(shimmer.name)
@@ -59,25 +65,28 @@ def printDockedShimmerUniqueIds(stub):
     uniqueIds = getDockedShimmerUniqueIds(stub)
     print(', '.join(uniqueIds))
 
+
 def getDockedShimmerUniqueIds(stub):
     response = stub.GetDockedShimmerInfo(ShimmerGrpcAndOJC_pb2.StringMsg(message=''))
-    uniqueIds = ['']*len(response.shimmerMap)
+    uniqueIds = [''] * len(response.shimmerMap)
     i = 0
     for key in response.shimmerMap:
         uniqueIds[i] = key
         i += 1
     return uniqueIds
-    
+
+
 def getMadgewickBetaValue(stub):
     response = stub.GetMadgewickBetaValue(ShimmerGrpcAndOJC_pb2.StringMsg(message=''))
     print('Madgewick Beta value=')
     print(response)
-  
+
+
 def pairShimmers(stub):
     print('Pairing Shimmers...')
     stringArrayMsg = ShimmerGrpcAndOJC_pb2.StringArrayMsg();
-    #Specify particular slots or comment out to pair all docked Shimmers (i.e., has to be 2 devices docked and read)
-#    stringArrayMsg.messageArray.extend(['Base6U.01.01', 'Base6U.01.02'])
+    # Specify particular slots or comment out to pair all docked Shimmers (i.e., has to be 2 devices docked and read)
+    #    stringArrayMsg.messageArray.extend(['Base6U.01.01', 'Base6U.01.02'])
     response = stub.PairShimmers(stringArrayMsg)
     print('Started?')
     print(response)
@@ -85,11 +94,12 @@ def pairShimmers(stub):
     if response.isSuccess:
         waitForOperationToFinish(stub)
 
+
 def importSdDataFromShimmers(stub):
     print('Importing from Shimmers...')
     stringArrayMsg = ShimmerGrpcAndOJC_pb2.StringArrayMsg();
-    #Specify particular slots or comment out to import from all docked Shimmers
-#    stringArrayMsg.messageArray.extend(['Base6U.01.01', 'Base6U.01.02'])
+    # Specify particular slots or comment out to import from all docked Shimmers
+    #    stringArrayMsg.messageArray.extend(['Base6U.01.01', 'Base6U.01.02'])
     response = stub.ImportSdDataFromShimmers(stringArrayMsg)
     print('Started?')
     print(response)
@@ -97,9 +107,10 @@ def importSdDataFromShimmers(stub):
     if response.isSuccess:
         waitForOperationToFinish(stub)
 
+
 def parseSdDataFromPath(stub, path):
     print('Parsing data from path: ' + path)
-#    print(path)
+    #    print(path)
     response = stub.ParseSdDataFromPath(ShimmerGrpcAndOJC_pb2.StringMsg(message=path))
     print('Started?')
     print(response)
@@ -107,11 +118,12 @@ def parseSdDataFromPath(stub, path):
     if response.isSuccess:
         waitForOperationToFinish(stub)
 
+
 def copySdDataFromShimmers(stub):
     print('Copying data from Shimmers...')
     stringArrayMsg = ShimmerGrpcAndOJC_pb2.StringArrayMsg();
-    #Specify particular slots or comment out to import from all docked Shimmers
-#    stringArrayMsg.messageArray.extend(['Base6U.01.01', 'Base6U.01.02'])
+    # Specify particular slots or comment out to import from all docked Shimmers
+    #    stringArrayMsg.messageArray.extend(['Base6U.01.01', 'Base6U.01.02'])
     response = stub.ScanSdDataAndCopy(stringArrayMsg)
     print('Started?')
     print(response)
@@ -119,17 +131,19 @@ def copySdDataFromShimmers(stub):
     if response.isSuccess:
         waitForOperationToFinish(stub)
 
+
 def clearSdDataFromShimmers(stub):
     print('Clearing data from Shimmers...')
     stringArrayMsg = ShimmerGrpcAndOJC_pb2.StringArrayMsg();
-    #Specify particular slots or comment out to import from all docked Shimmers
-#    stringArrayMsg.messageArray.extend(['Base6U.01.01', 'Base6U.01.02'])
+    # Specify particular slots or comment out to import from all docked Shimmers
+    #    stringArrayMsg.messageArray.extend(['Base6U.01.01', 'Base6U.01.02'])
     response = stub.ClearSdCardData(stringArrayMsg)
     print('Started?')
     print(response)
     sleep(2.0)
     if response.isSuccess:
         waitForOperationToFinish(stub)
+
 
 def dockAccessSlotWithSdCard(stub):
     slot = 'Base6U.01.01'
@@ -147,11 +161,12 @@ def dockAccessSlotWithSdCard(stub):
     if response.isSuccess:
         waitForOperationToFinish(stub)
 
+
 def dockRestoreAutoTasks(stub):
     print('Restoring Dock automated tasks...')
     stringArrayMsg = ShimmerGrpcAndOJC_pb2.StringArrayMsg();
-    #Specify particular docks or comment out to import from all docked Shimmers
-#    stringArrayMsg.messageArray.extend(['Base6U.01', 'Base15U.01'])
+    # Specify particular docks or comment out to import from all docked Shimmers
+    #    stringArrayMsg.messageArray.extend(['Base6U.01', 'Base15U.01'])
     response = stub.DockRestoreAutoTasks(stringArrayMsg)
     print('Started?')
     print(response)
@@ -159,19 +174,23 @@ def dockRestoreAutoTasks(stub):
     if response.isSuccess:
         waitForOperationToFinish(stub)
 
+
 def getOperationProgress(stub):
     response = stub.GetOperationProgress(ShimmerGrpcAndOJC_pb2.StringMsg(message=''))
     return response
+
 
 def isOperationInProgress(stub):
     response = getOperationProgress(stub)
     return isOperationInProgressCheck(response.message)
 
+
 def isOperationInProgressCheck(message):
-    if message == 'None':# or message == 'Finished':
+    if message == 'None':  # or message == 'Finished':
         return False
-    else :
+    else:
         return True
+
 
 def waitForOperationToFinish(stub):
     response = getOperationProgress(stub)
@@ -217,7 +236,7 @@ def showMenu(stub):
     elif variable == '6':
         pairShimmers(stub)
     elif variable == '7':
-        #parseSdDataFromPath(stub, 'C:/Users/Shimmer/Documents/StroKare_Workspace/Backup/2017-09-27_12.03.19/0006668ca4cc')
+        # parseSdDataFromPath(stub, 'C:/Users/Shimmer/Documents/StroKare_Workspace/Backup/2017-09-27_12.03.19/0006668ca4cc')
         parseSdDataFromPath(stub, 'C:/Users/Shimmer/Documents/StroKare_Workspace/Backup/2017-09-27_12.03.19')
     elif variable == '8':
         importSdDataFromShimmers(stub)
@@ -232,7 +251,7 @@ def showMenu(stub):
 
     showMenu(stub)
 
-    
+
 def run():
     print("/**********************************/")
     print("/* StroKare Python/Java Interface */")
@@ -251,7 +270,7 @@ def run():
     printDockedShimmerUniqueIds(stub)
     getDockedShimmerInfo(stub)
     showMenu(stub)
-   
- 
+
+
 if __name__ == '__main__':
     run()

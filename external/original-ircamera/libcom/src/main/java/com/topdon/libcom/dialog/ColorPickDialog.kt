@@ -26,12 +26,17 @@ import kotlinx.android.synthetic.main.dialog_color_pick.view.*
  *
  * Created by chenggeng.lin on 2023/12/18.
  */
-class ColorPickDialog(context: Context, @ColorInt private var color: Int,var textSize: Int,var textSizeIsDP : Boolean = false) : Dialog(context, R.style.InfoDialog), View.OnClickListener {
+class ColorPickDialog(
+    context: Context,
+    @ColorInt private var color: Int,
+    var textSize: Int,
+    var textSizeIsDP: Boolean = false
+) : Dialog(context, R.style.InfoDialog), View.OnClickListener {
 
     /**
      * 颜色值拾取事件监听.
      */
-    var onPickListener: ((color: Int,textSize : Int) -> Unit)? = null
+    var onPickListener: ((color: Int, textSize: Int) -> Unit)? = null
 
     private val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_color_pick, null)
 
@@ -68,13 +73,13 @@ class ColorPickDialog(context: Context, @ColorInt private var color: Int,var tex
             unSelect6Color()
             color = it
         }
-        if (textSize != -1){
+        if (textSize != -1) {
             tv_size_title.visibility = View.VISIBLE
             tv_size_value.visibility = View.VISIBLE
             tv_nifty_left.visibility = View.VISIBLE
             tv_nifty_right.visibility = View.VISIBLE
             nifty_slider_view.visibility = View.VISIBLE
-            nifty_slider_view.setOnRangeChangedListener(object : OnRangeChangedListener{
+            nifty_slider_view.setOnRangeChangedListener(object : OnRangeChangedListener {
                 override fun onRangeChanged(
                     view: DefRangeSeekBar?,
                     leftValue: Float,
@@ -82,13 +87,13 @@ class ColorPickDialog(context: Context, @ColorInt private var color: Int,var tex
                     isFromUser: Boolean
                 ) {
                     var text = "标准"
-                    text = if (leftValue <= 0){
+                    text = if (leftValue <= 0) {
                         textSize = 14
                         context.getString(R.string.temp_text_standard)
-                    }else if(leftValue <= 50){
+                    } else if (leftValue <= 50) {
                         textSize = 16
                         context.getString(R.string.temp_text_big)
-                    }else{
+                    } else {
                         textSize = 18
                         context.getString(R.string.temp_text_sup_big)
                     }
@@ -102,8 +107,8 @@ class ColorPickDialog(context: Context, @ColorInt private var color: Int,var tex
                 }
 
             })
-            nifty_slider_view.setProgress(textSizeToNifyValue(textSize,textSizeIsDP))
-        }else{
+            nifty_slider_view.setProgress(textSizeToNifyValue(textSize, textSizeIsDP))
+        } else {
             nifty_slider_view.visibility = View.GONE
         }
         rootView.view_color1.setOnClickListener(this)
@@ -116,15 +121,15 @@ class ColorPickDialog(context: Context, @ColorInt private var color: Int,var tex
         rootView.tv_save.setOnClickListener(this)
     }
 
-    private fun textSizeToNifyValue(size: Int, isTC007: Boolean) : Float{
-        if (isTC007){
-            return when(size){
+    private fun textSizeToNifyValue(size: Int, isTC007: Boolean): Float {
+        if (isTC007) {
+            return when (size) {
                 14 -> 0f
                 16 -> 50f
                 else -> 100f
             }
         }
-        return when(size){
+        return when (size) {
             SizeUtils.sp2px(14f) -> 0f
             SizeUtils.sp2px(16f) -> 50f
             else -> 100f
@@ -137,7 +142,7 @@ class ColorPickDialog(context: Context, @ColorInt private var color: Int,var tex
 
             rootView.tv_save -> {//保存
                 dismiss()
-                onPickListener?.invoke(color,textSize)
+                onPickListener?.invoke(color, textSize)
             }
 
             rootView.view_color1 -> {
@@ -146,30 +151,35 @@ class ColorPickDialog(context: Context, @ColorInt private var color: Int,var tex
                 rootView.view_color1.isSelected = true
                 color = 0xff0000ff.toInt()
             }
+
             rootView.view_color2 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color2.isSelected = true
                 color = 0xffff0000.toInt()
             }
+
             rootView.view_color3 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color3.isSelected = true
                 color = 0xff00ff00.toInt()
             }
+
             rootView.view_color4 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color4.isSelected = true
                 color = 0xffffff00.toInt()
             }
+
             rootView.view_color5 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color5.isSelected = true
                 color = 0xff000000.toInt()
             }
+
             rootView.view_color6 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()

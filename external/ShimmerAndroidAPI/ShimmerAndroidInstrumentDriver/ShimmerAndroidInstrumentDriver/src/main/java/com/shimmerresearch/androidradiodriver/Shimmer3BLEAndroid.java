@@ -52,13 +52,16 @@ import java.util.concurrent.TimeUnit;
 import bolts.TaskCompletionSource;
 
 public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable {
-    transient BleDevice mBleDevice;
+    public static final String TOAST = "toast";
+    transient public final Handler mHandler;
     final String TxID_Shimmer3 = "49535343-8841-43f4-a8d4-ecbe34729bb3";
     final String RxID_Shimmer3 = "49535343-1e4d-4bd9-ba61-23c647249616";
     final String ServiceID_Shimmer3 = "49535343-fe7d-4ae5-8fa9-9fafd205e455";
     final String TxID_Shimmer3R = "65333333-A115-11E2-9E9A-0800200CA101";
     final String RxID_Shimmer3R = "65333333-A115-11E2-9E9A-0800200CA102";
     final String ServiceID_Shimmer3R = "65333333-A115-11E2-9E9A-0800200CA100";
+    protected transient ShimmerDeviceCallbackAdapter mDeviceCallbackAdapter = new ShimmerDeviceCallbackAdapter(this);
+    transient BleDevice mBleDevice;
     String TxID = "";
     String RxID = "";
     String ServiceID = "";
@@ -68,12 +71,11 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     String mMac;
     String uuid;
     transient ThreadSafeByteFifoBuffer mBuffer;
-    protected transient ShimmerDeviceCallbackAdapter mDeviceCallbackAdapter = new ShimmerDeviceCallbackAdapter(this);
-    transient public final Handler mHandler;
-    public static final String TOAST = "toast";
 
     //"DA:A6:19:F0:4A:D7"
     //"E7:45:2C:6D:6F:14"
+    transient TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
+    transient TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
     /**
      * Initialize a ble radio
@@ -84,19 +86,19 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         mMac = mac;
         mHandler = null;
     }
-
-    /** Only support Shimmer3 and Shimmer3R
+    /**
+     * Only support Shimmer3 and Shimmer3R
      *
      * @param hardwareID e.g. ShimmerVerDetails.HW_ID.SHIMMER_3R or ShimmerVerDetails.HW_ID.SHIMMER_3
      * @param mac
      * @param handler
      */
-    public Shimmer3BLEAndroid(int hardwareID, String mac, Handler handler){
-        if (hardwareID== ShimmerVerDetails.HW_ID.SHIMMER_3R){
+    public Shimmer3BLEAndroid(int hardwareID, String mac, Handler handler) {
+        if (hardwareID == ShimmerVerDetails.HW_ID.SHIMMER_3R) {
             sid = UUID.fromString(ServiceID_Shimmer3R);
             txid = UUID.fromString(TxID_Shimmer3R);
             rxid = UUID.fromString(RxID_Shimmer3R);
-        } else if (hardwareID== ShimmerVerDetails.HW_ID.SHIMMER_3) {
+        } else if (hardwareID == ShimmerVerDetails.HW_ID.SHIMMER_3) {
             sid = UUID.fromString(ServiceID_Shimmer3);
             txid = UUID.fromString(TxID_Shimmer3);
             rxid = UUID.fromString(RxID_Shimmer3);
@@ -104,15 +106,14 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         mMac = mac;
         mHandler = handler;
     }
-    transient TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
-    transient TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
     @Override
-    public void sendCallBackMsg(int msgid,Object obj){
+    public void sendCallBackMsg(int msgid, Object obj) {
         if (mHandler != null) {
             mHandler.obtainMessage(msgid, obj).sendToTarget();
         }
     }
+
     /**
      * Connect to the Shimmer3 BLE device
      */
@@ -166,7 +167,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
                 }
                 mTaskConnect.setResult("Connected");
                 //mHandler.obtainMessage(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, -1, -1,
-                        //new ObjectCluster("", bleDevice.getMac(), BT_STATE.CONNECTED)).sendToTarget();
+                //new ObjectCluster("", bleDevice.getMac(), BT_STATE.CONNECTED)).sendToTarget();
                 sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, new ObjectCluster("", bleDevice.getMac(), BT_STATE.CONNECTED));
                 Bundle bundle = new Bundle();
                 bundle.putString(TOAST, "Device connection established");
@@ -174,7 +175,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
 
                 mIOThread = new IOThread();
                 mIOThread.start();
-                if (mUseProcessingThread){
+                if (mUseProcessingThread) {
                     mPThread = new ProcessingThread();
                     mPThread.start();
                 }
@@ -185,7 +186,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
             @Override
             public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 //mHandler.obtainMessage(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, -1, -1,
-                        //new ObjectCluster("", bleDevice.getMac(), BT_STATE.DISCONNECTED)).sendToTarget();
+                //new ObjectCluster("", bleDevice.getMac(), BT_STATE.DISCONNECTED)).sendToTarget();
                 sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, new ObjectCluster("", bleDevice.getMac(), BT_STATE.DISCONNECTED));
 
                 Bundle bundle = new Bundle();
@@ -272,7 +273,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
 
     @Override
     protected boolean bytesAvailableToBeRead() {
-        if (mBuffer.size()>0) {
+        if (mBuffer.size() > 0) {
             return true;
         }
         return false;
@@ -503,6 +504,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         bundle.putString(TOAST, "Device connection was lost");
         sendMsgToHandlerList(MESSAGE_TOAST, bundle);
     }
+
     private void sendMsgToHandlerList(int obtainMessage, Bundle bundle) {
         if (mHandler != null) {
             Message msg = mHandler.obtainMessage(obtainMessage);
@@ -511,6 +513,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         }
 
     }
+
     private void closeConnection() {
         try {
             if (mIOThread != null) {

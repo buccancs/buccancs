@@ -364,7 +364,7 @@ public class BitmapUtils {
         int count = src.length >> 1;
         short[] dest = new short[count];
         for (int i = 0; i < count; i++) {
-            dest[i] = (short) ((src[i * 2] & 0xFF)<< 8 | ((src[2 * i + 1] & 0xFF) ));
+            dest[i] = (short) ((src[i * 2] & 0xFF) << 8 | ((src[2 * i + 1] & 0xFF)));
         }
         return dest;
     }

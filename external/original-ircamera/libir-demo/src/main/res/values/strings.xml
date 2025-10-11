@@ -6,7 +6,9 @@
     <string name="nav_ir_image_or_temp_display">Image or temp display</string>
     <string name="nav_tools">FM update,read,write..</string>
     <!-- usb monitor connect activity -->
-    <string name="usb_monitor_tip">Test USBMonitor\'s plug-in process callback function, please note that the registration and de-registration must appear in pairs.</string>
+    <string name="usb_monitor_tip">Test USBMonitor\'s plug-in process callback function, please note that the
+        registration and de-registration must appear in pairs.
+    </string>
     <!-- title -->
     <string name="pseudo_mode">Pseu</string>
     <string name="temperature">Temp</string>
@@ -16,7 +18,7 @@
     <string name="top_menu_other">Oth</string>
     <!-- pseudocolor  -->
     <string name="color_p1">White Hot</string>
-<!--    <string name="color_p3">Iron Red</string>-->
+    <!--    <string name="color_p3">Iron Red</string>-->
     <string name="color_p4">Rainbow1</string>
     <string name="color_p5">Rainbow2</string>
     <string name="color_p6">Rainbow3</string>

@@ -236,7 +236,8 @@ class FileUtils {
                             var rotate = 0
                             val exif = ExifInterface(imagePath)
                             //获取方向信息
-                            val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+                            val orientation =
+                                exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
 
                             when (orientation) {
                                 ExifInterface.ORIENTATION_ROTATE_90 -> rotate = 90

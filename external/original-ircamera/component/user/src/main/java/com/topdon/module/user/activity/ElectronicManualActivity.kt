@@ -57,8 +57,6 @@ class ElectronicManualActivity : BaseActivity() {
     }
 
 
-
-
     private class MyAdapter(private val isFAQ: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         var onPickListener: ((isTS001: Boolean) -> Unit)? = null
@@ -74,7 +72,9 @@ class ElectronicManualActivity : BaseActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_electronic_manual, parent, false))
+            return ItemViewHolder(
+                LayoutInflater.from(parent.context).inflate(R.layout.item_electronic_manual, parent, false)
+            )
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

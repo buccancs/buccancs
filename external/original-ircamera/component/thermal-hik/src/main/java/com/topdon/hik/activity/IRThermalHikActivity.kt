@@ -115,6 +115,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             field = value
             binding.hikSurfaceView.limitTempMin = value
         }
+
     /**
      * 等温尺限制的高温值，单位摄氏度，MAX_VALUE 表示未设置
      */
@@ -123,11 +124,13 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             field = value
             binding.hikSurfaceView.limitTempMax = value
         }
+
     /**
      * 当前全图最低温，单位跟随用户设置。
      * 本来这个东西可以直接从伪彩条里取的，但伪彩条里的逻辑太乱了，先这么顶着吧
      */
     private var currentMin: Float = 0f
+
     /**
      * 当前全图最高温，单位跟随用户设置。
      */
@@ -278,8 +281,10 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             if (it.isVisible) {//自定义伪彩模式下为 INVISIBLE
                 it.isSelected = !it.isSelected
                 binding.pseudoSeekBar.isEnabled = it.isSelected
-                binding.pseudoSeekBar.leftSeekBar.indicatorBackgroundColor = if (it.isSelected) 0xffe17606.toInt() else 0
-                binding.pseudoSeekBar.rightSeekBar.indicatorBackgroundColor = if (it.isSelected) 0xffe17606.toInt() else 0
+                binding.pseudoSeekBar.leftSeekBar.indicatorBackgroundColor =
+                    if (it.isSelected) 0xffe17606.toInt() else 0
+                binding.pseudoSeekBar.rightSeekBar.indicatorBackgroundColor =
+                    if (it.isSelected) 0xffe17606.toInt() else 0
                 if (!it.isSelected) {//解锁->锁
                     limitTempMin = Float.MIN_VALUE
                     limitTempMax = Float.MAX_VALUE
@@ -297,17 +302,25 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         binding.pseudoSeekBar.setIndicatorTextDecimalFormat("0.0")
         binding.pseudoSeekBar.setPseudocode(saveSetBean.pseudoColorMode)
         binding.pseudoSeekBar.setOnRangeChangedListener(object : OnRangeChangedListener {
-            override fun onRangeChanged(view: RangeSeekBar?, leftValue: Float, rightValue: Float, isFromUser: Boolean, tempMode: Int) {
-                limitTempMin = if (tempMode == RangeSeekBar.TEMP_MODE_MIN || tempMode == RangeSeekBar.TEMP_MODE_INTERVAL) {
-                    UnitTools.showToCValue(leftValue)
-                } else {
-                    Float.MIN_VALUE
-                }
-                limitTempMax = if (tempMode == RangeSeekBar.TEMP_MODE_MAX || tempMode == RangeSeekBar.TEMP_MODE_INTERVAL) {
-                    UnitTools.showToCValue(rightValue)
-                } else {
-                    Float.MAX_VALUE
-                }
+            override fun onRangeChanged(
+                view: RangeSeekBar?,
+                leftValue: Float,
+                rightValue: Float,
+                isFromUser: Boolean,
+                tempMode: Int
+            ) {
+                limitTempMin =
+                    if (tempMode == RangeSeekBar.TEMP_MODE_MIN || tempMode == RangeSeekBar.TEMP_MODE_INTERVAL) {
+                        UnitTools.showToCValue(leftValue)
+                    } else {
+                        Float.MIN_VALUE
+                    }
+                limitTempMax =
+                    if (tempMode == RangeSeekBar.TEMP_MODE_MAX || tempMode == RangeSeekBar.TEMP_MODE_INTERVAL) {
+                        UnitTools.showToCValue(rightValue)
+                    } else {
+                        Float.MAX_VALUE
+                    }
             }
 
             override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
@@ -334,8 +347,10 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             if (customPseudoBean.isUseCustomPseudo) {
                 binding.tvTempContent.text = "Max:${UnitTools.showC(max)}\nMin:${UnitTools.showC(min)}"
             } else {
-                val limitMin: Float = if (limitTempMin == Float.MIN_VALUE) Float.MIN_VALUE else UnitTools.showUnitValue(limitTempMin)
-                val limitMax: Float = if (limitTempMax == Float.MAX_VALUE) Float.MAX_VALUE else UnitTools.showUnitValue(limitTempMax)
+                val limitMin: Float =
+                    if (limitTempMin == Float.MIN_VALUE) Float.MIN_VALUE else UnitTools.showUnitValue(limitTempMin)
+                val limitMax: Float =
+                    if (limitTempMax == Float.MAX_VALUE) Float.MAX_VALUE else UnitTools.showUnitValue(limitTempMax)
                 binding.pseudoSeekBar.setRangeAndPro(limitMin, limitMax, currentMin, currentMax)
             }
             if (cameraState == CameraState.TAKING) {
@@ -365,7 +380,11 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         binding.llCarDetect.isVisible = intent.getBooleanExtra(ExtraKeyConfig.IS_CAR_DETECT_ENTER, false)
         binding.tvCarDetect.text = SharedManager.getCarDetectInfo().buildString()
         binding.ivCarDetect.setOnClickListener {
-            LongTextDialog(this, SharedManager.getCarDetectInfo().item, SharedManager.getCarDetectInfo().description).show()
+            LongTextDialog(
+                this,
+                SharedManager.getCarDetectInfo().item,
+                SharedManager.getCarDetectInfo().description
+            ).show()
         }
         binding.tvCarDetect.setOnClickListener {
             CarDetectDialog(this) {
@@ -378,6 +397,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
      * IOS 搞成点删除后再次绘制趋势图才自动弹出折线图，还得搞个变量跟着一起卷。
      */
     private var hasClickTrendDel = true
+
     /**
      * 执行菜单的初始化
      */
@@ -401,11 +421,13 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                                 centerCamera()
                             }
                         }
+
                         CameraState.DELAY -> {//延迟中则取消
                             cameraState = CameraState.INIT
                             binding.timeDownView.cancel()
                             binding.menuSecondView.updateCameraModel()
                         }
+
                         CameraState.TAKING -> {//拍照录像中则取消
                             if (saveSetBean.isVideoMode) {//录像 录制中->结束录制
                                 stopIfVideoing()
@@ -415,6 +437,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         }
                     }
                 }
+
                 1 -> {//图库
                     lifecycleScope.launch {
                         stopIfVideoing()
@@ -425,13 +448,16 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                             .navigation()
                     }
                 }
+
                 2 -> {//更多菜单
                     showCameraItemPopup()
                 }
+
                 3 -> {//切换到拍照
                     stopIfContinua()
                     saveSetBean.isVideoMode = false
                 }
+
                 4 -> {//切换到录像
                     stopIfContinua()
                     saveSetBean.isVideoMode = true
@@ -459,6 +485,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         binding.trendView.close()
                     }
                 }
+
                 FenceType.DEL -> {
                     hasClickTrendDel = true
                     binding.temperatureView.mode = Mode.CLEAR
@@ -472,6 +499,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                 TwoLightType.P_IN_P -> {//画中画
                     switchPinPState(true)
                 }
+
                 TwoLightType.BLEND_EXTENT -> {//融合度
                     if (!binding.cameraPreView.isPreviewing && isSelected) {
                         //未开启画中画开启融合度设置，需要把画中画打开
@@ -481,6 +509,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         showBlendExtentPopup()
                     }
                 }
+
                 else -> {//其他不用处理，不是双光设备
 
                 }
@@ -517,19 +546,23 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                     binding.clPseudoBar.isVisible = saveSetBean.isOpenPseudoBar
                     binding.menuSecondView.setSettingSelected(SettingType.PSEUDO_BAR, saveSetBean.isOpenPseudoBar)
                 }
+
                 SettingType.CONTRAST -> {//对比度
                     if (!isSelected) {
                         showContrastPopup()
                     }
                 }
+
                 SettingType.DETAIL -> {//细节
                     if (!isSelected) {
                         showSharpnessPopup()
                     }
                 }
+
                 SettingType.ALARM -> {//预警
                     showTempAlarmSetDialog()
                 }
+
                 SettingType.ROTATE -> {//旋转
                     saveSetBean.rotateAngle = if (saveSetBean.rotateAngle == 0) 270 else (saveSetBean.rotateAngle - 90)
                     binding.menuSecondView.setSettingRotate(saveSetBean.rotateAngle)
@@ -546,6 +579,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
 
                     rotateUI(saveSetBean.isRotatePortrait())
                 }
+
                 SettingType.FONT -> {//字体颜色
                     val colorPickDialog = ColorPickDialog(this, saveSetBean.tempTextColor, saveSetBean.tempTextSize)
                     colorPickDialog.onPickListener = { color, size ->
@@ -557,6 +591,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                     }
                     colorPickDialog.show()
                 }
+
                 SettingType.MIRROR -> {//镜像
                     saveSetBean.isOpenMirror = !isSelected
                     binding.menuSecondView.setSettingSelected(SettingType.MIRROR, !isSelected)
@@ -564,9 +599,11 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         HikHelper.setMirror(saveSetBean.rotateAngle, !isSelected)
                     }
                 }
+
                 SettingType.COMPASS -> {//指南针
                     //指南针只有 TS001 才有
                 }
+
                 SettingType.WATERMARK -> {
                     //水印菜单只有 2D 编辑才有
                 }
@@ -614,11 +651,14 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
      * 当前 拍照/录像 状态.
      */
     private var cameraState = CameraState.INIT
+
     private enum class CameraState {
         /** 拍照或录像状态-初始状态 */
         INIT,
+
         /** 拍照或录像状态-延迟拍照、延迟录像中 */
         DELAY,
+
         /** 拍照中、连续拍照中、录像中 */
         TAKING,
     }
@@ -627,6 +667,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
      * 执行连续拍照的 Job
      */
     private var continuousJob: Job? = null
+
     /**
      * 如果正在连续拍照，则结束连接拍照.
      */
@@ -675,6 +716,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
      * 执行视频软编码的工具类
      */
     private var videoRecord: VideoRecordFFmpeg? = null
+
     /**
      * 录制视频时计时 Job
      */
@@ -761,7 +803,8 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
 
         //画中画
         if (saveSetBean.isOpenTwoLight) {
-            bitmap = BitmapUtils.mergeBitmapByViewNonNull(bitmap, binding.cameraPreView.getBitmap(), binding.cameraPreView)
+            bitmap =
+                BitmapUtils.mergeBitmapByViewNonNull(bitmap, binding.cameraPreView.getBitmap(), binding.cameraPreView)
             //保存了画中画，但是没有使用，这里保持与旧逻辑一致，也保存一下好了
             ImageUtils.saveImageToApp(bitmap)
         }
@@ -871,7 +914,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
     private fun rotateUI(isPortrait: Boolean) {
         val constraintSet = ConstraintSet()
         constraintSet.clone(binding.clRoot)
-        constraintSet.setDimensionRatio(R.id.thermal_lay, (if (isPortrait) 192/256f else (256/192f)).toString())
+        constraintSet.setDimensionRatio(R.id.thermal_lay, (if (isPortrait) 192 / 256f else (256 / 192f)).toString())
         constraintSet.applyTo(binding.clRoot)
 
         binding.clPseudoBar.requestLayout()
@@ -882,7 +925,8 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
     private val pseudoSetResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
             lifecycleScope.launch {
-                val customPseudoBean: CustomPseudoBean = it.data?.getParcelableExtra(ExtraKeyConfig.CUSTOM_PSEUDO_BEAN) ?: CustomPseudoBean()
+                val customPseudoBean: CustomPseudoBean =
+                    it.data?.getParcelableExtra(ExtraKeyConfig.CUSTOM_PSEUDO_BEAN) ?: CustomPseudoBean()
                 customPseudoBean.saveToShared()
                 refreshCustomPseudo(customPseudoBean)
             }

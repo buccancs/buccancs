@@ -155,6 +155,7 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                     .withString(ExtraKeyConfig.URL, url)
                     .navigation(requireContext())
             }
+
             setting_user_lay, setting_user_img_night -> {
                 if (UserInfoManager.getInstance().isLogin()) {
                     isNeedRefreshLogin = true
@@ -163,17 +164,23 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                     loginAction()
                 }
             }
+
             setting_user_text -> {
                 if (!LMS.getInstance().isLogin) {
                     loginAction()
                 }
             }
+
             setting_electronic_manual -> {//电子说明书
-                ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL).withInt(Constants.SETTING_TYPE, Constants.SETTING_BOOK).navigation(requireContext())
+                ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL)
+                    .withInt(Constants.SETTING_TYPE, Constants.SETTING_BOOK).navigation(requireContext())
             }
+
             setting_faq -> {//FAQ
-                ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL).withInt(Constants.SETTING_TYPE, Constants.SETTING_FAQ).navigation(requireContext())
+                ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL)
+                    .withInt(Constants.SETTING_TYPE, Constants.SETTING_FAQ).navigation(requireContext())
             }
+
             setting_feedback -> {//意见反馈
                 if (LMS.getInstance().isLogin) {
                     val devSn = SharedManager.getDeviceSn()
@@ -181,7 +188,7 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                         logPath = logPath
                         sn = devSn
                         lastConnectSn = devSn
-                        XLog.e("bcf","sn $sn  logPath $logPath")
+                        XLog.e("bcf", "sn $sn  logPath $logPath")
                     }.let { feedBackBean ->
                         val intent = Intent(requireContext(), FeedbackActivity::class.java)
                         intent.putExtra(FeedbackActivity.FEEDBACKBEAN, feedBackBean)
@@ -191,18 +198,23 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                     loginAction()
                 }
             }
+
             setting_item_unit -> {//温度单位
                 ARouter.getInstance().build(RouterConfig.UNIT).navigation(requireContext())
             }
+
             setting_item_version -> {//版本
                 ARouter.getInstance().build(RouterConfig.VERSION).navigation(requireContext())
             }
+
             setting_item_language -> {//语言
                 languagePickResult.launch(Intent(requireContext(), LanguageActivity::class.java))
             }
+
             setting_item_clear -> {//清除缓存，实际已隐藏
                 clearCache()
             }
+
             drag_customer_view -> {//客服
 //                ActivityUtil.goSystemCustomer(requireContext())
                 val sn = SharedManager.getDeviceSn()
@@ -260,7 +272,7 @@ class MineFragment : BaseFragment(), View.OnClickListener {
             layoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
             layoutParams.marginStart = SizeUtils.dp2px(16f)
             layoutParams.marginEnd = SizeUtils.dp2px(16f)
-            setting_user_text.setPadding(0,0,0,0)
+            setting_user_text.setPadding(0, 0, 0, 0)
             setting_user_text.gravity = Gravity.LEFT
             setting_user_text.layoutParams = layoutParams
             val drawable = ContextCompat.getDrawable(requireContext(), R.color.transparent)
@@ -279,16 +291,26 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                 )
             }
         } else {
-            val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+            val layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
+            )
             layoutParams.startToEnd = R.id.setting_user_img_night
             layoutParams.topToTop = R.id.setting_user_img_night
             layoutParams.bottomToBottom = R.id.setting_user_img_night
-            setting_user_text.setPadding(SizeUtils.dp2px(16f), SizeUtils.dp2px(16f), SizeUtils.dp2px(16f), SizeUtils.dp2px(16f))
+            setting_user_text.setPadding(
+                SizeUtils.dp2px(16f),
+                SizeUtils.dp2px(16f),
+                SizeUtils.dp2px(16f),
+                SizeUtils.dp2px(16f)
+            )
             setting_user_text.gravity = Gravity.CENTER
             setting_user_text.layoutParams = layoutParams
             setting_user_text.setText(
                 AppLanguageUtils.attachBaseContext(
-                context, SharedManager.getLanguage(requireContext())).getString(R.string.app_sign_in))
+                    context, SharedManager.getLanguage(requireContext())
+                ).getString(R.string.app_sign_in)
+            )
             val drawable = ContextCompat.getDrawable(requireContext(), R.mipmap.ic_arrow_login)
             drawable!!.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
             setting_user_text.setCompoundDrawables(null, null, drawable, null)

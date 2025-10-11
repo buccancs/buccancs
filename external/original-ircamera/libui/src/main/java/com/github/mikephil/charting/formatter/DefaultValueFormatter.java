@@ -8,8 +8,7 @@ import java.text.DecimalFormat;
  *
  * @author Philipp Jahoda
  */
-public class DefaultValueFormatter extends ValueFormatter
-{
+public class DefaultValueFormatter extends ValueFormatter {
 
     /**
      * DecimalFormat for formatting

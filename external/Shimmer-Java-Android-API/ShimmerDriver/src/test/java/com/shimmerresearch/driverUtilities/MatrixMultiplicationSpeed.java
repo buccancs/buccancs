@@ -8,23 +8,23 @@ import com.shimmerresearch.driver.calibration.UtilCalibration;
 
 public class MatrixMultiplicationSpeed {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		double[][] a= {{1,2,3}};
-		double[][] b = {{1,2,3},{1,2,3},{1,2,3}};
-		long nanotime = System.nanoTime()/1000000;
-		double[][] c = UtilCalibration.matrixMultiplication(a,b);
-		long nanotime2 = System.nanoTime()/1000000;
-		System.out.println("Shimmer Library:" + (nanotime2-nanotime)+"ms");
-		System.out.println(c[0][0] + " " + c[0][1]  + " " + c[0][2]);
-		
-		RealMatrix n = new Array2DRowRealMatrix(a);
-		RealMatrix m = new Array2DRowRealMatrix(b);
-		long nanotime3 = System.nanoTime()/1000000;
-		RealMatrix o = n.multiply(m);
-		long nanotime4 = System.nanoTime()/1000000;
-		System.out.println("Apache Commons:" + (nanotime4-nanotime3)+"ms");
-		System.out.println(o.getData()[0][0]+ " " + o.getData()[0][1]+ " " + o.getData()[0][2]);
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        double[][] a = {{1, 2, 3}};
+        double[][] b = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
+        long nanotime = System.nanoTime() / 1000000;
+        double[][] c = UtilCalibration.matrixMultiplication(a, b);
+        long nanotime2 = System.nanoTime() / 1000000;
+        System.out.println("Shimmer Library:" + (nanotime2 - nanotime) + "ms");
+        System.out.println(c[0][0] + " " + c[0][1] + " " + c[0][2]);
+
+        RealMatrix n = new Array2DRowRealMatrix(a);
+        RealMatrix m = new Array2DRowRealMatrix(b);
+        long nanotime3 = System.nanoTime() / 1000000;
+        RealMatrix o = n.multiply(m);
+        long nanotime4 = System.nanoTime() / 1000000;
+        System.out.println("Apache Commons:" + (nanotime4 - nanotime3) + "ms");
+        System.out.println(o.getData()[0][0] + " " + o.getData()[0][1] + " " + o.getData()[0][2]);
 		
 		/*DoubleMatrix r = new DoubleMatrix(a);
 		DoubleMatrix s = new DoubleMatrix(b);
@@ -59,7 +59,7 @@ public class MatrixMultiplicationSpeed {
 		s.put(5, a[2][1]);
 		s.put(8, a[2][2]);
 */
-		
-	}
+
+    }
 
 }

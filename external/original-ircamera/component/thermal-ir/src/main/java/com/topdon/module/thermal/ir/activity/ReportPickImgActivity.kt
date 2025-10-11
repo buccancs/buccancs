@@ -77,7 +77,12 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
                 TToast.shortToast(this@ReportPickImgActivity, R.string.test_results_delete_success)
                 adapter.isEditMode = false
                 EventBus.getDefault().post(GalleryDelEvent())
-                MediaScannerConnection.scanFile(this, arrayOf(if (isTC007) FileConfig.tc007GalleryDir else FileConfig.lineGalleryDir), null, null)
+                MediaScannerConnection.scanFile(
+                    this,
+                    arrayOf(if (isTC007) FileConfig.tc007GalleryDir else FileConfig.lineGalleryDir),
+                    null,
+                    null
+                )
                 viewModel.queryAllReportImg(if (isTC007) DirType.TC007 else DirType.LINE)
             } else {
                 TToast.shortToast(this@ReportPickImgActivity, R.string.test_results_delete_failed)
@@ -106,7 +111,11 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
     private fun setEditMode(isEditMode: Boolean) {
         adapter.isEditMode = isEditMode
         group_bottom.isVisible = isEditMode
-        title_view.setTitleText(if (isEditMode) getString(R.string.chosen_item, adapter.selectList.size) else getString(R.string.app_gallery))
+        title_view.setTitleText(
+            if (isEditMode) getString(R.string.chosen_item, adapter.selectList.size) else getString(
+                R.string.app_gallery
+            )
+        )
         title_view.setLeftDrawable(if (isEditMode) R.drawable.svg_x_cc else R.drawable.ic_back_white_svg)
         title_view.setLeftClickListener {
             if (isEditMode) {
@@ -131,6 +140,7 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
             cl_share -> {
                 shareImage()
             }
+
             cl_delete -> {
                 deleteImage()
             }
@@ -178,8 +188,14 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
                     .withBoolean(IS_REPORT_FIRST, false)
                     .withString(ExtraKeyConfig.FILE_ABSOLUTE_PATH, irPath)
                     .withParcelable(ExtraKeyConfig.REPORT_INFO, intent.getParcelableExtra(ExtraKeyConfig.REPORT_INFO))
-                    .withParcelable(ExtraKeyConfig.REPORT_CONDITION, intent.getParcelableExtra(ExtraKeyConfig.REPORT_CONDITION))
-                    .withParcelableArrayList(ExtraKeyConfig.REPORT_IR_LIST, intent.getParcelableArrayListExtra(ExtraKeyConfig.REPORT_IR_LIST))
+                    .withParcelable(
+                        ExtraKeyConfig.REPORT_CONDITION,
+                        intent.getParcelableExtra(ExtraKeyConfig.REPORT_CONDITION)
+                    )
+                    .withParcelableArrayList(
+                        ExtraKeyConfig.REPORT_IR_LIST,
+                        intent.getParcelableArrayListExtra(ExtraKeyConfig.REPORT_IR_LIST)
+                    )
                     .navigation(this)
             } else {
                 ToastTools.showShort(R.string.album_report_on_edit)
@@ -191,10 +207,12 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
         val deleteList = adapter.buildSelectList()
         if (deleteList.size > 0) {
             TipDialog.Builder(this)
-                .setMessage(getString(
+                .setMessage(
+                    getString(
                         R.string.tip_delete_chosen,
                         deleteList.size
-                    ))
+                    )
+                )
                 .setPositiveListener(R.string.app_confirm) {
                     viewModel.delete(deleteList, if (isTC007) DirType.TC007 else DirType.LINE, true)
                 }.setCancelListener(R.string.app_cancel)

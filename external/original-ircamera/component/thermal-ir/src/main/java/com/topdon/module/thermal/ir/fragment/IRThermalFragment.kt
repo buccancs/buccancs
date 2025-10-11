@@ -65,7 +65,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                 // 要是当前已连接 TS004、TC007，切到流量上，不然登录注册意见反馈那些没网
                 if (WebSocketProxy.getInstance().isConnected()) {
                     NetWorkUtils.switchNetwork(true)
-                }else{
+                } else {
                     NetWorkUtils.connectivityManager.bindProcessToNetwork(null)
                 }
             }
@@ -134,8 +134,8 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                 } else {
                     if (DeviceTools.isTC001PlusConnect()) {
                         startActivityForResult(Intent(requireContext(), IRThermalPlusActivity::class.java), 101)
-                    }else if(DeviceTools.isTC001LiteConnect()){
-                        ARouter.getInstance().build(RouterConfig.IR_TCLITE).navigation(activity,101)
+                    } else if (DeviceTools.isTC001LiteConnect()) {
+                        ARouter.getInstance().build(RouterConfig.IR_TCLITE).navigation(activity, 101)
                     } else if (DeviceTools.isHikConnect()) {
                         ARouter.getInstance().build(RouterConfig.IR_HIK_MAIN).navigation(activity)
                     } else {
@@ -143,6 +143,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
             }
+
             tv_main_enter -> {
                 if (!DeviceTools.isConnect()) {
                     //没有接入设备不需要提示，有系统授权提示框
@@ -155,9 +156,11 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                         }
                     } else {
                         XXPermissions.with(this)
-                            .permission(listOf(
-                                Permission.CAMERA
-                            ))
+                            .permission(
+                                listOf(
+                                    Permission.CAMERA
+                                )
+                            )
                             .request(object : OnPermissionCallback {
                                 override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
                                     if (allGranted) {
@@ -186,11 +189,13 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
             }
+
             cl_07_connect_tips -> {//TC007 连接提示
                 ARouter.getInstance().build(RouterConfig.IR_CONNECT_TIPS)
                     .withBoolean(ExtraKeyConfig.IS_TC007, true)
                     .navigation(requireContext())
             }
+
             tv_07_connect -> {//TC007 连接设备
                 ARouter.getInstance()
                     .build(RouterConfig.IR_DEVICE_ADD)
@@ -203,6 +208,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
     private var tipConnectDialog: TipDialog? = null
 
     private var isCancelUpdateVersion = false
+
     // 针对android10 usb连接问题,提供android 27版本
     private fun showConnectTip() {
         // targetSdk高于27且android os为10
@@ -232,7 +238,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun checkStoragePermission() {
-        val permissionList: List<String> = if (activity?.applicationInfo?.targetSdkVersion!! >= 34){
+        val permissionList: List<String> = if (activity?.applicationInfo?.targetSdkVersion!! >= 34) {
             listOf(
                 Permission.READ_MEDIA_VIDEO,
                 Permission.READ_MEDIA_IMAGES,
@@ -273,7 +279,6 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
     private fun initStoragePermission(permissionList: List<String>) {
 
     }
-
 
 
 }

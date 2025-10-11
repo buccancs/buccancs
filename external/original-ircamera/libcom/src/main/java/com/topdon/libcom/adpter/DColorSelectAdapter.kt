@@ -23,7 +23,7 @@ class DColorSelectAdapter(val context: Context) : RecyclerView.Adapter<RecyclerV
         notifyDataSetChanged()
     }
 
-     val colorBean = arrayListOf(
+    val colorBean = arrayListOf(
         DColorSelectBean(R.color.color_select1, "#FF000000", 1),
         DColorSelectBean(R.color.color_select2, "#FFFFFFFF", 2),
         DColorSelectBean(R.color.color_select3, "#FF2B79D8", 3),

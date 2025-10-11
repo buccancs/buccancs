@@ -9,10 +9,10 @@ import com.shimmerresearch.verisense.API_00004_VerisenseConfigByteParsingAndGene
 import com.shimmerresearch.verisense.communication.API_00003_VerisenseProtocolByteCommunicationTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ 
-	API_00002_Filters.class,
-	API_00003_VerisenseProtocolByteCommunicationTest.class,
-	API_00004_VerisenseConfigByteParsingAndGeneration.class
+@SuiteClasses({
+        API_00002_Filters.class,
+        API_00003_VerisenseProtocolByteCommunicationTest.class,
+        API_00004_VerisenseConfigByteParsingAndGeneration.class
 })
 
 public class API_00005_Suite_ShimmerDriver {

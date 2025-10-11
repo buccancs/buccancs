@@ -126,7 +126,7 @@ class IRCorrectHikFourActivity : BaseBindingActivity<ActivityIrCorrectHikFourBin
             .setPositiveListener(R.string.app_yes) {
                 EventBus.getDefault().post(CorrectionFinishEvent())
                 finish()
-            }.setCancelListener(R.string.app_no){
+            }.setCancelListener(R.string.app_no) {
             }
             .create().show()
     }

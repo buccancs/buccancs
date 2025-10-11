@@ -5,7 +5,6 @@ android {
     compileSdkVersion 34
 
 
-
     defaultConfig {
         applicationId "shimmerresearch.com.shimmerbasicexample"
         minSdkVersion 21

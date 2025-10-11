@@ -28,6 +28,16 @@ import java.util.Arrays;
  * Tiny2c冷开机温度补偿方案
  */
 public class TempCompensation {
+    public static final String KEY_PARAM1 = "KEY_PARAM1";
+    public static final String KEY_PARAM2 = "KEY_PARAM2";
+    public static final String KEY_PARAM3 = "KEY_PARAM3";
+    /**
+     * 公式参数y=−0.0705571⋅x2+14.72725379⋅x−30.49372144
+     */
+    public static String DEFAULT_PARAM1 = "-0.0705";
+    public static String DEFAULT_PARAM2 = "14.7272";
+    public static String DEFAULT_PARAM3 = "30.4937";
+    private static TempCompensation mInstance;
     private final String TAG = "TempCompensation";
     // 初始化
     private final int HANDLER_KEY_INIT = 1000;
@@ -39,7 +49,6 @@ public class TempCompensation {
     private final int ALL_DURATION = 30;
     private HandlerThread handlerThread;
     private Handler handler;
-
     // NUC_T
     private short[] nucT;
     // NUC差值
@@ -52,26 +61,13 @@ public class TempCompensation {
     private volatile int vTempStart;
     // 开始时间
     private volatile long startTime;
-
     // 是否补偿
     private volatile boolean isCompensation = false;
     // 是否启动了流程
     private volatile boolean isStart = false;
-
-    /**
-     * 公式参数y=−0.0705571⋅x2+14.72725379⋅x−30.49372144
-     */
-    public static String DEFAULT_PARAM1 = "-0.0705";
-    public static String DEFAULT_PARAM2 = "14.7272";
-    public static String DEFAULT_PARAM3 = "30.4937";
-    public static final String KEY_PARAM1 = "KEY_PARAM1";
-    public static final String KEY_PARAM2 = "KEY_PARAM2";
-    public static final String KEY_PARAM3 = "KEY_PARAM3";
     private double param1 = -0.0705;
     private double param2 = 14.7272;
     private double param3 = 30.4937;
-
-    private static TempCompensation mInstance;
 
     public static synchronized TempCompensation getInstance() {
         if (mInstance == null) {
@@ -85,7 +81,7 @@ public class TempCompensation {
      */
     public void getNucTData() {
 
-        if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() == null){
+        if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() == null) {
             return;
         }
         byte[] snData = new byte[64];
@@ -163,7 +159,7 @@ public class TempCompensation {
                         Log.d(TAG, "HANDLER_KEY_INIT");
                         isStart = true;
                         // 关闭自动快门
-                        if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine()!=null){
+                        if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() != null) {
                             IrcmdError basicAutoFFCStatusSet = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
                                     .basicAutoFFCStatusSet(CommonParams.AutoFFCStatus.AUTO_FFC_DISABLED);
                             Log.d(TAG, "basicAutoFFCStatusSet=" + basicAutoFFCStatusSet);
@@ -172,7 +168,7 @@ public class TempCompensation {
                         getNucTData();
                     } else if (HANDLER_KEY_1s == msg.what) {
                         //手动打快门
-                        if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() != null){
+                        if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() != null) {
                             IrcmdError nativeAdvManualFFCUpdateResult = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
                                     .basicFFCUpdate();
                             Log.d(TAG, "nativeAdvManualFFCUpdateResult=" + nativeAdvManualFFCUpdateResult);
@@ -193,7 +189,7 @@ public class TempCompensation {
                             startTime = System.currentTimeMillis();
                         }
                     } else if (HANDLER_KEY_AFTER == msg.what) {
-                        if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() != null){
+                        if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() != null) {
                             Log.d(TAG, "打快门");
                             //手动打快门
                             IrcmdError advManualFFCUpdateResult = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
@@ -207,7 +203,7 @@ public class TempCompensation {
                             handler.sendEmptyMessageDelayed(HANDLER_KEY_AFTER, 6000);
                         }
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.d(TAG, "温度补偿异常=" + e.getMessage());
                 }
             }
@@ -243,7 +239,7 @@ public class TempCompensation {
             return;
         }
         if (DeviceIrcmdControlManager.getInstance()
-                .getIrcmdEngine() != null){
+                .getIrcmdEngine() != null) {
             Log.d(TAG, "getDeltaNucAndVTemp start");
             // 获取当前vtemp
             int[] nativeAdvDeviceRealtimeStatusGetValue = new int[1];
@@ -264,13 +260,14 @@ public class TempCompensation {
 
     /**
      * 2D编辑热稳定前的温度校正
+     *
      * @param temp
      * @param deltaTime
      * @param nucT
      * @param deltaNUC
      * @return
      */
-    private float getNewTempValue(float temp,long deltaTime,short[] nucT,int deltaNUC) {
+    private float getNewTempValue(float temp, long deltaTime, short[] nucT, int deltaNUC) {
         if (nucT == null) {
             return temp;
         }
@@ -367,6 +364,7 @@ public class TempCompensation {
         isStart = false;
         isCompensation = false;
     }
+
     private short[] byteToShort(byte[] data) {
         short[] shortValue = new short[data.length / 2];
         for (int i = 0; i < shortValue.length; i++) {

@@ -47,9 +47,9 @@ class LinearCompassView : View {
     private var backgroundColor = Color.BLACK
 
     private var lastDrawTime = 0L //执行时间
-    private var step = 1000/10 //一秒绘制的帧数
+    private var step = 1000 / 10 //一秒绘制的帧数
     private val scope = CoroutineScope(EmptyCoroutineContext)
-    var curBitmap:Bitmap?= null //当前view的bitmap
+    var curBitmap: Bitmap? = null //当前view的bitmap
 
     constructor(context: Context) : this(context, null) {
         initView()
@@ -162,7 +162,7 @@ class LinearCompassView : View {
         }
         val endWidth = width / 2f
         val endHeight = (3 / 10f) * height
-        canvas.drawText(text, realX(text, endWidth,textPaint), realY(text, endHeight,textPaint), textPaint)
+        canvas.drawText(text, realX(text, endWidth, textPaint), realY(text, endHeight, textPaint), textPaint)
     }
 
     //绘制标记线
@@ -187,7 +187,7 @@ class LinearCompassView : View {
             this@LinearCompassView.azimuth = azimuth.toFloat()
             this@LinearCompassView.text = azimuth.toString()
             var curTime = System.currentTimeMillis()
-            if(curTime - lastDrawTime> step) {
+            if (curTime - lastDrawTime > step) {
                 lastDrawTime = curTime
                 launch(Dispatchers.Main) {
                     curBitmap = this@LinearCompassView.drawToBitmap()
@@ -222,7 +222,12 @@ class LinearCompassView : View {
             //绘制底部方位文本
             if (it % 45 == 0) {
                 val coord = getPositionText(it)
-                canvas.drawText(coord, realX(coord, x,positionPaint), realY(coord, height - 2f,positionPaint), positionPaint)
+                canvas.drawText(
+                    coord,
+                    realX(coord, x, positionPaint),
+                    realY(coord, height - 2f, positionPaint),
+                    positionPaint
+                )
             }
         }
     }

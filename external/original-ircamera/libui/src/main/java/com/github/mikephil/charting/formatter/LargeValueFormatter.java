@@ -12,8 +12,7 @@ import java.text.DecimalFormat;
  * @author Philipp Jahoda
  * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
  */
-public class LargeValueFormatter extends ValueFormatter
-{
+public class LargeValueFormatter extends ValueFormatter {
 
     private String[] mSuffix = new String[]{
             "", "k", "m", "b", "t"

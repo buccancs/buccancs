@@ -23,7 +23,10 @@ import java.util.ArrayList;
 public class MyEasySwipeMenuLayout extends ViewGroup {
 
     private static final String TAG = "EasySwipeMenuLayout";
+    private static MyEasySwipeMenuLayout mViewCache;
+    private static State mStateCache;
     private final ArrayList<View> mMatchParentChildren = new ArrayList<>(1);
+    State result;
     private int mLeftViewResID;
     private int mRightViewResID;
     private int mContentViewResID;
@@ -39,16 +42,8 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
     private boolean mCanRightSwipe = true;
     private int mScaledTouchSlop;
     private Scroller mScroller;
-    private static MyEasySwipeMenuLayout mViewCache;
-    private static State mStateCache;
     private float distanceX;
     private float finalyDistanceX;
-
-    public enum State {
-        LEFTOPEN,
-        RIGHTOPEN,
-        CLOSE,
-    }
 
     public MyEasySwipeMenuLayout(Context context) {
         this(context, null);
@@ -62,6 +57,14 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
 
+    }
+
+    public static MyEasySwipeMenuLayout getViewCache() {
+        return mViewCache;
+    }
+
+    public static State getStateCache() {
+        return mStateCache;
     }
 
     /**
@@ -244,13 +247,11 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
 
     }
 
-    State result;
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-             //   System.out.println(">>>>dispatchTouchEvent() ACTION_DOWN");
+                //   System.out.println(">>>>dispatchTouchEvent() ACTION_DOWN");
                 isSwipeing = false;
                 if (mLastP == null) {
                     mLastP = new PointF();
@@ -271,10 +272,10 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
-             //   System.out.println(">>>>dispatchTouchEvent() ACTION_MOVE getScrollX:" + getScrollX());
+                //   System.out.println(">>>>dispatchTouchEvent() ACTION_MOVE getScrollX:" + getScrollX());
                 float distanceX = mLastP.x - ev.getRawX();
                 float distanceY = mLastP.y - ev.getRawY();
-                if (Math.abs(distanceY) > mScaledTouchSlop  && Math.abs(distanceY) > Math.abs(distanceX)) {
+                if (Math.abs(distanceY) > mScaledTouchSlop && Math.abs(distanceY) > Math.abs(distanceX)) {
                     break;
                 }
 //                if (Math.abs(distanceX) <= mScaledTouchSlop){
@@ -306,7 +307,7 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
                 //当处于水平滑动时，禁止父类拦截
                 if (Math.abs(distanceX) > mScaledTouchSlop
 //                        || Math.abs(getScrollX()) > mScaledTouchSlop
-                        ) {
+                ) {
                     //  Log.i(TAG, ">>>>当处于水平滑动时，禁止父类拦截 true");
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
@@ -317,11 +318,11 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
             }
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
-              //     System.out.println(">>>>dispatchTouchEvent() ACTION_CANCEL OR ACTION_UP");
+                //     System.out.println(">>>>dispatchTouchEvent() ACTION_CANCEL OR ACTION_UP");
 
                 finalyDistanceX = mFirstP.x - ev.getRawX();
                 if (Math.abs(finalyDistanceX) > mScaledTouchSlop) {
-                  //  System.out.println(">>>>P");
+                    //  System.out.println(">>>>P");
 
                     isSwipeing = true;
                 }
@@ -340,10 +341,9 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
 
     }
 
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-      //  Log.d(TAG, "<<<<dispatchTouchEvent() called with: " + "ev = [" + event + "]");
+        //  Log.d(TAG, "<<<<dispatchTouchEvent() called with: " + "ev = [" + event + "]");
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 break;
@@ -352,7 +352,7 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
                 //滑动时拦截点击时间
                 if (Math.abs(finalyDistanceX) > mScaledTouchSlop) {
                     // 当手指拖动值大于mScaledTouchSlop值时，认为应该进行滚动，拦截子控件的事件
-                 //   Log.i(TAG, "<<<onInterceptTouchEvent true");
+                    //   Log.i(TAG, "<<<onInterceptTouchEvent true");
                     return true;
                 }
 //                if (Math.abs(finalyDistanceX) > mScaledTouchSlop || Math.abs(getScrollX()) > mScaledTouchSlop) {
@@ -400,7 +400,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         invalidate();
     }
 
-
     @Override
     public void computeScroll() {
         //判断Scroller是否执行完毕：
@@ -410,7 +409,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
             invalidate();
         }
     }
-
 
     /**
      * 根据当前的scrollX的值判断松开手后应处于何种状态
@@ -458,7 +456,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
 
     }
 
-
     @Override
     protected void onDetachedFromWindow() {
         if (this == mViewCache) {
@@ -489,7 +486,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         }
     }
 
-
     public float getFraction() {
         return mFraction;
     }
@@ -514,15 +510,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         this.mCanRightSwipe = mCanRightSwipe;
     }
 
-    public static MyEasySwipeMenuLayout getViewCache() {
-        return mViewCache;
-    }
-
-
-    public static State getStateCache() {
-        return mStateCache;
-    }
-
     public void switchState() {
         if (mViewCache == this) {//当前是展开的就关上
             handlerSwipeMenu(State.CLOSE);
@@ -538,6 +525,12 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         //➡滑动
         return distanceX < 0;
 
+    }
+
+    public enum State {
+        LEFTOPEN,
+        RIGHTOPEN,
+        CLOSE,
     }
 
 

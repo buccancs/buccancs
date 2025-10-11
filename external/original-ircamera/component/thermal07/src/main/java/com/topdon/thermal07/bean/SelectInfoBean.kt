@@ -12,11 +12,11 @@ data class SelectInfoBean(
     val endPoint: Point = Point(0, 0)
 ) : Parcelable {
 
-    constructor(point: Point): this(1, point, point)
+    constructor(point: Point) : this(1, point, point)
 
-    constructor(startPoint: Point, endPoint: Point): this(2, startPoint, endPoint)
+    constructor(startPoint: Point, endPoint: Point) : this(2, startPoint, endPoint)
 
-    constructor(rect: Rect): this(3, Point(rect.left, rect.top), Point(rect.right, rect.bottom))
+    constructor(rect: Rect) : this(3, Point(rect.left, rect.top), Point(rect.right, rect.bottom))
 
     fun getRect(): Rect = Rect(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
 

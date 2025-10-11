@@ -416,17 +416,17 @@ public class IRUVCTC {
      */
     public void startPreview() {
         Log.i(TAG, "startPreview");
-       if (uvcCamera!=null){
-           uvcCamera.setOpenStatus(true);
-           uvcCamera.setFrameCallback(iFrameCallback);
-           // 使用ISP算法
-           if (isUseIRISP) {
-               initIRISP();
-           } else {
-               //
-               uvcCamera.onStartPreview();
-           }
-       }
+        if (uvcCamera != null) {
+            uvcCamera.setOpenStatus(true);
+            uvcCamera.setFrameCallback(iFrameCallback);
+            // 使用ISP算法
+            if (isUseIRISP) {
+                initIRISP();
+            } else {
+                //
+                uvcCamera.onStartPreview();
+            }
+        }
     }
 
     /**

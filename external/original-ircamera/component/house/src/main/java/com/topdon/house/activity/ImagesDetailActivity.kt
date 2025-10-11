@@ -41,7 +41,8 @@ class ImagesDetailActivity : BaseActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val imageView = ImageView(parent.context)
             imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-            imageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            imageView.layoutParams =
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             return ViewHolder(imageView)
         }
 

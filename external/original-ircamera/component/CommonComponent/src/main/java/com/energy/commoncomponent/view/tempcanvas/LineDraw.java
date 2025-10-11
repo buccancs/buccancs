@@ -12,6 +12,7 @@ import android.text.TextPaint;
 import android.util.Log;
 import com.energy.commoncomponent.R;
 import com.energy.commoncomponent.utils.ScreenUtils;
+
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -19,29 +20,24 @@ import java.util.UUID;
  * Created by fengjibo on 2024/1/31.
  */
 public class LineDraw extends BaseDraw {
-    private static final String TAG = "BaseTemperatureView LineDraw";
     public static final int OPERATE_STATUS_LINE_IN_TOUCH_START = 0;
     public static final int OPERATE_STATUS_LINE_IN_TOUCH_CENTER = 1;
     public static final int OPERATE_STATUS_LINE_IN_TOUCH_END = 2;
     public static final int OPERATE_STATUS_LINE_ADD = 3;
     public static final int OPERATE_STATUS_LINE_REMOVE = 4;
+    private static final String TAG = "BaseTemperatureView LineDraw";
     private static final int MAX_LINE_COUNT = 3;
-
-    private LinkedList<LineView> mLineList;
-    private Paint mLinePaint;
-    private int LINE_STROKE_WIDTH;
-
-    private Paint mBgPaint;
-    private Paint.FontMetrics mFontMetrics;
-    private Paint mTextPaint;
-
-    private int mBgStrokeColor = Color.parseColor("#99000000");
-    private int mBgColor = Color.parseColor("#CC1A1A1A");
-
     private final int STROKE_WIDTH = 8;
     private final int TEXT_SIZE = 14; // 文字大小
     private final int TOUCH_TOLERANCE = 48;
-
+    private LinkedList<LineView> mLineList;
+    private Paint mLinePaint;
+    private int LINE_STROKE_WIDTH;
+    private Paint mBgPaint;
+    private Paint.FontMetrics mFontMetrics;
+    private Paint mTextPaint;
+    private int mBgStrokeColor = Color.parseColor("#99000000");
+    private int mBgColor = Color.parseColor("#CC1A1A1A");
     private LineView mTempLine;//临时绘制的line，比如手势移动过程中
 
     private int mOperateStatus = -1;
@@ -80,6 +76,7 @@ public class LineDraw extends BaseDraw {
 
     /**
      * 添加一个线数据
+     *
      * @param startX
      * @param startY
      * @param endX
@@ -94,7 +91,7 @@ public class LineDraw extends BaseDraw {
                 String newLabel = "L" + (size + 1);
                 Log.d(TAG, "addLine newLabel : " + newLabel);
                 boolean hasSame = false;
-                for (int i = 0; i < mLineList.size(); i ++) {
+                for (int i = 0; i < mLineList.size(); i++) {
                     if (mLineList.get(i).getLabel().equals(newLabel)) {
                         //存在一样的
                         hasSame = true;
@@ -105,7 +102,7 @@ public class LineDraw extends BaseDraw {
 
                 if (hasSame) {
                     mLineList.add(lineView);
-                    for (int i = 0; i < mLineList.size(); i ++) {
+                    for (int i = 0; i < mLineList.size(); i++) {
                         mLineList.get(i).setLabel("L" + (i + 1));
                     }
                 } else {
@@ -118,7 +115,7 @@ public class LineDraw extends BaseDraw {
                 Log.d(TAG, "line remove and add");
                 mLineList.remove();
                 mLineList.add(lineView);
-                for (int i = 0; i < mLineList.size(); i ++) {
+                for (int i = 0; i < mLineList.size(); i++) {
                     mLineList.get(i).setLabel("L" + (i + 1));
                 }
                 mTouchIndex = MAX_LINE_COUNT - 1;
@@ -128,6 +125,7 @@ public class LineDraw extends BaseDraw {
 
     /**
      * 删除一个线数据
+     *
      * @param index
      */
     public void removeLine(int index) {
@@ -145,11 +143,12 @@ public class LineDraw extends BaseDraw {
 
     /**
      * 绘制所有线
+     *
      * @param canvas
      */
     @Override
     public void onDraw(Canvas canvas, boolean isScroll) {
-        for (int i = 0; i < mLineList.size(); i ++) {
+        for (int i = 0; i < mLineList.size(); i++) {
             LineView lineView = mLineList.get(i);
             drawLabel(canvas, lineView);
             canvas.drawLine(lineView.mStartMovingLineX, lineView.mStartMovingLineY, lineView.mEndMovingLineX, lineView.mEndMovingLineY, mLinePaint);
@@ -166,6 +165,7 @@ public class LineDraw extends BaseDraw {
 
     /**
      * 绘制临时线
+     *
      * @param canvas
      * @param startX
      * @param startY
@@ -190,7 +190,8 @@ public class LineDraw extends BaseDraw {
         RectF tempRectF = new RectF();
 
         tempRectF.top = lineView.mStartMovingLineY + (float) (lineView.mEndMovingLineY - lineView.mStartMovingLineY) / 2;
-        tempRectF.bottom = lineView.mStartMovingLineY + (float) (lineView.mEndMovingLineY - lineView.mStartMovingLineY) / 2;;
+        tempRectF.bottom = lineView.mStartMovingLineY + (float) (lineView.mEndMovingLineY - lineView.mStartMovingLineY) / 2;
+        ;
         tempRectF.left = lineView.mStartMovingLineX + (float) (lineView.mEndMovingLineX - lineView.mStartMovingLineX) / 2;
         tempRectF.right = lineView.mStartMovingLineX + (float) (lineView.mEndMovingLineX - lineView.mStartMovingLineX) / 2;
 
@@ -239,6 +240,7 @@ public class LineDraw extends BaseDraw {
 
     /**
      * 更新选中线的手势位置状态
+     *
      * @param startX
      * @param startY
      */
@@ -259,6 +261,7 @@ public class LineDraw extends BaseDraw {
 
     /**
      * 修改选中的线坐标
+     *
      * @param moveX
      * @param moveY
      */
@@ -270,10 +273,10 @@ public class LineDraw extends BaseDraw {
 
         LineView lineView = mLineList.get(mTouchIndex);
         if (mOperateStatus == OPERATE_STATUS_LINE_IN_TOUCH_START) {
-            int startMovingLineX = (int)(lineView.mStartPoint.x + moveX);
-            int startMovingLineY = (int)(lineView.mStartPoint.y + moveY);
-            int endMovingLineX = (int)(lineView.mEndPoint.x);
-            int endMovingLineY = (int)(lineView.mEndPoint.y);
+            int startMovingLineX = (int) (lineView.mStartPoint.x + moveX);
+            int startMovingLineY = (int) (lineView.mStartPoint.y + moveY);
+            int endMovingLineX = (int) (lineView.mEndPoint.x);
+            int endMovingLineY = (int) (lineView.mEndPoint.y);
             if (startMovingLineX < MIN_SIZE_PIX_COUNT) {
                 startMovingLineX = MIN_SIZE_PIX_COUNT;
             } else if (startMovingLineX >= mViewWidth) {
@@ -297,11 +300,11 @@ public class LineDraw extends BaseDraw {
             }
 
             mLineList.get(mTouchIndex).changeLocation(startMovingLineX, startMovingLineY, endMovingLineX, endMovingLineY);
-        } else if (mOperateStatus == OPERATE_STATUS_LINE_IN_TOUCH_END){
-            int startMovingLineX = (int)(lineView.mStartPoint.x);
-            int startMovingLineY = (int)(lineView.mStartPoint.y);
-            int endMovingLineX = (int)(lineView.mEndPoint.x + moveX);
-            int endMovingLineY = (int)(lineView.mEndPoint.y + moveY);
+        } else if (mOperateStatus == OPERATE_STATUS_LINE_IN_TOUCH_END) {
+            int startMovingLineX = (int) (lineView.mStartPoint.x);
+            int startMovingLineY = (int) (lineView.mStartPoint.y);
+            int endMovingLineX = (int) (lineView.mEndPoint.x + moveX);
+            int endMovingLineY = (int) (lineView.mEndPoint.y + moveY);
 
             if (startMovingLineX < MIN_SIZE_PIX_COUNT) {
                 startMovingLineX = MIN_SIZE_PIX_COUNT;
@@ -328,10 +331,10 @@ public class LineDraw extends BaseDraw {
             mLineList.get(mTouchIndex).changeLocation(startMovingLineX, startMovingLineY, endMovingLineX, endMovingLineY);
         } else if (mOperateStatus == OPERATE_STATUS_LINE_IN_TOUCH_CENTER) {
             // 防止数据越界到图像外部
-            int startMovingLineX = (int)(lineView.mStartPoint.x + moveX);
-            int startMovingLineY = (int)(lineView.mStartPoint.y + moveY);
-            int endMovingLineX = (int)(lineView.mEndPoint.x + moveX);
-            int endMovingLineY = (int)(lineView.mEndPoint.y + moveY);
+            int startMovingLineX = (int) (lineView.mStartPoint.x + moveX);
+            int startMovingLineY = (int) (lineView.mStartPoint.y + moveY);
+            int endMovingLineX = (int) (lineView.mEndPoint.x + moveX);
+            int endMovingLineY = (int) (lineView.mEndPoint.y + moveY);
             if (startMovingLineX < MIN_SIZE_PIX_COUNT) {
                 startMovingLineX = MIN_SIZE_PIX_COUNT;
             } else if (startMovingLineX >= mViewWidth) {
@@ -370,13 +373,14 @@ public class LineDraw extends BaseDraw {
 
     /**
      * 检查当前是否存在手势选中的线
+     *
      * @param x
      * @param y
      * @return
      */
     public int checkTouchLineInclude(int x, int y) {
         mTouchIndex = -1;
-        for (int i = 0; i < mLineList.size(); i ++) {
+        for (int i = 0; i < mLineList.size(); i++) {
             LineView lineView = mLineList.get(i);
 
             int tempDistance = ((lineView.mEndMovingLineY - lineView.mStartMovingLineY) * x - (lineView.mEndMovingLineX - lineView.mStartMovingLineX) * y + lineView.mEndMovingLineX * lineView.mStartMovingLineY - lineView.mStartMovingLineX * lineView.mEndMovingLineY);
@@ -390,10 +394,14 @@ public class LineDraw extends BaseDraw {
         return mTouchIndex;
     }
 
+    public LinkedList<LineView> getLineViewList() {
+        return mLineList;
+    }
+
     public static class LineView extends BaseView {
+        private static final float TOUCH_EXTRA = 10;//额外的触摸范围
         private Point mStartPoint; //起点
         private Point mEndPoint; //终点
-        private static final float TOUCH_EXTRA = 10;//额外的触摸范围
         private Bitmap mHighPointBitmap;
         private Bitmap mLowPointBitmap;
         private Point mHighTempPoint;
@@ -478,9 +486,5 @@ public class LineDraw extends BaseDraw {
         public void setEndMovingLineY(int mEndMovingLineY) {
             this.mEndMovingLineY = mEndMovingLineY;
         }
-    }
-
-    public LinkedList<LineView> getLineViewList() {
-        return mLineList;
     }
 }

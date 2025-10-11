@@ -54,38 +54,7 @@ import static com.shimmerresearch.android.guiUtilities.ShimmerBluetoothDialog.EX
  */
 public class MainActivity extends AppCompatActivity {
 
-    ShimmerBluetoothManagerAndroid btManager;
-    ShimmerDevice shimmerDevice;
-    String shimmerBtAdd;
-
-    ShimmerBluetoothManagerAndroid.BT_TYPE preferredBtType;
     final static String LOG_TAG = "BluetoothManagerExample";
-    TextView textView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                requestPermissions(new String[]{
-                                Manifest.permission.BLUETOOTH_ADVERTISE,
-                                Manifest.permission.BLUETOOTH_CONNECT,
-                                Manifest.permission.BLUETOOTH_SCAN,
-                                Manifest.permission.ACCESS_FINE_LOCATION},
-                        0);
-            }else{
-                requestPermissions(new String[]{
-                                Manifest.permission.ACCESS_FINE_LOCATION},
-                        0);
-            }
-        }
-
-// Register for broadcasts when a device is discovered.
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(receiver, filter);
-    }
-
     // Create a BroadcastReceiver for ACTION_FOUND.
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -104,80 +73,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        boolean allPermissionsGranted = true;
-        for (int result : grantResults){
-            if(result != 0){
-                allPermissionsGranted = false;
-            }
-        }
-        if(!allPermissionsGranted){
-            Toast.makeText(this, "Please allow all requested permissions", Toast.LENGTH_SHORT).show();
-        }else{
-            BleManager.getInstance().init(getApplication());
-            try {
-                btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Couldn't create ShimmerBluetoothManagerAndroid. Error: " + e);
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                startActivityForResult(enableBtIntent, 1);
-            }
-        }
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Don't forget to unregister the ACTION_FOUND receiver.
-        unregisterReceiver(receiver);
-    }
-
-    @Override
-    protected void onStart() {
-        /*
-        //Connect the Shimmer using its Bluetooth Address
-        try {
-            btManager.connectShimmerThroughBTAddress(shimmerBtAdd);
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Error. Shimmer device not paired or Bluetooth is not enabled");
-            Toast.makeText(this, "Error. Shimmer device not paired or Bluetooth is not enabled. " +
-                            "Please close the app and pair or enable Bluetooth", Toast.LENGTH_LONG).show();
-        }*/
-        textView = (TextView) findViewById(R.id.textView);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        //Disconnect the Shimmer device when app is stopped
-        if(shimmerDevice != null) {
-            if(shimmerDevice.isSDLogging()) {
-                shimmerDevice.stopSDLogging();
-                Log.d(LOG_TAG, "Stopped Shimmer Logging");
-            }
-            else if(shimmerDevice.isStreaming()) {
-                try {
-                    shimmerDevice.stopStreaming();
-                } catch (ShimmerException e) {
-                    e.printStackTrace();
-                }
-                Log.d(LOG_TAG, "Stopped Shimmer Streaming");
-            }
-            else {
-                shimmerDevice.stopStreamingAndLogging();
-                Log.d(LOG_TAG, "Stopped Shimmer Streaming and Logging");
-            }
-        }
-        btManager.disconnectAllDevices();
-        Log.i(LOG_TAG, "Shimmer DISCONNECTED");
-        super.onStop();
-    }
-
+    ShimmerBluetoothManagerAndroid btManager;
+    ShimmerDevice shimmerDevice;
+    String shimmerBtAdd;
+    ShimmerBluetoothManagerAndroid.BT_TYPE preferredBtType;
+    TextView textView;
     /**
      * Messages from the Shimmer device including sensor data are received here
      */
@@ -194,12 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
                         //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
-                        FormatCluster timeStampCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
+                        FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
                         Log.i(LOG_TAG, "Time Stamp: " + timeStampData);
                         allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X);
-                        FormatCluster accelXCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(allFormats,"CAL"));
-                        if (accelXCluster!=null) {
+                        FormatCluster accelXCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
+                        if (accelXCluster != null) {
                             double accelXData = accelXCluster.mData;
                             Log.i(LOG_TAG, "Accel LN X: " + accelXData);
                         }
@@ -228,8 +128,11 @@ public class MainActivity extends AppCompatActivity {
                         case CONNECTED:
                             Log.i(LOG_TAG, "Shimmer [" + macAddress + "] is now CONNECTED");
                             shimmerDevice = btManager.getShimmerDeviceBtConnectedFromMac(shimmerBtAdd);
-                            if(shimmerDevice != null) { Log.i(LOG_TAG, "Got the ShimmerDevice!"); }
-                            else { Log.i(LOG_TAG, "ShimmerDevice returned is NULL!"); }
+                            if (shimmerDevice != null) {
+                                Log.i(LOG_TAG, "Got the ShimmerDevice!");
+                            } else {
+                                Log.i(LOG_TAG, "ShimmerDevice returned is NULL!");
+                            }
                             break;
                         case CONNECTING:
                             Log.i(LOG_TAG, "Shimmer [" + macAddress + "] is CONNECTING");
@@ -242,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case SDLOGGING:
                             Log.i(LOG_TAG, "Shimmer [" + macAddress + "] is now SDLOGGING");
-                            if(shimmerDevice == null) {
+                            if (shimmerDevice == null) {
                                 shimmerDevice = btManager.getShimmerDeviceBtConnectedFromMac(shimmerBtAdd);
                                 Log.i(LOG_TAG, "Got the ShimmerDevice!");
                             }
@@ -258,8 +161,105 @@ public class MainActivity extends AppCompatActivity {
             super.handleMessage(msg);
         }
     };
+    Looper looper = Looper.myLooper();
 
-    public void stopStreaming(View v){
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                requestPermissions(new String[]{
+                                Manifest.permission.BLUETOOTH_ADVERTISE,
+                                Manifest.permission.BLUETOOTH_CONNECT,
+                                Manifest.permission.BLUETOOTH_SCAN,
+                                Manifest.permission.ACCESS_FINE_LOCATION},
+                        0);
+            } else {
+                requestPermissions(new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION},
+                        0);
+            }
+        }
+
+// Register for broadcasts when a device is discovered.
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        boolean allPermissionsGranted = true;
+        for (int result : grantResults) {
+            if (result != 0) {
+                allPermissionsGranted = false;
+            }
+        }
+        if (!allPermissionsGranted) {
+            Toast.makeText(this, "Please allow all requested permissions", Toast.LENGTH_SHORT).show();
+        } else {
+            BleManager.getInstance().init(getApplication());
+            try {
+                btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Couldn't create ShimmerBluetoothManagerAndroid. Error: " + e);
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                startActivityForResult(enableBtIntent, 1);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Don't forget to unregister the ACTION_FOUND receiver.
+        unregisterReceiver(receiver);
+    }
+
+    @Override
+    protected void onStart() {
+        /*
+        //Connect the Shimmer using its Bluetooth Address
+        try {
+            btManager.connectShimmerThroughBTAddress(shimmerBtAdd);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Error. Shimmer device not paired or Bluetooth is not enabled");
+            Toast.makeText(this, "Error. Shimmer device not paired or Bluetooth is not enabled. " +
+                            "Please close the app and pair or enable Bluetooth", Toast.LENGTH_LONG).show();
+        }*/
+        textView = (TextView) findViewById(R.id.textView);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        //Disconnect the Shimmer device when app is stopped
+        if (shimmerDevice != null) {
+            if (shimmerDevice.isSDLogging()) {
+                shimmerDevice.stopSDLogging();
+                Log.d(LOG_TAG, "Stopped Shimmer Logging");
+            } else if (shimmerDevice.isStreaming()) {
+                try {
+                    shimmerDevice.stopStreaming();
+                } catch (ShimmerException e) {
+                    e.printStackTrace();
+                }
+                Log.d(LOG_TAG, "Stopped Shimmer Streaming");
+            } else {
+                shimmerDevice.stopStreamingAndLogging();
+                Log.d(LOG_TAG, "Stopped Shimmer Streaming and Logging");
+            }
+        }
+        btManager.disconnectAllDevices();
+        Log.i(LOG_TAG, "Shimmer DISCONNECTED");
+        super.onStop();
+    }
+
+    public void stopStreaming(View v) {
         try {
             shimmerDevice.stopStreaming();
         } catch (ShimmerException e) {
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void startStreaming(View v){
+    public void startStreaming(View v) {
         try {
             shimmerDevice.startStreaming();
         } catch (ShimmerException e) {
@@ -277,19 +277,18 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Called when the configurations button is clicked
+     *
      * @param v
      */
-    public void openConfigMenu(View v){
-        if(shimmerDevice != null) {
-            if(!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
+    public void openConfigMenu(View v) {
+        if (shimmerDevice != null) {
+            if (!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
                 ShimmerDialogConfigurations.buildShimmerConfigOptions(shimmerDevice, MainActivity.this, btManager);
-            }
-            else {
+            } else {
                 Log.e(LOG_TAG, "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING");
                 Toast.makeText(MainActivity.this, "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             Log.e(LOG_TAG, "Cannot open menu! Shimmer device is not connected");
             Toast.makeText(MainActivity.this, "Cannot open menu! Shimmer device is not connected", Toast.LENGTH_SHORT).show();
         }
@@ -297,22 +296,21 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Called when the menu button is clicked
+     *
      * @param v
      * @throws IOException
      */
     public void openMenu(View v) throws IOException {
 
-        if(shimmerDevice != null) {
-            if(!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
+        if (shimmerDevice != null) {
+            if (!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
                 //ShimmerDialogConfigurations.buildShimmerSensorEnableDetails(shimmerDevice, MainActivity.this);
                 ShimmerDialogConfigurations.buildShimmerSensorEnableDetails(shimmerDevice, MainActivity.this, btManager);
-            }
-            else {
+            } else {
                 Log.e(LOG_TAG, "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING");
                 Toast.makeText(MainActivity.this, "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             Log.e(LOG_TAG, "Cannot open menu! Shimmer device is not connected");
             Toast.makeText(MainActivity.this, "Cannot open menu! Shimmer device is not connected", Toast.LENGTH_SHORT).show();
         }
@@ -320,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Called when the connect button is clicked
+     *
      * @param v
      */
     public void connectDevice(View v) {
@@ -329,18 +328,19 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Called when the disconnect button is clicked
+     *
      * @param v
      */
     public void disconnectDevice(View v) {
         try {
-            ((ShimmerBluetooth)shimmerDevice).disconnect();
+            ((ShimmerBluetooth) shimmerDevice).disconnect();
         } catch (ShimmerException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void startSDLogging(View v) {
-        ((ShimmerBluetooth)shimmerDevice).writeConfigTime(System.currentTimeMillis());
+        ((ShimmerBluetooth) shimmerDevice).writeConfigTime(System.currentTimeMillis());
         shimmerDevice.startSDLogging();
     }
 
@@ -348,18 +348,18 @@ public class MainActivity extends AppCompatActivity {
         shimmerDevice.stopSDLogging();
     }
 
-
     /**
      * Get the result from the paired devices dialog
+     *
      * @param requestCode
      * @param resultCode
      * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 2) {
+        if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                if(btManager==null){
+                if (btManager == null) {
                     try {
                         btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
                     } catch (Exception e) {
@@ -379,26 +379,31 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    Looper looper = Looper.myLooper();
 
-    public void showBtTypeConnectionOption(){
+    public void showBtTypeConnectionOption() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setCancelable(false);
         alertDialog.setMessage("Choose preferred Bluetooth type");
-        alertDialog.setButton( Dialog.BUTTON_POSITIVE, "BT CLASSIC", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(Dialog.BUTTON_POSITIVE, "BT CLASSIC", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BT_CLASSIC;
                 looper.quit();
-            };
+            }
+
+            ;
         });
-    alertDialog.setButton( Dialog.BUTTON_NEGATIVE, "BLE", new DialogInterface.OnClickListener()    {
-                public void onClick(DialogInterface dialog, int which) {
-                    preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BLE;
-                    looper.quit();
-                };
-    });
+        alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "BLE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BLE;
+                looper.quit();
+            }
+
+            ;
+        });
         alertDialog.show();
-        try{ looper.loop(); }
-        catch(RuntimeException e){}
+        try {
+            looper.loop();
+        } catch (RuntimeException e) {
+        }
     }
 }

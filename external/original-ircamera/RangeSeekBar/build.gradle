@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-group='com.github.Jay-Goo'
+group = 'com.github.Jay-Goo'
 
 android {
     compileSdk rootProject.ext.android.compileSdk

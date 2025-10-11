@@ -25,8 +25,7 @@ class AlarmHelp private constructor(val context: Context) {
     private var alarmBean: AlarmBean? = null
 
 
-
-    fun updateData(alarmBean : AlarmBean) {
+    fun updateData(alarmBean: AlarmBean) {
         this.alarmBean = alarmBean
         isTempAlarmRingtoneOpen = alarmBean?.isRingtoneOpen ?: false
         isOpenLowTemp = alarmBean?.isLowOpen ?: false
@@ -147,7 +146,7 @@ class AlarmHelp private constructor(val context: Context) {
         }
     }
 
-    fun onDestroy(isSaveSetting : Boolean) {
+    fun onDestroy(isSaveSetting: Boolean) {
         if (!isSaveSetting) {
             isTempAlarmRingtoneOpen = false
             isOpenHighTemp = false

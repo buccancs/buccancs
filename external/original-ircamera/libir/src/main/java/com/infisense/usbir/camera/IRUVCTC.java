@@ -39,13 +39,9 @@ import java.util.List;
 public class IRUVCTC {
     private static final String TAG = "IRUVC_DATA";
     private final IFrameCallback iFrameCallback;
-    public UVCCamera uvcCamera;
-    private IRCMD ircmd;
     //
     private final USBMonitor mUSBMonitor;
     private final ConnectCallback mConnectCallback; // usb连接回调
-    private byte[] imageSrc;
-    private byte[] temperatureSrc;
     private final int imageOrTempDataLength = 256 * 192 * 2; // 红外或温度的数据长度
     private final SynchronizedBitmap syncimage;
     /**
@@ -53,41 +49,27 @@ public class IRUVCTC {
      */
     private final LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
     private final LibIRProcess.GainSwitchParam_t gain_switch_param = new LibIRProcess.GainSwitchParam_t();
-    private int rotateInt = 0;
-
-    // 判断数据是否准备完毕，在准备完毕之前，画面可能会出现不正常
-    private boolean isFrameReady = true;
     // 当前的增益状态
     private final CommonParams.GainStatus gainStatus = CommonParams.GainStatus.HIGH_GAIN;
     private final byte[] temperatureTemp = new byte[imageOrTempDataLength];
+    private final CommonParams.DataFlowMode defaultDataFlowMode;
+    private final boolean auto_over_portect = false;
+    public UVCCamera uvcCamera;
+    public boolean auto_gain_switch = false;
+    public byte[] imageEditTemp = null;
+    public volatile boolean isFirstFrame;
+    private IRCMD ircmd;
+    private byte[] imageSrc;
+    private byte[] temperatureSrc;
+    private int rotateInt = 0;
+    // 判断数据是否准备完毕，在准备完毕之前，画面可能会出现不正常
+    private boolean isFrameReady = true;
     // 是否可以红外+TNR出图
     private boolean isTempReplacedWithTNREnabled;
-    private final CommonParams.DataFlowMode defaultDataFlowMode;
     private boolean isRestart;
-    public boolean auto_gain_switch = false;
-    private final boolean auto_over_portect = false;
-    public byte[] imageEditTemp = null;
     private int pids[] = {0x5840, 0x3901, 0x5830, 0x5838};
     private IFrameCallBackListener iFrameCallBackListener;
-
     private IFrameReadListener iFrameReadListener;
-    public volatile boolean isFirstFrame;
-
-    public void setIFrameCallBackListener(IFrameCallBackListener iFrameCallBackListener) {
-        this.iFrameCallBackListener = iFrameCallBackListener;
-    }
-
-    public void setiFirstFrameListener(IFrameReadListener iFrameReadListener) {
-        this.iFrameReadListener = iFrameReadListener;
-    }
-
-    public interface IFrameCallBackListener {
-        void updateData();
-    }
-
-    public interface IFrameReadListener {
-        void frameRead();
-    }
 
     /**
      * @param cameraWidth     cameraWidth:256,cameraHeight:384,图像+温度
@@ -134,7 +116,7 @@ public class IRUVCTC {
             @Override
             public void onConnect(final UsbDevice device, USBMonitor.UsbControlBlock ctrlBlock, boolean createNew) {
                 Log.w(TAG, "onConnect");
-                if (isIRpid(device.getProductId())){
+                if (isIRpid(device.getProductId())) {
                     if (createNew) {
                         openUVCCamera(ctrlBlock);
 
@@ -353,6 +335,14 @@ public class IRUVCTC {
             }
 
         };
+    }
+
+    public void setIFrameCallBackListener(IFrameCallBackListener iFrameCallBackListener) {
+        this.iFrameCallBackListener = iFrameCallBackListener;
+    }
+
+    public void setiFirstFrameListener(IFrameReadListener iFrameReadListener) {
+        this.iFrameReadListener = iFrameReadListener;
     }
 
     public void setRotate(int rotateInt) {
@@ -679,6 +669,14 @@ public class IRUVCTC {
     private void handleStartPreviewComplete() {
         // 出图之后再去获取kt,bt,nuc_t等参数来设置温度数据，避免耗时操作导致这里的停图和出图受影响
         new Thread(() -> EventBus.getDefault().post(new PreviewComplete())).start();
+    }
+
+    public interface IFrameCallBackListener {
+        void updateData();
+    }
+
+    public interface IFrameReadListener {
+        void frameRead();
     }
 
 }

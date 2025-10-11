@@ -37,11 +37,11 @@ android {
         artidiag900lite {
         }
 
-        topscan{
+        topscan {
 
         }
 
-        keynow{
+        keynow {
 
         }
     }

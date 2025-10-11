@@ -62,7 +62,7 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
 
         viewModel.listData.observe(this) {
             dismissLoadingDialog()
-            if (!reportAdapter.hasEmptyView()){
+            if (!reportAdapter.hasEmptyView()) {
                 reportAdapter.setEmptyView(R.layout.layout_empty)
             }
             if (it == null) {
@@ -72,25 +72,25 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                     reportAdapter.loadMoreModule.loadMoreComplete()
                 }
             }
-            it?.let {data->
+            it?.let { data ->
                 if (page == 1) {
                     //刷新
-                    if (data.code == LMS.SUCCESS){
+                    if (data.code == LMS.SUCCESS) {
                         reportAdapter.loadMoreModule.isEnableLoadMore = !data.data?.records.isNullOrEmpty()
                         fragment_pdf_recycler_lay.finishRefresh()
-                    }else{
+                    } else {
                         fragment_pdf_recycler_lay.finishRefresh(false)
                     }
                     reportAdapter.setNewInstance(data.data?.records)
                 } else {
                     data.data?.records?.let { it1 -> reportAdapter.addData(it1) }
-                    if (data.code == LMS.SUCCESS){
-                        if (data.data?.records.isNullOrEmpty()){
+                    if (data.code == LMS.SUCCESS) {
+                        if (data.data?.records.isNullOrEmpty()) {
                             reportAdapter.loadMoreModule.loadMoreEnd()
-                        }else{
+                        } else {
                             reportAdapter.loadMoreModule.loadMoreComplete()
                         }
-                    }else{
+                    } else {
                         reportAdapter.loadMoreModule.loadMoreFail()
                     }
                 }
@@ -98,7 +98,7 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
         }
         if (WebSocketProxy.getInstance().isConnected()) {
             NetWorkUtils.switchNetwork(false)
-        }else{
+        } else {
             NetWorkUtils.connectivityManager.bindProcessToNetwork(null)
         }
         initRecycler()
@@ -122,28 +122,31 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
             //加载更多
             viewModel.getReportData(isTC007, ++page)
         }
-        reportAdapter.jumpDetailListener = {item, position ->
+        reportAdapter.jumpDetailListener = { item, position ->
             ARouter.getInstance().build(RouterConfig.REPORT_DETAIL)
-                .withParcelable(ExtraKeyConfig.REPORT_BEAN,reportAdapter.data[position]?.reportContent)
+                .withParcelable(ExtraKeyConfig.REPORT_BEAN, reportAdapter.data[position]?.reportContent)
                 .navigation(this)
         }
         reportAdapter.isUseEmpty = true
-        reportAdapter.delListener = {item, position ->
+        reportAdapter.delListener = { item, position ->
             val reportBean = item.reportContent
             TipDialog.Builder(this)
                 .setMessage(getString(R.string.tip_config_delete, reportBean?.report_info?.report_name ?: ""))
                 .setPositiveListener(R.string.app_confirm) {
                     lifecycleScope.launch {
                         showLoadingDialog()
-                        withContext(Dispatchers.IO){
+                        withContext(Dispatchers.IO) {
                             val url = UrlConstant.BASE_URL + "api/v1/outProduce/testReport/delTestReport"
                             val params = RequestParams()
-                            params.addBodyParameter("modelId", if (isTC007) 1783 else 950) //TC001-950, TC002-951, TC003-952 TC007-1783
+                            params.addBodyParameter(
+                                "modelId",
+                                if (isTC007) 1783 else 950
+                            ) //TC001-950, TC002-951, TC003-952 TC007-1783
                             params.addBodyParameter("testReportIds", arrayOf(item.testReportId))
                             params.addBodyParameter("status", 1)
-                            params.addBodyParameter("languageId",  LanguageUtil.getLanguageId(Utils.getApp()))
+                            params.addBodyParameter("languageId", LanguageUtil.getLanguageId(Utils.getApp()))
                             params.addBodyParameter("reportType", 2)
-                            HttpProxy.instant.post(url,params, object :
+                            HttpProxy.instant.post(url, params, object :
                                 IResponseCallback {
                                 override fun onResponse(response: String?) {
                                     val reportNumber = item.reportContent?.report_info?.report_number ?: ""
@@ -151,7 +154,7 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                                     if (file.exists()) {
                                         file.delete()
                                     }
-                                    Log.w("删除成功",response.toString())
+                                    Log.w("删除成功", response.toString())
                                 }
 
                                 override fun onFail(exception: Exception?) {
@@ -174,11 +177,11 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                             })
                         }
                         dismissLoadingDialog()
-                        if (item.isShowTitleTime){
+                        if (item.isShowTitleTime) {
                             reportAdapter.remove(item)
                             reportAdapter.setNewInstance(reportAdapter.data)
                             reportAdapter.notifyDataSetChanged()
-                        }else{
+                        } else {
                             reportAdapter.data.removeAt(position)
                             reportAdapter.notifyItemRemoved(position)
                         }

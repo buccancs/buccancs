@@ -3,7 +3,7 @@
 
  This is a BlackMan-Windowed-Sinc Filter. Algorithm for calculating 
  filter coefficients from "The Scientist and Engineer's Guide to Digital Signal Processing",
- copyright ©1997-1998 by Steven W. Smith. 
+ copyright ï¿½1997-1998 by Steven W. Smith. 
  For more information visit the book's website at: www.DSPguide.com.
  
  * Copyright (c) 2010 - 2014, Shimmer Research, Ltd.
@@ -60,99 +60,97 @@ import java.util.Arrays;
 import java.util.List;
 
 
-/** 
+/**
  *
- This is a BlackMan-Windowed-Sinc Filter. Algorithm for calculating 
- filter coefficients from "The Scientist and Engineer's Guide to Digital Signal Processing",
- copyright ©1997-1998 by Steven W. Smith. 
- For more information visit the book's website at: www.DSPguide.com.
+ * This is a BlackMan-Windowed-Sinc Filter. Algorithm for calculating
+ * filter coefficients from "The Scientist and Engineer's Guide to Digital Signal Processing",
+ * copyright ï¿½1997-1998 by Steven W. Smith.
+ * For more information visit the book's website at: www.DSPguide.com.
  *
  */
 
-public class Filter implements Serializable{
-	
-	public static int LOW_PASS = 0;
+public class Filter implements Serializable {
+
+    public static int LOW_PASS = 0;
     public static int HIGH_PASS = 1;
     public static int BAND_PASS = 2;
     public static int BAND_STOP = 3;
-
-    // filter parameters   
+    // filter coefficients {h}
+    public double[] coefficients;
+    // filter parameters
     private int filterType;
     private double samplingRate = Double.NaN;
     private double[] cornerFrequency;
     private int nTaps;
     private double minCornerFrequency, maxCornerFrequency;
-
     // buffered data (for filtering streamed data)
     private double[] bufferedX;
-
-    // filter coefficients {h}
-    public double[] coefficients;
-
     // input parameters are invalid
     private boolean validparameters = false;
 
     // default parameters
     private double defaultSamplingRate = 512;
-    private double[] defaultCornerFrequency = { 0.5 };
+    private double[] defaultCornerFrequency = {0.5};
     private int defaultNTaps = 200;
-    
-    public Filter() throws Exception{
-    	filterType=LOW_PASS;
 
-    	SetFilterParameters(LOW_PASS, defaultSamplingRate, defaultCornerFrequency, defaultNTaps);
-    }
-     
-    public Filter(int filterType) throws Exception{
-    	
-    	this.filterType=filterType;
+    public Filter() throws Exception {
+        filterType = LOW_PASS;
 
-    	SetFilterParameters(filterType, defaultSamplingRate, defaultCornerFrequency, defaultNTaps);
+        SetFilterParameters(LOW_PASS, defaultSamplingRate, defaultCornerFrequency, defaultNTaps);
     }
-    
-    public Filter(int filterType, double samplingRate, double[] cornerFrequency) throws Exception{
-    	
-    	this.filterType=filterType;
-    	
+
+    public Filter(int filterType) throws Exception {
+
+        this.filterType = filterType;
+
+        SetFilterParameters(filterType, defaultSamplingRate, defaultCornerFrequency, defaultNTaps);
+    }
+
+    public Filter(int filterType, double samplingRate, double[] cornerFrequency) throws Exception {
+
+        this.filterType = filterType;
+
         SetFilterParameters(filterType, samplingRate, cornerFrequency, defaultNTaps);
     }
 
-    public Filter(int filterType, double samplingRate, double[] cornerFrequency, int nTaps) throws Exception{
-    	
-    	this.filterType=filterType;
-    	
+    public Filter(int filterType, double samplingRate, double[] cornerFrequency, int nTaps) throws Exception {
+
+        this.filterType = filterType;
+
         SetFilterParameters(filterType, samplingRate, cornerFrequency, nTaps);
     }
-    
-    
-    public void SetFilterParameters(int LoHi, double samplingRate, double[] cornerFrequency, int nTaps) throws Exception{
-    	
-    	//reset the buffers
-    	resetBuffer(); 
-    	
-    	if(cornerFrequency.length!=1){
-    		if(cornerFrequency[0] > cornerFrequency[1]){
-    			minCornerFrequency = cornerFrequency[1];
-    			maxCornerFrequency = cornerFrequency[0];
-    		}
-    		else{
-    			minCornerFrequency = cornerFrequency[0];
-    			maxCornerFrequency = cornerFrequency[1];
-    		}
-    	}
-    	else
-    		minCornerFrequency = maxCornerFrequency = cornerFrequency[0];
-    	
-    	
-    	if (maxCornerFrequency > samplingRate / 2)
-        {
+
+    public static double[] fromListToArray(List<Double> list) {
+
+        double[] array = new double[list.size()];
+        for (int i = 0; i < list.size(); i++)
+            array[i] = list.get(i);
+
+        return array;
+    }
+
+    public void SetFilterParameters(int LoHi, double samplingRate, double[] cornerFrequency, int nTaps) throws Exception {
+
+        //reset the buffers
+        resetBuffer();
+
+        if (cornerFrequency.length != 1) {
+            if (cornerFrequency[0] > cornerFrequency[1]) {
+                minCornerFrequency = cornerFrequency[1];
+                maxCornerFrequency = cornerFrequency[0];
+            } else {
+                minCornerFrequency = cornerFrequency[0];
+                maxCornerFrequency = cornerFrequency[1];
+            }
+        } else
+            minCornerFrequency = maxCornerFrequency = cornerFrequency[0];
+
+
+        if (maxCornerFrequency > samplingRate / 2) {
             this.validparameters = false;
             throw new Exception("Error: cornerFrequency is greater than Nyquist frequency. Please choose valid parameters.");
-        }
-        else
-        {
-            if (nTaps % 2 != 0)
-            {
+        } else {
+            if (nTaps % 2 != 0) {
                 nTaps--;
                 //JOptionPane.showMessageDialog(null, "Warning: nTaps is not an even number. nTaps will be rounded to " +Integer.toString(nTaps));
             }
@@ -168,204 +166,181 @@ public class Filter implements Serializable{
                 coefficients = new double[nTaps];
                 coefficients = calculateCoefficients(fc, LoHi, nTaps);
                 this.validparameters = true;
-            }
-            else if (LoHi == BAND_PASS || LoHi == BAND_STOP)
-            {
+            } else if (LoHi == BAND_PASS || LoHi == BAND_STOP) {
                 if (cornerFrequency.length != 2)
-                	throw new Exception("Error. Bandpass or bandstop filter requires two corner frequencies to be specified");
-                
+                    throw new Exception("Error. Bandpass or bandstop filter requires two corner frequencies to be specified");
+
                 this.samplingRate = samplingRate;
                 this.nTaps = nTaps;
-                
+
                 double fcHigh = maxCornerFrequency / samplingRate;
                 double fcLow = minCornerFrequency / samplingRate;
 
                 // calculate filter coefficients
                 double[] coefficientHighPass = calculateCoefficients(fcHigh, HIGH_PASS, nTaps);
                 double[] coefficientLowPass = calculateCoefficients(fcLow, LOW_PASS, nTaps);
-                
+
                 coefficients = new double[coefficientHighPass.length];
-                for(int i=0; i<coefficientHighPass.length;i++){
-                	if(LoHi == BAND_PASS)
-                		coefficients[i] = - (coefficientHighPass[i] + coefficientLowPass[i]); //sum of HPF and LPF for bandstop filter, spectral inversion for bandpass filter
-                	else
-                		coefficients[i] = coefficientHighPass[i] + coefficientLowPass[i]; //sum of HPF and LPF for bandstop filter
+                for (int i = 0; i < coefficientHighPass.length; i++) {
+                    if (LoHi == BAND_PASS)
+                        coefficients[i] = -(coefficientHighPass[i] + coefficientLowPass[i]); //sum of HPF and LPF for bandstop filter, spectral inversion for bandpass filter
+                    else
+                        coefficients[i] = coefficientHighPass[i] + coefficientLowPass[i]; //sum of HPF and LPF for bandstop filter
                 }
-                
-                if(LoHi == BAND_PASS){
-                	coefficients[(nTaps/2)] = coefficients[(nTaps/2)] +1;
+
+                if (LoHi == BAND_PASS) {
+                    coefficients[(nTaps / 2)] = coefficients[(nTaps / 2)] + 1;
                 }
-                
+
                 this.validparameters = true;
-            }
-            else
-            	throw new Exception("Error. Undefined filter type: use 0 - lowpass, 1 - highpass, 2- bandpass, or 3- bandstop");
+            } else
+                throw new Exception("Error. Undefined filter type: use 0 - lowpass, 1 - highpass, 2- bandpass, or 3- bandstop");
         }
     }
-    
-    public double filterData(double data) throws Exception
-    {
-    	double dataFiltered = Double.NaN;
-    	
-    	 if (!this.validparameters)
-         	throw new Exception("Error. Filter parameters are invalid. Please set filter parameters before filtering data.");
-         else
-         {
-        	 int nSamples = 1;
-             int bufferSize = this.nTaps; 
-        	 if(bufferedX == null){
-        		 bufferedX = new double[bufferSize + nSamples]; // buffers are initiliazed to 0 by default
-        		 Arrays.fill(bufferedX, data); // fill the buffer X with the first data       
-        	 }
-        	 else{
-        		 System.arraycopy(bufferedX, 1, bufferedX, 0, bufferedX.length-1); //all the elements in the buffer are shifted one position to the left
-        		 bufferedX[bufferedX.length-1] = data;
-        	 }
-        	 
-        	 double Y = filter(bufferedX);
-        	 dataFiltered = Y;
-        	 
-         }
-    	
-    	return dataFiltered;    
+
+    public double filterData(double data) throws Exception {
+        double dataFiltered = Double.NaN;
+
+        if (!this.validparameters)
+            throw new Exception("Error. Filter parameters are invalid. Please set filter parameters before filtering data.");
+        else {
+            int nSamples = 1;
+            int bufferSize = this.nTaps;
+            if (bufferedX == null) {
+                bufferedX = new double[bufferSize + nSamples]; // buffers are initiliazed to 0 by default
+                Arrays.fill(bufferedX, data); // fill the buffer X with the first data
+            } else {
+                System.arraycopy(bufferedX, 1, bufferedX, 0, bufferedX.length - 1); //all the elements in the buffer are shifted one position to the left
+                bufferedX[bufferedX.length - 1] = data;
+            }
+
+            double Y = filter(bufferedX);
+            dataFiltered = Y;
+
+        }
+
+        return dataFiltered;
     }
-    
-    public double[] filterData(double[] data) throws Exception
-    {
-    	if (!this.validparameters)
-         	throw new Exception("Error. Filter parameters are invalid. Please set filter parameters before filtering data.");
-         else
-         {
-        	 double[] dataFiltered = new double[data.length];
-        	 
-        	 for(int i=0; i<data.length; i++){
-        		 double individualDataFiltered = filterData(data[i]);
-        		 dataFiltered[i] = individualDataFiltered;
-        	 }
-        	 
-        	 //reset the buffers
-        	 resetBuffer();
-        	 
-        	 return dataFiltered;
-         }
+
+    public double[] filterData(double[] data) throws Exception {
+        if (!this.validparameters)
+            throw new Exception("Error. Filter parameters are invalid. Please set filter parameters before filtering data.");
+        else {
+            double[] dataFiltered = new double[data.length];
+
+            for (int i = 0; i < data.length; i++) {
+                double individualDataFiltered = filterData(data[i]);
+                dataFiltered[i] = individualDataFiltered;
+            }
+
+            //reset the buffers
+            resetBuffer();
+
+            return dataFiltered;
+        }
     }
-    
-    public List<Double> filterData(List<Double> data) throws Exception
-    {
-    	if (!this.validparameters)
-         	throw new Exception("Error. Filter parameters are invalid. Please set filter parameters before filtering data.");
-         else
-         {
-        	 int dataSize = data.size();
-        	 List<Double> dataFiltered = new ArrayList<Double>(dataSize);
-        	 
-        	 for(int i=0; i<dataSize; i++){
-        		 double individualDataFiltered = filterData(data.get(i));
-        		 dataFiltered.add(i, individualDataFiltered);
-        	 }
-         	 
-        	 //reset the buffers
-        	 resetBuffer();
-        	 
-        	 return dataFiltered;
-         }
+
+    public List<Double> filterData(List<Double> data) throws Exception {
+        if (!this.validparameters)
+            throw new Exception("Error. Filter parameters are invalid. Please set filter parameters before filtering data.");
+        else {
+            int dataSize = data.size();
+            List<Double> dataFiltered = new ArrayList<Double>(dataSize);
+
+            for (int i = 0; i < dataSize; i++) {
+                double individualDataFiltered = filterData(data.get(i));
+                dataFiltered.add(i, individualDataFiltered);
+            }
+
+            //reset the buffers
+            resetBuffer();
+
+            return dataFiltered;
+        }
     }
-    
-    private double filter(double[] X){
-    	
-    	int nTaps = coefficients.length;
-    	double Y = 0;
-    	
-    	for(int i=0; i<nTaps; i++){
-    		Y += X[nTaps-i]*coefficients[i];
-    	}
-    
-    	return Y;
+
+    private double filter(double[] X) {
+
+        int nTaps = coefficients.length;
+        double Y = 0;
+
+        for (int i = 0; i < nTaps; i++) {
+            Y += X[nTaps - i] * coefficients[i];
+        }
+
+        return Y;
     }
-    
-    private double[] calculateCoefficients(double fc, int LoHi, int nTaps) throws Exception
-    {
+
+    private double[] calculateCoefficients(double fc, int LoHi, int nTaps) throws Exception {
         if (!(LoHi == LOW_PASS || LoHi == HIGH_PASS))
-        	throw new Exception("Error: the function calculateCoefficients() can only be called for LPF or HPF.");
+            throw new Exception("Error: the function calculateCoefficients() can only be called for LPF or HPF.");
 
         //Initialization
         int M = nTaps;
         double[] h = new double[M];
-        for(int i=0;i<M; i++)
-        	h[i] = 0;
-        
-        for(int i=0;i<M;i++){
-        	h[i] = 0.42 - 0.5 * Math.cos((2*Math.PI*i)/M) + 0.08*Math.cos((4*Math.PI*i)/M);
-        	if(i!=M/2)
-        		h[i] = h[i] * (Math.sin(2*Math.PI*fc*(i-(M/2))))/(i-(M/2));
-        	else
-        		h[i] = h[i] * (2*Math.PI*fc);
-        }
-         
-        double gain = 0;
-        for(int i=0;i<h.length;i++)
-        	gain += h[i];
-        
-        for(int i=0;i<h.length;i++){
-        	if(LoHi == HIGH_PASS){
-        		h[i] = - h[i]/gain;
-        	}
-        	else
-        		h[i] = h[i]/gain;
+        for (int i = 0; i < M; i++)
+            h[i] = 0;
+
+        for (int i = 0; i < M; i++) {
+            h[i] = 0.42 - 0.5 * Math.cos((2 * Math.PI * i) / M) + 0.08 * Math.cos((4 * Math.PI * i) / M);
+            if (i != M / 2)
+                h[i] = h[i] * (Math.sin(2 * Math.PI * fc * (i - (M / 2)))) / (i - (M / 2));
+            else
+                h[i] = h[i] * (2 * Math.PI * fc);
         }
 
-        if(LoHi == HIGH_PASS){
-        	h[M/2] = h[M/2] + 1;
+        double gain = 0;
+        for (int i = 0; i < h.length; i++)
+            gain += h[i];
+
+        for (int i = 0; i < h.length; i++) {
+            if (LoHi == HIGH_PASS) {
+                h[i] = -h[i] / gain;
+            } else
+                h[i] = h[i] / gain;
         }
-        
+
+        if (LoHi == HIGH_PASS) {
+            h[M / 2] = h[M / 2] + 1;
+        }
+
         return h;
     }
-    
-    
-    public double GetSamplingRate(){
+
+    public double GetSamplingRate() {
         return samplingRate;
     }
-    
-    protected void SamplingRate(double samplingrate){
+
+    protected void SamplingRate(double samplingrate) {
         samplingRate = samplingrate;
     }
-    
-    
-    public double[] GetCornerFrequency(){
+
+    public double[] GetCornerFrequency() {
         return cornerFrequency;
     }
-    
-    protected void SetCornerFrequency(double[] cf){
+
+    protected void SetCornerFrequency(double[] cf) {
         cornerFrequency = cf;
     }
-    
-    public static double[] fromListToArray(List<Double> list){
-		
-		double [] array = new double[list.size()];
-		for(int i=0;i<list.size();i++)
-			array[i] = list.get(i);
-		
-		return array;
-	}
-    
-    public void resetBuffer(){
-    	bufferedX = null;
-    }
-    
-	public int getFilterType() {
-		return filterType;
-	}    
-	
-	public int getNTaps(){
-		return nTaps;
-	}
-    
-	public double getMinCornerFrequency(){
-		return minCornerFrequency;
-	}
 
-	public double getMaxCornerFrequency(){
-		return maxCornerFrequency;
-	}
+    public void resetBuffer() {
+        bufferedX = null;
+    }
+
+    public int getFilterType() {
+        return filterType;
+    }
+
+    public int getNTaps() {
+        return nTaps;
+    }
+
+    public double getMinCornerFrequency() {
+        return minCornerFrequency;
+    }
+
+    public double getMaxCornerFrequency() {
+        return maxCornerFrequency;
+    }
 
 }

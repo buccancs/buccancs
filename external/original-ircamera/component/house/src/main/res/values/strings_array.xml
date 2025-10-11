@@ -5,7 +5,7 @@
         <item>@string/area_square_metre</item> <!-- 平方米 -->
         <item>@string/area_hectare</item>      <!-- 公顷 -->
     </string-array>
-    
+
     <string-array name="currency">
         <item>"USD"</item> <!-- 美元USD -->
         <item>"EUR"</item> <!-- 欧元EUR -->

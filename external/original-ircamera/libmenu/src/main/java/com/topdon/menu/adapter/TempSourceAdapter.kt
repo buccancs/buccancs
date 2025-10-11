@@ -37,7 +37,6 @@ internal class TempSourceAdapter : BaseMenuAdapter() {
     var onTempSourceListener: ((code: Int) -> Unit)? = null
 
 
-
     private val dataArray: Array<Data> = arrayOf(
         Data(R.string.main_tab_second_dynamic_recognition, R.drawable.selector_menu2_source_1_auto, 0),
         Data(R.string.main_tab_second_high_temperature_source, R.drawable.selector_menu2_source_2_high, 1),

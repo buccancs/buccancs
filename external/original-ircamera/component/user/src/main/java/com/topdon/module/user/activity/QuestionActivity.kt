@@ -44,7 +44,8 @@ class QuestionActivity : BaseActivity() {
     }
 
 
-    private class MyAdapter(private val questionList: ArrayList<QuestionData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private class MyAdapter(private val questionList: ArrayList<QuestionData>) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         var onItemClickListener: ((data: QuestionData) -> Unit)? = null
 

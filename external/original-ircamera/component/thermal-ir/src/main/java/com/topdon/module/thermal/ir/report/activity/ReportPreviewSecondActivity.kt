@@ -43,7 +43,7 @@ import java.io.File
  * - 一份报告所有信息 [ExtraKeyConfig.REPORT_BEAN]
  */
 @Route(path = RouterConfig.REPORT_PREVIEW_SECOND)
-class ReportPreviewSecondActivity: BaseViewModelActivity<UpReportViewModel>(), View.OnClickListener {
+class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), View.OnClickListener {
 
     /**
      * 从上一界面传递过来的，当前是否为 TC007 设备类型.
@@ -79,11 +79,11 @@ class ReportPreviewSecondActivity: BaseViewModelActivity<UpReportViewModel>(), V
         title_view.setRightClickListener {
             TipDialog.Builder(this)
                 .setMessage(R.string.album_report_exit_tips)
-                .setPositiveListener(R.string.app_ok){
+                .setPositiveListener(R.string.app_ok) {
                     EventBus.getDefault().post(ReportCreateEvent())
                     finish()
                 }
-                .setCancelListener(R.string.app_cancel){
+                .setCancelListener(R.string.app_cancel) {
                 }
                 .setCanceled(false)
                 .create().show()
@@ -105,7 +105,11 @@ class ReportPreviewSecondActivity: BaseViewModelActivity<UpReportViewModel>(), V
                     val drawable = GlideLoader.getDrawable(this@ReportPreviewSecondActivity, irList[i].picture_url)
                     reportShowView.setImageDrawable(drawable)
                 }
-                ll_content.addView(reportShowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                ll_content.addView(
+                    reportShowView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
         }
 
@@ -145,6 +149,7 @@ class ReportPreviewSecondActivity: BaseViewModelActivity<UpReportViewModel>(), V
             tv_to_pdf -> {//生成PDF
                 saveWithPDF()
             }
+
             tv_complete -> {//完成
 
                 if (LMS.getInstance().isLogin) {
@@ -168,7 +173,8 @@ class ReportPreviewSecondActivity: BaseViewModelActivity<UpReportViewModel>(), V
                 val name = reportBean?.report_info?.report_number
                 if (name != null) {
                     if (File(FileConfig.getPdfDir() + "/$name.pdf").exists() &&
-                        !TextUtils.isEmpty(pdfFilePath)) {
+                        !TextUtils.isEmpty(pdfFilePath)
+                    ) {
                         lifecycleScope.launch {
                             dismissCameraLoading()
                             actionShare()
@@ -176,8 +182,10 @@ class ReportPreviewSecondActivity: BaseViewModelActivity<UpReportViewModel>(), V
                         return@launch
                     }
                 }
-                pdfFilePath = PDFHelp.savePdfFileByListView(name?:System.currentTimeMillis().toString(),
-                    scroll_view, getPrintViewList(),watermark_view)
+                pdfFilePath = PDFHelp.savePdfFileByListView(
+                    name ?: System.currentTimeMillis().toString(),
+                    scroll_view, getPrintViewList(), watermark_view
+                )
                 lifecycleScope.launch {
                     tv_to_pdf.text = getString(R.string.battery_share)
                     dismissCameraLoading()
@@ -206,7 +214,7 @@ class ReportPreviewSecondActivity: BaseViewModelActivity<UpReportViewModel>(), V
         val result = ArrayList<View>()
         result.add(report_info_view)
         val childCount = ll_content.childCount
-        for (i in 0 until  childCount) {
+        for (i in 0 until childCount) {
             val childView = ll_content.getChildAt(i)
             if (childView is ReportIRShowView) {
                 result.addAll(childView.getPrintViewList())

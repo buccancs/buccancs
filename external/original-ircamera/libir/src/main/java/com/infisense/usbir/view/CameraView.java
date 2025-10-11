@@ -21,6 +21,7 @@ import com.infisense.usbir.utils.OpencvTools;
  * 红外图像展示控件，可以为TextureView或SurfaceView
  */
 public class CameraView extends TextureView {
+    public int productType = Const.TYPE_IR;
     private String TAG = "CameraView";
     private Bitmap bitmap;
     private SynchronizedBitmap syncimage;
@@ -37,25 +38,11 @@ public class CameraView extends TextureView {
      */
     private Paint greenPaint;
     private boolean drawLine = true;//是否画中心十字架
-    public int productType = Const.TYPE_IR;
     private int irWidth = 192;
     private int irHeight = 256;
 
     private boolean isOpenAmplify = false;
 
-
-    public boolean isOpenAmplify() {
-        return isOpenAmplify;
-    }
-
-    public void setOpenAmplify(boolean openAmplify) {
-        isOpenAmplify = openAmplify;
-    }
-
-    public void setImageSize(int irWidth, int irHeight){
-        this.irWidth = irWidth;
-        this.irHeight = irHeight;
-    }
 
     public CameraView(Context context) {
         this(context, null, 0);
@@ -121,7 +108,7 @@ public class CameraView extends TextureView {
                             /**
                              * 画面中心的十字交叉线绘制
                              */
-                            if (drawLine){
+                            if (drawLine) {
                                 canvas.drawLine(getWidth() / 2 - cross_len, getHeight() / 2,
                                         getWidth() / 2 + cross_len, getHeight() / 2, paint);
                                 canvas.drawLine(getWidth() / 2, getHeight() / 2 - cross_len,
@@ -139,6 +126,19 @@ public class CameraView extends TextureView {
         };
     }
 
+    public boolean isOpenAmplify() {
+        return isOpenAmplify;
+    }
+
+    public void setOpenAmplify(boolean openAmplify) {
+        isOpenAmplify = openAmplify;
+    }
+
+    public void setImageSize(int irWidth, int irHeight) {
+        this.irWidth = irWidth;
+        this.irHeight = irHeight;
+    }
+
     public boolean isDrawLine() {
         return drawLine;
     }
@@ -147,17 +147,17 @@ public class CameraView extends TextureView {
         this.drawLine = drawLine;
     }
 
+    @Nullable
+    @Override
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
     /**
      * @param bitmap
      */
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
-    }
-
-    @Nullable
-    @Override
-    public Bitmap getBitmap() {
-        return bitmap;
     }
 
     /**
@@ -175,6 +175,7 @@ public class CameraView extends TextureView {
             return sBitmap;
         }
     }
+
     /**
      *
      */
@@ -182,15 +183,16 @@ public class CameraView extends TextureView {
         cameraThread = new Thread(runnable);
         cameraThread.start();
     }
-    public void setShowCross(boolean isShow){
+
+    public void setShowCross(boolean isShow) {
         try {
             cross_len = isShow ? 20 : 0;
             canvas.drawLine(getWidth() / 2f - cross_len, getHeight() / 2f,
                     getWidth() / 2f + cross_len, getHeight() / 2f, paint);
             canvas.drawLine(getWidth() / 2f, getHeight() / 2f - cross_len,
                     getWidth() / 2f, getHeight() / 2f + cross_len, paint);
-        }catch (Exception e){
-            Log.e(TAG,"点异常:"+e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "点异常:" + e.getMessage());
         }
     }
 
@@ -200,7 +202,7 @@ public class CameraView extends TextureView {
      */
     public void stop() {
         try {
-            if (cameraThread != null){
+            if (cameraThread != null) {
                 cameraThread.interrupt();
                 cameraThread.join();
             }

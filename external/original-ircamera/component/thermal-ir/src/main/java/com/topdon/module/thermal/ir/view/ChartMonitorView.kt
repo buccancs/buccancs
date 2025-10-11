@@ -150,6 +150,7 @@ class ChartMonitorView : LineChart, OnChartGestureListener {
                         volDataSet.addEntry(entity)
                         Log.w("123", "添加一个数据:$entity")
                     }
+
                     2 -> {
                         //第一条线
                         if (volDataSet == null) {
@@ -171,6 +172,7 @@ class ChartMonitorView : LineChart, OnChartGestureListener {
                         secondEntity.data = bean
                         secondDataSet.addEntry(secondEntity)
                     }
+
                     else -> {
                         //第一条线
                         if (volDataSet == null) {

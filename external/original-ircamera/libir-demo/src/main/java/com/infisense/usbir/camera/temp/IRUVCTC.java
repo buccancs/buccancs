@@ -18,7 +18,7 @@ package com.infisense.usbir.camera.temp;//package com.infisense.usbir.camera.tem
 //
 //import java.util.List;
 //
-///**
+/// **
 // * 红外出图核心工具类
 // */
 //public class IRUVCTC {

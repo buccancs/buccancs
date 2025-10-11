@@ -147,12 +147,15 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
             cl_icon_monitor -> {//监控
                 view_page.setCurrentItem(0, false)
             }
+
             cl_icon_gallery -> {//图库
                 checkStoragePermission()
             }
+
             view_main_thermal -> {//首页
                 view_page.setCurrentItem(2, false)
             }
+
             cl_icon_report -> {//报告
                 if (LMS.getInstance().isLogin) {
                     view_page.setCurrentItem(3, false)
@@ -165,6 +168,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
+
             cl_icon_mine -> {//我的
                 view_page.setCurrentItem(4, false)
             }
@@ -190,14 +194,17 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                 iv_icon_monitor.isSelected = true
                 tv_icon_monitor.isSelected = true
             }
+
             1 -> {
                 iv_icon_gallery.isSelected = true
                 tv_icon_gallery.isSelected = true
             }
+
             3 -> {
                 iv_icon_report.isSelected = true
                 tv_icon_report.isSelected = true
             }
+
             4 -> {
                 iv_icon_mine.isSelected = true
                 tv_icon_mine.isSelected = true
@@ -232,6 +239,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                     }
                     SharedManager.homeGuideStep = 2
                 }
+
                 2 -> {
                     view_page.setCurrentItem(2, false)
                     if (Build.VERSION.SDK_INT < 31) {
@@ -242,6 +250,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                     }
                     SharedManager.homeGuideStep = 3
                 }
+
                 3 -> {
                     SharedManager.homeGuideStep = 0
                 }
@@ -272,27 +281,27 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
 
     private fun checkStoragePermission() {
         val permissionList: List<String> =
-            if (this.applicationInfo.targetSdkVersion >= 34){
+            if (this.applicationInfo.targetSdkVersion >= 34) {
                 listOf(
                     Permission.READ_MEDIA_VIDEO,
                     Permission.READ_MEDIA_IMAGES,
                     Permission.WRITE_EXTERNAL_STORAGE,
                 )
-            } else if (this.applicationInfo.targetSdkVersion >= 34){
+            } else if (this.applicationInfo.targetSdkVersion >= 34) {
                 listOf(
                     Permission.READ_MEDIA_VIDEO,
                     Permission.READ_MEDIA_IMAGES,
                     Permission.WRITE_EXTERNAL_STORAGE,
                 )
             } else if (this.applicationInfo.targetSdkVersion == 33) {
-            listOf(
-                Permission.READ_MEDIA_VIDEO,
-                Permission.READ_MEDIA_IMAGES,
-                Permission.WRITE_EXTERNAL_STORAGE
-            )
-        } else {
-            listOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
-        }
+                listOf(
+                    Permission.READ_MEDIA_VIDEO,
+                    Permission.READ_MEDIA_IMAGES,
+                    Permission.WRITE_EXTERNAL_STORAGE
+                )
+            } else {
+                listOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+            }
 
         if (!XXPermissions.isGranted(this, permissionList)) {
             if (BaseApplication.instance.isDomestic()) {
@@ -315,7 +324,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
      * 动态申请权限
      */
     private fun initStoragePermission(permissionList: List<String>) {
-        if (PermissionUtils.isVisualUser()){
+        if (PermissionUtils.isVisualUser()) {
             view_page.setCurrentItem(1, false)
             return
         }
@@ -345,7 +354,6 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                 }
             })
     }
-
 
 
     private class ViewPagerAdapter(activity: FragmentActivity, val isTC007: Boolean) : FragmentStateAdapter(activity) {

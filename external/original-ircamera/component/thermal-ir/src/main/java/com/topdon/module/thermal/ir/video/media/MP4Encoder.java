@@ -48,6 +48,10 @@ public class MP4Encoder extends Encoder {
     private MediaCodec videoCodec;
     private int videoTrackIndex;
 
+    private static long getPresentationTimeUsec(int frameIndex) {
+        return (((long) frameIndex) * ONE_SEC) / 20;
+    }
+
     @Override
     protected void onInit() {
     }
@@ -214,10 +218,6 @@ public class MP4Encoder extends Encoder {
             }
             Log.i(TAG, "encoderOutputBuffer " + encoderStatus + " was null");
         }
-    }
-
-    private static long getPresentationTimeUsec(int frameIndex) {
-        return (((long) frameIndex) * ONE_SEC) / 20;
     }
 
     /**

@@ -9,16 +9,8 @@ public class PseudocolorBean {
     private CommonParams.PseudoColorType pcColor;
 
     private int img;
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
     private Bitmap bitmap;
+    private String titleName;
 
     public PseudocolorBean(CommonParams.PseudoColorType pcColor, String titleName) {
         this.pcColor = pcColor;
@@ -29,6 +21,14 @@ public class PseudocolorBean {
         this.img = img;
         this.pcColor = pcColor;
         this.titleName = titleName;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public CommonParams.PseudoColorType getPcColor() {
@@ -46,8 +46,6 @@ public class PseudocolorBean {
     public void setTitleName(String titleName) {
         this.titleName = titleName;
     }
-
-    private String titleName;
 
     public int getImg() {
         return img;

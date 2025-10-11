@@ -20,13 +20,18 @@ import kotlinx.android.synthetic.main.popup_option_pick.view.*
  *
  * Created by LCG on 2024/1/5.
  */
-class OptionPickPopup(private val context: Context, private val strArray: Array<String>, private val resIdArray: Array<Int>? = null) : PopupWindow() {
+class OptionPickPopup(
+    private val context: Context,
+    private val strArray: Array<String>,
+    private val resIdArray: Array<Int>? = null
+) : PopupWindow() {
 
     companion object {
         /**
          * 选项文字大小，单位 ***sp***
          */
         private const val TEXT_SIZE_SP: Float = 14f
+
         /**
          * 选项文字顶部或底部 padding，单位 ***dp***
          */
@@ -72,10 +77,18 @@ class OptionPickPopup(private val context: Context, private val strArray: Array<
 
         val x = locationArray[0] + anchor.width - width + SizeUtils.dp2px(5f)
 
-        if (context.resources.displayMetrics.heightPixels - locationArray[1] - anchor.height > height - SizeUtils.dp2px(5f)) {//在 anchor 底部放得下
+        if (context.resources.displayMetrics.heightPixels - locationArray[1] - anchor.height > height - SizeUtils.dp2px(
+                5f
+            )
+        ) {//在 anchor 底部放得下
             showAtLocation(anchor, Gravity.NO_GRAVITY, x, locationArray[1] + anchor.height - SizeUtils.dp2px(5f))
         } else {//下面放不下就放上面吧
-            showAtLocation(anchor, Gravity.NO_GRAVITY, x, (locationArray[1] - height + SizeUtils.dp2px(5f)).coerceAtLeast(0))
+            showAtLocation(
+                anchor,
+                Gravity.NO_GRAVITY,
+                x,
+                (locationArray[1] - height + SizeUtils.dp2px(5f)).coerceAtLeast(0)
+            )
         }
     }
 
@@ -91,7 +104,12 @@ class OptionPickPopup(private val context: Context, private val strArray: Array<
             textView.textSize = TEXT_SIZE_SP
             textView.setDrawableHeightPx(SizeUtils.sp2px(18f))
             textView.setTextColor(0xffffffff.toInt())
-            textView.setPadding(SizeUtils.dp2px(14f), SizeUtils.dp2px(TEXT_PADDING), SizeUtils.dp2px(14f), SizeUtils.dp2px(TEXT_PADDING))
+            textView.setPadding(
+                SizeUtils.dp2px(14f),
+                SizeUtils.dp2px(TEXT_PADDING),
+                SizeUtils.dp2px(14f),
+                SizeUtils.dp2px(TEXT_PADDING)
+            )
             textView.compoundDrawablePadding = SizeUtils.dp2px(10f)
             textView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
             return ViewHolder(textView)

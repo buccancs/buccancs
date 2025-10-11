@@ -7,34 +7,30 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/** TimedOutByteWriting : the class to perform the writing timeout.
- * 
+/**
+ * TimedOutByteWriting : the class to perform the writing timeout.
+ *
  * @author Bastien Aracil
- * 
+ * <p>
  * https://stackoverflow.com/questions/20034470/jssc-serial-connection-set-write-timeout/37076508#37076508
  *
  */
 class TimedOutByteWriting {
-
-    private final ByteWriter byteWriter;
-
-    private final boolean onlyOneByte;
-
-    private final byte oneByte;
-
-    private final byte[] bytes;
-
-    private final long timeout;
 
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(r -> {
         Thread t = new Thread(r, "TimedOutByteWriting Thread");
         t.setDaemon(true);
         return t;
     });
+    private final ByteWriter byteWriter;
+    private final boolean onlyOneByte;
+    private final byte oneByte;
+    private final byte[] bytes;
+    private final long timeout;
 
     TimedOutByteWriting(ByteWriter byteWriter, byte oneByte, long timeout) {
         if (timeout <= 0) {
-            throw new IllegalArgumentException("Invalid time out value : "+timeout+". Must be greater than 0");
+            throw new IllegalArgumentException("Invalid time out value : " + timeout + ". Must be greater than 0");
         }
         this.byteWriter = Objects.requireNonNull(byteWriter, "byteWriter");
         this.bytes = null;
@@ -45,7 +41,7 @@ class TimedOutByteWriting {
 
     TimedOutByteWriting(ByteWriter byteWriter, byte[] bytes, long timeout) {
         if (timeout <= 0) {
-            throw new IllegalArgumentException("Invalid time out value : "+timeout+". Must be greater than 0");
+            throw new IllegalArgumentException("Invalid time out value : " + timeout + ". Must be greater than 0");
         }
         this.byteWriter = Objects.requireNonNull(byteWriter, "byteWriter");
         this.bytes = Objects.requireNonNull(bytes, "bytes");
@@ -75,16 +71,34 @@ class TimedOutByteWriting {
             }
             if (!result.writeDone) {
                 byteWriter.cancelWrite();
-            }
-            else {
+            } else {
                 timeoutThread.cancel(true);
             }
-        }
-        finally {
+        } finally {
             lock.unlock();
         }
 
         result.handleResult();
+    }
+
+    private static class Result {
+
+        IOException writeException;
+
+        boolean writeDone = false;
+
+        boolean timedout = false;
+
+        void handleResult() throws IOException, TimeoutException {
+            if (writeDone) {
+                return;
+            }
+            if (timedout) {
+                throw new TimeoutException("Write timed out");
+            } else if (writeException != null) {
+                throw writeException;
+            }
+        }
     }
 
     private abstract class TimedOutByteWritingRunnable implements Runnable {
@@ -154,28 +168,6 @@ class TimedOutByteWriting {
                 condition.signalAll();
             } finally {
                 lock.unlock();
-            }
-        }
-    }
-
-
-    private static class Result {
-
-        IOException writeException;
-
-        boolean writeDone = false;
-
-        boolean timedout = false;
-
-        void handleResult() throws IOException, TimeoutException {
-            if (writeDone) {
-                return;
-            }
-            if (timedout) {
-                throw new TimeoutException("Write timed out");
-            }
-            else if (writeException != null) {
-                throw writeException;
             }
         }
     }

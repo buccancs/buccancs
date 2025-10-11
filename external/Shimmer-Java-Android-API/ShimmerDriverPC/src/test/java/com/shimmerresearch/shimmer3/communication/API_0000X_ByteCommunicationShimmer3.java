@@ -1,4 +1,5 @@
 package com.shimmerresearch.shimmer3.communication;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -26,154 +27,153 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
-@FixMethodOrder(MethodSorters.NAME_ASCENDING) // Test methods will be run in alphabetical order
-public class API_0000X_ByteCommunicationShimmer3 extends BasicProcessWithCallBack{
-	ShimmerPC mDevice;
-	TaskCompletionSource<Boolean> mWaitTask;
-	TaskCompletionSource<Boolean> mStreamingTask;
-	ByteCommunicationSimulatorS3 mByteCommunicationSimulatorS3;
 
-	@Before
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) // Test methods will be run in alphabetical order
+public class API_0000X_ByteCommunicationShimmer3 extends BasicProcessWithCallBack {
+    ShimmerPC mDevice;
+    TaskCompletionSource<Boolean> mWaitTask;
+    TaskCompletionSource<Boolean> mStreamingTask;
+    ByteCommunicationSimulatorS3 mByteCommunicationSimulatorS3;
+    ArrayList<ObjectCluster> mListOJC;
+
+    @Before
     public void setUp() {
-		mByteCommunicationSimulatorS3 = new ByteCommunicationSimulatorS3("COM99");
-		mDevice = new ShimmerPC("COM99");
-		mDevice.setTestRadio(mByteCommunicationSimulatorS3);
-		setWaitForData(mDevice);
+        mByteCommunicationSimulatorS3 = new ByteCommunicationSimulatorS3("COM99");
+        mDevice = new ShimmerPC("COM99");
+        mDevice.setTestRadio(mByteCommunicationSimulatorS3);
+        setWaitForData(mDevice);
     }
-    
+
     @Test
     public void test001_testConnectandDisconnect() {
-    	mByteCommunicationSimulatorS3.setIsNewBMPSupported(false);
-    	mWaitTask = new TaskCompletionSource<Boolean>();
-    	mDevice.connect("","");
-    	
-    		mWaitTask = new TaskCompletionSource<>();
-    		try {
-				mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS); //Just to give time to connect to finish
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-    	if (!mDevice.isConnected()) {
-    		assert(false);
-    	}
-    	if (!mDevice.getFirmwareVersionParsed().equals("LogAndStream v0.16.0")) {
-    		assert(false);
-    	}
-    	if (!(mDevice.getHardwareVersion()==HW_ID.SHIMMER_3)) {
-    		assert(false);
-    	}
-    	
-    	System.out.println(mDevice.getHardwareVersionParsed());
-    	if (!mDevice.getHardwareVersionParsed().equals("Shimmer3")) {
-    		assert(false);
-    	}
-    	
-    	if(!mByteCommunicationSimulatorS3.isGetBmp280CalibrationCoefficientsCommand) {
-    		assert(false);
-    	}
-    	
-		if(!mDevice.mSensorBMPX80.mSensorType.equals(SENSORS.BMP280)){
-    		assert(false);
-		}
-		
-		
+        mByteCommunicationSimulatorS3.setIsNewBMPSupported(false);
+        mWaitTask = new TaskCompletionSource<Boolean>();
+        mDevice.connect("", "");
+
+        mWaitTask = new TaskCompletionSource<>();
+        try {
+            mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS); //Just to give time to connect to finish
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if (!mDevice.isConnected()) {
+            assert (false);
+        }
+        if (!mDevice.getFirmwareVersionParsed().equals("LogAndStream v0.16.0")) {
+            assert (false);
+        }
+        if (!(mDevice.getHardwareVersion() == HW_ID.SHIMMER_3)) {
+            assert (false);
+        }
+
+        System.out.println(mDevice.getHardwareVersionParsed());
+        if (!mDevice.getHardwareVersionParsed().equals("Shimmer3")) {
+            assert (false);
+        }
+
+        if (!mByteCommunicationSimulatorS3.isGetBmp280CalibrationCoefficientsCommand) {
+            assert (false);
+        }
+
+        if (!mDevice.mSensorBMPX80.mSensorType.equals(SENSORS.BMP280)) {
+            assert (false);
+        }
+
+
     }
-    
+
     @Test
     public void test002_testConnectandDisconnect_NewBMPSupported() {
-    	mByteCommunicationSimulatorS3.setIsNewBMPSupported(true);
-    	mWaitTask = new TaskCompletionSource<Boolean>();
-    	mDevice.connect("","");
-    	
-    		mWaitTask = new TaskCompletionSource<>();
-    		try {
-				boolean result = mWaitTask.getTask().waitForCompletion(5, TimeUnit.SECONDS);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-    	if (!mDevice.isConnected()) {
-    		assert(false);
-    	}
-    	if (!mDevice.getFirmwareVersionParsed().equals("LogAndStream v0.16.9")) {
-    		assert(false);
-    	}
-    	if (!(mDevice.getHardwareVersion()==HW_ID.SHIMMER_3)) {
-    		assert(false);
-    	}
-    	
-    	System.out.println(mDevice.getHardwareVersionParsed());
-    	if (!mDevice.getHardwareVersionParsed().equals("Shimmer3")) {
-    		assert(false);
-    	}
-    	
-    	if (mDevice.isSupportedSdLogSync()) {
-    		assert(false);
-    	}
-    	
-    	if(!mByteCommunicationSimulatorS3.isGetPressureCalibrationCoefficientsCommand) {
-    		assert(false);
-    	}
-    	
-		if(!mDevice.mSensorBMPX80.mSensorType.equals(SENSORS.BMP280)){
-    		assert(false);
-		}
-      
-    	ArrayList<SensorDetails> listofsensorDetails = (ArrayList<SensorDetails>) mDevice.getListOfEnabledSensors();
-    	
-    	for(SensorDetails sd: listofsensorDetails) {
-    		if (sd.isEnabled()) {
-    			for (ChannelDetails cd: sd.getListOfChannels()) {
-    				System.out.print(cd.mGuiName + " ; ");
-    			}
-    			System.out.println();
-    		}
-    	}
-    	
-    	LinkedHashMap<SENSORS, AbstractSensor> mapOfSensors = mDevice.getMapOfSensorsClasses();
-    	for (AbstractSensor sensor:mapOfSensors.values()) {
-    		if (sensor.getNumberOfEnabledChannels(COMMUNICATION_TYPE.BLUETOOTH)>0) {
-    			System.out.println(sensor.getClass().getName() + " ; " + sensor.getSensorName());
-    		}
-    	}
+        mByteCommunicationSimulatorS3.setIsNewBMPSupported(true);
+        mWaitTask = new TaskCompletionSource<Boolean>();
+        mDevice.connect("", "");
+
+        mWaitTask = new TaskCompletionSource<>();
+        try {
+            boolean result = mWaitTask.getTask().waitForCompletion(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if (!mDevice.isConnected()) {
+            assert (false);
+        }
+        if (!mDevice.getFirmwareVersionParsed().equals("LogAndStream v0.16.9")) {
+            assert (false);
+        }
+        if (!(mDevice.getHardwareVersion() == HW_ID.SHIMMER_3)) {
+            assert (false);
+        }
+
+        System.out.println(mDevice.getHardwareVersionParsed());
+        if (!mDevice.getHardwareVersionParsed().equals("Shimmer3")) {
+            assert (false);
+        }
+
+        if (mDevice.isSupportedSdLogSync()) {
+            assert (false);
+        }
+
+        if (!mByteCommunicationSimulatorS3.isGetPressureCalibrationCoefficientsCommand) {
+            assert (false);
+        }
+
+        if (!mDevice.mSensorBMPX80.mSensorType.equals(SENSORS.BMP280)) {
+            assert (false);
+        }
+
+        ArrayList<SensorDetails> listofsensorDetails = (ArrayList<SensorDetails>) mDevice.getListOfEnabledSensors();
+
+        for (SensorDetails sd : listofsensorDetails) {
+            if (sd.isEnabled()) {
+                for (ChannelDetails cd : sd.getListOfChannels()) {
+                    System.out.print(cd.mGuiName + " ; ");
+                }
+                System.out.println();
+            }
+        }
+
+        LinkedHashMap<SENSORS, AbstractSensor> mapOfSensors = mDevice.getMapOfSensorsClasses();
+        for (AbstractSensor sensor : mapOfSensors.values()) {
+            if (sensor.getNumberOfEnabledChannels(COMMUNICATION_TYPE.BLUETOOTH) > 0) {
+                System.out.println(sensor.getClass().getName() + " ; " + sensor.getSensorName());
+            }
+        }
     }
 
-    
-    ArrayList<ObjectCluster> mListOJC;
-    
-	@Override
-	protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-		// TODO Auto-generated method stub
-		  int ind = shimmerMSG.mIdentifier;
+    @Override
+    protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
+        // TODO Auto-generated method stub
+        int ind = shimmerMSG.mIdentifier;
 
-		  Object object = (Object) shimmerMSG.mB;
+        Object object = (Object) shimmerMSG.mB;
 
-		if (ind == ShimmerPC.MSG_IDENTIFIER_STATE_CHANGE) {
-			if (ind == ShimmerPC.MSG_IDENTIFIER_STATE_CHANGE) {
-				CallbackObject callbackObject = (CallbackObject)object;
-				
-				if (callbackObject.mState == BT_STATE.CONNECTED) {
-					if (mDevice.isInitialised()) {
-						try {
-							Thread.sleep(200);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-					}
-					
-				}
-		}
-	} else if (ind == ShimmerPC.MSG_IDENTIFIER_DATA_PACKET) {
-		System.out.println("Shimmer MSG_IDENTIFIER_DATA_PACKET");
-		ObjectCluster objc = (ObjectCluster) shimmerMSG.mB;
-		mListOJC.add(objc);
-	} 
+        if (ind == ShimmerPC.MSG_IDENTIFIER_STATE_CHANGE) {
+            if (ind == ShimmerPC.MSG_IDENTIFIER_STATE_CHANGE) {
+                CallbackObject callbackObject = (CallbackObject) object;
 
-}
-   
+                if (callbackObject.mState == BT_STATE.CONNECTED) {
+                    if (mDevice.isInitialised()) {
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }
+            }
+        } else if (ind == ShimmerPC.MSG_IDENTIFIER_DATA_PACKET) {
+            System.out.println("Shimmer MSG_IDENTIFIER_DATA_PACKET");
+            ObjectCluster objc = (ObjectCluster) shimmerMSG.mB;
+            mListOJC.add(objc);
+        }
+
+    }
+
 }

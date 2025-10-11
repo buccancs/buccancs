@@ -78,20 +78,20 @@ class IRMonitorHistoryFragment : Fragment() {
         adapter.isUseEmpty = true
         viewModel.recordListLD.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
-                if (!adapter.hasEmptyView()){
+                if (!adapter.hasEmptyView()) {
                     adapter.setEmptyView(R.layout.layout_empty)
                 }
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     var lastTime = 0L
                     val nowCalendar = Calendar.getInstance()
                     val lastCalendar = Calendar.getInstance()
-                    for (tmp in it){
-                        if (lastTime == 0L){
+                    for (tmp in it) {
+                        if (lastTime == 0L) {
                             tmp.showTitle = true
                         }
                         nowCalendar.timeInMillis = tmp.startTime
                         lastCalendar.timeInMillis = lastTime
-                        if (nowCalendar.get(Calendar.MONTH) != lastCalendar.get(Calendar.MONTH)){
+                        if (nowCalendar.get(Calendar.MONTH) != lastCalendar.get(Calendar.MONTH)) {
                             tmp.showTitle = true
                         }
                         lastTime = tmp.startTime
@@ -124,6 +124,7 @@ class IRMonitorHistoryFragment : Fragment() {
          * item 点击事件监听.
          */
         var onItemClickListener: ((position: Int) -> Unit)? = null
+
         /**
          * item 长按事件监听.
          */
@@ -137,7 +138,7 @@ class IRMonitorHistoryFragment : Fragment() {
             calendar.timeInMillis = record.startTime
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH) + 1
-            val day =  calendar.get(Calendar.DAY_OF_MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
 
             if (item.showTitle || position == 0 || data.size == 1) {
                 holder.itemView.group_title.isVisible = true

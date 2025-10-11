@@ -21,14 +21,13 @@ import java.io.File;
 public class DeviceIrcmdControlManager {
 
     private static final String TAG = "DeviceIrcmdControlManager";
+    private static DeviceIrcmdControlManager mInstance;
     //图像交互类
     private IrcamEngine mIrcamEngine;
     //命令交互类
     private IrcmdEngine mIrcmdEngine;
-
     private boolean mSendFPGACommand = false;
     private boolean mSendISPCommand = false;
-
     //
     private String ispParamPath;
 
@@ -36,114 +35,11 @@ public class DeviceIrcmdControlManager {
 
     }
 
-    private static DeviceIrcmdControlManager mInstance;
-
     public static synchronized DeviceIrcmdControlManager getInstance() {
         if (mInstance == null) {
             mInstance = new DeviceIrcmdControlManager();
         }
         return mInstance;
-    }
-
-    public IrcmdEngine getIrcmdEngine() {
-        return mIrcmdEngine;
-    }
-
-    public void setIrcmdEngine(IrcmdEngine ircmdEngine) {
-        this.mIrcmdEngine = ircmdEngine;
-    }
-
-    public IrcamEngine getIrcamEngine() {
-        return mIrcamEngine;
-    }
-
-    public void setIrcamEngine(IrcamEngine ircamEngine) {
-        this.mIrcamEngine = ircamEngine;
-    }
-
-    public void setSendFPGACommand(boolean sendFPGACommand) {
-        mSendFPGACommand = sendFPGACommand;
-    }
-
-    /**
-     * 发送fpga算法参数指令
-     */
-    public void sendFPGAParam() {
-        if (!mSendFPGACommand) {
-            return;
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.i(TAG, "sendFPGAParam");
-                try {
-                    //todo 暂时先一条一条指令发送
-                    String fpga_param_path = Const.DATA_FILE_SAVE_PATH + File.separator + "fpga.json";
-                    File file = new File(fpga_param_path);
-                    if (!file.exists()) {
-                        return;
-                    }
-                    String fpgaParams = FileUtil.getStringFromFile(fpga_param_path);
-                    int firstAddress = 0x0096;
-
-                    JSONArray jsonArray = new JSONArray(fpgaParams);
-                    Log.d(TAG, "first jsonArray length : " + jsonArray.length());
-//                    float[] params = new float[jsonArray.length()];
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int[] params = new int[1];
-                        String name = jsonObject.getString("name");
-                        String address = jsonObject.getString("address");
-                        double value = jsonObject.getDouble("value");
-                        params[0] = (int) value;
-                        Log.d(TAG, "first params value : " + params[0]);
-//                        if (i == 0) {
-//                            Log.d(TAG, "first address string : " + address);
-//                            firstAddress = Integer.parseInt(address.substring(2), 16);
-//                            Log.d(TAG, "first address int : " + firstAddress);
-//                        }
-                        int reAddress = Integer.parseInt(address.substring(2), 16);
-                        Log.d(TAG, "first address string : " + reAddress);
-                        if (mIrcmdEngine != null) {
-                            IrcmdError algorithmParametersWriteGet = mIrcmdEngine
-                                    .advAlgorithmParametersWrite(reAddress, params);
-                            Log.d(TAG, "algorithmParametersWriteGet result = " + algorithmParametersWriteGet);
-
-                            //获取FPGA算法参数读取 PASS
-                            int[] algorithmParametersReadData = new int[1];
-                            IrcmdError algorithmParametersReadGet = mIrcmdEngine
-                                    .advAlgorithmParametersRead(reAddress, algorithmParametersReadData);
-
-                            Log.d(TAG, "algorithmParametersReadGet result = " + algorithmParametersReadGet);
-
-                            for (int j = 0; j < algorithmParametersReadData.length; j++) {
-                                Log.d(TAG, "algorithmParametersReadGet value = " + algorithmParametersReadData[j]);
-                            }
-                        }
-                    }
-
-//                    if (mIrcmdEngine != null) {
-//                        IrcmdError algorithmParametersWriteGet = mIrcmdEngine
-//                                .advAlgorithmParametersWrite(firstAddress, params);
-//                        Log.d(TAG, "algorithmParametersWriteGet result = " + algorithmParametersWriteGet);
-//
-//                        //获取FPGA算法参数读取 PASS
-//                        float[] algorithmParametersReadData = new float[jsonArray.length()];
-//                        IrcmdError algorithmParametersReadGet = mIrcmdEngine
-//                                .advAlgorithmParametersRead(firstAddress, algorithmParametersReadData);
-//
-//                        Log.d(TAG, "algorithmParametersReadGet result = " + algorithmParametersReadGet);
-//
-//                        for (int i = 0; i < algorithmParametersReadData.length; i ++) {
-//                            Log.d(TAG, "algorithmParametersReadGet value = " + algorithmParametersReadData[i]);
-//                        }
-//                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                mSendFPGACommand = false;
-            }
-        }).start();
     }
 
     /**
@@ -252,6 +148,107 @@ public class DeviceIrcmdControlManager {
 
         //01110000   00000000 00001010 00000000 00000001
         return Long.parseLong(valueStr, 2);
+    }
+
+    public IrcmdEngine getIrcmdEngine() {
+        return mIrcmdEngine;
+    }
+
+    public void setIrcmdEngine(IrcmdEngine ircmdEngine) {
+        this.mIrcmdEngine = ircmdEngine;
+    }
+
+    public IrcamEngine getIrcamEngine() {
+        return mIrcamEngine;
+    }
+
+    public void setIrcamEngine(IrcamEngine ircamEngine) {
+        this.mIrcamEngine = ircamEngine;
+    }
+
+    public void setSendFPGACommand(boolean sendFPGACommand) {
+        mSendFPGACommand = sendFPGACommand;
+    }
+
+    /**
+     * 发送fpga算法参数指令
+     */
+    public void sendFPGAParam() {
+        if (!mSendFPGACommand) {
+            return;
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "sendFPGAParam");
+                try {
+                    //todo 暂时先一条一条指令发送
+                    String fpga_param_path = Const.DATA_FILE_SAVE_PATH + File.separator + "fpga.json";
+                    File file = new File(fpga_param_path);
+                    if (!file.exists()) {
+                        return;
+                    }
+                    String fpgaParams = FileUtil.getStringFromFile(fpga_param_path);
+                    int firstAddress = 0x0096;
+
+                    JSONArray jsonArray = new JSONArray(fpgaParams);
+                    Log.d(TAG, "first jsonArray length : " + jsonArray.length());
+//                    float[] params = new float[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int[] params = new int[1];
+                        String name = jsonObject.getString("name");
+                        String address = jsonObject.getString("address");
+                        double value = jsonObject.getDouble("value");
+                        params[0] = (int) value;
+                        Log.d(TAG, "first params value : " + params[0]);
+//                        if (i == 0) {
+//                            Log.d(TAG, "first address string : " + address);
+//                            firstAddress = Integer.parseInt(address.substring(2), 16);
+//                            Log.d(TAG, "first address int : " + firstAddress);
+//                        }
+                        int reAddress = Integer.parseInt(address.substring(2), 16);
+                        Log.d(TAG, "first address string : " + reAddress);
+                        if (mIrcmdEngine != null) {
+                            IrcmdError algorithmParametersWriteGet = mIrcmdEngine
+                                    .advAlgorithmParametersWrite(reAddress, params);
+                            Log.d(TAG, "algorithmParametersWriteGet result = " + algorithmParametersWriteGet);
+
+                            //获取FPGA算法参数读取 PASS
+                            int[] algorithmParametersReadData = new int[1];
+                            IrcmdError algorithmParametersReadGet = mIrcmdEngine
+                                    .advAlgorithmParametersRead(reAddress, algorithmParametersReadData);
+
+                            Log.d(TAG, "algorithmParametersReadGet result = " + algorithmParametersReadGet);
+
+                            for (int j = 0; j < algorithmParametersReadData.length; j++) {
+                                Log.d(TAG, "algorithmParametersReadGet value = " + algorithmParametersReadData[j]);
+                            }
+                        }
+                    }
+
+//                    if (mIrcmdEngine != null) {
+//                        IrcmdError algorithmParametersWriteGet = mIrcmdEngine
+//                                .advAlgorithmParametersWrite(firstAddress, params);
+//                        Log.d(TAG, "algorithmParametersWriteGet result = " + algorithmParametersWriteGet);
+//
+//                        //获取FPGA算法参数读取 PASS
+//                        float[] algorithmParametersReadData = new float[jsonArray.length()];
+//                        IrcmdError algorithmParametersReadGet = mIrcmdEngine
+//                                .advAlgorithmParametersRead(firstAddress, algorithmParametersReadData);
+//
+//                        Log.d(TAG, "algorithmParametersReadGet result = " + algorithmParametersReadGet);
+//
+//                        for (int i = 0; i < algorithmParametersReadData.length; i ++) {
+//                            Log.d(TAG, "algorithmParametersReadGet value = " + algorithmParametersReadData[i]);
+//                        }
+//                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mSendFPGACommand = false;
+            }
+        }).start();
     }
 
     /**

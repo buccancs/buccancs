@@ -23,7 +23,8 @@ import com.topdon.module.thermal.ir.databinding.PopCameraItemBinding
  * Created by LCG on 2025/1/3.
  */
 @SuppressLint("SetTextI18n")
-class CameraItemPopup(val context: Context, private val saveSetBean: SaveSettingBean) : PopupWindow(), View.OnClickListener {
+class CameraItemPopup(val context: Context, private val saveSetBean: SaveSettingBean) : PopupWindow(),
+    View.OnClickListener {
 
     /**
      * 手动快门是否处于选中状态
@@ -33,6 +34,7 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
         set(value) {
             binding.ivShutter.isSelected = value
         }
+
     /**
      * 录音开关是否处于选中状态
      */
@@ -43,19 +45,21 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
         }
 
 
-
     /**
      * 延时秒数点击事件监听，返回值为是否响应该次点击事件
      */
     var onDelayClickListener: (() -> Boolean)? = null
+
     /**
      * 自动快门开启关闭事件监听.
      */
     var onAutoCLickListener: ((isOpen: Boolean) -> Unit)? = null
+
     /**
      * 手动快门点击事件监听.
      */
     var onShutterClickListener: (() -> Unit)? = null
+
     /**
      * 录音开启关闭事件监听.
      */
@@ -65,8 +69,10 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
     private val binding: PopCameraItemBinding = PopCameraItemBinding.inflate(LayoutInflater.from(context))
 
     init {
-        val widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.widthPixels, View.MeasureSpec.EXACTLY)
-        val heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.heightPixels, View.MeasureSpec.AT_MOST)
+        val widthMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.widthPixels, View.MeasureSpec.EXACTLY)
+        val heightMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.heightPixels, View.MeasureSpec.AT_MOST)
         binding.root.measure(widthMeasureSpec, heightMeasureSpec)
 
         contentView = binding.root
@@ -76,7 +82,8 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
 
         binding.ivDelay.setImageLevel(saveSetBean.delayCaptureSecond)
         binding.ivAuto.isSelected = saveSetBean.isAutoShutter
-        binding.ivAudio.isSelected = saveSetBean.isRecordAudio && XXPermissions.isGranted(context, Permission.RECORD_AUDIO)
+        binding.ivAudio.isSelected =
+            saveSetBean.isRecordAudio && XXPermissions.isGranted(context, Permission.RECORD_AUDIO)
 
         binding.clDelay.setOnClickListener(this)
         binding.clAuto.setOnClickListener(this)
@@ -93,10 +100,12 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
                         saveSetBean.delayCaptureSecond = 3
                         ToastUtils.showShort(R.string.seconds_dalay_3)
                     }
+
                     3 -> {
                         saveSetBean.delayCaptureSecond = 6
                         ToastUtils.showShort(R.string.seconds_dalay_6)
                     }
+
                     6 -> {
                         saveSetBean.delayCaptureSecond = 0
                         ToastUtils.showShort(R.string.off_photography)
@@ -104,6 +113,7 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
                 }
                 binding.ivDelay.setImageLevel(saveSetBean.delayCaptureSecond)
             }
+
             binding.clAuto -> {//自动快门
                 saveSetBean.isAutoShutter = !saveSetBean.isAutoShutter
                 binding.ivAuto.isSelected = saveSetBean.isAutoShutter
@@ -117,9 +127,11 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
                 }
                 onAutoCLickListener?.invoke(saveSetBean.isAutoShutter)
             }
+
             binding.clShutter -> if (!binding.ivShutter.isSelected) {
                 onShutterClickListener?.invoke()
             }
+
             binding.clAudio -> onAudioCLickListener?.invoke()
             binding.clSetting -> ARouter.getInstance().build(RouterConfig.IR_CAMERA_SETTING).navigation(context)
         }

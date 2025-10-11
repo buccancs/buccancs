@@ -16,302 +16,305 @@ import com.shimmerresearch.sensors.AbstractSensor.SENSORS;
  * This class represents a single block of data in the payload that has
  * originated from a single sensor (e.g. the FIFO buffer from any of the
  * sensors). It has an associated sensor ID and a RTC ticks value included.
- * 
+ *
  * @author Mark Nolan
  *
  */
 public class DataBlockDetails implements Serializable {
-	
-	private static final long serialVersionUID = -3695586952435188960L;
-	
-	/** This is the ENUM of the DataBlock ID as set in FW */
-	public enum DATABLOCK_SENSOR_ID {
-		NONE,
-		ADC,
-		ACCEL_1,
-		GYRO_ACCEL2,
-		PPG,
-		BIOZ
-	}
 
-	public DATABLOCK_SENSOR_ID datablockSensorId;
-	public List<SENSORS> listOfSensorClassKeys;
-	public int dataBlockStartByteIndexInPayload;
-	public int dataBlockStartByteIndexInFile;
-	
-	private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
-	private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
-	
-	public int qtySensorDataBytesInDatablock;
-	public int dataPacketSize;
-	private double samplingRate;
-	
-	private int sampleCount;
-	private double timestampDiffInS;
-	
-	/** Useful for console prints */
-	private int dataBlockIndexInPayload = Integer.MIN_VALUE;
-	private int payloadIndex = Integer.MIN_VALUE;
-	
-	private ObjectCluster[] ojcArray = null;
-	
-	/** If a midday/midnight transition is detected within a data block, the data
-	 * block will be split in two on a sample-by-sample basis. */
-	public DATA_BLOCK_SPLIT_PART splitDataBlockPart = DATA_BLOCK_SPLIT_PART.NOT_SPLIT;
-	private boolean firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap = false;
-	/** Is true for is the first data block after a midday/midnight transition
-	 * in-which the datablock didn't need to be split sample-by-sample */
-	private boolean firstUnsplitDataBlockAfterMiddayMidnightTransition = false;
-	
-	public enum DATA_BLOCK_SPLIT_PART {
-		NOT_SPLIT,
-		FIRST_PART_OF_SPLIT_DATA_BLOCK,
-		SECOND_PART_OF_SPLIT_DATA_BLOCK,
-	}
+    private static final long serialVersionUID = -3695586952435188960L;
+    public DATABLOCK_SENSOR_ID datablockSensorId;
+    public List<SENSORS> listOfSensorClassKeys;
+    public int dataBlockStartByteIndexInPayload;
+    public int dataBlockStartByteIndexInFile;
+    public int qtySensorDataBytesInDatablock;
+    public int dataPacketSize;
+    /**
+     * If a midday/midnight transition is detected within a data block, the data
+     * block will be split in two on a sample-by-sample basis.
+     */
+    public DATA_BLOCK_SPLIT_PART splitDataBlockPart = DATA_BLOCK_SPLIT_PART.NOT_SPLIT;
+    private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
+    private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
+    private double samplingRate;
 
-	public DataBlockDetails(DATABLOCK_SENSOR_ID datablockSensorId, int payloadIndex, int dataBlockIndexInPayload, List<SENSORS> listOfSensorClassKeys, 
-			int dataBlockStartByteIndexInFile, int dataBlockStartByteIndexInPayload) {
-		this.datablockSensorId = datablockSensorId;
-		this.listOfSensorClassKeys = listOfSensorClassKeys;
-		
-		setDataBlockIndexInPayload(dataBlockIndexInPayload);
-		this.payloadIndex = payloadIndex;
-		
-		this.dataBlockStartByteIndexInFile = dataBlockStartByteIndexInFile;
-		this.dataBlockStartByteIndexInPayload = dataBlockStartByteIndexInPayload;
-	}
+    private int sampleCount;
+    private double timestampDiffInS;
 
-	public DataBlockDetails(DATABLOCK_SENSOR_ID datablockSensorId, int payloadIndex, int dataBlockIndexInPayload, List<SENSORS> listOfSensorClassKeys, 
-			int dataBlockStartByteIndexInFile, int dataBlockStartByteIndexInPayload, 
-			long endTimeTicks, boolean isEndTimeTicksFromUcClock) {
-		this(datablockSensorId, payloadIndex, dataBlockIndexInPayload, listOfSensorClassKeys, dataBlockStartByteIndexInFile, dataBlockStartByteIndexInPayload);
-		
-		VerisenseTimeDetails verisenseTimeDetails = isEndTimeTicksFromUcClock? getTimeDetailsUcClock():getTimeDetailsRwc();
-		verisenseTimeDetails.setEndTimeTicks(endTimeTicks);
-	}
-	
-	public void setMetadata(int dataBlockSizeSensorData, int dataPacketSize, double samplingRate) {
-		this.qtySensorDataBytesInDatablock = dataBlockSizeSensorData;
-		this.dataPacketSize = dataPacketSize;
-		setSamplingRate(samplingRate);
-		calculateSampleCount();
-	}
-	
-	public void setRwcEndTimeMinutesAndCalculateTimings(long rtcEndTimeMinutes) {
-		setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(rtcEndTimeMinutes, false);
-	}
+    /**
+     * Useful for console prints
+     */
+    private int dataBlockIndexInPayload = Integer.MIN_VALUE;
+    private int payloadIndex = Integer.MIN_VALUE;
 
-	public void setUcClockEndTimeMinutesAndCalculateTimings(long ucClockEndTimeMinutes) {
-		setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(ucClockEndTimeMinutes, true);
-	}
+    private ObjectCluster[] ojcArray = null;
+    private boolean firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap = false;
+    /**
+     * Is true for is the first data block after a midday/midnight transition
+     * in-which the datablock didn't need to be split sample-by-sample
+     */
+    private boolean firstUnsplitDataBlockAfterMiddayMidnightTransition = false;
+    public DataBlockDetails(DATABLOCK_SENSOR_ID datablockSensorId, int payloadIndex, int dataBlockIndexInPayload, List<SENSORS> listOfSensorClassKeys,
+                            int dataBlockStartByteIndexInFile, int dataBlockStartByteIndexInPayload) {
+        this.datablockSensorId = datablockSensorId;
+        this.listOfSensorClassKeys = listOfSensorClassKeys;
 
-	public void setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(long endTimeMinutes, boolean setUcClock) {
-		VerisenseTimeDetails verisenseTimeDetails = setUcClock? getTimeDetailsUcClock():getTimeDetailsRwc();
-		verisenseTimeDetails.setEndTimeMinutes(endTimeMinutes);
-		verisenseTimeDetails.calculateEndTimeMs();
-		verisenseTimeDetails.calculateAndSetStartTimeMs(getSampleCount(), getTimestampDiffInS());
-	}
+        setDataBlockIndexInPayload(dataBlockIndexInPayload);
+        this.payloadIndex = payloadIndex;
 
-	public void calculateSampleCount() {
-		int sampleCount = (int) (qtySensorDataBytesInDatablock/dataPacketSize);
-		setSampleCount(sampleCount);
-	}
+        this.dataBlockStartByteIndexInFile = dataBlockStartByteIndexInFile;
+        this.dataBlockStartByteIndexInPayload = dataBlockStartByteIndexInPayload;
+    }
 
-	public void setSampleCount(int sampleCount) {
-		this.sampleCount = sampleCount;
-		calculateTimestampDiffInS();
-		setupOjcArray(sampleCount);
-	}
-	
-	public void setSampleCountAndUpdateDataBlockSize(int sampleCount) {
-		setSampleCount(ojcArray.length);
-		qtySensorDataBytesInDatablock = dataPacketSize*sampleCount;
-	}
+    public DataBlockDetails(DATABLOCK_SENSOR_ID datablockSensorId, int payloadIndex, int dataBlockIndexInPayload, List<SENSORS> listOfSensorClassKeys,
+                            int dataBlockStartByteIndexInFile, int dataBlockStartByteIndexInPayload,
+                            long endTimeTicks, boolean isEndTimeTicksFromUcClock) {
+        this(datablockSensorId, payloadIndex, dataBlockIndexInPayload, listOfSensorClassKeys, dataBlockStartByteIndexInFile, dataBlockStartByteIndexInPayload);
 
-	public int getSampleCount() {
-		return sampleCount;
-	}
+        VerisenseTimeDetails verisenseTimeDetails = isEndTimeTicksFromUcClock ? getTimeDetailsUcClock() : getTimeDetailsRwc();
+        verisenseTimeDetails.setEndTimeTicks(endTimeTicks);
+    }
 
-	public double getEndTimeRwcMs() {
-		return timeDetailsRwc.getEndTimeMs();
-	}
+    public static DataBlockDetails recombineDataBlockDetailsForContinuityCheck(DataBlockDetails dataBlockDetails1, DataBlockDetails dataBlockDetails2) {
+        DataBlockDetails dataBlockDetailsCombined = new DataBlockDetails(dataBlockDetails1.datablockSensorId, dataBlockDetails1.getPayloadIndex(), dataBlockDetails1.getDataBlockIndexInPayload(), dataBlockDetails1.getListOfSensorClassKeys(),
+                dataBlockDetails1.dataBlockStartByteIndexInFile, dataBlockDetails1.dataBlockIndexInPayload);
 
-	public void calculateTimestampDiffInS() {
-		timestampDiffInS = 1/samplingRate;
-	}
+        dataBlockDetailsCombined.setMetadata(dataBlockDetails1.qtySensorDataBytesInDatablock + dataBlockDetails2.qtySensorDataBytesInDatablock,
+                dataBlockDetails1.dataPacketSize,
+                dataBlockDetails1.samplingRate);
 
-	public double getTimestampDiffInS() {
-		return timestampDiffInS;
-	}
+        VerisenseTimeDetails timeDetailsRwcCombined = dataBlockDetailsCombined.getTimeDetailsRwc();
+        timeDetailsRwcCombined.setStartTimeMs(dataBlockDetails1.getTimeDetailsRwc().getStartTimeMs());
+        timeDetailsRwcCombined.setEndTimeMs(dataBlockDetails2.getTimeDetailsRwc().getEndTimeMs());
 
-	public double getStartTimeRwcMs() {
-		return timeDetailsRwc.getStartTimeMs();
-	}
+        return dataBlockDetailsCombined;
+    }
 
-	public void setSamplingRate(double samplingRate) {
-		this.samplingRate = samplingRate;
-	}
+    public void setMetadata(int dataBlockSizeSensorData, int dataPacketSize, double samplingRate) {
+        this.qtySensorDataBytesInDatablock = dataBlockSizeSensorData;
+        this.dataPacketSize = dataPacketSize;
+        setSamplingRate(samplingRate);
+        calculateSampleCount();
+    }
 
-	public double getSamplingRate() {
-		return this.samplingRate;
-	}
+    public void setRwcEndTimeMinutesAndCalculateTimings(long rtcEndTimeMinutes) {
+        setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(rtcEndTimeMinutes, false);
+    }
 
-	public String generateDebugStr() {
-		return (listOfSensorClassKeys
-				+ " -> " + "PayloadIndex=" + getPayloadIndex()
-				+ ", " + "DataBlockIndexInPayload=" + getDataBlockIndexInPayload()
-				+ ", Time [Start=" + timeDetailsRwc.getStartTimeStr()
-				+ ", End=" + timeDetailsRwc.getEndTimeStr()
-				+ "], Samples=" + getSampleCount()
-				+ " @ " + samplingRate + CHANNEL_UNITS.FREQUENCY
+    public void setUcClockEndTimeMinutesAndCalculateTimings(long ucClockEndTimeMinutes) {
+        setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(ucClockEndTimeMinutes, true);
+    }
+
+    public void setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(long endTimeMinutes, boolean setUcClock) {
+        VerisenseTimeDetails verisenseTimeDetails = setUcClock ? getTimeDetailsUcClock() : getTimeDetailsRwc();
+        verisenseTimeDetails.setEndTimeMinutes(endTimeMinutes);
+        verisenseTimeDetails.calculateEndTimeMs();
+        verisenseTimeDetails.calculateAndSetStartTimeMs(getSampleCount(), getTimestampDiffInS());
+    }
+
+    public void calculateSampleCount() {
+        int sampleCount = (int) (qtySensorDataBytesInDatablock / dataPacketSize);
+        setSampleCount(sampleCount);
+    }
+
+    public void setSampleCountAndUpdateDataBlockSize(int sampleCount) {
+        setSampleCount(ojcArray.length);
+        qtySensorDataBytesInDatablock = dataPacketSize * sampleCount;
+    }
+
+    public int getSampleCount() {
+        return sampleCount;
+    }
+
+    public void setSampleCount(int sampleCount) {
+        this.sampleCount = sampleCount;
+        calculateTimestampDiffInS();
+        setupOjcArray(sampleCount);
+    }
+
+    public double getEndTimeRwcMs() {
+        return timeDetailsRwc.getEndTimeMs();
+    }
+
+    public void calculateTimestampDiffInS() {
+        timestampDiffInS = 1 / samplingRate;
+    }
+
+    public double getTimestampDiffInS() {
+        return timestampDiffInS;
+    }
+
+    public double getStartTimeRwcMs() {
+        return timeDetailsRwc.getStartTimeMs();
+    }
+
+    public double getSamplingRate() {
+        return this.samplingRate;
+    }
+
+    public void setSamplingRate(double samplingRate) {
+        this.samplingRate = samplingRate;
+    }
+
+    public String generateDebugStr() {
+        return (listOfSensorClassKeys
+                + " -> " + "PayloadIndex=" + getPayloadIndex()
+                + ", " + "DataBlockIndexInPayload=" + getDataBlockIndexInPayload()
+                + ", Time [Start=" + timeDetailsRwc.getStartTimeStr()
+                + ", End=" + timeDetailsRwc.getEndTimeStr()
+                + "], Samples=" + getSampleCount()
+                + " @ " + samplingRate + CHANNEL_UNITS.FREQUENCY
 //				+ ", EndTime [Minutes=" + rtcEndTimeMinutes
 //				+ ", Ticks=" + rtcEndTimeTicks
-				+ "]");
-	}
+                + "]");
+    }
 
-	public void setUcClockOrRwcEndTimeMinutesFromSubsequentDataBlock(DataBlockDetails subsequentDataBlock, boolean setUcClock) {
-		VerisenseTimeDetails verisenseTimeDetailsSubSequentBlock = setUcClock? subsequentDataBlock.getTimeDetailsUcClock():subsequentDataBlock.getTimeDetailsRwc();
-		VerisenseTimeDetails verisenseTimeDetailsCurrentBlock = setUcClock? getTimeDetailsUcClock():getTimeDetailsRwc();
-		
-		long endTimeMinutes = verisenseTimeDetailsSubSequentBlock.getEndTimeMinutes();
-		if(verisenseTimeDetailsCurrentBlock.getEndTimeTicks()>verisenseTimeDetailsSubSequentBlock.getEndTimeTicks()) {
-			endTimeMinutes--;
-		}
-		
-		setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(endTimeMinutes, setUcClock);
-	}
+    public void setUcClockOrRwcEndTimeMinutesFromSubsequentDataBlock(DataBlockDetails subsequentDataBlock, boolean setUcClock) {
+        VerisenseTimeDetails verisenseTimeDetailsSubSequentBlock = setUcClock ? subsequentDataBlock.getTimeDetailsUcClock() : subsequentDataBlock.getTimeDetailsRwc();
+        VerisenseTimeDetails verisenseTimeDetailsCurrentBlock = setUcClock ? getTimeDetailsUcClock() : getTimeDetailsRwc();
 
-	public void setupOjcArray(int sampleCount) {
-		ojcArray = new ObjectCluster[sampleCount];
-	}
+        long endTimeMinutes = verisenseTimeDetailsSubSequentBlock.getEndTimeMinutes();
+        if (verisenseTimeDetailsCurrentBlock.getEndTimeTicks() > verisenseTimeDetailsSubSequentBlock.getEndTimeTicks()) {
+            endTimeMinutes--;
+        }
 
-	public void setOjcArrayAtIndex(int sampleIndex, ObjectCluster ojc) {
-		ojcArray[sampleIndex] = ojc;
-	}
+        setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(endTimeMinutes, setUcClock);
+    }
 
-	public ObjectCluster[] getOjcArray() {
-		return ojcArray;
-	}
-	
-	public DataBlockDetails deepClone() {
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(this);
+    public void setupOjcArray(int sampleCount) {
+        ojcArray = new ObjectCluster[sampleCount];
+    }
 
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			return (DataBlockDetails) ois.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+    public void setOjcArrayAtIndex(int sampleIndex, ObjectCluster ojc) {
+        ojcArray[sampleIndex] = ojc;
+    }
 
-	public void splitAndEndBeforeSampleIndex(int sampleIndex, double newEndTimestampMsRwc, double newEndTimestampMsUcClock) {
-		ObjectCluster[] ojcArrayBuf = new ObjectCluster[sampleIndex]; 
-		System.arraycopy(ojcArray, 0, ojcArrayBuf, 0, sampleIndex);
-		ojcArray = ojcArrayBuf;
-		
-		getTimeDetailsRwc().setEndTimeMs(newEndTimestampMsRwc);
-		// Value is NaN for payload designs <v10 as the microcontroller time was not supported
-		if(!Double.isNaN(newEndTimestampMsUcClock)) {
-			getTimeDetailsUcClock().setEndTimeMs(newEndTimestampMsUcClock);
-		}
-		
-		setSampleCountAndUpdateDataBlockSize(ojcArray.length);
-		
-		setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART.FIRST_PART_OF_SPLIT_DATA_BLOCK);
-	}
-	
-	public void splitAndStartAtSampleIndex(int sampleIndex, double newStartTimestampMsRwc, double newStartTimestampMsUcClock) {
-		ObjectCluster[] ojcArrayBuf = new ObjectCluster[ojcArray.length-sampleIndex]; 
-		System.arraycopy(ojcArray, sampleIndex, ojcArrayBuf, 0, ojcArrayBuf.length);
-		ojcArray = ojcArrayBuf;
-		
-		getTimeDetailsRwc().setStartTimeMs(newStartTimestampMsRwc);
-		// Value is NaN for payload designs <v10 as the microcontroller time was not supported
-		if(!Double.isNaN(newStartTimestampMsUcClock)) {
-			getTimeDetailsUcClock().setStartTimeMs(newStartTimestampMsUcClock);
-		}
+    public ObjectCluster[] getOjcArray() {
+        return ojcArray;
+    }
 
-		setSampleCountAndUpdateDataBlockSize(ojcArray.length);
+    public DataBlockDetails deepClone() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
 
-		setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART.SECOND_PART_OF_SPLIT_DATA_BLOCK);
-	}
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (DataBlockDetails) ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	public static DataBlockDetails recombineDataBlockDetailsForContinuityCheck(DataBlockDetails dataBlockDetails1, DataBlockDetails dataBlockDetails2) {
-		DataBlockDetails dataBlockDetailsCombined = new DataBlockDetails(dataBlockDetails1.datablockSensorId, dataBlockDetails1.getPayloadIndex(), dataBlockDetails1.getDataBlockIndexInPayload(), dataBlockDetails1.getListOfSensorClassKeys(), 
-				dataBlockDetails1.dataBlockStartByteIndexInFile, dataBlockDetails1.dataBlockIndexInPayload);
+    public void splitAndEndBeforeSampleIndex(int sampleIndex, double newEndTimestampMsRwc, double newEndTimestampMsUcClock) {
+        ObjectCluster[] ojcArrayBuf = new ObjectCluster[sampleIndex];
+        System.arraycopy(ojcArray, 0, ojcArrayBuf, 0, sampleIndex);
+        ojcArray = ojcArrayBuf;
 
-		dataBlockDetailsCombined.setMetadata(dataBlockDetails1.qtySensorDataBytesInDatablock+dataBlockDetails2.qtySensorDataBytesInDatablock, 
-				dataBlockDetails1.dataPacketSize, 
-				dataBlockDetails1.samplingRate);
+        getTimeDetailsRwc().setEndTimeMs(newEndTimestampMsRwc);
+        // Value is NaN for payload designs <v10 as the microcontroller time was not supported
+        if (!Double.isNaN(newEndTimestampMsUcClock)) {
+            getTimeDetailsUcClock().setEndTimeMs(newEndTimestampMsUcClock);
+        }
 
-		VerisenseTimeDetails timeDetailsRwcCombined = dataBlockDetailsCombined.getTimeDetailsRwc();
-		timeDetailsRwcCombined.setStartTimeMs(dataBlockDetails1.getTimeDetailsRwc().getStartTimeMs());
-		timeDetailsRwcCombined.setEndTimeMs(dataBlockDetails2.getTimeDetailsRwc().getEndTimeMs());
+        setSampleCountAndUpdateDataBlockSize(ojcArray.length);
 
-		return dataBlockDetailsCombined;
-	}
+        setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART.FIRST_PART_OF_SPLIT_DATA_BLOCK);
+    }
 
-	public List<SENSORS> getListOfSensorClassKeys() {
-		return listOfSensorClassKeys;
-	}
+    public void splitAndStartAtSampleIndex(int sampleIndex, double newStartTimestampMsRwc, double newStartTimestampMsUcClock) {
+        ObjectCluster[] ojcArrayBuf = new ObjectCluster[ojcArray.length - sampleIndex];
+        System.arraycopy(ojcArray, sampleIndex, ojcArrayBuf, 0, ojcArrayBuf.length);
+        ojcArray = ojcArrayBuf;
 
-	public void setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART dataBlockSplitIndex) {
-		splitDataBlockPart = dataBlockSplitIndex;
-	}
+        getTimeDetailsRwc().setStartTimeMs(newStartTimestampMsRwc);
+        // Value is NaN for payload designs <v10 as the microcontroller time was not supported
+        if (!Double.isNaN(newStartTimestampMsUcClock)) {
+            getTimeDetailsUcClock().setStartTimeMs(newStartTimestampMsUcClock);
+        }
 
-	public boolean isFirstPartOfSplitDataBlock() {
-		return splitDataBlockPart == DATA_BLOCK_SPLIT_PART.FIRST_PART_OF_SPLIT_DATA_BLOCK;
-	}
+        setSampleCountAndUpdateDataBlockSize(ojcArray.length);
 
-	public boolean isSecondPartOfSplitDataBlock() {
-		return splitDataBlockPart == DATA_BLOCK_SPLIT_PART.SECOND_PART_OF_SPLIT_DATA_BLOCK;
-	}
+        setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART.SECOND_PART_OF_SPLIT_DATA_BLOCK);
+    }
 
-	public void setFirstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap() {
-		firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap = true;
-	}
+    public List<SENSORS> getListOfSensorClassKeys() {
+        return listOfSensorClassKeys;
+    }
 
-	public boolean isFirstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap() {
-		return firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap;
-	}
+    public void setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART dataBlockSplitIndex) {
+        splitDataBlockPart = dataBlockSplitIndex;
+    }
 
-	public void setFirstUnsplitDataBlockAfterMiddayMidnightTransition() {
-		firstUnsplitDataBlockAfterMiddayMidnightTransition = true;
-	}
+    public boolean isFirstPartOfSplitDataBlock() {
+        return splitDataBlockPart == DATA_BLOCK_SPLIT_PART.FIRST_PART_OF_SPLIT_DATA_BLOCK;
+    }
 
-	public boolean isFirstUnsplitDataBlockAfterMiddayMidnightTransition() {
-		return firstUnsplitDataBlockAfterMiddayMidnightTransition;
-	}
+    public boolean isSecondPartOfSplitDataBlock() {
+        return splitDataBlockPart == DATA_BLOCK_SPLIT_PART.SECOND_PART_OF_SPLIT_DATA_BLOCK;
+    }
 
-	public VerisenseTimeDetails getTimeDetailsRwc() {
-		return timeDetailsRwc;
-	}
+    public void setFirstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap() {
+        firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap = true;
+    }
 
-	public VerisenseTimeDetails getTimeDetailsUcClock() {
-		return timeDetailsUcClock;
-	}
+    public boolean isFirstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap() {
+        return firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap;
+    }
 
-	public void setDataBlockIndexInPayload(int dataBlockIndexInPayload) {
-		this.dataBlockIndexInPayload = dataBlockIndexInPayload;
-	}
-	
-	public int getDataBlockIndexInPayload() {
-		return dataBlockIndexInPayload;
-	}
+    public void setFirstUnsplitDataBlockAfterMiddayMidnightTransition() {
+        firstUnsplitDataBlockAfterMiddayMidnightTransition = true;
+    }
 
-	public int getPayloadIndex() {
-		return payloadIndex;
-	}
+    public boolean isFirstUnsplitDataBlockAfterMiddayMidnightTransition() {
+        return firstUnsplitDataBlockAfterMiddayMidnightTransition;
+    }
 
-	public boolean isResultOfSplitAtMiddayOrMidnight() {
-		return isSecondPartOfSplitDataBlock() || isFirstUnsplitDataBlockAfterMiddayMidnightTransition();
-	}
+    public VerisenseTimeDetails getTimeDetailsRwc() {
+        return timeDetailsRwc;
+    }
+
+    public VerisenseTimeDetails getTimeDetailsUcClock() {
+        return timeDetailsUcClock;
+    }
+
+    public int getDataBlockIndexInPayload() {
+        return dataBlockIndexInPayload;
+    }
+
+    public void setDataBlockIndexInPayload(int dataBlockIndexInPayload) {
+        this.dataBlockIndexInPayload = dataBlockIndexInPayload;
+    }
+
+    public int getPayloadIndex() {
+        return payloadIndex;
+    }
+
+    public boolean isResultOfSplitAtMiddayOrMidnight() {
+        return isSecondPartOfSplitDataBlock() || isFirstUnsplitDataBlockAfterMiddayMidnightTransition();
+    }
+
+    /**
+     * This is the ENUM of the DataBlock ID as set in FW
+     */
+    public enum DATABLOCK_SENSOR_ID {
+        NONE,
+        ADC,
+        ACCEL_1,
+        GYRO_ACCEL2,
+        PPG,
+        BIOZ
+    }
+
+    public enum DATA_BLOCK_SPLIT_PART {
+        NOT_SPLIT,
+        FIRST_PART_OF_SPLIT_DATA_BLOCK,
+        SECOND_PART_OF_SPLIT_DATA_BLOCK,
+    }
 
 }

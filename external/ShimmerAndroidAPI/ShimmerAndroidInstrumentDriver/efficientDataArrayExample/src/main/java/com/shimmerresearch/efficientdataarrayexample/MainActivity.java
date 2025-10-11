@@ -64,245 +64,26 @@ import androidx.documentfile.provider.DocumentFile;
  */
 public class MainActivity extends Activity {
     private static final int PERMISSION_FILE_REQUEST_SHIMMER = 99;
-    ShimmerBluetoothManagerAndroid btManager;
-    private String bluetoothAdd = "";
     private final static String LOG_TAG = "ArraysExample";
     private final static String CSV_FILE_NAME_PREFIX = "Data";
     private final static String APP_FOLDER_NAME = "ShimmerArraysExample";
-    private String APP_DIR_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + APP_FOLDER_NAME + File.separator;
-    /** This can be found in the Manifest */
+    /**
+     * This can be found in the Manifest
+     */
     private final static String APP_FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.efficientdataarrayexample.fileprovider";
     private final static int PERMISSIONS_REQUEST_WRITE_STORAGE = 5;
-
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    ShimmerBluetoothManagerAndroid btManager;
+    boolean firstTimeWrite = true;
+    Uri mTreeUri;
+    ShimmerBluetoothManagerAndroid.BT_TYPE preferredBtType;
+    Looper looper = Looper.myLooper();
+    int numberOfChannels = 0;
+    private String bluetoothAdd = "";
+    private String APP_DIR_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + APP_FOLDER_NAME + File.separator;
     //Write to CSV variables
     //private FileWriter fw;
     private BufferedWriter bw;
-    private File file;
-    boolean firstTimeWrite = true;
-    Uri mTreeUri;
-
-    ShimmerBluetoothManagerAndroid.BT_TYPE preferredBtType;
-    Looper looper = Looper.myLooper();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        boolean permissionGranted = true;
-        int permissionCheck = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT);
-
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = false;
-            }
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = false;
-            }
-        } else {
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = false;
-            }
-        }
-        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            permissionGranted = false;
-        }
-        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            permissionGranted = false;
-        }
-
-
-        if (!permissionGranted) {
-            // Should we show an explanation?
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 110);
-            }
-        } else {
-
-            Intent intent =new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-
-            startActivityForResult(intent, PERMISSION_FILE_REQUEST_SHIMMER);
-
-
-            try {
-                BleManager.getInstance().init(getApplication());
-                btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    public void connectDevice(View v) {
-        Intent intent = new Intent(getApplicationContext(), ShimmerBluetoothDialog.class);
-        startActivityForResult(intent, REQUEST_CONNECT_SHIMMER);
-    }
-
-    public void disconnectDevice(View v){
-        btManager.disconnectAllDevices();
-    }
-
-    public void startStreaming(View v) {
-        ShimmerBluetooth shimmer = (ShimmerBluetooth) btManager.getShimmer(bluetoothAdd);
-        if(shimmer != null) {   //this is null if Shimmer device is not connected
-            setupCSV();
-            //Disable PC timestamps for better performance. Disabling this takes the timestamps on every full packet received instead of on every byte received.
-            shimmer.enablePCTimeStamps(false);
-            //Disable timers for better performance.
-            shimmer.stopAllTimers();
-            //Enable the arrays data structure. Note that enabling this will disable the Multimap/FormatCluster data structure
-            shimmer.enableArraysDataStructure(true);
-            try {
-                btManager.startStreaming(bluetoothAdd);
-            } catch (ShimmerException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(this, "Can't start streaming\nShimmer device is not connected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void stopStreaming(View v) {
-        if(btManager.getShimmer(bluetoothAdd) != null) {
-            try {
-                ShimmerBluetooth shimmer = (ShimmerBluetooth) btManager.getShimmer(bluetoothAdd);
-                btManager.stopStreaming(bluetoothAdd);
-            } catch (ShimmerException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(this, "Can't stop streaming\nShimmer device is not connected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * Get the result from the paired devices dialog
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
-        if(requestCode == 2) {
-            if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
-                bluetoothAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
-                preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BT_CLASSIC;
-                if (deviceName.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3R.toString())){
-                    showBtTypeConnectionOption();
-                }
-                btManager.connectShimmerThroughBTAddress(bluetoothAdd,deviceName,preferredBtType); //Connect to the selected device
-            }
-
-        }
-        if (resultCode == RESULT_OK && requestCode == PERMISSION_FILE_REQUEST_SHIMMER) {
-            if (data != null) {
-                mTreeUri = data.getData();
-                FileUtils futils = new FileUtils(MainActivity.this);
-                File file = new File(futils.getPath(mTreeUri, FileUtils.UriType.FOLDER));
-                APP_DIR_PATH = file.getAbsolutePath();
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void showBtTypeConnectionOption(){
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setCancelable(false);
-        alertDialog.setMessage("Choose preferred Bluetooth type");
-        alertDialog.setButton( Dialog.BUTTON_POSITIVE, "BT CLASSIC", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BT_CLASSIC;
-                looper.quit();
-            };
-        });
-        alertDialog.setButton( Dialog.BUTTON_NEGATIVE, "BLE", new DialogInterface.OnClickListener()    {
-            public void onClick(DialogInterface dialog, int which) {
-                preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BLE;
-                looper.quit();
-            };
-        });
-        alertDialog.show();
-        try{ looper.loop(); }
-        catch(RuntimeException e){}
-    }
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-
-    private int countNonNulls(String[] dataArray){
-        int count =0;
-        for (String data:dataArray){
-            if (data!=null){
-                count++;
-            }
-        }
-        return count;
-    }
-
-    int numberOfChannels = 0;
-    private void writeDataToFile(ObjectCluster objc) {
-        if (firstTimeWrite) {
-            //Write headers on first-time
-            numberOfChannels = countNonNulls(objc.sensorDataArray.mSensorNames);
-            int count = 1;
-            for (String channelName : objc.sensorDataArray.mSensorNames) {
-                try {
-                    if(channelName!=null) {
-                        if (count < numberOfChannels) {
-                            bw.write(channelName + ",");
-                        } else {
-                            bw.write(channelName);
-                        }
-                    }
-                   count++;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                bw.write("\n");
-            } catch (IOException e2) {
-                e2.printStackTrace();
-            }
-            firstTimeWrite = false;
-        }
-        int count = 1;
-        for (double calData : objc.sensorDataArray.mCalData) {
-
-            String dataString = String.valueOf(calData);
-            try {
-                if(objc.sensorDataArray.mSensorNames[count-1]!=null) {
-                    if (count < numberOfChannels) {
-                        bw.write(dataString + ",");
-                    } else {
-                        bw.write(dataString);
-                    }
-                }
-                count++;
-            } catch (IOException e3) {
-                e3.printStackTrace();
-            }
-        }
-        try {
-            bw.write("\n");
-        } catch (IOException e2) {
-            e2.printStackTrace();
-        }
-    }
-
-
     Handler mHandler = new Handler() {
 
         @Override
@@ -313,47 +94,47 @@ public class MainActivity extends Activity {
                     if ((msg.obj instanceof ObjectCluster)) {
 
 
-                            ObjectCluster objc = (ObjectCluster) msg.obj;
+                        ObjectCluster objc = (ObjectCluster) msg.obj;
 
-                            /**
-                             * ---------- Printing a channel to Logcat ----------
-                             */
-                            //Method 1 - retrieve data from the ObjectCluster using get method
-                            double data = objc.getFormatClusterValue(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X, ChannelDetails.CHANNEL_TYPE.CAL.toString());
-                            Log.i(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
+                        /**
+                         * ---------- Printing a channel to Logcat ----------
+                         */
+                        //Method 1 - retrieve data from the ObjectCluster using get method
+                        double data = objc.getFormatClusterValue(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X, ChannelDetails.CHANNEL_TYPE.CAL.toString());
+                        Log.i(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
 
-                            //Method 2a - retrieve data from the ObjectCluster by manually parsing the arrays
-                            int index = -1;
-                            for (int i = 0; i < objc.sensorDataArray.mSensorNames.length; i++) {
-                                if (objc.sensorDataArray.mSensorNames[i] != null) {
-                                    if (objc.sensorDataArray.mSensorNames[i].equals(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X)) {
-                                        index = i;
-                                    }
+                        //Method 2a - retrieve data from the ObjectCluster by manually parsing the arrays
+                        int index = -1;
+                        for (int i = 0; i < objc.sensorDataArray.mSensorNames.length; i++) {
+                            if (objc.sensorDataArray.mSensorNames[i] != null) {
+                                if (objc.sensorDataArray.mSensorNames[i].equals(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X)) {
+                                    index = i;
                                 }
                             }
-                            if (index != -1) {
-                                //Index was found
-                                data = objc.sensorDataArray.mCalData[index];
-                                Log.w(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
-                            }
+                        }
+                        if (index != -1) {
+                            //Index was found
+                            data = objc.sensorDataArray.mCalData[index];
+                            Log.w(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
+                        }
 
-                            //Method 2b - retrieve data from the ObjectCluster by getting the index, then accessing the arrays
-                            index = objc.getIndexForChannelName(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X);
-                            if (index != -1) {
-                                data = objc.sensorDataArray.mCalData[index];
-                                Log.e(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
-                            }
+                        //Method 2b - retrieve data from the ObjectCluster by getting the index, then accessing the arrays
+                        index = objc.getIndexForChannelName(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X);
+                        if (index != -1) {
+                            data = objc.sensorDataArray.mCalData[index];
+                            Log.e(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
+                        }
 
-                            //Method 2b - retrieve data from the ObjectCluster by getting the index, then accessing the arrays
-                            index = objc.getIndexForChannelName(Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL);
-                            if (index != -1) {
-                                data = objc.sensorDataArray.mCalData[index];
-                                Log.e(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL + " data: " + data);
-                            }
+                        //Method 2b - retrieve data from the ObjectCluster by getting the index, then accessing the arrays
+                        index = objc.getIndexForChannelName(Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL);
+                        if (index != -1) {
+                            data = objc.sensorDataArray.mCalData[index];
+                            Log.e(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL + " data: " + data);
+                        }
 
-                            /**
-                             * ---------- Writing all channels of CAL data to CSV file ----------
-                             */
+                        /**
+                         * ---------- Writing all channels of CAL data to CSV file ----------
+                         */
 /*
                             if (firstTimeWrite) {
                                 //Write headers on first-time
@@ -413,7 +194,7 @@ public class MainActivity extends Activity {
                     }
                     switch (state) {
                         case CONNECTED:
-                            if (bw!=null && !firstTimeWrite) {
+                            if (bw != null && !firstTimeWrite) {
                                 try {   //Stop CSV writing
                                     bw.flush();
                                     bw.close();
@@ -440,17 +221,242 @@ public class MainActivity extends Activity {
             super.handleMessage(msg);
         }
     };
+    private File file;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        boolean permissionGranted = true;
+        int permissionCheck = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT);
+
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = false;
+            }
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = false;
+            }
+        } else {
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = false;
+            }
+        }
+        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            permissionGranted = false;
+        }
+        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            permissionGranted = false;
+        }
+
+
+        if (!permissionGranted) {
+            // Should we show an explanation?
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 110);
+            }
+        } else {
+
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+
+            startActivityForResult(intent, PERMISSION_FILE_REQUEST_SHIMMER);
+
+
+            try {
+                BleManager.getInstance().init(getApplication());
+                btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public void connectDevice(View v) {
+        Intent intent = new Intent(getApplicationContext(), ShimmerBluetoothDialog.class);
+        startActivityForResult(intent, REQUEST_CONNECT_SHIMMER);
+    }
+
+    public void disconnectDevice(View v) {
+        btManager.disconnectAllDevices();
+    }
+
+    public void startStreaming(View v) {
+        ShimmerBluetooth shimmer = (ShimmerBluetooth) btManager.getShimmer(bluetoothAdd);
+        if (shimmer != null) {   //this is null if Shimmer device is not connected
+            setupCSV();
+            //Disable PC timestamps for better performance. Disabling this takes the timestamps on every full packet received instead of on every byte received.
+            shimmer.enablePCTimeStamps(false);
+            //Disable timers for better performance.
+            shimmer.stopAllTimers();
+            //Enable the arrays data structure. Note that enabling this will disable the Multimap/FormatCluster data structure
+            shimmer.enableArraysDataStructure(true);
+            try {
+                btManager.startStreaming(bluetoothAdd);
+            } catch (ShimmerException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(this, "Can't start streaming\nShimmer device is not connected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void stopStreaming(View v) {
+        if (btManager.getShimmer(bluetoothAdd) != null) {
+            try {
+                ShimmerBluetooth shimmer = (ShimmerBluetooth) btManager.getShimmer(bluetoothAdd);
+                btManager.stopStreaming(bluetoothAdd);
+            } catch (ShimmerException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(this, "Can't stop streaming\nShimmer device is not connected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Get the result from the paired devices dialog
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                //Get the Bluetooth mac address of the selected device:
+                bluetoothAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
+                String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
+                preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BT_CLASSIC;
+                if (deviceName.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3R.toString())) {
+                    showBtTypeConnectionOption();
+                }
+                btManager.connectShimmerThroughBTAddress(bluetoothAdd, deviceName, preferredBtType); //Connect to the selected device
+            }
+
+        }
+        if (resultCode == RESULT_OK && requestCode == PERMISSION_FILE_REQUEST_SHIMMER) {
+            if (data != null) {
+                mTreeUri = data.getData();
+                FileUtils futils = new FileUtils(MainActivity.this);
+                File file = new File(futils.getPath(mTreeUri, FileUtils.UriType.FOLDER));
+                APP_DIR_PATH = file.getAbsolutePath();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void showBtTypeConnectionOption() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setMessage("Choose preferred Bluetooth type");
+        alertDialog.setButton(Dialog.BUTTON_POSITIVE, "BT CLASSIC", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BT_CLASSIC;
+                looper.quit();
+            }
+
+            ;
+        });
+        alertDialog.setButton(Dialog.BUTTON_NEGATIVE, "BLE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BLE;
+                looper.quit();
+            }
+
+            ;
+        });
+        alertDialog.show();
+        try {
+            looper.loop();
+        } catch (RuntimeException e) {
+        }
+    }
+
+    private int countNonNulls(String[] dataArray) {
+        int count = 0;
+        for (String data : dataArray) {
+            if (data != null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private void writeDataToFile(ObjectCluster objc) {
+        if (firstTimeWrite) {
+            //Write headers on first-time
+            numberOfChannels = countNonNulls(objc.sensorDataArray.mSensorNames);
+            int count = 1;
+            for (String channelName : objc.sensorDataArray.mSensorNames) {
+                try {
+                    if (channelName != null) {
+                        if (count < numberOfChannels) {
+                            bw.write(channelName + ",");
+                        } else {
+                            bw.write(channelName);
+                        }
+                    }
+                    count++;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                bw.write("\n");
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+            firstTimeWrite = false;
+        }
+        int count = 1;
+        for (double calData : objc.sensorDataArray.mCalData) {
+
+            String dataString = String.valueOf(calData);
+            try {
+                if (objc.sensorDataArray.mSensorNames[count - 1] != null) {
+                    if (count < numberOfChannels) {
+                        bw.write(dataString + ",");
+                    } else {
+                        bw.write(dataString);
+                    }
+                }
+                count++;
+            } catch (IOException e3) {
+                e3.printStackTrace();
+            }
+        }
+        try {
+            bw.write("\n");
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+    }
 
     /**
      * Permission request callback
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 110){
-            Intent intent =new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        if (requestCode == 110) {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
 
             startActivityForResult(intent, PERMISSION_FILE_REQUEST_SHIMMER);
 
@@ -470,7 +476,7 @@ public class MainActivity extends Activity {
      */
     private void setupCSV() {
         File dir = new File(APP_DIR_PATH);
-        if(!dir.exists()) {
+        if (!dir.exists()) {
             //Create the directory if it doesn't already exist
             dir.mkdir();
         }
@@ -495,6 +501,7 @@ public class MainActivity extends Activity {
 
     /**
      * Launch the files list activity, which is themed as a dialog in the Android Manifest
+     *
      * @param v
      */
     public void openLogFilesList(View v) {

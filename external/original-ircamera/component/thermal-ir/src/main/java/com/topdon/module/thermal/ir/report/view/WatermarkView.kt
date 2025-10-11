@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.blankj.utilcode.util.SizeUtils
 
-class WatermarkView: View {
+class WatermarkView : View {
 
     /**
      * 水印文字.
@@ -42,7 +42,8 @@ class WatermarkView: View {
             while (hasUseHeight < height + marginTop) {
                 canvas?.save()
                 canvas?.rotate(15f)
-                val translateX = (width - textPaint.measureText(it)).coerceAtLeast(0f) / 2f + if (hasAddCount % 2 == 0) 100f else 0f
+                val translateX =
+                    (width - textPaint.measureText(it)).coerceAtLeast(0f) / 2f + if (hasAddCount % 2 == 0) 100f else 0f
                 canvas?.translate(translateX, 0f)
                 canvas?.drawText(it, 0f, 0f, textPaint)
                 canvas?.restore()

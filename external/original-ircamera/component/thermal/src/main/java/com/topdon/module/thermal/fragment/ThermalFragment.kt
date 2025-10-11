@@ -125,6 +125,7 @@ class ThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> {
                         irSurfaceViewHeight = screenWidth * 256 / 192
                     }
                 }
+
                 0, 2 -> {
                     irSurfaceViewWidth = width
                     irSurfaceViewHeight = height
@@ -168,6 +169,7 @@ class ThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> {
                         maxImg!!.visibility = View.GONE
                         minImg!!.visibility = View.GONE
                     }
+
                     1 -> {
                         mCenterTextView!!.visibility = View.VISIBLE
                         mMaxTextView!!.visibility = View.GONE
@@ -176,6 +178,7 @@ class ThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> {
                         maxImg!!.visibility = View.GONE
                         minImg!!.visibility = View.GONE
                     }
+
                     else -> {
                         mCenterTextView!!.visibility = View.VISIBLE
                         mMaxTextView!!.visibility = View.VISIBLE
@@ -421,52 +424,63 @@ class ThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> {
                 ToastTools.showShort("拍照")
                 picture()
             }
+
             1002 -> {
                 //录制
                 ToastTools.showShort("录制")
                 video()
             }
+
             2001 -> {
                 //添加点
                 clearFenceUI()
                 addPoint()
             }
+
             2002 -> {
                 //添加线
                 clearFenceUI()
                 addLine()
             }
+
             2003 -> {
                 //添加围栏
                 clearFenceUI()
                 addFence()
             }
+
             2004 -> {
                 //添加温度
 //                onTempBtnClick()
                 addLimit()
             }
+
             2006 -> {
                 //清除还原
                 clearFence()
             }
+
             in 3000..3010 -> {
                 //设置伪彩
                 setColor(event.action)
             }
+
             4001 -> {
                 //旋转
                 rotate()
                 clearFence()
             }
+
             4002 -> {
                 //图像增强
                 enhance()
             }
+
             4003 -> {
                 //图像增强
                 camera()
             }
+
             in 5000..5010 -> {
                 //全屏
                 ToastTools.showShort("全屏")
@@ -618,7 +632,7 @@ class ThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> {
     var isRunCamera = false
 
     private fun checkCameraPermission() {
-        if (!XXPermissions.isGranted(this,Manifest.permission.CAMERA)) {
+        if (!XXPermissions.isGranted(this, Manifest.permission.CAMERA)) {
             if (BaseApplication.instance.isDomestic()) {
                 TipDialog.Builder(this)
                     .setMessage(getString(R.string.permission_request_camera))

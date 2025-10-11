@@ -41,7 +41,7 @@ public class TempResultBean {
     private int min_temp_y;
 
     public TempResultBean(String id, String label, String content, float minTemperature,
-                             float maxTemperature, float averageTemperature) {
+                          float maxTemperature, float averageTemperature) {
         this.id = id;
         this.label = label;
         this.content = content;

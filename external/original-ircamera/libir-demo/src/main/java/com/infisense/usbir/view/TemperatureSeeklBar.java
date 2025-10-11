@@ -210,7 +210,7 @@ package com.infisense.usbir.view;//package com.infisense.usbir.view;
 //        thumbWidth = (int) (thumbWidth * rate);
 //        thumbHeight = (int) (thumbHeight * rate);
 //        scollBarWidth = Math.max(backgroundWidth, thumbWidth) + 2 * TOUCH_TOLERANCE;
-////        Log.w(TAG, "rate =" + rate + "; scollBarHeight = " + scollBarHeight + "; backgroundHeight = " + backgroundHeight + "; thumbHeight = " + thumbHeight);
+/// /        Log.w(TAG, "rate =" + rate + "; scollBarHeight = " + scollBarHeight + "; backgroundHeight = " + backgroundHeight + "; thumbHeight = " + thumbHeight);
 //
 //        float lowRate = (lowTemperature - minTemperature) / (maxTemperature - minTemperature);
 //        thumbLowLocation = (int) (backgroundHeight * (1 - lowRate));

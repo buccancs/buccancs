@@ -20,7 +20,7 @@ class IRImageHelp {
 
     //自定义的颜色值
     @Volatile
-    private var colorList: IntArray ?= null
+    private var colorList: IntArray? = null
 
     @Volatile
     private var places: FloatArray? = null
@@ -31,7 +31,7 @@ class IRImageHelp {
     private var maxRGB = IntArray(3)
     private var minRGB = IntArray(3)
 
-    fun getColorList() : IntArray?{
+    fun getColorList(): IntArray? {
         return colorList
     }
 
@@ -77,7 +77,12 @@ class IRImageHelp {
      * @param imageHeight Int
      * @return ByteArray ： 返回处理后的图像数据，argb格式
      */
-    fun customPseudoColor(imageDst: ByteArray, temperatureSrc:ByteArray, imageWidth : Int, imageHeight : Int) : ByteArray{
+    fun customPseudoColor(
+        imageDst: ByteArray,
+        temperatureSrc: ByteArray,
+        imageWidth: Int,
+        imageHeight: Int
+    ): ByteArray {
         try {
             if (colorList != null && temperatureSrc != null) {
                 var j = 0
@@ -126,18 +131,19 @@ class IRImageHelp {
             }
         } catch (exception: Exception) {
             Log.e("上色异常", exception.message!!)
-        }finally {
+        } finally {
             return imageDst
         }
     }
 
 
-
     /**
      * 等温尺处理,展示伪彩的温度范围内信息
      */
-    fun setPseudoColorMaxMin(imageDst: ByteArray?, temperatureSrc:ByteArray?,max : Float,
-                       min : Float,imageWidth : Int,imageHeight : Int){
+    fun setPseudoColorMaxMin(
+        imageDst: ByteArray?, temperatureSrc: ByteArray?, max: Float,
+        min: Float, imageWidth: Int, imageHeight: Int
+    ) {
         if (temperatureSrc != null && (max != Float.MAX_VALUE || min != Float.MIN_VALUE)) {
             var j = 0
             val imageDstLength: Int = imageWidth * imageHeight * 4
@@ -170,18 +176,23 @@ class IRImageHelp {
             }
         }
     }
+
     /**
      * contourDetection 轮廓检测
      */
-    fun contourDetection(alarmBean : AlarmBean?,imageDst : ByteArray?,temperatureSrc : ByteArray?,
-                         imageWidth : Int,imageHeight : Int) : ByteArray?{
+    fun contourDetection(
+        alarmBean: AlarmBean?, imageDst: ByteArray?, temperatureSrc: ByteArray?,
+        imageWidth: Int, imageHeight: Int
+    ): ByteArray? {
         if (alarmBean != null && imageDst != null && temperatureSrc != null) {
             if (alarmBean.isMarkOpen && (
-                        (alarmBean.highTemp != Float.MAX_VALUE && alarmBean.isHighOpen)  ||
+                        (alarmBean.highTemp != Float.MAX_VALUE && alarmBean.isHighOpen) ||
                                 (alarmBean.isLowOpen && alarmBean.lowTemp != Float.MIN_VALUE)
-                    )) {
+                        )
+            ) {
                 try {
-                    val matByteArray = JNITool.draw_edge_from_temp_reigon_bitmap_argb_psd(imageDst,
+                    val matByteArray = JNITool.draw_edge_from_temp_reigon_bitmap_argb_psd(
+                        imageDst,
                         temperatureSrc,
                         imageHeight,
                         imageWidth,
@@ -189,11 +200,13 @@ class IRImageHelp {
                         if (alarmBean.isLowOpen) alarmBean.lowTemp else Float.MIN_VALUE,
                         alarmBean.highColor,
                         alarmBean.lowColor,
-                        alarmBean.markType)
+                        alarmBean.markType
+                    )
                     val diffMat = Mat(
                         imageHeight,
                         imageWidth,
-                        CvType.CV_8UC3)
+                        CvType.CV_8UC3
+                    )
                     diffMat.put(0, 0, matByteArray)
                     Imgproc.cvtColor(diffMat, diffMat, Imgproc.COLOR_BGR2RGBA)
                     val grayData = ByteArray(diffMat.cols() * diffMat.rows() * 4)
@@ -206,7 +219,6 @@ class IRImageHelp {
         }
         return imageDst
     }
-
 
 
 }

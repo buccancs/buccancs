@@ -44,7 +44,7 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            val playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null,true)
+            val playFragment = PlayFragment.newInstance(RTSP_URL, Client.TRANSTYPE_TCP, 1, null, true)
             supportFragmentManager.beginTransaction().add(R.id.fl_rtsp, playFragment).commit()
         }
     }
@@ -92,7 +92,7 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
             val config = ConfigRepository.readConfig(true)
             TC007Repository.setIRConfig(config.environment, config.distance, config.radiation)
             //设置温度单位
-            TC007Repository.setEnvAttr(SharedManager.getTemperature() == 1,0)
+            TC007Repository.setEnvAttr(SharedManager.getTemperature() == 1, 0)
             //清除点、线、面、全图
             TC007Repository.clearAllTemp()
             TC007Repository.setTempFrame(false)
@@ -125,6 +125,7 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
             motion_btn -> {//生成监控图
                 showMonitorSelectDialog()
             }
+
             motion_start_btn -> {//开始记录
                 if (selectInfo == null) {
                     showMonitorSelectDialog()

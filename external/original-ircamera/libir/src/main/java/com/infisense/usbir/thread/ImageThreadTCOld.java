@@ -12,7 +12,7 @@
 //
 //import java.nio.ByteBuffer;
 //
-///**
+/// **
 // * bytes -> bitmap
 // * 将源数据转出图像照片
 // */

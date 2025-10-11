@@ -79,10 +79,12 @@ class IRMonitorCaptureHik2Activity : BaseBindingActivity<ActivityIrMonitorCaptur
                 binding.temperatureView.mode = Mode.POINT
                 binding.temperatureView.addSourcePoint(selectBean.startPosition)
             }
+
             2 -> {
                 binding.temperatureView.mode = Mode.LINE
                 binding.temperatureView.addSourceLine(Line(selectBean.startPosition, selectBean.endPosition))
             }
+
             3 -> {
                 binding.temperatureView.mode = Mode.RECT
                 binding.temperatureView.addSourceRect(selectBean.getRect())
@@ -114,10 +116,12 @@ class IRMonitorCaptureHik2Activity : BaseBindingActivity<ActivityIrMonitorCaptur
      * 开始记录的时间戳
      */
     private var startTime: Long = 0L
+
     /**
      * 未使用的字段，为兼容旧版本，继续写入吧
      */
     private var thermalId: String = ""
+
     /**
      * 记录一个温度数据到数据库.
      */

@@ -5,7 +5,7 @@ import com.shimmerresearch.verisense.communication.ByteCommunicationListener;
 import jssc.SerialPortException;
 import jssc.SerialPortTimeoutException;
 
-public interface ByteCommunication{
+public interface ByteCommunication {
 
     // Returns the number of bytes available in the input buffer.
     int getInputBufferBytesCount() throws SerialPortException;
@@ -25,12 +25,12 @@ public interface ByteCommunication{
     // Writes the specified byte buffer to the communication port.
     boolean writeBytes(byte[] buffer) throws SerialPortException;
 
-	boolean setParams(int i, int j, int k, int l) throws SerialPortException;
+    boolean setParams(int i, int j, int k, int l) throws SerialPortException;
 
-	boolean purgePort(int i) throws SerialPortException;
+    boolean purgePort(int i) throws SerialPortException;
 
-	public void setByteCommunicationListener(ByteCommunicationListener byteCommListener);
+    public void setByteCommunicationListener(ByteCommunicationListener byteCommListener);
 
-	public void removeRadioListenerList();
+    public void removeRadioListenerList();
 
 }
