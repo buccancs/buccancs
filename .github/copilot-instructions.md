@@ -13,7 +13,7 @@
 
 * **Code Conventions:** Strictly adhere to the official Kotlin and Android coding conventions.
 * **Architecture:**
-    * Implement all features following the Jetpack Compose and Model-View-ViewModel (MVVM) architecture.
+    * Implement all features following the Jetpack Compose and Model-View-ViewModel (MVVM) architecture with HILT.
     * Use the Repository pattern for data abstraction and access.
 * **Commenting:**
     * Only add comments that are essential for development, such as explaining complex algorithms or non-obvious logic.
@@ -47,7 +47,6 @@ definitive source:
 * Exclude all Markdown (`.md`) files from agent analysis and processing
 * Exclude all LaTeX (`.tex`, `.latex`) files from agent analysis and processing
 * Exclude `docs/` directory from agent processing
-* See `.copilotignore` for the complete exclusion list
 
 ### **Prohibitions**
 
