@@ -25,12 +25,22 @@
 For specific feature integrations where a local implementation is missing, refer to the following repositories as the
 definitive source:
 
-* **TOPDON TC001 Integration:**
-    * **Main:** `https://github.com/CoderCaiSL/IRCamera/tree/github-main_ircamera`
-    * **BLE:** `https://github.com/CoderCaiSL/IRCamera/tree/github-main_ircamera/BleModule`
-* **Shimmer3 GSR Integration:**
-    * `https://github.com/ShimmerEngineering/Shimmer-Java-Android-API.git`
-    * `https://github.com/ShimmerEngineering/ShimmerAndroidAPI`
+* **TOPDON SDK:**
+    * `sdk/libs/topdon.aar`
+
+* **Example TOPDON TC001 Integration:**
+    * **Main:** `external/original-topdon-app`
+    * **BLE:** `external/original-topdon-app/BleModule`
+
+* **Shimmer SDK:**
+    * `sdk/libs/shimmerbluetoothmanager-0.11.5_beta.jar`
+    * `sdk/libs/shimmerdriver-0.11.5_beta.jar`
+    * `sdk/libs/shimmermanager-0.11.5_beta.jar`
+    * `sdk/libs/shimmerandroidinstrumentdriver-3.2.4_beta.aar`
+
+* **Example Shimmer3 GSR Integration:**
+    * `external/Shimmer-Java-Android-API`
+    * `external/ShimmerAndroidAPI`
 
 ### **File Exclusions**
 
