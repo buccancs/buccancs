@@ -44,11 +44,11 @@ definitive source:
 
 ### **File Exclusions**
 
-* Exclude all Markdown (`.md`) files from agent analysis and processing
+<!-- * Exclude all Markdown (`.md`) files from agent analysis and processing
 * Exclude all LaTeX (`.tex`, `.latex`) files from agent analysis and processing
-* Exclude `docs/` directory from agent processing
+* Exclude `docs/` directory from agent processing -->
 
 ### **Prohibitions**
 
 * Do not use emojis in any context (code, comments, documentation, or commit messages).
-* Do not generate Markdown (`.md`) documentation files.
+<!-- * Do not generate Markdown (`.md`) documentation files. -->
