@@ -161,6 +161,14 @@ class CalibrationViewModel @Inject constructor(
         }
     }
 
+    private data class CalibrationInputs(
+        val rowsText: String,
+        val colsText: String,
+        val sizeText: String,
+        val requiredText: String,
+        val isBusy: Boolean
+    )
+
     private fun String.filterDigits(): String = filter { it.isDigit() }.take(2)
     private fun String.filterDecimal(): String {
         val filtered = filter { it.isDigit() || it == '.' }
