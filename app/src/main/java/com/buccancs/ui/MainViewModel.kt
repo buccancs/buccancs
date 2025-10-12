@@ -18,6 +18,7 @@ import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.OrchestratorConfig
 import com.buccancs.domain.model.RecordingLifecycleState
+import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
@@ -64,56 +65,105 @@ class MainViewModel @Inject constructor(
     private val uploads = MutableStateFlow<List<UploadStatus>>(emptyList())
     private val showSyncFlash = MutableStateFlow(false)
     private var syncFlashJob: Job? = null
-    val uiState: StateFlow<MainUiState> = combine(
+    private val baseState = combine(
         sensorRepository.devices,
         sensorRepository.streamStatuses,
         sensorRepository.recordingState,
         sensorRepository.simulationEnabled,
-        timeSyncRepository.status,
+        timeSyncRepository.status
+    ) { devices, streams, recording, simulation, sync ->
+        BaseState(
+            devices = devices,
+            streams = streams,
+            recording = recording,
+            simulation = simulation,
+            sync = sync
+        )
+    }
+    private val sessionState = combine(
         sessionId,
         busy,
-        lastError,
+        lastError
+    ) { session, isBusy, error ->
+        SessionState(
+            sessionId = session,
+            isBusy = isBusy,
+            lastError = error
+        )
+    }
+    private val orchestratorState = combine(
         hostInput,
         portInput,
         useTlsInput,
         currentConfig,
-        configMessage,
+        configMessage
+    ) { host, portText, useTls, persistedConfig, message ->
+        OrchestratorState(
+            host = host,
+            portText = portText,
+            useTls = useTls,
+            currentConfig = persistedConfig,
+            message = message
+        )
+    }
+    private val commandState = combine(
         commandCoordinator.lastCommand,
-        deviceEventRepository.events,
+        deviceEventRepository.events
+    ) { lastCommand, events ->
+        CommandState(
+            lastCommand = lastCommand,
+            events = events
+        )
+    }
+    private val toggleState = combine(
+        uploads,
         showSyncFlash
-    ) { devices, streams, recording, simulation, sync, session, isBusy, error,
-        host, portText, useTls, persistedConfig, message, lastCommand, events, flash ->
-        val parsedPort = portText.toIntOrNull()
-        val configDirty = persistedConfig?.let {
-            host != it.host || parsedPort != it.port || useTls != it.useTls
-        } ?: (host.isNotBlank() || portText.isNotBlank())
-        val connectionLabel = deriveConnectionLabel(sync)
-        val commandMessage = lastCommand?.let { describeCommand(it) }
-        val eventUi = events
+    ) { uploadStatuses, flash ->
+        ToggleState(
+            uploads = uploadStatuses,
+            showSyncFlash = flash
+        )
+    }
+    val uiState: StateFlow<MainUiState> = combine(
+        baseState,
+        sessionState,
+        orchestratorState,
+        commandState,
+        toggleState
+    ) { base, session, orchestrator, command, toggle ->
+        val parsedPort = orchestrator.portText.toIntOrNull()
+        val configDirty = orchestrator.currentConfig?.let {
+            orchestrator.host != it.host ||
+                    parsedPort != it.port ||
+                    orchestrator.useTls != it.useTls
+        } ?: (orchestrator.host.isNotBlank() || orchestrator.portText.isNotBlank())
+        val connectionLabel = deriveConnectionLabel(base.sync)
+        val commandMessage = command.lastCommand?.let { describeCommand(it) }
+        val eventUi = command.events
             .sortedByDescending { it.receivedAt }
             .take(EVENT_LOG_LIMIT)
             .map { it.toUiModel() }
         MainUiState(
-            sessionIdInput = session,
-            simulationEnabled = simulation,
-            devices = devices.map { it.toUiModel(streams) },
-            streamStatuses = streams.map { it.toUiModel() },
-            uploadStatuses = uploads,
-            recordingLifecycle = recording.lifecycle,
-            anchorReference = recording.anchor?.referenceTimestamp,
-            sharedClockOffsetMillis = recording.anchor?.sharedClockOffsetMillis,
-            timeSyncStatus = sync,
-            isBusy = isBusy,
-            errorMessage = error,
-            orchestratorHostInput = host,
-            orchestratorPortInput = portText,
-            orchestratorUseTls = useTls,
+            sessionIdInput = session.sessionId,
+            simulationEnabled = base.simulation,
+            devices = base.devices.map { it.toUiModel(base.streams) },
+            streamStatuses = base.streams.map { it.toUiModel() },
+            uploadStatuses = toggle.uploads,
+            recordingLifecycle = base.recording.lifecycle,
+            anchorReference = base.recording.anchor?.referenceTimestamp,
+            sharedClockOffsetMillis = base.recording.anchor?.sharedClockOffsetMillis,
+            timeSyncStatus = base.sync,
+            isBusy = session.isBusy,
+            errorMessage = session.lastError,
+            orchestratorHostInput = orchestrator.host,
+            orchestratorPortInput = orchestrator.portText,
+            orchestratorUseTls = orchestrator.useTls,
             orchestratorConfigDirty = configDirty,
             orchestratorConnectionStatus = connectionLabel,
-            configMessage = message,
+            configMessage = orchestrator.message,
             lastCommandMessage = commandMessage,
             deviceEvents = eventUi,
-            showSyncFlash = flash
+            showSyncFlash = toggle.showSyncFlash
         )
     }.stateIn(
         scope = viewModelScope,
@@ -432,6 +482,38 @@ class MainViewModel @Inject constructor(
         this.value = value
         return current
     }
+
+    private data class BaseState(
+        val devices: List<SensorDevice>,
+        val streams: List<SensorStreamStatus>,
+        val recording: RecordingState,
+        val simulation: Boolean,
+        val sync: TimeSyncStatus
+    )
+
+    private data class SessionState(
+        val sessionId: String,
+        val isBusy: Boolean,
+        val lastError: String?
+    )
+
+    private data class OrchestratorState(
+        val host: String,
+        val portText: String,
+        val useTls: Boolean,
+        val currentConfig: OrchestratorConfig?,
+        val message: String?
+    )
+
+    private data class CommandState(
+        val lastCommand: DeviceCommandPayload?,
+        val events: List<DeviceEvent>
+    )
+
+    private data class ToggleState(
+        val uploads: List<UploadStatus>,
+        val showSyncFlash: Boolean
+    )
 
     private companion object {
         private const val TAG = "MainViewModel"
