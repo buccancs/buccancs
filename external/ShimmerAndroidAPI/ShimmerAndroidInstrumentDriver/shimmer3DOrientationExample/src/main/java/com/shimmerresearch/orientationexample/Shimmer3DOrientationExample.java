@@ -267,19 +267,13 @@ public class Shimmer3DOrientationExample extends Activity {
         }
     }
 
-    /**
-     * Remember to resume the glSurface
-     */
-    @Override
+        @Override
     protected void onResume() {
         super.onResume();
         glSurface.onResume();
     }
 
-    /**
-     * Also pause the glSurface
-     */
-    @Override
+        @Override
     protected void onPause() {
         super.onPause();
         glSurface.onPause();

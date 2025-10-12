@@ -41,10 +41,7 @@ public class SignalsToPlotDialog {
         mUseGeneratedXAxis = useGeneratedXAxis;
     }
 
-    /**
-     * @wbp.parser.entryPoint
-     */
-    public void initialize(ShimmerDevice shimmerDevice, BasicPlotManagerPC plotManager, Chart2D chart) {
+        public void initialize(ShimmerDevice shimmerDevice, BasicPlotManagerPC plotManager, Chart2D chart) {
 
         JDialog dialog = new JDialog();
         dialog.setModal(true);

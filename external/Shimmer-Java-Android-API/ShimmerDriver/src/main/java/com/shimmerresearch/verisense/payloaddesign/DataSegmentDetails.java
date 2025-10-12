@@ -11,13 +11,6 @@ import java.util.List;
 
 import com.shimmerresearch.verisense.UtilVerisenseDriver;
 
-/**
- * This class represents a list of continuous DataBlocks whereby it has been
- * detected that no time-gap or over-lap has occurred between them.
- *
- * @author Mark Nolan
- *
- */
 public class DataSegmentDetails implements Serializable {
 
     private static final long serialVersionUID = -4767277394199485045L;

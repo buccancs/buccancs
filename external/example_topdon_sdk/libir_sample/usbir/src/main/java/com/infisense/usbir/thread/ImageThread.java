@@ -41,12 +41,7 @@ public class ImageThread extends Thread {
     private byte[] imageDst;
     private byte[] imageY8;
 
-    /**
-     * @param context
-     * @param imageWidth
-     * @param imageHeight
-     */
-    public ImageThread(Context context, int imageWidth, int imageHeight) {
+        public ImageThread(Context context, int imageWidth, int imageHeight) {
         Log.i(TAG, "ImageThread create->imageWidth = " + imageWidth + " imageHeight = " + imageHeight);
         this.mContext = context;
         this.imageWidth = imageWidth;
@@ -57,45 +52,27 @@ public class ImageThread extends Thread {
         imageY8 = new byte[imageWidth * imageHeight];
     }
 
-    /**
-     * @param syncimage
-     */
-    public void setSyncimage(SynchronizedBitmap syncimage) {
+        public void setSyncimage(SynchronizedBitmap syncimage) {
         this.syncimage = syncimage;
     }
 
-    /**
-     * @param imageSrc
-     */
-    public void setImageSrc(byte[] imageSrc) {
+        public void setImageSrc(byte[] imageSrc) {
         this.imageSrc = imageSrc;
     }
 
-    /**
-     * @param temperatureSrc
-     */
-    public void setTemperatureSrc(byte[] temperatureSrc) {
+        public void setTemperatureSrc(byte[] temperatureSrc) {
         this.temperatureSrc = temperatureSrc;
     }
 
-    /**
-     * @param rotate
-     */
-    public void setRotate(boolean rotate) {
+        public void setRotate(boolean rotate) {
         this.rotate = rotate;
     }
 
-    /**
-     * @param dataFlowMode
-     */
-    public void setDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
+        public void setDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
         this.dataFlowMode = dataFlowMode;
     }
 
-    /**
-     * @param bitmap
-     */
-    public void setBitmap(Bitmap bitmap) {
+        public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 
@@ -111,17 +88,9 @@ public class ImageThread extends Thread {
                     if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT ||
                             dataFlowMode == CommonParams.DataFlowMode.IMAGE_OUTPUT) {
                         // yuv422格式
-                        /**
-                         * 方式1：
-                         * 使用系统伪彩,通过setPseudoColor接口设置伪彩
-                         */
-                        LibIRParse.converyArrayYuv422ToARGB(imageSrc, imageHeight * imageWidth, imageARGB);
+                                                LibIRParse.converyArrayYuv422ToARGB(imageSrc, imageHeight * imageWidth, imageARGB);
 
-                        /**
-                         * 方式2：
-                         * 使用本地存储的自定义伪彩，传入伪彩表数据
-                         */
-//                        // YUV伪彩
+                        //                        // YUV伪彩
 //                        String path = FileUtil.getSaveFilePath(mContext);
 //                        String pseudoYUVDataIntStr = FileUtil.getStringFromFile(path + PopupOthers
 //                                .COLOR_YUV_DATA_INT);
@@ -131,11 +100,7 @@ public class ImageThread extends Thread {
 //                            LibIRProcess.convertYuyvMapToARGBCustomPseudocolor(imageSrc, (long) imageHeight *
 //                                    imageWidth, pseudoYUVDataInt, imageARGB);
 //                        }
-                        /**
-                         * 方式3：
-                         * 使用assets中的自定义伪彩，传入伪彩表数据
-                         */
-//                        byte[] pseudoDataByte = new byte[768]; // 伪彩数据,长度固定
+                        //                        byte[] pseudoDataByte = new byte[768]; // 伪彩数据,长度固定
 //                        AssetManager am = mContext.getAssets();
 //                        InputStream is;
 //                        try {
@@ -155,31 +120,18 @@ public class ImageThread extends Thread {
 //                        LibIRProcess.convertYuyvMapToARGBCustomPseudocolor(imageSrc, (long) imageHeight *
 //                                imageWidth, pseudoYUVDataInt2, imageARGB);
 
-                        /**
-                         * 方式4：
-                         * 调用SDK中实现的伪彩
-                         */
-//                        LibIRProcess.convertYuyvMapToARGBPseudocolor(imageSrc, (long) imageHeight * imageWidth,
+                        //                        LibIRProcess.convertYuyvMapToARGBPseudocolor(imageSrc, (long) imageHeight * imageWidth,
 //                                CommonParams.PseudoColorType.PSEUDO_3, imageARGB);
                     } else {
                         // 调用 startY16ModePreview 中间出图方法之后，输出的数据格式为y16,需要做转换
-                        /**
-                         * 方式1：YUV伪彩
-                         */
-                        LibIRParse.convertArrayY14ToYuv422(imageSrc, imageHeight * imageWidth, imageYUV422);
+                                                LibIRParse.convertArrayY14ToYuv422(imageSrc, imageHeight * imageWidth, imageYUV422);
                         LibIRParse.converyArrayYuv422ToARGB(imageYUV422, imageHeight * imageWidth, imageARGB);
-                        /**
-                         *  方式2：RGB伪彩
-                         */
-//                        LibIRParse.convertArrayY14ToY8(imageSrc, imageHeight * imageWidth, imageY8);
+                        //                        LibIRParse.convertArrayY14ToY8(imageSrc, imageHeight * imageWidth, imageY8);
 //                        LibIRProcess.convertGrayMapToARGBPseudocolorM2(imageY8, (long) imageHeight * imageWidth,
 //                        CommonParams.PseudoColorTypeM2.IRPROC_COLOR_YP0103, imageARGB);
                     }
 
-                    /**
-                     * 等温尺处理,展示伪彩的温度范围内信息
-                     */
-                    if (biaochistatus && temperatureSrc != null) {
+                                        if (biaochistatus && temperatureSrc != null) {
                         //for biaochi filter
                         int j = 0;
                         int imageDstLength = imageWidth * imageHeight * 4;
@@ -190,19 +142,13 @@ public class ImageThread extends Thread {
                             float temperature0 = (temperatureSrc[j] & 0xff) + (temperatureSrc[j + 1] & 0xff) * 256;
                             temperature0 = (float) (temperature0 / 64 - 273.15);
                             // 处理温度范围之外的像素点
-                            /**
-                             * 方式1：温度阈值范围之外的处理成白热
-                             */
-//                            int y0 = imageSrc[j] & 0xff;
+                            //                            int y0 = imageSrc[j] & 0xff;
 //                            if ((temperature0 < biaochiMin) || (temperature0 > biaochiMax)) {
 //                                imageARGB[index] = (byte) PseudocolorModeTable.pseudocolorMapTableOfBAIRE[y0][0];
 //                                imageARGB[index + 1] = (byte) PseudocolorModeTable.pseudocolorMapTableOfBAIRE[y0][1];
 //                                imageARGB[index + 2] = (byte) PseudocolorModeTable.pseudocolorMapTableOfBAIRE[y0][2];
 //                            }
-                            /**
-                             * 方式2：温度阈值范围之外的处理成固定的颜色
-                             */
-                            if (temperature0 < biaochiMin) {
+                                                        if (temperature0 < biaochiMin) {
                                 imageARGB[index] = (byte) PseudocolorModeTable.BLUE_RGB[0];
                                 imageARGB[index + 1] = (byte) PseudocolorModeTable.BLUE_RGB[1];
                                 imageARGB[index + 2] = (byte) PseudocolorModeTable.BLUE_RGB[2];
@@ -217,11 +163,7 @@ public class ImageThread extends Thread {
                         }
                     }
 
-                    /**
-                     * 经过转换之后的红外数据
-                     * 其中的数据是旋转90度的，需要旋转回来,红外旋转的逻辑放在这里处理。
-                     */
-                    if (rotate) {
+                                        if (rotate) {
                         LibIRProcess.ImageRes_t imageRes = new LibIRProcess.ImageRes_t();
                         imageRes.height = (char) imageWidth;
                         imageRes.width = (char) imageHeight;

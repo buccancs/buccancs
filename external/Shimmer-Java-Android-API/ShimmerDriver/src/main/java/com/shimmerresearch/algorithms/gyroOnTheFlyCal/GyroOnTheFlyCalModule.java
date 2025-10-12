@@ -302,12 +302,7 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
 
     // ------------ Optional overrides start --------------------
 
-    /**
-     * @param enable     this enables the calibration of the gyroscope while streaming
-     * @param bufferSize sets the buffersize of the window used to determine the new calibration parameters, see implementation for more details
-     * @param threshold  sets the threshold of when to use the incoming data to recalibrate gyroscope offset, this is in degrees, and the default value is 1.2
-     */
-    public void enableOnTheFlyGyroCal(boolean state, int bufferSize, double threshold) {
+        public void enableOnTheFlyGyroCal(boolean state, int bufferSize, double threshold) {
         mOnTheFlyGyroOffsetCal.setIsEnabled(state, bufferSize, threshold);
     }
 

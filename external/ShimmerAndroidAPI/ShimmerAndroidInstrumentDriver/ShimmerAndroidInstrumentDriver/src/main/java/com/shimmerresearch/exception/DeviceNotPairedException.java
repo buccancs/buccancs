@@ -1,9 +1,6 @@
 package com.shimmerresearch.exception;
 
 
-/**
- * Created by ASaez on 07-Oct-16.
- */
 
 public class DeviceNotPairedException extends RuntimeException {
 

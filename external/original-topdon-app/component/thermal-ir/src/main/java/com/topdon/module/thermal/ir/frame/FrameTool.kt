@@ -94,10 +94,6 @@ class FrameTool {
         LibIRProcess.rotateRight90(tempBytes, imgRes, CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14, dstTempBytes)
         return dstTempBytes
     }
-    /**
-     * 灰度图转伪彩图像
-     * yuv -> argb -> 温度尺 -> 旋转 -> bitmap
-     */
     fun getScrPseudoColorScaledBitmap(
         pseudoColorMode: CommonParams.PseudoColorType = CommonParams.PseudoColorType.PSEUDO_3,
         max: Float = -273f,

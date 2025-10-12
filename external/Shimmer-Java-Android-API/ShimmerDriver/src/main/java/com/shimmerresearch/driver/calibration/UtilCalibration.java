@@ -2,28 +2,11 @@ package com.shimmerresearch.driver.calibration;
 
 import java.util.Arrays;
 
-/**
- * @author Ruud Stolk
- * @author Mark Nolan
- *
- */
 public class UtilCalibration {
 
     public final static boolean USE_EFFICIENT_CALIBRATION_METHOD = true;
 
-    /**
-     * Based on the theory outlined by Ferraris F, Grimaldi U, and Parvis M.
-     * in "Procedure for effortless in-field calibration of three-axis rate gyros and accelerometers" Sens. Mater. 1995; 7: 311-30.
-     * C = [R^(-1)] .[K^(-1)] .([U]-[B])
-     * where.....
-     * [C] -> [3 x n] Calibrated Data Matrix
-     * [U] -> [3 x n] Uncalibrated Data Matrix
-     * [B] ->  [3 x n] Replicated Sensor Offset Vector Matrix
-     * [R^(-1)] -> [3 x 3] Inverse Alignment Matrix
-     * [K^(-1)] -> [3 x 3] Inverse Sensitivity Matrix
-     * n = Number of Samples
-     */
-    public static double[] calibrateInertialSensorData(double[] data, double[][] AM, double[][] SM, double[][] OV) {
+        public static double[] calibrateInertialSensorData(double[] data, double[][] AM, double[][] SM, double[][] OV) {
         if (data == null || AM == null || SM == null || OV == null) {
             System.out.println("UtilCalibration.calibrateInertialSensorData:" + "ERROR! NaN in input data");
             return null;
@@ -51,22 +34,7 @@ public class UtilCalibration {
     }
 
 
-    /**
-     * Based on the theory outlined by Ferraris F, Grimaldi U, and Parvis M.
-     * in "Procedure for effortless in-field calibration of three-axis rate gyros and accelerometers" Sens. Mater. 1995; 7: 311-30.
-     * C = [R^(-1)] .[K^(-1)] .([U]-[B])
-     * where.....
-     * [C] -> [3 x n] Calibrated Data Matrix
-     * [U] -> [3 x n] Uncalibrated Data Matrix
-     * [B] ->  [3 x n] Replicated Sensor Offset Vector Matrix
-     * [R^(-1)] -> [3 x 3] Inverse Alignment Matrix
-     * [K^(-1)] -> [3 x 3] Inverse Sensitivity Matrix
-     * n = Number of Samples
-     * <p>
-     * More efficient method whereby one consistent matrixMultiplication calculation is preperformed once and it's
-     * result passed in rather then on a per packet basis.
-     */
-    public static double[] calibrateInertialSensorData(double[] data, double[][] matrixMultipliedInverseAMSM, double[][] OV) {
+        public static double[] calibrateInertialSensorData(double[] data, double[][] matrixMultipliedInverseAMSM, double[][] OV) {
         if (data == null || matrixMultipliedInverseAMSM == null || OV == null) {
             System.out.println("UtilCalibration.calibrateInertialSensorData:" + "ERROR! NaN in input data");
             return null;
@@ -89,12 +57,7 @@ public class UtilCalibration {
         return ansdata;
     }
 
-    /**
-     * @param data
-     * @param calibDetails
-     * @return
-     */
-    public static double[] calibrateInertialSensorData(double[] data, CalibDetailsKinematic calibDetails) {
+        public static double[] calibrateInertialSensorData(double[] data, CalibDetailsKinematic calibDetails) {
         if (calibDetails == null) {
             return data;
         }
@@ -111,19 +74,7 @@ public class UtilCalibration {
         }
     }
 
-    /**
-     * GGIR runs on default calibrated Accel data. The auto-calibration stage in
-     * GGIR generates correction values (sensitivity and offset -> not alignment)
-     * that can be applied to the default calibrated data to provide auto-calibrated
-     * accel output. This method applies those correction values to the default
-     * calibrated data.
-     *
-     * @param xyzArray
-     * @param currentSensitivityMatrix
-     * @param currentOffsetVector
-     * @return
-     */
-    public static double[] calibrateImuData(double[] xyzArray, double[][] currentSensitivityMatrix, double[][] currentOffsetVector) {
+        public static double[] calibrateImuData(double[] xyzArray, double[][] currentSensitivityMatrix, double[][] currentOffsetVector) {
         double[] xyzCalArray = new double[3];
         for (int axis = 0; axis < 3; axis++) {
             xyzCalArray[axis] = xyzArray[axis] * currentSensitivityMatrix[axis][axis] + currentOffsetVector[axis][0];

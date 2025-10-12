@@ -885,58 +885,37 @@ public class SensorPPG extends AbstractSensor {
         return false;
     }
 
-    /**
-     * @return the mPpgAdcSelectionGsrBoard
-     */
-    public int getPpgAdcSelectionGsrBoard() {
+        public int getPpgAdcSelectionGsrBoard() {
         return mPpgAdcSelectionGsrBoard;
     }
 
-    /**
-     * @param ppgAdcSelectionGsrBoard the mPpgAdcSelectionGsrBoard to set
-     */
-    protected void setPpgAdcSelectionGsrBoard(int ppgAdcSelectionGsrBoard) {
+        protected void setPpgAdcSelectionGsrBoard(int ppgAdcSelectionGsrBoard) {
         this.mPpgAdcSelectionGsrBoard = ppgAdcSelectionGsrBoard;
         int key = Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY;
         mShimmerDevice.setSensorEnabledState(key, mSensorMap.get(key).isEnabled());
     }
 
-    /**
-     * @return the mPpg1AdcSelectionProto3DeluxeBoard
-     */
-    public int getPpg1AdcSelectionProto3DeluxeBoard() {
+        public int getPpg1AdcSelectionProto3DeluxeBoard() {
         return mPpg1AdcSelectionProto3DeluxeBoard;
     }
 
-    /**
-     * @param ppg1AdcSelectionProto3DeluxeBoard the mPpg1AdcSelectionProto3DeluxeBoard to set
-     */
-    protected void setPpg1AdcSelectionProto3DeluxeBoard(int ppg1AdcSelectionProto3DeluxeBoard) {
+        protected void setPpg1AdcSelectionProto3DeluxeBoard(int ppg1AdcSelectionProto3DeluxeBoard) {
         this.mPpg1AdcSelectionProto3DeluxeBoard = ppg1AdcSelectionProto3DeluxeBoard;
         int key = Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_DUMMY;
         mShimmerDevice.setSensorEnabledState(key, mSensorMap.get(key).isEnabled());
     }
 
-    /**
-     * @return the mPpg2AdcSelectionProto3DeluxeBoard
-     */
-    public int getPpg2AdcSelectionProto3DeluxeBoard() {
+        public int getPpg2AdcSelectionProto3DeluxeBoard() {
         return mPpg2AdcSelectionProto3DeluxeBoard;
     }
 
-    /**
-     * @param ppg2AdcSelectionProto3DeluxeBoard the mPpg2AdcSelectionProto3DeluxeBoard to set
-     */
-    protected void setPpg2AdcSelectionProto3DeluxeBoard(int ppg2AdcSelectionProto3DeluxeBoard) {
+        protected void setPpg2AdcSelectionProto3DeluxeBoard(int ppg2AdcSelectionProto3DeluxeBoard) {
         this.mPpg2AdcSelectionProto3DeluxeBoard = ppg2AdcSelectionProto3DeluxeBoard;
         int key = Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_DUMMY;
         mShimmerDevice.setSensorEnabledState(key, mSensorMap.get(key).isEnabled());
     }
 
-    /**
-     * @return the mSamplingDividerPpg
-     */
-    public int getSamplingDividerPpg() {
+        public int getSamplingDividerPpg() {
         return mSamplingDividerPpg;
     }
     //--------- Abstract methods implemented end --------------
@@ -944,12 +923,7 @@ public class SensorPPG extends AbstractSensor {
 
     //--------- Sensor specific methods start --------------
 
-    /**
-     * ShimmerGQBle
-     *
-     * @param mSamplingDividerPpg the mSamplingDividerPpg to set
-     */
-    public void setSamplingDividerPpg(int mSamplingDividerPpg) {
+        public void setSamplingDividerPpg(int mSamplingDividerPpg) {
         this.mSamplingDividerPpg = mSamplingDividerPpg;
     }
 

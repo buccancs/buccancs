@@ -60,10 +60,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         initScreenW_H();
     }
 
-    /**
-     * 初始化获取屏幕宽高
-     */
-    protected void initScreenW_H() {
+        protected void initScreenW_H() {
         screenHeight = ScreenUtil.getScreenHeight(getContext()) - 40;
         screenWidth = ScreenUtil.getScreenWidth(getContext());
     }
@@ -97,14 +94,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         return false;
     }
 
-    /**
-     * 处理拖动事件
-     *
-     * @param v
-     * @param event
-     * @param action
-     */
-    protected void delDrag(View v, MotionEvent event, int action) {
+        protected void delDrag(View v, MotionEvent event, int action) {
         switch (action) {
             case MotionEvent.ACTION_MOVE:
                 int dx = (int) event.getRawX() - lastX;
@@ -154,14 +144,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-    /**
-     * 触摸点为中心->>移动
-     *
-     * @param v
-     * @param dx
-     * @param dy
-     */
-    private void center(View v, int dx, int dy) {
+        private void center(View v, int dx, int dy) {
         int left = v.getLeft() + dx;
         int top = v.getTop() + dy;
         int right = v.getRight() + dx;
@@ -185,13 +168,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         v.layout(left, top, right, bottom);
     }
 
-    /**
-     * 触摸点为上边缘
-     *
-     * @param v
-     * @param dy
-     */
-    private void top(View v, int dy) {
+        private void top(View v, int dy) {
         oriTop += dy;
         if (oriTop < -offset) {
             oriTop = -offset;
@@ -201,13 +178,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-    /**
-     * 触摸点为下边缘
-     *
-     * @param v
-     * @param dy
-     */
-    private void bottom(View v, int dy) {
+        private void bottom(View v, int dy) {
         oriBottom += dy;
         if (oriBottom > screenHeight + offset) {
             oriBottom = screenHeight + offset;
@@ -217,13 +188,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-    /**
-     * 触摸点为右边缘
-     *
-     * @param v
-     * @param dx
-     */
-    private void right(View v, int dx) {
+        private void right(View v, int dx) {
         oriRight += dx;
         if (oriRight > screenWidth + offset) {
             oriRight = screenWidth + offset;
@@ -233,13 +198,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-    /**
-     * 触摸点为左边缘
-     *
-     * @param v
-     * @param dx
-     */
-    private void left(View v, int dx) {
+        private void left(View v, int dx) {
         oriLeft += dx;
         if (oriLeft < -offset) {
             oriLeft = -offset;
@@ -249,15 +208,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-    /**
-     * 获取触摸点flag
-     *
-     * @param v
-     * @param x
-     * @param y
-     * @return
-     */
-    protected int getDirection(View v, int x, int y) {
+        protected int getDirection(View v, int x, int y) {
         int left = v.getLeft();
         int right = v.getRight();
         int bottom = v.getBottom();
@@ -289,21 +240,11 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         return CENTER;
     }
 
-    /**
-     * 获取截取宽度
-     *
-     * @return
-     */
-    public int getCutWidth() {
+        public int getCutWidth() {
         return getWidth() - 2 * offset;
     }
 
-    /**
-     * 获取截取高度
-     *
-     * @return
-     */
-    public int getCutHeight() {
+        public int getCutHeight() {
         return getHeight() - 2 * offset;
     }
 }

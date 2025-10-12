@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializetimeSyncPong")
 public inline fun timeSyncPong(block: com.buccancs.control.TimeSyncPongKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncPong =
   com.buccancs.control.TimeSyncPongKt.Dsl._create(com.buccancs.control.TimeSyncPong.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.TimeSyncPong`
- */
 public object TimeSyncPongKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,32 +20,20 @@ public object TimeSyncPongKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.TimeSyncPong = _builder.build()
-    /**
-     * `int64 server_receive_epoch_ms = 1;`
-     */
-    public var serverReceiveEpochMs: kotlin.Long
+        public var serverReceiveEpochMs: kotlin.Long
       get() = _builder.getServerReceiveEpochMs()
       set(value) {
         _builder.setServerReceiveEpochMs(value)
       }
-    /**
-     * `int64 server_receive_epoch_ms = 1;`
-     */
-    public fun clearServerReceiveEpochMs() {
+        public fun clearServerReceiveEpochMs() {
       _builder.clearServerReceiveEpochMs()
     }
-    /**
-     * `int64 server_send_epoch_ms = 2;`
-     */
-    public var serverSendEpochMs: kotlin.Long
+        public var serverSendEpochMs: kotlin.Long
       get() = _builder.getServerSendEpochMs()
       set(value) {
         _builder.setServerSendEpochMs(value)
       }
-    /**
-     * `int64 server_send_epoch_ms = 2;`
-     */
-    public fun clearServerSendEpochMs() {
+        public fun clearServerSendEpochMs() {
       _builder.clearServerSendEpochMs()
     }
   }

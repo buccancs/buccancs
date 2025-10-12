@@ -108,38 +108,23 @@ public class ShimmerLogDetails implements Serializable {
         mFullTrialName = mTrialName + "_" + mConfigTime;
     }
 
-    /**
-     * @return the mHardwareVersion
-     */
-    public int getmHardwareVersion() {
+        public int getmHardwareVersion() {
         return mShimmerVersionObject.getHardwareVersion();
     }
 
-    /**
-     * @return the mFirmwareIdentifier
-     */
-    public int getmFirmwareIdentifier() {
+        public int getmFirmwareIdentifier() {
         return mShimmerVersionObject.getFirmwareIdentifier();
     }
 
-    /**
-     * @return the mFirmwareVersionMajor
-     */
-    public int getmFirmwareVersionMajor() {
+        public int getmFirmwareVersionMajor() {
         return mShimmerVersionObject.getFirmwareVersionMajor();
     }
 
-    /**
-     * @return the mFirmwareVersionMinor
-     */
-    public int getmFirmwareVersionMinor() {
+        public int getmFirmwareVersionMinor() {
         return mShimmerVersionObject.getFirmwareVersionMinor();
     }
 
-    /**
-     * @return the mFirmwareVersionInternal
-     */
-    public int getmFirmwareVersionInternal() {
+        public int getmFirmwareVersionInternal() {
         return mShimmerVersionObject.getFirmwareVersionInternal();
     }
 

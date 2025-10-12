@@ -245,17 +245,11 @@ public class HwDriverShimmerDeviceDetails {
         }
 
         public static final class SERIAL_PORT {
-            /**
-             * Used in the Shimmer Dock (Base1) and Shimmer SPAN
-             */
-            public static final String[] FTDI_FT2232H = new String[]{
+                        public static final String[] FTDI_FT2232H = new String[]{
                     "VID_0403&PID_6010&MI",
             };
 
-            /**
-             * Used in the Shimmer Base6 and Base15
-             */
-            public static final String[] FTDI_FT4232H = new String[]{
+                        public static final String[] FTDI_FT4232H = new String[]{
                     "VID_0403&PID_6011&MI",
             };
 

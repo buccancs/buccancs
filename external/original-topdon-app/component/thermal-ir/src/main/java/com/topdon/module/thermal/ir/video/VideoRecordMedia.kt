@@ -12,10 +12,7 @@ import io.reactivex.disposables.Disposable
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
-/**
- * 硬编码
- * bitmap -> mp4
- */
+
 class VideoRecordMedia(
     private var cameraView: CameraView,
     private var temperatureView: TemperatureView
@@ -25,6 +22,7 @@ class VideoRecordMedia(
     private var isRunning = false
     var width = 480
     var height = 640
+
     init {
         encoder.setFrameDelay(25)
         width = 480
@@ -53,8 +51,10 @@ class VideoRecordMedia(
                 encoder.addFrame(it)
             }
     }
+
     override fun startRecord(fileDir: String) {
     }
+
     override fun stopRecord() {
         if (isRunning) {
             encoder.stopEncode()
@@ -62,9 +62,11 @@ class VideoRecordMedia(
         }
         isRunning = false
     }
+
     override fun updateAudioState(audioRecord: Boolean) {
         TODO("Not yet implemented")
     }
+
     private fun createBitmapFromView(): Bitmap {
         var cameraViewBitmap = cameraView.bitmap
         if (temperatureView.temperatureRegionMode != TemperatureView.REGION_MODE_CLEAN) {

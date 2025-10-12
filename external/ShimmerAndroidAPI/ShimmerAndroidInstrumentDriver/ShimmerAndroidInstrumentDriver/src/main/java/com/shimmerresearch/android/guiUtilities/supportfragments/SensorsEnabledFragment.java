@@ -217,15 +217,7 @@ public class SensorsEnabledFragment extends ListFragment {
 
     }
 
-    /**
-     * Method to get the View from a position in the ListView, taking into account the constantly
-     * changing index of the ListView as it is scrolled.
-     *
-     * @param pos
-     * @param listView
-     * @return
-     */
-    public View getViewByPosition(int pos, ListView listView) {
+        public View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
@@ -246,13 +238,7 @@ public class SensorsEnabledFragment extends ListFragment {
         shimmerService = service;
     }
 
-    /**
-     * Updates the state of the checkboxes in the ListView
-     *
-     * @param listView
-     * @param count
-     */
-    private void updateCheckboxes(ListView listView, int count) {
+        private void updateCheckboxes(ListView listView, int count) {
         for (int i = 0; i < count; i++) {
             View v = getViewByPosition(i, listView);
             CheckedTextView cTextView = (CheckedTextView) v.findViewById(android.R.id.text1);

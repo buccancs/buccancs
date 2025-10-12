@@ -666,30 +666,11 @@ irtemp.setTempData(temperature);
 使用到的具体函数如下：
 
 ```java
-/**
- * 设置温度数据【copy Temperature data from buffer】<br/>
- *
- * @param src Temperature buffer
- */
 public void setTempData(byte[] src)
 
-	/**
-     * 获取线的温度（包括最大值，最小值及坐标，平均值）【Get the temperature of the line (including maximum, minimum and coordinates, average)】<br/>
-     * (units:Celsius)
-     *
-     * @param line Temperature coordinates
-     * @return TemperatureSampleResult
-     */
-    public TemperatureSampleResult getTemperatureOfLine(Line line)
+	    public TemperatureSampleResult getTemperatureOfLine(Line line)
     
-	/**
-     * 获取框的温度（包括最大值，最小值及坐标，平均值）【Get the temperature of the frame (including maximum, minimum and coordinates, average)】<br/>
-     * (units:Celsius)
-     *
-     * @param rect Rectangular area coordinates
-     * @return TemperatureSampleResult
-     */
-    public TemperatureSampleResult getTemperatureOfRect(Rect rect)
+	    public TemperatureSampleResult getTemperatureOfRect(Rect rect)
 ```
 
 #### 方式二：直接从机芯中获取温度信息
@@ -699,73 +680,14 @@ public void setTempData(byte[] src)
 具体如下：
 
 ```java
-/**
- * 获取点测温的温度信息【Get the point temperature information】<br/>
- * Please make sure the pointX and PointY is the sensor's real point<br/>
- *
- * @param pixelPointX      The point pixel's x location
- * @param pixelPointY      The point pixel's y location
- * @param temperatureValue length:1 units:Kelvin
- * @return see {@link IrcmdResult}
- */
 public int getPointTemperatureInfo(int pixelPointX, int pixelPointY, int[] temperatureValue)
 
-	/**
-     * 获取线测温的温度信息（包括最大值，最小值及坐标，平均值）
-     * 【Get the line temperature information(including maximum, minimum and coordinates, average)】<br/>
-     * Please make sure the pointX and PointY is the sensor's real point<br/>
-     *
-     * @param startPointX      框的左上角x坐标
-     * @param startPointY      框的左上角y坐标
-     * @param endPointX        框的右下角x坐标
-     * @param endPointY        框的右下角y坐标
-     * @param temperatureValue length:7<br/>
-     *                         temperatureValue[0]:ave_temp; units:Kelvin<br/>
-     *                         temperatureValue[1]:max_temp; units:Kelvin<br/>
-     *                         temperatureValue[2]:min_temp; units:Kelvin<br/>
-     *                         temperatureValue[3]:max_temp_point.x;<br/>
-     *                         temperatureValue[4]:max_temp_point.y;<br/>
-     *                         temperatureValue[5]:min_temp_point.x;<br/>
-     *                         temperatureValue[6]:min_temp_point.y;<br/>
-     * @return see {@link IrcmdResult}
-     */
-    public int getLineTemperatureInfo(int startPointX, int startPointY, int endPointX, int endPointY, int[] temperatureValue)
+	    public int getLineTemperatureInfo(int startPointX, int startPointY, int endPointX, int endPointY, int[] temperatureValue)
 
-	/**
-     * 获取框测温的温度信息（包括最大值，最小值及坐标，平均值）
-     * 【Get the rectangle temperature information(including maximum, minimum and coordinates, average)】<br/>
-     * Please make sure the pointX and PointY is the sensor's real point<br/>
-     *
-     * @param startPointX      框的左上角x坐标
-     * @param startPointY      框的左上角y坐标
-     * @param endPointX        框的右下角x坐标
-     * @param endPointY        框的右下角y坐标
-     * @param temperatureValue length:7<br/>
-     *                         temperatureValue[0]:ave_temp; units:Kelvin<br/>
-     *                         temperatureValue[1]:max_temp; units:Kelvin<br/>
-     *                         temperatureValue[2]:min_temp; units:Kelvin<br/>
-     *                         temperatureValue[3]:max_temp_point.x;<br/>
-     *                         temperatureValue[4]:max_temp_point.y;<br/>
-     *                         temperatureValue[5]:min_temp_point.x;<br/>
-     *                         temperatureValue[6]:min_temp_point.y;<br/>
-     * @return see {@link IrcmdResult}
-     */
-    public int getRectTemperatureInfo(int startPointX, int startPointY, int endPointX, int endPointY,
+	    public int getRectTemperatureInfo(int startPointX, int startPointY, int endPointX, int endPointY,
                                       int[] temperatureValue)
     
-	/**
-     * 获取整帧的最大最小温度信息【Get the maximum and minimum temperature information of the frame】<br/>
-     *
-     * @param temperatureValue length:6<br/>
-     *                         temperatureValue[0]:max_temp; units:Kelvin<br/>
-     *                         temperatureValue[1]:min_temp; units:Kelvin<br/>
-     *                         temperatureValue[2]:max_temp_point.x;<br/>
-     *                         temperatureValue[3]:max_temp_point.y;<br/>
-     *                         temperatureValue[4]:min_temp_point.x;<br/>
-     *                         temperatureValue[5]:min_temp_point.y;<br/>
-     * @return see {@link IrcmdResult}
-     */
-    public int getCurrentFrameMaxAndMinTemperature(int[] temperatureValue)
+	    public int getCurrentFrameMaxAndMinTemperature(int[] temperatureValue)
 ```
 
 ## 模组的伪彩出现反色

@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializetimeSyncPing")
 public inline fun timeSyncPing(block: com.buccancs.control.TimeSyncPingKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncPing =
   com.buccancs.control.TimeSyncPingKt.Dsl._create(com.buccancs.control.TimeSyncPing.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.TimeSyncPing`
- */
 public object TimeSyncPingKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,32 +20,20 @@ public object TimeSyncPingKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.TimeSyncPing = _builder.build()
-    /**
-     * `int64 client_send_epoch_ms = 1;`
-     */
-    public var clientSendEpochMs: kotlin.Long
+        public var clientSendEpochMs: kotlin.Long
       get() = _builder.getClientSendEpochMs()
       set(value) {
         _builder.setClientSendEpochMs(value)
       }
-    /**
-     * `int64 client_send_epoch_ms = 1;`
-     */
-    public fun clearClientSendEpochMs() {
+        public fun clearClientSendEpochMs() {
       _builder.clearClientSendEpochMs()
     }
-    /**
-     * `string device_id = 2;`
-     */
-    public var deviceId: kotlin.String
+        public var deviceId: kotlin.String
       get() = _builder.getDeviceId()
       set(value) {
         _builder.setDeviceId(value)
       }
-    /**
-     * `string device_id = 2;`
-     */
-    public fun clearDeviceId() {
+        public fun clearDeviceId() {
       _builder.clearDeviceId()
     }
   }

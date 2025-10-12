@@ -546,14 +546,7 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
-    /**
-     * Get the result from the paired devices dialog
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {

@@ -1340,10 +1340,7 @@ class IRThermalLiteActivity : BaseIRActivity(), ITsTempListener, ILiteListener {
             ViewStubUtils.showViewStub(view_stub_camera, false, null)
         }
     }
-    /**
-     *
-     */
-    fun updateVideoDelayView() {
+        fun updateVideoDelayView() {
         try {
             if (time_down_view.isRunning) {
                 lifecycleScope.launch(Dispatchers.Main) {

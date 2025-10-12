@@ -1032,12 +1032,7 @@ public class SensorLSM6DS3 extends AbstractSensor {
         setFifoSizeInChip(calculateFifoThreshold());
     }
 
-    /**
-     * This function calculates the appropriate FIFO size based on the number of channels enabled and the sampling rate. The size of the FIFO needs to be reduced at higher sampling rates so that the microcontroller reads from the chip more often and in shorter bursts so that we don't miss any samples that might be recorded during an SPI read operation. Values of FTH have been decided upon experiementally by measuring the time it takes to read the FIFO and the restriction that imposes on the max sampling rate.
-     *
-     * @return
-     */
-    public int calculateFifoThreshold() {
+        public int calculateFifoThreshold() {
         if (!isEitherLsm6ds3ChannelEnabled()) {
             return 0;
         }

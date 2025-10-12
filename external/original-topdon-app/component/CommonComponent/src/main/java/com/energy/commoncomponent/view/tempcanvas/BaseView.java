@@ -3,9 +3,6 @@ package com.energy.commoncomponent.view.tempcanvas;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
-/**
- * Created by fengjibo on 2023/6/28.
- */
 public abstract class BaseView {
     protected String mId;
     protected String mLabel; //标记内容

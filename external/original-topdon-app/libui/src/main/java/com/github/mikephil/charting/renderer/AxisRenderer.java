@@ -11,42 +11,19 @@ import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-/**
- * Baseclass of all axis renderers.
- *
- * @author Philipp Jahoda
- */
 public abstract class AxisRenderer extends Renderer {
 
-    /**
-     * base axis this axis renderer works with
-     */
-    protected AxisBase mAxis;
+        protected AxisBase mAxis;
 
-    /**
-     * transformer to transform values to screen pixels and return
-     */
-    protected Transformer mTrans;
+        protected Transformer mTrans;
 
-    /**
-     * paint object for the grid lines
-     */
-    protected Paint mGridPaint;
+        protected Paint mGridPaint;
 
-    /**
-     * paint for the x-label values
-     */
-    protected Paint mAxisLabelPaint;
+        protected Paint mAxisLabelPaint;
 
-    /**
-     * paint for the line surrounding the chart
-     */
-    protected Paint mAxisLinePaint;
+        protected Paint mAxisLinePaint;
 
-    /**
-     * paint used for the limit lines
-     */
-    protected Paint mLimitLinePaint;
+        protected Paint mLimitLinePaint;
 
     public AxisRenderer(ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis) {
         super(viewPortHandler);
@@ -74,51 +51,23 @@ public abstract class AxisRenderer extends Renderer {
         }
     }
 
-    /**
-     * Returns the Paint object used for drawing the axis (labels).
-     *
-     * @return
-     */
-    public Paint getPaintAxisLabels() {
+        public Paint getPaintAxisLabels() {
         return mAxisLabelPaint;
     }
 
-    /**
-     * Returns the Paint object that is used for drawing the grid-lines of the
-     * axis.
-     *
-     * @return
-     */
-    public Paint getPaintGrid() {
+        public Paint getPaintGrid() {
         return mGridPaint;
     }
 
-    /**
-     * Returns the Paint object that is used for drawing the axis-line that goes
-     * alongside the axis.
-     *
-     * @return
-     */
-    public Paint getPaintAxisLine() {
+        public Paint getPaintAxisLine() {
         return mAxisLinePaint;
     }
 
-    /**
-     * Returns the Transformer object used for transforming the axis values.
-     *
-     * @return
-     */
-    public Transformer getTransformer() {
+        public Transformer getTransformer() {
         return mTrans;
     }
 
-    /**
-     * Computes the axis values.
-     *
-     * @param min - the minimum value in the data object for this axis
-     * @param max - the maximum value in the data object for this axis
-     */
-    public void computeAxis(float min, float max, boolean inverted) {
+        public void computeAxis(float min, float max, boolean inverted) {
 
         // calculate the starting and entry point of the y-labels (depending on
         // zoom / contentrect bounds)
@@ -144,12 +93,7 @@ public abstract class AxisRenderer extends Renderer {
         computeAxisValues(min, max);
     }
 
-    /**
-     * Sets up the axis values. Computes the desired number of labels between the two given extremes.
-     *
-     * @return
-     */
-    protected void computeAxisValues(float min, float max) {
+        protected void computeAxisValues(float min, float max) {
 
         float yMin = min;
         float yMax = max;
@@ -260,31 +204,11 @@ public abstract class AxisRenderer extends Renderer {
         }
     }
 
-    /**
-     * Draws the axis labels to the screen.
-     *
-     * @param c
-     */
-    public abstract void renderAxisLabels(Canvas c);
+        public abstract void renderAxisLabels(Canvas c);
 
-    /**
-     * Draws the grid lines belonging to the axis.
-     *
-     * @param c
-     */
-    public abstract void renderGridLines(Canvas c);
+        public abstract void renderGridLines(Canvas c);
 
-    /**
-     * Draws the line that goes alongside the axis.
-     *
-     * @param c
-     */
-    public abstract void renderAxisLine(Canvas c);
+        public abstract void renderAxisLine(Canvas c);
 
-    /**
-     * Draws the LimitLines associated with this axis to the screen.
-     *
-     * @param c
-     */
-    public abstract void renderLimitLines(Canvas c);
+        public abstract void renderLimitLines(Canvas c);
 }

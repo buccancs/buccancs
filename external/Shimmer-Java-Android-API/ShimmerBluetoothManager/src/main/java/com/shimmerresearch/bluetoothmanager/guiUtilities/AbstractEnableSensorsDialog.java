@@ -48,10 +48,7 @@ public abstract class AbstractEnableSensorsDialog {
 
     protected abstract void createCheckBox(String sensorName, boolean state, int count);
 
-    /**
-     * @wbp.parser.entryPoint
-     */
-    public void initialize() {
+        public void initialize() {
 
         createFrame();
         createWriteButton();
@@ -110,13 +107,7 @@ public abstract class AbstractEnableSensorsDialog {
         bluetoothManager.configureShimmer(clone);
     }
 
-    /**
-     * This allows the removal of sensor keys from the list of keys to generate the sensor list
-     *
-     * @param keysToRemove List of keys to be filtered out of the dialog's GUI
-     * @param enableFilter Tells whether to enable the key filter
-     */
-    public void setSensorKeysFilter(List<Integer> keysToRemove, boolean enableFilter) {
+        public void setSensorKeysFilter(List<Integer> keysToRemove, boolean enableFilter) {
         mEnableFilter = enableFilter;
         keysToFilter = keysToRemove;
     }

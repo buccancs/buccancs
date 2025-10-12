@@ -46,14 +46,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * @Description:
- * @Author: brilliantzhao
- * @CreateDate: 2021.12.9 13:45
- * @UpdateUser:
- * @UpdateDate: 2021.12.9 13:45
- * @UpdateRemark:
- */
 public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheckedChangeListener,
         AdapterView.OnItemSelectedListener {
 
@@ -94,12 +86,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     // 要测试的模组类型
     private CommonParams.ProductType productType = CommonParams.ProductType.P2;
     private ArrayAdapter<String> spnProductTypeAdapter;
-    /**
-     * 供测试无设备下温度二次修正接口
-     * 需要首次使用为true,连接模组，读取模组中的测温信息并保存下来
-     * 以后才可以设置为false,即本地已经存储的有模组中的数据，可以使用离线测温
-     */
-    private boolean deviceConnected = true;
+        private boolean deviceConnected = true;
     private String md5PNSNKey; //根据模组的SN信息作为模组信息保存的key参数
     private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
@@ -130,11 +117,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         }
     };
 
-    /**
-     * @param context
-     * @param dismissListener
-     */
-    public PopupOthers(Context context, PopupWindow.OnDismissListener dismissListener) {
+        public PopupOthers(Context context, PopupWindow.OnDismissListener dismissListener) {
         this.mContext = context;
         othersBinding = LayoutOthersBinding.inflate(LayoutInflater.from(context));
         spnProductTypeAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, spnProductTypeArray);
@@ -177,10 +160,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         othersBinding.spnProductType.setOnItemSelectedListener(this);
     }
 
-    /**
-     * @param parent
-     */
-    public void showAsDropDown(View parent) {
+        public void showAsDropDown(View parent) {
         popupWindow.showAsDropDown(parent);
         if (ircmd != null) {
             getImageParam();
@@ -197,10 +177,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         othersBinding.restoreConfig.setSelection(0);
     }
 
-    /**
-     * @param ircmd
-     */
-    public void setIrcmd(IRCMD ircmd) {
+        public void setIrcmd(IRCMD ircmd) {
         this.ircmd = ircmd;
     }
 
@@ -209,12 +186,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         switch (v.getId()) {
             case R.id.btnTempCorrection1: {
                 // Temperature correction step 1
-                /**
-                 * 环境变量校准参数导入测试代码，该方法比较耗时，需要在子线程中执行，且只需要执行一次,
-                 * 和releaseTemperatureCorrection方法成对出现
-                 * @warring 如果是P2模组，则只需要执行step2,tempinfo可以传入0
-                 */
-                if (progressDialog == null) {
+                                if (progressDialog == null) {
                     initProgressDialog();
                 }
                 progressDialog.show();
@@ -242,13 +214,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                     // 当前机芯为低增益
                                     gainStatus = CommonParams.GainStatus.LOW_GAIN;
                                 }
-                                /**
-                                 * 这里需要根据自己的实际镜头尺寸来加载对应的文件
-                                 * 如：91:9.1mm镜头
-                                 *    135:13.5mm镜头
-                                 * @warring 这里的tau表仅为示例，实际项目中请替换成自己的
-                                 */
-                                tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
+                                                                tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
                                 tau_data_L = CommonUtils.getTauData(mContext, "tau/tau_L.bin");
                                 Log.i(TAG, "tau_data_H[" + 1000 + "]=" + tau_data_H[1000] +
                                         " tau_data_L[" + 1000 + "]=" + tau_data_L[1000]);
@@ -305,12 +271,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                         nuc_table_low = FileUtil.toShortArray(nuc_table_low_byte);
                                     }
 
-                                    /**
-                                     * 获取机芯中的环境变量参数
-                                     * 该参数请区分当前测温环境的参数
-                                     * 该部分参数可以获取之后存储在本地，不用每次都获取
-                                     */
-                                    int[] orgEMS = new int[1];
+                                                                        int[] orgEMS = new int[1];
                                     ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_EMS, orgEMS);
                                     int[] orgTAU = new int[1];
                                     ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_TAU, orgTAU);
@@ -320,19 +281,11 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                     ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_TU, orgTU);
 
                                     isGetNucFromFlash = false;
-                                    /**
-                                     * 获取tempinfo
-                                     * 允许不插入模组时使用
-                                     * 其中的数据请获取后进行保存,方便下次直接使用
-                                     */
-                                    tempinfo = IRUtils.getTemperatureCorrectionTempCalInfo(IRCMDType.USB_IR_256_384,
+                                                                        tempinfo = IRUtils.getTemperatureCorrectionTempCalInfo(IRCMDType.USB_IR_256_384,
                                             gainMode, gainStatus, nuc_table_high, nuc_table_low,
                                             orgEMS[0], orgTAU[0], orgTA[0], orgTU[0]);
                                 } else {
-                                    /**
-                                     * 获取机芯中的测温修正数据nuc_table以及tempinfo
-                                     */
-                                    Log.i(TAG, "从机芯里面读取并保存:" + nucHighFileName + "\n" + nucLowFileName);
+                                                                        Log.i(TAG, "从机芯里面读取并保存:" + nucHighFileName + "\n" + nucLowFileName);
                                     if (ircmd != null && !md5PNSNKey.isEmpty() &&
                                             ContextCompat.checkSelfPermission(mContext,
                                                     Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -372,13 +325,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             String nucLowFileName = md5PNSNKey + "_nuc_table_low.bin";
 
                             gainStatus = CommonParams.GainStatus.LOW_GAIN;
-                            /**
-                             * 这里需要根据自己的实际镜头尺寸来加载对应的文件
-                             * 如：91:9.1mm镜头
-                             *    135:13.5mm镜头
-                             * @warring 这里的tau表仅为示例，实际项目中请替换成自己的
-                             */
-                            tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
+                                                        tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
                             tau_data_L = CommonUtils.getTauData(mContext, "tau/tau_L.bin");
                             Log.i(TAG, "tau_data_H[" + 1000 + "]=" + tau_data_H[1000] +
                                     " tau_data_L[" + 1000 + "]=" + tau_data_L[1000]);
@@ -403,12 +350,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             int orgTAU = 128;
                             int orgTA = 300;
                             int orgTU = 300;
-                            /**
-                             * 获取tempinfo
-                             * 允许不插入模组时使用
-                             * 其中的数据请获取后进行保存,方便下次直接使用
-                             */
-                            tempinfo = IRUtils.getTemperatureCorrectionTempCalInfo(IRCMDType.USB_IR_256_384,
+                                                        tempinfo = IRUtils.getTemperatureCorrectionTempCalInfo(IRCMDType.USB_IR_256_384,
                                     gainMode, gainStatus, nuc_table_high, nuc_table_low,
                                     orgEMS, orgTAU, orgTA, orgTU);
 
@@ -423,21 +365,8 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnTempCorrection2: {
-                /**
-                 * 环境变量修正，可以执行多次，对多个温度进行修正
-                 * 环境变量校准之前的温度，单位为摄氏度
-                 * 请事先确认好红外模组的产品类型，例如:是P2模组，ProductType参数请传入CommonParams.ProductType.P2
-                 */
-                /**
-                 * 更新测温二次修正参数
-                 * 增益切换，更改EMS，TAU，Ta，Tu之后需要调用
-                 * 如果没有更改，则无需调用，请参考实际情况
-                 */
-//                tempinfo = ircmd.updateOrgEnvParam(gainStatus, tempinfo);
-                /**
-                 * 为方便调试，概述输入弹框的形式
-                 */
-                TempCalibrationInputDialog tempInputDialog = new TempCalibrationInputDialog(mContext,
+                                //                tempinfo = ircmd.updateOrgEnvParam(gainStatus, tempinfo);
+                                TempCalibrationInputDialog tempInputDialog = new TempCalibrationInputDialog(mContext,
                         mContext.getString(R.string.input_correct_param),
                         "40.0\n1.0\n27.0\n27.0\n0.25\n0.8");
                 tempInputDialog.show();
@@ -463,11 +392,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
             }
             case R.id.btnTempCorrection3: {
                 // Temperature correction step 3
-                /**
-                 * 释放资源，和readNucTableFromFlash方法成对出现，且只需要执行一次
-                 * @warring 如果是P2模组，则只需要执行step2,tempinfo可以传入0
-                 */
-                Log.i(TAG, "releaseTemperatureCorrection-start");
+                                Log.i(TAG, "releaseTemperatureCorrection-start");
                 if (tempinfo != 0) {
                     IRUtils.releaseTemperatureCorrection(IRCMDType.USB_IR_256_384, tempinfo, isGetNucFromFlash);
                 }
@@ -605,13 +530,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnColorPseudocolor: {
-                /**
-                 * 生成自定义伪彩表
-                 * 如：int[][] color1 = new int[][]{{0}, {0, 0, 40}};
-                 *     {0}表示0~255的坐标位置
-                 *     {0, 0, 40}表示该坐标位置上的R,G,B色值
-                 */
-                int[][] color1 = new int[][]{{0}, {0, 0, 40}};
+                                int[][] color1 = new int[][]{{0}, {0, 0, 40}};
                 int[][] color2 = new int[][]{{21}, {138, 20, 150}};
                 int[][] color3 = new int[][]{{42}, {248, 135, 0}};
                 int[][] color4 = new int[][]{{209}, {208, 48, 75}};
@@ -643,21 +562,13 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 // 伪彩表格式转换
                 byte[] pseudoDataByte = new byte[768]; // 伪彩数据,长度固定
                 String path = FileUtil.getSaveFilePath(mContext);
-                /**
-                 * 方式1：从文件中读取
-                 * 使用上一步“生成自定义伪彩表”中生成的伪彩数据
-                 */
-                File file = new File(path + COLOR_DATA);
+                                File file = new File(path + COLOR_DATA);
                 if (file.exists()) {
                     pseudoDataByte = FileUtil.readFile2BytesByStream(mContext, file);
                 } else {
                     Toast.makeText(mContext, "文件不存在", Toast.LENGTH_SHORT).show();
                 }
-                /**
-                 * 方式2：从assets中读取
-                 * 使用提前存储好的伪彩数据
-                 */
-//                AssetManager am = mContext.getAssets();
+                //                AssetManager am = mContext.getAssets();
 //                InputStream is;
 //                try {
 //                    is = am.open("pseudocolor/White_Hot.bin");
@@ -675,10 +586,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 int index0 = 740, index1 = 750; // 用以检验数据的索引位置
                 Log.i(TAG,
                         "pseudoDataByte.lenth = " + pseudoDataByte.length + " " + pseudoDataByte[index0] + " " + pseudoDataByte[index1]);
-                /**
-                 * 格式转换
-                 */
-                // RGB伪彩
+                                // RGB伪彩
                 int[][] pseudoRGBDataInt = CommonUtils.convertRGBPseudocolorData(pseudoDataByte);
                 Log.i(TAG,
                         "pseudoRGBDataInt.lenth = " + pseudoRGBDataInt.length + " " + pseudoRGBDataInt[index0 / 3][index0 % 3] + " " + pseudoRGBDataInt[index1 / 3][index1 % 3]);
@@ -686,10 +594,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 int[][] pseudoYUVDataInt = CommonUtils.convertYUVPseudocolorData(pseudoDataByte);
                 Log.i(TAG,
                         "pseudoYUVDataInt.lenth = " + pseudoYUVDataInt.length + " " + pseudoYUVDataInt[index0 / 3][index0 % 3] + " " + pseudoYUVDataInt[index1 / 3][index1 % 3]);
-                /**
-                 * 数据存储到本地
-                 */
-                // RGB伪彩
+                                // RGB伪彩
 //                String pseudoRGBDataIntStr = Arrays.deepToString(pseudoRGBDataInt); // 系统方法转换
                 String pseudoRGBDataIntStr = JSON.toJSON(pseudoRGBDataInt).toString(); // fastjson方式转换
                 Log.d(TAG, "pseudoRGBDataIntStr : " + pseudoRGBDataIntStr);
@@ -700,10 +605,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 Log.d(TAG, "pseudoYUVDataIntStr : " + pseudoYUVDataIntStr);
                 FileUtil.saveStringToFile(pseudoYUVDataIntStr, path + COLOR_YUV_DATA_INT);
                 Log.d(TAG, "pseudoYUV file path : " + path + COLOR_YUV_DATA_INT);
-                /**
-                 * 从本地读取数组
-                 */
-                // RGB伪彩
+                                // RGB伪彩
                 String pseudoRGBDataIntStr2 = FileUtil.getStringFromFile(path + COLOR_RGB_DATA_INT);
                 Log.d(TAG, "pseudoRGBDataIntStr2 : " + pseudoRGBDataIntStr2);
                 int[][] pseudoRGBDataInt2 = JSON.parseObject(pseudoRGBDataIntStr2, int[][].class);
@@ -873,10 +775,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    /**
-     *
-     */
-    private void getImageParam() {
+        private void getImageParam() {
         int[] mode = new int[1];
         ircmd.getPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH, mode);
         othersBinding.automode.setOnCheckedChangeListener(null);
@@ -954,21 +853,13 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         }
     }
 
-    /**
-     * dismiss the popupwindow
-     */
-    public void dismiss() {
+        public void dismiss() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
     }
 
-    /**
-     * 单点修正过程
-     *
-     * @param params_array
-     */
-    private void tempCorrect(float[] params_array) {
+        private void tempCorrect(float[] params_array) {
         float newTemp = IRUtils.temperatureCorrection(IRCMDType.USB_IR_256_384, productType, params_array[0],
                 tau_data_H, tau_data_L, params_array[1], params_array[2], params_array[3], params_array[4],
                 params_array[5], tempinfo, gainStatus);
@@ -980,10 +871,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         Toast.makeText(mContext, "correct temp is : " + newTemp, Toast.LENGTH_LONG).show();
     }
 
-    /**
-     * 初始化ProgressDialog
-     */
-    private void initProgressDialog() {
+        private void initProgressDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(R.layout.layout_loading);
         builder.setCancelable(true);

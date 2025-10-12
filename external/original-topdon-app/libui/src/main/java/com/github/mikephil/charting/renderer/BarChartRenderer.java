@@ -28,10 +28,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     protected BarDataProvider mChart;
 
-    /**
-     * the rect object that is used for drawing the bars
-     */
-    protected RectF mBarRect = new RectF();
+        protected RectF mBarRect = new RectF();
 
     protected BarBuffer[] mBarBuffers;
 
@@ -495,12 +492,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
         }
     }
 
-    /**
-     * Sets the drawing position of the highlight object based on the riven bar-rect.
-     *
-     * @param high
-     */
-    protected void setHighlightDrawPos(Highlight high, RectF bar) {
+        protected void setHighlightDrawPos(Highlight high, RectF bar) {
         high.setDraw(bar.centerX(), bar.top);
     }
 

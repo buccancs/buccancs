@@ -3,22 +3,6 @@ package com.shimmerresearch.verisense.payloaddesign;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-/******************************************************************************
- *  Compilation:  javac CRC16CCITT.java
- *  Execution:    java CRC16CCITT s
- *  Dependencies: 
- *
- *  Reads in a sequence of bytes and prints out its 16 bit
- *  Cylcic Redundancy Check (CRC-CCIIT 0xFFFF).
- *
- *  1 + x + x^5 + x^12 + x^16 is irreducible polynomial.
- *
- *  % java CRC16-CCITT 123456789
- *  CRC16-CCITT = 29b1
- *
- *  Modified by: Mark Nolan (02/08/2018)
- *
- ******************************************************************************/
 
 public class CRC16CCITT {
 

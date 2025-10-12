@@ -124,10 +124,7 @@ public abstract class Encoder {
         encodeFinishListener = listener;
     }
 
-    /**
-     * Reserved for gif encoder
-     */
-    public void notifyLastFrameAdded() {
+        public void notifyLastFrameAdded() {
         setState(STATE_RECORDING_UNTIL_LAST_FRAME);
     }
 
@@ -147,10 +144,7 @@ public abstract class Encoder {
         return frameDelay;
     }
 
-    /**
-     * delay in ms
-     */
-    public void setFrameDelay(int delay) {
+        public void setFrameDelay(int delay) {
         frameDelay = delay;
     }
 

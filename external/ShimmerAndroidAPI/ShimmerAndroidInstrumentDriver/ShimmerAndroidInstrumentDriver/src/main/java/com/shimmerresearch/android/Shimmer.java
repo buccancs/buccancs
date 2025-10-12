@@ -1841,11 +1841,7 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-    /**
-     * This thread runs during a connection with a remote device.
-     * It handles all incoming and outgoing transmissions.
-     */
-    private class ConnectedThread {
+        private class ConnectedThread {
         private BluetoothSocket mmSocket = null;
 
         private BtSocket mSocket = null;
@@ -1891,16 +1887,8 @@ public class Shimmer extends ShimmerBluetooth {
 
         }
 
-        /**
-         *The received packets are processed here
-         */
 
-        /**
-         * Write to the connected OutStream.
-         *
-         * @param buffer The bytes to write
-         */
-        private void write(byte[] buffer) {
+                private void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
                 Log.d(mClassName, "Command transmitted: " + mMyBluetoothAddress + "; Command Issued: " + mCurrentCommand);

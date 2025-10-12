@@ -7,55 +7,19 @@ import java.util.concurrent.ExecutionException;
 
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 
-/**
- * @author Mark Nolan
- *
- */
 public class ShimmerException extends ExecutionException {
 
     private static final long serialVersionUID = -8040452709544630044L;
-    /**
-     * ERROR_CODES_ID reference list
-     * <p>
-     * 0-999 = MsgDock
-     * 1000+ = ErrorCodesMspBsl
-     * 2000+ = ErrorCodesSerialPort
-     * 3000+ = ErrorCodesDock
-     * 4000+ = DockJobDetails
-     * 5000+ = ErrorCodesSpan
-     * 6000+ = ErrorCodesUpdateCheck
-     * 7000+ = ErrorCodesWiredProtocol
-     * 8000+ = SpanJobDetails
-     * 9000+ = ErrorCodesVideoManager
-     * 10000+ =
-     *
-     */
-    public static HashMap<Integer, String> mMapOfErrorCodes = new HashMap<Integer, String>();
+        public static HashMap<Integer, String> mMapOfErrorCodes = new HashMap<Integer, String>();
     public int mErrorCode;
     public int mErrorCodeLowLevel;
     public String mComPort;
     public String mClassName;
     public String mUniqueID;
-    /**
-     * Used to store additional error info (e.g. file path when copying data)
-     *
-     */
-    public String mMessage = ""; // Currently used for SD copy fail messages
-    /**
-     * Contains the error message as copied from a caught exception.
-     *
-     */
-    public String mExceptionMsg = "";
-    /**
-     * Contains the stracktrace as copied from a caught exception.
-     *
-     */
-    public StackTraceElement[] mExceptionStackTrace;
-    /**
-     * Indicates whether the Exception is critical to the operation underway.
-     *
-     */
-    public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
+        public String mMessage = ""; // Currently used for SD copy fail messages
+        public String mExceptionMsg = "";
+        public StackTraceElement[] mExceptionStackTrace;
+        public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
 
     public ShimmerException() {
         mExceptionStackTrace = UtilShimmer.getCurrentStackTrace();
@@ -80,13 +44,7 @@ public class ShimmerException extends ExecutionException {
         mExceptionStackTrace = UtilShimmer.getCurrentStackTrace();
     }
 
-    /**
-     * Currently used in VideoManager
-     *
-     * @param errorCode
-     * @param message
-     */
-    public ShimmerException(int errorCode, String message) {
+        public ShimmerException(int errorCode, String message) {
         mErrorCode = errorCode;
         mMessage = message;
         mExceptionStackTrace = UtilShimmer.getCurrentStackTrace();

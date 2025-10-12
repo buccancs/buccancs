@@ -908,11 +908,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         None, Disconnected, Connecting, Connected, Streaming, StreamingLoggedData, Limited, SpeedTest
     }
 
-    /**
-     * @author JC
-     * This are the list of ACKs a user can expect from the verisense protocol class when using the radio listener
-     */
-    public class VERISENSE_EVENT_ACK_RECEIVED {
+        public class VERISENSE_EVENT_ACK_RECEIVED {
 
         public static final int VERISENSE_ERASE_FLASH_AND_LOOKUP_ACK = 0xA09;
         public static final int VERISENSE_CLEAR_PENDING_EVENTS_ACK = 0x909;

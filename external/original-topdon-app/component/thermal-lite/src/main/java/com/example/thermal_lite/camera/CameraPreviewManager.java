@@ -339,10 +339,7 @@ public class CameraPreviewManager {
         }
         switch (FRAME_OUT_PUT_FORMAT) {
             case YUYV_IMAGE_OUTPUT:
-                /**
-                 * 图像 YUYV；分辨率 256*192； 每帧数据大小（字节）256*192*2=98304
-                 */
-                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_YUYV;
+                                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_YUYV;
 
                 // 预览画面处理，需要考虑信息行
                 mPreviewWidth = mStreamWidth;
@@ -364,10 +361,7 @@ public class CameraPreviewManager {
 
                 break;
             case YUYV_AND_TEMP_OUTPUT:
-                /**
-                 * 图像 YUYV+信息行+温度Y16；分辨率 256*386； 每帧数据大小（字节）256*192*2+256*2*2+256*192*2=197632
-                 */
-                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_YUYV;
+                                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_YUYV;
 
                 // 预览画面处理，需要考虑信息行
                 if (mShowDoubleImage) {
@@ -395,12 +389,7 @@ public class CameraPreviewManager {
                 mTempRotateData = new byte[mIrARGBLength];
                 break;
             case NV12_IMAGE_OUTPUT:
-                /**
-                 * 图像 NV12
-                 * 分辨率 640*512
-                 * 每帧数据大小（字节）640*512*1.5=491520
-                 */
-                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_NV12;
+                                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_NV12;
 
                 mPreviewWidth = 640;
                 mPreviewHeight = 512;
@@ -415,12 +404,7 @@ public class CameraPreviewManager {
 
                 break;
             case NV12_AND_TEMP_OUTPUT:
-                /**
-                 * 图像 NV12+信息行+温度Y16+Dummy
-                 * 分辨率 640*900
-                 * 每帧数据大小（字节）640*512*1.5+640*2*2+640*512*2+640*2*2=1152000
-                 */
-                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_NV12;
+                                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_NV12;
 
                 mPreviewWidth = 640;
                 mPreviewHeight = 512;
@@ -502,39 +486,21 @@ public class CameraPreviewManager {
         return mPhotoBitmap;
     }
 
-    /**
-     * 获取支持的设备信息列表
-     *
-     * @return
-     */
-    public List<CameraSize> getAllSupportedSize() {
+        public List<CameraSize> getAllSupportedSize() {
         return mIrcamEngine.getUsbSupportInfo();
     }
 
-    /**
-     * 初始化命令交互类，出图交互类
-     */
-    private void initHandleEngine(USBMonitor.UsbControlBlock ctrlBlock, boolean isStartPreview) {
+        private void initHandleEngine(USBMonitor.UsbControlBlock ctrlBlock, boolean isStartPreview) {
         UvcHandleParam uvcHandleParam = new UvcHandleParam();
-        /**
-         * 设置uvccamera出图需要的参数
-         */
-        uvcHandleParam.setCtrlBlock(ctrlBlock);
+                uvcHandleParam.setCtrlBlock(ctrlBlock);
 
         int fps = IrConst.DEFAULT_STREAM_FPS;
-        /**
-         * 调整帧率，必须设备支持才可以，否则会出图失败
-         */
-        uvcHandleParam.setFps(fps);
+                uvcHandleParam.setFps(fps);
 
         float bandwidth = SharedPreferencesUtils.getFloat(Utils.getApp(),
                 IrConst.KEY_DEFAULT_STREAM_BANDWIDTH, IrConst.DEFAULT_STREAM_BANDWIDTH);
 
-        /**
-         * 调整带宽
-         * 部分分辨率或在部分机型上，会出现无法出图，或出图一段时间后卡顿的问题，需要配置对应的带宽
-         */
-        uvcHandleParam.setBandwidth(bandwidth);
+                uvcHandleParam.setBandwidth(bandwidth);
 
         Log.d(TAG, "initHandleEngine UvcHandleParam = " + uvcHandleParam.toString());
 
@@ -550,10 +516,7 @@ public class CameraPreviewManager {
                 .setStreamWidth(mStreamWidth)
                 .setStreamHeight(mStreamHeight)
                 .setDriverType(CommonParams.DriverType.USB)
-                /**
-                 * 设置出图模式
-                 */
-                .setFrameOutputFormat(FRAME_OUT_PUT_FORMAT)
+                                .setFrameOutputFormat(FRAME_OUT_PUT_FORMAT)
                 .setUvcHandleParam(uvcHandleParam)
                 .build();
         Log.d(TAG, "stopPreview onSuccess initHandle : ");
@@ -578,10 +541,7 @@ public class CameraPreviewManager {
         });
     }
 
-    /**
-     * 开始出图
-     */
-    public void startPreview() {
+        public void startPreview() {
         Log.d(TAG, "startPreview");
         if (mIrcamEngine != null) {
             mIrcamEngine.setIrFrameCallback(mIIrFrameCallback);
@@ -597,28 +557,19 @@ public class CameraPreviewManager {
         TempCompensation.getInstance().startTempCompensation();
     }
 
-    /**
-     * 暂停出图
-     */
-    public void pausePreview() {
+        public void pausePreview() {
         if (mIrcamEngine != null) {
             mIrcamEngine.pauseVideoStream();
         }
     }
 
-    /**
-     * 恢复出图
-     */
-    public void resumePreview() {
+        public void resumePreview() {
         if (mIrcamEngine != null) {
             mIrcamEngine.resumeVideoStream();
         }
     }
 
-    /**
-     * 结束出图
-     */
-    public void closePreview() {
+        public void closePreview() {
         if (mIrcamEngine != null) {
             mIrcamEngine.closeVideoStream();
             mIrcamEngine.releaseVideoStream();
@@ -627,10 +578,7 @@ public class CameraPreviewManager {
         }
     }
 
-    /**
-     * 停止出图
-     */
-    public void stopPreview() {
+        public void stopPreview() {
         Log.i(TAG, "stopPreview");
 //        TempCompensation.getInstance().stopTempCompensation();
         if (Const.DEVICE_TYPE == DeviceType.DEVICE_TYPE_WN2640) {
@@ -645,10 +593,7 @@ public class CameraPreviewManager {
         }
     }
 
-    /**
-     * 回收资源
-     */
-    public void releaseSource() {
+        public void releaseSource() {
         mIIrFrameCallback = null;
         mIrARGBData = null;
         mIrData = null;

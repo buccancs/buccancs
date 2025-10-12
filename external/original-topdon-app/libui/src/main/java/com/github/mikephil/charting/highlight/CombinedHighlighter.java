@@ -10,15 +10,9 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 
 import java.util.List;
 
-/**
- * Created by Philipp Jahoda on 12/09/15.
- */
 public class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider> implements IHighlighter {
 
-    /**
-     * bar highlighter for supporting stacked highlighting
-     */
-    protected BarHighlighter barHighlighter;
+        protected BarHighlighter barHighlighter;
 
     public CombinedHighlighter(CombinedDataProvider chart, BarDataProvider barChart) {
         super(chart);

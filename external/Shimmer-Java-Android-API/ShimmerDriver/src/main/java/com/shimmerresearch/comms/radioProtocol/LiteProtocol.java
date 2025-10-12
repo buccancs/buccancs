@@ -2622,10 +2622,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
     } //End TimerTask
 
-    /**
-     * Class used to read perdiocally the shimmer status when LogAndStream FW is installed
-     */
-    public class readStatusTask extends TimerTask {
+        public class readStatusTask extends TimerTask {
 
         @Override
         public void run() {
@@ -2637,11 +2634,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
     }
 
-    /**
-     * @author Lim
-     * Used to check if the connection is alive
-     */
-    private class checkIfAliveTask extends TimerTask {
+        private class checkIfAliveTask extends TimerTask {
 
         @Override
         public void run() {
@@ -2685,10 +2678,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         } //End Run
     } //End TimerTask
 
-    /**
-     * Used to check the current battery status
-     */
-    private class readBattStatusTask extends TimerTask {
+        private class readBattStatusTask extends TimerTask {
         @Override
         public void run() {
             printLogDataForDebugging("Read Batt Task");

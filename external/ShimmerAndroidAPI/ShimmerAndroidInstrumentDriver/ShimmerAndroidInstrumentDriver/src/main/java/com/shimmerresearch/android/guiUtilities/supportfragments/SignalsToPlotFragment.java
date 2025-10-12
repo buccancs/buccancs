@@ -26,9 +26,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SignalsToPlotFragment extends ListFragment {
 
     final static String LOG_TAG = "SignalsToPlotFragment";
@@ -67,12 +64,7 @@ public class SignalsToPlotFragment extends ListFragment {
         return js;
     }
 
-    /**
-     * Display a default message when the fragment is first created
-     *
-     * @param savedInstanceState
-     */
-    @Override
+        @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         listView = getListView();
         super.onActivityCreated(savedInstanceState);

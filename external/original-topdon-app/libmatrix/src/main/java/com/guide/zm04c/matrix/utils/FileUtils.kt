@@ -18,11 +18,6 @@ class FileUtils {
             return file.exists() && file.isFile
         }
 
-        /**
-         * 删除文件夹以及目录下的文件
-         * @param   filePath 被删除目录的文件路径
-         * @return  目录删除成功返回true，否则返回false
-         */
         fun deleteDirectory(filePath: String): Boolean {
             var filePath = filePath
             var flag = false
@@ -99,13 +94,6 @@ class FileUtils {
         fun saveFile(data: ShortArray, filePath: String, isAppend: Boolean) {
             saveFile(BaseDataTypeConvertUtils.convertShortArr2LittleEndianByteArr(data), filePath, isAppend)
         }
-        /**
-         * 保存Bitmap为JPG文件
-         *
-         * @param bmp
-         * @param filePath
-         * @return
-         */
         fun saveBitmap2JpegFile(bmp: Bitmap, filePath: String): Boolean {
             val format = CompressFormat.JPEG
             val quality = 100
@@ -130,13 +118,6 @@ class FileUtils {
             }
             return false
         }
-        /**
-         * 旋转Bitmap
-         *
-         * @param srcBitmap    源Bitmap
-         * @param rotateDegree 旋转角度
-         * @return
-         */
         fun rotateBitmap(srcBitmap: Bitmap, rotateDegree: Float): Bitmap? {
             var dstBitmap: Bitmap? = null
             val matrix = Matrix()

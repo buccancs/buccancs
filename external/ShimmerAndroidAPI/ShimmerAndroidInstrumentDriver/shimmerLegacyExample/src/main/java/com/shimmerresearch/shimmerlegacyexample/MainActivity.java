@@ -180,14 +180,7 @@ public class MainActivity extends AppCompatActivity {
     }
 */
 
-    /**
-     * Gets the selected Bluetooth address from the list of paired Bluetooth devices in ShimmerBluetoothDialog
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {

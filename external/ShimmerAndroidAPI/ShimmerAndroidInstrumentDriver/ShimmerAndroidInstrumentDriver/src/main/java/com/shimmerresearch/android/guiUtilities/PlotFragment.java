@@ -223,10 +223,7 @@ public class PlotFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    /**
-     * Setup the graph
-     */
-    private void initPlot() {
+        private void initPlot() {
         dynamicPlot = (XYPlot) getView().findViewById(R.id.dynamicPlot);
 
         dynamicPlot.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
@@ -292,12 +289,7 @@ public class PlotFragment extends Fragment {
 
     }
 
-    /**
-     * Passes the Shimmer Service to the fragment to set its graph handler
-     *
-     * @param service must be an already running Shimmer Service
-     */
-    public void setShimmerService(ShimmerService service) {
+        public void setShimmerService(ShimmerService service) {
         shimmerService = service;
         shimmerService.setGraphHandler(graphHandler);
         if (shimmerService.mPlotManager == null) {

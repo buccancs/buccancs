@@ -34,14 +34,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-/**
- * @Description: 红外出图核心工具类
- * @Author: brilliantzhao
- * @CreateDate: 2022.2.28 15:36
- * @UpdateUser:
- * @UpdateDate: 2022.2.28 15:36
- * @UpdateRemark:
- */
 public class IRUVCTC {
 
     private static final String TAG = "IRUVC";
@@ -90,14 +82,7 @@ public class IRUVCTC {
     private short[] bt_high = new short[1201];
     private short[] bt_low = new short[1201];
 
-    /**
-     * @param cameraHeight
-     * @param cameraWidth
-     * @param context
-     * @param syncimage
-     * @param dataFlowMode
-     */
-    public IRUVCTC(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
+        public IRUVCTC(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
                    CommonParams.DataFlowMode dataFlowMode, boolean isUseIRISP) {
         this.cameraHeight = cameraHeight;
         this.cameraWidth = cameraWidth;
@@ -158,10 +143,7 @@ public class IRUVCTC {
                 Log.w(TAG, "onCancel");
             }
         });
-        /**
-         * 同时打开防灼烧和自动增益切换后，如果想修改防灼烧和自动增益切换的触发优先级，可以通过修改下面的触发参数实现
-         */
-        // 自动增益切换参数auto gain switch parameter
+                // 自动增益切换参数auto gain switch parameter
         gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
         gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
         gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
@@ -206,13 +188,7 @@ public class IRUVCTC {
                 }
                 if ((dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) || isUseIRISP && (dataFlowMode == CommonParams.DataFlowMode.TEMP_OUTPUT)) {
                     //图像+温度
-                    /**
-                     * copy红外数据到image数组中
-                     * 出图的frame数组中前半部分是红外数据，后半部分是温度数据，
-                     * 例如256*384分辨率的设备，前面的256*192是红外数据，后面的256*192是温度数据，
-                     * 其中的数据是旋转90度的，需要旋转回来。
-                     */
-                    System.arraycopy(frame, 0, imageSrc, 0, length / 2);
+                                        System.arraycopy(frame, 0, imageSrc, 0, length / 2);
                     //=== 画面旋转，温度数据需要跟着旋转
                     LibIRProcess.ImageRes_t imageRes = new LibIRProcess.ImageRes_t();
                     imageRes.height = (char) cameraHeight;
@@ -257,67 +233,37 @@ public class IRUVCTC {
         };
     }
 
-    /**
-     * @param mHandler
-     */
-    public void setHandler(Handler mHandler) {
+        public void setHandler(Handler mHandler) {
         this.mHandler = mHandler;
     }
 
-    /**
-     * @param rotate
-     */
-    public void setRotate(int rotate) {
+        public void setRotate(int rotate) {
         this.rotate = rotate;
     }
 
-    /**
-     * @param image
-     */
-    public void setImageSrc(byte[] image) {
+        public void setImageSrc(byte[] image) {
         this.imageSrc = image;
     }
 
-    /**
-     * @param temperatureSrc
-     */
-    public void setTemperatureSrc(byte[] temperatureSrc) {
+        public void setTemperatureSrc(byte[] temperatureSrc) {
         this.temperatureSrc = temperatureSrc;
     }
 
-    /**
-     * @param frameReady
-     */
-    public void setFrameReady(boolean frameReady) {
+        public void setFrameReady(boolean frameReady) {
         isFrameReady = frameReady;
     }
 
-    /**
-     * 判断是否是红外设备，请把您的设备的PID添加进设备PID白名单
-     *
-     * @param devpid
-     * @return
-     */
-    private boolean isIRpid(int devpid) {
+        private boolean isIRpid(int devpid) {
         for (int x : pids) {
             if (x == devpid) return true;
         }
         return false;
     }
 
-    /**
-     * @param cameraHeight
-     * @param cameraWidth
-     */
-    public void init(int cameraWidth, int cameraHeight) {
+        public void init(int cameraWidth, int cameraHeight) {
         Log.w(TAG, "init");
         // UVCCamera init
-        /**
-         * cameraWidth:256,cameraHeight:384,图像+温度
-         * cameraWidth:256,cameraHeight:192,图像
-         * cameraWidth:256,cameraHeight:192,(调用startY16ModePreview，传入Y16_MODE_TEMPERATURE)温度
-         */
-        ConcreateUVCBuilder concreateUVCBuilder = new ConcreateUVCBuilder();
+                ConcreateUVCBuilder concreateUVCBuilder = new ConcreateUVCBuilder();
         uvcCamera = concreateUVCBuilder
                 .setUVCType(UVCType.USB_UVC)
                 .setOutputWidth(cameraWidth)
@@ -331,42 +277,27 @@ public class IRUVCTC {
                 .build();
     }
 
-    /**
-     * @return
-     */
-    public UVCCamera getUvcCamera() {
+        public UVCCamera getUvcCamera() {
         return uvcCamera;
     }
 
-    /**
-     * @return
-     */
-    public IRCMD getIrcmd() {
+        public IRCMD getIrcmd() {
         return ircmd;
     }
 
-    /**
-     *
-     */
-    public void registerUSB() {
+        public void registerUSB() {
         if (mUSBMonitor != null) {
             mUSBMonitor.register();
         }
     }
 
-    /**
-     *
-     */
-    public void unregisterUSB() {
+        public void unregisterUSB() {
         if (mUSBMonitor != null) {
             mUSBMonitor.unregister();
         }
     }
 
-    /**
-     * @return
-     */
-    public List<UsbDevice> getUsbDeviceList() {
+        public List<UsbDevice> getUsbDeviceList() {
         List<DeviceFilter> deviceFilters = DeviceFilter.getDeviceFilters(mContext, R.xml.device_filter);
         if (mUSBMonitor == null || deviceFilters == null)
 //            throw new NullPointerException("mUSBMonitor ="+mUSBMonitor+"deviceFilters=;"+deviceFilters);
@@ -375,10 +306,7 @@ public class IRUVCTC {
         return mUSBMonitor.getDeviceList(deviceFilters);
     }
 
-    /**
-     * @param index
-     */
-    public void requestPermission(int index) {
+        public void requestPermission(int index) {
         List<UsbDevice> devList = getUsbDeviceList();
         if (devList == null || devList.size() == 0) {
             return;
@@ -391,10 +319,7 @@ public class IRUVCTC {
         }
     }
 
-    /**
-     * @param ctrlBlock
-     */
-    public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock, CommonParams.DataFlowMode dataFlowMode) {
+        public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock, CommonParams.DataFlowMode dataFlowMode) {
         Log.i(TAG, "openUVCCamera");
         if (ctrlBlock.getProductId() == TinyB) {
             if (syncimage != null) {
@@ -411,10 +336,7 @@ public class IRUVCTC {
         uvcCamera.openUVCCamera(ctrlBlock, DEFAULT_PREVIEW_MIN_FPS, DEFAULT_PREVIEW_MAX_FPS);
     }
 
-    /**
-     *
-     */
-    public void startPreview() {
+        public void startPreview() {
         Log.i(TAG, "startPreview");
         if (uvcCamera != null) {
             uvcCamera.setOpenStatus(true);
@@ -429,10 +351,7 @@ public class IRUVCTC {
         }
     }
 
-    /**
-     *
-     */
-    public void stopPreview() {
+        public void stopPreview() {
         Log.i(TAG, "stopPreview");
         if (uvcCamera != null) {
             if (uvcCamera.getOpenStatus()) {
@@ -447,22 +366,14 @@ public class IRUVCTC {
         }
     }
 
-    /**
-     * 使用IRISP算法之后，需要初始化参数传递进去
-     * 里面有耗时操作，需要等待执行完
-     */
-    private void initIRISP() {
+        private void initIRISP() {
         // 获取机芯温度,需要上传到UVC(探测器的温度不会突变，5s上传一次即可)
         ircmd.getCurrentVTemperature(curVtemp);
         // 传递机芯温度给UVC,实现数据流和命令流的分离
         uvcCamera.setCurVTemp(curVtemp[0]);
         Log.i(TAG, "ktbt_init->CurVTemp=" + curVtemp[0]);
 
-        /**
-         * 初始化参数
-         * 应该把高低增益都传递进去，然后根据需要来决定使用高增益还是低增益
-         */
-        uvcCamera.initIRISPModule();
+                uvcCamera.initIRISPModule();
         // 初始化之后可以自定义环境修正参数
         uvcCamera.setEnvCorrectParams(16384, 16384, 300 * 16, 300 * 16);
 
@@ -487,10 +398,7 @@ public class IRUVCTC {
         }
     }
 
-    /**
-     *
-     */
-    public void getIRISPfParamData() {
+        public void getIRISPfParamData() {
         // 是否使用保存下来的数据，方便测试查看效果和验证问题
         boolean isUseSaveData = false;
         //

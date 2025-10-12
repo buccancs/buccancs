@@ -313,24 +313,11 @@ public class SensorTemplate extends AbstractSensor {
 
 
     //--------- Sensor specific methods start --------------
-    /**
-     * 	sensor specific methods in the following order:
-     *
-     * 	 1) methods that do not fall in categories 2-5:
-     * 	 2) calibration related methods
-     * 	 3) set methods
-     * 	 4) "is" methods 								-> get methods that return a boolean)
-     * 	 5) get methods 								-> get methods that do not return a boolean)
-     */
-    //--------- Sensor specific methods end --------------
+        //--------- Sensor specific methods end --------------
 
 
     //--------- Optional methods to override in Sensor Class start --------
-    /**
-     * Used, for example, in SensorLSM303, SensorMPU9X50 and
-     * SensorKionixKXRB52042
-     */
-    //--------- Optional methods to override in Sensor Class end --------
+        //--------- Optional methods to override in Sensor Class end --------
 
 
 }

@@ -52,25 +52,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.documentfile.provider.DocumentFile;
 
-/**
- * This example demonstrates the use of the arrays data structure, {@link ObjectCluster#sensorDataArray}, in the following scenarios:
- * <ul>
- *     <li>Enabling the arrays data structure</li>
- *     <li>Different methods of retrieving signal data from the arrays</li>
- *     <li>Writing the signal data to a CSV file</li>
- * </ul>
- * Note: The arrays data structure is an alternative to the standard Multimap ({@link ObjectCluster#mPropertyCluster}) data structure.
- * Switching to using the arrays can improve packet reception rate on slower Android devices.
- */
 public class MainActivity extends Activity {
     private static final int PERMISSION_FILE_REQUEST_SHIMMER = 99;
     private final static String LOG_TAG = "ArraysExample";
     private final static String CSV_FILE_NAME_PREFIX = "Data";
     private final static String APP_FOLDER_NAME = "ShimmerArraysExample";
-    /**
-     * This can be found in the Manifest
-     */
-    private final static String APP_FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.efficientdataarrayexample.fileprovider";
+        private final static String APP_FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.efficientdataarrayexample.fileprovider";
     private final static int PERMISSIONS_REQUEST_WRITE_STORAGE = 5;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     ShimmerBluetoothManagerAndroid btManager;
@@ -96,10 +83,7 @@ public class MainActivity extends Activity {
 
                         ObjectCluster objc = (ObjectCluster) msg.obj;
 
-                        /**
-                         * ---------- Printing a channel to Logcat ----------
-                         */
-                        //Method 1 - retrieve data from the ObjectCluster using get method
+                                                //Method 1 - retrieve data from the ObjectCluster using get method
                         double data = objc.getFormatClusterValue(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X, ChannelDetails.CHANNEL_TYPE.CAL.toString());
                         Log.i(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
 
@@ -132,10 +116,7 @@ public class MainActivity extends Activity {
                             Log.e(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL + " data: " + data);
                         }
 
-                        /**
-                         * ---------- Writing all channels of CAL data to CSV file ----------
-                         */
-/*
+                        /*
                             if (firstTimeWrite) {
                                 //Write headers on first-time
                                 for (String channelName : objc.sensorDataArray.mSensorNames) {
@@ -177,9 +158,7 @@ public class MainActivity extends Activity {
                     }
                     break;
                 case Shimmer.MESSAGE_TOAST:
-                    /** Toast messages sent from {@link Shimmer} are received here. E.g. device xxxx now streaming.
-                     *  Note that display of these Toast messages is done automatically in the Handler in {@link com.shimmerresearch.android.shimmerService.ShimmerService} */
-                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
                     break;
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
                     ShimmerBluetooth.BT_STATE state = null;
@@ -323,14 +302,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    /**
-     * Get the result from the paired devices dialog
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
@@ -446,14 +418,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    /**
-     * Permission request callback
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
-    @Override
+        @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 110) {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
@@ -471,10 +436,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    /**
-     * Setup CSV writing
-     */
-    private void setupCSV() {
+        private void setupCSV() {
         File dir = new File(APP_DIR_PATH);
         if (!dir.exists()) {
             //Create the directory if it doesn't already exist
@@ -499,12 +461,7 @@ public class MainActivity extends Activity {
 
     }
 
-    /**
-     * Launch the files list activity, which is themed as a dialog in the Android Manifest
-     *
-     * @param v
-     */
-    public void openLogFilesList(View v) {
+        public void openLogFilesList(View v) {
         Intent intent = new Intent(getApplicationContext(), FileListActivity.class);
         intent.putExtra(FileListActivity.INTENT_EXTRA_DIR_PATH, APP_DIR_PATH);
         intent.putExtra(FileListActivity.INTENT_EXTRA_PROVIDER_AUTHORITY, APP_FILE_PROVIDER_AUTHORITY);

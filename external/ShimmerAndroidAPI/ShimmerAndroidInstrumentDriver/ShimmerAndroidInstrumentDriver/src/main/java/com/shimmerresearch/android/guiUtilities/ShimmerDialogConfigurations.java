@@ -813,13 +813,7 @@ public class ShimmerDialogConfigurations {
 
     }
 
-    /**
-     * Combines the strings in an array into a single string
-     *
-     * @param a
-     * @return
-     */
-    public static String joinStrings(String[] a) {
+        public static String joinStrings(String[] a) {
         String js = "";
         for (int i = 0; i < a.length; i++) {
             if (i == 0) {
@@ -845,12 +839,7 @@ public class ShimmerDialogConfigurations {
 
     }
 
-    /**
-     * This displays a dialog populated by the list of Shimmers connected via Shimmer Bluetooth Manager.
-     *
-     * @param
-     */
-    public void buildShimmersConnectedList(final List<ShimmerDevice> deviceList, final Context context,
+        public void buildShimmersConnectedList(final List<ShimmerDevice> deviceList, final Context context,
                                            final ShimmerBluetoothManagerAndroid bluetoothManager) {
         //List<ShimmerDevice> deviceList = btManager.getListOfConnectedDevices();
         CharSequence[] nameList = new CharSequence[deviceList.size()];
@@ -884,14 +873,7 @@ public class ShimmerDialogConfigurations {
         builder.create().show();
     }
 
-    /**
-     * Displays a dialog allowing for selection of either enable sensors or configure device
-     *
-     * @param shimmerDevice
-     * @param context
-     * @param bluetoothManager
-     */
-    public void buildSensorOrConfigOptions(final ShimmerDevice shimmerDevice, final Context context,
+        public void buildSensorOrConfigOptions(final ShimmerDevice shimmerDevice, final Context context,
                                            final ShimmerBluetoothManagerAndroid bluetoothManager) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         CharSequence[] items = new CharSequence[2];
@@ -1022,25 +1004,11 @@ public class ShimmerDialogConfigurations {
 
     }
 
-    /**
-     * Override this method to interact with and customize the AlertDialog Builder
-     *
-     * @param context
-     * @param builder
-     */
-    public void setADBuilderTheme(Context context, AlertDialog.Builder builder, String title) {
+        public void setADBuilderTheme(Context context, AlertDialog.Builder builder, String title) {
         //Insert code to edit and customize the builder here
     }
 
-    /**
-     * Override this method to interact with and customize the Dialog and its buttons
-     *
-     * @param context
-     * @param dialog
-     * @param positiveButton
-     * @param negativeButton
-     */
-    public void setDialogAndButtonsTheme(Context context, AlertDialog dialog, Button positiveButton, Button negativeButton) {
+        public void setDialogAndButtonsTheme(Context context, AlertDialog dialog, Button positiveButton, Button negativeButton) {
         //Insert code to edit and customize the dialog and buttons here
     }
 

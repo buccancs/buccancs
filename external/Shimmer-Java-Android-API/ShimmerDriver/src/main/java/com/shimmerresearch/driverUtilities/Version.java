@@ -6,10 +6,7 @@ public class Version {
     public int mMinor;
     public int mInternal;
 
-    /**
-     * @param version vX.X.X e.g. v2.0.0 or Y.Y.Y e.g. 1.8.0
-     */
-    public Version(String version) {
+        public Version(String version) {
         int[] parsedVersion = parseVersion(version);
         if (parsedVersion != null) {
             mMajor = parsedVersion[0];
@@ -23,11 +20,7 @@ public class Version {
         }
     }
 
-    /**
-     * @param version vX.X.X e.g. v2.0.0 or Y.Y.Y e.g. 1.8.0
-     * @return
-     */
-    public static int[] parseVersion(String version) {
+        public static int[] parseVersion(String version) {
         if (version.startsWith("v")) {
             version = version.substring(1); // Remove the 'v' prefix
         }

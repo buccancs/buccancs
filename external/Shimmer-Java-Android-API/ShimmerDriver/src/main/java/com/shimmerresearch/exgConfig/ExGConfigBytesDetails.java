@@ -182,12 +182,7 @@ public class ExGConfigBytesDetails implements Serializable {
         return byteArray;
     }
 
-    /**
-     * Set the 'Must be' bits listed in the manual
-     *
-     * @param byteArray
-     */
-    public void setExgByteArrayConstants(byte[] byteArray) {
+        public void setExgByteArrayConstants(byte[] byteArray) {
         //CONFIG1:								//0x00
         byteArray[0] &= ~(BIT6 + BIT5 + BIT4 + BIT3);
         //CONFIG2:								//0x80

@@ -50,15 +50,7 @@ class IRImageHelp {
         }
     }
 
-    /**
-     * 自定义伪彩处理，在执行这个方法之前，变更伪彩属性时先通过 上面setColorList进行属性设置
-     * @param imageDst ByteArray ： 图像数据，argb格式
-     * @param temperatureSrc ByteArray ： 温度数据
-     * @param imageWidth Int ：
-     * @param imageHeight Int
-     * @return ByteArray ： 返回处理后的图像数据，argb格式
-     */
-    fun customPseudoColor(
+        fun customPseudoColor(
         imageDst: ByteArray,
         temperatureSrc: ByteArray,
         imageWidth: Int,

@@ -69,10 +69,6 @@ object CalibrationTools {
     fun reset(irCmd: IRCMD) {
         irCmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_ALL)
     }
-    /**
-     * 查询增益模式
-     * @return true: 高增益    false: 低增益
-     */
     fun queryGain(irCmd: IRCMD): Boolean {
         val value = IntArray(1)
         irCmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL, value)

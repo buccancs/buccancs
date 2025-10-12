@@ -705,13 +705,7 @@ public class SensorShimmerClock extends AbstractSensor {
 
     }
 
-    /**
-     * Replaced by simpler approach in ShimmerDevice
-     *
-     * @param intervalMs
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public double calculatePacketReceptionRateCurrent(int intervalMs) {
         double numPacketsShouldHaveReceived = (((double) intervalMs) / 1000) * getSamplingRateShimmer();
 
@@ -748,10 +742,7 @@ public class SensorShimmerClock extends AbstractSensor {
         mCurrentTimeStampCycle = 0;
     }
 
-    /**
-     * @return the mLastReceivedTimeStamp
-     */
-    public double getLastReceivedTimeStampTicksUnwrapped() {
+        public double getLastReceivedTimeStampTicksUnwrapped() {
         return mLastReceivedTimeStampTicksUnwrapped;
     }
 
@@ -759,28 +750,14 @@ public class SensorShimmerClock extends AbstractSensor {
         mLastReceivedTimeStampTicksUnwrapped = lastReceivedTimeStampTicksUnwrapped;
     }
 
-    /**
-     * The initial timestamp is stored in 8 bytes (legacy=5 bytes) in the header
-     * of each SD data file. This is the Shimmer clock value at the point at
-     * which each file is created.
-     *
-     * @return
-     */
-    public long getInitialTimeStampTicksSd() {
+        public long getInitialTimeStampTicksSd() {
         return mInitialTimeStampTicksSd;
     }
 
     //--------- Optional methods to override in Sensor Class start --------
     //--------- Optional methods to override in Sensor Class end --------
 
-    /**
-     * The initial timestamp is stored in 8 bytes (legacy=5 bytes) in the header
-     * of each SD data file. This is the Shimmer clock value at the point at
-     * which each file is created.
-     *
-     * @param initialTimeStamp
-     */
-    public void setInitialTimeStampTicksSd(long initialTimeStamp) {
+        public void setInitialTimeStampTicksSd(long initialTimeStamp) {
         mInitialTimeStampTicksSd = initialTimeStamp;
     }
 

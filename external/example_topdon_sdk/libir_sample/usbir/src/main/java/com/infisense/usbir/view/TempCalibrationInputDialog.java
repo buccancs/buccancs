@@ -11,9 +11,6 @@ import android.widget.Toast;
 
 import com.infisense.usbir.databinding.DialogTempCalibrationInputBinding;
 
-/**
- * Created by fengjibo on 2022/12/19.
- */
 public class TempCalibrationInputDialog extends AlertDialog {
     private Context mContext;
     private DialogTempCalibrationInputBinding mDialogTempCalibrationInputBinding;

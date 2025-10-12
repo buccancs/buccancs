@@ -41,13 +41,6 @@ import android.widget.Toast;
 
 import com.shimmerresearch.shimmer3dexample.R;
 
-/**
- * This Activity appears as a dialog. It lists any paired devices and
- * devices detected in the area after discovery. When a device is chosen
- * by the user, the MAC address of the device is sent back to the parent
- * Activity in the result Intent.
- *
- */
 public class DeviceListActivity extends Activity {
     // Debugging
     private static final String TAG = "DeviceListActivity";
@@ -187,10 +180,7 @@ public class DeviceListActivity extends Activity {
         this.unregisterReceiver(mReceiver);
     }
 
-    /**
-     * Start device discover with the BluetoothAdapter
-     */
-    private void doDiscovery() {
+        private void doDiscovery() {
         if (D) Log.d(TAG, "doDiscovery()");
 
         // Indicate scanning in the title

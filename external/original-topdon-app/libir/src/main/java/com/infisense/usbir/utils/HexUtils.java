@@ -1,16 +1,8 @@
 package com.infisense.usbir.utils;
 
-/**
- * Created by fengjibo on 2022/12/9.
- */
 public class HexUtils {
 
-    /**
-     * 将字节数组转换成十六进制的字符串
-     *
-     * @return
-     */
-    public static String binaryToHexString(byte[] bytes) {
+        public static String binaryToHexString(byte[] bytes) {
         String hexStr = "0123456789ABCDEF";
         String result = "";
         String hex = "";

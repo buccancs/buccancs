@@ -203,18 +203,12 @@ public final class ShimmerLiteProtocolInstructionSet {
             com.google.protobuf.MessageOrBuilder {
     }
 
-    /**
-     * Protobuf type {@code tutorial.LiteProtocolInstructionSet}
-     */
-    public static final class LiteProtocolInstructionSet extends
+        public static final class LiteProtocolInstructionSet extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:tutorial.LiteProtocolInstructionSet)
             LiteProtocolInstructionSetOrBuilder {
         public static final int RESPONSE_SIZE_FIELD_NUMBER = 50003;
-        /**
-         * <code>extend .google.protobuf.EnumValueOptions { ... }</code>
-         */
-        public static final
+                public static final
         com.google.protobuf.GeneratedMessage.GeneratedExtension<
                 com.google.protobuf.DescriptorProtos.EnumValueOptions,
                 java.lang.Integer> responseSize = com.google.protobuf.GeneratedMessage
@@ -476,498 +470,121 @@ public final class ShimmerLiteProtocolInstructionSet {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * <pre>
-         * response_size = -1, this means that the 1st rx byte is the length of the payload
-         * </pre>
-         * <p>
-         * Protobuf enum {@code tutorial.LiteProtocolInstructionSet.InstructionsSet}
-         */
-        public enum InstructionsSet
+                public enum InstructionsSet
                 implements com.google.protobuf.ProtocolMessageEnum {
-            /**
-             * <code>DATA_PACKET = 0;</code>
-             */
-            DATA_PACKET(0),
-            /**
-             * <code>SET_SAMPLING_RATE_COMMAND = 5;</code>
-             */
-            SET_SAMPLING_RATE_COMMAND(5),
-            /**
-             * <code>TOGGLE_LED_COMMAND = 6;</code>
-             */
-            TOGGLE_LED_COMMAND(6),
-            /**
-             * <code>START_STREAMING_COMMAND = 7;</code>
-             */
-            START_STREAMING_COMMAND(7),
-            /**
-             * <code>SET_SENSORS_COMMAND = 8;</code>
-             */
-            SET_SENSORS_COMMAND(8),
-            /**
-             * <code>SET_ACCEL_SENSITIVITY_COMMAND = 9;</code>
-             */
-            SET_ACCEL_SENSITIVITY_COMMAND(9),
-            /**
-             * <pre>
-             * only Shimmer 2
-             * </pre>
-             *
-             * <code>SET_5V_REGULATOR_COMMAND = 12;</code>
-             */
-            SET_5V_REGULATOR_COMMAND(12),
-            /**
-             * <pre>
-             * only Shimmer 2
-             * </pre>
-             *
-             * <code>SET_PMUX_COMMAND = 13;</code>
-             */
-            SET_PMUX_COMMAND(13),
-            /**
-             * <code>SET_CONFIG_BYTE0_COMMAND = 14;</code>
-             */
-            SET_CONFIG_BYTE0_COMMAND(14),
-            /**
-             * <code>STOP_STREAMING_COMMAND = 32;</code>
-             */
-            STOP_STREAMING_COMMAND(32),
-            /**
-             * <code>SET_ACCEL_CALIBRATION_COMMAND = 17;</code>
-             */
-            SET_ACCEL_CALIBRATION_COMMAND(17),
-            /**
-             * <code>SET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND = 26;</code>
-             */
-            SET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND(26),
-            /**
-             * <code>SET_GYRO_CALIBRATION_COMMAND = 20;</code>
-             */
-            SET_GYRO_CALIBRATION_COMMAND(20),
-            /**
-             * <code>SET_MAG_CALIBRATION_COMMAND = 23;</code>
-             */
-            SET_MAG_CALIBRATION_COMMAND(23),
-            /**
-             * <code>SET_GSR_RANGE_COMMAND = 33;</code>
-             */
-            SET_GSR_RANGE_COMMAND(33),
-            /**
-             * <code>SET_EMG_CALIBRATION_COMMAND = 38;</code>
-             */
-            SET_EMG_CALIBRATION_COMMAND(38),
-            /**
-             * <code>SET_ECG_CALIBRATION_COMMAND = 41;</code>
-             */
-            SET_ECG_CALIBRATION_COMMAND(41),
-            /**
-             * <code>SET_BLINK_LED = 48;</code>
-             */
-            SET_BLINK_LED(48),
-            /**
-             * <code>SET_GYRO_TEMP_VREF_COMMAND = 51;</code>
-             */
-            SET_GYRO_TEMP_VREF_COMMAND(51),
-            /**
-             * <code>SET_BUFFER_SIZE_COMMAND = 52;</code>
-             */
-            SET_BUFFER_SIZE_COMMAND(52),
-            /**
-             * <code>SET_MAG_GAIN_COMMAND = 55;</code>
-             */
-            SET_MAG_GAIN_COMMAND(55),
-            /**
-             * <code>SET_MAG_SAMPLING_RATE_COMMAND = 58;</code>
-             */
-            SET_MAG_SAMPLING_RATE_COMMAND(58),
-            /**
-             * <code>SET_ACCEL_SAMPLING_RATE_COMMAND = 64;</code>
-             */
-            SET_ACCEL_SAMPLING_RATE_COMMAND(64),
-            /**
-             * <code>SET_LSM303DLHC_ACCEL_LPMODE_COMMAND = 67;</code>
-             */
-            SET_LSM303DLHC_ACCEL_LPMODE_COMMAND(67),
-            /**
-             * <code>SET_LSM303DLHC_ACCEL_HRMODE_COMMAND = 70;</code>
-             */
-            SET_LSM303DLHC_ACCEL_HRMODE_COMMAND(70),
-            /**
-             * <code>SET_MPU9150_GYRO_RANGE_COMMAND = 73;</code>
-             */
-            SET_MPU9150_GYRO_RANGE_COMMAND(73),
-            /**
-             * <code>SET_MPU9150_SAMPLING_RATE_COMMAND = 76;</code>
-             */
-            SET_MPU9150_SAMPLING_RATE_COMMAND(76),
-            /**
-             * <code>SET_BMP180_PRES_RESOLUTION_COMMAND = 82;</code>
-             */
-            SET_BMP180_PRES_RESOLUTION_COMMAND(82),
-            /**
-             * <code>SET_BMP180_PRES_CALIBRATION_COMMAND = 85;</code>
-             */
-            SET_BMP180_PRES_CALIBRATION_COMMAND(85),
-            /**
-             * <code>RESET_TO_DEFAULT_CONFIGURATION_COMMAND = 90;</code>
-             */
-            RESET_TO_DEFAULT_CONFIGURATION_COMMAND(90),
-            /**
-             * <code>RESET_CALIBRATION_VALUE_COMMAND = 91;</code>
-             */
-            RESET_CALIBRATION_VALUE_COMMAND(91),
-            /**
-             * <code>SET_INTERNAL_EXP_POWER_ENABLE_COMMAND = 94;</code>
-             */
-            SET_INTERNAL_EXP_POWER_ENABLE_COMMAND(94),
-            /**
-             * <code>SET_EXG_REGS_COMMAND = 97;</code>
-             */
-            SET_EXG_REGS_COMMAND(97),
-            /**
-             * <code>SET_BAUD_RATE_COMMAND = 106;</code>
-             */
-            SET_BAUD_RATE_COMMAND(106),
-            /**
-             * <code>SET_DERIVED_CHANNEL_BYTES = 109;</code>
-             */
-            SET_DERIVED_CHANNEL_BYTES(109),
-            /**
-             * <code>START_SDBT_COMMAND = 112;</code>
-             */
-            START_SDBT_COMMAND(112),
-            /**
-             * <code>SET_TRIAL_CONFIG_COMMAND = 115;</code>
-             */
-            SET_TRIAL_CONFIG_COMMAND(115),
-            /**
-             * <code>SET_CENTER_COMMAND = 118;</code>
-             */
-            SET_CENTER_COMMAND(118),
-            /**
-             * <pre>
-             * Shimmer Name
-             * </pre>
-             *
-             * <code>SET_SHIMMERNAME_COMMAND = 121;</code>
-             */
-            SET_SHIMMERNAME_COMMAND(121),
-            /**
-             * <pre>
-             * Experiment Name
-             * </pre>
-             *
-             * <code>SET_EXPID_COMMAND = 124;</code>
-             */
-            SET_EXPID_COMMAND(124),
-            /**
-             * <pre>
-             * Shimmer ID in trial
-             * </pre>
-             *
-             * <code>SET_MYID_COMMAND = 127;</code>
-             */
-            SET_MYID_COMMAND(127),
-            /**
-             * <code>SET_NSHIMMER_COMMAND = 130;</code>
-             */
-            SET_NSHIMMER_COMMAND(130),
-            /**
-             * <code>SET_CONFIGTIME_COMMAND = 133;</code>
-             */
-            SET_CONFIGTIME_COMMAND(133),
-            /**
-             * <code>SET_INFOMEM_COMMAND = 140;</code>
-             */
-            SET_INFOMEM_COMMAND(140),
-            /**
-             * <code>SET_CRC_COMMAND = 139;</code>
-             */
-            SET_CRC_COMMAND(139),
-            /**
-             * <code>SET_RWC_COMMAND = 143;</code>
-             */
-            SET_RWC_COMMAND(143),
-            /**
-             * <code>ROUTINE_COMMUNICATION = 224;</code>
-             */
-            ROUTINE_COMMUNICATION(224),
-            /**
-             * <code>ACK_COMMAND_PROCESSED = 255;</code>
-             */
-            ACK_COMMAND_PROCESSED(255),
-            /**
-             * <code>START_LOGGING_ONLY_COMMAND = 146;</code>
-             */
-            START_LOGGING_ONLY_COMMAND(146),
-            /**
-             * <code>STOP_LOGGING_ONLY_COMMAND = 147;</code>
-             */
-            STOP_LOGGING_ONLY_COMMAND(147),
-            /**
-             * <code>TEST_CONNECTION_COMMAND = 150;</code>
-             */
-            TEST_CONNECTION_COMMAND(150),
-            /**
-             * <code>STOP_SDBT_COMMAND = 151;</code>
-             */
-            STOP_SDBT_COMMAND(151),
-            /**
-             * <code>SET_CALIB_DUMP_COMMAND = 152;</code>
-             */
-            SET_CALIB_DUMP_COMMAND(152),
-            /**
-             * <code>UPD_CONFIG_MEMORY_COMMAND = 155;</code>
-             */
-            UPD_CONFIG_MEMORY_COMMAND(155),
-            /**
-             * <code>SET_I2C_BATT_STATUS_FREQ_COMMAND = 156;</code>
-             */
-            SET_I2C_BATT_STATUS_FREQ_COMMAND(156),
+                        DATA_PACKET(0),
+                        SET_SAMPLING_RATE_COMMAND(5),
+                        TOGGLE_LED_COMMAND(6),
+                        START_STREAMING_COMMAND(7),
+                        SET_SENSORS_COMMAND(8),
+                        SET_ACCEL_SENSITIVITY_COMMAND(9),
+                        SET_5V_REGULATOR_COMMAND(12),
+                        SET_PMUX_COMMAND(13),
+                        SET_CONFIG_BYTE0_COMMAND(14),
+                        STOP_STREAMING_COMMAND(32),
+                        SET_ACCEL_CALIBRATION_COMMAND(17),
+                        SET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND(26),
+                        SET_GYRO_CALIBRATION_COMMAND(20),
+                        SET_MAG_CALIBRATION_COMMAND(23),
+                        SET_GSR_RANGE_COMMAND(33),
+                        SET_EMG_CALIBRATION_COMMAND(38),
+                        SET_ECG_CALIBRATION_COMMAND(41),
+                        SET_BLINK_LED(48),
+                        SET_GYRO_TEMP_VREF_COMMAND(51),
+                        SET_BUFFER_SIZE_COMMAND(52),
+                        SET_MAG_GAIN_COMMAND(55),
+                        SET_MAG_SAMPLING_RATE_COMMAND(58),
+                        SET_ACCEL_SAMPLING_RATE_COMMAND(64),
+                        SET_LSM303DLHC_ACCEL_LPMODE_COMMAND(67),
+                        SET_LSM303DLHC_ACCEL_HRMODE_COMMAND(70),
+                        SET_MPU9150_GYRO_RANGE_COMMAND(73),
+                        SET_MPU9150_SAMPLING_RATE_COMMAND(76),
+                        SET_BMP180_PRES_RESOLUTION_COMMAND(82),
+                        SET_BMP180_PRES_CALIBRATION_COMMAND(85),
+                        RESET_TO_DEFAULT_CONFIGURATION_COMMAND(90),
+                        RESET_CALIBRATION_VALUE_COMMAND(91),
+                        SET_INTERNAL_EXP_POWER_ENABLE_COMMAND(94),
+                        SET_EXG_REGS_COMMAND(97),
+                        SET_BAUD_RATE_COMMAND(106),
+                        SET_DERIVED_CHANNEL_BYTES(109),
+                        START_SDBT_COMMAND(112),
+                        SET_TRIAL_CONFIG_COMMAND(115),
+                        SET_CENTER_COMMAND(118),
+                        SET_SHIMMERNAME_COMMAND(121),
+                        SET_EXPID_COMMAND(124),
+                        SET_MYID_COMMAND(127),
+                        SET_NSHIMMER_COMMAND(130),
+                        SET_CONFIGTIME_COMMAND(133),
+                        SET_INFOMEM_COMMAND(140),
+                        SET_CRC_COMMAND(139),
+                        SET_RWC_COMMAND(143),
+                        ROUTINE_COMMUNICATION(224),
+                        ACK_COMMAND_PROCESSED(255),
+                        START_LOGGING_ONLY_COMMAND(146),
+                        STOP_LOGGING_ONLY_COMMAND(147),
+                        TEST_CONNECTION_COMMAND(150),
+                        STOP_SDBT_COMMAND(151),
+                        SET_CALIB_DUMP_COMMAND(152),
+                        UPD_CONFIG_MEMORY_COMMAND(155),
+                        SET_I2C_BATT_STATUS_FREQ_COMMAND(156),
             UNRECOGNIZED(-1),
             ;
 
-            /**
-             * <code>DATA_PACKET = 0;</code>
-             */
-            public static final int DATA_PACKET_VALUE = 0;
-            /**
-             * <code>SET_SAMPLING_RATE_COMMAND = 5;</code>
-             */
-            public static final int SET_SAMPLING_RATE_COMMAND_VALUE = 5;
-            /**
-             * <code>TOGGLE_LED_COMMAND = 6;</code>
-             */
-            public static final int TOGGLE_LED_COMMAND_VALUE = 6;
-            /**
-             * <code>START_STREAMING_COMMAND = 7;</code>
-             */
-            public static final int START_STREAMING_COMMAND_VALUE = 7;
-            /**
-             * <code>SET_SENSORS_COMMAND = 8;</code>
-             */
-            public static final int SET_SENSORS_COMMAND_VALUE = 8;
-            /**
-             * <code>SET_ACCEL_SENSITIVITY_COMMAND = 9;</code>
-             */
-            public static final int SET_ACCEL_SENSITIVITY_COMMAND_VALUE = 9;
-            /**
-             * <pre>
-             * only Shimmer 2
-             * </pre>
-             *
-             * <code>SET_5V_REGULATOR_COMMAND = 12;</code>
-             */
-            public static final int SET_5V_REGULATOR_COMMAND_VALUE = 12;
-            /**
-             * <pre>
-             * only Shimmer 2
-             * </pre>
-             *
-             * <code>SET_PMUX_COMMAND = 13;</code>
-             */
-            public static final int SET_PMUX_COMMAND_VALUE = 13;
-            /**
-             * <code>SET_CONFIG_BYTE0_COMMAND = 14;</code>
-             */
-            public static final int SET_CONFIG_BYTE0_COMMAND_VALUE = 14;
-            /**
-             * <code>STOP_STREAMING_COMMAND = 32;</code>
-             */
-            public static final int STOP_STREAMING_COMMAND_VALUE = 32;
-            /**
-             * <code>SET_ACCEL_CALIBRATION_COMMAND = 17;</code>
-             */
-            public static final int SET_ACCEL_CALIBRATION_COMMAND_VALUE = 17;
-            /**
-             * <code>SET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND = 26;</code>
-             */
-            public static final int SET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND_VALUE = 26;
-            /**
-             * <code>SET_GYRO_CALIBRATION_COMMAND = 20;</code>
-             */
-            public static final int SET_GYRO_CALIBRATION_COMMAND_VALUE = 20;
-            /**
-             * <code>SET_MAG_CALIBRATION_COMMAND = 23;</code>
-             */
-            public static final int SET_MAG_CALIBRATION_COMMAND_VALUE = 23;
-            /**
-             * <code>SET_GSR_RANGE_COMMAND = 33;</code>
-             */
-            public static final int SET_GSR_RANGE_COMMAND_VALUE = 33;
-            /**
-             * <code>SET_EMG_CALIBRATION_COMMAND = 38;</code>
-             */
-            public static final int SET_EMG_CALIBRATION_COMMAND_VALUE = 38;
-            /**
-             * <code>SET_ECG_CALIBRATION_COMMAND = 41;</code>
-             */
-            public static final int SET_ECG_CALIBRATION_COMMAND_VALUE = 41;
-            /**
-             * <code>SET_BLINK_LED = 48;</code>
-             */
-            public static final int SET_BLINK_LED_VALUE = 48;
-            /**
-             * <code>SET_GYRO_TEMP_VREF_COMMAND = 51;</code>
-             */
-            public static final int SET_GYRO_TEMP_VREF_COMMAND_VALUE = 51;
-            /**
-             * <code>SET_BUFFER_SIZE_COMMAND = 52;</code>
-             */
-            public static final int SET_BUFFER_SIZE_COMMAND_VALUE = 52;
-            /**
-             * <code>SET_MAG_GAIN_COMMAND = 55;</code>
-             */
-            public static final int SET_MAG_GAIN_COMMAND_VALUE = 55;
-            /**
-             * <code>SET_MAG_SAMPLING_RATE_COMMAND = 58;</code>
-             */
-            public static final int SET_MAG_SAMPLING_RATE_COMMAND_VALUE = 58;
-            /**
-             * <code>SET_ACCEL_SAMPLING_RATE_COMMAND = 64;</code>
-             */
-            public static final int SET_ACCEL_SAMPLING_RATE_COMMAND_VALUE = 64;
-            /**
-             * <code>SET_LSM303DLHC_ACCEL_LPMODE_COMMAND = 67;</code>
-             */
-            public static final int SET_LSM303DLHC_ACCEL_LPMODE_COMMAND_VALUE = 67;
-            /**
-             * <code>SET_LSM303DLHC_ACCEL_HRMODE_COMMAND = 70;</code>
-             */
-            public static final int SET_LSM303DLHC_ACCEL_HRMODE_COMMAND_VALUE = 70;
-            /**
-             * <code>SET_MPU9150_GYRO_RANGE_COMMAND = 73;</code>
-             */
-            public static final int SET_MPU9150_GYRO_RANGE_COMMAND_VALUE = 73;
-            /**
-             * <code>SET_MPU9150_SAMPLING_RATE_COMMAND = 76;</code>
-             */
-            public static final int SET_MPU9150_SAMPLING_RATE_COMMAND_VALUE = 76;
-            /**
-             * <code>SET_BMP180_PRES_RESOLUTION_COMMAND = 82;</code>
-             */
-            public static final int SET_BMP180_PRES_RESOLUTION_COMMAND_VALUE = 82;
-            /**
-             * <code>SET_BMP180_PRES_CALIBRATION_COMMAND = 85;</code>
-             */
-            public static final int SET_BMP180_PRES_CALIBRATION_COMMAND_VALUE = 85;
-            /**
-             * <code>RESET_TO_DEFAULT_CONFIGURATION_COMMAND = 90;</code>
-             */
-            public static final int RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE = 90;
-            /**
-             * <code>RESET_CALIBRATION_VALUE_COMMAND = 91;</code>
-             */
-            public static final int RESET_CALIBRATION_VALUE_COMMAND_VALUE = 91;
-            /**
-             * <code>SET_INTERNAL_EXP_POWER_ENABLE_COMMAND = 94;</code>
-             */
-            public static final int SET_INTERNAL_EXP_POWER_ENABLE_COMMAND_VALUE = 94;
-            /**
-             * <code>SET_EXG_REGS_COMMAND = 97;</code>
-             */
-            public static final int SET_EXG_REGS_COMMAND_VALUE = 97;
-            /**
-             * <code>SET_BAUD_RATE_COMMAND = 106;</code>
-             */
-            public static final int SET_BAUD_RATE_COMMAND_VALUE = 106;
-            /**
-             * <code>SET_DERIVED_CHANNEL_BYTES = 109;</code>
-             */
-            public static final int SET_DERIVED_CHANNEL_BYTES_VALUE = 109;
-            /**
-             * <code>START_SDBT_COMMAND = 112;</code>
-             */
-            public static final int START_SDBT_COMMAND_VALUE = 112;
-            /**
-             * <code>SET_TRIAL_CONFIG_COMMAND = 115;</code>
-             */
-            public static final int SET_TRIAL_CONFIG_COMMAND_VALUE = 115;
-            /**
-             * <code>SET_CENTER_COMMAND = 118;</code>
-             */
-            public static final int SET_CENTER_COMMAND_VALUE = 118;
-            /**
-             * <pre>
-             * Shimmer Name
-             * </pre>
-             *
-             * <code>SET_SHIMMERNAME_COMMAND = 121;</code>
-             */
-            public static final int SET_SHIMMERNAME_COMMAND_VALUE = 121;
-            /**
-             * <pre>
-             * Experiment Name
-             * </pre>
-             *
-             * <code>SET_EXPID_COMMAND = 124;</code>
-             */
-            public static final int SET_EXPID_COMMAND_VALUE = 124;
-            /**
-             * <pre>
-             * Shimmer ID in trial
-             * </pre>
-             *
-             * <code>SET_MYID_COMMAND = 127;</code>
-             */
-            public static final int SET_MYID_COMMAND_VALUE = 127;
-            /**
-             * <code>SET_NSHIMMER_COMMAND = 130;</code>
-             */
-            public static final int SET_NSHIMMER_COMMAND_VALUE = 130;
-            /**
-             * <code>SET_CONFIGTIME_COMMAND = 133;</code>
-             */
-            public static final int SET_CONFIGTIME_COMMAND_VALUE = 133;
-            /**
-             * <code>SET_INFOMEM_COMMAND = 140;</code>
-             */
-            public static final int SET_INFOMEM_COMMAND_VALUE = 140;
-            /**
-             * <code>SET_CRC_COMMAND = 139;</code>
-             */
-            public static final int SET_CRC_COMMAND_VALUE = 139;
-            /**
-             * <code>SET_RWC_COMMAND = 143;</code>
-             */
-            public static final int SET_RWC_COMMAND_VALUE = 143;
-            /**
-             * <code>ROUTINE_COMMUNICATION = 224;</code>
-             */
-            public static final int ROUTINE_COMMUNICATION_VALUE = 224;
-            /**
-             * <code>ACK_COMMAND_PROCESSED = 255;</code>
-             */
-            public static final int ACK_COMMAND_PROCESSED_VALUE = 255;
-            /**
-             * <code>START_LOGGING_ONLY_COMMAND = 146;</code>
-             */
-            public static final int START_LOGGING_ONLY_COMMAND_VALUE = 146;
-            /**
-             * <code>STOP_LOGGING_ONLY_COMMAND = 147;</code>
-             */
-            public static final int STOP_LOGGING_ONLY_COMMAND_VALUE = 147;
-            /**
-             * <code>TEST_CONNECTION_COMMAND = 150;</code>
-             */
-            public static final int TEST_CONNECTION_COMMAND_VALUE = 150;
-            /**
-             * <code>STOP_SDBT_COMMAND = 151;</code>
-             */
-            public static final int STOP_SDBT_COMMAND_VALUE = 151;
-            /**
-             * <code>SET_CALIB_DUMP_COMMAND = 152;</code>
-             */
-            public static final int SET_CALIB_DUMP_COMMAND_VALUE = 152;
-            /**
-             * <code>UPD_CONFIG_MEMORY_COMMAND = 155;</code>
-             */
-            public static final int UPD_CONFIG_MEMORY_COMMAND_VALUE = 155;
-            /**
-             * <code>SET_I2C_BATT_STATUS_FREQ_COMMAND = 156;</code>
-             */
-            public static final int SET_I2C_BATT_STATUS_FREQ_COMMAND_VALUE = 156;
+                        public static final int DATA_PACKET_VALUE = 0;
+                        public static final int SET_SAMPLING_RATE_COMMAND_VALUE = 5;
+                        public static final int TOGGLE_LED_COMMAND_VALUE = 6;
+                        public static final int START_STREAMING_COMMAND_VALUE = 7;
+                        public static final int SET_SENSORS_COMMAND_VALUE = 8;
+                        public static final int SET_ACCEL_SENSITIVITY_COMMAND_VALUE = 9;
+                        public static final int SET_5V_REGULATOR_COMMAND_VALUE = 12;
+                        public static final int SET_PMUX_COMMAND_VALUE = 13;
+                        public static final int SET_CONFIG_BYTE0_COMMAND_VALUE = 14;
+                        public static final int STOP_STREAMING_COMMAND_VALUE = 32;
+                        public static final int SET_ACCEL_CALIBRATION_COMMAND_VALUE = 17;
+                        public static final int SET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND_VALUE = 26;
+                        public static final int SET_GYRO_CALIBRATION_COMMAND_VALUE = 20;
+                        public static final int SET_MAG_CALIBRATION_COMMAND_VALUE = 23;
+                        public static final int SET_GSR_RANGE_COMMAND_VALUE = 33;
+                        public static final int SET_EMG_CALIBRATION_COMMAND_VALUE = 38;
+                        public static final int SET_ECG_CALIBRATION_COMMAND_VALUE = 41;
+                        public static final int SET_BLINK_LED_VALUE = 48;
+                        public static final int SET_GYRO_TEMP_VREF_COMMAND_VALUE = 51;
+                        public static final int SET_BUFFER_SIZE_COMMAND_VALUE = 52;
+                        public static final int SET_MAG_GAIN_COMMAND_VALUE = 55;
+                        public static final int SET_MAG_SAMPLING_RATE_COMMAND_VALUE = 58;
+                        public static final int SET_ACCEL_SAMPLING_RATE_COMMAND_VALUE = 64;
+                        public static final int SET_LSM303DLHC_ACCEL_LPMODE_COMMAND_VALUE = 67;
+                        public static final int SET_LSM303DLHC_ACCEL_HRMODE_COMMAND_VALUE = 70;
+                        public static final int SET_MPU9150_GYRO_RANGE_COMMAND_VALUE = 73;
+                        public static final int SET_MPU9150_SAMPLING_RATE_COMMAND_VALUE = 76;
+                        public static final int SET_BMP180_PRES_RESOLUTION_COMMAND_VALUE = 82;
+                        public static final int SET_BMP180_PRES_CALIBRATION_COMMAND_VALUE = 85;
+                        public static final int RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE = 90;
+                        public static final int RESET_CALIBRATION_VALUE_COMMAND_VALUE = 91;
+                        public static final int SET_INTERNAL_EXP_POWER_ENABLE_COMMAND_VALUE = 94;
+                        public static final int SET_EXG_REGS_COMMAND_VALUE = 97;
+                        public static final int SET_BAUD_RATE_COMMAND_VALUE = 106;
+                        public static final int SET_DERIVED_CHANNEL_BYTES_VALUE = 109;
+                        public static final int START_SDBT_COMMAND_VALUE = 112;
+                        public static final int SET_TRIAL_CONFIG_COMMAND_VALUE = 115;
+                        public static final int SET_CENTER_COMMAND_VALUE = 118;
+                        public static final int SET_SHIMMERNAME_COMMAND_VALUE = 121;
+                        public static final int SET_EXPID_COMMAND_VALUE = 124;
+                        public static final int SET_MYID_COMMAND_VALUE = 127;
+                        public static final int SET_NSHIMMER_COMMAND_VALUE = 130;
+                        public static final int SET_CONFIGTIME_COMMAND_VALUE = 133;
+                        public static final int SET_INFOMEM_COMMAND_VALUE = 140;
+                        public static final int SET_CRC_COMMAND_VALUE = 139;
+                        public static final int SET_RWC_COMMAND_VALUE = 143;
+                        public static final int ROUTINE_COMMUNICATION_VALUE = 224;
+                        public static final int ACK_COMMAND_PROCESSED_VALUE = 255;
+                        public static final int START_LOGGING_ONLY_COMMAND_VALUE = 146;
+                        public static final int STOP_LOGGING_ONLY_COMMAND_VALUE = 147;
+                        public static final int TEST_CONNECTION_COMMAND_VALUE = 150;
+                        public static final int STOP_SDBT_COMMAND_VALUE = 151;
+                        public static final int SET_CALIB_DUMP_COMMAND_VALUE = 152;
+                        public static final int UPD_CONFIG_MEMORY_COMMAND_VALUE = 155;
+                        public static final int SET_I2C_BATT_STATUS_FREQ_COMMAND_VALUE = 156;
             private static final com.google.protobuf.Internal.EnumLiteMap<
                     InstructionsSet> internalValueMap =
                     new com.google.protobuf.Internal.EnumLiteMap<InstructionsSet>() {
@@ -982,10 +599,7 @@ public final class ShimmerLiteProtocolInstructionSet {
                 this.value = value;
             }
 
-            /**
-             * @deprecated Use {@link #forNumber(int)} instead.
-             */
-            @java.lang.Deprecated
+                        @java.lang.Deprecated
             public static InstructionsSet valueOf(int value) {
                 return forNumber(value);
             }
@@ -1150,430 +764,111 @@ public final class ShimmerLiteProtocolInstructionSet {
             // @@protoc_insertion_point(enum_scope:tutorial.LiteProtocolInstructionSet.InstructionsSet)
         }
 
-        /**
-         * Protobuf enum {@code tutorial.LiteProtocolInstructionSet.InstructionsGet}
-         */
-        public enum InstructionsGet
+                public enum InstructionsGet
                 implements com.google.protobuf.ProtocolMessageEnum {
-            /**
-             * <pre>
-             * protobuf requirement to have a 0
-             * </pre>
-             *
-             * <code>NOT_USED_GET = 0;</code>
-             */
-            NOT_USED_GET(0),
-            /**
-             * <code>INQUIRY_COMMAND = 1;</code>
-             */
-            INQUIRY_COMMAND(1),
-            /**
-             * <code>GET_SAMPLING_RATE_COMMAND = 3;</code>
-             */
-            GET_SAMPLING_RATE_COMMAND(3),
-            /**
-             * <code>GET_ACCEL_SENSITIVITY_COMMAND = 11;</code>
-             */
-            GET_ACCEL_SENSITIVITY_COMMAND(11),
-            /**
-             * <code>GET_CONFIG_BYTE0_COMMAND = 16;</code>
-             */
-            GET_CONFIG_BYTE0_COMMAND(16),
-            /**
-             * <code>GET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND = 28;</code>
-             */
-            GET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND(28),
-            /**
-             * <code>GET_ACCEL_CALIBRATION_COMMAND = 19;</code>
-             */
-            GET_ACCEL_CALIBRATION_COMMAND(19),
-            /**
-             * <code>GET_GYRO_CALIBRATION_COMMAND = 22;</code>
-             */
-            GET_GYRO_CALIBRATION_COMMAND(22),
-            /**
-             * <code>GET_MAG_CALIBRATION_COMMAND = 25;</code>
-             */
-            GET_MAG_CALIBRATION_COMMAND(25),
-            /**
-             * <code>GET_GSR_RANGE_COMMAND = 35;</code>
-             */
-            GET_GSR_RANGE_COMMAND(35),
-            /**
-             * <code>GET_SHIMMER_VERSION_COMMAND = 36;</code>
-             */
-            GET_SHIMMER_VERSION_COMMAND(36),
-            /**
-             * <pre>
-             * this is to avoid the $ char which is used by rn42
-             * </pre>
-             *
-             * <code>GET_SHIMMER_VERSION_COMMAND_NEW = 63;</code>
-             */
-            GET_SHIMMER_VERSION_COMMAND_NEW(63),
-            /**
-             * <code>GET_EMG_CALIBRATION_COMMAND = 40;</code>
-             */
-            GET_EMG_CALIBRATION_COMMAND(40),
-            /**
-             * <code>GET_ECG_CALIBRATION_COMMAND = 43;</code>
-             */
-            GET_ECG_CALIBRATION_COMMAND(43),
-            /**
-             * <code>GET_ALL_CALIBRATION_COMMAND = 44;</code>
-             */
-            GET_ALL_CALIBRATION_COMMAND(44),
-            /**
-             * <code>GET_FW_VERSION_COMMAND = 46;</code>
-             */
-            GET_FW_VERSION_COMMAND(46),
-            /**
-             * <code>GET_BLINK_LED = 50;</code>
-             */
-            GET_BLINK_LED(50),
-            /**
-             * <code>GET_BUFFER_SIZE_COMMAND = 54;</code>
-             */
-            GET_BUFFER_SIZE_COMMAND(54),
-            /**
-             * <code>GET_MAG_GAIN_COMMAND = 57;</code>
-             */
-            GET_MAG_GAIN_COMMAND(57),
-            /**
-             * <code>GET_MAG_SAMPLING_RATE_COMMAND = 60;</code>
-             */
-            GET_MAG_SAMPLING_RATE_COMMAND(60),
-            /**
-             * <code>GET_UNIQUE_SERIAL_COMMAND = 62;</code>
-             */
-            GET_UNIQUE_SERIAL_COMMAND(62),
-            /**
-             * <code>GET_ACCEL_SAMPLING_RATE_COMMAND = 66;</code>
-             */
-            GET_ACCEL_SAMPLING_RATE_COMMAND(66),
-            /**
-             * <code>GET_LSM303DLHC_ACCEL_LPMODE_COMMAND = 69;</code>
-             */
-            GET_LSM303DLHC_ACCEL_LPMODE_COMMAND(69),
-            /**
-             * <code>GET_LSM303DLHC_ACCEL_HRMODE_COMMAND = 72;</code>
-             */
-            GET_LSM303DLHC_ACCEL_HRMODE_COMMAND(72),
-            /**
-             * <code>GET_MPU9150_GYRO_RANGE_COMMAND = 75;</code>
-             */
-            GET_MPU9150_GYRO_RANGE_COMMAND(75),
-            /**
-             * <code>GET_MPU9150_SAMPLING_RATE_COMMAND = 78;</code>
-             */
-            GET_MPU9150_SAMPLING_RATE_COMMAND(78),
-            /**
-             * <code>GET_BMP180_PRES_RESOLUTION_COMMAND = 84;</code>
-             */
-            GET_BMP180_PRES_RESOLUTION_COMMAND(84),
-            /**
-             * <code>GET_BMP180_PRES_CALIBRATION_COMMAND = 87;</code>
-             */
-            GET_BMP180_PRES_CALIBRATION_COMMAND(87),
-            /**
-             * <code>GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND = 89;</code>
-             */
-            GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND(89),
-            /**
-             * <code>GET_MPU9150_MAG_SENS_ADJ_VALS_COMMAND = 93;</code>
-             */
-            GET_MPU9150_MAG_SENS_ADJ_VALS_COMMAND(93),
-            /**
-             * <code>GET_INTERNAL_EXP_POWER_ENABLE_COMMAND = 96;</code>
-             */
-            GET_INTERNAL_EXP_POWER_ENABLE_COMMAND(96),
-            /**
-             * <code>GET_EXG_REGS_COMMAND = 99;</code>
-             */
-            GET_EXG_REGS_COMMAND(99),
-            /**
-             * <code>GET_DAUGHTER_CARD_ID_COMMAND = 102;</code>
-             */
-            GET_DAUGHTER_CARD_ID_COMMAND(102),
-            /**
-             * <code>GET_BAUD_RATE_COMMAND = 108;</code>
-             */
-            GET_BAUD_RATE_COMMAND(108),
-            /**
-             * <code>GET_DERIVED_CHANNEL_BYTES = 111;</code>
-             */
-            GET_DERIVED_CHANNEL_BYTES(111),
-            /**
-             * <code>GET_STATUS_COMMAND = 114;</code>
-             */
-            GET_STATUS_COMMAND(114),
-            /**
-             * <code>GET_TRIAL_CONFIG_COMMAND = 117;</code>
-             */
-            GET_TRIAL_CONFIG_COMMAND(117),
-            /**
-             * <code>GET_CENTER_COMMAND = 120;</code>
-             */
-            GET_CENTER_COMMAND(120),
-            /**
-             * <code>GET_SHIMMERNAME_COMMAND = 123;</code>
-             */
-            GET_SHIMMERNAME_COMMAND(123),
-            /**
-             * <code>GET_EXPID_COMMAND = 126;</code>
-             */
-            GET_EXPID_COMMAND(126),
-            /**
-             * <code>GET_MYID_COMMAND = 129;</code>
-             */
-            GET_MYID_COMMAND(129),
-            /**
-             * <code>GET_NSHIMMER_COMMAND = 132;</code>
-             */
-            GET_NSHIMMER_COMMAND(132),
-            /**
-             * <code>GET_CONFIGTIME_COMMAND = 135;</code>
-             */
-            GET_CONFIGTIME_COMMAND(135),
-            /**
-             * <code>GET_DIR_COMMAND = 137;</code>
-             */
-            GET_DIR_COMMAND(137),
-            /**
-             * <code>GET_INFOMEM_COMMAND = 142;</code>
-             */
-            GET_INFOMEM_COMMAND(142),
-            /**
-             * <code>GET_RWC_COMMAND = 145;</code>
-             */
-            GET_RWC_COMMAND(145),
-            /**
-             * <code>GET_VBATT_COMMAND = 149;</code>
-             */
-            GET_VBATT_COMMAND(149),
-            /**
-             * <code>GET_CALIB_DUMP_COMMAND = 154;</code>
-             */
-            GET_CALIB_DUMP_COMMAND(154),
-            /**
-             * <code>GET_I2C_BATT_STATUS_COMMAND = 158;</code>
-             */
-            GET_I2C_BATT_STATUS_COMMAND(158),
-            /**
-             * <code>GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND = 160;</code>
-             */
-            GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND(160),
+                        NOT_USED_GET(0),
+                        INQUIRY_COMMAND(1),
+                        GET_SAMPLING_RATE_COMMAND(3),
+                        GET_ACCEL_SENSITIVITY_COMMAND(11),
+                        GET_CONFIG_BYTE0_COMMAND(16),
+                        GET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND(28),
+                        GET_ACCEL_CALIBRATION_COMMAND(19),
+                        GET_GYRO_CALIBRATION_COMMAND(22),
+                        GET_MAG_CALIBRATION_COMMAND(25),
+                        GET_GSR_RANGE_COMMAND(35),
+                        GET_SHIMMER_VERSION_COMMAND(36),
+                        GET_SHIMMER_VERSION_COMMAND_NEW(63),
+                        GET_EMG_CALIBRATION_COMMAND(40),
+                        GET_ECG_CALIBRATION_COMMAND(43),
+                        GET_ALL_CALIBRATION_COMMAND(44),
+                        GET_FW_VERSION_COMMAND(46),
+                        GET_BLINK_LED(50),
+                        GET_BUFFER_SIZE_COMMAND(54),
+                        GET_MAG_GAIN_COMMAND(57),
+                        GET_MAG_SAMPLING_RATE_COMMAND(60),
+                        GET_UNIQUE_SERIAL_COMMAND(62),
+                        GET_ACCEL_SAMPLING_RATE_COMMAND(66),
+                        GET_LSM303DLHC_ACCEL_LPMODE_COMMAND(69),
+                        GET_LSM303DLHC_ACCEL_HRMODE_COMMAND(72),
+                        GET_MPU9150_GYRO_RANGE_COMMAND(75),
+                        GET_MPU9150_SAMPLING_RATE_COMMAND(78),
+                        GET_BMP180_PRES_RESOLUTION_COMMAND(84),
+                        GET_BMP180_PRES_CALIBRATION_COMMAND(87),
+                        GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND(89),
+                        GET_MPU9150_MAG_SENS_ADJ_VALS_COMMAND(93),
+                        GET_INTERNAL_EXP_POWER_ENABLE_COMMAND(96),
+                        GET_EXG_REGS_COMMAND(99),
+                        GET_DAUGHTER_CARD_ID_COMMAND(102),
+                        GET_BAUD_RATE_COMMAND(108),
+                        GET_DERIVED_CHANNEL_BYTES(111),
+                        GET_STATUS_COMMAND(114),
+                        GET_TRIAL_CONFIG_COMMAND(117),
+                        GET_CENTER_COMMAND(120),
+                        GET_SHIMMERNAME_COMMAND(123),
+                        GET_EXPID_COMMAND(126),
+                        GET_MYID_COMMAND(129),
+                        GET_NSHIMMER_COMMAND(132),
+                        GET_CONFIGTIME_COMMAND(135),
+                        GET_DIR_COMMAND(137),
+                        GET_INFOMEM_COMMAND(142),
+                        GET_RWC_COMMAND(145),
+                        GET_VBATT_COMMAND(149),
+                        GET_CALIB_DUMP_COMMAND(154),
+                        GET_I2C_BATT_STATUS_COMMAND(158),
+                        GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND(160),
             UNRECOGNIZED(-1),
             ;
 
-            /**
-             * <pre>
-             * protobuf requirement to have a 0
-             * </pre>
-             *
-             * <code>NOT_USED_GET = 0;</code>
-             */
-            public static final int NOT_USED_GET_VALUE = 0;
-            /**
-             * <code>INQUIRY_COMMAND = 1;</code>
-             */
-            public static final int INQUIRY_COMMAND_VALUE = 1;
-            /**
-             * <code>GET_SAMPLING_RATE_COMMAND = 3;</code>
-             */
-            public static final int GET_SAMPLING_RATE_COMMAND_VALUE = 3;
-            /**
-             * <code>GET_ACCEL_SENSITIVITY_COMMAND = 11;</code>
-             */
-            public static final int GET_ACCEL_SENSITIVITY_COMMAND_VALUE = 11;
-            /**
-             * <code>GET_CONFIG_BYTE0_COMMAND = 16;</code>
-             */
-            public static final int GET_CONFIG_BYTE0_COMMAND_VALUE = 16;
-            /**
-             * <code>GET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND = 28;</code>
-             */
-            public static final int GET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND_VALUE = 28;
-            /**
-             * <code>GET_ACCEL_CALIBRATION_COMMAND = 19;</code>
-             */
-            public static final int GET_ACCEL_CALIBRATION_COMMAND_VALUE = 19;
-            /**
-             * <code>GET_GYRO_CALIBRATION_COMMAND = 22;</code>
-             */
-            public static final int GET_GYRO_CALIBRATION_COMMAND_VALUE = 22;
-            /**
-             * <code>GET_MAG_CALIBRATION_COMMAND = 25;</code>
-             */
-            public static final int GET_MAG_CALIBRATION_COMMAND_VALUE = 25;
-            /**
-             * <code>GET_GSR_RANGE_COMMAND = 35;</code>
-             */
-            public static final int GET_GSR_RANGE_COMMAND_VALUE = 35;
-            /**
-             * <code>GET_SHIMMER_VERSION_COMMAND = 36;</code>
-             */
-            public static final int GET_SHIMMER_VERSION_COMMAND_VALUE = 36;
-            /**
-             * <pre>
-             * this is to avoid the $ char which is used by rn42
-             * </pre>
-             *
-             * <code>GET_SHIMMER_VERSION_COMMAND_NEW = 63;</code>
-             */
-            public static final int GET_SHIMMER_VERSION_COMMAND_NEW_VALUE = 63;
-            /**
-             * <code>GET_EMG_CALIBRATION_COMMAND = 40;</code>
-             */
-            public static final int GET_EMG_CALIBRATION_COMMAND_VALUE = 40;
-            /**
-             * <code>GET_ECG_CALIBRATION_COMMAND = 43;</code>
-             */
-            public static final int GET_ECG_CALIBRATION_COMMAND_VALUE = 43;
-            /**
-             * <code>GET_ALL_CALIBRATION_COMMAND = 44;</code>
-             */
-            public static final int GET_ALL_CALIBRATION_COMMAND_VALUE = 44;
-            /**
-             * <code>GET_FW_VERSION_COMMAND = 46;</code>
-             */
-            public static final int GET_FW_VERSION_COMMAND_VALUE = 46;
-            /**
-             * <code>GET_BLINK_LED = 50;</code>
-             */
-            public static final int GET_BLINK_LED_VALUE = 50;
-            /**
-             * <code>GET_BUFFER_SIZE_COMMAND = 54;</code>
-             */
-            public static final int GET_BUFFER_SIZE_COMMAND_VALUE = 54;
-            /**
-             * <code>GET_MAG_GAIN_COMMAND = 57;</code>
-             */
-            public static final int GET_MAG_GAIN_COMMAND_VALUE = 57;
-            /**
-             * <code>GET_MAG_SAMPLING_RATE_COMMAND = 60;</code>
-             */
-            public static final int GET_MAG_SAMPLING_RATE_COMMAND_VALUE = 60;
-            /**
-             * <code>GET_UNIQUE_SERIAL_COMMAND = 62;</code>
-             */
-            public static final int GET_UNIQUE_SERIAL_COMMAND_VALUE = 62;
-            /**
-             * <code>GET_ACCEL_SAMPLING_RATE_COMMAND = 66;</code>
-             */
-            public static final int GET_ACCEL_SAMPLING_RATE_COMMAND_VALUE = 66;
-            /**
-             * <code>GET_LSM303DLHC_ACCEL_LPMODE_COMMAND = 69;</code>
-             */
-            public static final int GET_LSM303DLHC_ACCEL_LPMODE_COMMAND_VALUE = 69;
-            /**
-             * <code>GET_LSM303DLHC_ACCEL_HRMODE_COMMAND = 72;</code>
-             */
-            public static final int GET_LSM303DLHC_ACCEL_HRMODE_COMMAND_VALUE = 72;
-            /**
-             * <code>GET_MPU9150_GYRO_RANGE_COMMAND = 75;</code>
-             */
-            public static final int GET_MPU9150_GYRO_RANGE_COMMAND_VALUE = 75;
-            /**
-             * <code>GET_MPU9150_SAMPLING_RATE_COMMAND = 78;</code>
-             */
-            public static final int GET_MPU9150_SAMPLING_RATE_COMMAND_VALUE = 78;
-            /**
-             * <code>GET_BMP180_PRES_RESOLUTION_COMMAND = 84;</code>
-             */
-            public static final int GET_BMP180_PRES_RESOLUTION_COMMAND_VALUE = 84;
-            /**
-             * <code>GET_BMP180_PRES_CALIBRATION_COMMAND = 87;</code>
-             */
-            public static final int GET_BMP180_PRES_CALIBRATION_COMMAND_VALUE = 87;
-            /**
-             * <code>GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND = 89;</code>
-             */
-            public static final int GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND_VALUE = 89;
-            /**
-             * <code>GET_MPU9150_MAG_SENS_ADJ_VALS_COMMAND = 93;</code>
-             */
-            public static final int GET_MPU9150_MAG_SENS_ADJ_VALS_COMMAND_VALUE = 93;
-            /**
-             * <code>GET_INTERNAL_EXP_POWER_ENABLE_COMMAND = 96;</code>
-             */
-            public static final int GET_INTERNAL_EXP_POWER_ENABLE_COMMAND_VALUE = 96;
-            /**
-             * <code>GET_EXG_REGS_COMMAND = 99;</code>
-             */
-            public static final int GET_EXG_REGS_COMMAND_VALUE = 99;
-            /**
-             * <code>GET_DAUGHTER_CARD_ID_COMMAND = 102;</code>
-             */
-            public static final int GET_DAUGHTER_CARD_ID_COMMAND_VALUE = 102;
-            /**
-             * <code>GET_BAUD_RATE_COMMAND = 108;</code>
-             */
-            public static final int GET_BAUD_RATE_COMMAND_VALUE = 108;
-            /**
-             * <code>GET_DERIVED_CHANNEL_BYTES = 111;</code>
-             */
-            public static final int GET_DERIVED_CHANNEL_BYTES_VALUE = 111;
-            /**
-             * <code>GET_STATUS_COMMAND = 114;</code>
-             */
-            public static final int GET_STATUS_COMMAND_VALUE = 114;
-            /**
-             * <code>GET_TRIAL_CONFIG_COMMAND = 117;</code>
-             */
-            public static final int GET_TRIAL_CONFIG_COMMAND_VALUE = 117;
-            /**
-             * <code>GET_CENTER_COMMAND = 120;</code>
-             */
-            public static final int GET_CENTER_COMMAND_VALUE = 120;
-            /**
-             * <code>GET_SHIMMERNAME_COMMAND = 123;</code>
-             */
-            public static final int GET_SHIMMERNAME_COMMAND_VALUE = 123;
-            /**
-             * <code>GET_EXPID_COMMAND = 126;</code>
-             */
-            public static final int GET_EXPID_COMMAND_VALUE = 126;
-            /**
-             * <code>GET_MYID_COMMAND = 129;</code>
-             */
-            public static final int GET_MYID_COMMAND_VALUE = 129;
-            /**
-             * <code>GET_NSHIMMER_COMMAND = 132;</code>
-             */
-            public static final int GET_NSHIMMER_COMMAND_VALUE = 132;
-            /**
-             * <code>GET_CONFIGTIME_COMMAND = 135;</code>
-             */
-            public static final int GET_CONFIGTIME_COMMAND_VALUE = 135;
-            /**
-             * <code>GET_DIR_COMMAND = 137;</code>
-             */
-            public static final int GET_DIR_COMMAND_VALUE = 137;
-            /**
-             * <code>GET_INFOMEM_COMMAND = 142;</code>
-             */
-            public static final int GET_INFOMEM_COMMAND_VALUE = 142;
-            /**
-             * <code>GET_RWC_COMMAND = 145;</code>
-             */
-            public static final int GET_RWC_COMMAND_VALUE = 145;
-            /**
-             * <code>GET_VBATT_COMMAND = 149;</code>
-             */
-            public static final int GET_VBATT_COMMAND_VALUE = 149;
-            /**
-             * <code>GET_CALIB_DUMP_COMMAND = 154;</code>
-             */
-            public static final int GET_CALIB_DUMP_COMMAND_VALUE = 154;
-            /**
-             * <code>GET_I2C_BATT_STATUS_COMMAND = 158;</code>
-             */
-            public static final int GET_I2C_BATT_STATUS_COMMAND_VALUE = 158;
-            /**
-             * <code>GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND = 160;</code>
-             */
-            public static final int GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND_VALUE = 160;
+                        public static final int NOT_USED_GET_VALUE = 0;
+                        public static final int INQUIRY_COMMAND_VALUE = 1;
+                        public static final int GET_SAMPLING_RATE_COMMAND_VALUE = 3;
+                        public static final int GET_ACCEL_SENSITIVITY_COMMAND_VALUE = 11;
+                        public static final int GET_CONFIG_BYTE0_COMMAND_VALUE = 16;
+                        public static final int GET_LSM303DLHC_ACCEL_CALIBRATION_COMMAND_VALUE = 28;
+                        public static final int GET_ACCEL_CALIBRATION_COMMAND_VALUE = 19;
+                        public static final int GET_GYRO_CALIBRATION_COMMAND_VALUE = 22;
+                        public static final int GET_MAG_CALIBRATION_COMMAND_VALUE = 25;
+                        public static final int GET_GSR_RANGE_COMMAND_VALUE = 35;
+                        public static final int GET_SHIMMER_VERSION_COMMAND_VALUE = 36;
+                        public static final int GET_SHIMMER_VERSION_COMMAND_NEW_VALUE = 63;
+                        public static final int GET_EMG_CALIBRATION_COMMAND_VALUE = 40;
+                        public static final int GET_ECG_CALIBRATION_COMMAND_VALUE = 43;
+                        public static final int GET_ALL_CALIBRATION_COMMAND_VALUE = 44;
+                        public static final int GET_FW_VERSION_COMMAND_VALUE = 46;
+                        public static final int GET_BLINK_LED_VALUE = 50;
+                        public static final int GET_BUFFER_SIZE_COMMAND_VALUE = 54;
+                        public static final int GET_MAG_GAIN_COMMAND_VALUE = 57;
+                        public static final int GET_MAG_SAMPLING_RATE_COMMAND_VALUE = 60;
+                        public static final int GET_UNIQUE_SERIAL_COMMAND_VALUE = 62;
+                        public static final int GET_ACCEL_SAMPLING_RATE_COMMAND_VALUE = 66;
+                        public static final int GET_LSM303DLHC_ACCEL_LPMODE_COMMAND_VALUE = 69;
+                        public static final int GET_LSM303DLHC_ACCEL_HRMODE_COMMAND_VALUE = 72;
+                        public static final int GET_MPU9150_GYRO_RANGE_COMMAND_VALUE = 75;
+                        public static final int GET_MPU9150_SAMPLING_RATE_COMMAND_VALUE = 78;
+                        public static final int GET_BMP180_PRES_RESOLUTION_COMMAND_VALUE = 84;
+                        public static final int GET_BMP180_PRES_CALIBRATION_COMMAND_VALUE = 87;
+                        public static final int GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND_VALUE = 89;
+                        public static final int GET_MPU9150_MAG_SENS_ADJ_VALS_COMMAND_VALUE = 93;
+                        public static final int GET_INTERNAL_EXP_POWER_ENABLE_COMMAND_VALUE = 96;
+                        public static final int GET_EXG_REGS_COMMAND_VALUE = 99;
+                        public static final int GET_DAUGHTER_CARD_ID_COMMAND_VALUE = 102;
+                        public static final int GET_BAUD_RATE_COMMAND_VALUE = 108;
+                        public static final int GET_DERIVED_CHANNEL_BYTES_VALUE = 111;
+                        public static final int GET_STATUS_COMMAND_VALUE = 114;
+                        public static final int GET_TRIAL_CONFIG_COMMAND_VALUE = 117;
+                        public static final int GET_CENTER_COMMAND_VALUE = 120;
+                        public static final int GET_SHIMMERNAME_COMMAND_VALUE = 123;
+                        public static final int GET_EXPID_COMMAND_VALUE = 126;
+                        public static final int GET_MYID_COMMAND_VALUE = 129;
+                        public static final int GET_NSHIMMER_COMMAND_VALUE = 132;
+                        public static final int GET_CONFIGTIME_COMMAND_VALUE = 135;
+                        public static final int GET_DIR_COMMAND_VALUE = 137;
+                        public static final int GET_INFOMEM_COMMAND_VALUE = 142;
+                        public static final int GET_RWC_COMMAND_VALUE = 145;
+                        public static final int GET_VBATT_COMMAND_VALUE = 149;
+                        public static final int GET_CALIB_DUMP_COMMAND_VALUE = 154;
+                        public static final int GET_I2C_BATT_STATUS_COMMAND_VALUE = 158;
+                        public static final int GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND_VALUE = 160;
             private static final com.google.protobuf.Internal.EnumLiteMap<
                     InstructionsGet> internalValueMap =
                     new com.google.protobuf.Internal.EnumLiteMap<InstructionsGet>() {
@@ -1588,10 +883,7 @@ public final class ShimmerLiteProtocolInstructionSet {
                 this.value = value;
             }
 
-            /**
-             * @deprecated Use {@link #forNumber(int)} instead.
-             */
-            @java.lang.Deprecated
+                        @java.lang.Deprecated
             public static InstructionsGet valueOf(int value) {
                 return forNumber(value);
             }
@@ -1746,438 +1038,111 @@ public final class ShimmerLiteProtocolInstructionSet {
             // @@protoc_insertion_point(enum_scope:tutorial.LiteProtocolInstructionSet.InstructionsGet)
         }
 
-        /**
-         * Protobuf enum {@code tutorial.LiteProtocolInstructionSet.InstructionsResponse}
-         */
-        public enum InstructionsResponse
+                public enum InstructionsResponse
                 implements com.google.protobuf.ProtocolMessageEnum {
-            /**
-             * <code>NOT_USED_RESPONSE = 0;</code>
-             */
-            NOT_USED_RESPONSE(0),
-            /**
-             * <code>INQUIRY_RESPONSE = 2;</code>
-             */
-            INQUIRY_RESPONSE(2),
-            /**
-             * <code>SAMPLING_RATE_RESPONSE = 4 [(.tutorial.LiteProtocolInstructionSet.response_size) = 2];</code>
-             */
-            SAMPLING_RATE_RESPONSE(4),
-            /**
-             * <code>ACCEL_SENSITIVITY_RESPONSE = 10 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            ACCEL_SENSITIVITY_RESPONSE(10),
-            /**
-             * <code>CONFIG_BYTE0_RESPONSE = 15 [(.tutorial.LiteProtocolInstructionSet.response_size) = 4];</code>
-             */
-            CONFIG_BYTE0_RESPONSE(15),
-            /**
-             * <code>ACCEL_CALIBRATION_RESPONSE = 18 [(.tutorial.LiteProtocolInstructionSet.response_size) = 21];</code>
-             */
-            ACCEL_CALIBRATION_RESPONSE(18),
-            /**
-             * <code>LSM303DLHC_ACCEL_CALIBRATION_RESPONSE = 27 [(.tutorial.LiteProtocolInstructionSet.response_size) = 21];</code>
-             */
-            LSM303DLHC_ACCEL_CALIBRATION_RESPONSE(27),
-            /**
-             * <code>GYRO_CALIBRATION_RESPONSE = 21 [(.tutorial.LiteProtocolInstructionSet.response_size) = 21];</code>
-             */
-            GYRO_CALIBRATION_RESPONSE(21),
-            /**
-             * <code>MAG_CALIBRATION_RESPONSE = 24 [(.tutorial.LiteProtocolInstructionSet.response_size) = 21];</code>
-             */
-            MAG_CALIBRATION_RESPONSE(24),
-            /**
-             * <code>GSR_RANGE_RESPONSE = 34 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            GSR_RANGE_RESPONSE(34),
-            /**
-             * <code>GET_SHIMMER_VERSION_RESPONSE = 37 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            GET_SHIMMER_VERSION_RESPONSE(37),
-            /**
-             * <code>EMG_CALIBRATION_RESPONSE = 39 [(.tutorial.LiteProtocolInstructionSet.response_size) = 4];</code>
-             */
-            EMG_CALIBRATION_RESPONSE(39),
-            /**
-             * <code>ECG_CALIBRATION_RESPONSE = 42 [(.tutorial.LiteProtocolInstructionSet.response_size) = 4];</code>
-             */
-            ECG_CALIBRATION_RESPONSE(42),
-            /**
-             * <code>ALL_CALIBRATION_RESPONSE = 45 [(.tutorial.LiteProtocolInstructionSet.response_size) = 84];</code>
-             */
-            ALL_CALIBRATION_RESPONSE(45),
-            /**
-             * <code>FW_VERSION_RESPONSE = 47 [(.tutorial.LiteProtocolInstructionSet.response_size) = 6];</code>
-             */
-            FW_VERSION_RESPONSE(47),
-            /**
-             * <code>BLINK_LED_RESPONSE = 49 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            BLINK_LED_RESPONSE(49),
-            /**
-             * <code>BUFFER_SIZE_RESPONSE = 53 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            BUFFER_SIZE_RESPONSE(53),
-            /**
-             * <code>MAG_GAIN_RESPONSE = 56 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            MAG_GAIN_RESPONSE(56),
-            /**
-             * <code>MAG_SAMPLING_RATE_RESPONSE = 59 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            MAG_SAMPLING_RATE_RESPONSE(59),
-            /**
-             * <code>UNIQUE_SERIAL_RESPONSE = 61 [(.tutorial.LiteProtocolInstructionSet.response_size) = 8];</code>
-             */
-            UNIQUE_SERIAL_RESPONSE(61),
-            /**
-             * <code>ACCEL_SAMPLING_RATE_RESPONSE = 65 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            ACCEL_SAMPLING_RATE_RESPONSE(65),
-            /**
-             * <code>LSM303DLHC_ACCEL_LPMODE_RESPONSE = 68 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            LSM303DLHC_ACCEL_LPMODE_RESPONSE(68),
-            /**
-             * <code>LSM303DLHC_ACCEL_HRMODE_RESPONSE = 71 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            LSM303DLHC_ACCEL_HRMODE_RESPONSE(71),
-            /**
-             * <code>MPU9150_GYRO_RANGE_RESPONSE = 74 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            MPU9150_GYRO_RANGE_RESPONSE(74),
-            /**
-             * <code>MPU9150_SAMPLING_RATE_RESPONSE = 77 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            MPU9150_SAMPLING_RATE_RESPONSE(77),
-            /**
-             * <code>BMP180_PRES_RESOLUTION_RESPONSE = 83 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            BMP180_PRES_RESOLUTION_RESPONSE(83),
-            /**
-             * <pre>
-             * not used
-             * </pre>
-             *
-             * <code>BMP180_PRES_CALIBRATION_RESPONSE = 86;</code>
-             */
-            BMP180_PRES_CALIBRATION_RESPONSE(86),
-            /**
-             * <code>BMP180_CALIBRATION_COEFFICIENTS_RESPONSE = 88 [(.tutorial.LiteProtocolInstructionSet.response_size) = 22];</code>
-             */
-            BMP180_CALIBRATION_COEFFICIENTS_RESPONSE(88),
-            /**
-             * <pre>
-             * not used
-             * </pre>
-             *
-             * <code>MPU9150_MAG_SENS_ADJ_VALS_RESPONSE = 92;</code>
-             */
-            MPU9150_MAG_SENS_ADJ_VALS_RESPONSE(92),
-            /**
-             * <code>INTERNAL_EXP_POWER_ENABLE_RESPONSE = 95 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            INTERNAL_EXP_POWER_ENABLE_RESPONSE(95),
-            /**
-             * <code>EXG_REGS_RESPONSE = 98 [(.tutorial.LiteProtocolInstructionSet.response_size) = 11];</code>
-             */
-            EXG_REGS_RESPONSE(98),
-            /**
-             * <code>DAUGHTER_CARD_ID_RESPONSE = 101 [(.tutorial.LiteProtocolInstructionSet.response_size) = 3];</code>
-             */
-            DAUGHTER_CARD_ID_RESPONSE(101),
-            /**
-             * <code>BAUD_RATE_RESPONSE = 107 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            BAUD_RATE_RESPONSE(107),
-            /**
-             * <code>DERIVED_CHANNEL_BYTES_RESPONSE = 110 [(.tutorial.LiteProtocolInstructionSet.response_size) = 3];</code>
-             */
-            DERIVED_CHANNEL_BYTES_RESPONSE(110),
-            /**
-             * <code>STATUS_RESPONSE = 113 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            STATUS_RESPONSE(113),
-            /**
-             * <code>TRIAL_CONFIG_RESPONSE = 116 [(.tutorial.LiteProtocolInstructionSet.response_size) = 3];</code>
-             */
-            TRIAL_CONFIG_RESPONSE(116),
-            /**
-             * <code>CENTER_RESPONSE = 119 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            CENTER_RESPONSE(119),
-            /**
-             * <code>SHIMMERNAME_RESPONSE = 122 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            SHIMMERNAME_RESPONSE(122),
-            /**
-             * <code>EXPID_RESPONSE = 125 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            EXPID_RESPONSE(125),
-            /**
-             * <code>MYID_RESPONSE = 128 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            MYID_RESPONSE(128),
-            /**
-             * <code>NSHIMMER_RESPONSE = 131 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            NSHIMMER_RESPONSE(131),
-            /**
-             * <code>CONFIGTIME_RESPONSE = 134 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            CONFIGTIME_RESPONSE(134),
-            /**
-             * <code>DIR_RESPONSE = 136 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            DIR_RESPONSE(136),
-            /**
-             * <pre>
-             * no following byte
-             * </pre>
-             *
-             * <code>INSTREAM_CMD_RESPONSE = 138;</code>
-             */
-            INSTREAM_CMD_RESPONSE(138),
-            /**
-             * <code>INFOMEM_RESPONSE = 141 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            INFOMEM_RESPONSE(141),
-            /**
-             * <code>RWC_RESPONSE = 144 [(.tutorial.LiteProtocolInstructionSet.response_size) = 8];</code>
-             */
-            RWC_RESPONSE(144),
-            /**
-             * <code>VBATT_RESPONSE = 148 [(.tutorial.LiteProtocolInstructionSet.response_size) = 3];</code>
-             */
-            VBATT_RESPONSE(148),
-            /**
-             * <code>RSP_CALIB_DUMP_COMMAND = 153 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            RSP_CALIB_DUMP_COMMAND(153),
-            /**
-             * <code>RSP_I2C_BATT_STATUS_COMMAND = 157 [(.tutorial.LiteProtocolInstructionSet.response_size) = 10];</code>
-             */
-            RSP_I2C_BATT_STATUS_COMMAND(157),
-            /**
-             * <code>BMP280_CALIBRATION_COEFFICIENTS_RESPONSE = 159 [(.tutorial.LiteProtocolInstructionSet.response_size) = 24];</code>
-             */
-            BMP280_CALIBRATION_COEFFICIENTS_RESPONSE(159),
+                        NOT_USED_RESPONSE(0),
+                        INQUIRY_RESPONSE(2),
+                        SAMPLING_RATE_RESPONSE(4),
+                        ACCEL_SENSITIVITY_RESPONSE(10),
+                        CONFIG_BYTE0_RESPONSE(15),
+                        ACCEL_CALIBRATION_RESPONSE(18),
+                        LSM303DLHC_ACCEL_CALIBRATION_RESPONSE(27),
+                        GYRO_CALIBRATION_RESPONSE(21),
+                        MAG_CALIBRATION_RESPONSE(24),
+                        GSR_RANGE_RESPONSE(34),
+                        GET_SHIMMER_VERSION_RESPONSE(37),
+                        EMG_CALIBRATION_RESPONSE(39),
+                        ECG_CALIBRATION_RESPONSE(42),
+                        ALL_CALIBRATION_RESPONSE(45),
+                        FW_VERSION_RESPONSE(47),
+                        BLINK_LED_RESPONSE(49),
+                        BUFFER_SIZE_RESPONSE(53),
+                        MAG_GAIN_RESPONSE(56),
+                        MAG_SAMPLING_RATE_RESPONSE(59),
+                        UNIQUE_SERIAL_RESPONSE(61),
+                        ACCEL_SAMPLING_RATE_RESPONSE(65),
+                        LSM303DLHC_ACCEL_LPMODE_RESPONSE(68),
+                        LSM303DLHC_ACCEL_HRMODE_RESPONSE(71),
+                        MPU9150_GYRO_RANGE_RESPONSE(74),
+                        MPU9150_SAMPLING_RATE_RESPONSE(77),
+                        BMP180_PRES_RESOLUTION_RESPONSE(83),
+                        BMP180_PRES_CALIBRATION_RESPONSE(86),
+                        BMP180_CALIBRATION_COEFFICIENTS_RESPONSE(88),
+                        MPU9150_MAG_SENS_ADJ_VALS_RESPONSE(92),
+                        INTERNAL_EXP_POWER_ENABLE_RESPONSE(95),
+                        EXG_REGS_RESPONSE(98),
+                        DAUGHTER_CARD_ID_RESPONSE(101),
+                        BAUD_RATE_RESPONSE(107),
+                        DERIVED_CHANNEL_BYTES_RESPONSE(110),
+                        STATUS_RESPONSE(113),
+                        TRIAL_CONFIG_RESPONSE(116),
+                        CENTER_RESPONSE(119),
+                        SHIMMERNAME_RESPONSE(122),
+                        EXPID_RESPONSE(125),
+                        MYID_RESPONSE(128),
+                        NSHIMMER_RESPONSE(131),
+                        CONFIGTIME_RESPONSE(134),
+                        DIR_RESPONSE(136),
+                        INSTREAM_CMD_RESPONSE(138),
+                        INFOMEM_RESPONSE(141),
+                        RWC_RESPONSE(144),
+                        VBATT_RESPONSE(148),
+                        RSP_CALIB_DUMP_COMMAND(153),
+                        RSP_I2C_BATT_STATUS_COMMAND(157),
+                        BMP280_CALIBRATION_COEFFICIENTS_RESPONSE(159),
             UNRECOGNIZED(-1),
             ;
 
-            /**
-             * <code>NOT_USED_RESPONSE = 0;</code>
-             */
-            public static final int NOT_USED_RESPONSE_VALUE = 0;
-            /**
-             * <code>INQUIRY_RESPONSE = 2;</code>
-             */
-            public static final int INQUIRY_RESPONSE_VALUE = 2;
-            /**
-             * <code>SAMPLING_RATE_RESPONSE = 4 [(.tutorial.LiteProtocolInstructionSet.response_size) = 2];</code>
-             */
-            public static final int SAMPLING_RATE_RESPONSE_VALUE = 4;
-            /**
-             * <code>ACCEL_SENSITIVITY_RESPONSE = 10 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int ACCEL_SENSITIVITY_RESPONSE_VALUE = 10;
-            /**
-             * <code>CONFIG_BYTE0_RESPONSE = 15 [(.tutorial.LiteProtocolInstructionSet.response_size) = 4];</code>
-             */
-            public static final int CONFIG_BYTE0_RESPONSE_VALUE = 15;
-            /**
-             * <code>ACCEL_CALIBRATION_RESPONSE = 18 [(.tutorial.LiteProtocolInstructionSet.response_size) = 21];</code>
-             */
-            public static final int ACCEL_CALIBRATION_RESPONSE_VALUE = 18;
-            /**
-             * <code>LSM303DLHC_ACCEL_CALIBRATION_RESPONSE = 27 [(.tutorial.LiteProtocolInstructionSet.response_size) = 21];</code>
-             */
-            public static final int LSM303DLHC_ACCEL_CALIBRATION_RESPONSE_VALUE = 27;
-            /**
-             * <code>GYRO_CALIBRATION_RESPONSE = 21 [(.tutorial.LiteProtocolInstructionSet.response_size) = 21];</code>
-             */
-            public static final int GYRO_CALIBRATION_RESPONSE_VALUE = 21;
-            /**
-             * <code>MAG_CALIBRATION_RESPONSE = 24 [(.tutorial.LiteProtocolInstructionSet.response_size) = 21];</code>
-             */
-            public static final int MAG_CALIBRATION_RESPONSE_VALUE = 24;
-            /**
-             * <code>GSR_RANGE_RESPONSE = 34 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int GSR_RANGE_RESPONSE_VALUE = 34;
-            /**
-             * <code>GET_SHIMMER_VERSION_RESPONSE = 37 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int GET_SHIMMER_VERSION_RESPONSE_VALUE = 37;
-            /**
-             * <code>EMG_CALIBRATION_RESPONSE = 39 [(.tutorial.LiteProtocolInstructionSet.response_size) = 4];</code>
-             */
-            public static final int EMG_CALIBRATION_RESPONSE_VALUE = 39;
-            /**
-             * <code>ECG_CALIBRATION_RESPONSE = 42 [(.tutorial.LiteProtocolInstructionSet.response_size) = 4];</code>
-             */
-            public static final int ECG_CALIBRATION_RESPONSE_VALUE = 42;
-            /**
-             * <code>ALL_CALIBRATION_RESPONSE = 45 [(.tutorial.LiteProtocolInstructionSet.response_size) = 84];</code>
-             */
-            public static final int ALL_CALIBRATION_RESPONSE_VALUE = 45;
-            /**
-             * <code>FW_VERSION_RESPONSE = 47 [(.tutorial.LiteProtocolInstructionSet.response_size) = 6];</code>
-             */
-            public static final int FW_VERSION_RESPONSE_VALUE = 47;
-            /**
-             * <code>BLINK_LED_RESPONSE = 49 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int BLINK_LED_RESPONSE_VALUE = 49;
-            /**
-             * <code>BUFFER_SIZE_RESPONSE = 53 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int BUFFER_SIZE_RESPONSE_VALUE = 53;
-            /**
-             * <code>MAG_GAIN_RESPONSE = 56 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int MAG_GAIN_RESPONSE_VALUE = 56;
-            /**
-             * <code>MAG_SAMPLING_RATE_RESPONSE = 59 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int MAG_SAMPLING_RATE_RESPONSE_VALUE = 59;
-            /**
-             * <code>UNIQUE_SERIAL_RESPONSE = 61 [(.tutorial.LiteProtocolInstructionSet.response_size) = 8];</code>
-             */
-            public static final int UNIQUE_SERIAL_RESPONSE_VALUE = 61;
-            /**
-             * <code>ACCEL_SAMPLING_RATE_RESPONSE = 65 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int ACCEL_SAMPLING_RATE_RESPONSE_VALUE = 65;
-            /**
-             * <code>LSM303DLHC_ACCEL_LPMODE_RESPONSE = 68 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int LSM303DLHC_ACCEL_LPMODE_RESPONSE_VALUE = 68;
-            /**
-             * <code>LSM303DLHC_ACCEL_HRMODE_RESPONSE = 71 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int LSM303DLHC_ACCEL_HRMODE_RESPONSE_VALUE = 71;
-            /**
-             * <code>MPU9150_GYRO_RANGE_RESPONSE = 74 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int MPU9150_GYRO_RANGE_RESPONSE_VALUE = 74;
-            /**
-             * <code>MPU9150_SAMPLING_RATE_RESPONSE = 77 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int MPU9150_SAMPLING_RATE_RESPONSE_VALUE = 77;
-            /**
-             * <code>BMP180_PRES_RESOLUTION_RESPONSE = 83 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int BMP180_PRES_RESOLUTION_RESPONSE_VALUE = 83;
-            /**
-             * <pre>
-             * not used
-             * </pre>
-             *
-             * <code>BMP180_PRES_CALIBRATION_RESPONSE = 86;</code>
-             */
-            public static final int BMP180_PRES_CALIBRATION_RESPONSE_VALUE = 86;
-            /**
-             * <code>BMP180_CALIBRATION_COEFFICIENTS_RESPONSE = 88 [(.tutorial.LiteProtocolInstructionSet.response_size) = 22];</code>
-             */
-            public static final int BMP180_CALIBRATION_COEFFICIENTS_RESPONSE_VALUE = 88;
-            /**
-             * <pre>
-             * not used
-             * </pre>
-             *
-             * <code>MPU9150_MAG_SENS_ADJ_VALS_RESPONSE = 92;</code>
-             */
-            public static final int MPU9150_MAG_SENS_ADJ_VALS_RESPONSE_VALUE = 92;
-            /**
-             * <code>INTERNAL_EXP_POWER_ENABLE_RESPONSE = 95 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int INTERNAL_EXP_POWER_ENABLE_RESPONSE_VALUE = 95;
-            /**
-             * <code>EXG_REGS_RESPONSE = 98 [(.tutorial.LiteProtocolInstructionSet.response_size) = 11];</code>
-             */
-            public static final int EXG_REGS_RESPONSE_VALUE = 98;
-            /**
-             * <code>DAUGHTER_CARD_ID_RESPONSE = 101 [(.tutorial.LiteProtocolInstructionSet.response_size) = 3];</code>
-             */
-            public static final int DAUGHTER_CARD_ID_RESPONSE_VALUE = 101;
-            /**
-             * <code>BAUD_RATE_RESPONSE = 107 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int BAUD_RATE_RESPONSE_VALUE = 107;
-            /**
-             * <code>DERIVED_CHANNEL_BYTES_RESPONSE = 110 [(.tutorial.LiteProtocolInstructionSet.response_size) = 3];</code>
-             */
-            public static final int DERIVED_CHANNEL_BYTES_RESPONSE_VALUE = 110;
-            /**
-             * <code>STATUS_RESPONSE = 113 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int STATUS_RESPONSE_VALUE = 113;
-            /**
-             * <code>TRIAL_CONFIG_RESPONSE = 116 [(.tutorial.LiteProtocolInstructionSet.response_size) = 3];</code>
-             */
-            public static final int TRIAL_CONFIG_RESPONSE_VALUE = 116;
-            /**
-             * <code>CENTER_RESPONSE = 119 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            public static final int CENTER_RESPONSE_VALUE = 119;
-            /**
-             * <code>SHIMMERNAME_RESPONSE = 122 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            public static final int SHIMMERNAME_RESPONSE_VALUE = 122;
-            /**
-             * <code>EXPID_RESPONSE = 125 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            public static final int EXPID_RESPONSE_VALUE = 125;
-            /**
-             * <code>MYID_RESPONSE = 128 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int MYID_RESPONSE_VALUE = 128;
-            /**
-             * <code>NSHIMMER_RESPONSE = 131 [(.tutorial.LiteProtocolInstructionSet.response_size) = 1];</code>
-             */
-            public static final int NSHIMMER_RESPONSE_VALUE = 131;
-            /**
-             * <code>CONFIGTIME_RESPONSE = 134 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            public static final int CONFIGTIME_RESPONSE_VALUE = 134;
-            /**
-             * <code>DIR_RESPONSE = 136 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            public static final int DIR_RESPONSE_VALUE = 136;
-            /**
-             * <pre>
-             * no following byte
-             * </pre>
-             *
-             * <code>INSTREAM_CMD_RESPONSE = 138;</code>
-             */
-            public static final int INSTREAM_CMD_RESPONSE_VALUE = 138;
-            /**
-             * <code>INFOMEM_RESPONSE = 141 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            public static final int INFOMEM_RESPONSE_VALUE = 141;
-            /**
-             * <code>RWC_RESPONSE = 144 [(.tutorial.LiteProtocolInstructionSet.response_size) = 8];</code>
-             */
-            public static final int RWC_RESPONSE_VALUE = 144;
-            /**
-             * <code>VBATT_RESPONSE = 148 [(.tutorial.LiteProtocolInstructionSet.response_size) = 3];</code>
-             */
-            public static final int VBATT_RESPONSE_VALUE = 148;
-            /**
-             * <code>RSP_CALIB_DUMP_COMMAND = 153 [(.tutorial.LiteProtocolInstructionSet.response_size) = -1];</code>
-             */
-            public static final int RSP_CALIB_DUMP_COMMAND_VALUE = 153;
-            /**
-             * <code>RSP_I2C_BATT_STATUS_COMMAND = 157 [(.tutorial.LiteProtocolInstructionSet.response_size) = 10];</code>
-             */
-            public static final int RSP_I2C_BATT_STATUS_COMMAND_VALUE = 157;
-            /**
-             * <code>BMP280_CALIBRATION_COEFFICIENTS_RESPONSE = 159 [(.tutorial.LiteProtocolInstructionSet.response_size) = 24];</code>
-             */
-            public static final int BMP280_CALIBRATION_COEFFICIENTS_RESPONSE_VALUE = 159;
+                        public static final int NOT_USED_RESPONSE_VALUE = 0;
+                        public static final int INQUIRY_RESPONSE_VALUE = 2;
+                        public static final int SAMPLING_RATE_RESPONSE_VALUE = 4;
+                        public static final int ACCEL_SENSITIVITY_RESPONSE_VALUE = 10;
+                        public static final int CONFIG_BYTE0_RESPONSE_VALUE = 15;
+                        public static final int ACCEL_CALIBRATION_RESPONSE_VALUE = 18;
+                        public static final int LSM303DLHC_ACCEL_CALIBRATION_RESPONSE_VALUE = 27;
+                        public static final int GYRO_CALIBRATION_RESPONSE_VALUE = 21;
+                        public static final int MAG_CALIBRATION_RESPONSE_VALUE = 24;
+                        public static final int GSR_RANGE_RESPONSE_VALUE = 34;
+                        public static final int GET_SHIMMER_VERSION_RESPONSE_VALUE = 37;
+                        public static final int EMG_CALIBRATION_RESPONSE_VALUE = 39;
+                        public static final int ECG_CALIBRATION_RESPONSE_VALUE = 42;
+                        public static final int ALL_CALIBRATION_RESPONSE_VALUE = 45;
+                        public static final int FW_VERSION_RESPONSE_VALUE = 47;
+                        public static final int BLINK_LED_RESPONSE_VALUE = 49;
+                        public static final int BUFFER_SIZE_RESPONSE_VALUE = 53;
+                        public static final int MAG_GAIN_RESPONSE_VALUE = 56;
+                        public static final int MAG_SAMPLING_RATE_RESPONSE_VALUE = 59;
+                        public static final int UNIQUE_SERIAL_RESPONSE_VALUE = 61;
+                        public static final int ACCEL_SAMPLING_RATE_RESPONSE_VALUE = 65;
+                        public static final int LSM303DLHC_ACCEL_LPMODE_RESPONSE_VALUE = 68;
+                        public static final int LSM303DLHC_ACCEL_HRMODE_RESPONSE_VALUE = 71;
+                        public static final int MPU9150_GYRO_RANGE_RESPONSE_VALUE = 74;
+                        public static final int MPU9150_SAMPLING_RATE_RESPONSE_VALUE = 77;
+                        public static final int BMP180_PRES_RESOLUTION_RESPONSE_VALUE = 83;
+                        public static final int BMP180_PRES_CALIBRATION_RESPONSE_VALUE = 86;
+                        public static final int BMP180_CALIBRATION_COEFFICIENTS_RESPONSE_VALUE = 88;
+                        public static final int MPU9150_MAG_SENS_ADJ_VALS_RESPONSE_VALUE = 92;
+                        public static final int INTERNAL_EXP_POWER_ENABLE_RESPONSE_VALUE = 95;
+                        public static final int EXG_REGS_RESPONSE_VALUE = 98;
+                        public static final int DAUGHTER_CARD_ID_RESPONSE_VALUE = 101;
+                        public static final int BAUD_RATE_RESPONSE_VALUE = 107;
+                        public static final int DERIVED_CHANNEL_BYTES_RESPONSE_VALUE = 110;
+                        public static final int STATUS_RESPONSE_VALUE = 113;
+                        public static final int TRIAL_CONFIG_RESPONSE_VALUE = 116;
+                        public static final int CENTER_RESPONSE_VALUE = 119;
+                        public static final int SHIMMERNAME_RESPONSE_VALUE = 122;
+                        public static final int EXPID_RESPONSE_VALUE = 125;
+                        public static final int MYID_RESPONSE_VALUE = 128;
+                        public static final int NSHIMMER_RESPONSE_VALUE = 131;
+                        public static final int CONFIGTIME_RESPONSE_VALUE = 134;
+                        public static final int DIR_RESPONSE_VALUE = 136;
+                        public static final int INSTREAM_CMD_RESPONSE_VALUE = 138;
+                        public static final int INFOMEM_RESPONSE_VALUE = 141;
+                        public static final int RWC_RESPONSE_VALUE = 144;
+                        public static final int VBATT_RESPONSE_VALUE = 148;
+                        public static final int RSP_CALIB_DUMP_COMMAND_VALUE = 153;
+                        public static final int RSP_I2C_BATT_STATUS_COMMAND_VALUE = 157;
+                        public static final int BMP280_CALIBRATION_COEFFICIENTS_RESPONSE_VALUE = 159;
             private static final com.google.protobuf.Internal.EnumLiteMap<
                     InstructionsResponse> internalValueMap =
                     new com.google.protobuf.Internal.EnumLiteMap<InstructionsResponse>() {
@@ -2192,10 +1157,7 @@ public final class ShimmerLiteProtocolInstructionSet {
                 this.value = value;
             }
 
-            /**
-             * @deprecated Use {@link #forNumber(int)} instead.
-             */
-            @java.lang.Deprecated
+                        @java.lang.Deprecated
             public static InstructionsResponse valueOf(int value) {
                 return forNumber(value);
             }
@@ -2350,10 +1312,7 @@ public final class ShimmerLiteProtocolInstructionSet {
             // @@protoc_insertion_point(enum_scope:tutorial.LiteProtocolInstructionSet.InstructionsResponse)
         }
 
-        /**
-         * Protobuf type {@code tutorial.LiteProtocolInstructionSet}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:tutorial.LiteProtocolInstructionSet)
                 com.shimmerresearch.comms.radioProtocol.ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSetOrBuilder {

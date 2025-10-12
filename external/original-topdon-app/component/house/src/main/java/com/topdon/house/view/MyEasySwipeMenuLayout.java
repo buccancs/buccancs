@@ -16,9 +16,6 @@ import com.topdon.house.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by guanaj on 2017/6/5.
- */
 
 public class MyEasySwipeMenuLayout extends ViewGroup {
 
@@ -67,14 +64,7 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         return mStateCache;
     }
 
-    /**
-     * 初始化方法
-     *
-     * @param context
-     * @param attrs
-     * @param defStyleAttr
-     */
-    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         //创建辅助对象
         ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
         mScaledTouchSlop = viewConfiguration.getScaledTouchSlop();
@@ -376,11 +366,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         return super.onInterceptTouchEvent(event);
     }
 
-    /**
-     * 自动设置状态
-     *
-     * @param result
-     */
 
     private void handlerSwipeMenu(State result) {
         if (result == State.LEFTOPEN) {
@@ -410,14 +395,7 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         }
     }
 
-    /**
-     * 根据当前的scrollX的值判断松开手后应处于何种状态
-     *
-     * @param
-     * @param scrollX
-     * @return
-     */
-    private State isShouldOpen(int scrollX) {
+        private State isShouldOpen(int scrollX) {
         if (!(mScaledTouchSlop < Math.abs(finalyDistanceX))) {
             return mStateCache;
         }

@@ -8,12 +8,6 @@ import com.github.mikephil.charting.interfaces.datasets.IBarLineScatterCandleBub
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Data object that allows the combination of Line-, Bar-, Scatter-, Bubble- and
- * CandleData. Used in the CombinedChart class.
- *
- * @author Philipp Jahoda
- */
 public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleBubbleDataSet<? extends Entry>> {
 
     private LineData mLineData;
@@ -125,12 +119,7 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         return mCandleData;
     }
 
-    /**
-     * Returns all data objects in row: line-bar-scatter-candle-bubble if not null.
-     *
-     * @return
-     */
-    public List<BarLineScatterCandleBubbleData> getAllData() {
+        public List<BarLineScatterCandleBubbleData> getAllData() {
 
         List<BarLineScatterCandleBubbleData> data = new ArrayList<BarLineScatterCandleBubbleData>();
         if (mLineData != null)
@@ -167,13 +156,7 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         calcMinMax(); // recalculate everything
     }
 
-    /**
-     * Get the Entry for a corresponding highlight object
-     *
-     * @param highlight
-     * @return the entry that is highlighted
-     */
-    @Override
+        @Override
     public Entry getEntryForHighlight(Highlight highlight) {
 
         if (highlight.getDataIndex() >= getAllData().size())
@@ -197,13 +180,7 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         return null;
     }
 
-    /**
-     * Get dataset for highlight
-     *
-     * @param highlight current highlight
-     * @return dataset related to highlight
-     */
-    public IBarLineScatterCandleBubbleDataSet<? extends Entry> getDataSetByHighlight(Highlight highlight) {
+        public IBarLineScatterCandleBubbleDataSet<? extends Entry> getDataSetByHighlight(Highlight highlight) {
         if (highlight.getDataIndex() >= getAllData().size())
             return null;
 

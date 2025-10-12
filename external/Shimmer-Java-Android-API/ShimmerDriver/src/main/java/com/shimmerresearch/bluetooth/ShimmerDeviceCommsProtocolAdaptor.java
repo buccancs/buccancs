@@ -6,13 +6,6 @@ import com.shimmerresearch.comms.radioProtocol.LiteProtocol;
 import com.shimmerresearch.driver.ShimmerDevice;
 import com.shimmerresearch.exceptions.ShimmerException;
 
-/**
- * Still in development. Trying to figure out the best way to share common code
- * between certain devices that support this connection approach.
- *
- * @author Mark Nolan
- *
- */
 public class ShimmerDeviceCommsProtocolAdaptor {
 
     private ShimmerDevice mShimmerDevice = null;

@@ -1,8 +1,5 @@
 package com.energy.commoncomponent.view.tempcanvas;
 
-/**
- * Created by fengjibo on 2024/2/20.
- */
 public class TempResultBean {
     private String id;
     private String label;

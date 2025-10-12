@@ -1020,11 +1020,6 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
 }
 
 
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2}
- */
 proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.deserializeBinary = function (bytes) {
     var reader = new jspb.BinaryReader(bytes);
     var msg = new proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2;
@@ -1032,13 +1027,6 @@ proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.deserializeBinary =
 };
 
 
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2}
- */
 proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.deserializeBinaryFromReader = function (msg, reader) {
     while (reader.nextField()) {
         if (reader.isEndGroup()) {
@@ -1047,41 +1035,11 @@ proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.deserializeBinaryFr
         var field = reader.getFieldNumber();
         switch (field) {
             case 1:
-                var value = /** @type {string} */ (reader.readString());
-                msg.setUnit(value);
-                break;
-            case 2:
-                var value = /** @type {number} */ (reader.readDouble());
-                msg.setData(value);
-                break;
-            case 3:
-                var value = /** @type {!Array.<number>} */ (reader.readPackedDouble());
-                msg.setDataarrayList(value);
-                break;
-            default:
-                reader.skipField();
-                break;
-        }
-    }
-    return msg;
-};
-
-
-/**
- * Class method variant: serializes the given message to binary data
- * (in protobuf wire format), writing to the given BinaryWriter.
- * @param {!proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2} message
- * @param {!jspb.BinaryWriter} writer
- */
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.serializeBinaryToWriter = function (message, writer) {
+                var value = proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.serializeBinaryToWriter = function (message, writer) {
     message.serializeBinaryToWriter(writer);
 };
 
 
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
 proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.serializeBinary = function () {
     var writer = new jspb.BinaryWriter();
     this.serializeBinaryToWriter(writer);
@@ -1089,11 +1047,6 @@ proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.serialize
 };
 
 
-/**
- * Serializes the message to binary data (in protobuf wire format),
- * writing to the given BinaryWriter.
- * @param {!jspb.BinaryWriter} writer
- */
 proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.serializeBinaryToWriter = function (writer) {
     var f = undefined;
     f = this.getUnit();
@@ -1120,58 +1073,21 @@ proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.serialize
 };
 
 
-/**
- * Creates a deep clone of this proto. No data is shared with the original.
- * @return {!proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2} The clone.
- */
 proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.cloneMessage = function () {
-    return /** @type {!proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2} */ (jspb.Message.cloneMessage(this));
-};
-
-
-/**
- * optional string unit = 1;
- * @return {string}
- */
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getUnit = function () {
-    return /** @type {string} */ (jspb.Message.getFieldProto3(this, 1, ""));
-};
-
-
-/** @param {string} value  */
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setUnit = function (value) {
+    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getUnit = function () {
+    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setUnit = function (value) {
     jspb.Message.setField(this, 1, value);
 };
 
 
-/**
- * optional double data = 2;
- * @return {number}
- */
 proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getData = function () {
-    return /** @type {number} */ (jspb.Message.getFieldProto3(this, 2, 0));
-};
-
-
-/** @param {number} value  */
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setData = function (value) {
+    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setData = function (value) {
     jspb.Message.setField(this, 2, value);
 };
 
 
-/**
- * repeated double dataArray = 3;
- * If you change this array by adding, removing or replacing elements, or if you
- * replace the array itself, then you must call the setter to update it.
- * @return {!Array.<number>}
- */
 proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getDataarrayList = function () {
-    return /** @type {!Array.<number>} */ (jspb.Message.getRepeatedFloatingPointField(this, 3));
-};
-
-
-/** @param {Array.<number>} value  */
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setDataarrayList = function (value) {
+    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setDataarrayList = function (value) {
     jspb.Message.setField(this, 3, value || []);
 };
 

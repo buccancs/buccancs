@@ -301,10 +301,7 @@ public class ChannelDetails implements Serializable {
         private final int numBytes;
         private final boolean isSigned;
 
-        /**
-         * @param text
-         */
-        private CHANNEL_DATA_TYPE(int numBits, int numBytes, boolean isSigned) {
+                private CHANNEL_DATA_TYPE(int numBits, int numBytes, boolean isSigned) {
             this.numBits = numBits;
             this.numBytes = numBytes;
             this.isSigned = isSigned;
@@ -358,10 +355,7 @@ public class ChannelDetails implements Serializable {
         private final String shortText;
         private final String longText;
 
-        /**
-         * @param text
-         */
-        private CHANNEL_TYPE(final String text, final String longText) {
+                private CHANNEL_TYPE(final String text, final String longText) {
             this.shortText = text;
             this.longText = longText;
         }

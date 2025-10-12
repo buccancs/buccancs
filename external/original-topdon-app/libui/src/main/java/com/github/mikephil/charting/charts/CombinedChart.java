@@ -18,29 +18,12 @@ import com.github.mikephil.charting.interfaces.dataprovider.CombinedDataProvider
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.renderer.CombinedChartRenderer;
 
-/**
- * This chart class allows the combination of lines, bars, scatter and candle
- * data all displayed in one chart area.
- *
- * @author Philipp Jahoda
- */
 public class CombinedChart extends BarLineChartBase<CombinedData> implements CombinedDataProvider {
 
-    /**
-     * flag that indicates whether the highlight should be full-bar oriented, or single-value?
-     */
-    protected boolean mHighlightFullBarEnabled = false;
+        protected boolean mHighlightFullBarEnabled = false;
     protected DrawOrder[] mDrawOrder;
-    /**
-     * if set to true, all values are drawn above their bars, instead of below
-     * their top
-     */
-    private boolean mDrawValueAboveBar = true;
-    /**
-     * if set to true, a grey area is drawn behind each bar that indicates the
-     * maximum value
-     */
-    private boolean mDrawBarShadow = false;
+        private boolean mDrawValueAboveBar = true;
+        private boolean mDrawBarShadow = false;
 
     public CombinedChart(Context context) {
         super(context);
@@ -84,16 +67,7 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
         mRenderer.initBuffers();
     }
 
-    /**
-     * Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch
-     * point
-     * inside the CombinedChart.
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    @Override
+        @Override
     public Highlight getHighlightByTouchPoint(float x, float y) {
 
         if (mData == null) {
@@ -155,71 +129,34 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
         return mDrawValueAboveBar;
     }
 
-    /**
-     * If set to true, all values are drawn above their bars, instead of below
-     * their top.
-     *
-     * @param enabled
-     */
-    public void setDrawValueAboveBar(boolean enabled) {
+        public void setDrawValueAboveBar(boolean enabled) {
         mDrawValueAboveBar = enabled;
     }
 
-    /**
-     * If set to true, a grey area is drawn behind each bar that indicates the
-     * maximum value. Enabling his will reduce performance by about 50%.
-     *
-     * @param enabled
-     */
-    public void setDrawBarShadow(boolean enabled) {
+        public void setDrawBarShadow(boolean enabled) {
         mDrawBarShadow = enabled;
     }
 
-    /**
-     * @return true the highlight operation is be full-bar oriented, false if single-value
-     */
-    @Override
+        @Override
     public boolean isHighlightFullBarEnabled() {
         return mHighlightFullBarEnabled;
     }
 
-    /**
-     * Set this to true to make the highlight operation full-bar oriented,
-     * false to make it highlight single values (relevant only for stacked).
-     *
-     * @param enabled
-     */
-    public void setHighlightFullBarEnabled(boolean enabled) {
+        public void setHighlightFullBarEnabled(boolean enabled) {
         mHighlightFullBarEnabled = enabled;
     }
 
-    /**
-     * Returns the currently set draw order.
-     *
-     * @return
-     */
-    public DrawOrder[] getDrawOrder() {
+        public DrawOrder[] getDrawOrder() {
         return mDrawOrder;
     }
 
-    /**
-     * Sets the order in which the provided data objects should be drawn. The
-     * earlier you place them in the provided array, the further they will be in
-     * the background. e.g. if you provide new DrawOrer[] { DrawOrder.BAR,
-     * DrawOrder.LINE }, the bars will be drawn behind the lines.
-     *
-     * @param order
-     */
-    public void setDrawOrder(DrawOrder[] order) {
+        public void setDrawOrder(DrawOrder[] order) {
         if (order == null || order.length <= 0)
             return;
         mDrawOrder = order;
     }
 
-    /**
-     * draws all MarkerViews on the highlighted positions
-     */
-    protected void drawMarkers(Canvas canvas) {
+        protected void drawMarkers(Canvas canvas) {
 
         // if there is no marker view or drawing marker is disabled
         if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
@@ -255,11 +192,7 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
         }
     }
 
-    /**
-     * enum that allows to specify the order in which the different data objects
-     * for the combined-chart are drawn
-     */
-    public enum DrawOrder {
+        public enum DrawOrder {
         BAR, BUBBLE, LINE, CANDLE, SCATTER
     }
 

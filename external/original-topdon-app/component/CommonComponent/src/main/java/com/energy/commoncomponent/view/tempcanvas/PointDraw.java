@@ -19,10 +19,6 @@ import com.energy.commoncomponent.utils.ScreenUtils;
 import java.util.LinkedList;
 import java.util.UUID;
 
-/**
- * Created by fengjibo on 2023/6/21.
- * 点绘制工具
- */
 public class PointDraw extends BaseDraw {
 
     public static final int OPERATE_STATUS_POINT_IN_TOUCH = 0;
@@ -68,14 +64,7 @@ public class PointDraw extends BaseDraw {
         Log.d(TAG, "setOperateStatus = " + mOperateStatus);
     }
 
-    /**
-     * 添加一个点数据
-     *
-     * @param mode
-     * @param centerX
-     * @param centerY
-     */
-    public void addPoint(int mode, float centerX, float centerY) {
+        public void addPoint(int mode, float centerX, float centerY) {
         PointView pointView = new PointView(mContext, mode, centerX, centerY);
         int size = mPointList.size();
         if (mPointList.size() < MAX_POINT_COUNT) {
@@ -114,30 +103,17 @@ public class PointDraw extends BaseDraw {
         }
     }
 
-    /**
-     * 删除一个点数据
-     *
-     * @param index
-     */
-    public void removePoint(int index) {
+        public void removePoint(int index) {
         if (mPointList.size() > index) {
             mPointList.remove(index);
         }
     }
 
-    /**
-     * 删除所有点数据
-     */
-    public void removePoint() {
+        public void removePoint() {
         mPointList.clear();
     }
 
-    /**
-     * 绘制所有点
-     *
-     * @param canvas
-     */
-    @Override
+        @Override
     public void onDraw(Canvas canvas, boolean isScroll) {
         for (int i = 0; i < mPointList.size(); i++) {
             PointView pointView = mPointList.get(i);
@@ -151,15 +127,7 @@ public class PointDraw extends BaseDraw {
         }
     }
 
-    /**
-     * 绘制临时点
-     *
-     * @param canvas
-     * @param mode
-     * @param centerX
-     * @param centerY
-     */
-    public void onTempDraw(Canvas canvas, int mode, float centerX, float centerY) {
+        public void onTempDraw(Canvas canvas, int mode, float centerX, float centerY) {
         if (mTempPoint == null) {
             mTempPoint = new PointView(mContext, mode, centerX, centerY);
             mTempPoint.setLabel("P");
@@ -230,28 +198,14 @@ public class PointDraw extends BaseDraw {
         return rectF;
     }
 
-    /**
-     * 修改选中的点坐标
-     *
-     * @param touchIndex
-     * @param centerX
-     * @param centerY
-     */
-    public void changeTouchPointLocationByIndex(int touchIndex, float centerX, float centerY) {
+        public void changeTouchPointLocationByIndex(int touchIndex, float centerX, float centerY) {
         if (touchIndex < 0 || touchIndex >= mPointList.size()) {
             return;
         }
         mPointList.get(touchIndex).changeLocation(centerX, centerY);
     }
 
-    /**
-     * 检查当前是否存在手势选中的点
-     *
-     * @param rawX
-     * @param rawY
-     * @return
-     */
-    public int checkTouchPointInclude(float rawX, float rawY) {
+        public int checkTouchPointInclude(float rawX, float rawY) {
         mTouchIndex = -1;
         for (int i = 0; i < mPointList.size(); i++) {
             PointView pointView = mPointList.get(i);

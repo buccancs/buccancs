@@ -3,10 +3,6 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-/**
- * @author: CaiSongL
- * @date: 2022/6/3 21:09
- */
 fun View.gone() {
     this.visibility = View.GONE
 }

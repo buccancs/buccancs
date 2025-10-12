@@ -24,9 +24,7 @@
 //import kotlinx.coroutines.delay
 //import kotlinx.coroutines.launch
 //
-///**
-// */
-//@Route(path = RouterConfig.THERMAL_LOG_SINGLE_CHART)
+////@Route(path = RouterConfig.THERMAL_LOG_SINGLE_CHART)
 //class LogSingleChartActivity : BaseActivity() {
 //
 //    val adapter: SettingTimeAdapter by lazy { SettingTimeAdapter(this) }
@@ -142,9 +140,7 @@
 //        aa_chart_view.aa_drawChartWithChartOptions(options)
 //    }
 //
-//    /**
-//     */
-//    private fun initSeries(): Array<AASeriesElement> {
+//    //    private fun initSeries(): Array<AASeriesElement> {
 //        val maxTempListData = Array<Any>(dataList.size) { dataList[it].thermalMax }
 //        val minTempListData = Array<Any>(dataList.size) { dataList[it].thermalMin }
 //        val centerTempListData = Array<Any>(dataList.size) { dataList[it].thermal }

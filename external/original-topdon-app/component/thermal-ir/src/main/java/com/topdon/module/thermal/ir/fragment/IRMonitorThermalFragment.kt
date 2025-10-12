@@ -159,10 +159,7 @@ class IRMonitorThermalFragment : BaseFragment(), ITsTempListener {
             Log.e("图像线程重复启动", e.message.toString())
         }
     }
-    /**
-     *
-     */
-    private fun startUSB(isRestart: Boolean) {
+        private fun startUSB(isRestart: Boolean) {
         iruvc = IRUVCTC(
             cameraWidth, cameraHeight, context, syncimage,
             defaultDataFlowMode, object : ConnectCallback {
@@ -212,10 +209,7 @@ class IRMonitorThermalFragment : BaseFragment(), ITsTempListener {
         iruvc!!.setRotate(rotateAngle)
         iruvc!!.registerUSB()
     }
-    /**
-     *
-     */
-    private fun restartusbcamera() {
+        private fun restartusbcamera() {
         if (iruvc != null) {
             iruvc!!.stopPreview()
             iruvc!!.unregisterUSB()

@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializesyncSignalRequest")
 public inline fun syncSignalRequest(block: com.buccancs.control.SyncSignalRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SyncSignalRequest =
   com.buccancs.control.SyncSignalRequestKt.Dsl._create(com.buccancs.control.SyncSignalRequest.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.SyncSignalRequest`
- */
 public object SyncSignalRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,74 +20,42 @@ public object SyncSignalRequestKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.SyncSignalRequest = _builder.build()
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     */
-    public var session: com.buccancs.control.SessionIdentifier
+        public var session: com.buccancs.control.SessionIdentifier
       get() = _builder.getSession()
       set(value) {
         _builder.setSession(value)
       }
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     */
-    public fun clearSession() {
+        public fun clearSession() {
       _builder.clearSession()
     }
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     * @return Whether the session field is set.
-     */
-    public fun hasSession(): kotlin.Boolean {
+        public fun hasSession(): kotlin.Boolean {
       return _builder.hasSession()
     }
-    /**
-     * `string signal_type = 2;`
-     */
-    public var signalType: kotlin.String
+        public var signalType: kotlin.String
       get() = _builder.getSignalType()
       set(value) {
         _builder.setSignalType(value)
       }
-    /**
-     * `string signal_type = 2;`
-     */
-    public fun clearSignalType() {
+        public fun clearSignalType() {
       _builder.clearSignalType()
     }
-    /**
-     * `.com.buccancs.control.DeviceTarget targets = 3;`
-     */
-    public var targets: com.buccancs.control.DeviceTarget
+        public var targets: com.buccancs.control.DeviceTarget
       get() = _builder.getTargets()
       set(value) {
         _builder.setTargets(value)
       }
-    /**
-     * `.com.buccancs.control.DeviceTarget targets = 3;`
-     */
-    public fun clearTargets() {
+        public fun clearTargets() {
       _builder.clearTargets()
     }
-    /**
-     * `.com.buccancs.control.DeviceTarget targets = 3;`
-     * @return Whether the targets field is set.
-     */
-    public fun hasTargets(): kotlin.Boolean {
+        public fun hasTargets(): kotlin.Boolean {
       return _builder.hasTargets()
     }
-    /**
-     * `int64 scheduled_epoch_ms = 4;`
-     */
-    public var scheduledEpochMs: kotlin.Long
+        public var scheduledEpochMs: kotlin.Long
       get() = _builder.getScheduledEpochMs()
       set(value) {
         _builder.setScheduledEpochMs(value)
       }
-    /**
-     * `int64 scheduled_epoch_ms = 4;`
-     */
-    public fun clearScheduledEpochMs() {
+        public fun clearScheduledEpochMs() {
       _builder.clearScheduledEpochMs()
     }
   }

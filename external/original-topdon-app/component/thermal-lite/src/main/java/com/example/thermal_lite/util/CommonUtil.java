@@ -8,9 +8,6 @@ import com.energy.irutilslibrary.LibIRParse;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by fengjibo on 2023/8/16.
- */
 public class CommonUtil {
     public static final String TAG = "CommonUtil";
     // 帧率展示

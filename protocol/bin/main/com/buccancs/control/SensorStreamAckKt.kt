@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializesensorStreamAck")
 public inline fun sensorStreamAck(block: com.buccancs.control.SensorStreamAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorStreamAck =
   com.buccancs.control.SensorStreamAckKt.Dsl._create(com.buccancs.control.SensorStreamAck.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.SensorStreamAck`
- */
 public object SensorStreamAckKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,46 +20,28 @@ public object SensorStreamAckKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.SensorStreamAck = _builder.build()
-    /**
-     * `bool success = 1;`
-     */
-    public var success: kotlin.Boolean
+        public var success: kotlin.Boolean
       get() = _builder.getSuccess()
       set(value) {
         _builder.setSuccess(value)
       }
-    /**
-     * `bool success = 1;`
-     */
-    public fun clearSuccess() {
+        public fun clearSuccess() {
       _builder.clearSuccess()
     }
-    /**
-     * `string error_message = 2;`
-     */
-    public var errorMessage: kotlin.String
+        public var errorMessage: kotlin.String
       get() = _builder.getErrorMessage()
       set(value) {
         _builder.setErrorMessage(value)
       }
-    /**
-     * `string error_message = 2;`
-     */
-    public fun clearErrorMessage() {
+        public fun clearErrorMessage() {
       _builder.clearErrorMessage()
     }
-    /**
-     * `uint64 total_samples = 3;`
-     */
-    public var totalSamples: kotlin.Long
+        public var totalSamples: kotlin.Long
       get() = _builder.getTotalSamples()
       set(value) {
         _builder.setTotalSamples(value)
       }
-    /**
-     * `uint64 total_samples = 3;`
-     */
-    public fun clearTotalSamples() {
+        public fun clearTotalSamples() {
       _builder.clearTotalSamples()
     }
   }

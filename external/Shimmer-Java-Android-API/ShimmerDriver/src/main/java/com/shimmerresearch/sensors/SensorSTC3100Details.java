@@ -6,36 +6,17 @@ import com.shimmerresearch.driverUtilities.UtilParseData;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_ENDIAN;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 
-/**
- * @author Mark Nolan
- *
- */
 public class SensorSTC3100Details implements Serializable {
 
     private static final long serialVersionUID = 3566114309466948096L;
 
     private static double R_SENSE = 33; // mOhms
 
-    /**
-     * Gas gauge charge data (mA.h)
-     */
-    public double mBattCharge = 0;
-    /**
-     * Number of conversions
-     */
-    public double mBattCounter = 0;
-    /**
-     * Battery current value (mA)
-     */
-    public double mBattCurrent = 0;
-    /**
-     * Battery voltage value (mV)
-     */
-    public double mBattVoltage = 0;
-    /**
-     * Temperature value (degrees C)
-     */
-    public double mBattTemperature = 0;
+        public double mBattCharge = 0;
+        public double mBattCounter = 0;
+        public double mBattCurrent = 0;
+        public double mBattVoltage = 0;
+        public double mBattTemperature = 0;
 
     private byte[] mRegBytes = new byte[]{};
 

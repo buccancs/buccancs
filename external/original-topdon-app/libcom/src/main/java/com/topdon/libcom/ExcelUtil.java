@@ -40,10 +40,6 @@ import androidx.annotation.Nullable;
 
 import static com.blankj.utilcode.util.ImageUtils.save;
 
-/**
- * @author: CaiSongL
- * @date: 2023/5/11 15:58
- */
 public class ExcelUtil {
 
     @NonNull
@@ -110,11 +106,7 @@ public class ExcelUtil {
         }
     }
 
-    /**
-     * @param listData
-     * @return
-     */
-    public static String exportExcel(ArrayList<ThermalEntity> listData, boolean isPoint) {
+        public static String exportExcel(ArrayList<ThermalEntity> listData, boolean isPoint) {
         boolean isShowC = SharedManager.INSTANCE.getTemperature() == 1;
         try {
             // 创建excel xlsx格式

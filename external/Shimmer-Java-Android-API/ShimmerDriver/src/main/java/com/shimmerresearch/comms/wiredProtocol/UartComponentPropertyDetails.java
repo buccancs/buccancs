@@ -5,13 +5,6 @@ import java.util.List;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails;
 import com.shimmerresearch.driverUtilities.ShimmerVerObject;
 
-/**
- * Holds each Component and Property byte pairs for use during configuration
- * through the Shimmer's UART.
- *
- * @author Mark Nolan
- *
- */
 public class UartComponentPropertyDetails {
 
     public UartPacketDetails.UART_COMPONENT mComponent;
@@ -26,17 +19,7 @@ public class UartComponentPropertyDetails {
 
     public byte[] mCompPropByteArray = null;
 
-    /**
-     * Holds each Component and Property byte pairs for use during configuration
-     * through the Shimmer's UART.
-     *
-     * @param component                   the device number to configure on the Shimmer
-     * @param property                    the property number of the component to configure
-     * @param readWrite
-     * @param listOfCompatibleVersionInfo
-     * @param descrpition
-     */
-    public UartComponentPropertyDetails(UartPacketDetails.UART_COMPONENT component, int property, PERMISSION readWrite, List<ShimmerVerObject> listOfCompatibleVersionInfo, String propertyName) {
+        public UartComponentPropertyDetails(UartPacketDetails.UART_COMPONENT component, int property, PERMISSION readWrite, List<ShimmerVerObject> listOfCompatibleVersionInfo, String propertyName) {
         mComponent = component;
         mComponentByte = component.toCmdByte();
         mProperty = property;

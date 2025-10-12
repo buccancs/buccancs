@@ -4,14 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.topdon.menu.R
 import com.topdon.menu.constant.TempPointType
-/**
- * 观测模式-菜单5-高低温点 菜单所用 Adapter，按旧逻辑存在全部未选择的状态。
- *
- * - 高温点、低温点 互相独立，可多选
- * - {高温点、低温点} 与 删除 互斥
- *
- * Created by LCG on 2024/11/28.
- */
+
 @SuppressLint("NotifyDataSetChanged")
 internal class TempPointAdapter : BaseMenuAdapter() {
     var onTempPointListener: ((type: TempPointType, isSelected: Boolean) -> Unit)? = null
@@ -24,6 +17,7 @@ internal class TempPointAdapter : BaseMenuAdapter() {
             }
         }
     }
+
     fun clearAllSelect() {
         for (data in dataArray) {
             data.isSelected = false
@@ -40,6 +34,7 @@ internal class TempPointAdapter : BaseMenuAdapter() {
         Data(R.string.main_tab_second_low_temperature_point, R.drawable.selector_menu2_temp_point_2, TempPointType.LOW),
         Data(R.string.thermal_delete, R.drawable.selector_menu2_del, TempPointType.DELETE),
     )
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: Data = dataArray[position]
         holder.binding.ivIcon.setImageResource(data.drawableId)
@@ -71,6 +66,7 @@ internal class TempPointAdapter : BaseMenuAdapter() {
             }
         }
     }
+
     override fun getItemCount(): Int = dataArray.size
     data class Data(
         @StringRes val stringId: Int,

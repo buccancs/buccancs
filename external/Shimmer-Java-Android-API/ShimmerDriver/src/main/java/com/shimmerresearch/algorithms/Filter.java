@@ -60,14 +60,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-/**
- *
- * This is a BlackMan-Windowed-Sinc Filter. Algorithm for calculating
- * filter coefficients from "The Scientist and Engineer's Guide to Digital Signal Processing",
- * copyright �1997-1998 by Steven W. Smith.
- * For more information visit the book's website at: www.DSPguide.com.
- *
- */
 
 public class Filter implements Serializable {
 

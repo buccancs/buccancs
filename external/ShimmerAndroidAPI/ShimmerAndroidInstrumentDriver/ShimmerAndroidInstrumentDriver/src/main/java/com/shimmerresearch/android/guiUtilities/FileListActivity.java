@@ -24,36 +24,18 @@ import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
-/**
- * Opens a list of files from a selected folder. Files in the list can be clicked to open an app selector.
- * A file provider that is defined in the Android manifest is needed in order to provide read access to files which are clicked.
- * The file provider's path should be pointing to the directory path or root directory path of the folder that is opened.
- * All file contents are assumed to be text.
- * Note: This Activity is currently an experimental feature and may not be fully functional
- */
 public class FileListActivity extends Activity {
 
     public final static String INTENT_EXTRA_DIR_PATH = "DirectoryPath";
     public final static String INTENT_EXTRA_PROVIDER_AUTHORITY = "FileProviderAuthority";
-    /**
-     * You can replace this with your own custom MIME type
-     */
-    protected final static String FILE_TYPE = "text/";
+        protected final static String FILE_TYPE = "text/";
     protected Button cancelButton;
     protected ArrayAdapter<String> mFilesArrayAdapter;
     protected File[] filesArray;
     protected String[] fileNamesArray;
     protected ListView filesListView;
-    /**
-     * Replace this with your own file provider's authority.
-     * This will be replaced with any String extras with name INTENT_EXTRA_PROVIDER_AUTHORITY that are passed along with the Intent
-     */
-    protected String FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.shimmer.fileprovider";
-    /**
-     * Replace this with the directory you want to open.
-     * This will be replaced with any String extras with name INTENT_EXTRA_DIR_PATH that are passed along with the Intent
-     */
-    protected String DIRECTORY_PATH = Environment.getExternalStorageDirectory().getPath() + "/Shimmer/";
+        protected String FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.shimmer.fileprovider";
+        protected String DIRECTORY_PATH = Environment.getExternalStorageDirectory().getPath() + "/Shimmer/";
     protected AdapterView.OnItemClickListener mFileClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,10 +55,7 @@ public class FileListActivity extends Activity {
         setupFilesList();
     }
 
-    /**
-     * Override this method to modify the dialog theme and behaviour
-     */
-    protected void setupFilesList() {
+        protected void setupFilesList() {
         retrieveAnyStringExtras();
 
         // Setup the window

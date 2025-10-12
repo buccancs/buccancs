@@ -282,19 +282,11 @@ public class SensorBattVoltage extends AbstractSensor {
         return false;
     }
 
-    /**
-     * @return the mSamplingDividerVBatt
-     */
-    public int getSamplingDividerVBatt() {
+        public int getSamplingDividerVBatt() {
         return mSamplingDividerVBatt;
     }
 
-    /**
-     * ShimmerGQBle
-     *
-     * @param mSamplingDividerVBatt the mSamplingDividerVBatt to set
-     */
-    public void setSamplingDividerVBatt(int mSamplingDividerVBatt) {
+        public void setSamplingDividerVBatt(int mSamplingDividerVBatt) {
         this.mSamplingDividerVBatt = mSamplingDividerVBatt;
     }
 

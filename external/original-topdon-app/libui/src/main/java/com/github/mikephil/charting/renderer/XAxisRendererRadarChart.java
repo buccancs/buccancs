@@ -57,12 +57,7 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
         MPPointF.recycleInstance(drawLabelAnchor);
     }
 
-    /**
-     * XAxis LimitLines on RadarChart not yet supported.
-     *
-     * @param c
-     */
-    @Override
+        @Override
     public void renderLimitLines(Canvas c) {
         // this space intentionally left blank
     }

@@ -18,20 +18,13 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * @author: CaiSongL
- * @date: 2023/5/24 9:47
- */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private static final String TAG = "CrashHandler";
     private static CrashHandler crashHandler = new CrashHandler();
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     private Context mContext;
-    /**
-     * 错误日志文件
-     */
-    private File logFile;
+        private File logFile;
 
     private CrashHandler() {
 
@@ -126,18 +119,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         return true;
     }
 
-    /**
-     * 上传错误日志到服务器
-     */
-    private void upLoadErrorFileToServer(File errorFile) {
+        private void upLoadErrorFileToServer(File errorFile) {
 
     }
 
-    /**
-     * 收集手机信息
-     *
-     */
-    private File collectInfoToSDCard(PrintWriter pw, Throwable ex)
+        private File collectInfoToSDCard(PrintWriter pw, Throwable ex)
             throws PackageManager.NameNotFoundException {
 
         PackageManager pm = mContext.getPackageManager();
@@ -153,8 +139,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         pw.print("versionName : ");
         pw.println(pi.versionName);
         try {
-            /** 暴力反射获取数据 */
-            Field[] Fields = Build.class.getDeclaredFields();
+                        Field[] Fields = Build.class.getDeclaredFields();
             for (Field field : Fields) {
                 field.setAccessible(true);
                 pw.print(field.getName() + " : ");

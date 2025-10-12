@@ -43,15 +43,6 @@ import java.util.Collection;
 import static com.shimmerresearch.android.guiUtilities.ShimmerBluetoothDialog.EXTRA_DEVICE_ADDRESS;
 import static com.shimmerresearch.android.guiUtilities.ShimmerBluetoothDialog.EXTRA_DEVICE_NAME;
 
-/**
- * This example demonstrates the use of the {@link ShimmerBluetoothManagerAndroid} to:
- * <ul>
- *     <li>Connect to a Shimmer device</li>
- *     <li>Stream data from the Shimmer device</li>
- *     <li>Enable and disable sensors</li>
- *     <li>Modify individual sensor configurations</li>
- * </ul>
- */
 public class MainActivity extends AppCompatActivity {
 
     final static String LOG_TAG = "BluetoothManagerExample";
@@ -78,10 +69,7 @@ public class MainActivity extends AppCompatActivity {
     String shimmerBtAdd;
     ShimmerBluetoothManagerAndroid.BT_TYPE preferredBtType;
     TextView textView;
-    /**
-     * Messages from the Shimmer device including sensor data are received here
-     */
-    Handler mHandler = new Handler() {
+        Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -106,9 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case Shimmer.MESSAGE_TOAST:
-                    /** Toast messages sent from {@link Shimmer} are received here. E.g. device xxxx now streaming.
-                     *  Note that display of these Toast messages is done automatically in the Handler in {@link com.shimmerresearch.android.shimmerService.ShimmerService} */
-                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
                     break;
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
                     ShimmerBluetooth.BT_STATE state = null;
@@ -275,12 +261,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Called when the configurations button is clicked
-     *
-     * @param v
-     */
-    public void openConfigMenu(View v) {
+        public void openConfigMenu(View v) {
         if (shimmerDevice != null) {
             if (!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
                 ShimmerDialogConfigurations.buildShimmerConfigOptions(shimmerDevice, MainActivity.this, btManager);
@@ -294,13 +275,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Called when the menu button is clicked
-     *
-     * @param v
-     * @throws IOException
-     */
-    public void openMenu(View v) throws IOException {
+        public void openMenu(View v) throws IOException {
 
         if (shimmerDevice != null) {
             if (!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
@@ -316,22 +291,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Called when the connect button is clicked
-     *
-     * @param v
-     */
-    public void connectDevice(View v) {
+        public void connectDevice(View v) {
         Intent intent = new Intent(getApplicationContext(), ShimmerBluetoothDialog.class);
         startActivityForResult(intent, ShimmerBluetoothDialog.REQUEST_CONNECT_SHIMMER);
     }
 
-    /**
-     * Called when the disconnect button is clicked
-     *
-     * @param v
-     */
-    public void disconnectDevice(View v) {
+        public void disconnectDevice(View v) {
         try {
             ((ShimmerBluetooth) shimmerDevice).disconnect();
         } catch (ShimmerException e) {
@@ -348,14 +313,7 @@ public class MainActivity extends AppCompatActivity {
         shimmerDevice.stopSDLogging();
     }
 
-    /**
-     * Get the result from the paired devices dialog
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {

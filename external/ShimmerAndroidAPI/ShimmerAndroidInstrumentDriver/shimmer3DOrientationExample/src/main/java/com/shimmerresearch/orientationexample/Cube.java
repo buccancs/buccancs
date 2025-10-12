@@ -8,37 +8,13 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 
-/**
- * This class is an object representation of
- * a Cube containing the vertex information,
- * color information, the vertex indices
- * and drawing functionality, which is called
- * by the renderer.
- *
- * @author Savas Ziplies (nea/INsanityDesign)
- */
 public class Cube {
 
-    /**
-     * The buffer holding the vertices
-     */
-    private FloatBuffer vertexBuffer;
-    /**
-     * The buffer holding the color values
-     */
-    private FloatBuffer colorBuffer;
-    /**
-     * The buffer holding the indices
-     */
-    private ByteBuffer indexBuffer;
+        private FloatBuffer vertexBuffer;
+        private FloatBuffer colorBuffer;
+        private ByteBuffer indexBuffer;
 
-    /**
-     * The initial vertex definition
-     * <p>
-     * It defines the eight vertices a cube has
-     * based on the OpenGL coordinate system
-     */
-    private float vertices[] = {  // Vertices of the 6 faces
+        private float vertices[] = {  // Vertices of the 6 faces
             // FRONT
             -1.0f, -1.0f, 1.0f,  // 0. left-bottom-front
             1.0f, -1.0f, 1.0f,  // 1. right-bottom-front
@@ -72,10 +48,7 @@ public class Cube {
     };
 
 
-    /**
-     * The initial color definition
-     */
-    private float colors[][] = {  // Colors of the 6 faces
+        private float colors[][] = {  // Colors of the 6 faces
             {1.0f, 0.5f, 0.0f, 1.0f},  // 0. orange
             {1.0f, 0.0f, 1.0f, 1.0f},  // 1. violet
             {0.0f, 1.0f, 0.0f, 1.0f},  // 2. green
@@ -84,14 +57,7 @@ public class Cube {
             {1.0f, 1.0f, 0.0f, 1.0f}   // 5. yellow
     };
 
-    /**
-     * The initial indices definition
-     * <p>
-     * The indices define our triangles.
-     * Always two define one of the six faces
-     * a cube has.
-     */
-    private byte indices[] = {
+        private byte indices[] = {
             /*
              * Example:
              * Face made of the vertices lower back left (lbl),
@@ -106,12 +72,7 @@ public class Cube {
             3, 0, 1, 3, 1, 2
     };
 
-    /**
-     * The Cube constructor.
-     * <p>
-     * Initiate the buffers.
-     */
-    public Cube(Context context) {
+        public Cube(Context context) {
         // Setup vertex-array buffer. Vertices in float. An float has 4 bytes
         ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
         vbb.order(ByteOrder.nativeOrder()); // Use native byte order
@@ -120,14 +81,7 @@ public class Cube {
         vertexBuffer.position(0);           // Rewind
     }
 
-    /**
-     * The object own drawing function.
-     * Called from the renderer to redraw this instance
-     * with possible changes in values.
-     *
-     * @param gl - The GL Context
-     */
-    public void draw(GL10 gl) {
+        public void draw(GL10 gl) {
         gl.glFrontFace(GL10.GL_CCW);    // Front face in counter-clockwise orientation
         gl.glEnable(GL10.GL_CULL_FACE); // Enable cull face
         gl.glCullFace(GL10.GL_BACK);    // Cull the back face (don't display)

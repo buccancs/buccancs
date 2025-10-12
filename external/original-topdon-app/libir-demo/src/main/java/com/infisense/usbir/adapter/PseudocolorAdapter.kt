@@ -24,12 +24,7 @@
 //        fun onClick(position: Int)
 //    }
 //
-//    /**
-//     * @param context
-//     * @param mMyLiveList
-//     * @param listenter
-//     */
-//    fun PseudocolorAdapter(
+//    //    fun PseudocolorAdapter(
 //        context: Context?,
 //        mMyLiveList: ArrayList<PseudocolorBean>?,
 //        listenter: OnItemOnclickListenter?
@@ -56,10 +51,7 @@
 //        return mDataList!!.size
 //    }
 //
-//    /**
-//     *
-//     */
-//    class ViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
+//    //    class ViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
 //
 //        var textureView: TextureView = view.textureView
 //        var tvName: TextView = view.tv_Name

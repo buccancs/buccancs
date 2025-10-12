@@ -32,12 +32,7 @@ public class PseudocolorAdapter extends RecyclerView.Adapter<PseudocolorAdapter.
     private ArrayList<PseudocolorBean> mDataList;
     private OnItemOnclickListenter listenter;
 
-    /**
-     * @param context
-     * @param mMyLiveList
-     * @param listenter
-     */
-    public PseudocolorAdapter(Context context, ArrayList<PseudocolorBean> mMyLiveList, OnItemOnclickListenter listenter) {
+        public PseudocolorAdapter(Context context, ArrayList<PseudocolorBean> mMyLiveList, OnItemOnclickListenter listenter) {
         this.context = context;
         this.mDataList = mMyLiveList;
         this.listenter = listenter;
@@ -72,10 +67,7 @@ public class PseudocolorAdapter extends RecyclerView.Adapter<PseudocolorAdapter.
         void onClick(int position);
     }
 
-    /**
-     *
-     */
-    class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
         TextureView textureView;
         TextView tvName;

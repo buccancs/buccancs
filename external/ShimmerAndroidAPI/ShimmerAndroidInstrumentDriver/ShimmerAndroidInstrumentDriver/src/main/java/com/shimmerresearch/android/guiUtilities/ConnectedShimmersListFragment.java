@@ -19,11 +19,6 @@ import com.shimmerresearch.driver.ShimmerDevice;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ConnectedShimmersListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ConnectedShimmersListFragment extends ListFragment {
 
     final static String LOG_TAG = "SHIMMER";
@@ -59,13 +54,7 @@ public class ConnectedShimmersListFragment extends ListFragment {
         }
     }
 
-    /**
-     * Call this to build or update the list of Shimmer devices which are currently connected
-     *
-     * @param deviceList
-     * @param context
-     */
-    public void buildShimmersConnectedListView(final List<ShimmerDevice> deviceList, final Context context) {
+        public void buildShimmersConnectedListView(final List<ShimmerDevice> deviceList, final Context context) {
         if (isVisible()) {
             shimmerDeviceList = deviceList;
             this.context = context;

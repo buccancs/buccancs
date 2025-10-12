@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializestopSessionRequest")
 public inline fun stopSessionRequest(block: com.buccancs.control.StopSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StopSessionRequest =
   com.buccancs.control.StopSessionRequestKt.Dsl._create(com.buccancs.control.StopSessionRequest.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.StopSessionRequest`
- */
 public object StopSessionRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,53 +20,31 @@ public object StopSessionRequestKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.StopSessionRequest = _builder.build()
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     */
-    public var session: com.buccancs.control.SessionIdentifier
+        public var session: com.buccancs.control.SessionIdentifier
       get() = _builder.getSession()
       set(value) {
         _builder.setSession(value)
       }
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     */
-    public fun clearSession() {
+        public fun clearSession() {
       _builder.clearSession()
     }
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     * @return Whether the session field is set.
-     */
-    public fun hasSession(): kotlin.Boolean {
+        public fun hasSession(): kotlin.Boolean {
       return _builder.hasSession()
     }
-    /**
-     * `int64 scheduled_epoch_ms = 2;`
-     */
-    public var scheduledEpochMs: kotlin.Long
+        public var scheduledEpochMs: kotlin.Long
       get() = _builder.getScheduledEpochMs()
       set(value) {
         _builder.setScheduledEpochMs(value)
       }
-    /**
-     * `int64 scheduled_epoch_ms = 2;`
-     */
-    public fun clearScheduledEpochMs() {
+        public fun clearScheduledEpochMs() {
       _builder.clearScheduledEpochMs()
     }
-    /**
-     * `bool finalize = 3;`
-     */
-    public var finalize: kotlin.Boolean
+        public var finalize: kotlin.Boolean
       get() = _builder.getFinalize()
       set(value) {
         _builder.setFinalize(value)
       }
-    /**
-     * `bool finalize = 3;`
-     */
-    public fun clearFinalize() {
+        public fun clearFinalize() {
       _builder.clearFinalize()
     }
   }

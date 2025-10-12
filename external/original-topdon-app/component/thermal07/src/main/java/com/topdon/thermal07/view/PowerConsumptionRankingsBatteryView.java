@@ -15,112 +15,37 @@ import androidx.annotation.Nullable;
 import com.topdon.thermal07.R;
 
 
-/**
- * 电池UI
- */
 public class PowerConsumptionRankingsBatteryView extends View {
-    /**
-     * 电池最大电量
-     */
-    public static final int MAX_LEVEL = 100;
-    /**
-     * 电池默认电量
-     */
-    public static final int DEFAULT_LEVEL = 40;
+        public static final int MAX_LEVEL = 100;
+        public static final int DEFAULT_LEVEL = 40;
 
-    /**
-     * 自定义View的宽
-     */
-    private int width;
-    /**
-     * 自定义View的高
-     */
-    private int height;
-    /**
-     * 抗锯齿标志
-     */
-    private DrawFilter drawFilter;
-    /**
-     * 电池外壳 厚度
-     */
-    private int shellStrokeWidth;
-    /**
-     * 电池外壳 圆角
-     */
-    private int shellCornerRadius;
-    /**
-     * 电池外壳 宽度
-     */
-    private int shellWidth;
-    /**
-     * 电池外壳 宽度
-     */
-    private int shellHeight;
-    /**
-     * 电池头 圆角
-     */
-    private int shellHeadCornerRadius;
-    /**
-     * 电池头 宽度
-     */
-    private int shellHeadWidth;
-    /**
-     * 电池头 高度
-     */
-    private int shellHeadHeight;
+        private int width;
+        private int height;
+        private DrawFilter drawFilter;
+        private int shellStrokeWidth;
+        private int shellCornerRadius;
+        private int shellWidth;
+        private int shellHeight;
+        private int shellHeadCornerRadius;
+        private int shellHeadWidth;
+        private int shellHeadHeight;
 
-    /**
-     * 电池宽度
-     */
-    private int levelWidth;
-    /**
-     * 电池最大高度
-     */
-    private int levelMaxHeight;
-    /**
-     * 电池高度
-     */
-    private int levelHeight = 100;
+        private int levelWidth;
+        private int levelMaxHeight;
+        private int levelHeight = 100;
 
-    /**
-     * 电池外壳和电池等级直接的间距
-     */
-    private int gap;
+        private int gap;
 
-    /**
-     * 电池外壳 画笔
-     */
-    private Paint shellPaint;
-    /**
-     * 电池外壳
-     */
-    private RectF shellRectF;
-    /**
-     * 电池头
-     */
-    private RectF shellHeadRect;
+        private Paint shellPaint;
+        private RectF shellRectF;
+        private RectF shellHeadRect;
 
-    /**
-     * 电池电量 画笔
-     */
-    private Paint levelPaint;
-    /**
-     * 电池电量
-     */
-    private RectF levelRect;
+        private Paint levelPaint;
+        private RectF levelRect;
 
-    /**
-     * 低电颜色
-     */
-    private int lowerPowerColor;
-    /**
-     * 在线颜色
-     */
-    private int onlineColor;
-    /**
-     * 离线颜色
-     */
-    private int offlineColor;
+        private int lowerPowerColor;
+        private int onlineColor;
+        private int offlineColor;
 
     public PowerConsumptionRankingsBatteryView(Context context) {
         super(context);
@@ -150,10 +75,7 @@ public class PowerConsumptionRankingsBatteryView extends View {
         levelRect = new RectF();
     }
 
-    /**
-     * 初始化自定义属性
-     */
-    private void initTypeArray(Context context, @Nullable AttributeSet attrs) {
+        private void initTypeArray(Context context, @Nullable AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PowerConsumptionRankingsBatteryView);
         lowerPowerColor = typedArray.getColor(R.styleable.PowerConsumptionRankingsBatteryView_batteryLowerPowerColor,
                 getResources().getColor(R.color.lowerPowerColor));
@@ -265,12 +187,7 @@ public class PowerConsumptionRankingsBatteryView extends View {
         canvas.drawRect(levelRect, levelPaint);
     }
 
-    /**
-     * 设置电池电量
-     *
-     * @param level
-     */
-    public void setLevelHeight(int level) {
+        public void setLevelHeight(int level) {
         this.levelHeight = level;
         if (this.levelHeight < 0) {
             levelHeight = MAX_LEVEL;
@@ -280,28 +197,19 @@ public class PowerConsumptionRankingsBatteryView extends View {
         postInvalidate();
     }
 
-    /**
-     * 设置在线 重绘
-     */
-    public void setOnline() {
+        public void setOnline() {
         shellPaint.setColor(onlineColor);
         levelPaint.setColor(onlineColor);
         postInvalidate();
     }
 
-    /**
-     * 设置离线 重绘
-     */
-    public void setOffline() {
+        public void setOffline() {
         shellPaint.setColor(offlineColor);
         levelPaint.setColor(offlineColor);
         postInvalidate();
     }
 
-    /**
-     * 设置低电 重绘
-     */
-    public void setLowerPower() {
+        public void setLowerPower() {
         shellPaint.setColor(lowerPowerColor);
         levelPaint.setColor(lowerPowerColor);
         postInvalidate();

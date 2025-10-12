@@ -32,10 +32,6 @@ object HikCmdUtil {
             JavaInterface.getInstance().USB_SetLogToFile(JavaInterface.INFO_LEVEL, logFile.absolutePath, 1)
         }
     }
-    /**
-     * 登录并返回 userId.
-     * @return 若登录失败则返回 [JavaInterface.USB_INVALID_USER_ID]
-     */
     fun login(context: Context): Int {
         val deviceCount: Int = JavaInterface.getInstance().USB_GetDeviceCount(context)
         if (deviceCount < 0) {
@@ -211,10 +207,6 @@ object HikCmdUtil {
         }
     }
 
-    /**
-     * 添加码流回调.
-     * @return 码流回调 Id，若失败则为 [JavaInterface.USB_INVALID_CHANNEL]
-     */
     suspend fun startStream(userId: Int, callback: FStreamCallBack): Int {
         val videoAdjust = USB_IMAGE_VIDEO_ADJUST()
         if (JavaInterface.getInstance().USB_GetImageVideoAdjust(userId, videoAdjust)) {

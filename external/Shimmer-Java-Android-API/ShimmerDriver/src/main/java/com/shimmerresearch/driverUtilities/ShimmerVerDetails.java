@@ -175,12 +175,7 @@ public class ShimmerVerDetails implements Serializable {
 
     //TODO change all to ENUMs with ints and Strings passed in
     public static final class FW_ID {
-        /**
-         * FW_ID is hardware generation dependent, not hardware version
-         * dependent (e.g., Shimmer3 covers a range of custom hardware all based
-         * on the same microcontroller in the Shimmmer3)
-         */
-        public static final int UNKNOWN = -1;
+                public static final int UNKNOWN = -1;
         public static final int BOILER_PLATE = 0;
         public static final int BTSTREAM = 1;
         public static final int SDLOG = 2;

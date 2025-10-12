@@ -178,11 +178,6 @@ abstract class TemperatureBaseView : View {
     protected fun drawTempText(canvas: Canvas, x: Int, y: Int, temp: Float) {
         helper.drawTempText(canvas, UnitTools.showC(temp), width, x, y)
     }
-    /**
-     * 以 View 尺寸为坐标系，以指定线段为基准绘制趋势图的 "A"、"B" 文字。
-     *
-     * 注意，不对 x、y 进行处理，传进来是哪就在哪绘制。
-     */
     protected fun drawTrendText(canvas: Canvas, line: Line) {
         helper.drawTrendText(canvas, width, height, line.start.x, line.start.y, line.end.x, line.end.y)
     }

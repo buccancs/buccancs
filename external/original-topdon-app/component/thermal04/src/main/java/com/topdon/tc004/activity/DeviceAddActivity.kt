@@ -379,9 +379,6 @@ class DeviceAddActivity : BaseActivity() {
     }
 
     private var timeoutEmptyJob: Job? = null
-    /**
-     * 开始蓝牙搜索，若缺少相应权限或开关未开启，则直接 return.
-     */
     private fun startBtScan() {
         if (!PermissionTool.hasBtPermission(this)) {
             return

@@ -50,12 +50,6 @@ class BaseDataTypeConvertUtils private constructor() {
         fun convertFloatWith2Decimals(value: Float): Float {
             return (value * 100).toInt() / 100.0f
         }
-        /**
-         * 将float格式化为只带有一位小数的字符串
-         *
-         * @param number
-         * @return
-         */
         fun float2StrWithOneDecimal(number: Float): String {
             try {
                 val pattern = "0.0"
@@ -72,12 +66,6 @@ class BaseDataTypeConvertUtils private constructor() {
                 return str;
             }
         }
-        /**
-         * 将float格式化为只带有一位小数的字符串
-         *
-         * @param number
-         * @return
-         */
         fun float2StrWithTwoDecimal(number: Float): String {
             try {
                 val pattern = "0.00"
@@ -94,13 +82,6 @@ class BaseDataTypeConvertUtils private constructor() {
                 return str;
             }
         }
-        /**
-         * 将float格式化为字符串
-         *
-         * @param number 需要格式化的float字符串
-         * @param df     DecimalFormat
-         * @return
-         */
         fun float2Str(number: Float, df: DecimalFormat): String {
             return df.format(number.toDouble())
         }

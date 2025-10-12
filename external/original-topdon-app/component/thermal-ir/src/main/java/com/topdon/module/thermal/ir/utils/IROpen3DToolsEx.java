@@ -14,10 +14,6 @@ import static org.opencv.imgproc.Imgproc.COLOR_YUV2GRAY_YUYV;
 import static org.opencv.imgproc.Imgproc.applyColorMap;
 import static org.opencv.imgproc.Imgproc.cvtColor;
 
-/**
- * @author: CaiSongL
- * @date: 2023/10/26 19:58
- */
 public class IROpen3DToolsEx extends IROpen3DTools {
 
     private Mat img;

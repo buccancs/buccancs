@@ -981,12 +981,7 @@ public class PieChartRenderer extends DataRenderer {
         MPPointF.recycleInstance(center);
     }
 
-    /**
-     * This gives all pie-slices a rounded edge.
-     *
-     * @param c
-     */
-    protected void drawRoundedSlices(Canvas c) {
+        protected void drawRoundedSlices(Canvas c) {
 
         if (!mChart.isDrawRoundedSlicesEnabled())
             return;
@@ -1033,10 +1028,7 @@ public class PieChartRenderer extends DataRenderer {
         MPPointF.recycleInstance(center);
     }
 
-    /**
-     * Releases the drawing bitmap. This should be called when {@link LineChart#onDetachedFromWindow()}.
-     */
-    public void releaseBitmap() {
+        public void releaseBitmap() {
         if (mBitmapCanvas != null) {
             mBitmapCanvas.setBitmap(null);
             mBitmapCanvas = null;

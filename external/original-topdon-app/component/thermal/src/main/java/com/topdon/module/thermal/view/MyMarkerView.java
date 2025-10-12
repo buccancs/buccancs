@@ -15,11 +15,6 @@ import com.topdon.lib.core.tools.TimeTool;
 import com.topdon.module.thermal.R;
 
 
-/**
- * Custom implementation of the MarkerView.
- *
- * @author Philipp Jahoda
- */
 @SuppressLint("ViewConstructor")
 public class MyMarkerView extends MarkerView {
 

@@ -28,9 +28,6 @@ import org.apache.commons.codec.binary.Hex;
 
 import bolts.TaskCompletionSource;
 
-/**
- * Each instance of this class represents a ble radio that is used to communicate with a verisense device
- */
 public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommunication {
     protected String TxID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
     protected String RxID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
@@ -47,12 +44,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
     TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
-    /**
-     * Initialize a ble radio
-     *
-     * @param mac mac address of the verisense device e.g. d0:2b:46:3d:a2:bb
-     */
-    public VerisenseBleAndroidRadioByteCommunication(String mac) {
+        public VerisenseBleAndroidRadioByteCommunication(String mac) {
         mMac = mac;
         sid = UUID.fromString(ServiceID);
         txid = UUID.fromString(TxID);
@@ -60,10 +52,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
     }
 
-    /**
-     * Connect to the verisense device
-     */
-    @Override
+        @Override
     public void connect() {
         mTaskConnect = new TaskCompletionSource<>();
         BleManager.getInstance().connect(mMac, new BleGattCallback() {
@@ -135,12 +124,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
         }
     }
 
-    /**
-     * Get services and start notify for characteristics changed
-     *
-     * @param bleDevice BLE device
-     */
-    public void startServiceS(BleDevice bleDevice) {
+        public void startServiceS(BleDevice bleDevice) {
         List<BluetoothGattService> services = BleManager.getInstance().getBluetoothGattServices(bleDevice);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 
@@ -164,13 +148,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
         }
     }
 
-    /**
-     * Start notify for characteristics changed
-     *
-     * @param bleDevice      BLE device
-     * @param characteristic
-     */
-    public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
+        public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
 
 
         int count = 1;
@@ -206,20 +184,12 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
         }
     }
 
-    /**
-     * Disconnect from the verisense device
-     */
-    @Override
+        @Override
     public void disconnect() {
         BleManager.getInstance().disconnect(mBleDevice);
     }
 
-    /**
-     * Write bytes to the verisense device
-     *
-     * @param bytes byte array to be written
-     */
-    @Override
+        @Override
     public void writeBytes(byte[] bytes) {
         BleManager.getInstance().write(mBleDevice, sid.toString(), txid.toString(), bytes, false, new BleWriteCallback() {
             @Override
@@ -239,21 +209,12 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
     }
 
-    /**
-     * Convert mac address to uuid
-     *
-     * @param MacID e.g. d0:2b:46:3d:a2:bb
-     * @return uuid e.g. 00000000-0000-0000-0000-d02b463da2bb
-     */
-    public String convertMacIDtoUUID(String MacID) {
+        public String convertMacIDtoUUID(String MacID) {
         String uuid = "00000000-0000-0000-0000-";
         return uuid + MacID.replace(":", "");
     }
 
-    /**
-     * @return uuid e.g. 00000000-0000-0000-0000-d02b463da2bb
-     */
-    public String getUuid() {
+        public String getUuid() {
         return convertMacIDtoUUID(this.mMac);
     }
 }

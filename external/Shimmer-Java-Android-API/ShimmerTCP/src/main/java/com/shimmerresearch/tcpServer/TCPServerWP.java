@@ -10,12 +10,6 @@ import com.shimmerresearch.driver.FormatCluster;
 import com.shimmerresearch.driver.ObjectCluster;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 
-/**
- * Weibo's TCP server for testing the ESP8266 Wifi module and the Shimmer4
- *
- * @author Weibo Pan
- *
- */
 class TCPServerWP {
 
     public static void main(String argv[]) throws Exception {

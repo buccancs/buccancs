@@ -35,30 +35,14 @@ package com.shimmerresearch.algorithms.orientation;
  * @date   October, 2013
  */
 
-/**
- * Use GradDes3DOrientation directly instead
- */
 @Deprecated
 public class GradDes3DOrientation6DoF extends GradDes3DOrientation {
 
-    /**
-     * @param samplingPeriod
-     * @see GradDes3DOrientation
-     */
-    public GradDes3DOrientation6DoF(double samplingPeriod) {
+        public GradDes3DOrientation6DoF(double samplingPeriod) {
         super(samplingPeriod);
     }
 
-    /**
-     * @param beta
-     * @param samplingPeriod
-     * @param q0
-     * @param q1
-     * @param q2
-     * @param q3
-     * @see GradDes3DOrientation
-     */
-    public GradDes3DOrientation6DoF(double beta, double samplingPeriod, double q0, double q1, double q2, double q3) {
+        public GradDes3DOrientation6DoF(double beta, double samplingPeriod, double q0, double q1, double q2, double q3) {
         super(beta, samplingPeriod, q0, q1, q2, q3);
     }
 

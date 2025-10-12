@@ -48,10 +48,7 @@ public class BitmapUtils {
         return returnBm;
     }
 
-    /**
-     * 将bitmap转换成bytes
-     */
-    public static byte[] bitmapToBytes(Bitmap bitmap, int quality) {
+        public static byte[] bitmapToBytes(Bitmap bitmap, int quality) {
         if (bitmap == null) {
             return null;
         }
@@ -67,15 +64,7 @@ public class BitmapUtils {
         }
     }
 
-    /**
-     * 将图片保存到磁盘中
-     *
-     * @param bitmap
-     * @param file   图片保存目录——不包含图片名
-     * @param path   图片保存文件路径——包含图片名
-     * @return
-     */
-    public static boolean saveBitmap(Bitmap bitmap, File file, File path) {
+        public static boolean saveBitmap(Bitmap bitmap, File file, File path) {
         boolean success = false;
         byte[] bytes = bitmapToBytes(bitmap, 100);
         OutputStream out = null;
@@ -101,13 +90,7 @@ public class BitmapUtils {
         return success;
     }
 
-    /**
-     * 高级图片质量压缩
-     *
-     * @param bitmap 位图
-     * @param width  压缩后的宽度，单位像素
-     */
-    public static Bitmap imageZoom(Bitmap bitmap, double width) {
+        public static Bitmap imageZoom(Bitmap bitmap, double width) {
         // 将bitmap放至数组中，意在获得bitmap的大小（与实际读取的原文件要大）
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // 格式、质量、输出流
@@ -119,14 +102,7 @@ public class BitmapUtils {
                 width * newBitmap.getHeight() / newBitmap.getWidth());
     }
 
-    /***
-     * 图片缩放
-     *@param bitmap 位图
-     * @param w 新的宽度
-     * @param h 新的高度
-     * @return Bitmap
-     */
-    public static Bitmap scaleWithWH(Bitmap bitmap, double w, double h) {
+        public static Bitmap scaleWithWH(Bitmap bitmap, double w, double h) {
         if (w == 0 || h == 0 || bitmap == null) {
             return bitmap;
         } else {
@@ -143,14 +119,7 @@ public class BitmapUtils {
         }
     }
 
-    /**
-     * bitmap保存到指定路径
-     *
-     * @param file 图片的绝对路径
-     * @param file 位图
-     * @return bitmap
-     */
-    public static boolean saveFile(String file, Bitmap bmp) {
+        public static boolean saveFile(String file, Bitmap bmp) {
         if (TextUtils.isEmpty(file) || bmp == null) return false;
 
         File f = new File(file);
@@ -174,13 +143,7 @@ public class BitmapUtils {
         return true;
     }
 
-    /**
-     * 保存bitmap到SD卡，请确认应用有存储权限
-     *
-     * @param bmp     获取的bitmap数据
-     * @param picName 自定义的图片名
-     */
-    public static File saveBmp2Gallery(Context context, Bitmap bmp, String picName) {
+        public static File saveBmp2Gallery(Context context, Bitmap bmp, String picName) {
         // 存储目录，用户可以自定义
         String Path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 + File.separator + "infisense";
@@ -232,14 +195,7 @@ public class BitmapUtils {
         return file;
     }
 
-    /**
-     * 把两个位图覆盖合成为一个位图，以底层位图的长宽为基准
-     *
-     * @param backBitmap  在底部的位图
-     * @param frontBitmap 盖在上面的位图
-     * @return
-     */
-    public static Bitmap mergeBitmap(Bitmap backBitmap, Bitmap frontBitmap, int leftFront, int topFront) {
+        public static Bitmap mergeBitmap(Bitmap backBitmap, Bitmap frontBitmap, int leftFront, int topFront) {
         if (backBitmap == null || backBitmap.isRecycled()
                 || frontBitmap == null || frontBitmap.isRecycled()) {
             return null;
@@ -251,13 +207,7 @@ public class BitmapUtils {
         return bitmap;
     }
 
-    /**
-     * 把两个位图覆盖合成为一个位图，以底层位图的长宽为基准
-     *
-     * @param bytes  在底部的位图
-     * @param bytes2 盖在上面的位图
-     */
-    public static void saveRawFile(byte[] bytes, byte[] bytes2) {
+        public static void saveRawFile(byte[] bytes, byte[] bytes2) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -275,29 +225,15 @@ public class BitmapUtils {
         }
     }
 
-    /**
-     * 保存红外数据
-     *
-     * @param bytes
-     */
-    public static void saveIRFile(byte[] bytes) {
+        public static void saveIRFile(byte[] bytes) {
         saveByteFile(bytes, "ir");
     }
 
-    /**
-     * 保存温度数据
-     *
-     * @param bytes
-     */
-    public static void saveTempFile(byte[] bytes) {
+        public static void saveTempFile(byte[] bytes) {
         saveByteFile(bytes, "temp");
     }
 
-    /**
-     * @param bytes
-     * @param fileTitle
-     */
-    public static void saveByteFile(byte[] bytes, String fileTitle) {
+        public static void saveByteFile(byte[] bytes, String fileTitle) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -315,12 +251,7 @@ public class BitmapUtils {
         }
     }
 
-    /**
-     *
-     * @param bytes
-     * @param fileTitle
-     */
-    public static void saveShortFile(short[] bytes, String fileTitle) {
+        public static void saveShortFile(short[] bytes, String fileTitle) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -338,13 +269,7 @@ public class BitmapUtils {
         }
     }
 
-    /**
-     * short数组转byte数组
-     *
-     * @param src
-     * @return
-     */
-    public static byte[] toByteArray(short[] src) {
+        public static byte[] toByteArray(short[] src) {
         int count = src.length;
         byte[] dest = new byte[count << 1];
         for (int i = 0; i < count; i++) {
@@ -354,13 +279,7 @@ public class BitmapUtils {
         return dest;
     }
 
-    /**
-     * byte数组转short数组
-     *
-     * @param src
-     * @return
-     */
-    public static short[] toShortArray(byte[] src) {
+        public static short[] toShortArray(byte[] src) {
         int count = src.length >> 1;
         short[] dest = new short[count];
         for (int i = 0; i < count; i++) {

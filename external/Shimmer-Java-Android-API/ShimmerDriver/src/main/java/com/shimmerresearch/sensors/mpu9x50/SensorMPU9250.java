@@ -201,20 +201,12 @@ public class SensorMPU9250 extends SensorMPU9X50 {
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
 
-    /**
-     * Just used for accessing calibration
-     */
-    public SensorMPU9250() {
+        public SensorMPU9250() {
         super(SENSORS.MPU9X50);
         initialise();
     }
 
-    /**
-     * Constructor for this class
-     *
-     * @param svo
-     */
-    public SensorMPU9250(ShimmerDevice shimmerDevice) {
+        public SensorMPU9250(ShimmerDevice shimmerDevice) {
         super(SENSORS.MPU9X50, shimmerDevice);
         initialise();
     }

@@ -18,9 +18,6 @@ import com.energy.commoncomponent.utils.ScreenUtils;
 import java.util.LinkedList;
 import java.util.UUID;
 
-/**
- * Created by fengjibo on 2024/2/1.
- */
 public class RectDraw extends BaseDraw {
     public static final int OPERATE_STATUS_RECTANGLE_LEFT_TOP_CORNER = 0;
     public static final int OPERATE_STATUS_RECTANGLE_RIGHT_TOP_CORNER = 1;
@@ -82,15 +79,7 @@ public class RectDraw extends BaseDraw {
         Log.d(TAG, "setOperateStatus = " + mOperateStatus);
     }
 
-    /**
-     * 添加一个矩形数据
-     *
-     * @param startX
-     * @param startY
-     * @param endX
-     * @param endY
-     */
-    public void addRect(int startX, int startY, int endX, int endY) {
+        public void addRect(int startX, int startY, int endX, int endY) {
         if (Math.abs(endX - startX) > TOUCH_TOLERANCE || Math.abs(endY - startY) > TOUCH_TOLERANCE) {
             RectView rectView = new RectView(mContext, startX, startY, endX, endY);
             int size = mRectList.size();
@@ -131,32 +120,18 @@ public class RectDraw extends BaseDraw {
         }
     }
 
-    /**
-     * 删除一个矩形数据
-     *
-     * @param index
-     */
-    public void removeRect(int index) {
+        public void removeRect(int index) {
         if (mRectList.size() > index) {
             mRectList.remove(index);
         }
     }
 
-    /**
-     * 删除所有框数据
-     */
-    public void removeRect() {
+        public void removeRect() {
         mRectList.clear();
     }
 
 
-    /**
-     * 更新选中框的手势位置状态
-     *
-     * @param startX
-     * @param startY
-     */
-    public void changeTouchRectOperateStatus(float startX, float startY) {
+        public void changeTouchRectOperateStatus(float startX, float startY) {
         if (mTouchIndex < 0 || mTouchIndex >= mRectList.size()) {
             return;
         }
@@ -182,14 +157,7 @@ public class RectDraw extends BaseDraw {
         }
     }
 
-    /**
-     * 修改选中的框坐标
-     *
-     * @param touchIndex
-     * @param moveX
-     * @param moveY
-     */
-    public void changeTouchLineLocationByIndex(int touchIndex, float moveX, float moveY) {
+        public void changeTouchLineLocationByIndex(int touchIndex, float moveX, float moveY) {
         if (touchIndex < 0 || touchIndex >= mRectList.size()) {
             return;
         }
@@ -337,16 +305,7 @@ public class RectDraw extends BaseDraw {
         }
     }
 
-    /**
-     * 绘制临时点
-     *
-     * @param canvas
-     * @param startX
-     * @param startY
-     * @param endX
-     * @param endY
-     */
-    public void onTempDraw(Canvas canvas, int startX, int startY, int endX, int endY) {
+        public void onTempDraw(Canvas canvas, int startX, int startY, int endX, int endY) {
         if (mTempRect == null) {
             mTempRect = new RectView(mContext, startX, startY, endX, endY);
             mTempRect.setLabel("R");
@@ -358,14 +317,7 @@ public class RectDraw extends BaseDraw {
         canvas.drawRect(mTempRect.mMovingLeft, mTempRect.mMovingTop, mTempRect.mMovingRight, mTempRect.mMovingBottom, mRectPaint);
     }
 
-    /**
-     * 检查当前是否存在手势选中的框
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    public int checkTouchRectInclude(int x, int y) {
+        public int checkTouchRectInclude(int x, int y) {
         mTouchIndex = -1;
         for (int i = 0; i < mRectList.size(); i++) {
             RectView rectView = mRectList.get(i);

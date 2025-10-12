@@ -4,14 +4,7 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 
 public class ShimmerCrc {
 
-    /**
-     * Calculate the CRC per byte
-     *
-     * @param crc the start CRC value
-     * @param b   the byte to calculate the CRC on
-     * @return the new CRC value
-     */
-    protected static int shimmerUartCrcByte(int crc, byte b) {
+        protected static int shimmerUartCrcByte(int crc, byte b) {
         crc &= 0xFFFF;
         crc = ((crc & 0xFFFF) >>> 8) | ((crc & 0xFFFF) << 8);
         crc ^= (b & 0xFF);
@@ -22,14 +15,7 @@ public class ShimmerCrc {
         return crc;
     }
 
-    /**
-     * Calculate the CRC for a byte array. array[0] is CRC LSB, array[1] is CRC MSB
-     *
-     * @param msg the input byte array
-     * @param len the length of the byte array to calculate the CRC on
-     * @return the calculated CRC value
-     */
-    public static byte[] shimmerUartCrcCalc(byte[] msg, int len) {
+        public static byte[] shimmerUartCrcCalc(byte[] msg, int len) {
         int CRC_INIT = 0xB0CA;
         int crcCalc;
         int i;
@@ -49,13 +35,7 @@ public class ShimmerCrc {
         return crcCalcArray;
     }
 
-    /**
-     * Check the CRC stored at the end of the byte array
-     *
-     * @param msg the input byte array
-     * @return a boolean value value, true if CRC matches and false if CRC doesn't match
-     */
-    public static boolean shimmerUartCrcCheck(byte[] msg) {
+        public static boolean shimmerUartCrcCheck(byte[] msg) {
         byte[] crc = shimmerUartCrcCalc(msg, msg.length - 2);
 
         if ((crc[0] == msg[msg.length - 2])

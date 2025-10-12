@@ -38,12 +38,6 @@ import com.topdon.lib.ui.R;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * 时间滚轮控件
- *
- * @author 贵州山野羡民（1032694760@qq.com）
- * @since 2021/6/5 16:20
- */
 @SuppressWarnings("unused")
 public class TimeWheelLayout extends BaseWheelLayout {
     private NumberWheelView hourWheelView;
@@ -267,17 +261,11 @@ public class TimeWheelLayout extends BaseWheelLayout {
                 || timeMode == TimeMode.HOUR_12_HAS_SECOND;
     }
 
-    /**
-     * 设置日期时间范围
-     */
-    public void setRange(TimeEntity startValue, TimeEntity endValue) {
+        public void setRange(TimeEntity startValue, TimeEntity endValue) {
         setRange(startValue, endValue, null);
     }
 
-    /**
-     * 设置日期时间范围
-     */
-    public void setRange(TimeEntity startValue, TimeEntity endValue, TimeEntity defaultValue) {
+        public void setRange(TimeEntity startValue, TimeEntity endValue, TimeEntity defaultValue) {
         if (startValue == null) {
             startValue = TimeEntity.target(isHour12Mode() ? 1 : 0, 0, 0);
         }

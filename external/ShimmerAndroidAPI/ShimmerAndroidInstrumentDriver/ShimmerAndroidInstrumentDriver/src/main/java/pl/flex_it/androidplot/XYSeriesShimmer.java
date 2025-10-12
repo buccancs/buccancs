@@ -16,53 +16,26 @@ public class XYSeriesShimmer implements XYSeries {
     private boolean mClearGraphatLimit = false;
 
 
-    /**
-     * Constructor
-     *
-     * @param datasource  the data source
-     * @param seriesIndex series index for identification
-     * @param title       series title for identification
-     * @param xaxislimit  xaxis limit, see method setClearGraphatLimit
-     */
-    public XYSeriesShimmer(List<Number> datasource, int seriesIndex, String title, int xaxislimit) {
+        public XYSeriesShimmer(List<Number> datasource, int seriesIndex, String title, int xaxislimit) {
         this.mDataY = datasource;
         this.mSeriesIndex = seriesIndex;
         this.mTitle = title;
         this.mXAxisLimit = xaxislimit;
     }
 
-    /**
-     * Constructor
-     *
-     * @param datasource  the data source
-     * @param seriesIndex series index for identification
-     * @param title       series title for identification
-     *
-     */
-    public XYSeriesShimmer(List<Number> datasource, int seriesIndex, String title) {
+        public XYSeriesShimmer(List<Number> datasource, int seriesIndex, String title) {
         this.mDataY = datasource;
         this.mSeriesIndex = seriesIndex;
         this.mTitle = title;
     }
 
-    /**
-     * Constructor
-     *
-     * @param datasource  the data source
-     * @param seriesIndex series index for identification
-     */
-    public XYSeriesShimmer(List<Number> datasource, int seriesIndex) {
+        public XYSeriesShimmer(List<Number> datasource, int seriesIndex) {
         this.mDataY = datasource;
         this.mSeriesIndex = seriesIndex;
         this.mTitle = "";
     }
 
-    /**
-     * Constructor
-     *
-     * @param datasource the data source
-     */
-    public XYSeriesShimmer(List<Number> datasource) {
+        public XYSeriesShimmer(List<Number> datasource) {
         this.mDataY = datasource;
         this.mTitle = "";
     }

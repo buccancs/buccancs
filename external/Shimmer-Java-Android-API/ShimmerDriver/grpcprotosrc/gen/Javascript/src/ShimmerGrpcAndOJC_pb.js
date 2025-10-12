@@ -4518,11 +4518,6 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
 }
 
 
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice}
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.deserializeBinary = function (bytes) {
     var reader = new jspb.BinaryReader(bytes);
     var msg = new proto.shimmerGRPC.EmulatedDevices.EmulatedDevice;
@@ -4530,13 +4525,6 @@ proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.deserializeBinary = function (b
 };
 
 
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice}
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.deserializeBinaryFromReader = function (msg, reader) {
     while (reader.nextField()) {
         if (reader.isEndGroup()) {
@@ -4545,48 +4533,13 @@ proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.deserializeBinaryFromReader = f
         var field = reader.getFieldNumber();
         switch (field) {
             case 1:
-                var value = /** @type {string} */ (reader.readString());
-                msg.setUniqueid(value);
-                break;
-            case 2:
-                var value = /** @type {number} */ (reader.readInt32());
-                msg.setDevicetypeordinal(value);
-                break;
-            case 3:
-                var value = /** @type {string} */ (reader.readString());
-                msg.addHwdeviceinterfacepath(value);
-                break;
-            case 4:
-                var value = /** @type {boolean} */ (reader.readBool());
-                msg.setIsdeviceenabled(value);
-                break;
-            default:
-                reader.skipField();
-                break;
-        }
-    }
-    return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.serializeBinary = function () {
+                var value = proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.serializeBinary = function () {
     var writer = new jspb.BinaryWriter();
     proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.serializeBinaryToWriter(this, writer);
     return writer.getResultBuffer();
 };
 
 
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.serializeBinaryToWriter = function (message, writer) {
     var f = undefined;
     f = message.getUniqueid();
@@ -4620,169 +4573,60 @@ proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.serializeBinaryToWriter = funct
 };
 
 
-/**
- * optional string uniqueId = 1;
- * @return {string}
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.getUniqueid = function () {
-    return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice} returns this
- */
-proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.setUniqueid = function (value) {
+    return proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.setUniqueid = function (value) {
     return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
-/**
- * optional int32 deviceTypeOrdinal = 2;
- * @return {number}
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.getDevicetypeordinal = function () {
-    return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice} returns this
- */
-proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.setDevicetypeordinal = function (value) {
+    return proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.setDevicetypeordinal = function (value) {
     return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
-/**
- * repeated string hwDeviceInterfacePath = 3;
- * @return {!Array<string>}
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.getHwdeviceinterfacepathList = function () {
-    return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 3));
-};
-
-
-/**
- * @param {!Array<string>} value
- * @return {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice} returns this
- */
-proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.setHwdeviceinterfacepathList = function (value) {
+    return proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.setHwdeviceinterfacepathList = function (value) {
     return jspb.Message.setField(this, 3, value || []);
 };
 
 
-/**
- * @param {string} value
- * @param {number=} opt_index
- * @return {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice} returns this
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.addHwdeviceinterfacepath = function (value, opt_index) {
     return jspb.Message.addToRepeatedField(this, 3, value, opt_index);
 };
 
 
-/**
- * Clears the list making it empty but non-null.
- * @return {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice} returns this
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.clearHwdeviceinterfacepathList = function () {
     return this.setHwdeviceinterfacepathList([]);
 };
 
 
-/**
- * optional bool isDeviceEnabled = 4;
- * @return {boolean}
- */
 proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.getIsdeviceenabled = function () {
-    return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice} returns this
- */
-proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.setIsdeviceenabled = function (value) {
+    return proto.shimmerGRPC.EmulatedDevices.EmulatedDevice.prototype.setIsdeviceenabled = function (value) {
     return jspb.Message.setProto3BooleanField(this, 4, value);
 };
 
 
-/**
- * optional bool state = 1;
- * @return {boolean}
- */
 proto.shimmerGRPC.EmulatedDevices.prototype.getState = function () {
-    return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 1, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.shimmerGRPC.EmulatedDevices} returns this
- */
-proto.shimmerGRPC.EmulatedDevices.prototype.setState = function (value) {
+    return proto.shimmerGRPC.EmulatedDevices.prototype.setState = function (value) {
     return jspb.Message.setProto3BooleanField(this, 1, value);
 };
 
 
-/**
- * optional string message = 2;
- * @return {string}
- */
 proto.shimmerGRPC.EmulatedDevices.prototype.getMessage = function () {
-    return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.shimmerGRPC.EmulatedDevices} returns this
- */
-proto.shimmerGRPC.EmulatedDevices.prototype.setMessage = function (value) {
+    return proto.shimmerGRPC.EmulatedDevices.prototype.setMessage = function (value) {
     return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
-/**
- * optional bool isEmulatorSide = 3;
- * @return {boolean}
- */
 proto.shimmerGRPC.EmulatedDevices.prototype.getIsemulatorside = function () {
-    return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 3, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.shimmerGRPC.EmulatedDevices} returns this
- */
-proto.shimmerGRPC.EmulatedDevices.prototype.setIsemulatorside = function (value) {
+    return proto.shimmerGRPC.EmulatedDevices.prototype.setIsemulatorside = function (value) {
     return jspb.Message.setProto3BooleanField(this, 3, value);
 };
 
 
-/**
- * map<string, EmulatedDevice> emulatedDevicesMap = 4;
- * @param {boolean=} opt_noLazyCreate Do not create the map if
- * empty, instead returning `undefined`
- * @return {!jspb.Map<string,!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice>}
- */
 proto.shimmerGRPC.EmulatedDevices.prototype.getEmulateddevicesmapMap = function (opt_noLazyCreate) {
-    return /** @type {!jspb.Map<string,!proto.shimmerGRPC.EmulatedDevices.EmulatedDevice>} */ (
-        jspb.Message.getMapField(this, 4, opt_noLazyCreate,
-            proto.shimmerGRPC.EmulatedDevices.EmulatedDevice));
-};
-
-
-/**
- * Clears values from the map. The map will be non-null.
- * @return {!proto.shimmerGRPC.EmulatedDevices} returns this
- */
-proto.shimmerGRPC.EmulatedDevices.prototype.clearEmulateddevicesmapMap = function () {
+    return proto.shimmerGRPC.EmulatedDevices.prototype.clearEmulateddevicesmapMap = function () {
     this.getEmulateddevicesmapMap().clear();
     return this;
 };

@@ -11,109 +11,42 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Class representing the legend of the chart. The legend will contain one entry
- * per color and DataSet. Multiple colors in one DataSet are grouped together.
- * The legend object is NOT available before setting data to the chart.
- *
- * @author Philipp Jahoda
- */
 public class Legend extends ComponentBase {
 
-    /**
-     * the total width of the legend (needed width space)
-     */
-    public float mNeededWidth = 0f;
-    /**
-     * the total height of the legend (needed height space)
-     */
-    public float mNeededHeight = 0f;
+        public float mNeededWidth = 0f;
+        public float mNeededHeight = 0f;
     public float mTextHeightMax = 0f;
     public float mTextWidthMax = 0f;
-    /**
-     * The legend entries array
-     */
-    private LegendEntry[] mEntries = new LegendEntry[]{};
-    /**
-     * Entries that will be appended to the end of the auto calculated entries after calculating the legend.
-     * (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
-     */
-    private LegendEntry[] mExtraEntries;
-    /**
-     * Are the legend labels/colors a custom value or auto calculated? If false,
-     * then it's auto, if true, then custom. default false (automatic legend)
-     */
-    private boolean mIsLegendCustom = false;
+        private LegendEntry[] mEntries = new LegendEntry[]{};
+        private LegendEntry[] mExtraEntries;
+        private boolean mIsLegendCustom = false;
     private LegendHorizontalAlignment mHorizontalAlignment = LegendHorizontalAlignment.LEFT;
     private LegendVerticalAlignment mVerticalAlignment = LegendVerticalAlignment.BOTTOM;
     private LegendOrientation mOrientation = LegendOrientation.HORIZONTAL;
     private boolean mDrawInside = false;
-    /**
-     * the text direction for the legend
-     */
-    private LegendDirection mDirection = LegendDirection.LEFT_TO_RIGHT;
-    /**
-     * the shape/form the legend colors are drawn in
-     */
-    private LegendForm mShape = LegendForm.SQUARE;
-    /**
-     * the size of the legend forms/shapes
-     */
-    private float mFormSize = 8f;
-    /**
-     * the size of the legend forms/shapes
-     */
-    private float mFormLineWidth = 3f;
-    /**
-     * Line dash path effect used for shapes that consist of lines.
-     */
-    private DashPathEffect mFormLineDashEffect = null;
-    /**
-     * the space between the legend entries on a horizontal axis, default 6f
-     */
-    private float mXEntrySpace = 6f;
-    /**
-     * the space between the legend entries on a vertical axis, default 5f
-     */
-    private float mYEntrySpace = 0f;
-    /**
-     * the space between the legend entries on a vertical axis, default 2f
-     * private float mYEntrySpace = 2f; /** the space between the form and the
-     * actual label/text
-     */
-    private float mFormToTextSpace = 5f;
-    /**
-     * the space that should be left between stacked forms
-     */
-    private float mStackSpace = 3f;
-    /**
-     * the maximum relative size out of the whole chart view in percent
-     */
-    private float mMaxSizePercent = 0.95f;
-    /**
-     * flag that indicates if word wrapping is enabled
-     */
-    private boolean mWordWrapEnabled = false;
+        private LegendDirection mDirection = LegendDirection.LEFT_TO_RIGHT;
+        private LegendForm mShape = LegendForm.SQUARE;
+        private float mFormSize = 8f;
+        private float mFormLineWidth = 3f;
+        private DashPathEffect mFormLineDashEffect = null;
+        private float mXEntrySpace = 6f;
+        private float mYEntrySpace = 0f;
+        private float mFormToTextSpace = 5f;
+        private float mStackSpace = 3f;
+        private float mMaxSizePercent = 0.95f;
+        private boolean mWordWrapEnabled = false;
     private List<FSize> mCalculatedLabelSizes = new ArrayList<>(16);
     private List<Boolean> mCalculatedLabelBreakPoints = new ArrayList<>(16);
     private List<FSize> mCalculatedLineSizes = new ArrayList<>(16);
 
-    /**
-     * default constructor
-     */
-    public Legend() {
+        public Legend() {
 
         this.mTextSize = Utils.convertDpToPixel(10f);
         this.mXOffset = Utils.convertDpToPixel(5f);
         this.mYOffset = Utils.convertDpToPixel(3f); // 2
     }
 
-    /**
-     * Constructor. Provide entries for the legend.
-     *
-     * @param entries
-     */
-    public Legend(LegendEntry[] entries) {
+        public Legend(LegendEntry[] entries) {
         this();
 
         if (entries == null) {
@@ -127,23 +60,11 @@ public class Legend extends ComponentBase {
         return mEntries;
     }
 
-    /**
-     * This method sets the automatically computed colors for the legend. Use setCustom(...) to set custom colors.
-     *
-     * @param entries
-     */
-    public void setEntries(List<LegendEntry> entries) {
+        public void setEntries(List<LegendEntry> entries) {
         mEntries = entries.toArray(new LegendEntry[entries.size()]);
     }
 
-    /**
-     * returns the maximum length in pixels across all legend labels + formsize
-     * + formtotextspace
-     *
-     * @param p the paint object used for rendering the text
-     * @return
-     */
-    public float getMaximumEntryWidth(Paint p) {
+        public float getMaximumEntryWidth(Paint p) {
 
         float max = 0f;
         float maxFormSize = 0f;
@@ -168,13 +89,7 @@ public class Legend extends ComponentBase {
         return max + maxFormSize + formToTextSpace;
     }
 
-    /**
-     * returns the maximum height in pixels across all legend labels
-     *
-     * @param p the paint object used for rendering the text
-     * @return
-     */
-    public float getMaximumEntryHeight(Paint p) {
+        public float getMaximumEntryHeight(Paint p) {
 
         float max = 0f;
 
@@ -206,13 +121,7 @@ public class Legend extends ComponentBase {
         mExtraEntries = entries;
     }
 
-    /**
-     * Entries that will be appended to the end of the auto calculated
-     * entries after calculating the legend.
-     * (if the legend has already been calculated, you will need to call notifyDataSetChanged()
-     * to let the changes take effect)
-     */
-    public void setExtra(int[] colors, String[] labels) {
+        public void setExtra(int[] colors, String[] labels) {
 
         List<LegendEntry> entries = new ArrayList<>();
 
@@ -233,333 +142,143 @@ public class Legend extends ComponentBase {
         mExtraEntries = entries.toArray(new LegendEntry[entries.size()]);
     }
 
-    /**
-     * Sets a custom legend's entries array.
-     * * A null label will start a group.
-     * This will disable the feature that automatically calculates the legend
-     * entries from the datasets.
-     * Call resetCustom() to re-enable automatic calculation (and then
-     * notifyDataSetChanged() is needed to auto-calculate the legend again)
-     */
-    public void setCustom(LegendEntry[] entries) {
+        public void setCustom(LegendEntry[] entries) {
 
         mEntries = entries;
         mIsLegendCustom = true;
     }
 
-    /**
-     * Sets a custom legend's entries array.
-     * * A null label will start a group.
-     * This will disable the feature that automatically calculates the legend
-     * entries from the datasets.
-     * Call resetCustom() to re-enable automatic calculation (and then
-     * notifyDataSetChanged() is needed to auto-calculate the legend again)
-     */
-    public void setCustom(List<LegendEntry> entries) {
+        public void setCustom(List<LegendEntry> entries) {
 
         mEntries = entries.toArray(new LegendEntry[entries.size()]);
         mIsLegendCustom = true;
     }
 
-    /**
-     * Calling this will disable the custom legend entries (set by
-     * setCustom(...)). Instead, the entries will again be calculated
-     * automatically (after notifyDataSetChanged() is called).
-     */
-    public void resetCustom() {
+        public void resetCustom() {
         mIsLegendCustom = false;
     }
 
-    /**
-     * @return true if a custom legend entries has been set default
-     * false (automatic legend)
-     */
-    public boolean isLegendCustom() {
+        public boolean isLegendCustom() {
         return mIsLegendCustom;
     }
 
-    /**
-     * returns the horizontal alignment of the legend
-     *
-     * @return
-     */
-    public LegendHorizontalAlignment getHorizontalAlignment() {
+        public LegendHorizontalAlignment getHorizontalAlignment() {
         return mHorizontalAlignment;
     }
 
-    /**
-     * sets the horizontal alignment of the legend
-     *
-     * @param value
-     */
-    public void setHorizontalAlignment(LegendHorizontalAlignment value) {
+        public void setHorizontalAlignment(LegendHorizontalAlignment value) {
         mHorizontalAlignment = value;
     }
 
-    /**
-     * returns the vertical alignment of the legend
-     *
-     * @return
-     */
-    public LegendVerticalAlignment getVerticalAlignment() {
+        public LegendVerticalAlignment getVerticalAlignment() {
         return mVerticalAlignment;
     }
 
-    /**
-     * sets the vertical alignment of the legend
-     *
-     * @param value
-     */
-    public void setVerticalAlignment(LegendVerticalAlignment value) {
+        public void setVerticalAlignment(LegendVerticalAlignment value) {
         mVerticalAlignment = value;
     }
 
-    /**
-     * returns the orientation of the legend
-     *
-     * @return
-     */
-    public LegendOrientation getOrientation() {
+        public LegendOrientation getOrientation() {
         return mOrientation;
     }
 
-    /**
-     * sets the orientation of the legend
-     *
-     * @param value
-     */
-    public void setOrientation(LegendOrientation value) {
+        public void setOrientation(LegendOrientation value) {
         mOrientation = value;
     }
 
-    /**
-     * returns whether the legend will draw inside the chart or outside
-     *
-     * @return
-     */
-    public boolean isDrawInsideEnabled() {
+        public boolean isDrawInsideEnabled() {
         return mDrawInside;
     }
 
-    /**
-     * sets whether the legend will draw inside the chart or outside
-     *
-     * @param value
-     */
-    public void setDrawInside(boolean value) {
+        public void setDrawInside(boolean value) {
         mDrawInside = value;
     }
 
-    /**
-     * returns the text direction of the legend
-     *
-     * @return
-     */
-    public LegendDirection getDirection() {
+        public LegendDirection getDirection() {
         return mDirection;
     }
 
-    /**
-     * sets the text direction of the legend
-     *
-     * @param pos
-     */
-    public void setDirection(LegendDirection pos) {
+        public void setDirection(LegendDirection pos) {
         mDirection = pos;
     }
 
-    /**
-     * returns the current form/shape that is set for the legend
-     *
-     * @return
-     */
-    public LegendForm getForm() {
+        public LegendForm getForm() {
         return mShape;
     }
 
-    /**
-     * sets the form/shape of the legend forms
-     *
-     * @param shape
-     */
-    public void setForm(LegendForm shape) {
+        public void setForm(LegendForm shape) {
         mShape = shape;
     }
 
-    /**
-     * returns the size in dp of the legend forms
-     *
-     * @return
-     */
-    public float getFormSize() {
+        public float getFormSize() {
         return mFormSize;
     }
 
-    /**
-     * sets the size in dp of the legend forms, default 8f
-     *
-     * @param size
-     */
-    public void setFormSize(float size) {
+        public void setFormSize(float size) {
         mFormSize = size;
     }
 
-    /**
-     * returns the line width in dp for drawing forms that consist of lines
-     *
-     * @return
-     */
-    public float getFormLineWidth() {
+        public float getFormLineWidth() {
         return mFormLineWidth;
     }
 
-    /**
-     * sets the line width in dp for forms that consist of lines, default 3f
-     *
-     * @param size
-     */
-    public void setFormLineWidth(float size) {
+        public void setFormLineWidth(float size) {
         mFormLineWidth = size;
     }
 
-    /**
-     * @return The line dash path effect used for shapes that consist of lines.
-     */
-    public DashPathEffect getFormLineDashEffect() {
+        public DashPathEffect getFormLineDashEffect() {
         return mFormLineDashEffect;
     }
 
-    /**
-     * Sets the line dash path effect used for shapes that consist of lines.
-     *
-     * @param dashPathEffect
-     */
-    public void setFormLineDashEffect(DashPathEffect dashPathEffect) {
+        public void setFormLineDashEffect(DashPathEffect dashPathEffect) {
         mFormLineDashEffect = dashPathEffect;
     }
 
-    /**
-     * returns the space between the legend entries on a horizontal axis in
-     * pixels
-     *
-     * @return
-     */
-    public float getXEntrySpace() {
+        public float getXEntrySpace() {
         return mXEntrySpace;
     }
 
-    /**
-     * sets the space between the legend entries on a horizontal axis in pixels,
-     * converts to dp internally
-     *
-     * @param space
-     */
-    public void setXEntrySpace(float space) {
+        public void setXEntrySpace(float space) {
         mXEntrySpace = space;
     }
 
-    /**
-     * returns the space between the legend entries on a vertical axis in pixels
-     *
-     * @return
-     */
-    public float getYEntrySpace() {
+        public float getYEntrySpace() {
         return mYEntrySpace;
     }
 
-    /**
-     * sets the space between the legend entries on a vertical axis in pixels,
-     * converts to dp internally
-     *
-     * @param space
-     */
-    public void setYEntrySpace(float space) {
+        public void setYEntrySpace(float space) {
         mYEntrySpace = space;
     }
 
-    /**
-     * returns the space between the form and the actual label/text
-     *
-     * @return
-     */
-    public float getFormToTextSpace() {
+        public float getFormToTextSpace() {
         return mFormToTextSpace;
     }
 
-    /**
-     * sets the space between the form and the actual label/text, converts to dp
-     * internally
-     *
-     * @param space
-     */
-    public void setFormToTextSpace(float space) {
+        public void setFormToTextSpace(float space) {
         this.mFormToTextSpace = space;
     }
 
-    /**
-     * returns the space that is left out between stacked forms (with no label)
-     *
-     * @return
-     */
-    public float getStackSpace() {
+        public float getStackSpace() {
         return mStackSpace;
     }
 
-    /**
-     * sets the space that is left out between stacked forms (with no label)
-     *
-     * @param space
-     */
-    public void setStackSpace(float space) {
+        public void setStackSpace(float space) {
         mStackSpace = space;
     }
 
-    /**
-     * If this is set, then word wrapping the legend is enabled. This means the
-     * legend will not be cut off if too long.
-     *
-     * @return
-     */
-    public boolean isWordWrapEnabled() {
+        public boolean isWordWrapEnabled() {
         return mWordWrapEnabled;
     }
 
-    /**
-     * Should the legend word wrap? / this is currently supported only for:
-     * BelowChartLeft, BelowChartRight, BelowChartCenter. / note that word
-     * wrapping a legend takes a toll on performance. / you may want to set
-     * maxSizePercent when word wrapping, to set the point where the text wraps.
-     * / default: false
-     *
-     * @param enabled
-     */
-    public void setWordWrapEnabled(boolean enabled) {
+        public void setWordWrapEnabled(boolean enabled) {
         mWordWrapEnabled = enabled;
     }
 
-    /**
-     * The maximum relative size out of the whole chart view. / If the legend is
-     * to the right/left of the chart, then this affects the width of the
-     * legend. / If the legend is to the top/bottom of the chart, then this
-     * affects the height of the legend. / If the legend is the center of the
-     * piechart, then this defines the size of the rectangular bounds out of the
-     * size of the "hole". / default: 0.95f (95%)
-     *
-     * @return
-     */
-    public float getMaxSizePercent() {
+        public float getMaxSizePercent() {
         return mMaxSizePercent;
     }
 
-    /**
-     * The maximum relative size out of the whole chart view. / If
-     * the legend is to the right/left of the chart, then this affects the width
-     * of the legend. / If the legend is to the top/bottom of the chart, then
-     * this affects the height of the legend. / default: 0.95f (95%)
-     *
-     * @param maxSize
-     */
-    public void setMaxSizePercent(float maxSize) {
+        public void setMaxSizePercent(float maxSize) {
         mMaxSizePercent = maxSize;
     }
 
@@ -575,14 +294,7 @@ public class Legend extends ComponentBase {
         return mCalculatedLineSizes;
     }
 
-    /**
-     * Calculates the dimensions of the Legend. This includes the maximum width
-     * and height of a single entry, as well as the total width and height of
-     * the Legend.
-     *
-     * @param labelpaint
-     */
-    public void calculateDimensions(Paint labelpaint, ViewPortHandler viewPortHandler) {
+        public void calculateDimensions(Paint labelpaint, ViewPortHandler viewPortHandler) {
 
         float defaultFormSize = Utils.convertDpToPixel(mFormSize);
         float stackSpace = Utils.convertDpToPixel(mStackSpace);
@@ -758,35 +470,17 @@ public class Legend extends ComponentBase {
     }
 
     public enum LegendForm {
-        /**
-         * Avoid drawing a form
-         */
-        NONE,
+                NONE,
 
-        /**
-         * Do not draw the a form, but leave space for it
-         */
-        EMPTY,
+                EMPTY,
 
-        /**
-         * Use default (default dataset's form to the legend's form)
-         */
-        DEFAULT,
+                DEFAULT,
 
-        /**
-         * Draw a square
-         */
-        SQUARE,
+                SQUARE,
 
-        /**
-         * Draw a circle
-         */
-        CIRCLE,
+                CIRCLE,
 
-        /**
-         * Draw a horizontal line
-         */
-        LINE
+                LINE
     }
 
     public enum LegendHorizontalAlignment {

@@ -7,10 +7,7 @@ import java.util.List;
 //A work in progress - not complete
 public class SensorParsingDetails implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 8384885695261304687L;
+        private static final long serialVersionUID = 8384885695261304687L;
 
     public int head_byte_mask = -9999;
     public int sampling_divider = -9999;

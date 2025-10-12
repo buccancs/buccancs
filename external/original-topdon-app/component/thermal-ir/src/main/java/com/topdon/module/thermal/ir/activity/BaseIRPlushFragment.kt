@@ -70,11 +70,6 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
     protected var ircmd: IRCMD? = null
     protected var snStr = ""
     protected var defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT
-    /**
-     * ir camera
-     * 22576 - 0x5830
-     * 22592 - 0x5840
-     */
     private var irPid = 0x5830
     private var irFps = 25
     private var irCameraWidth = 0
@@ -87,20 +82,11 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
     private var syncimage = SynchronizedBitmap()
     protected var isConfigWait = true
     protected var pseudoColorMode = SaveSettingUtil.pseudoColorMode
-    /**
-     * vl camera
-     * 12341 - 0x3035  30 fps 640*480
-     * 38704 - 0x9730  25 fps 1280*720
-     * 8833
-     */
     private var vlPid = 12337
     private var vlFps = 30
     protected var vlCameraWidth = 1280
     protected var vlCameraHeight = 720
     private var vlData = ByteArray(vlCameraWidth * vlCameraHeight * 3)
-    /**
-     * dual camera
-     */
     private var dualCameraWidth = 480
     private var dualCameraHeight = 640
     protected var isrun = false
@@ -117,10 +103,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
 
     open fun initdata() {
     }
-    /**
-     * @param dataFlowMode
-     */
-    open fun initDataFlowMode(dataFlowMode: CommonParams.DataFlowMode) {
+        open fun initDataFlowMode(dataFlowMode: CommonParams.DataFlowMode) {
         when (dataFlowMode) {
             CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT -> {
                 irCameraWidth = 256
@@ -290,10 +273,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
         setTemperatureViewType()
         getTemperatureDualView().start()
     }
-    /**
-     *
-     */
-    var mIrHandler: Handler = object : Handler(Looper.getMainLooper()) {
+        var mIrHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             Log.d(

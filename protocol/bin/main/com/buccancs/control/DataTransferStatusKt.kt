@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializedataTransferStatus")
 public inline fun dataTransferStatus(block: com.buccancs.control.DataTransferStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferStatus =
   com.buccancs.control.DataTransferStatusKt.Dsl._create(com.buccancs.control.DataTransferStatus.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.DataTransferStatus`
- */
 public object DataTransferStatusKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,74 +20,44 @@ public object DataTransferStatusKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.DataTransferStatus = _builder.build()
-    /**
-     * `string file_name = 1;`
-     */
-    public var fileName: kotlin.String
+        public var fileName: kotlin.String
       get() = _builder.getFileName()
       set(value) {
         _builder.setFileName(value)
       }
-    /**
-     * `string file_name = 1;`
-     */
-    public fun clearFileName() {
+        public fun clearFileName() {
       _builder.clearFileName()
     }
-    /**
-     * `string device_id = 2;`
-     */
-    public var deviceId: kotlin.String
+        public var deviceId: kotlin.String
       get() = _builder.getDeviceId()
       set(value) {
         _builder.setDeviceId(value)
       }
-    /**
-     * `string device_id = 2;`
-     */
-    public fun clearDeviceId() {
+        public fun clearDeviceId() {
       _builder.clearDeviceId()
     }
-    /**
-     * `bool success = 3;`
-     */
-    public var success: kotlin.Boolean
+        public var success: kotlin.Boolean
       get() = _builder.getSuccess()
       set(value) {
         _builder.setSuccess(value)
       }
-    /**
-     * `bool success = 3;`
-     */
-    public fun clearSuccess() {
+        public fun clearSuccess() {
       _builder.clearSuccess()
     }
-    /**
-     * `string error_message = 4;`
-     */
-    public var errorMessage: kotlin.String
+        public var errorMessage: kotlin.String
       get() = _builder.getErrorMessage()
       set(value) {
         _builder.setErrorMessage(value)
       }
-    /**
-     * `string error_message = 4;`
-     */
-    public fun clearErrorMessage() {
+        public fun clearErrorMessage() {
       _builder.clearErrorMessage()
     }
-    /**
-     * `string stream_type = 5;`
-     */
-    public var streamType: kotlin.String
+        public var streamType: kotlin.String
       get() = _builder.getStreamType()
       set(value) {
         _builder.setStreamType(value)
       }
-    /**
-     * `string stream_type = 5;`
-     */
-    public fun clearStreamType() {
+        public fun clearStreamType() {
       _builder.clearStreamType()
     }
   }

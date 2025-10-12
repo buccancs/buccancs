@@ -134,10 +134,6 @@ object IRCmdTool {
         }
         setImageParams(irCmd = irCmd, params = CommonParams.PropImageParams.IMAGE_PROP_ONOFF_AGC, value = data)
     }
-    /**
-     * 查询增益模式
-     * @return 1:高增益(常温)    0:低增益(高温)
-     */
     fun getTpdGainSel(irCmd: IRCMD?): Int {
         val result = queryTpdParam(irCmd = irCmd, params = CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL)
         return if (result == CommonParams.PropTPDParamsValue.GAINSELStatus.GAIN_SEL_HIGH.value) {

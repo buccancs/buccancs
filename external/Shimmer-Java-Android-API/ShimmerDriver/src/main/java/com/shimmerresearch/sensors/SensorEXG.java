@@ -3079,10 +3079,7 @@ public class SensorEXG extends AbstractSensor {
         return convertEXGGainSettingToValue(getExg2CH2GainConfigValue());
     }
 
-    /**
-     * get the gain for the particular chip/channel
-     */
-    private int getExgGainPerChannel(String channelName) {
+        private int getExgGainPerChannel(String channelName) {
         int exgChGainValue = getExg1Ch1GainSetting();
         if (isChip1Ch2Channel(channelName)) {
             exgChGainValue = getExg1Ch2GainSetting();

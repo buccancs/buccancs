@@ -12,14 +12,6 @@ import com.shimmerresearch.driver.Configuration.CHANNEL_UNITS;
 import com.shimmerresearch.driver.ObjectCluster;
 import com.shimmerresearch.sensors.AbstractSensor.SENSORS;
 
-/**
- * This class represents a single block of data in the payload that has
- * originated from a single sensor (e.g. the FIFO buffer from any of the
- * sensors). It has an associated sensor ID and a RTC ticks value included.
- *
- * @author Mark Nolan
- *
- */
 public class DataBlockDetails implements Serializable {
 
     private static final long serialVersionUID = -3695586952435188960L;
@@ -29,11 +21,7 @@ public class DataBlockDetails implements Serializable {
     public int dataBlockStartByteIndexInFile;
     public int qtySensorDataBytesInDatablock;
     public int dataPacketSize;
-    /**
-     * If a midday/midnight transition is detected within a data block, the data
-     * block will be split in two on a sample-by-sample basis.
-     */
-    public DATA_BLOCK_SPLIT_PART splitDataBlockPart = DATA_BLOCK_SPLIT_PART.NOT_SPLIT;
+        public DATA_BLOCK_SPLIT_PART splitDataBlockPart = DATA_BLOCK_SPLIT_PART.NOT_SPLIT;
     private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
     private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
     private double samplingRate;
@@ -41,19 +29,12 @@ public class DataBlockDetails implements Serializable {
     private int sampleCount;
     private double timestampDiffInS;
 
-    /**
-     * Useful for console prints
-     */
-    private int dataBlockIndexInPayload = Integer.MIN_VALUE;
+        private int dataBlockIndexInPayload = Integer.MIN_VALUE;
     private int payloadIndex = Integer.MIN_VALUE;
 
     private ObjectCluster[] ojcArray = null;
     private boolean firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap = false;
-    /**
-     * Is true for is the first data block after a midday/midnight transition
-     * in-which the datablock didn't need to be split sample-by-sample
-     */
-    private boolean firstUnsplitDataBlockAfterMiddayMidnightTransition = false;
+        private boolean firstUnsplitDataBlockAfterMiddayMidnightTransition = false;
 
     public DataBlockDetails(DATABLOCK_SENSOR_ID datablockSensorId, int payloadIndex, int dataBlockIndexInPayload, List<SENSORS> listOfSensorClassKeys,
                             int dataBlockStartByteIndexInFile, int dataBlockStartByteIndexInPayload) {
@@ -300,10 +281,7 @@ public class DataBlockDetails implements Serializable {
         return isSecondPartOfSplitDataBlock() || isFirstUnsplitDataBlockAfterMiddayMidnightTransition();
     }
 
-    /**
-     * This is the ENUM of the DataBlock ID as set in FW
-     */
-    public enum DATABLOCK_SENSOR_ID {
+        public enum DATABLOCK_SENSOR_ID {
         NONE,
         ADC,
         ACCEL_1,

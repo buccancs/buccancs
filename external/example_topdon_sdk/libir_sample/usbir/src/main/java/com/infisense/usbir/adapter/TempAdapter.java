@@ -32,12 +32,7 @@ public class TempAdapter extends RecyclerView.Adapter<TempAdapter.ViewHolder> {
     private ArrayList<ReginModeBean> mDataList;
     private OnItemOnclickListenter listenter;
 
-    /**
-     * @param context
-     * @param mMyLiveList
-     * @param listenter
-     */
-    public TempAdapter(Context context, ArrayList<ReginModeBean> mMyLiveList, OnItemOnclickListenter listenter) {
+        public TempAdapter(Context context, ArrayList<ReginModeBean> mMyLiveList, OnItemOnclickListenter listenter) {
         this.context = context;
         this.mDataList = mMyLiveList;
         this.listenter = listenter;
@@ -73,10 +68,7 @@ public class TempAdapter extends RecyclerView.Adapter<TempAdapter.ViewHolder> {
         void onClick(int position);
     }
 
-    /**
-     *
-     */
-    class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
         TextureView textureView;
         TextView tvName;

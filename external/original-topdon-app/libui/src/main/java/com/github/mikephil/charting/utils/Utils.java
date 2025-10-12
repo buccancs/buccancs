@@ -437,17 +437,7 @@ public abstract class Utils {
         }
     }
 
-    /**
-     * Returns a recyclable MPPointF instance.
-     * Calculates the position around a center point, depending on the distance
-     * from the center, and the angle of the position around the center.
-     *
-     * @param center
-     * @param dist
-     * @param angle  in degrees, converted to radians internally
-     * @return
-     */
-    public static MPPointF getPosition(MPPointF center, float dist, float angle) {
+        public static MPPointF getPosition(MPPointF center, float dist, float angle) {
 
         MPPointF p = MPPointF.getInstance(0, 0);
         getPosition(center, dist, angle, p);
@@ -485,13 +475,7 @@ public abstract class Utils {
         }
     }
 
-    /**
-     * Original method view.postInvalidateOnAnimation() only supportd in API >=
-     * 16, This is a replica of the code from ViewCompat.
-     *
-     * @param view
-     */
-    @SuppressLint("NewApi")
+        @SuppressLint("NewApi")
     public static void postInvalidateOnAnimation(View view) {
         if (Build.VERSION.SDK_INT >= 16)
             view.postInvalidateOnAnimation();
@@ -507,10 +491,7 @@ public abstract class Utils {
         return mMaximumFlingVelocity;
     }
 
-    /**
-     * returns an angle between 0.f < 360.f (not less than zero, less than 360)
-     */
-    public static float getNormalizedAngle(float angle) {
+        public static float getNormalizedAngle(float angle) {
         while (angle < 0.f)
             angle += 360.f;
 
@@ -699,58 +680,24 @@ public abstract class Utils {
         drawMultilineText(c, textLayout, x, y, paint, anchor, angleDegrees);
     }
 
-    /**
-     * Returns a recyclable FSize instance.
-     * Represents size of a rotated rectangle by degrees.
-     *
-     * @param rectangleSize
-     * @param degrees
-     * @return A Recyclable FSize instance
-     */
-    public static FSize getSizeOfRotatedRectangleByDegrees(FSize rectangleSize, float degrees) {
+        public static FSize getSizeOfRotatedRectangleByDegrees(FSize rectangleSize, float degrees) {
         final float radians = degrees * FDEG2RAD;
         return getSizeOfRotatedRectangleByRadians(rectangleSize.width, rectangleSize.height,
                 radians);
     }
 
-    /**
-     * Returns a recyclable FSize instance.
-     * Represents size of a rotated rectangle by radians.
-     *
-     * @param rectangleSize
-     * @param radians
-     * @return A Recyclable FSize instance
-     */
-    public static FSize getSizeOfRotatedRectangleByRadians(FSize rectangleSize, float radians) {
+        public static FSize getSizeOfRotatedRectangleByRadians(FSize rectangleSize, float radians) {
         return getSizeOfRotatedRectangleByRadians(rectangleSize.width, rectangleSize.height,
                 radians);
     }
 
-    /**
-     * Returns a recyclable FSize instance.
-     * Represents size of a rotated rectangle by degrees.
-     *
-     * @param rectangleWidth
-     * @param rectangleHeight
-     * @param degrees
-     * @return A Recyclable FSize instance
-     */
-    public static FSize getSizeOfRotatedRectangleByDegrees(float rectangleWidth, float
+        public static FSize getSizeOfRotatedRectangleByDegrees(float rectangleWidth, float
             rectangleHeight, float degrees) {
         final float radians = degrees * FDEG2RAD;
         return getSizeOfRotatedRectangleByRadians(rectangleWidth, rectangleHeight, radians);
     }
 
-    /**
-     * Returns a recyclable FSize instance.
-     * Represents size of a rotated rectangle by radians.
-     *
-     * @param rectangleWidth
-     * @param rectangleHeight
-     * @param radians
-     * @return A Recyclable FSize instance
-     */
-    public static FSize getSizeOfRotatedRectangleByRadians(float rectangleWidth, float
+        public static FSize getSizeOfRotatedRectangleByRadians(float rectangleWidth, float
             rectangleHeight, float radians) {
         return FSize.getInstance(
                 Math.abs(rectangleWidth * (float) Math.cos(radians)) + Math.abs(rectangleHeight *

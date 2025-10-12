@@ -35,26 +35,17 @@ public class MyGLSurfaceView implements Renderer {
     Context context;
     private Cube cube;
     private float rtri;
-    /**
-     * Angle For The Cube
-     */
-    private float rquad;
+        private float rquad;
     private float ax = 0;
     private float ay = 0;
     private float az = 0;
 
-    /**
-     * Instance the Triangle and Square objects
-     */
-    public MyGLSurfaceView(Context context) {
+        public MyGLSurfaceView(Context context) {
         this.context = context;
         cube = new Cube(context);
     }
 
-    /**
-     * The Surface is created/init()
-     */
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //square.loadGLTexture(gl, this.context);
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glClearColor(0, 0, 0, 0);
@@ -68,10 +59,7 @@ public class MyGLSurfaceView implements Renderer {
         gl.glEnable(GL10.GL_ALPHA);
     }
 
-    /**
-     * Here we do our drawing
-     */
-    public void onDrawFrame(GL10 gl) {
+        public void onDrawFrame(GL10 gl) {
         //Clear Screen And Depth Buffer
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();                    //Reset The Current Modelview Matrix
@@ -83,11 +71,7 @@ public class MyGLSurfaceView implements Renderer {
 
     }
 
-    /**
-     * /**
-     * If the surface changes, reset the view
-     */
-    public void onSurfaceChanged(GL10 gl, int width, int height) {
+        public void onSurfaceChanged(GL10 gl, int width, int height) {
         if (height == 0) {                        //Prevent A Divide By Zero By
             height = 1;                        //Making Height Equal One
         }

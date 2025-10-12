@@ -31,9 +31,6 @@ import java.util.Locale;
 import static com.infisense.usbdual.camera.IFrameData.FRAME_LEN;
 
 
-/**
- * Created by fengjibo on 2023/9/20.
- */
 public class DualViewWithExternalCameraCommonApi extends BaseDualView {
 
     public static final int MULTIPLE = 2;
@@ -79,18 +76,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
     private volatile boolean isOpenAmplify = false;
     private boolean saveData = false;
 
-    /**
-     * @param cameraview
-     * @param irUVCCamera
-     * @param dataFlowMode
-     * @param vlCameraWidth
-     * @param vlCameraHeight
-     * @param irCameraWidth
-     * @param irCameraHeight
-     * @param dualCameraWidth
-     * @param dualCameraHeight
-     */
-    public DualViewWithExternalCameraCommonApi(SurfaceView cameraview, UVCCamera irUVCCamera,
+        public DualViewWithExternalCameraCommonApi(SurfaceView cameraview, UVCCamera irUVCCamera,
                                                CommonParams.DataFlowMode dataFlowMode,
                                                int irCameraWidth, int irCameraHeight, int vlCameraWidth, int vlCameraHeight,
                                                int dualCameraWidth, int dualCameraHeight,
@@ -140,12 +126,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                 .setPreviewCameraStyle(CommonParams.PreviewCameraStyle.EXTERNAL_CAMERA)
                 .setDeviceStyle(CommonParams.DeviceStyle.ALL_IN_ONE)
                 .setUseDualGPU(false)
-                /**
-                 * 开始多线程处理融合
-                 * 在CPU低性能平台上，建议关闭多线程
-                 * setUseDualGPU 为true GPU无效
-                 */
-                .setMultiThreadHandleDualEnable(false)
+                                .setMultiThreadHandleDualEnable(false)
                 .build();
         DualCameraParams.TypeLoadParameters rotateT = DualCameraParams.TypeLoadParameters.ROTATE_0;
         if (rotate == 0) {
@@ -161,10 +142,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         dualUVCCamera.addIrUVCCamera(irUVCCamera);
         mSurfaceNativeWindow = new SurfaceNativeWindow();
 
-        /**
-         * 同时打开防灼烧和自动增益切换后，如果想修改防灼烧和自动增益切换的触发优先级，可以通过修改下面的触发参数实现
-         */
-        // 自动增益切换参数auto gain switch parameter
+                // 自动增益切换参数auto gain switch parameter
         gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
         gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
         gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
@@ -188,34 +166,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         preIrARGBData = new byte[irSize * 2 * 2];
         ;//预处理后红外ARGB数据 192 * 256 * 4
         iFrameCallback = new IFrameCallback() {
-            /**
-             * frame 所有数据集合 (CPU)
-             * frame 长度 dualwidth * dualHeight * 4 + irWidth * irHeight * 2 + irWidth * irHeight * 2 + dualwidth *
-             * dualHeight * 2 + vlWidth * vlHeight * 3 + dualwidth * dualHeight * 4
-             * 数据流按顺序依次为
-             * mixData 融合数据，格式ARGB，长度dualwidth * dualHeight * 4
-             * irData 原始红外数据，格式Y16，长度irWidth * irHeight * 2
-             * tempData 原始温度数据，格式Y16，长度irWidth * irHeight * 2
-             * remapTempData 融合图像尺寸一致的温度数据 格式YUV422 dualwidth * dualHeight * 2
-             * vlData 原始可见光数据 格式RGB24 vlWidth * vlHeight * 3
-             * vlARGBData 融合图像尺寸一致的可见光数据 dualwidth * dualHeight * 4（仅画中画模式回调数据）
-             * 画中画模式ScreenFusion:mixData 为单红外数据，格式ARGB，长度dualwidth * dualHeight * 4
-             * 融合模式为IROnlyNoFusion, 只会返回irData和tempData,数据位置不变
-             */
-            /**
-             * frame 所有数据集合 (GPU)
-             * frame 长度 dualwidth * dualHeight * 4 + irWidth * irHeight * 2 + irWidth * irHeight * 2 + dualwidth *
-             * dualHeight * 2 + vlWidth * vlHeight * 4
-             * 数据流按顺序依次为
-             * mixData 融合数据，格式ARGB，长度dualwidth * dualHeight * 4
-             * irData 原始红外数据，格式Y16，长度irWidth * irHeight * 2
-             * tempData 原始温度数据，格式Y16，长度irWidth * irHeight * 2
-             * remapTempData 融合图像尺寸一致的温度数据 格式YUV422 dualwidth * dualHeight * 2
-             * vlData 原始可见光数据 格式ARGB vlWidth * vlHeight * 4
-             * 画中画模式ScreenFusion:mixData 为单红外数据，格式ARGB，长度dualwidth * dualHeight * 4
-             * 融合模式为IROnlyNoFusion, 只会返回irData和tempData,数据位置不变
-             */
-            @Override
+                                    @Override
             public void onFrame(byte[] frame) {
                 if (frame.length == 1) {
                     if (handler != null) {
@@ -374,10 +325,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         isOpenAmplify = openAmplify;
     }
 
-    /**
-     * @param handler
-     */
-    public void setHandler(Handler handler) {
+        public void setHandler(Handler handler) {
         this.handler = handler;
     }
 
@@ -388,32 +336,18 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         auto_gain_switch_info.cur_detected_high_cnt = 0;
     }
 
-    /**
-     *
-     */
-    public void startPreview() {
-        /**
-         * setIrDataPreHandleEnable 开启后
-         * 必须设置setIrFrameCallback
-         * 同时setFusion(HSLFusion)模式不生效, 等温尺相关接口setIsothermal,伪彩，自定义伪彩相关接口setPseudocolor, setCustomPseudocolor不生效
-         */
-        switchIrPreDataHandleEnable(true);
+        public void startPreview() {
+                switchIrPreDataHandleEnable(true);
         dualUVCCamera.setFrameCallback(iFrameCallback);
         dualUVCCamera.onStartPreview();
         firstFrame = false;
     }
 
-    /**
-     * @return
-     */
-    public DualUVCCamera getDualUVCCamera() {
+        public DualUVCCamera getDualUVCCamera() {
         return dualUVCCamera;
     }
 
-    /**
-     *
-     */
-    public void stopPreview() {
+        public void stopPreview() {
         dualUVCCamera.setFrameCallback(null);
         dualUVCCamera.onStopPreview();
         SystemClock.sleep(200);

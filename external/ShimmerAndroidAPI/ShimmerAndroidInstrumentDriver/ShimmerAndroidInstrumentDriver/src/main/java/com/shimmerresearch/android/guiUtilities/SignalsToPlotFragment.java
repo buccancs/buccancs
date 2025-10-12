@@ -25,9 +25,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * Class which displays a list of available signals that can be selected for plotting.
- */
 public class SignalsToPlotFragment extends ListFragment {
 
     final static String LOG_TAG = "SignalsToPlotFragment";
@@ -66,12 +63,7 @@ public class SignalsToPlotFragment extends ListFragment {
         return js;
     }
 
-    /**
-     * Display a default message when the fragment is first created
-     *
-     * @param savedInstanceState
-     */
-    @Override
+        @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         listView = getListView();
         super.onActivityCreated(savedInstanceState);
@@ -90,15 +82,7 @@ public class SignalsToPlotFragment extends ListFragment {
         super.onResume();
     }
 
-    /**
-     * Displays the list of signals which are available for plotting
-     *
-     * @param context
-     * @param service
-     * @param bluetoothAddress
-     * @param plot
-     */
-    public void buildSignalsToPlotList(Context context, final ShimmerService service, final String bluetoothAddress, final XYPlot plot) {
+        public void buildSignalsToPlotList(Context context, final ShimmerService service, final String bluetoothAddress, final XYPlot plot) {
 
         this.context = context;
         shimmerService = service;

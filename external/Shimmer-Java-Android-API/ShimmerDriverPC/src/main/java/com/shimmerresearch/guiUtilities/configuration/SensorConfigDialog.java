@@ -226,10 +226,7 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
     }
 
 
-    /**
-     * Call this to initialize and display the dialog.
-     */
-    public void showDialog() {
+        public void showDialog() {
         //Filter out the sensors we don't want to display before initializing the dialog:
         List<String> filterList = new ArrayList<String>();
         //filterList.add("Wide Range Accel Rate");

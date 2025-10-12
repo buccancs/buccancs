@@ -39,14 +39,7 @@ class IrSurfaceView : SurfaceView, SurfaceHolder.Callback {
     fun setIsLockImage(isLock: Boolean) {
         isLockImage = isLock
     }
-    /**
-     * @param rotate
-     * 0
-     * 90
-     * 180
-     * 270
-     */
-    fun setMatrix(rotate: Float, w: Float, h: Float) {
+        fun setMatrix(rotate: Float, w: Float, h: Float) {
         mMatrix.reset()
         when (rotate) {
             90f -> {

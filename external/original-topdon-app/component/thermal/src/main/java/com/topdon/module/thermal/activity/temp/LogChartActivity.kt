@@ -114,9 +114,7 @@
 //        aa_chart_view.aa_drawChartWithChartOptions(options)
 //    }
 //
-//    /**
-//     */
-//    private fun initSeries(): Array<AASeriesElement> {
+//    //    private fun initSeries(): Array<AASeriesElement> {
 //        Log.w("123", "dataList size: ${dataList.size}")
 //        val maxTempListData = Array<Any>(dataList.size) {
 //            Log.w("123", "时间 ${TimeTool.showTimeSecond(dataList[it].createTime)}")

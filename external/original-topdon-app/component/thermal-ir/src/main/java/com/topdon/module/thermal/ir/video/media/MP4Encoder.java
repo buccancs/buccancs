@@ -220,11 +220,7 @@ public class MP4Encoder extends Encoder {
         }
     }
 
-    /**
-     * COLOR_FormatYUV420SemiPlanar 默认
-     * COLOR_FormatYUV420Planar     个例使用
-     */
-    private int getColorFormat() {
+        private int getColorFormat() {
         if ("GOOGLE".equalsIgnoreCase(Build.BRAND) && "PIXEL 4".equalsIgnoreCase(Build.MODEL)) {
             return MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar;
         } else {

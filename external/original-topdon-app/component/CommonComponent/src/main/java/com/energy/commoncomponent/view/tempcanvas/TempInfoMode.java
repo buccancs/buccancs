@@ -1,26 +1,11 @@
 package com.energy.commoncomponent.view.tempcanvas;
 
-/**
- * Created by fengjibo on 2024/2/20.
- */
 public enum TempInfoMode {
-    /**
-     * 点
-     */
-    POINT,
+        POINT,
 
-    /**
-     * 线
-     */
-    LINE,
+        LINE,
 
-    /**
-     * 框
-     */
-    RECTANGLE,
+        RECTANGLE,
 
-    /**
-     * 圆
-     */
-    CIRCLE,
+        CIRCLE,
 }

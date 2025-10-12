@@ -19,11 +19,7 @@ public abstract class AbstractCommsProtocol {
     protected byte[] mMemBuffer = new byte[]{};
     protected HashMap<Integer, MemReadDetails> mMapOfMemReadDetails = new HashMap<Integer, MemReadDetails>();
 
-    /**
-     * When using this, it is required that the byteleveldatacomm is set using the serByteLevelDataComm
-     *
-     */
-    public AbstractCommsProtocol() {
+        public AbstractCommsProtocol() {
     }
 
     public AbstractCommsProtocol(InterfaceSerialPortHal commsInterface) {
@@ -104,10 +100,7 @@ public abstract class AbstractCommsProtocol {
 
     public abstract void stopStreamingAndLogging();
 
-    /**
-     * only used for the STC3100 chip in the Shimmer4
-     */
-    public abstract void writeBattStatusPeriod(int periodInSec);
+        public abstract void writeBattStatusPeriod(int periodInSec);
 
     public abstract void readBattStatusPeriod();
 

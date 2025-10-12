@@ -17,14 +17,6 @@ import info.monitorenter.gui.chart.traces.painters.TracePainterFill;
 import info.monitorenter.gui.chart.traces.painters.TracePainterLine;
 import info.monitorenter.gui.chart.traces.painters.TracePainterVerticalBar;
 
-/**
- * Class to hold useful and common Chart2D related methods developed by Shimmer
- * so that they can be reused for general plotting ability (i.e., outside of our
- * normal Consensys plotting approach).
- *
- * @author Mark Nolan
- *
- */
 public class UtilChart2D {
 
     public static float DEFAULT_LINE_THICKNESS = 2;
@@ -174,10 +166,7 @@ public class UtilChart2D {
         }
     }
 
-    /**
-     * turn on/off grids along both axes
-     */
-    public void setGridOn(Chart2D mChart, boolean state) {
+        public void setGridOn(Chart2D mChart, boolean state) {
         if (mChart != null) {
             mIsGridOn = state;
             try {

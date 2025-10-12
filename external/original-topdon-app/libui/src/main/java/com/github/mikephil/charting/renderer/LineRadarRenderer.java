@@ -84,12 +84,7 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
         }
     }
 
-    /**
-     * Clip path with hardware acceleration only working properly on API level 18 and above.
-     *
-     * @return
-     */
-    private boolean clipPathSupported() {
+        private boolean clipPathSupported() {
         return Utils.getSDKInt() >= 18;
     }
 }

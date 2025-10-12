@@ -1,8 +1,5 @@
 package com.example.thermal_lite;
 
-/**
- * Created by fengjibo on 2023/5/8.
- */
 public class IrConst {
 
     //默认的出图数据，可在“USB基础信息”中修改

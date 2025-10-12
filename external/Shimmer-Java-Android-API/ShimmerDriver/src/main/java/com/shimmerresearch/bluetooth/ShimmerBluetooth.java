@@ -5350,10 +5350,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             }
         }
 
-        /**
-         * Process RESPONSE while not streaming
-         */
-        private void processNotStreamingWaitForResp() {
+                private void processNotStreamingWaitForResp() {
             if (bytesAvailableToBeRead()) {
                 byteBuffer = readBytes(1);
                 if (byteBuffer != null) {
@@ -5391,10 +5388,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             }
         }
 
-        /**
-         * Process LogAndStream INSTREAM_CMD_RESPONSE while not streaming
-         */
-        private void processBytesAvailableAndInstreamSupported() {
+                private void processBytesAvailableAndInstreamSupported() {
             if (isSupportedInStreamCmds()
                     && !mWaitForAck
                     && !mWaitForResponse
@@ -5420,11 +5414,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
     }
 
-    /**
-     * Handles command response timeout
-     *
-     */
-    class checkForAckOrRespTask extends TimerTask {
+        class checkForAckOrRespTask extends TimerTask {
 
         @Override
         public void run() {
@@ -5531,10 +5521,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         } //End Run
     } //End TimerTask
 
-    /**
-     * Class used to read perdiocally the shimmer status when LogAndStream FW is installed
-     */
-    public class readStatusTask extends TimerTask {
+        public class readStatusTask extends TimerTask {
 
         @Override
         public void run() {
@@ -5546,11 +5533,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
     }
 
-    /**
-     * @author Lim
-     * Used to check if the connection is alive
-     */
-    private class checkIfAliveTask extends TimerTask {
+        private class checkIfAliveTask extends TimerTask {
 
         @Override
         public void run() {
@@ -5591,10 +5574,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         } //End Run
     } //End TimerTask
 
-    /**
-     * Used to check the current battery status
-     */
-    private class readBattStatusTask extends TimerTask {
+        private class readBattStatusTask extends TimerTask {
         @Override
         public void run() {
             consolePrintLn("Read Batt Task");
@@ -5613,11 +5593,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-    /**
-     * Handles command response timeout
-     *
-     */
-    class checkForSerialPortClear extends TimerTask {
+        class checkForSerialPortClear extends TimerTask {
         @Override
         public void run() {
             System.out.println("Timeout while trying to clear buffer");

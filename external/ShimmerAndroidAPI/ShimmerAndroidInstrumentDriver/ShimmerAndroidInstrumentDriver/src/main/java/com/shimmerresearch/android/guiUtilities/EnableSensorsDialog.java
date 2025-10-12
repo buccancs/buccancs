@@ -19,9 +19,6 @@ import java.util.List;
 
 import static com.shimmerresearch.driver.Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY;
 
-/**
- * Created by User on 21/7/2017.
- */
 
 public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
     protected AlertDialog.Builder builder;
@@ -121,12 +118,7 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
 
     }
 
-    /**
-     * Override this method to customise the style and theme of the dialog
-     *
-     * @param ad
-     */
-    protected void setDialogTheme(AlertDialog ad) {
+        protected void setDialogTheme(AlertDialog ad) {
         //Add custom style here
     }
 }

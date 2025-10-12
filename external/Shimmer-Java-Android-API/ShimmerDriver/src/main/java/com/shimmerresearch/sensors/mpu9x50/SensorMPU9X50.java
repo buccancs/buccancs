@@ -1827,12 +1827,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         }
     }
 
-//	/**
-//	 * @param enable this enables the calibration of the gyroscope while streaming
-//	 * @param bufferSize sets the buffersize of the window used to determine the new calibration parameters, see implementation for more details
-//	 * @param threshold sets the threshold of when to use the incoming data to recalibrate gyroscope offset, this is in degrees, and the default value is 1.2
-//	 */
-//	public void enableOnTheFlyGyroCal(boolean state, int bufferSize, double threshold){
+//	//	public void enableOnTheFlyGyroCal(boolean state, int bufferSize, double threshold){
 //		mOnTheFlyGyroOffsetCal.enableOnTheFlyGyroCal(state, bufferSize, threshold);
 //	}
 //	
@@ -1932,8 +1927,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
     /// /		public static final int MPU9150_MAG = 18;
 //		public static final int SHIMMER_MPU9150_GYRO = 1;
 //		public static final int SHIMMER_MPU9150_ACCEL = 17;
-//		/** Shimmer3 Alternative magnetometer */
-//		public static final int SHIMMER_MPU9150_MAG = 18;
+//		//		public static final int SHIMMER_MPU9150_MAG = 18;
 //		public static final int SHIMMER_MPU9150_TEMP = 25;
 //		public static final int SHIMMER_MPU9150_MPL_QUAT_6DOF = 27;
 //		public static final int SHIMMER_MPU9150_MPL_QUAT_9DOF = 28;

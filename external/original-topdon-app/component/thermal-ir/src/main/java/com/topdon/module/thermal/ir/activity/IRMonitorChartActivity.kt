@@ -350,10 +350,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
         iruvc!!.registerUSB()
     }
 
-    /**
-     *
-     */
-    private fun restartUsbCamera() {
+        private fun restartUsbCamera() {
         if (iruvc != null) {
             iruvc!!.stopPreview()
             iruvc!!.unregisterUSB()

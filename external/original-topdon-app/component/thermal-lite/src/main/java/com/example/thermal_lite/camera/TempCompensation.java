@@ -24,17 +24,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-/**
- * Tiny2c冷开机温度补偿方案
- */
 public class TempCompensation {
     public static final String KEY_PARAM1 = "KEY_PARAM1";
     public static final String KEY_PARAM2 = "KEY_PARAM2";
     public static final String KEY_PARAM3 = "KEY_PARAM3";
-    /**
-     * 公式参数y=−0.0705571⋅x2+14.72725379⋅x−30.49372144
-     */
-    public static String DEFAULT_PARAM1 = "-0.0705";
+        public static String DEFAULT_PARAM1 = "-0.0705";
     public static String DEFAULT_PARAM2 = "14.7272";
     public static String DEFAULT_PARAM3 = "30.4937";
     private static TempCompensation mInstance;
@@ -76,10 +70,7 @@ public class TempCompensation {
         return mInstance;
     }
 
-    /**
-     * 获取nuc-t数据
-     */
-    public void getNucTData() {
+        public void getNucTData() {
 
         if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() == null) {
             return;
@@ -104,13 +95,7 @@ public class TempCompensation {
         }
     }
 
-    /**
-     * 读取FlashData
-     *
-     * @param sdFilePath    CommonParams.SdFilePath.DEFAULT_DATA_NUC_T_HIGH
-     * @param localFilePath 本地路径--加密
-     */
-    private void readFlashData(CommonParams.SdFilePath sdFilePath, String localFilePath,
+        private void readFlashData(CommonParams.SdFilePath sdFilePath, String localFilePath,
                                IFileHandleCallback iFileHandleCallback) {
         IrcamEngine ircamEngine = CameraPreviewManager.getInstance().getIrcamEngine();
         if (ircamEngine == null) {
@@ -128,10 +113,7 @@ public class TempCompensation {
         }
     }
 
-    /**
-     * 流程开始
-     */
-    public void startTempCompensation() {
+        public void startTempCompensation() {
         if (Const.DEVICE_TYPE != DeviceType.DEVICE_TYPE_TC2C) {
             return;
         }
@@ -216,25 +198,14 @@ public class TempCompensation {
         handler.sendEmptyMessageDelayed(HANDLER_KEY_AFTER, 4000);
     }
 
-    /**
-     * 补偿温度
-     * 原始温度经过此方法得到补偿后的温度
-     *
-     * @param temp
-     * @return
-     */
-    public float compensateTemp(float temp) {
+        public float compensateTemp(float temp) {
         if (!isCompensation) {
             return temp;
         }
         return getNewTempValue(temp);
     }
 
-    /**
-     * 获取ΔNUC和ΔVTEMP值
-     * 需要获取vtemp，每次显示温度时调用一次即可，运算使用compensateTemp()
-     */
-    public void getDeltaNucAndVTemp() {
+        public void getDeltaNucAndVTemp() {
         if (!isCompensation) {
             return;
         }
@@ -258,16 +229,7 @@ public class TempCompensation {
         }
     }
 
-    /**
-     * 2D编辑热稳定前的温度校正
-     *
-     * @param temp
-     * @param deltaTime
-     * @param nucT
-     * @param deltaNUC
-     * @return
-     */
-    private float getNewTempValue(float temp, long deltaTime, short[] nucT, int deltaNUC) {
+        private float getNewTempValue(float temp, long deltaTime, short[] nucT, int deltaNUC) {
         if (nucT == null) {
             return temp;
         }
@@ -301,12 +263,7 @@ public class TempCompensation {
     }
 
 
-    /**
-     * 获取新温度值
-     *
-     * @return
-     */
-    private float getNewTempValue(float temp) {
+        private float getNewTempValue(float temp) {
         if (nucT == null) {
             return temp;
         }
@@ -340,10 +297,7 @@ public class TempCompensation {
         return newTempFloat;
     }
 
-    /**
-     * 停止温度补偿
-     */
-    public void stopTempCompensation(boolean autoStop) {
+        public void stopTempCompensation(boolean autoStop) {
         if (Const.DEVICE_TYPE != DeviceType.DEVICE_TYPE_TC2C) {
             return;
         }

@@ -64,10 +64,7 @@ public class SpeedTestProtocol {
 
     }
 
-    /**
-     * To initialize a connection with the Shimmer3 device
-     */
-    public void connect() throws ShimmerException {
+        public void connect() throws ShimmerException {
         mByteCommunication.connect();
     }
 
@@ -75,10 +72,7 @@ public class SpeedTestProtocol {
         mSpeedTestListener = listener;
     }
 
-    /**
-     * Disconnect from the Shimmer3 device
-     */
-    public void disconnect() throws ShimmerException {
+        public void disconnect() throws ShimmerException {
         mByteCommunication.disconnect();
     }
 

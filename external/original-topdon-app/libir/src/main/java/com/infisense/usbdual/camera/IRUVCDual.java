@@ -84,13 +84,7 @@ public class IRUVCDual {
     private CommonParams.PseudoColorType pseudocolorMode;
     private Handler handler;
 
-    /**
-     * @param cameraWidth
-     * @param cameraHeight
-     * @param context
-     * @param syncimage
-     */
-    public IRUVCDual(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
+        public IRUVCDual(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
                      ConnectCallback connectCallback) {
         this.cameraWidth = cameraWidth;
         this.cameraHeight = cameraHeight;
@@ -160,10 +154,7 @@ public class IRUVCDual {
                 Const.isDeviceConnected = false;
             }
         });
-        /**
-         * 同时打开防灼烧和自动增益切换后，如果想修改防灼烧和自动增益切换的触发优先级，可以通过修改下面的触发参数实现
-         */
-        // 自动增益切换参数auto gain switch parameter
+                // 自动增益切换参数auto gain switch parameter
         gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
         gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
         gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
@@ -178,16 +169,7 @@ public class IRUVCDual {
         int close_frame_cnt = 10 * 15;//触发防灼烧之后，经过该阈值的帧数之后会解除防灼烧(假设出图速度为15帧每秒，则10 * 15大概为10秒)
     }
 
-    /**
-     * @param cameraWidth
-     * @param cameraHeight
-     * @param context
-     * @param pid
-     * @param fps
-     * @param connectCallback
-     * @param iFrameCallback
-     */
-    public IRUVCDual(int cameraWidth, int cameraHeight, Context context, int pid, int fps,
+        public IRUVCDual(int cameraWidth, int cameraHeight, Context context, int pid, int fps,
                      ConnectCallback connectCallback, IFrameCallback iFrameCallback) {
         this.mPid = pid;
         this.mFps = fps;
@@ -205,11 +187,7 @@ public class IRUVCDual {
             @Override
             public void onAttach(UsbDevice device) {
                 Log.w(TAG, "USBMonitor-onAttach mPid = " + pid + " getProductId = " + device.getProductId());
-                /**
-                 * USBMonitor会同时响应所有的UVC设备，
-                 * 需要根据自己的初始化pid判断自己需要初始化的设备
-                 */
-                if (device.getProductId() != mPid) {
+                                if (device.getProductId() != mPid) {
                     return;
                 }
                 if (uvcCamera == null || !uvcCamera.getOpenStatus()) {
@@ -293,11 +271,7 @@ public class IRUVCDual {
             @Override
             public void onAttach(UsbDevice device) {
                 Log.w(TAG, "USBMonitor-onAttach mPid = " + pid + " getProductId = " + device.getProductId());
-                /**
-                 * USBMonitor会同时响应所有的UVC设备，
-                 * 需要根据自己的初始化pid判断自己需要初始化的设备
-                 */
-                if (device.getProductId() != mPid) {
+                                if (device.getProductId() != mPid) {
                     return;
                 }
                 if (uvcCamera == null || !uvcCamera.getOpenStatus()) {
@@ -363,14 +337,7 @@ public class IRUVCDual {
         });
     }
 
-    /**
-     * @param cameraWidth
-     * @param cameraHeight
-     * @param context
-     * @param syncimage
-     * @param pid
-     */
-    public IRUVCDual(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage, int pid,
+        public IRUVCDual(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage, int pid,
                      ConnectCallback connectCallback, boolean isUseIRISP) {
         this.mPid = pid;
         this.cameraWidth = cameraWidth;
@@ -491,11 +458,7 @@ public class IRUVCDual {
         this.temperature = temperature;
     }
 
-    /**
-     * @param cameraWidth
-     * @param cameraHeight
-     */
-    public void initUVCCamera(int cameraWidth, int cameraHeight) {
+        public void initUVCCamera(int cameraWidth, int cameraHeight) {
         Log.i(TAG, "initUVCCamera->cameraWidth = " + cameraWidth + " cameraHeight = " + cameraHeight);
         // UVCCamera 初始化
         ConcreateUVCBuilder concreateUVCBuilder = new ConcreateUVCBuilder();
@@ -504,34 +467,22 @@ public class IRUVCDual {
                 .build();
     }
 
-    /**
-     * @return
-     */
-    public UVCCamera getUvcCamera() {
+        public UVCCamera getUvcCamera() {
         return uvcCamera;
     }
 
-    /**
-     * @return
-     */
-    public IRCMD getIrcmd() {
+        public IRCMD getIrcmd() {
         return ircmd;
     }
 
-    /**
-     *
-     */
-    public void registerUSB() {
+        public void registerUSB() {
         Log.i(TAG, "registerUSB");
         if (mUSBMonitor != null) {
             mUSBMonitor.register();
         }
     }
 
-    /**
-     *
-     */
-    public void unregisterUSB() {
+        public void unregisterUSB() {
         Log.i(TAG, "unregisterUSB");
         if (mUSBMonitor != null) {
             mUSBMonitor.destroy();
@@ -548,11 +499,7 @@ public class IRUVCDual {
         return mUSBMonitor.getDeviceList(deviceFilters);
     }
 
-    /**
-     * @param index
-     * @return
-     */
-    public boolean requestPermission(int index) {
+        public boolean requestPermission(int index) {
         Log.i(TAG, "requestPermission");
         List<UsbDevice> devList = getUsbDeviceList();
         if (devList == null || devList.size() == 0) {
@@ -570,10 +517,7 @@ public class IRUVCDual {
         return false;
     }
 
-    /**
-     * @param ctrlBlock
-     */
-    public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock) {
+        public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock) {
         Log.i(TAG, "openUVCCamera");
         if (ctrlBlock.getProductId() == 0x3901) {
             if (syncimage != null) {
@@ -587,10 +531,7 @@ public class IRUVCDual {
         uvcCamera.openUVCCamera(ctrlBlock);
     }
 
-    /**
-     *
-     */
-    public void startPreview() {
+        public void startPreview() {
         Log.w(TAG, "startPreview mPid = " + mPid + " isUseIRISP = " + isUseIRISP);
         uvcCamera.setOpenStatus(true);
         //
@@ -609,12 +550,7 @@ public class IRUVCDual {
         }
     }
 
-    /**
-     * 获取支持的分辨率列表
-     *
-     * @return
-     */
-    private List<CameraSize> getAllSupportedSize() {
+        private List<CameraSize> getAllSupportedSize() {
         List<CameraSize> previewList = new ArrayList<>();
         if (uvcCamera != null) {
             previewList = uvcCamera.getSupportedSizeList();
@@ -625,13 +561,7 @@ public class IRUVCDual {
         return previewList;
     }
 
-    /**
-     * init IRCMD
-     * 可以根据获取到的分辨率列表，来区分不同的模组，从而改变不同的cmd参数来调用不同的SDK
-     *
-     * @param previewList
-     */
-    public void initIRCMD(List<CameraSize> previewList) {
+        public void initIRCMD(List<CameraSize> previewList) {
         for (CameraSize size : previewList) {
 //            Log.i(TAG, "SupportedSize : " + size.width + " * " + size.height);
         }
@@ -650,13 +580,7 @@ public class IRUVCDual {
         }
     }
 
-    /**
-     * 之前的openUVCCamera方法中传入的都是默认值，这里需要根据实际传入对应的值
-     *
-     * @param cameraWidth
-     * @param cameraHeight
-     */
-    private int setPreviewSize(int cameraWidth, int cameraHeight) {
+        private int setPreviewSize(int cameraWidth, int cameraHeight) {
         if (uvcCamera != null) {
             Log.d(TAG, "setUSBPreviewSize mPid = " + mPid + " cameraWidth = " + cameraWidth +
                     " cameraHeight = " + cameraHeight);
@@ -686,10 +610,7 @@ public class IRUVCDual {
         this.mConnectCallback = mConnectCallback;
     }
 
-    /**
-     * @param ctrlBlock
-     */
-    private void handleUSBConnect(USBMonitor.UsbControlBlock ctrlBlock) {
+        private void handleUSBConnect(USBMonitor.UsbControlBlock ctrlBlock) {
         Log.d(TAG, "handleUSBConnect mPid = " + mPid);
         openUVCCamera(ctrlBlock);
         // 获取设备的分辨率列表
@@ -697,26 +618,13 @@ public class IRUVCDual {
         // 可以根据获取到的分辨率列表，来区分不同的模组，从而改变不同的cmd参数来调用不同的SDK
         if (mPid == 0x5830 || mPid == 0x5840) {
             initIRCMD(previewList);
-            /**
-             * 调整带宽
-             * 部分分辨率或在部分机型上，会出现无法出图，或出图一段时间后卡顿的问题，需要配置对应的带宽
-             */
-            uvcCamera.setDefaultBandwidth(1.0f);       //调整带宽
+                        uvcCamera.setDefaultBandwidth(1.0f);       //调整带宽
             uvcCamera.setDefaultPreviewMinFps(1);
             uvcCamera.setDefaultPreviewMaxFps(mFps);
         } else {
             Log.d(TAG, "startVLCamera handleUSBConnect mPid = " + mPid + " setDefaultPreviewMode");
-            /**
-             * 可见光模组
-             * DEFAULT 0 YUV
-             *  Mjpeg 1  RGB
-             */
-            uvcCamera.setDefaultPreviewMode(CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG);
-            /**
-             * 调整带宽
-             * 部分分辨率或在部分机型上，会出现无法出图，或出图一段时间后卡顿的问题，需要配置对应的带宽
-             */
-            uvcCamera.setDefaultBandwidth(0.6f);       //调整带宽
+                        uvcCamera.setDefaultPreviewMode(CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG);
+                        uvcCamera.setDefaultBandwidth(0.6f);       //调整带宽
             uvcCamera.setDefaultPreviewMinFps(1);
             uvcCamera.setDefaultPreviewMaxFps(mFps);
         }

@@ -132,34 +132,16 @@ public final class ShimmerBLEGRPC {
         return descriptor;
     }
 
-    /**
-     * Protobuf enum {@code shimmerBLEGRPC.BluetoothState}
-     */
-    public enum BluetoothState
+        public enum BluetoothState
             implements com.google.protobuf.ProtocolMessageEnum {
-        /**
-         * <code>Connected = 0;</code>
-         */
-        Connected(0),
-        /**
-         * <code>Connecting = 1;</code>
-         */
-        Connecting(1),
-        /**
-         * <code>Disconnected = 2;</code>
-         */
-        Disconnected(2),
+                Connected(0),
+                Connecting(1),
+                Disconnected(2),
         UNRECOGNIZED(-1),
         ;
 
-        /**
-         * <code>Connected = 0;</code>
-         */
-        public static final int Connected_VALUE = 0;
-        /**
-         * <code>Connecting = 1;</code>
-         */
-        public static final int Connecting_VALUE = 1;
+                public static final int Connected_VALUE = 0;
+                public static final int Connecting_VALUE = 1;
         /**
          * <code>Disconnected = 2;</code>
          */

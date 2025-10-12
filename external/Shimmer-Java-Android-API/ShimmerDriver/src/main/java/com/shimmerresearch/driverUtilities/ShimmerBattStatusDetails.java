@@ -7,13 +7,6 @@ import java.util.List;
 import com.shimmerresearch.driverUtilities.ShimmerBattStatusDetails.BATTERY_LEVEL;
 import com.shimmerresearch.sensors.SensorADC;
 
-/**
- * Holds the Shimmer's Battery charging information (state, voltage and
- * percentage charge) received from communication with the Shimmer's UART.
- *
- * @author Mark Nolan
- *
- */
 public class ShimmerBattStatusDetails implements Serializable {
 
     private static final long serialVersionUID = -1108374309087845014L;
@@ -27,12 +20,7 @@ public class ShimmerBattStatusDetails implements Serializable {
     public ShimmerBattStatusDetails() {
     }
 
-    /**
-     * Used via dock communication
-     *
-     * @param rxBuf
-     */
-    public ShimmerBattStatusDetails(byte[] rxBuf) {
+        public ShimmerBattStatusDetails(byte[] rxBuf) {
         if (rxBuf.length >= 3) {
             // Parse response string
             int battAdcValue = (((rxBuf[1] & 0xFF) << 8) + (rxBuf[0] & 0xFF));
@@ -42,13 +30,7 @@ public class ShimmerBattStatusDetails implements Serializable {
         }
     }
 
-    /**
-     * Used via wireless communication
-     *
-     * @param battAdcValue
-     * @param chargingStatus
-     */
-    public ShimmerBattStatusDetails(int battAdcValue, int chargingStatus) {
+        public ShimmerBattStatusDetails(int battAdcValue, int chargingStatus) {
         update(battAdcValue, chargingStatus);
     }
 

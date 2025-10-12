@@ -51,12 +51,7 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
     // 电子变倍
     private float currentScale = 1.0f;
 
-    /**
-     * @param context
-     * @param onRotateListener
-     * @param dismissListener
-     */
-    public PopupImage(Context context, OnRotateListener onRotateListener,
+        public PopupImage(Context context, OnRotateListener onRotateListener,
                       PopupWindow.OnDismissListener dismissListener) {
         this.mContext = context;
         this.onRotateListener = onRotateListener;
@@ -192,39 +187,24 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
     }
 
-    /**
-     * @param parent
-     */
-    public void showAsDropDown(View parent) {
+        public void showAsDropDown(View parent) {
         popupWindow.showAsDropDown(parent);
         getImageParam();
     }
 
-    /**
-     * @param ircmd
-     */
-    public void setIrcmd(IRCMD ircmd) {
+        public void setIrcmd(IRCMD ircmd) {
         this.ircmd = ircmd;
     }
 
-    /**
-     * @param rotate
-     */
-    public void setRotate(boolean rotate) {
+        public void setRotate(boolean rotate) {
         this.rotate = rotate;
     }
 
-    /**
-     * @param isUseIRISP
-     */
-    public void setUseIRISP(boolean isUseIRISP) {
+        public void setUseIRISP(boolean isUseIRISP) {
         this.isUseIRISP = isUseIRISP;
     }
 
-    /**
-     * @param uvcCamera
-     */
-    public void setUVCCamera(UVCCamera uvcCamera) {
+        public void setUVCCamera(UVCCamera uvcCamera) {
         this.uvcCamera = uvcCamera;
     }
 
@@ -242,31 +222,18 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
                 break;
             }
             case R.id.switchAutoGain: {
-                /**
-                 * 自动增益切换功能
-                 *  SDK中实现
-                 */
-                SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_AUTO_GAIN_KEY, isChecked);
+                                SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_AUTO_GAIN_KEY, isChecked);
                 break;
             }
             case R.id.switchOverProtect: {
-                /**
-                 * 防灼烧功能
-                 */
-                /**
-                 * 方式1:固件中实现
-                 */
-//                if (isChecked) {
+                                //                if (isChecked) {
 //                    ircmd.setOverexposureParams(CommonParams.PropOverexposureParams.OVEXP_PROP_SWITCH,
 //                            CommonParams.PropOverexposureParamsValue.StatusSwith.ON);
 //                } else {
 //                    ircmd.setOverexposureParams(CommonParams.PropOverexposureParams.OVEXP_PROP_SWITCH,
 //                            CommonParams.PropOverexposureParamsValue.StatusSwith.OFF);
 //                }
-                /**
-                 * 方式2:SDK中实现(推荐)
-                 */
-                SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_OVER_PROTECT, isChecked);
+                                SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_OVER_PROTECT, isChecked);
                 break;
             }
             default:
@@ -414,10 +381,7 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
 
     }
 
-    /**
-     *
-     */
-    private void getImageParam() {
+        private void getImageParam() {
         int[] mode = new int[1];
         //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_TNR, mode);
@@ -457,44 +421,24 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         imageBinding.ONOFFAGC.setOnCheckedChangeListener(null);
         imageBinding.ONOFFAGC.setChecked(mode[0] == 1);
         imageBinding.ONOFFAGC.setOnCheckedChangeListener(this);
-        /**
-         * 自动增益切换功能
-         *  SDK中实现
-         */
-        imageBinding.switchAutoGain.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
+                imageBinding.switchAutoGain.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
                 MyApplication.getInstance().SWITCH_AUTO_GAIN_KEY, false));
         imageBinding.switchAutoGain.setOnCheckedChangeListener(this);
-        /**
-         * 防灼烧功能
-         */
-        /**
-         * 方式1:固件中实现
-         */
-//        long overValue[] = new long[4];
+                //        long overValue[] = new long[4];
 //        ircmd.getOverexposureParams(CommonParams.PropOverexposureParams.OVEXP_PROP_SWITCH, overValue);
 //        imageBinding.switchOverProtect.setChecked(overValue[0] == 1);
-        /**
-         * 方式2:SDK中实现(推荐)
-         * 具体使用见demo示例com.infisense.usbir.camera.IRUVC中的数据处理
-         */
-        imageBinding.switchOverProtect.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
+                imageBinding.switchOverProtect.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
                 MyApplication.getInstance().SWITCH_OVER_PROTECT, false));
         imageBinding.switchOverProtect.setOnCheckedChangeListener(this);
     }
 
-    /**
-     * dismiss the popupwindow
-     */
-    public void dismiss() {
+        public void dismiss() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
     }
 
-    /**
-     *
-     */
-    public interface OnRotateListener {
+        public interface OnRotateListener {
         void onRotate(boolean isRotate);
     }
 

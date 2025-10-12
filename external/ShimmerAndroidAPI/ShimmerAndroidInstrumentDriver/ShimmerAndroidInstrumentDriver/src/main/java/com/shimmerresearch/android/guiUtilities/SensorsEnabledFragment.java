@@ -31,11 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Class which displays a list of available sensors for a Shimmer device.
- * The currently enabled sensors are checked in the list, and the user can enable/disable individual sensors.
- * Note: Only compatible with Shimmer3 and newer devices.
- */
 public class SensorsEnabledFragment extends ListFragment {
 
     final static String LOG_TAG = "SHIMMER";
@@ -73,12 +68,7 @@ public class SensorsEnabledFragment extends ListFragment {
         super.onDetach();
     }
 
-    /**
-     * Displays a default message when the fragment is first displayed
-     *
-     * @param savedInstanceState
-     */
-    @Override
+        @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String[] values = new String[]{"No device selected, sensors unavailable"};
@@ -87,13 +77,7 @@ public class SensorsEnabledFragment extends ListFragment {
         setListAdapter(adapter);
     }
 
-    /**
-     * Call this method to display the sensors from the selected Shimmer Device
-     *
-     * @param shimmerDevice
-     * @param activityContext
-     */
-    public void buildSensorsList(final ShimmerDevice shimmerDevice, final Context activityContext,
+        public void buildSensorsList(final ShimmerDevice shimmerDevice, final Context activityContext,
                                  final ShimmerBluetoothManagerAndroid bluetoothManager) {
 
         originalShimmerDevice = shimmerDevice;
@@ -200,15 +184,7 @@ public class SensorsEnabledFragment extends ListFragment {
 
     }
 
-    /**
-     * Method to get the View from a position in the ListView, taking into account the constantly
-     * changing index of the ListView as it is scrolled.
-     *
-     * @param pos
-     * @param listView
-     * @return
-     */
-    public View getViewByPosition(int pos, ListView listView) {
+        public View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
@@ -229,13 +205,7 @@ public class SensorsEnabledFragment extends ListFragment {
         shimmerService = service;
     }
 
-    /**
-     * Updates the state of the checkboxes in the ListView
-     *
-     * @param listView
-     * @param count
-     */
-    private void updateCheckboxes(ListView listView, int count) {
+        private void updateCheckboxes(ListView listView, int count) {
         for (int i = 0; i < count; i++) {
             View v = getViewByPosition(i, listView);
             CheckedTextView cTextView = (CheckedTextView) v.findViewById(android.R.id.text1);

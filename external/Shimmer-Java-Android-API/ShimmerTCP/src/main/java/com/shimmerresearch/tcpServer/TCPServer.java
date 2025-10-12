@@ -9,14 +9,6 @@ import com.shimmerresearch.driver.Configuration;
 import com.shimmerresearch.driver.FormatCluster;
 import com.shimmerresearch.driver.ObjectCluster;
 
-/**
- * 25 May 2015
- * -Demonstrates how to receive serialized objectclusters
- * -Example is to be used with ShimmerTCPExample of ShimmerPCTCPExample
- *
- * @author JC
- *
- */
 class TCPServer {
     public static void main(String argv[]) throws Exception {
         ServerSocket Server = new ServerSocket(5000);

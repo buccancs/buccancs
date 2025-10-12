@@ -503,86 +503,29 @@ public final class ShimmerGRPC {
         return descriptor;
     }
 
-    /**
-     * Protobuf enum {@code shimmerGRPC.BT_STATE}
-     */
-    public enum BT_STATE
+        public enum BT_STATE
             implements com.google.protobuf.ProtocolMessageEnum {
-        /**
-         * <code>DISCONNECTED = 0;</code>
-         */
-        DISCONNECTED(0),
-        /**
-         * <code>CONNECTING = 1;</code>
-         */
-        CONNECTING(1),
-        /**
-         * <code>CONNECTED = 2;</code>
-         */
-        CONNECTED(2),
-        /**
-         * <code>STREAMING = 3;</code>
-         */
-        STREAMING(3),
-        /**
-         * <code>STREAMING_AND_SDLOGGING = 4;</code>
-         */
-        STREAMING_AND_SDLOGGING(4),
-        /**
-         * <code>SDLOGGING = 5;</code>
-         */
-        SDLOGGING(5),
-        /**
-         * <code>CONFIGURING = 6;</code>
-         */
-        CONFIGURING(6),
-        /**
-         * <code>CONNECTION_LOST = 7;</code>
-         */
-        CONNECTION_LOST(7),
-        /**
-         * <code>CONNECTION_FAILED = 8;</code>
-         */
-        CONNECTION_FAILED(8),
+                DISCONNECTED(0),
+                CONNECTING(1),
+                CONNECTED(2),
+                STREAMING(3),
+                STREAMING_AND_SDLOGGING(4),
+                SDLOGGING(5),
+                CONFIGURING(6),
+                CONNECTION_LOST(7),
+                CONNECTION_FAILED(8),
         UNRECOGNIZED(-1),
         ;
 
-        /**
-         * <code>DISCONNECTED = 0;</code>
-         */
-        public static final int DISCONNECTED_VALUE = 0;
-        /**
-         * <code>CONNECTING = 1;</code>
-         */
-        public static final int CONNECTING_VALUE = 1;
-        /**
-         * <code>CONNECTED = 2;</code>
-         */
-        public static final int CONNECTED_VALUE = 2;
-        /**
-         * <code>STREAMING = 3;</code>
-         */
-        public static final int STREAMING_VALUE = 3;
-        /**
-         * <code>STREAMING_AND_SDLOGGING = 4;</code>
-         */
-        public static final int STREAMING_AND_SDLOGGING_VALUE = 4;
-        /**
-         * <code>SDLOGGING = 5;</code>
-         */
-        public static final int SDLOGGING_VALUE = 5;
-        /**
-         * <code>CONFIGURING = 6;</code>
-         */
-        public static final int CONFIGURING_VALUE = 6;
-        /**
-         * <code>CONNECTION_LOST = 7;</code>
-         */
-        public static final int CONNECTION_LOST_VALUE = 7;
-        /**
-         * <code>CONNECTION_FAILED = 8;</code>
-         */
-        public static final int CONNECTION_FAILED_VALUE = 8;
+                public static final int DISCONNECTED_VALUE = 0;
+                public static final int CONNECTING_VALUE = 1;
+                public static final int CONNECTED_VALUE = 2;
+                public static final int STREAMING_VALUE = 3;
+                public static final int STREAMING_AND_SDLOGGING_VALUE = 4;
+                public static final int SDLOGGING_VALUE = 5;
+                public static final int CONFIGURING_VALUE = 6;
+                public static final int CONNECTION_LOST_VALUE = 7;
+                public static final int CONNECTION_FAILED_VALUE = 8;
         private static final com.google.protobuf.Internal.EnumLiteMap<
                 BT_STATE> internalValueMap =
                 new com.google.protobuf.Internal.EnumLiteMap<BT_STATE>() {
@@ -597,21 +540,12 @@ public final class ShimmerGRPC {
             this.value = value;
         }
 
-        /**
-         * @param value The numeric wire value of the corresponding enum entry.
-         * @return The enum associated with the given numeric wire value.
-         * @deprecated Use {@link #forNumber(int)} instead.
-         */
-        @java.lang.Deprecated
+                @java.lang.Deprecated
         public static BT_STATE valueOf(int value) {
             return forNumber(value);
         }
 
-        /**
-         * @param value The numeric wire value of the corresponding enum entry.
-         * @return The enum associated with the given numeric wire value.
-         */
-        public static BT_STATE forNumber(int value) {
+                public static BT_STATE forNumber(int value) {
             switch (value) {
                 case 0:
                     return DISCONNECTED;
@@ -687,53 +621,23 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.FileByteTransfer)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The name.
-         */
-        java.lang.String getName();
+                java.lang.String getName();
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The bytes for name.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getNameBytes();
 
-        /**
-         * <code>bytes data = 2;</code>
-         *
-         * @return The data.
-         */
-        com.google.protobuf.ByteString getData();
+                com.google.protobuf.ByteString getData();
 
-        /**
-         * <code>bool endoffile = 3;</code>
-         *
-         * @return The endoffile.
-         */
-        boolean getEndoffile();
+                boolean getEndoffile();
     }
 
     public interface CommandStatusOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.CommandStatus)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string status = 1;</code>
-         *
-         * @return The status.
-         */
-        java.lang.String getStatus();
+                java.lang.String getStatus();
 
-        /**
-         * <code>string status = 1;</code>
-         *
-         * @return The bytes for status.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getStatusBytes();
     }
 
@@ -741,19 +645,9 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.HelloRequest)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The name.
-         */
-        java.lang.String getName();
+                java.lang.String getName();
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The bytes for name.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getNameBytes();
     }
 
@@ -761,19 +655,9 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.HelloReply)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The message.
-         */
-        java.lang.String getMessage();
+                java.lang.String getMessage();
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The bytes for message.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageBytes();
     }
 
@@ -781,19 +665,9 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.ShimmerRequest)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string address = 1;</code>
-         *
-         * @return The address.
-         */
-        java.lang.String getAddress();
+                java.lang.String getAddress();
 
-        /**
-         * <code>string address = 1;</code>
-         *
-         * @return The bytes for address.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getAddressBytes();
     }
 
@@ -801,19 +675,9 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.StreamRequest)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The message.
-         */
-        java.lang.String getMessage();
+                java.lang.String getMessage();
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The bytes for message.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageBytes();
     }
 
@@ -821,121 +685,53 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.ObjectCluster2)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The name.
-         */
-        java.lang.String getName();
+                java.lang.String getName();
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The bytes for name.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getNameBytes();
 
-        /**
-         * <code>string bluetoothAddress = 2;</code>
-         *
-         * @return The bluetoothAddress.
-         */
-        java.lang.String getBluetoothAddress();
+                java.lang.String getBluetoothAddress();
 
-        /**
-         * <code>string bluetoothAddress = 2;</code>
-         *
-         * @return The bytes for bluetoothAddress.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getBluetoothAddressBytes();
 
-        /**
-         * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-         *
-         * @return The enum numeric value on the wire for communicationType.
-         */
-        int getCommunicationTypeValue();
+                int getCommunicationTypeValue();
 
-        /**
-         * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-         *
-         * @return The communicationType.
-         */
-        com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType getCommunicationType();
+                com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType getCommunicationType();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
-        int getDataMapCount();
+                int getDataMapCount();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
-        boolean containsDataMap(
+                boolean containsDataMap(
                 java.lang.String key);
 
-        /**
-         * Use {@link #getDataMapMap()} instead.
-         */
-        @java.lang.Deprecated
+                @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2>
         getDataMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
-        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2>
+                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2>
         getDataMapMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrDefault(
                 java.lang.String key,
                 com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 defaultValue);
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrThrow(
                 java.lang.String key);
 
-        /**
-         * <code>int64 systemTime = 5;</code>
-         *
-         * @return The systemTime.
-         */
-        long getSystemTime();
+                long getSystemTime();
 
-        /**
-         * <code>double calibratedTimeStamp = 6;</code>
-         *
-         * @return The calibratedTimeStamp.
-         */
-        double getCalibratedTimeStamp();
+                double getCalibratedTimeStamp();
     }
 
     public interface StringMsgOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.StringMsg)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The message.
-         */
-        java.lang.String getMessage();
+                java.lang.String getMessage();
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The bytes for message.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageBytes();
     }
 
@@ -943,36 +739,14 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.StringArrayMsg)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>repeated string messageArray = 1;</code>
-         *
-         * @return A list containing the messageArray.
-         */
-        java.util.List<java.lang.String>
+                java.util.List<java.lang.String>
         getMessageArrayList();
 
-        /**
-         * <code>repeated string messageArray = 1;</code>
-         *
-         * @return The count of messageArray.
-         */
-        int getMessageArrayCount();
+                int getMessageArrayCount();
 
-        /**
-         * <code>repeated string messageArray = 1;</code>
-         *
-         * @param index The index of the element to return.
-         * @return The messageArray at the given index.
-         */
-        java.lang.String getMessageArray(int index);
+                java.lang.String getMessageArray(int index);
 
-        /**
-         * <code>repeated string messageArray = 1;</code>
-         *
-         * @param index The index of the value to return.
-         * @return The bytes of the messageArray at the given index.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageArrayBytes(int index);
     }
 
@@ -980,79 +754,34 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.BoolMsg)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>bool state = 1;</code>
-         *
-         * @return The state.
-         */
-        boolean getState();
+                boolean getState();
     }
 
     public interface DoubleMsgOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.DoubleMsg)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>double number = 1;</code>
-         *
-         * @return The number.
-         */
-        double getNumber();
+                double getNumber();
     }
 
     public interface OperationRequestOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.OperationRequest)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>bool isFinished = 1;</code>
-         *
-         * @return The isFinished.
-         */
-        boolean getIsFinished();
+                boolean getIsFinished();
 
-        /**
-         * <code>bool isSuccess = 2;</code>
-         *
-         * @return The isSuccess.
-         */
-        boolean getIsSuccess();
+                boolean getIsSuccess();
 
-        /**
-         * <code>string message = 3;</code>
-         *
-         * @return The message.
-         */
-        java.lang.String getMessage();
+                java.lang.String getMessage();
 
-        /**
-         * <code>string message = 3;</code>
-         *
-         * @return The bytes for message.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageBytes();
 
-        /**
-         * <code>double progressPercentage = 4;</code>
-         *
-         * @return The progressPercentage.
-         */
-        double getProgressPercentage();
+                double getProgressPercentage();
 
-        /**
-         * <code>string progressPercentageParsed = 5;</code>
-         *
-         * @return The progressPercentageParsed.
-         */
-        java.lang.String getProgressPercentageParsed();
+                java.lang.String getProgressPercentageParsed();
 
-        /**
-         * <code>string progressPercentageParsed = 5;</code>
-         *
-         * @return The bytes for progressPercentageParsed.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getProgressPercentageParsedBytes();
     }
 
@@ -1060,63 +789,30 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.ShimmersInfo)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>bool state = 1;</code>
-         *
-         * @return The state.
-         */
-        boolean getState();
+                boolean getState();
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The message.
-         */
-        java.lang.String getMessage();
+                java.lang.String getMessage();
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The bytes for message.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageBytes();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
-        int getShimmerMapCount();
+                int getShimmerMapCount();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
-        boolean containsShimmerMap(
+                boolean containsShimmerMap(
                 java.lang.String key);
 
-        /**
-         * Use {@link #getShimmerMapMap()} instead.
-         */
-        @java.lang.Deprecated
+                @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo>
         getShimmerMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
-        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo>
+                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo>
         getShimmerMapMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrDefault(
                 java.lang.String key,
                 com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo defaultValue);
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrThrow(
                 java.lang.String key);
@@ -1126,63 +822,30 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.BluetoothDevicesDetails)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>bool state = 1;</code>
-         *
-         * @return The state.
-         */
-        boolean getState();
+                boolean getState();
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The message.
-         */
-        java.lang.String getMessage();
+                java.lang.String getMessage();
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The bytes for message.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageBytes();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails&gt; deviceMap = 3;</code>
-         */
-        int getDeviceMapCount();
+                int getDeviceMapCount();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails&gt; deviceMap = 3;</code>
-         */
-        boolean containsDeviceMap(
+                boolean containsDeviceMap(
                 java.lang.String key);
 
-        /**
-         * Use {@link #getDeviceMapMap()} instead.
-         */
-        @java.lang.Deprecated
+                @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails>
         getDeviceMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails&gt; deviceMap = 3;</code>
-         */
-        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails>
+                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails>
         getDeviceMapMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails&gt; deviceMap = 3;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails getDeviceMapOrDefault(
                 java.lang.String key,
                 com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails defaultValue);
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails&gt; deviceMap = 3;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails getDeviceMapOrThrow(
                 java.lang.String key);
@@ -1192,254 +855,112 @@ public final class ShimmerGRPC {
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.DeviceState)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>string deviceName = 1;</code>
-         *
-         * @return The deviceName.
-         */
-        java.lang.String getDeviceName();
+                java.lang.String getDeviceName();
 
-        /**
-         * <code>string deviceName = 1;</code>
-         *
-         * @return The bytes for deviceName.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getDeviceNameBytes();
 
-        /**
-         * <code>string comPort = 2;</code>
-         *
-         * @return The comPort.
-         */
-        java.lang.String getComPort();
+                java.lang.String getComPort();
 
-        /**
-         * <code>string comPort = 2;</code>
-         *
-         * @return The bytes for comPort.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getComPortBytes();
 
-        /**
-         * <code>string macId = 3;</code>
-         *
-         * @return The macId.
-         */
-        java.lang.String getMacId();
+                java.lang.String getMacId();
 
-        /**
-         * <code>string macId = 3;</code>
-         *
-         * @return The bytes for macId.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMacIdBytes();
 
-        /**
-         * <code>.shimmerGRPC.BT_STATE state = 4;</code>
-         *
-         * @return The enum numeric value on the wire for state.
-         */
-        int getStateValue();
+                int getStateValue();
 
-        /**
-         * <code>.shimmerGRPC.BT_STATE state = 4;</code>
-         *
-         * @return The state.
-         */
-        com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE getState();
+                com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE getState();
     }
 
     public interface Ieee802154InfoOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.Ieee802154Info)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>int32 radioChannel = 1;</code>
-         *
-         * @return The radioChannel.
-         */
-        int getRadioChannel();
+                int getRadioChannel();
 
-        /**
-         * <code>int32 radioGroupId = 2;</code>
-         *
-         * @return The radioGroupId.
-         */
-        int getRadioGroupId();
+                int getRadioGroupId();
 
-        /**
-         * <code>int32 radioDeviceId = 3;</code>
-         *
-         * @return The radioDeviceId.
-         */
-        int getRadioDeviceId();
+                int getRadioDeviceId();
     }
 
     public interface InfoSpansOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.InfoSpans)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>bool state = 1;</code>
-         *
-         * @return The state.
-         */
-        boolean getState();
+                boolean getState();
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The message.
-         */
-        java.lang.String getMessage();
+                java.lang.String getMessage();
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The bytes for message.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageBytes();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.InfoSpans.InfoSpan&gt; spanMap = 3;</code>
-         */
-        int getSpanMapCount();
+                int getSpanMapCount();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.InfoSpans.InfoSpan&gt; spanMap = 3;</code>
-         */
-        boolean containsSpanMap(
+                boolean containsSpanMap(
                 java.lang.String key);
 
-        /**
-         * Use {@link #getSpanMapMap()} instead.
-         */
-        @java.lang.Deprecated
+                @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan>
         getSpanMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.InfoSpans.InfoSpan&gt; spanMap = 3;</code>
-         */
-        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan>
+                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan>
         getSpanMapMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.InfoSpans.InfoSpan&gt; spanMap = 3;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan getSpanMapOrDefault(
                 java.lang.String key,
                 com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan defaultValue);
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.InfoSpans.InfoSpan&gt; spanMap = 3;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan getSpanMapOrThrow(
                 java.lang.String key);
 
-        /**
-         * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 4;</code>
-         *
-         * @return Whether the ieee802154Info field is set.
-         */
-        boolean hasIeee802154Info();
+                boolean hasIeee802154Info();
 
-        /**
-         * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 4;</code>
-         *
-         * @return The ieee802154Info.
-         */
-        com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info();
+                com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info();
 
-        /**
-         * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 4;</code>
-         */
-        com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
+                com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
     }
 
     public interface EmulatedDevicesOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.EmulatedDevices)
             com.google.protobuf.MessageOrBuilder {
 
-        /**
-         * <code>bool state = 1;</code>
-         *
-         * @return The state.
-         */
-        boolean getState();
+                boolean getState();
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The message.
-         */
-        java.lang.String getMessage();
+                java.lang.String getMessage();
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The bytes for message.
-         */
-        com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
         getMessageBytes();
 
-        /**
-         * <code>bool isEmulatorSide = 3;</code>
-         *
-         * @return The isEmulatorSide.
-         */
-        boolean getIsEmulatorSide();
+                boolean getIsEmulatorSide();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.EmulatedDevices.EmulatedDevice&gt; emulatedDevicesMap = 4;</code>
-         */
-        int getEmulatedDevicesMapCount();
+                int getEmulatedDevicesMapCount();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.EmulatedDevices.EmulatedDevice&gt; emulatedDevicesMap = 4;</code>
-         */
-        boolean containsEmulatedDevicesMap(
+                boolean containsEmulatedDevicesMap(
                 java.lang.String key);
 
-        /**
-         * Use {@link #getEmulatedDevicesMapMap()} instead.
-         */
-        @java.lang.Deprecated
+                @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice>
         getEmulatedDevicesMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.EmulatedDevices.EmulatedDevice&gt; emulatedDevicesMap = 4;</code>
-         */
-        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice>
+                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice>
         getEmulatedDevicesMapMap();
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.EmulatedDevices.EmulatedDevice&gt; emulatedDevicesMap = 4;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice getEmulatedDevicesMapOrDefault(
                 java.lang.String key,
                 com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice defaultValue);
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.EmulatedDevices.EmulatedDevice&gt; emulatedDevicesMap = 4;</code>
-         */
 
         com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice getEmulatedDevicesMapOrThrow(
                 java.lang.String key);
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.FileByteTransfer}
-     */
-    public static final class FileByteTransfer extends
+        public static final class FileByteTransfer extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.FileByteTransfer)
             FileByteTransferOrBuilder {
@@ -1656,12 +1177,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransfer.class, com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransfer.Builder.class);
         }
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The name.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getName() {
             java.lang.Object ref = name_;
             if (ref instanceof java.lang.String) {
@@ -1675,12 +1191,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The bytes for name.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getNameBytes() {
             java.lang.Object ref = name_;
@@ -1695,22 +1206,12 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>bytes data = 2;</code>
-         *
-         * @return The data.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString getData() {
             return data_;
         }
 
-        /**
-         * <code>bool endoffile = 3;</code>
-         *
-         * @return The endoffile.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public boolean getEndoffile() {
             return endoffile_;
         }
@@ -1829,10 +1330,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.FileByteTransfer}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.FileByteTransfer)
                 com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransferOrBuilder {
@@ -2001,12 +1499,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The name.
-             */
-            public java.lang.String getName() {
+                        public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -2019,13 +1512,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @param value The name to set.
-             * @return This builder for chaining.
-             */
-            public Builder setName(
+                        public Builder setName(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -2036,12 +1523,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The bytes for name.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
                 if (ref instanceof String) {
@@ -2055,13 +1537,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @param value The bytes for name to set.
-             * @return This builder for chaining.
-             */
-            public Builder setNameBytes(
+                        public Builder setNameBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -2073,35 +1549,19 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearName() {
+                        public Builder clearName() {
 
                 name_ = getDefaultInstance().getName();
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>bytes data = 2;</code>
-             *
-             * @return The data.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString getData() {
                 return data_;
             }
 
-            /**
-             * <code>bytes data = 2;</code>
-             *
-             * @param value The data to set.
-             * @return This builder for chaining.
-             */
-            public Builder setData(com.google.protobuf.ByteString value) {
+                        public Builder setData(com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -2111,47 +1571,26 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>bytes data = 2;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearData() {
+                        public Builder clearData() {
 
                 data_ = getDefaultInstance().getData();
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>bool endoffile = 3;</code>
-             *
-             * @return The endoffile.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public boolean getEndoffile() {
                 return endoffile_;
             }
 
-            /**
-             * <code>bool endoffile = 3;</code>
-             *
-             * @param value The endoffile to set.
-             * @return This builder for chaining.
-             */
-            public Builder setEndoffile(boolean value) {
+                        public Builder setEndoffile(boolean value) {
 
                 endoffile_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>bool endoffile = 3;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearEndoffile() {
+                        public Builder clearEndoffile() {
 
                 endoffile_ = false;
                 onChanged();
@@ -2176,10 +1615,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.CommandStatus}
-     */
-    public static final class CommandStatus extends
+        public static final class CommandStatus extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.CommandStatus)
             CommandStatusOrBuilder {
@@ -2381,12 +1817,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.CommandStatus.class, com.shimmerresearch.grpc.ShimmerGRPC.CommandStatus.Builder.class);
         }
 
-        /**
-         * <code>string status = 1;</code>
-         *
-         * @return The status.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getStatus() {
             java.lang.Object ref = status_;
             if (ref instanceof java.lang.String) {
@@ -2400,12 +1831,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string status = 1;</code>
-         *
-         * @return The bytes for status.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getStatusBytes() {
             java.lang.Object ref = status_;
@@ -2511,10 +1937,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.CommandStatus}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.CommandStatus)
                 com.shimmerresearch.grpc.ShimmerGRPC.CommandStatusOrBuilder {
@@ -2669,12 +2092,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string status = 1;</code>
-             *
-             * @return The status.
-             */
-            public java.lang.String getStatus() {
+                        public java.lang.String getStatus() {
                 java.lang.Object ref = status_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -2687,13 +2105,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string status = 1;</code>
-             *
-             * @param value The status to set.
-             * @return This builder for chaining.
-             */
-            public Builder setStatus(
+                        public Builder setStatus(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -2704,12 +2116,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string status = 1;</code>
-             *
-             * @return The bytes for status.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getStatusBytes() {
                 java.lang.Object ref = status_;
                 if (ref instanceof String) {
@@ -2723,13 +2130,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string status = 1;</code>
-             *
-             * @param value The bytes for status to set.
-             * @return This builder for chaining.
-             */
-            public Builder setStatusBytes(
+                        public Builder setStatusBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -2741,12 +2142,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string status = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearStatus() {
+                        public Builder clearStatus() {
 
                 status_ = getDefaultInstance().getStatus();
                 onChanged();
@@ -2771,14 +2167,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * <pre>
-     * The request message containing the user's name.
-     * </pre>
-     * <p>
-     * Protobuf type {@code shimmerGRPC.HelloRequest}
-     */
-    public static final class HelloRequest extends
+        public static final class HelloRequest extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.HelloRequest)
             HelloRequestOrBuilder {
@@ -2980,12 +2369,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest.class, com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest.Builder.class);
         }
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The name.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getName() {
             java.lang.Object ref = name_;
             if (ref instanceof java.lang.String) {
@@ -2999,12 +2383,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The bytes for name.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getNameBytes() {
             java.lang.Object ref = name_;
@@ -3110,14 +2489,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * <pre>
-         * The request message containing the user's name.
-         * </pre>
-         * <p>
-         * Protobuf type {@code shimmerGRPC.HelloRequest}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.HelloRequest)
                 com.shimmerresearch.grpc.ShimmerGRPC.HelloRequestOrBuilder {
@@ -3272,12 +2644,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The name.
-             */
-            public java.lang.String getName() {
+                        public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -3290,13 +2657,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @param value The name to set.
-             * @return This builder for chaining.
-             */
-            public Builder setName(
+                        public Builder setName(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -3307,12 +2668,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The bytes for name.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
                 if (ref instanceof String) {
@@ -3326,13 +2682,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @param value The bytes for name to set.
-             * @return This builder for chaining.
-             */
-            public Builder setNameBytes(
+                        public Builder setNameBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -3344,12 +2694,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearName() {
+                        public Builder clearName() {
 
                 name_ = getDefaultInstance().getName();
                 onChanged();
@@ -3374,14 +2719,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * <pre>
-     * The response message containing the greetings
-     * </pre>
-     * <p>
-     * Protobuf type {@code shimmerGRPC.HelloReply}
-     */
-    public static final class HelloReply extends
+        public static final class HelloReply extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.HelloReply)
             HelloReplyOrBuilder {
@@ -3583,12 +2921,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.HelloReply.class, com.shimmerresearch.grpc.ShimmerGRPC.HelloReply.Builder.class);
         }
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -3602,12 +2935,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The bytes for message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -3713,14 +3041,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * <pre>
-         * The response message containing the greetings
-         * </pre>
-         * <p>
-         * Protobuf type {@code shimmerGRPC.HelloReply}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.HelloReply)
                 com.shimmerresearch.grpc.ShimmerGRPC.HelloReplyOrBuilder {
@@ -3875,12 +3196,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return The message.
-             */
-            public java.lang.String getMessage() {
+                        public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -3893,13 +3209,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @param value The message to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessage(
+                        public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -3910,12 +3220,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return The bytes for message.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -3929,13 +3234,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @param value The bytes for message to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessageBytes(
+                        public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -3947,12 +3246,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearMessage() {
+                        public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -3977,10 +3271,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.ShimmerRequest}
-     */
-    public static final class ShimmerRequest extends
+        public static final class ShimmerRequest extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.ShimmerRequest)
             ShimmerRequestOrBuilder {
@@ -4182,12 +3473,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequest.class, com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequest.Builder.class);
         }
 
-        /**
-         * <code>string address = 1;</code>
-         *
-         * @return The address.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getAddress() {
             java.lang.Object ref = address_;
             if (ref instanceof java.lang.String) {
@@ -4201,12 +3487,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string address = 1;</code>
-         *
-         * @return The bytes for address.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getAddressBytes() {
             java.lang.Object ref = address_;
@@ -4312,10 +3593,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.ShimmerRequest}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.ShimmerRequest)
                 com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequestOrBuilder {
@@ -4470,12 +3748,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string address = 1;</code>
-             *
-             * @return The address.
-             */
-            public java.lang.String getAddress() {
+                        public java.lang.String getAddress() {
                 java.lang.Object ref = address_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -4488,13 +3761,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string address = 1;</code>
-             *
-             * @param value The address to set.
-             * @return This builder for chaining.
-             */
-            public Builder setAddress(
+                        public Builder setAddress(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -4505,12 +3772,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string address = 1;</code>
-             *
-             * @return The bytes for address.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getAddressBytes() {
                 java.lang.Object ref = address_;
                 if (ref instanceof String) {
@@ -4524,13 +3786,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string address = 1;</code>
-             *
-             * @param value The bytes for address to set.
-             * @return This builder for chaining.
-             */
-            public Builder setAddressBytes(
+                        public Builder setAddressBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -4542,12 +3798,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string address = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearAddress() {
+                        public Builder clearAddress() {
 
                 address_ = getDefaultInstance().getAddress();
                 onChanged();
@@ -4572,10 +3823,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.StreamRequest}
-     */
-    public static final class StreamRequest extends
+        public static final class StreamRequest extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.StreamRequest)
             StreamRequestOrBuilder {
@@ -4777,12 +4025,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest.class, com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest.Builder.class);
         }
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -4796,12 +4039,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The bytes for message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -4907,10 +4145,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.StreamRequest}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.StreamRequest)
                 com.shimmerresearch.grpc.ShimmerGRPC.StreamRequestOrBuilder {
@@ -5065,12 +4300,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return The message.
-             */
-            public java.lang.String getMessage() {
+                        public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -5083,13 +4313,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @param value The message to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessage(
+                        public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -5100,12 +4324,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return The bytes for message.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -5119,13 +4338,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @param value The bytes for message to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessageBytes(
+                        public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -5137,12 +4350,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearMessage() {
+                        public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -5167,10 +4375,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.ObjectCluster2}
-     */
-    public static final class ObjectCluster2 extends
+        public static final class ObjectCluster2 extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.ObjectCluster2)
             ObjectCluster2OrBuilder {
@@ -5434,12 +4639,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.class, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.Builder.class);
         }
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The name.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getName() {
             java.lang.Object ref = name_;
             if (ref instanceof java.lang.String) {
@@ -5453,12 +4653,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string name = 1;</code>
-         *
-         * @return The bytes for name.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getNameBytes() {
             java.lang.Object ref = name_;
@@ -5473,12 +4668,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string bluetoothAddress = 2;</code>
-         *
-         * @return The bluetoothAddress.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getBluetoothAddress() {
             java.lang.Object ref = bluetoothAddress_;
             if (ref instanceof java.lang.String) {
@@ -5492,12 +4682,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string bluetoothAddress = 2;</code>
-         *
-         * @return The bytes for bluetoothAddress.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getBluetoothAddressBytes() {
             java.lang.Object ref = bluetoothAddress_;
@@ -5512,22 +4697,12 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-         *
-         * @return The enum numeric value on the wire for communicationType.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public int getCommunicationTypeValue() {
             return communicationType_;
         }
 
-        /**
-         * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-         *
-         * @return The communicationType.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType getCommunicationType() {
             @SuppressWarnings("deprecation")
             com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType result = com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType.valueOf(communicationType_);
@@ -5547,9 +4722,6 @@ public final class ShimmerGRPC {
             return internalGetDataMap().getMap().size();
         }
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
 
         @java.lang.Override
         public boolean containsDataMap(
@@ -5560,28 +4732,19 @@ public final class ShimmerGRPC {
             return internalGetDataMap().getMap().containsKey(key);
         }
 
-        /**
-         * Use {@link #getDataMapMap()} instead.
-         */
-        @java.lang.Override
+                @java.lang.Override
         @java.lang.Deprecated
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> getDataMap() {
             return getDataMapMap();
         }
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
-        @java.lang.Override
+                @java.lang.Override
 
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> getDataMapMap() {
             return internalGetDataMap().getMap();
         }
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
-        @java.lang.Override
+                @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrDefault(
                 java.lang.String key,
@@ -5594,10 +4757,7 @@ public final class ShimmerGRPC {
             return map.containsKey(key) ? map.get(key) : defaultValue;
         }
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-         */
-        @java.lang.Override
+                @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrThrow(
                 java.lang.String key) {
@@ -5612,22 +4772,12 @@ public final class ShimmerGRPC {
             return map.get(key);
         }
 
-        /**
-         * <code>int64 systemTime = 5;</code>
-         *
-         * @return The systemTime.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public long getSystemTime() {
             return systemTime_;
         }
 
-        /**
-         * <code>double calibratedTimeStamp = 6;</code>
-         *
-         * @return The calibratedTimeStamp.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public double getCalibratedTimeStamp() {
             return calibratedTimeStamp_;
         }
@@ -5790,38 +4940,17 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf enum {@code shimmerGRPC.ObjectCluster2.CommunicationType}
-         */
-        public enum CommunicationType
+                public enum CommunicationType
                 implements com.google.protobuf.ProtocolMessageEnum {
-            /**
-             * <code>BT = 0;</code>
-             */
-            BT(0),
-            /**
-             * <code>SD = 1;</code>
-             */
-            SD(1),
-            /**
-             * <code>Radio_802_15_4 = 2;</code>
-             */
-            Radio_802_15_4(2),
+                        BT(0),
+                        SD(1),
+                        Radio_802_15_4(2),
             UNRECOGNIZED(-1),
             ;
 
-            /**
-             * <code>BT = 0;</code>
-             */
-            public static final int BT_VALUE = 0;
-            /**
-             * <code>SD = 1;</code>
-             */
-            public static final int SD_VALUE = 1;
-            /**
-             * <code>Radio_802_15_4 = 2;</code>
-             */
-            public static final int Radio_802_15_4_VALUE = 2;
+                        public static final int BT_VALUE = 0;
+                        public static final int SD_VALUE = 1;
+                        public static final int Radio_802_15_4_VALUE = 2;
             private static final com.google.protobuf.Internal.EnumLiteMap<
                     CommunicationType> internalValueMap =
                     new com.google.protobuf.Internal.EnumLiteMap<CommunicationType>() {
@@ -5836,21 +4965,12 @@ public final class ShimmerGRPC {
                 this.value = value;
             }
 
-            /**
-             * @param value The numeric wire value of the corresponding enum entry.
-             * @return The enum associated with the given numeric wire value.
-             * @deprecated Use {@link #forNumber(int)} instead.
-             */
-            @java.lang.Deprecated
+                        @java.lang.Deprecated
             public static CommunicationType valueOf(int value) {
                 return forNumber(value);
             }
 
-            /**
-             * @param value The numeric wire value of the corresponding enum entry.
-             * @return The enum associated with the given numeric wire value.
-             */
-            public static CommunicationType forNumber(int value) {
+                        public static CommunicationType forNumber(int value) {
                 switch (value) {
                     case 0:
                         return BT;
@@ -5914,50 +5034,29 @@ public final class ShimmerGRPC {
                 // @@protoc_insertion_point(interface_extends:shimmerGRPC.ObjectCluster2.FormatCluster2)
                 com.google.protobuf.MessageOrBuilder {
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
-            int getFormatMapCount();
+                        int getFormatMapCount();
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
-            boolean containsFormatMap(
+                        boolean containsFormatMap(
                     java.lang.String key);
 
-            /**
-             * Use {@link #getFormatMapMap()} instead.
-             */
-            @java.lang.Deprecated
+                        @java.lang.Deprecated
             java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2>
             getFormatMap();
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
-            java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2>
+                        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2>
             getFormatMapMap();
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
 
             com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrDefault(
                     java.lang.String key,
                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 defaultValue);
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
 
             com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrThrow(
                     java.lang.String key);
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.ObjectCluster2.FormatCluster2}
-         */
-        public static final class FormatCluster2 extends
+                public static final class FormatCluster2 extends
                 com.google.protobuf.GeneratedMessageV3 implements
                 // @@protoc_insertion_point(message_implements:shimmerGRPC.ObjectCluster2.FormatCluster2)
                 FormatCluster2OrBuilder {
@@ -6193,9 +5292,6 @@ public final class ShimmerGRPC {
                 return internalGetFormatMap().getMap().size();
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
 
             @java.lang.Override
             public boolean containsFormatMap(
@@ -6206,28 +5302,19 @@ public final class ShimmerGRPC {
                 return internalGetFormatMap().getMap().containsKey(key);
             }
 
-            /**
-             * Use {@link #getFormatMapMap()} instead.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> getFormatMap() {
                 return getFormatMapMap();
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
-            @java.lang.Override
+                        @java.lang.Override
 
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> getFormatMapMap() {
                 return internalGetFormatMap().getMap();
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
-            @java.lang.Override
+                        @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrDefault(
                     java.lang.String key,
@@ -6240,10 +5327,7 @@ public final class ShimmerGRPC {
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-             */
-            @java.lang.Override
+                        @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrThrow(
                     java.lang.String key) {
@@ -6365,55 +5449,21 @@ public final class ShimmerGRPC {
                     // @@protoc_insertion_point(interface_extends:shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2)
                     com.google.protobuf.MessageOrBuilder {
 
-                /**
-                 * <code>string unit = 1;</code>
-                 *
-                 * @return The unit.
-                 */
-                java.lang.String getUnit();
+                                java.lang.String getUnit();
 
-                /**
-                 * <code>string unit = 1;</code>
-                 *
-                 * @return The bytes for unit.
-                 */
-                com.google.protobuf.ByteString
+                                com.google.protobuf.ByteString
                 getUnitBytes();
 
-                /**
-                 * <code>double data = 2;</code>
-                 *
-                 * @return The data.
-                 */
-                double getData();
+                                double getData();
 
-                /**
-                 * <code>repeated double dataArray = 3;</code>
-                 *
-                 * @return A list containing the dataArray.
-                 */
-                java.util.List<java.lang.Double> getDataArrayList();
+                                java.util.List<java.lang.Double> getDataArrayList();
 
-                /**
-                 * <code>repeated double dataArray = 3;</code>
-                 *
-                 * @return The count of dataArray.
-                 */
-                int getDataArrayCount();
+                                int getDataArrayCount();
 
-                /**
-                 * <code>repeated double dataArray = 3;</code>
-                 *
-                 * @param index The index of the element to return.
-                 * @return The dataArray at the given index.
-                 */
-                double getDataArray(int index);
+                                double getDataArray(int index);
             }
 
-            /**
-             * Protobuf type {@code shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2}
-             */
-            public static final class DataCluster2 extends
+                        public static final class DataCluster2 extends
                     com.google.protobuf.GeneratedMessageV3 implements
                     // @@protoc_insertion_point(message_implements:shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2)
                     DataCluster2OrBuilder {
@@ -6651,12 +5701,7 @@ public final class ShimmerGRPC {
                                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.class, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.Builder.class);
                 }
 
-                /**
-                 * <code>string unit = 1;</code>
-                 *
-                 * @return The unit.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public java.lang.String getUnit() {
                     java.lang.Object ref = unit_;
                     if (ref instanceof java.lang.String) {
@@ -6670,12 +5715,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string unit = 1;</code>
-                 *
-                 * @return The bytes for unit.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public com.google.protobuf.ByteString
                 getUnitBytes() {
                     java.lang.Object ref = unit_;
@@ -6690,43 +5730,22 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>double data = 2;</code>
-                 *
-                 * @return The data.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public double getData() {
                     return data_;
                 }
 
-                /**
-                 * <code>repeated double dataArray = 3;</code>
-                 *
-                 * @return A list containing the dataArray.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public java.util.List<java.lang.Double>
                 getDataArrayList() {
                     return dataArray_;
                 }
 
-                /**
-                 * <code>repeated double dataArray = 3;</code>
-                 *
-                 * @return The count of dataArray.
-                 */
-                public int getDataArrayCount() {
+                                public int getDataArrayCount() {
                     return dataArray_.size();
                 }
 
-                /**
-                 * <code>repeated double dataArray = 3;</code>
-                 *
-                 * @param index The index of the element to return.
-                 * @return The dataArray at the given index.
-                 */
-                public double getDataArray(int index) {
+                                public double getDataArray(int index) {
                     return dataArray_.getDouble(index);
                 }
 
@@ -6859,10 +5878,7 @@ public final class ShimmerGRPC {
                     return DEFAULT_INSTANCE;
                 }
 
-                /**
-                 * Protobuf type {@code shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2}
-                 */
-                public static final class Builder extends
+                                public static final class Builder extends
                         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                         // @@protoc_insertion_point(builder_implements:shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2)
                         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2OrBuilder {
@@ -7045,12 +6061,7 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                    /**
-                     * <code>string unit = 1;</code>
-                     *
-                     * @return The unit.
-                     */
-                    public java.lang.String getUnit() {
+                                        public java.lang.String getUnit() {
                         java.lang.Object ref = unit_;
                         if (!(ref instanceof java.lang.String)) {
                             com.google.protobuf.ByteString bs =
@@ -7063,13 +6074,7 @@ public final class ShimmerGRPC {
                         }
                     }
 
-                    /**
-                     * <code>string unit = 1;</code>
-                     *
-                     * @param value The unit to set.
-                     * @return This builder for chaining.
-                     */
-                    public Builder setUnit(
+                                        public Builder setUnit(
                             java.lang.String value) {
                         if (value == null) {
                             throw new NullPointerException();
@@ -7080,12 +6085,7 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                    /**
-                     * <code>string unit = 1;</code>
-                     *
-                     * @return The bytes for unit.
-                     */
-                    public com.google.protobuf.ByteString
+                                        public com.google.protobuf.ByteString
                     getUnitBytes() {
                         java.lang.Object ref = unit_;
                         if (ref instanceof String) {
@@ -7099,13 +6099,7 @@ public final class ShimmerGRPC {
                         }
                     }
 
-                    /**
-                     * <code>string unit = 1;</code>
-                     *
-                     * @param value The bytes for unit to set.
-                     * @return This builder for chaining.
-                     */
-                    public Builder setUnitBytes(
+                                        public Builder setUnitBytes(
                             com.google.protobuf.ByteString value) {
                         if (value == null) {
                             throw new NullPointerException();
@@ -7117,47 +6111,26 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                    /**
-                     * <code>string unit = 1;</code>
-                     *
-                     * @return This builder for chaining.
-                     */
-                    public Builder clearUnit() {
+                                        public Builder clearUnit() {
 
                         unit_ = getDefaultInstance().getUnit();
                         onChanged();
                         return this;
                     }
 
-                    /**
-                     * <code>double data = 2;</code>
-                     *
-                     * @return The data.
-                     */
-                    @java.lang.Override
+                                        @java.lang.Override
                     public double getData() {
                         return data_;
                     }
 
-                    /**
-                     * <code>double data = 2;</code>
-                     *
-                     * @param value The data to set.
-                     * @return This builder for chaining.
-                     */
-                    public Builder setData(double value) {
+                                        public Builder setData(double value) {
 
                         data_ = value;
                         onChanged();
                         return this;
                     }
 
-                    /**
-                     * <code>double data = 2;</code>
-                     *
-                     * @return This builder for chaining.
-                     */
-                    public Builder clearData() {
+                                        public Builder clearData() {
 
                         data_ = 0D;
                         onChanged();
@@ -7171,44 +6144,21 @@ public final class ShimmerGRPC {
                         }
                     }
 
-                    /**
-                     * <code>repeated double dataArray = 3;</code>
-                     *
-                     * @return A list containing the dataArray.
-                     */
-                    public java.util.List<java.lang.Double>
+                                        public java.util.List<java.lang.Double>
                     getDataArrayList() {
                         return ((bitField0_ & 0x00000001) != 0) ?
                                 java.util.Collections.unmodifiableList(dataArray_) : dataArray_;
                     }
 
-                    /**
-                     * <code>repeated double dataArray = 3;</code>
-                     *
-                     * @return The count of dataArray.
-                     */
-                    public int getDataArrayCount() {
+                                        public int getDataArrayCount() {
                         return dataArray_.size();
                     }
 
-                    /**
-                     * <code>repeated double dataArray = 3;</code>
-                     *
-                     * @param index The index of the element to return.
-                     * @return The dataArray at the given index.
-                     */
-                    public double getDataArray(int index) {
+                                        public double getDataArray(int index) {
                         return dataArray_.getDouble(index);
                     }
 
-                    /**
-                     * <code>repeated double dataArray = 3;</code>
-                     *
-                     * @param index The index to set the value at.
-                     * @param value The dataArray to set.
-                     * @return This builder for chaining.
-                     */
-                    public Builder setDataArray(
+                                        public Builder setDataArray(
                             int index, double value) {
                         ensureDataArrayIsMutable();
                         dataArray_.setDouble(index, value);
@@ -7216,26 +6166,14 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                    /**
-                     * <code>repeated double dataArray = 3;</code>
-                     *
-                     * @param value The dataArray to add.
-                     * @return This builder for chaining.
-                     */
-                    public Builder addDataArray(double value) {
+                                        public Builder addDataArray(double value) {
                         ensureDataArrayIsMutable();
                         dataArray_.addDouble(value);
                         onChanged();
                         return this;
                     }
 
-                    /**
-                     * <code>repeated double dataArray = 3;</code>
-                     *
-                     * @param values The dataArray to add.
-                     * @return This builder for chaining.
-                     */
-                    public Builder addAllDataArray(
+                                        public Builder addAllDataArray(
                             java.lang.Iterable<? extends java.lang.Double> values) {
                         ensureDataArrayIsMutable();
                         com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -7244,12 +6182,7 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                    /**
-                     * <code>repeated double dataArray = 3;</code>
-                     *
-                     * @return This builder for chaining.
-                     */
-                    public Builder clearDataArray() {
+                                        public Builder clearDataArray() {
                         dataArray_ = emptyDoubleList();
                         bitField0_ = (bitField0_ & ~0x00000001);
                         onChanged();
@@ -7286,10 +6219,7 @@ public final class ShimmerGRPC {
                                         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.getDefaultInstance());
             }
 
-            /**
-             * Protobuf type {@code shimmerGRPC.ObjectCluster2.FormatCluster2}
-             */
-            public static final class Builder extends
+                        public static final class Builder extends
                     com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                     // @@protoc_insertion_point(builder_implements:shimmerGRPC.ObjectCluster2.FormatCluster2)
                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2OrBuilder {
@@ -7497,9 +6427,6 @@ public final class ShimmerGRPC {
                     return internalGetFormatMap().getMap().size();
                 }
 
-                /**
-                 * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-                 */
 
                 @java.lang.Override
                 public boolean containsFormatMap(
@@ -7510,28 +6437,19 @@ public final class ShimmerGRPC {
                     return internalGetFormatMap().getMap().containsKey(key);
                 }
 
-                /**
-                 * Use {@link #getFormatMapMap()} instead.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 @java.lang.Deprecated
                 public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> getFormatMap() {
                     return getFormatMapMap();
                 }
 
-                /**
-                 * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-                 */
-                @java.lang.Override
+                                @java.lang.Override
 
                 public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> getFormatMapMap() {
                     return internalGetFormatMap().getMap();
                 }
 
-                /**
-                 * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-                 */
-                @java.lang.Override
+                                @java.lang.Override
 
                 public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrDefault(
                         java.lang.String key,
@@ -7544,10 +6462,7 @@ public final class ShimmerGRPC {
                     return map.containsKey(key) ? map.get(key) : defaultValue;
                 }
 
-                /**
-                 * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-                 */
-                @java.lang.Override
+                                @java.lang.Override
 
                 public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrThrow(
                         java.lang.String key) {
@@ -7568,9 +6483,6 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-                 */
 
                 public Builder removeFormatMap(
                         java.lang.String key) {
@@ -7582,19 +6494,13 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * Use alternate mutation accessors instead.
-                 */
-                @java.lang.Deprecated
+                                @java.lang.Deprecated
                 public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2>
                 getMutableFormatMap() {
                     return internalGetMutableFormatMap().getMutableMap();
                 }
 
-                /**
-                 * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-                 */
-                public Builder putFormatMap(
+                                public Builder putFormatMap(
                         java.lang.String key,
                         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 value) {
                     if (key == null) {
@@ -7608,9 +6514,6 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2&gt; formatMap = 1;</code>
-                 */
 
                 public Builder putAllFormatMap(
                         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> values) {
@@ -7649,10 +6552,7 @@ public final class ShimmerGRPC {
                                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.getDefaultInstance());
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.ObjectCluster2}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.ObjectCluster2)
                 com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2OrBuilder {
@@ -7869,12 +6769,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The name.
-             */
-            public java.lang.String getName() {
+                        public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -7887,13 +6782,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @param value The name to set.
-             * @return This builder for chaining.
-             */
-            public Builder setName(
+                        public Builder setName(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -7904,12 +6793,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The bytes for name.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
                 if (ref instanceof String) {
@@ -7923,13 +6807,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @param value The bytes for name to set.
-             * @return This builder for chaining.
-             */
-            public Builder setNameBytes(
+                        public Builder setNameBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -7941,24 +6819,14 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearName() {
+                        public Builder clearName() {
 
                 name_ = getDefaultInstance().getName();
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>string bluetoothAddress = 2;</code>
-             *
-             * @return The bluetoothAddress.
-             */
-            public java.lang.String getBluetoothAddress() {
+                        public java.lang.String getBluetoothAddress() {
                 java.lang.Object ref = bluetoothAddress_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -7971,13 +6839,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string bluetoothAddress = 2;</code>
-             *
-             * @param value The bluetoothAddress to set.
-             * @return This builder for chaining.
-             */
-            public Builder setBluetoothAddress(
+                        public Builder setBluetoothAddress(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -7988,12 +6850,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string bluetoothAddress = 2;</code>
-             *
-             * @return The bytes for bluetoothAddress.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getBluetoothAddressBytes() {
                 java.lang.Object ref = bluetoothAddress_;
                 if (ref instanceof String) {
@@ -8007,13 +6864,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string bluetoothAddress = 2;</code>
-             *
-             * @param value The bytes for bluetoothAddress to set.
-             * @return This builder for chaining.
-             */
-            public Builder setBluetoothAddressBytes(
+                        public Builder setBluetoothAddressBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -8025,60 +6876,33 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string bluetoothAddress = 2;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearBluetoothAddress() {
+                        public Builder clearBluetoothAddress() {
 
                 bluetoothAddress_ = getDefaultInstance().getBluetoothAddress();
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-             *
-             * @return The enum numeric value on the wire for communicationType.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public int getCommunicationTypeValue() {
                 return communicationType_;
             }
 
-            /**
-             * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-             *
-             * @param value The enum numeric value on the wire for communicationType to set.
-             * @return This builder for chaining.
-             */
-            public Builder setCommunicationTypeValue(int value) {
+                        public Builder setCommunicationTypeValue(int value) {
 
                 communicationType_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-             *
-             * @return The communicationType.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType getCommunicationType() {
                 @SuppressWarnings("deprecation")
                 com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType result = com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType.valueOf(communicationType_);
                 return result == null ? com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType.UNRECOGNIZED : result;
             }
 
-            /**
-             * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-             *
-             * @param value The communicationType to set.
-             * @return This builder for chaining.
-             */
-            public Builder setCommunicationType(com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType value) {
+                        public Builder setCommunicationType(com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -8088,12 +6912,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>.shimmerGRPC.ObjectCluster2.CommunicationType communicationType = 3;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearCommunicationType() {
+                        public Builder clearCommunicationType() {
 
                 communicationType_ = 0;
                 onChanged();
@@ -8127,9 +6946,6 @@ public final class ShimmerGRPC {
                 return internalGetDataMap().getMap().size();
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-             */
 
             @java.lang.Override
             public boolean containsDataMap(
@@ -8140,28 +6956,19 @@ public final class ShimmerGRPC {
                 return internalGetDataMap().getMap().containsKey(key);
             }
 
-            /**
-             * Use {@link #getDataMapMap()} instead.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> getDataMap() {
                 return getDataMapMap();
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-             */
-            @java.lang.Override
+                        @java.lang.Override
 
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> getDataMapMap() {
                 return internalGetDataMap().getMap();
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-             */
-            @java.lang.Override
+                        @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrDefault(
                     java.lang.String key,
@@ -8174,10 +6981,7 @@ public final class ShimmerGRPC {
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-             */
-            @java.lang.Override
+                        @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrThrow(
                     java.lang.String key) {
@@ -8198,9 +7002,6 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-             */
 
             public Builder removeDataMap(
                     java.lang.String key) {
@@ -8212,19 +7013,13 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * Use alternate mutation accessors instead.
-             */
-            @java.lang.Deprecated
+                        @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2>
             getMutableDataMap() {
                 return internalGetMutableDataMap().getMutableMap();
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-             */
-            public Builder putDataMap(
+                        public Builder putDataMap(
                     java.lang.String key,
                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 value) {
                 if (key == null) {
@@ -8238,9 +7033,6 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>map&lt;string, .shimmerGRPC.ObjectCluster2.FormatCluster2&gt; dataMap = 4;</code>
-             */
 
             public Builder putAllDataMap(
                     java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> values) {
@@ -8249,70 +7041,38 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>int64 systemTime = 5;</code>
-             *
-             * @return The systemTime.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public long getSystemTime() {
                 return systemTime_;
             }
 
-            /**
-             * <code>int64 systemTime = 5;</code>
-             *
-             * @param value The systemTime to set.
-             * @return This builder for chaining.
-             */
-            public Builder setSystemTime(long value) {
+                        public Builder setSystemTime(long value) {
 
                 systemTime_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>int64 systemTime = 5;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearSystemTime() {
+                        public Builder clearSystemTime() {
 
                 systemTime_ = 0L;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>double calibratedTimeStamp = 6;</code>
-             *
-             * @return The calibratedTimeStamp.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public double getCalibratedTimeStamp() {
                 return calibratedTimeStamp_;
             }
 
-            /**
-             * <code>double calibratedTimeStamp = 6;</code>
-             *
-             * @param value The calibratedTimeStamp to set.
-             * @return This builder for chaining.
-             */
-            public Builder setCalibratedTimeStamp(double value) {
+                        public Builder setCalibratedTimeStamp(double value) {
 
                 calibratedTimeStamp_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>double calibratedTimeStamp = 6;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearCalibratedTimeStamp() {
+                        public Builder clearCalibratedTimeStamp() {
 
                 calibratedTimeStamp_ = 0D;
                 onChanged();
@@ -8337,14 +7097,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * <pre>
-     * ConsensysApi related
-     * </pre>
-     * <p>
-     * Protobuf type {@code shimmerGRPC.StringMsg}
-     */
-    public static final class StringMsg extends
+        public static final class StringMsg extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.StringMsg)
             StringMsgOrBuilder {
@@ -8546,12 +7299,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.StringMsg.class, com.shimmerresearch.grpc.ShimmerGRPC.StringMsg.Builder.class);
         }
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -8565,12 +7313,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string message = 1;</code>
-         *
-         * @return The bytes for message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -8676,14 +7419,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * <pre>
-         * ConsensysApi related
-         * </pre>
-         * <p>
-         * Protobuf type {@code shimmerGRPC.StringMsg}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.StringMsg)
                 com.shimmerresearch.grpc.ShimmerGRPC.StringMsgOrBuilder {
@@ -8838,12 +7574,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return The message.
-             */
-            public java.lang.String getMessage() {
+                        public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -8856,13 +7587,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @param value The message to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessage(
+                        public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -8873,12 +7598,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return The bytes for message.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -8892,13 +7612,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @param value The bytes for message to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessageBytes(
+                        public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -8910,12 +7624,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearMessage() {
+                        public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -8940,10 +7649,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.StringArrayMsg}
-     */
-    public static final class StringArrayMsg extends
+        public static final class StringArrayMsg extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.StringArrayMsg)
             StringArrayMsgOrBuilder {
@@ -9152,42 +7858,20 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsg.class, com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsg.Builder.class);
         }
 
-        /**
-         * <code>repeated string messageArray = 1;</code>
-         *
-         * @return A list containing the messageArray.
-         */
-        public com.google.protobuf.ProtocolStringList
+                public com.google.protobuf.ProtocolStringList
         getMessageArrayList() {
             return messageArray_;
         }
 
-        /**
-         * <code>repeated string messageArray = 1;</code>
-         *
-         * @return The count of messageArray.
-         */
-        public int getMessageArrayCount() {
+                public int getMessageArrayCount() {
             return messageArray_.size();
         }
 
-        /**
-         * <code>repeated string messageArray = 1;</code>
-         *
-         * @param index The index of the element to return.
-         * @return The messageArray at the given index.
-         */
-        public java.lang.String getMessageArray(int index) {
+                public java.lang.String getMessageArray(int index) {
             return messageArray_.get(index);
         }
 
-        /**
-         * <code>repeated string messageArray = 1;</code>
-         *
-         * @param index The index of the value to return.
-         * @return The bytes of the messageArray at the given index.
-         */
-        public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
         getMessageArrayBytes(int index) {
             return messageArray_.getByteString(index);
         }
@@ -9290,10 +7974,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.StringArrayMsg}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.StringArrayMsg)
                 com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsgOrBuilder {
@@ -9467,54 +8148,25 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @return A list containing the messageArray.
-             */
-            public com.google.protobuf.ProtocolStringList
+                        public com.google.protobuf.ProtocolStringList
             getMessageArrayList() {
                 return messageArray_.getUnmodifiableView();
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @return The count of messageArray.
-             */
-            public int getMessageArrayCount() {
+                        public int getMessageArrayCount() {
                 return messageArray_.size();
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @param index The index of the element to return.
-             * @return The messageArray at the given index.
-             */
-            public java.lang.String getMessageArray(int index) {
+                        public java.lang.String getMessageArray(int index) {
                 return messageArray_.get(index);
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @param index The index of the value to return.
-             * @return The bytes of the messageArray at the given index.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getMessageArrayBytes(int index) {
                 return messageArray_.getByteString(index);
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @param index The index to set the value at.
-             * @param value The messageArray to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessageArray(
+                        public Builder setMessageArray(
                     int index, java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -9525,13 +8177,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @param value The messageArray to add.
-             * @return This builder for chaining.
-             */
-            public Builder addMessageArray(
+                        public Builder addMessageArray(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -9542,13 +8188,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @param values The messageArray to add.
-             * @return This builder for chaining.
-             */
-            public Builder addAllMessageArray(
+                        public Builder addAllMessageArray(
                     java.lang.Iterable<java.lang.String> values) {
                 ensureMessageArrayIsMutable();
                 com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -9557,25 +8197,14 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearMessageArray() {
+                        public Builder clearMessageArray() {
                 messageArray_ = com.google.protobuf.LazyStringArrayList.EMPTY;
                 bitField0_ = (bitField0_ & ~0x00000001);
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>repeated string messageArray = 1;</code>
-             *
-             * @param value The bytes of the messageArray to add.
-             * @return This builder for chaining.
-             */
-            public Builder addMessageArrayBytes(
+                        public Builder addMessageArrayBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -9605,10 +8234,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.BoolMsg}
-     */
-    public static final class BoolMsg extends
+        public static final class BoolMsg extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.BoolMsg)
             BoolMsgOrBuilder {
@@ -9808,12 +8434,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.BoolMsg.class, com.shimmerresearch.grpc.ShimmerGRPC.BoolMsg.Builder.class);
         }
 
-        /**
-         * <code>bool state = 1;</code>
-         *
-         * @return The state.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public boolean getState() {
             return state_;
         }
@@ -9911,10 +8532,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.BoolMsg}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.BoolMsg)
                 com.shimmerresearch.grpc.ShimmerGRPC.BoolMsgOrBuilder {
@@ -10068,35 +8686,19 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>bool state = 1;</code>
-             *
-             * @return The state.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public boolean getState() {
                 return state_;
             }
 
-            /**
-             * <code>bool state = 1;</code>
-             *
-             * @param value The state to set.
-             * @return This builder for chaining.
-             */
-            public Builder setState(boolean value) {
+                        public Builder setState(boolean value) {
 
                 state_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>bool state = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearState() {
+                        public Builder clearState() {
 
                 state_ = false;
                 onChanged();
@@ -10121,10 +8723,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.DoubleMsg}
-     */
-    public static final class DoubleMsg extends
+        public static final class DoubleMsg extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.DoubleMsg)
             DoubleMsgOrBuilder {
@@ -10324,12 +8923,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsg.class, com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsg.Builder.class);
         }
 
-        /**
-         * <code>double number = 1;</code>
-         *
-         * @return The number.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public double getNumber() {
             return number_;
         }
@@ -10428,10 +9022,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.DoubleMsg}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.DoubleMsg)
                 com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsgOrBuilder {
@@ -10585,35 +9176,19 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>double number = 1;</code>
-             *
-             * @return The number.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public double getNumber() {
                 return number_;
             }
 
-            /**
-             * <code>double number = 1;</code>
-             *
-             * @param value The number to set.
-             * @return This builder for chaining.
-             */
-            public Builder setNumber(double value) {
+                        public Builder setNumber(double value) {
 
                 number_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>double number = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearNumber() {
+                        public Builder clearNumber() {
 
                 number_ = 0D;
                 onChanged();
@@ -10638,10 +9213,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.OperationRequest}
-     */
-    public static final class OperationRequest extends
+        public static final class OperationRequest extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.OperationRequest)
             OperationRequestOrBuilder {
@@ -10873,32 +9445,17 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.OperationRequest.class, com.shimmerresearch.grpc.ShimmerGRPC.OperationRequest.Builder.class);
         }
 
-        /**
-         * <code>bool isFinished = 1;</code>
-         *
-         * @return The isFinished.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public boolean getIsFinished() {
             return isFinished_;
         }
 
-        /**
-         * <code>bool isSuccess = 2;</code>
-         *
-         * @return The isSuccess.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public boolean getIsSuccess() {
             return isSuccess_;
         }
 
-        /**
-         * <code>string message = 3;</code>
-         *
-         * @return The message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -10912,12 +9469,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string message = 3;</code>
-         *
-         * @return The bytes for message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -10932,22 +9484,12 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>double progressPercentage = 4;</code>
-         *
-         * @return The progressPercentage.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public double getProgressPercentage() {
             return progressPercentage_;
         }
 
-        /**
-         * <code>string progressPercentageParsed = 5;</code>
-         *
-         * @return The progressPercentageParsed.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getProgressPercentageParsed() {
             java.lang.Object ref = progressPercentageParsed_;
             if (ref instanceof java.lang.String) {
@@ -10961,12 +9503,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string progressPercentageParsed = 5;</code>
-         *
-         * @return The bytes for progressPercentageParsed.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getProgressPercentageParsedBytes() {
             java.lang.Object ref = progressPercentageParsed_;
@@ -11119,10 +9656,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.OperationRequest}
-         */
-        public static final class Builder extends
+                public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:shimmerGRPC.OperationRequest)
                 com.shimmerresearch.grpc.ShimmerGRPC.OperationRequestOrBuilder {
@@ -11306,82 +9840,45 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>bool isFinished = 1;</code>
-             *
-             * @return The isFinished.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public boolean getIsFinished() {
                 return isFinished_;
             }
 
-            /**
-             * <code>bool isFinished = 1;</code>
-             *
-             * @param value The isFinished to set.
-             * @return This builder for chaining.
-             */
-            public Builder setIsFinished(boolean value) {
+                        public Builder setIsFinished(boolean value) {
 
                 isFinished_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>bool isFinished = 1;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearIsFinished() {
+                        public Builder clearIsFinished() {
 
                 isFinished_ = false;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>bool isSuccess = 2;</code>
-             *
-             * @return The isSuccess.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public boolean getIsSuccess() {
                 return isSuccess_;
             }
 
-            /**
-             * <code>bool isSuccess = 2;</code>
-             *
-             * @param value The isSuccess to set.
-             * @return This builder for chaining.
-             */
-            public Builder setIsSuccess(boolean value) {
+                        public Builder setIsSuccess(boolean value) {
 
                 isSuccess_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>bool isSuccess = 2;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearIsSuccess() {
+                        public Builder clearIsSuccess() {
 
                 isSuccess_ = false;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>string message = 3;</code>
-             *
-             * @return The message.
-             */
-            public java.lang.String getMessage() {
+                        public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -11394,13 +9891,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string message = 3;</code>
-             *
-             * @param value The message to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessage(
+                        public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -11411,12 +9902,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 3;</code>
-             *
-             * @return The bytes for message.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -11430,13 +9916,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string message = 3;</code>
-             *
-             * @param value The bytes for message to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessageBytes(
+                        public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -11448,59 +9928,33 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string message = 3;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearMessage() {
+                        public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>double progressPercentage = 4;</code>
-             *
-             * @return The progressPercentage.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public double getProgressPercentage() {
                 return progressPercentage_;
             }
 
-            /**
-             * <code>double progressPercentage = 4;</code>
-             *
-             * @param value The progressPercentage to set.
-             * @return This builder for chaining.
-             */
-            public Builder setProgressPercentage(double value) {
+                        public Builder setProgressPercentage(double value) {
 
                 progressPercentage_ = value;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>double progressPercentage = 4;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearProgressPercentage() {
+                        public Builder clearProgressPercentage() {
 
                 progressPercentage_ = 0D;
                 onChanged();
                 return this;
             }
 
-            /**
-             * <code>string progressPercentageParsed = 5;</code>
-             *
-             * @return The progressPercentageParsed.
-             */
-            public java.lang.String getProgressPercentageParsed() {
+                        public java.lang.String getProgressPercentageParsed() {
                 java.lang.Object ref = progressPercentageParsed_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -11513,13 +9967,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string progressPercentageParsed = 5;</code>
-             *
-             * @param value The progressPercentageParsed to set.
-             * @return This builder for chaining.
-             */
-            public Builder setProgressPercentageParsed(
+                        public Builder setProgressPercentageParsed(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -11530,12 +9978,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string progressPercentageParsed = 5;</code>
-             *
-             * @return The bytes for progressPercentageParsed.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getProgressPercentageParsedBytes() {
                 java.lang.Object ref = progressPercentageParsed_;
                 if (ref instanceof String) {
@@ -11549,13 +9992,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string progressPercentageParsed = 5;</code>
-             *
-             * @param value The bytes for progressPercentageParsed to set.
-             * @return This builder for chaining.
-             */
-            public Builder setProgressPercentageParsedBytes(
+                        public Builder setProgressPercentageParsedBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -11567,12 +10004,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-            /**
-             * <code>string progressPercentageParsed = 5;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearProgressPercentageParsed() {
+                        public Builder clearProgressPercentageParsed() {
 
                 progressPercentageParsed_ = getDefaultInstance().getProgressPercentageParsed();
                 onChanged();
@@ -11597,10 +10029,7 @@ public final class ShimmerGRPC {
 
     }
 
-    /**
-     * Protobuf type {@code shimmerGRPC.ShimmersInfo}
-     */
-    public static final class ShimmersInfo extends
+        public static final class ShimmersInfo extends
             com.google.protobuf.GeneratedMessageV3 implements
             // @@protoc_insertion_point(message_implements:shimmerGRPC.ShimmersInfo)
             ShimmersInfoOrBuilder {
@@ -11839,22 +10268,12 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.class, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.Builder.class);
         }
 
-        /**
-         * <code>bool state = 1;</code>
-         *
-         * @return The state.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public boolean getState() {
             return state_;
         }
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -11868,12 +10287,7 @@ public final class ShimmerGRPC {
             }
         }
 
-        /**
-         * <code>string message = 2;</code>
-         *
-         * @return The bytes for message.
-         */
-        @java.lang.Override
+                @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -11901,9 +10315,6 @@ public final class ShimmerGRPC {
             return internalGetShimmerMap().getMap().size();
         }
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
 
         @java.lang.Override
         public boolean containsShimmerMap(
@@ -11914,28 +10325,19 @@ public final class ShimmerGRPC {
             return internalGetShimmerMap().getMap().containsKey(key);
         }
 
-        /**
-         * Use {@link #getShimmerMapMap()} instead.
-         */
-        @java.lang.Override
+                @java.lang.Override
         @java.lang.Deprecated
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo> getShimmerMap() {
             return getShimmerMapMap();
         }
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
-        @java.lang.Override
+                @java.lang.Override
 
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo> getShimmerMapMap() {
             return internalGetShimmerMap().getMap();
         }
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
-        @java.lang.Override
+                @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrDefault(
                 java.lang.String key,
@@ -11948,10 +10350,7 @@ public final class ShimmerGRPC {
             return map.containsKey(key) ? map.get(key) : defaultValue;
         }
 
-        /**
-         * <code>map&lt;string, .shimmerGRPC.ShimmersInfo.ShimmerInfo&gt; shimmerMap = 3;</code>
-         */
-        @java.lang.Override
+                @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrThrow(
                 java.lang.String key) {
@@ -12095,303 +10494,98 @@ public final class ShimmerGRPC {
                 // @@protoc_insertion_point(interface_extends:shimmerGRPC.ShimmersInfo.ShimmerInfo)
                 com.google.protobuf.MessageOrBuilder {
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The name.
-             */
-            java.lang.String getName();
+                        java.lang.String getName();
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The bytes for name.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getNameBytes();
 
-            /**
-             * <code>string uniqueId = 2;</code>
-             *
-             * @return The uniqueId.
-             */
-            java.lang.String getUniqueId();
+                        java.lang.String getUniqueId();
 
-            /**
-             * <code>string uniqueId = 2;</code>
-             *
-             * @return The bytes for uniqueId.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getUniqueIdBytes();
 
-            /**
-             * <code>string bluetoothAddress = 3;</code>
-             *
-             * @return The bluetoothAddress.
-             */
-            java.lang.String getBluetoothAddress();
+                        java.lang.String getBluetoothAddress();
 
-            /**
-             * <code>string bluetoothAddress = 3;</code>
-             *
-             * @return The bytes for bluetoothAddress.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getBluetoothAddressBytes();
 
-            /**
-             * <code>string trialName = 4;</code>
-             *
-             * @return The trialName.
-             */
-            java.lang.String getTrialName();
+                        java.lang.String getTrialName();
 
-            /**
-             * <code>string trialName = 4;</code>
-             *
-             * @return The bytes for trialName.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getTrialNameBytes();
 
-            /**
-             * <code>string batteryPercentageParsed = 5;</code>
-             *
-             * @return The batteryPercentageParsed.
-             */
-            java.lang.String getBatteryPercentageParsed();
+                        java.lang.String getBatteryPercentageParsed();
 
-            /**
-             * <code>string batteryPercentageParsed = 5;</code>
-             *
-             * @return The bytes for batteryPercentageParsed.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getBatteryPercentageParsedBytes();
 
-            /**
-             * <code>double batteryPercentage = 6;</code>
-             *
-             * @return The batteryPercentage.
-             */
-            double getBatteryPercentage();
+                        double getBatteryPercentage();
 
-            /**
-             * <code>string chargingStatusParsed = 7;</code>
-             *
-             * @return The chargingStatusParsed.
-             */
-            java.lang.String getChargingStatusParsed();
+                        java.lang.String getChargingStatusParsed();
 
-            /**
-             * <code>string chargingStatusParsed = 7;</code>
-             *
-             * @return The bytes for chargingStatusParsed.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getChargingStatusParsedBytes();
 
-            /**
-             * <code>int64 driveCapacity = 8;</code>
-             *
-             * @return The driveCapacity.
-             */
-            long getDriveCapacity();
+                        long getDriveCapacity();
 
-            /**
-             * <code>int64 driveSpaceUsed = 9;</code>
-             *
-             * @return The driveSpaceUsed.
-             */
-            long getDriveSpaceUsed();
+                        long getDriveSpaceUsed();
 
-            /**
-             * <code>int64 driveSpaceFree = 10;</code>
-             *
-             * @return The driveSpaceFree.
-             */
-            long getDriveSpaceFree();
+                        long getDriveSpaceFree();
 
-            /**
-             * <code>string driveCapacityParsed = 11;</code>
-             *
-             * @return The driveCapacityParsed.
-             */
-            java.lang.String getDriveCapacityParsed();
+                        java.lang.String getDriveCapacityParsed();
 
-            /**
-             * <code>string driveCapacityParsed = 11;</code>
-             *
-             * @return The bytes for driveCapacityParsed.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getDriveCapacityParsedBytes();
 
-            /**
-             * <code>bool isRealTimeClockSet = 12;</code>
-             *
-             * @return The isRealTimeClockSet.
-             */
-            boolean getIsRealTimeClockSet();
+                        boolean getIsRealTimeClockSet();
 
-            /**
-             * <code>int64 lastReadRtcValueMilliSecs = 13;</code>
-             *
-             * @return The lastReadRtcValueMilliSecs.
-             */
-            long getLastReadRtcValueMilliSecs();
+                        long getLastReadRtcValueMilliSecs();
 
-            /**
-             * <code>string lastReadRtcValueParsed = 14;</code>
-             *
-             * @return The lastReadRtcValueParsed.
-             */
-            java.lang.String getLastReadRtcValueParsed();
+                        java.lang.String getLastReadRtcValueParsed();
 
-            /**
-             * <code>string lastReadRtcValueParsed = 14;</code>
-             *
-             * @return The bytes for lastReadRtcValueParsed.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getLastReadRtcValueParsedBytes();
 
-            /**
-             * <code>string hwVersionParsed = 15;</code>
-             *
-             * @return The hwVersionParsed.
-             */
-            java.lang.String getHwVersionParsed();
+                        java.lang.String getHwVersionParsed();
 
-            /**
-             * <code>string hwVersionParsed = 15;</code>
-             *
-             * @return The bytes for hwVersionParsed.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getHwVersionParsedBytes();
 
-            /**
-             * <code>string expBrdVersionParsed = 16;</code>
-             *
-             * @return The expBrdVersionParsed.
-             */
-            java.lang.String getExpBrdVersionParsed();
+                        java.lang.String getExpBrdVersionParsed();
 
-            /**
-             * <code>string expBrdVersionParsed = 16;</code>
-             *
-             * @return The bytes for expBrdVersionParsed.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getExpBrdVersionParsedBytes();
 
-            /**
-             * <code>string fwVersionParsed = 17;</code>
-             *
-             * @return The fwVersionParsed.
-             */
-            java.lang.String getFwVersionParsed();
+                        java.lang.String getFwVersionParsed();
 
-            /**
-             * <code>string fwVersionParsed = 17;</code>
-             *
-             * @return The bytes for fwVersionParsed.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getFwVersionParsedBytes();
 
-            /**
-             * <code>repeated string pairedDevice = 18;</code>
-             *
-             * @return A list containing the pairedDevice.
-             */
-            java.util.List<java.lang.String>
+                        java.util.List<java.lang.String>
             getPairedDeviceList();
 
-            /**
-             * <code>repeated string pairedDevice = 18;</code>
-             *
-             * @return The count of pairedDevice.
-             */
-            int getPairedDeviceCount();
+                        int getPairedDeviceCount();
 
-            /**
-             * <code>repeated string pairedDevice = 18;</code>
-             *
-             * @param index The index of the element to return.
-             * @return The pairedDevice at the given index.
-             */
-            java.lang.String getPairedDevice(int index);
+                        java.lang.String getPairedDevice(int index);
 
-            /**
-             * <code>repeated string pairedDevice = 18;</code>
-             *
-             * @param index The index of the value to return.
-             * @return The bytes of the pairedDevice at the given index.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getPairedDeviceBytes(int index);
 
-            /**
-             * <code>int64 configTime = 19;</code>
-             *
-             * @return The configTime.
-             */
-            long getConfigTime();
+                        long getConfigTime();
 
-            /**
-             * <code>string configTimeParsed = 20;</code>
-             *
-             * @return The configTimeParsed.
-             */
-            java.lang.String getConfigTimeParsed();
+                        java.lang.String getConfigTimeParsed();
 
-            /**
-             * <code>string configTimeParsed = 20;</code>
-             *
-             * @return The bytes for configTimeParsed.
-             */
-            com.google.protobuf.ByteString
+                        com.google.protobuf.ByteString
             getConfigTimeParsedBytes();
 
-            /**
-             * <pre>
-             * Applicable for GQ devices
-             * </pre>
-             *
-             * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 21;</code>
-             *
-             * @return Whether the ieee802154Info field is set.
-             */
-            boolean hasIeee802154Info();
+                        boolean hasIeee802154Info();
 
-            /**
-             * <pre>
-             * Applicable for GQ devices
-             * </pre>
-             *
-             * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 21;</code>
-             *
-             * @return The ieee802154Info.
-             */
-            com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info();
+                        com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info();
 
-            /**
-             * <pre>
-             * Applicable for GQ devices
-             * </pre>
-             *
-             * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 21;</code>
-             */
-            com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
+                        com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
         }
 
-        /**
-         * Protobuf type {@code shimmerGRPC.ShimmersInfo.ShimmerInfo}
-         */
-        public static final class ShimmerInfo extends
+                public static final class ShimmerInfo extends
                 com.google.protobuf.GeneratedMessageV3 implements
                 // @@protoc_insertion_point(message_implements:shimmerGRPC.ShimmersInfo.ShimmerInfo)
                 ShimmerInfoOrBuilder {
@@ -12772,12 +10966,7 @@ public final class ShimmerGRPC {
                                 com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo.class, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo.Builder.class);
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The name.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (ref instanceof java.lang.String) {
@@ -12791,12 +10980,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string name = 1;</code>
-             *
-             * @return The bytes for name.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
@@ -12811,12 +10995,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string uniqueId = 2;</code>
-             *
-             * @return The uniqueId.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getUniqueId() {
                 java.lang.Object ref = uniqueId_;
                 if (ref instanceof java.lang.String) {
@@ -12830,12 +11009,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string uniqueId = 2;</code>
-             *
-             * @return The bytes for uniqueId.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getUniqueIdBytes() {
                 java.lang.Object ref = uniqueId_;
@@ -12850,12 +11024,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string bluetoothAddress = 3;</code>
-             *
-             * @return The bluetoothAddress.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getBluetoothAddress() {
                 java.lang.Object ref = bluetoothAddress_;
                 if (ref instanceof java.lang.String) {
@@ -12869,12 +11038,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string bluetoothAddress = 3;</code>
-             *
-             * @return The bytes for bluetoothAddress.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getBluetoothAddressBytes() {
                 java.lang.Object ref = bluetoothAddress_;
@@ -12889,12 +11053,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string trialName = 4;</code>
-             *
-             * @return The trialName.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getTrialName() {
                 java.lang.Object ref = trialName_;
                 if (ref instanceof java.lang.String) {
@@ -12908,12 +11067,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string trialName = 4;</code>
-             *
-             * @return The bytes for trialName.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getTrialNameBytes() {
                 java.lang.Object ref = trialName_;
@@ -12928,12 +11082,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string batteryPercentageParsed = 5;</code>
-             *
-             * @return The batteryPercentageParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getBatteryPercentageParsed() {
                 java.lang.Object ref = batteryPercentageParsed_;
                 if (ref instanceof java.lang.String) {
@@ -12947,12 +11096,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string batteryPercentageParsed = 5;</code>
-             *
-             * @return The bytes for batteryPercentageParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getBatteryPercentageParsedBytes() {
                 java.lang.Object ref = batteryPercentageParsed_;
@@ -12967,22 +11111,12 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>double batteryPercentage = 6;</code>
-             *
-             * @return The batteryPercentage.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public double getBatteryPercentage() {
                 return batteryPercentage_;
             }
 
-            /**
-             * <code>string chargingStatusParsed = 7;</code>
-             *
-             * @return The chargingStatusParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getChargingStatusParsed() {
                 java.lang.Object ref = chargingStatusParsed_;
                 if (ref instanceof java.lang.String) {
@@ -12996,12 +11130,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string chargingStatusParsed = 7;</code>
-             *
-             * @return The bytes for chargingStatusParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getChargingStatusParsedBytes() {
                 java.lang.Object ref = chargingStatusParsed_;
@@ -13016,42 +11145,22 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>int64 driveCapacity = 8;</code>
-             *
-             * @return The driveCapacity.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public long getDriveCapacity() {
                 return driveCapacity_;
             }
 
-            /**
-             * <code>int64 driveSpaceUsed = 9;</code>
-             *
-             * @return The driveSpaceUsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public long getDriveSpaceUsed() {
                 return driveSpaceUsed_;
             }
 
-            /**
-             * <code>int64 driveSpaceFree = 10;</code>
-             *
-             * @return The driveSpaceFree.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public long getDriveSpaceFree() {
                 return driveSpaceFree_;
             }
 
-            /**
-             * <code>string driveCapacityParsed = 11;</code>
-             *
-             * @return The driveCapacityParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getDriveCapacityParsed() {
                 java.lang.Object ref = driveCapacityParsed_;
                 if (ref instanceof java.lang.String) {
@@ -13065,12 +11174,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string driveCapacityParsed = 11;</code>
-             *
-             * @return The bytes for driveCapacityParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getDriveCapacityParsedBytes() {
                 java.lang.Object ref = driveCapacityParsed_;
@@ -13085,32 +11189,17 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>bool isRealTimeClockSet = 12;</code>
-             *
-             * @return The isRealTimeClockSet.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public boolean getIsRealTimeClockSet() {
                 return isRealTimeClockSet_;
             }
 
-            /**
-             * <code>int64 lastReadRtcValueMilliSecs = 13;</code>
-             *
-             * @return The lastReadRtcValueMilliSecs.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public long getLastReadRtcValueMilliSecs() {
                 return lastReadRtcValueMilliSecs_;
             }
 
-            /**
-             * <code>string lastReadRtcValueParsed = 14;</code>
-             *
-             * @return The lastReadRtcValueParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getLastReadRtcValueParsed() {
                 java.lang.Object ref = lastReadRtcValueParsed_;
                 if (ref instanceof java.lang.String) {
@@ -13124,12 +11213,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string lastReadRtcValueParsed = 14;</code>
-             *
-             * @return The bytes for lastReadRtcValueParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getLastReadRtcValueParsedBytes() {
                 java.lang.Object ref = lastReadRtcValueParsed_;
@@ -13144,12 +11228,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string hwVersionParsed = 15;</code>
-             *
-             * @return The hwVersionParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getHwVersionParsed() {
                 java.lang.Object ref = hwVersionParsed_;
                 if (ref instanceof java.lang.String) {
@@ -13163,12 +11242,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string hwVersionParsed = 15;</code>
-             *
-             * @return The bytes for hwVersionParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getHwVersionParsedBytes() {
                 java.lang.Object ref = hwVersionParsed_;
@@ -13183,12 +11257,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string expBrdVersionParsed = 16;</code>
-             *
-             * @return The expBrdVersionParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getExpBrdVersionParsed() {
                 java.lang.Object ref = expBrdVersionParsed_;
                 if (ref instanceof java.lang.String) {
@@ -13202,12 +11271,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string expBrdVersionParsed = 16;</code>
-             *
-             * @return The bytes for expBrdVersionParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getExpBrdVersionParsedBytes() {
                 java.lang.Object ref = expBrdVersionParsed_;
@@ -13222,12 +11286,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string fwVersionParsed = 17;</code>
-             *
-             * @return The fwVersionParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getFwVersionParsed() {
                 java.lang.Object ref = fwVersionParsed_;
                 if (ref instanceof java.lang.String) {
@@ -13241,12 +11300,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string fwVersionParsed = 17;</code>
-             *
-             * @return The bytes for fwVersionParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getFwVersionParsedBytes() {
                 java.lang.Object ref = fwVersionParsed_;
@@ -13261,62 +11315,30 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>repeated string pairedDevice = 18;</code>
-             *
-             * @return A list containing the pairedDevice.
-             */
-            public com.google.protobuf.ProtocolStringList
+                        public com.google.protobuf.ProtocolStringList
             getPairedDeviceList() {
                 return pairedDevice_;
             }
 
-            /**
-             * <code>repeated string pairedDevice = 18;</code>
-             *
-             * @return The count of pairedDevice.
-             */
-            public int getPairedDeviceCount() {
+                        public int getPairedDeviceCount() {
                 return pairedDevice_.size();
             }
 
-            /**
-             * <code>repeated string pairedDevice = 18;</code>
-             *
-             * @param index The index of the element to return.
-             * @return The pairedDevice at the given index.
-             */
-            public java.lang.String getPairedDevice(int index) {
+                        public java.lang.String getPairedDevice(int index) {
                 return pairedDevice_.get(index);
             }
 
-            /**
-             * <code>repeated string pairedDevice = 18;</code>
-             *
-             * @param index The index of the value to return.
-             * @return The bytes of the pairedDevice at the given index.
-             */
-            public com.google.protobuf.ByteString
+                        public com.google.protobuf.ByteString
             getPairedDeviceBytes(int index) {
                 return pairedDevice_.getByteString(index);
             }
 
-            /**
-             * <code>int64 configTime = 19;</code>
-             *
-             * @return The configTime.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public long getConfigTime() {
                 return configTime_;
             }
 
-            /**
-             * <code>string configTimeParsed = 20;</code>
-             *
-             * @return The configTimeParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public java.lang.String getConfigTimeParsed() {
                 java.lang.Object ref = configTimeParsed_;
                 if (ref instanceof java.lang.String) {
@@ -13330,12 +11352,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <code>string configTimeParsed = 20;</code>
-             *
-             * @return The bytes for configTimeParsed.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.google.protobuf.ByteString
             getConfigTimeParsedBytes() {
                 java.lang.Object ref = configTimeParsed_;
@@ -13350,42 +11367,17 @@ public final class ShimmerGRPC {
                 }
             }
 
-            /**
-             * <pre>
-             * Applicable for GQ devices
-             * </pre>
-             *
-             * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 21;</code>
-             *
-             * @return Whether the ieee802154Info field is set.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public boolean hasIeee802154Info() {
                 return ieee802154Info_ != null;
             }
 
-            /**
-             * <pre>
-             * Applicable for GQ devices
-             * </pre>
-             *
-             * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 21;</code>
-             *
-             * @return The ieee802154Info.
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info() {
                 return ieee802154Info_ == null ? com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.getDefaultInstance() : ieee802154Info_;
             }
 
-            /**
-             * <pre>
-             * Applicable for GQ devices
-             * </pre>
-             *
-             * <code>.shimmerGRPC.Ieee802154Info ieee802154Info = 21;</code>
-             */
-            @java.lang.Override
+                        @java.lang.Override
             public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder() {
                 return getIeee802154Info();
             }
@@ -13709,10 +11701,7 @@ public final class ShimmerGRPC {
                 return DEFAULT_INSTANCE;
             }
 
-            /**
-             * Protobuf type {@code shimmerGRPC.ShimmersInfo.ShimmerInfo}
-             */
-            public static final class Builder extends
+                        public static final class Builder extends
                     com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                     // @@protoc_insertion_point(builder_implements:shimmerGRPC.ShimmersInfo.ShimmerInfo)
                     com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfoOrBuilder {
@@ -14042,12 +12031,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string name = 1;</code>
-                 *
-                 * @return The name.
-                 */
-                public java.lang.String getName() {
+                                public java.lang.String getName() {
                     java.lang.Object ref = name_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14060,13 +12044,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string name = 1;</code>
-                 *
-                 * @param value The name to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setName(
+                                public Builder setName(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14077,12 +12055,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string name = 1;</code>
-                 *
-                 * @return The bytes for name.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getNameBytes() {
                     java.lang.Object ref = name_;
                     if (ref instanceof String) {
@@ -14096,13 +12069,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string name = 1;</code>
-                 *
-                 * @param value The bytes for name to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setNameBytes(
+                                public Builder setNameBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14114,24 +12081,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string name = 1;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearName() {
+                                public Builder clearName() {
 
                     name_ = getDefaultInstance().getName();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string uniqueId = 2;</code>
-                 *
-                 * @return The uniqueId.
-                 */
-                public java.lang.String getUniqueId() {
+                                public java.lang.String getUniqueId() {
                     java.lang.Object ref = uniqueId_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14144,13 +12101,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string uniqueId = 2;</code>
-                 *
-                 * @param value The uniqueId to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setUniqueId(
+                                public Builder setUniqueId(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14161,12 +12112,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string uniqueId = 2;</code>
-                 *
-                 * @return The bytes for uniqueId.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getUniqueIdBytes() {
                     java.lang.Object ref = uniqueId_;
                     if (ref instanceof String) {
@@ -14180,13 +12126,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string uniqueId = 2;</code>
-                 *
-                 * @param value The bytes for uniqueId to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setUniqueIdBytes(
+                                public Builder setUniqueIdBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14198,24 +12138,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string uniqueId = 2;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearUniqueId() {
+                                public Builder clearUniqueId() {
 
                     uniqueId_ = getDefaultInstance().getUniqueId();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string bluetoothAddress = 3;</code>
-                 *
-                 * @return The bluetoothAddress.
-                 */
-                public java.lang.String getBluetoothAddress() {
+                                public java.lang.String getBluetoothAddress() {
                     java.lang.Object ref = bluetoothAddress_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14228,13 +12158,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string bluetoothAddress = 3;</code>
-                 *
-                 * @param value The bluetoothAddress to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setBluetoothAddress(
+                                public Builder setBluetoothAddress(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14245,12 +12169,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string bluetoothAddress = 3;</code>
-                 *
-                 * @return The bytes for bluetoothAddress.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getBluetoothAddressBytes() {
                     java.lang.Object ref = bluetoothAddress_;
                     if (ref instanceof String) {
@@ -14264,13 +12183,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string bluetoothAddress = 3;</code>
-                 *
-                 * @param value The bytes for bluetoothAddress to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setBluetoothAddressBytes(
+                                public Builder setBluetoothAddressBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14282,24 +12195,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string bluetoothAddress = 3;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearBluetoothAddress() {
+                                public Builder clearBluetoothAddress() {
 
                     bluetoothAddress_ = getDefaultInstance().getBluetoothAddress();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string trialName = 4;</code>
-                 *
-                 * @return The trialName.
-                 */
-                public java.lang.String getTrialName() {
+                                public java.lang.String getTrialName() {
                     java.lang.Object ref = trialName_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14312,13 +12215,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string trialName = 4;</code>
-                 *
-                 * @param value The trialName to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setTrialName(
+                                public Builder setTrialName(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14329,12 +12226,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string trialName = 4;</code>
-                 *
-                 * @return The bytes for trialName.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getTrialNameBytes() {
                     java.lang.Object ref = trialName_;
                     if (ref instanceof String) {
@@ -14348,13 +12240,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string trialName = 4;</code>
-                 *
-                 * @param value The bytes for trialName to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setTrialNameBytes(
+                                public Builder setTrialNameBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14366,24 +12252,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string trialName = 4;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearTrialName() {
+                                public Builder clearTrialName() {
 
                     trialName_ = getDefaultInstance().getTrialName();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string batteryPercentageParsed = 5;</code>
-                 *
-                 * @return The batteryPercentageParsed.
-                 */
-                public java.lang.String getBatteryPercentageParsed() {
+                                public java.lang.String getBatteryPercentageParsed() {
                     java.lang.Object ref = batteryPercentageParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14396,13 +12272,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string batteryPercentageParsed = 5;</code>
-                 *
-                 * @param value The batteryPercentageParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setBatteryPercentageParsed(
+                                public Builder setBatteryPercentageParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14413,12 +12283,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string batteryPercentageParsed = 5;</code>
-                 *
-                 * @return The bytes for batteryPercentageParsed.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getBatteryPercentageParsedBytes() {
                     java.lang.Object ref = batteryPercentageParsed_;
                     if (ref instanceof String) {
@@ -14432,13 +12297,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string batteryPercentageParsed = 5;</code>
-                 *
-                 * @param value The bytes for batteryPercentageParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setBatteryPercentageParsedBytes(
+                                public Builder setBatteryPercentageParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14450,59 +12309,33 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string batteryPercentageParsed = 5;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearBatteryPercentageParsed() {
+                                public Builder clearBatteryPercentageParsed() {
 
                     batteryPercentageParsed_ = getDefaultInstance().getBatteryPercentageParsed();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>double batteryPercentage = 6;</code>
-                 *
-                 * @return The batteryPercentage.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public double getBatteryPercentage() {
                     return batteryPercentage_;
                 }
 
-                /**
-                 * <code>double batteryPercentage = 6;</code>
-                 *
-                 * @param value The batteryPercentage to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setBatteryPercentage(double value) {
+                                public Builder setBatteryPercentage(double value) {
 
                     batteryPercentage_ = value;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>double batteryPercentage = 6;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearBatteryPercentage() {
+                                public Builder clearBatteryPercentage() {
 
                     batteryPercentage_ = 0D;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string chargingStatusParsed = 7;</code>
-                 *
-                 * @return The chargingStatusParsed.
-                 */
-                public java.lang.String getChargingStatusParsed() {
+                                public java.lang.String getChargingStatusParsed() {
                     java.lang.Object ref = chargingStatusParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14515,13 +12348,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string chargingStatusParsed = 7;</code>
-                 *
-                 * @param value The chargingStatusParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setChargingStatusParsed(
+                                public Builder setChargingStatusParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14532,12 +12359,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string chargingStatusParsed = 7;</code>
-                 *
-                 * @return The bytes for chargingStatusParsed.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getChargingStatusParsedBytes() {
                     java.lang.Object ref = chargingStatusParsed_;
                     if (ref instanceof String) {
@@ -14551,13 +12373,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string chargingStatusParsed = 7;</code>
-                 *
-                 * @param value The bytes for chargingStatusParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setChargingStatusParsedBytes(
+                                public Builder setChargingStatusParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14569,129 +12385,71 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string chargingStatusParsed = 7;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearChargingStatusParsed() {
+                                public Builder clearChargingStatusParsed() {
 
                     chargingStatusParsed_ = getDefaultInstance().getChargingStatusParsed();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>int64 driveCapacity = 8;</code>
-                 *
-                 * @return The driveCapacity.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public long getDriveCapacity() {
                     return driveCapacity_;
                 }
 
-                /**
-                 * <code>int64 driveCapacity = 8;</code>
-                 *
-                 * @param value The driveCapacity to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setDriveCapacity(long value) {
+                                public Builder setDriveCapacity(long value) {
 
                     driveCapacity_ = value;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>int64 driveCapacity = 8;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearDriveCapacity() {
+                                public Builder clearDriveCapacity() {
 
                     driveCapacity_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>int64 driveSpaceUsed = 9;</code>
-                 *
-                 * @return The driveSpaceUsed.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public long getDriveSpaceUsed() {
                     return driveSpaceUsed_;
                 }
 
-                /**
-                 * <code>int64 driveSpaceUsed = 9;</code>
-                 *
-                 * @param value The driveSpaceUsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setDriveSpaceUsed(long value) {
+                                public Builder setDriveSpaceUsed(long value) {
 
                     driveSpaceUsed_ = value;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>int64 driveSpaceUsed = 9;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearDriveSpaceUsed() {
+                                public Builder clearDriveSpaceUsed() {
 
                     driveSpaceUsed_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>int64 driveSpaceFree = 10;</code>
-                 *
-                 * @return The driveSpaceFree.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public long getDriveSpaceFree() {
                     return driveSpaceFree_;
                 }
 
-                /**
-                 * <code>int64 driveSpaceFree = 10;</code>
-                 *
-                 * @param value The driveSpaceFree to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setDriveSpaceFree(long value) {
+                                public Builder setDriveSpaceFree(long value) {
 
                     driveSpaceFree_ = value;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>int64 driveSpaceFree = 10;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearDriveSpaceFree() {
+                                public Builder clearDriveSpaceFree() {
 
                     driveSpaceFree_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string driveCapacityParsed = 11;</code>
-                 *
-                 * @return The driveCapacityParsed.
-                 */
-                public java.lang.String getDriveCapacityParsed() {
+                                public java.lang.String getDriveCapacityParsed() {
                     java.lang.Object ref = driveCapacityParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14704,13 +12462,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string driveCapacityParsed = 11;</code>
-                 *
-                 * @param value The driveCapacityParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setDriveCapacityParsed(
+                                public Builder setDriveCapacityParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14721,12 +12473,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string driveCapacityParsed = 11;</code>
-                 *
-                 * @return The bytes for driveCapacityParsed.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getDriveCapacityParsedBytes() {
                     java.lang.Object ref = driveCapacityParsed_;
                     if (ref instanceof String) {
@@ -14740,13 +12487,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string driveCapacityParsed = 11;</code>
-                 *
-                 * @param value The bytes for driveCapacityParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setDriveCapacityParsedBytes(
+                                public Builder setDriveCapacityParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14758,94 +12499,52 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string driveCapacityParsed = 11;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearDriveCapacityParsed() {
+                                public Builder clearDriveCapacityParsed() {
 
                     driveCapacityParsed_ = getDefaultInstance().getDriveCapacityParsed();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>bool isRealTimeClockSet = 12;</code>
-                 *
-                 * @return The isRealTimeClockSet.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public boolean getIsRealTimeClockSet() {
                     return isRealTimeClockSet_;
                 }
 
-                /**
-                 * <code>bool isRealTimeClockSet = 12;</code>
-                 *
-                 * @param value The isRealTimeClockSet to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setIsRealTimeClockSet(boolean value) {
+                                public Builder setIsRealTimeClockSet(boolean value) {
 
                     isRealTimeClockSet_ = value;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>bool isRealTimeClockSet = 12;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearIsRealTimeClockSet() {
+                                public Builder clearIsRealTimeClockSet() {
 
                     isRealTimeClockSet_ = false;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>int64 lastReadRtcValueMilliSecs = 13;</code>
-                 *
-                 * @return The lastReadRtcValueMilliSecs.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public long getLastReadRtcValueMilliSecs() {
                     return lastReadRtcValueMilliSecs_;
                 }
 
-                /**
-                 * <code>int64 lastReadRtcValueMilliSecs = 13;</code>
-                 *
-                 * @param value The lastReadRtcValueMilliSecs to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setLastReadRtcValueMilliSecs(long value) {
+                                public Builder setLastReadRtcValueMilliSecs(long value) {
 
                     lastReadRtcValueMilliSecs_ = value;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>int64 lastReadRtcValueMilliSecs = 13;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearLastReadRtcValueMilliSecs() {
+                                public Builder clearLastReadRtcValueMilliSecs() {
 
                     lastReadRtcValueMilliSecs_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string lastReadRtcValueParsed = 14;</code>
-                 *
-                 * @return The lastReadRtcValueParsed.
-                 */
-                public java.lang.String getLastReadRtcValueParsed() {
+                                public java.lang.String getLastReadRtcValueParsed() {
                     java.lang.Object ref = lastReadRtcValueParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14858,13 +12557,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string lastReadRtcValueParsed = 14;</code>
-                 *
-                 * @param value The lastReadRtcValueParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setLastReadRtcValueParsed(
+                                public Builder setLastReadRtcValueParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14875,12 +12568,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string lastReadRtcValueParsed = 14;</code>
-                 *
-                 * @return The bytes for lastReadRtcValueParsed.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getLastReadRtcValueParsedBytes() {
                     java.lang.Object ref = lastReadRtcValueParsed_;
                     if (ref instanceof String) {
@@ -14894,13 +12582,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string lastReadRtcValueParsed = 14;</code>
-                 *
-                 * @param value The bytes for lastReadRtcValueParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setLastReadRtcValueParsedBytes(
+                                public Builder setLastReadRtcValueParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14912,24 +12594,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string lastReadRtcValueParsed = 14;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearLastReadRtcValueParsed() {
+                                public Builder clearLastReadRtcValueParsed() {
 
                     lastReadRtcValueParsed_ = getDefaultInstance().getLastReadRtcValueParsed();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string hwVersionParsed = 15;</code>
-                 *
-                 * @return The hwVersionParsed.
-                 */
-                public java.lang.String getHwVersionParsed() {
+                                public java.lang.String getHwVersionParsed() {
                     java.lang.Object ref = hwVersionParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14942,13 +12614,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string hwVersionParsed = 15;</code>
-                 *
-                 * @param value The hwVersionParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setHwVersionParsed(
+                                public Builder setHwVersionParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14959,12 +12625,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string hwVersionParsed = 15;</code>
-                 *
-                 * @return The bytes for hwVersionParsed.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getHwVersionParsedBytes() {
                     java.lang.Object ref = hwVersionParsed_;
                     if (ref instanceof String) {
@@ -14978,13 +12639,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string hwVersionParsed = 15;</code>
-                 *
-                 * @param value The bytes for hwVersionParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setHwVersionParsedBytes(
+                                public Builder setHwVersionParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14996,24 +12651,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string hwVersionParsed = 15;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearHwVersionParsed() {
+                                public Builder clearHwVersionParsed() {
 
                     hwVersionParsed_ = getDefaultInstance().getHwVersionParsed();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string expBrdVersionParsed = 16;</code>
-                 *
-                 * @return The expBrdVersionParsed.
-                 */
-                public java.lang.String getExpBrdVersionParsed() {
+                                public java.lang.String getExpBrdVersionParsed() {
                     java.lang.Object ref = expBrdVersionParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -15026,13 +12671,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string expBrdVersionParsed = 16;</code>
-                 *
-                 * @param value The expBrdVersionParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setExpBrdVersionParsed(
+                                public Builder setExpBrdVersionParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -15043,12 +12682,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string expBrdVersionParsed = 16;</code>
-                 *
-                 * @return The bytes for expBrdVersionParsed.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getExpBrdVersionParsedBytes() {
                     java.lang.Object ref = expBrdVersionParsed_;
                     if (ref instanceof String) {
@@ -15062,13 +12696,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string expBrdVersionParsed = 16;</code>
-                 *
-                 * @param value The bytes for expBrdVersionParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setExpBrdVersionParsedBytes(
+                                public Builder setExpBrdVersionParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -15080,24 +12708,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string expBrdVersionParsed = 16;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearExpBrdVersionParsed() {
+                                public Builder clearExpBrdVersionParsed() {
 
                     expBrdVersionParsed_ = getDefaultInstance().getExpBrdVersionParsed();
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>string fwVersionParsed = 17;</code>
-                 *
-                 * @return The fwVersionParsed.
-                 */
-                public java.lang.String getFwVersionParsed() {
+                                public java.lang.String getFwVersionParsed() {
                     java.lang.Object ref = fwVersionParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -15110,13 +12728,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string fwVersionParsed = 17;</code>
-                 *
-                 * @param value The fwVersionParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setFwVersionParsed(
+                                public Builder setFwVersionParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -15127,12 +12739,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string fwVersionParsed = 17;</code>
-                 *
-                 * @return The bytes for fwVersionParsed.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getFwVersionParsedBytes() {
                     java.lang.Object ref = fwVersionParsed_;
                     if (ref instanceof String) {
@@ -15146,13 +12753,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>string fwVersionParsed = 17;</code>
-                 *
-                 * @param value The bytes for fwVersionParsed to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setFwVersionParsedBytes(
+                                public Builder setFwVersionParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -15164,12 +12765,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>string fwVersionParsed = 17;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearFwVersionParsed() {
+                                public Builder clearFwVersionParsed() {
 
                     fwVersionParsed_ = getDefaultInstance().getFwVersionParsed();
                     onChanged();
@@ -15183,54 +12779,25 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @return A list containing the pairedDevice.
-                 */
-                public com.google.protobuf.ProtocolStringList
+                                public com.google.protobuf.ProtocolStringList
                 getPairedDeviceList() {
                     return pairedDevice_.getUnmodifiableView();
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @return The count of pairedDevice.
-                 */
-                public int getPairedDeviceCount() {
+                                public int getPairedDeviceCount() {
                     return pairedDevice_.size();
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @param index The index of the element to return.
-                 * @return The pairedDevice at the given index.
-                 */
-                public java.lang.String getPairedDevice(int index) {
+                                public java.lang.String getPairedDevice(int index) {
                     return pairedDevice_.get(index);
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @param index The index of the value to return.
-                 * @return The bytes of the pairedDevice at the given index.
-                 */
-                public com.google.protobuf.ByteString
+                                public com.google.protobuf.ByteString
                 getPairedDeviceBytes(int index) {
                     return pairedDevice_.getByteString(index);
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @param index The index to set the value at.
-                 * @param value The pairedDevice to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setPairedDevice(
+                                public Builder setPairedDevice(
                         int index, java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -15241,13 +12808,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @param value The pairedDevice to add.
-                 * @return This builder for chaining.
-                 */
-                public Builder addPairedDevice(
+                                public Builder addPairedDevice(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -15258,13 +12819,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @param values The pairedDevice to add.
-                 * @return This builder for chaining.
-                 */
-                public Builder addAllPairedDevice(
+                                public Builder addAllPairedDevice(
                         java.lang.Iterable<java.lang.String> values) {
                     ensurePairedDeviceIsMutable();
                     com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -15273,25 +12828,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @return This builder for chaining.
-                 */
-                public Builder clearPairedDevice() {
+                                public Builder clearPairedDevice() {
                     pairedDevice_ = com.google.protobuf.LazyStringArrayList.EMPTY;
                     bitField0_ = (bitField0_ & ~0x00000001);
                     onChanged();
                     return this;
                 }
 
-                /**
-                 * <code>repeated string pairedDevice = 18;</code>
-                 *
-                 * @param value The bytes of the pairedDevice to add.
-                 * @return This builder for chaining.
-                 */
-                public Builder addPairedDeviceBytes(
+                                public Builder addPairedDeviceBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -15303,23 +12847,12 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                /**
-                 * <code>int64 configTime = 19;</code>
-                 *
-                 * @return The configTime.
-                 */
-                @java.lang.Override
+                                @java.lang.Override
                 public long getConfigTime() {
                     return configTime_;
                 }
 
-                /**
-                 * <code>int64 configTime = 19;</code>
-                 *
-                 * @param value The configTime to set.
-                 * @return This builder for chaining.
-                 */
-                public Builder setConfigTime(long value) {
+                                public Builder setConfigTime(long value) {
 
                     configTime_ = value;
                     onChanged();

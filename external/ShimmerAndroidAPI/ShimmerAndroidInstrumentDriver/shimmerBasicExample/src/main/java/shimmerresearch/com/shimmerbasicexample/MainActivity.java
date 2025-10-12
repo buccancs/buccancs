@@ -43,10 +43,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private final static String LOG_TAG = "ShimmerBasicExample";
     Shimmer shimmer;
     Spinner spinner;
-    /**
-     * Messages from the Shimmer device including sensor data are received here
-     */
-    Handler mHandler = new Handler() {
+        Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -78,9 +75,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     }
                     break;
                 case Shimmer.MESSAGE_TOAST:
-                    /** Toast messages sent from {@link Shimmer} are received here. E.g. device xxxx now streaming.
-                     *  Note that display of these Toast messages is done automatically in the Handler in {@link com.shimmerresearch.android.shimmerService.ShimmerService} */
-                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
                     break;
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
                     ShimmerBluetooth.BT_STATE state = null;
@@ -237,14 +232,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         shimmer.stopStreaming();
     }
 
-    /**
-     * Get the result from the paired devices dialog
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {

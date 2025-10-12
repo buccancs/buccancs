@@ -72,11 +72,6 @@ class IRThermalPlusActivity : BaseIRPlushActivity() {
         }
     }
 
-    /**
-     * 执行双光配准.
-     * @param action -1左移 1-右移 0确定
-     * @param data 当前配准值
-     */
     private fun setDisp(action: Int, data: Int) {
         if (action == -1 || action == 1) {
             lifecycleScope.launch(Dispatchers.IO) {

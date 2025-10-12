@@ -25,10 +25,7 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
 
     private static final boolean RESET_GYRO_ON_THE_FLY_CALIB_DURING_TIME_GAPS = false;
 
-    /**
-     * @param verisenseDevice
-     */
-    public PayloadContentsDetailsV8orAbove(VerisenseDevice verisenseDevice) {
+        public PayloadContentsDetailsV8orAbove(VerisenseDevice verisenseDevice) {
         super(verisenseDevice);
     }
 
@@ -283,17 +280,7 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
         return null;
     }
 
-    /**
-     * The purpose of this method is to split data blocks when a midday/midnight
-     * transition is detected within them. This is the cleanest way to do it so that
-     * later on in the processing, when the data blocks are sorted into to
-     * DataSegments, a split data block with midday/midnight transition between them
-     * will result in two separate datasegments being created.
-     *
-     * @param listOfDataBlocks
-     * @param dataBlockIndex
-     */
-    private DataBlockDetails checkAndSplitIndividualDataBlock(DataBlockDetails dataBlockDetailsOriginal, int dataBlockIndex) {
+        private DataBlockDetails checkAndSplitIndividualDataBlock(DataBlockDetails dataBlockDetailsOriginal, int dataBlockIndex) {
 
         // Note, we have to calculate the timestamps here because the ObjectCluster
         // arrays haven't been populated yet in this stage of the file parser flow -
@@ -364,16 +351,7 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
         backfillDataBlockUcClockOrRwcTimestamps(true);
     }
 
-    /**
-     * Each data block only contains 3 byte clock ticks value (i.e. the timestamp of
-     * the last sample in the datablock). At the end of the payload there is 3 bytes
-     * clock ticks value as well as a 4 byte minute counter (i.e., the timestamp
-     * when the payload was packaged). Once the payload timestamp has been parsed,
-     * we need to back fill through the datablocks within the payload to calculate
-     * what their minute values would have been so that we can calculate a
-     * real-world-clock time in milliseconds for each data block.
-     */
-    private void backfillDataBlockUcClockOrRwcTimestamps(boolean backfilUcClock) {
+        private void backfillDataBlockUcClockOrRwcTimestamps(boolean backfilUcClock) {
         VerisenseTimeDetails payloadTimeDetails = backfilUcClock ? getTimeDetailsUcClock() : getTimeDetailsRwc();
         long payloadEndTimeMinutes = payloadTimeDetails.getEndTimeMinutes();
         long payloadEndTimeTicks = payloadTimeDetails.getEndTimeTicks();

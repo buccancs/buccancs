@@ -16,9 +16,6 @@ import com.energy.commoncomponent.utils.ScreenUtils;
 import java.util.LinkedList;
 import java.util.UUID;
 
-/**
- * Created by fengjibo on 2024/1/31.
- */
 public class LineDraw extends BaseDraw {
     public static final int OPERATE_STATUS_LINE_IN_TOUCH_START = 0;
     public static final int OPERATE_STATUS_LINE_IN_TOUCH_CENTER = 1;
@@ -74,15 +71,7 @@ public class LineDraw extends BaseDraw {
         Log.d(TAG, "setOperateStatus = " + mOperateStatus);
     }
 
-    /**
-     * 添加一个线数据
-     *
-     * @param startX
-     * @param startY
-     * @param endX
-     * @param endY
-     */
-    public void addLine(int startX, int startY, int endX, int endY) {
+        public void addLine(int startX, int startY, int endX, int endY) {
         if (Math.abs(endX - startX) > TOUCH_TOLERANCE || Math.abs(endY - startY) > TOUCH_TOLERANCE) {
             LineView lineView = new LineView(mContext, startX, startY, endX, endY);
             int size = mLineList.size();
@@ -123,30 +112,17 @@ public class LineDraw extends BaseDraw {
         }
     }
 
-    /**
-     * 删除一个线数据
-     *
-     * @param index
-     */
-    public void removeLine(int index) {
+        public void removeLine(int index) {
         if (mLineList.size() > index) {
             mLineList.remove(index);
         }
     }
 
-    /**
-     * 删除所有线数据
-     */
-    public void removeLine() {
+        public void removeLine() {
         mLineList.clear();
     }
 
-    /**
-     * 绘制所有线
-     *
-     * @param canvas
-     */
-    @Override
+        @Override
     public void onDraw(Canvas canvas, boolean isScroll) {
         for (int i = 0; i < mLineList.size(); i++) {
             LineView lineView = mLineList.get(i);
@@ -163,16 +139,7 @@ public class LineDraw extends BaseDraw {
         }
     }
 
-    /**
-     * 绘制临时线
-     *
-     * @param canvas
-     * @param startX
-     * @param startY
-     * @param endX
-     * @param endY
-     */
-    public void onTempDraw(Canvas canvas, int startX, int startY, int endX, int endY) {
+        public void onTempDraw(Canvas canvas, int startX, int startY, int endX, int endY) {
         if (mTempLine == null) {
             mTempLine = new LineView(mContext, startX, startY, endX, endY);
             mTempLine.setLabel("L");
@@ -238,13 +205,7 @@ public class LineDraw extends BaseDraw {
         return rectF;
     }
 
-    /**
-     * 更新选中线的手势位置状态
-     *
-     * @param startX
-     * @param startY
-     */
-    public void changeTouchLineOperateStatus(float startX, float startY) {
+        public void changeTouchLineOperateStatus(float startX, float startY) {
         if (mTouchIndex < 0 || mTouchIndex >= mLineList.size()) {
             return;
         }
@@ -259,13 +220,7 @@ public class LineDraw extends BaseDraw {
 
     }
 
-    /**
-     * 修改选中的线坐标
-     *
-     * @param moveX
-     * @param moveY
-     */
-    public void changeTouchLineLocationByIndex(float moveX, float moveY) {
+        public void changeTouchLineLocationByIndex(float moveX, float moveY) {
         if (mTouchIndex < 0 || mTouchIndex >= mLineList.size()) {
             return;
         }
@@ -361,24 +316,14 @@ public class LineDraw extends BaseDraw {
         }
     }
 
-    /**
-     * 修改选中的线Point
-     */
-    public void changeTouchPointLocation() {
+        public void changeTouchPointLocation() {
         if (mTouchIndex < 0 || mTouchIndex >= mLineList.size()) {
             return;
         }
         mLineList.get(mTouchIndex).changePointLocation();
     }
 
-    /**
-     * 检查当前是否存在手势选中的线
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    public int checkTouchLineInclude(int x, int y) {
+        public int checkTouchLineInclude(int x, int y) {
         mTouchIndex = -1;
         for (int i = 0; i < mLineList.size(); i++) {
             LineView lineView = mLineList.get(i);

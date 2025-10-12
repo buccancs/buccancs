@@ -5,13 +5,6 @@ import java.io.Serializable;
 
 import com.shimmerresearch.driver.ShimmerDevice;
 
-/**
- * Holds the Shimmer's SD card capacity information which is obtained when a
- * Shimmer is docked
- *
- * @author Mark Nolan
- *
- */
 public class ShimmerSDCardDetails implements Serializable {
 
     public static final long DRIVE_SPACE_USED_CHANGE_TIMEOUT_MS = 30000;
@@ -148,12 +141,7 @@ public class ShimmerSDCardDetails implements Serializable {
         setIsSDError(false);
     }
 
-    /**
-     * Used for Device Emulation
-     *
-     * @return
-     */
-    public byte[] generateDriveStatusBytes() {
+        public byte[] generateDriveStatusBytes() {
         byte[] sdCapacityStatus = new byte[4];
 
         long driveSpaceUsed = getDriveUsedSpaceKB();

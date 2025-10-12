@@ -16,10 +16,6 @@ import java.nio.ByteBuffer;
 
 import static com.example.opengl.render.IROpen3DTools.IntArrayToByteArray;
 
-/**
- * @author: CaiSongL
- * @date: 2023/8/18 11:45
- */
 public class ImageColorTools {
 
     static {

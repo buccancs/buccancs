@@ -9,10 +9,7 @@ import java.io.Serializable;
 
 public class ExGConfigOptionDetails implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -1545421734104890760L;
+        private static final long serialVersionUID = -1545421734104890760L;
     public EXG_CHIP_INDEX chipIndex = EXG_CHIP_INDEX.CHIP1;
     public int byteIndex = 0;
     public String GuiLabel;
@@ -80,13 +77,7 @@ public class ExGConfigOptionDetails implements Serializable {
         return ConfigValues;
     }
 
-    /**
-     * Performs a deep copy of this object by Serializing
-     *
-     * @return ExGConfigOptionDetails the deep copy of the object
-     * @see java.io.Serializable
-     */
-    public ExGConfigOptionDetails deepClone() {
+        public ExGConfigOptionDetails deepClone() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);

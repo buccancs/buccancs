@@ -7,10 +7,6 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_ENDIAN;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 
-/**
- * @author Mark Nolan
- *
- */
 public abstract class AbstractPayload {
 
     public static final byte VALID_CONFIG_BYTE = 0x5A;

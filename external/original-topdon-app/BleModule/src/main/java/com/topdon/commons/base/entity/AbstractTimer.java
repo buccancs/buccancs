@@ -6,12 +6,6 @@ import android.os.Looper;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * 简单的定时器
- * <p>
- * date: 2019/8/6 13:31
- * author: chuanfeng.bi
- */
 public abstract class AbstractTimer {
     private final Handler handler;
     private final boolean callbackOnMainThread;
@@ -22,15 +16,9 @@ public abstract class AbstractTimer {
         this.callbackOnMainThread = callbackOnMainThread;
     }
 
-    /**
-     * 回调
-     */
-    public abstract void onTick();
+        public abstract void onTick();
 
-    /**
-     * 开始
-     */
-    public synchronized final void start(long delay, long period) {
+        public synchronized final void start(long delay, long period) {
         if (timer == null) {
             timer = new Timer();
             timer.schedule(new TimerTask() {

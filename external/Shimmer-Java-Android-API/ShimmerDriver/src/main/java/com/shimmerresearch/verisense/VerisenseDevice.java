@@ -1767,21 +1767,13 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-    /**
-     * Stop streaming
-     *
-     * @throws ShimmerException if the device is not already streaming
-     */
-    @Override
+        @Override
     public void stopStreaming() throws ShimmerException {
         super.stopStreaming();
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).stopStreaming();
     }
 
-    /**
-     * Start data sync
-     */
-    public void readLoggedData() throws ShimmerException {
+        public void readLoggedData() throws ShimmerException {
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).readLoggedData();
     }
 
@@ -1795,11 +1787,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
     }
 
-    /**
-     * @return Null if sensor not supported by current hardware
-     * @see SensorLIS2DW12
-     */
-    public SensorLIS2DW12 getSensorLIS2DW12() {
+        public SensorLIS2DW12 getSensorLIS2DW12() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.LIS2DW12);
         if (abstractSensor != null && abstractSensor instanceof SensorLIS2DW12) {
             return (SensorLIS2DW12) abstractSensor;
@@ -1807,11 +1795,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-    /**
-     * @return Null if sensor not supported by current hardware
-     * @see SensorLSM6DS3
-     */
-    public SensorLSM6DS3 getSensorLSM6DS3() {
+        public SensorLSM6DS3 getSensorLSM6DS3() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.LSM6DS3);
         if (abstractSensor != null && abstractSensor instanceof SensorLSM6DS3) {
             return (SensorLSM6DS3) abstractSensor;
@@ -1819,11 +1803,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-    /**
-     * @return Null if sensor not supported by current hardware
-     * @see SensorGSRVerisense
-     */
-    public SensorGSRVerisense getSensorGsr() {
+        public SensorGSRVerisense getSensorGsr() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.GSR);
         if (abstractSensor != null && abstractSensor instanceof SensorGSRVerisense) {
             return (SensorGSRVerisense) abstractSensor;
@@ -1831,11 +1811,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-    /**
-     * @return Null if sensor not supported by current hardware
-     * @see SensorMAX86916
-     */
-    public SensorMAX86916 getSensorMax86916() {
+        public SensorMAX86916 getSensorMax86916() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.MAX86916);
         if (abstractSensor != null && abstractSensor instanceof SensorMAX86916) {
             return (SensorMAX86916) abstractSensor;
@@ -1843,11 +1819,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-    /**
-     * @return Null if sensor not supported by current hardware
-     * @see SensorBattVoltageVerisense
-     */
-    public SensorBattVoltageVerisense getSensorBatteryVoltage() {
+        public SensorBattVoltageVerisense getSensorBatteryVoltage() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.Battery);
         if (abstractSensor != null && abstractSensor instanceof SensorBattVoltageVerisense) {
             return (SensorBattVoltageVerisense) abstractSensor;
@@ -1855,12 +1827,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-    /**
-     * @param array of sensor Id to be enabled
-     * @return enabled sensor Id
-     * @see setSensorEnabledState
-     */
-    public Integer[] setSensorsEnabled(int[] sensorIds) {
+        public Integer[] setSensorsEnabled(int[] sensorIds) {
         disableAllSensors();
         List<Integer> listOfEnabledSensorIds = new ArrayList<Integer>();
         for (int sensorId : sensorIds) {
@@ -1871,324 +1838,146 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return listOfEnabledSensorIds.toArray(new Integer[listOfEnabledSensorIds.size()]);
     }
 
-    /**
-     * @see setSensorEnabledState
-     */
-    public boolean setSensorEnabledStateAccel1(boolean isEnabled) {
+        public boolean setSensorEnabledStateAccel1(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.LIS2DW12_ACCEL, isEnabled);
     }
 
-    /**
-     * @see setSensorEnabledState
-     */
-    public boolean setSensorEnabledStateAccel2(boolean isEnabled) {
+        public boolean setSensorEnabledStateAccel2(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.LSM6DS3_ACCEL, isEnabled);
     }
 
-    /**
-     * @see setSensorEnabledState
-     */
-    public boolean setSensorEnabledStateGyro(boolean isEnabled) {
+        public boolean setSensorEnabledStateGyro(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.LSM6DS3_GYRO, isEnabled);
     }
 
-    /**
-     * @see setSensorEnabledState
-     */
-    public boolean setSensorEnabledStateGsr(boolean isEnabled) {
+        public boolean setSensorEnabledStateGsr(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.GSR, isEnabled);
     }
 
-    /**
-     * @see setSensorEnabledState
-     */
-    public boolean setSensorEnabledStatePpg(boolean isEnabled) {
+        public boolean setSensorEnabledStatePpg(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.MAX86916_PPG_BLUE, isEnabled);
     }
 
-    /**
-     * @see setSensorEnabledState
-     */
-    public boolean setSensorEnabledStateBatteryVoltage(boolean isEnabled) {
+        public boolean setSensorEnabledStateBatteryVoltage(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.VBATT, isEnabled);
     }
 
-    /**
-     * Set the current bluetooth state.
-     *
-     * @param BT_STATE
-     * @return true if state is changed
-     */
-    @Override
+        @Override
     public boolean setBluetoothRadioState(BT_STATE state) {
         boolean isChanged = super.setBluetoothRadioState(state);
         mDeviceCallbackAdapter.setBluetoothRadioState(state, isChanged);
         return isChanged;
     }
 
-    /**
-     * The date and time (in minutes since 1 January 1970) the ASM sensor will start collecting data.
-     * The clock system on a Verisense sensor is in local time (e.g. Unix time expressed in your time zone, e.g. for Kuala Lumpur Unix time + 08:00).
-     *
-     * @return the recording start time.
-     */
-    public long getRecordingStartTimeMinutes() {
+        public long getRecordingStartTimeMinutes() {
         return recordingStartTimeMinutes;
     }
 
-    /**
-     * The date and time (in minutes since 1 January 1970) the ASM sensor will start collecting data.
-     * The clock system on a Verisense sensor is in local time (e.g. Unix time expressed in your time zone, e.g. for Kuala Lumpur Unix time + 08:00).
-     *
-     * @param recordingStartTimeMinutes the recording start time.
-     */
-    public void setRecordingStartTimeMinutes(long recordingStartTimeMinutes) {
+        public void setRecordingStartTimeMinutes(long recordingStartTimeMinutes) {
         this.recordingStartTimeMinutes = UtilShimmer.nudgeLong(recordingStartTimeMinutes, 0, (long) (Math.pow(2, 4 * 8) - 1));
     }
 
-    /**
-     * The date and time (in minutes since 1 January 1970) the ASM sensor will stop collecting data.
-     * The clock system on a Verisense sensor is in local time (e.g. Unix time expressed in your time zone, e.g. for Kuala Lumpur Unix time + 08:00).
-     *
-     * @return the recording stop time.
-     */
-    public long getRecordingEndTimeMinutes() {
+        public long getRecordingEndTimeMinutes() {
         return recordingEndTimeMinutes;
     }
 
-    /**
-     * The date and time (in minutes since 1 January 1970) the ASM sensor will stop collecting data.
-     * The clock system on a Verisense sensor is in local time (e.g. Unix time expressed in your time zone, e.g. for Kuala Lumpur Unix time + 08:00).
-     *
-     * @param recordingStopTimeMinutes the recording stop time.
-     */
-    public void setRecordingEndTimeMinutes(long recordingEndTimeMinutes) {
+        public void setRecordingEndTimeMinutes(long recordingEndTimeMinutes) {
         this.recordingEndTimeMinutes = UtilShimmer.nudgeLong(recordingEndTimeMinutes, 0, (long) (Math.pow(2, 4 * 8) - 1));
     }
 
-    /**
-     * The number of BLE wake-up retries to carry out if there are any pending events
-     *
-     * @return the retry count.
-     */
-    public int getBleConnectionRetriesPerDay() {
+        public int getBleConnectionRetriesPerDay() {
         return bleConnectionRetriesPerDay;
     }
 
-    /**
-     * The number of BLE wake-up retries to carry out if there are any pending events
-     *
-     * @param bleConnectionTriesPerDay the retry count.
-     */
-    public void setBleConnectionRetriesPerDay(int bleConnectionTriesPerDay) {
+        public void setBleConnectionRetriesPerDay(int bleConnectionTriesPerDay) {
         this.bleConnectionRetriesPerDay = UtilShimmer.nudgeInteger(bleConnectionTriesPerDay, 0, (int) (Math.pow(2, 8) - 1));
     }
 
-    /**
-     * @return bluetooth power setting.
-     * @see BLE_TX_POWER
-     */
-    public BLE_TX_POWER getBleTxPower() {
+        public BLE_TX_POWER getBleTxPower() {
         return bleTxPower;
     }
 
-    /**
-     * @param bleTxPower bluetooth power setting.
-     * @see BLE_TX_POWER
-     */
-    public void setBleTxPower(BLE_TX_POWER bleTxPower) {
+        public void setBleTxPower(BLE_TX_POWER bleTxPower) {
         this.bleTxPower = bleTxPower;
     }
 
-    /**
-     * Data transfer schedule
-     *
-     * @return data transfer schedule.
-     * @see PendingEventSchedule
-     */
-    public PendingEventSchedule getPendingEventScheduleDataTransfer() {
+        public PendingEventSchedule getPendingEventScheduleDataTransfer() {
         return pendingEventScheduleDataTransfer;
     }
 
-    /**
-     * Data transfer schedule
-     *
-     * @param pendingEventScheduleDataTransfer data transfer schedule.
-     * @see PendingEventSchedule
-     */
-    public void setPendingEventScheduleDataTransfer(PendingEventSchedule pendingEventScheduleDataTransfer) {
+        public void setPendingEventScheduleDataTransfer(PendingEventSchedule pendingEventScheduleDataTransfer) {
         this.pendingEventScheduleDataTransfer = pendingEventScheduleDataTransfer;
     }
 
-    /**
-     * Status transfer schedule
-     *
-     * @return status transfer schedule.
-     * @see PendingEventSchedule
-     */
-    public PendingEventSchedule getPendingEventScheduleStatusSync() {
+        public PendingEventSchedule getPendingEventScheduleStatusSync() {
         return pendingEventScheduleStatusSync;
     }
 
-    /**
-     * Status transfer schedule
-     *
-     * @param pendingEventScheduleStatusSync status transfer schedule.
-     * @see PendingEventSchedule
-     */
-    public void setPendingEventScheduleStatusSync(PendingEventSchedule pendingEventScheduleStatusSync) {
+        public void setPendingEventScheduleStatusSync(PendingEventSchedule pendingEventScheduleStatusSync) {
         this.pendingEventScheduleStatusSync = pendingEventScheduleStatusSync;
     }
 
-    /**
-     * RTC sync schedule
-     *
-     * @return RTC sync schedule.
-     * @see PendingEventSchedule
-     */
-    public PendingEventSchedule getPendingEventScheduleRwcSync() {
+        public PendingEventSchedule getPendingEventScheduleRwcSync() {
         return pendingEventScheduleRwcSync;
     }
 
-    /**
-     * RTC sync schedule
-     *
-     * @param pendingEventScheduleRwcSync RTC sync schedule.
-     * @see PendingEventSchedule
-     */
-    public void setPendingEventScheduleRwcSync(PendingEventSchedule pendingEventScheduleRwcSync) {
+        public void setPendingEventScheduleRwcSync(PendingEventSchedule pendingEventScheduleRwcSync) {
         this.pendingEventScheduleRwcSync = pendingEventScheduleRwcSync;
     }
 
-    /**
-     * The number of minute�s interval the ASM sensor will wait after a failed connection attempt before turning on the scheduler again
-     *
-     * @return interval in minutes, if this value is set to either 0 or 65535 then the adaptive scheduler will never be turned on.
-     */
-    public int getAdaptiveSchedulerInterval() {
+        public int getAdaptiveSchedulerInterval() {
         return adaptiveSchedulerInterval;
     }
 
-    /**
-     * The number of minute�s interval the ASM sensor will wait after a failed connection attempt before turning on the scheduler again
-     *
-     * @param adaptiveSchedulerInterval interval in minutes, if this value is set to either 0 or 65535 then the adaptive scheduler will never be turned on.
-     */
-    public void setAdaptiveSchedulerInterval(int adaptiveSchedulerInterval) {
+        public void setAdaptiveSchedulerInterval(int adaptiveSchedulerInterval) {
         this.adaptiveSchedulerInterval = UtilShimmer.nudgeInteger(adaptiveSchedulerInterval, 0, (int) (Math.pow(2, 16) - 1));
     }
 
-    /**
-     * Each time the sensor fails to clear all pending events during a scheduled wake-up event, a fail counter is incremented.
-     * When the fail counter reaches the adaptive scheduler maximum fail count, the sensor will turn on the adaptive scheduler
-     * and the scheduler will be set to wake-up based on the interval
-     *
-     * @return adaptive scheduler maximum fail count.
-     */
-    public int getAdaptiveSchedulerFailCount() {
+        public int getAdaptiveSchedulerFailCount() {
         return adaptiveSchedulerFailCount;
     }
 
-    /**
-     * Each time the sensor fails to clear all pending events during a scheduled wake-up event, a fail counter is incremented.
-     * When the fail counter reaches the adaptive scheduler maximum fail count, the sensor will turn on the adaptive scheduler
-     * and the scheduler will be set to wake-up based on the interval
-     *
-     * @param adaptiveSchedulerFailCount adaptive scheduler maximum fail count.
-     */
-    public void setAdaptiveSchedulerFailCount(int adaptiveSchedulerFailCount) {
+        public void setAdaptiveSchedulerFailCount(int adaptiveSchedulerFailCount) {
         this.adaptiveSchedulerFailCount = UtilShimmer.nudgeInteger(adaptiveSchedulerFailCount, 0, (int) (Math.pow(2, 8) - 1));
     }
 
-    /**
-     * Is bluetooth enabled (bluetooth will always be enabled when USB powered)
-     *
-     * @return bluetoothEnabled.
-     */
-    public boolean isBluetoothEnabled() {
+        public boolean isBluetoothEnabled() {
         return bluetoothEnabled;
     }
 
-    /**
-     * Disable/Enable bluetooth (bluetooth will always be enabled when USB powered)
-     *
-     * @return bluetoothEnabled.
-     */
-    public void setBluetoothEnabled(boolean bluetoothEnabled) {
+        public void setBluetoothEnabled(boolean bluetoothEnabled) {
         this.bluetoothEnabled = bluetoothEnabled;
     }
 
-    /**
-     * Is USB enabled
-     *
-     * @return usbEnabled.
-     */
-    public boolean isUsbEnabled() {
+        public boolean isUsbEnabled() {
         return usbEnabled;
     }
 
-    /**
-     * Disable/Enable USB
-     *
-     * @param usbEnabled.
-     */
-    public void setUsbEnabled(boolean usbEnabled) {
+        public void setUsbEnabled(boolean usbEnabled) {
         this.usbEnabled = usbEnabled;
     }
 
-    /**
-     * If the recording is only to use the long-term flash and bypass the usage of the short-term flash then the value is set to 1, otherwise 0.
-     * If expected data upload interval from ASM is longer then the short-term flash is capable of storing, it is more energy efficient to write directly to long-term flash.
-     *
-     * @return prioritiseLongTermFlash.
-     */
-    public boolean isPrioritiseLongTermFlash() {
+        public boolean isPrioritiseLongTermFlash() {
         return prioritiseLongTermFlash;
     }
 
-    /**
-     * If the recording is only to use the long-term flash and bypass the usage of the short-term flash then the value is set to 1, otherwise 0.
-     * If expected data upload interval from ASM is longer then the short-term flash is capable of storing, it is more energy efficient to write directly to long-term flash.
-     *
-     * @param prioritiseLongTermFlash.
-     */
-    public void setPrioritiseLongTermFlash(boolean prioritiseLongTermFlash) {
+        public void setPrioritiseLongTermFlash(boolean prioritiseLongTermFlash) {
         this.prioritiseLongTermFlash = prioritiseLongTermFlash;
     }
 
-    /**
-     * Is the device enabled
-     *
-     * @return deviceEnabled.
-     */
-    public boolean isDeviceEnabled() {
+        public boolean isDeviceEnabled() {
         return deviceEnabled;
     }
 
-    /**
-     * Disable/Enable the Verisense Device
-     *
-     * @param deviceEnabled deviceEnabled.
-     */
-    public void setDeviceEnabled(boolean deviceEnabled) {
+        public void setDeviceEnabled(boolean deviceEnabled) {
         this.deviceEnabled = deviceEnabled;
     }
 
-    /**
-     * Is logging enabled
-     *
-     * @return recordingEnabled.
-     */
-    public boolean isRecordingEnabled() {
+        public boolean isRecordingEnabled() {
         return recordingEnabled;
     }
 
-    /**
-     * Disable/Enable the logging of data
-     *
-     * @param recordingEnabled recordingEnabled.
-     */
-    public void setRecordingEnabled(boolean recordingEnabled) {
+        public void setRecordingEnabled(boolean recordingEnabled) {
         this.recordingEnabled = recordingEnabled;
     }
 
@@ -2200,10 +1989,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         this.mapOfVerisenseProtocolByteCommunication = mapOfVerisenseProtocolByteCommunication;
     }
 
-    /**
-     * @param type Note not all communications types relies on a process that needs to be close, as of now only BLE requires it, this should be done when closing the app
-     */
-    public void stopCommunicationProcess(COMMUNICATION_TYPE type) {
+        public void stopCommunicationProcess(COMMUNICATION_TYPE type) {
         mapOfVerisenseProtocolByteCommunication.get(type).stop();
     }
 
@@ -2215,90 +2001,44 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         this.passkeyMode = passkeyMode;
     }
 
-    /**
-     * @return dataCompressionMode
-     */
-    public DATA_COMPRESSION_MODE getDataCompressionMode() {
+        public DATA_COMPRESSION_MODE getDataCompressionMode() {
         return dataCompressionMode;
     }
 
-    /**
-     * @param dataCompressionMode
-     */
-    public void setDataCompressionMode(DATA_COMPRESSION_MODE dataCompressionMode) {
+        public void setDataCompressionMode(DATA_COMPRESSION_MODE dataCompressionMode) {
         this.dataCompressionMode = dataCompressionMode;
     }
 
-    /**
-     * Used to set the battery type that is currently connected to the sensor.
-     * This is used internally in the firmware to manage how the sensor utilizes the battery in order to ensure optimum battery life.
-     *
-     * @param BATTERY_TYPE
-     */
-    public BATTERY_TYPE getBatteryType() {
+        public BATTERY_TYPE getBatteryType() {
         return batteryType;
     }
 
-    /**
-     * Used to set the battery type that is currently connected to the sensor.
-     * This is used internally in the firmware to manage how the sensor utilizes the battery in order to ensure optimum battery life.
-     *
-     * @return BATTERY_TYPE
-     */
-    public void setBatteryType(BATTERY_TYPE batteryType) {
+        public void setBatteryType(BATTERY_TYPE batteryType) {
         this.batteryType = batteryType;
     }
 
-    /**
-     * 0 represents always on
-     *
-     * @return ppgRecordingDurationSeconds
-     */
-    public int getPpgRecordingDurationSeconds() {
+        public int getPpgRecordingDurationSeconds() {
         return ppgRecordingDurationSeconds;
     }
 
-    /**
-     * 0 represents always on
-     *
-     * @param ppgRecordingDurationSeconds
-     */
-    public void setPpgRecordingDurationSeconds(int ppgRecordingDurationSeconds) {
+        public void setPpgRecordingDurationSeconds(int ppgRecordingDurationSeconds) {
         this.ppgRecordingDurationSeconds = UtilShimmer.nudgeInteger(ppgRecordingDurationSeconds, 0, (int) (Math.pow(2, 16) - 1));
     }
 
-    /**
-     * Enable continuous PPG recording
-     */
-    public void setPpgContinuousRecording() {
+        public void setPpgContinuousRecording() {
         setPpgRecordingDurationSeconds(0);
         setPpgRecordingIntervalMinutes(0);
     }
 
-    /**
-     * 0 represents always on
-     *
-     * @return ppgRecordingIntervalMinutes
-     */
-    public int getPpgRecordingIntervalMinutes() {
+        public int getPpgRecordingIntervalMinutes() {
         return ppgRecordingIntervalMinutes;
     }
 
-    /**
-     * 0 represents always on
-     *
-     * @param ppgRecordingIntervalMinutes
-     */
-    public void setPpgRecordingIntervalMinutes(int ppgRecordingIntervalMinutes) {
+        public void setPpgRecordingIntervalMinutes(int ppgRecordingIntervalMinutes) {
         this.ppgRecordingIntervalMinutes = UtilShimmer.nudgeInteger(ppgRecordingIntervalMinutes, 0, (int) (Math.pow(2, 16) - 1));
     }
 
-    /**
-     * Get all sensor config
-     *
-     * @return List of sensor config
-     */
-    @Override
+        @Override
     public List<ISensorConfig> getSensorConfig() {
         List<ISensorConfig> listOfConfig = new ArrayList<>();
         listOfConfig.addAll(super.getSensorConfig());
@@ -2306,12 +2046,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return listOfConfig;
     }
 
-    /**
-     * Update sensor configuration
-     *
-     * @param sensorConfig
-     */
-    @Override
+        @Override
     public void setSensorConfig(ISensorConfig sensorConfig) {
         if (sensorConfig instanceof BLE_TX_POWER) {
             setBleTxPower((BLE_TX_POWER) sensorConfig);
@@ -2320,54 +2055,33 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-    /**
-     * @return currentStreamingCommsRoute
-     */
-    public COMMUNICATION_TYPE getCurrentStreamingCommsRoute() {
+        public COMMUNICATION_TYPE getCurrentStreamingCommsRoute() {
         return currentStreamingCommsRoute;
     }
 
-    /**
-     * @param currentStreamingCommsRoute
-     */
-    public void setCurrentStreamingCommsRoute(COMMUNICATION_TYPE currentStreamingCommsRoute) {
+        public void setCurrentStreamingCommsRoute(COMMUNICATION_TYPE currentStreamingCommsRoute) {
         this.currentStreamingCommsRoute = currentStreamingCommsRoute;
     }
 
-    /**
-     * @return trialName
-     */
-    public String getTrialName() {
+        public String getTrialName() {
         return mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).getTrialName();
     }
 
-    /**
-     * @param trialName
-     */
-    @Override
+        @Override
     public void setTrialName(String trialName) {
         super.setTrialName(trialName);
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).setTrialName(trialName);
     }
 
-    /**
-     * @return participantID
-     */
-    public String getParticipantID() {
+        public String getParticipantID() {
         return mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).participantID;
     }
 
-    /**
-     * @param participantID
-     */
-    public void setParticipantID(String participant) {
+        public void setParticipantID(String participant) {
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).participantID = participant;
     }
 
-    /**
-     * @return The binary file path
-     */
-    public String getDataFilePath() {
+        public String getDataFilePath() {
         return mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).getDataFilePath();
     }
 
@@ -2523,51 +2237,17 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     }
 
     public static class FW_CHANGES {
-        /**
-         * FW Version and Reset Reason
-         */
-        public static final ShimmerVerObject CCF19_027 = new ShimmerVerObject(FW_ID.UNKNOWN, 0, 34, 1);
-        /**
-         * Reset Reason, Reset Counter, First Payload Index
-         */
-        public static final ShimmerVerObject CCF19_035 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 1, 2);
-        /**
-         * PPG support (i.e., 2 bytes HW ver in payload header + 3 additional config. bytes)
-         */
-        public static final ShimmerVerObject CCF20_012_1 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 2);
-        /**
-         * PPG support (i.e., LED1_PA added to payload config)
-         */
-        public static final ShimmerVerObject CCF20_012_2 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 9);
-        /**
-         * PPG support (i.e., LED2_PA, LED3_PA, LED4_PA added to payload config)
-         */
-        public static final ShimmerVerObject CCF20_012_3 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 35);
-        /**
-         * PPG support (i.e., LED1-4 RGE byte added to payload config)
-         */
-        public static final ShimmerVerObject CCF20_012_4 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 70);
-        /**
-         * Multiple sensor support
-         */
-        public static final ShimmerVerObject CCF20_012_5 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 73);
-        /**
-         * RTC ticks added back into payload footer
-         */
-        public static final ShimmerVerObject CCF20_012_6 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 74);
-        /**
-         * Microcontroller time (ticks and minutes) added into payload footer
-         */
-        public static final ShimmerVerObject CCF21_010_1 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 85);
-        /**
-         * Ticks per data block are now Microcontroller ticks instead of RWC ticks and
-         * RTC time (ticks and minutes) in payload footer is now the RWC offset
-         */
-        public static final ShimmerVerObject CCF21_010_2 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 87);
-        /**
-         * GSR support with ADC sampling rate byte added to header
-         */
-        public static final ShimmerVerObject CCF21_010_3 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 88);
+                public static final ShimmerVerObject CCF19_027 = new ShimmerVerObject(FW_ID.UNKNOWN, 0, 34, 1);
+                public static final ShimmerVerObject CCF19_035 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 1, 2);
+                public static final ShimmerVerObject CCF20_012_1 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 2);
+                public static final ShimmerVerObject CCF20_012_2 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 9);
+                public static final ShimmerVerObject CCF20_012_3 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 35);
+                public static final ShimmerVerObject CCF20_012_4 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 70);
+                public static final ShimmerVerObject CCF20_012_5 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 73);
+                public static final ShimmerVerObject CCF20_012_6 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 74);
+                public static final ShimmerVerObject CCF21_010_1 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 85);
+                public static final ShimmerVerObject CCF21_010_2 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 87);
+                public static final ShimmerVerObject CCF21_010_3 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 88);
     }
 
     public static class FW_SPECIAL_VERSIONS {

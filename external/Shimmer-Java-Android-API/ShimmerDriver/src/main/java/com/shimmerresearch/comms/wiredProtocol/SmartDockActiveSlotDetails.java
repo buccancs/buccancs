@@ -4,12 +4,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Holds HW information of a connected SmartDock (used by DeviceInfo)
- *
- * @author Mark Nolan
- *
- */
 public class SmartDockActiveSlotDetails {
 
     public final static int CONNECTION_TYPE_DISCONNECTED = 0;

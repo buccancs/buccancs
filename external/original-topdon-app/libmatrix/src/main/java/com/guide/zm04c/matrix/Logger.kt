@@ -7,9 +7,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 object Logger {
-    /**
-     * ERROR
-     */
     @JvmStatic
     fun e(clazz: Class<*>, msg: String) {
         if (BuildConfig.DEBUG) {
@@ -22,9 +19,7 @@ object Logger {
             Log.e(tag, msg + "")
         }
     }
-    /**
-     * WARN
-     */
+
     @JvmStatic
     fun w(clazz: Class<*>, msg: String) {
         if (BuildConfig.DEBUG) {
@@ -37,9 +32,7 @@ object Logger {
             Log.w(tag, msg + "")
         }
     }
-    /**
-     * INFO
-     */
+
     @JvmStatic
     fun i(clazz: Class<*>, msg: String) {
         if (BuildConfig.DEBUG) {
@@ -52,9 +45,7 @@ object Logger {
             Log.i(tag, msg + "")
         }
     }
-    /**
-     * DEBUG
-     */
+
     @JvmStatic
     fun d(clazz: Class<*>, msg: String) {
         if (BuildConfig.DEBUG) {
@@ -67,9 +58,7 @@ object Logger {
             Log.d(tag, msg + "")
         }
     }
-    /**
-     * VERBOSE
-     */
+
     @JvmStatic
     fun v(clazz: Class<*>, msg: String) {
         if (BuildConfig.DEBUG) {

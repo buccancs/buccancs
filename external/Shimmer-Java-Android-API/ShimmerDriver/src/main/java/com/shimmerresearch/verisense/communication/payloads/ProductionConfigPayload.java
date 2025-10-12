@@ -11,10 +11,6 @@ import com.shimmerresearch.driverUtilities.ShimmerVerObject;
 import com.shimmerresearch.verisense.VerisenseDevice;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 
-/**
- * @author Mark Nolan
- *
- */
 public class ProductionConfigPayload extends AbstractPayload implements Serializable {
 
     public String verisenseId;

@@ -751,20 +751,7 @@ public object CommandServiceGrpcKt {
   ) : AbstractCoroutineStub<CommandServiceCoroutineStub>(channel, callOptions) {
     override fun build(channel: Channel, callOptions: CallOptions): CommandServiceCoroutineStub =
         CommandServiceCoroutineStub(channel, callOptions)
-    /**
-     * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
-     * server as they arrive.  That flow finishes normally if the server closes its response with
-     * [`Status.OK`][io.grpc.Status], and fails by throwing a [StatusException] otherwise.  If
-     * collecting the flow downstream fails exceptionally (including via cancellation), the RPC
-     * is cancelled with that exception as a cause.
-     *
-     * @param request The request message to send to the server.
-     *
-     * @param headers Metadata to attach to the request.  Most users will not need this.
-     *
-     * @return A flow that, when collected, emits the responses from the server.
-     */
-    public fun subscribeCommands(request: CommandSubscribeRequest, headers: Metadata = Metadata()):
+        public fun subscribeCommands(request: CommandSubscribeRequest, headers: Metadata = Metadata()):
         Flow<CommandEnvelope> = serverStreamingRpc(
       channel,
       CommandServiceGrpc.getSubscribeCommandsMethod(),
@@ -772,20 +759,7 @@ public object CommandServiceGrpcKt {
       callOptions,
       headers
     )
-    /**
-     * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
-     * corresponding
-     * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
-     * with the corresponding exception as a cause.
-     *
-     * @param request The request message to send to the server.
-     *
-     * @param headers Metadata to attach to the request.  Most users will not need this.
-     *
-     * @return The single response from the server.
-     */
-    public suspend fun reportCommandReceipt(request: CommandReceipt, headers: Metadata =
+        public suspend fun reportCommandReceipt(request: CommandReceipt, headers: Metadata =
         Metadata()): CommandAck = unaryRpc(
       channel,
       CommandServiceGrpc.getReportCommandReceiptMethod(),
@@ -794,41 +768,13 @@ public object CommandServiceGrpcKt {
       headers
     )
   }
-  /**
-   * Skeletal implementation of the com.buccancs.control.CommandService service based on Kotlin
-   * coroutines.
-   */
-  public abstract class CommandServiceCoroutineImplBase(
+    public abstract class CommandServiceCoroutineImplBase(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
   ) : AbstractCoroutineServerImpl(coroutineContext) {
-    /**
-     * Returns a [Flow] of responses to an RPC for
-     * com.buccancs.control.CommandService.SubscribeCommands.
-     *
-     * If creating or collecting the returned flow fails with a [StatusException], the RPC
-     * will fail with the corresponding [io.grpc.Status].  If it fails with a
-     * [java.util.concurrent.CancellationException], the RPC will fail with status
-     * `Status.CANCELLED`.  If creating
-     * or collecting the returned flow fails for any other reason, the RPC will fail with
-     * `Status.UNKNOWN` with the exception as a cause.
-     *
-     * @param request The request from the client.
-     */
-    public open fun subscribeCommands(request: CommandSubscribeRequest): Flow<CommandEnvelope> =
+        public open fun subscribeCommands(request: CommandSubscribeRequest): Flow<CommandEnvelope> =
         throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.CommandService.SubscribeCommands is unimplemented"))
-    /**
-     * Returns the response to an RPC for com.buccancs.control.CommandService.ReportCommandReceipt.
-     *
-     * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
-     * the RPC will fail
-     * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
-     * fail with `Status.UNKNOWN` with the exception as a cause.
-     *
-     * @param request The request from the client.
-     */
-    public open suspend fun reportCommandReceipt(request: CommandReceipt): CommandAck = throw
+        public open suspend fun reportCommandReceipt(request: CommandReceipt): CommandAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.CommandService.ReportCommandReceipt is unimplemented"))
     final override fun bindService(): ServerServiceDefinition =
         builder(commandServiceGrpcGetServiceDescriptor())

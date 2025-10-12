@@ -251,25 +251,12 @@ public class DeviceIrcmdControlManager {
         }).start();
     }
 
-    /**
-     * 设置ISP算法需要修改的文件路径
-     * 会在重新回到预览页面的时候调用sendISPParam方法来设置参数
-     *
-     * @param param_path
-     */
-    public void setISPChangePath(String param_path) {
+        public void setISPChangePath(String param_path) {
         ispParamPath = param_path;
         mSendISPCommand = true;
     }
 
-    /**
-     * 会在重新回到预览页面的时候调用sendISPParam方法来设置参数
-     * <p>
-     * ISP参数设置后，停图后不会保存参数，固件会重新下发
-     *
-     * @throws IllegalArgumentException
-     */
-    public void sendISPParam() {
+        public void sendISPParam() {
         if (!mSendISPCommand) {
             return;
         }

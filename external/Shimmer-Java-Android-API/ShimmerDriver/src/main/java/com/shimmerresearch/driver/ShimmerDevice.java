@@ -4622,10 +4622,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
 
         private final String text;
 
-        /**
-         * @param text
-         */
-        private DOCK_STATE(final String text) {
+                private DOCK_STATE(final String text) {
             this.text = text;
         }
 
@@ -4645,10 +4642,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
 
         private final String text;
 
-        /**
-         * @param text
-         */
-        private SD_STATE(final String text) {
+                private SD_STATE(final String text) {
             this.text = text;
         }
 
@@ -4668,10 +4662,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
 
         private final String text;
 
-        /**
-         * @param text
-         */
-        private SENSING_STATE(final String text) {
+                private SENSING_STATE(final String text) {
             this.text = text;
         }
 

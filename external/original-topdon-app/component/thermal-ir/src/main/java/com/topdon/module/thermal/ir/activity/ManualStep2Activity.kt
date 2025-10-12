@@ -54,22 +54,12 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
     private var mDualView: DualViewWithManualAlignExternalCamera? = null
     private val mDefaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT
     protected var dualDisp: Int = 0
-    /**
-     * ir camera
-     * 22576 - 0x5830
-     * 22592 - 0x5840
-     */
     private val mIrPid = 0x5830
     private val mIrFps = 25
     private var mIrCameraWidth = 0
     private var mIrCameraHeight = 0
     private var mImageWidth = 0
     private var mImageHeight = 0
-    /**
-     * vl camera
-     * 12341 - 0x3035  30 fps 640*480
-     * 38704 - 0x9730  25 fps 1280*720
-     */
     private val mVlPid = 12337
     private val mVlFps = 30
     private val mVlCameraWidth = 1280
@@ -167,10 +157,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             }
         USBMonitorDualManager.getInstance().addOnUSBConnectListener(this)
     }
-    /**
-     * @param dataFlowMode
-     */
-    private fun initDataFlowMode(dataFlowMode: CommonParams.DataFlowMode) {
+        private fun initDataFlowMode(dataFlowMode: CommonParams.DataFlowMode) {
         if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
             mIrCameraWidth = Const.SENSOR_WIDTH
             mIrCameraHeight = Const.SENSOR_HEIGHT
@@ -178,10 +165,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             mImageHeight = mIrCameraWidth
         }
     }
-    /**
-     *
-     */
-    public override fun initData() {
+        public override fun initData() {
         dualTextureView?.post {
             alignScaleX = dualTextureView!!.measuredWidth.toFloat() / mDualWidth.toFloat()
             alignScaleY = dualTextureView!!.measuredHeight.toFloat() / mDualHeight.toFloat()
@@ -285,10 +269,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         showLoadingDialog()
         dualStart()
     }
-    /**
-     *
-     */
-    private fun dualStart() {
+        private fun dualStart() {
         userStop = false
         USBMonitorDualManager.getInstance().registerUSB()
     }

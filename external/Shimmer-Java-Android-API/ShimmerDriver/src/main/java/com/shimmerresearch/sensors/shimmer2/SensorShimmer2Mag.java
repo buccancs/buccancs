@@ -255,14 +255,7 @@ public class SensorShimmer2Mag extends AbstractSensor {
         updateCurrentCalibInUse();
     }
 
-    /**
-     * This enables the low power mag option. When not enabled the sampling rate
-     * of the mag is set to the closest supported value to the actual sampling
-     * rate that it can achieve. In low power mode it defaults to 10Hz
-     *
-     * @param enable
-     */
-    public void setLowPowerMag(boolean enable) {
+        public void setLowPowerMag(boolean enable) {
         mLowPowerMag = enable;
         setShimmer2rMagRateFromFreq(mShimmerDevice.getSamplingRateShimmer());
     }

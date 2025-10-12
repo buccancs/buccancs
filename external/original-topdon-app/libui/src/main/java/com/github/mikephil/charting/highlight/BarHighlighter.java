@@ -7,9 +7,6 @@ import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.MPPointD;
 
-/**
- * Created by Philipp Jahoda on 22/07/15.
- */
 public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
     public BarHighlighter(BarDataProvider chart) {
@@ -42,17 +39,7 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
         return high;
     }
 
-    /**
-     * This method creates the Highlight object that also indicates which value of a stacked BarEntry has been
-     * selected.
-     *
-     * @param high the Highlight to work with looking for stacked values
-     * @param set
-     * @param xVal
-     * @param yVal
-     * @return
-     */
-    public Highlight getStackedHighlight(Highlight high, IBarDataSet set, float xVal, float yVal) {
+        public Highlight getStackedHighlight(Highlight high, IBarDataSet set, float xVal, float yVal) {
 
         BarEntry entry = set.getEntryForXValue(xVal, yVal);
 
@@ -89,16 +76,7 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
         return null;
     }
 
-    /**
-     * Returns the index of the closest value inside the values array / ranges (stacked barchart) to the value
-     * given as
-     * a parameter.
-     *
-     * @param ranges
-     * @param value
-     * @return
-     */
-    protected int getClosestStackIndex(Range[] ranges, float value) {
+        protected int getClosestStackIndex(Range[] ranges, float value) {
 
         if (ranges == null || ranges.length == 0)
             return 0;
@@ -117,13 +95,7 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
         return (value > ranges[length].to) ? length : 0;
     }
 
-//    /**
-//     * Splits up the stack-values of the given bar-entry into Range objects.
-//     *
-//     * @param entry
-//     * @return
-//     */
-//    protected Range[] getRanges(BarEntry entry) {
+//    //    protected Range[] getRanges(BarEntry entry) {
 //
 //        float[] values = entry.getYVals();
 //

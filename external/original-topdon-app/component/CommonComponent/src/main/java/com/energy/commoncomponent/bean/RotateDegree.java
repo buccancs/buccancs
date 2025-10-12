@@ -1,8 +1,5 @@
 package com.energy.commoncomponent.bean;
 
-/**
- * Created by fengjibo on 2023/7/4.
- */
 public enum RotateDegree {
 
     DEGREE_0(0),

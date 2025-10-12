@@ -751,10 +751,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
     }
 
-    /**
-     *
-     */
-    private void parseSinglePacket(byte[] rxBuf, long timestampMs) throws DockException {
+        private void parseSinglePacket(byte[] rxBuf, long timestampMs) throws DockException {
         UartRxPacketObject uRPO = new UartRxPacketObject(rxBuf, timestampMs);
 
         //check CRC before sending callback. If fails then remove first byte and carry forward
@@ -801,12 +798,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         }
     }
 
-    /**
-     * remove first and add remaining bytes to start of next serial port read
-     *
-     * @return
-     */
-    private byte[] removeFirstByteFromArray(byte[] rxBuf) {
+        private byte[] removeFirstByteFromArray(byte[] rxBuf) {
         int lengthToCarry = rxBuf.length - 1;
         byte[] processedArray = new byte[lengthToCarry];
         System.arraycopy(rxBuf, 1, processedArray, 0, lengthToCarry);
@@ -866,17 +858,11 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         sendCallBackMsg(msg);
     }
 
-    /**
-     * @return the mSendCallback
-     */
-    public boolean isSendCallbackRxOverride() {
+        public boolean isSendCallbackRxOverride() {
         return mSendCallbackRxOverride;
     }
 
-    /**
-     * @param mSendCallbackRxOverride the mSendCallback to set
-     */
-    public void setSendCallbackRxOverride(boolean state) {
+        public void setSendCallbackRxOverride(boolean state) {
         this.mSendCallbackRxOverride = state;
     }
 
@@ -888,12 +874,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         mSerialPortInterface.setVerboseMode(mVerboseMode, mIsDebugMode);
     }
 
-    /**
-     * @param packetCmd
-     * @param msgArg
-     * @param valueBuffer
-     */
-    private void consolePrintTxPacketInfo(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] valueBuffer) {
+        private void consolePrintTxPacketInfo(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] valueBuffer) {
         //Requires extra processing so a waste if verbose mode is already off
         if (mVerboseMode) {
             consolePrintLn(assemblePrintTxPacketInfo(packetCmd, msgArg, valueBuffer));
@@ -922,11 +903,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         return consoleString;
     }
 
-    /**
-     * @param uRPO
-     * @see UartRxPacketObject
-     */
-    private void consolePrintRxPacketInfo(UartRxPacketObject uRPO) {
+        private void consolePrintRxPacketInfo(UartRxPacketObject uRPO) {
         //Requires extra processing so a waste if verbose mode is already off
         if (mVerboseMode) {
             consolePrintLn("RX\t" + uRPO.getConsoleString());

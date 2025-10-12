@@ -1059,46 +1059,22 @@ public class ShimmerService extends Service {
 	}
 */
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param enable
-     */
-    @Deprecated
+        @Deprecated
     public void enableLowPowerMag(String bluetoothAddress, boolean enable) {
         btManager.enableLowPowerMag(bluetoothAddress, enable);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param limit
-     */
-    @Deprecated
+        @Deprecated
     public void setBattLimitWarning(String bluetoothAddress, double limit) {
         btManager.setBattLimitWarning(bluetoothAddress, limit);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public double getBattLimitWarning(String bluetoothAddress) {
         return btManager.getBattLimitWarning(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public double getPacketReceptionRate(String bluetoothAddress) {
         double rate = btManager.getPacketReceptionRate(bluetoothAddress);
         return rate;
@@ -1134,35 +1110,17 @@ public class ShimmerService extends Service {
         mGraphing = setting;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public boolean DevicesConnected(String bluetoothAddress) {
         return btManager.DevicesConnected(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public boolean DeviceIsLogging(String bluetoothAddress) {
         return btManager.DeviceIsLogging(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public boolean DeviceIsStreaming(String bluetoothAddress) {
         return btManager.DeviceIsStreaming(bluetoothAddress);
     }
@@ -1185,24 +1143,12 @@ public class ShimmerService extends Service {
         }
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public String getFWVersion(String bluetoothAddress) {
         return btManager.getFWVersion(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public int getShimmerVersion(String bluetoothAddress) {
         return btManager.getShimmerVersion(bluetoothAddress);
     }
@@ -1251,13 +1197,7 @@ public class ShimmerService extends Service {
         return tmp.isEXGUsingEMG16Configuration();
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param setting
-     */
-    @Deprecated
+        @Deprecated
     public void writeEXGSetting(String bluetoothAddress, int setting) {
         btManager.writeEXGSetting(bluetoothAddress, setting);
     }
@@ -1273,45 +1213,22 @@ public class ShimmerService extends Service {
         return date;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public boolean isUsingLogAndStreamFW(String bluetoothAddress) {
         return btManager.isUsingLogAndStreamFW(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     */
-    @Deprecated
+        @Deprecated
     public void readStatusLogAndStream(String bluetoothAddress) {
         btManager.readStatusLogAndStream(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public boolean isSensing(String bluetoothAddress) {
         return btManager.isSensing(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public boolean isDocked(String bluetoothAddress) {
         return btManager.isDocked(bluetoothAddress);
     }
@@ -1336,10 +1253,7 @@ public class ShimmerService extends Service {
         return mHandler;
     }
 
-    /**
-     * Replaces the current BluetoothManager with a new BluetoothManager. Call this if Bluetooth is enabled only after ShimmerService onCreate() is called.
-     */
-    public void createNewBluetoothManager() {
+        public void createNewBluetoothManager() {
 
         try {
             btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
@@ -1354,10 +1268,7 @@ public class ShimmerService extends Service {
         return mPlotManager;
     }
 
-    /**
-     * For logging to file
-     */
-    public enum FILE_TYPE {
+        public enum FILE_TYPE {
         DAT("dat", 0),
         CSV("csv", 1);
 

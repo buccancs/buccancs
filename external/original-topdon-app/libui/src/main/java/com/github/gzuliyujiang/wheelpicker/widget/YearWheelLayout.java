@@ -37,12 +37,6 @@ import com.topdon.lib.ui.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 日期时间滚轮控件
- *
- * @author 贵州山野羡民（1032694760@qq.com）
- * @since 2019/5/14 15:26
- */
 @SuppressWarnings("unused")
 public class YearWheelLayout extends BaseWheelLayout {
     private DateWheelLayout dateWheelLayout;
@@ -167,17 +161,11 @@ public class YearWheelLayout extends BaseWheelLayout {
         dateWheelLayout.setDateMode(dateMode);
     }
 
-    /**
-     * 设置日期时间范围
-     */
-    public void setRange(DatimeEntity startValue, DatimeEntity endValue) {
+        public void setRange(DatimeEntity startValue, DatimeEntity endValue) {
         setRange(startValue, endValue, null);
     }
 
-    /**
-     * 设置日期时间范围
-     */
-    public void setRange(DatimeEntity startValue, DatimeEntity endValue, DatimeEntity defaultValue) {
+        public void setRange(DatimeEntity startValue, DatimeEntity endValue, DatimeEntity defaultValue) {
         if (startValue == null) {
             startValue = DatimeEntity.now();
         }

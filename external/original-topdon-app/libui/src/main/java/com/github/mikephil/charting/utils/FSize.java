@@ -68,10 +68,7 @@ public final class FSize extends ObjectPool.Poolable {
         return width + "x" + height;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
+        @Override
     public int hashCode() {
         return Float.floatToIntBits(width) ^ Float.floatToIntBits(height);
     }

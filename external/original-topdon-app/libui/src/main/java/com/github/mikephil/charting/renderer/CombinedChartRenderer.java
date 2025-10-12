@@ -16,15 +16,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Renderer class that is responsible for rendering multiple different data-types.
- */
 public class CombinedChartRenderer extends DataRenderer {
 
-    /**
-     * all rederers for the different kinds of data this combined-renderer can draw
-     */
-    protected List<DataRenderer> mRenderers = new ArrayList<DataRenderer>(5);
+        protected List<DataRenderer> mRenderers = new ArrayList<DataRenderer>(5);
 
     protected WeakReference<Chart> mChart;
     protected List<Highlight> mHighlightBuffer = new ArrayList<Highlight>();
@@ -35,11 +29,7 @@ public class CombinedChartRenderer extends DataRenderer {
         createRenderers();
     }
 
-    /**
-     * Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into
-     * consideration.
-     */
-    public void createRenderers() {
+        public void createRenderers() {
 
         mRenderers.clear();
 
@@ -143,25 +133,14 @@ public class CombinedChartRenderer extends DataRenderer {
         }
     }
 
-    /**
-     * Returns the sub-renderer object at the specified index.
-     *
-     * @param index
-     * @return
-     */
-    public DataRenderer getSubRenderer(int index) {
+        public DataRenderer getSubRenderer(int index) {
         if (index >= mRenderers.size() || index < 0)
             return null;
         else
             return mRenderers.get(index);
     }
 
-    /**
-     * Returns all sub-renderers.
-     *
-     * @return
-     */
-    public List<DataRenderer> getSubRenderers() {
+        public List<DataRenderer> getSubRenderers() {
         return mRenderers;
     }
 

@@ -3,10 +3,6 @@ package com.shimmerresearch.driver.shimmer2r3;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 
-/**
- * @author Mark Nolan
- *
- */
 public class BluetoothModuleVersionDetails implements Serializable {
 
     private static final long serialVersionUID = -4602970064289358794L;

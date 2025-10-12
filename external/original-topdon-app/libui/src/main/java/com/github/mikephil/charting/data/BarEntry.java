@@ -5,85 +5,34 @@ import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.highlight.Range;
 
-/**
- * Entry class for the BarChart. (especially stacked bars)
- *
- * @author Philipp Jahoda
- */
 @SuppressLint("ParcelCreator")
 public class BarEntry extends Entry {
 
-    /**
-     * the values the stacked barchart holds
-     */
-    private float[] mYVals;
+        private float[] mYVals;
 
-    /**
-     * the ranges for the individual stack values - automatically calculated
-     */
-    private Range[] mRanges;
+        private Range[] mRanges;
 
-    /**
-     * the sum of all negative values this entry (if stacked) contains
-     */
-    private float mNegativeSum;
+        private float mNegativeSum;
 
-    /**
-     * the sum of all positive values this entry (if stacked) contains
-     */
-    private float mPositiveSum;
+        private float mPositiveSum;
 
-    /**
-     * Constructor for normal bars (not stacked).
-     *
-     * @param x
-     * @param y
-     */
-    public BarEntry(float x, float y) {
+        public BarEntry(float x, float y) {
         super(x, y);
     }
 
-    /**
-     * Constructor for normal bars (not stacked).
-     *
-     * @param x
-     * @param y
-     * @param data - Spot for additional data this Entry represents.
-     */
-    public BarEntry(float x, float y, Object data) {
+        public BarEntry(float x, float y, Object data) {
         super(x, y, data);
     }
 
-    /**
-     * Constructor for normal bars (not stacked).
-     *
-     * @param x
-     * @param y
-     * @param icon - icon image
-     */
-    public BarEntry(float x, float y, Drawable icon) {
+        public BarEntry(float x, float y, Drawable icon) {
         super(x, y, icon);
     }
 
-    /**
-     * Constructor for normal bars (not stacked).
-     *
-     * @param x
-     * @param y
-     * @param icon - icon image
-     * @param data - Spot for additional data this Entry represents.
-     */
-    public BarEntry(float x, float y, Drawable icon, Object data) {
+        public BarEntry(float x, float y, Drawable icon, Object data) {
         super(x, y, icon, data);
     }
 
-    /**
-     * Constructor for stacked bar entries. One data object for whole stack
-     *
-     * @param x
-     * @param vals - the stack values, use at least 2
-     */
-    public BarEntry(float x, float[] vals) {
+        public BarEntry(float x, float[] vals) {
         super(x, calcSum(vals));
 
         this.mYVals = vals;
@@ -91,14 +40,7 @@ public class BarEntry extends Entry {
         calcRanges();
     }
 
-    /**
-     * Constructor for stacked bar entries. One data object for whole stack
-     *
-     * @param x
-     * @param vals - the stack values, use at least 2
-     * @param data - Spot for additional data this Entry represents.
-     */
-    public BarEntry(float x, float[] vals, Object data) {
+        public BarEntry(float x, float[] vals, Object data) {
         super(x, calcSum(vals), data);
 
         this.mYVals = vals;
@@ -106,14 +48,7 @@ public class BarEntry extends Entry {
         calcRanges();
     }
 
-    /**
-     * Constructor for stacked bar entries. One data object for whole stack
-     *
-     * @param x
-     * @param vals - the stack values, use at least 2
-     * @param icon - icon image
-     */
-    public BarEntry(float x, float[] vals, Drawable icon) {
+        public BarEntry(float x, float[] vals, Drawable icon) {
         super(x, calcSum(vals), icon);
 
         this.mYVals = vals;
@@ -121,15 +56,7 @@ public class BarEntry extends Entry {
         calcRanges();
     }
 
-    /**
-     * Constructor for stacked bar entries. One data object for whole stack
-     *
-     * @param x
-     * @param vals - the stack values, use at least 2
-     * @param icon - icon image
-     * @param data - Spot for additional data this Entry represents.
-     */
-    public BarEntry(float x, float[] vals, Drawable icon, Object data) {
+        public BarEntry(float x, float[] vals, Drawable icon, Object data) {
         super(x, calcSum(vals), icon, data);
 
         this.mYVals = vals;
@@ -137,13 +64,7 @@ public class BarEntry extends Entry {
         calcRanges();
     }
 
-    /**
-     * Calculates the sum across all values of the given stack.
-     *
-     * @param vals
-     * @return
-     */
-    private static float calcSum(float[] vals) {
+        private static float calcSum(float[] vals) {
 
         if (vals == null)
             return 0f;
@@ -156,70 +77,38 @@ public class BarEntry extends Entry {
         return sum;
     }
 
-    /**
-     * Returns an exact copy of the BarEntry.
-     */
-    public BarEntry copy() {
+        public BarEntry copy() {
 
         BarEntry copied = new BarEntry(getX(), getY(), getData());
         copied.setVals(mYVals);
         return copied;
     }
 
-    /**
-     * Returns the stacked values this BarEntry represents, or null, if only a single value is represented (then, use
-     * getY()).
-     *
-     * @return
-     */
-    public float[] getYVals() {
+        public float[] getYVals() {
         return mYVals;
     }
 
-    /**
-     * Set the array of values this BarEntry should represent.
-     *
-     * @param vals
-     */
-    public void setVals(float[] vals) {
+        public void setVals(float[] vals) {
         setY(calcSum(vals));
         mYVals = vals;
         calcPosNegSum();
         calcRanges();
     }
 
-    /**
-     * Returns the value of this BarEntry. If the entry is stacked, it returns the positive sum of all values.
-     *
-     * @return
-     */
-    @Override
+        @Override
     public float getY() {
         return super.getY();
     }
 
-    /**
-     * Returns the ranges of the individual stack-entries. Will return null if this entry is not stacked.
-     *
-     * @return
-     */
-    public Range[] getRanges() {
+        public Range[] getRanges() {
         return mRanges;
     }
 
-    /**
-     * Returns true if this BarEntry is stacked (has a values array), false if not.
-     *
-     * @return
-     */
-    public boolean isStacked() {
+        public boolean isStacked() {
         return mYVals != null;
     }
 
-    /**
-     * Use `getSumBelow(stackIndex)` instead.
-     */
-    @Deprecated
+        @Deprecated
     public float getBelowSum(int stackIndex) {
         return getSumBelow(stackIndex);
     }
@@ -240,21 +129,11 @@ public class BarEntry extends Entry {
         return remainder;
     }
 
-    /**
-     * Reuturns the sum of all positive values this entry (if stacked) contains.
-     *
-     * @return
-     */
-    public float getPositiveSum() {
+        public float getPositiveSum() {
         return mPositiveSum;
     }
 
-    /**
-     * Returns the sum of all negative values this entry (if stacked) contains. (this is a positive number)
-     *
-     * @return
-     */
-    public float getNegativeSum() {
+        public float getNegativeSum() {
         return mNegativeSum;
     }
 

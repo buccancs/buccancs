@@ -233,10 +233,7 @@ public class UtilParseData {
         return formattedData;
     }
 
-    /**
-     * Data Methods
-     */
-    @Deprecated // Moving to constant data type declarations rather then declaring strings in multiple classes
+        @Deprecated // Moving to constant data type declarations rather then declaring strings in multiple classes
     public static int[] formatDataPacketReverse(byte[] data, String[] dataType) {
         int iData = 0;
         int[] formattedData = new int[dataType.length];
@@ -264,14 +261,7 @@ public class UtilParseData {
         return formattedData;
     }
 
-    /**
-     * <p>Reverses the order of the given array.</p>
-     *
-     * <p>This method does nothing for a <code>null</code> input array.</p>
-     *
-     * @param array the array to reverse, may be <code>null</code>
-     */
-    public static void reverse(byte[] array) {
+        public static void reverse(byte[] array) {
         if (array == null) {
             return;
         }

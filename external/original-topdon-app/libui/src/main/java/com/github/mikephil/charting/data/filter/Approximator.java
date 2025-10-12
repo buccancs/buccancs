@@ -46,13 +46,7 @@ public class Approximator {
         }
     }
 
-    /**
-     * Combine arrays.
-     *
-     * @param arrays
-     * @return
-     */
-    float[] concat(float[]... arrays) {
+        float[] concat(float[]... arrays) {
         int length = 0;
         for (float[] array : arrays) {
             length += array.length;

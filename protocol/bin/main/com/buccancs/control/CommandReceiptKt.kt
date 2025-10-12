@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializecommandReceipt")
 public inline fun commandReceipt(block: com.buccancs.control.CommandReceiptKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandReceipt =
   com.buccancs.control.CommandReceiptKt.Dsl._create(com.buccancs.control.CommandReceipt.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.CommandReceipt`
- */
 public object CommandReceiptKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,60 +20,36 @@ public object CommandReceiptKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.CommandReceipt = _builder.build()
-    /**
-     * `string command_id = 1;`
-     */
-    public var commandId: kotlin.String
+        public var commandId: kotlin.String
       get() = _builder.getCommandId()
       set(value) {
         _builder.setCommandId(value)
       }
-    /**
-     * `string command_id = 1;`
-     */
-    public fun clearCommandId() {
+        public fun clearCommandId() {
       _builder.clearCommandId()
     }
-    /**
-     * `string device_id = 2;`
-     */
-    public var deviceId: kotlin.String
+        public var deviceId: kotlin.String
       get() = _builder.getDeviceId()
       set(value) {
         _builder.setDeviceId(value)
       }
-    /**
-     * `string device_id = 2;`
-     */
-    public fun clearDeviceId() {
+        public fun clearDeviceId() {
       _builder.clearDeviceId()
     }
-    /**
-     * `bool success = 3;`
-     */
-    public var success: kotlin.Boolean
+        public var success: kotlin.Boolean
       get() = _builder.getSuccess()
       set(value) {
         _builder.setSuccess(value)
       }
-    /**
-     * `bool success = 3;`
-     */
-    public fun clearSuccess() {
+        public fun clearSuccess() {
       _builder.clearSuccess()
     }
-    /**
-     * `string message = 4;`
-     */
-    public var message: kotlin.String
+        public var message: kotlin.String
       get() = _builder.getMessage()
       set(value) {
         _builder.setMessage(value)
       }
-    /**
-     * `string message = 4;`
-     */
-    public fun clearMessage() {
+        public fun clearMessage() {
       _builder.clearMessage()
     }
   }

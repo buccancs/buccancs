@@ -60,9 +60,6 @@ public class Shimmer6DoFor9DoFGui {
         }
     }
 
-    /**
-     * Method to create GUI object for 6DoF and 9DoF quaternion Shimmer3 visualisations
-     */
 
     public boolean isBothAccelsAvailable() {
         return this.isBothAccelsAvailable;

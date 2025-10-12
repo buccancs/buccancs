@@ -16,18 +16,11 @@ import com.shimmerresearch.comms.serialPortInterface.SerialPortListener;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 import com.shimmerresearch.exceptions.ShimmerException;
 
-/**
- * @author Mark Nolan
- *
- */
 public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialPortListener {
 
     public String mUniqueId = "";
     public String mComPort = "";
-    /**
-     * 0 = normal speed (bad implementation), 1 = fast speed
-     */
-    public int mTxSpeed = 1;
+        public int mTxSpeed = 1;
     protected transient SerialPort mSerialPort = null;
     //Using JsscByteWriter by Bastien Aracil as the JSSC library does not support timeouts for serial port writing
     protected JsscByteWriter jsscByteWriter = null;
@@ -55,12 +48,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         registerSerialPortRxEventCallback(shimmerSerialEventCallback);
     }
 
-    /**
-     * Opens and configures the Shimmer UART COM port
-     *
-     * @throws ShimmerException
-     */
-    @Override
+        @Override
     public void connect() throws ShimmerException {
         try {
             consolePrintLn("Connecting to COM port:" + mComPort);
@@ -103,12 +91,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     }
 
 
-    /**
-     * Closes the Shimmer UART COM port
-     *
-     * @throws ShimmerException
-     */
-    @Override
+        @Override
     public void disconnect() throws ShimmerException {
         if (mSerialPort != null && mSerialPort.isOpened()) {
             try {
@@ -146,13 +129,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
 
     }
 
-    /**
-     * Transmits a byte array to the Shimmer UART COM port
-     *
-     * @param buf the Tx buffer array
-     * @throws ShimmerException
-     */
-    @Override
+        @Override
     public void txBytes(byte[] buf) throws ShimmerException {
         try {
             if (mTxSpeed == 0) { // normal speed
@@ -173,15 +150,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         }
     }
 
-    /**
-     * Receives a byte array from the Shimmer UART COM port
-     *
-     * @param numBytes the number of bytes to receive
-     * @return byte array of received bytes
-     * @throws ShimmerException
-     * @see ShimmerUartRxCmdDetails
-     */
-    @Override
+        @Override
     public byte[] rxBytes(int numBytes) throws ShimmerException {
         try {
             byte[] rxBuf = mSerialPort.readBytes(numBytes, mSerialPortTimeout);

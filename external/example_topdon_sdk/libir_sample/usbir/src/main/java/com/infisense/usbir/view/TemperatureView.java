@@ -354,11 +354,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                         getHolder().unlockCanvasAndPost(surfaceViewCanvas);
                     }
                     SystemClock.sleep(333);
-                    /**
-                     * 测试多线程发命令
-                     * 互斥锁的压力测试
-                     */
-                    // 获取增益状态
+                                        // 获取增益状态
 //                    int[] value = new int[1];
 //                    ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL, value);
                 }
@@ -395,13 +391,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         this.temperature = temperature;
     }
 
-    /**
-     * 对于Y16数据，scale为64
-     * 对于Y14数据，scale为16
-     *
-     * @param useIRISP
-     */
-    public void setUseIRISP(boolean useIRISP) {
+        public void setUseIRISP(boolean useIRISP) {
         isUseIRISP = useIRISP;
         if (isUseIRISP) {
             if (irtemp != null) {

@@ -171,31 +171,14 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
     }
 
     // TODO
-    /**
-     * It is necessary to implement ColorsList class that will encapsulate
-     * colors list functionality, because It's wrong to copy paste setColor,
-     * addColor, ... resetColors for each time when we want to add a coloring
-     * options for one of objects
-     *
-     * @author Mesrop
-     */
 
-    /**
-     * BELOW THIS COLOR HANDLING
-     */
 
     @Override
     public int getNeutralColor() {
         return mNeutralColor;
     }
 
-    /**
-     * Sets the one and ONLY color that should be used for this DataSet when
-     * open == close.
-     *
-     * @param color
-     */
-    public void setNeutralColor(int color) {
+        public void setNeutralColor(int color) {
         mNeutralColor = color;
     }
 
@@ -204,13 +187,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mIncreasingColor;
     }
 
-    /**
-     * Sets the one and ONLY color that should be used for this DataSet when
-     * open <= close.
-     *
-     * @param color
-     */
-    public void setIncreasingColor(int color) {
+        public void setIncreasingColor(int color) {
         mIncreasingColor = color;
     }
 
@@ -219,13 +196,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mDecreasingColor;
     }
 
-    /**
-     * Sets the one and ONLY color that should be used for this DataSet when
-     * open > close.
-     *
-     * @param color
-     */
-    public void setDecreasingColor(int color) {
+        public void setDecreasingColor(int color) {
         mDecreasingColor = color;
     }
 
@@ -234,12 +205,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mIncreasingPaintStyle;
     }
 
-    /**
-     * Sets paint style when open < close
-     *
-     * @param paintStyle
-     */
-    public void setIncreasingPaintStyle(Paint.Style paintStyle) {
+        public void setIncreasingPaintStyle(Paint.Style paintStyle) {
         this.mIncreasingPaintStyle = paintStyle;
     }
 
@@ -248,12 +214,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mDecreasingPaintStyle;
     }
 
-    /**
-     * Sets paint style when open > close
-     *
-     * @param decreasingPaintStyle
-     */
-    public void setDecreasingPaintStyle(Paint.Style decreasingPaintStyle) {
+        public void setDecreasingPaintStyle(Paint.Style decreasingPaintStyle) {
         this.mDecreasingPaintStyle = decreasingPaintStyle;
     }
 
@@ -262,12 +223,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mShadowColor;
     }
 
-    /**
-     * Sets shadow color for all entries
-     *
-     * @param shadowColor
-     */
-    public void setShadowColor(int shadowColor) {
+        public void setShadowColor(int shadowColor) {
         this.mShadowColor = shadowColor;
     }
 
@@ -276,12 +232,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mShadowColorSameAsCandle;
     }
 
-    /**
-     * Sets shadow color to be the same color as the candle color
-     *
-     * @param shadowColorSameAsCandle
-     */
-    public void setShadowColorSameAsCandle(boolean shadowColorSameAsCandle) {
+        public void setShadowColorSameAsCandle(boolean shadowColorSameAsCandle) {
         this.mShadowColorSameAsCandle = shadowColorSameAsCandle;
     }
 }

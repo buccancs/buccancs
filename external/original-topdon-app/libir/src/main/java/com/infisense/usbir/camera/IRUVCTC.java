@@ -33,9 +33,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 红外出图核心工具类
- */
 public class IRUVCTC {
     private static final String TAG = "IRUVC_DATA";
     private final IFrameCallback iFrameCallback;
@@ -44,10 +41,7 @@ public class IRUVCTC {
     private final ConnectCallback mConnectCallback; // usb连接回调
     private final int imageOrTempDataLength = 256 * 192 * 2; // 红外或温度的数据长度
     private final SynchronizedBitmap syncimage;
-    /**
-     * 自动增益切换
-     */
-    private final LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
+        private final LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
     private final LibIRProcess.GainSwitchParam_t gain_switch_param = new LibIRProcess.GainSwitchParam_t();
     // 当前的增益状态
     private final CommonParams.GainStatus gainStatus = CommonParams.GainStatus.HIGH_GAIN;
@@ -71,13 +65,7 @@ public class IRUVCTC {
     private IFrameCallBackListener iFrameCallBackListener;
     private IFrameReadListener iFrameReadListener;
 
-    /**
-     * @param cameraWidth     cameraWidth:256,cameraHeight:384,图像+温度
-     *                        cameraWidth:256,cameraHeight:192,图像
-     *                        cameraWidth:256,cameraHeight:192,(调用startY16ModePreview，传入Y16_MODE_TEMPERATURE)温度
-     * @param connectCallback 设置usb设备连接回调
-     */
-    public IRUVCTC(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
+        public IRUVCTC(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
                    CommonParams.DataFlowMode dataFlowMode,
                    ConnectCallback connectCallback, USBMonitorCallback usbMonitorCallback) {
         this.syncimage = syncimage;
@@ -369,26 +357,15 @@ public class IRUVCTC {
         isRestart = restart;
     }
 
-    /**
-     * init UVCCamera
-     */
-    private void initUVCCamera() {
+        private void initUVCCamera() {
         Log.i(TAG, "uvcCamera create");
         uvcCamera = new ConcreateUVCBuilder()
                 .setUVCType(UVCType.USB_UVC)
                 .build();
-        /**
-         * 调整带宽
-         * 部分分辨率或在部分机型上，会出现无法出图，或出图一段时间后卡顿的问题，需要配置对应的带宽
-         */
-        uvcCamera.setDefaultBandwidth(0.5F);
+                uvcCamera.setDefaultBandwidth(0.5F);
     }
 
-    /**
-     * init IRCMD
-     * 可以根据获取到的分辨率列表，来区分不同的模组，从而改变不同的cmd参数来调用不同的SDK
-     */
-    private void initIRCMD() {
+        private void initIRCMD() {
         if (uvcCamera != null) {
             ircmd = new ConcreteIRCMDBuilder()
                     .setIrcmdType(IRCMDType.USB_IR_256_384)
@@ -406,19 +383,13 @@ public class IRUVCTC {
         }
     }
 
-    /**
-     *
-     */
-    public void registerUSB() {
+        public void registerUSB() {
         if (mUSBMonitor != null) {
             mUSBMonitor.register();
         }
     }
 
-    /**
-     *
-     */
-    public void unregisterUSB() {
+        public void unregisterUSB() {
         if (mUSBMonitor != null) {
             mUSBMonitor.unregister();
         }
@@ -443,10 +414,7 @@ public class IRUVCTC {
         }
     }
 
-    /**
-     * 获取支持的分辨率列表
-     */
-    private List<CameraSize> getAllSupportedSize() {
+        private List<CameraSize> getAllSupportedSize() {
         List<CameraSize> previewList = new ArrayList<>();
         if (uvcCamera != null) {
             Log.w(TAG, "getSupportedSize = " + uvcCamera.getSupportedSize());
@@ -459,23 +427,14 @@ public class IRUVCTC {
         return previewList;
     }
 
-    /**
-     * 判断是否是红外设备，请把您的设备的PID添加进设备PID白名单
-     *
-     * @param devpid
-     * @return
-     */
-    private boolean isIRpid(int devpid) {
+        private boolean isIRpid(int devpid) {
         for (int x : pids) {
             if (x == devpid) return true;
         }
         return false;
     }
 
-    /**
-     * 预览出图
-     */
-    private void startPreview() {
+        private void startPreview() {
         if (ircmd == null) {
             return;
         }
@@ -636,10 +595,7 @@ public class IRUVCTC {
         }
     }
 
-    /**
-     *
-     */
-    public void stopPreview() {
+        public void stopPreview() {
         Log.i(TAG, "stopPreview");
         if (uvcCamera != null) {
             if (uvcCamera.getOpenStatus()) {
@@ -663,10 +619,7 @@ public class IRUVCTC {
         }
     }
 
-    /**
-     *
-     */
-    private void handleStartPreviewComplete() {
+        private void handleStartPreviewComplete() {
         // 出图之后再去获取kt,bt,nuc_t等参数来设置温度数据，避免耗时操作导致这里的停图和出图受影响
         new Thread(() -> EventBus.getDefault().post(new PreviewComplete())).start();
     }

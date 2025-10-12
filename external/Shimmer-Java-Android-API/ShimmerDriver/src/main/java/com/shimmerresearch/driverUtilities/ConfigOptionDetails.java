@@ -6,10 +6,7 @@ import java.util.List;
 
 public class ConfigOptionDetails implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 8021677605649506093L;
+        private static final long serialVersionUID = 8021677605649506093L;
     public String mGuiHandle = "";
 
     ;
@@ -19,18 +16,7 @@ public class ConfigOptionDetails implements Serializable {
     public GUI_COMPONENT_TYPE mGuiComponentType;
     public List<ShimmerVerObject> mListOfCompatibleVersionInfo = null;
 
-    /**
-     * Used in Consensys to hold Shimmer configuration GUI information for
-     * each configuration option to allow for dynamic GUI creation based on
-     * compatible HW&FW version checking.
-     * <p>
-     * This constructor = CheckBox (with compatible HW, FW, and Expansion Board information)
-     *
-     * @param guiValues
-     * @param configValues
-     * @param guiComponentType
-     */
-    public ConfigOptionDetails(
+        public ConfigOptionDetails(
             String guiFriendlyName,
             String dbHandle,
             GUI_COMPONENT_TYPE guiComponentType,
@@ -48,18 +34,7 @@ public class ConfigOptionDetails implements Serializable {
         }
     }
 
-    /**
-     * Used in Consensys to hold Shimmer configuration GUI information for
-     * each configuration option to allow for dynamic GUI creation based on
-     * compatible HW&FW version checking.
-     * <p>
-     * This constructor = ComboBox (with compatible HW, FW, and Expansion Board information)
-     *
-     * @param guiValues
-     * @param configValues
-     * @param guiComponentType
-     */
-    public ConfigOptionDetails(
+        public ConfigOptionDetails(
             String guiFriendlyName,
             String dbHandle,
             String[] guiValues,
@@ -89,18 +64,7 @@ public class ConfigOptionDetails implements Serializable {
         }
     }
 
-    /**
-     * Used in Consensys to hold Shimmer configuration GUI information for
-     * each configuration option to allow for dynamic GUI creation based on
-     * compatible HW&FW version checking.
-     * <p>
-     * This constructor = CheckBox (compatible with all HW, FW and Expansion Boards)
-     *
-     * @param guiValues
-     * @param configValues
-     * @param guiComponentType
-     */
-    public ConfigOptionDetails(
+        public ConfigOptionDetails(
             String guiFriendlyName,
             String dbHandle,
             GUI_COMPONENT_TYPE guiComponentType) {
@@ -108,18 +72,7 @@ public class ConfigOptionDetails implements Serializable {
         this(guiFriendlyName, dbHandle, guiComponentType, null);
     }
 
-    /**
-     * Used in Consensys to hold Shimmer configuration GUI information for
-     * each configuration option to allow for dynamic GUI creation based on
-     * compatible HW&FW version checking.
-     * <p>
-     * This constructor = ComboBox (compatible with all HW, FW and Expansion Boards)
-     *
-     * @param guiValues        array of configuration values to show in the GUI
-     * @param configValues     bit/bytes values written to the Shimmer corresponding to the shown GUI options.
-     * @param guiComponentType
-     */
-    public ConfigOptionDetails(
+        public ConfigOptionDetails(
             String guiFriendlyName,
             String dbHandle,
             String[] guiValues,

@@ -102,13 +102,7 @@ class TempDrawHelper {
         }
         canvas.drawText(text, textX, textY, textPaint)
     }
-    /**
-     * 指定的 (startX, startY)、(stopX, stopY) 坐标为线段，
-     * 以该线段为基准绘制趋势图的 "A"、"B" 文字。
-     *
-     * 注意，不对 坐标参数 进行处理，传进来是哪就在哪绘制。
-     */
-    fun drawTrendText(canvas: Canvas, width: Int, height: Int, startX: Int, startY: Int, stopX: Int, stopY: Int) {
+        fun drawTrendText(canvas: Canvas, width: Int, height: Int, startX: Int, startY: Int, stopX: Int, stopY: Int) {
         val fontMetrics: Paint.FontMetrics = textPaint.getFontMetrics()
         val textWidth: Float = textPaint.measureText("A")
         val textHeight: Float = -fontMetrics.top

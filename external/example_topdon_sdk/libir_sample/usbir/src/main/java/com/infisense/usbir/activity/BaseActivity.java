@@ -10,18 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.infisense.usbir.R;
 import com.infisense.usbir.view.WaterMark;
 
-/**
- * @ProjectName: ANDROID_IRUVC_SDK
- * @Package: com.infisense.usbir.activity
- * @ClassName: BaseActivity
- * @Description:
- * @Author: brilliantzhao
- * @CreateDate: 2022.3.23 17:30
- * @UpdateUser:
- * @UpdateDate: 2022.3.23 17:30
- * @UpdateRemark:
- * @Version: 1.0.0
- */
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
@@ -43,10 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         init(savedInstanceState);
     }
 
-    /**
-     * @return
-     */
-    protected abstract View getContentView();
+        protected abstract View getContentView();
 
     public abstract void initView();
 

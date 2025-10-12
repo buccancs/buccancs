@@ -1941,9 +1941,7 @@
 //    }
 //
 //    var nowZoomLevel = CameraLiveDateUtil.getInstance().cameraZoom
-//    /**
-//     */
-//    private fun setZoom() {
+//    //    private fun setZoom() {
 //        if (thermal_recycler.cameraZoomStats == 481){
 //            popupWindow?.dismiss()
 //            return
@@ -2100,9 +2098,7 @@
 //    }
 //
 //
-//    /**
-//     */
-//    private fun autoConfig() {
+//    //    private fun autoConfig() {
 //        lifecycleScope.launch(Dispatchers.IO) {
 ////            val value = CharArray(1)
 ////            Libircmd.get_prop_image_params(
@@ -2141,11 +2137,7 @@
 //
 //    }
 //
-//    /**
-//     *
-//     *
-//     */
-//    val paramType = arrayOf("DISTANCE", "TU", "TA", "EMS", "TAU", "GAIN_SEL")
+//    //    val paramType = arrayOf("DISTANCE", "TU", "TA", "EMS", "TAU", "GAIN_SEL")
 //    var isConfigWait = true
 //    var configJob : Job ?= null
 //    private fun configParam() {
@@ -2483,9 +2475,7 @@
 //
 //
 //
-//    /**
-//     */
-//    private fun printSN() {
+//    //    private fun printSN() {
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            try {
 //                if (iruvc == null) {

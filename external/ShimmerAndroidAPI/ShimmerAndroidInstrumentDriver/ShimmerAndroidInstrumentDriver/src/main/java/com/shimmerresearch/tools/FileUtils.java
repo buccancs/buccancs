@@ -316,13 +316,7 @@ public class FileUtils {
         return file.getPath();
     }
 
-    /***
-     * Used for Android Q+
-     * @param uri
-     * @param newDirName if you want to create a directory, you can set this variable
-     * @return
-     */
-    private String copyFileToInternalStorage(Uri uri, String newDirName) {
+        private String copyFileToInternalStorage(Uri uri, String newDirName) {
         Uri returnUri = uri;
 
         Cursor returnCursor = context.getContentResolver().query(returnUri, new String[]{

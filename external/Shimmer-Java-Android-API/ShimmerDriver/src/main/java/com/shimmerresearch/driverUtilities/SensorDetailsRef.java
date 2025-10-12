@@ -20,17 +20,10 @@ public class SensorDetailsRef implements Serializable {
     private static final long serialVersionUID = 4567211941610864326L;
 
     //TODO no real need to have an ID for streaming and a different one for sd header -> remove one
-    /**
-     * Used for the BtStream and LogAndStream firmware to indicate enabled sensors when connected over Bluetooth.
-     */
-    public long mSensorBitmapIDStreaming = 0;
-    /**
-     * Used in the configuration header in RAW data logged to the Shimmer's on-board SD-card.
-     */
-    public long mSensorBitmapIDSDLogHeader = 0;
+        public long mSensorBitmapIDStreaming = 0;
+        public long mSensorBitmapIDSDLogHeader = 0;
 
-//	/** only used in Shimmer4 at the moment. Shimmer3 is handled in ShimmerObject using a wrapper class*/
-//	public long mDerivedSensorBitmapID = 0;
+//	//	public long mDerivedSensorBitmapID = 0;
 
     public String mGuiFriendlyLabel = "";
     public List<Integer> mListOfSensorIdsRequired = null; //needs to be null by default
@@ -51,22 +44,9 @@ public class SensorDetailsRef implements Serializable {
 
 //	public int mLengthOfCalibBytes = 0;
 
-//	/** Unique pre-defined unique ID referring to individual sensors for use when reading/writing calibrations to the Shimmer. ID must not equal 0x00*/
-//	public int mCalibSensorKey = 0x00;
+//	//	public int mCalibSensorKey = 0x00;
 
-    /**
-     * Holds all information related individual sensor channels for dynamic GUI
-     * and configuration purposes. Currently used in Consensys only.
-     * <p>
-     * This constructor is used for standard Shimmer3 firmware (SDLog,
-     * LogAndStream and BtStream)
-     *
-     * @param isChannelEnabled
-     * @param sensorBitmapIDStreaming
-     * @param sensorBitmapIDSDLogHeader
-     * @param guiFriendlyLabel
-     */
-    public SensorDetailsRef(
+        public SensorDetailsRef(
             long sensorBitmapIDStreaming,
             long sensorBitmapIDSDLogHeader,
             String guiFriendlyLabel) {
@@ -77,19 +57,7 @@ public class SensorDetailsRef implements Serializable {
         }
     }
 
-    /**
-     * Holds all information related individual sensor channels for dynamic GUI
-     * and configuration purposes.
-     *
-     * @param sensorBitmapIDStreaming
-     * @param sensorBitmapIDSDLogHeader
-     * @param guiFriendlyLabel
-     * @param listOfCompatibleVersionInfo
-     * @param listOfConfigOptionKeysAssociated
-     * @param listOfChannelsRef
-     *
-     */
-    public SensorDetailsRef(
+        public SensorDetailsRef(
             long sensorBitmapIDStreaming,
             long sensorBitmapIDSDLogHeader,
             String guiFriendlyLabel,
@@ -108,20 +76,7 @@ public class SensorDetailsRef implements Serializable {
         }
     }
 
-    /**
-     * Holds all information related individual sensor channels for dynamic GUI
-     * and configuration purposes.
-     *
-     * @param sensorBitmapIDStreaming
-     * @param sensorBitmapIDSDLogHeader
-     * @param guiFriendlyLabel
-     * @param listOfCompatibleVersionInfo
-     * @param listOfSensorIdsConflicting
-     * @param listOfConfigOptionKeysAssociated
-     * @param listOfChannelsRef
-     * @param intExpBoardPowerRequired
-     */
-    public SensorDetailsRef(
+        public SensorDetailsRef(
             long sensorBitmapIDStreaming,
             long sensorBitmapIDSDLogHeader,
             String guiFriendlyLabel,
@@ -142,14 +97,7 @@ public class SensorDetailsRef implements Serializable {
         mIntExpBoardPowerRequired = intExpBoardPowerRequired;
     }
 
-    /**
-     * Used for API sensors
-     *
-     * @param guiFriendlyLabel
-     * @param listOfCompatibleVersionInfo
-     * @param listOfChannelsRef
-     */
-    public SensorDetailsRef(
+        public SensorDetailsRef(
             String guiFriendlyLabel,
             List<ShimmerVerObject> listOfCompatibleVersionInfo,
             List<String> listOfChannelsRef) {

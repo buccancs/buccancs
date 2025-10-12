@@ -30,13 +30,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         mLimitLinePaint.setTextAlign(Align.LEFT);
     }
 
-    /**
-     * Computes the axis values.
-     *
-     * @param yMin - the minimum y-value in the data object for this axis
-     * @param yMax - the maximum y-value in the data object for this axis
-     */
-    @Override
+        @Override
     public void computeAxis(float yMin, float yMax, boolean inverted) {
 
         // calculate the starting and entry point of the y-labels (depending on
@@ -63,10 +57,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         computeAxisValues(yMin, yMax);
     }
 
-    /**
-     * draws the y-axis labels to the screen
-     */
-    @Override
+        @Override
     public void renderAxisLabels(Canvas c) {
 
         if (!mYAxis.isEnabled() || !mYAxis.isDrawLabelsEnabled())
@@ -127,13 +118,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         }
     }
 
-    /**
-     * draws the y-labels on the specified x-position
-     *
-     * @param fixedPosition
-     * @param positions
-     */
-    @Override
+        @Override
     protected void drawYLabels(Canvas c, float fixedPosition, float[] positions, float offset) {
 
         mAxisLabelPaint.setTypeface(mYAxis.getTypeface());
@@ -212,13 +197,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         c.restoreToCount(clipRestoreCount);
     }
 
-    /**
-     * Draws the LimitLines associated with this axis to the screen.
-     * This is the standard XAxis renderer using the YAxis limit lines.
-     *
-     * @param c
-     */
-    @Override
+        @Override
     public void renderLimitLines(Canvas c) {
 
         List<LimitLine> limitLines = mYAxis.getLimitLines();

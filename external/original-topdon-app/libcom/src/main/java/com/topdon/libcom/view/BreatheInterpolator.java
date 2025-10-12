@@ -2,10 +2,6 @@ package com.topdon.libcom.view;
 
 import android.animation.TimeInterpolator;
 
-/**
- * @author: CaiSongL
- * @date: 2023/4/28 16:09
- */
 class BreatheInterpolator implements TimeInterpolator {
 
     @Override

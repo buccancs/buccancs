@@ -76,91 +76,33 @@ public abstract class DataRenderer extends Renderer {
                 * mViewPortHandler.getScaleX();
     }
 
-    /**
-     * Returns the Paint object this renderer uses for drawing the values
-     * (value-text).
-     *
-     * @return
-     */
-    public Paint getPaintValues() {
+        public Paint getPaintValues() {
         return mValuePaint;
     }
 
-    /**
-     * Returns the Paint object this renderer uses for drawing highlight
-     * indicators.
-     *
-     * @return
-     */
-    public Paint getPaintHighlight() {
+        public Paint getPaintHighlight() {
         return mHighlightPaint;
     }
 
-    /**
-     * Returns the Paint object used for rendering.
-     *
-     * @return
-     */
-    public Paint getPaintRender() {
+        public Paint getPaintRender() {
         return mRenderPaint;
     }
 
-    /**
-     * Applies the required styling (provided by the DataSet) to the value-paint
-     * object.
-     *
-     * @param set
-     */
-    protected void applyValueTextStyle(IDataSet set) {
+        protected void applyValueTextStyle(IDataSet set) {
 
         mValuePaint.setTypeface(set.getValueTypeface());
         mValuePaint.setTextSize(set.getValueTextSize());
     }
 
-    /**
-     * Initializes the buffers used for rendering with a new size. Since this
-     * method performs memory allocations, it should only be called if
-     * necessary.
-     */
-    public abstract void initBuffers();
+        public abstract void initBuffers();
 
-    /**
-     * Draws the actual data in form of lines, bars, ... depending on Renderer subclass.
-     *
-     * @param c
-     */
-    public abstract void drawData(Canvas c);
+        public abstract void drawData(Canvas c);
 
-    /**
-     * Loops over all Entrys and draws their values.
-     *
-     * @param c
-     */
-    public abstract void drawValues(Canvas c);
+        public abstract void drawValues(Canvas c);
 
-    /**
-     * Draws the value of the given entry by using the provided IValueFormatter.
-     *
-     * @param c         canvas
-     * @param valueText label to draw
-     * @param x         position
-     * @param y         position
-     * @param color
-     */
-    public abstract void drawValue(Canvas c, String valueText, float x, float y, int color);
+        public abstract void drawValue(Canvas c, String valueText, float x, float y, int color);
 
-    /**
-     * Draws any kind of additional information (e.g. line-circles).
-     *
-     * @param c
-     */
-    public abstract void drawExtras(Canvas c);
+        public abstract void drawExtras(Canvas c);
 
-    /**
-     * Draws all highlight indicators for the values that are currently highlighted.
-     *
-     * @param c
-     * @param indices the highlighted values
-     */
-    public abstract void drawHighlighted(Canvas c, Highlight[] indices);
+        public abstract void drawHighlighted(Canvas c, Highlight[] indices);
 }

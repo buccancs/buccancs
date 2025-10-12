@@ -7,10 +7,6 @@ import com.shimmerresearch.comms.wiredProtocol.UartPacketDetails.UART_COMPONENT_
 import com.shimmerresearch.comms.wiredProtocol.UartPacketDetails.UART_PACKET_CMD;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 
-/**
- * @author Mark Nolan
- *
- */
 public class UartRxPacketObject {
 
     public static final int UNKNOWN = -1;

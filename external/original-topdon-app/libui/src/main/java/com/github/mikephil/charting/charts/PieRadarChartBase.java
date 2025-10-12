@@ -461,19 +461,8 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
         return 0;
     }
 
-    /**
-     * ################ ################ ################ ################
-     */
-    /** CODE BELOW THIS RELATED TO ANIMATION */
 
-    /**
-     * Applys a spin animation to the Chart.
-     *
-     * @param durationmillis
-     * @param fromangle
-     * @param toangle
-     */
-    @SuppressLint("NewApi")
+        @SuppressLint("NewApi")
     public void spin(int durationmillis, float fromangle, float toangle, EasingFunction easing) {
 
         setRotationAngle(fromangle);

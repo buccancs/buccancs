@@ -44,13 +44,7 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //    private Handler handler;
 //    private boolean rotate = false;
 //
-//    /**
-//     * @param cameraHeight
-//     * @param cameraWidth
-//     * @param context
-//     * @param syncimage
-//     */
-//    public IRUVC(int cameraHeight, int cameraWidth, Context context, SynchronizedBitmap syncimage) {
+//    //    public IRUVC(int cameraHeight, int cameraWidth, Context context, SynchronizedBitmap syncimage) {
 //        this.cameraHeight = cameraHeight;
 //        this.cameraWidth = cameraWidth;
 //        this.context = context;
@@ -140,13 +134,7 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //                    Log.d(TAG, "RESTART_USB");
 //                    return;
 //                }
-//                /**
-//                 * copy红外数据到image数组中
-//                 * 出图的frame数组中前半部分是红外数据，后半部分是温度数据，
-//                 * 例如256*384分辨率的设备，前面的256*192是红外数据，后面的256*192是温度数据，
-//                 * 其中的数据是旋转90度的，需要旋转回来。
-//                 */
-//                System.arraycopy(frame, 0, image, 0, length / 2);
+//                //                System.arraycopy(frame, 0, image, 0, length / 2);
 //                Libirprocess.ImageRes_t imageRes = new Libirprocess.ImageRes_t();
 //                imageRes.height = (char) (cameraHeight / 2);
 //                imageRes.width = (char) cameraWidth;
@@ -171,80 +159,48 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //        };
 //    }
 //
-//    /**
-//     * @param handler
-//     */
-//    public void setHandler(Handler handler) {
+//    //    public void setHandler(Handler handler) {
 //        this.handler = handler;
 //    }
 //
-//    /**
-//     * @param rotate
-//     */
-//    public void setRotate(boolean rotate) {
+//    //    public void setRotate(boolean rotate) {
 //        this.rotate = rotate;
 //    }
 //
-//    /**
-//     * @param image
-//     */
-//    public void setImage(byte[] image) {
+//    //    public void setImage(byte[] image) {
 //        this.image = image;
 //    }
 //
-//    /**
-//     * @param temperature
-//     */
-//    public void setTemperature(byte[] temperature) {
+//    //    public void setTemperature(byte[] temperature) {
 //        this.temperature = temperature;
 //    }
 //
-//    /**
-//     * 判断是否是红外设备，请把您的设备的PID添加进设备PID白名单
-//     *
-//     * @param devpid
-//     * @return
-//     */
-//    private boolean isIRpid(int devpid) {
+//    //    private boolean isIRpid(int devpid) {
 //        for (int x : pids) {
 //            if (x == devpid) return true;
 //        }
 //        return false;
 //    }
 //
-//    /**
-//     * @param cameraHeight
-//     * @param cameraWidth
-//     * @param context
-//     */
-//    public void init(int cameraHeight, int cameraWidth, Context context) {
+//    //    public void init(int cameraHeight, int cameraWidth, Context context) {
 //        Log.w(TAG, "init");
 //        uvcCamera = new UVCCamera(cameraWidth, cameraHeight, context);
 //        uvcCamera.create();
 //    }
 //
-//    /**
-//     *
-//     */
-//    public void registerUSB() {
+//    //    public void registerUSB() {
 //        if (mUSBMonitor != null) {
 //            mUSBMonitor.register();
 //        }
 //    }
 //
-//    /**
-//     *
-//     */
-//    public void unregisterUSB() {
+//    //    public void unregisterUSB() {
 //        if (mUSBMonitor != null) {
 //            mUSBMonitor.unregister();
 //        }
 //    }
 //
-//    /**
-//     * @return
-//     */
-//    public List<UsbDevice> getUsbDeviceList() {
+//    //    public List<UsbDevice> getUsbDeviceList() {
 //        List<DeviceFilter> deviceFilters = DeviceFilter
 //                .getDeviceFilters(context, R.xml.device_filter);
 //        if (mUSBMonitor == null || deviceFilters == null)
@@ -254,10 +210,7 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //        return mUSBMonitor.getDeviceList(deviceFilters);
 //    }
 //
-//    /**
-//     * @param index
-//     */
-//    public void requestPermission(int index) {
+//    //    public void requestPermission(int index) {
 //        List<UsbDevice> devList = getUsbDeviceList();
 //        if (devList == null || devList.size() == 0) {
 //            return;
@@ -270,10 +223,7 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //        }
 //    }
 //
-//    /**
-//     * @param ctrlBlock
-//     */
-//    public void open(USBMonitor.UsbControlBlock ctrlBlock) {
+//    //    public void open(USBMonitor.UsbControlBlock ctrlBlock) {
 //        if (ctrlBlock.getProductId() == TinyB) {
 //            if (syncimage != null) {
 //                syncimage.type = 1;
@@ -285,10 +235,7 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //        uvcCamera.open(ctrlBlock);
 //    }
 //
-//    /**
-//     *
-//     */
-//    public void start() {
+//    //    public void start() {
 //        Log.w(TAG, "start");
 //        uvcCamera.setOpenStatus(true);
 //        uvcCamera.setFrameCallback(iFrameCallback);
@@ -298,10 +245,7 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //        uvcCamera.startPreview();
 //    }
 //
-//    /**
-//     *
-//     */
-//    public void stop() {
+//    //    public void stop() {
 //        Log.w(TAG, "stop");
 //        if (uvcCamera != null) {
 //            if (uvcCamera.getOpenStatus()) {

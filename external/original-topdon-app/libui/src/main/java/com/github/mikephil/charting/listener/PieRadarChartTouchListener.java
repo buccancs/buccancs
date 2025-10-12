@@ -224,32 +224,15 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
         return velocity;
     }
 
-    /**
-     * sets the starting angle of the rotation, this is only used by the touch
-     * listener, x and y is the touch position
-     *
-     * @param x
-     * @param y
-     */
-    public void setGestureStartAngle(float x, float y) {
+        public void setGestureStartAngle(float x, float y) {
         mStartAngle = mChart.getAngleForPoint(x, y) - mChart.getRawRotationAngle();
     }
 
-    /**
-     * updates the view rotation depending on the given touch position, also
-     * takes the starting angle into consideration
-     *
-     * @param x
-     * @param y
-     */
-    public void updateGestureRotation(float x, float y) {
+        public void updateGestureRotation(float x, float y) {
         mChart.setRotationAngle(mChart.getAngleForPoint(x, y) - mStartAngle);
     }
 
-    /**
-     * Sets the deceleration-angular-velocity to 0f
-     */
-    public void stopDeceleration() {
+        public void stopDeceleration() {
         mDecelerationAngularVelocity = 0.f;
     }
 

@@ -23,14 +23,7 @@ public class Usbjni {
         }
     }
 
-    /**
-     * usb3803电源控制
-     * 些特定客户的特殊设备需要使用该命令关闭或打开sensor的供电
-     *
-     * @param isPowerOn
-     * @return
-     */
-    public static int setUSB3803Mode(boolean isPowerOn) {
+        public static int setUSB3803Mode(boolean isPowerOn) {
         if (isPowerOn) {
             //打开
             return usb3803_mode_setting(1);
@@ -40,11 +33,7 @@ public class Usbjni {
         }
     }
 
-    /**
-     * @param i
-     * @return
-     */
-    public static int readUSB3803Parameter(int i) {
+        public static int readUSB3803Parameter(int i) {
         return usb3803_read_parameter(i);
     }
 

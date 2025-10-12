@@ -7,19 +7,9 @@ import java.util.List;
 
 import com.shimmerresearch.algorithms.AlgorithmDetails;
 
-/**
- * Holds all information related the sensor 'tiles' used in Consensys for
- * dynamic GUI and configuration purposes.
- *
- * @author Mark Nolan
- *
- */
 public class SensorGroupingDetails implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4373658361698230203L;
+        private static final long serialVersionUID = 4373658361698230203L;
 
     public String mGroupName = "";
     public List<Integer> mListOfSensorIdsAssociated = new ArrayList<Integer>();
@@ -32,26 +22,13 @@ public class SensorGroupingDetails implements Serializable {
 
     public boolean mIsPermanentGroup = false;
 
-    /**
-     * Holds all information related the sensor 'tiles' used in Consensys for
-     * dynamic GUI and configuration purposes.
-     *
-     * @param listOfSensorIdsAssociated
-     */
-    public SensorGroupingDetails(String groupName,
+        public SensorGroupingDetails(String groupName,
                                  List<Integer> listOfSensorIdsAssociated) {
         mGroupName = groupName;
         mListOfSensorIdsAssociated = listOfSensorIdsAssociated;
     }
 
-    /**
-     * Holds all information related the sensor 'tiles' used in Consensys for
-     * dynamic GUI and configuration purposes.
-     *
-     * @param listOfSensorIdsAssociated
-     * @param listOfCompatibleVersionInfo
-     */
-    public SensorGroupingDetails(String groupName,
+        public SensorGroupingDetails(String groupName,
                                  List<Integer> listOfSensorIdsAssociated,
                                  List<ShimmerVerObject> listOfCompatibleVersionInfo) {
         this(groupName, listOfSensorIdsAssociated);
@@ -59,12 +36,6 @@ public class SensorGroupingDetails implements Serializable {
     }
 
 
-    /**
-     * Holds all information related the sensor 'tiles' used in Consensys for
-     * dynamic GUI and configuration purposes.
-     *
-     * @param list
-     */
 
     //special case for orientation sensor grouping map
     public SensorGroupingDetails(String groupName,

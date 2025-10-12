@@ -79,10 +79,7 @@ class AlarmHelp private constructor(val context: Context) {
         }
     }
 
-    /**
-     *
-     */
-    fun alarmData(realMax: Float, realMin: Float, tempLayout: TempLayout?) {
+        fun alarmData(realMax: Float, realMin: Float, tempLayout: TempLayout?) {
         if (isOpenHighTemp && isOpenLowTemp) {
             if (realMax > maxTemp && realMin < minTemp) {
                 tempLayout?.startAnimation(TempLayout.TYPE_A)

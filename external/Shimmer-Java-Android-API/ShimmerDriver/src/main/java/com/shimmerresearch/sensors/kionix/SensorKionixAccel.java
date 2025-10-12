@@ -327,13 +327,7 @@ public abstract class SensorKionixAccel extends AbstractSensor {
         return null;
     }
 
-    /**
-     * Converts the Analog Accel calibration variables from Shimmer Object
-     * into a byte array for sending to the Shimmer.
-     *
-     * @return the bytes array containing the Analog Accel Calibration
-     */
-    public byte[] generateCalParamByteArrayAccelLn() {
+        public byte[] generateCalParamByteArrayAccelLn() {
         return getCurrentCalibDetailsAccelLn().generateCalParamByteArray();
     }
 

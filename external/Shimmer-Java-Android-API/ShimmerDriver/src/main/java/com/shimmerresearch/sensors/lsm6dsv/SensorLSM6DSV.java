@@ -1094,10 +1094,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         return mCurrentCalibDetailsGyro.isUsingDefaultParameters();
     }
 
-    /**
-     * @return the mMPU9X50GyroAccelRate in Hz
-     */
-    public double getLSM6DSVGyroAccelRateInHz() {
+        public double getLSM6DSVGyroAccelRateInHz() {
 
         if (ArrayUtils.contains(ListofLSM6DSVGyroRateConfigValues, mLSM6DSVGyroAccelRate)) {
             return ListofLSM6DSVGyroRateDouble[mLSM6DSVGyroAccelRate];

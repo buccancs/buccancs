@@ -296,13 +296,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         }
     }
 
-    /**
-     * Draws a normal line.
-     *
-     * @param c
-     * @param dataSet
-     */
-    protected void drawLinear(Canvas c, ILineDataSet dataSet) {
+        protected void drawLinear(Canvas c, ILineDataSet dataSet) {
 
         int entryCount = dataSet.getEntryCount();
 
@@ -434,15 +428,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         mRenderPaint.setPathEffect(null);
     }
 
-    /**
-     * Draws a filled linear path on the canvas.
-     *
-     * @param c
-     * @param dataSet
-     * @param trans
-     * @param bounds
-     */
-    protected void drawLinearFill(Canvas c, ILineDataSet dataSet, Transformer trans, XBounds bounds) {
+        protected void drawLinearFill(Canvas c, ILineDataSet dataSet, Transformer trans, XBounds bounds) {
 
         final Path filled = mGenerateFilledPathBuffer;
 
@@ -481,16 +467,7 @@ public class LineChartRenderer extends LineRadarRenderer {
 
     }
 
-    /**
-     * Generates a path that is used for filled drawing.
-     *
-     * @param dataSet    The dataset from which to read the entries.
-     * @param startIndex The index from which to start reading the dataset
-     * @param endIndex   The index from which to stop reading the dataset
-     * @param outputPath The path object that will be assigned the chart data.
-     * @return
-     */
-    private void generateFilledPath(final ILineDataSet dataSet, final int startIndex, final int endIndex, final Path outputPath) {
+        private void generateFilledPath(final ILineDataSet dataSet, final int startIndex, final int endIndex, final Path outputPath) {
 
         final float fillMin = dataSet.getFillFormatter().getFillLinePosition(dataSet, mChart);
         final float phaseY = mAnimator.getPhaseY();
@@ -715,31 +692,16 @@ public class LineChartRenderer extends LineRadarRenderer {
         }
     }
 
-    /**
-     * Returns the Bitmap.Config that is used by this renderer.
-     *
-     * @return
-     */
-    public Bitmap.Config getBitmapConfig() {
+        public Bitmap.Config getBitmapConfig() {
         return mBitmapConfig;
     }
 
-    /**
-     * Sets the Bitmap.Config to be used by this renderer.
-     * Default: Bitmap.Config.ARGB_8888
-     * Use Bitmap.Config.ARGB_4444 to consume less memory.
-     *
-     * @param config
-     */
-    public void setBitmapConfig(Bitmap.Config config) {
+        public void setBitmapConfig(Bitmap.Config config) {
         mBitmapConfig = config;
         releaseBitmap();
     }
 
-    /**
-     * Releases the drawing bitmap. This should be called when {@link LineChart#onDetachedFromWindow()}.
-     */
-    public void releaseBitmap() {
+        public void releaseBitmap() {
         if (mBitmapCanvas != null) {
             mBitmapCanvas.setBitmap(null);
             mBitmapCanvas = null;
@@ -760,13 +722,7 @@ public class LineChartRenderer extends LineRadarRenderer {
 
         private Bitmap[] circleBitmaps;
 
-        /**
-         * Sets up the cache, returns true if a change of cache was required.
-         *
-         * @param set
-         * @return
-         */
-        protected boolean init(ILineDataSet set) {
+                protected boolean init(ILineDataSet set) {
 
             int size = set.getCircleColorCount();
             boolean changeRequired = false;
@@ -782,14 +738,7 @@ public class LineChartRenderer extends LineRadarRenderer {
             return changeRequired;
         }
 
-        /**
-         * Fills the cache with bitmaps for the given dataset.
-         *
-         * @param set
-         * @param drawCircleHole
-         * @param drawTransparentCircleHole
-         */
-        protected void fill(ILineDataSet set, boolean drawCircleHole, boolean drawTransparentCircleHole) {
+                protected void fill(ILineDataSet set, boolean drawCircleHole, boolean drawTransparentCircleHole) {
 
             int colorCount = set.getCircleColorCount();
             float circleRadius = set.getCircleRadius();
@@ -842,13 +791,7 @@ public class LineChartRenderer extends LineRadarRenderer {
             }
         }
 
-        /**
-         * Returns the cached Bitmap at the given index.
-         *
-         * @param index
-         * @return
-         */
-        protected Bitmap getBitmap(int index) {
+                protected Bitmap getBitmap(int index) {
             return circleBitmaps[index % circleBitmaps.length];
         }
     }

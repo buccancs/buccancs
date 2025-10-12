@@ -6,11 +6,6 @@ import java.util.TreeMap;
 
 import com.shimmerresearch.driverUtilities.AbstractErrorCodes;
 
-/**
- *
- * @author Mark Nolan
- *
- */
 public class ErrorCodesSerialPort extends AbstractErrorCodes {
 
     public final static int ERROR_CODES_ID = 2;

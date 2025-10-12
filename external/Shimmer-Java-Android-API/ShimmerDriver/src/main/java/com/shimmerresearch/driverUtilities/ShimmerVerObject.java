@@ -652,13 +652,7 @@ public class ShimmerVerObject implements Serializable {
         return false;
     }
 
-    /**
-     * This needs to be performed before a check for Gen3/Gen4 etc. as they
-     * share some entries in common.
-     *
-     * @return
-     */
-    public boolean isShimmerGenGq() {
+        public boolean isShimmerGenGq() {
         return isShimmerGenGq(getHardwareVersion(), getFirmwareIdentifier());
     }
 
@@ -669,14 +663,7 @@ public class ShimmerVerObject implements Serializable {
         return false;
     }
 
-    /**
-     * This needs to be performed before a check for Gen3/Gen4 etc. as they
-     * share some entries in common.
-     *
-     * @param hwVer
-     * @return
-     */
-    public boolean isShimmerGenGq(int hwVer, int fwId) {
+        public boolean isShimmerGenGq(int hwVer, int fwId) {
         if (isShimmerGenGq(hwVer)) {
 //		if(((hwVer==HW_ID.SHIMMER_GQ_802154_LR) || (hwVer==HW_ID.SHIMMER_GQ_802154_NR) || (hwVer==HW_ID.SHIMMER_2R_GQ))
 //				&& (fwId==FW_ID.GQ_802154 || fwId==FW_ID.GQ_BLE)){

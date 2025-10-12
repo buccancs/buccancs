@@ -102,10 +102,7 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             Log.e("图像线程重复启动", e.message.toString())
         }
     }
-    /**
-     *
-     */
-    private fun startUSB(isRestart: Boolean) {
+        private fun startUSB(isRestart: Boolean) {
         context?.let {
             iruvc = IRUVCTC(
                 cameraWidth, cameraHeight, context, syncimage,
@@ -138,10 +135,7 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             iruvc!!.registerUSB()
         }
     }
-    /**
-     *
-     */
-    private fun restartUsbCamera() {
+        private fun restartUsbCamera() {
         if (iruvc != null) {
             iruvc!!.stopPreview()
             iruvc!!.unregisterUSB()

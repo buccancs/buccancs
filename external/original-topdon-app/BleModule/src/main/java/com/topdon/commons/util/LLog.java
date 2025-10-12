@@ -5,17 +5,8 @@ import android.util.Log;
 import com.elvishew.xlog.XLog;
 import com.topdon.ble.BuildConfig;
 
-/**
- * LLog
- *
- * @author chuanfeng.bi
- * @date 2021/11/16 16:34
- */
 public class LLog {
-    /**
-     * 最大一次打印长度
-     */
-    public final static int MAX_LENGTH = 2000;
+        public final static int MAX_LENGTH = 2000;
     private static boolean isDebug = BuildConfig.DEBUG;
 
     public static void d(String tag, String value) {
@@ -46,13 +37,7 @@ public class LLog {
 //        }
     }
 
-    /**
-     * 适应最大长度打印
-     *
-     * @param tag 标志
-     * @param msg 信息
-     */
-    public static void LogMaxPrint(String tag, String msg) {
+        public static void LogMaxPrint(String tag, String msg) {
         if (msg.length() > MAX_LENGTH) {
             int length = MAX_LENGTH + 1;
             String remain = msg;

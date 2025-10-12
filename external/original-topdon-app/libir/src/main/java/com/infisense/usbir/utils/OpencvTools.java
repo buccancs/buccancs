@@ -258,13 +258,7 @@ public class OpencvTools {
     }
 
 
-    /**
-     * 温度转成开尔文
-     *
-     * @param temp
-     * @return
-     */
-    public static byte[] convertCelsiusToOriginalBytes(float[] temp) {
+        public static byte[] convertCelsiusToOriginalBytes(float[] temp) {
         if (temp == null) {
             return new byte[0];
         }
@@ -369,16 +363,7 @@ public class OpencvTools {
         return im;
     }
 
-    /**
-     * 自定义伪彩
-     *
-     * @param image       RGBA 32bit图像数据
-     * @param temperature 温度数据
-     * @param cols        宽
-     * @param rows        高
-     * @param lut         伪彩图,高度必须是256
-     */
-    private static Mat draw_high_temp_edge_argb_pse(byte[] image, byte[] temperature, Bitmap lut, int cols, int rows, double high_t, int color_h, int type) throws IOException {
+        private static Mat draw_high_temp_edge_argb_pse(byte[] image, byte[] temperature, Bitmap lut, int cols, int rows, double high_t, int color_h, int type) throws IOException {
         double[] temp = new double[cols * rows];
         int t = 0;
         for (int i = 0; i < temperature.length; i++) {
@@ -548,13 +533,7 @@ public class OpencvTools {
         return dst;
     }
 
-    /**
-     * @param image       RGBA 32bit图像数据
-     * @param temperature 温度数据
-     * @param cols        宽
-     * @param rows        高
-     */
-    private static Mat draw_high_temp_edge_argb(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
+        private static Mat draw_high_temp_edge_argb(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
         double[] temp = new double[cols * rows];
         int t = 0;
         for (int i = 0; i < temperature.length; i++) {
@@ -622,13 +601,7 @@ public class OpencvTools {
         return im;
     }
 
-    /**
-     * @param image       yuv 16bit图像数据
-     * @param temperature 温度数据
-     * @param cols        宽
-     * @param rows        高
-     */
-    private static Mat draw_high_temp_edge(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
+        private static Mat draw_high_temp_edge(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
         double[] temp = new double[cols * rows];
         int t = 0;
         for (int i = 0; i < temperature.length; i++) {
@@ -769,12 +742,7 @@ public class OpencvTools {
     }
 
 
-    /**
-     * @param image   原图像YUV格式
-     * @param image_w 图像宽度
-     * @param image_h 图像高度
-     */
-    public static Bitmap draw_edge_from_temp_reigon_bitmap(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
+        public static Bitmap draw_edge_from_temp_reigon_bitmap(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
         Mat src = draw_high_temp_edge(image, temperature, image_h, image_w, high_t, color_h, type);
         Mat mat = draw_temp_edge(src, temperature, low_t, color_l, type);
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2RGBA);
@@ -783,12 +751,7 @@ public class OpencvTools {
         return dstBitmap;
     }
 
-    /**
-     * @param image   图像ARGB格式
-     * @param image_w 图像宽度
-     * @param image_h 图像高度
-     */
-    public static Bitmap draw_edge_from_temp_reigon_bitmap_argb(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
+        public static Bitmap draw_edge_from_temp_reigon_bitmap_argb(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
         Mat src = draw_high_temp_edge_argb(image, temperature, image_h, image_w, high_t, color_h, type);
         Mat mat = draw_temp_edge(src, temperature, low_t, color_l, type);
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2RGBA);
@@ -797,13 +760,7 @@ public class OpencvTools {
         return dstBitmap;
     }
 
-    /**
-     * @param image   图像ARGB格式
-     * @param lut     伪彩图,高度必须是256
-     * @param image_w 图像宽度
-     * @param image_h 图像高度
-     */
-    public static Bitmap draw_edge_from_temp_reigon_bitmap_argb_psd(byte[] image, byte[] temperature, Bitmap lut, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
+        public static Bitmap draw_edge_from_temp_reigon_bitmap_argb_psd(byte[] image, byte[] temperature, Bitmap lut, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
         Mat src = draw_high_temp_edge_argb_pse(image, temperature, image_h, image_w, high_t, color_h, type);
         Mat mat = draw_temp_edge(src, temperature, low_t, color_l, type);
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2RGBA);
@@ -812,12 +769,7 @@ public class OpencvTools {
         return dstBitmap;
     }
 
-    /**
-     * @param image   图像ARGB格式
-     * @param image_w 图像宽度
-     * @param image_h 图像高度
-     */
-    public static Bitmap draw_edge_from_temp_reigon_bitmap_argb_psd(byte[] image, byte[] temperature,
+        public static Bitmap draw_edge_from_temp_reigon_bitmap_argb_psd(byte[] image, byte[] temperature,
                                                                     int image_h, int image_w, float high_t,
                                                                     float low_t, int color_h, int color_l, int type) throws IOException {
         Log.w("预警值", "最高温：" + high_t + "//最低温：" + low_t);
@@ -959,18 +911,7 @@ public class OpencvTools {
     }
 
 
-    /**
-     * 支持多颜色的伪彩条
-     *
-     * @param colorList     : 颜色条
-     * @param maxTemp       : 实际温度最大值
-     * @param minTemp       ： 实际温度最小值
-     * @param customMaxTemp : 用户设置的最大值
-     * @param customMinTemp : 用户设置的最小值
-     * @param isGrayUse     : 是否是灰度渐变
-     * @return
-     */
-    public static Mat generateColorBar(int[] colorList, float maxTemp, float minTemp, float customMaxTemp,
+        public static Mat generateColorBar(int[] colorList, float maxTemp, float minTemp, float customMaxTemp,
                                        float customMinTemp, boolean isGrayUse) {
         if (colorList == null) {
             return null;
@@ -1060,15 +1001,7 @@ public class OpencvTools {
         return colorBar;
     }
 
-    /**
-     * 获取某个温度的梯度颜色值
-     *
-     * @param colorList
-     * @param customMaxTemp
-     * @param customMinTemp
-     * @return
-     */
-    static int[] getStartColor(int[] colorList, float customMaxTemp, float customMinTemp, float nowTemp) {
+        static int[] getStartColor(int[] colorList, float customMaxTemp, float customMinTemp, float nowTemp) {
         double ratio = (nowTemp - customMinTemp) / (customMaxTemp - customMinTemp);
         int colorNumber = colorList.length - 1;
         float avg = 1.f / colorNumber;
@@ -1096,15 +1029,7 @@ public class OpencvTools {
         return nowColorList;
     }
 
-    /**
-     * 获取某个温度的梯度颜色值
-     *
-     * @param colorList
-     * @param customMaxTemp
-     * @param customMinTemp
-     * @return
-     */
-    static int[] getEndColor(int[] colorList, float customMaxTemp, float customMinTemp, float nowTemp) {
+        static int[] getEndColor(int[] colorList, float customMaxTemp, float customMinTemp, float nowTemp) {
         double ratio = (nowTemp - customMinTemp) / (customMaxTemp - customMinTemp);
         int colorNumber = colorList.length - 1;
         float avg = 1.f / colorNumber;
@@ -1259,29 +1184,14 @@ public class OpencvTools {
         return new int[]{r, g, b};
     }
 
-    /**
-     * 上一个颜色值
-     *
-     * @param colorList
-     * @param index
-     * @return
-     */
-    public static int lastColor(int[] colorList, int index) {
+        public static int lastColor(int[] colorList, int index) {
         if (index == 0) {
             return colorList[0];
         }
         return colorList[index - 1];
     }
 
-    /**
-     * 伪彩梯度条,固定三个渐变颜色
-     *
-     * @param customMinColor
-     * @param customMiddleColor
-     * @param customMaxColor
-     * @return
-     */
-    public static Mat generateColorBarThree(int customMinColor, int customMiddleColor, int customMaxColor,
+        public static Mat generateColorBarThree(int customMinColor, int customMiddleColor, int customMaxColor,
                                             float maxTemp, float minTemp, float customMaxTemp, float customMinTemp,
                                             boolean isGrayUse) {
         Mat colorBar = new Mat(256, 1, CvType.CV_8UC3);
@@ -1402,10 +1312,7 @@ public class OpencvTools {
         return interpolatedB;
     }
 
-    /**
-     * 统一自定义伪彩入口
-     */
-    public static int[] getOneColorByTempUnif(float customMaxTemp, float customMinTemp, float nowTemp,
+        public static int[] getOneColorByTempUnif(float customMaxTemp, float customMinTemp, float nowTemp,
                                               int[] colorList, float[] positionList) {
         if (positionList != null) {
             return getOneColorByTempEx(

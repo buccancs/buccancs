@@ -28,13 +28,7 @@ public class PopupTemp {
     private PopupWindow popupWindow;
     private RecyclerView recyclerView;
 
-    /**
-     *
-     * @param context
-     * @param imgAdapter
-     * @param dismissListener
-     */
-    public PopupTemp(Context context, TempAdapter imgAdapter, PopupWindow.OnDismissListener dismissListener) {
+        public PopupTemp(Context context, TempAdapter imgAdapter, PopupWindow.OnDismissListener dismissListener) {
         this.mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_recycleview, null);
         popupWindow = new PopupWindow(view);
@@ -54,17 +48,11 @@ public class PopupTemp {
         recyclerView.setAdapter(imgAdapter);
     }
 
-    /**
-     * @param parent
-     */
-    public void showAsDropDown(View parent) {
+        public void showAsDropDown(View parent) {
         popupWindow.showAsDropDown(parent);
     }
 
-    /**
-     * dismiss the popupwindow
-     */
-    public void dismiss() {
+        public void dismiss() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }

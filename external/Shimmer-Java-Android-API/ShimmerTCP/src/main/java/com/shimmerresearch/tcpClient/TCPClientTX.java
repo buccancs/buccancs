@@ -11,13 +11,6 @@ import com.shimmerresearch.driver.ObjectCluster;
 import com.shimmerresearch.driver.ShimmerObject;
 import com.shimmerresearch.driver.Configuration.CHANNEL_UNITS;
 
-/**
- * 25 May 2015
- * - This example is to be used with ShimmerTCPReceiver, it demonstrates how to use the serialize method to transmit objectclusters via tcpip
- *
- * @author JC
- *
- */
 public class TCPClientTX {
 
     public static void main(String argv[]) throws Exception {

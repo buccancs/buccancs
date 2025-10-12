@@ -136,13 +136,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
 ////		newError.mExceptionStacktrace = msgDock.;
 //		newError.errMessage = msgDock.mExceptionMsg;
 
-    /**
-     * Performs a deep copy of ProgressDetailsAll by Serializing
-     *
-     * @return ProgressDetailsAll the deep copy of the current ProgressDetailsAll
-     * @see java.io.Serializable
-     */
-    public BluetoothProgressReportPerDevice deepClone() {
+        public BluetoothProgressReportPerDevice deepClone() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -175,10 +169,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
 
 
 //	public class ErrorDetails implements Serializable {
-//		/**
-//		 *
-//		 */
-//		private static final long serialVersionUID = 3172068431540685782L;
+//		//		private static final long serialVersionUID = 3172068431540685782L;
 //		public int msgID;
 //		public String msgIDParsed;
 //		public int action;
@@ -190,10 +181,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
 //	}
 
     public class ShimmerBluetoothDetailsMini implements Serializable {
-        /**
-         *
-         */
-        private static final long serialVersionUID = 4289859702565448002L;
+                private static final long serialVersionUID = 4289859702565448002L;
 
         public int mSlotNumber = -1;
         public String mShimmerMacID = "";

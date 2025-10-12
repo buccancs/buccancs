@@ -37,12 +37,6 @@ import com.topdon.lib.ui.R;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * 日期滚轮控件
- *
- * @author 贵州山野羡民（1032694760@qq.com）
- * @since 2021/6/5 16:12
- */
 @SuppressWarnings("unused")
 public class DateWheelLayout extends BaseWheelLayout {
     private NumberWheelView yearWheelView;
@@ -251,17 +245,11 @@ public class DateWheelLayout extends BaseWheelLayout {
         }
     }
 
-    /**
-     * 设置日期时间范围
-     */
-    public void setRange(DateEntity startValue, DateEntity endValue) {
+        public void setRange(DateEntity startValue, DateEntity endValue) {
         setRange(startValue, endValue, null);
     }
 
-    /**
-     * 设置日期时间范围
-     */
-    public void setRange(DateEntity startValue, DateEntity endValue, DateEntity defaultValue) {
+        public void setRange(DateEntity startValue, DateEntity endValue, DateEntity defaultValue) {
         if (startValue == null) {
             startValue = DateEntity.today();
         }
@@ -462,10 +450,7 @@ public class DateWheelLayout extends BaseWheelLayout {
         dayWheelView.setDefaultValue(selectedDay);
     }
 
-    /**
-     * 根据年份及月份获取每月的天数，类似于{@link java.util.Calendar#getActualMaximum(int)}
-     */
-    private int getTotalDaysInMonth(int year, int month) {
+        private int getTotalDaysInMonth(int year, int month) {
         switch (month) {
             case 1:
             case 3:

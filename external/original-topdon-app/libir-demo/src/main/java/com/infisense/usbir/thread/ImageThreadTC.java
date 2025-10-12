@@ -35,11 +35,7 @@ public class ImageThreadTC extends Thread {
     private byte[] imageARGB;
     private byte[] imageDst;
 
-    /**
-     * @param imageWidth
-     * @param imageHeight
-     */
-    public ImageThreadTC(int imageWidth, int imageHeight) {
+        public ImageThreadTC(int imageWidth, int imageHeight) {
         Log.i(TAG, "ImageThread create->imageWidth = " + imageWidth + " imageHeight = " + imageHeight);
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -48,45 +44,27 @@ public class ImageThreadTC extends Thread {
         imageDst = new byte[imageWidth * imageHeight * 4];
     }
 
-    /**
-     * @param syncimage
-     */
-    public void setSyncimage(SynchronizedBitmap syncimage) {
+        public void setSyncimage(SynchronizedBitmap syncimage) {
         this.syncimage = syncimage;
     }
 
-    /**
-     * @param imagesrc
-     */
-    public void setImagesrc(byte[] imagesrc) {
+        public void setImagesrc(byte[] imagesrc) {
         this.imagesrc = imagesrc;
     }
 
-    /**
-     * @param rotate
-     */
-    public void setRotate(int rotate) {
+        public void setRotate(int rotate) {
         this.rotate = rotate;
     }
 
-    /**
-     * @param dataFlowMode
-     */
-    public void setDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
+        public void setDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
         this.dataFlowMode = dataFlowMode;
     }
 
-    /**
-     * @param pseudocolorMode
-     */
-    public void setPseudocolorMode(CommonParams.PseudoColorType pseudocolorMode) {
+        public void setPseudocolorMode(CommonParams.PseudoColorType pseudocolorMode) {
         this.pseudocolorMode = pseudocolorMode;
     }
 
-    /**
-     * @param bitmap
-     */
-    public void setBitmap(Bitmap bitmap) {
+        public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 

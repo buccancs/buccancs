@@ -39,14 +39,8 @@ public abstract class PayloadContentsDetails implements Serializable {
     protected transient List<DataBlockDetails> listOfDataBlocksInOrder = new ArrayList<DataBlockDetails>();
     protected transient byte[] byteBuffer = null;
     protected Set<DATABLOCK_SENSOR_ID> setOfPayloadSensorIds = new HashSet<DATABLOCK_SENSOR_ID>();
-    /**
-     * Real-world clock time (if set in the sensor, otherwise this is the same as the microcontroller time).
-     */
-    private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
-    /**
-     * Microcontroller Clock. Supported in FW >=v1.02.085.
-     */
-    private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
+        private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
+        private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
     private long temperatureUncal = 0;
     private double temperatureCal = 0;
     private long batteryVoltageCal = -1;
@@ -137,18 +131,7 @@ public abstract class PayloadContentsDetails implements Serializable {
         return VerisenseDevice.compareFwVersions(svo, VerisenseDevice.FW_CHANGES.CCF21_010_3);
     }
 
-    /**
-     * This is a similar method to "!isPayloadDesignGen7OrAbove" but has been
-     * created to make it easy to distinguish in the code sections that control the
-     * differ CSV output formats.
-     * <p>
-     * If there are future firmware releases to that client (like
-     * VerisenseDevice.FW_SPECIAL_VERSIONS.V_1_02_071), additional checks can be
-     * added to this function.
-     *
-     * @return
-     */
-    public static boolean isCsvHeaderDesignAzMarkingPoint(ShimmerVerObject svo) {
+        public static boolean isCsvHeaderDesignAzMarkingPoint(ShimmerVerObject svo) {
         return !isPayloadDesignV7orAbove(svo);
     }
 
@@ -172,39 +155,19 @@ public abstract class PayloadContentsDetails implements Serializable {
 
     abstract public void parsePayloadSensorData();
 
-    /**
-     * Returns the end time as stored in the payload footer
-     *
-     * @return Payload end time in a milliseconds
-     */
-    public double getEndTimeRwcMs() {
+        public double getEndTimeRwcMs() {
         return timeDetailsRwc.getEndTimeMs();
     }
 
-    /**
-     * Returns the end time as stored in the payload footer
-     *
-     * @return Payload end time in a formatted String
-     */
-    public String getEndTimeRwcStr() {
+        public String getEndTimeRwcStr() {
         return timeDetailsRwc.getEndTimeStr();
     }
 
-    /**
-     * Returns the end time of the last data sample within the payload
-     *
-     * @return Payload data end time in a milliseconds
-     */
-    public double getDataEndTimeRwcMs() {
+        public double getDataEndTimeRwcMs() {
         return listOfDataBlocksInOrder.get(listOfDataBlocksInOrder.size() - 1).getEndTimeRwcMs();
     }
 
-    /**
-     * Returns the end time of the last data sample within the payload
-     *
-     * @return Payload data end time in a formatted String
-     */
-    public String getDataEndTimeRwcStr() {
+        public String getDataEndTimeRwcStr() {
         return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getDataEndTimeRwcMs());
     }
 

@@ -9,10 +9,6 @@ import java.util.Queue;
 import java.util.UUID;
 
 
-/**
- * date: 2021/8/12 13:44
- * author: bichuanfeng
- */
 class GenericRequest implements Request, Comparable<GenericRequest> {
     private final String tag;
     Device device;
@@ -47,26 +43,17 @@ class GenericRequest implements Request, Comparable<GenericRequest> {
         return Integer.compare(other.priority, priority);
     }
 
-    /**
-     * 设备
-     */
-    @NonNull
+        @NonNull
     public Device getDevice() {
         return device;
     }
 
-    /**
-     * 请求类型
-     */
-    @NonNull
+        @NonNull
     public RequestType getType() {
         return type;
     }
 
-    /**
-     * 请求标识
-     */
-    @Nullable
+        @Nullable
     public String getTag() {
         return tag;
     }

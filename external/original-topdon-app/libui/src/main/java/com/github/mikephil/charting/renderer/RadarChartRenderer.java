@@ -71,14 +71,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
         }
     }
 
-    /**
-     * Draws the RadarDataSet
-     *
-     * @param c
-     * @param dataSet
-     * @param mostEntries the entry count of the dataset with the most entries
-     */
-    protected void drawDataSet(Canvas c, IRadarDataSet dataSet, int mostEntries) {
+        protected void drawDataSet(Canvas c, IRadarDataSet dataSet, int mostEntries) {
 
         float phaseX = mAnimator.getPhaseX();
         float phaseY = mAnimator.getPhaseY();

@@ -1347,11 +1347,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         return a > b - TOUCH_TOLERANCE && a < b + TOUCH_TOLERANCE;
     }
 
-    /**
-     * 以 View 尺寸为坐标系，在 (x,y) 画一个十字.<br>
-     * 注意，不对 x、y 进行处理，传进来是哪就在哪绘制。
-     */
-    private void drawPoint(Canvas canvas, int x, int y) {
+        private void drawPoint(Canvas canvas, int x, int y) {
         helper.drawPoint(canvas, x, y);
     }
 
@@ -1360,10 +1356,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
 
     /* **************************************** Draw **************************************** */
 
-    /**
-     * 绘制以 View 尺寸为坐标的一根线段，这里的 x,y 为 View 坐标原始值
-     */
-    private void drawLine(Canvas canvas, int x1, int y1, int x2, int y2, boolean isTrend) {
+        private void drawLine(Canvas canvas, int x1, int y1, int x2, int y2, boolean isTrend) {
         // 由于线段与实心点的的绘制是分开的，线段使用当前 View 坐标，而实心点使用温度(192x256)坐标转换为 View 坐标
         // 故而这里需要把当前的坐标，尽量贴近温度坐标的整数倍，否则会出现实心圆偏离直线太远的情况
         int startX = (int) ((int) (x1 / xScale) * xScale);
@@ -1377,10 +1370,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-    /**
-     * 绘制以 View 尺寸为坐标的一根线段，这里的 x,y 为 View 坐标原始值
-     */
-    private void drawRect(Canvas canvas, float x1, float y1, float x2, float y2) {
+        private void drawRect(Canvas canvas, float x1, float y1, float x2, float y2) {
         int left = (int) ((int) (x1 / xScale) * xScale);
         int top = (int) ((int) (y1 / yScale) * yScale);
         int right = (int) ((int) (x2 / xScale) * xScale);
@@ -1388,41 +1378,22 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         helper.drawRect(canvas, left, top, right, bottom);
     }
 
-    /**
-     * 以 View 尺寸为坐标系，在 (x,y) 画一个实心圆.
-     *
-     * @param isMax true-最高温红色 false-最低温蓝色
-     */
-    private void drawCircle(Canvas canvas, int x, int y, boolean isMax) {
+        private void drawCircle(Canvas canvas, int x, int y, boolean isMax) {
         helper.drawCircle(canvas, x, y, isMax);
     }
 
-    /**
-     * 在指定 canvas 上，以指定 point 坐标为中心，绘制一个实心圆.
-     *
-     * @param point 以温度尺寸(192x256)为坐标系的点
-     * @param isMax true-最高温红色 false-最低温蓝色
-     */
-    private void drawDot(Canvas canvas, Point point, boolean isMax) {
+        private void drawDot(Canvas canvas, Point point, boolean isMax) {
         //这里的 (x,y) 是通过温度坐标转换来的，所以已经是温度坐标的整数倍
         int x = TempDrawHelper.Companion.correct(point.x * xScale, getWidth());
         int y = TempDrawHelper.Companion.correct(point.y * yScale, getHeight());
         helper.drawCircle(canvas, x, y, isMax);
     }
 
-    /**
-     * 以 View 尺寸为坐标系，以 (x,y) 为基准，绘制温度值文字.
-     */
-    private void drawTempText(Canvas canvas, String text, int x, int y) {
+        private void drawTempText(Canvas canvas, String text, int x, int y) {
         helper.drawTempText(canvas, text, getWidth(), x, y);
     }
 
-    /**
-     * 在指定 canvas 上，以指定 point 坐标为中心，绘制指定的文字.
-     *
-     * @param point 以温度尺寸(192x256)为坐标系的点
-     */
-    private void drawTempText(Canvas canvas, String text, Point point) {
+        private void drawTempText(Canvas canvas, String text, Point point) {
         int x = TempDrawHelper.Companion.correct(point.x * xScale, getWidth());
         int y = TempDrawHelper.Companion.correct(point.y * yScale, getHeight());
         helper.drawTempText(canvas, text, getWidth(), x, y);
@@ -1461,9 +1432,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-    /**
-     * ----------------------双光设备--------------------------------
-     */
 
     public void setUseIRISP(boolean useIRISP) {
         if (irtemp != null) {
@@ -1510,11 +1478,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private @interface RegionMode {
     }
 
-    /**
-     * 趋势图对应的温度数据变更监听。
-     * 注意！回调不在主线程！！
-     */
-    public interface OnTrendChangeListener {
+        public interface OnTrendChangeListener {
         void onChange(List<Float> temps);
     }
 

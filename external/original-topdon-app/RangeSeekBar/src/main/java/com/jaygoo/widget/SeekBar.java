@@ -27,14 +27,6 @@ import androidx.core.content.ContextCompat;
 import java.text.DecimalFormat;
 
 
-/**
- * ================================================
- * 作    者：JayGoo
- * 版    本：
- * 创建日期：2018/5/8
- * 描    述:
- * ================================================
- */
 
 public class SeekBar {
     //the indicator show mode
@@ -65,102 +57,13 @@ public class SeekBar {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     DecimalFormat indicatorTextDecimalFormat;
 
-    //****************** the above is attr value  ******************//
-    int scaleThumbWidth;
-    int scaleThumbHeight;
-    private float stepsPaddingLeft;
-    private float stepsPaddingRight;
-    private int indicatorShowMode;
-    //进度提示背景的高度，宽度如果是0的话会自适应调整
-    //Progress prompted the background height, width,
-    private int indicatorHeight;
-    private int indicatorWidth;
-    //进度提示背景与按钮之间的距离
-    //The progress indicates the distance between the background and the button
-    private int indicatorMargin;
-    private int indicatorDrawableId;
-    private int indicatorArrowSize;
-    private int indicatorTextSize;
-    private int indicatorTextColor;
-    private float indicatorRadius;
-    private int indicatorBackgroundColor;
-    private int indicatorPaddingLeft, indicatorPaddingRight, indicatorPaddingTop, indicatorPaddingBottom;
-    private int thumbDrawableId;
-    private int thumbInactivatedDrawableId;
-    private int thumbWidth;
-    private int thumbHeight;
-    private boolean isShowIndicator;
-
-    public SeekBar(DefRangeSeekBar defRangeSeekBar, AttributeSet attrs, boolean isLeft) {
-        this.defRangeSeekBar = defRangeSeekBar;
-        this.isLeft = isLeft;
-        initAttrs(attrs);
-        initBitmap();
-        initVariables();
-    }
-
-    private void initAttrs(AttributeSet attrs) {
-        TypedArray t = getContext().obtainStyledAttributes(attrs, R.styleable.RangeSeekBar);
-        if (t == null) return;
-        indicatorMargin = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_margin, 0);
-        indicatorDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_indicator_drawable, 0);
-        indicatorShowMode = t.getInt(R.styleable.RangeSeekBar_rsb_indicator_show_mode, INDICATOR_ALWAYS_HIDE);
-        indicatorHeight = t.getLayoutDimension(R.styleable.RangeSeekBar_rsb_indicator_height, WRAP_CONTENT);
-        indicatorWidth = t.getLayoutDimension(R.styleable.RangeSeekBar_rsb_indicator_width, WRAP_CONTENT);
-        indicatorTextSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_text_size, Utils.dp2px(getContext(), 14));
-        indicatorTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_indicator_text_color, Color.WHITE);
-        indicatorBackgroundColor = t.getColor(R.styleable.RangeSeekBar_rsb_indicator_background_color, ContextCompat.getColor(getContext(), R.color.rsbColorIndicatorBg));
-        indicatorPaddingLeft = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_left, 0);
-        indicatorPaddingRight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_right, 0);
-        indicatorPaddingTop = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_top, 0);
-        indicatorPaddingBottom = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_bottom, 0);
-        indicatorArrowSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_arrow_size, 0);
-        thumbDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumb_drawable, R.drawable.rsb_default_thumb);
-        thumbInactivatedDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumb_inactivated_drawable, 0);
-        thumbWidth = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_width, Utils.dp2px(getContext(), 26));
-        thumbHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_height, Utils.dp2px(getContext(), 26));
-        thumbScaleRatio = t.getFloat(R.styleable.RangeSeekBar_rsb_thumb_scale_ratio, 1f);
-        indicatorRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_radius, 0f);
-        t.recycle();
-    }
-
-    protected void initVariables() {
-        scaleThumbWidth = thumbWidth;
-        scaleThumbHeight = thumbHeight;
-        if (indicatorHeight == WRAP_CONTENT) {
-            indicatorHeight = Utils.measureText("8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom;
-        }
-        if (indicatorArrowSize <= 0) {
-            indicatorArrowSize = (int) (thumbWidth / 4);
-        }
-    }
-
-    public Context getContext() {
-        return defRangeSeekBar.getContext();
-    }
-
-    public Resources getResources() {
-        if (getContext() != null) return getContext().getResources();
-        return null;
-    }
-
-    /**
-     * 初始化进度提示的背景
-     */
-    private void initBitmap() {
+    /    private void initBitmap() {
         setIndicatorDrawableId(indicatorDrawableId);
         setThumbDrawableId(thumbDrawableId, thumbWidth, thumbHeight);
         setThumbInactivatedDrawableId(thumbInactivatedDrawableId, thumbWidth, thumbHeight);
     }
 
-    /**
-     * 计算每个按钮的位置和尺寸
-     * Calculates the position and size of each button
-     *
-     * @param x position x
-     * @param y position y
-     */
-    protected void onSizeChanged(int x, int y) {
+        protected void onSizeChanged(int x, int y) {
         initVariables();
         initBitmap();
         left = (int) (x - getThumbScaleWidth() / 2);
@@ -191,13 +94,7 @@ public class SeekBar {
         return getIndicatorHeight() + getIndicatorArrowSize() + getIndicatorMargin() + getThumbScaleHeight();
     }
 
-    /**
-     * 绘制按钮和提示背景和文字
-     * Draw buttons and tips for background and text
-     *
-     * @param canvas Canvas
-     */
-    protected void draw(Canvas canvas) {
+        protected void draw(Canvas canvas) {
         if (!isVisible) {
             return;
         }
@@ -218,16 +115,7 @@ public class SeekBar {
         canvas.restore();
     }
 
-    /**
-     * 绘制按钮
-     * 如果没有图片资源，则绘制默认按钮
-     * <p>
-     * draw the thumb button
-     * If there is no image resource, draw the default button
-     *
-     * @param canvas canvas
-     */
-    protected void onDrawThumb(Canvas canvas) {
+        protected void onDrawThumb(Canvas canvas) {
         if (thumbInactivatedBitmap != null && !isActivate) {
             canvas.drawBitmap(thumbInactivatedBitmap, 0, defRangeSeekBar.getProgressTop() + (defRangeSeekBar.getProgressHeight() - scaleThumbHeight) / 2f, null);
         } else if (thumbBitmap != null) {
@@ -235,14 +123,7 @@ public class SeekBar {
         }
     }
 
-    /**
-     * 格式化提示文字
-     * format the indicator text
-     *
-     * @param text2Draw
-     * @return
-     */
-    protected String formatCurrentIndicatorText(String text2Draw) {
+        protected String formatCurrentIndicatorText(String text2Draw) {
         SeekBarState[] states = defRangeSeekBar.getRangeSeekBarState();
         if (TextUtils.isEmpty(text2Draw)) {
             if (isLeft) {
@@ -265,14 +146,7 @@ public class SeekBar {
         return text2Draw;
     }
 
-    /**
-     * This method will draw the indicator background dynamically according to the text.
-     * you can use to set padding
-     *
-     * @param canvas    Canvas
-     * @param text2Draw Indicator text
-     */
-    protected void onDrawIndicator(Canvas canvas, Paint paint, String text2Draw) {
+        protected void onDrawIndicator(Canvas canvas, Paint paint, String text2Draw) {
         if (text2Draw == null) return;
         paint.setTextSize(indicatorTextSize);
         paint.setStyle(Paint.Style.FILL);
@@ -357,12 +231,7 @@ public class SeekBar {
         canvas.drawText(text2Draw, tx, ty, paint);
     }
 
-    /**
-     * 拖动检测
-     *
-     * @return is collide
-     */
-    protected boolean collide(float x, float y) {
+        protected boolean collide(float x, float y) {
         int offset = (int) (defRangeSeekBar.getProgressWidth() * currPercent);
         return x > left + offset && x < right + offset && y > top && y < bottom;
     }
@@ -487,16 +356,7 @@ public class SeekBar {
         return indicatorShowMode;
     }
 
-    /**
-     * the indicator show mode
-     * {@link #INDICATOR_SHOW_WHEN_TOUCH}
-     * {@link #INDICATOR_ALWAYS_SHOW}
-     * {@link #INDICATOR_ALWAYS_SHOW_AFTER_TOUCH}
-     * {@link #INDICATOR_ALWAYS_SHOW}
-     *
-     * @param indicatorShowMode
-     */
-    public void setIndicatorShowMode(@IndicatorModeDef int indicatorShowMode) {
+        public void setIndicatorShowMode(@IndicatorModeDef int indicatorShowMode) {
         this.indicatorShowMode = indicatorShowMode;
     }
 
@@ -508,12 +368,7 @@ public class SeekBar {
         return isShowIndicator;
     }
 
-    /**
-     * include indicator text Height、padding、margin
-     *
-     * @return The actual occupation height of indicator
-     */
-    public int getIndicatorRawHeight() {
+        public int getIndicatorRawHeight() {
         if (indicatorHeight > 0) {
             if (indicatorBitmap != null) {
                 return indicatorHeight + indicatorMargin;
@@ -657,12 +512,7 @@ public class SeekBar {
         paint.setTypeface(typeFace);
     }
 
-    /**
-     * when you touch or move, the thumb will scale, default not scale
-     *
-     * @return default 1.0f
-     */
-    public float getThumbScaleRatio() {
+        public float getThumbScaleRatio() {
         return thumbScaleRatio;
     }
 
@@ -670,12 +520,7 @@ public class SeekBar {
         return isVisible;
     }
 
-    /**
-     * if visble is false, will clear the Canvas
-     *
-     * @param visible
-     */
-    public void setVisible(boolean visible) {
+        public void setVisible(boolean visible) {
         isVisible = visible;
     }
 

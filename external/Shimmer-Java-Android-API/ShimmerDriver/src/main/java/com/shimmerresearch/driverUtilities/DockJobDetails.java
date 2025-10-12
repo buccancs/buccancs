@@ -9,11 +9,6 @@ import java.util.TreeMap;
 import com.shimmerresearch.driver.ShimmerDevice;
 import com.shimmerresearch.driverUtilities.DockJobDetails.DOCK_JOB_TYPE;
 
-/**
- *
- * @author Mark Nolan
- *
- */
 public class DockJobDetails extends AbstractErrorCodes {
 
     public final static int ERROR_CODES_ID = 4;

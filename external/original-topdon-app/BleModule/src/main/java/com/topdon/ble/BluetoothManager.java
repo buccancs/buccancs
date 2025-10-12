@@ -27,13 +27,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
-/**
- * BluetoothManager
- * 蓝牙管理工具
- *
- * @author chuanfeng.bi
- * @date 2021/11/19 11:10
- */
 @SuppressLint("MissingPermission")
 public class BluetoothManager implements EventObserver {
     public static boolean iSReset = false;//是否复位
@@ -163,10 +156,7 @@ public class BluetoothManager implements EventObserver {
         return mDevice.isConnected();
     }
 
-    /**
-     * 使用{@link Observe}确定要接收消息，{@link RunOn}指定在主线程执行方法，设置{@link Tag}防混淆后找不到方法
-     */
-    @Tag("onConnectionStateChanged")
+        @Tag("onConnectionStateChanged")
     @Observe
     @RunOn(ThreadMode.MAIN)
     @Override
@@ -210,10 +200,7 @@ public class BluetoothManager implements EventObserver {
         Log.e("bcf_ble", "连接超时");
     }
 
-    /**
-     * 使用{@link Observe}确定要接收消息，方法在{@link EasyBLEBuilder#setMethodDefaultThreadMode(ThreadMode)}指定的线程执行
-     */
-    @Observe
+        @Observe
     @Override
     public void onNotificationChanged(@NonNull Request request, boolean isEnabled) {
         String typeTag = "";
@@ -226,12 +213,7 @@ public class BluetoothManager implements EventObserver {
         Log.d("bcf_ble", "onNotificationChanged ：" + typeTag + "：" + (isEnabled ? "开启" : "关闭"));
     }
 
-    /**
-     * 向蓝牙写入数据
-     *
-     * @param data
-     */
-    public boolean writeBuletoothData(byte[] data) {
+        public boolean writeBuletoothData(byte[] data) {
         if (mDevice == null || !mDevice.isConnected()) {
             return false;
         }
@@ -252,15 +234,7 @@ public class BluetoothManager implements EventObserver {
 //        Log.d("ble_bcf_data", "onCharacteristicRead: " + data);
     }
 
-    /**
-     * 接收蓝牙设备返回的数据
-     *
-     * @param device         设备
-     * @param service        服务UUID
-     * @param characteristic 特征UUID
-     * @param value          数据
-     */
-    @Observe
+        @Observe
     @Override
     public void onCharacteristicChanged(Device device, UUID service, UUID characteristic, byte[] value) {
         Log.e("ble_bcf_data", "接收蓝牙数据：" + StringUtils.toHex(value));

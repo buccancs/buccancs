@@ -49,20 +49,11 @@ public class MsgSpan {
 
     public String mMessage = "";
 
-    /**
-     * Contains the error message as copied from a caught exception.
-     */
-    public String mExceptionMsg;
+        public String mExceptionMsg;
 
-    /**
-     * Contains the stracktrace as copied from a caught exception.
-     */
-    public StackTraceElement[] mExceptionStackTrace;
+        public StackTraceElement[] mExceptionStackTrace;
 
-    /**
-     * Indicates whether the Exception is critical to the operation underway.
-     */
-    public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
+        public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
 //	public ExceptionLevelSpan mExceptionLevel = ExceptionLevelSpan.HIGH;
 //	public static enum ExceptionLevelSpan {
 //		LOW,
@@ -75,12 +66,7 @@ public class MsgSpan {
     public String mShimmerUserAssignName = "";
 
 
-    /**
-     * Used exclusively by the DockManager/ImportManager class for messages associated with no specific slot or dock
-     *
-     * @param msgId
-     */
-    public MsgSpan(int msgId, Object myObject) {
+        public MsgSpan(int msgId, Object myObject) {
         mMsgID = msgId;
         this.mObject = myObject;
     }
@@ -91,14 +77,7 @@ public class MsgSpan {
     }
 
 
-    /**
-     * Used by Span
-     *
-     * @param msgID
-     * @param dockID
-     * @param slotIdentifier
-     */
-    public MsgSpan(int msgID, String spanID, Object object) {
+        public MsgSpan(int msgID, String spanID, Object object) {
         mMsgID = msgID;
         mSpanID = spanID;
 ////		mSlotNumber = -1;

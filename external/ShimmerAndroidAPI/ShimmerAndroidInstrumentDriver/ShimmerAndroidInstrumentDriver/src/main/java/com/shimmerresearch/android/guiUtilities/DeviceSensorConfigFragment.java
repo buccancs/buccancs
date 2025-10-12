@@ -32,11 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Class to display a list of sensor configuration options for a Shimmer device.
- * This has the same functionality as the {@link DeviceConfigFragment}, with the difference being that this Class extends the Abstract Dialog from the Shimmer Java API
- * Only compatible with Shimmer3 and newer devices.
- */
 public class DeviceSensorConfigFragment extends Fragment {
 
     DeviceConfigListAdapter expandListAdapter;
@@ -53,16 +48,7 @@ public class DeviceSensorConfigFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * This method allows for the setting of a custom Drawable background resource for the buttons
-     * at the bottom of the ListView
-     *
-     * @param shimmerDevice
-     * @param context
-     * @param bluetoothManager
-     * @param buttonResourceId
-     */
-    public void buildDeviceConfigList(final ShimmerDevice shimmerDevice, final Context context,
+        public void buildDeviceConfigList(final ShimmerDevice shimmerDevice, final Context context,
                                       final ShimmerBluetoothManagerAndroid bluetoothManager,
                                       final int buttonResourceId) {
         buttonBackgroundResourceId = buttonResourceId;

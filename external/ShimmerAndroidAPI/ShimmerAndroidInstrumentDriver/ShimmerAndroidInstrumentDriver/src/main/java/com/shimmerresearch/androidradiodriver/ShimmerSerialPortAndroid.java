@@ -18,9 +18,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-/**
- * Created by ASaez on 11-Aug-16.
- */
 
 public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
 

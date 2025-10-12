@@ -4,12 +4,6 @@ import com.shimmerresearch.driver.calibration.UtilCalibration;
 import com.shimmerresearch.sensors.AbstractSensor.SENSORS;
 import com.shimmerresearch.verisense.sensors.SensorLIS2DW12;
 
-/**
- * A class created to help determining the correct alignment value for calibrating the ASM sensor's IMU
- *
- * @author Mark Nolan
- *
- */
 public class AsmAlignmentGenerator {
 
 //	private CalibDetailsKinematic calibDetailsLis2dw12 = new CalibDetailsKinematic("0", "+- 4g", defaultAlignmentMatrix, defaultSensitivityMatrix, defaultOffsetVector) 

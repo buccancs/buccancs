@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializeregistrationAck")
 public inline fun registrationAck(block: com.buccancs.control.RegistrationAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.RegistrationAck =
   com.buccancs.control.RegistrationAckKt.Dsl._create(com.buccancs.control.RegistrationAck.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.RegistrationAck`
- */
 public object RegistrationAckKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,46 +20,28 @@ public object RegistrationAckKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.RegistrationAck = _builder.build()
-    /**
-     * `bool accepted = 1;`
-     */
-    public var accepted: kotlin.Boolean
+        public var accepted: kotlin.Boolean
       get() = _builder.getAccepted()
       set(value) {
         _builder.setAccepted(value)
       }
-    /**
-     * `bool accepted = 1;`
-     */
-    public fun clearAccepted() {
+        public fun clearAccepted() {
       _builder.clearAccepted()
     }
-    /**
-     * `string session_id = 2;`
-     */
-    public var sessionId: kotlin.String
+        public var sessionId: kotlin.String
       get() = _builder.getSessionId()
       set(value) {
         _builder.setSessionId(value)
       }
-    /**
-     * `string session_id = 2;`
-     */
-    public fun clearSessionId() {
+        public fun clearSessionId() {
       _builder.clearSessionId()
     }
-    /**
-     * `string reason = 3;`
-     */
-    public var reason: kotlin.String
+        public var reason: kotlin.String
       get() = _builder.getReason()
       set(value) {
         _builder.setReason(value)
       }
-    /**
-     * `string reason = 3;`
-     */
-    public fun clearReason() {
+        public fun clearReason() {
       _builder.clearReason()
     }
   }

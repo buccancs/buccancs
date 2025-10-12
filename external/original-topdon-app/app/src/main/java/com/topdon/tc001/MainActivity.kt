@@ -366,12 +366,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * 权限检测
-     * 因申请权限前需要弹窗提示用户，所以修改成key value形式
-     * @return key：权限种类 value：具体权限
-     */
-    private fun getNeedPermissionList(): SparseArray<List<String>> {
+        private fun getNeedPermissionList(): SparseArray<List<String>> {
         val sparseArray = SparseArray<List<String>>()
         sparseArray.append(R.string.permission_request_camera_app, listOf(Manifest.permission.CAMERA))
         (if (this.applicationInfo.targetSdkVersion >= 34) {

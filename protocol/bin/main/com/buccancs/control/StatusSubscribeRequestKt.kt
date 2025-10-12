@@ -6,9 +6,6 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializestatusSubscribeRequest")
 public inline fun statusSubscribeRequest(block: com.buccancs.control.StatusSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StatusSubscribeRequest =
   com.buccancs.control.StatusSubscribeRequestKt.Dsl._create(com.buccancs.control.StatusSubscribeRequest.newBuilder()).apply { block() }._build()
-/**
- * Protobuf type `com.buccancs.control.StatusSubscribeRequest`
- */
 public object StatusSubscribeRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -23,25 +20,15 @@ public object StatusSubscribeRequestKt {
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.StatusSubscribeRequest = _builder.build()
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     */
-    public var session: com.buccancs.control.SessionIdentifier
+        public var session: com.buccancs.control.SessionIdentifier
       get() = _builder.getSession()
       set(value) {
         _builder.setSession(value)
       }
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     */
-    public fun clearSession() {
+        public fun clearSession() {
       _builder.clearSession()
     }
-    /**
-     * `.com.buccancs.control.SessionIdentifier session = 1;`
-     * @return Whether the session field is set.
-     */
-    public fun hasSession(): kotlin.Boolean {
+        public fun hasSession(): kotlin.Boolean {
       return _builder.hasSession()
     }
   }

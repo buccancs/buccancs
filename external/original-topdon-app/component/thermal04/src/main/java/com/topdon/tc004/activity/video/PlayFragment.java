@@ -52,9 +52,6 @@ import java.nio.ByteBuffer;
 import java.util.UUID;
 
 
-/**
- * 播放器Fragment
- */
 public class PlayFragment extends Fragment implements TextureView.SurfaceTextureListener {
     public static final String ARG_PARAM1 = "param1";
     public static final String ARG_TRANSPORT_MODE = "ARG_TRANSPORT_MODE";

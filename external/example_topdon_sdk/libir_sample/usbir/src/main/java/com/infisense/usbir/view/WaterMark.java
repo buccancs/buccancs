@@ -14,36 +14,12 @@ import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-/**
- * @ProjectName: ANDROID_IRUVC_SDK
- * @Package: com.infisense.usbir.view
- * @ClassName: WaterMark
- * @Description:
- * @Author: brilliantzhao
- * @CreateDate: 2022.3.23 16:27
- * @UpdateUser:
- * @UpdateDate: 2022.3.23 16:27
- * @UpdateRemark:
- * @Version: 1.0.0
- */
 public class WaterMark {
     private static WaterMark sInstance;
-    /**
-     * 水印文本
-     */
-    private String mText;
-    /**
-     * 字体颜色，十六进制形式，例如：0xAEAEAEAE
-     */
-    private int mTextColor;
-    /**
-     * 字体大小，单位为sp
-     */
-    private float mTextSize;
-    /**
-     * 旋转角度
-     */
-    private float mRotation;
+        private String mText;
+        private int mTextColor;
+        private float mTextSize;
+        private float mRotation;
 
     private WaterMark() {
         mText = "";
@@ -61,66 +37,31 @@ public class WaterMark {
         return sInstance;
     }
 
-    /**
-     * 设置水印文本
-     *
-     * @param text 文本
-     * @return Watermark实例
-     */
-    public WaterMark setText(String text) {
+        public WaterMark setText(String text) {
         mText = text;
         return sInstance;
     }
 
-    /**
-     * 设置字体颜色
-     *
-     * @param color 颜色，十六进制形式，例如：0xAEAEAEAE
-     * @return Watermark实例
-     */
-    public WaterMark setTextColor(int color) {
+        public WaterMark setTextColor(int color) {
         mTextColor = color;
         return sInstance;
     }
 
-    /**
-     * 设置字体大小
-     *
-     * @param size 大小，单位为sp
-     * @return Watermark实例
-     */
-    public WaterMark setTextSize(float size) {
+        public WaterMark setTextSize(float size) {
         mTextSize = size;
         return sInstance;
     }
 
-    /**
-     * 设置旋转角度
-     *
-     * @param degrees 度数
-     * @return Watermark实例
-     */
-    public WaterMark setRotation(float degrees) {
+        public WaterMark setRotation(float degrees) {
         mRotation = degrees;
         return sInstance;
     }
 
-    /**
-     * 显示水印，铺满整个页面
-     *
-     * @param activity 活动
-     */
-    public void show(Activity activity) {
+        public void show(Activity activity) {
         show(activity, mText);
     }
 
-    /**
-     * 显示水印，铺满整个页面
-     *
-     * @param activity 活动
-     * @param text     水印
-     */
-    public void show(Activity activity, String text) {
+        public void show(Activity activity, String text) {
         WatermarkDrawable drawable = new WatermarkDrawable();
         drawable.mText = text;
         drawable.mTextColor = mTextColor;
@@ -135,33 +76,17 @@ public class WaterMark {
         rootView.addView(layout);
     }
 
-    /**
-     * @param spValue
-     * @return
-     */
-    private int sp2px(float spValue) {
+        private int sp2px(float spValue) {
         float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5F);
     }
 
     private class WatermarkDrawable extends Drawable {
         private Paint mPaint;
-        /**
-         * 水印文本
-         */
-        private String mText;
-        /**
-         * 字体颜色，十六进制形式，例如：0xAEAEAEAE
-         */
-        private int mTextColor;
-        /**
-         * 字体大小，单位为sp
-         */
-        private float mTextSize;
-        /**
-         * 旋转角度
-         */
-        private float mRotation;
+                private String mText;
+                private int mTextColor;
+                private float mTextSize;
+                private float mRotation;
 
         private WatermarkDrawable() {
             mPaint = new Paint();

@@ -42,10 +42,6 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
     var onLongEditListener: (() -> Unit)? = null
-    /**
-     * 选中数量变更回调.
-     * data 当前选中的 item position 列表
-     */
     var selectCallback: ((data: ArrayList<Int>) -> Unit)? = null
     var itemClickCallback: ((position: Int) -> Unit)? = null
 

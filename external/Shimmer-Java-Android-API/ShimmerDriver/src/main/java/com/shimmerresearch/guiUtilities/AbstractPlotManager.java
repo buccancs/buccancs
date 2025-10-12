@@ -124,12 +124,7 @@ public abstract class AbstractPlotManager {
         mListOfTraceColorsCurrentlyUsed.add(rgb);
     }
 
-    /**
-     * If all default colors are used a random color will be used
-     *
-     * @param channelStringArray
-     */
-    protected void addSignalUseDefaultColors(String[] channelStringArray) {
+        protected void addSignalUseDefaultColors(String[] channelStringArray) {
 
         addSignal(channelStringArray);
         boolean mFound = false;
@@ -178,13 +173,7 @@ public abstract class AbstractPlotManager {
         mMapofXAxis.put(deviceName, channelStringArray);
     }
 
-    /**
-     * Checks if the property already exist in the plot manager, there can only be one property
-     *
-     * @param channelStringArray A string array containing property/signal details
-     * @return false if the property does not exist in the plot manager
-     */
-    public boolean checkIfPropertyExist(String[] channelStringArray) {
+        public boolean checkIfPropertyExist(String[] channelStringArray) {
         synchronized (mListofPropertiestoPlot) {
             Iterator<String[]> entries = mListofPropertiestoPlot.iterator();
             while (entries.hasNext()) {

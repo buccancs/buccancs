@@ -1404,191 +1404,112 @@ public class LSL {
             obj = handle;
         }
 
-        /**
-         * Get the first child of the element.
-         */
-        public XMLElement first_child() {
+                public XMLElement first_child() {
             return new XMLElement(inst.lsl_first_child(obj));
         }
 
-        /**
-         * Get the last child of the element.
-         */
-        public XMLElement last_child() {
+                public XMLElement last_child() {
             return new XMLElement(inst.lsl_last_child(obj));
         }
 
-        /**
-         * Get the next sibling in the children list of the parent node.
-         */
-        public XMLElement next_sibling() {
+                public XMLElement next_sibling() {
             return new XMLElement(inst.lsl_next_sibling(obj));
         }
 
-        /**
-         * Get the previous sibling in the children list of the parent node.
-         */
-        public XMLElement previous_sibling() {
+                public XMLElement previous_sibling() {
             return new XMLElement(inst.lsl_previous_sibling(obj));
         }
 
 
         // === Tree Navigation by Name ===
 
-        /**
-         * Get the parent node.
-         */
-        public XMLElement parent() {
+                public XMLElement parent() {
             return new XMLElement(inst.lsl_parent(obj));
         }
 
-        /**
-         * Get a child with a specified name.
-         */
-        public XMLElement child(String name) {
+                public XMLElement child(String name) {
             return new XMLElement(inst.lsl_child(obj, name));
         }
 
-        /**
-         * Get the next sibling with the specified name.
-         */
-        public XMLElement next_sibling(String name) {
+                public XMLElement next_sibling(String name) {
             return new XMLElement(inst.lsl_next_sibling_n(obj, name));
         }
 
 
         // === Content Queries ===
 
-        /**
-         * Get the previous sibling with the specified name.
-         */
-        public XMLElement previous_sibling(String name) {
+                public XMLElement previous_sibling(String name) {
             return new XMLElement(inst.lsl_previous_sibling_n(obj, name));
         }
 
-        /**
-         * Whether this node is empty.
-         */
-        public boolean empty() {
+                public boolean empty() {
             return inst.lsl_empty(obj) != 0;
         }
 
-        /**
-         * Whether this is a text body (instead of an XML element). True both for plain char data and CData.
-         */
-        public boolean is_text() {
+                public boolean is_text() {
             return inst.lsl_is_text(obj) != 0;
         }
 
-        /**
-         * Name of the element.
-         */
-        public String name() {
+                public String name() {
             return (inst.lsl_name(obj));
         }
 
-        /**
-         * Value of the element.
-         */
-        public String value() {
+                public String value() {
             return (inst.lsl_value(obj));
         }
 
-        /**
-         * Get child value (value of the first child that is text).
-         */
-        public String child_value() {
+                public String child_value() {
             return (inst.lsl_child_value(obj));
         }
 
 
         // === Modification ===
 
-        /**
-         * Get child value of a child with a specified name.
-         */
-        public String child_value(String name) {
+                public String child_value(String name) {
             return (inst.lsl_child_value_n(obj, name));
         }
 
-        /**
-         * Append a child node with a given name, which has a (nameless) plain-text child with the given text value.
-         */
-        public XMLElement append_child_value(String name, String value) {
+                public XMLElement append_child_value(String name, String value) {
             return new XMLElement(inst.lsl_append_child_value(obj, name, value));
         }
 
-        /**
-         * Prepend a child node with a given name, which has a (nameless) plain-text child with the given text value.
-         */
-        public XMLElement prepend_child_value(String name, String value) {
+                public XMLElement prepend_child_value(String name, String value) {
             return new XMLElement(inst.lsl_prepend_child_value(obj, name, value));
         }
 
-        /**
-         * Set the text value of the (nameless) plain-text child of a named child node.
-         */
-        public boolean set_child_value(String name, String value) {
+                public boolean set_child_value(String name, String value) {
             return inst.lsl_set_child_value(obj, name, value) != 0;
         }
 
-        /**
-         * Set the element's name.
-         *
-         * @return False if the node is empty.
-         */
-        public boolean set_name(String rhs) {
+                public boolean set_name(String rhs) {
             return inst.lsl_set_name(obj, rhs) != 0;
         }
 
-        /**
-         * Set the element's value.
-         *
-         * @return False if the node is empty.
-         */
-        public boolean set_value(String rhs) {
+                public boolean set_value(String rhs) {
             return inst.lsl_set_value(obj, rhs) != 0;
         }
 
-        /**
-         * Append a child element with the specified name.
-         */
-        public XMLElement append_child(String name) {
+                public XMLElement append_child(String name) {
             return new XMLElement(inst.lsl_append_child(obj, name));
         }
 
-        /**
-         * Prepend a child element with the specified name.
-         */
-        public XMLElement prepend_child(String name) {
+                public XMLElement prepend_child(String name) {
             return new XMLElement(inst.lsl_prepend_child(obj, name));
         }
 
-        /**
-         * Append a copy of the specified element as a child.
-         */
-        public XMLElement append_copy(XMLElement e) {
+                public XMLElement append_copy(XMLElement e) {
             return new XMLElement(inst.lsl_append_copy(obj, e.obj));
         }
 
-        /**
-         * Prepend a child element with the specified name.
-         */
-        public XMLElement prepend_copy(XMLElement e) {
+                public XMLElement prepend_copy(XMLElement e) {
             return new XMLElement(inst.lsl_prepend_copy(obj, e.obj));
         }
 
-        /**
-         * Remove a child element with the specified name.
-         */
-        public void remove_child(String name) {
+                public void remove_child(String name) {
             inst.lsl_remove_child_n(obj, name);
         }
 
-        /**
-         * Remove a specified child element.
-         */
-        public void remove_child(XMLElement e) {
+                public void remove_child(XMLElement e) {
             inst.lsl_remove_child(obj, e.obj);
         }
     }
@@ -1598,22 +1519,10 @@ public class LSL {
     // === Exception Types ===
     // =======================
 
-    /**
-     * A convenience class that resolves streams continuously in the background throughout
-     * its lifetime and which can be queried at any time for the set of streams that are currently
-     * visible on the network.
-     */
-    public static class ContinuousResolver {
+        public static class ContinuousResolver {
         private Pointer obj; // the underlying native handle
 
-        /**
-         * Construct a new continuous_resolver that resolves all streams on the network.
-         * This is analogous to the functionality offered by the free function resolve_streams().
-         *
-         * @param forget_after When a stream is no longer visible on the network (e.g., because it was shut down),
-         *                     this is the time in seconds after which it is no longer reported by the resolver.
-         */
-        public ContinuousResolver(double forget_after) {
+                public ContinuousResolver(double forget_after) {
             obj = inst.lsl_create_continuous_resolver(forget_after);
         }
 
@@ -1621,16 +1530,7 @@ public class LSL {
             obj = inst.lsl_create_continuous_resolver(5.0);
         }
 
-        /**
-         * Construct a new continuous_resolver that resolves all streams with a specific value for a given property.
-         * This is analogous to the functionality provided by the free function resolve_stream(prop,value).
-         *
-         * @param prop         The stream_info property that should have a specific value (e.g., "name", "type", "source_id", or "desc/manufaturer").
-         * @param value        The String value that the property should have (e.g., "EEG" as the type property).
-         * @param forget_after When a stream is no longer visible on the network (e.g., because it was shut down),
-         *                     this is the time in seconds after which it is no longer reported by the resolver.
-         */
-        public ContinuousResolver(String prop, String value, double forget_after) {
+                public ContinuousResolver(String prop, String value, double forget_after) {
             obj = inst.lsl_create_continuous_resolver_byprop(prop, value, forget_after);
         }
 
@@ -1638,15 +1538,7 @@ public class LSL {
             obj = inst.lsl_create_continuous_resolver_byprop(prop, value, 5.0);
         }
 
-        /**
-         * Construct a new continuous_resolver that resolves all streams that match a given XPath 1.0 predicate.
-         * This is analogous to the functionality provided by the free function resolve_stream(pred).
-         *
-         * @param pred         The predicate String, e.g. "name='BioSemi'" or "type='EEG' and starts-with(name,'BioSemi') and count(info/desc/channel)=32"
-         * @param forget_after When a stream is no longer visible on the network (e.g., because it was shut down),
-         *                     this is the time in seconds after which it is no longer reported by the resolver.
-         */
-        public ContinuousResolver(String pred, double forget_after) {
+                public ContinuousResolver(String pred, double forget_after) {
             obj = inst.lsl_create_continuous_resolver_bypred(pred, forget_after);
         }
 
@@ -1654,22 +1546,11 @@ public class LSL {
             obj = inst.lsl_create_continuous_resolver_bypred(pred, 5.0);
         }
 
-        /**
-         * Close the resolver and stop sending queries.
-         * It is recommended to close a resolver once not needed any more to avoid spamming
-         * the network with resolve queries.
-         */
-        void close() {
+                void close() {
             inst.lsl_destroy_continuous_resolver(obj);
         }
 
-        /**
-         * Obtain the set of currently present streams on the network (i.e. resolve result).
-         *
-         * @return An array of matching stream info objects (excluding their meta-data), any of
-         * which can subsequently be used to open an inlet.
-         */
-        public StreamInfo[] results() {
+                public StreamInfo[] results() {
             Pointer[] buf = new Pointer[1024];
             int num = inst.lsl_resolver_results(obj, buf, buf.length);
             StreamInfo[] res = new StreamInfo[num];
@@ -1679,88 +1560,41 @@ public class LSL {
         }
     }
 
-    /**
-     * Exception class that indicates that a timeout has expired for an operation.
-     */
-    public static class TimeoutException extends Exception {
+        public static class TimeoutException extends Exception {
         public TimeoutException(String message) {
             super(message);
         }
     }
 
-    /**
-     * Exception class that indicates that a stream inlet's source has been irrecoverably lost.
-     */
-    public static class LostException extends Exception {
+        public static class LostException extends Exception {
         public LostException(String message) {
             super(message);
         }
     }
 
-    /**
-     * Exception class that indicates that an invalid argument has been passed.
-     */
-    public static class ArgumentException extends Exception {
+        public static class ArgumentException extends Exception {
         public ArgumentException(String message) {
             super(message);
         }
     }
 
-    /**
-     * Exception class that indicates that an internal error has occurred inside liblsl.
-     */
-    public static class InternalException extends Exception {
+        public static class InternalException extends Exception {
         public InternalException(String message) {
             super(message);
         }
     }
 
-    /**
-     * Data format of a channel (each transmitted sample holds an array of channels).
-     */
-    public class ChannelFormat {
+        public class ChannelFormat {
         public static final int float32 = 1;
-        /**
-         * For up to 24-bit precision measurements in the appropriate physical unit
-         * (e.g., microvolts). Integers from -16777216 to 16777216 are represented accurately.
-         */
-        public static final int double64 = 2;
-        /**
-         * For universal numeric data as long as permitted by network & disk budget.
-         * The largest representable integer is 53-bit.
-         */
-        public static final int string = 3;
-        /**
-         * For variable-length ASCII strings or data blobs, such as video frames,
-         * complex event descriptions, etc.
-         */
-        public static final int int32 = 4;
-        /**
-         * For high-rate digitized formats that require 32-bit precision. Depends critically on
-         * meta-data to represent meaningful units. Useful for application event codes or other coded data.
-         */
-        public static final int int16 = 5;
-        /**
-         * For very high rate signals (40KHz+) or consumer-grade audio
-         * (for professional audio float is recommended).
-         */
-        public static final int int8 = 6;
-        /**
-         * For binary signals or other coded data.
-         * Not recommended for encoding string data.
-         */
-        public static final int int64 = 7;
-        /**
-         * For now only for future compatibility. Support for this type is not yet exposed in all languages.
-         * Also, some builds of liblsl will not be able to send or receive data of this type.
-         */
-        public static final int undefined = 0;  /** Can not be transmitted. */
-    }
+                public static final int double64 = 2;
+                public static final int string = 3;
+                public static final int int32 = 4;
+                public static final int int16 = 5;
+                public static final int int8 = 6;
+                public static final int int64 = 7;
+                public static final int undefined = 0;      }
 
-    /**
-     * Post-processing options for stream inlets.
-     */
-    public class ProcessingOptions {
+        public class ProcessingOptions {
         public static final int proc_none = 0;            /* No automatic post-processing; return the ground-truth time stamps for manual post-processing */
         /* (this is the default behavior of the inlet). */
         public static final int proc_clocksync = 1;        /* Perform automatic clock synchronization; equivalent to manually adding the time_correction() value */
@@ -1773,10 +1607,7 @@ public class LSL {
         public static final int proc_ALL = 1 | 2 | 4 | 8;        /* The combination of all possible post-processing options. */
     }
 
-    /**
-     * Possible error codes.
-     */
-    public class ErrorCode {
+        public class ErrorCode {
         public static final int no_error = 0;           /* No error occurred */
         public static final int timeout_error = -1;     /* The operation failed due to a timeout. */
         public static final int lost_error = -2;        /* The stream has been lost. */

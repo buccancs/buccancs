@@ -10472,22 +10472,11 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
         }
     }
 
-    /**
-     * Setting this to false will disable calibration, e.g. raw accelerometer data will not be calibrated.
-     * Main purpose of disabling calibration is for logging applications, to reduce number of computations needed to compute the data, thus reducing risk of a performance bottleneck and maximizing logging performance
-     * Disabling this can also improve performance on older Android devices
-     *
-     * @param enable enables or disables calibration. Note that this needs to be enabled when using the ID as to calculate 3D orientation, see enable3DOrientation
-     */
-    public void setEnableCalibration(boolean enable) {
+        public void setEnableCalibration(boolean enable) {
         mEnableCalibration = enable;
     }
 
-    /**
-     * Updates the booleans mIsUsingDefaultParams in each Shimmer3 sensor with the current values
-     * Main purpose is to only query if it's using the default params once, e.g. when start streaming, as this can be resource-intensive on old Android devices
-     */
-    protected void determineCalibrationParamsForIMU() {
+        protected void determineCalibrationParamsForIMU() {
         if (isShimmerGen2()) {
             mSensorMMA736x.updateIsUsingDefaultLNAccelParam();
             mSensorShimmer2Mag.updateIsUsingDefaultMagParam();
@@ -10505,14 +10494,7 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
         }
     }
 
-    /**
-     * Updates buildMsg to output ObjectClusters containing data in the Arrays data structure
-     * This improves performance, and can improve packet reception rate, particularly on Android
-     * Note that this has not been fully tested, and enabling this will disable the Multimap data structure
-     *
-     * @param enable
-     */
-    public void enableArraysDataStructure(boolean enable) {
+        public void enableArraysDataStructure(boolean enable) {
         mUseArraysDataStructureInObjectCluster = enable;
     }
 

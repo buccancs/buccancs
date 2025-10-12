@@ -682,11 +682,7 @@ public abstract class AbstractSensor implements Serializable {
         this.parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer, sensorId, range, listOfCalibHandles, "");
     }
 
-    /**
-     * @see ShimmerObject.parseCalibDetailsKinematicFromDb
-     *
-     */
-    public void parseCalibDetailsKinematicFromDb(LinkedHashMap<String, Object> mapOfConfigPerShimmer, int sensorId, int range, List<String> listOfCalibHandles, String calibTimeHandle) {
+        public void parseCalibDetailsKinematicFromDb(LinkedHashMap<String, Object> mapOfConfigPerShimmer, int sensorId, int range, List<String> listOfCalibHandles, String calibTimeHandle) {
         parseCalibDetailsKinematicFromDb(
                 mapOfConfigPerShimmer, sensorId, range, calibTimeHandle,
                 listOfCalibHandles.get(0), listOfCalibHandles.get(1), listOfCalibHandles.get(2),
@@ -696,11 +692,7 @@ public abstract class AbstractSensor implements Serializable {
                 listOfCalibHandles.get(12), listOfCalibHandles.get(13), listOfCalibHandles.get(14));
     }
 
-    /**
-     * @see ShimmerObject.parseCalibDetailsKinematicFromDb
-     *
-     */
-    public void parseCalibDetailsKinematicFromDb(
+        public void parseCalibDetailsKinematicFromDb(
             LinkedHashMap<String, Object> mapOfConfigPerShimmer, int sensorId, int range, String calibTimeHandle,
             String offsetX, String offsetY, String offsetZ,
             String gainX, String gainY, String gainZ,
@@ -787,10 +779,7 @@ public abstract class AbstractSensor implements Serializable {
 
         private final String text;
 
-        /**
-         * @param text
-         */
-        private SENSORS(final String text) {
+                private SENSORS(final String text) {
             this.text = text;
         }
 

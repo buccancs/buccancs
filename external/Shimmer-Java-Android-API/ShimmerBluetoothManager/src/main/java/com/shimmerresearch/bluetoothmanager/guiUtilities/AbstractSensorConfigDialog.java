@@ -47,10 +47,7 @@ public abstract class AbstractSensorConfigDialog {
 
     public abstract void showFrame();
 
-    /**
-     * @wbp.parser.entryPoint
-     */
-//	public void initialize(ShimmerDevice shimmerDevice, ShimmerBluetoothManager bluetoothManager) {
+    //	public void initialize(ShimmerDevice shimmerDevice, ShimmerBluetoothManager bluetoothManager) {
     public void initialize() {
 
         cloneDevice = shimmerDevice.deepClone();
@@ -127,13 +124,7 @@ public abstract class AbstractSensorConfigDialog {
         bluetoothManager.configureShimmer(cloneDevice);
     }
 
-    /**
-     * Pass a String list of keys for sensors to be ignored when generating the list of config options
-     *
-     * @param filterKeys   Keys to be filtered out from the list
-     * @param enableFilter To enable or disable the filter
-     */
-    public void setSensorKeysFilter(List<String> filterKeys, boolean enableFilter) {
+        public void setSensorKeysFilter(List<String> filterKeys, boolean enableFilter) {
         mEnableFilter = enableFilter;
         keysToFilter = filterKeys;
     }

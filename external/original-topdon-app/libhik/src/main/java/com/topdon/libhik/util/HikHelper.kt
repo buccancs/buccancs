@@ -56,10 +56,6 @@ object HikHelper {
         })
     }
     private var hasInit = false
-    /**
-     * 初始化，确保设备已连接且有权限.
-     * @return true-已成功初始化 false-初始化失败
-     */
     fun init(context: Context): Boolean {
         if (userId != JavaInterface.USB_INVALID_USER_ID) {
             return true

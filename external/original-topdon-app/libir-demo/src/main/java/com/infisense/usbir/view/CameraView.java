@@ -12,9 +12,6 @@ import android.view.TextureView;
 
 import com.infisense.iruvc.utils.SynchronizedBitmap;
 
-/**
- * 红外图像展示控件，可以为TextureView或SurfaceView
- */
 public class CameraView extends TextureView {
     private String TAG = "CameraView";
     private Bitmap bitmap;
@@ -30,12 +27,7 @@ public class CameraView extends TextureView {
         this(context, attrs, 0);
     }
 
-    /**
-     * @param context
-     * @param attrs
-     * @param defStyleAttr
-     */
-    public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
+        public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         // 线程中绘制画面
         runnable = new Runnable() {
@@ -59,11 +51,7 @@ public class CameraView extends TextureView {
                             if (canvas == null)
                                 continue;
 
-                            /**
-                             * 图片缩放，这里简单的使用getWidth()作为宽，getHeight()作为高，可能会出现画面拉伸情况，
-                             * 实际使用的时候请参考设备的宽高按照设备的图像尺寸做等比例缩放
-                             */
-                            Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                                                        Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                             canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
                             // 画面中心的十字交叉线绘制
@@ -90,32 +78,20 @@ public class CameraView extends TextureView {
         };
     }
 
-    /**
-     * @param bitmap
-     */
-    public void setBitmap(Bitmap bitmap) {
+        public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 
-    /**
-     * @param syncimage
-     */
-    public void setSyncimage(SynchronizedBitmap syncimage) {
+        public void setSyncimage(SynchronizedBitmap syncimage) {
         this.syncimage = syncimage;
     }
 
-    /**
-     *
-     */
-    public void start() {
+        public void start() {
         cameraThread = new Thread(runnable);
         cameraThread.start();
     }
 
-    /**
-     *
-     */
-    public void stop() {
+        public void stop() {
         cameraThread.interrupt();
         try {
             cameraThread.join();
