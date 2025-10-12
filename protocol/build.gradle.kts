@@ -66,9 +66,11 @@ tasks.withType<GenerateProtoTask>().configureEach {
                                 add(line.trimEnd().removeSuffix(";"))
                                 changed = true
                             }
+
                             line.trimStart().startsWith("@JvmName(") -> {
                                 changed = true
                             }
+
                             else -> add(line)
                         }
                     }
