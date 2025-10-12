@@ -22,11 +22,10 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import java.nio.charset.StandardCharsets
 import java.util.*
-import javax.inject.Inject
 import kotlin.math.max
 import kotlin.random.Random
 
-internal abstract class BaseSimulatedConnector @Inject constructor(
+internal abstract class BaseSimulatedConnector(
     protected val scope: CoroutineScope,
     protected val artifactFactory: SimulatedArtifactFactory,
     initialDevice: SensorDevice

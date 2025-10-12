@@ -93,7 +93,10 @@ class SensorRecordingManagerTest {
         recordingManager.finalizeStream(sessionId, deviceId, streamId)
         val metadata = sessionRepository.metadataFor(sessionId)
         assertNotNull(metadata)
-        val recordedFile = metadata.files.firstOrNull { it.path.contains("sensors/$deviceId/$streamId.csv") }
+        val expectedPath = "sensors/$deviceId/$streamId.csv"
+        val recordedFile = metadata.files.firstOrNull {
+            it.path.replace('\\', '/') == expectedPath
+        }
         assertNotNull(recordedFile)
         assertTrue(recordedFile.bytes > 0)
         assertTrue(recordedFile.checksumSha256.isNotBlank())
