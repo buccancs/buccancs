@@ -24,6 +24,21 @@ class CalibrationViewModel @Inject constructor(
     private val squareSizeMmInput = MutableStateFlow((CalibrationDefaults.Pattern.squareSizeMeters * 1_000.0).format(2))
     private val requiredPairsInput = MutableStateFlow(CalibrationDefaults.RequiredPairs.toString())
     private val busy = MutableStateFlow(false)
+    private val inputState = combine(
+        patternRowsInput,
+        patternColsInput,
+        squareSizeMmInput,
+        requiredPairsInput,
+        busy
+    ) { rowsText, colsText, sizeText, requiredText, isBusy ->
+        CalibrationInputs(
+            rowsText = rowsText,
+            colsText = colsText,
+            sizeText = sizeText,
+            requiredText = requiredText,
+            isBusy = isBusy
+        )
+    }
 
     init {
         viewModelScope.launch {
@@ -33,19 +48,15 @@ class CalibrationViewModel @Inject constructor(
 
     val uiState: StateFlow<CalibrationUiState> = combine(
         calibrationRepository.sessionState,
-        patternRowsInput,
-        patternColsInput,
-        squareSizeMmInput,
-        requiredPairsInput,
-        busy
-    ) { session, rowsText, colsText, sizeText, requiredText, isBusy ->
+        inputState
+    ) { session, inputs ->
         CalibrationUiState(
-            patternRowsInput = rowsText,
-            patternColsInput = colsText,
-            squareSizeMmInput = sizeText,
-            requiredPairsInput = requiredText,
+            patternRowsInput = inputs.rowsText,
+            patternColsInput = inputs.colsText,
+            squareSizeMmInput = inputs.sizeText,
+            requiredPairsInput = inputs.requiredText,
             active = session.active,
-            isProcessing = session.isProcessing || isBusy,
+            isProcessing = session.isProcessing || inputs.isBusy,
             captures = session.captures.map { CalibrationCaptureItem(it.id, it.rgb.capturedAt.toString()) },
             capturedCount = session.captures.size,
             requiredPairs = session.requiredPairs,
