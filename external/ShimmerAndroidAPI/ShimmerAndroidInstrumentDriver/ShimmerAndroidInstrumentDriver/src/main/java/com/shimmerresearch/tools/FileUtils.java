@@ -45,11 +45,7 @@ public class FileUtils {
 
         Log.d(TAG, "MEDIA EXTSD TYPE: " + type);
         Log.d(TAG, "Relative path: " + relativePath);
-        // on my Sony devices (4.4.4 & 5.1.1), `type` is a dynamic string
-        // something like "71F8-2C0A", some kind of unique id per storage
-        // don't know any API that can get the root path of that storage based on its id.
         //
-        // so no "primary" type, but let the check here for other devices
         if ("primary".equalsIgnoreCase(type)) {
             fullPath = Environment.getExternalStorageDirectory() + relativePath;
             if (fileExists(fullPath)) {
@@ -64,11 +60,7 @@ public class FileUtils {
             }
         }
 
-        // Environment.isExternalStorageRemovable() is `true` for external and internal storage
-        // so we cannot relay on it.
         //
-        // instead, for each possible path, check if file exists
-        // we'll start with secondary storage as this could be our (physically) removable sd card
         fullPath = System.getenv("SECONDARY_STORAGE") + relativePath;
         if (fileExists(fullPath)) {
             return fullPath;
@@ -92,14 +84,11 @@ public class FileUtils {
 
     @SuppressLint("NewApi")
     public String getPath(final Uri uri, UriType uritype) {
-        // check here to KITKAT or new version
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
         String selection = null;
         String[] selectionArgs = null;
-        // DocumentProvider
 
         if (isKitKat) {
-            // ExternalStorageProvider
 
             if (isExternalStorageDocument(uri)) {
                 String docId = "";
@@ -127,7 +116,6 @@ public class FileUtils {
             }
 
 
-            // DownloadsProvider
 
             if (isDownloadsDocument(uri)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -165,7 +153,6 @@ public class FileUtils {
 
                                 return getDataColumn(context, contentUri, null, null);
                             } catch (NumberFormatException e) {
-                                //In Android 8 and Android P the id is not a number
                                 return uri.getPath().replaceFirst("^/document/raw:", "").replaceFirst("^raw:", "");
                             }
                         }
@@ -189,7 +176,6 @@ public class FileUtils {
             }
 
 
-            // MediaProvider
             if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
@@ -236,9 +222,7 @@ public class FileUtils {
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    // return getFilePathFromURI(context,uri);
                     return copyFileToInternalStorage(uri, FALLBACK_COPY_FOLDER);
-                    // return getRealPathFromURI(context,uri);
                 } else {
                     return getDataColumn(context, uri, null, null);
                 }
@@ -292,7 +276,6 @@ public class FileUtils {
             int maxBufferSize = 1 * 1024 * 1024;
             int bytesAvailable = inputStream.available();
 
-            //int bufferSize = 1024;
             int bufferSize = Math.min(bytesAvailable, maxBufferSize);
 
             final byte[] buffers = new byte[bufferSize];

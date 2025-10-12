@@ -30,7 +30,6 @@ import com.shimmerresearch.sensors.AbstractSensor;
 import com.shimmerresearch.sensors.SensorSystemTimeStamp;
 import com.shimmerresearch.sensors.SensorShimmerClock;
 
-//https://www.numed.co.uk/files/uploads/Product/Nonin%209560%20Bluetooth%20Specification.pdf
 public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListener {
 
         private static final long serialVersionUID = -4620570962788027578L;
@@ -72,7 +71,6 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
         } catch (ShimmerException e) {
             consolePrintLn("Failed to BT connect");
             consolePrintLn(e.getErrStringFormatted());
-//			e.printStackTrace();
         }
     }
 
@@ -104,13 +102,10 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
                     System.out.println("Nonin NACK received");
                     disconnect();
                 } else {
-                    //TODO Hack incase device is already streaming
-//					setBluetoothRadioState(BT_STATE.STREAMING);
                 }
             }
         } catch (ShimmerException e) {
             consolePrintLn("Failed to start streaming");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -122,24 +117,17 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
             long pcTimestamp = System.currentTimeMillis();
 
             byte[] rxBytes = mSerialPortComm.rxBytes(byteLength);
-//			consolePrintLn(UtilShimmer.bytesToHexStringWithSpacesFormatted(rxBytes));
 
             if (rxBytes.length == 4) {
                 incrementPacketReceivedCountCurrent();
                 ObjectCluster objectCluster = buildMsg(rxBytes, COMMUNICATION_TYPE.BLUETOOTH, false, pcTimestamp);
 
-//				consolePrintLn("\tTimestamp=" + UtilShimmer.convertMilliSecondsToHrMinSecString(pcTimestamp)
-//						+ "\tUnknown=" + rxBytes[0] 
-//						+ "\tHeart rate=" + rxBytes[1] 
-//						+ "\t%SpO2=" + rxBytes[2] 
-//						+ "\tUnknown=" + rxBytes[3]);
 
                 dataHandler(objectCluster);
             }
 
         } catch (ShimmerException e) {
             consolePrintLn("Failed to read serial port bytes");
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -176,36 +164,30 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
         getSensorClass(SENSORS.NONIN_ONYX_II).setIsEnabledSensor(COMMUNICATION_TYPE.BLUETOOTH, true, Configuration.Shimmer3.SENSOR_ID.THIRD_PARTY_NONIN);
 
         super.sensorAndConfigMapsCreateCommon();
-//		generateSensorAndParserMaps();
     }
 
     @Override
     protected void interpretDataPacketFormat(Object object, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(byte[] infoMemContents, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public byte[] configBytesGenerate(boolean generateForWritingToShimmer, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void createConfigBytesLayout() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -225,11 +207,9 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
         mDeviceCallbackAdapter.isReadyForStreaming();
     }
 
-    //TODO neaten below. Copy/Paste from Shimmer4
     public void setRadio(AbstractSerialPortHal serialPortComm) {
         mSerialPortComm = serialPortComm;
 
-//		mSerialPortComm = new SerialPortJssc(comPort, uniqueId, SerialPort.BAUDRATE_9600);
         mSerialPortComm.registerSerialPortRxEventCallback(this);
         mSerialPortComm.addByteLevelDataCommListener(new ByteLevelDataCommListener() {
             @Override
@@ -243,7 +223,6 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
                 System.out.println("eventConnected");
                 setBluetoothRadioState(BT_STATE.CONNECTED);
                 isReadyForStreaming();
-                //Autostart streaming on connect -> easier to handle in the GUI as there is no command to stop streaming
                 startStreaming();
             }
         });
@@ -254,29 +233,9 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
         super.calculatePacketReceptionRateCurrent(intervalMs);
         mDeviceCallbackAdapter.sendCallbackPacketReceptionRateCurrent();
 
-//		setPacketReceptionRateCurrent(calculatePacketLossCurrent(intervalMs, getSamplingRateShimmer()));
-//		CallbackObject callBackObject = new CallbackObject(ShimmerBluetooth.MSG_IDENTIFIER_PACKET_RECEPTION_RATE_CURRENT, getMacId(), getComPort(), getPacketReceptionRateCurrent());
-//		sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_PACKET_RECEPTION_RATE_CURRENT, callBackObject);
-//		resetPacketReceptionCurrentCounters();
     }
 
-//	//TODO neaten below. Copy/Paste from ShimmerGQ
-//	public double calculatePacketLossCurrent(long timeDifference, double samplingRate){
-//		mPacketExpectedCountCurrent = (long) ((double)((timeDifference/1000)*samplingRate));
-//		return calculatePacketLossCurrent(mPacketExpectedCountCurrent, mPacketReceivedCountCurrent);
-//	}
 //
-//	//TODO neaten below. Copy/Paste from ShimmerGQ
-//	public double calculatePacketLossCurrent(){
-//		return calculatePacketLossCurrent(mPacketExpectedCountCurrent, mPacketReceivedCountCurrent);
-//	}
 //
-//	//TODO neaten below. Copy/Paste from ShimmerGQ
-//	private double calculatePacketLossCurrent(long packetExpectedCount, long packetReceivedCount){
-//		setPacketReceptionRateCurrent((double)((packetReceivedCount)/(double)packetExpectedCount)*100);
-//		//TODO 2016-09-06 remove below because if it is going to be implemented it should be in the method setPacketReceptionRateCurrent()?
-//		setPacketReceptionRateCurrent(UtilShimmer.nudgeDouble(getPacketReceptionRateCurrent(), 0.0, 100.0));
-//		return getPacketReceptionRateCurrent();
-//	}
 
 }

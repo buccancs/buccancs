@@ -19,18 +19,15 @@ public abstract class SensorBMPX80 extends AbstractSensor {
 
     private static final long serialVersionUID = 1772340408277892416L;
 
-    //--------- Sensor specific variables start --------------
     public CalibDetailsBmpX80 mCalibDetailsBmpX80 = new CalibDetailsBmp180(); // = new CalibDetailsBmp280();
     protected int mPressureResolution = 0;
 
     public SensorBMPX80(SENSORS sensorType, ShimmerVerObject svo) {
         super(sensorType, svo);
-        // TODO Auto-generated constructor stub
     }
 
     public SensorBMPX80(SENSORS sensorType, ShimmerDevice shimmerDevice) {
         super(sensorType, shimmerDevice);
-        // TODO Auto-generated constructor stub
     }
 
     public abstract List<Double> getPressTempConfigValuesLegacy();
@@ -38,7 +35,6 @@ public abstract class SensorBMPX80 extends AbstractSensor {
     public byte[] getRawCalibrationParameters(ShimmerVerObject svo) {
         byte[] rawcal = new byte[1];
         if (mShimmerVerObject.isShimmerGen3() || mShimmerVerObject.isShimmerGen3R() || mShimmerVerObject.isShimmerGen4()) {
-            // Mag + Pressure
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             try {
                 outputStream.write(5); // write the number of different calibration parameters
@@ -60,7 +56,6 @@ public abstract class SensorBMPX80 extends AbstractSensor {
         mCalibDetailsBmpX80.parseCalParamByteArray(pressureResoRes, calibReadSource);
     }
 
-    //--------- Sensor specific variables end --------------
 
     public double[] calibratePressureSensorData(double uP, double uT) {
         return mCalibDetailsBmpX80.calibratePressureSensorData(uP, uT);
@@ -90,8 +85,6 @@ public abstract class SensorBMPX80 extends AbstractSensor {
             configBytes[configByteLayoutCast.idxConfigSetupByte3] |= (byte) ((getPressureResolution() & configByteLayoutCast.maskBMPX80PressureResolution) << configByteLayoutCast.bitShiftBMPX80PressureResolution);
         }
 
-//		System.out.println("Info Mem Pressure resolution:\t" + mPressureResolution_BMP280);
-//		System.out.println("Check");
     }
 
     @Override
@@ -112,7 +105,6 @@ public abstract class SensorBMPX80 extends AbstractSensor {
         public static final String PRESS_TEMP_BMPX80 = "Pressure & Temperature";
     }
 
-    // GUI Sensor Tiles
     public class LABEL_SENSOR_TILE {
         public static final String PRESSURE_TEMPERATURE = GuiLabelSensors.PRESS_TEMP_BMPX80;
     }

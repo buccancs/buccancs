@@ -64,7 +64,6 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
                 try {
                     ble.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -87,7 +86,6 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
                 try {
                     ble.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -95,29 +93,23 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
         btnNewButton_2.setBounds(10, 79, 89, 23);
         frame.getContentPane().add(btnNewButton_2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // TODO Auto-generated method stub
-        //BTHLE\Dev_e7452c6d6f14
     }
 
     public static String byteArrayToHexString(byte[] byteArray) {
         StringBuilder hexString = new StringBuilder();
         for (byte b : byteArray) {
-            // Convert each byte to a two-digit hexadecimal representation
             hexString.append(String.format("%02X", b));
         }
         return hexString.toString();
     }
 
     public void InitializeProcess() {
-        // Define the server host and port
 
 
-        // Create a channel to connect to the server
         channel = ManagedChannelBuilder.forAddress(mServerHost, mServerPort)
                 .usePlaintext() // Use plaintext communication (insecure for testing)
                 .build();
 
-        // Create a gRPC client stub
         blockingStub = ShimmerBLEByteServerGrpc.newBlockingStub(channel);
 
 
@@ -125,10 +117,6 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
 
     @Override
     public void connect() throws ShimmerException {
-        // TODO Auto-generated method stub
-        // Create a request message
-        //E8EB1B713E36
-        //e7452c6d6f14
         ShimmerBLEByteServerGrpc.ShimmerBLEByteServerStub stub = ShimmerBLEByteServerGrpc.newStub(channel);
         Request request = Request.newBuilder().setName(mMacAddress).build();
         mConnectTask = new TaskCompletionSource<>();
@@ -138,7 +126,6 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
 
             @Override
             public void onNext(StateStatus value) {
-                // TODO Auto-generated method stub
                 System.out.println(value.getMessage() + " " + value.getState().toString());
                 if (value.getState().equals(BluetoothState.Connected)) {
                     mConnectTask.setResult(true);
@@ -153,23 +140,17 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
 
             @Override
             public void onError(Throwable t) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onCompleted() {
-                // TODO Auto-generated method stub
 
             }
 
         };
         stub.connectShimmer(request, responseObserverState);
-        // Call the remote gRPC service method
-        //Reply response = blockingStub.connectShimmer(request);
 
-        // Process the response
-        //System.out.println("Received: " + response.getMessage());
 
 
         try {
@@ -183,7 +164,6 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
 
                     @Override
                     public void onNext(ObjectClusterByteArray value) {
-                        // TODO Auto-generated method stub
                         byte[] bytesData = value.getBinaryData().toByteArray();
                         if (debug) {
                             long nt = System.currentTimeMillis();
@@ -192,7 +172,6 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
                             }
                             numberOfBytes += bytesData.length;
                             long totalElapsed = nt - st;
-                            //System.out.println(value.getBluetoothAddress() + "  elapsed time:" + (nt-ct1)+ " # Bytes: " + bytesData.length + " Throughput: " + (bytesData.length*1000.0/(nt-ct1))/1024 + "KB/s values : " + byteArrayToHexString(bytesData));
                             if (totalElapsed != 0) {
                                 System.out.println(totalElapsed + "   " + numberOfBytes + "   " + "  Throughput: " + (numberOfBytes * 1000.0 / (totalElapsed)) / 1024 + "KB/s values");
                             }
@@ -205,18 +184,15 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
 
                     @Override
                     public void onError(Throwable t) {
-                        // TODO Auto-generated method stub
                         System.out.println("error 1");
                     }
 
                     @Override
                     public void onCompleted() {
-                        // TODO Auto-generated method stub
                         System.out.println("completed");
                     }
                 };
 
-                //ShimmerBLEByteServerGrpc.ShimmerBLEByteServerStub stub = ShimmerBLEByteServerGrpc.newStub(channel);
                 stub.getDataStream(sreq, responseObserver);
 
             } else {
@@ -232,14 +208,10 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
 
     @Override
     public void disconnect() throws ShimmerException {
-        // TODO Auto-generated method stub
-        // Create a request message
         Request request = Request.newBuilder().setName(mMacAddress).build();
 
-        // Call the remote gRPC service method
         Reply response = blockingStub.disconnectShimmer(request);
 
-        // Process the response
         System.out.println("Received: " + response.getMessage());
         if (mByteCommunicationListener != null) {
             mByteCommunicationListener.eventDisconnected();
@@ -248,27 +220,21 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
 
     @Override
     public void writeBytes(byte[] bytes) {
-        // TODO Auto-generated method stub
 
-        // Create a request message
         WriteBytes request = WriteBytes.newBuilder().setAddress(mMacAddress).setByteToWrite(ByteString.copyFrom(bytes)).build();
 
-        // Call the remote gRPC service method
         Reply response = blockingStub.writeBytesShimmer(request);
 
-        // Process the response
         System.out.println("Received: " + response.getMessage());
     }
 
     @Override
     public void stop() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public String getUuid() {
-        // TODO Auto-generated method stub
         return mMacAddress;
     }
 }

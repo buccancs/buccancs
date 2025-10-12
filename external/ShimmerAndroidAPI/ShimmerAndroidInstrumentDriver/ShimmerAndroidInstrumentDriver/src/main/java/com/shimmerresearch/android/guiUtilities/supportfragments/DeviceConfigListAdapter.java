@@ -36,7 +36,6 @@ public class DeviceConfigListAdapter extends BaseExpandableListAdapter {
     ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid;
     private Context context;
     private HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
-    //HashMap where <Key(sensor option name), Current setting>
     private HashMap<String, String> currentSettingsMap = new HashMap<String, String>();
 
 
@@ -53,11 +52,9 @@ public class DeviceConfigListAdapter extends BaseExpandableListAdapter {
                 String[] cs = cods.getGuiValues();
                 if (cods.mGuiComponentType == ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX) {
                     if (cs != null) {
-                        //Put the expandable list child values in the HashMap
                         List<String> csList = Arrays.asList(cs);
                         expandableListDetail.put(key, csList);
 
-                        //Get the current setting from the configOptionsMap
                         Object returnedValue = shimmerDevice.getConfigValueUsingConfigLabel(key);
                         if (returnedValue != null) {
                             int configValue = (int) returnedValue;
@@ -69,7 +66,6 @@ public class DeviceConfigListAdapter extends BaseExpandableListAdapter {
                         Log.e("SHIMMER", "cs is null for key " + key);
                     }
                 } else if (cods.mGuiComponentType == ConfigOptionDetails.GUI_COMPONENT_TYPE.TEXTFIELD) {
-                    //A text field is needed as this config setting can be assigned any value
                     String value = (String) shimmerDevice.getConfigValueUsingConfigLabel(key);
                     String[] textField = {"TEXTFIELD"};
                     List<String> csList = Arrays.asList(textField);
@@ -114,9 +110,6 @@ public class DeviceConfigListAdapter extends BaseExpandableListAdapter {
                 }
             }
             final EditText editText = (EditText) convertView.findViewById(R.id.editText);
-//            String textFieldValue = (String) currentSettingsMap.get(getGroup(groupPosition));
-//            editText.setText(textFieldValue);
-//            editText.append("");
 
             Object textFieldValue = cloneDevice.getConfigValueUsingConfigLabel((String) getGroup(groupPosition));
             editText.setText((String) textFieldValue);

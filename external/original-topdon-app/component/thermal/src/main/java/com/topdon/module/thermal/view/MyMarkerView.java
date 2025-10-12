@@ -27,8 +27,6 @@ public class MyMarkerView extends MarkerView {
         timeText = findViewById(R.id.time_text);
     }
 
-    // runs every time the MarkerView is redrawn, can be used to update the
-    // content (user-interface)
     @SuppressLint("DefaultLocale")
     @Override
     public void refreshContent(Entry e, Highlight highlight) {

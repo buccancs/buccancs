@@ -34,10 +34,8 @@ public class StackedValueFormatter extends ValueFormatter {
 
             if (vals != null) {
 
-                // find out if we are on top of the stack
                 if (vals[vals.length - 1] == value) {
 
-                    // return the "sum" across all stack values
                     return mFormat.format(entry.getY()) + mSuffix;
                 } else {
                     return ""; // return empty
@@ -45,7 +43,6 @@ public class StackedValueFormatter extends ValueFormatter {
             }
         }
 
-        // return the "proposed" value
         return mFormat.format(value) + mSuffix;
     }
 }

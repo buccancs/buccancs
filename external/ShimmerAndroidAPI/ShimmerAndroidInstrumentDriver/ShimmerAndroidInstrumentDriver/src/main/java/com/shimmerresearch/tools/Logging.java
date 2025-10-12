@@ -117,7 +117,6 @@ public class Logging {
                 } else {
                     writer = new BufferedWriter(new FileWriter(outputFile, true));
                 }
-                //First retrieve all the unique keys from the objectClusterLog
                 Multimap<String, FormatCluster> m = objectClusterLog.getPropertyCluster();
 
                 int size = m.size();
@@ -128,22 +127,18 @@ public class Logging {
                 int i = 0;
                 int p = 0;
                 for (String key : m.keys()) {
-                    //first check that there are no repeat entries
 
                     if (compareStringArray(mSensorNames, key) == true) {
                         for (FormatCluster formatCluster : m.get(key)) {
                             mSensorFormats[p] = formatCluster.mFormat;
                             mSensorUnits[p] = formatCluster.mUnits;
-                            //Log.d("Shimmer",key + " " + mSensorFormats[p] + " " + mSensorUnits[p]);
                             p++;
                         }
                     }
                     mSensorNames[i] = key;
                     i++;
                 }
-                // write header to a file
 
-                //writer = new BufferedWriter(new FileWriter(outputFile,false));
 
                 for (int k = 0; k < mSensorNames.length; k++) {
                     writer.write(objectClusterLog.getShimmerName());
@@ -181,21 +176,17 @@ public class Logging {
                     writer.write(mDelimiter);
                 }
                 writer.newLine();
-//			Log.d("Shimmer","Data Written");
                 mFirstWrite = false;
             }
 
-            //now write data
             for (int r = 0; r < mSensorNames.length; r++) {
                 Collection<FormatCluster> dataFormats = objectClusterLog.getCollectionOfFormatClusters(mSensorNames[r]);
                 FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);  // retrieve the calibrated data
-//				Log.d("Shimmer","Data : " +mSensorNames[r] + formatCluster.mData + " "+ formatCluster.mUnits);
                 writer.write(Double.toString(formatCluster.mData));
                 writer.write(mDelimiter);
             }
             writer.newLine();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             Log.d("Shimmer", "Error with bufferedwriter");
         }
@@ -206,7 +197,6 @@ public class Logging {
             try {
                 writer.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

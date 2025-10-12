@@ -28,9 +28,6 @@ public class Shimmer6DoFor9DoFGui {
         setChannelDetails(this.selectedAccel);
     }
 
-//	public void setIs9DoFSelected(String deviceNameAndDoF){
-//		this.is9DoFSelected = (deviceNameAndDoF.contains(OrientationModule9DOF.sGD9Dof.mGroupName));
-//	}
 
     public String getUserAssignedShimmerName() {
         return this.shimmerName;
@@ -65,11 +62,5 @@ public class Shimmer6DoFor9DoFGui {
         return this.isBothAccelsAvailable;
     }
 
-//	public boolean isLowNoiseAccelSelected(){
-//		return (getEnabledAccel().equals(OrientationModule.GuiFriendlyLabelConfig.ORIENTATAION_LN));
-//	}
-//	
-//	public boolean is9DoFSelected(){
-//		return this.is9DoFSelected;
-//	}
+//
 };

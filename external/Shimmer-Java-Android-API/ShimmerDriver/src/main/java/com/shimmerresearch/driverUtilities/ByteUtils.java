@@ -4,11 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class ByteUtils {
-    //Java8
-    //private static ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);    
-//	private static ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE/8);   
 
-    //Above can't be static as they'll be used in multiple places in code.
     private static int longSize = Long.SIZE / Byte.SIZE;
     private static int shortSize = Long.SIZE / Byte.SIZE;
 
@@ -73,16 +69,12 @@ public class ByteUtils {
     }
 
     public static byte[] joinArrays(byte[] array1, byte[] array2) {
-        // Calculate the length of the joined array
         int joinedLength = array1.length + array2.length;
 
-        // Create a new array to hold the joined elements
         byte[] joinedArray = new byte[joinedLength];
 
-        // Copy elements from the first array
         System.arraycopy(array1, 0, joinedArray, 0, array1.length);
 
-        // Copy elements from the second array
         System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);
 
         return joinedArray;

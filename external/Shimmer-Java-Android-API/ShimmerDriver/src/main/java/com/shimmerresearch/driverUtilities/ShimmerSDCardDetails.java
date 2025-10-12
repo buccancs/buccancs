@@ -12,7 +12,6 @@ public class ShimmerSDCardDetails implements Serializable {
     public long mDriveUsedSpaceLastTimeChanged = 0;
     protected long mDriveTotalSpaceBytes = 0; //total disk space in bytes.
     protected long mDriveUsableSpaceBytes = 0;
-    /// unallocated / free disk space in bytes.
     protected long mDriveFreeSpaceBytes = 0; //unallocated / free disk space in bytes.
     protected long mDriveUsedSpaceBytes = 0;
     protected boolean mFirstSdAccess = true;

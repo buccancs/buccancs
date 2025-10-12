@@ -72,7 +72,6 @@ public class ProductionConfigPayload extends AbstractPayload implements Serializ
 
         payloadContents[7] = (byte) expansionBoardDetails.getExpansionBoardId();
         payloadContents[8] = (byte) expansionBoardDetails.getExpansionBoardRev();
-        //NOTE: Verisense FW won't allow it's own FW version to be overwritten but no harm in putting structure here
         payloadContents[9] = (byte) shimmerVerObject.getFirmwareVersionMajor();
         payloadContents[10] = (byte) shimmerVerObject.getFirmwareVersionMinor();
 

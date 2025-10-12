@@ -72,8 +72,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     String uuid;
     transient ThreadSafeByteFifoBuffer mBuffer;
 
-    //"DA:A6:19:F0:4A:D7"
-    //"E7:45:2C:6D:6F:14"
     transient TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     transient TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
@@ -152,8 +150,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
                     gatt.setPreferredPhy(BluetoothDevice.PHY_LE_2M_MASK, BluetoothDevice.PHY_LE_2M_MASK, BluetoothDevice.PHY_OPTION_NO_PREFERRED);
                 }
                 mTaskConnect.setResult("Connected");
-                //mHandler.obtainMessage(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, -1, -1,
-                //new ObjectCluster("", bleDevice.getMac(), BT_STATE.CONNECTED)).sendToTarget();
                 sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, new ObjectCluster("", bleDevice.getMac(), BT_STATE.CONNECTED));
                 Bundle bundle = new Bundle();
                 bundle.putString(TOAST, "Device connection established");
@@ -171,8 +167,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
 
             @Override
             public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                //mHandler.obtainMessage(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, -1, -1,
-                //new ObjectCluster("", bleDevice.getMac(), BT_STATE.DISCONNECTED)).sendToTarget();
                 sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, new ObjectCluster("", bleDevice.getMac(), BT_STATE.DISCONNECTED));
 
                 Bundle bundle = new Bundle();
@@ -204,7 +198,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
                 if (service.getUuid().compareTo(sid) == 0) {
                     for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
                         if (characteristic.getUuid().compareTo(txid) == 0) {
-                            //newConnectedBLEDevice(bleDevice,characteristic);
                             CharSequence text = "TXID!";
                         } else if (characteristic.getUuid().compareTo(rxid) == 0) {
                             newConnectedBLEDevice(bleDevice, characteristic);
@@ -243,7 +236,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
                             try {
                                 mBuffer.write(data);
                             } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                         }
@@ -284,7 +276,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         try {
             disconnect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -336,7 +327,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         try {
             disconnect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         setBluetoothRadioState(BT_STATE.CONNECTION_LOST);
@@ -368,7 +358,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     @Override
     protected void eventLogAndStreamStatusChanged(byte currentCommand) {
         if (currentCommand == STOP_LOGGING_ONLY_COMMAND) {
-            //TODO need to query the Bluetooth connection here!
             if (mIsStreaming) {
                 setBluetoothRadioState(BT_STATE.STREAMING);
             } else if (isConnected()) {
@@ -384,16 +373,10 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
             } else if (isSDLogging()) {
                 setBluetoothRadioState(BT_STATE.SDLOGGING);
             } else {
-                //				if(!isStreaming() && !isSDLogging() && isConnected()){
                 if (!mIsStreaming && !isSDLogging() && isConnected() && mBluetoothRadioState != BT_STATE.CONNECTED) {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                 }
-                //				if(getBTState() == BT_STATE.INITIALISED){
                 //
-                //				}
-                //				else if(getBTState() != BT_STATE.CONNECTED){
-                //					setState(BT_STATE.CONNECTED);
-                //				}
 
                 CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_STATE_CHANGE, mBluetoothRadioState, getMacId(), getComPort());
                 sendCallBackMsg(MSG_IDENTIFIER_STATE_CHANGE, callBackObject);
@@ -411,7 +394,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         try {
             return mBuffer.read(numberofBytes);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -422,7 +404,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         try {
             return mBuffer.read();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return -1;
@@ -475,7 +456,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
 
     @Override
     public void disconnect() throws ShimmerException {
-        //		super.disconnect();
         stopAllTimers();
         BleManager.getInstance().disconnect(mBleDevice);
         closeConnection();
@@ -499,7 +479,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
             if (mIOThread != null) {
                 mIOThread.stop = true;
 
-                // Closing serial port before before thread is finished stopping throws an error so waiting here
                 while (mIOThread != null && mIOThread.isAlive()) ;
 
                 mIOThread = null;
@@ -519,10 +498,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         }
     }
 
-    //Need to override here because ShimmerDevice class uses a different map
     @Override
     public String getSensorLabel(int sensorKey) {
-        //TODO 2017-08-03 MN: super does this but in a different way, don't know is either is better
         super.getSensorLabel(sensorKey);
         SensorDetails sensor = mSensorMap.get(sensorKey);
         if (sensor != null) {
@@ -535,13 +512,10 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
 
         @Override
         protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-            // TODO Auto-generated method stub
             System.out.println(shimmerMSG.mIdentifier);
 
 
-            // TODO Auto-generated method stub
 
-            // TODO Auto-generated method stub
             int ind = shimmerMSG.mIdentifier;
 
             Object object = (Object) shimmerMSG.mB;
@@ -552,7 +526,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
                 if (callbackObject.mState == BT_STATE.CONNECTING) {
                 } else if (callbackObject.mState == BT_STATE.CONNECTED) {
                 } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-                        //						|| callbackObject.mState == BT_STATE.NONE
                         || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
 
                 }

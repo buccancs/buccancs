@@ -17,10 +17,8 @@ import com.shimmerresearch.sensors.AbstractSensor.GuiLabelConfigCommon;
 
 public class SensorShimmer2Mag extends AbstractSensor {
 
-    //Shimmer2/2r Calibration - Default values
     protected static final double[][] AlignmentMatrixMagShimmer2 = {{1, 0, 0}, {0, 1, 0}, {0, 0, -1}};
 
-    //--------- Sensor specific variables start --------------
     protected static final double[][] SensitivityMatrixMagShimmer2 = {{580, 0, 0}, {0, 580, 0}, {0, 0, 580}};
     protected static final double[][] OffsetVectorMagShimmer2 = {{0}, {0}, {0}};
     protected static final double[][] SensitivityMatrixMag0p8GaShimmer2 = {{1370, 0, 0}, {0, 1370, 0}, {0, 0, 1370}};
@@ -103,52 +101,42 @@ public class SensorShimmer2Mag extends AbstractSensor {
         initialise();
     }
 
-    //--------- Sensor specific variables end --------------
 
-    //--------- Constructors for this class end --------------
 
     @Override
     public void generateSensorMap() {
-        // TODO Auto-generated method stub
 
     }
 
-    //--------- Constructors for this class end --------------
 
     @Override
     public void generateConfigOptionsMap() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void generateSensorGroupMapping() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType,
                                            ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimeStampMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -171,9 +159,6 @@ public class SensorShimmer2Mag extends AbstractSensor {
         Object returnValue = null;
         switch (configLabel) {
             case (GuiLabelConfigCommon.RANGE):
-//				if(sensorId==Configuration.Shimmer3.SENSOR_ID.SHIMMER_ANALOG_ACCEL){
-//					returnValue = 0;
-//				}
                 break;
             default:
                 returnValue = super.getConfigValueUsingConfigLabelCommon(sensorId, configLabel);
@@ -190,43 +175,36 @@ public class SensorShimmer2Mag extends AbstractSensor {
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -247,7 +225,6 @@ public class SensorShimmer2Mag extends AbstractSensor {
         updateCurrentCalibInUse();
     }
 
-    //--------- Optional methods to override in Sensor Class start --------
 
     @Override
     public void setCalibrationMapPerSensor(int sensorId, TreeMap<Integer, CalibDetails> mapOfSensorCalibration) {
@@ -260,10 +237,8 @@ public class SensorShimmer2Mag extends AbstractSensor {
         setShimmer2rMagRateFromFreq(mShimmerDevice.getSamplingRateShimmer());
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
 
-    //--------- Sensor specific methods start --------------
 
     public boolean checkLowPowerMag() {
         setLowPowerMag((getMagRate() <= 4) ? true : false);
@@ -285,20 +260,6 @@ public class SensorShimmer2Mag extends AbstractSensor {
             setShimmer2rMagRate(4);
         }
 
-//		if(!isLowPowerMagEnabled()){
-//			if(samplingRateShimmer<=10) {
-//				setShimmer2rMagRate(4);
-//			}
-//			else if (samplingRateShimmer<=20) {
-//				setShimmer2rMagRate(5);
-//			}
-//			else {
-//				setShimmer2rMagRate(6);
-//			}
-//		}
-//		else {
-//			setShimmer2rMagRate(4);
-//		}
     }
 
     public void setShimmer2rMagRate(int magRate) {
@@ -337,7 +298,6 @@ public class SensorShimmer2Mag extends AbstractSensor {
     }
 
 
-    //--------- Sensor specific methods end --------------
 
     public class GuiLabelConfig {
         public static final String MAG_LOW_POWER_MODE = "Mag Low Power Mode";

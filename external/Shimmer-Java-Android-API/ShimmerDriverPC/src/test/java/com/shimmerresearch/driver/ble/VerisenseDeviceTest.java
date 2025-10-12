@@ -15,8 +15,6 @@ import com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunic
 
 public class VerisenseDeviceTest {
 
-//	BleRadioByteCommunication radio1 = new BleRadioByteCommunication("00000000-0000-0000-0000-d0927db7e40c", "bleconsoleapp\\BLEConsoleApp1.exe");
-//	BleRadioByteCommunication radio2 = new BleRadioByteCommunication("00000000-0000-0000-0000-ee391e885898", "bleconsoleapp\\BLEConsoleApp2.exe");
 
     BleRadioByteCommunication radio1 = new BleRadioByteCommunication("00000000-0000-0000-0000-e7452c6d6f14", "bleconsoleapp\\BLEConsoleApp1.exe");
     BleRadioByteCommunication radio2 = new BleRadioByteCommunication("00000000-0000-0000-0000-daa619f04ad7", "bleconsoleapp\\BLEConsoleApp2.exe");
@@ -29,10 +27,7 @@ public class VerisenseDeviceTest {
         VerisenseDeviceTest test = new VerisenseDeviceTest();
         test.initialize();
 
-        // connect
 
-        // System.out.println(p);
-        // p.destroy();
     }
 
     public void initialize() {
@@ -45,11 +40,9 @@ public class VerisenseDeviceTest {
         JButton btnNewButton = new JButton("Connect");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//				protocol1.connect();
                 try {
                     device1.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -63,7 +56,6 @@ public class VerisenseDeviceTest {
                 try {
                     device1.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -77,7 +69,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol1.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -91,7 +82,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol1.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -105,7 +95,6 @@ public class VerisenseDeviceTest {
                 try {
                     device2.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -119,7 +108,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol2.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -133,7 +121,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol2.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -147,7 +134,6 @@ public class VerisenseDeviceTest {
                 try {
                     device2.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -161,7 +147,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol1.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -175,7 +160,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol1.stopStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -190,7 +174,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol2.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -204,7 +187,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol2.stopStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -218,7 +200,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol1.readOperationalConfig();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -232,7 +213,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol2.readOperationalConfig();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -246,7 +226,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol1.readProductionConfig();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -260,7 +239,6 @@ public class VerisenseDeviceTest {
                 try {
                     protocol2.readProductionConfig();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }

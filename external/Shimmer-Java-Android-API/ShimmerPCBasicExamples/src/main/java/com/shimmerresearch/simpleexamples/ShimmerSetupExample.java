@@ -17,13 +17,11 @@ public class ShimmerSetupExample extends BasicProcessWithCallBack {
 
     public void initialize() {
         Integer[] arraySensorID = {Configuration.Shimmer3.SENSOR_ID.SHIMMER_BMPX80_PRESSURE};
-        // TODO Auto-generated method stub
         ShimmerPC pc = new ShimmerPC("test", 51.2, 1, 4, arraySensorID, 0, 0, 0, 0);
         pc.connect("COM46", "");
         try {
             pc.connect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         setWaitForData(pc);
@@ -31,9 +29,7 @@ public class ShimmerSetupExample extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;

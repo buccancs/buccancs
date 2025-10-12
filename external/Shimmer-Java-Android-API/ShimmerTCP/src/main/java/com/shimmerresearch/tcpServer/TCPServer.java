@@ -1,5 +1,4 @@
 package com.shimmerresearch.tcpServer;
-//TCPServer.java
 
 import java.io.*;
 import java.net.*;

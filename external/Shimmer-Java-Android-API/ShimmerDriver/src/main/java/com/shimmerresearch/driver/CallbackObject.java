@@ -1,6 +1,4 @@
-//Object for callback method. Two components: an indicator(shows the type of notification message or the state) and the bluetooth address
 
-//Rev0.1
 
 package com.shimmerresearch.driver;
 

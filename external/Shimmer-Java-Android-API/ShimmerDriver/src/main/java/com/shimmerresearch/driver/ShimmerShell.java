@@ -40,7 +40,6 @@ public class ShimmerShell extends ShimmerDevice {
         try {
             super.connect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -66,71 +65,59 @@ public class ShimmerShell extends ShimmerDevice {
 
     @Override
     public boolean setSensorEnabledState(int sensorId, boolean state) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public List<Integer> sensorMapConflictCheck(Integer key) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Object setConfigValueUsingConfigLabel(String groupName, String componentName, Object configValue) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Object getConfigValueUsingConfigLabel(String componentName) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void configBytesParse(byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public byte[] configBytesGenerate(boolean generateForWritingToShimmer, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void sensorAndConfigMapsCreate() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void interpretDataPacketFormat(Object object, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void createConfigBytesLayout() {
-        // TODO Auto-generated method stub
 
     }
 
     public void setRadio(CommsProtocolRadio shimmerRadioProtocol) {
-        //TODO
     }
 
     @Override
     protected void dataHandler(ObjectCluster ojc) {
-        // TODO Auto-generated method stub
 
     }
 

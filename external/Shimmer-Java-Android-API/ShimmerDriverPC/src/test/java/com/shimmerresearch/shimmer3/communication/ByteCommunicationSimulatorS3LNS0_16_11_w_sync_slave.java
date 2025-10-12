@@ -14,7 +14,6 @@ public class ByteCommunicationSimulatorS3LNS0_16_11_w_sync_slave extends ByteCom
 
     public ByteCommunicationSimulatorS3LNS0_16_11_w_sync_slave(String address) {
         super(address);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

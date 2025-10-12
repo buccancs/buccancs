@@ -33,7 +33,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
 
 
     public ConnectedShimmersListFragment() {
-        // Required empty public constructor
     }
 
     public static ConnectedShimmersListFragment newInstance() {
@@ -46,7 +45,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        //Ensure that the container activity has implemented the callback interface.
         try {
             mCallBack = (OnShimmerDeviceSelectedListener) activity;
         } catch (ClassCastException e) {
@@ -76,7 +74,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
 
                 ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(context, R.layout.simple_list_item_multiple_choice_force_black_text, displayList);
 
-                //Set the list of devices to be displayed in the Fragment
                 setListAdapter(listAdapter);
 
                 final ListView listView = getListView();
@@ -98,11 +95,9 @@ public class ConnectedShimmersListFragment extends ListFragment {
                     }
                 });
 
-                //Save the listView so that it can be restored in onCreateView when returning to the Fragment.
                 savedListView = listView;
                 savedListAdapter = listAdapter;
 
-                //Ensure that the selected item's checkbox is checked
                 if (selectedDeviceAddress != null) {
                     for (int i = 0; i < listView.getAdapter().getCount(); i++) {
 
@@ -147,7 +142,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
         }
     }
 
-    //Container Activity must implement this interface
     public interface OnShimmerDeviceSelectedListener {
         public void onShimmerDeviceSelected(String macAddress, String deviceName);
     }

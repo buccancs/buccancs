@@ -9,7 +9,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 
 public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
 
-    // states
     protected static final int NONE = 0;
     protected static final int DRAG = 1;
     protected static final int X_ZOOM = 2;

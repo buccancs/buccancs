@@ -65,7 +65,6 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
         }
     }
 
-    //JC: Can this replaced by getConfigValueUsingConfigLabel ? in Shimmer Device Class
     private String getConfigValueLabelFromConfigLabel(String label) {
         ConfigOptionDetailsSensor cods = cloneDevice.getConfigOptionsMap().get(label);
         int currentConfigInt = (int) cloneDevice.getConfigValueUsingConfigLabel(label);
@@ -87,7 +86,6 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
 
     @Override
     public void createComboBox(int numOfOptions, String key, ConfigOptionDetailsSensor cods, Object[] checkBox, boolean isEnabled) {
-        // TODO Auto-generated method stub
         String[] cs = cods.getGuiValues();
 
         String currentConfigLabel = getConfigValueLabelFromConfigLabel(key);
@@ -109,7 +107,6 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
                         cloneDevice.setConfigValueUsingConfigLabel(key, cods.mConfigValues[a]);
                         clearOtherCheckboxes(checkBox, a);
                     } else {
-                        //The current config setting has been selected again: maintain the state of the checkbox as true
                         ((JCheckBox) checkBox[a]).setSelected(true);
                     }
 
@@ -127,9 +124,6 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
     @Override
     public void createEditText(String key, boolean isEnabled) {
 
-//		JPanel textPanel = new JPanel();
-//		textPanel.setLayout((LayoutManager) new BoxLayout(textPanel, BoxLayout.X_AXIS));
-//		textPanel.setMaximumSize(new Dimension(200, 20));
 
         Box textFieldBox = Box.createVerticalBox();
 
@@ -159,10 +153,7 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
 		textFieldBox.add(saveTextButton);
 		*/
 
-//		textPanel.add(textField);
-//		textPanel.add(saveTextButton);
 
-        //textFieldBox.setMaximumSize(new Dimension(200, 20));
         box.add(textFieldBox);
         box.setSize(10, 15);
         dialogHeight = dialogHeight + 50;
@@ -172,7 +163,6 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
 
     @Override
     public void createLabel(String labelName) {
-        // TODO Auto-generated method stub
         JLabel label = new JLabel();
         label.setText(labelName);
         box.add(label);
@@ -181,7 +171,6 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
 
     @Override
     public void createFrame() {
-        // TODO Auto-generated method stub
         panel = new JPanel();
         box = Box.createVerticalBox();
         dialog = new JDialog();
@@ -192,7 +181,6 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
         JButton btnSav = new JButton("Save");
         btnSav.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //TODO: Write the config from clone to shimmer here
                 writeConfiguration();
                 dialog.dispose();
             }
@@ -207,7 +195,6 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
     @Override
     public void showFrame() {
         panel.add(box);
-        // TODO Auto-generated method stub
         JScrollPane scroller = new JScrollPane(panel);
         scroller.setVerticalScrollBarPolicy(ScrollPaneLayout.VERTICAL_SCROLLBAR_ALWAYS);
         scroller.getVerticalScrollBar().setUnitIncrement(20);
@@ -220,12 +207,9 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
 
 
         public void showDialog() {
-        //Filter out the sensors we don't want to display before initializing the dialog:
         List<String> filterList = new ArrayList<String>();
-        //filterList.add("Wide Range Accel Rate");
         setSensorKeysFilter(filterList, true);
 
-        //Filter out the sensors config option we want to display but to disable before initializing the dialog:
         List<String> displayButDisableFilterList = new ArrayList<String>();
         displayButDisableFilterList.add("Wide Range Accel Rate");
         displayButDisableFilterList.add("Mag Rate");

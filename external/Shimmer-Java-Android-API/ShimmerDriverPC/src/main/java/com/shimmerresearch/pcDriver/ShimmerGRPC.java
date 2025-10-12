@@ -100,7 +100,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
                 try {
                     shimmer.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -114,7 +113,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
                 try {
                     shimmer.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -133,7 +131,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
         frame.setSize(500, 500);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // TODO Auto-generated method stub
 
 
     }
@@ -141,20 +138,16 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
     public static String byteArrayToHexString(byte[] byteArray) {
         StringBuilder hexString = new StringBuilder();
         for (byte b : byteArray) {
-            // Convert each byte to a two-digit hexadecimal representation
             hexString.append(String.format("%02X", b));
         }
         return hexString.toString();
     }
 
     public void InitializeProcess() {
-        // Define the server host and port
 
-        // Create a channel to connect to the server
         channel = ManagedChannelBuilder.forAddress(mServerHost, mServerPort)
                 .usePlaintext() // Use plaintext communication (insecure for testing)
                 .build();
-        // Create a gRPC client stub
         blockingStub = ShimmerBLEByteServerGrpc.newBlockingStub(channel);
 
 
@@ -162,13 +155,9 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     public void connect(String address, String bluetoothLibrary) {
-        // Create a request message
-        //E8EB1B713E36
-        //e7452c6d6f14
         setBluetoothRadioState(BT_STATE.CONNECTING);
         Request request = Request.newBuilder().setName(mMacAddress).build();
 
-        // Call the remote gRPC service method
 
 
         StreamRequest sreq = StreamRequest.newBuilder().setMessage(mMacAddress).build();
@@ -178,7 +167,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
             @Override
             public void onNext(StateStatus value) {
-                // TODO Auto-generated method stub
                 System.out.println(value.getMessage() + " " + value.getState().toString());
                 if (value.getState().equals(BluetoothState.Connected)) {
                     mBuffer = new ThreadSafeByteFifoBuffer(1000000);
@@ -187,26 +175,21 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
                         @Override
                         public void onNext(ObjectClusterByteArray value) {
-                            // TODO Auto-generated method stub
                             byte[] bytesData = value.getBinaryData().toByteArray();
-                            //System.out.println(byteArrayToHexString(bytesData));
                             try {
                                 mBuffer.write(bytesData);
                             } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                         }
 
                         @Override
                         public void onError(Throwable t) {
-                            // TODO Auto-generated method stub
                             System.out.println("error 1");
                         }
 
                         @Override
                         public void onCompleted() {
-                            // TODO Auto-generated method stub
                             System.out.println("completed");
                         }
                     };
@@ -229,13 +212,11 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
             @Override
             public void onError(Throwable t) {
-                // TODO Auto-generated method stub
                 System.out.println("error 0");
             }
 
             @Override
             public void onCompleted() {
-                // TODO Auto-generated method stub
                 System.out.println("completed");
             }
 
@@ -246,7 +227,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected boolean bytesAvailableToBeRead() {
-        // TODO Auto-generated method stub
         if (mBuffer.size() > 0) {
             return true;
         }
@@ -255,68 +235,56 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected int availableBytes() {
-        // TODO Auto-generated method stub
         return mBuffer.size();
     }
 
     @Override
     protected void writeBytes(byte[] data) {
 
-        // Create a request message
         WriteBytes request = WriteBytes.newBuilder().setAddress(mMacAddress).setByteToWrite(ByteString.copyFrom(data)).build();
 
-        // Call the remote gRPC service method
         Reply response = blockingStub.writeBytesShimmer(request);
 
-        // Process the response
         System.out.println("Received: " + response.getMessage());
     }
 
     @Override
     protected void stop() {
-        // TODO Auto-generated method stub
         try {
             disconnect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     @Override
     protected void sendProgressReport(BluetoothProgressReportPerCmd pr) {
-        // TODO Auto-generated method stub
         mDeviceCallbackAdapter.sendProgressReport(pr);
     }
 
     @Override
     protected void isReadyForStreaming() {
-        // TODO Auto-generated method stub
         mDeviceCallbackAdapter.isReadyForStreaming();
         restartTimersIfNull();
     }
 
     @Override
     protected void isNowStreaming() {
-        // TODO Auto-generated method stub
         mDeviceCallbackAdapter.isNowStreaming();
     }
 
     @Override
     protected void hasStopStreaming() {
-        // TODO Auto-generated method stub
         mDeviceCallbackAdapter.hasStopStreaming();
     }
 
     @Override
     protected void sendStatusMsgPacketLossDetected() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void inquiryDone() {
-        // TODO Auto-generated method stub
         mDeviceCallbackAdapter.inquiryDone();
         isReadyForStreaming();
 
@@ -324,23 +292,19 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void sendStatusMSGtoUI(String msg) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void printLogDataForDebugging(String msg) {
-        // TODO Auto-generated method stub
         consolePrintLn(msg);
     }
 
     @Override
     protected void connectionLost() {
-        // TODO Auto-generated method stub
         try {
             disconnect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         setBluetoothRadioState(BT_STATE.CONNECTION_LOST);
@@ -373,9 +337,7 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void eventLogAndStreamStatusChanged(byte currentCommand) {
-        // TODO Auto-generated method stub
         if (currentCommand == STOP_LOGGING_ONLY_COMMAND) {
-            //TODO need to query the Bluetooth connection here!
             if (mIsStreaming) {
                 setBluetoothRadioState(BT_STATE.STREAMING);
             } else if (isConnected()) {
@@ -391,16 +353,10 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
             } else if (isSDLogging()) {
                 setBluetoothRadioState(BT_STATE.SDLOGGING);
             } else {
-                //				if(!isStreaming() && !isSDLogging() && isConnected()){
                 if (!mIsStreaming && !isSDLogging() && isConnected() && mBluetoothRadioState != BT_STATE.CONNECTED) {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                 }
-                //				if(getBTState() == BT_STATE.INITIALISED){
                 //
-                //				}
-                //				else if(getBTState() != BT_STATE.CONNECTED){
-                //					setState(BT_STATE.CONNECTED);
-                //				}
 
                 CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_STATE_CHANGE, mBluetoothRadioState, getMacId(), getComPort());
                 sendCallBackMsg(MSG_IDENTIFIER_STATE_CHANGE, callBackObject);
@@ -410,17 +366,14 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void batteryStatusChanged() {
-        // TODO Auto-generated method stub
         mDeviceCallbackAdapter.batteryStatusChanged();
     }
 
     @Override
     protected byte[] readBytes(int numberofBytes) {
-        // TODO Auto-generated method stub
         try {
             return mBuffer.read(numberofBytes);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -428,11 +381,9 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected byte readByte() {
-        // TODO Auto-generated method stub
         try {
             return mBuffer.read();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return -1;
@@ -464,13 +415,11 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void interpretDataPacketFormat(Object object, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void createConfigBytesLayout() {
-        // TODO Auto-generated method stub
         if (mShimmerVerObject.mHardwareVersion == HW_ID.UNKNOWN) {
             mConfigByteLayout = new ConfigByteLayoutShimmer3(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(), HW_ID.SHIMMER_3);
         } else {
@@ -480,28 +429,21 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void dataHandler(ObjectCluster ojc) {
-        // TODO Auto-generated method stub
         mDeviceCallbackAdapter.dataHandler(ojc);
     }
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
         System.out.println(shimmerMSG.mIdentifier);
     }
 
     @Override
     public void disconnect() throws ShimmerException {
-        //		super.disconnect();
         stopAllTimers();
-        // TODO Auto-generated method stub
-        // Create a request message
         Request request = Request.newBuilder().setName(mMacAddress).build();
 
-        // Call the remote gRPC service method
         Reply response = blockingStub.disconnectShimmer(request);
 
-        // Process the response
         System.out.println("Received: " + response.getMessage());
         closeConnection();
         setBluetoothRadioState(BT_STATE.DISCONNECTED);
@@ -512,7 +454,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
             if (mIOThread != null) {
                 mIOThread.stop = true;
 
-                // Closing serial port before before thread is finished stopping throws an error so waiting here
                 while (mIOThread != null && mIOThread.isAlive()) ;
 
                 mIOThread = null;
@@ -532,10 +473,8 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
         }
     }
 
-    //Need to override here because ShimmerDevice class uses a different map
     @Override
     public String getSensorLabel(int sensorKey) {
-        //TODO 2017-08-03 MN: super does this but in a different way, don't know is either is better
         super.getSensorLabel(sensorKey);
         SensorDetails sensor = mSensorMap.get(sensorKey);
         if (sensor != null) {
@@ -548,13 +487,10 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
 
         @Override
         protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-            // TODO Auto-generated method stub
             System.out.println(shimmerMSG.mIdentifier);
 
 
-            // TODO Auto-generated method stub
 
-            // TODO Auto-generated method stub
             int ind = shimmerMSG.mIdentifier;
 
             Object object = (Object) shimmerMSG.mB;
@@ -565,7 +501,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
                 if (callbackObject.mState == BT_STATE.CONNECTING) {
                 } else if (callbackObject.mState == BT_STATE.CONNECTED) {
                 } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-                        //						|| callbackObject.mState == BT_STATE.NONE
                         || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
 
                 }

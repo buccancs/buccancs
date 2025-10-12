@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     VerisenseBleAndroidRadioByteCommunication radio2 = new VerisenseBleAndroidRadioByteCommunication("C9:61:17:53:74:02");
     VerisenseProtocolByteCommunication protocol2 = new VerisenseProtocolByteCommunication(radio2);
     VerisenseDeviceAndroid device2;
-    //BTHLE\Dev_f2527c20d97e
     VerisenseBleAndroidRadioByteCommunication radio3 = new VerisenseBleAndroidRadioByteCommunication("F2:52:7C:20:D9:7E");
     VerisenseProtocolByteCommunication protocol3 = new VerisenseProtocolByteCommunication(radio3);
     VerisenseDeviceAndroid device3;
@@ -65,10 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
                     if ((msg.obj instanceof ObjectCluster)) {
 
-                        //Print data to Logcat
                         ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
-                        //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
                         FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
@@ -170,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (!permissionGranted) {
-            // Should we show an explanation?
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
             } else {
@@ -194,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Sensor 1
     public void connectDevice1(View v) {
 
         Thread thread = new Thread() {
@@ -204,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     device1.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
 
@@ -306,7 +300,6 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
-    //Sensor 2
     public void connectDevice2(View v) {
 
         Thread thread = new Thread() {
@@ -316,7 +309,6 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     device2.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
 
@@ -422,7 +414,6 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
-    //Sensor 3
     public void connectDevice3(View v) {
 
         Thread thread = new Thread() {
@@ -432,7 +423,6 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     device3.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
 
@@ -546,7 +536,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
 
             }

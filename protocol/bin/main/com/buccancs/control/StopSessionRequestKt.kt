@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializestopSessionRequest")
 public inline fun stopSessionRequest(block: com.buccancs.control.StopSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StopSessionRequest =
   com.buccancs.control.StopSessionRequestKt.Dsl._create(com.buccancs.control.StopSessionRequest.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.StopSessionRequest`
+ */
 public object StopSessionRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,33 +27,55 @@ public object StopSessionRequestKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.StopSessionRequest = _builder.build()
 
-        public var session: com.buccancs.control.SessionIdentifier
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     */
+    public var session: com.buccancs.control.SessionIdentifier
       get() = _builder.getSession()
       set(value) {
         _builder.setSession(value)
       }
-        public fun clearSession() {
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     */
+    public fun clearSession() {
       _builder.clearSession()
     }
-        public fun hasSession(): kotlin.Boolean {
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     * @return Whether the session field is set.
+     */
+    public fun hasSession(): kotlin.Boolean {
       return _builder.hasSession()
     }
 
-        public var scheduledEpochMs: kotlin.Long
+    /**
+     * `int64 scheduled_epoch_ms = 2;`
+     */
+    public var scheduledEpochMs: kotlin.Long
       get() = _builder.getScheduledEpochMs()
       set(value) {
         _builder.setScheduledEpochMs(value)
       }
-        public fun clearScheduledEpochMs() {
+    /**
+     * `int64 scheduled_epoch_ms = 2;`
+     */
+    public fun clearScheduledEpochMs() {
       _builder.clearScheduledEpochMs()
     }
 
-        public var finalize: kotlin.Boolean
+    /**
+     * `bool finalize = 3;`
+     */
+    public var finalize: kotlin.Boolean
       get() = _builder.getFinalize()
       set(value) {
         _builder.setFinalize(value)
       }
-        public fun clearFinalize() {
+    /**
+     * `bool finalize = 3;`
+     */
+    public fun clearFinalize() {
       _builder.clearFinalize()
     }
   }

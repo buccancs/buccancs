@@ -89,7 +89,6 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);//Just to give time to connect to finish
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -142,7 +141,6 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -150,7 +148,6 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
             assert (false);
         }
 
-        //BMP390 data parsing
         try {
             mDevice.mSensorBMPX80.parseCalParamByteArray(mByteCommunicationSimulatorS3R.getPressureResoTest(), CALIB_READ_SOURCE.INFOMEM);
             long[] dataPacket = UtilParseData.parseData(mByteCommunicationSimulatorS3R.getTestDataPacket(), mByteCommunicationSimulatorS3R.getTestDataType());    //uncalib
@@ -183,7 +180,6 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (!mDevice.isConnected()) {
@@ -238,13 +234,11 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (!mDevice.isConnected()) {
             assert (false);
         }
-        //SHIMMER_LSM6DSV Accel LN and Gyro
         mDevice.setDefaultCalibrationShimmer3StandardImus();
 
         double[][] lnAccelOffset = mDevice.getOffsetVectorMatrixAccel();
@@ -290,13 +284,11 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (!mDevice.isConnected()) {
             assert (false);
         }
-        //SHIMMER_LIS2DW12_ACCEL_WR
         if (!mDevice.isUsingDefaultWRAccelParam()) {
             mDevice.setDefaultCalibrationShimmer3StandardImus();
         }
@@ -330,13 +322,11 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (!mDevice.isConnected()) {
             assert (false);
         }
-        //SHIMMER_LIS2MDL_MAG
 
         mDevice.setDefaultCalibrationShimmer3StandardImus();
 
@@ -360,13 +350,11 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (!mDevice.isConnected()) {
             assert (false);
         }
-        //SHIMMER_ADXL371_ACCEL HIGHG
 
         mDevice.setDefaultCalibrationShimmer3StandardImus();
 
@@ -388,14 +376,12 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (!mDevice.isConnected()) {
             assert (false);
         }
 
-        //SHIMMER_LIS3MDL_MAG
         mDevice.setDefaultCalibrationShimmer3StandardImus();
 
         double[][] altMagOffset = mDevice.getOffsetVectorMatrixAltMag();
@@ -419,7 +405,6 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -432,7 +417,6 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 

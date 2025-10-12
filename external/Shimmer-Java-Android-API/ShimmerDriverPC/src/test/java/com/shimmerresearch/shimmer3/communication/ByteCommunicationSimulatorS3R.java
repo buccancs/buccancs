@@ -14,7 +14,6 @@ public class ByteCommunicationSimulatorS3R extends ByteCommunicationSimulatorS3 
 
     public ByteCommunicationSimulatorS3R(String address) {
         super(address);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -36,7 +35,6 @@ public class ByteCommunicationSimulatorS3R extends ByteCommunicationSimulatorS3 
         mBuffer.add((byte) 0x01);
     }
 
-    //BMP390
 
     public byte[] getPressureResoTest() {
         byte[] pressureResoResTest = {

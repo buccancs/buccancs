@@ -90,7 +90,6 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
         s.initialize();
         s.frame.setVisible(true);
         s.setWaitForData(btManager.callBackObject);
-        //s.setWaitForData(shimmer);
     }
 
         public void initialize() {
@@ -179,7 +178,6 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                     }
                 }
 
-                //Ensure the Shimmer is not streaming or SD logging before configuring it
                 if (connected) {
                     EnableSensorsDialog sensorsDialog = new EnableSensorsDialog(((ShimmerDevice) btManager.getShimmerDeviceBtConnected(btComport)), btManager);
                     sensorsDialog.showDialog();
@@ -188,8 +186,6 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                     JOptionPane.showMessageDialog(frame, "Device not in a connected state!", "Info", JOptionPane.WARNING_MESSAGE);
                 }
 
-//				EnableSensorsDialog sensorsDialog = new EnableSensorsDialog(shimmerDevice);
-//				sensorsDialog.initialize();
             }
         });
         mnTools.add(mntmSelectSensors);
@@ -305,7 +301,6 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                     }
 
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
@@ -334,7 +329,6 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                     }
 
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -397,7 +391,6 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
 
 
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -414,7 +407,6 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                     ((VerisenseProtocolByteCommunication) device.getMapOfVerisenseProtocolByteCommunication().get(COMMUNICATION_TYPE.BLUETOOTH)).eraseDataTask();
 
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -484,9 +476,7 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -503,20 +493,13 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                 }
                 textPaneStatus.setText("connected");
 
-                //shimmer = (ShimmerPC) btManager.getShimmerDeviceBtConnected(btComport);
-//				shimmerDevice = btManager.getShimmerDeviceBtConnected(btComport);
-                //shimmer.startStreaming();
             } else if (callbackObject.mState == BT_STATE.STREAMING_LOGGED_DATA) {
                 if (timer != null) {
                     timer.cancel();
                     timer = new Timer();
                 }
                 textPaneStatus.setText("Syncing");
-                //shimmer = (ShimmerPC) btManager.getShimmerDeviceBtConnected(btComport);
-//				shimmerDevice = btManager.getShimmerDeviceBtConnected(btComport);
-                //shimmer.startStreaming();
             } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-//					|| callbackObject.mState == BT_STATE.NONE
                     || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
                 if (timer != null) {
                     timer.cancel();
@@ -530,7 +513,6 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                 } else {
                     timer = new Timer();
                 }
-                // Schedule a task to be executed after a delay of 2 seconds
                 timer.schedule(new PRRTask(), 0, 2000);
 
             }

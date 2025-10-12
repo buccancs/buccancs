@@ -69,9 +69,7 @@ public final class PseudocolorModeTable {
             {252, 252, 252}, {253, 253, 253}, {254, 254, 254}, {255, 255, 255},
     };
 
-    // 红色RGB值
     public static final int[] RED_RGB = {205, 38, 38};
 
-    // 蓝色RGB值
     public static final int[] BLUE_RGB = {0, 0, 205};
 }

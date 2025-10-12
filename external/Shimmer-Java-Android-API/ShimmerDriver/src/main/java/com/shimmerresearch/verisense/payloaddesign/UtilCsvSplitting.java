@@ -22,21 +22,12 @@ public class UtilCsvSplitting {
     }
 
     public static String isSamplingRateOutsideOfLimits(double[] samplingRateLimits, DataBlockDetails previousBlockDetails, DataBlockDetails nextBlockDetails, SENSORS sensorClassKey) {
-        // The end time in the payload and data blocks comes from the sensor whereas the
-        // start time is calculated by the file parser from the end time and the
-        // configured sampling rate. As the sampling rate in the Verisense chips can
-        // drift, it's better to check that we are getting the correct the number of
-        // samples between the end time of the one datablock and the end time of
-        // the next block (i.e., the average sampling rate is within a reasonable
-        // tolerance) rather than checking the time diff between the end of one
-        // datablock and the start of the next datablock.
         double calculatedSamplingRate = UtilVerisenseDriver.calcSamplingRate(previousBlockDetails.getEndTimeRwcMs(), nextBlockDetails.getEndTimeRwcMs(), nextBlockDetails.getSampleCount());
         if (Double.isNaN(calculatedSamplingRate)) {
             return ("WARNING!!! Unable to calculate sampling rate");
         }
 
         if (isSamplingRateOutsideOfLimits(samplingRateLimits, calculatedSamplingRate)) {
-            //UtilShimmer.consolePrintCurrentStackTrace();
 
             double timeGapS = Math.abs((nextBlockDetails.getStartTimeRwcMs() - previousBlockDetails.getEndTimeRwcMs()) / 1000);
 
@@ -45,12 +36,10 @@ public class UtilCsvSplitting {
                     + "\n  |_1) " + previousBlockDetails.generateDebugStr()
                     + "\n  |_2) " + nextBlockDetails.generateDebugStr()
 
-//					+ "\n    |_Time between datablocks=" + timeToStr(nextBlockDetails.getStartTimeMs()-previousBlockDetails.getEndTimeMs())
                     + "\n    |_Time between datablocks=" + UtilVerisenseDriver.convertSecondsToHHmmssSSS(timeGapS) + " (HH:mm:ss.SSS)"
                     + "\n    |_Detected=" + freqToStr(calculatedSamplingRate) //+ " (" + timeToStr(1/calculatedSamplingRate) + ")"
                     + ", Limits: Min=" + freqToStr(samplingRateLimits[0]) + " (" + timeToStr(1 / samplingRateLimits[0]) + ")"
                     + ", Max=" + freqToStr(samplingRateLimits[1]) + " (" + timeToStr(1 / samplingRateLimits[1]) + ")"
-//					+ "\n    |_Payload index " + nextBlockDetails.payloadIndex + " EndTime [Minutes=" + nextBlockDetails.rtcEndTimeMinutes + ", Ticks=" + nextBlockDetails.rtcEndTimeTicks + "]"
             );
         }
         return "";
@@ -76,7 +65,6 @@ public class UtilCsvSplitting {
     }
 
     public static double[] calculateSamplingRateLimits(double configuredSamplingRate) {
-        // +/- of configured sampling rate
         return new double[]{configuredSamplingRate * FILE_GAP_TOLERANCE_MULTIPLIER.LOWER, configuredSamplingRate * FILE_GAP_TOLERANCE_MULTIPLIER.UPPER};
     }
 
@@ -85,7 +73,6 @@ public class UtilCsvSplitting {
     }
 
     public static String isDataBlockContinuous(SENSORS sensorClassKey, DataSegmentDetails dataSegmentDetailsPrevious, DataBlockDetails nextDataBlockDetails) {
-        //Get last data block from existing dataset
         DataBlockDetails previousDataBlockDetails = dataSegmentDetailsPrevious.getListOfDataBlocks().get(dataSegmentDetailsPrevious.getDataBlockCount() - 1);
 
         double[] samplingRateLimits = UtilCsvSplitting.SAMPLING_RATE_LIMITS_PER_SENSOR.get(sensorClassKey);
@@ -104,7 +91,6 @@ public class UtilCsvSplitting {
     }
 
     public class FILE_GAP_TOLERANCE_MULTIPLIER {
-        // +/- 10%
         public static final double UPPER = 1.1;
         public static final double LOWER = 0.9;
     }

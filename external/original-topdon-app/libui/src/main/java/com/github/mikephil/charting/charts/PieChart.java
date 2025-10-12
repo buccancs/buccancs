@@ -86,7 +86,6 @@ public class PieChart extends PieRadarChartBase<PieData> {
     public void calculateOffsets() {
         super.calculateOffsets();
 
-        // prevent nullpointer when no data set
         if (mData == null)
             return;
 
@@ -97,8 +96,6 @@ public class PieChart extends PieRadarChartBase<PieData> {
 
         float shift = mData.getDataSet().getSelectionShift();
 
-        // create the circle box that will contain the pie-chart (the bounds of
-        // the pie-chart)
         mCircleBox.set(c.x - radius + shift,
                 c.y - radius + shift,
                 c.x + radius - shift,
@@ -130,10 +127,8 @@ public class PieChart extends PieRadarChartBase<PieData> {
 
         int entryIndex = (int) highlight.getX();
 
-        // offset needed to center the drawn text in the slice
         float offset = mDrawAngles[entryIndex] / 2;
 
-        // calculate the text position
         float x = (float) (r
                 * Math.cos(Math.toRadians((rotationAngle + mAbsoluteAngles[entryIndex] - offset)
                 * mAnimator.getPhaseY())) + center.x);
@@ -207,8 +202,6 @@ public class PieChart extends PieRadarChartBase<PieData> {
         }
 
         if (hasMinAngle) {
-            // Correct bigger slices by relatively reducing their angles based on the total angle needed to subtract
-            // This requires that `entryCount * mMinAngleForSlices <= mMaxAngle` be true to properly work!
             for (int i = 0; i < entryCount; i++) {
                 minAngles[i] -= (minAngles[i] - mMinAngleForSlices) / diff * offset;
                 if (i == 0) {
@@ -224,13 +217,11 @@ public class PieChart extends PieRadarChartBase<PieData> {
 
         public boolean needsHighlight(int index) {
 
-        // no highlight
         if (!valuesToHighlight())
             return false;
 
         for (int i = 0; i < mIndicesToHighlight.length; i++)
 
-            // check if the xvalue for the given dataset needs highlight
             if ((int) mIndicesToHighlight[i].getX() == index)
                 return true;
 
@@ -254,7 +245,6 @@ public class PieChart extends PieRadarChartBase<PieData> {
     @Override
     public int getIndexForAngle(float angle) {
 
-        // take the current angle of the chart into consideration
         float a = Utils.getNormalizedAngle(angle - getRotationAngle());
 
         for (int i = 0; i < mAbsoluteAngles.length; i++) {
@@ -484,7 +474,6 @@ public class PieChart extends PieRadarChartBase<PieData> {
 
     @Override
     protected void onDetachedFromWindow() {
-        // releases the bitmap in the renderer to avoid oom error
         if (mRenderer != null && mRenderer instanceof PieChartRenderer) {
             ((PieChartRenderer) mRenderer).releaseBitmap();
         }

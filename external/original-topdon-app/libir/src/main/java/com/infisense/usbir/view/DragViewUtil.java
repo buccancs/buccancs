@@ -6,7 +6,6 @@ import android.view.View;
 
 public class DragViewUtil {
     public static void registerDragAction(View v) {
-//        registerDragAction(v, 0);
     }
 
         public static void registerDragAction(View v, long delay) {
@@ -64,7 +63,6 @@ public class DragViewUtil {
                         int r = (int) (l + v.getWidth());
                         int t = (int) (v.getTop() + yDistance);
                         int b = (int) (t + v.getHeight());
-//                        v.layout(l, t, r, b);
                         v.setLeft(l);
                         v.setTop(t);
                         v.setRight(r);

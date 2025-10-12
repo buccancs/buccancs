@@ -50,7 +50,6 @@ public class Compressor {
 
         int bufferSizeInBytes = numberOfBytesToDecompress;
 
-//        int numberOfBytesDecompressedSoFar = 0;
         List<Byte> bytesDecompressedSoFar = new ArrayList<Byte>();
 
         try {
@@ -59,7 +58,6 @@ public class Compressor {
 
                 int numberOfBytesDecompressedThisTime = inflater.inflate(bytesDecompressedBuffer);
 
-//                numberOfBytesDecompressedSoFar += numberOfBytesDecompressedThisTime;
 
                 for (int b = 0; b < numberOfBytesDecompressedThisTime; b++) {
                     bytesDecompressedSoFar.add(bytesDecompressedBuffer[b]);

@@ -5,7 +5,6 @@ import java.util.List;
 
 public class HwDriverDeviceDetails {
 
-    //SPDRP
     public String classGuid = "";
     public String serviceDescription = "";
     public String friendlyName = "";
@@ -21,7 +20,6 @@ public class HwDriverDeviceDetails {
     public String manufacturer = "";
     public String physicalDeviceObjectName = "";
 
-    //DEVPROPKEY
     public String deviceParent = "";
     public String deviceChildren = "";
     public String deviceBusReportedDeviceDesc = "";

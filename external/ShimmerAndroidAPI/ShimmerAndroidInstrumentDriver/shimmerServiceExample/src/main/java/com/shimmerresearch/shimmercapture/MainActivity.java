@@ -150,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                     case STREAMING:
                         Toast.makeText(getApplicationContext(), "Device streaming: " + shimmerName + " " + macAddress, Toast.LENGTH_SHORT).show();
                         if (selectedDeviceAddress.contains(macAddress) && dynamicPlot != null) {
-                            //If the selected device is the one that is now streaming, then show the list of signals available to be plotted
                             signalsToPlotFragment.buildSignalsToPlotList(getApplicationContext(), mService, macAddress, dynamicPlot);
                         }
                         break;
@@ -194,28 +193,17 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
     };
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
-            // This is called when the connection with the service has been
-            // established, giving us the service object we can use to
-            // interact with the service.  Because we have bound to a explicit
-            // service that we know is running in our own process, we can
-            // cast its IBinder to a concrete class and directly access it.
             mService = ((ShimmerService.LocalBinder) service).getService();
             isServiceStarted = true;
-            //Add this activity's Handler to the service's list of Handlers so we know when a Shimmer is connected/disconnected
             mService.addHandlerToList(mHandler);
             Log.d(SERVICE_TAG, "Shimmer Service Bound");
 
-            //if there is a device connected display it on the fragment
             if (connectedShimmersListFragment != null) {
                 connectedShimmersListFragment.buildShimmersConnectedListView(mService.getListOfConnectedDevices(), getApplicationContext());
             }
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            // This is called when the connection with the service has been
-            // unexpectedly disconnected -- that is, its process crashed.
-            // Because it is running in our same process, we should never
-            // see this happen.
             mService = null;
             isServiceStarted = false;
             Log.d(SERVICE_TAG, "Shimmer Service Disconnected");
@@ -226,7 +214,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        //alertDialog.setTitle("Device Info");
         alertDialog.setMessage("Shimmer Capture App collect Location data to enable Bluetooth devices scanning on Android versions 11 and lower even when the app is closed or not in use.");
         alertDialog.setCancelable(false);
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -237,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
         });
         alertDialog.show();
 
-        //Check if Bluetooth is enabled
         /*if (!btAdapter.isEnabled()) {
             int REQUEST_ENABLE_BT = 1;
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -245,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
         }
         else {*/
 
-        //}
 
 
 /*
@@ -278,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
             }
         }
         if (!permissionGranted) {
-            // Should we show an explanation?
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
 
         } else {
@@ -286,10 +270,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
         }
 
         setContentView(R.layout.activity_main);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter1 = new SectionsPagerAdapter1(getSupportFragmentManager());
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter1);
         mViewPager.setOffscreenPageLimit(5);    //Ensure none of the fragments has their view destroyed when off-screen
@@ -383,7 +364,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         final Toast otherTaskOngoingToast = Toast.makeText(this, "Please wait until current task is finished", Toast.LENGTH_LONG);
         int id = item.getItemId();
         if (id == R.id.connect_device) {
@@ -395,9 +375,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
 
                 ShimmerDevice mDevice = mService.getShimmer(selectedDeviceAddress);
                 if (mDevice instanceof ShimmerBluetooth) {
-                    //Disable PC timestamps for better performance. Disabling this takes the timestamps on every full packet received instead of on every byte received.
                     ((ShimmerBluetooth) mDevice).enablePCTimeStamps(false);
-                    //Disable timers for better performance.
                     ((ShimmerBluetooth) mDevice).stopAllTimers();
                 }
                 try {
@@ -498,11 +476,9 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
             mService.setEnableLogging(false);
             return true;
         } else if (id == R.id.set_sampling_rate) {
-            // Create an AlertDialog Builder
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Enter Sampling Rate");
 
-            // Inflate the dialog layout
             final EditText editTextSamplingRate = new EditText(this);
             if (selectedDeviceAddress == null) {
                 return true;
@@ -510,25 +486,20 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
             ShimmerBluetooth device = (ShimmerBluetooth) mService.getShimmer(selectedDeviceAddress);
             editTextSamplingRate.setText(Double.toString(device.getSamplingRateShimmer()));
             builder.setView(editTextSamplingRate);
-            // Add OK button
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String samplingRateStr = editTextSamplingRate.getText().toString();
-                    // Convert the input to integer
                     double samplingRate = Double.parseDouble(samplingRateStr);
 
-                    // Call a method to write sampling rate or do whatever you need
                     ShimmerDevice clone = device.deepClone();
                     clone.setSamplingRateShimmer(samplingRate);
                     AssembleShimmerConfig.generateSingleShimmerConfig(clone, COMMUNICATION_TYPE.BLUETOOTH);
                     mService.configureShimmer(clone);
-                    //device.writeShimmerAndSensorsSamplingRate(samplingRate);
 
                 }
             });
 
-            // Add Cancel button
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -599,7 +570,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
 
                                 List<ShimmerDevice> cloneList = new ArrayList<ShimmerDevice>();
                                 cloneList.add(0, clone);
-                                //TODO: Change this when AssembleShimmerConfig has been updated:
                                 AssembleShimmerConfig.generateMultipleShimmerConfig(cloneList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
 
                                 if (shimmerDevice instanceof Shimmer || shimmerDevice instanceof VerisenseDevice || shimmerDevice instanceof Shimmer3BLEAndroid) {
@@ -680,7 +650,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                     mDevice.getMapOfVerisenseProtocolByteCommunication().get(COMMUNICATION_TYPE.BLUETOOTH).readLoggedData();
                 } catch (Exception e) {
                     if (e.getMessage() == "A task is still ongoing") {
-                        //otherTaskOngoingToast.show();
                     }
                     e.printStackTrace();
                 }
@@ -731,7 +700,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
             }
         } else if (requestCode == 2) { //The devices paired list has returned a result
             if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
                 if (deviceName.contains(VerisenseDevice.VERISENSE_PREFIX)) {
@@ -748,7 +716,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                     }
                 }
                 mService.connectShimmer(macAdd, deviceName, preferredBtType, this);    //Connect to the selected device, and set context to show progress dialog when pairing
-                //mService.connectShimmer(macAdd,this);    //Connect to the selected device, and set context to show progress dialog when pairing
 
 
             }
@@ -797,12 +764,10 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
             selectedDeviceAddress = macAddress;
             selectedDeviceName = deviceName;
 
-            //Pass the selected device to the fragments
             ShimmerDevice device = mService.getShimmer(selectedDeviceAddress);
             if (device instanceof Shimmer3BLEAndroid) { //Due to BLE using the main thread the timer needs to be stopped otherwise no response will be received due to the main thread executing the following code below to generate the fragments
                 ((ShimmerBluetooth) device).stopTimerReadStatus();
             }
-            //add and remove DataSyncFragment based on the type of device
             /*
             if(device instanceof VerisenseDeviceAndroid) {
                 if(mSectionsPagerAdapter1.getCount() == mSectionsPagerAdapter1.SHIMMER3_PAGE_COUNT)
@@ -910,7 +875,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
             if (position < fragmentArrayList.size()) {
                 if (position == 0) {
                     connectedShimmersListFragment.buildShimmersConnectedListView(null, getApplicationContext());
@@ -923,7 +887,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
 
         @Override
         public int getCount() {
-            // Show 5 total pages (Show 6 when a verisense device is selected)
             return fragmentArrayList.size();
         }
 
@@ -954,7 +917,6 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
 
         @Override
         public int getItemPosition(Object object) {
-            // refresh all fragments when data set changed
             return PagerAdapter.POSITION_NONE;
         }
     }

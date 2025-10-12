@@ -16,22 +16,9 @@ public class ChannelDetails implements Serializable {
     public String mObjectClusterName = "";
     public int mChannelId = -1;
 
-    //TODO switch to using this approach rather then all of the variables below
-    //TODO have a list of supported units. Have a second variable list stating which one(s) are currently enabled
-//	public class ChannelInfo{
-//		CHANNEL_TYPE mChannelType = CHANNEL_TYPE.CAL;
-//		String mChannelUnits = CHANNEL_UNITS.NO_UNITS;
-//		public ChannelInfo(CHANNEL_TYPE channelType, String channelUnits){
-//			mChannelType = channelType;
-//			mChannelUnits = channelUnits;
-//		}
-//	}
-//	private List<ChannelInfo> mListOfAvailableChannels = new ArrayList<ChannelInfo>(); 
     public int mDefaultNumBytes = 0;
     public int mLegacyChannelId = -1;
     public CHANNEL_DATA_TYPE mDefaultChannelDataType = CHANNEL_DATA_TYPE.UNKOWN;
-    // JC: default means the original signal this channel is derived form, it
-    // can be derived from a calibrated/noncalibrated/algorithm source.
     public CHANNEL_DATA_ENDIAN mDefaultChannelDataEndian = CHANNEL_DATA_ENDIAN.UNKOWN;
     public String mDefaultUncalUnit = CHANNEL_UNITS.NO_UNITS;
     public String mDefaultCalUnits = CHANNEL_UNITS.NO_UNITS; //deprecate this?
@@ -43,7 +30,6 @@ public class ChannelDetails implements Serializable {
     private String mDatabaseChannelHandle = "";
 
         public ChannelDetails() {
-        // TODO Auto-generated constructor stub
     }
 
     public ChannelDetails(String objectClusterName, String guiName, String defaultCalibratedUnits, List<CHANNEL_TYPE> listOfChannelTypes) {
@@ -54,8 +40,6 @@ public class ChannelDetails implements Serializable {
         setDatabaseChannelHandleFromChannelLabel(objectClusterName);
     }
 
-    //JC: FOR GQ
-//	public boolean mIsEnabled = true;
 
     public ChannelDetails(String objectClusterName,
                           String guiName,
@@ -193,7 +177,6 @@ public class ChannelDetails implements Serializable {
         mDatabaseChannelHandle = databaseChannelHandle;
     }
 
-    //TODO below not currently used
 
     private void setDatabaseChannelHandleFromChannelLabel(String objectClusterName) {
         mDatabaseChannelHandle = objectClusterName;
@@ -225,9 +208,7 @@ public class ChannelDetails implements Serializable {
             signalProperties[2] = mDefaultCalUnits;
         }
 
-        //TODO
         signalProperties[3] = "";
-//		signalProperties[3] = mIsChannelUsingDefaultCal? "*":"";
         return signalProperties;
     }
 
@@ -247,22 +228,16 @@ public class ChannelDetails implements Serializable {
         UINT16(16, 2, false),
         UINT24(24, 3, false),
         UINT32(32, 4, false),
-        //		UINT32_SIGNED(4, true),
         UINT48(48, 6, false),
         UINT64(64, 8, false),
-        //TODO UtilParseData.parseData currently can not handle over 64 bits
-//		UINT72(72, 9, false),
 
         INT8(8, 1, true),
         INT12(12, 2, true),
         INT14(14, 2, true),
-        //		INT12_LBJ(2, true), //Left bit justified
         INT16(16, 2, true),
         INT24(24, 3, true),
         INT32(32, 4, true),
         INT64(64, 8, true);
-        //TODO UtilParseData.parseData currently can not handle over 64 bits
-//		INT72(72, 9, true);
 
         private final int numBits;
         private final int numBytes;
@@ -314,7 +289,6 @@ public class ChannelDetails implements Serializable {
     }
 
     public enum CHANNEL_TYPE {
-        //		RAW("RAW"),
         CAL("CAL", "Calibrated"),
         UNCAL("UNCAL", "Uncalibrated"),
         DERIVED("DERIVED", "Derived");
@@ -342,8 +316,6 @@ public class ChannelDetails implements Serializable {
         API
     }
 
-    //Mark test code
-//	public CHANNEL_AXES mChannelAxes = CHANNEL_AXES.TIME;
     public enum CHANNEL_AXES {
         TIME,
         FREQUENCY,

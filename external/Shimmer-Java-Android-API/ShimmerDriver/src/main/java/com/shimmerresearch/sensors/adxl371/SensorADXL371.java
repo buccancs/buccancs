@@ -42,7 +42,6 @@ public class SensorADXL371 extends AbstractSensor {
     public static final double[][] DefaultAlignmentMatrixHighGAccelShimmer3R = DefaultAlignmentADXL371;
     public static final double[][] DefaultOffsetVectorHighGAccelShimmer3R = {{10}, {10}, {10}};
     public static final double[][] DefaultSensitivityMatrixHighGAccelShimmer3R = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorADXL371Accel = new SensorDetailsRef(
             0x400000, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
             0x400000, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
@@ -54,8 +53,6 @@ public class SensorADXL371 extends AbstractSensor {
                     ObjectClusterSensorName.ACCEL_HIGHG_Y,
                     ObjectClusterSensorName.ACCEL_HIGHG_Z));
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
-    //--------- Bluetooth commands start --------------
-    //still not being implemented for high g accel sensor due to unavailability in doc
     public static final byte SET_ALT_ACCEL_CALIBRATION_COMMAND = (byte) 0xA9;
     public static final byte ALT_ACCEL_CALIBRATION_RESPONSE = (byte) 0xAA;
     public static final byte GET_ALT_ACCEL_CALIBRATION_COMMAND = (byte) 0xAB;
@@ -76,7 +73,6 @@ public class SensorADXL371 extends AbstractSensor {
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoADXL371);
 
-    // ----------   High-g accel end ---------------
     public static final ConfigOptionDetailsSensor configOptionAccelRange = new ConfigOptionDetailsSensor(
             SensorADXL371.GuiLabelConfig.ADXL371_ACCEL_RANGE,
             SensorADXL371.DatabaseConfigHandle.HIGHG_ACC_RANGE,
@@ -84,7 +80,6 @@ public class SensorADXL371 extends AbstractSensor {
             ListofADXL371AccelRangeConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoADXL371);
-    //--------- Channel info start --------------
     public static final ChannelDetails channelADXL371AccelX = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_HIGHG_X,
             ObjectClusterSensorName.ACCEL_HIGHG_X,
@@ -101,7 +96,6 @@ public class SensorADXL371 extends AbstractSensor {
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x15);
-    //--------- Sensor info end --------------
     public static final ChannelDetails channelADXL371AccelZ = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_HIGHG_Z,
             ObjectClusterSensorName.ACCEL_HIGHG_Z,
@@ -147,11 +141,8 @@ public class SensorADXL371 extends AbstractSensor {
 
     public CalibDetailsKinematic mCurrentCalibDetailsAccelHighG = null;
     public boolean mIsUsingDefaultHighGAccelParam = true;
-    //--------- Bluetooth commands end --------------
 
 
-    //--------- Configuration options start --------------
-    // ----------   High-g accel start ---------------
     protected int mSensorIdAccel = -1;
     protected int mAccelRange = 0;
     protected boolean mHighResAccelHighG = true;
@@ -164,7 +155,6 @@ public class SensorADXL371 extends AbstractSensor {
             DefaultSensitivityMatrixHighGAccelShimmer3R,
             DefaultOffsetVectorHighGAccelShimmer3R);
 
-    //--------- Configuration options end --------------
 
     public SensorADXL371() {
         super(SENSORS.ADXL371);
@@ -201,13 +191,11 @@ public class SensorADXL371 extends AbstractSensor {
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
-    //--------- Channel info end --------------
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
     }
 
-    //--------- Constructors for this class start --------------
 
     @Override
     public void generateSensorMap() {
@@ -227,21 +215,16 @@ public class SensorADXL371 extends AbstractSensor {
         super.updateSensorGroupingMap();
     }
 
-    //--------- Constructors for this class end --------------
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType,
                                            ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimeStampMs) {
-        // process data originating from the Shimmer
         objectCluster = sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled, pctimeStampMs);
 
-        //Calibration
         if (mEnableCalibration) {
-            // get uncalibrated data for each (sub)sensor
             if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.ACCEL_HIGHG) && mCurrentCalibDetailsAccelHighG != null) {
                 double[] unCalibratedAccelHighGData = new double[3];
                 for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
-                    //Uncalibrated Accelerometer data
                     if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_X)) {
                         unCalibratedAccelHighGData[0] = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
                     } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_Y)) {
@@ -252,9 +235,7 @@ public class SensorADXL371 extends AbstractSensor {
                 }
 
                 double[] calibratedAccelHighGData = UtilCalibration.calibrateInertialSensorData(unCalibratedAccelHighGData, mCurrentCalibDetailsAccelHighG);
-//						double[] calibratedAccelWrData = UtilCalibration.calibrateInertialSensorData(unCalibratedAccelWrData, mAlignmentMatrixHIGHGAccel, mSensitivityMatrixHIGHGAccel, mOffsetVectorHIGHGAccel);
 
-                //Add calibrated data to Object cluster
                 if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.ACCEL_HIGHG)) {
                     for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
                         if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_X)) {
@@ -267,7 +248,6 @@ public class SensorADXL371 extends AbstractSensor {
                     }
                 }
 
-                //Debugging
                 if (mIsDebugOutput) {
                     super.consolePrintChannelsCal(objectCluster, Arrays.asList(
                             new String[]{ObjectClusterSensorName.ACCEL_HIGHG_X, CHANNEL_TYPE.UNCAL.toString()},
@@ -304,7 +284,6 @@ public class SensorADXL371 extends AbstractSensor {
         }
     }
 
-//--------- Abstract methods implemented start --------------
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
@@ -394,7 +373,6 @@ public class SensorADXL371 extends AbstractSensor {
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        //set sampling rate of the sensors as close to the Shimmer sampling rate as possible (sensor sampling rate >= shimmer sampling rate)
         setADXL371AccelRateFromFreq(samplingRateHz);
 
     }
@@ -423,7 +401,6 @@ public class SensorADXL371 extends AbstractSensor {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -436,7 +413,6 @@ public class SensorADXL371 extends AbstractSensor {
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -462,7 +438,6 @@ public class SensorADXL371 extends AbstractSensor {
             setADXL371AnalogAccelRate(((Double) mapOfConfigPerShimmer.get(SensorADXL371.DatabaseConfigHandle.HIGHG_ACC_RATE)).intValue());
         }
 
-        //Analog Accel Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_ADXL371_ACCEL_HIGHG,
                 0,
@@ -470,7 +445,6 @@ public class SensorADXL371 extends AbstractSensor {
                 SensorADXL371.DatabaseConfigHandle.HIGHG_ACC_CALIB_TIME);
     }
 
-    //--------- Optional methods to override in Sensor Class start --------
     @Override
     public void initialise() {
         mSensorIdAccel = Configuration.Shimmer3.SENSOR_ID.SHIMMER_ADXL371_ACCEL_HIGHG;
@@ -511,12 +485,9 @@ public class SensorADXL371 extends AbstractSensor {
         return mCurrentCalibDetailsAccelHighG.isUsingDefaultParameters();
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
-    //--------- Sensor specific methods start --------------
 
     public CalibDetailsKinematic getCurrentCalibDetailsAccelHighG() {
-//		return getCurrentCalibDetails(mSensorIdAccel, getAccelRange());
         return mCurrentCalibDetailsAccelHighG;
     }
 
@@ -534,14 +505,11 @@ public class SensorADXL371 extends AbstractSensor {
 
     public int setADXL371AccelRateFromFreq(double freq) {
         boolean isEnabled = isSensorEnabled(mSensorIdAccel);
-//		System.out.println("Setting Sampling Rate: " + freq + "\tmLowPowerAccelWR:" + mLowPowerAccelWR);
         setADXL371AnalogAccelRateInternal(getAccelRateFromFreqForSensor(isEnabled, freq));
         return mADXL371AnalogAccelRate;
     }
 
     public void setADXL371AnalogAccelRateInternal(int valueToSet) {
-        //System.out.println("Accel Rate:\t" + valueToSet);
-        //UtilShimmer.consolePrintCurrentStackTrace();
         mADXL371AnalogAccelRate = valueToSet;
     }
 
@@ -592,7 +560,6 @@ public class SensorADXL371 extends AbstractSensor {
 
     public void setADXL371AnalogAccelRate(int valueToSet) {
         setADXL371AnalogAccelRateInternal(valueToSet);
-//		setADXL371AnalogAccelRateInternal(SensorADXL371.ListofADXL371AccelRateConfigValues[SensorADXL371.ListofADXL371AccelRateConfigValues.length-1]);
     }
 
     public int getADXL371AnalogAccelRange() {
@@ -660,6 +627,5 @@ public class SensorADXL371 extends AbstractSensor {
         public static final String ACCEL = "ACCEL";
     }
 
-    //--------- Sensor specific methods end --------------
 
 }

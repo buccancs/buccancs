@@ -62,14 +62,12 @@ public class Shimmer4sdk extends ShimmerDevice {
     @Deprecated //assume always true?
     protected boolean mSendProgressReport = true;
 
-    //TODO consider where to handle the below -> carried over from ShimmerObject
     protected boolean mButtonStart = true;
     protected boolean mDisableBluetooth = true;
     protected boolean mShowRtcErrorLeds = true;
     protected boolean mConfigFileCreationFlag = true;
     protected boolean mCalibFileCreationFlag = false;
     protected int mBluetoothBaudRate = 9; //460800
-    //TODO migrate to using below
     protected transient ShimmerDeviceCallbackAdapter mDeviceCallbackAdapter = new ShimmerDeviceCallbackAdapter(this);
     private boolean isOverrideShowRwcErrorLeds = true;
     private transient ShimmerDeviceCommsProtocolAdaptor mShimmerDeviceCommsProtocolAdaptor = new ShimmerDeviceCommsProtocolAdaptor(this);
@@ -85,7 +83,6 @@ public class Shimmer4sdk extends ShimmerDevice {
         setSamplingRateShimmer(communicationType, 128);
         setMacIdFromUart(macId);
 
-        //TODO HACK!!!!!
         setSamplingRateShimmer(COMMUNICATION_TYPE.SD, 128.0);
         setSamplingRateShimmer(COMMUNICATION_TYPE.BLUETOOTH, 128.0);
     }
@@ -107,11 +104,6 @@ public class Shimmer4sdk extends ShimmerDevice {
     private void createMapOfSensorClasses() {
         mMapOfSensorClasses = new LinkedHashMap<SENSORS, AbstractSensor>();
 
-        //Example code
-//		if(UtilShimmer.compareVersions(getHardwareVersion(), getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(),
-//				HW_ID.SHIMMER_4_SDK, FW_ID.LOGANDSTREAM, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION)){
-//			putSensorClass(SENSORS.SYSTEM_TIMESTAMP, new SensorSystemTimeStamp(mShimmerVerObject));
-//		}
 
         addSensorClass(SENSORS.CLOCK, new SensorShimmerClock(this));
 
@@ -122,7 +114,6 @@ public class Shimmer4sdk extends ShimmerDevice {
         addSensorClass(SENSORS.Battery, new SensorBattVoltage(this));
         addSensorClass(SENSORS.Bridge_Amplifier, new SensorBridgeAmp(mShimmerVerObject));
 
-        //TODO push version checking into the sensor classes
 
         if (getExpansionBoardId() == HW_ID_SR_CODES.EXP_BRD_EXG
                 || getExpansionBoardId() == HW_ID_SR_CODES.EXP_BRD_EXG_UNIFIED
@@ -145,7 +136,6 @@ public class Shimmer4sdk extends ShimmerDevice {
             }
         }
 
-        //Shimmer4 enhancements - Only available on the SDK
         if (getExpansionBoardId() == HW_ID_SR_CODES.SHIMMER_4_SDK) {
             addSensorClass(SENSORS.BMP280, new SensorBMP280(mShimmerVerObject));
             addSensorClass(SENSORS.STC3100, new SensorSTC3100(mShimmerVerObject));
@@ -156,12 +146,10 @@ public class Shimmer4sdk extends ShimmerDevice {
 
     @Override
     protected void interpretDataPacketFormat(Object object, COMMUNICATION_TYPE commType) {
-        //TODO don't think this is relevant for Shimmer4
     }
 
     @Override
     public void createConfigBytesLayout() {
-        //TODO replace with Shimmer4?
         if (mShimmerVerObject.mHardwareVersion == HW_ID.UNKNOWN) {
             mConfigByteLayout = new ConfigByteLayoutShimmer3(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(), HW_ID.SHIMMER_4_SDK);
         } else {
@@ -169,29 +157,20 @@ public class Shimmer4sdk extends ShimmerDevice {
         }
     }
 
-    // TODO need to move common infomem related activity to ShimmerDevice. Not
-    // have duplicates in ShimmerObject, ShimmerGQ and Shimmer4. Some items only
-    // copied here for example/testing purposes
     @Override
     public void configBytesParse(byte[] configBytes, COMMUNICATION_TYPE commType) {
         String shimmerName = "";
         mInfoMemBytesOriginal = configBytes;
 
         if (!ConfigByteLayout.checkConfigBytesValid(configBytes)) {
-            // InfoMem not valid
             setDefaultShimmerConfiguration();
-//			mShimmerUsingConfigFromInfoMem = false;
 
-//			mShimmerInfoMemBytes = infoMemByteArrayGenerate();
-//			mShimmerInfoMemBytes = new byte[infoMemContents.length];
             mConfigBytes = configBytes;
         } else {
             createInfoMemLayoutObjectIfNeeded();
-            //TODO create for Shimmer4 or use Shimmer3?
             ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) mConfigByteLayout;
             mConfigBytes = configBytes;
 
-            // Parse Enabled and Derived sensor bytes in order to update sensor maps
             parseEnabledDerivedSensorsForMaps(configByteLayoutCast, configBytes);
 
             overwriteEnabledSensors();
@@ -205,7 +184,6 @@ public class Shimmer4sdk extends ShimmerDevice {
             mBluetoothBaudRate = configBytes[configByteLayoutCast.idxBtCommBaudRate] & configByteLayoutCast.maskBaudRate;
 
 
-            // Shimmer Name
             byte[] shimmerNameBuffer = new byte[configByteLayoutCast.lengthShimmerName];
             System.arraycopy(configBytes, configByteLayoutCast.idxSDShimmerName, shimmerNameBuffer, 0, configByteLayoutCast.lengthShimmerName);
             for (byte b : shimmerNameBuffer) {
@@ -215,7 +193,6 @@ public class Shimmer4sdk extends ShimmerDevice {
                 shimmerName += (char) b;
             }
 
-            // Experiment Name
             byte[] experimentNameBuffer = new byte[configByteLayoutCast.lengthExperimentName];
             System.arraycopy(configBytes, configByteLayoutCast.idxSDEXPIDName, experimentNameBuffer, 0, configByteLayoutCast.lengthExperimentName);
             String experimentName = "";
@@ -227,7 +204,6 @@ public class Shimmer4sdk extends ShimmerDevice {
             }
             mTrialName = new String(experimentName);
 
-            //Configuration Time
             int bitShift = (configByteLayoutCast.lengthConfigTimeBytes - 1) * 8;
             mConfigTime = 0;
             for (int x = 0; x < configByteLayoutCast.lengthConfigTimeBytes; x++) {
@@ -239,12 +215,10 @@ public class Shimmer4sdk extends ShimmerDevice {
             mDisableBluetooth = ((configBytes[configByteLayoutCast.idxSDExperimentConfig0] >> configByteLayoutCast.bitShiftDisableBluetooth) & configByteLayoutCast.maskDisableBluetooth) > 0 ? true : false;
             mShowRtcErrorLeds = ((configBytes[configByteLayoutCast.idxSDExperimentConfig0] >> configByteLayoutCast.bitShiftShowErrorLedsRwc) & configByteLayoutCast.maskShowErrorLedsRwc) > 0 ? true : false;
 
-            // Configuration from each Sensor settings
             for (AbstractSensor abstractSensor : mMapOfSensorClasses.values()) {
                 abstractSensor.configBytesParse(this, mConfigBytes, commType);
             }
 
-            //need to update parser map here as ExG config bytes change which of ECG/EMG/Resp etc. is enabled
             generateParserMap();
 
         }
@@ -252,7 +226,6 @@ public class Shimmer4sdk extends ShimmerDevice {
     }
 
     private void parseEnabledDerivedSensorsForMaps(ConfigByteLayoutShimmer3 infoMemLayoutCast, byte[] configBytes) {
-        // Sensors
         mEnabledSensors = ((long) configBytes[infoMemLayoutCast.idxSensors0] & infoMemLayoutCast.maskSensors) << infoMemLayoutCast.byteShiftSensors0;
         mEnabledSensors += ((long) configBytes[infoMemLayoutCast.idxSensors1] & infoMemLayoutCast.maskSensors) << infoMemLayoutCast.byteShiftSensors1;
         mEnabledSensors += ((long) configBytes[infoMemLayoutCast.idxSensors2] & infoMemLayoutCast.maskSensors) << infoMemLayoutCast.byteShiftSensors2;
@@ -261,16 +234,12 @@ public class Shimmer4sdk extends ShimmerDevice {
         mEnabledSensors += ((long) configBytes[infoMemLayoutCast.idxSensors4] & 0xFF) << infoMemLayoutCast.bitShiftSensors4;
 
         mDerivedSensors = (long) 0;
-        // Check if compatible and not equal to 0xFF
         if ((infoMemLayoutCast.idxDerivedSensors0 > 0) && (configBytes[infoMemLayoutCast.idxDerivedSensors0] != (byte) infoMemLayoutCast.maskDerivedChannelsByte)
                 && (infoMemLayoutCast.idxDerivedSensors1 > 0) && (configBytes[infoMemLayoutCast.idxDerivedSensors1] != (byte) infoMemLayoutCast.maskDerivedChannelsByte)) {
 
             mDerivedSensors |= ((long) configBytes[infoMemLayoutCast.idxDerivedSensors0] & infoMemLayoutCast.maskDerivedChannelsByte) << infoMemLayoutCast.byteShiftDerivedSensors0;
             mDerivedSensors |= ((long) configBytes[infoMemLayoutCast.idxDerivedSensors1] & infoMemLayoutCast.maskDerivedChannelsByte) << infoMemLayoutCast.byteShiftDerivedSensors1;
 
-            // Check if compatible and not equal to 0xFF
-            // RM commented out the below check sept 2016 as infoMemBytes[infoMemLayoutCast.idxDerivedSensors2]  can be 0xFF if all 6DoF and 9DoF algorithms are enabled
-            //if((infoMemLayoutCast.idxDerivedSensors2>0) && (infoMemBytes[infoMemLayoutCast.idxDerivedSensors2]!=(byte)infoMemLayoutCast.maskDerivedChannelsByte)){
             if (infoMemLayoutCast.idxDerivedSensors2 > 0) {
                 mDerivedSensors |= ((long) configBytes[infoMemLayoutCast.idxDerivedSensors2] & infoMemLayoutCast.maskDerivedChannelsByte) << infoMemLayoutCast.byteShiftDerivedSensors2;
             }
@@ -289,31 +258,17 @@ public class Shimmer4sdk extends ShimmerDevice {
     }
 
     private void overwriteEnabledSensors() {
-        //Overrides - needed because there are no enabled/derived sensor bits for these
         setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.HOST_SYSTEM_TIMESTAMP, true);
         setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.SHIMMER_TIMESTAMP, true);
         setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.HOST_SHIMMER_STREAMING_PROPERTIES, true);
 
-        //TODO
-//		setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.HOST_SYSTEM_TIMESTAMP, true, COMMUNICATION_TYPE.SD);
-//		setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.SHIMMER_TIMESTAMP, true, COMMUNICATION_TYPE.SD);
 
-//		updateExpectedDataPacketSize();
 
-        //for testing
-//		printSensorAndParserMaps();
-        //for testing
-//		printMapOfConfigForDb();
     }
 
-    // TODO need to move common infomem related activity to ShimmerDevice. Not
-    // have duplicates in ShimmerObject, ShimmerGQ and Shimmer4. Some items only
-    // copied here for example/testing purposes
     @Override
     public byte[] configBytesGenerate(boolean generateForWritingToShimmer, COMMUNICATION_TYPE commType) {
-        //TODO refer to same method in ShimmerGQ/ShimmerObject
 
-        //TODO create for Shimmer4 or use Shimmer3?
         ConfigByteLayoutShimmer3 infoMemLayout = new ConfigByteLayoutShimmer3(
                 getFirmwareIdentifier(),
                 getFirmwareVersionMajor(),
@@ -326,7 +281,6 @@ public class Shimmer4sdk extends ShimmerDevice {
         }
 
 
-//		byte[] infoMemBackup = mInfoMemBytes.clone();
         mConfigBytes = infoMemLayout.createConfigByteArrayEmpty();
 
         refreshEnabledSensorsFromSensorMap();
@@ -351,7 +305,6 @@ public class Shimmer4sdk extends ShimmerDevice {
         checkIfInternalExpBrdPowerIsNeeded();
         mConfigBytes[infoMemLayout.idxConfigSetupByte3] |= (byte) ((mInternalExpPower & infoMemLayout.maskEXPPowerEnable) << infoMemLayout.bitShiftEXPPowerEnable);
 
-        // Derived Sensors
         if ((infoMemLayout.idxDerivedSensors0 > 0) && (infoMemLayout.idxDerivedSensors1 > 0)) { // Check if compatible
             mConfigBytes[infoMemLayout.idxDerivedSensors0] = (byte) ((mDerivedSensors >> infoMemLayout.byteShiftDerivedSensors0) & infoMemLayout.maskDerivedChannelsByte);
             mConfigBytes[infoMemLayout.idxDerivedSensors1] = (byte) ((mDerivedSensors >> infoMemLayout.byteShiftDerivedSensors1) & infoMemLayout.maskDerivedChannelsByte);
@@ -368,16 +321,13 @@ public class Shimmer4sdk extends ShimmerDevice {
             }
         }
 
-        //TODO handle the below better
         mBluetoothBaudRate = 9;
         mConfigBytes[infoMemLayout.idxBtCommBaudRate] = (byte) (mBluetoothBaudRate & infoMemLayout.maskBaudRate);
 
-        // Configuration from each Sensor settings
         for (AbstractSensor abstractSensor : mMapOfSensorClasses.values()) {
             abstractSensor.configBytesGenerate(this, mConfigBytes, commType);
         }
 
-        // Shimmer Name
         for (int i = 0; i < infoMemLayout.lengthShimmerName; i++) {
             if (i < mShimmerUserAssignedName.length()) {
                 mConfigBytes[infoMemLayout.idxSDShimmerName + i] = (byte) mShimmerUserAssignedName.charAt(i);
@@ -386,7 +336,6 @@ public class Shimmer4sdk extends ShimmerDevice {
             }
         }
 
-        // Experiment Name
         for (int i = 0; i < infoMemLayout.lengthExperimentName; i++) {
             if (i < mTrialName.length()) {
                 mConfigBytes[infoMemLayout.idxSDEXPIDName + i] = (byte) mTrialName.charAt(i);
@@ -395,7 +344,6 @@ public class Shimmer4sdk extends ShimmerDevice {
             }
         }
 
-        //Configuration Time
         mConfigBytes[infoMemLayout.idxSDConfigTime0] = (byte) ((mConfigTime >> infoMemLayout.bitShiftSDConfigTime0) & 0xFF);
         mConfigBytes[infoMemLayout.idxSDConfigTime1] = (byte) ((mConfigTime >> infoMemLayout.bitShiftSDConfigTime1) & 0xFF);
         mConfigBytes[infoMemLayout.idxSDConfigTime2] = (byte) ((mConfigTime >> infoMemLayout.bitShiftSDConfigTime2) & 0xFF);
@@ -411,29 +359,21 @@ public class Shimmer4sdk extends ShimmerDevice {
         }
 
         if (generateForWritingToShimmer) {
-            // MAC address - set to all 0xFF (i.e. invalid MAC) so that Firmware will know to check for MAC from Bluetooth transceiver
-            // (already set to 0xFF at start of method but just incase)
             System.arraycopy(infoMemLayout.invalidMacId, 0, mConfigBytes, infoMemLayout.idxMacAddress, infoMemLayout.lengthMacIdBytes);
 
             mConfigBytes[infoMemLayout.idxSDConfigDelayFlag] = 0;
-            // Tells the Shimmer to create a new config file on undock/power cycle
-            //TODO RM enabled the two lines below (MN had the below two lines commented out.. but need them to write config successfully over UART)
             byte configFileWriteBit = (byte) (mConfigFileCreationFlag ? (infoMemLayout.maskSDCfgFileWriteFlag << infoMemLayout.bitShiftSDCfgFileWriteFlag) : 0x00);
             mConfigBytes[infoMemLayout.idxSDConfigDelayFlag] |= configFileWriteBit;
 
             mConfigBytes[infoMemLayout.idxSDConfigDelayFlag] |= infoMemLayout.bitShiftSDCfgFileWriteFlag;
 
-            // Tells the Shimmer to create a new calibration files on undock/power cycle
             byte calibFileWriteBit = (byte) (mCalibFileCreationFlag ? (infoMemLayout.maskSDCalibFileWriteFlag << infoMemLayout.bitShiftSDCalibFileWriteFlag) : 0x00);
             mConfigBytes[infoMemLayout.idxSDConfigDelayFlag] |= calibFileWriteBit;
         }
 
         if (generateForWritingToShimmer) {
-            // MAC address - set to all 0xFF (i.e. invalid MAC) so that Firmware will know to check for MAC from Bluetooth transceiver
-            // (already set to 0xFF at start of method but just in case)
             System.arraycopy(infoMemLayout.invalidMacId, 0, mConfigBytes, infoMemLayout.idxMacAddress, infoMemLayout.lengthMacIdBytes);
 
-            //TODO only temporarily here to deal with fake Shimmer4 (i.e., a Shimmer3)
             mConfigBytes[infoMemLayout.idxSDConfigDelayFlag] |= infoMemLayout.bitShiftSDCfgFileWriteFlag;
         }
 
@@ -462,13 +402,10 @@ public class Shimmer4sdk extends ShimmerDevice {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        //NOT USED IN THIS CLASS
     }
 
-    // ----------------- BT LiteProtocolInstructionSet Start ------------------
 
         @Override
-//	public void setRadio(AbstractSerialPortHal commsProtocolRadio) {
     public void setCommsProtocolRadio(CommsProtocolRadio commsProtocolRadio) {
         super.setCommsProtocolRadio(commsProtocolRadio);
         initializeRadio();
@@ -482,7 +419,6 @@ public class Shimmer4sdk extends ShimmerDevice {
                 @Override
                 public void connected() {
                     setIsConnected(true);
-                    //				initialise(hardwareVersion);
                 }
 
                 @Override
@@ -490,18 +426,9 @@ public class Shimmer4sdk extends ShimmerDevice {
                     try {
                         disconnect();
                     } catch (ShimmerException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 //					
-//					setBluetoothRadioState(BT_STATE.DISCONNECTED);
-//					mCommsProtocolRadio = null;
-////					try {
-////						clearCommsProtocolRadio();
-////                    } catch (DeviceException e) {
-////						// TODO Auto-generated catch block
-////						e.printStackTrace();
-////                    }
                 }
 
                 @Override
@@ -511,18 +438,15 @@ public class Shimmer4sdk extends ShimmerDevice {
 
                 @Override
                 public void eventAckReceived(int lastSentInstruction) {
-                    //Handled in LiteProtocol
                 }
 
                 @Override
                 public void eventNewResponse(byte[] responseBytes) {
-                    //Handled in LiteProtocol
                 }
 
                 @Override
                 public void eventResponseReceived(int responseCommand, Object parsedResponse) {
                     if (responseCommand == InstructionsResponse.INQUIRY_RESPONSE_VALUE) {
-//						interpretInqResponse((byte[])parsedResponse);
                         inquiryDone();
                     } else if (responseCommand == InstructionsResponse.GET_SHIMMER_VERSION_RESPONSE_VALUE) {
                         setHardwareVersion((int) parsedResponse);
@@ -541,11 +465,8 @@ public class Shimmer4sdk extends ShimmerDevice {
                     } else if (responseCommand == InstructionsResponse.RSP_CALIB_DUMP_COMMAND_VALUE) {
                         calibByteDumpParse((byte[]) parsedResponse, CALIB_READ_SOURCE.RADIO_DUMP);
                     } else if (responseCommand == InstructionsResponse.BLINK_LED_RESPONSE_VALUE) {
-                        //					mCurrentLEDStatus = byteled[0]&0xFF;
                     } else if (responseCommand == InstructionsResponse.STATUS_RESPONSE_VALUE) {
                         consolePrintLn("STATUS RESPONSE RECEIVED");
-                        //Handled in LiteProtocol
-                        //					parseStatusByte((byte)parsedResponse);
                     } else if (responseCommand == InstructionsResponse.VBATT_RESPONSE_VALUE) {
                         setBattStatusDetails((ShimmerBattStatusDetails) parsedResponse);
                     } else if (responseCommand == InstructionsResponse.RWC_RESPONSE_VALUE) {
@@ -662,19 +583,16 @@ public class Shimmer4sdk extends ShimmerDevice {
 
                 @Override
                 public void isNowStreamLoggedDataCallback() {
-                    // TODO Auto-generated method stub
 
                 }
 
                 @Override
                 public void hasStopStreamLoggedDataCallback(String binPath) {
-                    // TODO Auto-generated method stub
 
                 }
 
                 @Override
                 public void eventNewSyncPayloadReceived(int payloadIndex, boolean crcError, double transferRateBytes, String binFilePath) {
-                    // TODO Auto-generated method stub
 
                 }
 
@@ -687,9 +605,6 @@ public class Shimmer4sdk extends ShimmerDevice {
     public ObjectCluster buildMsg(byte[] newPacket, COMMUNICATION_TYPE commType, boolean isTimeSyncEnabled, double pcTimestampMs) {
         ObjectCluster objectCluster = super.buildMsg(newPacket, commType, isTimeSyncEnabled, pcTimestampMs);
 
-//		if(commType==COMMUNICATION_TYPE.BLUETOOTH){
-//			processEventMarkerCh(objectCluster);
-//		}
 
         dataHandler(objectCluster);
         return objectCluster;
@@ -700,78 +615,12 @@ public class Shimmer4sdk extends ShimmerDevice {
         mShimmerDeviceCommsProtocolAdaptor.connect();
     }
 
-    //TODO Copied from ShimmerObject
     protected void interpretInqResponse(byte[] bufferInquiry) {
-//		if (getHardwareVersion()==HW_ID.SHIMMER_2 || getHardwareVersion()==HW_ID.SHIMMER_2R){
-//			mPacketSize = mTimeStampPacketByteSize +bufferInquiry[3]*2; 
-//			setSamplingRateShimmer((double)1024/bufferInquiry[0]);
-//			if (mLSM303MagRate==3 && getSamplingRateShimmer()>10){
-//				mLowPowerMag = true;
-//			}
-//			mAccelRange = bufferInquiry[1];
-//			mConfigByte0 = bufferInquiry[2] & 0xFF; //convert the byte to unsigned integer
-//			mNChannels = bufferInquiry[3];
-//			mBufferSize = bufferInquiry[4];
-//			byte[] signalIdArray = new byte[mNChannels];
-//			System.arraycopy(bufferInquiry, 5, signalIdArray, 0, mNChannels);
-//			updateEnabledSensorsFromChannels(signalIdArray);
-//			interpretDataPacketFormat(mNChannels,signalIdArray);
-//			mInquiryResponseBytes = new byte[5+mNChannels];
-//			System.arraycopy(bufferInquiry, 0, mInquiryResponseBytes , 0, mInquiryResponseBytes.length);
-//		} 
-//		else if (getHardwareVersion()==HW_ID.SHIMMER_3) {
-//			mPacketSize = mTimeStampPacketByteSize+bufferInquiry[6]*2; 
-//			setSamplingRateShimmer((getSamplingClockFreq()/(double)((int)(bufferInquiry[0] & 0xFF) + ((int)(bufferInquiry[1] & 0xFF) << 8))));
-//			mNChannels = bufferInquiry[6];
-//			mBufferSize = bufferInquiry[7];
-//			mConfigByte0 = ((long)(bufferInquiry[2] & 0xFF) +((long)(bufferInquiry[3] & 0xFF) << 8)+((long)(bufferInquiry[4] & 0xFF) << 16) +((long)(bufferInquiry[5] & 0xFF) << 24));
-//			mAccelRange = ((int)(mConfigByte0 & 0xC))>>2;//XXX-RS-LSM-SensorClass?
-//			mGyroRange = ((int)(mConfigByte0 & 196608))>>16;
-//			mMagRange = ((int)(mConfigByte0 & 14680064))>>21;//XXX-RS-LSM-SensorClass?
-//			mLSM303DigitalAccelRate = ((int)(mConfigByte0 & 0xF0))>>4;//XXX-RS-LSM-SensorClass?
-//			mMPU9150GyroAccelRate = ((int)(mConfigByte0 & 65280))>>8;
-//			mLSM303MagRate = ((int)(mConfigByte0 & 1835008))>>18; //XXX-RS-LSM-SensorClass?
-//			mPressureResolution = (((int)(mConfigByte0 >>28)) & 3);
-//			mGSRRange  = (((int)(mConfigByte0 >>25)) & 7);
-//			mInternalExpPower = (((int)(mConfigByte0 >>24)) & 1);
-//			mInquiryResponseBytes = new byte[8+mNChannels];
-//			System.arraycopy(bufferInquiry, 0, mInquiryResponseBytes , 0, mInquiryResponseBytes.length);
-//			if ((mLSM303DigitalAccelRate==2 && getSamplingRateShimmer()>10)){
-//				mLowPowerAccelWR = true;
-//			}
-//			if ((mMPU9150GyroAccelRate==0xFF && getSamplingRateShimmer()>10)){
-//				mLowPowerGyro = true;
-//			}
-//			if ((mLSM303MagRate==4 && getSamplingRateShimmer()>10)){
-//				mLowPowerMag = true;
-//			}
-//			byte[] signalIdArray = new byte[mNChannels];
-//			System.arraycopy(bufferInquiry, 8, signalIdArray, 0, mNChannels);
-//			updateEnabledSensorsFromChannels(signalIdArray);
-//			interpretDataPacketFormat(mNChannels,signalIdArray);
-//			checkExgResolutionFromEnabledSensorsVar();
-//		} 
-//		else if (getHardwareVersion()==HW_ID.SHIMMER_SR30) {
-//			mPacketSize = mTimeStampPacketByteSize+bufferInquiry[2]*2; 
-//			setSamplingRateShimmer((double)1024/bufferInquiry[0]);
-//			mAccelRange = bufferInquiry[1];
-//			mNChannels = bufferInquiry[2];
-//			mBufferSize = bufferInquiry[3];
-//			byte[] signalIdArray = new byte[mNChannels];
-//			System.arraycopy(bufferInquiry, 4, signalIdArray, 0, mNChannels); // this is 4 because there is no config byte
-//			interpretDataPacketFormat(mNChannels,signalIdArray);
-//		}
     }
 
-    //TODO copied from ShimmerPC
     protected void eventLogAndStreamStatusChanged(int currentCommand) {
 
-//		if(currentCommand==START_LOGGING_ONLY_COMMAND){
-//			TODO this causing a problem Shimmer Bluetooth disconnects
-//			setState(BT_STATE.SDLOGGING);
-//		}
         if (currentCommand == InstructionsSet.STOP_LOGGING_ONLY_COMMAND_VALUE) {
-            //TODO need to query the Bluetooth connection here!
             if (isStreaming()) {
                 setBluetoothRadioState(BT_STATE.STREAMING);
             } else if (isConnected()) {
@@ -787,19 +636,11 @@ public class Shimmer4sdk extends ShimmerDevice {
             } else if (isSDLogging()) {
                 setBluetoothRadioState(BT_STATE.SDLOGGING);
             } else {
-//				if(!isStreaming() && !isSDLogging() && isConnected()){
                 if (!mIsStreaming && !isSDLogging() && isConnected() && mBluetoothRadioState != BT_STATE.CONNECTED) {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                 }
-//				if(getBTState() == BT_STATE.INITIALISED){
-//					
-//				}
-//				else if(getBTState() != BT_STATE.CONNECTED){
-//					setState(BT_STATE.CONNECTED);
-//				}
+//
 
-//				CallbackObject callBackObject = new CallbackObject(ShimmerBluetooth.NOTIFICATION_SHIMMER_STATE_CHANGE, mBluetoothRadioState, getMacId(), getComPort());
-//				sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, callBackObject);
             }
         }
 
@@ -807,7 +648,6 @@ public class Shimmer4sdk extends ShimmerDevice {
 
 
     private void initialiseDevice() {
-//		initialise(HW_ID.SHIMMER_4_SDK);
         setHaveAttemptedToReadConfig(true);
 
         if (mSendProgressReport) {
@@ -818,38 +658,16 @@ public class Shimmer4sdk extends ShimmerDevice {
         mCommsProtocolRadio.readExpansionBoardID();
         mCommsProtocolRadio.readLEDCommand();
 
-//		if(this.mUseInfoMemConfigMethod && getFirmwareVersionCode()>=6){
         readConfigBytes();
         readCalibrationDump();
 
-//			((CommsProtocolRadio)mCommsProtocolRadio).mRadioProtocol.readBattStatusPeriod();
         ((CommsProtocolRadio) mCommsProtocolRadio).mRadioProtocol.writeBattStatusPeriod(1);
 
-        //TODO improve below by putting into sensor classes
         if (mMapOfSensorClasses.containsKey(SENSORS.BMP180)) {
             mCommsProtocolRadio.readPressureCalibrationCoefficients();
         }
-//		}
-//		else {
-//			readSamplingRate();
-//			readMagRange();
-//			readAccelRange();
-//			readGyroRange();
-//			readAccelSamplingRate();
-//			readCalibrationParameters("All");
-//			readPressureCalibrationCoefficients();
-//			readEXGConfigurations();
-//			//enableLowPowerMag(mLowPowerMag);
-//			
-//			readDerivedChannelBytes();
-//			
-//			if(isThisVerCompatibleWith(HW_ID.SHIMMER_3, FW_ID.LOGANDSTREAM, 0, 5, 2)){
-//				readTrial();
-//				readConfigTime();
-//				readShimmerName();
-//				readExperimentName();
-//			}
-//		}
+//
+//
 
 
         if ((isThisVerCompatibleWith(HW_ID.SHIMMER_3, FW_ID.LOGANDSTREAM, 0, 5, 2))
@@ -862,29 +680,9 @@ public class Shimmer4sdk extends ShimmerDevice {
             mCommsProtocolRadio.readBattery();
         }
 
-//		if(mSetupDevice){
-//			//writeAccelRange(mDigitalAccelRange);
-//			if(mSetupEXG){
-//				writeEXGConfiguration();
-//				mSetupEXG = false;
-//			}
-//			writeGSRRange(mGSRRange);
-//			writeAccelRange(mAccelRange);
-//			writeGyroRange(mGyroRange);
-//			writeMagRange(mMagRange);
-//			writeShimmerAndSensorsSamplingRate(getSamplingRateShimmer());	
-//			writeInternalExpPower(1);
-////			setContinuousSync(mContinousSync);
-//			writeEnabledSensors(mSetEnabledSensors); //this should always be the last command
-//		} 
-//		else {
         mCommsProtocolRadio.inquiry();
-//		}
 
         if (mSendProgressReport) {
-            // Just unlock instruction stack and leave logAndStream timer as
-            // this is handled in the next step, i.e., no need for
-            // operationStart() here
             startOperation(BT_STATE.CONNECTING, mCommsProtocolRadio.mRadioProtocol.getListofInstructions().size());
             mCommsProtocolRadio.mRadioProtocol.setInstructionStackLock(false);
         }
@@ -894,11 +692,6 @@ public class Shimmer4sdk extends ShimmerDevice {
         mCommsProtocolRadio.startTimerCheckIfAlive();
     }
 
-//	//TODO - Copied from ShimmerObject
-//	private void initialise(int hardwareVersion) {
-//		setHardwareVersion(hardwareVersion);
-//		sensorAndConfigMapsCreate();
-//	}
 
     protected void hasStopStreaming() {
         mDeviceCallbackAdapter.hasStopStreaming();
@@ -913,11 +706,9 @@ public class Shimmer4sdk extends ShimmerDevice {
     public void setSetting(long sensorID, String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
         ActionSetting actionSetting = getSensorClass(sensorID).setSettings(componentName, valueToSet, commType);
         if (actionSetting.mCommType == COMMUNICATION_TYPE.BLUETOOTH) {
-            //mShimmerRadio.actionSettingResolver(actionSetting);
         }
     }
 
-    //TODO copied from ShimmerPC
     protected void dockedStateChange() {
         CallbackObject callBackObject = new CallbackObject(ShimmerBluetooth.MSG_IDENTIFIER_SHIMMER_DOCKED_STATE_CHANGE, getMacId(), getComPort());
         sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_SHIMMER_DOCKED_STATE_CHANGE, callBackObject);
@@ -953,7 +744,6 @@ public class Shimmer4sdk extends ShimmerDevice {
     public void readConfigBytes() {
         if (this.getFirmwareVersionCode() >= 6) {
             createInfoMemLayoutObjectIfNeeded();
-//			int size = InfoMemLayoutShimmer3.calculateInfoMemByteLength(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal());
             int size = mConfigByteLayout.calculateConfigByteLength();
             mCommsProtocolRadio.readInfoMem(mConfigByteLayout.MSP430_5XX_INFOMEM_D_ADDRESS, size, mConfigByteLayout.MSP430_5XX_INFOMEM_LAST_ADDRESS);
         }
@@ -973,7 +763,6 @@ public class Shimmer4sdk extends ShimmerDevice {
 
     public void writeEnabledSensors(long enabledSensors) {
         if (mCommsProtocolRadio != null && mCommsProtocolRadio.mRadioHal != null) {
-//			mShimmerRadioHWLiteProtocol.
             mCommsProtocolRadio.writeEnabledSensors(enabledSensors);
         }
     }
@@ -998,7 +787,6 @@ public class Shimmer4sdk extends ShimmerDevice {
         }
     }
 
-    // ----------------- BT LiteProtocolInstructionSet End ------------------
 
         protected void dataHandler(ObjectCluster ojc) {
         mDeviceCallbackAdapter.dataHandler(ojc);
@@ -1022,23 +810,8 @@ public class Shimmer4sdk extends ShimmerDevice {
         mDeviceCallbackAdapter.finishOperation(btState);
     }
 
-    //TODO copied from ShimmerPC
-    // Use mDeviceCallbackAdapter.isReadyForStreaming(); instead
     public void isReadyForStreaming() {
-//		mIsInitialised = true;
-//		if (getBluetoothRadioState()==BT_STATE.CONNECTING){
-//			finishOperation(progressReportPerDevice.mCurrentOperationBtState);
-//		}
-//		CallbackObject callBackObject2 = new CallbackObject(ShimmerBluetooth.NOTIFICATION_SHIMMER_FULLY_INITIALIZED, mMacIdFromUart, getComPort());
-//		sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_NOTIFICATION_MESSAGE, callBackObject2);
-//		if (getBluetoothRadioState()==BT_STATE.CONNECTING){
-//			setBluetoothRadioState(BT_STATE.CONNECTED);
-//		}
 
-        // Send msg fully initialized, send notification message,
-        // Do something here
-//        setIsInitialised(true);
-//        prepareAllAfterConfigRead();
 
         if (mSendProgressReport) {
             finishOperation(BT_STATE.CONNECTING);
@@ -1086,7 +859,6 @@ public class Shimmer4sdk extends ShimmerDevice {
     public LinkedHashMap<String, Object> generateConfigMap(COMMUNICATION_TYPE commType) {
         LinkedHashMap<String, Object> configMapForDb = super.generateConfigMap(commType);
 
-        //TODO need to complete this for the config review in Consensys -> Manage Data
 
         return configMapForDb;
     }
@@ -1097,15 +869,12 @@ public class Shimmer4sdk extends ShimmerDevice {
         int buf = 0;
 
         switch (componentName) {
-//Booleans
             case (Configuration.Shimmer3.GuiLabelConfig.USER_BUTTON_START):
                 setButtonStart((boolean) valueToSet);
                 break;
             case (Configuration.Shimmer3.GuiLabelConfig.SD_STREAM_WHEN_RECORDING):
                 setDisableBluetooth((boolean) valueToSet);
                 break;
-//Integers
-//Strings
             default:
                 returnValue = super.setConfigValueUsingConfigLabel(groupName, componentName, valueToSet);
                 break;
@@ -1118,15 +887,12 @@ public class Shimmer4sdk extends ShimmerDevice {
     public Object getConfigValueUsingConfigLabel(String componentName) {
         Object returnValue = null;
         switch (componentName) {
-//Booleans
             case (Configuration.Shimmer3.GuiLabelConfig.USER_BUTTON_START):
                 returnValue = isButtonStart();
                 break;
             case (Configuration.Shimmer3.GuiLabelConfig.SD_STREAM_WHEN_RECORDING):
                 returnValue = isDisableBluetooth();
                 break;
-//Integers
-//Strings
             default:
                 returnValue = super.getConfigValueUsingConfigLabel(componentName);
                 break;
@@ -1136,7 +902,6 @@ public class Shimmer4sdk extends ShimmerDevice {
 
     }
 
-    //TODO TEMP here to sync booleans in ShimmerDevice with mCommsProtocolRadio until we figure out a better system
     @Override
     public boolean setIsDocked(boolean state) {
         boolean isChanged = super.setIsDocked(state);

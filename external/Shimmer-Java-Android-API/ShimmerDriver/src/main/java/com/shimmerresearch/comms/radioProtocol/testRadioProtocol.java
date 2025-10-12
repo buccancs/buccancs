@@ -12,7 +12,6 @@ import com.shimmerresearch.comms.radioProtocol.ShimmerLiteProtocolInstructionSet
 public class testRadioProtocol {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
 		
         System.out.println(LiteProtocolInstructionSet.InstructionsSet.getDescriptor().getValues());

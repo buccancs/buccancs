@@ -44,7 +44,6 @@ public class SensorSTC3100Details implements Serializable {
                 + " | Voltage=" + String.format("%1$.2f", mBattVoltage) + " mV"
                 + " | Temp=" + String.format("%1$.2f", mBattTemperature) + " C";
 
-//		debugString += "\n" + UtilShimmer.bytesToHexStringWithSpacesFormatted(mRegBytes);
 
         return debugString;
     }

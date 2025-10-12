@@ -6,14 +6,9 @@ import com.shimmerresearch.verisense.sensors.SensorLIS2DW12;
 
 public class AsmAlignmentGenerator {
 
-//	private CalibDetailsKinematic calibDetailsLis2dw12 = new CalibDetailsKinematic("0", "+- 4g", defaultAlignmentMatrix, defaultSensitivityMatrix, defaultOffsetVector) 
 
     public static void main(String[] args) {
 
-        // As per ASM-DES04-02, for the LIS2DW12 accel:
-        // x switched with z
-        // y switched with x
-        // z switched with y
         double[] lis2dw12Uncal = new double[]{1, 2, 3};
         double[][] lis2dw12AlignmentMatrix = SensorLIS2DW12.DEFAULT_ALIGNMENT_MATRIX_LIS2DW12;
         double[][] lis2dw12SensitivityMatrix = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
@@ -23,10 +18,6 @@ public class AsmAlignmentGenerator {
 
         System.out.println("");
 
-        // As per ASM-DES04-02, for the LSM6DS3 accel+gyro:
-        // x switched with z
-        // y switched with x and the resulting sign changed
-        // z switched with y and the resulting sign changed
         double[] lsm6ds3Uncal = new double[]{1, 2, 3};
         double[][] lsm6ds3AlignmentMatrix = {{0, 0, 1}, {-1, 0, 0}, {0, -1, 0}};
         double[][] lsm6ds3SensitivityMatrix = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};

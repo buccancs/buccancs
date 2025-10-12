@@ -15,7 +15,6 @@ import com.shimmerresearch.exceptions.ShimmerException.ExceptionLevel;
 
 public class MsgDock {
 
-    //callback msg options
     public final static int MSG_ID_UNKNOWN = 0;
 
     public final static int MSG_ID_SOURCE_SPAN_MANAGER = 1000;
@@ -38,7 +37,6 @@ public class MsgDock {
     public final static int MSG_ID_SOURCE_S3_DOWNLOAD_MANAGER = 1017;
 
 
-    // --------------- DockManager Start -------------------------
     public final static int MSG_ID_BSL_FW_WRITE_SUCCESS = 30;
     public final static int MSG_ID_BSL_FW_WRITE_PROGRESS = 31;
     public final static int MSG_ID_BSL_FW_WRITE_FAIL = 32;
@@ -53,7 +51,6 @@ public class MsgDock {
     public final static int MSG_ID_SMARTDOCK_IS_BUSY = 42;
     public final static int MSG_ID_SMARTDOCK_IS_FREE = 43;
     public final static int MSG_ID_SMARTDOCK_ACTIVE_SLOT_CHANGE = 44;
-//	public final static int MSG_ID_SMARTDOCK_ERROR = 49; //USED TO INDICATE CASES WHERE THE SHIMMER SHOULD BE REDOCKED
 
     public final static int MSG_ID_SHIMMER_DETAILS_CLEARED = 45;
 
@@ -88,22 +85,16 @@ public class MsgDock {
     public final static int MSG_ID_DOCK_SD_COPY_SUCCESS = 107;
     public final static int MSG_ID_DOCK_SD_COPY_FAILED = 108;
 
-    //	public final static int MSG_ID_DOCK_SD_SCAN_COMPLETED = 110;
     public final static int MSG_ID_DOCK_SD_COPY_COMPLETED = 111;
     public final static int MSG_ID_DOCK_SD_CLEAR_UPDATE = 112;
     public final static int MSG_ID_DOCK_SD_CLEAR_FAILED = 113;
     public final static int MSG_ID_DOCK_SD_CLEAR_FINISHED_PER_DOCK = 114;
     public final static int MSG_ID_DOCK_SD_CLEAR_SUCCESS = 115;
-//	public final static int MSG_ID_DOCK_WRITE_INFOMEM_UPDATE = 113;
-//	public final static int MSG_ID_DOCK_WRITE_INFOMEM_COMPLETED = 114;
 
     public final static int MSG_ID_DOCK_OPERATION_PROGRESS = 200;
     public final static int MSG_ID_DOCK_OPERATION_FINISHED = 201;
     public final static int MSG_ID_DOCK_OPERATION_CANCELLED = 202;
 
-    //TODO move closer to SmartDockUart?
-    //TODO rename UART to MSG?
-//	public final static int MSG_ID_SMARTDOCK_UART_ERR_NONE = 110;
     public final static int MSG_ID_SMARTDOCK_UART_AUTONOTIFY_MESSAGE = 111;
     public final static int MSG_ID_SMARTDOCK_UART_AUTONOTIFY_STATE_ON = 112;
     public final static int MSG_ID_SMARTDOCK_UART_AUTONOTIFY_STATE_OFF = 113;
@@ -121,24 +112,17 @@ public class MsgDock {
     public final static int MSG_ID_SMARTDOCK_UART_INDICATOR_LEDS = 125;
     public final static int MSG_ID_SMARTDOCK_UART_ERROR = 129;
 
-    // --------------- DockManager End -------------------------
 
-    // --------------- SpanManager Start -------------------------
     public final static int MSG_ID_SPANMANAGER_INITIALIZED_SUCCESS = 95;
-    // --------------- SpanManager end -------------------------
 
 
-    //ImportManager and DataprocessingManager
     public final static int MSG_ID_DATA_SYNC_UPDATE = 109;
 
-    //ImportManager
     public final static int MSG_ID_DATA_SESSION_FINISHED = 110;
 
-    //DockManager and ImportManager
     public final static int MSG_ID_DATA_OPERATION_PROGRESS = 300;
     public final static int MSG_ID_DATA_OPERATION_FINISHED = 301;
 
-    //DataprocessingManager
     public final static int MSG_ID_PROCESS_DATA_OPERATION_PROGRESS = 400;
     public final static int MSG_ID_PROCESS_DATA_OPERATION_FINISHED = 401;
 
@@ -165,7 +149,6 @@ public class MsgDock {
     public final static int MSG_ID_PROCESS_PEAKS_CANCELLED = 523;
 
 
-    //ImportManager
     public final static int MSG_ID_IMPORT_DB_PARSER_UPDATE = 130;
     public final static int MSG_ID_IMPORT_DB_PARSER_SUCCESS = 131;
     public final static int MSG_ID_IMPORT_DB_PARSER_FAILURE_SQLITE_EXCEPTION = 132;
@@ -173,22 +156,16 @@ public class MsgDock {
 
     public final static int MSG_ID_IMPORT_DB_SYNC_FAILURE_SQLITE_EXCEPTION = 134;
 
-    //this three are used for clearsky
     public final static int MSG_ID_IMPORT_DATA_PARSER_TO_FILE_UPDATE = 137;
     public final static int MSG_ID_IMPORT_DATA_PARSER_TO_FILE_SUCCESS = 138;
     public final static int MSG_ID_IMPORT_DATA_PARSER_TO_FILE_FAILURE_IO_EXCEPTION = 139;
 
-    //PlotManager
-//	public final static int MSG_ID_PLOT_UPDATE = 150;
-//	public final static int MSG_ID_PLOT_CLOSED = 151;
-//	public final static int MSG_ID_PLOT_OUT_OF_BOUNDS = 152;
 
     public final static int MSG_ID_EVENT_PULSE = 160;
     public final static int MSG_ID_EVENT_TOGGLE_START = 161;
     public final static int MSG_ID_EVENT_TOGGLE_END = 162;
     public final static int MSG_ID_EVENT_TRIAL_AND_CONFIG_TIME = 163;
 
-    //DatabaseManager
     public final static int MSG_ID_BT_TO_DB_FINISHED = 170;
     public final static int MSG_ID_BT_TO_DB_BUFFER_FILLED = 171;
     public final static int MSG_ID_BT_TO_DB_FAIL = 172;
@@ -201,7 +178,6 @@ public class MsgDock {
     public final static int MSG_ID_DB_PLAYBACK_STARTED_STOPPED = 185;
     public final static int MSG_ID_BT_TO_DB_RECORDING_THREAD_STARTED = 186;
 
-    //AlgorithmManager
     public final static int MSG_ID_DATA_TO_ALGO = 190;
 
     public final static int MSG_ID_NEURO_MANAGER_END_TRIAL = 1018;
@@ -224,7 +200,6 @@ public class MsgDock {
         aMap.put(MSG_ID_SMARTDOCK_IS_BUSY, "MSG_ID_SMARTDOCK_IS_BUSY");
         aMap.put(MSG_ID_SMARTDOCK_IS_FREE, "MSG_ID_SMARTDOCK_IS_FREE");
         aMap.put(MSG_ID_SMARTDOCK_ACTIVE_SLOT_CHANGE, "MSG_ID_SMARTDOCK_ACTIVE_SLOT_CHANGE");
-//        aMap.put(MSG_ID_SMARTDOCK_ERROR, "MSG_ID_SMARTDOCK_ERROR");
         aMap.put(MSG_ID_SHIMMERUART_READ_SHIMMER_DETAILS_SUCCESS, "MSG_ID_SHIMMERUART_READ_SHIMMER_DETAILS_SUCCESS");
         aMap.put(MSG_ID_SHIMMERUART_READ_SHIMMER_DETAILS_ERROR, "MSG_ID_SHIMMERUART_READ_SHIMMER_DETAILS_ERROR");
         aMap.put(MSG_ID_SHIMMERUART_READ_SHIMMER_DETAILS_FAIL, "MSG_ID_SHIMMERUART_READ_SHIMMER_DETAILS_FAIL");
@@ -258,7 +233,6 @@ public class MsgDock {
         aMap.put(MSG_ID_DOCK_SD_CLEAR_UPDATE, "MSG_ID_DOCK_SD_CLEAR_UPDATE");
         aMap.put(MSG_ID_DATA_SYNC_UPDATE, "MSG_ID_DATA_SYNC_UPDATE");
 
-//        aMap.put(MSG_ID_SMARTDOCK_UART_ERR_NONE, "MSG_ID_SMARTDOCK_UART_ERR_NONE");
         aMap.put(MSG_ID_SMARTDOCK_UART_AUTONOTIFY_MESSAGE, "MSG_ID_SMARTDOCK_UART_AUTONOTIFY_MESSAGE");
         aMap.put(MSG_ID_SMARTDOCK_UART_AUTONOTIFY_STATE_ON, "MSG_ID_SMARTDOCK_UART_AUTONOTIFY_STATE_ON");
         aMap.put(MSG_ID_SMARTDOCK_UART_AUTONOTIFY_STATE_OFF, "MSG_ID_SMARTDOCK_UART_AUTONOTIFY_STATE_OFF");
@@ -296,9 +270,6 @@ public class MsgDock {
         aMap.put(MSG_ID_IMPORT_DATA_PARSER_TO_FILE_SUCCESS, "MSG_IDENTIFIER_DATA_PARSER_TO_FILE_SUCCESS");
         aMap.put(MSG_ID_IMPORT_DATA_PARSER_TO_FILE_FAILURE_IO_EXCEPTION, "MSG_IDENTIFIER_DATA_PARSER_TO_FILE_FAILURE_IO_EXCEPTION");
 
-//        aMap.put(MSG_ID_PLOT_UPDATE, "MSG_ID_PLOT_UPDATE");
-//        aMap.put(MSG_ID_PLOT_CLOSED, "MSG_ID_PLOT_CLOSED");
-//        aMap.put(MSG_ID_PLOT_OUT_OF_BOUNDS, "MSG_ID_PLOT_OUT_OF_BOUNDS");
 
         aMap.put(MSG_ID_BT_TO_DB_FINISHED, "MSG_ID_BT_TO_DB_FINISHED");
         aMap.put(MSG_ID_BT_TO_DB_BUFFER_FILLED, "MSG_ID_BT_TO_DB_BUFFER_FILLED");
@@ -363,10 +334,7 @@ public class MsgDock {
         public int mConnectionType = 0;
     public int mIndicatorLEDsBitmap = 0;
 
-//	public DockException mDockException;
 
-//	public MsgDock(){
-//	}
 
         public MsgDock(int msgID) {
         mMsgID = msgID;
@@ -394,7 +362,6 @@ public class MsgDock {
         mDockID = dockID;
         mUniqueID = dockID;
         mSlotNumber = -1;
-//		mUniqueID = mDockID + "." + String.format("%02d",mSlotNumber);
     }
 
         public MsgDock(int msgID, String dockID, int slotIdentifier) {
@@ -408,10 +375,7 @@ public class MsgDock {
         public MsgDock(int msgID, String dockID, DockJobDetails currentJobDetails) {
         mMsgID = msgID;
         mDockID = dockID;
-//		mSlotNumber = -1;
-//		mUniqueID = mDockID + "." + String.format("%02d",mSlotNumber);
 
-        //For Dock jobs keep
         mUniqueID = dockID;
         mSlotNumber = convertUniqueIdToSlotNumer(mUniqueID);
 
@@ -469,14 +433,7 @@ public class MsgDock {
                 && (mDockID.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.BASICDOCK.getLabel()))
                 && (mErrorCodeLowLevel == ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_TIMEOUT)) {
 
-//		if(msg.mMsgID == MsgDock.MSG_ID_SHIMMERUART_READ_SHIMMER_DETAILS_FAIL) {
-//			if((msg.mDockID.contains(HwDriverShimmerDeviceDetails.DOCK_LABEL[HwDriverShimmerDeviceDetails.DEVICE_TYPE.BASICDOCK.ordinal()]))
-//					&&(msg.mErrorCodeLowLevel==ErrorCodesShimmerUart.SHIMMERUART_COMM_ERR_TIMEOUT)){
-//				utilShimmer.consolePrintLn(id + " - unable to detect/read Shimmer - " + lowLevelErrorCode);
-//			}
-//			else {
             errorString = ("CAUGHT MSGDOCK EXCEPTION - " + id + " - MSG_ID_SHIMMERUART_READ_SHIMMER_DETAILS_FAIL " + errorCode + " " + lowLevelErrorCode);
-//			}
         } else {
             errorString += ("CAUGHT MSGDOCK EXCEPTION\n");
             errorString += ("\t" + "UniqueID: " + id

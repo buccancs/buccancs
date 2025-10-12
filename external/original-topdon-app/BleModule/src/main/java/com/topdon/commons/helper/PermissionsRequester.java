@@ -106,7 +106,6 @@ public class PermissionsRequester {
         }
     }
 
-    //获取权限集中需要申请权限的列表
     private List<String> findDeniedPermissions(List<String> permissions) {
         List<String> needRequestPermissionList = new ArrayList<>();
         Activity activity = this.activity != null ? this.activity : fragment.getActivity();

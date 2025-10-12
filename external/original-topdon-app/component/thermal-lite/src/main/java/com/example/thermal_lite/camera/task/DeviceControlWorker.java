@@ -39,11 +39,9 @@ public class DeviceControlWorker {
                     }
                     task.run();
                     mEventQueue.poll();
-                    //call back connect result
                     mDeviceState = task.getDeviceState();
                     Log.d(TAG, "DeviceControlWorker do state : " + mDeviceState);
                     if (mDeviceControlCallback != null) {
-                        //防止重复回调
                         if (mDeviceState != previousState) {
                             if (mDeviceState == DeviceState.OPEN) {
                                 mDeviceControlCallback.onConnected();
@@ -77,7 +75,6 @@ public class DeviceControlWorker {
         if (mThread != null) {
             try {
                 mThread.interrupt();
-//                mThread.join();
                 mThread = null;
             } catch (Exception e) {
                 Thread.currentThread().interrupt();

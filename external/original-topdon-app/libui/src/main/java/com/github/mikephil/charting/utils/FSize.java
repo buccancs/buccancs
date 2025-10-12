@@ -4,7 +4,6 @@ import java.util.List;
 
 public final class FSize extends ObjectPool.Poolable {
 
-    // TODO : Encapsulate width & height
 
     private static ObjectPool<FSize> pool;
 

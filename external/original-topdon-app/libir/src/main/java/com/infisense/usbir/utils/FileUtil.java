@@ -88,20 +88,6 @@ public class FileUtil {
     }
 
         public static void saveByteFile(byte[] bytes, String fileTitle) {
-//        try {
-//            String fileSaveDir = TempKey.DEVICE_DATA_SAVE_DIR;
-//            File path = new File(fileSaveDir);
-//            if (!path.exists() && path.isDirectory()) {
-//                path.mkdirs();
-//            }
-//            //
-//            File file = new File(fileSaveDir, fileTitle);
-//            FileOutputStream fos = new FileOutputStream(file);
-//            fos.write(bytes);
-//            fos.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     ;
@@ -187,7 +173,6 @@ public class FileUtil {
         }
         File parentFile = dirFile.getParentFile();
         if (parentFile != null && !parentFile.exists()) {
-            //父文件夹不存在，则先创建父文件夹，再创建自身文件夹
             return createFileDir(parentFile) && createFileDir(dirFile);
         } else {
             boolean mkdirs = dirFile.mkdirs();
@@ -344,7 +329,6 @@ public class FileUtil {
     }
 
         public static void saveShortFile(String fileDir, short[] bytes, String fileTitle) {
-        // 创建目录
         createOrExistsDir(fileDir);
         try {
             File file = new File(fileDir, fileTitle + ".bin");
@@ -359,7 +343,6 @@ public class FileUtil {
     }
 
         private static void createOrExistsDir(File file) {
-        // 文件不存在则创建文件
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -371,12 +354,9 @@ public class FileUtil {
 
         private static void createOrExistsDir(String fileDir) {
         File file = new File(fileDir);
-        //如果文件夹不存在则创建
         if (!file.exists() && !file.isDirectory()) {
-            //不存在
             file.mkdir();
         } else {
-            //目录存在
         }
     }
 
@@ -423,7 +403,6 @@ public class FileUtil {
             File file = new File(strOutFileName);
             Log.i(TAG, "file.exists->getAbsolutePath = " + file.getAbsolutePath());
             if (file.exists()) {
-                // 如果文件存在则删除文件，重新创建，避免修改的内容不生效
                 file.delete();
             }
             //
@@ -450,7 +429,6 @@ public class FileUtil {
     }
 
         public static String getISPConfigByGainStatus(CommonParams.GainStatus gainStatus) {
-//        Log.i(TAG, "INFISENSE_SAVE_DIR = " + MyApplication.getInstance().INFISENSE_SAVE_DIR);
         if (CommonParams.GainStatus.HIGH_GAIN == gainStatus) {
             return INFISENSE_SAVE_DIR() + File.separator + "isp_H.json";
         } else {
@@ -471,7 +449,6 @@ public class FileUtil {
         return Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
     }
 
-    //=== 设备信息存储到私有区域，app删除后一起删除
     static String DEVICE_DATA_SAVE_DIR() {
         return Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
     }

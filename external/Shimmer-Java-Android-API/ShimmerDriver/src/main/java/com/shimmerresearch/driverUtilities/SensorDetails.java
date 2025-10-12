@@ -20,7 +20,6 @@ public class SensorDetails implements Serializable {
 
         public Map<COMMUNICATION_TYPE, Boolean> mapOfIsEnabledPerCommsType = new ConcurrentHashMap<COMMUNICATION_TYPE, Boolean>();
     public long mDerivedSensorBitmapID = 0;
-    //	public boolean mIsEnabled = false;
     public SensorDetailsRef mSensorDetailsRef;
     public List<ChannelDetails> mListOfChannels = new ArrayList<ChannelDetails>();
 
@@ -28,7 +27,6 @@ public class SensorDetails implements Serializable {
         mapOfIsEnabledPerCommsType.put(COMMUNICATION_TYPE.BLUETOOTH, false);
         mapOfIsEnabledPerCommsType.put(COMMUNICATION_TYPE.SD, false);
         mapOfIsEnabledPerCommsType.put(COMMUNICATION_TYPE.DOCK, false);
-//		mapOfIsEnabledPerCommsType.put(COMMUNICATION_TYPE.IEEE802154, false);
     }
 
     public SensorDetails() {
@@ -54,7 +52,6 @@ public class SensorDetails implements Serializable {
         if (rawData != null && rawData.length > 0) {
             int index = 0;
             for (ChannelDetails channelDetails : mListOfChannels) {
-                //first process the data originating from the Shimmer sensor
                 byte[] channelByteArray = new byte[channelDetails.mDefaultNumBytes];
                 System.arraycopy(rawData, index, channelByteArray, 0, channelDetails.mDefaultNumBytes);
                 objectCluster = processShimmerChannelData(channelByteArray, channelDetails, objectCluster);
@@ -67,7 +64,6 @@ public class SensorDetails implements Serializable {
     }
 
     public void updateSensorDetailsWithCommsTypes(List<COMMUNICATION_TYPE> listOfSupportedCommsTypes) {
-//		mapOfIsEnabledPerCommsType = new HashMap<COMMUNICATION_TYPE, Boolean>();
         for (COMMUNICATION_TYPE commsType : listOfSupportedCommsTypes) {
             if (!mapOfIsEnabledPerCommsType.containsKey(commsType)) {
                 mapOfIsEnabledPerCommsType.put(commsType, false);
@@ -85,17 +81,13 @@ public class SensorDetails implements Serializable {
 
     public int getExpectedDataPacketSize() {
         int dataPacketSize = 0;
-//		if(!mSensorDetails.mIsDummySensor){
         Iterator<ChannelDetails> iterator = mListOfChannels.iterator();
         while (iterator.hasNext()) {
             ChannelDetails channelDetails = iterator.next();
             if (channelDetails.mChannelSource == CHANNEL_SOURCE.SHIMMER) {
                 dataPacketSize += channelDetails.mDefaultNumBytes;
-//					System.err.println("Sensor:\t" + mSensorDetailsRef.mGuiFriendlyLabel + "\tChannel:\t" + channelDetails.mGuiName + " - BYTES SIZE:\t" + channelDetails.mDefaultNumBytes);
             }
         }
-//		}
-//		System.err.println("Sensor:\t" + mSensorDetailsRef.mGuiFriendlyLabel + " - PACKET SIZE:\t" + dataPacketSize);
         return dataPacketSize;
     }
 
@@ -122,7 +114,6 @@ public class SensorDetails implements Serializable {
     }
 
     public boolean isEnabled(COMMUNICATION_TYPE commType) {
-//		return mIsEnabled;
 
         if (mapOfIsEnabledPerCommsType.containsKey(commType)) {
             return mapOfIsEnabledPerCommsType.get(commType);
@@ -130,7 +121,6 @@ public class SensorDetails implements Serializable {
         return false;
     }
 
-    //TODO: temp here but probably not suitable for ShimmerObject
     public boolean isEnabled() {
         for (Boolean isEnabled : mapOfIsEnabledPerCommsType.values()) {
             if (isEnabled) {
@@ -179,19 +169,14 @@ public class SensorDetails implements Serializable {
         }
 
         setIsEnabled(commType, false);
-        // Check if this sensor is a derived sensor
         if (isDerivedChannel()) {
-            //Check if associated derived channels are enabled
             if ((derivedSensors & mDerivedSensorBitmapID) == mDerivedSensorBitmapID) {
-                //TODO add comment
                 if ((enabledSensors & mSensorDetailsRef.mSensorBitmapIDSDLogHeader) > 0) {
                     setIsEnabled(commType, true);
                 }
             }
         }
-        // This is not a derived sensor
         else {
-            //Check if sensor's bit in sensor bitmap is enabled
             if ((enabledSensors & mSensorDetailsRef.mSensorBitmapIDSDLogHeader) > 0) {
                 setIsEnabled(commType, true);
             }
@@ -199,13 +184,9 @@ public class SensorDetails implements Serializable {
     }
 
     public void getLenghtOfCalibBytes() {
-        // TODO Auto-generated method stub
 
     }
 
-//	public int getLengthOfCalibBytes() {
-//		return mSensorDetailsRef.mLengthOfCalibBytes;
-//	}
 
 
 }

@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializepreviewFrame")
 public inline fun previewFrame(block: com.buccancs.control.PreviewFrameKt.Dsl.() -> kotlin.Unit): com.buccancs.control.PreviewFrame =
   com.buccancs.control.PreviewFrameKt.Dsl._create(com.buccancs.control.PreviewFrame.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.PreviewFrame`
+ */
 public object PreviewFrameKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,66 +27,108 @@ public object PreviewFrameKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.PreviewFrame = _builder.build()
 
-        public var deviceId: kotlin.String
+    /**
+     * `string device_id = 1;`
+     */
+    public var deviceId: kotlin.String
       get() = _builder.getDeviceId()
       set(value) {
         _builder.setDeviceId(value)
       }
-        public fun clearDeviceId() {
+    /**
+     * `string device_id = 1;`
+     */
+    public fun clearDeviceId() {
       _builder.clearDeviceId()
     }
 
-        public var cameraId: kotlin.String
+    /**
+     * `string camera_id = 2;`
+     */
+    public var cameraId: kotlin.String
       get() = _builder.getCameraId()
       set(value) {
         _builder.setCameraId(value)
       }
-        public fun clearCameraId() {
+    /**
+     * `string camera_id = 2;`
+     */
+    public fun clearCameraId() {
       _builder.clearCameraId()
     }
 
-        public var frameTimestampEpochMs: kotlin.Long
+    /**
+     * `int64 frame_timestamp_epoch_ms = 3;`
+     */
+    public var frameTimestampEpochMs: kotlin.Long
       get() = _builder.getFrameTimestampEpochMs()
       set(value) {
         _builder.setFrameTimestampEpochMs(value)
       }
-        public fun clearFrameTimestampEpochMs() {
+    /**
+     * `int64 frame_timestamp_epoch_ms = 3;`
+     */
+    public fun clearFrameTimestampEpochMs() {
       _builder.clearFrameTimestampEpochMs()
     }
 
-        public var encodedFrame: com.google.protobuf.ByteString
+    /**
+     * `bytes encoded_frame = 4;`
+     */
+    public var encodedFrame: com.google.protobuf.ByteString
       get() = _builder.getEncodedFrame()
       set(value) {
         _builder.setEncodedFrame(value)
       }
-        public fun clearEncodedFrame() {
+    /**
+     * `bytes encoded_frame = 4;`
+     */
+    public fun clearEncodedFrame() {
       _builder.clearEncodedFrame()
     }
 
-        public var mimeType: kotlin.String
+    /**
+     * `string mime_type = 5;`
+     */
+    public var mimeType: kotlin.String
       get() = _builder.getMimeType()
       set(value) {
         _builder.setMimeType(value)
       }
-        public fun clearMimeType() {
+    /**
+     * `string mime_type = 5;`
+     */
+    public fun clearMimeType() {
       _builder.clearMimeType()
     }
 
-        public var width: kotlin.Int
+    /**
+     * `uint32 width = 6;`
+     */
+    public var width: kotlin.Int
       get() = _builder.getWidth()
       set(value) {
         _builder.setWidth(value)
       }
-        public fun clearWidth() {
+    /**
+     * `uint32 width = 6;`
+     */
+    public fun clearWidth() {
       _builder.clearWidth()
     }
 
-        public var height: kotlin.Int
+    /**
+     * `uint32 height = 7;`
+     */
+    public var height: kotlin.Int
       get() = _builder.getHeight()
       set(value) {
         _builder.setHeight(value)
       }
-        public fun clearHeight() {
+    /**
+     * `uint32 height = 7;`
+     */
+    public fun clearHeight() {
       _builder.clearHeight()
     }
   }

@@ -13,7 +13,6 @@ public class testParsing {
         UtilParseData.mIsDebugEnabled = true;
 
         for (long i = 0; i < 100000; i += 10001) {
-//		for(long i=0;i<10;i++){
             byte[] byteArray = new byte[8];
             byteArray = UtilShimmer.convertLongToByteArray(i);
 
@@ -24,11 +23,7 @@ public class testParsing {
             byteArray = UtilShimmer.convertLongToByteArray(i);
             long parsedChannelData2 = UtilParseData.parseData(byteArray, CHANNEL_DATA_TYPE.UINT64, CHANNEL_DATA_ENDIAN.MSB);
 
-//			byteArray = UtilShimmer.convertLongToByteArray(i);
-//			long parsedChannelData3 = UtilParseData.parseData(byteArray, CHANNEL_DATA_TYPE.INT64, CHANNEL_DATA_ENDIAN.MSB);
 //
-//			byteArray = UtilShimmer.convertLongToByteArray(i);
-//			long parsedChannelData4 = UtilParseData.parseData(byteArray, CHANNEL_DATA_TYPE.UINT64, CHANNEL_DATA_ENDIAN.LSB);
 
 
             System.out.println(parsedChannelData1 + "\t" + parsedChannelData2);// + "\t" + parsedChannelData3 + "\t" + parsedChannelData4);
@@ -38,7 +33,6 @@ public class testParsing {
 
 
         for (int i = 0; i < 100000; i += 10001) {
-//			for(long i=0;i<10;i++){
             byte[] byteArray = ByteBuffer.allocate(4).putInt(i).array();
 
             System.out.println(i + "\tByteArray\t" + UtilShimmer.bytesToHexStringWithSpacesFormatted(byteArray));

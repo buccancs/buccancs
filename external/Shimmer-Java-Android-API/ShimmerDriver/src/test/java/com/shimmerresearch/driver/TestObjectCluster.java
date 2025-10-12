@@ -42,97 +42,22 @@ import com.shimmerresearch.sensors.SensorShimmerClock;
 public abstract class TestObjectCluster {
 
 
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		ObjectClusterTest ojc = new ObjectClusterTest();
-//		long time = System.nanoTime();
-//		long difference = (System.nanoTime()-time)/1000;
-//		long avgdifference = 0;
-//		int tries = 10000;
-//		int numberofojcs=15;
+//
+//
+//
+//
+//
+//
+//
 //		
-//		avgdifference = 0;
-//		for (int j=1;j<tries;j++){
-//			ojc = new ObjectClusterTest();
-//			time = System.nanoTime();
-//			for (int i=0;i<numberofojcs;i++){
-//				String name = ShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET + Integer.toString(i);
-//				ojc.mSensorDataList.add(new SensorData(name, CHANNEL_TYPE.UNCAL.toString(), CHANNEL_UNITS.NO_UNITS, 1.0,false));
-//			}
-//			difference = (System.nanoTime()-time)/1000;
-//			avgdifference=avgdifference+difference;
-//		}
-//		avgdifference=avgdifference/10;
-//		System.out.println(avgdifference);
-//		
-//		avgdifference = 0;
-//		for (int j=1;j<tries;j++){
-//			ojc = new ObjectClusterTest();
-//			time = System.nanoTime();
-//			for (int i=0;i<numberofojcs;i++){
-//				String name = ShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET + Integer.toString(i);
-//				ojc.addDataToMap(name,CHANNEL_TYPE.UNCAL.toString(),CHANNEL_UNITS.NO_UNITS,1.0);
-//			}
-//			difference = (System.nanoTime()-time)/1000;
-//			avgdifference=avgdifference+difference;
-//		}
-//		avgdifference=avgdifference/10;
-//		System.out.println(avgdifference);
-//		
-//		//JOS: TESTING RETRIEVAL TIME BELOW ------------------------------------------------------
-//		//INIT ObjectClusterTest
-//		ObjectClusterTest ObjectClusterTest = new ObjectClusterTest();
-//		int lastValue = 9999;
-//		
-//		for (int j=1;j<tries;j++){
-//			String name = ShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET + Integer.toString(j);
-//			ObjectClusterTest.mSensorDataList.add(new SensorData(name, CHANNEL_TYPE.UNCAL.toString(), CHANNEL_UNITS.NO_UNITS, 1.0, false));
-//		}		
-//		
-//		for (int j=1;j<tries;j++){
-//			String name = ShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET + Integer.toString(j);
-//			ObjectClusterTest.addDataToMap(name, CHANNEL_TYPE.UNCAL.toString(), CHANNEL_UNITS.NO_UNITS, 2.0);
-//		}		
-//		
-//		//TEST 1 - Testing ArrayList retrieval time by iterating through list
-//		long cumulativeListRetrievalTime = 0;
-//		long cumulativeMultimapRetrievalTime = 0;
-//		
-//		
-//		for(int a = 0; a<20; a++) {
-//			
-//			long worstCaseListRetrievalTime = 0;
-//			long worstCaseMultimapRetrievalTime = 0;
-//			String retrievalKey = ShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET + Integer.toString(lastValue);
-//			
-//			long startListRetrievalTime = System.nanoTime();
-//			for(SensorData sensorData : ObjectClusterTest.mSensorDataList) {
-//				if(sensorData.mSensorName.contains(retrievalKey)) {
-//					double listData = sensorData.mSensorData;
-//	//				System.err.println("SensorData data: " + listData);
-//					worstCaseListRetrievalTime = System.nanoTime();
-//				}
-//			}
-//			
-//			cumulativeListRetrievalTime = cumulativeListRetrievalTime + (worstCaseListRetrievalTime - startListRetrievalTime);
-//			
-//			long startMultimapRetrievalTime = System.nanoTime();
-//			Collection<FormatCluster> allFormats = ObjectClusterTest.getCollectionOfFormatClusters(retrievalKey);
-//	        FormatCluster formatCluster = ((FormatCluster)ObjectClusterTest.returnFormatCluster(allFormats, CHANNEL_TYPE.UNCAL.toString()));
-//	        double multimapData = formatCluster.mData;
-//	//		System.err.println("Multimap Data: " + multimapData);
-//			worstCaseMultimapRetrievalTime = System.nanoTime();
-//			
-//			cumulativeMultimapRetrievalTime = cumulativeMultimapRetrievalTime + (worstCaseMultimapRetrievalTime - startMultimapRetrievalTime);
-//			
-//			System.err.println("Time to retrieve ArrayList: " + (worstCaseListRetrievalTime - startListRetrievalTime) + " Time to retrieve Multimap: " + (worstCaseMultimapRetrievalTime - startMultimapRetrievalTime)); 
-//		}
-//				
-//		System.err.println("Averages over 20x, ArrayList Time: " + (cumulativeListRetrievalTime/20) + " Multimap Time: " + (cumulativeMultimapRetrievalTime/20));
-//		
-//		storeIndexTest(ObjectClusterTest);
-//		hashMapStoreTest();
-//	}
+//
+//
+//
+//
+//
+//
+//
+//
 
     public static final int NUM_ARRAY_LIST = 0;
     public static final int NUM_NESTED_HASHMAP = 1;
@@ -152,7 +77,6 @@ public abstract class TestObjectCluster {
     public static String[] DATA_STRUCTURE_NAMES = {"ArrayList & SensorData", "Nested HashMap", "HashMap & Array", "Arrays & SensorData", "MultiMap", "Arrays", "Arrays with Resizing", "New Arrays"};
 
     private static void storeIndexTest(ObjectClusterTest ObjectClusterTest) {
-        //TEST 2 - Testing ArrayList retrieval time by iterating once, then storing index
         int lastValue = 9998;
         int index = 0;
         long cumulativeListRetrievalTime = 0;
@@ -171,7 +95,6 @@ public abstract class TestObjectCluster {
                     SensorData sensorData = ObjectClusterTest.mSensorDataList.get(i);
                     if (sensorData.mSensorName.contains(retrievalKey)) {
                         double listData = sensorData.mSensorData;
-                        //				System.err.println("SensorData data: " + listData);
                         index = i;
                         worstCaseListRetrievalTime = System.nanoTime();
                     }
@@ -189,7 +112,6 @@ public abstract class TestObjectCluster {
             Collection<FormatCluster> allFormats = ObjectClusterTest.getCollectionOfFormatClusters(retrievalKey);
             FormatCluster formatCluster = ((FormatCluster) ObjectClusterTest.returnFormatCluster(allFormats, CHANNEL_TYPE.UNCAL.toString()));
             double multimapData = formatCluster.mData;
-            //		System.err.println("Multimap Data: " + multimapData);
             worstCaseMultimapRetrievalTime = System.nanoTime();
 
             cumulativeMultimapRetrievalTime = cumulativeMultimapRetrievalTime + (worstCaseMultimapRetrievalTime - startMultimapRetrievalTime);
@@ -202,7 +124,6 @@ public abstract class TestObjectCluster {
     }
 
     public static void hashMapStoreTest() {
-        //TEST 1 - Storage of items in nested HashMap
         HashMap hashMap1 = null;
         Multimap multiMap1 = null;
 
@@ -285,22 +206,9 @@ public abstract class TestObjectCluster {
     }
 
     public static void main(String[] args) throws InterruptedException {
-//		ObjectClusterTest[] objcArray = testDataStructureOptionsInsertion();
-//		System.err.println("----------------------------------------------\n");
-//		testDataStructureOptionsRetrievalOrdered(objcArray);
-//		System.err.println("----------------------------------------------\n");
-//		testDataStructureOptionsRetrievalRandom(objcArray);
-
-        //JOS: COMMENT THIS BACK IN IF YOU WANT TO RUN THE TESTS ONCE ONLY
-//		System.err.println("----------------------------------------------\n");
-//		ObjectClusterTest[][] objcArray = testDataStructureOptionsInsertionUpdated(true);
-//		System.err.println("----------------------------------------------\n");
-//		testDataStructureOptionsOrderedRetrievalUpdated(objcArray, true);
-//		System.err.println("----------------------------------------------\n");
-//		testDataStructureOptionsRandomRetrievalUpdated(objcArray, true);
 
 
-        //Run the tests 1,000 times
+
         for (int i = 0; i < 1000; i++) {
             ObjectClusterTest[][] objcArray = testDataStructureOptionsInsertionUpdated(false);
             testDataStructureOptionsOrderedRetrievalUpdated(objcArray, false);
@@ -315,7 +223,6 @@ public abstract class TestObjectCluster {
         Thread.sleep(50);
 
 
-        //First, divide all timings by 1,000 runs
         for (int i = 0; i < allInsertionTimes.length; i++) {
             allInsertionTimes[i] = allInsertionTimes[i] / 1000;
             allStructuredRetrievalTimes[i] = allStructuredRetrievalTimes[i] / 1000;
@@ -373,7 +280,6 @@ public abstract class TestObjectCluster {
     }
 
     public static ObjectClusterTest[] testDataStructureOptionsInsertion() {
-        // ----------	PUT DATA INTO ObjectClusterTest AND TEST INSERTION SPEED ---------- //
         long timings[] = new long[5];
         long cumulativeTimings[] = new long[6];
         ObjectClusterTest[] objcArray = new ObjectClusterTest[30];
@@ -383,7 +289,6 @@ public abstract class TestObjectCluster {
             objc.setShimmerName("Test" + String.valueOf(i));
             objc.setMacAddress(String.valueOf(i));
 
-            //Put 20 data into all the different data structures in each ObjectClusterTest
             for (int numDataStructures = 1; numDataStructures < 6; numDataStructures++) {
                 objc.dataStructureSelector = numDataStructures;
 
@@ -400,7 +305,6 @@ public abstract class TestObjectCluster {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -422,9 +326,7 @@ public abstract class TestObjectCluster {
         double[] dataArray = new double[20];
         int testsCount = 1;
 
-        //Run the test for each ObjectClusterTest
         for (ObjectClusterTest objc : objcArray) {
-            //Run the test for each respective data structure
             for (int numDataStructures = 1; numDataStructures < 6; numDataStructures++) {
 
                 if (numDataStructures == 1) {    //ArrayList
@@ -436,7 +338,6 @@ public abstract class TestObjectCluster {
                         count++;
                     }
                     long endArrayList = System.nanoTime();
-//					System.out.println("ArrayList ordered retrieval time: " + (endArrayList - startArrayList));
                     System.out.println("Option 1 ordered retrieval time: " + (endArrayList - startArrayList));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endArrayList - startArrayList);
 
@@ -452,7 +353,6 @@ public abstract class TestObjectCluster {
                     }
                     long endNestedHashMap = System.nanoTime();
 
-//					System.out.println("Nested HashMap ordered retrieval time: " + (endNestedHashMap - startNestedHashMap));
                     System.out.println("Option 2 ordered retrieval time: " + (endNestedHashMap - startNestedHashMap));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endNestedHashMap - startNestedHashMap);
 
@@ -466,7 +366,6 @@ public abstract class TestObjectCluster {
                     }
                     long endHashMapArray = System.nanoTime();
 
-//					System.out.println("HashMap Array ordered retrieval time: " + (endHashMapArray - startHashMapArray));
                     System.out.println("Option 3 ordered retrieval time: " + (endHashMapArray - startHashMapArray));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endHashMapArray - startHashMapArray);
 
@@ -482,7 +381,6 @@ public abstract class TestObjectCluster {
                     }
                     long endArrays = System.nanoTime();
 
-//					System.out.println("Arrays ordered retrieval time: " + (endArrays - startArrays));
                     System.out.println("Option 4 ordered retrieval time: " + (endArrays - startArrays));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endArrays - startArrays);
 
@@ -498,7 +396,6 @@ public abstract class TestObjectCluster {
                     }
                     long endMultimap = System.nanoTime();
 
-//					System.out.println("Multimap ordered retrieval time: " + (endMultimap - startMultimap));
                     System.out.println("Option 5 ordered retrieval time: " + (endMultimap - startMultimap));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endMultimap - startMultimap);
 
@@ -507,7 +404,6 @@ public abstract class TestObjectCluster {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             System.err.println("----------------------- end test " + testsCount + " -----------------------\n");
@@ -527,9 +423,7 @@ public abstract class TestObjectCluster {
         double[] dataArray = new double[50];
         int testsCount = 0;
 
-        //Run the test for each ObjectClusterTest
         for (ObjectClusterTest objc : objcArray) {
-            //Run the test for each respective data structure
             for (int numDataStructures = 1; numDataStructures < 6; numDataStructures++) {
 
                 if (numDataStructures == 1) {    //ArrayList
@@ -540,7 +434,6 @@ public abstract class TestObjectCluster {
                         dataArray[j] = objc.mSensorDataList.get(randomNum).mSensorData;
                     }
                     long endArrayList = System.nanoTime();
-//					System.out.println("ArrayList ordered retrieval time: " + (endArrayList - startArrayList));
                     System.out.println("Option 1 random retrieval time: " + (endArrayList - startArrayList));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endArrayList - startArrayList);
 
@@ -553,7 +446,6 @@ public abstract class TestObjectCluster {
                     }
                     long endNestedHashMap = System.nanoTime();
 
-//					System.out.println("Nested HashMap ordered retrieval time: " + (endNestedHashMap - startNestedHashMap));
                     System.out.println("Option 2 random retrieval time: " + (endNestedHashMap - startNestedHashMap));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endNestedHashMap - startNestedHashMap);
 
@@ -567,7 +459,6 @@ public abstract class TestObjectCluster {
                     }
                     long endHashMapArray = System.nanoTime();
 
-//					System.out.println("HashMap Array ordered retrieval time: " + (endHashMapArray - startHashMapArray));
                     System.out.println("Option 3 random retrieval time: " + (endHashMapArray - startHashMapArray));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endHashMapArray - startHashMapArray);
 
@@ -580,7 +471,6 @@ public abstract class TestObjectCluster {
                     }
                     long endArrays = System.nanoTime();
 
-//					System.out.println("Arrays ordered retrieval time: " + (endArrays - startArrays));
                     System.out.println("Option 4 random retrieval time: " + (endArrays - startArrays));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endArrays - startArrays);
 
@@ -595,7 +485,6 @@ public abstract class TestObjectCluster {
                     }
                     long endMultimap = System.nanoTime();
 
-//					System.out.println("Multimap ordered retrieval time: " + (endMultimap - startMultimap));
                     System.out.println("Option 5 random retrieval time: " + (endMultimap - startMultimap));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endMultimap - startMultimap);
 
@@ -605,7 +494,6 @@ public abstract class TestObjectCluster {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             System.err.println("----------------------- end test " + testsCount + " -----------------------\n");
@@ -625,7 +513,6 @@ public abstract class TestObjectCluster {
         ObjectClusterTest[][] objcArray = new ObjectClusterTest[NUM_DATA_STRUCTURES][NUM_OBJECTCLUSTERS];
 
         for (int i = 0; i < objcArray.length; i++) {
-            //Iterate through each of the data structures
 
             long startInsertion = 0;
             long endInsertion = 0;
@@ -636,52 +523,42 @@ public abstract class TestObjectCluster {
             }
 
             for (int j = 0; j < NUM_OBJECTCLUSTERS; j++) {
-                //Put data into each of the ObjectClusters in each row (data structure) of the 2D Array
 
                 ObjectClusterTest objc = new ObjectClusterTest();
                 objc.setShimmerName("DataStructure" + String.valueOf(i));
                 objc.setMacAddress(String.valueOf(i));
 
                 for (int numOfChannels = 0; numOfChannels < 30; numOfChannels++) {
-                    //Put 30 channels of data into each ObjectClusterTest
                     if (i == 0) {
-                        //ArrayList of SensorData
                         startInsertion = System.nanoTime();
                         objc.addDataToArrayList(String.valueOf(numOfChannels), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, numOfChannels);
                         endInsertion = System.nanoTime();
                     } else if (i == 1) {
-                        //Nested HashMap
                         startInsertion = System.nanoTime();
                         objc.addDataToNestedHashMap(String.valueOf(numOfChannels), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, numOfChannels);
                         endInsertion = System.nanoTime();
                     } else if (i == 2) {
-                        //HashMap with Array of FormatClusters
                         startInsertion = System.nanoTime();
                         objc.addDataToHashMapArray(String.valueOf(numOfChannels), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, numOfChannels);
                         endInsertion = System.nanoTime();
                     } else if (i == 3) {
-                        //Array of SensorData
                         startInsertion = System.nanoTime();
                         objc.addDataToSensorDataArray(String.valueOf(numOfChannels), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, numOfChannels);
                         endInsertion = System.nanoTime();
                     } else if (i == 4) {
-                        //Multimap
                         startInsertion = System.nanoTime();
                         objc.addDataToMap(String.valueOf(numOfChannels), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, numOfChannels);
                         endInsertion = System.nanoTime();
                     } else if (i == 5) {
-                        //Arrays
                         startInsertion = System.nanoTime();
                         objc.addDataToArrays(String.valueOf(numOfChannels), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, numOfChannels);
                         endInsertion = System.nanoTime();
                     } else if (i == 6) {
-                        //Arrays with Resize
                         startInsertion = System.nanoTime();
                         testArrayResizing(objc);
                         objc.addDataToArraysWithResize(String.valueOf(numOfChannels), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, numOfChannels);
                         endInsertion = System.nanoTime();
                     } else if (i == 7) {
-                        //New Arrays
                         startInsertion = System.nanoTime();
                         objc.addDataToNewArrays(String.valueOf(numOfChannels), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, numOfChannels);
                         endInsertion = System.nanoTime();
@@ -703,7 +580,6 @@ public abstract class TestObjectCluster {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -711,7 +587,6 @@ public abstract class TestObjectCluster {
         }
 
         for (int a = 0; a < cumulativeTimingsOverall.length; a++) {
-            //Divide by 30 because 30 ObjectClusters
             cumulativeTimingsOverall[a] = (cumulativeTimingsOverall[a] / 30);
             allInsertionTimes[a] = allInsertionTimes[a] + cumulativeTimingsOverall[a];
         }
@@ -754,12 +629,10 @@ public abstract class TestObjectCluster {
             String[] tempUnitArray = new String[currentLength + 5];
             double[] tempDataArray = new double[currentLength + 5];
 
-            //3 cal arrays to resize
             System.arraycopy(obj.mCalDataResize, 0, tempDataArray, 0, currentLength);
             System.arraycopy(obj.mUnitCalResize, 0, tempUnitArray, 0, currentLength);
             System.arraycopy(obj.mSensorNamesCalResize, 0, tempNamesArray, 0, currentLength);
 
-            //Copy the temp arrays into the ObjectClusterTest
             obj.mSensorNamesCalResize = tempNamesArray;
             obj.mCalDataResize = tempDataArray;
             obj.mUnitCalResize = tempUnitArray;
@@ -773,7 +646,6 @@ public abstract class TestObjectCluster {
         double[] dataArray = new double[50];    //purpose of this array is to store the data retrieved from the ObjectClusters
 
         for (int i = 0; i < objcArray.length; i++) {
-            //Iterate through each of the data structures
 
             long startRetrieval = 0;
             long endRetrieval = 0;
@@ -785,9 +657,7 @@ public abstract class TestObjectCluster {
 
             for (int j = 0; j < NUM_OBJECTCLUSTERS; j++) {
                 ObjectClusterTest objc = objcArray[i][j];
-                //Retrieve data from each of the ObjectClusters in each row (data structure) of the 2D Array
                 if (i == 0) {
-                    //ArrayList of SensorData
                     startRetrieval = System.nanoTime();
                     int count = 0;
                     for (SensorData sd : objc.mSensorDataList) {
@@ -796,7 +666,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 1) {
-                    //Nested HashMap
                     startRetrieval = System.nanoTime();
                     int count = 0;
                     for (HashMap<String, FormatCluster> formatMap : objc.mHashMap.values()) {
@@ -807,7 +676,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 2) {
-                    //HashMap with Array of FormatClusters
                     startRetrieval = System.nanoTime();
                     int count = 0;
                     for (FormatCluster[] fc : objc.mHashMapArray.values()) {
@@ -816,7 +684,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 3) {
-                    //Array of SensorData
                     startRetrieval = System.nanoTime();
                     int count = 0;
                     for (SensorData sd : objc.mSensorDataArray) {
@@ -827,7 +694,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 4) {
-                    //Multimap
                     startRetrieval = System.nanoTime();
                     int count = 0;
                     for (int channel = 0; channel < 30; channel++) {
@@ -838,14 +704,11 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 5) {
-                    //Arrays
                     startRetrieval = System.nanoTime();
                     int count = 0;
-//						for(Double data : objc.mCalData) {
                     for (int numOfData = 0; numOfData < objc.calArrayIndex; numOfData++) {    //Testing by reading only up to index
                         double data = objc.mCalData[numOfData];
                         dataArray[count] = data;
-                        //Testing reading from all arrays
                         String channelName = objc.mSensorNamesCal[numOfData];
                         String unit = objc.mUnitCal[numOfData];
                         count++;
@@ -887,14 +750,12 @@ public abstract class TestObjectCluster {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
         }
 
         for (int a = 0; a < cumulativeTimingsOverall.length; a++) {
-            //Divide by 30 because 30 ObjectClusters
             cumulativeTimingsOverall[a] = (cumulativeTimingsOverall[a] / 30);
             allStructuredRetrievalTimes[a] = allStructuredRetrievalTimes[a] + cumulativeTimingsOverall[a];
         }
@@ -928,7 +789,6 @@ public abstract class TestObjectCluster {
         double[] dataArray = new double[60];
 
         for (int i = 0; i < objcArray.length; i++) {
-            //Iterate through each of the data structures
 
             long startRetrieval = 0;
             long endRetrieval = 0;
@@ -940,9 +800,7 @@ public abstract class TestObjectCluster {
 
             for (int j = 0; j < NUM_OBJECTCLUSTERS; j++) {
                 ObjectClusterTest objc = objcArray[i][j];
-                //Retrieve data from each of the ObjectClusters in each row (data structure) of the 2D Array
                 if (i == 0) {
-                    //ArrayList of SensorData
                     startRetrieval = System.nanoTime();
                     for (int k = 0; k < 60; k++) {
                         int randomNum = ThreadLocalRandom.current().nextInt(0, 30);
@@ -950,7 +808,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 1) {
-                    //Nested HashMap
                     startRetrieval = System.nanoTime();
                     for (int k = 0; k < 60; k++) {
                         int randomNum = ThreadLocalRandom.current().nextInt(0, 30);
@@ -958,7 +815,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 2) {
-                    //HashMap with Array of FormatClusters
                     startRetrieval = System.nanoTime();
                     for (int k = 0; k < 60; k++) {
                         int randomNum = ThreadLocalRandom.current().nextInt(0, 30);
@@ -967,7 +823,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 3) {
-                    //Array of SensorData
                     startRetrieval = System.nanoTime();
                     for (int k = 0; k < 60; k++) {
                         int randomNum = ThreadLocalRandom.current().nextInt(0, 30);
@@ -975,7 +830,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 4) {
-                    //Multimap
                     startRetrieval = System.nanoTime();
                     for (int k = 0; k < 60; k++) {
                         int randomNum = ThreadLocalRandom.current().nextInt(0, 30);
@@ -985,7 +839,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 5) {
-                    //Arrays
                     String channelName = "";    //Testing retrieving data from all the arrays
                     String units = "";
                     startRetrieval = System.nanoTime();
@@ -995,7 +848,6 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 6) {
-                    //Arrays with Resize
                     startRetrieval = System.nanoTime();
                     for (int k = 0; k < 60; k++) {
                         int randomNum = ThreadLocalRandom.current().nextInt(0, 30);
@@ -1006,8 +858,6 @@ public abstract class TestObjectCluster {
                     startRetrieval = System.nanoTime();
                     for (int k = 0; k < 60; k++) {
                         int randomNum = ThreadLocalRandom.current().nextInt(0, 30);
-//							String channelName = objc.sensorDataArray.mCalSensorNames[randomNum];
-//							String channelUnits = objc.sensorDataArray.mCalUnits[randomNum];
                         dataArray[k] = objc.sensorDataArray.mCalData[randomNum];
                     }
                     endRetrieval = System.nanoTime();
@@ -1027,7 +877,6 @@ public abstract class TestObjectCluster {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -1035,7 +884,6 @@ public abstract class TestObjectCluster {
         }
 
         for (int a = 0; a < cumulativeTimingsOverall.length; a++) {
-            //Divide by 30 because 30 ObjectClusters
             cumulativeTimingsOverall[a] = (cumulativeTimingsOverall[a] / 30);
             allRandomRetrievalTimes[a] = allRandomRetrievalTimes[a] + cumulativeTimingsOverall[a];
         }

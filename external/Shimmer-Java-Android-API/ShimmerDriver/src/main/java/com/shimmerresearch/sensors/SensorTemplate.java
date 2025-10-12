@@ -14,37 +14,24 @@ public class SensorTemplate extends AbstractSensor {
 
     private static final long serialVersionUID = -1313629173441403991L;
 
-    //--------- Sensor specific variables start --------------
-        //--------- Sensor specific variables end --------------
 
 
-    //--------- Bluetooth commands start --------------
-        //--------- Bluetooth commands end --------------
 
 
-    //--------- Configuration options start --------------
-        //--------- Configuration options end --------------
 
 
-    //--------- Sensor info start --------------
-        //--------- Sensor info end --------------
 
 
-    //--------- Channel info start --------------
-        //--------- Channel info end --------------
 
 
-    //--------- Constructors for this class start --------------
 
 
     public SensorTemplate(ShimmerVerObject svo) {
         super(SENSORS.TEMPLATE, svo);
                 initialise();
     }
-    //--------- Constructors for this class end --------------
 
 
-    //--------- Abstract methods implemented start --------------
 
         @Override
     public void generateSensorMap() {
@@ -78,7 +65,6 @@ public class SensorTemplate extends AbstractSensor {
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] sensorByteArray, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs) {
         int index = 0;
         for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
-            // first process the data originating from the Shimmer sensor
             byte[] channelByteArray = new byte[channelDetails.mDefaultNumBytes];
             System.arraycopy(sensorByteArray, index, channelByteArray, 0, channelDetails.mDefaultNumBytes);
             objectCluster = SensorDetails.processShimmerChannelData(channelByteArray, channelDetails, objectCluster);
@@ -129,31 +115,26 @@ public class SensorTemplate extends AbstractSensor {
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId, String configLabel) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -168,7 +149,6 @@ public class SensorTemplate extends AbstractSensor {
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
         if (mConfigOptionsMap.containsKey(stringKey)) {
-            //Set values for particular Config Option here if applicable
             return true;
         }
         return false;
@@ -176,53 +156,42 @@ public class SensorTemplate extends AbstractSensor {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(
             LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
 
-    //--------- Abstract methods implemented end --------------
 
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
 
-    //--------- Sensor specific methods start --------------
-        //--------- Sensor specific methods end --------------
 
 
-    //--------- Optional methods to override in Sensor Class start --------
-        //--------- Optional methods to override in Sensor Class end --------
 
 
 }

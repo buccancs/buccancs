@@ -39,7 +39,6 @@ public class FileListActivity extends Activity {
     protected AdapterView.OnItemClickListener mFileClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //Get the file extension for the MIME type
             String fileExtension = StringUtils.substringAfterLast(fileNamesArray[position], ".");
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -58,13 +57,10 @@ public class FileListActivity extends Activity {
         protected void setupFilesList() {
         retrieveAnyStringExtras();
 
-        // Setup the window
         setContentView(R.layout.file_list);
 
-        // Set result CANCELED incase the user backs out
         setResult(Activity.RESULT_CANCELED);
 
-        // Initialize the button to perform device discovery
         cancelButton = (Button) findViewById(R.id.buttonCancel);
 
         File fileDir = new File(DIRECTORY_PATH);

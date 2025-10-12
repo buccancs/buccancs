@@ -146,8 +146,6 @@ public class DataBlockDetails implements Serializable {
                 + ", End=" + timeDetailsRwc.getEndTimeStr()
                 + "], Samples=" + getSampleCount()
                 + " @ " + samplingRate + CHANNEL_UNITS.FREQUENCY
-//				+ ", EndTime [Minutes=" + rtcEndTimeMinutes
-//				+ ", Ticks=" + rtcEndTimeTicks
                 + "]");
     }
 
@@ -199,7 +197,6 @@ public class DataBlockDetails implements Serializable {
         ojcArray = ojcArrayBuf;
 
         getTimeDetailsRwc().setEndTimeMs(newEndTimestampMsRwc);
-        // Value is NaN for payload designs <v10 as the microcontroller time was not supported
         if (!Double.isNaN(newEndTimestampMsUcClock)) {
             getTimeDetailsUcClock().setEndTimeMs(newEndTimestampMsUcClock);
         }
@@ -215,7 +212,6 @@ public class DataBlockDetails implements Serializable {
         ojcArray = ojcArrayBuf;
 
         getTimeDetailsRwc().setStartTimeMs(newStartTimestampMsRwc);
-        // Value is NaN for payload designs <v10 as the microcontroller time was not supported
         if (!Double.isNaN(newStartTimestampMsUcClock)) {
             getTimeDetailsUcClock().setStartTimeMs(newStartTimestampMsUcClock);
         }

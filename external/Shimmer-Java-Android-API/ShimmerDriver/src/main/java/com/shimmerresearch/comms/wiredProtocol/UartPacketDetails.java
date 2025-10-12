@@ -32,7 +32,6 @@ public class UartPacketDetails {
     public static ShimmerVerObject svoS3RTest = new ShimmerVerObject(HW_ID.SHIMMER_3R, FW_ID.LOGANDSTREAM, 0, 1, 0, ShimmerVerDetails.ANY_VERSION);
     public static ShimmerVerObject svoS3RUsbComms = new ShimmerVerObject(HW_ID.SHIMMER_3R, FW_ID.LOGANDSTREAM, 1, 0, 27, ShimmerVerDetails.ANY_VERSION);
 
-    //TODO improve
     public static List<ShimmerVerObject> listOfCompatibleVersionInfoGqBle = Arrays.asList(svoGqBle);
     public static List<ShimmerVerObject> listOfCompatibleVersionInfoGq802154 = Arrays.asList(svoGq802154NR, svoGq802154LR, svoGq802154Shimmer2r);
     public static List<ShimmerVerObject> listOfCompatibleVersionInfoGq = Arrays.asList(svoGqBle, svoGq802154NR, svoGq802154LR, svoGq802154Shimmer2r);
@@ -104,7 +103,6 @@ public class UartPacketDetails {
                             return uCPD;
                         }
                     } catch (IllegalArgumentException | IllegalAccessException e) {
-//						e.printStackTrace();
                     }
                 }
             }

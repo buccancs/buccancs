@@ -20,12 +20,7 @@ public abstract class ConfigByteLayout implements Serializable {
     public int MSP430_5XX_INFOMEM_A_ADDRESS = 0x001980;
     public int MSP430_5XX_INFOMEM_LAST_ADDRESS = 0x0019FF;
     protected ShimmerVerObject mShimmerVerObject = new ShimmerVerObject();
-    //	protected int mFirmwareIdentifier = -1;
-//	protected int mFirmwareVersionMajor = -1;
-//	protected int mFirmwareVersionMinor = -1;
-//	protected int mFirmwareVersionInternal = -1;
     protected int mInfoMemSize = 512;
-//	public final static int MSP430_5XX_PROGRAM_START_ADDRESS = 0x00FFFE;
 
         public static byte[] createConfigByteArrayEmpty(int size) {
         byte[] newArray = new byte[size];
@@ -44,7 +39,6 @@ public abstract class ConfigByteLayout implements Serializable {
     }
 
     public static boolean checkConfigBytesValid(byte[] infoMemContents) {
-        // Check first 6 bytes of InfoMem for 0xFF to determine if contents are valid
         byte[] comparisonBuffer = new byte[]{-1, -1, -1, -1, -1, -1};
         byte[] detectionBuffer = new byte[comparisonBuffer.length];
         System.arraycopy(infoMemContents, 0, detectionBuffer, 0, detectionBuffer.length);
@@ -75,15 +69,12 @@ public abstract class ConfigByteLayout implements Serializable {
     }
 
     protected boolean compareVersions(int compFwIdent, int compMajor, int compMinor, int compInternal) {
-//		return UtilShimmer.compareVersions(mShimmerVerObject.mFirmwareIdentifier,mShimmerVerObject.mFirmwareVersionMajor,mShimmerVerObject.mFirmwareVersionMinor,mShimmerVerObject.mFirmwareVersionInternal,
-//				compFwIdent,compMajor,compMinor,compInternal);
 
         return mShimmerVerObject.compareVersions(compFwIdent, compMajor, compMinor, compInternal);
     }
 
 
     public HashMap<Integer, String> getMapOfByteDescriptions() {
-        // TODO Auto-generated method stub
         return null;
     }
 

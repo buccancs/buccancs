@@ -55,7 +55,6 @@ public class SensorNonin extends AbstractSensor {
             CHANNEL_DATA_TYPE.UINT8, 1, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.PERCENT,
             Arrays.asList(CHANNEL_TYPE.CAL));
-    //--------- Sensor specific variables end --------------
     public static final ChannelDetails channelFooter = new ChannelDetails(
             ObjectClusterSensorName.PACKET_FOOTER,
             ObjectClusterSensorName.PACKET_FOOTER,
@@ -111,108 +110,89 @@ public class SensorNonin extends AbstractSensor {
 
     @Override
     public void generateConfigOptionsMap() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void generateSensorGroupMapping() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimestampMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId, String configLabel) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void parseConfigMap(
             LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
-    //--------- Sensor specific variables start --------------
     public static class GuiLabelConfig {
-//		public static final String SAMPLING_RATE_DIVIDER_PPG = "PPG Divider";
     }
 
     public static class LABEL_SENSOR_TILE {
-//		public static final String PROTO3_DELUXE_SUPP = "PPG";
     }
 
     public static class GuiLabelSensors {

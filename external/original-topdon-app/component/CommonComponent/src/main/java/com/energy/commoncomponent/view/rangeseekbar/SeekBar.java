@@ -30,14 +30,12 @@ import java.text.DecimalFormat;
 import java.util.Locale;
 
 public class SeekBar {
-    //the indicator show mode
     public static final int INDICATOR_SHOW_WHEN_TOUCH = 0;
     public static final int INDICATOR_ALWAYS_HIDE = 1;
     public static final int INDICATOR_ALWAYS_SHOW_AFTER_TOUCH = 2;
     public static final int INDICATOR_ALWAYS_SHOW = 3;
     public static final int WRAP_CONTENT = -1;
     public static final int MATCH_PARENT = -2;
-    //when you touch or move, the thumb will scale, default not scale
     float thumbScaleRatio;
     int left, right, top, bottom;
     float currPercent;
@@ -100,7 +98,6 @@ public class SeekBar {
         int offset = (int) (rangeSeekBar.getProgressWidth() * currPercent);
         canvas.save();
         canvas.translate(offset, 0);
-        // translate canvas, then don't care left
         canvas.translate(left, 0);
         if (isShowIndicator) {
             onDrawIndicator(canvas, paint, formatCurrentIndicatorText(userText2Draw));
@@ -160,11 +157,7 @@ public class SeekBar {
         indicatorRect.top = bottom - realIndicatorHeight - scaleThumbHeight - indicatorMargin;
         indicatorRect.right = indicatorRect.left + realIndicatorWidth;
         indicatorRect.bottom = indicatorRect.top + realIndicatorHeight;
-        //draw default indicator arrow
         if (indicatorBitmap == null) {
-            //arrow three point
-            //  b   c
-            //    a
             int ax = scaleThumbWidth / 2;
             int ay = indicatorRect.bottom;
             int bx = ax - indicatorArrowSize;
@@ -180,7 +173,6 @@ public class SeekBar {
             indicatorRect.top -= indicatorArrowSize;
         }
 
-        //indicator background edge processing
         int defaultPaddingOffset = Utils.dp2px(getContext(), 1);
         int leftOffset = indicatorRect.width() / 2 - (int) (rangeSeekBar.getProgressWidth() * currPercent) - rangeSeekBar.getProgressLeft() + defaultPaddingOffset;
         int rightOffset = indicatorRect.width() / 2 - (int) (rangeSeekBar.getProgressWidth() * (1 - currPercent)) - rangeSeekBar.getProgressPaddingRight() + defaultPaddingOffset;
@@ -193,7 +185,6 @@ public class SeekBar {
             indicatorRect.right -= rightOffset;
         }
 
-        //draw indicator background
         if (indicatorBitmap != null) {
             Utils.drawBitmap(canvas, paint, indicatorBitmap, indicatorRect);
         } else if (indicatorRadius > 0f) {
@@ -202,7 +193,6 @@ public class SeekBar {
             canvas.drawRect(indicatorRect, paint);
         }
 
-        //draw indicator content text
         int tx, ty;
         if (indicatorPaddingLeft > 0) {
             tx = indicatorRect.left + indicatorPaddingLeft;
@@ -220,7 +210,6 @@ public class SeekBar {
             ty = indicatorRect.bottom - (realIndicatorHeight - indicatorTextRect.height()) / 2 + 1;
         }
 
-        //draw indicator text
         paint.setColor(indicatorTextColor);
         canvas.drawText(text2Draw, tx, ty, paint);
     }

@@ -34,19 +34,16 @@ import com.shimmerresearch.sensors.bmpX80.SensorBMP280.DatabaseConfigHandle;
 
 public class SensorBMP180 extends SensorBMPX80 {
 
-    //--------- Bluetooth commands start --------------
     public static final byte SET_BMP180_PRES_RESOLUTION_COMMAND = (byte) 0x52;
     public static final byte BMP180_PRES_RESOLUTION_RESPONSE = (byte) 0x53;
     public static final byte GET_BMP180_PRES_RESOLUTION_COMMAND = (byte) 0x54;
     public static final byte SET_BMP180_PRES_CALIBRATION_COMMAND = (byte) 0x55;
-    //--------- Sensor specific variables end --------------
     public static final byte BMP180_PRES_CALIBRATION_RESPONSE = (byte) 0x56;
     public static final byte GET_BMP180_PRES_CALIBRATION_COMMAND = (byte) 0x57;
     public static final byte BMP180_CALIBRATION_COEFFICIENTS_RESPONSE = (byte) 0x58;
     public static final byte GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND = (byte) 0x59;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-    //--------- Configuration options start --------------
     public static final String[] ListofPressureResolution = {"Low", "Standard", "High", "Very High"};
     public static final Integer[] ListofPressureResolutionConfigValues = {0, 1, 2, 3};
     public static final ConfigOptionDetailsSensor configOptionPressureResolution = new ConfigOptionDetailsSensor(
@@ -56,13 +53,11 @@ public class SensorBMP180 extends SensorBMPX80 {
             ListofPressureResolutionConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBMP180);
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorBmp180 = new SensorDetailsRef(
             0x04 << (2 * 8),
             0x04 << (2 * 8),
             GuiLabelSensors.PRESS_TEMP_BMPX80,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBMP180,
-//			CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW,
             Arrays.asList(GuiLabelConfig.PRESSURE_RESOLUTION),
             Arrays.asList(ObjectClusterSensorName.TEMPERATURE_BMP180,
                     ObjectClusterSensorName.PRESSURE_BMP180));
@@ -71,8 +66,6 @@ public class SensorBMP180 extends SensorBMPX80 {
             LABEL_SENSOR_TILE.PRESSURE_TEMPERATURE,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_BMPX80_PRESSURE),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBMP180);
-    //--------- Bluetooth commands end --------------
-    //--------- Channel info start --------------
     public static final ChannelDetails channelBmp180Press = new ChannelDetails(
             ObjectClusterSensorName.PRESSURE_BMP180,
             ObjectClusterSensorName.PRESSURE_BMP180,
@@ -90,8 +83,6 @@ public class SensorBMP180 extends SensorBMPX80 {
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x1A);
     public static final Map<String, ChannelDetails> mChannelMapRef;
-//			CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
-    //--------- Configuration options end --------------
         private static final long serialVersionUID = 4559709230029277863L;
 
     static {
@@ -114,9 +105,7 @@ public class SensorBMP180 extends SensorBMPX80 {
         aMap.put(Configuration.Shimmer3.SENSOR_ID.SHIMMER_BMPX80_PRESSURE, SensorBMP180.sensorBmp180);
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
-//			CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
 
-    //--------- Sensor info end --------------
 
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
@@ -126,17 +115,9 @@ public class SensorBMP180 extends SensorBMPX80 {
     }
 
     {
-        //TODO put into above constructor
-//		channelBmp180Press.mChannelSource = CHANNEL_SOURCE.SHIMMER;
-//		channelBmp180Press.mDefaultUncalUnit = CHANNEL_UNITS.KPASCAL;
-//		channelBmp180Press.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
     }
 
     {
-        //TODO put into above constructor
-//		channelBmp180Temp.mChannelSource = CHANNEL_SOURCE.SHIMMER;
-//		channelBmp180Temp.mDefaultUncalUnit = CHANNEL_UNITS.DEGREES_CELSUIS;
-//		channelBmp180Temp.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
     }
 
         public SensorBMP180(ShimmerVerObject svo) {
@@ -150,42 +131,22 @@ public class SensorBMP180 extends SensorBMPX80 {
     }
 
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
-        //TODO Old approach, can be removed
-//		String objectClusterName = "";
-//		if (databaseChannelHandle.equals(SensorBMP180.DatabaseChannelHandles.TEMPERATURE_BMP180)) {
-//			objectClusterName = SensorBMP180.ObjectClusterSensorName.TEMPERATURE_BMP180;
-//		} else if (databaseChannelHandle.equals(SensorBMP180.DatabaseChannelHandles.PRESSURE_BMP180)) {
-//			objectClusterName = SensorBMP180.ObjectClusterSensorName.PRESSURE_BMP180;
-//		}
-//		return objectClusterName;
 
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
 
-    //--------- Channel info end --------------
 
-    //--------- Constructors for this class start --------------
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
-        //TODO Old approach, can be removed
-//		String databaseChannelHandle = "";
-//		if (objectClusterName.equals(SensorBMP180.ObjectClusterSensorName.TEMPERATURE_BMP180)) {
-//			databaseChannelHandle = SensorBMP180.DatabaseChannelHandles.TEMPERATURE_BMP180;
-//		} else if (objectClusterName.equals(SensorBMP180.ObjectClusterSensorName.PRESSURE_BMP180)) {
-//			databaseChannelHandle = SensorBMP180.DatabaseChannelHandles.PRESSURE_BMP180;
-//		}
-//		return databaseChannelHandle;
 
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
     }
-    //--------- Constructors for this class end --------------
 
     @Override
     public void generateSensorMap() {
         super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
     }
 
-    //--------- Abstract methods implemented start --------------
 
     @Override
     public void generateConfigOptionsMap() {
@@ -195,7 +156,6 @@ public class SensorBMP180 extends SensorBMPX80 {
     @Override
     public void generateSensorGroupMapping() {
         mSensorGroupingMap = new LinkedHashMap<Integer, SensorGroupingDetails>();
-        //TODO Extra version check here not needed because compatability info already contained in SensorGroupingDetails?
         if (mShimmerVerObject.isShimmerGen3() || mShimmerVerObject.isShimmerGen4()) {
             mSensorGroupingMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.PRESSURE_TEMPERATURE_BMP180.ordinal(), sensorGroupBmp180);
         }
@@ -215,11 +175,9 @@ public class SensorBMP180 extends SensorBMPX80 {
         double rawDataUT = 0;
         int index = 0;
         for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
-            //first process the data originating from the Shimmer sensor
             byte[] channelByteArray = new byte[channelDetails.mDefaultNumBytes];
             System.arraycopy(sensorByteArray, index, channelByteArray, 0, channelDetails.mDefaultNumBytes);
 
-//			System.out.println("BMP180 bytes\t" + channelDetails.mObjectClusterName + "\t" + UtilShimmer.bytesToHexStringWithSpacesFormatted(channelByteArray));
 
             objectCluster = SensorDetails.processShimmerChannelData(channelByteArray, channelDetails, objectCluster);
             objectCluster.incrementIndexKeeper();
@@ -227,14 +185,12 @@ public class SensorBMP180 extends SensorBMPX80 {
 
             if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.PRESSURE_BMP180)) {
                 rawDataUP = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(ObjectClusterSensorName.PRESSURE_BMP180), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
-//				rawDataUP = rawDataUP/Math.pow(2,8-mPressureResolution);
             }
             if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.TEMPERATURE_BMP180)) {
                 rawDataUT = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(ObjectClusterSensorName.TEMPERATURE_BMP180), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
             }
         }
 
-        //Calibration
         double[] bmp180caldata = calibratePressureSensorData(rawDataUP, rawDataUT);
         bmp180caldata[0] = bmp180caldata[0] / 1000;
 
@@ -247,12 +203,6 @@ public class SensorBMP180 extends SensorBMPX80 {
                 objectCluster.incrementIndexKeeper();
             }
         }
-        //Debugging
-//		super.consolePrintChannelsCal(objectCluster, Arrays.asList(
-//				new String[]{ObjectClusterSensorName.PRESSURE_BMP180, CHANNEL_TYPE.UNCAL.toString()},
-//				new String[]{ObjectClusterSensorName.TEMPERATURE_BMP180, CHANNEL_TYPE.UNCAL.toString()},
-//				new String[]{ObjectClusterSensorName.PRESSURE_BMP180, CHANNEL_TYPE.CAL.toString()},
-//				new String[]{ObjectClusterSensorName.TEMPERATURE_BMP180, CHANNEL_TYPE.CAL.toString()}));
 
         return objectCluster;
     }
@@ -283,7 +233,6 @@ public class SensorBMP180 extends SensorBMPX80 {
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -348,7 +297,6 @@ public class SensorBMP180 extends SensorBMPX80 {
         if (mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.PRESSURE_PRECISION_BMP180)) {
             setPressureResolution(((Double) mapOfConfigPerShimmer.get(DatabaseConfigHandle.PRESSURE_PRECISION_BMP180)).intValue());
         }
-        //PRESSURE (BMP180) CAL PARAMS
         if (mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.TEMP_PRES_AC1)
                 && mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.TEMP_PRES_AC2)
                 && mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.TEMP_PRES_AC3)
@@ -379,12 +327,6 @@ public class SensorBMP180 extends SensorBMPX80 {
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
         if (commType == COMMUNICATION_TYPE.BLUETOOTH) {
-//			byte[] responseBytes = (byte[])obj;
-//			if(responseBytes[0]!=LiteProtocolInstructionSet.InstructionsGet.GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND_VALUE){
-//				byte[] pressureResoRes = new byte[22];
-//				System.arraycopy(responseBytes, 1, pressureResoRes, 0, 22);
-//				retrievePressureCalibrationParametersFromPacket(pressureResoRes, CALIB_READ_SOURCE.LEGACY_BT_COMMAND);
-//			}
 
             if (responseCommand == InstructionsResponse.BMP180_CALIBRATION_COEFFICIENTS_RESPONSE_VALUE) {
                 retrievePressureCalibrationParametersFromPacket((byte[]) parsedResponse, CALIB_READ_SOURCE.LEGACY_BT_COMMAND);
@@ -396,10 +338,6 @@ public class SensorBMP180 extends SensorBMPX80 {
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-//		// If Shimmer name is default, update with MAC ID if available.
-//		if(mShimmerUserAssignedName.equals(DEFAULT_SHIMMER_NAME)){
-//			setDefaultShimmerName();
-//		}
         if (!isSensorEnabled(Configuration.Shimmer3.SENSOR_ID.SHIMMER_BMPX80_PRESSURE)) {
             setDefaultBmp180PressureSensorConfig(false);
         }
@@ -413,17 +351,10 @@ public class SensorBMP180 extends SensorBMPX80 {
         ((CalibDetailsBmp180) mCalibDetailsBmpX80).setPressureCalib(AC1, AC2, AC3, AC4, AC5, AC6, B1, B2, MB, MC, MD);
     }
 
-//	@Override
-//	public List<String> generateListOfConfigOptionKeysAssociated(ShimmerVerObject svo) {
-//		return mListOfConfigOptionKeysAssociated = Arrays.asList(
-//				Configuration.Shimmer3.GuiLabelConfig.PRESSURE_RESOLUTION);
-//	}
 
 
-    //--------- Abstract methods implemented end --------------
 
 
-    //--------- Sensor specific methods start --------------
 
     public double getPressTempAC1() {
         return ((CalibDetailsBmp180) mCalibDetailsBmpX80).AC1;
@@ -472,7 +403,6 @@ public class SensorBMP180 extends SensorBMPX80 {
     @Override
     public void setPressureResolution(int i) {
         if (ArrayUtils.contains(SensorBMP180.ListofPressureResolutionConfigValues, i)) {
-//			System.out.println("New resolution:\t" + ListofPressureResolution[i]);
             mPressureResolution = i;
         }
         updateCurrentPressureCalibInUse();
@@ -505,7 +435,6 @@ public class SensorBMP180 extends SensorBMPX80 {
     }
 
     public void setDefaultBmp180PressureSensorConfig(boolean isSensorEnabled) {
-        //RS (30/5/2016) - from ShimmerObject:
         if (isSensorEnabled) {
         } else {
             mPressureResolution = 0;
@@ -545,7 +474,6 @@ public class SensorBMP180 extends SensorBMPX80 {
     }
 
 
-    //--------- Sensor specific methods end --------------
 
 
 }

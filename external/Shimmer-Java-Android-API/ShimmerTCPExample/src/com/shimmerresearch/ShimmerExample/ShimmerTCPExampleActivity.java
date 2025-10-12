@@ -1,8 +1,5 @@
-//v0.2 -  8 January 2013
 
 
-//Future updates needed
-//- the handler should be converted to static 
 package com.shimmerresearch.ShimmerExample;
 
 import android.os.Handler;
@@ -37,7 +34,6 @@ public class ShimmerTCPExampleActivity extends Activity {
     String ToServer;
     boolean firstTime = true;
     private Shimmer mShimmerDevice1 = null;
-    // The Handler that gets information back from the BluetoothChatService
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) { // handlers have a what identifier which is used to identify the type of msg
@@ -49,13 +45,11 @@ public class ShimmerTCPExampleActivity extends Activity {
                             try {
                                 dOut.writeInt(dataojc.length);
                             } catch (IOException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                             try {
                                 dOut.write(dataojc);
                             } catch (IOException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                         } else {
@@ -87,10 +81,8 @@ public class ShimmerTCPExampleActivity extends Activity {
                                             clientSocket = new Socket("10.1.1.1", 5000);
                                             dOut = new DataOutputStream(clientSocket.getOutputStream());
                                         } catch (UnknownHostException e) {
-                                            // TODO Auto-generated catch block
                                             e.printStackTrace();
                                         } catch (IOException e) {
-                                            // TODO Auto-generated catch block
                                             e.printStackTrace();
                                         }
                                     }
@@ -145,9 +137,6 @@ public class ShimmerTCPExampleActivity extends Activity {
 
     class responseTask extends TimerTask {
         public void run() {
-            //mShimmerDevice1.stopStreaming();
-            //mShimmerDevice1.writeEnabledSensors(Shimmer.SENSOR_ACCEL);
-            //mShimmerDevice1.startStreaming();
             shimmerTimer(5); //Disconnect in 30 seconds
         }
     }

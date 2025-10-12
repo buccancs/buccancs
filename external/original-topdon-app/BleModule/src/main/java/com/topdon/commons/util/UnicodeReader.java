@@ -55,16 +55,13 @@ public class UnicodeReader extends Reader {
             encoding = "UTF-16LE";
             unread = n - 2;
         } else {
-            // Unicode BOM mark not found, unread all bytes
             encoding = defaultEnc;
             unread = n;
         }
-        // System.out.println("read=" + n + ", unread=" + unread);
 
         if (unread > 0)
             internalIn.unread(bom, (n - unread), unread);
 
-        // Use given encoding
         if (encoding == null) {
             internalIn2 = new InputStreamReader(internalIn);
         } else {

@@ -7,7 +7,6 @@ public class MsgSpan {
 
 
     public final static int MSG_ID_SPANMANAGER_INITIALIZED_SUCCESS = 0;
-    //	public final static int MSG_ID_SPAN_ENABLE_SPECTRUM_SCANNER_FAILED = 180;
     public final static int MSG_ID_SPAN_CHANNEL_UPDATE = 1;
     public final static int MSG_ID_SPAN_MODE_UPDATE = 2;
     public final static int MSG_ID_SPAN_SPECTRUM_ANALYSER_RESPONSE = 3;
@@ -54,14 +53,8 @@ public class MsgSpan {
         public StackTraceElement[] mExceptionStackTrace;
 
         public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
-//	public ExceptionLevelSpan mExceptionLevel = ExceptionLevelSpan.HIGH;
-//	public static enum ExceptionLevelSpan {
-//		LOW,
-//		HIGH
-//	}
 
     public DEVICE_STATE mSpanState;
-    //	public Object mCurrentJobDetails;
     public String mUniqueId = "";
     public String mShimmerUserAssignName = "";
 
@@ -80,12 +73,8 @@ public class MsgSpan {
         public MsgSpan(int msgID, String spanID, Object object) {
         mMsgID = msgID;
         mSpanID = spanID;
-////		mSlotNumber = -1;
-////		mUniqueID = mDockID + "." + String.format("%02d",mSlotNumber);
-//		mUniqueID = mSpanID; 
 
         mObject = object;
-//		mCurrentJobDetails = currentJobDetails;
     }
 
 

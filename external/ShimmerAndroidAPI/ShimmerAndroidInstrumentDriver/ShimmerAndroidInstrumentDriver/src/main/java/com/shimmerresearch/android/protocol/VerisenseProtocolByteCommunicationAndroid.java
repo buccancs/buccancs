@@ -46,9 +46,7 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
                 dataFileName = String.format("%s_%s.bin", new SimpleDateFormat("yyMMdd_HHmmss").format(new Date()), pIndex);
             }
 
-            // AdvanceLog(LogObject, "BinFileCreated", dataFilePath, ASMName);
         } catch (Exception ex) {
-            // AdvanceLog(LogObject, "BinFileCreatedException", ex, ASMName);
         }
 
     }
@@ -70,25 +68,21 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
                 for (DocumentFile file : arrDF) {
                     System.out.println(file.getName());
                 }
-                //trial name
                 DocumentFile dfT = pickedDir.findFile(getTrialName());
                 if (dfT == null) {
                     dfT = pickedDir.createDirectory(getTrialName());
                 }
 
-                //participant name
                 DocumentFile dfP = dfT.findFile(getParticipantID());
                 if (dfP == null) {
                     dfP = dfT.createDirectory(getParticipantID());
                 }
 
-                //uuid
                 DocumentFile dfUUID = dfP.findFile(mByteCommunication.getUuid());
                 if (dfUUID == null) {
                     dfUUID = dfP.createDirectory(mByteCommunication.getUuid());
                 }
 
-                //BinaryFiles
                 DocumentFile dfBF = dfUUID.findFile("BinaryFiles");
                 if (dfBF == null) {
                     dfBF = dfUUID.createDirectory("BinaryFiles");
@@ -108,7 +102,6 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
                 }
 
                 /*
-                // System.Console.WriteLine("Write Payload To Bin File!");
                 File f = new File(dataFilePath);
                 if (!f.exists()) {
                     f.createNewFile();
@@ -116,24 +109,15 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
                 Files.write(Paths.get(dataFilePath), verisenseMessage.payloadBytes, StandardOpenOption.APPEND);
                 */
                 if (verisenseMessage.mCRCErrorPayload) {
-                    //SaveBinFileToDB();
                 } else {
-                    // only assume non crc error payload index is valid
                     PreviouslyWrittenPayloadIndex = verisenseMessage.payloadIndex;
                 }
-                // DataBufferToBeSaved = null;
-                // RealmService.UpdateSensorDataSyncDate(Asm_uuid.ToString());
-                // UpdateSensorDataSyncDate();
 
 
             } catch (Exception ex) {
-                // AdvanceLog(LogObject, "FileAppendException", ex, ASMName);
-                // throw ex;
                 System.out.println(ex.toString());
             }
         } else {
-            // AdvanceLog(LogObject, "WritePayloadToBinFile", "Same Payload Index = " +
-            // PayloadIndex.ToString(), ASMName);
         }
 
     }

@@ -213,10 +213,8 @@ public class API_00002_Filters {
 
             int lineCount = 0;
             int colCount = 0;
-            //count Lines
             while ((line = br.readLine()) != null) {
                 lineCount++;
-                //Pick a line after the header lines to detect the number of channels
                 if (lineCount == qtyHeaderLines + 1) {
                     String[] data = line.split(",");
                     colCount = data.length;
@@ -225,7 +223,6 @@ public class API_00002_Filters {
 
             lineCount -= qtyHeaderLines;
 
-            // "reset" to beginning of file (discard old buffered reader)
             fIn.getChannel().position(0);
             br = new BufferedReader(new InputStreamReader(fIn));
 

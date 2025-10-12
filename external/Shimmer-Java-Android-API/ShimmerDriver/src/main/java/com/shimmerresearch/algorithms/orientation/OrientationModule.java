@@ -24,7 +24,6 @@ import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID_SR_CODES;
 public abstract class OrientationModule extends AbstractAlgorithm {
 
     protected static final String[] QUATERNION_OPTIONS = {"Off", "On"};
-    // --------- Configuration options start --------------
     public static final ConfigOptionDetails configOptionQuatOutput = new ConfigOptionDetails(
             OrientationModule.GuiLabelConfig.QUATERNION_OUTPUT,
             null,
@@ -48,7 +47,6 @@ public abstract class OrientationModule extends AbstractAlgorithm {
     public boolean quaternionOutput = true;
     public boolean eulerOutput = false;
     public boolean axisAngleOutput = false;
-    //--------- Algorithm specific variables start --------------
     protected Vector3d accValues;
     protected Vector3d gyroValues;
     protected Vector3d magValues;
@@ -60,12 +58,10 @@ public abstract class OrientationModule extends AbstractAlgorithm {
     public OrientationModule(ShimmerDevice shimmerDevice, AlgorithmDetails algorithmDetails) {
         super(shimmerDevice, algorithmDetails);
     }
-    //--------- Algorithm specific variables end --------------
 
     public abstract ObjectCluster addQuaternionToObjectCluster(Orientation3DObject quaternion, ObjectCluster objectCluster);
 
     public abstract Orientation3DObject applyOrientationAlgorithm();
-    // --------- Configuration options end --------------
 
     public GradDes3DOrientation getOrientationAlgorithm() {
         return orientationAlgorithm;
@@ -105,7 +101,6 @@ public abstract class OrientationModule extends AbstractAlgorithm {
     }
 
 
-    //--------- Constructors for this class start --------------
 
     private void setChannelValue(String channelName, double value) {
 
@@ -116,13 +111,10 @@ public abstract class OrientationModule extends AbstractAlgorithm {
         } else if (channelName.equals(Configuration.Shimmer3.ObjectClusterSensorName.MAG_Z)) {
             magValues.z = value;
         } else if (channelName.equals(Configuration.Shimmer3.ObjectClusterSensorName.GYRO_X)) {
-            //if shimmer 2 or 3, apply a tweak to the gyro value
             gyroValues.x = value * (Math.PI / 180.0);
         } else if (channelName.equals(Configuration.Shimmer3.ObjectClusterSensorName.GYRO_Y)) {
-            //if shimmer 2 or 3, apply a tweak to the gyro value
             gyroValues.y = value * (Math.PI / 180.0);
         } else if (channelName.equals(Configuration.Shimmer3.ObjectClusterSensorName.GYRO_Z)) {
-            //if shimmer 2 or 3, apply a tweak to the gyro value
             gyroValues.z = value * (Math.PI / 180.0);
         } else {
             if (mAlgorithmName.equals(AlgorithmName.ORIENTATION_9DOF_LN)
@@ -147,7 +139,6 @@ public abstract class OrientationModule extends AbstractAlgorithm {
         }
 
     }
-    //--------- Constructors for this class end --------------
 
     @Override
     public AlgorithmResultObject processDataPostCapture(Object object)
@@ -183,18 +174,15 @@ public abstract class OrientationModule extends AbstractAlgorithm {
     }
 
     public void setShimmerSamplingRate(double sampleRate) {
-        //Hack because the principle Sampling rate of the StroKare device for EMG is 2048Hz whereas the IMU sample at 51.2Hz
         if (mShimmerDevice != null && mShimmerDevice.getFirmwareIdentifier() == FW_ID.STROKARE) {
             sampleRate = 51.2;
         }
 
         this.samplingRate = sampleRate;
 
-        //TODO this is being initialized repeatedly in a number of different places.
         try {
             initialize();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -293,7 +281,6 @@ public abstract class OrientationModule extends AbstractAlgorithm {
         if (isEnabled()) {
             if (!isQuaternionOutput() && !isEulerOutput()) {
                 setQuaternionOutput(true);
-                //			setEulerOutput(false);
             }
         } else {
             setQuaternionOutput(false);
@@ -303,7 +290,6 @@ public abstract class OrientationModule extends AbstractAlgorithm {
 
     @Override
     public void loadAlgorithmVariables(AbstractAlgorithm abstractAlgorithmSource) {
-//		super.loadAlgorithmVariables(value);
 
         if (abstractAlgorithmSource instanceof OrientationModule) {
             OrientationModule orientationModuleSource = (OrientationModule) abstractAlgorithmSource;

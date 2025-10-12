@@ -10,7 +10,6 @@ public class ErrorCodesSerialPort extends AbstractErrorCodes {
 
     public final static int ERROR_CODES_ID = 2;
 
-    // low level errors
     public final static int ERR_NONE = 0;
     public final static int SHIMMERUART_COMM_ERR_PORT_EXCEPTION = (ERROR_CODES_ID * 1000) + 4;
     public final static int SHIMMERUART_COMM_ERR_TIMEOUT = (ERROR_CODES_ID * 1000) + 5;
@@ -30,7 +29,6 @@ public class ErrorCodesSerialPort extends AbstractErrorCodes {
     static {
         Map<Integer, String> aMap = new TreeMap<Integer, String>();
         aMap.put(ERR_NONE, "SHIMMERUART_COMM_ERR_NONE");
-        // low level errors
         aMap.put(SHIMMERUART_COMM_ERR_PORT_EXCEPTION, "ShimmerUART_Comm_Err_Port_Exception");
         aMap.put(SHIMMERUART_COMM_ERR_TIMEOUT, "COM port timeout");
         aMap.put(SHIMMERUART_COMM_ERR_PACKAGE_FORMAT, "ShimmerUART_Comm_Err_Package_Format");

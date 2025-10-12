@@ -8,7 +8,6 @@ import java.util.TreeMap;
 public class ShimmerVerDetails implements Serializable {
 
     public static final int ANY_VERSION = -1;
-    //WARNING! The name can't change because the database relies on it.
     public static final Map<Integer, String> mMapOfShimmerRevisions;
     public static final Map<Integer, String> mMapOfShimmerHardware;
         private static final long serialVersionUID = -7940733886215010795L;
@@ -82,8 +81,6 @@ public class ShimmerVerDetails implements Serializable {
         mMapOfShimmerHardware = Collections.unmodifiableMap(aMap);
     }
 
-    //TODO change all to ENUMs with ints and Strings passed in
-    //WARNING! The ID can't change because Consensys relies on it.
     public static final class HW_ID {
         public static final int UNKNOWN = -1;
         public static final int SHIMMER_1 = 0;
@@ -93,14 +90,10 @@ public class ShimmerVerDetails implements Serializable {
         public static final int SHIMMER_SR30 = 4;
         public static final int SWEATCH = 4;
         public static final int SHIMMER_GQ_BLE = 5;
-        //		public static final int BIOSENSICS = 6;
         public static final int SPAN = 7;
         public static final int SHIMMER_2R_GQ = 9; // Used for testing GQ
         public static final int SHIMMER_3R = 10;
 
-        // For older devices the was a 'new' HW id given in firmware/software
-        // for each device. For newer devices from GQ onwards, we decided to just
-        // use the already defined SR number for the board.
 
         public static final int SHIMMER_GQ_802154_LR = HW_ID_SR_CODES.SHIMMER_GQ_802154_LR; // Long Range
         public static final int SHIMMER_GQ_802154_NR = HW_ID_SR_CODES.SHIMMER_GQ_802154_NR; // Normal Range
@@ -113,7 +106,6 @@ public class ShimmerVerDetails implements Serializable {
         public static final int VERISENSE_DEV_BRD = HW_ID_SR_CODES.VERISENSE_DEV_BRD;
         public static final int VERISENSE_PULSE_PLUS = HW_ID_SR_CODES.VERISENSE_PULSE_PLUS;
 
-        //Third party devices
         public static final int NONIN_ONYX_II = 1000;
         public static final int QTI_DIRECT_TEMP = 1001;
         public static final int KEYBOARD_AND_MOUSE = 1002;
@@ -125,13 +117,9 @@ public class ShimmerVerDetails implements Serializable {
         public static final int WEBCAM_DIGIOPTIX_SMART_GLASSES = 1008;
         public static final int KEYBOARD = 1009;
 
-        // Any other 'devices' that don't have a ShimmerDevice instance should
-        // go in at >=2000 (currently used in the database for the results
-        // aggregators)
         public static final int RESULT_AGGREGATOR = 2000;
     }
 
-    //TODO change all to ENUMs with ints and Strings passed in
     public static final class HW_ID_SR_CODES {
         public static final int LOG_FILE = -2; //MN: here for testing
         public static final int UNKNOWN = -1;
@@ -164,7 +152,6 @@ public class ShimmerVerDetails implements Serializable {
         public static final int VERISENSE_PULSE_PLUS = 68;
     }
 
-    //TODO change all to ENUMs with ints and Strings passed in
     public static final class FW_ID {
                 public static final int UNKNOWN = -1;
         public static final int BOILER_PLATE = 0;
@@ -174,7 +161,6 @@ public class ShimmerVerDetails implements Serializable {
         public static final int SWEATCH = 4;
         public static final int GQ_BLE = 5;
         public static final int BIOSENSICS_GPIO_TEST = 6;
-        //		public static final int ? = 7;
         public static final int MOVOTEC_PSAD = 8;
         public static final int GQ_802154 = 9;
         public static final int EXGSTREAM = 10;

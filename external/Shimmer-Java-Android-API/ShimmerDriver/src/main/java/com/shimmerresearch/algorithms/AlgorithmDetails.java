@@ -13,7 +13,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 import com.shimmerresearch.driverUtilities.SensorDetails;
 
-//TODO merge/replace with SensorDetails?
 public class AlgorithmDetails implements Serializable {
 
     private static final long serialVersionUID = -8249918413235100868L;
@@ -32,7 +31,6 @@ public class AlgorithmDetails implements Serializable {
     @Deprecated //TODO replace with compatible versions list
     public List<Integer> mListOfCompatableExpBoards = new ArrayList<Integer>();
 
-    //TODO implement below - first stop -> activity module for determining if any accel is enabled
     public SENSOR_CHECK_METHOD mSensorCheckMethod = SENSOR_CHECK_METHOD.ALL;
 
         public AlgorithmDetails(List<Integer> listOfRequiredSensors, String units) {
@@ -50,7 +48,6 @@ public class AlgorithmDetails implements Serializable {
         mSensorCheckMethod = sensorCheckMethod;
     }
 
-    //TODO this constructor is only used in the example -> remove?
 
         public AlgorithmDetails(
             String objectClusterName,
@@ -78,7 +75,6 @@ public class AlgorithmDetails implements Serializable {
         this(objectClusterName, guiFriendlyName, listOfAssociatedSensorChannels, derivedSensorBitmapId, listOfRequiredSensors, units);
         mDatabaseChannelHandle = databaseChannelHandle;
 
-        // need to regenerate as the DatabaseChannelHandle has now been set
         mListOfChannelDetails.clear();
         mListOfChannelDetails.add(generateChannelDetails());
     }
@@ -93,8 +89,6 @@ public class AlgorithmDetails implements Serializable {
             List<ChannelDetails> listOfAlgortihmChannels) {
         this(objectClusterName, guiFriendlyName, listOfAssociatedSensorChannels, derivedSensorBitmapId, listOfRequiredSensors, units);
 
-        //2016-11-28 MN changed below to override mListOfChannelDetails as this() above attempts to create one from this class
-//		mListOfChannelDetails.addAll(listOfAlgortihmChannels);
         mListOfChannelDetails = listOfAlgortihmChannels;
     }
 
@@ -110,8 +104,6 @@ public class AlgorithmDetails implements Serializable {
             List<ChannelDetails> listOfAlgortihmChannels) {
         this(objectClusterName, guiFriendlyName, listOfAssociatedSensorChannels, derivedSensorBitmapId, listOfRequiredSensors, units);
         mSensorCheckMethod = sensorCheckMethod;
-        //2016-11-28 MN changed below to override mListOfChannelDetails as this() above attempts to create one from this class
-//		mListOfChannelDetails.addAll(listOfAlgortihmChannels);
         mListOfChannelDetails = listOfAlgortihmChannels;
     }
 
@@ -127,7 +119,6 @@ public class AlgorithmDetails implements Serializable {
         mListOfCompatableExpBoards = listOfCompatibleExpBoards;
     }
 
-    //TODO use the following check first in future?
     public static LinkedHashMap<String, AlgorithmDetails> loadAlgorithmsWhereSensorsAreAvailable(ShimmerDevice shimmerDevice, Map<String, AlgorithmDetails> algorithMap) {
         LinkedHashMap<String, AlgorithmDetails> mapOfSupportedAlgorithms = new LinkedHashMap<String, AlgorithmDetails>();
 
@@ -157,7 +148,6 @@ public class AlgorithmDetails implements Serializable {
         return mapOfSupportedAlgorithms;
     }
 
-    //TODO maybe only array of 3? no Shimmer name?
     public String[] getSignalStringArray() {
         String[] signalStringArray = new String[4];
         signalStringArray[0] = "TEMP_SHIMMER_NAME";

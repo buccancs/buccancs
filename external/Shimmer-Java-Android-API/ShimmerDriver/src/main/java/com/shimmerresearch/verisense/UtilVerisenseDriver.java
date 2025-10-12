@@ -28,14 +28,11 @@ import java.util.TimeZone;
 
 public class UtilVerisenseDriver implements Serializable {
 
-    //	public static final String TIME_ZONE_STR = "UTC";
     public static final int TIME_ZONE_OFFSET = +0;
     public static final String TIME_ZONE_STR = "GMT+" + TIME_ZONE_OFFSET;
-    //TODO pick and use only one library for time (i.e., SimpleDateFormat vs. LocalDate)
     public static final TimeZone TIME_ZONE = TimeZone.getTimeZone(TIME_ZONE_STR);
     public static Calendar calendar = Calendar.getInstance(UtilVerisenseDriver.TIME_ZONE);
     public static final ZoneId TIME_ZONE_ID = ZoneId.of(TIME_ZONE_STR);
-//	public static final ZoneId TIME_ZONE_ID = ZoneId.systemDefault();
 
     public static final String CSV_DELIMITER = ",";
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -51,7 +48,6 @@ public class UtilVerisenseDriver implements Serializable {
     public static final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyMMdd");
     public static final DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern(DATE_FORMAT_FILENAME);
     public static final LocalTime LT23_59 = LocalTime.of(23, 59, 59, 999999999);
-    // 40 x '-'
     public static final String CSV_HEADER_SEPARATOR = "----------------------------------------";
     public static final String CSV_HEADER_SEPARATOR_LEGACY = "--------------------------------------------------,,\"";
         public static final int CSV_HEADER_LINES_SEARCH_LIMIT = 12 + 5;
@@ -63,9 +59,7 @@ public class UtilVerisenseDriver implements Serializable {
     public static final String UNAVAILABLE = "Unavailable";
     public static final String BAD_CRC_IN_FILE_NAME = "_BadCRC";
     private static final long serialVersionUID = 3008337300454867021L;
-    //Text is in the format of "yyyy-MM-dd HH:mm:ss+SSSS" where SSSS is always zero. The Z sets the timezone to be UTC
     public static SimpleDateFormat sdfGgir = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
-    //TODO duplication with above?
     private static DateFormat dfForFileNameUtc = new SimpleDateFormat(DATE_FORMAT_FILENAME);
 
         public static String binaryFileDirToDeviceLevelDir(String binaryFilePath) {
@@ -76,8 +70,6 @@ public class UtilVerisenseDriver implements Serializable {
     }
 
     public static String binaryFileDirToParsedFileDir(String binaryFilePath) {
-        //TODO working for Lambda function but not working for local parser
-//		return (binaryFileDirToParentDir(binaryFilePath) + "/" + ASM_DIRECTORY_NAMES.PARSED_FILES);
 
         File file = new File(binaryFilePath);
         return (binaryFileDirToParentDir(binaryFilePath) + ASM_DIRECTORY_NAMES.PARSED_FILES);
@@ -151,7 +143,6 @@ public class UtilVerisenseDriver implements Serializable {
         return convertMilliSecondsToDateString(milliSeconds, showMillis, UtilVerisenseDriver.TIME_ZONE_STR);
     }
 
-    //TODO move this to UtilShimmer
     public static String convertMilliSecondsToDateString(long milliSeconds, boolean showMillis, String timezone) {
         Calendar cal = Calendar.getInstance();
 
@@ -228,7 +219,6 @@ public class UtilVerisenseDriver implements Serializable {
         return 0;
     }
 
-    //TODO replace with UtilShimmer.getDayOfMonthSuffix by making it public
     private static String getDayOfMonthSuffix(final int n) {
         if (n >= 11 && n <= 13) {
             return "th";
@@ -245,7 +235,6 @@ public class UtilVerisenseDriver implements Serializable {
         }
     }
 
-    //TODO replace with UtilShimmer.getMonthString by making it public
     private static String getMonthString(int monthIndex) {
         switch (monthIndex) {
             case (Calendar.JANUARY):
@@ -277,7 +266,6 @@ public class UtilVerisenseDriver implements Serializable {
         }
     }
 
-        //TODO move this to UtilShimmer and merge with existing method
     public static String convertMilliSecondsToFormat(long milliSeconds, String format, String timezone) {
         DateFormat dfLocal = new SimpleDateFormat(format);
         dfLocal.setTimeZone(TimeZone.getTimeZone(timezone));
@@ -314,12 +302,9 @@ public class UtilVerisenseDriver implements Serializable {
 
     public static double[] parseStringArrayToDoubles(String[] dataValueStrings) {
         double[] dataValues = new double[dataValueStrings.length];
-        // utilShimmer.consolePrintLn("Length : " + dataValueStrings.length);
-        // sdfGgir.setTimeZone(TimeZone.getTimeZone(AsmBinaryFileConstants.TIME_ZONE));		// Set TimeZone to UTC
         for (int i = 0; i < dataValueStrings.length; i++) {
             String dataValueString = dataValueStrings[i];
 
-            //Handle timestamp string ("yyyy-MM-ddTHH:mm:ss+SSSS") in the comparison files
             if (i == 0 && dataValueString.contains("T")) {
                 try {
                     Date date = sdfGgir.parse(dataValueString.replace("T", " "));
@@ -349,11 +334,9 @@ public class UtilVerisenseDriver implements Serializable {
 
             int readChars = is.read(c);
             if (readChars == -1) {
-                // bail out if nothing to read
                 return 0;
             }
 
-            // make it easy for the optimizer to tune this loop
             int count = 0;
             while (readChars == 1024) {
                 for (int i = 0; i < 1024; ) {
@@ -364,9 +347,7 @@ public class UtilVerisenseDriver implements Serializable {
                 readChars = is.read(c);
             }
 
-            // count remaining characters
             while (readChars != -1) {
-                // System.out.println(readChars);
                 for (int i = 0; i < readChars; ++i) {
                     if (c[i] == '\n') {
                         ++count;
@@ -393,7 +374,6 @@ public class UtilVerisenseDriver implements Serializable {
                 }
                 y++;
 
-                // 40 x '-' symbolises the end of the CSV header and the beginning of the channel names, units and then data
                 if (UtilVerisenseDriver.isLineCsvHeaderSeparator(line)) {
                     if (includeDefaultChannelNamesAndUnits) {
                         z = y + 2; //+2 for channel names and units lines
@@ -468,7 +448,6 @@ public class UtilVerisenseDriver implements Serializable {
                 continue fileLoop;
             }
 
-            // Remove duplicate files.
             if (file.getName().contains(FILE_FILTER_DUPLICATE)) {
                 continue fileLoop;
             }
@@ -479,7 +458,6 @@ public class UtilVerisenseDriver implements Serializable {
                         break;
                     }
 
-                    // If last entry and still no match, continue to next file
                     if (i == fileNameSuffixes.length - 1) {
                         continue fileLoop;
                     }
@@ -492,7 +470,6 @@ public class UtilVerisenseDriver implements Serializable {
                         break;
                     }
 
-                    // If last entry and still no match, continue to next file
                     if (i == fileNamePrefixes.length - 1) {
                         continue fileLoop;
                     }
@@ -507,9 +484,7 @@ public class UtilVerisenseDriver implements Serializable {
     }
 
         public static File[] filterOutOfFileArrayDuplicatesAnd69And70Files(File[] fileArray) {
-        //1) Filter out duplicates
         File[] files = filterOutOfFileArray(fileArray, new String[]{FILE_FILTER_DUPLICATE}, null);
-        //2) Filter out filenames which start with "69" or "70"
         return filterFilenamePrefixesOutOfFileArray(files, new String[]{FILE_FILTER_69, FILE_FILTER_70});
     }
 
@@ -603,7 +578,6 @@ public class UtilVerisenseDriver implements Serializable {
                 return fileName.endsWith(extension) && fileName.startsWith(sensorName + "_" + range);
             }
         });
-        //Sort so that the latest calibration files appear at the start of the array
         Arrays.sort(listOfFiles, Collections.reverseOrder());
         return listOfFiles;
     }
@@ -717,7 +691,6 @@ public class UtilVerisenseDriver implements Serializable {
                 header.contains(UtilVerisenseDriver.CSV_HEADER_SEPARATOR_LEGACY);
     }
 
-    //TODO replace the version in UtilShimmer as it doesn't perform well with round numbers
     public static String formatDoubleToNdecimalPlaces(double doubleToFormat, int n) {
 
         StringBuilder sb = new StringBuilder();
@@ -735,7 +708,6 @@ public class UtilVerisenseDriver implements Serializable {
         String returnStr = "";
         int indexOfPreceedingStr = dataLine.indexOf(preceedingStr);
         if (indexOfPreceedingStr >= 0) {
-            // if there's no semi-colon after the preceeding string, assume it's the last parameter in the header line
             int indexOfSemicolon = dataLine.indexOf(";", indexOfPreceedingStr + 1);
             int endIndex = indexOfSemicolon > 0 ? indexOfSemicolon : dataLine.length();
 
@@ -795,7 +767,6 @@ public class UtilVerisenseDriver implements Serializable {
         }
     }
 
-    //TODO move these to UtilShimmer.ENUM_FILE_FORMAT?
     public class FILE_EXTENSION {
         public static final String JSON = ".json";
         public static final String BIN = ".bin";

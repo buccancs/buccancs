@@ -38,7 +38,6 @@ public class OrientationModule9DOFLoader implements AlgorithmLoaderInterface {
         for (AlgorithmDetails algorithmDetails : mapOfSupported9DOFCh.values()) {
             OrientationModule9DOF orientationModule9DOF = new OrientationModule9DOF(shimmerDevice, algorithmDetails, shimmerDevice.getSamplingRateShimmer(COMMUNICATION_TYPE.BLUETOOTH));
 
-            //TODO load any default settings here
 
             shimmerDevice.addAlgorithmModule(orientationModule9DOF);
         }

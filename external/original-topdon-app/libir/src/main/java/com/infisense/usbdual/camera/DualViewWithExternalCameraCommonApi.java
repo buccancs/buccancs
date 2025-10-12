@@ -41,9 +41,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
     private final byte[] amplifyIRRotateArray;//单红外的数据 256 * MULTIPLE * 192 * MULTIPLE
     public SurfaceView cameraview;
     public boolean isRun = true;
-    // 帧率展示
     public int count = 0;
-    //开启自动增益切换将auto_gain_switch和auto_gain_switch_running同时改为true
     public boolean auto_gain_switch = false;
     public boolean auto_gain_switch_running = true;
     public boolean auto_over_protect = false;
@@ -63,7 +61,6 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
     private boolean valid = false;
     private Bitmap mScaledBitmap;
     private Handler handler;
-    // 是否使用IRISP算法集成
     private boolean isUseIRISP = false;
     private SurfaceNativeWindow mSurfaceNativeWindow;
     private Surface mSurface;
@@ -114,11 +111,9 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                 irCameraHeight, Bitmap.Config.ARGB_8888);
         supMixBitmap = Bitmap.createBitmap(Const.DUAL_WIDTH * MULTIPLE,
                 Const.DUAL_HEIGHT * MULTIPLE, Bitmap.Config.ARGB_8888);
-        // DualUVCCamera 初始化
         ConcreateDualBuilder concreateDualBuilder = new ConcreateDualBuilder();
         dualUVCCamera = concreateDualBuilder
                 .setDualType(DualType.USB_DUAL)
-                // 需要注意宽高的顺序
                 .setIRSize(Const.IR_WIDTH, Const.IR_HEIGHT)
                 .setVLSize(Const.VL_WIDTH, Const.VL_HEIGHT)
                 .setDualSize(Const.DUAL_HEIGHT, Const.DUAL_WIDTH)
@@ -142,14 +137,12 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         dualUVCCamera.addIrUVCCamera(irUVCCamera);
         mSurfaceNativeWindow = new SurfaceNativeWindow();
 
-                // 自动增益切换参数auto gain switch parameter
         gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
         gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
         gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
         gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);//用于low -> high gain,低增益向高增益切换的触发温度
         auto_gain_switch_info.switch_frame_cnt = 5 * 15; //连续满足触发条件帧数超过该阈值会触发自动增益切换(假设出图速度为15帧每秒，则5 * 15大概为5秒)
         auto_gain_switch_info.waiting_frame_cnt = 7 * 15;//触发自动增益切换之后，会间隔该阈值的帧数不进行增益切换监测(假设出图速度为15帧每秒，则7 * 15大概为7秒)
-        // 防灼烧参数over_portect parameter
         int low_gain_over_temp_data = (int) ((550 + 273.15) * 16 * 4); //低增益下触发防灼烧的温度
         int high_gain_over_temp_data = (int) ((110 + 273.15) * 16 * 4); //高增益下触发防灼烧的温度
         float pixel_above_prop = 0.02f;//设备像素总面积的百分比
@@ -175,7 +168,6 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                     Log.d(TAG, "RESTART_USB");
                     return;
                 }
-                // 帧率展示
                 count++;
                 if (count == 100) {
                     count = 0;
@@ -198,16 +190,9 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                 System.arraycopy(frame, fusionLength + irSize * 4 + Const.DUAL_WIDTH * Const.DUAL_HEIGHT * 2, vlData,
                         0, vlSize);
                 System.arraycopy(frame, 0, frameData, 0, FRAME_LEN); //无损数据
-                //合并原始红外数据和原始温度数据
                 System.arraycopy(frame, dualCameraWidth * dualCameraHeight * 4, frameIrAndTempData, 0, frameIrAndTempData.length);
 
-                //画中画模式ScreenFusion:mixData 为单红外数据，格式ARGB，长度dualwidth * dualHeight * 4
-//                if (mCurrentFusionType == DualCameraParams.FusionType.ScreenFusion) {
-//                    System.arraycopy(frame, fusionLength + irSize * 4 + remapTempSize + vlSize, vlARGBData, 0,
-//                            fusionLength);
-//                }
 
-                //如果是IROnlyNoFusion模式, 此时红外数据和温度为原始数据，长度都为256*192
                 if (mCurrentFusionType == DualCameraParams.FusionType.IROnlyNoFusion) {
                     for (OnFrameCallback onFrameCallback : onFrameCallbacks) {
                         onFrameCallback.onFame(mixData, normalTempData, fps);
@@ -263,23 +248,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                     }
                 }
 
-//                if (saveData) {
-//                    saveData = false;
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            FileUtil.saveByteFile(cameraview.getContext(), mixData, "mix");
-//                            FileUtil.saveByteFile(cameraview.getContext(), remapTempData, "remap_temp");
-//                            FileUtil.saveByteFile(cameraview.getContext(), irData, "ir_data");
-//                            FileUtil.saveByteFile(cameraview.getContext(), normalTempData, "temp_data");
-//                            FileUtil.saveByteFile(cameraview.getContext(), vlData, "vl_data");
-//                            FileUtil.saveByteFile(cameraview.getContext(), vlARGBData, "vl_argb_data");
-//                        }
-//                    }).start();
 //
-//                }
-                //请不要旋转图像测试
-                // 自动增益切换，不生效的话请您的设备是否支持自动增益切换
                 if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
                     System.arraycopy(frame, fusionLength + irSize * 2, normalTempData, 0, irSize * 2);
                     if (auto_gain_switch && auto_gain_switch_running) {
@@ -300,7 +269,6 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                                     }
                                 });
                     }
-                    // 防灼烧保护
                     if (auto_over_protect) {
                         USBMonitorManager.getInstance().getIrcmd().avoidOverexposure(false, gainStatus,
                                 normalTempData, imageRes, low_gain_over_temp_data, high_gain_over_temp_data,
@@ -366,7 +334,6 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
     public Bitmap getScaledBitmap() {
         if (isOpenAmplify) {
             if (mCurrentFusionType == DualCameraParams.FusionType.IROnlyNoFusion) {
-                //单红外模式
                 supIROlyNoFusionBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(amplifyIRRotateArray, 0,
                         supIROlyNoFusionBitmap.getWidth() * supIROlyNoFusionBitmap.getHeight() * 4));
                 mScaledBitmap = Bitmap.createScaledBitmap(supIROlyNoFusionBitmap,

@@ -91,7 +91,6 @@ public class DeviceControlManager implements IDeviceConnectListener {
 
     @Override
     public void onPrepareConnect() {
-        //StartPreview前回调
         for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onPrepareConnect();
         }
@@ -99,7 +98,6 @@ public class DeviceControlManager implements IDeviceConnectListener {
 
     @Override
     public void onConnected() {
-        //StartPreview成功前后回调，注意是子线程
         for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onConnected();
         }
@@ -107,7 +105,6 @@ public class DeviceControlManager implements IDeviceConnectListener {
 
     @Override
     public void onDisconnected() {
-        //StopPreview成功前后回调，注意是子线程
         for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onDisconnected();
         }
@@ -115,7 +112,6 @@ public class DeviceControlManager implements IDeviceConnectListener {
 
     @Override
     public void onPaused() {
-        //todo 自行定义Paused Task来实现
         for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onPaused();
         }
@@ -123,7 +119,6 @@ public class DeviceControlManager implements IDeviceConnectListener {
 
     @Override
     public void onResumed() {
-        //todo 自行定义Resumed Task来实现
         for (Map.Entry<String, IDeviceConnectListener> entry : mIDeviceConnectListeners.entrySet()) {
             entry.getValue().onResumed();
         }

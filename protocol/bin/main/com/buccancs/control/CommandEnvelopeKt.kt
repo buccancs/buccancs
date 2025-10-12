@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializecommandEnvelope")
 public inline fun commandEnvelope(block: com.buccancs.control.CommandEnvelopeKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandEnvelope =
   com.buccancs.control.CommandEnvelopeKt.Dsl._create(com.buccancs.control.CommandEnvelope.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.CommandEnvelope`
+ */
 public object CommandEnvelopeKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,57 +27,93 @@ public object CommandEnvelopeKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.CommandEnvelope = _builder.build()
 
-        public var commandId: kotlin.String
+    /**
+     * `string command_id = 1;`
+     */
+    public var commandId: kotlin.String
       get() = _builder.getCommandId()
       set(value) {
         _builder.setCommandId(value)
       }
-        public fun clearCommandId() {
+    /**
+     * `string command_id = 1;`
+     */
+    public fun clearCommandId() {
       _builder.clearCommandId()
     }
 
-        public var sessionId: kotlin.String
+    /**
+     * `string session_id = 2;`
+     */
+    public var sessionId: kotlin.String
       get() = _builder.getSessionId()
       set(value) {
         _builder.setSessionId(value)
       }
-        public fun clearSessionId() {
+    /**
+     * `string session_id = 2;`
+     */
+    public fun clearSessionId() {
       _builder.clearSessionId()
     }
 
-        public var deviceId: kotlin.String
+    /**
+     * `string device_id = 3;`
+     */
+    public var deviceId: kotlin.String
       get() = _builder.getDeviceId()
       set(value) {
         _builder.setDeviceId(value)
       }
-        public fun clearDeviceId() {
+    /**
+     * `string device_id = 3;`
+     */
+    public fun clearDeviceId() {
       _builder.clearDeviceId()
     }
 
-        public var issuedEpochMs: kotlin.Long
+    /**
+     * `int64 issued_epoch_ms = 4;`
+     */
+    public var issuedEpochMs: kotlin.Long
       get() = _builder.getIssuedEpochMs()
       set(value) {
         _builder.setIssuedEpochMs(value)
       }
-        public fun clearIssuedEpochMs() {
+    /**
+     * `int64 issued_epoch_ms = 4;`
+     */
+    public fun clearIssuedEpochMs() {
       _builder.clearIssuedEpochMs()
     }
 
-        public var executeEpochMs: kotlin.Long
+    /**
+     * `int64 execute_epoch_ms = 5;`
+     */
+    public var executeEpochMs: kotlin.Long
       get() = _builder.getExecuteEpochMs()
       set(value) {
         _builder.setExecuteEpochMs(value)
       }
-        public fun clearExecuteEpochMs() {
+    /**
+     * `int64 execute_epoch_ms = 5;`
+     */
+    public fun clearExecuteEpochMs() {
       _builder.clearExecuteEpochMs()
     }
 
-        public var commandJson: kotlin.String
+    /**
+     * `string command_json = 6;`
+     */
+    public var commandJson: kotlin.String
       get() = _builder.getCommandJson()
       set(value) {
         _builder.setCommandJson(value)
       }
-        public fun clearCommandJson() {
+    /**
+     * `string command_json = 6;`
+     */
+    public fun clearCommandJson() {
       _builder.clearCommandJson()
     }
   }

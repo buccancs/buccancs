@@ -6,7 +6,6 @@ import android.text.TextUtils;
 public class VersionUtils {
 
         public static boolean compareVersions(String v1, String v2) {
-        //判断是否为空数据
         if (TextUtils.equals(v1, "") || TextUtils.equals(v2, "")) {
             return false;
         }

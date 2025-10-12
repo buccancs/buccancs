@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializesensorStreamAck")
 public inline fun sensorStreamAck(block: com.buccancs.control.SensorStreamAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorStreamAck =
   com.buccancs.control.SensorStreamAckKt.Dsl._create(com.buccancs.control.SensorStreamAck.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.SensorStreamAck`
+ */
 public object SensorStreamAckKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,30 +27,48 @@ public object SensorStreamAckKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.SensorStreamAck = _builder.build()
 
-        public var success: kotlin.Boolean
+    /**
+     * `bool success = 1;`
+     */
+    public var success: kotlin.Boolean
       get() = _builder.getSuccess()
       set(value) {
         _builder.setSuccess(value)
       }
-        public fun clearSuccess() {
+    /**
+     * `bool success = 1;`
+     */
+    public fun clearSuccess() {
       _builder.clearSuccess()
     }
 
-        public var errorMessage: kotlin.String
+    /**
+     * `string error_message = 2;`
+     */
+    public var errorMessage: kotlin.String
       get() = _builder.getErrorMessage()
       set(value) {
         _builder.setErrorMessage(value)
       }
-        public fun clearErrorMessage() {
+    /**
+     * `string error_message = 2;`
+     */
+    public fun clearErrorMessage() {
       _builder.clearErrorMessage()
     }
 
-        public var totalSamples: kotlin.Long
+    /**
+     * `uint64 total_samples = 3;`
+     */
+    public var totalSamples: kotlin.Long
       get() = _builder.getTotalSamples()
       set(value) {
         _builder.setTotalSamples(value)
       }
-        public fun clearTotalSamples() {
+    /**
+     * `uint64 total_samples = 3;`
+     */
+    public fun clearTotalSamples() {
       _builder.clearTotalSamples()
     }
   }

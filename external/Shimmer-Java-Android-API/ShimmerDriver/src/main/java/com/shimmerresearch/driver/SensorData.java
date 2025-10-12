@@ -1,6 +1,5 @@
 package com.shimmerresearch.driver;
 
-//JC: Only temporary for testing this class can be deleted if we decide not to use it in the future
 public class SensorData {
 
 

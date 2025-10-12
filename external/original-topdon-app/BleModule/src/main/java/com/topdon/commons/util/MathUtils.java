@@ -35,7 +35,6 @@ public class MathUtils {
             if (i == list.size() - 1) {
                 fs[index] = 1 - sum;
             } else {
-                //先强转int不进行4舍5入，再转为float计算
                 fs[index] = (int) (values[index] / total * sc) / (float) sc;
                 sum += fs[index];
             }
@@ -63,7 +62,6 @@ public class MathUtils {
         byte[] bs = new byte[8];
         System.arraycopy(src, 0, bs, bigEndian ? 8 - len : 0, len);
         long value = 0;
-        // 循环读取每个字节通过移位运算完成long的8个字节拼装
         for (int i = 0; i < 8; i++) {
             int shift = (bigEndian ? 7 - i : i) << 3;
             value = value | ((long) 0xff << shift & ((long) bs[i] << shift));
@@ -90,9 +88,7 @@ public class MathUtils {
             return null;
         }
         byte[] target = new byte[src.length];
-        //翻转byte同时翻转bit
         for (int i = 0; i < src.length; i++) {
-            //翻转bit
             int value = 0;
             int tmp = src[src.length - 1 - i];
             for (int j = 7; j >= 0; j--) {
@@ -154,7 +150,6 @@ public class MathUtils {
                     crc >>= 1; // Shift right and XOR 0xA001
                     crc ^= 0xA001;
                 } else
-                    // Else LSB is not set
                     crc >>= 1; // Just shift right
             }
         }

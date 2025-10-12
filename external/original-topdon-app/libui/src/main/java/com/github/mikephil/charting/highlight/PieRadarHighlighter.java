@@ -21,10 +21,8 @@ public abstract class PieRadarHighlighter<T extends PieRadarChartBase> implement
 
         float touchDistanceToCenter = mChart.distanceToCenter(x, y);
 
-        // check if a slice was touched
         if (touchDistanceToCenter > mChart.getRadius()) {
 
-            // if no slice was touched, highlight nothing
             return null;
 
         } else {
@@ -37,7 +35,6 @@ public abstract class PieRadarHighlighter<T extends PieRadarChartBase> implement
 
             int index = mChart.getIndexForAngle(angle);
 
-            // check if the index could be found
             if (index < 0 || index >= mChart.getData().getMaxEntryCountSet().getEntryCount()) {
                 return null;
 

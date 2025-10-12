@@ -26,12 +26,10 @@ public interface Connection {
     int REQUEST_FAIL_TYPE_CONNECTION_DISCONNECTED = 8;
     int REQUEST_FAIL_TYPE_CONNECTION_RELEASED = 9;
 
-    //----------连接超时类型---------
     int TIMEOUT_TYPE_CANNOT_DISCOVER_DEVICE = 0;
         int TIMEOUT_TYPE_CANNOT_CONNECT = 1;
         int TIMEOUT_TYPE_CANNOT_DISCOVER_SERVICES = 2;
 
-    //-------------连接失败类型-------------------
         int CONNECT_FAIL_TYPE_MAXIMUM_RECONNECTION = 1;
         int CONNECT_FAIL_TYPE_CONNECTION_IS_UNSUPPORTED = 2;
 

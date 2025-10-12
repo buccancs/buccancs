@@ -31,7 +31,6 @@ import com.shimmerresearch.verisense.payloaddesign.AsmBinaryFileConstants.PAYLOA
 
 public class SensorBattVoltageVerisense extends SensorBattVoltage {
 
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef SENSOR_BATTERY_VOLTAGE_VERISENSE = new SensorDetailsRef(
             Verisense.SensorBitmap.VBATT,
             Verisense.SensorBitmap.VBATT,
@@ -42,7 +41,6 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
                     ObjectClusterSensorName.BATT_PERCENTAGE,
                     ObjectClusterSensorNameVerisense.USB_CONNECTION_STATE));
     public static final Map<Integer, SensorDetailsRef> SENSOR_MAP_REF_VERISENSE;
-    //--------- Channel info start --------------
     public static final ChannelDetails CHANNEL_USB_CONNECTION_STATE = new ChannelDetails(
             ObjectClusterSensorNameVerisense.USB_CONNECTION_STATE,
             ObjectClusterSensorNameVerisense.USB_CONNECTION_STATE,
@@ -60,7 +58,6 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
             true,
             false);
 
-    //--------- Sensor specific variables end --------------
     private static final long serialVersionUID = -3662637648902741983L;
     public static int ADC_BYTE_BUFFER_SIZE = 192;
 
@@ -70,26 +67,21 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
         SENSOR_MAP_REF_VERISENSE = Collections.unmodifiableMap(aMap);
     }
 
-    //--------- Sensor specific variables start --------------
     private MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties = null;
     private ADC_SAMPLING_RATES sensorSamplingRate = ADC_SAMPLING_RATES.OFF;
     private ADC_OVERSAMPLING_RATES adcOversamplingRate = ADC_OVERSAMPLING_RATES.DISABLED;
 
-    //--------- Constructors for this class start --------------
     public SensorBattVoltageVerisense(ShimmerDevice shimmerDevice) {
         super(shimmerDevice);
 
         microcontrollerAdcProperties = MICROCONTROLLER_ADC_PROPERTIES.getMicrocontrollerAdcPropertiesForShimmerVersionObject(shimmerDevice.getShimmerVerObject());
     }
-    //--------- Sensor info end --------------
 
-    //--------- Abstract methods implemented start --------------
     @Override
     public void generateSensorMap() {
         Map<String, ChannelDetails> channelMapRefVerisense = new LinkedHashMap<String, ChannelDetails>();
         channelMapRefVerisense.putAll(mChannelMapRef);
 
-        //TODO battery percentage not supported yet in Verisense Zinc-air and NiMH based products
         if (mShimmerVerObject.getHardwareVersion() != HW_ID.VERISENSE_GSR_PLUS) {
             channelMapRefVerisense.remove(ObjectClusterSensorName.BATT_PERCENTAGE);
         }
@@ -113,7 +105,6 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
             if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.BATTERY)) {
                 double unCalData = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
 
-                // Mask the lower 12-bits so that we're free to use the upper 4 bits for charging status/USB in/out etc.
                 int battAdcValue = ((int) unCalData) & 4095;
 
                 double calData = SensorADC.calibrateAdcChannelToMillivolts(battAdcValue, microcontrollerAdcProperties);
@@ -121,7 +112,6 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
                 if (mShimmerDevice.getShimmerVerObject().getHardwareVersion() == HW_ID.VERISENSE_GSR_PLUS) {
                     getShimmerBattStatusDetails().setBattAdcValue(battAdcValue);
 
-                    // Multiply by 1.988 because the battery voltage is divided by 2 before entering the BMD-340 And the value is not quite equal to 2 due to the components used in the circuit
                     calData *= BATTERY_VOLTAGE_DIVIDER_RATIO;
                 }
                 objectCluster.addCalData(channelDetails, calData, objectCluster.getIndexKeeper() - 1);
@@ -138,11 +128,9 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
                 double unCalData = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelBattVolt.mObjectClusterName), channelBattVolt.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
 
                 if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorNameVerisense.USB_CONNECTION_STATE)) {
-                    // The USB connection state is stored in Bit 15 of the two byte uncalibrated data
                     objectCluster.addCalData(channelDetails, (((int) unCalData) >> 15) & 0x01);
                     objectCluster.incrementIndexKeeper();
                 } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorNameVerisense.CHARGER_STATE)) {
-                    // The charging chip state, if supported, is stored in Bit 14 and Bit 13 of the two byte uncalibrated data
                     int chargingStatus = (((int) unCalData) >> 13) & 0x03;
                     objectCluster.addCalData(channelDetails, chargingStatus);
                     objectCluster.incrementIndexKeeper();
@@ -155,7 +143,6 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
 
         return objectCluster;
     }
-    // --------- Channel info end --------------
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
@@ -164,7 +151,6 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
             setSensorSamplingRate(ADC_SAMPLING_RATES.getForConfigValue((configBytes[cbl.idxAdcRate] >> 0) & cbl.maskAdcRate));
         }
     }
-    //--------- Constructors for this class end --------------
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
@@ -398,7 +384,6 @@ public class SensorBattVoltageVerisense extends SensorBattVoltage {
         public static final String CHARGER_STATE = "Charger_State";
     }
 
-    //--------- Abstract methods implemented end --------------
 
     private class ConfigByteLayoutVerisenseAdc {
         public int idxAdcRate = -1, maskAdcRate = 0x3F;

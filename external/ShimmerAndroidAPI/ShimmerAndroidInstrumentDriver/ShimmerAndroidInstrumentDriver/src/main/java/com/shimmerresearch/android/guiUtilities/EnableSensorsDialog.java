@@ -48,10 +48,7 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
     @Override
     protected void showFrame() {
 
-        // Set the dialog title
         builder.setTitle("Sensors");
-        // Specify the list array, the items to be selected by default (null for none),
-        // and the listener through which to receive callbacks when items are selected
         final DialogInterface.OnMultiChoiceClickListener onClick =
                 new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -119,6 +116,5 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
     }
 
         protected void setDialogTheme(AlertDialog ad) {
-        //Add custom style here
     }
 }

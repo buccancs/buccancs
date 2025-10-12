@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializeeventMarkerRequest")
 public inline fun eventMarkerRequest(block: com.buccancs.control.EventMarkerRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.EventMarkerRequest =
   com.buccancs.control.EventMarkerRequestKt.Dsl._create(com.buccancs.control.EventMarkerRequest.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.EventMarkerRequest`
+ */
 public object EventMarkerRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,54 +27,92 @@ public object EventMarkerRequestKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.EventMarkerRequest = _builder.build()
 
-        public var session: com.buccancs.control.SessionIdentifier
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     */
+    public var session: com.buccancs.control.SessionIdentifier
       get() = _builder.getSession()
       set(value) {
         _builder.setSession(value)
       }
-        public fun clearSession() {
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     */
+    public fun clearSession() {
       _builder.clearSession()
     }
-        public fun hasSession(): kotlin.Boolean {
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     * @return Whether the session field is set.
+     */
+    public fun hasSession(): kotlin.Boolean {
       return _builder.hasSession()
     }
 
-        public var markerId: kotlin.String
+    /**
+     * `string marker_id = 2;`
+     */
+    public var markerId: kotlin.String
       get() = _builder.getMarkerId()
       set(value) {
         _builder.setMarkerId(value)
       }
-        public fun clearMarkerId() {
+    /**
+     * `string marker_id = 2;`
+     */
+    public fun clearMarkerId() {
       _builder.clearMarkerId()
     }
 
-        public var description: kotlin.String
+    /**
+     * `string description = 3;`
+     */
+    public var description: kotlin.String
       get() = _builder.getDescription()
       set(value) {
         _builder.setDescription(value)
       }
-        public fun clearDescription() {
+    /**
+     * `string description = 3;`
+     */
+    public fun clearDescription() {
       _builder.clearDescription()
     }
 
-        public var targets: com.buccancs.control.DeviceTarget
+    /**
+     * `.com.buccancs.control.DeviceTarget targets = 4;`
+     */
+    public var targets: com.buccancs.control.DeviceTarget
       get() = _builder.getTargets()
       set(value) {
         _builder.setTargets(value)
       }
-        public fun clearTargets() {
+    /**
+     * `.com.buccancs.control.DeviceTarget targets = 4;`
+     */
+    public fun clearTargets() {
       _builder.clearTargets()
     }
-        public fun hasTargets(): kotlin.Boolean {
+    /**
+     * `.com.buccancs.control.DeviceTarget targets = 4;`
+     * @return Whether the targets field is set.
+     */
+    public fun hasTargets(): kotlin.Boolean {
       return _builder.hasTargets()
     }
 
-        public var timestampEpochMs: kotlin.Long
+    /**
+     * `int64 timestamp_epoch_ms = 5;`
+     */
+    public var timestampEpochMs: kotlin.Long
       get() = _builder.getTimestampEpochMs()
       set(value) {
         _builder.setTimestampEpochMs(value)
       }
-        public fun clearTimestampEpochMs() {
+    /**
+     * `int64 timestamp_epoch_ms = 5;`
+     */
+    public fun clearTimestampEpochMs() {
       _builder.clearTimestampEpochMs()
     }
   }

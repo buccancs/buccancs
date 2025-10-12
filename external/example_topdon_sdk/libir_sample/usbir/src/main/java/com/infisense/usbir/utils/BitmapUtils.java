@@ -41,11 +41,9 @@ public class BitmapUtils {
     public static Bitmap rotateBitmap(Bitmap bm, int degree) {
         Bitmap returnBm = null;
 
-        // 根据旋转角度，生成旋转矩阵
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         try {
-            // 将原始图片按照旋转矩阵进行旋转，并得到新的图片
             returnBm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
         } catch (OutOfMemoryError e) {
         }
@@ -101,13 +99,10 @@ public class BitmapUtils {
     }
 
         public static Bitmap imageZoom(Bitmap bitmap, double width) {
-        // 将bitmap放至数组中，意在获得bitmap的大小（与实际读取的原文件要大）
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // 格式、质量、输出流
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         byte[] b = baos.toByteArray();
         Bitmap newBitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
-        // 获取bitmap大小 是允许最大大小的多少倍
         return scaleWithWH(newBitmap, width,
                 width * newBitmap.getHeight() / newBitmap.getWidth());
     }
@@ -158,23 +153,13 @@ public class BitmapUtils {
         if (!galleryPath.exists()) {
             galleryPath.mkdir();
         }
-        // 声明文件对象
         File file = null;
-        // 声明输出流
         FileOutputStream outStream = null;
         String fileName = null;
 
         try {
-            // 如果有目标文件，直接获得文件对象，否则创建一个以filename为名称的文件
             file = new File(galleryPath, picName + ".jpg");
-//            if(file.exists()){
-//                file.delete();
-//                file = new File(galleryPath, picName + ".jpg");
-//            }
-//            file = new File(galleryPath, photoName);
-            // 获得文件相对路径
             fileName = file.toString();
-            // 获得输出流，如果文件中有内容，追加内容
             outStream = new FileOutputStream(fileName);
             if (null != outStream) {
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
@@ -325,7 +310,6 @@ public class BitmapUtils {
     }
 
         public static void saveShortFile(String fileDir, short[] bytes, String fileTitle) {
-        // 创建目录
         createOrExistsDir(fileDir);
         try {
             File file = new File(fileDir, fileTitle + ".bin");
@@ -340,7 +324,6 @@ public class BitmapUtils {
     }
 
         private static void createOrExistsDir(File file) {
-        // 文件不存在则创建文件
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -352,12 +335,9 @@ public class BitmapUtils {
 
         private static void createOrExistsDir(String fileDir) {
         File file = new File(fileDir);
-        //如果文件夹不存在则创建
         if (!file.exists() && !file.isDirectory()) {
-            //不存在
             file.mkdir();
         } else {
-            //目录存在
         }
     }
 

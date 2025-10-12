@@ -42,7 +42,6 @@ public class PayloadContentsDetailsV1_7 extends PayloadContentsDetails {
 
     @Override
     public void parsePayloadContentsMetaData(int binFileByteIndex) throws IOException {
-        //consolePrintDebugLn(UtilShimmer.bytesToHexStringWithSpacesFormatted(byteBuffer));
         int byteCountPerSet = verisenseDevice.getExpectedDataPacketSize(COMMUNICATION_TYPE.SD);
 
         int fifoBlockSize = calculateFifoBlockSize();
@@ -76,10 +75,8 @@ public class PayloadContentsDetailsV1_7 extends PayloadContentsDetails {
 
         DATABLOCK_SENSOR_ID datablockSensorId = figureOutDatablockSensorId();
 
-        // Saving in global map as we only need to do this once per datablock sensor ID per payload, not for each datablock
         List<SENSORS> listOfSensorClassKeys = verisenseDevice.getOrCreateListOfSensorClassKeysForDataBlockId(datablockSensorId);
 
-        // Adding a single data block per payload here so that the legacy code will fit into the newer code flow (i.e., PayloadDesign v8 onwards)
         DataBlockDetails dataBlockDetails = new DataBlockDetails(datablockSensorId, getPayloadIndex(), 0, listOfSensorClassKeys, binFileByteIndex, 0, rtcEndTimeTicks, false);
         dataBlockDetails.setSamplingRate(verisenseDevice.getSamplingRateShimmer());
         dataBlockDetails.setSampleCount(sampleCount);
@@ -93,11 +90,6 @@ public class PayloadContentsDetailsV1_7 extends PayloadContentsDetails {
 
         currentByteIndex = parseTemperatureBytes(currentByteIndex);
 
-        //Battery Voltage
-        // Unfortunately it's not possible to check the FW version in order to determine
-        // whether the battery voltage is supported as it was added to the payload
-        // design in FW v0.31.000 before the FW version bytes were added in FW
-        // v0.034.001. Therefore the only way to check is to see if there are unparsed bytes left as below.
         if (currentByteIndex < byteBuffer.length) {
             currentByteIndex = parseBatteryVoltageBytes(currentByteIndex);
         }
@@ -117,13 +109,10 @@ public class PayloadContentsDetailsV1_7 extends PayloadContentsDetails {
 
     @Override
     public void parsePayloadSensorData() {
-        //Sensor Data:
         double timeMsCurrentSample = getStartTimeRwcMs();
-        //System.out.println("Payload End Time: " + payloadContents.getEndTimeParsed());
         int currentByteIndex = 0;
         int sampleIndex = 0;
         for (int x = 0; x < getFifoBlockCount(); x++) {
-            //Skip first byte -> 0x00 from SPI read issue
             if (getIsSpiChWithHeaderByte()) {
                 currentByteIndex++;
             }
@@ -170,7 +159,6 @@ public class PayloadContentsDetailsV1_7 extends PayloadContentsDetails {
         return payloadDataSizeInSec;
     }
 
-    //TODO move to sensor classes?
     public int calculateFifoBlockSize() {
         int fifoBlockSize = 0;
         if (verisenseDevice.isSensorEnabled(Configuration.Verisense.SENSOR_ID.LIS2DW12_ACCEL)) {
@@ -212,7 +200,6 @@ public class PayloadContentsDetailsV1_7 extends PayloadContentsDetails {
                 chEnabled++;
             }
 
-            // MAX86150 can have a max of 3 channels whereas MAX86916 can have a max of 4 channels
             if (chEnabled == 1) {
                 maxFifosInPayload = SensorMAX86XXX.MAX_FIFOS_IN_PAYLOAD_1_CHANNEL;
             } else if (chEnabled == 2) {

@@ -49,7 +49,6 @@ import com.shimmerresearch.sensors.adxl371.SensorADXL371;
 import com.shimmerresearch.sensors.lsm6dsv.SensorLSM6DSV;
 import com.shimmerresearch.sensors.lis2dw12.SensorLIS2DW12;
 import com.shimmerresearch.verisense.sensors.SensorLSM6DS3;
-//import com.shimmerresearch.verisense.sensors.SensorLIS2DW12;
 import com.shimmerresearch.verisense.sensors.SensorBattVoltageVerisense;
 import com.shimmerresearch.verisense.sensors.SensorGSRVerisense;
 import com.shimmerresearch.verisense.sensors.SensorMAX86916;
@@ -186,8 +185,6 @@ public class Configuration {
         SensorPPG.ObjectClusterSensorName.PPG1_A13 = "PPG1_A13";
         SensorPPG.ObjectClusterSensorName.PPG2_A1 = "PPG2_A1";
         SensorPPG.ObjectClusterSensorName.PPG2_A14 = "PPG2_A14";
-//		Shimmer3.ObjectClusterSensorName.REAL_TIME_CLOCK_SYNC = "RealTime_Sync";
-//		Shimmer3.ObjectClusterSensorName.TIMESTAMP_SYNC = "Timestamp_Sync";
 
         Shimmer2.ObjectClusterSensorName.TIMESTAMP = "Timestamp";
         Shimmer2.ObjectClusterSensorName.REAL_TIME_CLOCK = "RealTime";
@@ -199,7 +196,6 @@ public class Configuration {
         Shimmer2.ObjectClusterSensorName.BRIDGE_AMP_HIGH = "Bridge Amplifier High";
         Shimmer2.ObjectClusterSensorName.BRIDGE_AMP_LOW = "Bridge Amplifier Low";
         Shimmer2.ObjectClusterSensorName.GSR = "GSR";
-        //Shimmer2.ObjectClusterSensorName.GSR_RAW = "GSR Raw";
         Shimmer2.ObjectClusterSensorName.GSR_RES = "GSR Res";
         Shimmer2.ObjectClusterSensorName.EXP_BOARD_A0 = "ExpBoard A0";
         Shimmer2.ObjectClusterSensorName.EXP_BOARD_A7 = "ExpBoard A7";
@@ -258,7 +254,6 @@ public class Configuration {
     }
 
     public static class CHANNEL_UNITS {
-        //Sensors units
         public static final String NO_UNITS = "no_units";
 
         public static final String MILLISECONDS = "ms";
@@ -269,7 +264,6 @@ public class Configuration {
         public static final String CLOCK_UNIT = "Ticks";
         public static final String FREQUENCY = "Hz";
 
-        //TODO: should be .SSS rather then .000? .000 might be required for viewing files in Microsoft Office
         public static final String DATE_FORMAT = "yyyy/mm/dd hh:mm:ss.000";
 
         public static final String METER = "m";
@@ -307,9 +301,6 @@ public class Configuration {
         public static final String GYRO_CAL_UNIT = DEGREES_PER_SECOND;
         public static final String MAG_CAL_UNIT = LOCAL_FLUX;
 
-//		public static final String ACCEL_DEFAULT_CAL_UNIT = METER_PER_SECOND_SQUARE+"*";
-//		public static final String GYRO_DEFAULT_CAL_UNIT = DEGREES_PER_SECOND+"*";
-//		public static final String MAG_DEFAULT_CAL_UNIT = LOCAL_FLUX+"*";
 
         public static final String LOCAL = "local"; //used for axis-angle and madgewick quaternions    //XXX-RS-LSM-SensorClass?
         public static final String PERCENT = "%";
@@ -346,7 +337,6 @@ public class Configuration {
             aMap.put(Configuration.Shimmer2.SENSOR_ID.INT_ADC_A13, new SensorDetailsRef(0x0100, 0, "Internal ADC A13"));
             aMap.put(Configuration.Shimmer2.SENSOR_ID.INT_ADC_A14, new SensorDetailsRef(0x800000, 0, "Internal ADC A14"));
 
-            // Conflicting Channels
             aMap.get(Configuration.Shimmer2.SENSOR_ID.GYRO).mListOfSensorIdsConflicting = Arrays.asList(
                     Configuration.Shimmer2.SENSOR_ID.ECG,
                     Configuration.Shimmer2.SENSOR_ID.EMG,
@@ -396,8 +386,6 @@ public class Configuration {
             mSensorMapRef = Collections.unmodifiableMap(aMap);
         }
 
-        //DATABASE NAMES
-        //GUI AND EXPORT CHANNELS
         public static class ObjectClusterSensorName {
             public static String TIMESTAMP = "Timestamp";
             public static String REAL_TIME_CLOCK = "RealTime";
@@ -415,7 +403,6 @@ public class Configuration {
             public static String BRIDGE_AMP_HIGH = "Bridge_Amp_High";
             public static String BRIDGE_AMP_LOW = "Bridge_Amp_Low";
             public static String GSR = "GSR";
-            //public static String GSR_RAW = "GSR Raw";
             public static String GSR_RES = "GSR Res";
             public static String INT_EXP_A1 = "Int_Exp_A1";
             public static String EXP_BOARD_A0 = "Exp_Board_A0";
@@ -515,7 +502,6 @@ public class Configuration {
     public static class Shimmer3 {
         public static final String[] ListofBluetoothBaudRates = {"115200", "1200", "2400", "4800", "9600", "19200", "38400", "57600", "230400", "460800", "921600"};
         public static final Integer[] ListofBluetoothBaudRatesConfigValues = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        //TODO Remove the need for this, standalone strings are too hardcoded and should be based on sensor/channel maps etc.
         @Deprecated
         public static final String[] ListofCompatibleSensors = {
                 "Low Noise Accelerometer",
@@ -555,48 +541,29 @@ public class Configuration {
         static {
             Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
 
-//			aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_SYSTEM_TIMESTAMP, ShimmerClock.sensorSystemTimeStampRef);
-//	        aMap.put(Configuration.Shimmer3.SENSOR_ID.SHIMMER_TIMESTAMP, ShimmerClock.sensorShimmerClock);
-//	        aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_SHIMMER_STREAMING_PROPERTIES, ShimmerClock.sensorShimmerPacketReception);
             aMap.putAll(SensorShimmerClock.mSensorMapRef);
 
             aMap.putAll(SensorGSR.mSensorMapRef);
             aMap.putAll(SensorADC.mSensorMapRef);
             aMap.putAll(SensorBattVoltage.mSensorMapRef);
-//			aMap.putAll(SensorBMP180.mSensorMapRef);
             aMap.putAll(SensorEXG.mSensorMapRef);
-            // Derived Channels - Bridge Amp Board
             aMap.putAll(SensorBridgeAmp.mSensorMapRef);
-            // Derived Channels - GSR Board/Proto3 Board
             aMap.putAll(SensorPPG.mSensorMapRef);
 
             mSensorMapRef = Collections.unmodifiableMap(aMap);
         }
 
-//		//Names used for parsing the GQ configuration header file 
-//		public class HeaderFileSensorName{
-//			public static final String SHIMMER3 = "shimmer3";
-//			public static final String VBATT = "VBATT";
-//			public static final String GSR = "GSR";
-//			public static final String LSM303DLHC_ACCEL = "LSM303DLHC_ACCEL";
-//		}
 
         static {
             Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
 
-//			aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_SYSTEM_TIMESTAMP, ShimmerClock.sensorSystemTimeStampRef);
-//	        aMap.put(Configuration.Shimmer3.SENSOR_ID.SHIMMER_TIMESTAMP, ShimmerClock.sensorShimmerClock);
-//	        aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_SHIMMER_STREAMING_PROPERTIES, ShimmerClock.sensorShimmerPacketReception);
             aMap.putAll(SensorShimmerClock.mSensorMapRef);
 
             aMap.putAll(SensorGSR.mSensorMapRef);
             aMap.putAll(SensorADC.mSensorMapRef3r);
             aMap.putAll(SensorBattVoltage.mSensorMapRef);
-//			aMap.putAll(SensorBMP180.mSensorMapRef);
             aMap.putAll(SensorEXG.mSensorMapRef);
-            // Derived Channels - Bridge Amp Board
             aMap.putAll(SensorBridgeAmp.mSensorMapRef);
-            // Derived Channels - GSR Board/Proto3 Board
             aMap.putAll(SensorPPG.mSensorMapRef3r);
 
             mSensorMapRef3r = Collections.unmodifiableMap(aMap);
@@ -612,17 +579,13 @@ public class Configuration {
 
             aMap.put(Configuration.Shimmer3.ObjectClusterSensorName.EVENT_MARKER, SensorShimmerClock.channelEventMarker);
 
-            // All Information required for parsing each of the channels
-            //TODO incorporate 3 byte timestamp change for newer firmware
             aMap.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP, SensorShimmerClock.channelShimmerClock2byte);
 
             aMap.put(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP, SensorShimmerClock.channelSystemTimestamp);
             aMap.put(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT, SensorShimmerClock.channelSystemTimestampPlot);
 
             aMap.put(SensorShimmerClock.ObjectClusterSensorName.REAL_TIME_CLOCK, SensorShimmerClock.channelRealTimeClock);
-//			aMap.put(ShimmerClock.ObjectClusterSensorName.REAL_TIME_CLOCK, ShimmerClock.channelRealTimeClockSync);
             aMap.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET, SensorShimmerClock.channelShimmerClockOffset);
-//			aMap.putAll(ShimmerClock.mChannelMapRef);
 
 
             aMap.putAll(SensorBattVoltage.mChannelMapRef);
@@ -632,10 +595,8 @@ public class Configuration {
             aMap.putAll(SensorEXG.mChannelMapRef);
             aMap.putAll(SensorPPG.mChannelMapRef);
 
-            // Algorithm Channels
             aMap.put(Configuration.Shimmer3.ObjectClusterSensorName.ECG_TO_HR_FW, SensorECGToHRFw.channelEcgToHrFw);
 
-            //TODO remove below
             aMap.put(Configuration.Shimmer3.ObjectClusterSensorName.PPG_TO_HR,
                     new ChannelDetails(
                             Configuration.Shimmer3.ObjectClusterSensorName.PPG_TO_HR,
@@ -657,17 +618,13 @@ public class Configuration {
 
             aMap.put(Configuration.Shimmer3.ObjectClusterSensorName.EVENT_MARKER, SensorShimmerClock.channelEventMarker);
 
-            // All Information required for parsing each of the channels
-            //TODO incorporate 3 byte timestamp change for newer firmware
             aMap.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP, SensorShimmerClock.channelShimmerClock2byte);
 
             aMap.put(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP, SensorShimmerClock.channelSystemTimestamp);
             aMap.put(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT, SensorShimmerClock.channelSystemTimestampPlot);
 
             aMap.put(SensorShimmerClock.ObjectClusterSensorName.REAL_TIME_CLOCK, SensorShimmerClock.channelRealTimeClock);
-//			aMap.put(ShimmerClock.ObjectClusterSensorName.REAL_TIME_CLOCK, ShimmerClock.channelRealTimeClockSync);
             aMap.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET, SensorShimmerClock.channelShimmerClockOffset);
-//			aMap.putAll(ShimmerClock.mChannelMapRef);
 
 
             aMap.putAll(SensorBattVoltage.mChannelMapRef);
@@ -677,10 +634,8 @@ public class Configuration {
             aMap.putAll(SensorEXG.mChannelMapRef);
             aMap.putAll(SensorPPG.mChannelMapRef3r);
 
-            // Algorithm Channels
             aMap.put(Configuration.Shimmer3.ObjectClusterSensorName.ECG_TO_HR_FW, SensorECGToHRFw.channelEcgToHrFw);
 
-            //TODO remove below
             aMap.put(Configuration.Shimmer3.ObjectClusterSensorName.PPG_TO_HR,
                     new ChannelDetails(
                             Configuration.Shimmer3.ObjectClusterSensorName.PPG_TO_HR,
@@ -695,7 +650,6 @@ public class Configuration {
         static {
             Map<Integer, SensorGroupingDetails> aMap = new TreeMap<Integer, SensorGroupingDetails>();
 
-            //Sensor Grouping for Configuration Panel 'tile' generation.
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.STREAMING_PROPERTIES.ordinal(), SensorShimmerClock.sensorGroupStreamingProperties);
 
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.BATTERY_MONITORING.ordinal(), SensorBattVoltage.sensorGroupBattVoltage);
@@ -705,8 +659,6 @@ public class Configuration {
                     SensorGSR.LABEL_SENSOR_TILE.GSR,
                     Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_GSR,
                             Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY),
-                    //							Configuration.Shimmer3.SENSOR_ID.PPG_A12,
-                    //							Configuration.Shimmer3.SENSOR_ID.PPG_A13)
                     CompatibilityInfoForMaps.listOfCompatibleVersionInfoGsr));
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.EXG.ordinal(), new SensorGroupingDetails(
                     SensorEXG.LABEL_SENSOR_TILE.EXG,
@@ -746,35 +698,24 @@ public class Configuration {
                     CompatibilityInfoForMaps.listOfCompatibleVersionInfoAdxl377Accel200G)); //unused but accessible
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.INTERNAL_EXPANSION_ADC.ordinal(), SensorADC.sensorGroupInternalExpansionADCs);
 
-            //Not implemented: GUI_LABEL_CHANNEL_GROUPING_GPS
 
 
-            // For loop to automatically inherit associated channel configuration options from mSensorMap in the aMap
             for (SensorGroupingDetails sensorGroup : aMap.values()) {
-//				 Ok to clear here because variable is initiated in the class
-//				sensorGroup.mListOfConfigOptionKeysAssociated.clear();
-//				List<ShimmerVerObject> listOfCompatibleVersionInfo = new ArrayList<ShimmerVerObject>();
                 for (Integer sensor : sensorGroup.mListOfSensorIdsAssociated) {
                     SensorDetailsRef sensorDetails = Configuration.Shimmer3.mSensorMapRef.get(sensor);
                     if (sensorDetails != null) {
                         List<String> associatedConfigOptions = sensorDetails.mListOfConfigOptionKeysAssociated;
                         if (associatedConfigOptions != null) {
                             for (String configOption : associatedConfigOptions) {
-                                // do not add duplicates
                                 if (!(sensorGroup.mListOfConfigOptionKeysAssociated.contains(configOption))) {
                                     sensorGroup.mListOfConfigOptionKeysAssociated.add(configOption);
                                 }
                             }
                         }
-//						if(sensorDetails.mListOfCompatibleVersionInfo!=null){
-//							listOfCompatibleVersionInfo.addAll(sensorDetails.mListOfCompatibleVersionInfo);
-//						}
                     }
                 }
-//				sensorGroup.mListOfCompatibleVersionInfo = listOfCompatibleVersionInfo;
             }
 
-//			aMap.get(Configuration.Shimmer3.LABEL_SENSOR_TILE.GSR.ordinal()).mListOfConfigOptionKeysAssociated.add(Configuration.Shimmer3.GuiLabelConfig.PPG_ADC_SELECTION);
             aMap.get(Configuration.Shimmer3.LABEL_SENSOR_TILE.PROTO3_DELUXE_SUPP.ordinal()).mListOfConfigOptionKeysAssociated.add(SensorPPG.GuiLabelConfig.PPG1_ADC_SELECTION);
             aMap.get(Configuration.Shimmer3.LABEL_SENSOR_TILE.PROTO3_DELUXE_SUPP.ordinal()).mListOfConfigOptionKeysAssociated.add(SensorPPG.GuiLabelConfig.PPG2_ADC_SELECTION);
 
@@ -784,7 +725,6 @@ public class Configuration {
         static {
             Map<Integer, SensorGroupingDetails> aMap = new TreeMap<Integer, SensorGroupingDetails>();
 
-            //Sensor Grouping for Configuration Panel 'tile' generation.
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.STREAMING_PROPERTIES.ordinal(), SensorShimmerClock.sensorGroupStreamingProperties);
 
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.BATTERY_MONITORING.ordinal(), SensorBattVoltage.sensorGroupBattVoltage);
@@ -794,8 +734,6 @@ public class Configuration {
                     SensorGSR.LABEL_SENSOR_TILE.GSR,
                     Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_GSR,
                             Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY),
-                    //							Configuration.Shimmer3.SENSOR_ID.PPG_A12,
-                    //							Configuration.Shimmer3.SENSOR_ID.PPG_A13)
                     CompatibilityInfoForMaps.listOfCompatibleVersionInfoGsr));
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.EXG.ordinal(), new SensorGroupingDetails(
                     SensorEXG.LABEL_SENSOR_TILE.EXG,
@@ -835,35 +773,24 @@ public class Configuration {
                     CompatibilityInfoForMaps.listOfCompatibleVersionInfoAdxl377Accel200G)); //unused but accessible
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.INTERNAL_EXPANSION_ADC.ordinal(), SensorADC.sensorGroupInternalExpansionADCs);
 
-            //Not implemented: GUI_LABEL_CHANNEL_GROUPING_GPS
 
 
-            // For loop to automatically inherit associated channel configuration options from mSensorMap in the aMap
             for (SensorGroupingDetails sensorGroup : aMap.values()) {
-//				 Ok to clear here because variable is initiated in the class
-//				sensorGroup.mListOfConfigOptionKeysAssociated.clear();
-//				List<ShimmerVerObject> listOfCompatibleVersionInfo = new ArrayList<ShimmerVerObject>();
                 for (Integer sensor : sensorGroup.mListOfSensorIdsAssociated) {
                     SensorDetailsRef sensorDetails = Configuration.Shimmer3.mSensorMapRef3r.get(sensor);
                     if (sensorDetails != null) {
                         List<String> associatedConfigOptions = sensorDetails.mListOfConfigOptionKeysAssociated;
                         if (associatedConfigOptions != null) {
                             for (String configOption : associatedConfigOptions) {
-                                // do not add duplicates
                                 if (!(sensorGroup.mListOfConfigOptionKeysAssociated.contains(configOption))) {
                                     sensorGroup.mListOfConfigOptionKeysAssociated.add(configOption);
                                 }
                             }
                         }
-//						if(sensorDetails.mListOfCompatibleVersionInfo!=null){
-//							listOfCompatibleVersionInfo.addAll(sensorDetails.mListOfCompatibleVersionInfo);
-//						}
                     }
                 }
-//				sensorGroup.mListOfCompatibleVersionInfo = listOfCompatibleVersionInfo;
             }
 
-//			aMap.get(Configuration.Shimmer3.LABEL_SENSOR_TILE.GSR.ordinal()).mListOfConfigOptionKeysAssociated.add(Configuration.Shimmer3.GuiLabelConfig.PPG_ADC_SELECTION);
             aMap.get(Configuration.Shimmer3.LABEL_SENSOR_TILE.PROTO3_DELUXE_SUPP.ordinal()).mListOfConfigOptionKeysAssociated.add(SensorPPG.GuiLabelConfig.PPG1_ADC_SELECTION);
             aMap.get(Configuration.Shimmer3.LABEL_SENSOR_TILE.PROTO3_DELUXE_SUPP.ordinal()).mListOfConfigOptionKeysAssociated.add(SensorPPG.GuiLabelConfig.PPG2_ADC_SELECTION);
 
@@ -873,7 +800,6 @@ public class Configuration {
         static {
             Map<String, ConfigOptionDetailsSensor> aMap = new LinkedHashMap<String, ConfigOptionDetailsSensor>();
 
-            // Assemble the channel configuration options map
             aMap.put(Configuration.Shimmer3.GuiLabelConfig.SHIMMER_USER_ASSIGNED_NAME, new ConfigOptionDetailsSensor(
                     Configuration.Shimmer3.GuiLabelConfig.SHIMMER_USER_ASSIGNED_NAME,
                     ShimmerDevice.DatabaseConfigHandle.SHIMMER_NAME,
@@ -939,7 +865,6 @@ public class Configuration {
             aMap.put(SensorEXG.GuiLabelConfig.EXG_GAIN, SensorEXG.configOptionExgGain);
             aMap.put(SensorEXG.GuiLabelConfig.EXG_RESOLUTION, SensorEXG.configOptionExgResolution);
 
-            //Advanced ExG
             aMap.put(SensorEXG.GuiLabelConfig.EXG_REFERENCE_ELECTRODE, SensorEXG.configOptionExgRefElectrode);
             aMap.put(SensorEXG.GuiLabelConfig.EXG_BYTES, SensorEXG.configOptionExgBytes);
             aMap.put(SensorEXG.GuiLabelConfig.EXG_RATE, SensorEXG.configOptionExgRate);
@@ -1011,7 +936,6 @@ public class Configuration {
         static {
             Map<String, ConfigOptionDetailsSensor> aMap = new LinkedHashMap<String, ConfigOptionDetailsSensor>();
 
-            // Assemble the channel configuration options map
             aMap.put(Configuration.Shimmer3.GuiLabelConfig.SHIMMER_USER_ASSIGNED_NAME, new ConfigOptionDetailsSensor(
                     Configuration.Shimmer3.GuiLabelConfig.SHIMMER_USER_ASSIGNED_NAME,
                     ShimmerDevice.DatabaseConfigHandle.SHIMMER_NAME,
@@ -1077,7 +1001,6 @@ public class Configuration {
             aMap.put(SensorEXG.GuiLabelConfig.EXG_GAIN, SensorEXG.configOptionExgGain);
             aMap.put(SensorEXG.GuiLabelConfig.EXG_RESOLUTION, SensorEXG.configOptionExgResolution);
 
-            //Advanced ExG
             aMap.put(SensorEXG.GuiLabelConfig.EXG_REFERENCE_ELECTRODE, SensorEXG.configOptionExgRefElectrode);
             aMap.put(SensorEXG.GuiLabelConfig.EXG_BYTES, SensorEXG.configOptionExgBytes);
             aMap.put(SensorEXG.GuiLabelConfig.EXG_RATE, SensorEXG.configOptionExgRate);
@@ -1190,7 +1113,6 @@ public class Configuration {
             }
         }
 
-        // GUI Algorithm Grouping
         public enum GuiLabelAlgorithmGrouping {
             TIME_SYNC("Time Sync"),
             GYRO_ON_THE_FLY_CAL("Gyro on-the-fly Calibration"),
@@ -1217,20 +1139,14 @@ public class Configuration {
             }
         }
 
-        //DATABASE NAMES
         public static class DatabaseChannelHandles {
                         public static final String FILTERED = "_Filtered"; // to create the name of the filtered signals
 
-            //TODO: refer to ECG/PPG Algorithm Modules instead
             public static final String ECG_TO_HR = "ECGToHR";
             public static final String PPG_TO_HR = "PPGToHR";
         }
 
-        //GUI AND EXPORT CHANNELS
         public static class ObjectClusterSensorName {
-            //			public static String EULER_9DOF_Y;
-//			public static String EULER_9DOF_Z;
-//			public static final String SHIMMER = "Shimmer";
             public static final String PACKET_RECEPTION_RATE_CURRENT = ShimmerStreamingProperties.ObjectClusterSensorName.PACKET_RECEPTION_RATE_CURRENT;//"Packet_Reception_Rate_Current";
             public static final String PACKET_RECEPTION_RATE_OVERALL = ShimmerStreamingProperties.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL;//"Packet_Reception_Rate_Trial";
             public static final String BATT_PERCENTAGE = SensorBattVoltage.ObjectClusterSensorName.BATT_PERCENTAGE;
@@ -1238,8 +1154,6 @@ public class Configuration {
             public static final String FREQUENCY = ShimmerGq802154.ObjectClusterSensorName.FREQUENCY;
             public static String TIMESTAMP = SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP;//"Timestamp";
             public static String REAL_TIME_CLOCK = SensorShimmerClock.ObjectClusterSensorName.REAL_TIME_CLOCK;//"RealTime";
-            //			public static String REAL_TIME_CLOCK_SYNC = TimeSyncModule.ObjectClusterSensorName.REAL_TIME_CLOCK_SYNC;//"RealTime_Sync";
-//			public static String TIMESTAMP_SYNC = 		TimeSyncModule.ObjectClusterSensorName.TIMESTAMP_SYNC;//"Timestamp_Sync";
             public static String SYSTEM_TIMESTAMP = SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP;//"System_Timestamp";
             public static String SYSTEM_TIMESTAMP_PLOT = SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT;//"System_Timestamp_plot";
             public static String TIMESTAMP_OFFSET = SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET;//"Offset";
@@ -1254,7 +1168,6 @@ public class Configuration {
             public static String INT_EXP_ADC_A12 = SensorADC.ObjectClusterSensorName.INT_EXP_ADC_A12;
             public static String INT_EXP_ADC_A13 = SensorADC.ObjectClusterSensorName.INT_EXP_ADC_A13;
             public static String INT_EXP_ADC_A14 = SensorADC.ObjectClusterSensorName.INT_EXP_ADC_A14;
-            //Generalised ADC channel name and number
             public static String EXT_ADC_0 = SensorADC.ObjectClusterSensorName.EXT_ADC_0;
             public static String EXT_ADC_1 = SensorADC.ObjectClusterSensorName.EXT_ADC_1;
             public static String EXT_ADC_2 = SensorADC.ObjectClusterSensorName.EXT_ADC_2;
@@ -1285,8 +1198,6 @@ public class Configuration {
             public static String PRESSURE_BMP180 = SensorBMP180.ObjectClusterSensorName.PRESSURE_BMP180;
 
             public static String ECG_GQ = SensorEXG.ObjectClusterSensorName.ECG_GQ;
-            //			public static String ECG_TO_HR_FW_GQ = SensorECGToHRFw.DatabaseChannelHandles.ECG_TO_HR_FW;//"ECGToHR_FW";
-//			public static String ECG_TO_HR_SW_GQ = "ECGToHR_SW";
             public static String EXG1_STATUS = SensorEXG.ObjectClusterSensorName.EXG1_STATUS;
             public static String EXG2_STATUS = SensorEXG.ObjectClusterSensorName.EXG2_STATUS;
             public static String EXG1_CH1_24BIT = SensorEXG.ObjectClusterSensorName.EXG1_CH1_24BIT;
@@ -1370,16 +1281,7 @@ public class Configuration {
 
             public static String EVENT_MARKER = ShimmerStreamingProperties.ObjectClusterSensorName.EVENT_MARKER;//"Event_Marker";
 
-//			public static String PPG_A12 = SensorPPG.ObjectClusterSensorName.PPG_A12;
-//			public static String PPG_A13 = SensorPPG.ObjectClusterSensorName.PPG_A13;
-//			public static String PPG1_A12 = SensorPPG.ObjectClusterSensorName.PPG1_A12;
-//			public static String PPG1_A13 = SensorPPG.ObjectClusterSensorName.PPG1_A13;
-//			public static String PPG2_A1 = SensorPPG.ObjectClusterSensorName.PPG2_A1;
-//			public static String PPG2_A14 = SensorPPG.ObjectClusterSensorName.PPG2_A14;
 
-            //TODO: move to algorithms class (JC).
-            //Algorithms
-            //TODO separate entries for LN accel vs. WR accel.
             public static String QUAT_MADGE_6DOF_W = OrientationModule6DOF.ObjectClusterSensorName.QUAT_MADGE_6DOF_W;//"Quat_Madge_6DOF_W";
             public static String QUAT_MADGE_6DOF_X = OrientationModule6DOF.ObjectClusterSensorName.QUAT_MADGE_6DOF_X;//"Quat_Madge_6DOF_X";
             public static String QUAT_MADGE_6DOF_Y = OrientationModule6DOF.ObjectClusterSensorName.QUAT_MADGE_6DOF_Y;//"Quat_Madge_6DOF_Y";
@@ -1389,7 +1291,6 @@ public class Configuration {
             public static String QUAT_MADGE_9DOF_Y = OrientationModule9DOF.ObjectClusterSensorName.QUAT_MADGE_9DOF_Y;//"Quat_Madge_9DOF_Y";
             public static String QUAT_MADGE_9DOF_Z = OrientationModule9DOF.ObjectClusterSensorName.QUAT_MADGE_9DOF_Z;//"Quat_Madge_9DOF_Z";
 
-            //axis angle
             public static String AXIS_ANGLE_6DOF_A = OrientationModule6DOF.ObjectClusterSensorName.AXIS_ANGLE_6DOF_A;//"Axis_Angle_6DOF_A";
             public static String AXIS_ANGLE_6DOF_X = OrientationModule6DOF.ObjectClusterSensorName.AXIS_ANGLE_6DOF_X;//"Axis_Angle_6DOF_X";
             public static String AXIS_ANGLE_6DOF_Y = OrientationModule6DOF.ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y;//"Axis_Angle_6DOF_Y";
@@ -1399,7 +1300,6 @@ public class Configuration {
             public static String AXIS_ANGLE_9DOF_Y = OrientationModule9DOF.ObjectClusterSensorName.AXIS_ANGLE_9DOF_Y;//"Axis_Angle_9DOF_Y";
             public static String AXIS_ANGLE_9DOF_Z = OrientationModule9DOF.ObjectClusterSensorName.AXIS_ANGLE_9DOF_Z;//"Axis_Angle_9DOF_Z";
 
-            //Euler
             public static String EULER_6DOF_YAW = OrientationModule6DOF.ObjectClusterSensorName.EULER_6DOF_YAW;//"Euler_6DOF_Yaw";
             public static String EULER_6DOF_PITCH = OrientationModule6DOF.ObjectClusterSensorName.EULER_6DOF_PITCH;//"Euler_6DOF_Pitch";
             public static String EULER_6DOF_ROLL = OrientationModule6DOF.ObjectClusterSensorName.EULER_6DOF_ROLL;//"Euler_6DOF_Roll";
@@ -1407,19 +1307,8 @@ public class Configuration {
             public static String EULER_9DOF_PITCH = OrientationModule9DOF.ObjectClusterSensorName.EULER_9DOF_PITCH;//"Euler_9DOF_Pitch";
             public static String EULER_9DOF_ROLL = OrientationModule9DOF.ObjectClusterSensorName.EULER_9DOF_ROLL;//"Euler_9DOF_Roll";
 
-            //TODO: axis angle 9DOF vs 6DOF??
-//			public static String AXIS_ANGLE_A = "Axis_Angle_A";
-//			public static String AXIS_ANGLE_X = "Axis_Angle_X";
-//			public static String AXIS_ANGLE_Y = "Axis_Angle_Y";
-//			public static String AXIS_ANGLE_Z = "Axis_Angle_Z";
 
-//			// Moved by JC to algorithm module
-//			public static String ECG_TO_HR_LA_RA = "ECGtoHR_LA-RA";
-//			public static String ECG_TO_HR_LL_RA = "ECGtoHR_LL-RA";
-//			public static String ECG_TO_HR_LL_LA = "ECGtoHR_LL_LA";
-//			public static String ECG_TO_HR_VX_RL = "ECGtoHR_VX-RL";
 
-            //TODO: remove two old channels names below
             public static String ECG_TO_HR_FW = SensorECGToHRFw.ObjectClusterSensorName.ECG_TO_HR_FW_GQ;//"ECGtoHR";
 
             public static String PPG_TO_HR = "PPGtoHR";
@@ -1443,16 +1332,13 @@ public class Configuration {
             public static final ShimmerVerObject svoShimmer3RLogAndStream = new ShimmerVerObject(HW_ID.SHIMMER_3R, FW_ID.LOGANDSTREAM, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             public static final ShimmerVerObject svoShimmer3LogAndStreamWithSDLogSyncSupport = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.LOGANDSTREAM, 0, 16, 11, ShimmerVerDetails.ANY_VERSION);
             public static final ShimmerVerObject svoShimmer3RLogAndStreamWithSDLogSyncSupport = new ShimmerVerObject(HW_ID.SHIMMER_3R, FW_ID.LOGANDSTREAM, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
-            //for using in shimmer test
             public static final ShimmerVerObject svoInShimmerTestLogAndStream = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.LOGANDSTREAM, 0, 16, 7);
             public static final ShimmerVerObject svoInShimmerTestSdLog = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 22, 7);
-            //TODO move non-Shimmer3 devices out of here
             public static final ShimmerVerObject svoShimmer4Stock = new ShimmerVerObject(HW_ID.SHIMMER_4_SDK, FW_ID.SHIMMER4_SDK_STOCK, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             public static final ShimmerVerObject svoSweatch = new ShimmerVerObject(HW_ID.SWEATCH, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             public static final ShimmerVerObject svoShimmerECGmd = new ShimmerVerObject(HW_ID.SHIMMER_3, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, HW_ID_SR_CODES.SHIMMER_ECG_MD);
             public static final ShimmerVerObject svoStrokare = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.STROKARE, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoShimmer4 = Arrays.asList(svoShimmer4Stock);
-            // These can be used to enable/disble GUI options depending on what HW, FW, Expansion boards versions are present
             private static final ShimmerVerObject svoAnyIntExpBoardAndFw = new ShimmerVerObject(ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             private static final ShimmerVerObject svoAnyIntExpBoardAndSdlog = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.SDLOG, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             private static final ShimmerVerObject svoAnyIntExpBoardAndBtStream = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.BTSTREAM, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
@@ -1460,7 +1346,6 @@ public class Configuration {
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoBMP180 = Arrays.asList(
                     svoAnyIntExpBoardAndSdlog, svoAnyIntExpBoardAndBtStream, svoAnyIntExpBoardAndLogAndStream,
                     svoShimmer4Stock);
-            //TODO need to update this list and remove "any"
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoKionixKXRB52042 = Arrays.asList(
                     svoAnyIntExpBoardAndSdlog, svoAnyIntExpBoardAndBtStream, svoAnyIntExpBoardAndLogAndStream,
                     svoShimmer4Stock);
@@ -1507,7 +1392,6 @@ public class Configuration {
                     svoExgSdLog, svoExgBtStream, svoExgLogAndStream,
                     svoExgUnifiedSdLog, svoExgUnifiedBtStream, svoExgUnifiedLogAndStream,
                     svoShimmerECGmd, svoShimmer4Stock, svoStrokare, svoShimmer3RExgUnifiedLogAndStream);
-            //TODO separate out GQ devices that are related to SensorEXG.sDRefEcgGq
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoExgEcg = Arrays.asList(
                     svoExgSdLog, svoExgBtStream, svoExgLogAndStream,
                     svoExgUnifiedSdLog, svoExgUnifiedBtStream, svoExgUnifiedLogAndStream,
@@ -1562,7 +1446,6 @@ public class Configuration {
                     svoShimmer3RBrAmpUnifiedLogAndStream,
                     svoShimmer4Stock);
 
-            //TODO remove any lists below to their relevant Sensor classes.
             private static final ShimmerVerObject svoProto3MiniSdLog = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 8, 0, HW_ID_SR_CODES.EXP_BRD_PROTO3_MINI);
             private static final ShimmerVerObject svoProto3MiniNewImuSdLog = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 15, 1, HW_ID_SR_CODES.EXP_BRD_PROTO3_MINI, NEW_IMU_EXP_REV.PROTO3_MINI);
             private static final ShimmerVerObject svoProto3MiniBtStream = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.BTSTREAM, 0, 5, 0, HW_ID_SR_CODES.EXP_BRD_PROTO3_MINI);
@@ -1595,7 +1478,6 @@ public class Configuration {
                     svoProto3MiniNewImuSdLog, svoProto3MiniNewImuLogAndStream,
                     svoProto3DeluxeNewImuSdLog, svoProto3DeluxeNewImuLogAndStream,
                     svoShimmer4Stock);
-            //Shimmer3 WR Accel & Mag
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoLSM303AH = Arrays.asList(
                     svoNewImuSdLog, svoNewImuLogAndStream, svoShimmer3RLogAndStream,
                     svoNewImuAnyExpBrdSdLog, svoNewImuAnyExpBrdLogAndStream,
@@ -1604,7 +1486,6 @@ public class Configuration {
                     svoBrAmpUnifiedNewImuSdLog, svoBrAmpUnifiedNewImuLogAndStream,
                     svoProto3MiniNewImuSdLog, svoProto3MiniNewImuLogAndStream,
                     svoProto3DeluxeNewImuSdLog, svoProto3DeluxeNewImuLogAndStream);
-            //Shimmer3 LN Accel
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoKionixKXTC92050 = Arrays.asList(
                     svoNewImuSdLog, svoNewImuLogAndStream, svoShimmer3RLogAndStream,
                     svoNewImuAnyExpBrdSdLog, svoNewImuAnyExpBrdLogAndStream,
@@ -1622,7 +1503,6 @@ public class Configuration {
                     svoShimmer3RBrAmpUnifiedLogAndStream,
                     svoShimmer3RProto3DeluxeLogAndStream,
                     svoShimmer4Stock);
-            //Shimmer3r Mag
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoLIS2MDL = Arrays.asList(
                     svoShimmer3RImuLogAndStream, svoShimmer3RLogAndStream,
                     svoShimmer3RImuAnyExpBrdLogAndStream,
@@ -1631,7 +1511,6 @@ public class Configuration {
                     svoShimmer3RBrAmpUnifiedLogAndStream,
                     svoShimmer3RProto3DeluxeLogAndStream);
 
-            //Shimmer3r WR Mag
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoLIS3MDL = Arrays.asList(
                     svoShimmer3RImuLogAndStream, svoShimmer3RLogAndStream,
                     svoShimmer3RImuAnyExpBrdLogAndStream,
@@ -1640,7 +1519,6 @@ public class Configuration {
                     svoShimmer3RBrAmpUnifiedLogAndStream,
                     svoShimmer3RProto3DeluxeLogAndStream);
 
-            //Shimmer3r High-G Accel
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoADXL371 = Arrays.asList(
                     svoShimmer3RImuLogAndStream, svoShimmer3RLogAndStream,
                     svoShimmer3RImuAnyExpBrdLogAndStream,
@@ -1648,7 +1526,6 @@ public class Configuration {
                     svoShimmer3RExgUnifiedLogAndStream,
                     svoShimmer3RBrAmpUnifiedLogAndStream,
                     svoShimmer3RProto3DeluxeLogAndStream);
-            //Shimmer3r LN Accel & Gyro
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoLSM6DSV = Arrays.asList(
                     svoShimmer3RImuLogAndStream, svoShimmer3RLogAndStream,
                     svoShimmer3RImuAnyExpBrdLogAndStream,
@@ -1656,7 +1533,6 @@ public class Configuration {
                     svoShimmer3RExgUnifiedLogAndStream,
                     svoShimmer3RBrAmpUnifiedLogAndStream,
                     svoShimmer3RProto3DeluxeLogAndStream);
-            //Shimmer3r WR Accel
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoLIS2DW12 = Arrays.asList(
                     svoShimmer3RImuLogAndStream, svoShimmer3RLogAndStream,
                     svoShimmer3RImuAnyExpBrdLogAndStream,
@@ -1718,17 +1594,6 @@ public class Configuration {
                     svoShimmer4Stock, svoArduino, svoSweatch, svoStrokare);
             private static final List<ShimmerVerObject> listOfCompatibleVersionInfoSdLog = Arrays.asList(svoSdLog);
 
-            //			public static final List<ShimmerVerObject> listOfCompatibleVersionInfoExtAdcs = Arrays.asList(
-//					svoNewImuSdLog, svoNewImuLogAndStream,
-//					svoNewImuAnyExpBrdSdLog, svoNewImuAnyExpBrdLogAndStream,
-//					svoGsrSdLog, svoGsrBtStream, svoGsrLogAndStream,
-//					svoGsrUnifiedNewImuSdLog, svoGsrUnifiedNewImuLogAndStream,
-//					svoExgUnifiedNewImuSdLog, svoExgUnifiedNewImuLogAndStream,
-//					svoBrAmpUnifiedNewImuSdLog, svoBrAmpUnifiedNewImuLogAndStream,
-//					svoProto3MiniNewImuSdLog, svoProto3MiniNewImuLogAndStream,
-//					svoProto3DeluxeNewImuSdLog, svoProto3DeluxeNewImuLogAndStream,
-//					svoGsrUnifiedGqBle, svoShimmerGq802154Lr, svoShimmerGq802154Nr, svoShimmer2rGq,
-//					svoShimmer4Stock);
             private static final List<ShimmerVerObject> listOfCompatibleVersionInfoAnyExpBoardAndFw = Arrays.asList(svoAnyIntExpBoardAndFw);
             private static final List<ShimmerVerObject> listOfCompatibleVersionInfoProto3Mini = Arrays.asList(
                     svoProto3MiniSdLog, svoProto3MiniBtStream, svoProto3MiniLogAndStream);
@@ -1795,7 +1660,6 @@ public class Configuration {
         }
 
         public class SensorBitmap {
-            //Sensor Bitmap for Shimmer 3
             public static final int SENSOR_A_ACCEL = 0x80;//XXX-RS-AA-SensorClass?
             public static final int SENSOR_GYRO = 0x40;
             public static final int SENSOR_MAG = 0x20; //XXX-RS-LSM-SensorClass?
@@ -1823,12 +1687,9 @@ public class Configuration {
             public static final int RESERVED_ANY_SENSOR = -1;
 
             public static final int HOST_SHIMMER_STREAMING_PROPERTIES = -100;
-            //TODO below should be merged with HOST_REAL_TIME_CLOCK?
             public static final int HOST_SYSTEM_TIMESTAMP = -101;
 
-            //Sensors channels originating from the Shimmer
 
-            //Analog channels begin
             public static final int SHIMMER_TIMESTAMP = -200;//1;
                         public static final int SHIMMER_ANALOG_ACCEL = 2;
             public static final int SHIMMER_VBATT = 3;
@@ -1846,7 +1707,6 @@ public class Configuration {
             public static final int SHIMMER_INT_EXP_ADC_A14 = 13;
             public static final int HOST_PPG2_A14 = 14; //Proto3 Deluxe Board
 
-            //TODO which ADCs should these be beside?
             public static final int SHIMMER_BRIDGE_AMP = 15;
             public static final int SHIMMER_RESISTANCE_AMP = 16;
 
@@ -1854,7 +1714,6 @@ public class Configuration {
             public static final int HOST_PPG2_A1 = 18; //Proto3 Deluxe Board
             public static final int SHIMMER_GSR = 19;// Based on ADC1
 
-            //Digital channels begin
             public static final int SHIMMER_MPU9X50_GYRO = 30;
                         public static final int SHIMMER_LSM303_ACCEL = 31;
             public static final int SHIMMER_LSM303_MAG = 32;
@@ -1871,16 +1730,7 @@ public class Configuration {
             public static final int SHIMMER_LIS3MDL_MAG_ALT = 41;
             public static final int SHIMMER_BMP390_PRESSURE = 43;
 
-//			public static final int SHIMMER_EXG1_24BIT = 3;
-//			public static final int SHIMMER_EXG2_24BIT = 4;
-            //public static final int SHIMMER_HR = 9;
-//			public static final int SHIMMER_EXG1_16BIT = 19;
-//			public static final int SHIMMER_EXG2_16BIT = 21;
 
-            //public static final int SHIMMER_BMP180_TEMPERATURE = 23; // not yet implemented
-            //public static final int SHIMMER_MSP430_TEMPERATURE = 24; // not yet implemented
-            //public static final int SHIMMER_LSM303DLHC_TEMPERATURE = 26; // not yet implemented
-            //public static final int SHIMMER_MPU9150_MPL_TEMPERATURE = 1<<17; // same as SENSOR_SHIMMER3_MPU9150_TEMP
 
             public static final int SHIMMER_MPU9X50_MPL_QUAT_6DOF = 50;
             public static final int SHIMMER_MPU9X50_MPL_QUAT_9DOF = 51;
@@ -1895,25 +1745,15 @@ public class Configuration {
             public static final int SHIMMER_MPU9X50_MPL_MAG = 60;
             public static final int SHIMMER_MPU9X50_MPL_QUAT_6DOF_RAW = 61;
 
-            // STC3100 Channels
             public static final int SHIMMER_STC3100 = 62;
-//			public static final int SHIMMER_STC3100_VOLTAGE = 62;
-//			public static final int SHIMMER_STC3100_CURRENT = 63;
-//			public static final int SHIMMER_STC3100_TEMP = 64;
-//			public static final int SHIMMER_STC3100_CHARGE = 65;
-//			public static final int SHIMMER_STC3100_BATTERY_PERCENTAGE = 66;
-//			public static final int SHIMMER_STC3100_TIME_REMAINING = 67;
 
 
-            //Sensors channels modified or created on the host side
-            // Combination Channels
             public static final int HOST_ECG = 100;
             public static final int HOST_EMG = 101;
             public static final int HOST_EXG_TEST = 102;
             public static final int HOST_EXG_CUSTOM = 116;
             public static final int HOST_EXG_THREE_UNIPOLAR = 106;
 
-            // Derived Channels
             public static final int HOST_EXG_RESPIRATION = 103;
             public static final int HOST_SKIN_TEMPERATURE_PROBE = 104;
 
@@ -1927,7 +1767,6 @@ public class Configuration {
 
             public static final int SHIMMER_ECG_TO_HR_FW = 150;
 
-            // Third party devices @ 1000+
             public static final int THIRD_PARTY_NONIN = 1000;
             public static final int HOST_KEYBOARD_LISTENER = 1001;
             public static final int HOST_MOUSE_LISTENER = 1002;
@@ -1936,12 +1775,9 @@ public class Configuration {
         }
 
                 public class DerivedSensorsBitMask {
-            // -------------- Derived Channels Byte 0 -------------------
             public final static int RES_AMP = 1 << 0; // (0*8 + 0);
             public final static int SKIN_TEMP = 1 << 1; // (0*8 + 1);
 
-            // TODO: Now implemented in SensorPPG -> decide where best these
-            // bits belong, Configuration.Shimmer3 or sensor/algorithm classes
             public final static int PPG_12_13 = 1 << 2; // (0*8 + 2);
             public final static int PPG1_12_13 = 1 << 3; // (0*8 + 3);
             public final static int PPG2_1_14 = 1 << 4; // (0*8 + 4);
@@ -1949,7 +1785,6 @@ public class Configuration {
             public final static int PPG_TO_HR1_12_13 = 1 << 6; // (0*8 + 6);
             public final static int PPG_TO_HR2_1_14 = 1 << 7; // (0*8 + 7);
 
-            // -------------- Derived Channels Byte 1 -------------------
             public final static int ACTIVITY_MODULE = 1 << 8; // (1*8 + 0);
 
             public final static int GSR_METRICS_GENERAL = 1 << 9; // (1*8 + 1);
@@ -1961,7 +1796,6 @@ public class Configuration {
             public final static int ECG2HR_CHIP1_CH2 = 1 << 14; // (1*8 + 6);
             public final static int ECG2HR_CHIP1_CH1 = 1 << 15; // (1*8 + 7);
 
-            // -------------- Derived Channels Byte 2 -------------------
             public final static int ORIENTATION_9DOF_WR_QUAT = 1 << 16; // (2*8 + 0);
             public final static int ORIENTATION_9DOF_WR_EULER = 1 << 17; // (2*8 + 1);
             public final static int ORIENTATION_6DOF_WR_QUAT = 1 << 18; // (2*8 + 2);
@@ -1971,7 +1805,6 @@ public class Configuration {
             public final static int ORIENTATION_6DOF_LN_QUAT = 1 << 22; // (2*8 + 6);
             public final static int ORIENTATION_6DOF_LN_EULER = 1 << 23; // (2*8 + 7);
 
-            // -------------- Derived Channels Byte 3 -------------------
             public final static int EMG_PROCESSING_CHAN2 = 1 << 24; // (3*8 + 0);
             public final static int EMG_PROCESSING_CHAN1 = 1 << 25; // (3*8 + 1);
 
@@ -1981,20 +1814,9 @@ public class Configuration {
             public final static int GAIT_MODULE = 1 << 28; // (3*8 + 4);
 
             public final static int GYRO_ON_THE_FLY_CAL = 1 << 29; // (3*8 + 5);
-//			public final static int UNUSED 						= 1 << 30; // (3*8 + 6);
-//			public final static int UNUSED 						= 1 << 31; // (3*8 + 7);
 
-            // -------------- Derived Channels Byte 4 -------------------
-            // Currently Unused
-            // -------------- Derived Channels Byte 5 -------------------
-            // Currently Unused
-            // -------------- Derived Channels Byte 6 -------------------
-            // Currently Unused
-            // -------------- Derived Channels Byte 7 -------------------
-            // Currently Unused
         }
 
-        // Config Options Map
         public class GuiLabelConfig {
             public static final String SHIMMER_USER_ASSIGNED_NAME = "Shimmer Name";
             public static final String TRIAL_NAME = "Trial Name";
@@ -2034,21 +1856,9 @@ public class Configuration {
             public static final String CALIBRATION_PER_SENSOR = AbstractSensor.GuiLabelConfigCommon.CALIBRATION_PER_SENSOR;
         }
 
-        //GUI SENSORS
-        //TODO Change over to sensor classes
         public class GuiLabelSensors {
-//			public static final String ACCEL_LN = SensorKionixKXRB52042.GuiLabelSensors.ACCEL_LN;
-//			public static final String ACCEL_LN = SensorLSM6DSV.GuiLabelSensors.ACCEL_LN;
 
-//			public static final String BATTERY = SensorBattVoltage.GuiLabelSensors.BATTERY;
 
-            //			public static final String EXT_EXP_A7 = SensorADC.GuiLabelSensors.EXT_EXP_A7;
-//			public static final String EXT_EXP_A6 = SensorADC.GuiLabelSensors.EXT_EXP_A6;
-//			public static final String EXT_EXP_A15 = SensorADC.GuiLabelSensors.EXT_EXP_A15;
-//			public static final String INT_EXP_A12 = SensorADC.GuiLabelSensors.INT_EXP_A12;
-//			public static final String INT_EXP_A13 = SensorADC.GuiLabelSensors.INT_EXP_A13;
-//			public static final String INT_EXP_A14 = SensorADC.GuiLabelSensors.INT_EXP_A14;
-//			public static final String INT_EXP_A1 = SensorADC.GuiLabelSensors.INT_EXP_A1;
 //
             public static final String BRIDGE_AMPLIFIER = SensorBridgeAmp.GuiLabelSensors.BRIDGE_AMPLIFIER;
             public static final String RESISTANCE_AMP = SensorBridgeAmp.GuiLabelSensors.RESISTANCE_AMP;
@@ -2056,17 +1866,11 @@ public class Configuration {
             public static final String BRAMP_HIGHGAIN = SensorBridgeAmp.GuiLabelSensors.BRAMP_HIGHGAIN;
             public static final String BRAMP_LOWGAIN = SensorBridgeAmp.GuiLabelSensors.BRAMP_LOWGAIN;
 
-//			public static final String GSR = SensorGSR.GuiLabelSensors.GSR;
 
-            //			public static final String ACCEL_WR = SensorLSM303.GuiLabelSensors.ACCEL_WR;
             public static final String MAG = SensorLSM303DLHC.GuiLabelSensors.MAG;
             public static final String ALT_MAG_3R = SensorLIS3MDL.GuiLabelSensors.MAG_ALT;
 
-//			public static final String PRESS_TEMP_BMP180 = 	SensorBMP180.GuiLabelSensors.PRESS_TEMP_BMP180;
 
-//			public static final String GYRO = SensorMPU9X50.GuiLabelSensors.GYRO;
-//			public static final String ACCEL_MPU = SensorMPU9X50.GuiLabelSensors.ACCEL_MPU;
-//			public static final String MAG_MPU = SensorMPU9X50.GuiLabelSensors.MAG_MPU;
 
             public static final String GYRO_MPU_MPL = SensorMPU9X50.GuiLabelSensors.GYRO_MPU_MPL;
             public static final String ACCEL_MPU_MPL = SensorMPU9X50.GuiLabelSensors.ACCEL_MPU_MPL;
@@ -2088,7 +1892,6 @@ public class Configuration {
             public static final String ECG_TO_HR = "ECG To HR";
             public static final String PPG_TO_HR = "PPG To HR";
 
-            //TODO: refer to OrienationModule instead
             public static final String ORIENTATION_3D_6DOF = "3D Orientation (6DOF)";
             public static final String ORIENTATION_3D_9DOF = "3D Orientation (9DOF)";
             public static final String EULER_ANGLES_6DOF = "Euler Angles (6DOF)";
@@ -2098,15 +1901,6 @@ public class Configuration {
 
             public static final String ADXL371_ACCEL_HIGHG = "High-G Accel";
 
-//			public static final String PPG_DUMMY = SensorPPG.GuiLabelSensors.PPG_DUMMY;
-//			public static final String PPG_A12 = SensorPPG.GuiLabelSensors.PPG_A12;
-//			public static final String PPG_A13 = SensorPPG.GuiLabelSensors.PPG_A13;
-//			public static final String PPG1_DUMMY = SensorPPG.GuiLabelSensors.PPG1_DUMMY;
-//			public static final String PPG1_A12 = SensorPPG.GuiLabelSensors.PPG1_A12;
-//			public static final String PPG1_A13 = SensorPPG.GuiLabelSensors.PPG1_A13;
-//			public static final String PPG2_DUMMY = SensorPPG.GuiLabelSensors.PPG2_DUMMY;
-//			public static final String PPG2_A1 = SensorPPG.GuiLabelSensors.PPG2_A1;
-//			public static final String PPG2_A14 = SensorPPG.GuiLabelSensors.PPG2_A14;
 
             public static final String EMG = SensorEXG.GuiLabelSensors.EMG;
             public static final String ECG = SensorEXG.GuiLabelSensors.ECG;
@@ -2121,14 +1915,8 @@ public class Configuration {
     }
 
     public static class ShimmerGq802154 {
-//		public class SENSOR_ID{
-//			public static final int GSR = 1;
-//			public static final int ECGtoHR = 2;
-//		}
 
-        //GUI AND EXPORT CHANNELS
         public static class ObjectClusterSensorName {
-            //Related to the Spectrum Analyser
             public static final String POWER_CALC_85 = "SpanManager-85";//"Results-85";
             public static final String POWER_CALC_15 = "SpanManager-15";//"Results-15";
             public static final String FREQUENCY = "Frequency";
@@ -2141,16 +1929,13 @@ public class Configuration {
     public static class ShimmerGqBle {
         public static final String[] ListofSamplingRateDividers = {"0.75Hz", "1.5Hz", "3Hz", "7.5Hz", "15Hz", "30Hz", "75Hz", "220Hz"};
         public static final Integer[] ListofSamplingRateDividersValues = {0, 1, 2, 3, 4, 5, 6, 7};
-        // These can be used to enable/disble GUI options depending on what HW, FW, Expansion boards versions are present
         public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
         public static final Map<Integer, SensorGroupingDetails> mSensorGroupingMapRef;
-        // Assemble the channel configuration options map
         public static final Map<String, ConfigOptionDetailsSensor> mConfigOptionsMapRef;
 
         static {
             Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
 
-//	        aMap.put(Configuration.ShimmerGQ.SENSOR_ID.SHIMMER_STREAMING_PROPERTIES, new SensorDetails(0, 0, "Device Properties"));
 
             aMap.put(Configuration.ShimmerGqBle.SENSOR_ID.VBATT, new SensorDetailsRef(0, 0, Configuration.ShimmerGqBle.GuiLabelSensors.BATTERY));
             aMap.put(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL, new SensorDetailsRef(0, 0, Configuration.ShimmerGqBle.GuiLabelSensors.ACCEL_WR)); //XXX-RS-LSM-SensorClass?
@@ -2164,7 +1949,6 @@ public class Configuration {
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.BEACON).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.PPG).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
 
-            // Associated config options for each channel (currently used for the ChannelTileMap)
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.VBATT).mListOfConfigOptionKeysAssociated = Arrays.asList(
                     Configuration.ShimmerGqBle.GuiLabelConfig.SAMPLING_RATE_DIVIDER_VBATT);
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL).mListOfConfigOptionKeysAssociated = Arrays.asList(  //XXX-RS-LSM-SensorClass?
@@ -2185,7 +1969,6 @@ public class Configuration {
         static {
             Map<Integer, SensorGroupingDetails> aMap = new TreeMap<Integer, SensorGroupingDetails>();
 
-            //Sensor Grouping for Configuration Panel 'tile' generation.
             aMap.put(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BATTERY_MONITORING.ordinal(), new SensorGroupingDetails(
                     Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BATTERY_MONITORING.getTileText(),
                     Arrays.asList(Configuration.ShimmerGqBle.SENSOR_ID.VBATT)));
@@ -2200,7 +1983,6 @@ public class Configuration {
                     Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BEACON.getTileText(),
                     Arrays.asList(Configuration.ShimmerGqBle.SENSOR_ID.BEACON)));
 
-            // ChannelTiles that have compatibility considerations (used to auto generate tiles in GUI)
             aMap.get(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BATTERY_MONITORING).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
             ;
             aMap.get(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.WIDE_RANGE_ACCEL).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
@@ -2210,16 +1992,13 @@ public class Configuration {
             aMap.get(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BEACON).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
             ;
 
-            // For loop to automatically inherit associated channel configuration options from ChannelMap in the ChannelTileMap
             for (SensorGroupingDetails channelGroup : aMap.values()) {
-                // Ok to clear here because variable is initiated in the class
                 channelGroup.mListOfConfigOptionKeysAssociated.clear();
                 for (Integer channel : channelGroup.mListOfSensorIdsAssociated) {
                     if (mSensorMapRef.containsKey(channel)) {
                         List<String> associatedConfigOptions = mSensorMapRef.get(channel).mListOfConfigOptionKeysAssociated;
                         if (associatedConfigOptions != null) {
                             for (String configOption : associatedConfigOptions) {
-                                // do not add duplicates
                                 if (!(channelGroup.mListOfConfigOptionKeysAssociated.contains(configOption))) {
                                     channelGroup.mListOfConfigOptionKeysAssociated.add(configOption);
                                 }
@@ -2237,15 +2016,10 @@ public class Configuration {
 
             aMap = new HashMap<String, ConfigOptionDetailsSensor>();
 
-            //		aMap.put(Configuration.Shimmer3.GuiLabelConfig.SHIMMER_USER_ASSIGNED_NAME,
-            //				new ConfigOptionDetailsSensor(ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.TEXTFIELD,
-            //						listOfCompatibleVersionInfoGq));
             aMap.put(Configuration.Shimmer3.GuiLabelConfig.SHIMMER_SAMPLING_RATE, new ConfigOptionDetailsSensor(
                     Configuration.Shimmer3.GuiLabelConfig.SHIMMER_SAMPLING_RATE,
                     ShimmerDevice.DatabaseConfigHandle.SAMPLE_RATE,
                     ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.TEXTFIELD));
-            //		aMap.put(Configuration.Shimmer3.GuiLabelConfig.SHIMMER_MAC_FROM_INFOMEM,
-            //				new ConfigOptionDetailsSensor(ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.TEXTFIELD));
             aMap.put(Configuration.Shimmer3.GuiLabelConfig.CONFIG_TIME, new ConfigOptionDetailsSensor(
                     Configuration.Shimmer3.GuiLabelConfig.CONFIG_TIME,
                     ShimmerDevice.DatabaseConfigHandle.CONFIG_TIME,
@@ -2256,9 +2030,6 @@ public class Configuration {
                     ShimmerDevice.DatabaseConfigHandle.TRIAL_NAME,
                     ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.TEXTFIELD,
                     Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq));
-            //		aMap.put(Configuration.Shimmer3.GuiLabelConfig.EXPERIMENT_ID,
-            //				new ConfigOptionDetailsSensor(ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.TEXTFIELD,
-            //						Configuration.ShimmerGQ.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq));
 
             aMap.put(SensorLSM303.GuiLabelConfig.LSM303_ACCEL_RANGE, SensorLSM303DLHC.configOptionAccelRange);
             aMap.put(SensorLSM303.GuiLabelConfig.LSM303_ACCEL_RATE, SensorLSM303DLHC.configOptionAccelRate);
@@ -2271,7 +2042,6 @@ public class Configuration {
                     Configuration.ShimmerGqBle.ListofSamplingRateDividers,
                     Configuration.ShimmerGqBle.ListofSamplingRateDividersValues,
                     ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX));
-            //XXX-RS-LSM-SensorClass?
             aMap.put(Configuration.ShimmerGqBle.GuiLabelConfig.SAMPLING_RATE_DIVIDER_LSM303DLHC_ACCEL, new ConfigOptionDetailsSensor(
                     Configuration.ShimmerGqBle.GuiLabelConfig.SAMPLING_RATE_DIVIDER_LSM303DLHC_ACCEL,
                     null,
@@ -2304,7 +2074,6 @@ public class Configuration {
                     Configuration.ShimmerDeviceCommon.ListOfOnOffConfigValues,
                     ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX));
 
-            //General Config
             aMap.put(Configuration.Shimmer3.GuiLabelConfig.USER_BUTTON_START, new ConfigOptionDetailsSensor(
                     Configuration.Shimmer3.GuiLabelConfig.USER_BUTTON_START,
                     ShimmerDevice.DatabaseConfigHandle.USER_BUTTON,
@@ -2326,7 +2095,6 @@ public class Configuration {
             mConfigOptionsMapRef = Collections.unmodifiableMap(aMap);
         }
 
-        // GUI Sensor Tiles
         public enum LABEL_SENSOR_TILE {
             GYRO(Configuration.ShimmerGqBle.GuiLabelSensors.GYRO),
             MAG(Configuration.ShimmerGqBle.GuiLabelSensors.MAG), //XXX-RS-LSM-SensorClass?
@@ -2347,7 +2115,6 @@ public class Configuration {
         }
 
         public static class CompatibilityInfoForMaps {
-            // These can be used to enable/disble GUI options depending on what HW, FW, Expansion boards versions are present
             private static final ShimmerVerObject svoAnyIntExpBoardAndFw = new ShimmerVerObject(HW_ID.SHIMMER_GQ_BLE, FW_ID.GQ_BLE, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             public static final List<ShimmerVerObject> listOfCompatibleVersionInfoGq = Arrays.asList(svoAnyIntExpBoardAndFw);
         }
@@ -2363,7 +2130,6 @@ public class Configuration {
             public static final int BEACON = 108;
         }
 
-        //GUI SENSORS
         public class GuiLabelSensors {
             public static final String BATTERY = SensorBattVoltage.GuiLabelSensors.BATTERY;
             public static final String GSR = SensorGSR.GuiLabelSensors.GSR;
@@ -2408,7 +2174,6 @@ public class Configuration {
                 Configuration.Shimmer3.GuiLabelConfig.INT_EXP_BRD_POWER_BOOLEAN,
                 null,
                 ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX);
-        // Assemble the channel configuration options map
         public static final Map<String, ConfigOptionDetailsSensor> mConfigOptionsMapRef;
 
         static {
@@ -2461,9 +2226,6 @@ public class Configuration {
     public static class Webcam {
         public static class CompatibilityInfoForMaps {
             public static final ShimmerVerObject svoWebcamGeneric = new ShimmerVerObject(HW_ID.WEBCAM_GENERIC, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
-            //			private static final ShimmerVerObject svoWebcamLogitechC920 = 	new ShimmerVerObject(HW_ID.WEBCAM_LOGITECH_HD_C920,ShimmerVerDetails.ANY_VERSION,ShimmerVerDetails.ANY_VERSION,ShimmerVerDetails.ANY_VERSION,ShimmerVerDetails.ANY_VERSION,ShimmerVerDetails.ANY_VERSION);
-//			private static final ShimmerVerObject svoWebcamLogitechC930e = 	new ShimmerVerObject(HW_ID.WEBCAM_LOGITECH_HD_C930E,ShimmerVerDetails.ANY_VERSION,ShimmerVerDetails.ANY_VERSION,ShimmerVerDetails.ANY_VERSION,ShimmerVerDetails.ANY_VERSION,ShimmerVerDetails.ANY_VERSION);
-//			protected static final ShimmerVerObject svoWebcamGeneric = new ShimmerVerObject(HW_ID.WEBCAM_GENERIC, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             public static final ShimmerVerObject svoWebcamLogitechHdC920 = new ShimmerVerObject(HW_ID.WEBCAM_LOGITECH_HD_C920, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             public static final ShimmerVerObject svoWebcamLogitechHdC930E = new ShimmerVerObject(HW_ID.WEBCAM_LOGITECH_HD_C930E, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
             public static final ShimmerVerObject svoWebcamDigiOptixSmartGlasses = new ShimmerVerObject(HW_ID.WEBCAM_DIGIOPTIX_SMART_GLASSES, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
@@ -2522,12 +2284,10 @@ public class Configuration {
         }
 
         public class SensorBitmap {
-            // LSB byte 0
             public static final int LIS2DW12_ACCEL = 1 << (7 + (8 * 0));
             public static final int LSM6DS3_ACCEL = 1 << (6 + (8 * 0));
             public static final int LSM6DS3_GYRO = 1 << (5 + (8 * 0));
 
-            // Byte 1
             public static final int GSR = 1 << (7 + (8 * 1));
             public static final int MAX86916_PPG_GREEN = 1 << (6 + (8 * 1));
             public static final int MAX86XXX_PPG_RED = 1 << (5 + (8 * 1));
@@ -2552,7 +2312,6 @@ public class Configuration {
 
         public class SENSOR_ID {
             public static final int VERISENSE_TIMESTAMP = 2000;
-            //TODO not sure if there is a need for an offset here -> it was just copied from Sweatch implementation above
             public static final int LIS2DW12_ACCEL = 2005;
             public static final int LSM6DS3_GYRO = 2006;
             public static final int LSM6DS3_ACCEL = 2007;

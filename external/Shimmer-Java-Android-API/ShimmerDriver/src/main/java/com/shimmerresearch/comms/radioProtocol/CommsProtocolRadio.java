@@ -15,7 +15,6 @@ import com.shimmerresearch.driver.ShimmerMsg;
 import com.shimmerresearch.exceptions.ShimmerException;
 
 
-//Core radio functions to be implemented by native radio libs , jssc, android .. etc.
 
 public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
@@ -79,12 +78,9 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
             try {
                 mRadioHal.disconnect();
             } catch (ShimmerException e) {
-                //TODO
                 eventError(e);
                 throw (e);
             } finally {
-                //TODO 2016/07/26 Not sure if this should be here
-//				mRadioHal=null;
             }
         }
     }
@@ -203,7 +199,6 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
         }
     }
 
-    // -------------- Timers Start ----------------
     public void startTimerCheckIfAlive() {
         mRadioProtocol.startTimerCheckIfAlive();
     }
@@ -227,49 +222,14 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
     public void stopTimerReadBattStatus() {
         mRadioProtocol.stopTimerReadBattStatus();
     }
-    // -------------- Timers End ----------------
 
-//	@Override
-//	protected void connectionLost() {
-//		closeConnection();
-////		consolePrintLn("Connection Lost");
-//		setBluetoothRadioState(BT_STATE.CONNECTION_LOST);
-//	}
-//	
-//	private void closeConnection(){
-//		disconnect();
-//		try {
-
-    /// /			if (mIOThread != null) {
-    /// /				mIOThread.stop = true;
-    /// /				mIOThread = null;
-    /// /				if(mUseProcessingThread){
-    /// /				mPThread.stop = true;
-    /// /				mPThread = null;
-    /// /				}
-    /// /			}
-    /// /			mIsStreaming = false;
-    /// /			mIsInitialised = false;
 //
-//			setBluetoothRadioState(BT_STATE.DISCONNECTED);
-//			if (mSerialPort != null){
-//				
-//				if(mSerialPort.isOpened ()) {
-//				  mSerialPort.purgePort (1);
-//				  mSerialPort.purgePort (2);
-//				  mSerialPort.closePort ();
-//				}
-//				
-//			}
-//			 mSerialPort = null;
-//		} catch (SerialPortException ex) {
-//			consolePrintException(ex.getMessage(), ex.getStackTrace());
-//			setBluetoothRadioState(BT_STATE.DISCONNECTED);
-//		}			
-//	}
+
+//
+//
+//
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -292,7 +252,6 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
             try {
                 mRadioProtocol.setProtocolListener(new CommsProtocolListener());
             } catch (ShimmerException e) {
-                //TODO
                 eventError(e);
             }
 
@@ -348,9 +307,6 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
         @Override
         public void eventLogAndStreamStatusChangedCallback(int lastSentInstruction) {
-//			if (mSerialPort.isConnected()){
-//			mRadioProtocol.setPacketSize(41);
-//		}
             for (RadioListener rl : mRadioListenerList) {
                 rl.eventLogAndStreamStatusChangedCallback(lastSentInstruction);
             }
@@ -359,13 +315,11 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
         @Override
         public void eventAckInstruction(byte[] bs) {
             for (RadioListener rl : mRadioListenerList) {
-//				rl.eventAckInstruction(bs);
             }
         }
 
         @Override
         public void eventByteResponseWhileStreaming(byte[] b) {
-            // TODO Auto-generated method stub
 
         }
 
@@ -378,7 +332,6 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
         @Override
         public void sendStatusMSGtoUI(String msg) {
-            // TODO Auto-generated method stub
 
         }
 
@@ -420,12 +373,6 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
             System.out.println("initialiseStreamingCallback:\tFINISHED");
         }
 
-//		@Override
-//		public void eventSyncStates(boolean isDocked, boolean isInitialised, boolean isSdLogging, boolean isSensing, boolean isStreaming, boolean haveAttemptedToRead) {
-//			for (RadioListener rl:mRadioListenerList){
-//				rl.eventSyncStates(isDocked, isInitialised, isSdLogging, isSensing, isStreaming, haveAttemptedToRead);;
-//			}
-//		}
 
         @Override
         public void eventSetIsDocked(boolean isDocked) {
@@ -476,7 +423,6 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
             try {
                 disconnect();
             } catch (ShimmerException e) {
-                //TODO
                 eventError(e);
             }
         }

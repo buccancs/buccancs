@@ -217,7 +217,6 @@ public class ViewPortHandler {
 
         outputMatrix.getValues(vals);
 
-        // reset all translations and scaling
         vals[Matrix.MTRANS_X] = 0f;
         vals[Matrix.MTRANS_Y] = 0f;
         vals[Matrix.MSCALE_X] = 1f;
@@ -259,7 +258,6 @@ public class ViewPortHandler {
 
         mMatrixTouch.set(newMatrix);
 
-        // make sure scale and translation are within their bounds
         limitTransAndScale(mMatrixTouch, mContentRect);
 
         if (invalidate)
@@ -279,10 +277,8 @@ public class ViewPortHandler {
         float curTransY = matrixBuffer[Matrix.MTRANS_Y];
         float curScaleY = matrixBuffer[Matrix.MSCALE_Y];
 
-        // min scale-x is 1f
         mScaleX = Math.min(Math.max(mMinScaleX, curScaleX), mMaxScaleX);
 
-        // min scale-y is 1f
         mScaleY = Math.min(Math.max(mMinScaleY, curScaleY), mMaxScaleY);
 
         float width = 0f;

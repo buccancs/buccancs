@@ -31,18 +31,14 @@ final public class ObjectCluster implements Cloneable, Serializable {
     public static final int CAL_INDEX = CHANNEL_TYPE.CAL.ordinal();
     public static final int UNCAL_INDEX = CHANNEL_TYPE.CAL.ordinal();
     private static final long serialVersionUID = -7601464501144773539L;
-    //TODO implement below to remove the need for the Guava library?
-//	private HashMap<String, HashMap<CHANNEL_TYPE, FormatCluster>> mPropertyClusterProposed = new HashMap<String, HashMap<CHANNEL_TYPE, FormatCluster>>();
         public static OBJECTCLUSTER_TYPE[] mOCTypesEnabled = new OBJECTCLUSTER_TYPE[]{
             null,
             OBJECTCLUSTER_TYPE.FORMAT_CLUSTER,
             null,
             null
     };
-    //JC: Only temporary for testing this class can be deleted if we decide not to use it in the future
     public ArrayList<SensorData> mSensorDataList = new ArrayList<SensorData>();
     public Multimap<String, FormatCluster> mPropertyCluster = HashMultimap.create();
-    // ------- Old Array approach - Start -----------
     public byte[] mRawData;
     public double[] mUncalData;
     public double[] mCalData;
@@ -50,11 +46,8 @@ final public class ObjectCluster implements Cloneable, Serializable {
     public String[] mSensorNames;
     public String[] mUnitCal;
     public String[] mUnitUncal;
-    // ------- Old Array approach - End -----------
 
-    // ------- New Array approach -------
     public SensorDataArray sensorDataArray;
-    //	public SensorDataPerType[] sensorDataArray = new SensorDataPerType[2];
     public double mSystemTimeStamp = 0;
     public double mLSLTimeStamp = 0;
         public boolean mIsShimmerObjectCluster = true;
@@ -69,7 +62,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
     private String mBluetoothAddress;
         private Builder mObjectClusterBuilder;
     private int indexKeeper = 0;
-    //TODO is mSystemTimeStampBytes actually used by anything?
     private byte[] mSystemTimeStampBytes = new byte[8];
     private double mTimeStampMilliSecs;
 
@@ -147,7 +139,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
             dataArray[i] = rand.nextInt(maxValue);
         }
 
-//		double[] dataArray = rand.doubles(numSamples, minValue, maxValue);
 
         double timestamp = 0.00001;
         ObjectCluster[] ojcArray = new ObjectCluster[numSamples];
@@ -179,9 +170,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
         mBluetoothAddress = macAddress;
     }
 
-//	public double getFormatClusterValue(ChannelDetails channelDetails, String format){
-//		return getFormatClusterValue(channelDetails.mObjectClusterName, format);
-//	}
 
     public double getFormatClusterValueDefaultFormat(ChannelDetails channelDetails) {
         return getFormatClusterValue(channelDetails.mObjectClusterName, channelDetails.mListOfChannelTypes.get(0).toString());
@@ -227,7 +215,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
 
         public void removePropertyFormat(String propertyname, String formatname) {
         Collection<FormatCluster> colFormats = mPropertyCluster.get(propertyname);
-        // first retrieve all the possible formats for the current sensor device
         FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(colFormats, formatname)); // retrieve format;
         mPropertyCluster.remove(propertyname, formatCluster);
     }
@@ -251,7 +238,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
             size++;
         }
 
-        //arrange the properties
         String[] properties = new String[size];
         int y = 0;
         for (String fckey : getChannelNamesFromKeySet()) {
@@ -261,13 +247,11 @@ final public class ObjectCluster implements Cloneable, Serializable {
 
         Arrays.sort(properties);
 
-        // now need to try arrange the formats
         int index = 0;
         String property;
         for (int k = 0; k < size; k++) {
             property = properties[k];
             Collection<FormatCluster> ofFormatstemp = getCollectionOfFormatClusters(property);
-            // the iterator does not have the same order
             int tempSize = 0;
             for (FormatCluster fctemp : ofFormatstemp) {
                 tempSize++;
@@ -276,7 +260,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
             String[] formats = new String[tempSize];
             String[] units = new String[tempSize];
             int p = 0;
-            //sort the formats
             for (FormatCluster fctemp : ofFormatstemp) {
                 formats[p] = fctemp.mFormat;
                 p++;
@@ -295,7 +278,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
             for (int u = 0; u < formats.length; u++) {
                 String[] channel = {mMyName, property, formats[u], units[u]};
                 listofSignals.add(channel);
-                //System.out.println(":::" + address + property + fc.mFormat);
                 System.out.println("Index" + index);
 
             }
@@ -306,7 +288,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
     }
 
     public List<String[]> generateArrayOfChannels() {
-        //First retrieve all the unique keys from the objectClusterLog
         Multimap<String, FormatCluster> m = mPropertyCluster;
 
         int size = m.size();
@@ -318,14 +299,12 @@ final public class ObjectCluster implements Cloneable, Serializable {
         int i = 0;
         int p = 0;
         for (String key : m.keys()) {
-            //first check that there are no repeat entries
 
             if (compareStringArray(mSensorNames, key) == true) {
                 for (FormatCluster formatCluster : m.get(key)) {
                     sensorFormats[p] = formatCluster.mFormat;
                     sensorUnits[p] = formatCluster.mUnits;
                     sensorIsUsingDefaultCal[p] = (formatCluster.mIsUsingDefaultCalibration ? "*" : "");
-                    //Log.d("Shimmer",key + " " + mSensorFormats[p] + " " + mSensorUnits[p]);
                     p++;
                 }
 
@@ -360,8 +339,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
 
 		if(mListOfOCTypesEnabled.contains(OBJECTCLUSTER_TYPE.ARRAYS)) {
 			sensorDataArray = new SensorDataArray(length);
-//			sensorDataArray[CHANNEL_TYPE.CAL.ordinal()] = new SensorDataPerType(50);
-//			sensorDataArray[CHANNEL_TYPE.UNCAL.ordinal()] = new SensorDataPerType(50);
 		}
 */
         if (mEnableArraysDataStructure) {
@@ -390,8 +367,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
         if (channelDetails.mListOfChannelTypes.contains(CHANNEL_TYPE.CAL)) {
             addCalData(channelDetails, calData, index, usingDefaultParameters);
         }
-        //TODO decide whether to include the below here
-//		incrementIndexKeeper();
     }
 
     public void addCalData(ChannelDetails channelDetails, double calData) {
@@ -431,7 +406,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
                 mUncalData[index] = data;
                 mUnitUncal[index] = units;
             }
-            //TODO below not really needed, just put in to match some legacy code but can be removed.
             else if (channelType == CHANNEL_TYPE.DERIVED) {
                 mCalData[index] = data;
                 mUnitCal[index] = units;
@@ -440,36 +414,11 @@ final public class ObjectCluster implements Cloneable, Serializable {
             }
             mSensorNames[index] = objectClusterName;
 
-            //TODO implement below here and remove everywhere else in the code
-//			incrementIndexKeeper();
 
 
-            //TODO JOS: Add new arrays data here
 
-//			if(channelType.equals(CHANNEL_TYPE.CAL.toString())) {
-//				sensorDataArray.mSensorNames[mIndexCal] = channelName;
-//				sensorDataArray.mCalUnits[mIndexCal] = units;
-//				sensorDataArray.mCalData[mIndexCal] = data;
-//				sensorDataArray.mIsUsingDefaultCalibrationParams[mIndexCal] = isUsingDefaultCalib;
-////				sensorDataArray.mCalArraysIndex++;
 //
-////				sensorDataArray[CAL_INDEX].mSensorNames[mIndexCal] = channelName;
-////				sensorDataArray[CAL_INDEX].mUnits[mIndexCal] = units;
-////				sensorDataArray[CAL_INDEX].mData[mIndexCal] = data;
-////				sensorDataArray[CAL_INDEX].mIsUsingDefaultCalibParams[mIndexCal] = isUsingDefaultCalib;
-//				//mIndexCal++;
-//			} else if(channelType.equals(CHANNEL_TYPE.UNCAL.toString())) {
-//				sensorDataArray.mSensorNames[mIndexUncal] = channelName;
-//				sensorDataArray.mUncalUnits[mIndexUncal] = units;
-//				sensorDataArray.mUncalData[mIndexUncal] = data;
-////				sensorDataArray.mUncalArraysIndex++;
 //
-////				sensorDataArray[UNCAL_INDEX].mSensorNames[mIndexUncal] = channelName;
-////				sensorDataArray[UNCAL_INDEX].mUnits[mIndexUncal] = units;
-////				sensorDataArray[UNCAL_INDEX].mData[mIndexUncal] = data;
-////				sensorDataArray[UNCAL_INDEX].mIsUsingDefaultCalibParams[mIndexUncal] = isUsingDefaultCalib;
-//				//mIndexUncal++;
-//			}
 
         }
 
@@ -478,7 +427,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
         }
 
         if (mOCTypesEnabled[OBJECTCLUSTER_TYPE.PROTOBUF.ordinal()] != null) {
-            //TODO
         }
     }
 
@@ -511,7 +459,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
     }
 
     public void addDataToMap(String channelName, String channelType, String units, double data, boolean isUsingDefaultCalib) {
-//		if(mOCTypesEnabled[OBJECTCLUSTER_TYPE.ARRAYS.ordinal()]!=null){
         if (mEnableArraysDataStructure) {
 
         } else {
@@ -585,11 +532,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
         if (mMyName != null)
             mObjectClusterBuilder.setName(mMyName);
         mObjectClusterBuilder.setCalibratedTimeStamp(mTimeStampMilliSecs);
-//		ByteBuffer bb = ByteBuffer.allocate(8);
-//    	bb.put(mSystemTimeStampBytes);
-//    	bb.flip();
-//    	long systemTimeStamp = bb.getLong();
-//		mObjectClusterBuilder.setSystemTime(systemTimeStamp);
         mObjectClusterBuilder.setSystemTime((long) mSystemTimeStamp);
         return mObjectClusterBuilder.build();
     }
@@ -625,7 +567,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
     }
 
     public ObjectCluster deepClone() {
-//		System.out.println("Cloning:" + mUniqueID);
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -645,7 +586,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
 
         public int getIndexForChannelName(String channelName) {
         if (mEnableArraysDataStructure) {
-            //TODO JOS: add parser map support here so we don't have to parse the array
             for (int i = 0; i < sensorDataArray.mSensorNames.length; i++) {
                 if (sensorDataArray.mSensorNames[i] != null) {
                     if (sensorDataArray.mSensorNames[i].equals(channelName)) {
@@ -676,7 +616,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
 
     public void setSystemTimeStamp(double systemTimeStamp) {
         mSystemTimeStamp = systemTimeStamp;
-//		mSystemTimeStampBytes=ByteBuffer.allocate(8).putLong(systemTimeStamp).array();
         mSystemTimeStampBytes = ByteBuffer.allocate(Long.SIZE / Byte.SIZE).putLong((long) systemTimeStamp).array();
     }
 

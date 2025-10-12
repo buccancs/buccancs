@@ -23,7 +23,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 
 public class SensorBridgeAmp extends AbstractSensor {
 
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorBridgeAmplifierRef = new SensorDetailsRef(
             0x80 << (1 * 8),
             0x80 << (1 * 8),
@@ -40,17 +39,12 @@ public class SensorBridgeAmp extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT
             ),
             null,
             Arrays.asList(ObjectClusterSensorName.BRIDGE_AMP_HIGH,
                     ObjectClusterSensorName.BRIDGE_AMP_LOW),
             true);
 
-    //--------- Sensor specific variables start --------------
     public static final SensorDetailsRef sensorResistanceAmpRef = new SensorDetailsRef(
             SensorADC.sensorADC_INT_EXP_ADC_A1Ref.mSensorBitmapIDStreaming,
             SensorADC.sensorADC_INT_EXP_ADC_A1Ref.mSensorBitmapIDSDLogHeader,
@@ -67,10 +61,6 @@ public class SensorBridgeAmp extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT
             ),
             null,
             Arrays.asList(ObjectClusterSensorName.RESISTANCE_AMP),
@@ -91,10 +81,6 @@ public class SensorBridgeAmp extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
             ),
             null,
             Arrays.asList(ObjectClusterSensorName.SKIN_TEMPERATURE_PROBE),
@@ -112,19 +98,12 @@ public class SensorBridgeAmp extends AbstractSensor {
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBrAmp);
         private static final long serialVersionUID = 3440151728338729991L;
 
-    //--------- Sensor specific variables End --------------
 
 
-    //--------- Bluetooth commands start --------------
-
-    //			Not in this class
-
-    //--------- Bluetooth commands end --------------
 
 
-    //--------- Configuration options start ------------
-    //--------- Configuration options end --------------
-    //Bridge Amp
+
+
     public static ChannelDetails channelBridgeAmpHigh = new ChannelDetails(
             ObjectClusterSensorName.BRIDGE_AMP_HIGH,
             ObjectClusterSensorName.BRIDGE_AMP_HIGH,
@@ -141,7 +120,6 @@ public class SensorBridgeAmp extends AbstractSensor {
             CHANNEL_UNITS.MILLIVOLTS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x28);
-    // Philips Skin Temperature Probe (through Bridge Amp)
     public static ChannelDetails channelSkinTemp = new ChannelDetails(
             ObjectClusterSensorName.SKIN_TEMPERATURE_PROBE,
             ObjectClusterSensorName.SKIN_TEMPERATURE_PROBE,
@@ -149,7 +127,6 @@ public class SensorBridgeAmp extends AbstractSensor {
             CHANNEL_DATA_TYPE.UINT12, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.DEGREES_CELSIUS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // Resistance Amplifier
     public static ChannelDetails channelResistanceAmp = new ChannelDetails(
             ObjectClusterSensorName.RESISTANCE_AMP,
             ObjectClusterSensorName.RESISTANCE_AMP,
@@ -166,10 +143,8 @@ public class SensorBridgeAmp extends AbstractSensor {
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
 
-    //--------- Sensor info end --------------
 
 
-    //--------- Channel info start --------------
 
     static {
         Map<String, ChannelDetails> aChannelMap = new LinkedHashMap<String, ChannelDetails>();
@@ -190,17 +165,11 @@ public class SensorBridgeAmp extends AbstractSensor {
 
     public static double processBAAdcChannel(ChannelDetails channelDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs,
                                              double offset, double vRefP, double gain) {
-//		sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestamp);
 //
-//		double offset = 60; double vRefP = 3; double gain = 551;
-//		if(mEnableCalibration){
 
-//			for(ChannelDetails channelDetails:sensorDetails.mListOfChannels){
 
         double unCalData = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
         double calData = SensorADC.calibrateU12AdcValueToMillivolts(unCalData, offset, vRefP, gain);
-//			}
-//		}
         return calData;
     }
 
@@ -214,7 +183,6 @@ public class SensorBridgeAmp extends AbstractSensor {
     public void generateSensorMap() {
         super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
 
-        //Update the derived sensor bit index
         for (Integer sensorId : mSensorMap.keySet()) {
             long derivedSensorBitmapID = 0;
             if (sensorId == Configuration.Shimmer3.SENSOR_ID.HOST_SKIN_TEMPERATURE_PROBE) {
@@ -234,10 +202,8 @@ public class SensorBridgeAmp extends AbstractSensor {
 
     @Override
     public void generateConfigOptionsMap() {
-        // Not in this class
     }
 
-    // --------------------------- Channel info end ----------------------------------------
 
     @Override
     public void generateSensorGroupMapping() {
@@ -252,18 +218,15 @@ public class SensorBridgeAmp extends AbstractSensor {
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
 
-    //--------- Constructors for this class start --------------
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled,
                                            double pcTimestampMs) {
 
-//		return processBAAdcChannel(sensorDetails, rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestamp);
 
         sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestampMs);
         if (mEnableCalibration) {
@@ -297,38 +260,32 @@ public class SensorBridgeAmp extends AbstractSensor {
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId, String configLabel) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId,
                                              boolean isSensorEnabled) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -343,33 +300,28 @@ public class SensorBridgeAmp extends AbstractSensor {
     @Override
     public Object getSettings(String componentName,
                               COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName,
                                      Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(
             LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -400,7 +352,6 @@ public class SensorBridgeAmp extends AbstractSensor {
     }
 
     public class GuiLabelConfig {
-        //Not in this class ?
     }
 
     public class LABEL_SENSOR_TILE {

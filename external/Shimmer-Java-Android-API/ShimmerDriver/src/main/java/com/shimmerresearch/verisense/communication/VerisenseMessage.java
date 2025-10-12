@@ -36,7 +36,6 @@ public class VerisenseMessage implements Serializable {
         mExpectedLengthBytes = (int) AbstractPayload.parseByteArrayAtIndex(rxBytes, 1, CHANNEL_DATA_TYPE.UINT16);
         payloadBytes = new byte[mExpectedLengthBytes];
 
-        // if message is greater then the 3 bytes for command|property and length bytes, append the remaining bytes to the payload byte buffer
         if (rxBytes.length > 3) {
             appendToDataChuck(rxBytes, 3, timeMs);
         }
@@ -122,8 +121,6 @@ public class VerisenseMessage implements Serializable {
 		if (!result.result)
 		{
 			AdvanceLog(LogObject, "CRCCheck", result, ASMName);
-			//see ASM-1142, ASM-1131
-			//AutoSyncLogger.AddLog(LogObject, "Failed CRC Payload", BitConverter.ToString(DataBuffer.Packets), ASMName);
 		}
 
 		return result.result;
@@ -255,7 +252,6 @@ public class VerisenseMessage implements Serializable {
     }
 
     public enum VERISENSE_TEST_MODE {
-        //		EXIT(0x00), // Not in use
         SHORT_TERM_FLASH1((byte) 0x01),
         SHORT_TERM_FLASH2((byte) 0x02),
         LONG_TERM_FLASH((byte) 0x03),
@@ -265,7 +261,6 @@ public class VerisenseMessage implements Serializable {
         USB_POWER_GOOD((byte) 0x07),
         ACCEL2_AND_GYRO((byte) 0x08),
         MAX86XXX((byte) 0x09),
-        // 0x0A Reserved for PPG LED Test
         MAX30002((byte) 0x0B),
         ALL((byte) 0xFF);
 
@@ -282,22 +277,15 @@ public class VerisenseMessage implements Serializable {
 
     public class VERISENSE_DEBUG_MODE {
         public static final byte FLASH_LOOKUP_TABLE_READ = 0x01;
-        //		public static final byte FLASH_LOOKUP_TABLE_ERASE = 0x02; // Recommend to use ERASE_FLASH_AND_LOOKUP instead
         public static final byte RWC_SCHEDULE_READ = 0x03;
-        //		public static final byte ERASE_LONG_TERM_FLASH = 0x04; // Recommend to use ERASE_FLASH_AND_LOOKUP instead
-//		public static final byte ERASE_SHORT_TERM_FLASH1 = 0x05; // Recommend to use ERASE_FLASH_AND_LOOKUP instead
-//		public static final byte ERASE_SHORT_TERM_FLASH2 = 0x06; // Recommend to use ERASE_FLASH_AND_LOOKUP instead
         public static final byte ERASE_OPERATIONAL_CONFIG = 0x07;
         public static final byte ERASE_PRODUCTION_CONFIG = 0x08;
         public static final byte CLEAR_PENDING_EVENTS = 0x09;
         public static final byte ERASE_FLASH_AND_LOOKUP = 0x0A;
         public static final byte TRANSFER_LOOP = 0x0B; // Internal FW testing only
-        //		public static final byte LOAD_FAKE_LOOKUPTABLE = 0x0C; // Internal FW testing only
-//		public static final byte GSR_LED_TEST = 0x0D; //Unused
         public static final byte MAX86XXX_LED_TEST = 0x0E;
         public static final byte CHECK_PAYLOADS_FOR_CRC_ERRORS = 0x0F;
         public static final byte EVENT_LOG = 0x10;
-        //		public static final byte START_POWER_PROFILER_SEQ = 0x11; // Internal FW testing only
         public static final byte RECORD_BUFFER_DETAILS = 0x12;
     }
 

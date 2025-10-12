@@ -22,9 +22,7 @@ public class ShimmerBattStatusDetails implements Serializable {
 
         public ShimmerBattStatusDetails(byte[] rxBuf) {
         if (rxBuf.length >= 3) {
-            // Parse response string
             int battAdcValue = (((rxBuf[1] & 0xFF) << 8) + (rxBuf[0] & 0xFF));
-            // Parse as unsigned byte and let full byte through to handle UNKNOWN status
             int chargingStatus = rxBuf[2] & 0xFF;
             update(battAdcValue, chargingStatus);
         }
@@ -47,18 +45,11 @@ public class ShimmerBattStatusDetails implements Serializable {
     }
 
     public static double battVoltageToBattPercentage(double battVoltage) {
-        // 4th order polynomial fit - good enough for purpose
         double battPercentage = (1109.739792 * Math.pow(battVoltage, 4)) - (17167.12674 * Math.pow(battVoltage, 3)) + (99232.71686 * Math.pow(battVoltage, 2)) - (253825.397 * battVoltage) + 242266.0527;
-        // 6th order polynomial fit - best fit -> think there is a bug with this one
-        //battPercentage = -(29675.10393 * Math.pow(battVoltage, 6)) + (675893.9095 * Math.pow(battVoltage, 5)) - (6404308.2798 * Math.pow(battVoltage, 4)) + (32311485.5704 * Math.pow(battVoltage, 3)) - (91543800.1720 * Math.pow(battVoltage, 2)) + (138081754.0880 * battVoltage) - 86624424.6584;
         return battPercentage;
     }
 
     public static double battPercentageToBattVoltage(double battPercentage) {
-        // 4th order polynomial fit - Excel
-//		y = -7E-08x4 + 2E-05x3 - 0.0012x2 + 0.0393x + 3.3044
-        // 4th order polynomial fit - MATLAB
-//		y = - 6.6e-08*x^{4} + 1.6e-05*x^{3} - 0.0012*x^{2} + 0.039*x + 3.3
         double battVoltage =
                 -(6.6e-8 * Math.pow(battPercentage, 4))
                         + (1.6e-5 * Math.pow(battPercentage, 3))
@@ -119,7 +110,6 @@ public class ShimmerBattStatusDetails implements Serializable {
             System.out.println("ADC val: " + ShimmerBattStatusDetails.battPercentageToAdc(d)
                             + "\tVoltage: " + ShimmerBattStatusDetails.battPercentageToBattVoltage(d)
                             + "\tPercent: " + d
-//					+ "\tLevel: " + shimmerBattStatusDetails.getEstimatedBatteryLevel().toString()
                             + "\tADC buffer: " + (ShimmerBattStatusDetails.battPercentageToAdc(d) - 25) + "-to-" + (ShimmerBattStatusDetails.battPercentageToAdc(d) + 25)
             );
         }
@@ -166,7 +156,6 @@ public class ShimmerBattStatusDetails implements Serializable {
     public void calculateBattPercentage(double battVoltage) {
         mBattVoltage = battVoltage;
 
-        // equations are only valid when: 3.2 < x < 4.167. Leaving a 0.2v either side just incase
         if (mBattVoltage > (4.167 + 0.2)) {
             mBattVoltage = 4.167;
         } else if (mBattVoltage < (3.2 - 0.2)) {
@@ -187,14 +176,6 @@ public class ShimmerBattStatusDetails implements Serializable {
             if (mBattVoltage < 3.0) {// from lm3658 datasheet
                 mChargingStatusParsed += " (Preconditioning)";
             }
-            //else if (battVoltage < .0)
-            //{
-            //    chargingStage = " (Primary charging)";
-            //}
-            //else if (battVoltage < .0)
-            //{
-            //    chargingStage = " (Conditioning)";
-            //}
             else {
                 mChargingStatusParsed += "...";
             }
@@ -233,7 +214,6 @@ public class ShimmerBattStatusDetails implements Serializable {
             if (mEstimatedChargePercentage == -1.0) {
                 return null;
             } else {
-//	        	mEstimatedChargePercentage = String.format(Locale.UK, "%,.1f",battPercentage) + "%";
                 return (String.format("%,.1f", mEstimatedChargePercentage) + "%");
             }
         } else {
@@ -302,12 +282,10 @@ public class ShimmerBattStatusDetails implements Serializable {
 	*/
 
     public class CHARGING_STATUS_BYTE {
-        //This are bits that come directly from the Battery Charging chips output pins
         public static final int SUSPENDED = 0xC0;
         public static final int FULLY_CHARGED = 0x40;
         public static final int PRECONDITIONING = 0x80;
         public static final int BAD_BATTERY = 0x00;
-        //Added for devices that don't support the above status bits
         public static final int UNKNOWN = 0xFF;
     }
 

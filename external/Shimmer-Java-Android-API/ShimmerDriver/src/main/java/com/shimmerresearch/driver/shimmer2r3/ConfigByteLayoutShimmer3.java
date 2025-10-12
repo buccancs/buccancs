@@ -54,7 +54,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int idxADXL371AltAccelCalibration = 256;
     public int idxLIS3MDLAltMagCalibration = 285;
 
-    // Derived Channels - used by SW not FW
     public int idxDerivedSensors0 = 0;
     public int idxDerivedSensors1 = 0;
     public int idxDerivedSensors2 = 0;
@@ -94,19 +93,15 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
 
     public int idxNode0 = 128 + 128 + 0;
 
-//	public int idxMplCalibration =                  0;
 
-    // Masks and Bitshift values
     public int maskShimmerSamplingRate = 0xFF;
     public int maskBufferSize = 0xFF;
 
-    // Sensors
     public int maskSensors = 0xFF;
     public int byteShiftSensors0 = 0;
     public int byteShiftSensors1 = 8;
     public int byteShiftSensors2 = 16;
 
-    //Config Byte0
     public int bitShiftLSM303DLHCAccelSamplingRate = 4;
     public int maskLSM303DLHCAccelSamplingRate = 0x0F;
     public int bitShiftLSM303DLHCAccelRange = 2;
@@ -121,18 +116,15 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int bitShiftBMP390PressureResolution = 0;
     public int maskBMP390PressureResolution = 0x01;
 
-    //Config Byte1
     public int bitShiftMPU9150AccelGyroSamplingRate = 0;
     public int maskMPU9150AccelGyroSamplingRate = 0xFF;
 
-    //Config Byte2
     public int bitShiftLSM303DLHCMagRange = 5;
     public int maskLSM303DLHCMagRange = 0x07;
     public int bitShiftLSM303DLHCMagSamplingRate = 2;
     public int maskLSM303DLHCMagSamplingRate = 0x07;
     public int bitShiftMPU9150GyroRange = 0;
     public int maskMPU9150GyroRange = 0x03;
-    //Config Byte3
     public int bitShiftMPU9150AccelRange = 6;
     public int maskMPU9150AccelRange = 0x03;
     public int bitShiftBMPX80PressureResolution = 4;
@@ -141,8 +133,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int maskGSRRange = 0x07;
     public int bitShiftEXPPowerEnable = 0;
     public int maskEXPPowerEnable = 0x01;
-    //Unused bits 3-0
-    //Config Byte4
     public int bitShiftLIS3MDLAltMagSamplingRate = 0;
     public int maskLIS3MDLAltMagSamplingRate = 0x3F;
     public int bitShiftADXL371AltAccelSamplingRate = 6;
@@ -150,11 +140,9 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int bitShiftLSM6DSVGyroRangeMSB = 2;
     public int maskLSM6DSVGyroRangeMSB = 0x01;
 
-    //Config Byte5
     public int maskLIS2MDLMagRateMSB = 0x07;
     public int bitShiftLIS2MDLMagRateMSB = 3;
 
-    // Derived Channels - used by SW not FW
     public int maskDerivedChannelsByte = 0xFF;
     public int byteShiftDerivedSensors0 = 8 * 0;
     public int byteShiftDerivedSensors1 = 8 * 1;
@@ -171,14 +159,9 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int maskDerivedChannelPpg_ADC12ADC13 = 0x000004;
     public int maskDerivedChannelPpg1_ADC12ADC13 = 0x000008;
     public int maskDerivedChannelPpg2_ADC1ADC14 = 0x000010;
-//	public int maskDerivedChannelPpgToHr = 			0x000020;
-//	public int maskDerivedChannelEcgToHr = 			0x000040;
 //	
-//	public int maskDerivedChannel6DofMadgewick =	0x000100;
-//	public int maskDerivedChannel9DofMadgewick =	0x000200;
 
 
-    // ExG related config bytes
     public int idxEXGADS1292RConfig1 = 0;
     public int idxEXGADS1292RConfig2 = 1;
     public int idxEXGADS1292RLOff = 2;
@@ -190,14 +173,8 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int idxEXGADS1292RResp1 = 8;
     public int idxEXGADS1292RResp2 = 9;
 
-//	public int bitShiftEXGRateSetting = 		0;
-//	public int maskEXGRateSetting = 			0x07;
 //	
-//	public int bitShiftEXGGainSetting = 		4;
-//	public int maskEXGGainSetting = 			0x07;
 //
-//	public int bitShiftEXGReferenceElectrode = 	0;
-//	public int maskEXGReferenceElectrode = 		0x07;
 
     public int maskBaudRate = 0xFF;
 
@@ -208,7 +185,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
 
     public int lengthConfigTimeBytes = 4;
 
-    // MPL related
     public int bitShiftMPU9150DMP = 7;
     public int maskMPU9150DMP = 0x01;
 
@@ -242,7 +218,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int bitShiftMPLEnable = 3;
     public int maskMPLEnable = 0x01;
 
-    // SD logging related
     public int bitShiftButtonStart = 5;
     public int maskButtonStart = 0x01;
 
@@ -290,7 +265,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
 
 
     public ConfigByteLayoutShimmer3() {
-        // TODO Auto-generated constructor stub
     }
 
         public ConfigByteLayoutShimmer3(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal, int hardwareVersion) {
@@ -298,7 +272,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
 
         mInfoMemSize = calculateConfigByteLength();
 
-        //Include changes to mapping below in order of oldest to newest in separate "if statements"
         if (mShimmerVerObject.mHardwareVersion == HW_ID.SHIMMER_3R
                 || compareVersions(FW_ID.SDLOG, 0, 8, 42)
                 || compareVersions(FW_ID.LOGANDSTREAM, 0, 3, 4)
@@ -372,40 +345,13 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
             idxBtFactoryReset = 128 + 103;
         }
 
-//		if(mShimmerVerObject.isVerCompatibleWithAnyOf(Configuration.Shimmer3.configOptionLowPowerAutoStop.mListOfCompatibleVersionInfo)) {
-//			maskLowBattStop = 0;
-//			bitShiftLowBattStop = 0;
-//		}
 
-//		if(Util.compareVersions(mFirmwareIdentifier,mFirmwareVersionMajor,mFirmwareVersionMinor,mFirmwareVersionInternal,FW_ID.SDLOG,0,10,1)){
-//			idxMplCalibration = 128+128+128+0;
-//		}
 
     }
 
     public int calculateConfigByteLength(ShimmerVerObject shimmerVersionObject) {
 
-        //TODO: should add full FW version checking here to support different size InfoMems in the future
-//		if(Util.compareVersions(firmwareIdentifier, firmwareVersionMajor, firmwareVersionMinor, firmwareVersionRelease,
-//				FW_ID.SDLOG, 0, 10, 1)) {
-//			return 512;
-//		}
 
-//		if(firmwareIdentifier == FW_ID.SDLOG) {
-//			return 384;
-//		}
-//		else if(firmwareIdentifier == FW_ID.BTSTREAM) {
-//			return 128;
-//		}
-//		else if(firmwareIdentifier == FW_ID.LOGANDSTREAM) {
-//			return 384;
-//		}
-//		else if(firmwareIdentifier == FW_ID.GQ_GSR) {
-//			return 128;
-//		}
-//		else {
-//			return 512; 
-//		}
 
         return 384;
     }

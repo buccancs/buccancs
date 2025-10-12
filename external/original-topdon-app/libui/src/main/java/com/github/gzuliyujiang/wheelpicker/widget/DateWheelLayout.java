@@ -85,7 +85,6 @@ public class DateWheelLayout extends BaseWheelLayout {
         spaceStartView = findViewById(R.id.wheel_picker_date_start_view);
         spaceEndView = findViewById(R.id.wheel_picker_date_end_view);
 
-        //设置高度
         post(new Runnable() {
             @Override
             public void run() {
@@ -294,9 +293,6 @@ public class DateWheelLayout extends BaseWheelLayout {
         monthLabelView.setText(month);
         dayLabelView.setText(day);
 
-//        yearLabelView.setBackgroundColor(0xffff00ff);
-//        monthLabelView.setBackgroundColor(0xffff00ff);
-//        dayLabelView.setBackgroundColor(0xffff00ff);
     }
 
     public void setOnDateSelectedListener(OnDateSelectedListener onDateSelectedListener) {
@@ -376,22 +372,18 @@ public class DateWheelLayout extends BaseWheelLayout {
 
     private void changeMonth(int year) {
         final int min, max;
-        //开始年份和结束年份相同（即只有一个年份，这种情况建议使用月日模式）
         if (startValue.getYear() == endValue.getYear()) {
             min = Math.min(startValue.getMonth(), endValue.getMonth());
             max = Math.max(startValue.getMonth(), endValue.getMonth());
         }
-        //当前所选年份和开始年份相同
         else if (year == startValue.getYear()) {
             min = startValue.getMonth();
             max = 12;
         }
-        //当前所选年份和结束年份相同
         else if (year == endValue.getYear()) {
             min = 1;
             max = endValue.getMonth();
         }
-        //当前所选年份在开始年份和结束年份之间
         else {
             min = 1;
             max = 12;
@@ -409,18 +401,15 @@ public class DateWheelLayout extends BaseWheelLayout {
 
     private void changeDay(int year, int month) {
         final int min, max;
-        //开始年月及结束年月相同情况
         if (year == startValue.getYear() && month == startValue.getMonth()
                 && year == endValue.getYear() && month == endValue.getMonth()) {
             min = startValue.getDay();
             max = endValue.getDay();
         }
-        //开始年月相同情况
         else if (year == startValue.getYear() && month == startValue.getMonth()) {
             min = startValue.getDay();
             max = getTotalDaysInMonth(year, month);
         }
-        //结束年月相同情况
         else if (year == endValue.getYear() && month == endValue.getMonth()) {
             min = 1;
             max = endValue.getDay();
@@ -447,20 +436,16 @@ public class DateWheelLayout extends BaseWheelLayout {
             case 8:
             case 10:
             case 12:
-                // 大月月份为31天
                 return 31;
             case 4:
             case 6:
             case 9:
             case 11:
-                // 小月月份为30天
                 return 30;
             case 2:
-                // 二月需要判断是否闰年
                 if (year <= 0) {
                     return 29;
                 }
-                // 是否闰年：能被4整除但不能被100整除；能被400整除；
                 boolean isLeap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
                 if (isLeap) {
                     return 29;

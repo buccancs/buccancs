@@ -23,7 +23,6 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
 
     public ShimmerBluetooth.BT_STATE mState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
     public String mBluetoothAddress = "";
-    //generic UUID for serial port protocol
     private UUID mSPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     transient private BluetoothAdapter mBluetoothAdapter;
     transient private BluetoothDevice device;
@@ -75,7 +74,6 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     private void createBluetoothSocket() {
         try {
             device = mBluetoothAdapter.getRemoteDevice(mBluetoothAddress);
-            //mBluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(mSPP_UUID);
             mBluetoothSocket = device.createRfcommSocketToServiceRecord(mSPP_UUID);// If your device fails to pair try: device.createInsecureRfcommSocketToServiceRecord(mSPP_UUID)
         } catch (IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING);
@@ -165,11 +163,6 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
 
     @Override
     public void clearSerialPortRxBuffer() {
-//        try {
-//            mInStream.skipBytes(mInStream.available());
-//        } catch (IOException e) {
-//            catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_READING_DATA);
-//        }
     }
 
     @Override
@@ -178,7 +171,6 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
         synchronized (this) {
             if (mState == ShimmerBluetooth.BT_STATE.DISCONNECTED) return;
         }
-        // Perform the write unsynchronized
         write(bytes);
     }
 
@@ -271,15 +263,12 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
             public void run() {
                 try {
                     while (true) {
-                        // Read data from the input stream
 
                         int availableBytes = mInStream.available();
 
                         if (availableBytes < 1) {
-                            // End of stream
 
                         } else {
-                            // Notify listeners with the read data
                             mShimmerSerialEventCallback.serialPortRxEvent(availableBytes);
                         }
 

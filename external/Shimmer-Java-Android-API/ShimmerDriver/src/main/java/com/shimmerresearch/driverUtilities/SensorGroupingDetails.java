@@ -17,7 +17,6 @@ public class SensorGroupingDetails implements Serializable {
     public List<String> mListOfConfigOptionKeysAssociated = new ArrayList<String>();
     public List<String> mListofGuiConfigNames = new ArrayList<String>();
 
-    //For algorithm grouping
     public List<AlgorithmDetails> mListOfAlgorithmDetails = new ArrayList<AlgorithmDetails>();
 
     public boolean mIsPermanentGroup = false;
@@ -37,7 +36,6 @@ public class SensorGroupingDetails implements Serializable {
 
 
 
-    //special case for orientation sensor grouping map
     public SensorGroupingDetails(String groupName,
                                  List<AlgorithmDetails> listOfAlgorithmDetails,
                                  List<String> listOfConfigOptionKeysAssociated,

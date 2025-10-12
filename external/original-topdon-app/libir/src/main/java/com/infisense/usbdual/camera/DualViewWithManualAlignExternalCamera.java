@@ -63,7 +63,6 @@ public class DualViewWithManualAlignExternalCamera extends BaseParamDualView {
                                                  SurfaceView cameraview, UVCCamera iruvc, CommonParams.DataFlowMode dataFlowMode) {
         super(irWidth, irHeight, vlWidth, vlHeight, dualWidth, dualHeight);
         this.cameraview = cameraview;
-        // DualUVCCamera 初始化
         ConcreateDualBuilder concreateDualBuilder = new ConcreateDualBuilder();
         dualUVCCamera = concreateDualBuilder
                 .setDualType(DualType.USB_DUAL)
@@ -78,7 +77,6 @@ public class DualViewWithManualAlignExternalCamera extends BaseParamDualView {
                 .build();
         //
         mSurfaceNativeWindow = new SurfaceNativeWindow();
-//            dualUVCCamera.setImageRotate(DualCameraParams.TypeLoadParameters.ROTATE_180);
         dualUVCCamera.addIrUVCCamera(iruvc);
         fusionLength = mDualWidth * mDualHeight * 4;
         mixData = new byte[fusionLength];

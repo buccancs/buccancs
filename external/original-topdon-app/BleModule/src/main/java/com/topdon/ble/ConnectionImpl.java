@@ -83,7 +83,6 @@ class ConnectionImpl implements Connection, ScanListener {
         @Override
         public void run() {
             if (!isReleased) {
-                //连接之前必须先停止搜索
                 easyBle.stopScan();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     bluetoothGatt = device.getOriginDevice().connectGatt(easyBle.getContext(), false, gattCallback,
@@ -103,7 +102,6 @@ class ConnectionImpl implements Connection, ScanListener {
         this.easyBle = easyBle;
         this.bluetoothAdapter = bluetoothAdapter;
         this.device = device;
-        //如果没有配置
         if (configuration == null) {
             this.configuration = new ConnectionConfiguration();
         } else {
@@ -166,7 +164,6 @@ class ConnectionImpl implements Connection, ScanListener {
                     logD(Logger.TYPE_CONNECTION_STATE, "connected! [name: %s, addr: %s]", device.name, device.address);
                     device.connectionState = ConnectionState.CONNECTED;
                     sendConnectionCallback();
-                    // 延时一会再去发现服务
                     connHandler.sendEmptyMessageDelayed(MSG_DISCOVER_SERVICES, configuration.discoverServicesDelayMillis);
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     logD(Logger.TYPE_CONNECTION_STATE, "disconnected! [name: %s, addr: %s, autoReconnEnable: %s]",
@@ -223,10 +220,8 @@ class ConnectionImpl implements Connection, ScanListener {
 
     private void doTimer() {
         if (!isReleased) {
-            //只处理不是已发现服务并且不在刷新也不是主动断开连接的
             if (device.connectionState != ConnectionState.SERVICE_DISCOVERED && !refreshing && !isActiveDisconnect) {
                 if (device.connectionState != ConnectionState.DISCONNECTED) {
-                    //超时
                     if (System.currentTimeMillis() - connStartTime > configuration.connectTimeoutMillis) {
                         connStartTime = System.currentTimeMillis();
                         logE(Logger.TYPE_CONNECTION_STATE, "connect timeout! [name: %s, addr: %s]", device.name, device.address);
@@ -303,7 +298,6 @@ class ConnectionImpl implements Connection, ScanListener {
         doRefresh(true);
     }
 
-    //处理刷新
     private void doRefresh(boolean isAuto) {
         logD(Logger.TYPE_CONNECTION_STATE, "refresh GATT! [name: %s, addr: %s]", device.name, device.address);
         connStartTime = System.currentTimeMillis();
@@ -345,7 +339,6 @@ class ConnectionImpl implements Connection, ScanListener {
         if (!isReleased) {
             connStartTime = System.currentTimeMillis();
             easyBle.stopScan();
-            //搜索设备，搜索到才执行连接
             device.connectionState = ConnectionState.SCANNING_FOR_RECONNECTION;
             logD(Logger.TYPE_CONNECTION_STATE, "scanning for reconnection [name: %s, addr: %s]", device.name, device.address);
             easyBle.startScan();
@@ -443,13 +436,10 @@ class ConnectionImpl implements Connection, ScanListener {
         } else {
             descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
         }
-        // There was a bug in Android up to 6.0 where the descriptor was written using parent
-        // characteristic's write type, instead of always Write With Response, as the spec says.
         int writeType = characteristic.getWriteType();
         characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
         boolean result = bluetoothGatt.writeDescriptor(descriptor);
         if (!enable) {
-            //还原原始值
             descriptor.setValue(originValue);
         }
         characteristic.setWriteType(writeType);
@@ -464,7 +454,6 @@ class ConnectionImpl implements Connection, ScanListener {
                 if (currentRequest == null) {
                     executeRequest(request);
                 } else {
-                    //根据优化级将请求插入队列中
                     int index = -1;
                     for (int i = 0; i < requestQueue.size(); i++) {
                         GenericRequest req = requestQueue.get(i);
@@ -817,7 +806,6 @@ class ConnectionImpl implements Connection, ScanListener {
         }
     }
 
-    //清理内部缓存并强制刷新蓝牙设备的服务
     @SuppressWarnings("all")
     private boolean doRefresh() {
         try {
@@ -958,7 +946,6 @@ class ConnectionImpl implements Connection, ScanListener {
         return null;
     }
 
-    //检查uuid是否存在，存在则将请求加入队列，不存在则失败回调或通知观察者
     private void checkUuidExistsAndEnqueue(GenericRequest request, int uuidNum) {
         boolean exists = false;
         if (uuidNum > 2) {
@@ -973,7 +960,6 @@ class ConnectionImpl implements Connection, ScanListener {
         }
     }
 
-    //检查服务是否存在
     private boolean checkServiceExists(GenericRequest request, UUID uuid) {
         if (getService(uuid) == null) {
             handleFailedCallback(request, REQUEST_FAIL_TYPE_SERVICE_NOT_EXIST, false);
@@ -982,7 +968,6 @@ class ConnectionImpl implements Connection, ScanListener {
         return true;
     }
 
-    //检查特征是否存在
     private boolean checkCharacteristicExists(GenericRequest request, UUID service, UUID characteristic) {
         if (checkServiceExists(request, service)) {
             if (getCharacteristic(service, characteristic) == null) {
@@ -994,7 +979,6 @@ class ConnectionImpl implements Connection, ScanListener {
         return false;
     }
 
-    //检查Descriptor是否存在
     private boolean checkDescriptorExists(GenericRequest request, UUID service, UUID characteristic, UUID descriptor) {
         if (checkServiceExists(request, service) && checkCharacteristicExists(request, service, characteristic)) {
             if (getDescriptor(service, characteristic, descriptor) == null) {
@@ -1017,10 +1001,8 @@ class ConnectionImpl implements Connection, ScanListener {
                 case READ_CHARACTERISTIC:
                 case WRITE_CHARACTERISTIC:
                     if (req.type == RequestType.WRITE_CHARACTERISTIC && req.writeOptions == null) {
-                        //从默认配置中取
                         req.writeOptions = configuration.getDefaultWriteOptions(req.service, req.characteristic);
                         if (req.writeOptions == null) {
-                            //没有设置默认的，则新建
                             req.writeOptions = new WriteOptions.Builder().build();
                         }
                     }
@@ -1154,7 +1136,6 @@ class ConnectionImpl implements Connection, ScanListener {
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-//            Log.e("bcf","onCharacteristicWrite  status: "+status);
             if (originCallback != null) {
                 easyBle.getExecutorService().execute(() -> originCallback.onCharacteristicWrite(gatt, characteristic, status));
             }

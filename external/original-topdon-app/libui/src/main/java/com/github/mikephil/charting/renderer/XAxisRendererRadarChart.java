@@ -33,8 +33,6 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
 
         float sliceangle = mChart.getSliceAngle();
 
-        // calculate the factor that is needed for transforming the value to
-        // pixels
         float factor = mChart.getFactor();
 
         MPPointF center = mChart.getCenterOffsets();
@@ -59,6 +57,5 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
 
         @Override
     public void renderLimitLines(Canvas c) {
-        // this space intentionally left blank
     }
 }

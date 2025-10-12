@@ -50,10 +50,7 @@ public class SensorVerisenseClock extends AbstractSensor {
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
-        //TODO move to SensorSystemTimeStamp class
-//		aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_SYSTEM_TIMESTAMP, SensorSystemTimeStamp.sensorSystemTimeStampRef);
         aMap.put(Configuration.Verisense.SENSOR_ID.VERISENSE_TIMESTAMP, SensorVerisenseClock.sensorVerisenseClock);
-//		aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_SHIMMER_STREAMING_PROPERTIES, SensorShimmerClock.sensorShimmerStreamingProperties);
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
 
@@ -92,36 +89,23 @@ public class SensorVerisenseClock extends AbstractSensor {
     public void generateSensorMap() {
         Map<String, ChannelDetails> channelMapRef = new LinkedHashMap<String, ChannelDetails>();
 
-//		channelMapRef.put(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP, SensorShimmerClock.channelSystemTimestamp);
-//		channelMapRef.put(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT, SensorShimmerClock.channelSystemTimestampPlot);
-//		channelMapRef.put(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP_DIFFERENCE, SensorShimmerClock.channelSystemTimestampDiff);
-//		channelMapRef.put(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT_ZEROED, SensorSystemTimeStamp.channelSystemTimestampPlotZeroed);
 
         channelMapRef.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP, getChannelDetailsForFwVerVersion(mShimmerDevice));
 
-//		channelMapRef.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP_DIFFERENCE, SensorShimmerClock.channelShimmerTsDiffernce);
-//		channelMapRef.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET, SensorShimmerClock.channelShimmerClockOffset);
-//		channelMapRef.put(SensorShimmerClock.ObjectClusterSensorName.REAL_TIME_CLOCK, SensorShimmerClock.channelRealTimeClock);
 //
-//		channelMapRef.put(SensorBattVoltage.ObjectClusterSensorName.BATT_PERCENTAGE, SensorShimmerClock.channelBattPercentage);
 //
-//		channelMapRef.put(ShimmerStreamingProperties.ObjectClusterSensorName.PACKET_RECEPTION_RATE_CURRENT, SensorShimmerClock.channelReceptionRateCurrent);
-//		channelMapRef.put(ShimmerStreamingProperties.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL, SensorShimmerClock.channelReceptionRateTrial);
 
-//		channelMapRef.put(ShimmerStreamingProperties.ObjectClusterSensorName.EVENT_MARKER, SensorShimmerClock.channelEventMarker);
 
         super.createLocalSensorMapWithCustomParser(mSensorMapRef, channelMapRef);
     }
 
     @Override
     public void generateConfigOptionsMap() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void generateSensorGroupMapping() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -144,78 +128,65 @@ public class SensorVerisenseClock extends AbstractSensor {
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId, String configLabel) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 

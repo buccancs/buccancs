@@ -333,10 +333,8 @@ public class Legend extends ComponentBase {
                         width += formSize;
                     }
 
-                    // grouped forms have null labels
                     if (label != null) {
 
-                        // make a step to the left
                         if (drawingForm && !wasStacked)
                             width += formToTextSpace;
                         else if (wasStacked) {
@@ -371,7 +369,6 @@ public class Legend extends ComponentBase {
                 float labelLineSpacing = Utils.getLineSpacing(labelpaint) + yEntrySpace;
                 float contentWidth = viewPortHandler.contentWidth() * mMaxSizePercent;
 
-                // Start calculating layout
                 float maxLineWidth = 0.f;
                 float currentLineWidth = 0.f;
                 float requiredWidth = 0.f;
@@ -393,15 +390,11 @@ public class Legend extends ComponentBase {
                     mCalculatedLabelBreakPoints.add(false);
 
                     if (stackedStartIndex == -1) {
-                        // we are not stacking, so required width is for this label
-                        // only
                         requiredWidth = 0.f;
                     } else {
-                        // add the spacing appropriate for stacked labels/forms
                         requiredWidth += stackSpace;
                     }
 
-                    // grouped forms have null labels
                     if (label != null) {
 
                         mCalculatedLabelSizes.add(Utils.calcTextSize(labelpaint, label));
@@ -413,7 +406,6 @@ public class Legend extends ComponentBase {
                         requiredWidth += drawingForm ? formSize : 0.f;
 
                         if (stackedStartIndex == -1) {
-                            // mark this index as we might want to break here later
                             stackedStartIndex = i;
                         }
                     }
@@ -423,20 +415,15 @@ public class Legend extends ComponentBase {
                         float requiredSpacing = currentLineWidth == 0.f ? 0.f : xEntrySpace;
 
                         if (!wordWrapEnabled // No word wrapping, it must fit.
-                                // The line is empty, it must fit
                                 || currentLineWidth == 0.f
-                                // It simply fits
                                 || (contentWidth - currentLineWidth >=
                                 requiredSpacing + requiredWidth)) {
-                            // Expand current line
                             currentLineWidth += requiredSpacing + requiredWidth;
                         } else { // It doesn't fit, we need to wrap a line
 
-                            // Add current line size to array
                             mCalculatedLineSizes.add(FSize.getInstance(currentLineWidth, labelLineHeight));
                             maxLineWidth = Math.max(maxLineWidth, currentLineWidth);
 
-                            // Start a new line
                             mCalculatedLabelBreakPoints.set(
                                     stackedStartIndex > -1 ? stackedStartIndex
                                             : i, true);
@@ -444,7 +431,6 @@ public class Legend extends ComponentBase {
                         }
 
                         if (i == entryCount - 1) {
-                            // Add last line size to array
                             mCalculatedLineSizes.add(FSize.getInstance(currentLineWidth, labelLineHeight));
                             maxLineWidth = Math.max(maxLineWidth, currentLineWidth);
                         }

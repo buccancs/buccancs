@@ -26,7 +26,6 @@ import com.shimmerresearch.tools.bluetooth.BasicShimmerBluetoothManagerPc;
 
 public class PPGToHRExample extends BasicProcessWithCallBack {
 
-    //Put your device COM port here:
     final static String deviceComPort = "COM12";
     static BasicShimmerBluetoothManagerPc bluetoothManager = new BasicShimmerBluetoothManagerPc();
     ShimmerPC shimmerDevice = new ShimmerPC("ShimmerDevice");
@@ -48,9 +47,7 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -61,8 +58,6 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
             if (callbackObject.mState == BT_STATE.CONNECTING) {
             } else if (callbackObject.mState == BT_STATE.CONNECTED) {
                 shimmerDevice = (ShimmerPC) bluetoothManager.getShimmerDeviceBtConnected(deviceComPort);
-                //checkECGEnabled();	//Check if ECG is enabled first before streaming
-                //5 beats to average
                 if (mConfigureOnFirstTime) {
                     ShimmerPC cloneDevice = shimmerDevice.deepClone();
                     cloneDevice.setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A13, true);
@@ -77,15 +72,12 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
                         cutoff[0] = 0.5;
                         hpf = new Filter(Filter.HIGH_PASS, shimmerDevice.getSamplingRateShimmer(), cutoff);
                     } catch (Exception e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
 
                     mConfigureOnFirstTime = false;
                 }
-                //shimmerDevice.startStreaming();
             } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-//					|| callbackObject.mState == BT_STATE.NONE
                     || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
 
             }
@@ -96,7 +88,6 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
                 try {
                     shimmerDevice.startStreaming();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -126,7 +117,6 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
                     dataArrayPPG = lpf.filterData(dataArrayPPG);
                     dataArrayPPG = hpf.filterData(dataArrayPPG);
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
@@ -150,39 +140,12 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
 
     }
 
-//	private void checkECGEnabled() {
-//		 Map<Integer, SensorDetails> sensorMap = shimmerDevice.getSensorMap();
-//		 int count = 0;
 //		 
-//		 //Check how many sensors the device is compatible with
-//		 for(SensorDetails details : sensorMap.values()) {
-//			 if(shimmerDevice.isVerCompatibleWithAnyOf(details.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
-//				 count++;
-//			 }
-//		 }
 //		 
-//		 //final int[] sensorKeys = new int[count];
 //
-//		 for(int key : sensorMap.keySet()) {
-//			 SensorDetails sd = sensorMap.get(key);
-//			 if(shimmerDevice.isVerCompatibleWithAnyOf(sd.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
-//				 String sensorName = sd.mSensorDetailsRef.mGuiFriendlyLabel;
-//				 if(sensorName.contains("ECG")) {
-//					 if(!shimmerDevice.checkIfSensorEnabled(key)) {
-//						 shimmerDevice.setSensorEnabledState(key, true);
-//					 }
-//				 }
-//			 }
-//		 }
 //		 
-//		 double samplingRate = shimmerDevice.getSamplingRateShimmer();
-//		 if(samplingRate < 128) {
-//			 //We need at least 128Hz sampling rate for the ECG to HR algorithm
-//			 shimmerDevice.setSamplingRateShimmer(256);
-//		 }
 
 
-    //}
 
 
 }

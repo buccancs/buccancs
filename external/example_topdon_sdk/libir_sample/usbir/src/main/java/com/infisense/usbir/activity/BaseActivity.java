@@ -17,7 +17,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //
         setContentView(getContentView());
-        // 非release版本添加水印来区分
         if (!getResources().getBoolean(R.bool.isReleaseVersion)) {
             try {
                 WaterMark.getInstance().show(this, getPackageManager().getPackageInfo(

@@ -2,14 +2,12 @@ package com.shimmerresearch.driverUtilities;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-//import org.jblas.DoubleMatrix;
 
 import com.shimmerresearch.driver.calibration.UtilCalibration;
 
 public class MatrixMultiplicationSpeed {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         double[][] a = {{1, 2, 3}};
         double[][] b = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
         long nanotime = System.nanoTime() / 1000000;

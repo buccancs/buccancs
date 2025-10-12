@@ -11,21 +11,13 @@ public class TempResultBean {
 
     private int position; //相对应点线框list的position
 
-    //类型
     private TempInfoMode tempInfoMode;
-    //环境温度
     private float ambientTemp;
-    //测温距离
     private float measureDistance;
-    //辐射率
     private float emissivity;
-    //高温报警开关
     private boolean highAlertEnable;
-    //高温阀值
     private float highThreshold;
-    //低温报警开关
     private boolean lowAlertEnable;
-    //低温阀值
     private float lowThreshold;
 
     private int x1;

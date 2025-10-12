@@ -14,7 +14,6 @@ public class ByteCommunicationSimulatorS3LNS0_16_11_w_sd_bt_streaming extends By
 
     public ByteCommunicationSimulatorS3LNS0_16_11_w_sd_bt_streaming(String address) {
         super(address);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

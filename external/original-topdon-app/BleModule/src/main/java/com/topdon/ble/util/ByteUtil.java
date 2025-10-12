@@ -35,12 +35,6 @@ public class ByteUtil {
         return byteMerger(byte1, byte2.getBytes());
     }
 
-//    public static byte[] byteMerger(byte[] byte1, byte[] byte2) {
-//        byte[] result = new byte[byte1.length + byte2.length];
-//        System.arraycopy(byte1, 0, result, 0, byte1.length);
-//        System.arraycopy(byte2, 0, result, byte1.length, byte2.length);
-//        return result;
-//    }
 
     public static byte[] byteMerger(byte[]... bytes) {
         int length = 0;
@@ -75,7 +69,6 @@ public class ByteUtil {
     public static byte[] LongToBytes(long values) {
         byte[] buffer = new byte[4];
         for (int i = 0; i < 4; i++) {
-//            int offset = 64 - (i + 1) * 8;
             int offset = (4 - i - 1) * 8;
             buffer[i] = (byte) ((values >> offset) & 0xff);
         }
@@ -99,7 +92,6 @@ public class ByteUtil {
     }
 
     public static int byteToInt(byte b) {
-        //Java 总是把 byte 当做有符处理；我们可以通过将其和 0xFF 进行二进制与得到它的无符值
         return b & 0xFF;
     }
 

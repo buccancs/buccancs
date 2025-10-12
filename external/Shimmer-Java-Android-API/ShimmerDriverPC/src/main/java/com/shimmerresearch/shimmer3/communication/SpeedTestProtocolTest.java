@@ -16,7 +16,6 @@ public class SpeedTestProtocolTest {
     static JFrame frame;
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
         frame = new JFrame();
         frame.setSize(1356, 200);
@@ -35,26 +34,22 @@ public class SpeedTestProtocolTest {
 
             @Override
             public void onNewResult(String result) {
-                // TODO Auto-generated method stub
                 lblNewLabel.setText(result);
             }
 
             @Override
             public void onConnected() {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onDisconnected() {
-                // TODO Auto-generated method stub
 
             }
         });
         try {
             protocol.connect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         protocol.startSpeedTest();

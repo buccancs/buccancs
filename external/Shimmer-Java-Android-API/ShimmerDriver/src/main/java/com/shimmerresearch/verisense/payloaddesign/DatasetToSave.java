@@ -14,7 +14,6 @@ public class DatasetToSave implements Serializable {
 
     private static final long serialVersionUID = -7451676654204282601L;
 
-    // TreeMap in order to keep the CSV header config lines in alphanumeric order per sensor name
     private TreeMap<SENSORS, List<DataSegmentDetails>> mapOfDataSegmentsPerSensor = new TreeMap<SENSORS, List<DataSegmentDetails>>();
 
     public List<DataSegmentDetails> getListOfDataSegmentsForSensorClassKey(SENSORS sensorClassKey) {
@@ -94,21 +93,15 @@ public class DatasetToSave implements Serializable {
 
         int offset = 0;
         if (listOfDataSegmentsExisting.size() > 0) {
-            // Check if the last data segment is a continuation of the previous one. If so, append it.
             DataSegmentDetails latestExistingDataSegment = listOfDataSegmentsExisting.get(listOfDataSegmentsExisting.size() - 1);
             DataSegmentDetails firstNewDataSegment = listOfDataSegments.get(0);
-            // File Parser support for older payload designs doesn't have the ability to
-            // split into different data segments and so there's only one continous
-            // datasegment for the entire CSV
             if (!isPayloadDesignV8orAbove || UtilCsvSplitting.isDataBlockContinuous(sensorClassKey, latestExistingDataSegment, firstNewDataSegment.getListOfDataBlocks().get(0)).isEmpty()) {
                 latestExistingDataSegment.addDataBlocks(firstNewDataSegment.getListOfDataBlocks());
                 offset = 1;
             }
         }
 
-        //Add the remaining (there should only be more if some time-gaps are tolerated in a single CSV)
         for (int i = offset; i < listOfDataSegments.size(); i++) {
-            //Needs to be a new instance of the object
             DataSegmentDetails dataSegmentToAdd = listOfDataSegments.get(i);
             DataSegmentDetails dataSegmentDetails = new DataSegmentDetails();
             dataSegmentDetails.addDataBlocks(dataSegmentToAdd.getListOfDataBlocks());
@@ -141,12 +134,10 @@ public class DatasetToSave implements Serializable {
             }
         }
 
-        // Warn about time-gaps
         for (Entry<SENSORS, List<DataSegmentDetails>> entry : mapOfDataSegmentsPerSensor.entrySet()) {
             List<DataSegmentDetails> listOfDataSegmentDetails = entry.getValue();
             if (listOfDataSegmentDetails.size() > 1) {
                 for (int i = 1; i < listOfDataSegmentDetails.size(); i++) {
-                    // Don't warn for midday/midnight transitions
                     DataSegmentDetails currentDataSegment = listOfDataSegmentDetails.get(i);
                     DataSegmentDetails previousDataSegment = listOfDataSegmentDetails.get(i - 1);
                     if (currentDataSegment.isResultOfSplitAtMiddayOrMidnight()) {
@@ -200,11 +191,6 @@ public class DatasetToSave implements Serializable {
                 }
             }
 
-            // In a way this is a bad approach because it's not great to be calculating the
-            // average of sampling rates where they could be the result of small or large
-            // recordings but, since the PPG recordings should be all of the same duration,
-            // the chances of a smaller recording happening (e.g. cut off at the start or
-            // end of a CSV is small)
             averageSamplingRate = UtilVerisenseDriver.calculateAverage(listOfSamplingRates);
             System.out.println("      |_ AverageSamplingRate=" + UtilVerisenseDriver.formatDoubleToNdecimalPlaces(averageSamplingRate, 3) + CHANNEL_UNITS.FREQUENCY);
         }

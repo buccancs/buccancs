@@ -46,7 +46,6 @@ public class EnableLowPowerModeDialog {
 
     public static void main(String[] args) {
 
-//		dialog.setVisible(true);
 
     }
 
@@ -58,7 +57,6 @@ public class EnableLowPowerModeDialog {
     }
 
     protected void createWriteButton() {
-// TODO Auto-generated method stub
         JButton btnWriteConfig = new JButton("Save");
         btnWriteConfig.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -149,9 +147,6 @@ public class EnableLowPowerModeDialog {
     }
 
     protected void showFrame() {
-        // TODO Auto-generated method stub
-        // maybe should be in a different abstract method? lets see how android needs to
-        // handles this
         dialog.setSize(300, 200);
         dialog.setVisible(true);
 

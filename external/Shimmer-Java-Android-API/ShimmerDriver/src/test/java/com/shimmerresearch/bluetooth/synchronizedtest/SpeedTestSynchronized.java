@@ -1,5 +1,4 @@
 package com.shimmerresearch.bluetooth.synchronizedtest;
-//AA-192
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +7,6 @@ public class SpeedTestSynchronized {
     List<byte[]> mListofInstructions = new ArrayList<byte[]>(1000000);
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
         SpeedTestSynchronized c = new SpeedTestSynchronized();
         double totalsync = 0;

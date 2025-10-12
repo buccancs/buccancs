@@ -16,12 +16,10 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         private static final long serialVersionUID = -3556098650349506733L;
     public CalibArraysKinematic mCurrentCalibration = new CalibArraysKinematic();
     public CalibArraysKinematic mDefaultCalibration = new CalibArraysKinematic();
-    //	//TODO: improve below, needed here?
     public CalibArraysKinematic mEmptyCalibration = new CalibArraysKinematic(
             new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}},
             new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}},
             new double[][]{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}});
-    //TODO offset scale factor currently not used
     public CALIBRATION_SCALE_FACTOR mOffsetScaleFactor = CALIBRATION_SCALE_FACTOR.NONE;
     public CALIBRATION_SCALE_FACTOR mSensitivityScaleFactor = CALIBRATION_SCALE_FACTOR.NONE;
     public CALIBRATION_SCALE_FACTOR mAlignmentScaleFactor = CALIBRATION_SCALE_FACTOR.ONE_HUNDRED;
@@ -67,7 +65,6 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setSensitivityScaleFactor(sensitivityScaleFactor);
     }
 
-    // Added for setCurrentValues
     public CalibDetailsKinematic(int rangeValue, String rangeString,
                                  double[][] defaultAlignmentMatrix, double[][] defaultSensitivityMatrix, double[][] defaultOffsetVector,
                                  double[][] currentAlignmentMatrix, double[][] currentSensitivityMatrix, double[][] currentOffsetVector,
@@ -166,7 +163,6 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setCurrentSensitivityMatrix(currentSensitivityMatrix, nudgeValues);
         setCurrentOffsetVector(currentOffsetVector, nudgeValues);
 
-//		System.out.println(generateDebugString());
     }
 
     public void setDefaultValues(double[][] defaultOffsetVector, double[][] defaultSensitivityMatrix, double[][] defaultAlignmentMatrix) {
@@ -182,32 +178,11 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setCurrentAlignmentMatrix(UtilShimmer.deepCopyDoubleMatrix(mDefaultCalibration.mAlignmentMatrix), true);
     }
 
-    //	public boolean isSensitivityWithinRangeOfDefault(){
-//		boolean isValid = true; 
-//		int validScalingFactor = 5;
-//		
-//		double[][] defaultSensitivityMatrix = getDefaultSensitivityMatrix();
-//		double[][] currentSensitivityMatrix = getCurrentSensitivityMatrix();
-//		
-//		for (int i = 0; i<defaultSensitivityMatrix[0].length; i++){
-//		     for (int j = 0; j<defaultSensitivityMatrix.length; j++){
-//		    	 double defaultValue = defaultSensitivityMatrix[i][j];
-//		    	 double currentValue = currentSensitivityMatrix[i][j];
-//		    	 
-//		    	 double minValidValue = defaultValue / validScalingFactor;
-//		    	 double maxValidValue = defaultValue * validScalingFactor;
-//		    	 
-//		    	 if(currentValue != 0){
-//			    	 if(currentValue >= maxValidValue || currentValue <= minValidValue){
-//			    		 isValid = false;
-//			    		 break;
-//			    	 }
-//		    	 }
-//		     }
-//		}
-//		
-//		return isValid;
-//	}
+//
+//
+//
+//
+//
     public boolean isCurrentValuesSet() {
         return mCurrentCalibration.isCurrentValuesSet();
     }
@@ -308,13 +283,11 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
 
     public byte[] generateCalParamByteArray(double[][] offsetVector, double[][] sensitivityMatrix, double[][] alignmentMatrix) {
 
-        //Scale the sensitivity if needed
         double[][] sensitivityMatrixToUse = UtilShimmer.deepCopyDoubleMatrix(sensitivityMatrix);
         for (int i = 0; i <= 2; i++) {
             sensitivityMatrixToUse[i][i] = Math.round(sensitivityMatrixToUse[i][i] * mSensitivityScaleFactor.scaleFactor);
         }
 
-        //Scale the alignment by 100
         double[][] alignmentMatrixToUse = UtilShimmer.deepCopyDoubleMatrix(alignmentMatrix);
         for (int i = 0; i <= 2; i++) {
             alignmentMatrixToUse[i][0] = Math.round(alignmentMatrixToUse[i][0] * mAlignmentScaleFactor.scaleFactor);
@@ -322,19 +295,15 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
             alignmentMatrixToUse[i][2] = Math.round(alignmentMatrixToUse[i][2] * mAlignmentScaleFactor.scaleFactor);
         }
 
-        //Generate the calibration bytes
         byte[] bufferCalibParam = new byte[21];
-        // offsetVector -> buffer offset = 0
         for (int i = 0; i < 3; i++) {
             bufferCalibParam[0 + (i * 2)] = (byte) ((((int) offsetVector[i][0]) >> 8) & 0xFF);
             bufferCalibParam[0 + (i * 2) + 1] = (byte) ((((int) offsetVector[i][0]) >> 0) & 0xFF);
         }
-        // sensitivityMatrix -> buffer offset = 6
         for (int i = 0; i < 3; i++) {
             bufferCalibParam[6 + (i * 2)] = (byte) ((((int) sensitivityMatrixToUse[i][i]) >> 8) & 0xFF);
             bufferCalibParam[6 + (i * 2) + 1] = (byte) ((((int) sensitivityMatrixToUse[i][i]) >> 0) & 0xFF);
         }
-        // alignmentMatrix -> buffer offset = 12
         for (int i = 0; i < 3; i++) {
             bufferCalibParam[12 + (i * 3)] = (byte) (((int) (alignmentMatrixToUse[i][0])) & 0xFF);
             bufferCalibParam[12 + (i * 3) + 1] = (byte) (((int) (alignmentMatrixToUse[i][1])) & 0xFF);
@@ -440,7 +409,6 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         return (currentMatrixMultipliedInverseAMSM != null ? currentMatrixMultipliedInverseAMSM : getDefaultMatrixMultipliedInverseAMSM());
     }
 
-        //TODO no nudging implemented here
     public void updateCurrentOffsetVector(double XXvalue, double YYvalue, double ZZvalue) {
         mCurrentCalibration.updateOffsetVector(XXvalue, YYvalue, ZZvalue);
     }
@@ -453,7 +421,6 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         }
     }
 
-    //TODO no nudging implemented here
     public void updateCurrentSensitivityMatrix(double XXvalue, double YYvalue, double ZZvalue) {
         mCurrentCalibration.updateSensitivityMatrix(XXvalue, YYvalue, ZZvalue);
     }
@@ -466,7 +433,6 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         }
     }
 
-    //TODO no nudging implemented here
     public void updateCurrentAlignmentMatrix(
             double XXvalue, double XYvalue, double XZvalue,
             double YXvalue, double YYvalue, double YZvalue,

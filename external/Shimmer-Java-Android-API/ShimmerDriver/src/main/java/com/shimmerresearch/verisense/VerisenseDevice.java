@@ -86,7 +86,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     public long endTimeMinutes = 0;
     public long endTimeTicksLatest = -1;
     protected transient ShimmerDeviceCallbackAdapter mDeviceCallbackAdapter = new ShimmerDeviceCallbackAdapter(this);
-    // Verisense Communication
     protected HashMap<COMMUNICATION_TYPE, VerisenseProtocolByteCommunication> mapOfVerisenseProtocolByteCommunication = new HashMap<COMMUNICATION_TYPE, VerisenseProtocolByteCommunication>();
     VerisenseProtocolByteCommunication mProtocol;
     private ShimmerVerObject defaultSvo = new ShimmerVerObject(DEFAULT_HW_ID, FW_ID.UNKNOWN, FW_ID.UNKNOWN, FW_ID.UNKNOWN, FW_ID.UNKNOWN);
@@ -94,10 +93,8 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     private byte resetReason = RESET_REASON.CLEARED.bitMask;
     private Integer resetCounter = null;
     private Integer firstPayloadIndexAfterBoot = null;
-    // Saving in global map as we only need to do this once per datablock sensor ID per payload, not for each datablock
     private HashMap<DATABLOCK_SENSOR_ID, List<SENSORS>> mapOfSensorIdsPerDataBlock = new HashMap<DATABLOCK_SENSOR_ID, List<SENSORS>>();
 
-    // Operational config
     private boolean bluetoothEnabled = true, usbEnabled = false, prioritiseLongTermFlash = true, deviceEnabled = true, recordingEnabled = true;
     private long recordingStartTimeMinutes = 0, recordingEndTimeMinutes = 0;
     private int bleConnectionRetriesPerDay = 3;
@@ -136,7 +133,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return hardwareVersion;
     }
 
-    //TODO copied from the ShimmerVerObject class, create a new method there
     public static ShimmerVerObject parseFirmwareVersionToShimmerVerObject(byte[] payloadConfigFwVer) {
         ShimmerVerObject svo = new ShimmerVerObject();
         svo.mHardwareVersion = DEFAULT_HW_ID;
@@ -146,7 +142,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return svo;
     }
 
-    //TODO move to ShimmerDriver
     public static boolean isFwMajorMinorInternalVerEqual(ShimmerVerObject svo, ShimmerVerObject svo2) {
         if (svo.getFirmwareVersionMajor() == svo2.getFirmwareVersionMajor()
                 && svo.getFirmwareVersionMinor() == svo2.getFirmwareVersionMinor()
@@ -156,7 +151,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return false;
     }
 
-    //TODO move to ShimmerVerObject or UtilShimmer class?
     public static boolean compareFwVersions(ShimmerVerObject svo1, ShimmerVerObject svo2) {
         return UtilShimmer.compareVersions(svo1.getFirmwareVersionMajor(), svo1.getFirmwareVersionMinor(), svo1.getFirmwareVersionInternal(),
                 svo2.getFirmwareVersionMajor(), svo2.getFirmwareVersionMinor(), svo2.getFirmwareVersionInternal());
@@ -227,11 +221,9 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     @Override
     public void setShimmerUserAssignedName(String shimmerUserAssignedName) {
         if (!shimmerUserAssignedName.isEmpty()) {
-            //Remove any invalid characters
             shimmerUserAssignedName = shimmerUserAssignedName.replace("-", "_");
             shimmerUserAssignedName = shimmerUserAssignedName.replaceAll(INVALID_TRIAL_NAME_CHAR, "");
 
-            //Don't allow the first char to be numeric - causes problems with MATLAB variable names
             if (UtilShimmer.isNumeric("" + shimmerUserAssignedName.charAt(0))) {
                 shimmerUserAssignedName = "S" + shimmerUserAssignedName;
             }
@@ -239,7 +231,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             shimmerUserAssignedName = ShimmerObject.DEFAULT_SHIMMER_NAME + "_" + this.getMacIdFromUartParsed();
         }
 
-        //Limit the name to 12 Char
         if (shimmerUserAssignedName.length() > 20) {
             setShimmerUserAssignedNameNoLengthCheck(shimmerUserAssignedName.substring(0, 22));
         } else {
@@ -356,10 +347,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
         this.configBytesParse(configBytes, commType);
 
-        // No issue calling this here at the moment as there is nothing that relies on
-        // the sampling rates of individual sensors inside DataProcessingVerisense
-        // (e.g., filters). If we want to add something in the future, we need to find a
-        // way to pass individual sensor sampling rates to that class.
         initaliseDataProcessing();
 
         if (isPayloadDesignV8orAbove()) {
@@ -419,8 +406,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             }
             setExpansionBoardDetails(eBD);
 
-            // sensorAndConfigMapsCreate needs to be called after the ShimmerVerObject
-            // and ExpansionBoardDetails have been set but before any sensor config is processed.
             sensorAndConfigMapsCreate();
 
             enabledSensors = (configBytes[PAYLOAD_CONFIG_BYTE_INDEX.PAYLOAD_CONFIG0] & 0xE0);
@@ -471,8 +456,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             abstractSensor.configBytesParse(this, configBytes, commType);
         }
 
-        // Useful for debugging during development
-//		printSensorParserAndAlgoMaps();
     }
 
     @Override
@@ -492,7 +475,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         for (AbstractAlgorithm aa : mMapOfAlgorithmModules.values()) {
             try {
                 if (aa.isEnabled()) {
-                    //TODO make this more dynamic (maybe by including a sensor class key list in the AbstractAlgorithm class)
                     SENSORS sensorClassKey = null;
                     if (aa instanceof GyroOnTheFlyCalModuleVerisense) {
                         sensorClassKey = SENSORS.LSM6DS3;
@@ -505,7 +487,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                         aa.initialize();
                     }
                 } else {
-                    //TODO stop the algorithm
                 }
             } catch (Exception e1) {
                 consolePrintException("Error initialising algorithm module\t" + aa.getAlgorithmName(), e1.getStackTrace());
@@ -672,7 +653,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 for (int i = 0; i < listOfReasons.size(); i++) {
                     RESET_REASON resetReasonBit = listOfReasons.get(i);
                     sb.append(resetReasonBit.descriptionShort);
-                    // Add a ";" unless this is the last loop
                     if (i != listOfReasons.size() - 1) {
                         sb.append(";");
                     }
@@ -701,7 +681,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return sb.toString();
     }
 
-    //TODO move to sensor classes?
     public String generateSensorConfigStrSingleSensor(AbstractSensor.SENSORS sensorClassKey, double calculatedSamplingRate) {
         StringBuilder sb = new StringBuilder();
 
@@ -718,7 +697,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 && isSensorEnabled(Configuration.Verisense.SENSOR_ID.LIS2DW12_ACCEL)) {
             SensorLIS2DW12 sensorLis2dw12 = getSensorLIS2DW12();
 
-            // Accel1 section
             if (isCsvHeaderDesignAzMarkingPoint()) {
                 sb.append(SensorLIS2DW12.ACCEL_ID);
                 sb.append(" ");
@@ -726,12 +704,10 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 sb.append(generateCalcSamplingRateConfigStr(sensorClassKey, sensorLis2dw12.getAccelRateFreq(), calculatedSamplingRate));
             }
 
-            // E.g. +/- 4g
             sb.append(SENSOR_CONFIG_STRINGS.RANGE);
             sb.append(sensorLis2dw12.getAccelRangeString());
 
             if (isCsvHeaderDesignAzMarkingPoint()) {
-                // E.g. Low-Power
                 sb.append("; Mode = ");
                 sb.append(sensorLis2dw12.getAccelModeString());
 
@@ -752,7 +728,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 && isEitherLsm6ds3ChannelEnabled()) {
             SensorLSM6DS3 sensorLsm6ds3 = getSensorLSM6DS3();
 
-            // Accel2 section
             if (isCsvHeaderDesignAzMarkingPoint()) {
                 sb.append(SensorLSM6DS3.ACCEL_ID);
                 sb.append(" ");
@@ -769,7 +744,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 sb.append("Off");
             }
 
-            // Gyro section
             sb.append("; Gyro ");
             sb.append(SENSOR_CONFIG_STRINGS.RANGE);
             if (isSensorEnabled(Configuration.Verisense.SENSOR_ID.LSM6DS3_GYRO)
@@ -791,7 +765,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             if (abstractSensor != null) {
                 SensorMAX86XXX sensorMAX86XXX = (SensorMAX86XXX) abstractSensor;
 
-                // PPG section
                 if (isCsvHeaderDesignAzMarkingPoint()) {
                     sb.append("PPG ");
                 } else {
@@ -804,16 +777,13 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 ppgPulseWidth = ppgPulseWidth.replaceAll(CHANNEL_UNITS.MICROSECONDS, (" " + CHANNEL_UNITS.MICROSECONDS));
                 sb.append(ppgPulseWidth);
 
-                // Pulse amplitude
                 if (isPayloadDesignV5orAbove()) {
                     sb.append("; ");
 
                     List<Integer> listOfEnabledMaxPpgCh = new ArrayList<Integer>();
                     int[] ppgChArray = new int[]{
-                            // MAX86150 and MAX86916 PPG channels
                             Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_RED,
                             Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_IR,
-                            // MAX86916 PPG channels
                             Configuration.Verisense.SENSOR_ID.MAX86916_PPG_GREEN,
                             Configuration.Verisense.SENSOR_ID.MAX86916_PPG_BLUE};
                     for (int ppgCh : ppgChArray) {
@@ -860,13 +830,11 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     }
                 }
 
-                // Sample average
                 sb.append("; Sample Average = ");
                 int ppgSampleAverageConfigValue = sensorMAX86XXX.getPpgSampleAverageConfigValue();
                 String ppgSampleAverage = SensorMAX86XXX.CONFIG_OPTION_PPG_SAMPLE_AVG.getConfigStringFromConfigValue(ppgSampleAverageConfigValue);
                 sb.append(ppgSampleAverage);
 
-                // Resolution
                 sb.append("; ");
                 sb.append(SENSOR_CONFIG_STRINGS.RESOLUTION);
                 int ppgAdcResolutionConfigValue = sensorMAX86XXX.getPpgAdcResolutionConfigValue();
@@ -877,7 +845,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     sb.append("}");
                 }
             }
-            // ADC based channels
         } else if ((sensorClassKey == AbstractSensor.SENSORS.Battery && isSensorEnabled(Configuration.Verisense.SENSOR_ID.VBATT))
                 || (sensorClassKey == AbstractSensor.SENSORS.GSR && isSensorEnabled(Configuration.Verisense.SENSOR_ID.GSR))) {
             sb.append(generateCalcSamplingRateConfigStr(sensorClassKey, getSamplingRateForSensor(sensorClassKey), calculatedSamplingRate));
@@ -976,7 +943,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 || isSensorEnabled(Configuration.Verisense.SENSOR_ID.GSR));
     }
 
-    //TODO set derived algorithm enabled bit like as done for PPG rather then checking
     public boolean isAnAccelEnabled() {
         if (isSensorEnabled(Configuration.Verisense.SENSOR_ID.LIS2DW12_ACCEL)
                 || isSensorEnabled(Configuration.Verisense.SENSOR_ID.LSM6DS3_ACCEL)) {
@@ -1056,7 +1022,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     public void sensorAndConfigMapsCreate() {
         mMapOfSensorClasses = new LinkedHashMap<SENSORS, AbstractSensor>();
 
-        // Time is set in the OJC using this sensor class. The algorithms need it set in the OJC before they can be processed.
         addSensorClass(SENSORS.CLOCK, new SensorVerisenseClock(this));
         addSensorClass(SENSORS.LIS2DW12, new SensorLIS2DW12(this));
 
@@ -1080,7 +1045,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
 
         if (doesHwSupportMax30002()) {
-            // TODO add BioZ support
         }
 
         if (doesHwSupportGsr()) {
@@ -1093,7 +1057,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
     @Override
     public void handleSpecCasesAfterSensorMapUpdateFromEnabledSensors() {
-        // The clock sensor/channels are inherently enabled and not controlled by enabled sensor bits so we need to force it on here
         SensorDetails sensorDetailTimestamp = getSensorDetails(Configuration.Verisense.SENSOR_ID.VERISENSE_TIMESTAMP);
         if (sensorDetailTimestamp != null) {
             sensorDetailTimestamp.setIsEnabled(true);
@@ -1102,26 +1065,20 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
     @Override
     protected void interpretDataPacketFormat(Object object, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void createConfigBytesLayout() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 
     public void resetCalibParamAndAlgorithmBuffers() {
-        // Config has changed so, incase the range has changed, setting
-        // defaultMatrixMultipliedInverseAMSM to null will force the code to check
-        // whether it's using the correct calibration parameters.
         resetAllCalibParametersToDefault();
 
         resetAlgorithmBuffers();
@@ -1136,7 +1093,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 try {
                     abstractAlgorithm.resetAlgorithmBuffers();
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -1150,7 +1106,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     }
 
         public ObjectCluster buildMsgForSensorList(byte[] newPacket, COMMUNICATION_TYPE commType, List<SENSORS> listOfSensorClassKeys, double timeMsCurrentSample) {
-        // Arguments normally passed into ShimmerDevice.buildMsg()
         boolean isTimeSyncEnabled = false;
 
         ObjectCluster ojc = new ObjectCluster(mShimmerUserAssignedName, getMacId());
@@ -1167,7 +1122,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     if (sensor.isEnabled()) {
                         int length = sensor.getExpectedPacketByteArray(commType);
                         byte[] sensorByteArray = new byte[length];
-                        //TODO process API sensors, not just bytes from Shimmer packet
                         if (length != 0) { //if length 0 means there are no channels to be processed
                             if ((index + sensorByteArray.length) <= newPacket.length) {
                                 System.arraycopy(newPacket, index, sensorByteArray, 0, sensorByteArray.length);
@@ -1177,8 +1131,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                         }
                         sensor.processData(sensorByteArray, commType, ojc, isTimeSyncEnabled, timeMsCurrentSample);
 
-//						if(debug)
-//							System.out.println(sensor.mSensorDetailsRef.mGuiFriendlyLabel + "\texpectedPacketArraySize:" + length + "\tcurrentIndex:" + index);
                         index += length;
                     }
                 }
@@ -1189,12 +1141,8 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             }
         }
 
-        //After sensor data has been processed, now process any filters or Algorithms
         ojc = processData(ojc);
 
-//		if(sensorClassKey==SENSORS.MAX86916) {
-//			ojc.consolePrintChannelsAndDataSingleLine();
-//		}
 
         return ojc;
     }
@@ -1204,7 +1152,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return super.processData(ojc);
     }
 
-    // TODO move to ShimmerVerObject
     public boolean isFwMajorMinorInternalVerSet() {
         ShimmerVerObject svo = getShimmerVerObject();
         if (svo.mFirmwareVersionMajor != FW_ID.UNKNOWN
@@ -1215,7 +1162,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return false;
     }
 
-    // TODO move to ShimmerDevice
     public int getExpectedDataPacketSize(SENSORS sensorClassKey) {
         int dataPacketSize = 0;
         AbstractSensor abstractSensor = getSensorClass(sensorClassKey);
@@ -1275,7 +1221,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             case MAX86150:
             case MAX86916:
                 dataBlockSize = 0;
-                // 3 bytes each channel with a max of 32 samples per FIFO each
                 int fifoBytesPerChannel = 3 * SensorMAX86XXX.MAX_SAMPLES_PER_FIFO;
                 if (isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_RED)) {
                     dataBlockSize += fifoBytesPerChannel;
@@ -1299,11 +1244,9 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 break;
             case Battery:
             case GSR:
-                // There is a single buffer of a fixed size for all ADC channels (e.g., battery, GSR) no matter how many are enabled
                 dataBlockSize = SensorBattVoltageVerisense.ADC_BYTE_BUFFER_SIZE;
                 break;
             case BIOZ:
-                // TODO add support in future if needed
                 break;
             default:
                 break;
@@ -1335,55 +1278,46 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
             @Override
             public void isNowStreamingCallback() {
-                // TODO Auto-generated method stub
                 setBluetoothRadioState(BT_STATE.STREAMING);
             }
 
             @Override
             public void initialiseStreamingCallback() {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void hasStopStreamingCallback() {
-                // TODO Auto-generated method stub
                 setBluetoothRadioState(BT_STATE.CONNECTED);
             }
 
             @Override
             public void eventSetIsStreaming(boolean isStreaming) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventSetIsSensing(boolean isSensing) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventSetIsSDLogging(boolean isSdLogging) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventSetIsInitialised(boolean isInitialised) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventSetIsDocked(boolean isDocked) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventSetHaveAttemptedToRead(boolean haveAttemptedToRead) {
-                // TODO Auto-generated method stub
 
             }
 
@@ -1410,14 +1344,12 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     printSensorParserAndAlgoMaps();
 
                 } else if (parsedResponse instanceof TimePayload) {
-                    //TODO needed?
                 }
 
             }
 
             @Override
             public void eventNewResponse(byte[] responseBytes) {
-                // TODO Auto-generated method stub
 
             }
 
@@ -1432,32 +1364,27 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     System.out.println("Number of ObjectClusters generated: " + dataBlockDetails.getOjcArray().length);
 
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void eventLogAndStreamStatusChangedCallback(int lastSentInstruction) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventError(ShimmerException dE) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventDockedStateChange() {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventAckReceived(int commandAndProperty) {
-                // TODO Auto-generated method stub
                 if (commandAndProperty == VERISENSE_EVENT_ACK_RECEIVED.VERISENSE_WRITE_OP_ACK) {
                     mDeviceCallbackAdapter.writeOpConfigCompleted();
                 } else if (commandAndProperty == VERISENSE_EVENT_ACK_RECEIVED.VERISENSE_ERASE_FLASH_AND_LOOKUP_ACK) {
@@ -1468,33 +1395,28 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
             @Override
             public void disconnected() {
-                // TODO Auto-generated method stub
                 setBluetoothRadioState(BT_STATE.DISCONNECTED);
 
             }
 
             @Override
             public void connected() {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void isNowStreamLoggedDataCallback() {
-                // TODO Auto-generated method stub
                 setBluetoothRadioState(BT_STATE.STREAMING_LOGGED_DATA);
             }
 
             @Override
             public void hasStopStreamLoggedDataCallback(String binFilePath) {
                 mDeviceCallbackAdapter.readLoggedDataCompleted(binFilePath);
-                // TODO Auto-generated method stub
                 setBluetoothRadioState(BT_STATE.CONNECTED);
             }
 
             @Override
             public void eventNewSyncPayloadReceived(int payloadIndex, boolean crcError, double transferRateBytes, String binFilePath) {
-                // TODO Auto-generated method stub
                 mDeviceCallbackAdapter.newSyncPayloadReceived(payloadIndex, crcError, transferRateBytes, binFilePath);
             }
         });
@@ -1509,7 +1431,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         public DataBlockDetails parseDataBlockMetaData(byte[] byteBuffer, long pcTimestampMs) throws IOException {
         DataBlockDetails dataBlockDetails = parseDataBlockMetaData(byteBuffer, 0, 0, 0, 0);
 
-        // Streaming data block only contains microcontroller ticks value so we need to track the minutes in SW
         long endTimeTicksCurrent = dataBlockDetails.getTimeDetailsUcClock().getEndTimeTicks();
         if (endTimeTicksLatest != -1) {
             if (endTimeTicksCurrent < endTimeTicksLatest) {
@@ -1519,7 +1440,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         endTimeTicksLatest = endTimeTicksCurrent;
         dataBlockDetails.setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(endTimeMinutes, true);
 
-        //TODO temp here, setting the RWC in the datablock to be the same as the UC clock
         VerisenseTimeDetails timeDetailsRwc = dataBlockDetails.getTimeDetailsRwc();
         VerisenseTimeDetails timeDetailsUc = dataBlockDetails.getTimeDetailsUcClock();
         timeDetailsRwc.setStartTimeMs(timeDetailsUc.getStartTimeMs());
@@ -1536,7 +1456,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
         DataBlockDetails dataBlockDetails = null;
         DATABLOCK_SENSOR_ID[] payloadSensorIdValues = DATABLOCK_SENSOR_ID.values();
-        // -1 because PPG_MAX86150 has been temporarily added to PAYLOAD_SENSOR_ID
         if (sensorId > 0 && sensorId < payloadSensorIdValues.length - 1) {
             DATABLOCK_SENSOR_ID datablockSensorId = payloadSensorIdValues[sensorId];
 
@@ -1552,7 +1471,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             for (SENSORS sensorClassKey : dataBlockDetails.getListOfSensorClassKeys()) {
                 dataPacketSize += getExpectedDataPacketSize(sensorClassKey);
             }
-            // All sensors/channels within a single datablock share the same sampling rate so it's ok to pick the first one here
             double samplingRate = getSamplingRateForSensor(firstSensorClasskey);
 
             dataBlockDetails.setMetadata(qtySensorDataBytesInDatablock, dataPacketSize, samplingRate);
@@ -1581,9 +1499,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         if (listOfSensorClassKeys == null) {
             listOfSensorClassKeys = getSensorKeysForDatablockId(datablockSensorId);
 
-            // Additional channels that are calculated by the API go at the end of the list
-            // or else the flow in parseDataBlockMetaData will break (i.e., it relies on
-            // having the sensor(s) be the first entry in the list)
             if (isPayloadDesignV8orAbove()) {
                 listOfSensorClassKeys.add(SENSORS.CLOCK);
             }
@@ -1617,11 +1532,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
     @Override
     protected double correctSamplingRate(double rateHz) {
-        // As Verisense uses different sampling clocks for different sensors, it is not
-        // applicable to correct the sampling rate as we would have done for Shimmer3.
-        // The only sensors that this logic could be applied to are the ADC based sensor
-        // channels such as VBatt and GSR as these are both based on the 32768Hz crystal
-        // in the Verisense.
         return rateHz;
     }
 
@@ -1689,7 +1599,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         super.startStreaming();
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).startStreaming();
 
-        //TODO reset this as part of the sensor map
         AbstractSensor abstractSensor = getSensorClass(SENSORS.CLOCK);
         if (abstractSensor != null && abstractSensor instanceof SensorVerisenseClock) {
             SensorVerisenseClock sensorVerisenseClock = (SensorVerisenseClock) abstractSensor;
@@ -2016,7 +1925,6 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     }
 
     @Deprecated
-    // not sure if this is used for the file parser if its not we can delete this method. the proper way to get the payload index will be through MSG_IDENTIFIER_SYNC_PROGRESS as this method will fail on Android
     public int getPayloadIndex() {
         return mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).rxVerisenseMessageInProgress.payloadIndex;
     }
@@ -2181,9 +2089,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     }
 
     public static class FW_SPECIAL_VERSIONS {
-        // FW v0.31.000 had the battery voltage added to the payload footer ASM-425
         public static final ShimmerVerObject V_0_31_000 = new ShimmerVerObject(FW_ID.UNKNOWN, 0, 32, 0);
-        // FW v1.02.065 with ASM-1511 (Gen2 LTF chip) and ASM-1535 (uint16_t error in scheduler)
         public static final ShimmerVerObject V_1_02_071 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 71);
     }
 

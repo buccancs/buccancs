@@ -80,7 +80,6 @@ public class StatusPayload extends AbstractPayload implements Serializable {
             lastSuccessfulDataTransferTicks = parseByteArrayAtIndex(payloadContents, 37, CHANNEL_DATA_TYPE.UINT24);
             lastFailedDataTransferTicks = parseByteArrayAtIndex(payloadContents, 40, CHANNEL_DATA_TYPE.UINT24);
         }
-        // special condition where the sensor/fw returns all FF values
         lastTransferSuccessTimestampMs = (lastSuccessfulDataTransferMinutes == MAX_FOUR_BTE_UNSIGNED_VALUE) ? -1 : SensorVerisenseClock.convertRtcMinutesAndTicksToMs(lastSuccessfulDataTransferMinutes, lastSuccessfulDataTransferTicks);
         lastTransferFailTimestampMs = (lastFailedDataTransferMinutes == MAX_FOUR_BTE_UNSIGNED_VALUE) ? -1 : SensorVerisenseClock.convertRtcMinutesAndTicksToMs(lastFailedDataTransferMinutes, lastFailedDataTransferTicks);
 
@@ -121,11 +120,7 @@ public class StatusPayload extends AbstractPayload implements Serializable {
             byte[] statusFlagBytes = new byte[8];
             System.arraycopy(payloadContents, 26, statusFlagBytes, 0, statusFlagBytes.length);
             ArrayUtils.reverse(statusFlagBytes);
-            // eg 0000000000000009 where 09 is the LSB (byte 26) will result in a
-            // StatusFlags value of 9
             statusFlagsReversed = Long.parseLong(Hex.toHexString(statusFlagBytes).replace("-", ""), 16);
-            // reverse so the value of 9 00001001 will be 10010000 which is easier to read
-            // via index/table provided in the document ASM-DES04
 
             parseStatusFlagBytes(statusFlags);
         }
@@ -145,8 +140,6 @@ public class StatusPayload extends AbstractPayload implements Serializable {
             parseBatteryChargerStatusValue();
         }
 
-        // SyncMode = (int)syncMode;
-        // BaseStationTimestamp = DateHelper.GetTimestamp(DateTime.Now);
 
         isSuccess = true;
         return isSuccess;
@@ -162,22 +155,14 @@ public class StatusPayload extends AbstractPayload implements Serializable {
             dfuServiceOn = ((statusFlags & STATUS_FLAGS.BIT_MASK_DFU_SERVICE_ON) > 0) ? true : false;
             statusFlagFirstBoot = ((statusFlags & STATUS_FLAGS.BIT_MASK_FIRST_BOOT) > 0) ? true : false;
 
-            // FW v1.02.124 & FW v1.04.000 onwards (not the versions in between)
             secondaryStatusMsg = ((statusFlags & STATUS_FLAGS.BIT_MASK_SECONDARY_STATUS) > 0) ? true : false;
 
-            // For a number of previous FW versions, the timestamp in ticks was stored in
-            // byte 5, 6 and 7. A better approach is to know what version of FW it is so it
-            // can be parsed correctly but that information isn't available at this point in
-            // the code.
 
-            // FW v1.02.123 onwards
             flashWriteRetryCounterShortTry = (int) ((statusFlags >> STATUS_FLAGS.BIT_SHIFT_FLASH_WRITE_RETRY_COUNTER_SHORT_TRY_LSB) & 0xFFFF);
             flashWriteRetryCounterLongTry = (int) ((statusFlags >> STATUS_FLAGS.BIT_SHIFT_FLASH_WRITE_RETRY_COUNTER_LONG_TRY_LSB) & 0xFFFF);
 
-            // FW v1.02.084 onwards
             flashWriteFailCounter = (int) ((statusFlags >> STATUS_FLAGS.BIT_SHIFT_FAIL_COUNT_FLASH_WRITE_LSB) & 0xFFFF);
 
-            // FW v1.02.063 onwards
             failedBleConnectionAttemptCount = (int) ((statusFlags >> STATUS_FLAGS.BIT_SHIFT_FAIL_COUNT_BLE_SYNC) & 0xFF);
         }
     }
@@ -194,7 +179,6 @@ public class StatusPayload extends AbstractPayload implements Serializable {
 
     @Override
     public byte[] generatePayloadContents() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -263,23 +247,18 @@ public class StatusPayload extends AbstractPayload implements Serializable {
             sb.append("\t\t2DEL Banks:\t\t" + storageToDelkB + " kBytes / " + storageCapacitykB + " kBytes => " + UtilShimmer.formatDoubleToNdecimalPlaces(getStorageToDeletePercent(), 2) + " %\n");
             sb.append("\t\tBAD Banks:\t\t" + storageBadkB + " kBytes / " + storageCapacitykB + " kBytes => " + UtilShimmer.formatDoubleToNdecimalPlaces(getStorageBadPercent(), 2) + " %\n");
 
-            //TODO
-            // Update the memory used for the progress bar to be based on 'FULL' banks only instead;
             memoryUsedkB = storageFullkB;
 
             sb.append("\t\tOther:\t\t\t" + storageOtherkB + " kBytes / " + storageCapacitykB + " kBytes => " + UtilShimmer.formatDoubleToNdecimalPlaces(getStorageOtherPercent(), 2) + " %\n");
         }
 
-        // Parse the battery fall counter info
         if (payloadContents.length >= 26) {
             sb.append("\tVBatt Fall Counter:\t\t" + batteryVoltageFallCounter + "\n");
         }
 
-        // Parse the Status Message Flags - 64bit Value Reserved
         if (payloadContents.length >= 34) {
             sb.append("\tStatus Message Flags:\n");
 
-            // Byte 0 - Status flags
             sb.append("\t\tUSB_PLUGGED_IN:\t\t\t" + usbPowered + "\n");
             sb.append("\t\tRECORDING_PAUSED:\t\t" + recordingPaused + "\n");
             sb.append("\t\tFLASH_IS_FULL:\t\t\t" + flashIsFull + "\n");
@@ -289,18 +268,14 @@ public class StatusPayload extends AbstractPayload implements Serializable {
             sb.append("\t\tFIRST BOOT ON:\t\t\t" + statusFlagFirstBoot + "\n");
             sb.append("\t\tSecondary Status:\t\t" + secondaryStatusMsg + "\n");
 
-            // Bytes 1-4 - Pause counters
             sb.append("\t\tLTF WRITE - Short Retry Counter (2 minutes gap, 10 retries):\t" + flashWriteRetryCounterShortTry + "\n");
             sb.append("\t\tLTF WRITE - Long Retry Counter (4hrs gap, 1 retry):\t\t" + flashWriteRetryCounterLongTry + "\n");
 
-            // Bytes 5-6 - LTF write fail counter
             sb.append("\t\tLTF WRITE FAIL COUNTER:\t\t" + failedBleConnectionAttemptCount + "\n");
 
-            // Byte 7 - Sync fail counter
             sb.append("\t\tFAIL SYNC COUNTER:\t\t" + flashWriteFailCounter + "\n");
         }
 
-        // Parse the Next Sync Attempt time
         if (isStatusFromFwV1_02_055_onwards()) {
             sb.append("\tNext Sync Attempt:\t\t" + (timestampNextSyncAttempt == 0 ? "Not Set" : ("Will Happen At:" + timestampNextSyncAttempt)) + "\n");
         }

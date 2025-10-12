@@ -29,7 +29,6 @@ public class CameraView extends TextureView {
 
         public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        // 线程中绘制画面
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -54,7 +53,6 @@ public class CameraView extends TextureView {
                                                         Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                             canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
-                            // 画面中心的十字交叉线绘制
                             Paint paint = new Paint();  //画笔
                             paint.setStrokeWidth(2);  //设置线宽。单位为像素
                             paint.setAntiAlias(true); //抗锯齿

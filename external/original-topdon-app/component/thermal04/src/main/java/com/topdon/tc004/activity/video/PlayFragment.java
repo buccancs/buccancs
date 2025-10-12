@@ -61,13 +61,9 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     public static final int RESULT_REND_START = 1;
     public static final int RESULT_REND_VIDEO_DISPLAY = 2;
     public static final int RESULT_REND_STOP = -1;
-    // 等比例,最大化区域显示,不裁剪
     public static final int ASPECT_RATIO_INSIDE = 1;
-    // 等比例,裁剪,裁剪区域可以通过拖拽展示\隐藏
     public static final int ASPECT_RATIO_CROPS_MATRIX = 2;
-    // 等比例,最大区域显示,裁剪
     public static final int ASPECT_RATIO_CENTER_CROPS = 3;
-    // 拉伸显示,铺满全屏
     public static final int FILL_WINDOW = 4;
     protected static final String TAG = "PlayFragment";
     protected String mUrl;
@@ -84,7 +80,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     private ResultReceiver mRR;// ResultReceiver是一个用来接收其他进程回调结果的通用接口
     private ImageView mRenderCover;
     private ImageView mTakePictureThumb;// 显示抓拍的图片
-    // 抓拍后隐藏thumb的task
     private final Runnable mAnimationHiddenTakePictureThumbTask = new Runnable() {
         @Override
         public void run() {
@@ -122,21 +117,17 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     }
 
     public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
-        // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, options);
 
-        // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
-        // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(path, options);
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
@@ -145,8 +136,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
             final int halfHeight = height / 2;
             final int halfWidth = width / 2;
 
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
             while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
                 inSampleSize *= 2;
             }
@@ -177,11 +166,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         ivCover = view.findViewById(R.id.iv_not_connect_space);
 
         if (!TextUtils.isEmpty(mUrl)) {
-//            Glide.with(this)
-//                    .load(FileUtil.getSnapFile(mUrl))
-//                    .signature(new StringSignature(UUID.randomUUID().toString()))
-//                    .fitCenter()
-//                    .into(cover);
         }
         return view;
     }
@@ -200,7 +184,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
 
         mRenderCover = (ImageView) getView().findViewById(R.id.surface_cover);
         mTakePictureThumb = (ImageView) getView().findViewById(R.id.live_video_snap_thumb);
-//        view.findViewById(android.R.id.progress).setVisibility(View.VISIBLE);
         mResultReceiver = new ResultReceiver(new Handler()) {
             @Override
             protected void onReceiveResult(int resultCode, Bundle resultData) {
@@ -232,22 +215,10 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
                     new AlertDialog.Builder(getActivity()).setMessage("视频格式不支持").setTitle("SORRY").setPositiveButton(android.R.string.ok, null).show();
                 } else if (resultCode == EasyPlayerClient.RESULT_EVENT) {
                     int errorCode = resultData.getInt("errorcode");
-//                    if (errorCode != 0) {
-//                        stopRending();
-//                    }
 
-//                    if (activity instanceof PlayActivity) {
-//                        int state = resultData.getInt("state");
-//                        String msg = resultData.getString("event-msg");
-//                        ((PlayActivity) activity).onEvent(PlayFragment.this, state, errorCode, msg);
-//                    }
                     Log.i(TAG, "errorCode:" + errorCode);
                 } else if (resultCode == EasyPlayerClient.RESULT_RECORD_BEGIN) {
-//                    if (activity instanceof PlayActivity)
-//                        ((PlayActivity) activity).onRecordState(1);
                 } else if (resultCode == EasyPlayerClient.RESULT_RECORD_END) {
-//                    if (activity instanceof PlayActivity)
-//                        ((PlayActivity) activity).onRecordState(-1);
                 }
             }
         };
@@ -331,8 +302,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         super.onHiddenChanged(hidden);
 
         if (hidden) {
-            // stop
-//            stopRending();
             if (mStreamRender != null) {
                 mStreamRender.pause();
             }
@@ -346,18 +315,12 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     private void onVideoDisplayed() {
         View view = getView();
         Log.i(TAG, String.format("VIDEO DISPLAYED!!!!%d*%d", mWidth, mHeight));
-//        Toast.makeText(PlayActivity.this, "视频正在播放了", Toast.LENGTH_SHORT).show();
         view.findViewById(android.R.id.progress).setVisibility(View.GONE);
         view.findViewById(R.id.iv_not_connect_space).setVisibility(View.GONE);
         mSurfaceView.post(new Runnable() {
             @Override
             public void run() {
                 if (mWidth != 0 && mHeight != 0) {
-//                    Bitmap e = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-//                    mSurfaceView.getBitmap(e);
-//                    File f = FileUtil.getSnapFile(mUrl);
-//                    saveBitmapInFile(f.getPath(), e);
-//                    e.recycle();
                 }
             }
         });
@@ -385,12 +348,10 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         return mStreamRender.isAudioEnable();
     }
 
-    // 开始渲染
     protected void startRending(SurfaceTexture surface) {
         mStreamRender = new EasyPlayerClient(getContext(), new Surface(surface), mResultReceiver, new EasyPlayerClient.I420DataCallback() {
             @Override
             public void onI420Data(ByteBuffer byteBuffer) {
-//                Log.e("测试画面回调",byteBuffer.toString()+"////");
             }
         });
 
@@ -416,7 +377,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         sendResult(RESULT_REND_START, null);
     }
 
-    // 停止渲染
     private void stopRending() {
         if (mStreamRender != null) {
             sendResult(RESULT_REND_STOP, null);
@@ -425,7 +385,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         }
     }
 
-    // 抓拍
     public void takePicture(final String path) {
         try {
             if (mWidth <= 0 || mHeight <= 0) {
@@ -546,12 +505,10 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         }
     }
 
-    // 进入全屏模式
     public void enterFullscreen() {
         setScaleType(FILL_WINDOW);
     }
 
-    // 退出全屏模式
     public void quiteFullscreen() {
         setScaleType(ASPECT_RATIO_CROPS_MATRIX);
     }
@@ -572,15 +529,12 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
 
             } else {
                 mSurfaceView.setTransform(new Matrix());
-//            int viewWidth = mSurfaceView.getWidth();
-//            int viewHeight = mSurfaceView.getHeight();
                 float ratioView = getView().getWidth() * 1.0f / getView().getHeight();
                 float ratio = mWidth * 1.0f / mHeight;
 
                 switch (mRatioType) {
                     case ASPECT_RATIO_INSIDE: {
                         if (ratioView - ratio < 0) {    // 屏幕比视频的宽高比更小.表示视频是过于宽屏了.
-                            // 宽为基准.
                             mSurfaceView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                             mSurfaceView.getLayoutParams().height = (int) (getView().getWidth() / ratio + 0.5f);
                         } else {                        // 视频是竖屏了.
@@ -590,9 +544,7 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
                     }
                     break;
                     case ASPECT_RATIO_CENTER_CROPS: {
-                        // 以更短的为基准
                         if (ratioView - ratio < 0) {    // 屏幕比视频的宽高比更小.表示视频是过于宽屏了.
-                            // 宽为基准.
                             mSurfaceView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                             mSurfaceView.getLayoutParams().width = (int) (getView().getHeight() * ratio + 0.5f);
                         } else {                        // 视频是竖屏了.
@@ -640,8 +592,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         mSurfaceTexture = surface;
         return false;
 
-//        stopRending();
-//        return true;
     }
 
     @Override
@@ -676,13 +626,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     public void setUrl(String url) {
         this.mUrl = url;
 
-//        if (!TextUtils.isEmpty(mUrl)) {
-//            Glide.with(this)
-//                    .load(FileUtil.getSnapFile(mUrl))
-//                    .signature(new StringSignature(UUID.randomUUID().toString()))
-//                    .fitCenter()
-//                    .into(cover);
-//        }
     }
 
     public void setTransType(int transType) {
@@ -699,9 +642,7 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         mSurfaceView.animate().alpha(selected ? 0.7f : 1.0f);
     }
 
-    // 高度固定，宽度可更改
     protected void fixPlayerRatio(View renderView, int maxWidth, int maxHeight) {
-//        fixPlayerRatio(renderView, maxWidth, maxHeight, mWidth, mHeight);
     }
 
     protected void fixPlayerRatio(View renderView, int widthSize, int heightSize, int width, int height) {

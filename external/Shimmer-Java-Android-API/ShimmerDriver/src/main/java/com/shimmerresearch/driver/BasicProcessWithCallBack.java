@@ -13,14 +13,11 @@ public abstract class BasicProcessWithCallBack {
     protected Callable mThread = null;
 
     ;
-    //protected BlockingQueue<ShimmerMSG> mQueue = new ArrayBlockingQueue<ShimmerMSG>(1024);
     protected LinkedBlockingDeque<ShimmerMsg> mQueue = new LinkedBlockingDeque<ShimmerMsg>(1024);
     protected ConsumerThread mGUIConsumerThread = null;
     private WaitForData mWaitForData = null;
-    //private List<Callable> mListOfThreads = new ArrayList<Callable>();
     private List<Callable> mListOfConsumers = Collections.synchronizedList(new ArrayList<Callable>());
     private List<BasicProcessWithCallBack> mListOfMsgProducers = new ArrayList<BasicProcessWithCallBack>();
-    //	private List<WaitForData> mListWaitForData = new ArrayList<WaitForData>();
     private List<WaitForData> mListWaitForData = Collections.synchronizedList(new ArrayList<WaitForData>());
     private String threadName = "";
     private boolean mIsDebug = false;
@@ -39,7 +36,6 @@ public abstract class BasicProcessWithCallBack {
         try {
             mQueue.put(smsg);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -48,7 +44,6 @@ public abstract class BasicProcessWithCallBack {
         try {
             mQueue.put(new ShimmerMsg(i, ojc));
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -73,7 +68,6 @@ public abstract class BasicProcessWithCallBack {
             while (entries.hasNext()) {
                 Callable c = entries.next();
                 if (c instanceof WaitForData) {
-//    				UtilShimmer.consolePrintCurrentStackTrace();
                     for (WaitForData w : b.mListWaitForData) {
                         if (c.equals(w)) {
                             entries.remove();
@@ -94,7 +88,6 @@ public abstract class BasicProcessWithCallBack {
             try {
                 mQueue.put(smsg);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -118,7 +111,6 @@ public abstract class BasicProcessWithCallBack {
 
         public void removeSetWaitForData(BasicProcessWithCallBack b) {
 
-//		consolePrintLn(this.getClass().getSimpleName() + " -> Trying to remove -> " + b.hashCode());
 
         StringBuilder builder = null;
         if (mIsDebug) {
@@ -155,7 +147,6 @@ public abstract class BasicProcessWithCallBack {
             while (entries.hasNext()) {
                 BasicProcessWithCallBack bpwc = entries.next();
                 if (bpwc == b || bpwc.equals(b)) {
-                    //TODO don't think removeConsumer needs to be called here as that method does not handle the mListOfMsgProducers
                     b.removeConsumer(this);
                     if (builder != null) {
                         builder.append("\n\tRemoving thread\tSimpleName: " + b.threadName + "\tHashCode: " + bpwc.hashCode());
@@ -244,7 +235,6 @@ public abstract class BasicProcessWithCallBack {
             mThread.callBackMethod(s);
         }
 
-        // April 2017: RM changed for loop to iterator and added synchronisation block  as concurrentmodification with for loop from time to time (this solution may not resolve concurrentmodification, monitor over time)
         synchronized (mListOfConsumers) {
             Iterator<Callable> entries = mListOfConsumers.iterator();
             while (entries.hasNext()) {
@@ -254,9 +244,6 @@ public abstract class BasicProcessWithCallBack {
         }
 
 
-//    	for (Callable c: mListOfThreads){
-//    		c.callBackMethod(s);
-//    	}
     }
 
     ;
@@ -266,7 +253,6 @@ public abstract class BasicProcessWithCallBack {
             mThread.callBackMethod(i, ojc);
         }
 
-        // May 2017: RM changed for loop to iterator and added synchronisation block as concurrentmodification with for loop from time to time (this solution may not resolve concurrentmodification, monitor over time)
         synchronized (mListOfConsumers) {
             Iterator<Callable> entries = mListOfConsumers.iterator();
             while (entries.hasNext()) {
@@ -275,9 +261,6 @@ public abstract class BasicProcessWithCallBack {
             }
         }
 
-//    	for (Callable c:mListOfThreads){
-//    		c.callBackMethod(i,ojc);
-//    	}
     }
 
     public void setThreadName(String name) {
@@ -367,13 +350,11 @@ public abstract class BasicProcessWithCallBack {
                         processMsgFromCallback(shimmerMSG);
                     }
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     System.out.print("QUE BLOCKED");
                     e.printStackTrace();
                 }
             }
 
-            //as a safety precaution, remove all its callbacks
             removeSetWaitForDataAll();
 
         }
@@ -381,7 +362,6 @@ public abstract class BasicProcessWithCallBack {
         ;
     }
 
-    //this is for the upper layer
     public class WaitForData implements com.shimmerresearch.driver.Callable {
         BasicProcessWithCallBack track;
 
@@ -399,7 +379,6 @@ public abstract class BasicProcessWithCallBack {
             try {
                 mQueue.put(s);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -409,7 +388,6 @@ public abstract class BasicProcessWithCallBack {
             try {
                 mQueue.put(new ShimmerMsg(i, ojc));
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

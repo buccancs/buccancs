@@ -31,7 +31,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
     int selectedDevicePos = -1;
 
     public ConnectedShimmersListFragment() {
-        // Required empty public constructor
     }
 
     public static ConnectedShimmersListFragment newInstance() {
@@ -44,7 +43,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        //Ensure that the container activity has implemented the callback interface.
         try {
             mCallBack = (OnShimmerDeviceSelectedListener) activity;
         } catch (ClassCastException e) {
@@ -57,7 +55,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
             shimmerDeviceList = deviceList;
             this.context = context;
             if (deviceList == null) {
-                //String[] displayList = {"Service not yet initialised"};
                 String[] displayList = {"No devices connected"};
                 ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, displayList);
                 setListAdapter(listAdapter);
@@ -74,7 +71,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
 
                 ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(context, R.layout.simple_list_item_multiple_choice_force_black_text, displayList);
 
-                //Set the list of devices to be displayed in the Fragment
                 setListAdapter(listAdapter);
 
                 final ListView listView = getListView();
@@ -98,11 +94,9 @@ public class ConnectedShimmersListFragment extends ListFragment {
                     }
                 });
 
-                //Save the listView so that it can be restored in onCreateView when returning to the Fragment.
                 savedListView = listView;
                 savedListAdapter = listAdapter;
 
-                //Ensure that the selected item's checkbox is checked
                 for (int i = 0; i < listView.getAdapter().getCount(); i++) {
                     View view = getViewByPosition(i, listView);
                     CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(android.R.id.text1);
@@ -154,7 +148,6 @@ public class ConnectedShimmersListFragment extends ListFragment {
         }
     }
 
-    //Container Activity must implement this interface
     public interface OnShimmerDeviceSelectedListener {
         public void onShimmerDeviceSelected(String macAddress, String deviceName, Boolean selected);
     }

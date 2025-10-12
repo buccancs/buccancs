@@ -48,7 +48,6 @@ public class API_0000X_ByteCommunicationShimmer3lns0_16_11_w_sync_master extends
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);//Just to give time to connect to finish
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -103,7 +102,6 @@ public class API_0000X_ByteCommunicationShimmer3lns0_16_11_w_sync_master extends
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -116,7 +114,6 @@ public class API_0000X_ByteCommunicationShimmer3lns0_16_11_w_sync_master extends
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }

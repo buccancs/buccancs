@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializedataTransferRequest")
 public inline fun dataTransferRequest(block: com.buccancs.control.DataTransferRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferRequest =
   com.buccancs.control.DataTransferRequestKt.Dsl._create(com.buccancs.control.DataTransferRequest.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.DataTransferRequest`
+ */
 public object DataTransferRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,87 +27,145 @@ public object DataTransferRequestKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.DataTransferRequest = _builder.build()
 
-        public var session: com.buccancs.control.SessionIdentifier
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     */
+    public var session: com.buccancs.control.SessionIdentifier
       get() = _builder.getSession()
       set(value) {
         _builder.setSession(value)
       }
-        public fun clearSession() {
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     */
+    public fun clearSession() {
       _builder.clearSession()
     }
-        public fun hasSession(): kotlin.Boolean {
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     * @return Whether the session field is set.
+     */
+    public fun hasSession(): kotlin.Boolean {
       return _builder.hasSession()
     }
 
-        public var deviceId: kotlin.String
+    /**
+     * `string device_id = 2;`
+     */
+    public var deviceId: kotlin.String
       get() = _builder.getDeviceId()
       set(value) {
         _builder.setDeviceId(value)
       }
-        public fun clearDeviceId() {
+    /**
+     * `string device_id = 2;`
+     */
+    public fun clearDeviceId() {
       _builder.clearDeviceId()
     }
 
-        public var fileName: kotlin.String
+    /**
+     * `string file_name = 3;`
+     */
+    public var fileName: kotlin.String
       get() = _builder.getFileName()
       set(value) {
         _builder.setFileName(value)
       }
-        public fun clearFileName() {
+    /**
+     * `string file_name = 3;`
+     */
+    public fun clearFileName() {
       _builder.clearFileName()
     }
 
-        public var sizeBytes: kotlin.Long
+    /**
+     * `uint64 size_bytes = 4;`
+     */
+    public var sizeBytes: kotlin.Long
       get() = _builder.getSizeBytes()
       set(value) {
         _builder.setSizeBytes(value)
       }
-        public fun clearSizeBytes() {
+    /**
+     * `uint64 size_bytes = 4;`
+     */
+    public fun clearSizeBytes() {
       _builder.clearSizeBytes()
     }
 
-        public var chunk: com.google.protobuf.ByteString
+    /**
+     * `bytes chunk = 5;`
+     */
+    public var chunk: com.google.protobuf.ByteString
       get() = _builder.getChunk()
       set(value) {
         _builder.setChunk(value)
       }
-        public fun clearChunk() {
+    /**
+     * `bytes chunk = 5;`
+     */
+    public fun clearChunk() {
       _builder.clearChunk()
     }
 
-        public var endOfStream: kotlin.Boolean
+    /**
+     * `bool end_of_stream = 6;`
+     */
+    public var endOfStream: kotlin.Boolean
       get() = _builder.getEndOfStream()
       set(value) {
         _builder.setEndOfStream(value)
       }
-        public fun clearEndOfStream() {
+    /**
+     * `bool end_of_stream = 6;`
+     */
+    public fun clearEndOfStream() {
       _builder.clearEndOfStream()
     }
 
-        public var sha256: com.google.protobuf.ByteString
+    /**
+     * `bytes sha256 = 7;`
+     */
+    public var sha256: com.google.protobuf.ByteString
       get() = _builder.getSha256()
       set(value) {
         _builder.setSha256(value)
       }
-        public fun clearSha256() {
+    /**
+     * `bytes sha256 = 7;`
+     */
+    public fun clearSha256() {
       _builder.clearSha256()
     }
 
-        public var mimeType: kotlin.String
+    /**
+     * `string mime_type = 8;`
+     */
+    public var mimeType: kotlin.String
       get() = _builder.getMimeType()
       set(value) {
         _builder.setMimeType(value)
       }
-        public fun clearMimeType() {
+    /**
+     * `string mime_type = 8;`
+     */
+    public fun clearMimeType() {
       _builder.clearMimeType()
     }
 
-        public var streamType: kotlin.String
+    /**
+     * `string stream_type = 9;`
+     */
+    public var streamType: kotlin.String
       get() = _builder.getStreamType()
       set(value) {
         _builder.setStreamType(value)
       }
-        public fun clearStreamType() {
+    /**
+     * `string stream_type = 9;`
+     */
+    public fun clearStreamType() {
       _builder.clearStreamType()
     }
   }

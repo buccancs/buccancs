@@ -46,7 +46,6 @@ public class MyGLSurfaceView implements Renderer {
     }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        //square.loadGLTexture(gl, this.context);
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glClearColor(0, 0, 0, 0);
         gl.glClearDepthf(1.0f);
@@ -60,11 +59,9 @@ public class MyGLSurfaceView implements Renderer {
     }
 
         public void onDrawFrame(GL10 gl) {
-        //Clear Screen And Depth Buffer
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();                    //Reset The Current Modelview Matrix
 
-        //Drawing
         gl.glTranslatef(0.0f, 0.0f, -10.0f);    //Move down 1.0 Unit And Into The Screen 6.0
         gl.glRotatef(rquad, ax, ay, az);    //Rotate The Square On The X axis ( NEW )
         cube.draw(gl);                        //Draw the square
@@ -80,7 +77,6 @@ public class MyGLSurfaceView implements Renderer {
         gl.glMatrixMode(GL10.GL_PROJECTION);    //Select The Projection Matrix
         gl.glLoadIdentity();                    //Reset The Projection Matrix
 
-        //Calculate The Aspect Ratio Of The Window
         GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 0.1f, 100.0f);
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);    //Select The Modelview Matrix

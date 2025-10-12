@@ -56,7 +56,6 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
         for (int i = indexFrom; i <= indexTo; i++) {
 
-            // only recalculate y
             calcMinMaxY(mValues.get(i));
         }
     }
@@ -185,7 +184,6 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
         calcMinMax(e);
 
-        // add the entry
         return values.add(e);
     }
 
@@ -198,7 +196,6 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         if (mValues == null)
             return false;
 
-        // remove the entry
         boolean removed = mValues.remove(e);
 
         if (removed) {
@@ -250,21 +247,14 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
                     ad1 = Math.abs(d1), ad2 = Math.abs(d2);
 
             if (ad2 < ad1) {
-                // [m + 1] is closer to xValue
-                // Search in an higher place
                 low = m + 1;
             } else if (ad1 < ad2) {
-                // [m] is closer to xValue
-                // Search in a lower place
                 high = m;
             } else {
-                // We have multiple sequential x-value with same distance
 
                 if (d1 >= 0.0) {
-                    // Search in a lower place
                     high = m;
                 } else if (d1 < 0.0) {
-                    // Search in an higher place
                     low = m + 1;
                 }
             }
@@ -275,18 +265,15 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         if (closest != -1) {
             float closestXValue = mValues.get(closest).getX();
             if (rounding == Rounding.UP) {
-                // If rounding up, and found x-value is lower than specified x, and we can go upper...
                 if (closestXValue < xValue && closest < mValues.size() - 1) {
                     ++closest;
                 }
             } else if (rounding == Rounding.DOWN) {
-                // If rounding down, and found x-value is upper than specified x, and we can go lower...
                 if (closestXValue > xValue && closest > 0) {
                     --closest;
                 }
             }
 
-            // Search by closest to y-value
             if (!Float.isNaN(closestToY)) {
                 while (closest > 0 && mValues.get(closest - 1).getX() == closestXValue)
                     closest -= 1;
@@ -329,14 +316,12 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
             int m = (high + low) / 2;
             T entry = mValues.get(m);
 
-            // if we have a match
             if (xValue == entry.getX()) {
                 while (m > 0 && mValues.get(m - 1).getX() == xValue)
                     m--;
 
                 high = mValues.size();
 
-                // loop over all "equal" entries
                 for (; m < high; m++) {
                     entry = mValues.get(m);
                     if (entry.getX() == xValue) {

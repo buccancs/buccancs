@@ -24,22 +24,7 @@ public class UtilChart2D {
     public boolean mIsGridOn = false;
 
     public static ITrace2D createTraceAndAddToChart(Chart2D chart, int plotMaxSize, PLOT_LINE_STYLE plotLineStyle) {
-        //2018-06-15 MN: Remove this code as it is partly duplicated in setTraceLineStyle() and also multiple cases of PLOT_LINE_STYLE are not handled
-//		ITrace2D trace;
-//		if(plotLineStyle==PLOT_LINE_STYLE.CONTINUOUS
-//				|| plotLineStyle==PLOT_LINE_STYLE.INDIVIDUAL_POINTS){
-//			trace = UtilChart2D.addNormalTraceLeft(chart, plotMaxSize);
 //
-//			if(plotLineStyle==PLOT_LINE_STYLE.INDIVIDUAL_POINTS){
-//				trace.setTracePainter(new TracePainterDisc(4));
-//			}
-//		}
-//		else if(plotLineStyle==PLOT_LINE_STYLE.BAR){
-//			trace = UtilChart2D.addBarTrace(chart, plotMaxSize);
-//		}
-//		else{
-//			trace = UtilChart2D.addNormalTraceLeft(chart, plotMaxSize);
-//		}
 
         ITrace2D trace = createTraceAndSetStyle(chart, plotMaxSize, plotLineStyle);
         chart.addTrace(trace);
@@ -72,40 +57,25 @@ public class UtilChart2D {
     }
 
     public static ITrace2D createContinuousTrace(int plotMaxSize) {
-        //2018-06-15 MN: Remove this code as it is duplicated in createTraceAndSetStyle()
-//		Trace2DLtd trace = new Trace2DLtd(plotMaxSize);
-//		BasicStroke stroke = ((BasicStroke)trace.getStroke());
-//		BasicStroke newStroke = new BasicStroke(DEFAULT_LINE_THICKNESS,stroke.getEndCap(),stroke.getLineJoin(),stroke.getMiterLimit(),stroke.getDashArray(),stroke.getDashPhase());
-//		trace.setStroke(newStroke);
 
         ITrace2D trace = createTraceAndSetStyle(null, plotMaxSize, PLOT_LINE_STYLE.CONTINUOUS);
         return trace;
     }
 
     public static ITrace2D createBarTrace(Chart2D chart, int plotMaxSize) {
-//		ITrace2D trace = new Trace2DLtd(plotMaxSize);
-//		trace.setTracePainter(new TracePainterVerticalBar(chart));
         ITrace2D trace = createTraceAndSetStyle(chart, plotMaxSize, PLOT_LINE_STYLE.BAR);
         return trace;
     }
 
     public static AAxis<IAxisScalePolicy> createRightYAxis(Chart2D chart) {
-        //AAxis<IAxisScalePolicy> yAxisRight;
         AAxis<IAxisScalePolicy> yAxisRight = new AxisLinear<IAxisScalePolicy>();
-//		yAxisRight.setAxisScalePolicy(new AxisScalePolicyManualTicks());
         yAxisRight.setAxisScalePolicy(new AxisScalePolicyAutomaticBestFit());
-        //yAxisRight.setMinorTickSpacing(10);
-        //yAxisRight.setStartMajorTick(true);
         yAxisRight.setPaintGrid(false);
-        //yAxisRight.setAxisTitle(new IAxis.AxisTitle(title));
-        //IRangePolicy rangePolicy = new RangePolicyFixedViewport(new Range(minRange,maxRange));
 
-        //yRightAxis.setRangePolicy(rangePolicy);
         return yAxisRight;
     }
 
     public static void setTraceLineStyle(Chart2D chart, ITrace2D trace, PLOT_LINE_STYLE plotLineStyle) {
-        //Defaults
         trace.setTracePainter(new TracePainterLine());
         trace.setStroke(new BasicStroke());
 
@@ -120,7 +90,6 @@ public class UtilChart2D {
             if (plotLineStyle == PLOT_LINE_STYLE.CONTINUOUS
                     || plotLineStyle == PLOT_LINE_STYLE.INDIVIDUAL_POINTS) {
                 strokeNew = new BasicStroke(
-//						strokeOld.getLineWidth(),
                         UtilChart2D.DEFAULT_LINE_THICKNESS,
                         strokeOld.getEndCap(),
                         strokeOld.getLineJoin(),
@@ -140,11 +109,8 @@ public class UtilChart2D {
                         10.0f, dash1, 0.0f);
                 trace.setStroke(strokeNew);
             } else if (plotLineStyle == PLOT_LINE_STYLE.DOTTED) {
-//				float dash1[] = {3.0f};
                 strokeNew = new BasicStroke(
                         1,
-//						strokeOld.getLineWidth(),
-//						DEFAULT_LINE_THICKNESS,
                         BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1, 2}, 0);
 						                trace.setStroke(strokeNew);
             }

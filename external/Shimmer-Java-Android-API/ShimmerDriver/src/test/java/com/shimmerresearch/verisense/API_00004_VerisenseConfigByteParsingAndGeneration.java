@@ -77,7 +77,6 @@ public class API_00004_VerisenseConfigByteParsingAndGeneration {
     @Test
     public void test004_sensorBattVoltage() {
         List<ISensorConfig> listOfSensorConfig = new ArrayList<ISensorConfig>();
-//		listOfSensorConfig.addAll(Arrays.asList(SensorBattVoltageVerisense..values()));
 
         ShimmerVerObject svo = FW_CHANGES.CCF21_010_3;
         ExpansionBoardDetails ebd = new ExpansionBoardDetails(HW_ID.VERISENSE_IMU, 1, 0);

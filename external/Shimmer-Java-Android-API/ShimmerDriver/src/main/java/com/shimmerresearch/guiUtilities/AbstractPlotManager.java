@@ -12,7 +12,6 @@ import com.shimmerresearch.driverUtilities.UtilShimmer.SHIMMER_DEFAULT_COLOURS;
 public abstract class AbstractPlotManager {
 
     public static List<int[]> mListofTraceColorsDefault = Collections.synchronizedList(new ArrayList<int[]>());
-        //public List<String[]> mListofPropertiestoPlot = new ArrayList<String[]>(); //this is used to identify he signals coming into the filter
     public List<String[]> mListofPropertiestoPlot = Collections.synchronizedList(new ArrayList<String[]>()); //this is used to identify he signals coming into the filter
     public List<int[]> mListOfTraceColorsCurrentlyUsed = Collections.synchronizedList(new ArrayList<int[]>());
     public PLOT_LINE_STYLE mDefaultLineStyle = PLOT_LINE_STYLE.CONTINUOUS;
@@ -30,14 +29,7 @@ public abstract class AbstractPlotManager {
         mListofTraceColorsDefault.add(SHIMMER_DEFAULT_COLOURS.colourShimmerBlue);
     }
 
-    //TODO why handled differently TRACE_STYLE and PLOT_LINE_STYLE
-//	public enum TRACE_STYLE{
-//		CONTINUOUS,
-//		DOTTED,
-//		DASHED
-//	}
 
-    //generates
     public AbstractPlotManager() {
 
     }
@@ -75,7 +67,6 @@ public abstract class AbstractPlotManager {
         String js = "";
         int lengthToUse = a.length > 4 ? 4 : a.length;
 
-//		for (int i=0;i<lengthToUse;i++){
         for (int i = 0; i < a.length; i++) {
             if (i == 0) {
                 js = a[i];

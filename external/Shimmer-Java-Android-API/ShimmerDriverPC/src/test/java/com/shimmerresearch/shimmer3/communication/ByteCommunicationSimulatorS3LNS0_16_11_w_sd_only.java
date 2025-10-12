@@ -14,7 +14,6 @@ public class ByteCommunicationSimulatorS3LNS0_16_11_w_sd_only extends ByteCommun
 
     public ByteCommunicationSimulatorS3LNS0_16_11_w_sd_only(String address) {
         super(address);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

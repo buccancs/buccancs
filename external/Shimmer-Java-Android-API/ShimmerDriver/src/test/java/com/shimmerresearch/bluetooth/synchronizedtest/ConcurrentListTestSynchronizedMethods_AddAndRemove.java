@@ -1,4 +1,3 @@
-//This is related to test conducted in AA-192
 package com.shimmerresearch.bluetooth.synchronizedtest;
 
 import java.util.ArrayList;
@@ -56,7 +55,6 @@ public class ConcurrentListTestSynchronizedMethods_AddAndRemove {
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             for (int i = 1; i < 1000; i++) {
                 byte[] b = {1, 1};
                 app.addinstruction(b);
@@ -75,7 +73,6 @@ public class ConcurrentListTestSynchronizedMethods_AddAndRemove {
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             for (int i = 1; i < 1000; i++) {
                 app.removeinstruction();
             }
@@ -93,7 +90,6 @@ public class ConcurrentListTestSynchronizedMethods_AddAndRemove {
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             for (int i = 1; i < 1000; i++) {
                 app.clearinstructions();
             }

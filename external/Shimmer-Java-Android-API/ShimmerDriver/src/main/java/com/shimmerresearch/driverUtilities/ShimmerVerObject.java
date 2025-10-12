@@ -28,16 +28,10 @@ public class ShimmerVerObject implements Serializable {
 
         private ExpansionBoardDetails mExpansionBoardDetails = new ExpansionBoardDetails(ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
 
-    //TODO handle SPAN_VERSION for SPANs? It is obtained from the PlatformHwManager
-    //public SPAN_VERSION hardwareVersion = SPAN_VERSION.UNKNOWN;
 
     public ShimmerVerObject() {
-        // TODO Auto-generated constructor stub
     }
 
-//	public ShimmerVerObject(int hardwareVersion){
-//		mHardwareVersion = hardwareVersion;
-//	}
 
         public ShimmerVerObject(
             int firmwareIdentifier,
@@ -145,7 +139,6 @@ public class ShimmerVerObject implements Serializable {
     public static boolean isSupportedMpl(ShimmerVerObject svo, int hwVer, int fwId) {
         if ((compareVersions(svo, HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 7, 0)
                 && !compareVersions(svo, HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 8, 0))
-//				|| (hwVer==HW_ID.SHIMMER_4_SDK)
         ) {
             return true;
         }
@@ -185,8 +178,6 @@ public class ShimmerVerObject implements Serializable {
                 || (hwVer == HW_ID.SHIMMER_3 && fwId == FW_ID.STROKARE)
                 || (hwVer == HW_ID.SHIMMER_3R)
                 || (hwVer == HW_ID.SHIMMER_GQ_BLE && fwId == FW_ID.GQ_BLE)
-//				|| hwVer==HW_ID.SHIMMER_GQ_802154_NR
-//				|| hwVer==HW_ID.SHIMMER_GQ_802154_LR
                 || fwId == ShimmerVerDetails.FW_ID.GQ_802154
                 || hwVer == HW_ID.SHIMMER_2R_GQ
                 || (hwVer == HW_ID.SHIMMER_4_SDK && fwId == FW_ID.SHIMMER4_SDK_STOCK)
@@ -229,7 +220,6 @@ public class ShimmerVerObject implements Serializable {
                 || hwVer == HW_ID.SHIMMER_GQ_802154_NR
                 || hwVer == HW_ID.SHIMMER_2R_GQ
                 || hwVer == HW_ID.SHIMMER_SR30) {
-//				|| hwVer == HW_ID.SHIMMER_4_SDK){
             return true;
         }
         return false;
@@ -259,10 +249,8 @@ public class ShimmerVerObject implements Serializable {
         return false;
     }
 
-    //TODO GQ should be kept separate - probably used in some places to indicate MSP430 model is being used?
     public static boolean isShimmer3RGen(int hwVer) {
         if (hwVer == HW_ID.SHIMMER_3R) {
-//				|| hwVer==HW_ID.SHIMMER_GQ_BLE || hwVer==HW_ID.SHIMMER_GQ_802154_LR || hwVer==HW_ID.SHIMMER_GQ_802154_NR){
             return true;
         }
         return false;
@@ -275,16 +263,13 @@ public class ShimmerVerObject implements Serializable {
         return false;
     }
 
-    //TODO GQ should be kept separate - probably used in some places to indicate MSP430 model is being used?
     public static boolean isShimmer3Gen(int hwVer) {
         if (hwVer == HW_ID.SHIMMER_3 || hwVer == HW_ID.SHIMMER_ECG_MD) {
-//				|| hwVer==HW_ID.SHIMMER_GQ_BLE || hwVer==HW_ID.SHIMMER_GQ_802154_LR || hwVer==HW_ID.SHIMMER_GQ_802154_NR){
             return true;
         }
         return false;
     }
 
-    //TODO GQ should be kept separate - probably used in some places to indicate MSP430 model is being used?
     public static boolean isShimmer3Gen(int hwVer, int fwId) {
         if (isShimmer3Gen(hwVer) && (fwId == FW_ID.BTSTREAM || fwId == FW_ID.SDLOG || fwId == FW_ID.LOGANDSTREAM || fwId == FW_ID.STROKARE)) {// || fwId==FW_ID.GQ_BLE)){
             return true;
@@ -342,12 +327,6 @@ public class ShimmerVerObject implements Serializable {
 
     public void parseVersionByteArray(byte[] byteArray) {
         if ((byteArray.length == 7) || (byteArray.length == 8)) {
-//			mHardwareVersion = byteArray[VerReponsePacketOrderLegacy.hwVer.ordinal()];
-//			mFirmwareIdentifier = (byteArray[VerReponsePacketOrderLegacy.fwVerLSB.ordinal()]) | (byteArray[VerReponsePacketOrderLegacy.fwVerMSB.ordinal()]<<8);
-//			mFirmwareVersionMajor = (byteArray[VerReponsePacketOrderLegacy.fwMajorLSB.ordinal()]) | (byteArray[(int)VerReponsePacketOrderLegacy.fwMajorMSB.ordinal()]<<8);
-//			mFirmwareVersionMinor = byteArray[VerReponsePacketOrderLegacy.fwMinor.ordinal()];
-//			mFirmwareVersionInternal = byteArray[VerReponsePacketOrderLegacy.fwRevision.ordinal()];
-//			parseShimmerVerDetails();
 
             int index = 0;
             if (byteArray.length == 7) {
@@ -386,10 +365,8 @@ public class ShimmerVerObject implements Serializable {
 
     private void parseShimmerVerDetails() {
         if (mHardwareVersion != HW_ID.UNKNOWN) {
-//			mHardwareVersionParsed = getHardwareVersionParsed(mHardwareVersion);
 
             mFirmwareIdentifierParsed = FW_LABEL.UNKNOWN;
-            // Set default on Shimmer2R
             if (mHardwareVersion == HW_ID.SHIMMER_2R
                     || mHardwareVersion == HW_ID.SHIMMER_3
                     || mHardwareVersion == HW_ID.SHIMMER_3R
@@ -412,7 +389,6 @@ public class ShimmerVerObject implements Serializable {
         if (mFirmwareVersionMajor != FW_ID.UNKNOWN
                 && mFirmwareVersionMinor != FW_ID.UNKNOWN
                 && mFirmwareVersionInternal != FW_ID.UNKNOWN) {
-            // Handle FW version code.
             mFirmwareVersionCode = -1;
             if (UtilShimmer.compareVersions(mHardwareVersion, mFirmwareIdentifier, mFirmwareVersionMajor, mFirmwareVersionMinor, mFirmwareVersionInternal, HW_ID.SHIMMER_3, FW_ID.LOGANDSTREAM, 0, 16, 6)) {
                 mFirmwareVersionCode = 9;
@@ -424,7 +400,6 @@ public class ShimmerVerObject implements Serializable {
                     || mHardwareVersion == HW_ID.SHIMMER_4_SDK
                     || mHardwareVersion == HW_ID.ARDUINO
                     || mFirmwareIdentifier == FW_ID.STROKARE
-//					|| mHardwareVersion==HW_ID.SWEATCH
             ) {
                 mFirmwareVersionCode = 7;
             } else if (UtilShimmer.compareVersions(mHardwareVersion, mFirmwareIdentifier, mFirmwareVersionMajor, mFirmwareVersionMinor, mFirmwareVersionInternal, HW_ID.SHIMMER_3, FW_ID.BTSTREAM, 0, 7, 3)
@@ -462,7 +437,6 @@ public class ShimmerVerObject implements Serializable {
     }
 
     public String getFirmwareVersionParsed() {
-//		return mFirmwareVersionParsedJustVersionNumber;
         return mFirmwareVersionParsed;
     }
 
@@ -487,7 +461,6 @@ public class ShimmerVerObject implements Serializable {
     }
 
     public String getHardwareVersionParsed() {
-//		return mHardwareVersionParsed;
         return getHardwareVersionParsed(mHardwareVersion);
     }
 
@@ -549,8 +522,6 @@ public class ShimmerVerObject implements Serializable {
     }
 
     public boolean isBtMemoryUpdateCommandSupported() {
-//		return isCalibDumpSupported(this);
-        //Not sure which version of LogAndStream is supported here
         return isShimmerGen4();
     }
 
@@ -598,8 +569,6 @@ public class ShimmerVerObject implements Serializable {
 
         public boolean isShimmerGenGq(int hwVer, int fwId) {
         if (isShimmerGenGq(hwVer)) {
-//		if(((hwVer==HW_ID.SHIMMER_GQ_802154_LR) || (hwVer==HW_ID.SHIMMER_GQ_802154_NR) || (hwVer==HW_ID.SHIMMER_2R_GQ))
-//				&& (fwId==FW_ID.GQ_802154 || fwId==FW_ID.GQ_BLE)){
             return true;
         }
         return false;

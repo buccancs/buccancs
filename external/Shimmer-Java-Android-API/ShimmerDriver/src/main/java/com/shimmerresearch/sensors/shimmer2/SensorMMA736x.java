@@ -21,10 +21,8 @@ import com.shimmerresearch.sensors.mpu9x50.SensorMPU9X50;
 
 public class SensorMMA736x extends AbstractSensor {
 
-    //--------- Configuration options start --------------
     public static final String[] ListofMMA7361AccelRange = {"+/- 1.5g", "+/- 2g", "+/- 4g", "+/- 6g"};
 
-    //--------- Sensor specific variables start --------------
     public static final Integer[] ListofMMA7361AccelRangeConfigValues = {0, 1, 2, 3};
     public static final String[] ListofMMA7360AccelRange = {"+/- 1.5g", "+/- 6g"};
     public static final Integer[] ListofMMA7360AccelRangeConfigValues = {0, 1};
@@ -32,7 +30,6 @@ public class SensorMMA736x extends AbstractSensor {
             SensorMMA736x.GuiLabelConfig.ACCEL_LOW_POWER_MODE,
             SensorMMA736x.DatabaseConfigHandle.ACCEL_LOW_POWER_MODE,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX);
-    //Shimmer2/2r Calibration - Default Values
     protected static final double[][] AlignmentMatrixAccelShimmer2 = {{-1, 0, 0}, {0, -1, 0}, {0, 0, 1}};
     protected static final double[][] OffsetVectorAccelShimmer2 = {{2048}, {2048}, {2048}};
     protected static final double[][] SensitivityMatrixAccel1p5gShimmer2 = {{101, 0, 0}, {0, 101, 0}, {0, 0, 101}};
@@ -55,7 +52,6 @@ public class SensorMMA736x extends AbstractSensor {
             2, "+/- 4g",
             AlignmentMatrixAccelShimmer2, SensitivityMatrixAccel4gShimmer2, OffsetVectorAccelShimmer2);
 
-    //--------- Sensor specific variables end --------------
     private CalibDetailsKinematic calibDetailsShimmer2r6g = new CalibDetailsKinematic(
             3, Configuration.Shimmer2.ListofAccelRange[1],
             AlignmentMatrixAccelShimmer2, SensitivityMatrixAccel6gShimmer2, OffsetVectorAccelShimmer2);
@@ -79,70 +75,44 @@ public class SensorMMA736x extends AbstractSensor {
 
     @Override
     public void generateSensorMap() {
-        // TODO Auto-generated method stub
 
     }
 
-//	//TODO
-//	public static final ConfigOptionDetailsSensor configOptionAccelRange7360 = new ConfigOptionDetailsSensor(
-//			SensorMMA736x.GuiLabelConfig.ACCEL_RANGE,
-//			SensorMMA736x.DatabaseConfigHandle.ACCEL_RANGE,
-//			ListofMMA7360AccelRange, 
-//			ListofMMA7360AccelRangeConfigValues, 
-//			ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
-//			CompatibilityInfoForMaps.listOfCompatibleVersionInfoShimmer2);
 //
-//	//TODO
-//	public static final ConfigOptionDetailsSensor configOptionAccelRange7361 = new ConfigOptionDetailsSensor(
-//			SensorMMA736x.GuiLabelConfig.ACCEL_RANGE,
-//			SensorMMA736x.DatabaseConfigHandle.ACCEL_RANGE,
-//			ListofMMA7361AccelRange, 
-//			ListofMMA7361AccelRangeConfigValues, 
-//			ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
-//			CompatibilityInfoForMaps.listOfCompatibleVersionInfoShimmer2r);
-
-    //--------- Configuration options end --------------
 
 
-    //--------- Constructors for this class start --------------
+
 
     @Override
     public void generateConfigOptionsMap() {
         addConfigOption(configOptionAccelLpm);
     }
 
-    //--------- Constructors for this class end --------------
 
-    //--------- Abstract methods implemented start --------------
 
     @Override
     public void generateSensorGroupMapping() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType,
                                            ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimeStampMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -153,8 +123,6 @@ public class SensorMMA736x extends AbstractSensor {
             case (GuiLabelConfig.ACCEL_RANGE):
                 setAccelRange((int) valueToSet);
                 break;
-//			case(GuiLabelConfigCommon.RANGE):
-//	    		break;
             default:
                 returnValue = super.setConfigValueUsingConfigLabelCommon(sensorId, configLabel, valueToSet);
                 break;
@@ -180,49 +148,41 @@ public class SensorMMA736x extends AbstractSensor {
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -244,10 +204,8 @@ public class SensorMMA736x extends AbstractSensor {
     public int getAccelRange() {
         return mAccelRange;
     }
-    //--------- Abstract methods implemented end --------------
 
 
-    //--------- Optional methods to override in Sensor Class start --------
 
     public void setAccelRange(int valueToSet) {
         Integer[] arrayToCheck = ListofMMA7361AccelRangeConfigValues;
@@ -260,10 +218,8 @@ public class SensorMMA736x extends AbstractSensor {
         }
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
 
-    //--------- Sensor specific methods start --------------
 
     public void updateCurrentAccelCalibInUse() {
         mCurrentCalibDetailsAccel = getCurrentCalibDetailsIfKinematic(Configuration.Shimmer2.SENSOR_ID.ACCEL, getAccelRange());

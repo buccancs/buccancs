@@ -53,10 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
                     if ((msg.obj instanceof ObjectCluster)) {
 
-                        //Print data to Logcat
                         ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
-                        //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
                         FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
@@ -143,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (!permissionGranted) {
-            // Should we show an explanation?
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
 
         }
@@ -160,8 +157,6 @@ public class MainActivity extends AppCompatActivity {
     public void connectDevice(View v) {
         Intent pairedDevicesIntent = new Intent(getApplicationContext(), ShimmerBluetoothDialog.class);
         startActivityForResult(pairedDevicesIntent, REQUEST_CONNECT_SHIMMER);
-        //device1.setProtocol(Configuration.COMMUNICATION_TYPE.BLUETOOTH, protocol1);
-        //shimmer1.connect("E8:EB:1B:97:67:FC", "default");
     }
 
     public void disconnectDevice(View v) {
@@ -208,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
     public void startSpeedTest(View v) throws IOException, ShimmerException {
         Thread thread = new Thread() {
             public void run() {
-                //shimmer1.startSpeedTest();
             }
         };
 
@@ -219,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
     public void stopSpeedTest(View v) throws IOException, ShimmerException {
         Thread thread = new Thread() {
             public void run() {
-                //shimmer1.stopSpeedTest();
             }
         };
 
@@ -231,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CONNECT_SHIMMER) {
             if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 String name = data.getStringExtra(EXTRA_DEVICE_NAME);
                 if (name != null && name.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3R.toString())) {
@@ -260,13 +252,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-            // TODO Auto-generated method stub
             System.out.println(shimmerMSG.mIdentifier);
 
 
-            // TODO Auto-generated method stub
 
-            // TODO Auto-generated method stub
             int ind = shimmerMSG.mIdentifier;
 
             Object object = (Object) shimmerMSG.mB;
@@ -277,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
                 if (callbackObject.mState == ShimmerBluetooth.BT_STATE.CONNECTING) {
                 } else if (callbackObject.mState == ShimmerBluetooth.BT_STATE.CONNECTED) {
                 } else if (callbackObject.mState == ShimmerBluetooth.BT_STATE.DISCONNECTED
-//						|| callbackObject.mState == BT_STATE.NONE
                         || callbackObject.mState == ShimmerBluetooth.BT_STATE.CONNECTION_LOST) {
 
                 }

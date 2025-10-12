@@ -60,7 +60,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
     static final String VERISENSE_NAME_NO_PAIRING_REQUIRED = "Verisense-00";
     private static final String TAG = ShimmerBluetoothManagerAndroid.class.getSimpleName();
     private static final String DEFAULT_SHIMMER_NAME = "ShimmerDevice";
-    // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
     protected Handler mHandler;
     ProgressDialog mProgressDialog;
@@ -71,7 +70,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
     private BluetoothLeScanner bluetoothLeScanner;
     private boolean scanning;
     private Handler handler = new Handler();
-    // Device scan callback.
     private ScanCallback leScanCallback =
             new ScanCallback() {
                 @Override
@@ -137,7 +135,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
         if (isDevicePaired(bluetoothAddress) || AllowAutoPairing) {
             if (!isDevicePaired(bluetoothAddress) && checkIfDeviceRequiresPairing(deviceName)) {
                 if (context != null) {
-                    //Toast.makeText(mContext, "Attempting to pair device, please wait...", Toast.LENGTH_LONG).show();
                     final ProgressDialog progress = new ProgressDialog(context);
                     progress.setTitle("Pairing Device");
                     progress.setMessage("Trying to pair device...");
@@ -149,7 +146,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
                 }
             }
             addDiscoveredDevice(bluetoothAddress);
-            //super.connectShimmerThroughBTAddress(bluetoothAddress);
             BluetoothDeviceDetails bdd = new BluetoothDeviceDetails("", bluetoothAddress, deviceName);
             super.connectShimmerThroughBTAddress(bdd);
             super.setConnectionExceptionListener(new ConnectionExceptionListener() {
@@ -205,7 +201,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
                 try {
                     verisenseDevice.connect();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -224,8 +219,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
     @Override
     public void connectShimmerThroughBTAddress(final String bluetoothAddress) {
 
-        //scanLeDevice(bluetoothAddress);
-        //doDiscovery();
         connectShimmerThroughBTAddress(bluetoothAddress, "", (Context) null);
     }
 
@@ -248,24 +241,19 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
         thread.start();
     }
 
-    //BT Classic Scan
     private void doDiscovery() {
 
-        // If we're already discovering, stop it
         if (mBluetoothAdapter.isDiscovering()) {
             mBluetoothAdapter.cancelDiscovery();
         }
 
-        // Request discover from BluetoothAdapter
         mBluetoothAdapter.startDiscovery();
     }
 
-    //BLE Scan
     private void scanLeDevice(String deviceMacAddress) {
         getScannedBleDevices();
         bluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
         if (!scanning) {
-            // Stops scanning after a predefined scan period.
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -276,7 +264,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
 
             scanning = true;
             scanForAllBleDevices();
-            //scanForSpecificBleDevices(deviceMacAddress);
 
         } else {
             scanning = false;
@@ -342,9 +329,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
 
     protected Shimmer4sdk initializeNewShimmer4(ShimmerRadioInitializer shimmerRadioInitializer) {
         Shimmer4Android shimmer = new Shimmer4Android(mHandler);
-//        shimmer.setShimmerUserAssignedName(selectedDevice);
         mMapOfBtConnectedShimmers.put(shimmer.getBtConnectionHandle(), shimmer);
-//        return initializeShimmer4(shimmerRadioInitializer.getSerialCommPort(), shimmer);
         return null;
     }
 
@@ -357,7 +342,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
         ShimmerDevice shimmerDevice = (ShimmerDevice) objects[0];
         String btAddress = (String) objects[1];
 
-        //TODO remove shimmer from map of connected devices??
 
         if (shimmerDevice instanceof Shimmer) {
             Shimmer shimmer = (Shimmer) shimmerDevice;
@@ -525,7 +509,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
     }
 
     public void addHandler(Handler handler) {
-        //Add the Handler to each connected Shimmer device
         HashMap<String, Object> mMultiShimmer = getHashMapOfShimmersConnected();
         Collection<Object> colS = mMultiShimmer.values();
         Iterator<Object> iterator = colS.iterator();
@@ -660,9 +643,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
                                 sensor[2] = ct.toString();
                                 sensor[3] = "";
                                 if (ct.equals(ChannelDetails.CHANNEL_TYPE.UNCAL)) {
-//									sensor[3] = cd.mDefaultUnit;
                                 } else if (ct.equals(ChannelDetails.CHANNEL_TYPE.CAL)) {
-//									sensor[3] = cd.mDefaultCalibratedUnits;
                                 }
                                 listofSensors.add(sensor);
                             }
@@ -723,7 +704,6 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
         while (iterator.hasNext()) {
             Shimmer stemp = (Shimmer) iterator.next();
             if ((stemp.getBluetoothRadioState() == ShimmerBluetooth.BT_STATE.CONNECTED || stemp.getBluetoothRadioState() == ShimmerBluetooth.BT_STATE.SDLOGGING) && stemp.getBluetoothAddress().equals(bluetoothAddress)) {
-                //currently not supported
                 stemp.writePressureResolution(resolution);
             }
         }

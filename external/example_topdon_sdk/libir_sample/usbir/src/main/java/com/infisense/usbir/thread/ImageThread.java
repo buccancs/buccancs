@@ -24,7 +24,6 @@ public class ImageThread extends Thread {
     private byte[] imageSrc;
     private byte[] temperatureSrc;
     private boolean rotate; // 屏幕旋转
-    // 当前的等温尺状态
     private boolean biaochistatus = false;
     //
     private CommonParams.DataFlowMode dataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
@@ -79,67 +78,21 @@ public class ImageThread extends Thread {
                             " imageSrc[100] = " + imageSrc[100]);
                     if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT ||
                             dataFlowMode == CommonParams.DataFlowMode.IMAGE_OUTPUT) {
-                        // yuv422格式
                                                 LibIRParse.converyArrayYuv422ToARGB(imageSrc, imageHeight * imageWidth, imageARGB);
 
-                        //                        // YUV伪彩
-//                        String path = FileUtil.getSaveFilePath(mContext);
-//                        String pseudoYUVDataIntStr = FileUtil.getStringFromFile(path + PopupOthers
-//                                .COLOR_YUV_DATA_INT);
-//                        Log.d(TAG, "pseudoYUVDataIntStr : " + pseudoYUVDataIntStr);
-//                        if (pseudoYUVDataIntStr != null && !pseudoYUVDataIntStr.isEmpty()) {
-//                            int[][] pseudoYUVDataInt = JSON.parseObject(pseudoYUVDataIntStr, int[][].class);
-//                            LibIRProcess.convertYuyvMapToARGBCustomPseudocolor(imageSrc, (long) imageHeight *
-//                                    imageWidth, pseudoYUVDataInt, imageARGB);
-//                        }
-                        //                        byte[] pseudoDataByte = new byte[768]; // 伪彩数据,长度固定
-//                        AssetManager am = mContext.getAssets();
-//                        InputStream is;
-//                        try {
-//                            is = am.open("pseudocolor/Ironbow.bin");
-//                            int lenth = is.available();
-//                            pseudoDataByte = new byte[lenth];
-//                            if (is.read(pseudoDataByte) != lenth) {
-//                                Log.e(TAG, "read file fail ");
-//                            }
-//                            //
-//                            is.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        // 格式转换 YUV伪彩
-//                        int[][] pseudoYUVDataInt2 = CommonUtils.convertYUVPseudocolorData(pseudoDataByte);
-//                        LibIRProcess.convertYuyvMapToARGBCustomPseudocolor(imageSrc, (long) imageHeight *
-//                                imageWidth, pseudoYUVDataInt2, imageARGB);
 
-                        //                        LibIRProcess.convertYuyvMapToARGBPseudocolor(imageSrc, (long) imageHeight * imageWidth,
-//                                CommonParams.PseudoColorType.PSEUDO_3, imageARGB);
                     } else {
-                        // 调用 startY16ModePreview 中间出图方法之后，输出的数据格式为y16,需要做转换
                                                 LibIRParse.convertArrayY14ToYuv422(imageSrc, imageHeight * imageWidth, imageYUV422);
                         LibIRParse.converyArrayYuv422ToARGB(imageYUV422, imageHeight * imageWidth, imageARGB);
-                        //                        LibIRParse.convertArrayY14ToY8(imageSrc, imageHeight * imageWidth, imageY8);
-//                        LibIRProcess.convertGrayMapToARGBPseudocolorM2(imageY8, (long) imageHeight * imageWidth,
-//                        CommonParams.PseudoColorTypeM2.IRPROC_COLOR_YP0103, imageARGB);
                     }
 
                                         if (biaochistatus && temperatureSrc != null) {
-                        //for biaochi filter
                         int j = 0;
                         int imageDstLength = imageWidth * imageHeight * 4;
                         float biaochiMax = 40, biaochiMin = 25; // 温度阈值设定
-                        // 遍历像素点，过滤温度阈值
                         for (int index = 0; index < imageDstLength; ) {
-                            // 温度换算公式
                             float temperature0 = (temperatureSrc[j] & 0xff) + (temperatureSrc[j + 1] & 0xff) * 256;
                             temperature0 = (float) (temperature0 / 64 - 273.15);
-                            // 处理温度范围之外的像素点
-                            //                            int y0 = imageSrc[j] & 0xff;
-//                            if ((temperature0 < biaochiMin) || (temperature0 > biaochiMax)) {
-//                                imageARGB[index] = (byte) PseudocolorModeTable.pseudocolorMapTableOfBAIRE[y0][0];
-//                                imageARGB[index + 1] = (byte) PseudocolorModeTable.pseudocolorMapTableOfBAIRE[y0][1];
-//                                imageARGB[index + 2] = (byte) PseudocolorModeTable.pseudocolorMapTableOfBAIRE[y0][2];
-//                            }
                                                         if (temperature0 < biaochiMin) {
                                 imageARGB[index] = (byte) PseudocolorModeTable.BLUE_RGB[0];
                                 imageARGB[index + 1] = (byte) PseudocolorModeTable.BLUE_RGB[1];

@@ -17,13 +17,8 @@ import com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunic
 
 public class VerisenseProtocolByteGrpcCommunicationTest {
 
-    //	GrpcBLERadioByteCommunication radio1 = new GrpcBLERadioByteCommunication("e7:45:2c:6d:6f:14");
     GrpcBLERadioByteCommunication radio1;
-    //BTHLE\Dev_ec2ee3ebb799
-    //BTHLE\Dev_ca09b224625a
 
-    //GrpcBLERadioByteCommunication radio2 = new GrpcBLERadioByteCommunication("da:a6:19:f0:4a:d7");
-    //GrpcBLERadioByteCommunication radio2 = new GrpcBLERadioByteCommunication("ec2ee3ebb799");
     GrpcBLERadioByteCommunication radio2;
     GrpcBLERadioByteCommunication radio3;
 
@@ -35,23 +30,15 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
         VerisenseProtocolByteGrpcCommunicationTest test = new VerisenseProtocolByteGrpcCommunicationTest();
         test.initialize();
 
-        // connect
 
-        // System.out.println(p);
-        // p.destroy();
     }
 
     public void initialize() {
         GrpcBLERadioByteTools grpcTool = new GrpcBLERadioByteTools();
         try {
             int port = grpcTool.startServer();
-            //	GrpcBLERadioByteCommunication radio1 = new GrpcBLERadioByteCommunication("e7:45:2c:6d:6f:14");
             radio1 = new GrpcBLERadioByteCommunication("e7:45:2c:6d:6f:14", "localhost", port);
-            //BTHLE\Dev_ec2ee3ebb799
-            //BTHLE\Dev_ca09b224625a
 
-            //GrpcBLERadioByteCommunication radio2 = new GrpcBLERadioByteCommunication("da:a6:19:f0:4a:d7");
-            //GrpcBLERadioByteCommunication radio2 = new GrpcBLERadioByteCommunication("ec2ee3ebb799");
             radio2 = new GrpcBLERadioByteCommunication("ec2ee3ebb799", "localhost", port);
             radio3 = new GrpcBLERadioByteCommunication("ca09b224625a", "localhost", port);
 
@@ -59,7 +46,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
             protocol2 = new VerisenseProtocolByteCommunication(radio2);
             protocol3 = new VerisenseProtocolByteCommunication(radio3);
         } catch (Exception e2) {
-            // TODO Auto-generated catch block
             e2.printStackTrace();
         }
         JFrame frame = new JFrame(this.getClass().getSimpleName());
@@ -72,7 +58,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol1.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -86,7 +71,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol1.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -100,7 +84,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol1.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -114,7 +97,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol1.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -128,7 +110,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol2.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -142,7 +123,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol2.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -156,7 +136,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol2.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -170,7 +149,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol2.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -184,7 +162,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol1.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -198,7 +175,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol1.stopStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -230,7 +206,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol2.startSpeedTest();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -244,7 +219,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol2.stopSpeedTest();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -258,7 +232,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol1.startSpeedTest();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -272,7 +245,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol1.stopSpeedTest();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -286,7 +258,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol3.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -300,7 +271,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol3.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -314,7 +284,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol3.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -328,7 +297,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol3.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -342,7 +310,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol3.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -356,7 +323,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol3.stopStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -370,7 +336,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol3.startSpeedTest();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -384,7 +349,6 @@ public class VerisenseProtocolByteGrpcCommunicationTest {
                 try {
                     protocol3.stopSpeedTest();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }

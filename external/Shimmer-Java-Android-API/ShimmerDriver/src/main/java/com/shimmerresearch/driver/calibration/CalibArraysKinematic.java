@@ -109,7 +109,6 @@ public class CalibArraysKinematic implements Serializable {
         }
     }
 
-    //TODO : look up is there a valid check for a valid offset vector
     public boolean isOffsetVectorValid() {
         return true;
     }

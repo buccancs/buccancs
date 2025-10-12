@@ -38,18 +38,13 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
         super(shimmerPC, btManager);
     }
 
-//	public EnableSensorsDialog(ShimmerDevice shimmerDevice) {
-//		shimmer = shimmerDevice;
-//	}
 
     public static void main(String[] args) {
 
-//		dialog.setVisible(true);
 
     }
 
         public void showDialog() {
-        //Filter out the sensors we don't want before initializing the dialog:
         List<Integer> sensorKeysToFilter = new ArrayList<Integer>();
         sensorKeysToFilter.add(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY);
         sensorKeysToFilter.add(Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM);
@@ -60,11 +55,9 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
 
     @Override
     protected void createWriteButton() {
-// TODO Auto-generated method stub
         JButton btnWriteConfig = new JButton("Save");
         btnWriteConfig.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //TODO: Write the config from clone to shimmer here
                 for (int i = 0; i < listOfSensors.length; i++) {
                     if (((JCheckBox) listOfSensors[i]).isSelected()) {
                         enabledSensorKeys.add(sensorKeys[i]);
@@ -96,19 +89,12 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
 
     @Override
     protected void createCheckBox(String sensorName, boolean state, int count) {
-        // TODO Auto-generated method stub
         listOfSensors[count] = new JCheckBox(sensorName, state);
         panel.add((JCheckBox) listOfSensors[count]);
         ((JCheckBox) listOfSensors[count]).addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
 
-//					if(((JCheckBox) listOfSensors[count]).isSelected()) {
-//						clone.setSensorEnabledState(sensorKeys[count], true);
-//					} else {
-//						clone.setSensorEnabledState(sensorKeys[count], false);
-//					}
 
-                //updateCheckboxes(listOfSensors, clone, sensorKeys);
 
             }
         });
@@ -117,8 +103,6 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
 
     @Override
     protected void showFrame() {
-        // TODO Auto-generated method stub
-        //maybe should be in a different abstract method? lets see how android needs to handles this
         int dialogHeight = 75 + (listOfSensors.length * 25);
         dialog.setSize(300, dialogHeight);
 

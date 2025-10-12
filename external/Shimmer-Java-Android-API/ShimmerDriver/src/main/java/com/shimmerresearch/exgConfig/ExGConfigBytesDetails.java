@@ -13,8 +13,6 @@ import com.shimmerresearch.exgConfig.ExGConfigOptionDetails.SettingType;
 
 public class ExGConfigBytesDetails implements Serializable {
 
-    //ADS1292R datasheet
-    //http://www.ti.com/lit/ds/sbas502b/sbas502b.pdf
 
     public static final String[] ListOfECGReferenceElectrode = {"Inverse Wilson CT", "Fixed Potential"};
     public static final Integer[] ListOfECGReferenceElectrodeConfigValues = {13, 0};
@@ -122,8 +120,6 @@ public class ExGConfigBytesDetails implements Serializable {
     private int BIT4 = 0x10;
     private int BIT5 = 0x20;
 
-    // TODO:2015-06-16 get rid of predefined Integer and String array and
-    // replace with items from EXG_SETTING_OPTIONS.
     private int BIT6 = 0x40;
     private int BIT7 = 0x80;
 
@@ -140,10 +136,8 @@ public class ExGConfigBytesDetails implements Serializable {
             if (java.lang.reflect.Modifier.isStatic(modifier)) {
                 try {
                     ExGConfigOption val = (ExGConfigOption) field.get(null);
-//		            System.out.print(field.getName() +  ": " + val.guiValue + ", ");
                     fields.add(val);
                 } catch (IllegalArgumentException | IllegalAccessException e) {
-//					e.printStackTrace();
                 }
             }
         }
@@ -175,26 +169,18 @@ public class ExGConfigBytesDetails implements Serializable {
 
         setExgByteArrayConstants(byteArray);
 
-//		System.out.println(byteArray[5]);
         return byteArray;
     }
 
         public void setExgByteArrayConstants(byte[] byteArray) {
-        //CONFIG1:								//0x00
         byteArray[0] &= ~(BIT6 + BIT5 + BIT4 + BIT3);
-        //CONFIG2:								//0x80
         byteArray[1] |= BIT7;
         byteArray[1] &= ~(BIT2);
-        //LOFF:									//0x10
         byteArray[2] |= BIT4;
         byteArray[2] &= ~(BIT1);
-        //LOFF_SENS:							//0x00
         byteArray[6] &= ~(BIT7 + BIT6);
-        //LOFF_STAT:							//0x00
         byteArray[7] &= ~(BIT7 + BIT5 + BIT4 + BIT3 + BIT2 + BIT1 + BIT0);
-        //RESP1:								//0x02
         byteArray[8] |= BIT1;
-        //RESP2:								//0x01
         byteArray[9] &= ~(BIT6 + BIT5 + BIT4 + BIT3);
         byteArray[9] |= BIT0;
     }
@@ -206,8 +192,6 @@ public class ExGConfigBytesDetails implements Serializable {
         }
 
         for (String key : mMapOfExGSettingsToRef.keySet()) {
-//    		Integer i = (registerArray[mMapOfExGSettingsChip1.get(key).byteIndex] >> mMapOfExGSettingsChip1.get(key).bitShift) & mMapOfExGSettingsChip1.get(key).mask;
-//    		System.err.println(key + " : " +String.valueOf(i));
             mMapOfExGSettingsToRef.put(key, (registerArray[mMapOfExGSettingsChip1.get(key).byteIndex] >> mMapOfExGSettingsChip1.get(key).bitShift) & mMapOfExGSettingsChip1.get(key).mask);
         }
     }
@@ -233,7 +217,6 @@ public class ExGConfigBytesDetails implements Serializable {
 
         if (mapToRef != null) {
             if (mapToRef.containsKey(propertyName)) {
-                //System.err.println(propertyName + ": " +mapToRef.get(propertyName));
                 return mapToRef.get(propertyName);
             }
         }

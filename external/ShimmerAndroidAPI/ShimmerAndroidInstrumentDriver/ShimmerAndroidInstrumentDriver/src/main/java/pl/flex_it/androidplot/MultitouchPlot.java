@@ -16,7 +16,6 @@ import com.androidplot.xy.XYSeriesRenderer;
 
 public class MultitouchPlot extends XYPlot implements OnTouchListener {
 
-    // Definition of the touch states
     static final private int NONE = 0;
     static final private int ONE_FINGER_DRAG = 1;
     static final private int TWO_FINGERS_DRAG = 2;
@@ -60,7 +59,6 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener {
 
 
     public boolean addSeries(XYSeries series, XYSeriesFormatter formatter) {
-        //Overriden to compute min and max series values
         for (int i = 0; i < series.size(); i++) {
             if (minXSeriesValue == null || minXSeriesValue.doubleValue() > series.getX(i).doubleValue())
                 minXSeriesValue = series.getX(i);
@@ -87,14 +85,12 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener {
             case MotionEvent.ACTION_POINTER_DOWN: //second finger
             {
                 distBetweenFingers = distance(motionEvent);
-                // the distance check is done to avoid false alarms
                 if (distBetweenFingers > 5f || distBetweenFingers < -5f)
                     mode = TWO_FINGERS_DRAG;
                 break;
             }
 
             case MotionEvent.ACTION_POINTER_UP: //end zoom
-                //should I count pointers and change mode after only one is left?
 
                 mode = ONE_FINGER_DRAG;
 

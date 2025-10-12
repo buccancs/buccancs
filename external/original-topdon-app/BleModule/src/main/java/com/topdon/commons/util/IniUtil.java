@@ -51,7 +51,6 @@ public class IniUtil {
         if (!file.exists()) {
             return "INI_LOST";
         }
-//        return UTF8StringUtils.readByUtf8WithOutBom(path + "/Diag.ini");
         return readFileInfo(path + "/Diag.ini");
     }
 
@@ -59,7 +58,6 @@ public class IniUtil {
         private static String readFileInfo(String path) {
         String name = "";
         File file = new File(path);
-        //如果path是传递过来的参数，可以做一个非目录的判断
         if (file.isDirectory()) {
             LLog.d("TestFile", "The File doesn't not exist.");
         } else {
@@ -68,7 +66,6 @@ public class IniUtil {
                 InputStreamReader inputreader = new InputStreamReader(instream);
                 BufferedReader buffreader = new BufferedReader(inputreader);
                 String line;
-                //分行读取
                 while ((line = buffreader.readLine()) != null) {
                     LLog.e("TestFile", "ReadTxtFile: " + line);
                     name = line;
@@ -127,7 +124,6 @@ public class IniUtil {
                 return "";
             return languageSection.get(language.toLowerCase());
         } catch (Exception e) {
-//            e.printStackTrace();
             LLog.e("bcf", "INI: error: " + e.getMessage());
         }
         return "";

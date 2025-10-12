@@ -35,13 +35,11 @@ public class ExpansionBoardDetails implements Serializable {
     }
 
     public ExpansionBoardDetails() {
-        // TODO Auto-generated constructor stub
     }
 
     public static byte[] generateExpBrdIdArrayEmpty() {
         byte[] byteArray = new byte[16];
 
-        //Clear byte array
         for (int i = 0; i < byteArray.length; i++) {
             byteArray[i] = (byte) (0xFF);
         }
@@ -55,7 +53,6 @@ public class ExpansionBoardDetails implements Serializable {
         byteArray[1] = (byte) verMajor;
         byteArray[2] = (byte) verMinor;
 
-        //reserve two bytes for future use
         byteArray[3] = (byte) 0xFF;
         byteArray[4] = (byte) 0xFF;
 
@@ -81,16 +78,11 @@ public class ExpansionBoardDetails implements Serializable {
     public String getExpansionBoardParsed() {
         String boardName = UtilShimmer.STRING_CONSTANT_FOR_UNKNOWN;
 
-//		if(mExpansionBoardId== || mExpansionBoardId==HW_ID_SR_CODES.UNKNOWN){
-//			boardName = ShimmerVerDetails.EXP_BRD_NONE;
-//		}
-//		else {
         if (ShimmerVerDetails.mMapOfShimmerHardware.containsKey(mExpansionBoardId)) {
             boardName = ShimmerVerDetails.mMapOfShimmerHardware.get(mExpansionBoardId);
         } else {
             boardName = getBoardVerString();
         }
-//		}
         return boardName;
     }
 

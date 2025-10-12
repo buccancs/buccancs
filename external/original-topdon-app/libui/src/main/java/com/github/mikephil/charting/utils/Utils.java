@@ -49,9 +49,7 @@ public abstract class Utils {
     public static void init(Context context) {
 
         if (context == null) {
-            // noinspection deprecation
             mMinimumFlingVelocity = ViewConfiguration.getMinimumFlingVelocity();
-            // noinspection deprecation
             mMaximumFlingVelocity = ViewConfiguration.getMaximumFlingVelocity();
 
             Log.e("MPChartLib-Utils"
@@ -72,9 +70,7 @@ public abstract class Utils {
 
         mMetrics = res.getDisplayMetrics();
 
-        // noinspection deprecation
         mMinimumFlingVelocity = ViewConfiguration.getMinimumFlingVelocity();
-        // noinspection deprecation
         mMaximumFlingVelocity = ViewConfiguration.getMaximumFlingVelocity();
     }
 
@@ -157,7 +153,6 @@ public abstract class Utils {
         return new DefaultValueFormatter(1);
     }
 
-    /// - returns: The default value formatter used for all chart components that needs a default
     public static ValueFormatter getDefaultValueFormatter() {
         return mDefaultValueFormatter;
     }
@@ -202,13 +197,11 @@ public abstract class Utils {
             out[ind--] = (char) (digit + '0');
             charCount++;
 
-            // add decimal point
             if (charCount == digitCount) {
                 out[ind--] = ',' ;
                 charCount++;
                 decimalPointAdded = true;
 
-                // add thousand separators
             } else if (separateThousands && lval != 0 && charCount > digitCount) {
 
                 if (decimalPointAdded) {
@@ -228,13 +221,11 @@ public abstract class Utils {
             }
         }
 
-        // if number around zero (between 1 and -1)
         if (zero) {
             out[ind--] = '0' ;
             charCount += 1;
         }
 
-        // if the number is negative
         if (neg) {
             out[ind--] = '-' ;
             charCount += 1;
@@ -242,7 +233,6 @@ public abstract class Utils {
 
         int start = out.length - charCount;
 
-        // use this instead of "new String(...)" because of issue < Android 4.0
         return String.valueOf(out, start, out.length - start);
     }
 
@@ -328,8 +318,6 @@ public abstract class Utils {
     public static void velocityTrackerPointerUpCleanUpIfNecessary(MotionEvent ev,
                                                                   VelocityTracker tracker) {
 
-        // Check the dot product of current velocities.
-        // If the pointer that left was opposing another velocity vector, clear.
         tracker.computeCurrentVelocity(1000, mMaximumFlingVelocity);
         final int upIndex = ev.getActionIndex();
         final int id1 = ev.getPointerId(upIndex);
@@ -391,7 +379,6 @@ public abstract class Utils {
                 mDrawableBoundsCache.top + width);
 
         int saveId = canvas.save();
-        // translate to the correct position and draw
         canvas.translate(drawOffset.x, drawOffset.y);
         drawable.draw(canvas);
         canvas.restoreToCount(saveId);
@@ -407,28 +394,21 @@ public abstract class Utils {
         final float lineHeight = paint.getFontMetrics(mFontMetricsBuffer);
         paint.getTextBounds(text, 0, text.length(), mDrawTextRectBuffer);
 
-        // Android sometimes has pre-padding
         drawOffsetX -= mDrawTextRectBuffer.left;
 
-        // Android does not snap the bounds to line boundaries,
-        //  and draws from bottom to top.
-        // And we want to normalize it.
         drawOffsetY += -mFontMetricsBuffer.ascent;
 
-        // To have a consistent point of reference, we always draw left-aligned
         Paint.Align originalTextAlign = paint.getTextAlign();
         paint.setTextAlign(Paint.Align.LEFT);
 
         if (angleDegrees != 0.f) {
 
-            // Move the text drawing rect in a way that it always rotates around its center
             drawOffsetX -= mDrawTextRectBuffer.width() * 0.5f;
             drawOffsetY -= lineHeight * 0.5f;
 
             float translateX = x;
             float translateY = y;
 
-            // Move the "outer" rect relative to the anchor, assuming its centered
             if (anchor.x != 0.5f || anchor.y != 0.5f) {
                 final FSize rotatedSize = getSizeOfRotatedRectangleByDegrees(
                         mDrawTextRectBuffer.width(),
@@ -478,28 +458,21 @@ public abstract class Utils {
         drawWidth = textLayout.getWidth();
         drawHeight = textLayout.getLineCount() * lineHeight;
 
-        // Android sometimes has pre-padding
         drawOffsetX -= mDrawTextRectBuffer.left;
 
-        // Android does not snap the bounds to line boundaries,
-        //  and draws from bottom to top.
-        // And we want to normalize it.
         drawOffsetY += drawHeight;
 
-        // To have a consistent point of reference, we always draw left-aligned
         Paint.Align originalTextAlign = paint.getTextAlign();
         paint.setTextAlign(Paint.Align.LEFT);
 
         if (angleDegrees != 0.f) {
 
-            // Move the text drawing rect in a way that it always rotates around its center
             drawOffsetX -= drawWidth * 0.5f;
             drawOffsetY -= drawHeight * 0.5f;
 
             float translateX = x;
             float translateY = y;
 
-            // Move the "outer" rect relative to the anchor, assuming its centered
             if (anchor.x != 0.5f || anchor.y != 0.5f) {
                 final FSize rotatedSize = getSizeOfRotatedRectangleByDegrees(
                         drawWidth,

@@ -32,7 +32,6 @@ public class ShimmerGRPCExample {
     ShimmerGRPC shimmer;
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         ShimmerGRPCExample example = new ShimmerGRPCExample();
         example.initialize();
     }
@@ -43,7 +42,6 @@ public class ShimmerGRPCExample {
             mPort = grpcTool.startServer();
 
         } catch (Exception e2) {
-            // TODO Auto-generated catch block
             e2.printStackTrace();
         }
         JFrame frame = new JFrame();
@@ -54,13 +52,10 @@ public class ShimmerGRPCExample {
         ShimmerGRPCExample example = new ShimmerGRPCExample();
         SensorDataReceived sdr = example.new SensorDataReceived();
         shimmer = new ShimmerGRPC("E8EB1B713E36", "localhost", mPort);
-        //shimmer.connect("","");
         sdr.setWaitForData(shimmer);
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //shimmer = new ShimmerGRPC("E8EB1B713E36","localhost",mPort);
                 shimmer.connect("", "");
-                //sdr.setWaitForData(shimmer);
             }
         });
         btnNewButton.setBounds(10, 30, 89, 23);
@@ -72,7 +67,6 @@ public class ShimmerGRPCExample {
                 try {
                     shimmer.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -86,7 +80,6 @@ public class ShimmerGRPCExample {
                 try {
                     shimmer.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -127,13 +120,10 @@ public class ShimmerGRPCExample {
 
         @Override
         protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-            // TODO Auto-generated method stub
             System.out.println(shimmerMSG.mIdentifier);
 
 
-            // TODO Auto-generated method stub
 
-            // TODO Auto-generated method stub
             int ind = shimmerMSG.mIdentifier;
 
             Object object = (Object) shimmerMSG.mB;
@@ -144,7 +134,6 @@ public class ShimmerGRPCExample {
                 if (callbackObject.mState == BT_STATE.CONNECTING) {
                 } else if (callbackObject.mState == BT_STATE.CONNECTED) {
                 } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-//						|| callbackObject.mState == BT_STATE.NONE
                         || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
 
                 }

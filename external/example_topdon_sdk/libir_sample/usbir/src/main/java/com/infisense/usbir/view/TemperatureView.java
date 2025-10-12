@@ -47,7 +47,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private static final int RECTANGLE_RIGHT_BOTTOM_CORNER = 2;
     private static final int RECTANGLE_LEFT_BOTTOM_CORNER = 3;
     private final static int PIXCOUNT = 5;
-    // type
     public static int REGION_MODE_POINT = 0;
     public static int REGION_MODE_LINE = 1;
     public static int REGION_MODE_RECTANGLE = 2;
@@ -68,9 +67,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private IRCMD ircmd;
     private float minTemperature;
     private float maxTemperature;
-    // 框里面的最高温和最低温
     private String RectMinTemp, RectMaxTemp;
-    //private float scale = 0;
     private float xscale = 0;
     private float yscale = 0;
     private int viewWidth = 0;
@@ -99,25 +96,21 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private SynchronizedBitmap syncimage;
     private int temperatureRegionMode;
     private boolean runflag = true;
-    // 是否使用IRISP算法集成，从外部传入
     private boolean isUseIRISP;
     private byte[] temperature;
 
     public TemperatureView(final Context context) {
         this(context, null, 0);
-        // 注意这个方法尽早执行(可以在构造方法里面执行)，解决在小米mix2(Android7.0)上出现的surfaceView内容不展示问题
         setZOrderOnTop(true);
     }
 
     public TemperatureView(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
-        // 注意这个方法尽早执行(可以在构造方法里面执行)，解决在小米mix2(Android7.0)上出现的surfaceView内容不展示问题
         setZOrderOnTop(true);
     }
 
     public TemperatureView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
-        // 注意这个方法尽早执行(可以在构造方法里面执行)，解决在小米mix2(Android7.0)上出现的surfaceView内容不展示问题
         setZOrderOnTop(true);
         //
         getHolder().addCallback(this);
@@ -144,27 +137,23 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
 
                 while (!temperatureThread.isInterrupted() && runflag) {
                     synchronized (syncimage.dataLock) {
-                        // 用来关联温度数据和TemperatureView,方便后面的点线框测温
                         irtemp.setTempData(temperature);
                         if (syncimage.type == 1) irtemp.setScale(16);
                     }
                     LibIRTemp.TemperatureSampleResult temperatureSampleResult = irtemp.getTemperatureOfRect(new Rect(0, 0, imageWidth / 2, imageHeight - 1));
                     maxTemperature = temperatureSampleResult.maxTemperature;
                     minTemperature = temperatureSampleResult.minTemperature;
-                    // 点线框
                     if (rectangles.size() != 0 || lines.size() != 0 || points.size() != 0 || temperatureRegionMode == REGION_MODE_CENTER) {
                         synchronized (regionLock) {
                             Canvas canvas = new Canvas(regionAndValueBitmap);
                             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                             canvas.drawBitmap(regionBitmap, new Rect(0, 0, viewWidth, viewHeight), new Rect(0, 0, viewWidth, viewHeight), null);
-                            // 获取最高温和最低温的数据
                             LibIRTemp.TemperatureSampleResult temperatureSampleEasyResult = irtemp.getTemperatureOfRect(new Rect(0, 0, imageWidth - 1, imageHeight - 1));
                             float maxTemperatureTem;
                             float minTemertureTem;
                             maxTemperatureTem = temperatureSampleEasyResult.maxTemperature;
                             minTemertureTem = temperatureSampleEasyResult.minTemperature;
 
-                            // 最低温
                             float minX0 = temperatureSampleEasyResult.minTemperaturePixel.x * xscale;
                             float minY0 = temperatureSampleEasyResult.minTemperaturePixel.y * yscale;
                             String minTem = new DecimalFormat("0.0", new DecimalFormatSymbols(Locale.US)).format(minTemertureTem);
@@ -217,7 +206,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                             }
                             canvas.drawText(minTem, 0, minTem.length(), minTemTextX, minTemTextY, redPaint);
                             drawDot(canvas, bluePaint, minX0, minY0);
-                            // 最高温
                             String maxTem = new DecimalFormat("0.0", new DecimalFormatSymbols(Locale.US)).format(maxTemperatureTem);
                             float maxTemX = temperatureSampleEasyResult.maxTemperaturePixel.x * xscale;
                             float maxTemY = temperatureSampleEasyResult.maxTemperaturePixel.y * yscale;
@@ -343,9 +331,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                         getHolder().unlockCanvasAndPost(surfaceViewCanvas);
                     }
                     SystemClock.sleep(333);
-                                        // 获取增益状态
-//                    int[] value = new int[1];
-//                    ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL, value);
                 }
                 Log.d(TAG, "temperatureThread exit");
             }
@@ -1120,11 +1105,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
             surfaceViewCanvas.drawBitmap(regionBitmap, new Rect(0, 0, viewWidth, viewHeight), new Rect(0, 0, viewWidth, viewHeight), null);
             getHolder().unlockCanvasAndPost(surfaceViewCanvas);
         }
-        //regionAndValueBitmap.eraseColor(0);
-        //regionBitmap.eraseColor(0);
-        //Canvas canvas = new Canvas(regionAndValueBitmap);
-        //canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        //canvas.drawBitmap(regionBitmap, new Rect(0, 0, viewWidth, viewHeight), new Rect(0, 0, viewWidth, viewHeight), null);
     }
 
     public void stop() {

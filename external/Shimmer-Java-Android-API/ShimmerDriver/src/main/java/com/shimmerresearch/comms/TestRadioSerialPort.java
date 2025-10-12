@@ -17,31 +17,26 @@ public class TestRadioSerialPort extends AbstractSerialPortHal implements Serial
 
     @Override
     public void connect() throws ShimmerException {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void disconnect() throws ShimmerException {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void closeSafely() throws ShimmerException {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void clearSerialPortRxBuffer() throws ShimmerException {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void txBytes(byte[] bytes) throws ShimmerException {
-        // TODO Auto-generated method stub
         if (bytes[0] == (byte) 0xA4 && bytes[1] == (byte) 1) {
             mShimmerSerialEventCallback.serialPortRxEvent(1);
 
@@ -73,37 +68,31 @@ public class TestRadioSerialPort extends AbstractSerialPortHal implements Serial
 
     @Override
     public boolean isSerialPortReaderStarted() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void setVerboseMode(boolean verboseMode, boolean isDebugMode) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean bytesAvailableToBeRead() throws ShimmerException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public int availableBytes() throws ShimmerException {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public boolean isConnected() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean isDisonnected() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -114,7 +103,6 @@ public class TestRadioSerialPort extends AbstractSerialPortHal implements Serial
 
     @Override
     public void serialPortRxEvent(int byteLength) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -131,7 +119,6 @@ public class TestRadioSerialPort extends AbstractSerialPortHal implements Serial
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 

@@ -9,11 +9,6 @@ public class HwDriverShimmerDeviceDetails {
     public HwDriverDeviceDetails usbHub = null;
     public HwDriverDeviceDetails compositeDevice = null;
 
-    //	public class DOCK_STATE {
-//		public final static int STATE_NONE = 0 ;
-//		public final static int STATE_READY = 1;
-//		public final static int STATE_BUSY = 2;
-//	}
     public HwDriverDeviceDetails serialConverterBaseFw = null;
     public HwDriverDeviceDetails serialConverterBaseUart = null;
     public HwDriverDeviceDetails serialConverterShimmerFw = null;
@@ -38,7 +33,6 @@ public class HwDriverShimmerDeviceDetails {
     public SPAN_VERSION mSpanVersion = SPAN_VERSION.UNKNOWN;
 
     public HwDriverShimmerDeviceDetails() {
-        // TODO Auto-generated constructor stub
     }
 
     public HwDriverShimmerDeviceDetails(String dockAssignedId, String smartDockBSLComPort, String smartDockUARTComPort, String shimmerBSLComPort, String shimmerUARTComPort, String shimmerDrivePath) {
@@ -69,7 +63,6 @@ public class HwDriverShimmerDeviceDetails {
 
     public void setDeviceType(DEVICE_TYPE deviceType) {
         this.deviceType = deviceType;
-//	    dockTypeParsed = DOCK_LABEL[this.deviceType.ordinal()];
 
         if (this.deviceType == DEVICE_TYPE.BASICDOCK) {
             mNumberOfSlots = 1;
@@ -159,12 +152,10 @@ public class HwDriverShimmerDeviceDetails {
 
         public static final String[] BASE6 = new String[]{
                 "Base6",
-//    		"Base6U",
         };
 
         public static final String[] BASE15 = new String[]{
                 "Base15",
-//    		"Base15U",
                 "SmartDock",
                 "SMART DOCK"
         };
@@ -174,7 +165,6 @@ public class HwDriverShimmerDeviceDetails {
         };
 
         public static final String[] SPAN_SR1_3_1 = new String[]{
-//        	"SHIMMER SPAN SR1-3.1 25/9/2015",
                 "SHIMMER SPAN SR1-3.1",
         };
 

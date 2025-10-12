@@ -40,7 +40,6 @@ public class DeviceSensorConfigFragment extends Fragment {
     SensorConfigDialog scd;
 
     public DeviceSensorConfigFragment() {
-        // Required empty public constructor
     }
 
     public static DeviceSensorConfigFragment newInstance() {
@@ -78,12 +77,10 @@ public class DeviceSensorConfigFragment extends Fragment {
             super(shimmerDevice, bluetoothManager);
             this.context = context;
 
-            //Filter out config options that are no longer in use
             List<String> filterList = new ArrayList<String>();
             filterList.add("Wide Range Accel Rate");
             setSensorKeysFilter(filterList, true);
 
-            //Filter out config options that tobe shown but disable
             List<String> displayButDisableFilterList = new ArrayList<String>();
             displayButDisableFilterList.add("Wide Range Accel Rate");
             displayButDisableFilterList.add("Mag Rate");
@@ -138,7 +135,6 @@ public class DeviceSensorConfigFragment extends Fragment {
                         String newSetting = (String) expandListAdapter.getChild(groupPosition, childPosition);
                         String keySetting = (String) expandListAdapter.getGroup(groupPosition);
 
-                        //Write the setting to the Shimmer Clone
                         final ConfigOptionDetailsSensor cods = configOptionsMap.get(keySetting);
 
                         cloneDevice.setConfigValueUsingConfigLabel(keySetting, cods.mConfigValues[childPosition]);
@@ -151,7 +147,6 @@ public class DeviceSensorConfigFragment extends Fragment {
                 }
             });
 
-            //Only add the buttons if they haven't been added before:
             if (expandListView.getFooterViewsCount() == 0) {
                 LinearLayout buttonLayout = new LinearLayout(context);
                 buttonLayout.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
@@ -163,7 +158,6 @@ public class DeviceSensorConfigFragment extends Fragment {
                 writeConfigButton.setLayoutParams(buttonParams);
                 resetListButton.setLayoutParams(buttonParams);
                 if (buttonBackgroundResourceId != -1) {
-                    //A custom Button background resource ID has been given
                     writeConfigButton.setBackgroundResource(buttonBackgroundResourceId);
                     resetListButton.setBackgroundResource(buttonBackgroundResourceId);
                 }

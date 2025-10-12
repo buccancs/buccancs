@@ -48,10 +48,8 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
     public final static int NOTIFICATION_SHIMMER_STATE_CHANGE = 3;
         private static final long serialVersionUID = -7067087273053149229L;
     public String message;
-    // Used by the constructor when the user intends to write new settings to the Shimmer device after connection
     StreamConnection conn = null;
     ObjectCluster objectClusterTemp = null;
-    //InputStream mIN;
     DataInputStream mIN;
     OutputStream mOUT;
 
@@ -131,7 +129,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
             getListofInstructions().clear();
             try {
                 setBluetoothRadioState(BT_STATE.CONNECTING);
-//			setState(BT_STATE.CONNECTING);
                 conn = (StreamConnection) Connector.open(address);
                 mIN = new DataInputStream(conn.openInputStream());
                 mOUT = conn.openOutputStream();
@@ -144,7 +141,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
                 mPThread = new ProcessingThread();
                 mPThread.start();
                 initialize();
-//			setState(BT_STATE.CONNECTED);
                 setBluetoothRadioState(BT_STATE.CONNECTED);
             } catch (IOException e) {
                 System.err.print(e.toString());
@@ -156,14 +152,12 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     public boolean bytesAvailableToBeRead() {
-        // TODO Auto-generated method stub
 
         try {
             if (mIN.available() != 0) {
                 return true;
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("Connection Lost");
         }
@@ -175,7 +169,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
         try {
             return mIN.available();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             System.out.println("Connection Lost");
             connectionLost();
             e.printStackTrace();
@@ -186,11 +179,9 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     public void writeBytes(byte[] data) {
-        // TODO Auto-generated method stub
         try {
             mOUT.write(data);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             System.out.println("Connection Lost");
             connectionLost();
             e.printStackTrace();
@@ -199,14 +190,11 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected byte[] readBytes(int numberofBytes) {
-        // TODO Auto-generated method stub
         byte[] b = new byte[numberofBytes];
         try {
-            //mIN.read(b,0,numberofBytes);
             mIN.readFully(b, 0, numberofBytes);
             return (b);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             System.out.println("Connection Lost");
             e.printStackTrace();
         }
@@ -217,14 +205,11 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void stop() {
-        // TODO Auto-generated method stub
         setBluetoothRadioState(BT_STATE.DISCONNECTED);
     }
 
     @Override
     protected void isNowStreaming() {
-        // Send a notification msg to the UI through a callback (use a msg identifier notification message)
-        // Do something here
 
         CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_START_STREAMING, getBluetoothAddress(), mUniqueID);
         sendCallBackMsg(MSG_IDENTIFIER_NOTIFICATION_MESSAGE, callBackObject);
@@ -252,8 +237,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void isReadyForStreaming() {
-        // Send msg fully initialized, send notification message,
-        // Do something here
         mIsInitialised = true;
         sensorAndConfigMapsCreate();
         sensorMapUpdateFromEnabledSensorsVars();
@@ -265,7 +248,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
         CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_FULLY_INITIALIZED, getBluetoothAddress(), mUniqueID);
         sendCallBackMsg(MSG_IDENTIFIER_NOTIFICATION_MESSAGE, callBackObject);
         if (mTimerCheckAlive == null && mTimerReadStatus == null && mTimerReadBattStatus == null) {
-            //super.operationFinished();
             startTimerCheckIfAlive();
             startTimerReadStatus();
             startTimerReadBattStatus();
@@ -279,14 +261,12 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
         CallbackObject callBackObject = new CallbackObject(MSG_IDENTIFIER_PACKET_RECEPTION_RATE, getBluetoothAddress(), mUniqueID, getPacketReceptionRateOverall());
         sendCallBackMsg(MSG_IDENTIFIER_PACKET_RECEPTION_RATE, callBackObject);
 
-//		sendCallBackMsg(MSG_IDENTIFIER_PACKET_RECEPTION_RATE, getBluetoothAddress());
         sendCallBackMsg(MSG_IDENTIFIER_DATA_PACKET, ojc);
     }
 
     public byte[] returnRawData() {
         if (objectClusterTemp != null) {
             byte[] data = objectClusterTemp.mRawData;
-            //objectClusterTemp = null;
             return data;
 
         } else
@@ -311,7 +291,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
             conn = null;
             setBluetoothRadioState(BT_STATE.DISCONNECTED);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             setBluetoothRadioState(BT_STATE.DISCONNECTED);
             System.out.println("Connection Lost");
             e.printStackTrace();
@@ -321,7 +300,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void sendStatusMsgPacketLossDetected() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -341,7 +319,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
             conn = null;
             setBluetoothRadioState(BT_STATE.CONNECTION_LOST);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             setBluetoothRadioState(BT_STATE.CONNECTION_LOST);
             System.out.println("Connection Lost");
             e.printStackTrace();
@@ -351,13 +328,11 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void sendStatusMSGtoUI(String msg) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void printLogDataForDebugging(String msg) {
-        // TODO Auto-generated method stub
         System.out.println(msg);
     }
 
@@ -387,8 +362,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void hasStopStreaming() {
-        // Send a notification msg to the UI through a callback (use a msg identifier notification message)
-        // Do something here
         CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_STOP_STREAMING, getBluetoothAddress(), mUniqueID);
         sendCallBackMsg(MSG_IDENTIFIER_NOTIFICATION_MESSAGE, callBackObject);
         startTimerReadStatus();
@@ -398,12 +371,7 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
     @Override
     protected void eventLogAndStreamStatusChanged(byte currentCommand) {
 
-//		if(mCurrentCommand==START_LOGGING_ONLY_COMMAND){
-//			TODO this causing a problem Shimmer Bluetooth disconnects
-//			setState(BT_STATE.SDLOGGING);
-//		}
         if (currentCommand == STOP_LOGGING_ONLY_COMMAND) {
-            //TODO need to query the Bluetooth connection here!
             if (mIsStreaming) {
                 setBluetoothRadioState(BT_STATE.STREAMING);
             } else if (isConnected()) {
@@ -422,12 +390,7 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
                 if (!mIsStreaming && !isSDLogging() && isConnected()) {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                 }
-//				if(getBTState() == BT_STATE.INITIALISED){
-//					
-//				}
-//				else if(getBTState() != BT_STATE.CONNECTED){
-//					setState(BT_STATE.CONNECTED);
-//				}
+//
 
                 CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_STATE_CHANGE, mBluetoothRadioState, getBluetoothAddress(), mUniqueID);
                 sendCallBackMsg(MSG_IDENTIFIER_STATE_CHANGE, callBackObject);
@@ -438,7 +401,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -449,19 +411,16 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void startOperation(BT_STATE currentOperation) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void startOperation(BT_STATE currentOperation, int totalNumOfCmds) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void batteryStatusChanged() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -487,7 +446,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
     @Override
     protected void interpretDataPacketFormat(Object object,
                                              COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -497,31 +455,26 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
 
     @Override
     protected void dockedStateChange() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void createConfigBytesLayout() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public String getSensorLabel(int sensorKey) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public List<ShimmerVerObject> getListOfCompatibleVersionInfoForSensor(int sensorKey) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Set<Integer> getSensorIdsSet() {
-        // TODO Auto-generated method stub
         return null;
     }
 

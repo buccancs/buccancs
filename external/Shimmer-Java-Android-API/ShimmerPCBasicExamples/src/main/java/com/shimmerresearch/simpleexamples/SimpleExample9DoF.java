@@ -85,13 +85,11 @@ public class SimpleExample9DoF extends BasicProcessWithCallBack {
                 try {
                     mShimmer.startStreaming();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 try {
                     mShimmer2.startStreaming();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -321,8 +319,6 @@ public class SimpleExample9DoF extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
         Object object = shimmerMSG.mB;
         if (ind == ShimmerPC.MSG_IDENTIFIER_STATE_CHANGE) {

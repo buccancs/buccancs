@@ -39,23 +39,18 @@ import com.shimmerresearch.sensors.bmpX80.SensorBMPX80.GuiLabelSensors;
 import com.shimmerresearch.sensors.bmpX80.SensorBMPX80.LABEL_SENSOR_TILE;
 
 public class SensorBMP390 extends SensorBMPX80 {
-    //--------- Bluetooth commands start --------------
     public static final byte SET_PRESSURE_OVERSAMPLING_RATIO_COMMAND = (byte) 0x52;
 
-    //--------- Sensor specific variables start --------------
     public static final byte PRESSURE_OVERSAMPLING_RATIO_RESPONSE = (byte) 0x53;
     public static final byte GET_PRESSURE_OVERSAMPLING_RATIO_COMMAND = (byte) 0x54;
     public static final byte PRESSURE_CALIBRATION_COEFFICIENTS_RESPONSE = (byte) 0xA6;
 
-    //--------- Constructors for this class start --------------
     public static final byte GET_PRESSURE_CALIBRATION_COEFFICIENTS_COMMAND = (byte) 0xA7;
     public static final byte SET_PRESSURE_SAMPLING_RATE_COMMAND = (byte) 0xB5;
     public static final byte PRESSURE_SAMPLING_RATE_RESPONSE = (byte) 0xB6;
-    //--------- Sensor specific variables end --------------
     public static final byte GET_PRESSURE_SAMPLING_RATE_COMMAND = (byte) 0xB7;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-    //--------- Configuration options start --------------
     public static final String[] ListofPressureResolutionBMP390 = {"Ultra Low", "Low", "Standard", "High", "Ultra High", "Highest"};
     public static final Integer[] ListofPressureResolutionConfigValuesBMP390 = {0, 1, 2, 3, 4, 5};
     public static final String[] ListofPressureRateBMP390 = {"200.0Hz", "100.0Hz", "50.0Hz", "25.0Hz", "12.5Hz", "6.25Hz", "3.1Hz", "1.5Hz", "0.78Hz", "0.39Hz", "0.2Hz", "0.1Hz", "0.05Hz", "0.02Hz", "0.01Hz", "0.006Hz", "0.003Hz", "0.0015Hz"};
@@ -74,7 +69,6 @@ public class SensorBMP390 extends SensorBMPX80 {
             ListofPressureRateConfigValuesBMP390,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBMP390);
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorBmp390 = new SensorDetailsRef(
             0x04 << (2 * 8),
             0x04 << (2 * 8),
@@ -88,8 +82,6 @@ public class SensorBMP390 extends SensorBMPX80 {
             LABEL_SENSOR_TILE.PRESSURE_TEMPERATURE,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_BMP390_PRESSURE),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBMP390);
-    //--------- Bluetooth commands end --------------
-    //--------- Channel info start --------------
     public static final ChannelDetails channelBmp390Press = new ChannelDetails(
             ObjectClusterSensorName.PRESSURE_BMP390,
             ObjectClusterSensorName.PRESSURE_BMP390,
@@ -122,7 +114,6 @@ public class SensorBMP390 extends SensorBMPX80 {
         mBtSetCommandMap = Collections.unmodifiableMap(aMap);
     }
 
-    //--------- Configuration options end --------------
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -141,19 +132,10 @@ public class SensorBMP390 extends SensorBMPX80 {
     private CalibDetailsBmp390 mCalibDetailsBmp390Lcl;
 
     {
-        //TODO put into above constructor
-//			channelBmp390Press.mChannelSource = CHANNEL_SOURCE.SHIMMER;
-//			channelBmp390Press.mDefaultUncalUnit = CHANNEL_UNITS.KPASCAL;
-//			channelBmp390Press.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
     }
 
-    //--------- Sensor info end --------------
 
     {
-        //TODO put into above constructor
-//			channelBmp390Temp.mChannelSource = CHANNEL_SOURCE.SHIMMER;
-//			channelBmp390Temp.mDefaultUncalUnit = CHANNEL_UNITS.DEGREES_CELSUIS;
-//			channelBmp390Temp.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
     }
 
     public SensorBMP390(ShimmerVerObject svo) {
@@ -187,7 +169,6 @@ public class SensorBMP390 extends SensorBMPX80 {
 
     }
 
-    //--------- Constructors for this class end --------------
 
     @Override
     public List<Double> getPressTempConfigValuesLegacy() {
@@ -226,7 +207,6 @@ public class SensorBMP390 extends SensorBMPX80 {
     @Override
     public void generateSensorGroupMapping() {
         mSensorGroupingMap = new LinkedHashMap<Integer, SensorGroupingDetails>();
-        //TODO Extra version check here not needed because compatability info already contained in SensorGroupingDetails?
         if (mShimmerVerObject.isShimmerGen3() || mShimmerVerObject.isShimmerGen3R() || mShimmerVerObject.isShimmerGen4()) {
             mSensorGroupingMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.PRESSURE_TEMPERATURE_BMP390.ordinal(), sensorGroupBmp390);
         }
@@ -253,7 +233,6 @@ public class SensorBMP390 extends SensorBMPX80 {
             }
         }
 
-        //Debugging
         super.consolePrintChannelsCal(objectCluster, Arrays.asList(
                 new String[]{ObjectClusterSensorName.PRESSURE_BMP390, CHANNEL_TYPE.UNCAL.toString()},
                 new String[]{ObjectClusterSensorName.TEMPERATURE_BMP390, CHANNEL_TYPE.UNCAL.toString()},
@@ -302,7 +281,6 @@ public class SensorBMP390 extends SensorBMPX80 {
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -327,7 +305,6 @@ public class SensorBMP390 extends SensorBMPX80 {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -345,7 +322,6 @@ public class SensorBMP390 extends SensorBMPX80 {
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -377,7 +353,6 @@ public class SensorBMP390 extends SensorBMPX80 {
         if (mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.PRESSURE_PRECISION_BMP390)) {
             setPressureResolution(((Double) mapOfConfigPerShimmer.get(DatabaseConfigHandle.PRESSURE_PRECISION_BMP390)).intValue());
         }
-        //PRESSURE (BMP390) CAL PARAMS
         if (mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.PAR_T1)
                 && mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.PAR_T2)
                 && mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.PAR_T3)
@@ -421,7 +396,6 @@ public class SensorBMP390 extends SensorBMPX80 {
         mCalibDetailsBmp390Lcl.setPressureCalib(T1, T2, T3, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11);
     }
 
-    //--------- Sensor specific methods start --------------
 
     private void setDefaultBmp390PressureSensorConfig(boolean isSensorEnabled) {
         if (isSensorEnabled) {
@@ -463,7 +437,6 @@ public class SensorBMP390 extends SensorBMPX80 {
         public static final String TEMPERATURE_BMP390 = "BMP390_Temperature";
     }
 
-    //--------- Sensor specific methods end --------------
 
     public static final class DatabaseConfigHandle {
         public static final String PRESSURE_PRECISION_BMP390 = "BMP390_Pressure_Precision";

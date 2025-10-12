@@ -180,7 +180,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
     private double samplingRate;
     private Color backgroundColor;
     private String fileName = "ShimmerConnect.csv";
-    //EXG Frame
     private JLabel lblChip1;
     private JLabel lblChip2;
     private JLabel lblExgGainChip1Channel1;
@@ -212,11 +211,9 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
     private int[] exgConfigurationChip1 = new int[10];
     private int[] exgConfigurationChip2 = new int[10];
     private PPGtoHRAlgorithm heartRateCalculation;
-    //private ECGtoHRAlgorithm heartRateCalculationECG;
     private ECGtoHRAdaptive heartRateCalculationECG;
     private boolean calculateHeartRate = false;
     private int INVALID_RESULT = -1;
-    //Logging - file already exists
     private JFrame fileExistsWindow = new JFrame();
     private JLabel lblFileExists;
     private JButton btnOverwriteFile;
@@ -254,7 +251,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
 					 */
 
 
-                    //shimmer.stopStreaming();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -300,10 +296,8 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 try {
                     mShimmer.disconnect();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                //mShimmer = new ShimmerPC("ShimmerDevice", true);
             }
         });
         btnDisconnect.setBounds(252, 45, 98, 25);
@@ -312,7 +306,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         btnStartStreaming = new JButton("Stream");
         btnStartStreaming.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //Create HPFs for EXG
                 try {
                     double[] cutoff = {5.0};
                     lpf = new Filter(Filter.LOW_PASS, mShimmer.getSamplingRateShimmer(), cutoff);
@@ -330,7 +323,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                     hpfexg1ch2 = new Filter(Filter.HIGH_PASS, mShimmer.getSamplingRateShimmer(), cutoff);
                     hpfexg2ch1 = new Filter(Filter.HIGH_PASS, mShimmer.getSamplingRateShimmer(), cutoff);
                     hpfexg2ch2 = new Filter(Filter.HIGH_PASS, mShimmer.getSamplingRateShimmer(), cutoff);
-                    //Create BSF for EXG
                     cutoff = new double[2];
                     cutoff[0] = cornerFrequencyBSF1;
                     cutoff[1] = cornerFrequencyBSF2;
@@ -339,7 +331,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                     bsfexg2ch1 = new Filter(Filter.BAND_STOP, mShimmer.getSamplingRateShimmer(), cutoff);
                     bsfexg2ch2 = new Filter(Filter.BAND_STOP, mShimmer.getSamplingRateShimmer(), cutoff);
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 if ((Integer) spinnerNumberOfBeatsToAve.getValue() <= 0) {
@@ -351,7 +342,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 try {
                     mShimmer.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -424,7 +414,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 try {
                     mShimmer.disconnect();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 System.exit(0);
@@ -501,7 +490,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         listOfSensorsShimmer3 = new JCheckBox[listofCompatibleSensorsShimmer3.length];
         for (int count = 0; count < listofCompatibleSensorsShimmer3.length; count++) {
             listOfSensorsShimmer3[count] = new JCheckBox(listofCompatibleSensorsShimmer3[count], false);
-            //positioning
             if (count + 1 > (listofCompatibleSensorsShimmer3.length) / 2) {
                 listOfSensorsShimmer3[count].setBounds(200, 30 + (25 * newCount), 150, 20);
                 newCount++;
@@ -538,7 +526,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         chckbxHeartRate = new JCheckBox("Heart Rate");
         chckbxHeartRate.setVisible(false);
 
-        //Config Frame
         btnOK = new JButton("OK");
         btnOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -682,7 +669,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         chckbxEnableECGtoHR.setBounds(10, 604, 180, 23);
         configFrame.getContentPane().add(chckbxEnableECGtoHR);
 
-        //EXG Frame
         JPanel filteringPane = new JPanel();
         filteringPane.setLayout(null);
         filteringPane.setBounds(10, 10, 360, 115);
@@ -803,7 +789,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         settingsPane.setBorder(BorderFactory.createTitledBorder(settingsBorder, "EXG Settings", TitledBorder.LEFT, TitledBorder.TOP));
 
 
-        //Logging - file exists
         fileExistsWindow.setBounds(300, 300, 320, 150);
         fileExistsWindow.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         fileExistsWindow.getContentPane().setLayout(null);
@@ -822,64 +807,15 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         fileExistsWindow.getContentPane().add(btnCancelWriteFile);
 
 
-//		//Heart Rate panel
-//		chartPPG = new Chart2D();
-//		chartPPG.setBounds(10, 100, 650, 220);
-//		paneHeartRate.add(chartPPG);
-//		IAxis<?> xAxisPPG = chartPPG.getAxisX();
-////		xAxisPPG.setVisible(false);
-//		IAxis<?> yAxisPPG = chartPPG.getAxisY();
-//		yAxisPPG.setAxisTitle(new IAxis.AxisTitle("Heart Rate (BPM)"));
-//		chartPPG.setBackground(Color.WHITE);
-//		tracePPG = new Trace2DLtd(500); 
-//		tracePPG.setColor(Color.RED);
-//		tracePPG.setName("PPG");
-//		
-//		chartHR = new Chart2D();
-//		chartHR.setBounds(10, 340, 650, 220);
-//		paneHeartRate.add(chartHR);
-//		IAxis<?> xAxisHR = chartHR.getAxisX();
-//		xAxisHR.setVisible(false);
-//		yAxisHR = chartHR.getAxisY();
-//		yAxisHR.setAxisTitle(new IAxis.AxisTitle("Heart Rate (BPM)"));
-//		chartHR.setBackground(Color.WHITE);
-//		traceHR = new Trace2DLtd(500); 
-//		traceHR.setColor(Color.RED);
-//		traceHR.setName("Heart Rate");
-//		
-//		lblPpgSignal = new JLabel("PPG Signal");
-//		lblPpgSignal.setBounds(10, 85, 100, 14);
-//		paneHeartRate.add(lblPpgSignal);
-//		
-//		lblHeartRate = new JLabel("Heart Rate");
-//		lblHeartRate.setBounds(10, 325, 100, 14);
-//		paneHeartRate.add(lblHeartRate);
-//		
-//		lblHeartRateOutput = new JLabel("Heart Rate");
-//		lblHeartRateOutput.setBounds(670, 340, 100, 14);
-//		paneHeartRate.add(lblHeartRateOutput);
-//		
-//		lblPpgChannelName = new JLabel("PPG Channel Name");
-//		lblPpgChannelName.setBounds(50, 20, 150, 14);
-//		paneHeartRate.add(lblPpgChannelName);
-//		
-//		lblNumberOfBeats = new JLabel("Number Of Beats To Average");
-//		lblNumberOfBeats.setBounds(300, 20, 200, 14);
-//		paneHeartRate.add(lblNumberOfBeats);
-//		
-//		comboBoxPpgChannel = new JComboBox<String>();
-//		comboBoxPpgChannel.setBounds(50, 35, 150, 24);
-//		paneHeartRate.add(comboBoxPpgChannel);
-//		
-//		spinnerNumberOfBeatsToAve = new JSpinner();
-//		spinnerNumberOfBeatsToAve.setBounds(300, 35, 40, 24);
-//		paneHeartRate.add(spinnerNumberOfBeatsToAve);
-//		spinnerNumberOfBeatsToAve.setValue(5);
-//		
-//		textFieldHeartRate = new JTextField("");
-//		textFieldHeartRate.setBounds(670, 355, 80, 24);
-//		paneHeartRate.add(textFieldHeartRate);
-//		textFieldHeartRate.setColumns(10);
+//
+//
+//
+//
+//
+//
+//
+//
+//
     }
 
     private void openFile() {
@@ -989,7 +925,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         traceHR.setColor(hrColour);
         traceHR.setName("Heart Rate");
         if (calculateHeartRate) {
-            //chart.addTrace(traceHR);
         }
 
         menuItemConfigure.setEnabled(true);
@@ -1031,7 +966,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         configFrame.setVisible(true);
         List<String> enabledSensors = mShimmer.getListofEnabledSensors();
 
-        //Incase Cancel was clicked last time
         if (mShimmerVersion == SHIMMER_SR30 || mShimmerVersion == SHIMMER_3) {
             for (int i = 0; i < enabledSensors.size(); i++) {
                 for (int j = 0; j < listofCompatibleSensorsShimmer3.length; j++) {
@@ -1087,7 +1021,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 if (listOfSensorsShimmer3[13].isSelected()) {
                     comboBoxGsrRange.setEnabled(true);
                     listOfSensorsShimmer3[10].setText("Internal ADC A13");
-                    //	listOfSensorsShimmer3[10].setText("Internal ADC A13/PPG");
                 } else {
                     comboBoxGsrRange.setEnabled(false);
                     listOfSensorsShimmer3[10].setText("Internal ADC A13");
@@ -1246,7 +1179,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                     if (listOfSensorsShimmer3[13].isSelected()) {
                         comboBoxGsrRange.setEnabled(true);
                         listOfSensorsShimmer3[10].setText("Internal ADC A13");
-                        //		listOfSensorsShimmer3[10].setText("Internal ADC A13/PPG");
                         if (listOfSensorsShimmer3[10].isSelected() && chckbxInternalExpPower.isSelected()) {
                             chckbxEnablePPGtoHR.setEnabled(true);
                         }
@@ -1666,7 +1598,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         }
 
         int exgGain = (exg1RegisterContents[3] >> 4) & 7;
-        //CATHY: cmdEXGGain1.SelectedIndex = ??
         if (exgGain == 0) {
             comboBoxGainChip1Channel1.setSelectedIndex(4);
         } else if (exgGain == 1) {
@@ -1684,7 +1615,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         }
 
         exgGain = (exg1RegisterContents[4] >> 4) & 7;
-        //CATHY: cmdEXGGain1.SelectedIndex = ??
         if (exgGain == 0) {
             comboBoxGainChip1Channel2.setSelectedIndex(4);
         } else if (exgGain == 1) {
@@ -1702,7 +1632,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         }
 
         exgGain = (exg2RegisterContents[3] >> 4) & 7;
-        //CATHY: cmdEXGGain1.SelectedIndex = ??
         if (exgGain == 0) {
             comboBoxGainChip2Channel1.setSelectedIndex(4);
         } else if (exgGain == 1) {
@@ -1720,7 +1649,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         }
 
         exgGain = (exg2RegisterContents[4] >> 4) & 7;
-        //CATHY: cmdEXGGain1.SelectedIndex = ??
         if (exgGain == 0) {
             comboBoxGainChip2Channel2.setSelectedIndex(4);
         } else if (exgGain == 1) {
@@ -1809,8 +1737,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 if (chckbxEmgConfig.isSelected()) {
                     chckbxEcgConfig.setSelected(false);
                     chckbxTestSignal.setSelected(false);
-                    //1) (byte) 2,(byte) 160,(byte) 16,(byte) 105,(byte) 96,(byte) 32,(byte) 0,(byte) 0,(byte) 2,(byte) 3
-                    //2) (byte) 2,(byte) 160,(byte) 16,(byte) 129,(byte) 129,(byte) 0,(byte) 0,(byte) 0,(byte) 2,(byte) 1
                     exgConfigurationChip1 = new int[]{2, 160, 16, 105, 96, 32, 0, 0, 2, 3};
                     exgConfigurationChip2 = new int[]{2, 160, 16, 129, 129, 0, 0, 0, 2, 1};
                     for (int i = 0; i < textFieldChip1.length; i++) {
@@ -1979,7 +1905,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
             bandStopFilterEnabled = false;
         }
 
-        // add a delay here for the sensors to take effect
         try {
             Thread.sleep(500);    // Wait to ensure that we dont missed any bytes which need to be cleared
         } catch (InterruptedException e) {
@@ -2015,7 +1940,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -2031,7 +1955,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 btnDisconnect.setEnabled(true);
 
             } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-//					|| callbackObject.mState == BT_STATE.NONE
                     || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
 
                 textFieldState.setText("Shimmer Disconnected");
@@ -2070,7 +1993,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
             if (object instanceof ObjectCluster) {
                 ObjectCluster objc = (ObjectCluster) object;
                 String[] exgnames = {"EXG1 CH1", "EXG1 CH2", "EXG2 CH1", "EXG2 CH2", "ECG LL-RA", "ECG LA-RA", "ECG Vx-RL", "EMG CH1", "EMG CH2", "EXG1 CH1 16Bit", "EXG1 CH2 16Bit", "EXG2 CH1 16Bit", "EXG2 CH2 16Bit"};
-                //Filter signals
                 if (highPassFilterEnabled || bandStopFilterEnabled) {
                     for (int indexgnames = 0; indexgnames < exgnames.length; indexgnames++) {
                         Collection<FormatCluster> cf = objc.getCollectionOfFormatClusters(exgnames[indexgnames]);
@@ -2242,7 +2164,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                                 }
                             }
                         } catch (Exception e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
 
@@ -2267,7 +2188,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                         dataArrayPPG = lpf.filterData(dataArrayPPG);
                         dataArrayPPG = hpf.filterData(dataArrayPPG);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
@@ -2289,11 +2209,8 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                     FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, "CAL")); // retrieve the calibrated data
                     dataArrayECG = format.mData;
                     try {
-                        //dataArrayECG = lpfECG.filterData(dataArrayECG);
-                        //dataArrayECG = hpfECG.filterData(dataArrayECG);
                         format.mData = dataArrayECG;
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
@@ -2304,7 +2221,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                     if (heartRate == INVALID_RESULT) {
                         heartRate = Double.NaN;
                     } else {
-                        //System.out.println("Heart Rate: " + heartRate);
                     }
                     objc.addDataToMap("Heart Rate", "CAL", "beats per minute", heartRate);
                     if (chckbxHeartRate.isSelected()) {
@@ -2334,7 +2250,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                         }
                     }
 
-                    //Plotting data
                     downSample++;
 
                     int numberOfTraces = dataArray.length;
@@ -2360,7 +2275,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                         IRangePolicy rangePolicy = new RangePolicyFixedViewport(range);
                         yAxis.setRangePolicy(rangePolicy);
                     } else {
-                        //Scaling Y Axis
                         for (int count = 0; count < numberOfTraces; count++) {
                             if (dataArray[count] > maxDataPoint) {
                                 maxDataPoint = (int) Math.ceil(dataArray[count]);
@@ -2391,7 +2305,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
             CallbackObject callbackObject = (CallbackObject) object;
             double packetReceptionRate = callbackObject.mPacketReceptionRate;
 
-//			double packetReceptionRate = (Double) object;
             if (downSample % 50 == 0) {
                 textFieldMessage.setText("Packet Reception Rate: " + Double.toString(packetReceptionRate));
             }

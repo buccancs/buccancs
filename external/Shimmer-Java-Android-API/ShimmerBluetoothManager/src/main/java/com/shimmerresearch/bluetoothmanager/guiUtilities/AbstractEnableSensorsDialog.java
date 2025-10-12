@@ -22,7 +22,6 @@ public abstract class AbstractEnableSensorsDialog {
     protected boolean[] listEnabled;
     protected boolean mEnableFilter = false;
     protected List<Integer> keysToFilter = null;
-    //	ShimmerDevice shimmer;
     ShimmerBluetoothManager bluetoothManager;
 
     public AbstractEnableSensorsDialog(ShimmerDevice shimmer, ShimmerBluetoothManager btManager) {
@@ -30,13 +29,9 @@ public abstract class AbstractEnableSensorsDialog {
         this.bluetoothManager = btManager;
     }
 
-//	public EnableSensorsDialog(ShimmerDevice shimmerDevice) {
-//		shimmer = shimmerDevice;
-//	}
 
     public static void main(String[] args) {
 
-//		dialog.setVisible(true);
 
     }
 
@@ -56,21 +51,18 @@ public abstract class AbstractEnableSensorsDialog {
         Map<Integer, SensorDetails> sensorMap = clone.getSensorMap();
         int count = 0;
 
-        //Check how many sensors the device is compatible with
         for (SensorDetails details : sensorMap.values()) {
             if (clone.isVerCompatibleWithAnyOf(details.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
                 count++;
             }
         }
 
-        //Retrieve the key set and filter out keys if filter is enabled
         Set<Integer> sensorKeySet = sensorMap.keySet();
 
         if (mEnableFilter == true && keysToFilter != null) {
             for (Integer key : keysToFilter) {
                 SensorDetails sd = sensorMap.get(key);
                 if (sd != null) {
-                    //Only remove the key if the device is compatible with it, else count will be incorrectly decremented
                     if (clone.isVerCompatibleWithAnyOf(sd.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
                         sensorKeySet.remove(key);
                         count--;

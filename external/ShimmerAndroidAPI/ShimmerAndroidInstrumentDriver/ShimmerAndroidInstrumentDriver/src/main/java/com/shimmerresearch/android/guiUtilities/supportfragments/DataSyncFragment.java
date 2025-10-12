@@ -24,7 +24,6 @@ public class DataSyncFragment extends Fragment {
     Context context;
 
     public DataSyncFragment() {
-        // Required empty public constructor
     }
 
     public static DataSyncFragment newInstance() {
@@ -38,7 +37,6 @@ public class DataSyncFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getActivity();
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.data_sync, container, false);
     }
 

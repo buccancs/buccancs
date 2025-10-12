@@ -46,7 +46,6 @@ public class Transformer {
             scaleY = 0;
         }
 
-        // setup all matrices
         mMatrixValueToPx.reset();
         mMatrixValueToPx.postTranslate(-xChartMin, -yChartMin);
         mMatrixValueToPx.postScale(scaleX, -scaleY);
@@ -56,7 +55,6 @@ public class Transformer {
 
         mMatrixOffset.reset();
 
-        // offset.postTranslate(mOffsetLeft, getHeight() - mOffsetBottom);
 
         if (!inverted)
             mMatrixOffset.postTranslate(mViewPortHandler.offsetLeft(),
@@ -126,7 +124,6 @@ public class Transformer {
         public float[] generateTransformedValuesLine(ILineDataSet data,
                                                  float phaseX, float phaseY,
                                                  int min, int max) {
-        //TODO java.lang.NegativeArraySizeException: -434
         if (max < min) {
             XLog.w("generateTransformedValuesLine error: max:" + max + ", min:" + min + ", phaseX:" + phaseX);
             return new float[0];
@@ -214,7 +211,6 @@ public class Transformer {
 
         public void rectToPixelPhase(RectF r, float phaseY) {
 
-        // multiply the height of the rect with the phase
         r.top *= phaseY;
         r.bottom *= phaseY;
 
@@ -225,7 +221,6 @@ public class Transformer {
 
     public void rectToPixelPhaseHorizontal(RectF r, float phaseY) {
 
-        // multiply the height of the rect with the phase
         r.left *= phaseY;
         r.right *= phaseY;
 
@@ -243,7 +238,6 @@ public class Transformer {
 
         public void rectValueToPixelHorizontal(RectF r, float phaseY) {
 
-        // multiply the height of the rect with the phase
         r.left *= phaseY;
         r.right *= phaseY;
 
@@ -265,7 +259,6 @@ public class Transformer {
         Matrix tmp = mPixelToValueMatrixBuffer;
         tmp.reset();
 
-        // invert all matrixes to convert back to the original value
         mMatrixOffset.invert(tmp);
         tmp.mapPoints(pixels);
 

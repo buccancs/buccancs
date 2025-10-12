@@ -96,13 +96,11 @@ public class OnTheFlyGyroOffsetCal implements Serializable {
         mGyroYUncal.addValue(uncalY);
         mGyroZUncal.addValue(uncalZ);
 
-        //Process if the buffer is full
         if (mGyroYCal.getWindowSize() == mGyroYCal.getN()) {
             if (mGyroXCal.getStandardDeviation() < mOffsetThreshold
                     && mGyroYCal.getStandardDeviation() < mOffsetThreshold
                     && mGyroZCal.getStandardDeviation() < mOffsetThreshold) {
                 calibDetails.updateCurrentOffsetVector(mGyroXUncal.getMean(), mGyroYUncal.getMean(), mGyroZUncal.getMean());
-//				System.err.println("UPDATING\tBufferSize=" + bufferSize);
             }
         }
     }

@@ -10,7 +10,6 @@ public class VerisenseTimeDetails implements Serializable {
 
     public static final double DEFAULT_END_TIME_VALUE = Double.MIN_VALUE;
     public static final double DEFAULT_START_TIME_VALUE = Double.MAX_VALUE;
-    // Arbitrarily chosen threshold for detecting whether time is set in Sensor.
     public static final long TIME_MS_1980 = UtilVerisenseDriver.fromTimeStringToMilliseconds("1980/01/01 00:00:00", UtilVerisenseDriver.DATE_FORMAT_NO_MILLIS);
     private static final long serialVersionUID = -8512683733417198408L;
     private long endTimeMinutes = 0;
@@ -19,11 +18,9 @@ public class VerisenseTimeDetails implements Serializable {
     private double startTimeMs = DEFAULT_START_TIME_VALUE;
 
     public VerisenseTimeDetails() {
-        // TODO Auto-generated constructor stub
     }
 
     public static double calculateStartTimeMs(double endTimeMs, long sampleCount, double timestampDiffInS) {
-        // minus 1 from number of samples as the last sample is at the end time
         return (endTimeMs - ((sampleCount - 1) * timestampDiffInS * 1000));
     }
 
@@ -85,7 +82,6 @@ public class VerisenseTimeDetails implements Serializable {
     }
 
     public void calculateEndTimeMs() {
-        // Convert minutes and clock ticks to milliseconds
         setEndTimeMs(SensorVerisenseClock.convertRtcMinutesAndTicksToMs(endTimeMinutes, endTimeTicks));
     }
 

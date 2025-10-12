@@ -13,7 +13,6 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     private static final long serialVersionUID = -5729543049033754281L;
 
     public int idxShimmerSamplingRate = 0;
-    //	public int idxBufferSize =                     	2;
     public int idxSensors0 = 3;
     public int idxSensors1 = 4;
     public int idxSensors2 = 5;
@@ -32,7 +31,6 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     public int idxEXGADS1292RChip1Resp1 = 18;
     public int idxEXGADS1292RChip1Resp2 = 19;
 
-    // Derived Channels - used by SW not FW
     public int idxDerivedSensors0 = 31;
     public int idxDerivedSensors1 = 32;
     public int idxDerivedSensors2 = 33;
@@ -52,23 +50,19 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     public int idxSDExperimentConfig0 = 128 + 89;
     public int idxMacAddress = 128 + 96; // 6bytes
 
-    // Masks and Bitshift values
     public int maskShimmerSamplingRate = 0xFF;
     public int maskBufferSize = 0xFF;
 
-    // Sensors
     public int maskSensors = 0xFF;
     public int byteShiftSensors0 = 0;
     public int byteShiftSensors1 = 8;
     public int byteShiftSensors2 = 16;
 
-    //Config Byte3
     public int bitShiftGSRRange = 1;
     public int maskGSRRange = 0x07;
     public int bitShiftEXPPowerEnable = 0;
     public int maskEXPPowerEnable = 0x01;
 
-    // Derived Channels - used by SW not FW
     public int maskDerivedChannelsByte = 0xFF;
     public int byteShiftDerivedSensors0 = 8 * 0;
     public int byteShiftDerivedSensors1 = 8 * 1;
@@ -121,7 +115,6 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
         MSP430_5XX_INFOMEM_A_ADDRESS = 384;
         MSP430_5XX_INFOMEM_LAST_ADDRESS = 511;
 
-        //Include changes to mapping below in order of oldest to newest in seperate "if statements"
 
         if (mShimmerVerObject.isSupportedEightByteDerivedSensors()) {
             idxDerivedSensors3 = 118;
@@ -131,35 +124,12 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
             idxDerivedSensors7 = 122;
         }
 
-//		if(Util.compareVersions(mFirmwareIdentifier,mFirmwareVersionMajor,mFirmwareVersionMinor,mFirmwareVersionInternal,FW_ID.SDLOG,0,10,1)){
-//			idxMplCalibration = 128+128+128+0;
-//		}
 
     }
 
     public int calculateConfigByteLength(ShimmerVerObject shimmerVersionObject) {
 
-        //TODO: should add full FW version checking here to support different size InfoMems in the future
-//		if(Util.compareVersions(firmwareIdentifier, firmwareVersionMajor, firmwareVersionMinor, firmwareVersionRelease,
-//				FW_ID.SDLOG, 0, 10, 1)) {
-//			return 512;
-//		}
 
-//		if(firmwareIdentifier == FW_ID.SDLOG) {
-//			return 384;
-//		}
-//		else if(firmwareIdentifier == FW_ID.BTSTREAM) {
-//			return 128;
-//		}
-//		else if(firmwareIdentifier == FW_ID.LOGANDSTREAM) {
-//			return 384;
-//		}
-//		else if(firmwareIdentifier == FW_ID.GQ_GSR) {
-//			return 128;
-//		}
-//		else {
-//			return 512; 
-//		}
 
         return 384;
     }

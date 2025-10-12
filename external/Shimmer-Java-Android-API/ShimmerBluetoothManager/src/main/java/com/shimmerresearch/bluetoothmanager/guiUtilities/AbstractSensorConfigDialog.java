@@ -47,7 +47,6 @@ public abstract class AbstractSensorConfigDialog {
 
     public abstract void showFrame();
 
-    //	public void initialize(ShimmerDevice shimmerDevice, ShimmerBluetoothManager bluetoothManager) {
     public void initialize() {
 
         cloneDevice = shimmerDevice.deepClone();
@@ -61,9 +60,7 @@ public abstract class AbstractSensorConfigDialog {
             }
         }
         dialogHeight = 0;
-        //Box[] box = Box.createVerticalBox();
 
-        //Remove keys for which ConfigOptionDetailsSensor is null to avoid runtime errors:
         List<String> keysToRemove = new ArrayList<String>();
 
         for (String key : listOfKeys) {
@@ -73,7 +70,6 @@ public abstract class AbstractSensorConfigDialog {
             }
         }
 
-        //If filter is enabled, add those filter keys to the list of keys to remove as well:
         if (mEnableFilter == true && keysToFilter != null) {
             keysToRemove.addAll(keysToFilter);
         }
@@ -88,7 +84,6 @@ public abstract class AbstractSensorConfigDialog {
             if (cods != null) {
                 String[] cs = cods.getGuiValues();
 
-                //System.out.println("For key: " + key + " configValue is: " + cloneDevice.getConfigValueUsingConfigLabel(key));
 
 
                 createLabel(key);
@@ -112,7 +107,6 @@ public abstract class AbstractSensorConfigDialog {
                         createEditText(key, true);
                     }
                 }
-                //scrollPane.add(box);
 
             }
         }

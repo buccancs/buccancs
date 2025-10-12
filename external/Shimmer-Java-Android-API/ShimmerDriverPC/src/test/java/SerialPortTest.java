@@ -6,7 +6,6 @@ public class SerialPortTest {
     public static final byte START_STREAMING_COMMAND = (byte) 0x07;
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
         SerialPort SerialPort = new SerialPort("COM46");
         int packetSize = 23; //LN Accel + EXG TEST SIGNAL Using L&S0.11
@@ -17,10 +16,8 @@ public class SerialPortTest {
             SerialPort.writeByte((byte) START_STREAMING_COMMAND);
             SerialPort.readBytes(1, 2000);
         } catch (SerialPortException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (SerialPortTimeoutException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -36,7 +33,6 @@ public class SerialPortTest {
                     System.out.println(j + " SPEException");
                     e.printStackTrace();
                 } catch (SerialPortTimeoutException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                     System.out.println(j + " TimeoutException");
                     break;

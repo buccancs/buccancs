@@ -71,7 +71,6 @@ public abstract class AnimatedViewPortJob extends ViewPortJob implements ValueAn
         try {
             recycleSelf();
         } catch (IllegalArgumentException e) {
-            // don't worry about it.
         }
     }
 
@@ -80,7 +79,6 @@ public abstract class AnimatedViewPortJob extends ViewPortJob implements ValueAn
         try {
             recycleSelf();
         } catch (IllegalArgumentException e) {
-            // don't worry about it.
         }
     }
 

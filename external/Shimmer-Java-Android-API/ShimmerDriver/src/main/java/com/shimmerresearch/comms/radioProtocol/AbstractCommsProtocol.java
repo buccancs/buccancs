@@ -129,12 +129,8 @@ public abstract class AbstractCommsProtocol {
     public void writeMem(int command, int startAddress, byte[] buf, int maxMemAddress) {
         this.mNumOfMemSetCmds = 0;
 
-//		if(this.getFirmwareVersionCode()>=6){
         int address = startAddress;
         if (buf.length > (maxMemAddress - address + 1)) {
-//				err = ErrorCodesShimmerUart.SHIMMERUART_INFOMEM_WRITE_BUFFER_EXCEEDS_INFO_RANGE;
-//				DockException de = new DockException(mDockID,mSlotNumber,ErrorCodesShimmerUart.SHIMMERUART_CMD_ERR_INFOMEM_SET ,ErrorCodesShimmerUart.SHIMMERUART_INFOMEM_WRITE_BUFFER_EXCEEDS_INFO_RANGE);
-//				throw(de);
         } else {
             int currentStartAddr = startAddress;
             int currentPacketNumBytes;
@@ -159,17 +155,13 @@ public abstract class AbstractCommsProtocol {
                 currentBytePointer += currentPacketNumBytes;
             }
         }
-//		}
 
     }
 
     public void readMem(int command, int address, int size, int maxMemAddress) {
-//		if(this.getFirmwareVersionCode()>=6){
         mMapOfMemReadDetails.put(command, new MemReadDetails(command, address, size, maxMemAddress));
 
         if (size > (maxMemAddress - address + 1)) {
-//				DockException de = new DockException(mDockID,mSlotNumber,ErrorCodesShimmerUart.SHIMMERUART_CMD_ERR_INFOMEM_GET ,ErrorCodesShimmerUart.SHIMMERUART_INFOMEM_READ_REQEST_EXCEEDS_INFO_RANGE);
-//				throw(de);
         } else {
             int maxBytesRXed = 128;
             int numBytesRemaining = size;
@@ -191,9 +183,7 @@ public abstract class AbstractCommsProtocol {
                 numBytesRemaining -= currentPacketNumBytes;
                 currentStartAddr += currentPacketNumBytes;
             }
-//				utilDock.consolePrintLn(mDockID + " - InfoMem Configuration Read = SUCCESS");
         }
-//		}
     }
 
     protected void clearMemReadBuffers() {

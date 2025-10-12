@@ -209,7 +209,6 @@ public class ImageThreadTC extends Thread {
                     imageDst = grayData;
                 } else if (typeAi == TYPE_AI_D) {
                     int firstTime = 0;
-                    //静态闯入算法
                     if (firstFrame == null || firstTemp == null) {
                         firstFrame = new byte[imageDst.length];
                         firstTemp = new byte[temperatureSrc.length];
@@ -233,7 +232,6 @@ public class ImageThreadTC extends Thread {
                                 Log.e("静态闯入异常：", e.getMessage());
                             }
                         } else {
-                            //相似度不同，则代表手机抖动
                             System.arraycopy(imageDst, 0, firstFrame, 0, imageDst.length);
                             System.arraycopy(temperatureSrc, 0, firstTemp, 0, temperatureSrc.length);
                         }
@@ -245,7 +243,6 @@ public class ImageThreadTC extends Thread {
                             (rotateInt == 270 || rotateInt == 90) ? imageWidth : imageHeight,
                             amplifyRotateArray);
                 }
-//                    Log.e("图像总处理耗时：", String.valueOf(System.currentTimeMillis() - startImageTime));
             }
 
             synchronized (syncimage.viewLock) {

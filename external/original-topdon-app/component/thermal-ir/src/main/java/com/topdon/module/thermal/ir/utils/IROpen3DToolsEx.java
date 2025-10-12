@@ -34,7 +34,6 @@ public class IROpen3DToolsEx extends IROpen3DTools {
         img.convertTo(gray_image, CV_8UC1);
         image = new Mat();
         applyColorMap(gray_image, image, 15);
-//        image = psuColor(gray_image,type);
         halfx = (float) rws / 2;
         halfy = (float) cls / 2;
     }

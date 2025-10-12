@@ -30,7 +30,6 @@ public class LSL {
                 inst = (dll) Native.load((Platform.is64Bit() ? "liblsl64.dylib" : "liblsl32.dylib"), dll.class);
                 break;
             case Platform.ANDROID:
-                // For JNA <= 5.1.0
                 System.setProperty("jna.nosys", "false");
                 inst = (dll) Native.load("lsl", dll.class);
                 break;
@@ -68,18 +67,12 @@ public class LSL {
     }
 
 
-    // ==========================
-    // === Stream Declaration ===
-    // ==========================
 
     public static StreamInfo[] resolve_streams() {
         return resolve_streams(1.0);
     }
 
 
-    // =======================
-    // ==== Stream Outlet ====
-    // =======================
 
         public static StreamInfo[] resolve_stream(String prop, String value, int minimum, double timeout) {
         Pointer[] buf = new Pointer[1024];
@@ -91,9 +84,6 @@ public class LSL {
     }
 
 
-    // ===========================
-    // ==== Resolve Functions ====
-    // ===========================
 
     public static StreamInfo[] resolve_stream(String prop, String value, int minimum) {
         return resolve_stream(prop, value, minimum, FOREVER);
@@ -470,10 +460,6 @@ public class LSL {
         }
 
 
-        // ========================
-        // === Core Information ===
-        // ========================
-        // (these fields are assigned at construction)
 
                 public void destroy() {
             inst.lsl_destroy_streaminfo(obj);
@@ -500,10 +486,6 @@ public class LSL {
         }
 
 
-        // ======================================
-        // === Additional Hosting Information ===
-        // ======================================
-        // (these fields are implicitly assigned once bound to an outlet/inlet)
 
                 public String source_id() {
             return inst.lsl_get_source_id(obj);
@@ -525,9 +507,6 @@ public class LSL {
             return inst.lsl_get_session_id(obj);
         }
 
-        // ========================
-        // === Data Description ===
-        // ========================
 
                 public String hostname() {
             return inst.lsl_get_hostname(obj);
@@ -547,9 +526,6 @@ public class LSL {
     }
 
 
-    // ======================
-    // ==== Stream Inlet ====
-    // ======================
 
         public static class StreamOutlet {
         private Pointer obj;
@@ -570,9 +546,6 @@ public class LSL {
         }
 
 
-        // ========================================
-        // === Pushing a sample into the outlet ===
-        // ========================================
 
                 public void close() {
             inst.lsl_destroy_outlet(obj);
@@ -647,9 +620,6 @@ public class LSL {
         }
 
 
-        // ===============================================================
-        // === Pushing an chunk of multiplexed samples into the outlet ===
-        // ===============================================================
 
         public void push_sample(String[] data) {
             inst.lsl_push_sample_str(obj, data);
@@ -772,9 +742,6 @@ public class LSL {
         }
 
 
-        // ===============================
-        // === Miscellaneous Functions ===
-        // ===============================
 
         public void push_chunk(String[] data, double[] timestamps) {
             inst.lsl_push_chunk_strtn(obj, data, data.length, timestamps);
@@ -794,9 +761,6 @@ public class LSL {
     }
 
 
-    // =====================
-    // ==== XML Element ====
-    // =====================
 
         public static class StreamInlet {
         private Pointer obj;
@@ -857,9 +821,6 @@ public class LSL {
             return res;
         }
 
-        // =======================================
-        // === Pulling a sample from the inlet ===
-        // =======================================
 
         public double time_correction() throws Exception {
             return time_correction(FOREVER);
@@ -928,9 +889,6 @@ public class LSL {
         }
 
 
-        // =============================================================
-        // === Pulling a chunk of multiplexed samples from the inlet ===
-        // =============================================================
 
         public double pull_sample(String[] sample) throws Exception {
             return pull_sample(sample, FOREVER);
@@ -1012,14 +970,10 @@ public class LSL {
     }
 
 
-    // ===========================
-    // === Continuous Resolver ===
-    // ===========================
 
         public static class XMLElement {
         private Pointer obj;
 
-        // === Tree Navigation ===
 
         public XMLElement(Pointer handle) {
             obj = handle;
@@ -1042,7 +996,6 @@ public class LSL {
         }
 
 
-        // === Tree Navigation by Name ===
 
                 public XMLElement parent() {
             return new XMLElement(inst.lsl_parent(obj));
@@ -1057,7 +1010,6 @@ public class LSL {
         }
 
 
-        // === Content Queries ===
 
                 public XMLElement previous_sibling(String name) {
             return new XMLElement(inst.lsl_previous_sibling_n(obj, name));
@@ -1084,7 +1036,6 @@ public class LSL {
         }
 
 
-        // === Modification ===
 
                 public String child_value(String name) {
             return (inst.lsl_child_value_n(obj, name));
@@ -1136,9 +1087,6 @@ public class LSL {
     }
 
 
-    // =======================
-    // === Exception Types ===
-    // =======================
 
         public static class ContinuousResolver {
         private Pointer obj; // the underlying native handle

@@ -46,13 +46,10 @@ import static com.shimmerresearch.android.guiUtilities.ShimmerBluetoothDialog.EX
 public class MainActivity extends AppCompatActivity {
 
     final static String LOG_TAG = "BluetoothManagerExample";
-    // Create a BroadcastReceiver for ACTION_FOUND.
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                // Discovery has found a device. Get the BluetoothDevice
-                // object and its info from the Intent.
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
@@ -80,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
                         ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
-                        //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
                         FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
@@ -168,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-// Register for broadcasts when a device is discovered.
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter);
     }
@@ -202,14 +197,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Don't forget to unregister the ACTION_FOUND receiver.
         unregisterReceiver(receiver);
     }
 
     @Override
     protected void onStart() {
         /*
-        //Connect the Shimmer using its Bluetooth Address
         try {
             btManager.connectShimmerThroughBTAddress(shimmerBtAdd);
         } catch (Exception e) {
@@ -223,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        //Disconnect the Shimmer device when app is stopped
         if (shimmerDevice != null) {
             if (shimmerDevice.isSDLogging()) {
                 shimmerDevice.stopSDLogging();
@@ -279,7 +271,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (shimmerDevice != null) {
             if (!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
-                //ShimmerDialogConfigurations.buildShimmerSensorEnableDetails(shimmerDevice, MainActivity.this);
                 ShimmerDialogConfigurations.buildShimmerSensorEnableDetails(shimmerDevice, MainActivity.this, btManager);
             } else {
                 Log.e(LOG_TAG, "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING");
@@ -327,7 +318,6 @@ public class MainActivity extends AppCompatActivity {
                 btManager.disconnectAllDevices();   //Disconnect all devices first
                 shimmerDevice = null;
                 showBtTypeConnectionOption();
-                //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
                 btManager.connectShimmerThroughBTAddress(macAdd, deviceName, preferredBtType);   //Connect to the selected device

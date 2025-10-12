@@ -1,5 +1,4 @@
 package com.shimmerresearch.tcpServer;
-//TCPServer.java
 
 import java.io.*;
 import java.net.*;
@@ -35,30 +34,15 @@ class TCPServerWP {
                 if (length > 0) {
                     byte[] message = new byte[length];
                     dIn.readFully(message, 0, message.length); // read the message
-//							ByteArrayInputStream bais = new ByteArrayInputStream(message);
-//							ObjectInputStream ois = new ObjectInputStream(bais);
 
-//							System.currentTimeMillis()
 
-                    //utilShimmer.consolePrintLn(UtilShimmer.bytesToHexStringWithSpacesFormatted(message));
                     time_curr = System.currentTimeMillis();
                     System.out.println("+" + (time_curr - time_last) + ": received " + length + " bytes from" +
                             connected.getInetAddress());
 
                     time_last = time_curr;
 
-//							ObjectCluster rxojc =  (ObjectCluster) ois.readObject();
-//							
-//							Collection<FormatCluster> accelXFormats = rxojc.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X);
-//							FormatCluster formatCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(accelXFormats,"CAL")); 
-//							double x=formatCluster.mData;
-//							Collection<FormatCluster> accelYFormats = rxojc.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_Y);
-//							formatCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(accelYFormats,"CAL")); 
-//							double y=formatCluster.mData;
-//							Collection<FormatCluster> accelZFormats = rxojc.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_Z);
-//							formatCluster = ((FormatCluster)ObjectCluster.returnFormatCluster(accelZFormats,"CAL")); 
-//							double z=formatCluster.mData;
-//							System.out.print(rxojc.getShimmerName() + "\t"+ Double.toString(x) + "\t"+ Double.toString(y) + "\t"+ Double.toString(z) + "\n");
+//
 
 
                     System.out.println("bytes rx  = " + length_total);

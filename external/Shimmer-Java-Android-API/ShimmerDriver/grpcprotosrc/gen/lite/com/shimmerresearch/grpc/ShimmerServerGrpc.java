@@ -21,7 +21,6 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 public class ShimmerServerGrpc {
 
     public static final String SERVICE_NAME = "shimmerGRPC.ShimmerServer";
-    // Static method descriptors that strictly reflect the proto.
     @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
     public static final io.grpc.MethodDescriptor<com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest,
             com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> METHOD_SAY_HELLO =

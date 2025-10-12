@@ -23,7 +23,6 @@ public class DefaultAxisValueFormatter extends ValueFormatter {
 
     @Override
     public String getFormattedValue(float value) {
-        // avoid memory allocations here (for performance)
         return mFormat.format(value);
     }
 

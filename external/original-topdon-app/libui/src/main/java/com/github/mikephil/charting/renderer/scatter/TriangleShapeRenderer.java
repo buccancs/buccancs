@@ -27,7 +27,6 @@ public class TriangleShapeRenderer implements IShapeRenderer {
 
         renderPaint.setStyle(Paint.Style.FILL);
 
-        // create a triangle path
         Path tri = mTrianglePathBuffer;
         tri.reset();
 

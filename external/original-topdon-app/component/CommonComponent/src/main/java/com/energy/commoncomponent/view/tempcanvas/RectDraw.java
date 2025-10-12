@@ -90,7 +90,6 @@ public class RectDraw extends BaseDraw {
                 boolean hasSame = false;
                 for (int i = 0; i < mRectList.size(); i++) {
                     if (mRectList.get(i).getLabel().equals(newLabel)) {
-                        //存在一样的
                         hasSame = true;
                         Log.d(TAG, "addRect is same");
                         break;
@@ -343,7 +342,6 @@ public class RectDraw extends BaseDraw {
         canvas.rotate(mScreenDegree, rectView.mMovingLeft + (rectView.mMovingRight - rectView.mMovingLeft) / 2,
                 rectView.mMovingTop + (rectView.mMovingBottom - rectView.mMovingTop) / 2);
 
-        //label中心点
         RectF tempRectF = new RectF();
 
         tempRectF.top = rectView.mMovingTop + (float) (rectView.mMovingBottom - rectView.mMovingTop) / 2;
@@ -362,12 +360,10 @@ public class RectDraw extends BaseDraw {
         float right = rectF.right + rectWidth / 2;
         float top = rectF.top;
         float bottom = rectF.bottom;
-        //左侧超出
         if (left < 0) {
             left = 0;
             right = rectWidth;
         }
-        //右侧超出
         if (right > mViewWidth) {
             left = mViewWidth - rectWidth;
             right = mViewWidth;

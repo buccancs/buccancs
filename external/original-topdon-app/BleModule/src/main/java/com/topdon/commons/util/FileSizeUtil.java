@@ -59,7 +59,6 @@ public class FileSizeUtil {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("bcf获取文件大小--getFilesSize-2-获取失败!");
-//            Log.e("获取文件大小", "getFilesSize-2-获取失败!");
         }
         return blockSize;
     }
@@ -109,7 +108,6 @@ public class FileSizeUtil {
             }
         } catch (Exception e) {
             System.out.println("bcf获取文件大小--getFilesSize-5-获取失败!");
-//            Log.e("获取文件大小", "getFileSize-5-获取失败!");
             e.printStackTrace();
         } finally {
             if (fc != null) {

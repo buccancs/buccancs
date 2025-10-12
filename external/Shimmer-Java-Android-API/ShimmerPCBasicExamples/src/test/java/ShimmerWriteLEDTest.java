@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 public class ShimmerWriteLEDTest extends BasicProcessWithCallBack {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
         ShimmerPC mShimmer = new ShimmerPC("ShimmerDevice", true);
 
@@ -43,9 +42,7 @@ public class ShimmerWriteLEDTest extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -56,9 +53,7 @@ public class ShimmerWriteLEDTest extends BasicProcessWithCallBack {
             if (callbackObject.mState == BT_STATE.CONNECTING) {
 
             } else if (callbackObject.mState == BT_STATE.CONNECTED) {
-                //System.out.println("Connected");
             } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-//					|| callbackObject.mState == BT_STATE.NONE
                     || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
                 System.out.println("Shimmer DISCONNECTED or CONNECTION LOST");
             }

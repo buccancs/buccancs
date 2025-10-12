@@ -20,7 +20,6 @@ import jssc.SerialPort;
 public class VerisenseUSBDeviceTest {
 
     SerialPortByteCommunication radio1 = new SerialPortByteCommunication(new SerialPortCommJssc("COM4", "COM4", SerialPort.BAUDRATE_115200));
-    //BleRadioByteCommunication radio1 = new BleRadioByteCommunication("00001800-0000-1000-8000-00805f9b34fb", "bleconsoleapp\\BLEConsoleApp1.exe");
     SerialPortByteCommunication radio2 = new SerialPortByteCommunication(new SerialPortCommJssc("COM4", "COM4", SerialPort.BAUDRATE_115200));
     VerisenseProtocolByteCommunication protocol1 = new VerisenseProtocolByteCommunication(radio1);
     VerisenseProtocolByteCommunication protocol2 = new VerisenseProtocolByteCommunication(radio2);
@@ -31,10 +30,7 @@ public class VerisenseUSBDeviceTest {
         VerisenseUSBDeviceTest test = new VerisenseUSBDeviceTest();
         test.initialize();
 
-        // connect
 
-        // System.out.println(p);
-        // p.destroy();
     }
 
     public void initialize() {
@@ -50,7 +46,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol1.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -64,7 +59,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol1.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -78,7 +72,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol1.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -92,7 +85,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol1.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -106,7 +98,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol2.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -120,7 +111,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol2.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -134,7 +124,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol2.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -148,7 +137,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol2.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -162,7 +150,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol1.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -176,7 +163,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol1.stopStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -191,7 +177,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol2.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -205,7 +190,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol2.stopStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -219,7 +203,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol1.readOperationalConfig();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -233,7 +216,6 @@ public class VerisenseUSBDeviceTest {
                 try {
                     protocol2.readOperationalConfig();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }

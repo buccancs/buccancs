@@ -39,7 +39,6 @@ public class grpctest {
     public static String byteArrayToHexString(byte[] byteArray) {
         StringBuilder hexString = new StringBuilder();
         for (byte b : byteArray) {
-            // Convert each byte to a two-digit hexadecimal representation
             hexString.append(String.format("%02X", b));
         }
         return hexString.toString();
@@ -55,13 +54,10 @@ public class grpctest {
         JButton btnNewButton = new JButton("Hello");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Create a request message
                 Request request = Request.newBuilder().setName("John").build();
 
-                // Call the remote gRPC service method
                 Reply response = blockingStub.sayHello(request);
 
-                // Process the response
                 System.out.println("Received: " + response.getMessage());
             }
         });
@@ -81,7 +77,6 @@ public class grpctest {
 
                         @Override
                         public void onNext(ObjectClusterByteArray value) {
-                            // TODO Auto-generated method stub
                             if (value.getSystemTime() % 1000 == 0) {
                                 long nt = System.currentTimeMillis();
                                 System.out.println(value.getBluetoothAddress() + "  elapsed time:" + (nt - ct1) + " Packet Number: " + value.getSystemTime() + " values : " + byteArrayToHexString(value.getBinaryData().toByteArray()));
@@ -91,13 +86,11 @@ public class grpctest {
 
                         @Override
                         public void onError(Throwable t) {
-                            // TODO Auto-generated method stub
                             System.out.println("error");
                         }
 
                         @Override
                         public void onCompleted() {
-                            // TODO Auto-generated method stub
                             System.out.println("completed");
                         }
                     };
@@ -109,7 +102,6 @@ public class grpctest {
 
                         @Override
                         public void onNext(ObjectClusterByteArray value) {
-                            // TODO Auto-generated method stub
                             if (value.getSystemTime() % 1000 == 0) {
                                 long nt = System.currentTimeMillis();
                                 System.out.println(value.getBluetoothAddress() + "  elapsed time:" + (nt - ct2) + " Packet Number: " + value.getSystemTime() + " values : " + byteArrayToHexString(value.getBinaryData().toByteArray()));
@@ -119,13 +111,11 @@ public class grpctest {
 
                         @Override
                         public void onError(Throwable t) {
-                            // TODO Auto-generated method stub
                             System.out.println("error");
                         }
 
                         @Override
                         public void onCompleted() {
-                            // TODO Auto-generated method stub
                             System.out.println("completed");
                         }
                     };
@@ -138,7 +128,6 @@ public class grpctest {
 
                         @Override
                         public void onNext(ObjectClusterByteArray value) {
-                            // TODO Auto-generated method stub
                             if (value.getSystemTime() % 1000 == 0) {
                                 long nt = System.currentTimeMillis();
                                 System.out.println(value.getBluetoothAddress() + "  elapsed time:" + (nt - ct3) + " Packet Number: " + value.getSystemTime() + " values : " + byteArrayToHexString(value.getBinaryData().toByteArray()));
@@ -148,13 +137,11 @@ public class grpctest {
 
                         @Override
                         public void onError(Throwable t) {
-                            // TODO Auto-generated method stub
                             System.out.println("error");
                         }
 
                         @Override
                         public void onCompleted() {
-                            // TODO Auto-generated method stub
                             System.out.println("completed");
                         }
                     };
@@ -167,7 +154,6 @@ public class grpctest {
 
                         @Override
                         public void onNext(ObjectClusterByteArray value) {
-                            // TODO Auto-generated method stub
                             if (value.getSystemTime() % 1000 == 0) {
                                 long nt = System.currentTimeMillis();
                                 System.out.println(value.getBluetoothAddress() + "  elapsed time:" + (nt - ct4) + " Packet Number: " + value.getSystemTime() + " values : " + byteArrayToHexString(value.getBinaryData().toByteArray()));
@@ -177,13 +163,11 @@ public class grpctest {
 
                         @Override
                         public void onError(Throwable t) {
-                            // TODO Auto-generated method stub
                             System.out.println("error");
                         }
 
                         @Override
                         public void onCompleted() {
-                            // TODO Auto-generated method stub
                             System.out.println("completed");
                         }
                     };
@@ -192,8 +176,6 @@ public class grpctest {
                 } catch (StatusRuntimeException se) {
                     System.err.println("RPC failed: " + se.getStatus());
                 } finally {
-                    // Shutdown the channel when done
-//			            channel.shutdown();
                 }
             }
         });
@@ -203,37 +185,26 @@ public class grpctest {
         JButton button_1 = new JButton("Connect");
         button_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Create a request message
-                //E8EB1B713E36
-                //e7452c6d6f14
                 Request request = Request.newBuilder().setName("E8EB1B713E36").build();
 
-                // Call the remote gRPC service method
-                //Reply response = blockingStub.connectShimmer(request);
 
-                // Process the response
-                //System.out.println("Received: " + response.getMessage());
 
                 ShimmerBLEByteServerGrpc.ShimmerBLEByteServerStub stub = ShimmerBLEByteServerGrpc.newStub(channel);
-                //Request request = Request.newBuilder().setName(mMacAddress).build();
 
                 StreamObserver<StateStatus> responseObserverState = new StreamObserver<StateStatus>() {
 
                     @Override
                     public void onNext(StateStatus value) {
-                        // TODO Auto-generated method stub
 
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        // TODO Auto-generated method stub
 
                     }
 
                     @Override
                     public void onCompleted() {
-                        // TODO Auto-generated method stub
 
                     }
 
@@ -249,13 +220,10 @@ public class grpctest {
         JButton btnNewButton_1 = new JButton("Disconnect");
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Create a request message
                 Request request = Request.newBuilder().setName("E8EB1B713E36").build();
 
-                // Call the remote gRPC service method
                 Reply response = blockingStub.disconnectShimmer(request);
 
-                // Process the response
                 System.out.println("Received: " + response.getMessage());
             }
         });
@@ -266,37 +234,26 @@ public class grpctest {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                // Create a request message
-                //E8EB1B713E36
-                //e7452c6d6f14
                 Request request = Request.newBuilder().setName("e7452c6d6f14").build();
 
-                // Call the remote gRPC service method
-                //Reply response = blockingStub.connectShimmer(request);
 
-                // Process the response
-                //System.out.println("Received: " + response.getMessage());
 
                 ShimmerBLEByteServerGrpc.ShimmerBLEByteServerStub stub = ShimmerBLEByteServerGrpc.newStub(channel);
-                //Request request = Request.newBuilder().setName(mMacAddress).build();
 
                 StreamObserver<StateStatus> responseObserverState = new StreamObserver<StateStatus>() {
 
                     @Override
                     public void onNext(StateStatus value) {
-                        // TODO Auto-generated method stub
 
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        // TODO Auto-generated method stub
 
                     }
 
                     @Override
                     public void onCompleted() {
-                        // TODO Auto-generated method stub
 
                     }
 
@@ -310,13 +267,10 @@ public class grpctest {
         JButton button_2 = new JButton("Disconnect2");
         button_2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Create a request message
                 Request request = Request.newBuilder().setName("e7452c6d6f14").build();
 
-                // Call the remote gRPC service method
                 Reply response = blockingStub.disconnectShimmer(request);
 
-                // Process the response
                 System.out.println("Received: " + response.getMessage());
             }
         });
@@ -329,13 +283,10 @@ public class grpctest {
                 byte[] start = new byte[]{0x07};
 
 
-                // Create a request message
                 WriteBytes request = WriteBytes.newBuilder().setAddress("E8EB1B713E36").setByteToWrite(ByteString.copyFrom(start)).build();
 
-                // Call the remote gRPC service method
                 Reply response = blockingStub.writeBytesShimmer(request);
 
-                // Process the response
                 System.out.println("Received: " + response.getMessage());
             }
         });
@@ -352,7 +303,6 @@ public class grpctest {
 
                     @Override
                     public void onNext(ObjectClusterByteArray value) {
-                        // TODO Auto-generated method stub
                         long nt = System.currentTimeMillis();
                         System.out.println(value.getBluetoothAddress() + "  elapsed time:" + (nt - ct1) + " Time Stamp: " + value.getSystemTime() + " values : " + byteArrayToHexString(value.getBinaryData().toByteArray()));
                         ct1 = nt;
@@ -360,13 +310,11 @@ public class grpctest {
 
                     @Override
                     public void onError(Throwable t) {
-                        // TODO Auto-generated method stub
                         System.out.println("error");
                     }
 
                     @Override
                     public void onCompleted() {
-                        // TODO Auto-generated method stub
                         System.out.println("completed");
                     }
                 };
@@ -376,15 +324,12 @@ public class grpctest {
         });
         btnNewButton_3.setBounds(10, 142, 89, 23);
         frame.getContentPane().add(btnNewButton_3);
-        // Define the server host and port
         String serverHost = "localhost";
         int serverPort = 50052;
 
-        // Create a channel to connect to the server
         channel = ManagedChannelBuilder.forAddress(serverHost, serverPort)
                 .usePlaintext() // Use plaintext communication (insecure for testing)
                 .build();
-        // Create a gRPC client stub
         blockingStub = ShimmerBLEByteServerGrpc.newBlockingStub(channel);
         channel1 = ManagedChannelBuilder.forAddress(serverHost, serverPort)
                 .usePlaintext() // Use plaintext communication (insecure for testing)

@@ -51,9 +51,7 @@ public class ShimmerException extends ExecutionException {
     }
 
     public static void addToMapOfErrorCodes(Map<Integer, String> mapOfErrorCodes) {
-//		System.out.println("Adding to ErrorMap.\t Was size = " + mMapOfErrorCodes.size());
         mMapOfErrorCodes.putAll(mapOfErrorCodes);
-//		System.out.println("Adding to ErrorMap.\t Now size = " + mMapOfErrorCodes.size());
     }
 
     public static void addToMapOfErrorCodes(List<Map<Integer, String>> errorMapsToLoad) {
@@ -70,9 +68,6 @@ public class ShimmerException extends ExecutionException {
         String errorString = "";
 
         String id = mUniqueID;
-//		if(mSlotNumber == -1) {
-//			id = mDockID;
-//		}
         String errorCode = "Unknown Error";
         String lowLevelErrorCode = "Unknown Error";
         if (mapOfErrorCodes != null) {

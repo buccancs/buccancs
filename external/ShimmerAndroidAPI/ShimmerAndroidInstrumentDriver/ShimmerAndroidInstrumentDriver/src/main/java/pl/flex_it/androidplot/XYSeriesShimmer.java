@@ -1,4 +1,3 @@
-//Rev 0.2
 
 package pl.flex_it.androidplot;
 

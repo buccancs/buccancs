@@ -11,8 +11,6 @@ import com.shimmerresearch.verisense.communication.SyncProgressDetails;
 
 public class ShimmerDeviceCallbackAdapter implements Serializable {
 
-    //TODO needs testing/development - when true, sometimes the first reception value is isn't being sent to the GUI
-    //only send update if there is a change to reduce callbacks
     public static final boolean ONLY_UPDATE_RATE_IF_CHANGED = false;
     private static final long serialVersionUID = -3826489309767259792L;
     public double mLastSentPacketReceptionRateOverall = ShimmerDevice.DEFAULT_RECEPTION_RATE;
@@ -31,24 +29,19 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
     }
 
     public void setBluetoothRadioState(BT_STATE connectionState, boolean isChanged) {
-//		boolean isChanged = shimmerDevice.setBluetoothRadioState(connectionState);
 
         if (connectionState == BT_STATE.CONNECTED
                 || connectionState == BT_STATE.STREAMING) {
-//				|| connectionState==BT_STATE.RECORDING){
             mShimmerDevice.setIsConnected(true);
             mShimmerDevice.setIsInitialised(true);
 
             if (connectionState == BT_STATE.STREAMING) {
-//					|| connectionState==BT_STATE.RECORDING){
                 mShimmerDevice.setIsStreaming(true);
             } else {
                 mShimmerDevice.setIsStreaming(false);
             }
 
-//			if(btState==BT_STATE.RECORDING){
-//				
-//			}
+//
         } else if ((connectionState == BT_STATE.DISCONNECTED)
                 || (connectionState == BT_STATE.CONNECTION_LOST)
                 || (connectionState == BT_STATE.CONNECTION_FAILED)) {
@@ -64,7 +57,6 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
             mShimmerDevice.sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, callBackObject);
         }
 
-//		return changed;
     }
 
     public void isReadyForStreaming() {
@@ -83,7 +75,6 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
             try {
                 mShimmerDevice.startStreaming();
             } catch (ShimmerException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -110,7 +101,6 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
     }
 
     public void hasStopStreaming() {
-        // Send a notification msg to the UI through a callback (use a msg identifier notification message)
         CallbackObject callBackObject = new CallbackObject(ShimmerBluetooth.NOTIFICATION_SHIMMER_STOP_STREAMING, getMacId(), getComPort());
         mShimmerDevice.sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_NOTIFICATION_MESSAGE, callBackObject);
         if (mShimmerDevice.isSDLogging()) {
@@ -126,11 +116,9 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
     }
 
     public void isNowStreaming() {
-        // Send a notification msg to the UI through a callback (use a msg identifier notification message)
         CallbackObject callBackObject = new CallbackObject(ShimmerBluetooth.NOTIFICATION_SHIMMER_START_STREAMING, getMacId(), getComPort());
         mShimmerDevice.sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_NOTIFICATION_MESSAGE, callBackObject);
 
-        //shimmerDevice.setBluetoothRadioState(BT_STATE.STREAMING);
         if (mShimmerDevice.isSDLogging()) {
             mShimmerDevice.setBluetoothRadioState(BT_STATE.STREAMING_AND_SDLOGGING);
         } else {
@@ -144,11 +132,9 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
     }
 
 
-    //Is this needed? just go straight to isReadyForStreaming()?
     public void inquiryDone() {
         CallbackObject callBackObject = new CallbackObject(ShimmerBluetooth.NOTIFICATION_SHIMMER_STATE_CHANGE, mShimmerDevice.getBluetoothRadioState(), getMacId(), getComPort());
         mShimmerDevice.sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, callBackObject);
-//		mShimmerDevice.isReadyForStreaming();
     }
 
     public void batteryStatusChanged() {
@@ -158,7 +144,6 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
 
 
     public void dataHandler(ObjectCluster ojc) {
-        //TODO, don't do this every data packet
         sendCallbackPacketReceptionRateOverall();
 
         mShimmerDevice.sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET, ojc);
@@ -199,7 +184,6 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
     public void sendProgressReport(BluetoothProgressReportPerCmd pRPC) {
         if (progressReportPerDevice != null) {
             progressReportPerDevice.updateProgress(pRPC);
-            //int progress = progressReportPerDevice.mProgressPercentageComplete;
 
             sendNewCallbackObjectProgressPerDevice(progressReportPerDevice);
 
@@ -208,15 +192,7 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
                     + "\tProgressCounter" + progressReportPerDevice.mProgressCounter
                     + "\tProgressEndValue " + progressReportPerDevice.mProgressEndValue);
 
-            // From Shimmer4/SweatchDevice/Arduino but shouldn't be needed here as it's a bit of a hack
-//			if(progressReportPerDevice.mCurrentOperationBtState==BT_STATE.CONNECTING){
-//				if(progressReportPerDevice.mProgressCounter==progressReportPerDevice.mProgressEndValue){
-//					isReadyForStreaming();
-//				}
-//			}
 
-            //From ShimmerPC
-            //TODO 2018-02-26 MN: does this need to be accounted for in other devices or is it needed at all here
             if (mShimmerDevice instanceof ShimmerBluetooth) {
                 if (progressReportPerDevice.mProgressCounter == progressReportPerDevice.mProgressEndValue) {
                     finishOperation(progressReportPerDevice.mCurrentOperationBtState);
@@ -243,8 +219,6 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
 
                 progressReportPerDevice.finishOperation();
                 progressReportPerDevice.mOperationState = BluetoothProgressReportPerDevice.OperationState.SUCCESS;
-                //JC: moved operationFinished to is ready for streaming, seems to be called before the inquiry response is received
-                //TODO 2018-02-26 MN: does this need to be accounted for in other devices or is it needed at all here
                 if (mShimmerDevice instanceof ShimmerBluetooth) {
                     ShimmerBluetooth shimmerBluetooth = (ShimmerBluetooth) mShimmerDevice;
                     shimmerBluetooth.operationFinished();

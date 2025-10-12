@@ -66,10 +66,8 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
             return false;
         }
 
-        //Get last data segment from existing dataset
         DataSegmentDetails dataSegmentDetailsPrevious = previousDataSegmentList.get(previousDataSegmentList.size() - 1);
 
-        //Get first data block from new dataset
         List<DataBlockDetails> currentListOfDataBlocks = currentDataSegment.get(0).getListOfDataBlocks();
         DataBlockDetails nextDataBlockDetails = currentListOfDataBlocks.get(0);
 
@@ -99,14 +97,10 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
                 throw (e);
             }
 
-//			if (DEBUG_DATA_BLOCKS) {
-//				System.out.println(dataBlockDetails.generateDebugStr());
-//			}
 
             listOfDataBlocksInOrder.add(dataBlockDetails);
             setOfPayloadSensorIds.add(dataBlockDetails.datablockSensorId);
 
-            // Update byte offset as it's passed by value into "parseDataBlockMetaData"
             int dataBlockTotalSize = BYTE_COUNT.PAYLOAD_CONTENTS_GEN8_SENSOR_ID + BYTE_COUNT.PAYLOAD_CONTENTS_RTC_BYTES_TICKS + dataBlockDetails.qtySensorDataBytesInDatablock;
             currentByteIndexInPayload += dataBlockTotalSize;
 
@@ -123,10 +117,6 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
             rwcTimeTicks = VerisenseTimeDetails.parseTimeTicksAtIndex(byteBuffer, currentByteIndexInPayload);
             currentByteIndexInPayload += BYTE_COUNT.PAYLOAD_CONTENTS_RTC_BYTES_TICKS;
         } else {
-            // Use the ticks value from the last data block in the payload. This is
-            // appropriate if the payload is full but not if the payload was packaged early
-            // and hence the reason why the ticks were added back into the footer in FW
-            // v1.02.074.
             rwcTimeTicks = listOfDataBlocksInOrder.get(listOfDataBlocksInOrder.size() - 1).getTimeDetailsRwc().getEndTimeTicks();
         }
 
@@ -137,50 +127,30 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
             currentByteIndexInPayload = parseMicrocontrollerClockBytes(currentByteIndexInPayload);
         }
 
-        // --------- End of parsing ------------------
 
-        // Up to, and including, payload design v10, the real-world clock time that was
-        // stored in the payload footer was the real-world time at the end of the
-        // payload. From payload design v11 onwards, the real-world clock offset is
-        // stored instead. Additionally, the microcontroller ticks is stored per
-        // datablock instead of the real-world clock ticks/
         if (verisenseDevice.isPayloadDesignV11orAbove()) {
-            // 1) back fill microcontroller time values
             backfillDataBlockUcClockTimestamps();
-            // 2) Calculate the payload start time based on the microcontroller clock values stored in the earliest recorded data block
             calculatePayloadStartTimeMsUcClock();
 
-            // 3) apply real-world clock offset to all microcontroller clock values to set real-world clock times
             double rwcOffsetMs = SensorVerisenseClock.convertRtcMinutesAndTicksToMs(rwcTimeMinutes, rwcTimeTicks);
             getTimeDetailsRwc().setEndTimeMs(getTimeDetailsUcClock().getEndTimeMs() + rwcOffsetMs);
             applyRwcOffsetToDataBlockRwcClockTimestamps(rwcOffsetMs);
 
-            // 4) Calculate the payload start time based on the real-world clock values stored in the earliest recorded data block
             calculatePayloadStartTimeMsRwc();
         } else {
-            // 1) Set the payload real-world clock end time from minutes and ticks stored in the payload footer
             getTimeDetailsRwc().setEndTimeAndCalculateMs(rwcTimeMinutes, rwcTimeTicks);
-            // 2) Backfill the data block real-world clock start and end times
             backfillDataBlockRwcTimestamps();
-            // 3) Calculate the payload start time based on the real-world clock values stored in the earliest recorded data block
             calculatePayloadStartTimeMsRwc();
 
-            // The microcontroller time (a.k.a. time since boot or uC time) was added in
-            // payload design v10 onwards to help with RTC recovery. This section handles
-            // back-filling the start and end times for the microcontoller clock values
-            // stored in each of the datablocks
             if (verisenseDevice.isPayloadDesignV10orAbove()) {
-                // Use the payload duration (as previously calculated from the RWC time) to calculate the microcontroller start time.
                 VerisenseTimeDetails timeDetailsUcClock = getTimeDetailsUcClock();
                 timeDetailsUcClock.setStartTimeMs(timeDetailsUcClock.getEndTimeMs() - calculatePayloadDurationMs());
 
-                // Calculate the RWC offset that would be stored in the sensor when it's RTC has been set
                 double rwcOffsetMs = getTimeDetailsRwc().getEndTimeMs() - getTimeDetailsUcClock().getEndTimeMs();
                 applyRwcOffsetToDataBlockUcClockTimestamps(rwcOffsetMs);
             }
         }
 
-        // If midday/midnight transition detected within a payload, dive down deeper to find out where it is
         if (SPLIT_CSVS_AT_MIDDAY_AND_MIDNIGHT && UtilVerisenseDriver.isTransitionMidDayOrMidnight(getStartTimeRwcMs(), getEndTimeRwcMs())) {
             splitDataBlocksAtMiddayMidnight(listOfDataBlocksInOrder, verisenseDevice.getMapOfSensorIdsPerDataBlock().keySet());
         }
@@ -224,7 +194,6 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
         for (DATABLOCK_SENSOR_ID datablockSensorId : setOfSensorIds) {
             int dataBlockIndex = 0;
 
-            // Need to loop through all data blocks because there could be a midday/midnight transition for each sensor
             ListIterator<DataBlockDetails> iterator = listOfDataBlocks.listIterator();
             while (iterator.hasNext()) {
                 DataBlockDetails dataBlockDetails = iterator.next();
@@ -235,10 +204,8 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
                     DataBlockDetails dataBlockDetailsNext = searchForNextDatablockForDataBlockId(listOfDataBlocks, dataBlockIndex + 1, datablockSensorId);
 
                     if (dataBlockDetailsNext == null) {
-                        // check for sample-by-sample transition points within the last datablock
                         endTimeMsToCheck = dataBlockDetails.getEndTimeRwcMs();
                     } else {
-                        // Detect if a transition point between datablocks and then focus in on sample-by-sample transition point within the datablock
                         endTimeMsToCheck = dataBlockDetailsNext.getStartTimeRwcMs();
                     }
 
@@ -248,7 +215,6 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
                             iterator.add(dataBlockDetailsSplit);
                             aDataBlockWasSplitSampleBySample = true;
                         } else {
-                            // Midday/Midnight transition was not detected within a datablock, therefore it must be between two datablocks themselves.
                             if (dataBlockDetailsNext != null) {
                                 dataBlockDetailsNext.setFirstUnsplitDataBlockAfterMiddayMidnightTransition();
                             }
@@ -260,7 +226,6 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
 
         }
 
-        //Update the data block index number (purely for console prints)
         if (aDataBlockWasSplitSampleBySample) {
             for (int i = 0; i < listOfDataBlocks.size(); i++) {
                 listOfDataBlocks.get(i).setDataBlockIndexInPayload(i);
@@ -282,9 +247,6 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
 
         private DataBlockDetails checkAndSplitIndividualDataBlock(DataBlockDetails dataBlockDetailsOriginal, int dataBlockIndex) {
 
-        // Note, we have to calculate the timestamps here because the ObjectCluster
-        // arrays haven't been populated yet in this stage of the file parser flow -
-        // otherwise using those calculated values would be more efficient.
         double timestampDiffMs = dataBlockDetailsOriginal.getTimestampDiffInS() * 1000;
 
         double timestampMsCurrentRwc = dataBlockDetailsOriginal.getTimeDetailsRwc().getStartTimeMs();
@@ -316,11 +278,9 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
                 System.out.println("    |_Split1=" + dataBlockDetailsOriginal.generateDebugStr());
                 System.out.println("    |_Split2=" + dataBlockDetailsSplit.generateDebugStr());
 
-                // Safe to assume one midday/midnight transition per data block so return
                 return dataBlockDetailsSplit;
             }
 
-            // Increment for next loop
             timestampMsCurrentRwc += timestampDiffMs;
             timestampMsNextRwc += timestampDiffMs;
             if (verisenseDevice.isPayloadDesignV10orAbove()) {
@@ -356,7 +316,6 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
         long payloadEndTimeMinutes = payloadTimeDetails.getEndTimeMinutes();
         long payloadEndTimeTicks = payloadTimeDetails.getEndTimeTicks();
 
-        //Set minutes for last data block
         DataBlockDetails lastDataBlock = listOfDataBlocksInOrder.get(listOfDataBlocksInOrder.size() - 1);
         if (verisenseDevice.isPayloadDesignV9orAbove()) {
             long lastDataBlockMinutes = payloadEndTimeMinutes;
@@ -371,11 +330,9 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
                 lastDataBlock.setRwcEndTimeMinutesAndCalculateTimings(lastDataBlockMinutes);
             }
         } else {
-            // no need to check for UcClock vs. RWC here as payload designs <v9 don't have the capability of storing UcClock
             lastDataBlock.setRwcEndTimeMinutesAndCalculateTimings(payloadEndTimeMinutes);
         }
 
-        // Back-fill minute values for all data blocks
         if (listOfDataBlocksInOrder.size() > 1) {
             for (int i = listOfDataBlocksInOrder.size() - 2; i >= 0; i--) {
                 DataBlockDetails currentDataBlock = listOfDataBlocksInOrder.get(i);
@@ -386,7 +343,6 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
     }
 
     private void applyRwcOffsetToDataBlockUcClockTimestamps(double rwcOffsetMs) {
-        // Back-fill milliseconds values for all data blocks
         for (DataBlockDetails dataBlockDetails : listOfDataBlocksInOrder) {
             VerisenseTimeDetails dataBlockUcTimeDetailsUcClock = dataBlockDetails.getTimeDetailsUcClock();
             VerisenseTimeDetails dataBlockUcTimeDetailsRwcClock = dataBlockDetails.getTimeDetailsRwc();
@@ -397,7 +353,6 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
     }
 
     private void applyRwcOffsetToDataBlockRwcClockTimestamps(double rwcOffsetMs) {
-        // Back-fill milliseconds values for all data blocks
         for (DataBlockDetails dataBlockDetails : listOfDataBlocksInOrder) {
             VerisenseTimeDetails dataBlockUcTimeDetailsUcClock = dataBlockDetails.getTimeDetailsUcClock();
             VerisenseTimeDetails dataBlockUcTimeDetailsRwcClock = dataBlockDetails.getTimeDetailsRwc();
@@ -419,18 +374,12 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
                 }
                 DataBlockDetails dataBlockDetails = listOfDataBlocksInOrder.get(dataBlockIndex);
 
-                //Reset algorithms associated with the sensor class key if a time gap/overlap is detected
                 if (dataBlockDetails.isFirstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap()) {
-                    // We've chosen not to reset the gyro-on-the-fly for time gaps/overlaps in order
-                    // to carry the calibration parameters forward. This is effectively the same
-                    // thing that would be done when the file parser starts, the last previous gyro
-                    // calibration is loaded.
                     if (sensorClassKey != SENSORS.LSM6DS3 || RESET_GYRO_ON_THE_FLY_CALIB_DURING_TIME_GAPS) {
                         verisenseDevice.resetAlgorithmBuffersAssociatedWithSensor(sensorClassKey);
                     }
                 }
 
-                // Added offset for sensor ID byte and 3 bytes RTC ticks (as long as it's not the second half of a split datablock)
                 if (!dataBlockDetails.isSecondPartOfSplitDataBlock()) {
                     currentByteIndex += BYTE_COUNT.PAYLOAD_CONTENTS_GEN8_SENSOR_ID + BYTE_COUNT.PAYLOAD_CONTENTS_RTC_BYTES_TICKS;
                 }

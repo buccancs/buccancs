@@ -22,22 +22,14 @@ public class UtilParseData {
             return formattedData;
         }
 
-        //1) an if statement to change the order of the bytes if required
         if (dataEndian == CHANNEL_DATA_ENDIAN.LSB) {
             reverse(data);
             consolePrintLnDebugging("Reversed data:\t" + UtilShimmer.bytesToHexStringWithSpacesFormatted(data));
         }
 
         if (dataType.getNumBytes() > 1) {
-            //2) a single for loop looping over the required number of bytes
             long maskToApply = 0;
             for (int i = 0; i < dataType.getNumBytes(); i++) {
-                //based on old parseData approach -> seems to be working
-//				formattedData = (int)((int)(data[i] & 0xFF) | ((int)formattedData << 8));
-                //new -> not working properly
-//				formattedData = (formattedData << 8)  + data[i];
-                //new new -> seems to be working?
-//				formattedData = (formattedData << 8)  | (data[i]&0xFF);
 
                 if (i == 0) {
                     formattedData = (((long) (data[i])) & 0xFF);
@@ -45,14 +37,10 @@ public class UtilParseData {
                     formattedData = (formattedData << 8) | (((long) (data[i])) & 0xFF);
                 }
 
-                //Old 2016-11-12
-//				maskToApply = (maskToApply << 8) | 0xFF;
             }
 
-            //New 2016-11-12
             maskToApply = (long) Math.pow(2, dataType.getNumBits());
             int numBits = dataType.getNumBits();
-            //TODO will not handle over 64 bits
             if (numBits < 64) {
                 maskToApply -= 1;
             }
@@ -63,22 +51,10 @@ public class UtilParseData {
             formattedData = data[0] & 0xFF;
         }
 
-        //3) an if statement to calculate the twos complement if required
         if (dataType.isSigned()) {
-            //Old 2016-11-12
-//			formattedData=calculatetwoscomplement(formattedData,data.length*8);
-            //New 2016-11-12
             formattedData = calculatetwoscomplement(formattedData, dataType.getNumBits());
         }
 
-        //4) handle special cases like bit shifting for the LSM303
-//		if(dataType==CHANNEL_DATA_TYPE.INT12_LBJ){
-//			formattedData=formattedData>>4; // shift right by 4 bits
-//			formattedData &= 0x0FFF;
-//		}
-//		if(dataType==CHANNEL_DATA_TYPE.UINT12){
-//			formattedData &= 0x0FFF;
-//		}
 
 
         consolePrintLnDebugging("Parsing result:\t" + formattedData);
@@ -124,11 +100,9 @@ public class UtilParseData {
                 iData = iData + 2;
             } else if (dataType[i] == "i16") {
                 formattedData[i] = calculatetwoscomplement((int) ((int) (data[iData] & 0xFF) + ((int) (data[iData + 1] & 0xFF) << 8)), 16);
-                //formattedData[i]=ByteBuffer.wrap(arrayb).order(ByteOrder.LITTLE_ENDIAN).getShort();
                 iData = iData + 2;
             } else if (dataType[i] == "i16r") {
                 formattedData[i] = calculatetwoscomplement((int) ((int) (data[iData + 1] & 0xFF) + ((int) (data[iData] & 0xFF) << 8)), 16);
-                //formattedData[i]=ByteBuffer.wrap(arrayb).order(ByteOrder.LITTLE_ENDIAN).getShort();
                 iData = iData + 2;
             } else if (dataType[i] == "u24r") {
                 long xmsb = ((long) (data[iData + 0] & 0xFF) << 16);
@@ -149,8 +123,6 @@ public class UtilParseData {
                 formattedData[i] = calculatetwoscomplement((int) (xmsb + msb + lsb), 24);
                 iData = iData + 3;
             } else if (dataType[i] == "u32signed") {
-                //TODO: should this be called i32?
-                //TODO: are the indexes incorrect, current '+1' to '+4', should this be '+0' to '+3' the the others listed here?
                 long offset = (((long) data[iData] & 0xFF));
                 if (offset == 255) {
                     offset = 0;
@@ -161,7 +133,6 @@ public class UtilParseData {
                 long lsb = (((long) data[iData + 1] & 0xFF));
                 formattedData[i] = (1 - 2 * offset) * (xxmsb + xmsb + msb + lsb);
                 iData = iData + 5;
-                //TODO: Newly added below up to u72 - check
             } else if (dataType[i] == "u32") {
                 long forthmsb = (((long) data[iData + 3] & 0xFF) << 24);
                 long thirdmsb = (((long) data[iData + 2] & 0xFF) << 16);
@@ -191,7 +162,6 @@ public class UtilParseData {
                 formattedData[i] = calculatetwoscomplement((long) (xxmsb + xmsb + msb + lsb), 32);
                 iData = iData + 4;
             } else if (dataType[i] == "u72") {
-                // do something to parse the 9 byte data
                 long offset = (((long) data[iData] & 0xFF));
                 if (offset == 255) {
                     offset = 0;
@@ -208,10 +178,8 @@ public class UtilParseData {
                 formattedData[i] = (1 - 2 * offset) * (eigthmsb + seventhmsb + sixthmsb + fifthmsb + forthmsb + thirdmsb + msb + lsb);
                 iData = iData + 9;
             } else if (dataType[i] == "i12*>") {
-                // MSB byte shifted left 4-bits or'd with upper 4-bits of LSB byte which are bit-shifted right by 4
                 formattedData[i] = ((long) (data[iData] & 0xFF) << 4) | ((long) (data[iData + 1] & 0xFF) >> 4);
 
-                // Two's complement on the resulting 12-bit number
                 formattedData[i] = calculatetwoscomplement(formattedData[i], 12);
 
                 iData = iData + 2;

@@ -181,7 +181,6 @@ public class FileUtil {
         }
         File parentFile = dirFile.getParentFile();
         if (parentFile != null && !parentFile.exists()) {
-            //父文件夹不存在，则先创建父文件夹，再创建自身文件夹
             return createFileDir(parentFile) && createFileDir(dirFile);
         } else {
             boolean mkdirs = dirFile.mkdirs();
@@ -338,7 +337,6 @@ public class FileUtil {
     }
 
         public static void saveShortFile(String fileDir, short[] bytes, String fileTitle) {
-        // 创建目录
         createOrExistsDir(fileDir);
         try {
             File file = new File(fileDir, fileTitle + ".bin");
@@ -353,7 +351,6 @@ public class FileUtil {
     }
 
         private static void createOrExistsDir(File file) {
-        // 文件不存在则创建文件
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -365,12 +362,9 @@ public class FileUtil {
 
         private static void createOrExistsDir(String fileDir) {
         File file = new File(fileDir);
-        //如果文件夹不存在则创建
         if (!file.exists() && !file.isDirectory()) {
-            //不存在
             file.mkdir();
         } else {
-            //目录存在
         }
     }
 
@@ -417,7 +411,6 @@ public class FileUtil {
             File file = new File(strOutFileName);
             Log.i(TAG, "file.exists->getAbsolutePath = " + file.getAbsolutePath());
             if (file.exists()) {
-                // 如果文件存在则删除文件，重新创建，避免修改的内容不生效
                 file.delete();
             }
             //

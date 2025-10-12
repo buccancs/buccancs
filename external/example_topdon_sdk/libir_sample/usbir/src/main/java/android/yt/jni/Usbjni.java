@@ -17,10 +17,8 @@ public class Usbjni {
 
         public static int setUSB3803Mode(boolean isPowerOn) {
         if (isPowerOn) {
-            //打开
             return usb3803_mode_setting(1);
         } else {
-            //关闭
             return usb3803_mode_setting(0);
         }
     }

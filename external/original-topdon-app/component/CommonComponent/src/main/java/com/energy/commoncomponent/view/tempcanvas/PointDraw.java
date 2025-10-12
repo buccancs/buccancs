@@ -74,7 +74,6 @@ public class PointDraw extends BaseDraw {
             boolean hasSame = false;
             for (int i = 0; i < mPointList.size(); i++) {
                 if (mPointList.get(i).getLabel().equals(newLabel)) {
-                    //存在一样的
                     hasSame = true;
                     Log.d(TAG, "addPoint is same");
                     break;
@@ -144,7 +143,6 @@ public class PointDraw extends BaseDraw {
         RectF tempRectF = new RectF();
         float top = pointView.mCenterY - TEXT_POINT_MARGIN - LABEL_POINT_MARGIN - pointView.mPointSize / 2;
         float bottom = pointView.mCenterY - TEXT_POINT_MARGIN - pointView.mPointSize / 2;
-        //顶部超出在point下方展示
         if (top < 0) {
             top = pointView.mCenterY + TEXT_POINT_MARGIN + pointView.mPointSize / 2;
             bottom = top + LABEL_POINT_MARGIN;
@@ -165,12 +163,10 @@ public class PointDraw extends BaseDraw {
         float right = rectF.right + rectWidth / 2;
         float top = rectF.top;
         float bottom = rectF.bottom;
-        //左侧超出
         if (left < 0) {
             left = 0;
             right = rectWidth;
         }
-        //右侧超出
         if (right > mViewWidth) {
             left = mViewWidth - rectWidth;
             right = mViewWidth;

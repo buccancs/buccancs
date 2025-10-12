@@ -32,7 +32,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_MAC_ID_GET;
         byte[] rxBuf = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.MAC, errorCode);
 
-        // Parse response string
         if (rxBuf.length >= 6) {
             rxBuf = Arrays.copyOf(rxBuf, 6);
         } else {
@@ -46,7 +45,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_BATT_STATUS_GET;
         byte[] rxBuf = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.BAT.VALUE, errorCode);
 
-        // Parse response string
         if (rxBuf.length < 3) {
             throw new DockException(mUniqueId, mComPort, errorCode, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
         }
@@ -59,7 +57,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_VERSION_INFO_GET;
         byte[] rxBuf = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.VER, errorCode);
 
-        // Parse response string
         if (rxBuf.length < 7) {
             throw new DockException(mUniqueId, mComPort, errorCode, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
         }
@@ -72,7 +69,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RTC_CONFIG_TIME_GET;
         byte[] rxBuf = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.RTC_CFG_TIME, errorCode);
 
-        // Parse response string
         long responseTime = 0;
         if (rxBuf.length >= 8) {
             byte[] rwcTimeArray = Arrays.copyOf(rxBuf, 8);
@@ -88,7 +84,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RTC_CURRENT_TIME_GET;
         byte[] rxBuf = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.CURR_LOCAL_TIME, errorCode);
 
-        // Parse response string
         long responseTime = 0;
         if (rxBuf.length >= 8) {
             byte[] rwcTimeArray = Arrays.copyOf(rxBuf, 8);
@@ -129,25 +124,19 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_DAUGHTER_ID_GET;
         byte[] rxBuf = processShimmerMemGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DAUGHTER_CARD.CARD_ID, 0, 16, errorCode);
 
-        //TODO: check rxBuf
         ExpansionBoardDetails shimmerUartExpansionBoardDetails = new ExpansionBoardDetails(rxBuf);
         return shimmerUartExpansionBoardDetails;
     }
 
 
-    //TODO TEST
 
         public void writeDaughterCardId(int address, byte[] buf) throws ExecutionException {
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_DAUGHTER_ID_SET;
         processShimmerMemSetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DAUGHTER_CARD.CARD_ID, address, buf, errorCode);
     }
 
-    //TODO TEST
 
         public byte[] readDaughterCardMemory(int address, int size) throws ExecutionException {
-        //TODO separate reads into 128 bytes chunks
-//	    if((uartDcMemLength<=256) && (uartDcMemOffset>=16) && (uartDcMemLength+uartDcMemOffset<=240)){
-//	    }
 
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_DAUGHTER_MEM_GET;
         byte[] rxBuf = processShimmerMemGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DAUGHTER_CARD.CARD_MEM, address, size, errorCode);
@@ -156,9 +145,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
     }
 
         public void writeDaughterCardMemory(int address, byte[] buf) throws ExecutionException {
-        //TODO separate write into 128 bytes chunks
-//	    if((uartDcMemLength<=256) && (uartDcMemOffset>=16) && (uartDcMemLength+uartDcMemOffset<=240)){
-//	    }
 
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_DAUGHTER_MEM_SET;
         processShimmerMemSetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DAUGHTER_CARD.CARD_MEM, address, buf, errorCode);
@@ -168,7 +154,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RADIO_802154_GET_SETTINGS;
         byte[] rxBuf = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.RADIO_802154.SETTINGS, errorCode);
 
-        // Parse response string
         if (rxBuf.length >= 9) {
             rxBuf = Arrays.copyOf(rxBuf, 9);
         } else {
@@ -182,7 +167,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_BT_FW_VERSION_INFO_GET;
         byte[] rxBuf = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.BLUETOOTH.VER, errorCode);
 
-        // Parse response string
         if (rxBuf.length == 0) {
             throw new DockException(mUniqueId, mComPort, errorCode, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
         }
@@ -198,7 +182,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
 
         public boolean readMainTest(UartComponentPropertyDetails details) throws ExecutionException {
         int errorCode = ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_VERSION_INFO_GET;
-        //rxBuf = processShimmerSetCommand(compPropDetails, txBuf, errorCode);(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DEVICE_TEST.MAIN_TEST, -1);
         TaskCompletionSource tcs = new TaskCompletionSource<>();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ackNotReceivedForTestCommand = true;
@@ -206,7 +189,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
 
             @Override
             public void eventNewBytesReceived(byte[] rxBytes) {
-                // TODO Auto-generated method stub
                 System.out.println("Test : " + UtilShimmer.bytesToHexString(rxBytes));
                 try {
                     outputStream.write(rxBytes);
@@ -232,7 +214,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
                         tcs.setResult(true);
                     }
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                     tcs.setResult(false);
                 }
@@ -241,25 +222,20 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
 
             @Override
             public void eventDisconnected() {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventConnected() {
-                // TODO Auto-generated method stub
 
             }
         });
-        // Parse response string
         mTestStreaming = true;
-        //processShimmerSetCommandNoWait(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DEVICE_TEST.MAIN_TEST, errorCode, null);
         processShimmerSetCommandNoWait(details, errorCode, null);
         boolean completed = false;
         try {
             completed = tcs.getTask().waitForCompletion(TIMEOUT_IN_SHIMMER_TEST, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             mTestStreaming = false;
             return false;
@@ -279,7 +255,6 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 

@@ -28,14 +28,8 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
 
     public static final double[][] AlignmentMatrixLowNoiseAccelShimmer3 = {{0, -1, 0}, {-1, 0, 0}, {0, 0, -1}};
 
-    //--------- Sensor specific variables start --------------
-    // Based on a manufacturer stated, typical zero-g offset of 1.65V per axis over an input of 0v to 3v
-    // [(1.65/3)*4096 = 2252.8]
     public static final double[][] OffsetVectorLowNoiseAccelShimmer3 = {{2253}, {2253}, {2253}};
-    // Based on a manufacturer stated, typical sensitivity of 660mV/g per axis over an input of 0v to 3v
-    // [+-2g full-range so 4g (or 39.24 m/s2) over 2.64V -> (2.64/3*4096)/39.24 = 91.85]
     public static final double[][] SensitivityMatrixLowNoiseAccel2gShimmer3 = {{92, 0, 0}, {0, 92, 0}, {0, 0, 92}};
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorKionixKXTC92050 = new SensorDetailsRef(
             0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL,
             0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL,
@@ -46,12 +40,10 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
                     SensorKionixAccel.ObjectClusterSensorName.ACCEL_LN_Y,
                     SensorKionixAccel.ObjectClusterSensorName.ACCEL_LN_Z));
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
-    //--------- Channel info start --------------
     public static final ChannelDetails channelAccelX = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_LN_X,
             ObjectClusterSensorName.ACCEL_LN_X,
             DatabaseChannelHandles.LN_ACC_X,
-//			CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_DATA_TYPE.UINT12, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
@@ -60,7 +52,6 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
             ObjectClusterSensorName.ACCEL_LN_Y,
             ObjectClusterSensorName.ACCEL_LN_Y,
             DatabaseChannelHandles.LN_ACC_Y,
-//			CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_DATA_TYPE.UINT12, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
@@ -69,22 +60,16 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
             ObjectClusterSensorName.ACCEL_LN_Z,
             ObjectClusterSensorName.ACCEL_LN_Z,
             DatabaseChannelHandles.LN_ACC_Z,
-//			CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_DATA_TYPE.UINT12, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x02);
-    //--------- Sensor specific variables end --------------
     public static final Map<String, ChannelDetails> mChannelMapRef;
-    //	{
-//		sensorKionixKXTC92050.mCalibSensorKey = 0x01;
-//	}
     public static final SensorGroupingDetails sensorGroupLnAccelKXTC92050 = new SensorGroupingDetails(
             SensorKionixAccel.LABEL_SENSOR_TILE.LOW_NOISE_ACCEL,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_ANALOG_ACCEL),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoKionixKXTC92050);
     private static final long serialVersionUID = -4547873490496111518L;
-    //--------- Sensor info end --------------
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -106,12 +91,10 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
             AlignmentMatrixLowNoiseAccelShimmer3, SensitivityMatrixLowNoiseAccel2gShimmer3, OffsetVectorLowNoiseAccelShimmer3);
     public CalibDetailsKinematic mCurrentCalibDetailsAccelLn = calibDetailsAccelLn2g;
 
-    //--------- Constructors for this class start --------------
     public SensorKionixKXTC92050() {
         super(SENSORS.KIONIXKXTC92050);
         initialise();
     }
-    //--------- Channel info end --------------
 
     public SensorKionixKXTC92050(ShimmerVerObject shimmerVerObject) {
         super(SENSORS.KIONIXKXTC92050, shimmerVerObject);
@@ -125,38 +108,16 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
     }
 
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
-        //TODO Old approach, can be removed
-//		String objectClusterName = "";
-//		if (databaseChannelHandle.equals(SensorKionixKXTC92050.DatabaseChannelHandles.LN_ACC_X)) {
-//			objectClusterName = Shimmer3.ObjectClusterSensorName.ACCEL_LN_X;
-//		} else if (databaseChannelHandle.equals(SensorKionixKXTC92050.DatabaseChannelHandles.LN_ACC_Y)) {
-//			objectClusterName = Shimmer3.ObjectClusterSensorName.ACCEL_LN_Y;
-//		} else if (databaseChannelHandle.equals(SensorKionixKXTC92050.DatabaseChannelHandles.LN_ACC_Z)) {
-//			objectClusterName = Shimmer3.ObjectClusterSensorName.ACCEL_LN_Z;
-//		}
-//		return objectClusterName;
 
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
-        //TODO Old approach, can be removed
-//		String databaseChannelHandle = "";
-//		if (objectClusterName.equals(Shimmer3.ObjectClusterSensorName.ACCEL_LN_X)) {
-//			databaseChannelHandle = SensorKionixKXTC92050.DatabaseChannelHandles.LN_ACC_X;
-//		} else if (objectClusterName.equals(Shimmer3.ObjectClusterSensorName.ACCEL_LN_Y)) {
-//			databaseChannelHandle = SensorKionixKXTC92050.DatabaseChannelHandles.LN_ACC_Y;
-//		} else if (objectClusterName.equals(Shimmer3.ObjectClusterSensorName.ACCEL_LN_Z)) {
-//			databaseChannelHandle = SensorKionixKXTC92050.DatabaseChannelHandles.LN_ACC_Z;
-//		}
-//		return databaseChannelHandle;
 
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
     }
 
-    //--------- Constructors for this class end --------------
 
-    //--------- Abstract methods implemented start --------------
 
     @Override
     public void generateSensorMap() {
@@ -175,7 +136,6 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        //Analog Accel Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_ANALOG_ACCEL,
                 0,
@@ -190,7 +150,6 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
         super.updateSensorGroupingMap();
     }
 
-    //--------- Optional methods to override in Sensor Class start --------
     @Override
     public void initialise() {
         super.initialise();
@@ -211,7 +170,6 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
     }
 
 
-    //--------- Abstract methods implemented end --------------
 
     public static class DatabaseChannelHandles {
         public static final String LN_ACC_X = "KXTC9_2050_X";
@@ -245,6 +203,5 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
                 DatabaseConfigHandle.LN_ACC_ALIGN_ZX, DatabaseConfigHandle.LN_ACC_ALIGN_ZY, DatabaseConfigHandle.LN_ACC_ALIGN_ZZ);
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
 }

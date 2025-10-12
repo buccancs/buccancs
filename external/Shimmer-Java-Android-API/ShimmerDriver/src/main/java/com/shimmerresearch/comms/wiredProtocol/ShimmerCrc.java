@@ -46,7 +46,6 @@ public class ShimmerCrc {
     }
 
 
-    //Testing
     public static void main(String[] args) {
 
         byte[] testPacket = new byte[]{

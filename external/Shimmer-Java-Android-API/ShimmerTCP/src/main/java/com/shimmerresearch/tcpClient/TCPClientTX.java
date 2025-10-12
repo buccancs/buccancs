@@ -1,6 +1,5 @@
 package com.shimmerresearch.tcpClient;
 
-//TCPClient.java
 
 import java.io.*;
 import java.net.*;

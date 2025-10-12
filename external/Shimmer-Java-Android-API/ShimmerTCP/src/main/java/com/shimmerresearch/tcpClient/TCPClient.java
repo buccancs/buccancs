@@ -1,5 +1,4 @@
 package com.shimmerresearch.tcpClient;
-//TCPClient.java
 
 import java.io.*;
 import java.net.*;
@@ -20,7 +19,6 @@ class TCPClient {
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         while (true) {
-            // FromServer = inFromServer.readLine();
             int i = inFromServer.read();
             if (FromServer.equals("q") || FromServer.equals("Q")) {
                 clientSocket.close();

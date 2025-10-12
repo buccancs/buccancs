@@ -38,7 +38,6 @@ public class DeviceConfigFragment extends Fragment {
     int buttonBackgroundResourceId = -1;
 
     public DeviceConfigFragment() {
-        // Required empty public constructor
     }
 
     public static DeviceConfigFragment newInstance() {
@@ -101,7 +100,6 @@ public class DeviceConfigFragment extends Fragment {
                     String newSetting = (String) expandListAdapter.getChild(groupPosition, childPosition);
                     String keySetting = (String) expandListAdapter.getGroup(groupPosition);
 
-                    //Write the setting to the Shimmer Clone
                     final ConfigOptionDetailsSensor cods = configOptionsMap.get(keySetting);
 
                     shimmerDeviceClone.setConfigValueUsingConfigLabel(keySetting, cods.mConfigValues[childPosition]);
@@ -115,7 +113,6 @@ public class DeviceConfigFragment extends Fragment {
         });
 
 
-        //Only add the buttons if they haven't been added before:
         if (expandListView.getFooterViewsCount() == 0) {
 
             LinearLayout buttonLayout = new LinearLayout(context);
@@ -131,7 +128,6 @@ public class DeviceConfigFragment extends Fragment {
             resetListButton.setLayoutParams(buttonParams);
 
             if (buttonBackgroundResourceId != -1) {
-                //A custom Button background resource ID has been given
                 writeConfigButton.setBackgroundResource(buttonBackgroundResourceId);
                 resetListButton.setBackgroundResource(buttonBackgroundResourceId);
             }

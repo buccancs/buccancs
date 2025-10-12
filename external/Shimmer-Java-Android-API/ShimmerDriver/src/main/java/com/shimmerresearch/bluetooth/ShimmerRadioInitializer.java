@@ -39,10 +39,8 @@ public class ShimmerRadioInitializer {
 
             return shimmerVerObject;
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             throw (e);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -50,7 +48,6 @@ public class ShimmerRadioInitializer {
     }
 
     protected int readHardwareVersion() throws ShimmerException, InterruptedException {
-        //every radio should have a method to get the version object, the command value should be the same across all byte radios
         byte[] instruction = {InstructionsGet.GET_SHIMMER_VERSION_COMMAND_VALUE};
 
         serialCommPort.txBytes(instruction);
@@ -110,10 +107,8 @@ public class ShimmerRadioInitializer {
                 }
             }
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

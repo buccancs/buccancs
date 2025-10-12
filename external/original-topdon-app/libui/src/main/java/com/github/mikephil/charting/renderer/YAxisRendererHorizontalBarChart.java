@@ -33,8 +33,6 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         @Override
     public void computeAxis(float yMin, float yMax, boolean inverted) {
 
-        // calculate the starting and entry point of the y-labels (depending on
-        // zoom / contentrect bounds)
         if (mViewPortHandler.contentHeight() > 10 && !mViewPortHandler.isFullyZoomedOutX()) {
 
             MPPointD p1 = mTrans.getValuesByTouchPoint(mViewPortHandler.contentLeft(),
@@ -147,7 +145,6 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         float[] positions = mGetTransformedPositionsBuffer;
 
         for (int i = 0; i < positions.length; i += 2) {
-            // only fill x values, y values are not needed for x-labels
             positions[i] = mYAxis.mEntries[i / 2];
         }
 
@@ -179,7 +176,6 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         mZeroLineClippingRect.inset(-mYAxis.getZeroLineWidth(), 0.f);
         c.clipRect(mLimitLineClippingRect);
 
-        // draw zero line
         MPPointD pos = mTrans.getPixelForValues(0f, 0f);
 
         mZeroLinePaint.setColor(mYAxis.getZeroLineColor());
@@ -191,7 +187,6 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         zeroLinePath.moveTo((float) pos.x - 1, mViewPortHandler.contentTop());
         zeroLinePath.lineTo((float) pos.x - 1, mViewPortHandler.contentBottom());
 
-        // draw a path because lines don't support dashing on lower android versions
         c.drawPath(zeroLinePath, mZeroLinePaint);
 
         c.restoreToCount(clipRestoreCount);
@@ -246,7 +241,6 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
 
             String label = l.getLabel();
 
-            // if drawing the limit-value label is enabled
             if (label != null && !label.equals("")) {
 
                 mLimitLinePaint.setStyle(l.getTextStyle());

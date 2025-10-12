@@ -25,7 +25,6 @@ public class YAxis extends AxisBase {
     public YAxis() {
         super();
 
-        // default left
         this.mAxisDependency = AxisDependency.LEFT;
         this.mYOffset = 0f;
     }
@@ -197,16 +196,13 @@ public class YAxis extends AxisBase {
 
         float range = Math.abs(max - min);
 
-        // in case all values are equal
         if (range == 0f) {
             max = max + 1f;
             min = min - 1f;
         }
 
-        // recalculate
         range = Math.abs(max - min);
 
-        // calc extra spacing
         this.mAxisMinimum = mCustomAxisMin ? this.mAxisMinimum : min - (range / 100f) * getSpaceBottom();
         this.mAxisMaximum = mCustomAxisMax ? this.mAxisMaximum : max + (range / 100f) * getSpaceTop();
 

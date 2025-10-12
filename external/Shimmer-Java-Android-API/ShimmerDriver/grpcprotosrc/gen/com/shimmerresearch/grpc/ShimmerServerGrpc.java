@@ -45,7 +45,6 @@ public final class ShimmerServerGrpc {
     private static final int METHODID_GET_EMULATED_DEVICES = 21;
     private static final int METHODID_SEND_DATA_STREAM = 22;
     private static final int METHODID_SEND_FILE_STREAM = 23;
-    // Static method descriptors that strictly reflect the proto.
     private static volatile io.grpc.MethodDescriptor<com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest,
             com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> getSayHelloMethod;
     private static volatile io.grpc.MethodDescriptor<com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest,

@@ -58,8 +58,6 @@ public class USBMonitorDualManager {
         if (mUSBMonitor == null) {
             mUSBMonitor = new USBMonitor(Utils.getApp(),
                     new USBMonitor.OnDeviceConnectListener() {
-                        // called by checking usb device
-                        // do request device permission
                         @Override
                         public void onAttach(UsbDevice device) {
                             Log.w(TAG, "USBMonitor-onAttach-getProductId = " + device.getProductId());
@@ -78,8 +76,6 @@ public class USBMonitorDualManager {
                             }
                         }
 
-                        // called by taking out usb device
-                        // do close camera
                         @Override
                         public void onDettach(UsbDevice device) {
                             Log.d(TAG, "USBMonitor-onDettach");
@@ -90,8 +86,6 @@ public class USBMonitorDualManager {
 
                         }
 
-                        // called by connect to usb camera
-                        // do open camera,start previewing
                         @Override
                         public void onConnect(final UsbDevice device, USBMonitor.UsbControlBlock ctrlBlock,
                                               boolean createNew) {
@@ -111,8 +105,6 @@ public class USBMonitorDualManager {
                             }
                         }
 
-                        // called by disconnect to usb camera
-                        // do nothing
                         @Override
                         public void onDisconnect(UsbDevice device, USBMonitor.UsbControlBlock ctrlBlock) {
                             Log.w(TAG, "USBMonitor-onDisconnect");
@@ -162,7 +154,6 @@ public class USBMonitorDualManager {
                         .build();
                 mIrUvcCamera.setDefaultBandwidth(irBandWidth);
                 mIrUvcCamera.setDefaultPreviewMaxFps(irFps);
-                // uvc开启
                 mIrUvcCamera.openUVCCamera(controlBlock);
 
                 initIRCMD();
@@ -178,7 +169,6 @@ public class USBMonitorDualManager {
 
     public void initIRCMD() {
 
-        // IRCMD init
         if (mIrUvcCamera != null) {
             ConcreteIRCMDBuilder concreteIRCMDBuilder = new ConcreteIRCMDBuilder();
             mIrcmd = concreteIRCMDBuilder
@@ -209,7 +199,6 @@ public class USBMonitorDualManager {
                 mVlUvcCamera.setDefaultPreviewMode(CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG);
                 mVlUvcCamera.setDefaultBandwidth(vlBandWidth);
                 mVlUvcCamera.setDefaultPreviewMaxFps(vlFps);
-                // uvc开启
                 mVlUvcCamera.openUVCCamera(controlBlock);
 
                 mVlUvcCamera.setUSBPreviewSize(vlWidth, vlHeight);

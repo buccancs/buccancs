@@ -22,7 +22,6 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     public String mComPort = "";
         public int mTxSpeed = 1;
     protected transient SerialPort mSerialPort = null;
-    //Using JsscByteWriter by Bastien Aracil as the JSSC library does not support timeouts for serial port writing
     protected JsscByteWriter jsscByteWriter = null;
     private int mBaudToUse = SerialPort.BAUDRATE_115200;
     private boolean setRtsOnConnect = true;
@@ -53,8 +52,6 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         try {
             consolePrintLn("Connecting to COM port:" + mComPort);
 
-//        	serialPort.setRTS(true);
-//        	serialPort.setDTR(false);
             consolePrintLn("Port open: " + mSerialPort.openPort());
             consolePrintLn("Params set: " + mSerialPort.setParams(
                     mBaudToUse,
@@ -64,14 +61,6 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
                     setRtsOnConnect,
                     setDtrOnConnect));//Set params.
             consolePrintLn("Port Status : " + Boolean.toString(mSerialPort.isOpened()));
-//            mSerialPort.openPort();//Open serial port
-//            mSerialPort.setParams(
-//			            		mBaudToUse, 
-//			            		SerialPort.DATABITS_8, 
-//			            		SerialPort.STOPBITS_1, 
-//			            		SerialPort.PARITY_NONE, 
-//			            		true,
-//			            		false);//Set params.
             mSerialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
             eventDeviceConnected();
         } catch (SerialPortException e) {
@@ -134,15 +123,11 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         try {
             if (mTxSpeed == 0) { // normal speed
                 for (int i = 0; i < buf.length; i++) {
-//        			mSerialPort.writeByte(buf[i]);
-//        			mSerialPort.purgePort(SerialPort.PURGE_TXCLEAR); // This doesn't make sense but was working for Consensys in Windows up to v0.4.0
                     jsscByteWriter.write(buf[i], mSerialPortTimeout);
                 }
             } else {  // fast speed - was causing issues with Windows but needed for OSX - Windows might be fixed now (23/03/2016)
-//    			mSerialPort.writeBytes(buf);
                 jsscByteWriter.write(buf, mSerialPortTimeout);
             }
-//		} catch (SerialPortException e) {
         } catch (IOException | InterruptedException | TimeoutException e) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_WRITING_DATA);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
@@ -183,11 +168,9 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         if (!mIsSerialPortReaderStarted) {
             int mask = SerialPort.MASK_RXCHAR;//Prepare mask
             mShimmerUartListener = new ShimmerUartListener(mUniqueId);
-//        	mShimmerUartListener.setVerbose(mVerboseModeUart);
             try {
                 mSerialPort.setEventsMask(mask);//Set mask
                 mSerialPort.addEventListener(mShimmerUartListener);//Add SerialPortEventListener
-//        		setWaitForData(mShimmerUartListener);
                 mIsSerialPortReaderStarted = true;
             } catch (SerialPortException e) {
                 mIsSerialPortReaderStarted = false;
@@ -208,7 +191,6 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         }
 
         try {
-            // Finish up
             disconnect();
             mIsSerialPortReaderStarted = false;
         } catch (ExecutionException e) {
@@ -226,7 +208,6 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
 
     @Override
     public void serialPortRxEvent(int byteLength) {
-        //	consolePrintLn("Complete RX Received(" + packet.length + "):" + UtilShimmer.bytesToHexStringWithSpacesFormatted(packet));
         if (mShimmerSerialEventCallback != null) {
             mShimmerSerialEventCallback.serialPortRxEvent(byteLength);
         }
@@ -237,20 +218,11 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         mShimmerSerialEventCallback = shimmerSerialEventCallback;
     }
 
-    /// /		consolePrintLn("Complete RX Received(" + packet.length + "):" + UtilShimmer.bytesToHexStringWithSpacesFormatted(packet));
-//		if(mUartRxCallback!=null){
-//			mUartRxCallback.newMsg(packet, timestampMs);
-//		}
-//	}
 //
-//	public void registerRxCallback(UartRxCallback uartRxCallback) {
-//		mUartRxCallback = uartRxCallback;
-//	}
     private void consolePrintLn(String string) {
         mUtilShimmer.consolePrintLn(mUniqueId + "\t" + string);
     }
 
-//	public void sendRxCallback(byte[] packet, long timestampMs){
 
     @Override
     public void setVerboseMode(boolean verboseMode, boolean isDebugMode) {
@@ -322,7 +294,6 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     }
 
     public class ShimmerUartListener implements SerialPortEventListener {
-        //	    StringBuilder stringBuilder = new StringBuilder(128);
 //
         String mUniqueId = "";
         boolean mIsParserBusy = false;
@@ -335,12 +306,9 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         public void serialEvent(SerialPortEvent event) {
             if (event.isRXCHAR()) {//If data is available
                 int eventLength = event.getEventValue();
-                //Check bytes count in the input buffer.
-//	            if (eventLength > 3) { // was 0 but at least 3 gives a little filter
                 if (!mIsParserBusy && eventLength > 0) { // was 0 but at least 3 gives a little filter
                     mIsParserBusy = true;
                     serialPortRxEvent(eventLength);
-//	            	mShimmerUart.serialPortRxEvent(eventLength);
 
                     mIsParserBusy = false;
                 }

@@ -39,27 +39,20 @@ import com.shimmerresearch.sensors.ActionSetting;
 public class SensorLIS3MDL extends AbstractSensor {
 
     public static final double[][] DefaultAlignmentLIS3MDL = {{1, 0, 0}, {0, -1, 0}, {0, 0, -1}};
-    // ---------- Mag start ---------------
     public static final double[][] DefaultAlignmentMatrixAltMagShimmer3r = DefaultAlignmentLIS3MDL;
     public static final double[][] DefaultOffsetVectorAltMagShimmer3r = {{0}, {0}, {0}};
-    // Manufacturer stated: X any Y any Z axis @ 6842 LSB/gauss
     public static final double[][] DefaultSensitivityMatrixAltMag4GaShimmer3r = {{6842, 0, 0}, {0, 6842, 0},
             {0, 0, 6842}};
-    // Manufacturer stated: X any Y any Z axis @ 3421 LSB/gauss
     public static final double[][] DefaultSensitivityMatrixAltMag8GaShimmer3r = {{3421, 0, 0}, {0, 3421, 0},
             {0, 0, 3421}};
-    // Manufacturer stated: X any Y any Z axis @ 2281 LSB/gauss
     public static final double[][] DefaultSensitivityMatrixAltMag12GaShimmer3r = {{2281, 0, 0}, {0, 2281, 0},
             {0, 0, 2281}};
-    // Manufacturer stated: X any Y any Z axis @ 1711 LSB/gauss
     public static final double[][] DefaultSensitivityMatrixAltMag16GaShimmer3r = {{1711, 0, 0}, {0, 1711, 0},
             {0, 0, 1711}};
     public static final String[] ListofLIS3MDLAltMagRate = {"1000Hz", "560Hz", "300Hz", "155Hz", "80Hz", "20Hz", "10Hz"};
     public static final Integer[] ListofLIS3MDLAltMagRateConfigValues = {0x01, 0x11, 0x21, 0x31, 0x3E, 0x3A, 0x08};
 
-    // public CalibDetailsKinematic mCurrentCalibDetailsMagAlt = null;
 
-    // --------- Sensor specific variables start --------------
     public static final String[] ListofLIS3MDLAltMagRange = {"+/- 4Ga", "+/- 8Ga", "+/- 12Ga", "+/- 16Ga"};
     public static final Integer[] ListofLIS3MDLAltMagRangeConfigValues = {0, 1, 2, 3};
     public static final ConfigOptionDetailsSensor configOptionAltMagRange = new ConfigOptionDetailsSensor(
@@ -73,11 +66,7 @@ public class SensorLIS3MDL extends AbstractSensor {
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS3MDL);
     public static final SensorDetailsRef sensorLIS3MDLAltMag = new SensorDetailsRef(0x200000, // ==
-            // Configuration.Shimmer3.SensorBitmap.SENSOR_MAG
-            // will be:
-            // SensorBitmap.SENSOR_MAG,
             0x200000, // == Configuration.Shimmer3.SensorBitmap.SENSOR_MAG will be:
-            // SensorBitmap.SENSOR_MAG,
             GuiLabelSensors.MAG_ALT, CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS3MDL,
             Arrays.asList(GuiLabelConfig.LIS3MDL_ALT_MAG_RANGE, GuiLabelConfig.LIS3MDL_ALT_MAG_RATE),
             Arrays.asList(ObjectClusterSensorName.MAG_ALT_X, ObjectClusterSensorName.MAG_ALT_Y,
@@ -99,11 +88,8 @@ public class SensorLIS3MDL extends AbstractSensor {
     public static final SensorGroupingDetails sensorGroupLisAltMag = new SensorGroupingDetails(LABEL_SENSOR_TILE.ALT_MAG,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_LIS3MDL_MAG_ALT),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS3MDL);
-    // --------- Bluetooth commands start --------------
-    // still not being implemented for ALTt mag sensor due to unavailability in docs
     public static final byte SET_ALT_MAG_CALIBRATION_COMMAND = (byte) 0xAF;
 
-    // ---------- Mag end ---------------
     public static final byte ALT_MAG_CALIBRATION_RESPONSE = (byte) 0xB0;
     public static final byte GET_ALT_MAG_CALIBRATION_COMMAND = (byte) 0xB1;
     public static final byte SET_ALT_MAG_SAMPLING_RATE_COMMAND = (byte) 0xB2;
@@ -111,9 +97,7 @@ public class SensorLIS3MDL extends AbstractSensor {
     public static final byte GET_ALT_MAG_SAMPLING_RATE_COMMAND = (byte) 0xB4;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
 
-    // --------- Sensor specific variables end --------------
 
-    // --------- Configuration options start --------------
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
         private static final long serialVersionUID = 4028368641088628178L;
 
@@ -149,22 +133,17 @@ public class SensorLIS3MDL extends AbstractSensor {
         mBtSetCommandMap = Collections.unmodifiableMap(aMap);
     }
 
-    // --------- Configuration options end --------------
 
-    // --------- Sensor info start --------------
 
     public boolean mIsUsingDefaultAltMagParam = true;
     protected int mAltMagRange = 0;
     protected int mLISAltMagRate = 4;
-    // --------- Sensor info end --------------
 
-    // --------- Channel info start --------------
     protected int mSensorIdAltMag = -1;
     protected boolean mLowPowerMag = false;
     protected boolean mMedPowerMag = false;
     protected boolean mHighPowerMag = false;
     protected boolean mUltraHighPowerMag = false;
-    // --------- Channel info end --------------
     private CalibDetailsKinematic calibDetailsMag4 = new CalibDetailsKinematic(ListofLIS3MDLAltMagRangeConfigValues[0],
             ListofLIS3MDLAltMagRange[0], DefaultAlignmentMatrixAltMagShimmer3r,
             DefaultSensitivityMatrixAltMag4GaShimmer3r, DefaultOffsetVectorAltMagShimmer3r);
@@ -179,7 +158,6 @@ public class SensorLIS3MDL extends AbstractSensor {
             ListofLIS3MDLAltMagRange[3], DefaultAlignmentMatrixAltMagShimmer3r,
             DefaultSensitivityMatrixAltMag16GaShimmer3r, DefaultOffsetVectorAltMagShimmer3r);
 
-    // --------- Constructors for this class start --------------
     public SensorLIS3MDL() {
         super(SENSORS.LIS3MDL);
         initialise();
@@ -274,7 +252,6 @@ public class SensorLIS3MDL extends AbstractSensor {
         }
         return magRate;
     }
-    // --------- Bluetooth commands end --------------
 
     public static int highPowerMode(double freq) {
         int magRate = 34;
@@ -325,9 +302,7 @@ public class SensorLIS3MDL extends AbstractSensor {
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
-    // --------- Constructors for this class end --------------
 
-    // --------- Abstract methods implemented start --------------
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
@@ -354,7 +329,6 @@ public class SensorLIS3MDL extends AbstractSensor {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -388,7 +362,6 @@ public class SensorLIS3MDL extends AbstractSensor {
     }
 
     public void updateCurrentMagAltCalibInUse() {
-//		mCurrentCalibDetailsMag = getCurrentCalibDetailsMag();
         mCurrentCalibDetailsMagAlt = getCurrentCalibDetailsIfKinematic(mSensorIdAltMag, getAltMagRange());
     }
 
@@ -518,22 +491,18 @@ public class SensorLIS3MDL extends AbstractSensor {
                     ((Double) mapOfConfigPerShimmer.get(SensorLIS3MDL.DatabaseConfigHandle.ALT_MAG_RATE)).intValue());
         }
 
-        // Magnetometer Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_LIS3MDL_MAG_ALT, getAltMagRange(),
                 SensorLIS3MDL.DatabaseConfigHandle.LIST_OF_CALIB_HANDLES_MAG,
                 SensorLIS3MDL.DatabaseConfigHandle.MAG_ALT_CALIB_TIME);
     }
 
-    // --------- Abstract methods implemented end --------------
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
-    // --------- Optional methods to override in Sensor Class start --------
     @Override
     public void initialise() {
         mSensorIdAltMag = Configuration.Shimmer3.SENSOR_ID.SHIMMER_LIS3MDL_MAG_ALT;
@@ -558,9 +527,7 @@ public class SensorLIS3MDL extends AbstractSensor {
         updateCurrentMagAltCalibInUse();
     }
 
-    // --------- Optional methods to override in Sensor Class end --------
 
-    // --------- Sensor specific methods start --------------
 
     @Override
     public boolean isSensorUsingDefaultCal(int sensorId) {
@@ -626,18 +593,14 @@ public class SensorLIS3MDL extends AbstractSensor {
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType,
                                            ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs) {
 
-        // process data originating from the Shimmer
         objectCluster = sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled,
                 pcTimestampMs);
 
-        // Calibration
         if (mEnableCalibration) {
-            // get uncalibrated data for each (sub)sensor
             if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.MAG_ALT)
                     && mCurrentCalibDetailsMagAlt != null) {
                 double[] unCalibratedMagAltData = new double[3];
                 for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
-                    // Uncalibrated Mag ALT data
                     if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.MAG_ALT_X)) {
                         unCalibratedMagAltData[0] = ((FormatCluster) ObjectCluster.returnFormatCluster(
                                 objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName),
@@ -655,9 +618,7 @@ public class SensorLIS3MDL extends AbstractSensor {
 
                 double[] calibratedMagAltData = UtilCalibration.calibrateInertialSensorData(unCalibratedMagAltData,
                         mCurrentCalibDetailsMagAlt);
-//				double[] calibratedAccelAltData = UtilCalibration.calibrateInertialSensorData(unCalibratedAccelAltData, mAlignmentMatrixAltAccel, mSensitivityMatrixAltAccel, mOffsetVectorAltAccel);
 
-                // Add calibrated data to Object cluster
                 if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.MAG_ALT)) {
                     for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
                         if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.MAG_ALT_X)) {
@@ -673,7 +634,6 @@ public class SensorLIS3MDL extends AbstractSensor {
                     }
                 }
 
-                // Debugging
                 if (mIsDebugOutput) {
                     super.consolePrintChannelsCal(objectCluster,
                             Arrays.asList(
@@ -823,13 +783,11 @@ public class SensorLIS3MDL extends AbstractSensor {
                 break;
             case (GuiLabelConfig.LIS3MDL_ALT_MAG_RATE):
                 int configValue = getLIS3MDLAltMagRate();
-                //int configValue = (int) getLIS3MDLAltMagRateInHz();
                 returnValue = configValue;
                 break;
             case (GuiLabelConfigCommon.RANGE):
                 if (sensorId == mSensorIdAltMag) {
                     returnValue = this.getConfigValueUsingConfigLabel(GuiLabelConfig.LIS3MDL_ALT_MAG_RANGE);
-//					returnValue = 0;
                     break;
                 }
             case (GuiLabelConfigCommon.RATE):
@@ -847,8 +805,6 @@ public class SensorLIS3MDL extends AbstractSensor {
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // set sampling rate of the sensors as close to the Shimmer sampling rate as
-        // possible (sensor sampling rate >= shimmer sampling rate)
 
         setLIS3MDLAltMagRateFromFreq(samplingRateHz);
         checkLowPowerMag();
@@ -873,7 +829,6 @@ public class SensorLIS3MDL extends AbstractSensor {
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -952,7 +907,6 @@ public class SensorLIS3MDL extends AbstractSensor {
 
         public static final String LIS3MDL_ALT_MAG_DEFAULT_CALIB = "Alternate Mag Default Calibration";
 
-        // NEW
         public static final String LIS3MDL_ALT_MAG_CALIB_PARAM = "Alternate Mag Calibration Details";
         public static final String LIS3MDL_ALT_MAG_VALID_CALIB = "Alternate Mag Valid Calibration";
     }
@@ -965,6 +919,5 @@ public class SensorLIS3MDL extends AbstractSensor {
         public static final String ALT_MAG = GuiLabelSensors.MAG_ALT;
     }
 
-    // --------- Sensor specific methods end --------------
 
 }

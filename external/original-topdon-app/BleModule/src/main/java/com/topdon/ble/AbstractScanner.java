@@ -62,7 +62,6 @@ abstract class AbstractScanner implements Scanner {
         scanListeners.remove(listener);
     }
 
-    //位置服务是否开户
     private boolean isLocationEnabled(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -77,7 +76,6 @@ abstract class AbstractScanner implements Scanner {
         }
     }
 
-    //检查是否有定位权限
     private boolean noLocationPermission(Context context) {
         int sdkVersion = context.getApplicationInfo().targetSdkVersion;
         if (sdkVersion >= 29) {//target sdk版本在29以上的需要精确定位权限才能搜索到蓝牙设备
@@ -88,7 +86,6 @@ abstract class AbstractScanner implements Scanner {
         }
     }
 
-    //处理搜索回调
     void handleScanCallback(final boolean start, final Device device, final boolean isConnectedBySys,
                             final int errorCode, final String errorMsg) {
         mainHandler.post(() -> {
@@ -106,7 +103,6 @@ abstract class AbstractScanner implements Scanner {
         });
     }
 
-    //如果系统已配对连接，那么是无法搜索到的，所以尝试获取已连接的设备
     @SuppressWarnings("all")
     private void getSystemConnectedDevices(Context context) {
         try {
@@ -126,7 +122,6 @@ abstract class AbstractScanner implements Scanner {
             }
         } catch (Exception ignore) {
         }
-        //遍历支持的，获取所有连接的
         for (int i = 1; i <= 21; i++) {
             try {
                 getSystemConnectedDevices(context, i);
@@ -181,7 +176,6 @@ abstract class AbstractScanner implements Scanner {
         }
         String name = device.getName() == null ? "" : device.getName();
         if (configuration.rssiLowLimit <= rssi) {
-            //通过构建器实例化Device
             Device dev = deviceCreator.create(device, result);
             if (dev != null) {
                 dev.name = TextUtils.isEmpty(dev.getName()) ? name : dev.getName();
@@ -272,7 +266,6 @@ abstract class AbstractScanner implements Scanner {
         }
     }
 
-    //蓝牙是否开启
     private boolean isBtEnabled() {
         if (bluetoothAdapter.isEnabled()) {
             try {

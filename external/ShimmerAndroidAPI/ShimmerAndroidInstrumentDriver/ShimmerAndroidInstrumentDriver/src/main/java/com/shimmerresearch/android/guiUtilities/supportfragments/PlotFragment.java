@@ -70,7 +70,6 @@ public class PlotFragment extends Fragment {
 
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                //TODO: Check if ShimmerBluetooth msg works
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
                     ShimmerBluetooth.BT_STATE state = null;
                     String shimmerName = "";
@@ -121,7 +120,6 @@ public class PlotFragment extends Fragment {
                             } else {
                                 timer = new Timer();
                             }
-                            // Schedule a task to be executed after a delay of 2 seconds
                             timer.schedule(new PRRTask(), 0, 2000);
 
 
@@ -168,17 +166,13 @@ public class PlotFragment extends Fragment {
 
                                 sensorList.add("Timestamp");
 
-                                //TODO: mSensorView = sensorList.get(0);
-                                //TODO: setLegend();
                             }
 
-                            //}
                             break;
                         case STREAMING_AND_SDLOGGING:
                             deviceState = "Streaming";
                             textViewDeviceName.setText(mBluetoothAddress);
                             textViewDeviceState.setText(deviceState);
-                            //TODO: set the enable logging regarding the user selection
                             break;
                         case STREAMING_LOGGED_DATA:
                             deviceState = "Data Sync";
@@ -234,7 +228,6 @@ public class PlotFragment extends Fragment {
     private Paint transparentPaint, outlinePaint;
 
     public PlotFragment() {
-        // Required empty public constructor
     }
 
     public static PlotFragment newInstance() {
@@ -248,7 +241,6 @@ public class PlotFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getActivity();
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_plot, container, false);
     }
 
@@ -280,9 +272,7 @@ public class PlotFragment extends Fragment {
         lineAndPointFormatter3.setLinePaint(LPFpaint);
         transparentPaint = new Paint();
         transparentPaint.setColor(Color.TRANSPARENT);
-        //lineAndPointFormatter1.setLinePaint(p);
         dynamicPlot.setDomainStepMode(XYStepMode.SUBDIVIDE);
-        //dynamicPlot.setDomainStepValue(series1.size());
         dynamicPlot.getLegendWidget().setTableModel(new DynamicTableModel(1, 4));
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -290,7 +280,6 @@ public class PlotFragment extends Fragment {
         int width = size.x;
         int height = size.y;
         dynamicPlot.getLegendWidget().setSize(new SizeMetrics(width / 2, SizeLayoutType.ABSOLUTE, height / 3, SizeLayoutType.ABSOLUTE));
-        // thin out domain/range tick labels so they dont overlap each other:
         dynamicPlot.setTicksPerDomainLabel(5);
         dynamicPlot.setTicksPerRangeLabel(3);
         dynamicPlot.disableAllMarkup();
@@ -300,7 +289,6 @@ public class PlotFragment extends Fragment {
         transparentLinePaint.setColor(Color.TRANSPARENT);
         dynamicPlot.setRangeBoundaries(-15, 15, BoundaryMode.AUTO); // freeze the range boundary:
         dynamicPlot.setDomainBoundaries(0, X_AXIS_LENGTH, BoundaryMode.FIXED); // freeze the domain boundary:
-//        dynamicPlot.getGraphWidget().setMargins(0, 20, 10, 10);
         dynamicPlot.setBorderStyle(Plot.BorderStyle.NONE, null, null);
         dynamicPlot.getBackgroundPaint().setColor(Color.TRANSPARENT);
         dynamicPlot.setBackgroundColor(Color.TRANSPARENT);
@@ -309,7 +297,6 @@ public class PlotFragment extends Fragment {
         dynamicPlot.getGraphWidget().setGridLinePaint(transparentPaint);
         dynamicPlot.getGraphWidget().setDomainOriginLabelPaint(transparentLinePaint);
         dynamicPlot.getGraphWidget().setDomainOriginLinePaint(gridLinePaint);
-//        dynamicPlot.getGraphWidget().setDomainLabelPaint(gridLinePaint);
         dynamicPlot.getGraphWidget().setDomainLabelPaint(transparentLinePaint);
         dynamicPlot.getGraphWidget().getDomainLabelPaint().setTextSize(20);
         dynamicPlot.getDomainLabelWidget().pack();
@@ -364,7 +351,6 @@ public class PlotFragment extends Fragment {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        // Update UI elements here
                         textViewPRR.setText(formattedValue);
                     }
                 });

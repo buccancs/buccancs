@@ -68,8 +68,6 @@ public class MainActivity extends Activity {
     int numberOfChannels = 0;
     private String bluetoothAdd = "";
     private String APP_DIR_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + APP_FOLDER_NAME + File.separator;
-    //Write to CSV variables
-    //private FileWriter fw;
     private BufferedWriter bw;
     Handler mHandler = new Handler() {
 
@@ -83,11 +81,9 @@ public class MainActivity extends Activity {
 
                         ObjectCluster objc = (ObjectCluster) msg.obj;
 
-                                                //Method 1 - retrieve data from the ObjectCluster using get method
                         double data = objc.getFormatClusterValue(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X, ChannelDetails.CHANNEL_TYPE.CAL.toString());
                         Log.i(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
 
-                        //Method 2a - retrieve data from the ObjectCluster by manually parsing the arrays
                         int index = -1;
                         for (int i = 0; i < objc.sensorDataArray.mSensorNames.length; i++) {
                             if (objc.sensorDataArray.mSensorNames[i] != null) {
@@ -97,19 +93,16 @@ public class MainActivity extends Activity {
                             }
                         }
                         if (index != -1) {
-                            //Index was found
                             data = objc.sensorDataArray.mCalData[index];
                             Log.w(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
                         }
 
-                        //Method 2b - retrieve data from the ObjectCluster by getting the index, then accessing the arrays
                         index = objc.getIndexForChannelName(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X);
                         if (index != -1) {
                             data = objc.sensorDataArray.mCalData[index];
                             Log.e(LOG_TAG, Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_WR_X + " data: " + data);
                         }
 
-                        //Method 2b - retrieve data from the ObjectCluster by getting the index, then accessing the arrays
                         index = objc.getIndexForChannelName(Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL);
                         if (index != -1) {
                             data = objc.sensorDataArray.mCalData[index];
@@ -118,7 +111,6 @@ public class MainActivity extends Activity {
 
                         /*
                             if (firstTimeWrite) {
-                                //Write headers on first-time
                                 for (String channelName : objc.sensorDataArray.mSensorNames) {
                                     try {
                                         bw.write(channelName + ",");
@@ -148,7 +140,6 @@ public class MainActivity extends Activity {
                             }
 */
 
-                        // Execute file writing task in a separate thread
                         executor.execute(new Runnable() {
                             @Override
                             public void run() {
@@ -177,7 +168,6 @@ public class MainActivity extends Activity {
                                 try {   //Stop CSV writing
                                     bw.flush();
                                     bw.close();
-                                    //fw.close();
                                     firstTimeWrite = true;
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -235,7 +225,6 @@ public class MainActivity extends Activity {
 
 
         if (!permissionGranted) {
-            // Should we show an explanation?
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
             } else {
@@ -273,11 +262,8 @@ public class MainActivity extends Activity {
         ShimmerBluetooth shimmer = (ShimmerBluetooth) btManager.getShimmer(bluetoothAdd);
         if (shimmer != null) {   //this is null if Shimmer device is not connected
             setupCSV();
-            //Disable PC timestamps for better performance. Disabling this takes the timestamps on every full packet received instead of on every byte received.
             shimmer.enablePCTimeStamps(false);
-            //Disable timers for better performance.
             shimmer.stopAllTimers();
-            //Enable the arrays data structure. Note that enabling this will disable the Multimap/FormatCluster data structure
             shimmer.enableArraysDataStructure(true);
             try {
                 btManager.startStreaming(bluetoothAdd);
@@ -308,7 +294,6 @@ public class MainActivity extends Activity {
 
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
                 bluetoothAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
                 preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BT_CLASSIC;
@@ -370,7 +355,6 @@ public class MainActivity extends Activity {
 
     private void writeDataToFile(ObjectCluster objc) {
         if (firstTimeWrite) {
-            //Write headers on first-time
             numberOfChannels = countNonNulls(objc.sensorDataArray.mSensorNames);
             int count = 1;
             for (String channelName : objc.sensorDataArray.mSensorNames) {
@@ -439,7 +423,6 @@ public class MainActivity extends Activity {
         private void setupCSV() {
         File dir = new File(APP_DIR_PATH);
         if (!dir.exists()) {
-            //Create the directory if it doesn't already exist
             dir.mkdir();
         }
 

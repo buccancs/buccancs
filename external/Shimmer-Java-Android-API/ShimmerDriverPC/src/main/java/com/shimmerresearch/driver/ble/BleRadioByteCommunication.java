@@ -47,7 +47,6 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
     }
 
         public String convertMacIDtoUUID(String MacID) {
-        //00000000-0000-0000-0000-e7452c6d6f14
         String uuid = "00000000-0000-0000-0000-";
         uuid = String.join("", uuid, MacID.replace(":", ""));
         return uuid;
@@ -67,7 +66,6 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
             writer.write(s, 0, s.length());
             writer.newLine();
             writer.flush();
-            // writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,7 +104,6 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
                     String line = null;
                     while (true) {
                         if ((line = reader.readLine()) != null) {
-//							System.out.println("BleRadioByteComm: " + line);
                             if (line.equals("Connected")) {
                                 mTaskConnect.setResult("Connected");
                                 if (mByteCommunicationListener != null) {
@@ -133,7 +130,6 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
                                         mByteCommunicationListener.eventNewBytesReceived(dataBytes);
                                     }
                                 } catch (DecoderException e) {
-                                    // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
                             } else {
@@ -162,7 +158,6 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
                 throw new ShimmerException("Connect Failed");
             }
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             throw new ShimmerException("InterruptedException");
         }
@@ -180,7 +175,6 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
                 throw new ShimmerException("Disconnect Failed");
             }
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             throw new ShimmerException("InterruptedException");
         }
@@ -199,7 +193,6 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
 
         @Override
     public String getUuid() {
-        // TODO Auto-generated method stub
         return this.uuid;
     }
 

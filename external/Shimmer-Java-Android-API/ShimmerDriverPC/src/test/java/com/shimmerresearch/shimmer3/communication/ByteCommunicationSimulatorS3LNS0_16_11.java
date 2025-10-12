@@ -14,7 +14,6 @@ public class ByteCommunicationSimulatorS3LNS0_16_11 extends ByteCommunicationSim
 
     public ByteCommunicationSimulatorS3LNS0_16_11(String address) {
         super(address);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

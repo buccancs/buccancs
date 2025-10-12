@@ -109,7 +109,6 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         }
         final int objectsListSize = objects.size();
 
-        // Not relying on recycle(T object) because this is more performant.
         for (int i = 0; i < objectsListSize; i++) {
             T object = objects.get(i);
             if (object.currentOwnerId != Poolable.NO_OWNER) {

@@ -80,7 +80,6 @@ public class TestRecordActivity extends Activity {
 
         setContentView(R.layout.activity_record_test);
 
-//        ffmpeg_link = getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath() + "/stream.flv";
         ffmpeg_link = String.format("%s/%d.mp4", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath(), new Date().getTime());
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -159,7 +158,6 @@ public class TestRecordActivity extends Activity {
                     Log.w(LOG_TAG, "Start Button Pushed");
                     btnRecorderControl.setText("Stop");
                 } else {
-                    // This will trigger the audio recording loop to stop and then set isRecorderStart = false;
                     stopRecording();
                     Log.w(LOG_TAG, "Stop Button Pushed");
                     btnRecorderControl.setText("Start");
@@ -188,9 +186,6 @@ public class TestRecordActivity extends Activity {
         Log.i(LOG_TAG, "cameara preview start: OK");
     }
 
-    //---------------------------------------
-    // initialize ffmpeg_recorder
-    //---------------------------------------
     private void initRecorder() {
 
         Log.w(LOG_TAG, "init recorder");
@@ -212,7 +207,6 @@ public class TestRecordActivity extends Activity {
         recorder = new FFmpegFrameRecorder(ffmpeg_link, imageWidth, imageHeight, 1);
         recorder.setFormat("mp4");
         recorder.setSampleRate(sampleAudioRateInHz);
-        // Set in the surface changed method
         recorder.setFrameRate(frameRate);
 
         Log.i(LOG_TAG, "recorder initialize success");
@@ -322,16 +316,12 @@ public class TestRecordActivity extends Activity {
     }
 
 
-    //---------------------------------------------
-    // audio thread, gets and encodes audio data
-    //---------------------------------------------
     class AudioRecordRunnable implements Runnable {
 
         @Override
         public void run() {
             android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
 
-            // Audio
             int bufferSize;
             ShortBuffer audioData;
             int bufferReadResult;
@@ -359,17 +349,13 @@ public class TestRecordActivity extends Activity {
                     audioData = samples[samplesIndex++ % samples.length];
                     audioData.position(0).limit(0);
                 }
-                //Log.v(LOG_TAG,"recording? " + recording);
                 bufferReadResult = audioRecord.read(audioData.array(), 0, audioData.capacity());
                 audioData.limit(bufferReadResult);
                 if (bufferReadResult > 0) {
                     Log.v(LOG_TAG, "bufferReadResult: " + bufferReadResult);
-                    // If "recording" isn't true when start this thread, it never get's set according to this if statement...!!!
-                    // Why?  Good question...
                     if (recording) {
                         if (RECORD_LENGTH <= 0) try {
                             recorder.recordSamples(audioData);
-                            //Log.v(LOG_TAG,"recording " + 1024*i + " to " + 1024*i+1024);
                         } catch (FFmpegFrameRecorder.Exception e) {
                             Log.v(LOG_TAG, e.getMessage());
                             e.printStackTrace();
@@ -388,9 +374,6 @@ public class TestRecordActivity extends Activity {
         }
     }
 
-    //---------------------------------------------
-    // camera thread, gets and encodes video data
-    //---------------------------------------------
     class CameraView extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
 
         private SurfaceHolder mHolder;
@@ -420,7 +403,6 @@ public class TestRecordActivity extends Activity {
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             Camera.Parameters camParams = mCamera.getParameters();
             List<Camera.Size> sizes = camParams.getSupportedPreviewSizes();
-            // Sort the list in ascending order
             Collections.sort(sizes, new Comparator<Camera.Size>() {
 
                 public int compare(final Camera.Size a, final Camera.Size b) {
@@ -428,8 +410,6 @@ public class TestRecordActivity extends Activity {
                 }
             });
 
-            // Pick the first preview size that is equal or bigger, or pick the last (biggest) option if we cannot
-            // reach the initial settings of imageWidth/imageHeight.
             for (int i = 0; i < sizes.size(); i++) {
                 if ((sizes.get(i).width >= imageWidth && sizes.get(i).height >= imageHeight) || i == sizes.size() - 1) {
                     imageWidth = sizes.get(i).width;
@@ -455,7 +435,6 @@ public class TestRecordActivity extends Activity {
                 mHolder.addCallback(null);
                 mCamera.setPreviewCallback(null);
             } catch (RuntimeException e) {
-                // The camera has probably just been released, ignore.
             }
         }
 

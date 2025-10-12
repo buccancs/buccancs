@@ -10,7 +10,6 @@ import com.shimmerresearch.driverUtilities.ConfigOptionDetails.GUI_COMPONENT_TYP
 public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Serializable {
 
         private static final long serialVersionUID = -8894717489924237791L;
-    //TODO improve code below as a list or Map (implemented in the early days of Consensys)
     private String[] mGuiValuesAlt1;
     private Integer[] mConfigValuesAlt1;
     private String[] mGuiValuesAlt2;

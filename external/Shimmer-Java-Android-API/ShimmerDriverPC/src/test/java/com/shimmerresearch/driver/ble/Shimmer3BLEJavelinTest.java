@@ -13,9 +13,7 @@ public class Shimmer3BLEJavelinTest {
     public static Shimmer3BLEJavelinTest s_t;
     static byte[] l_bytes = {0x3F};//hwid
     static byte[] t_bytes = {0x06};
-    //static String l_device = "BluetoothLE#BluetoothLE8c:b8:7e:0b:48:2e-e8:eb:1b:97:67:ad";
     static String l_device = "BluetoothLE#BluetoothLE8c:b8:7e:0b:48:2e-e8:eb:1b:93:68:dd";
-    //static String l_device = "BluetoothLE#BluetoothLE8c:b8:7e:0b:48:2e-e8:eb:1b:71:3e:36";
     static String l_name = "";
     static URLClassLoader classLoader;
     static Class<?> loadedClass;
@@ -32,7 +30,6 @@ public class Shimmer3BLEJavelinTest {
 
             l_name = javelin.getBLEDeviceName(l_device);
             String l_services[] = javelin.listBLEDeviceServices(l_device);
-            //String l_chars[] = javelin.listBLEServiceCharacteristics(l_device, l_services[2]);
             String l_chars[] = javelin.listBLEServiceCharacteristics(l_device, "49535343-fe7d-4ae5-8fa9-9fafd205e455".toUpperCase());
             System.out.println("  Name: " + l_name);
             boolean connected = javelin.watchBLECharacteristicChanges(l_device,
@@ -47,12 +44,9 @@ public class Shimmer3BLEJavelinTest {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                //stopStreaming();
 
-                //disconnect();
             }
         }
     }
@@ -63,7 +57,6 @@ public class Shimmer3BLEJavelinTest {
         javelin.clearBLECharacteristicChanges(l_device,
                 "49535343-fe7d-4ae5-8fa9-9fafd205e455".toUpperCase(),
                 "49535343-1e4d-4bd9-ba61-23c647249616".toUpperCase());
-        //javelin.disconnectDevice(l_device);
 
     }
 
@@ -122,7 +115,6 @@ public class Shimmer3BLEJavelinTest {
     }
 
     public static String getAbsoluteDLLPath(String dllPath) {
-        // Get the absolute path to the JAR file's directory
         String jarDirectory;
         try {
             jarDirectory = new File(Shimmer3BLEJavelinTest.class.getProtectionDomain()
@@ -134,7 +126,6 @@ public class Shimmer3BLEJavelinTest {
             String absoluteDLLPath = new File(directory, dllPath).getAbsolutePath();
             return absoluteDLLPath;
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return "";
@@ -145,7 +136,6 @@ public class Shimmer3BLEJavelinTest {
     public static void main(String[] args) {
         try {
 
-            // Construct the absolute path to the DLL
             System.out.println("Loading dlls");
             System.load(getAbsoluteDLLPath("libs/javelin.dll"));
             System.load(getAbsoluteDLLPath("libs/msvcp140d_app.dll"));
@@ -173,7 +163,6 @@ public class Shimmer3BLEJavelinTest {
         }
 
 
-        //System.loadLibrary("javelin");
         System.out.println("dlls loaded");
         s_t = new Shimmer3BLEJavelinTest();
     }
@@ -184,7 +173,6 @@ public class Shimmer3BLEJavelinTest {
                     "49535343-fe7d-4ae5-8fa9-9fafd205e455".toUpperCase(),
                     "49535343-8841-43f4-a8d4-ecbe34729bb3".toUpperCase(),
                     new byte[]{0x07}));
-            // Thread's code here
             while (true) {
                 l_bytes = javelin.waitForBLECharacteristicChanges(l_device,
                         "49535343-fe7d-4ae5-8fa9-9fafd205e455".toUpperCase(),

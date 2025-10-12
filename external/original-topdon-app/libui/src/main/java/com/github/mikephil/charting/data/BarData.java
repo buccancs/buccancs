@@ -72,7 +72,6 @@ public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
             float innerInterval = end - start;
             float diff = interval - innerInterval;
 
-            // correct rounding errors
             if (diff > 0 || diff < 0) {
                 fromX += diff;
             }

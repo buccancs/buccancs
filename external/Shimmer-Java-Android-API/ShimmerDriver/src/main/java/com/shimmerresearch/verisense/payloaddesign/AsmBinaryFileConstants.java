@@ -48,8 +48,6 @@ public class AsmBinaryFileConstants {
     }
 
     public class BYTE_COUNT {
-        // Separation here between "Payload Contents" and "Payload" as the Payload
-        // Contents alone can be compressed in the future but the payload as a whole can not
         public static final int PAYLOAD_CONTENTS_RESERVED_SIZE = 32768;
 
         public static final int PAYLOAD_CONTENTS_RTC_BYTES_MINUTES = 4;

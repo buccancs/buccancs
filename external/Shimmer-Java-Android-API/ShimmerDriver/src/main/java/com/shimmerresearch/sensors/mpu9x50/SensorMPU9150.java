@@ -23,8 +23,6 @@ import com.shimmerresearch.sensors.AbstractSensor;
 
 public class SensorMPU9150 extends SensorMPU9X50 {
 
-    //--------- Channel info start --------------
-    // MPU9150 Gyro
     public static final ChannelDetails channelGyroX = new ChannelDetails(
             ObjectClusterSensorName.GYRO_X,
             ObjectClusterSensorName.GYRO_X,
@@ -49,14 +47,12 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_UNITS.DEGREES_PER_SECOND,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x0C);
-    // MPU Accel
     public static final ChannelDetails channelAccelX = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_MPU_X,
             ObjectClusterSensorName.ACCEL_MPU_X,
             DatabaseChannelHandles.ALTERNATIVE_ACC_X,
             CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
-            // no CAL channel currently as calibration parameters are not stored anywhere
             Arrays.asList(CHANNEL_TYPE.UNCAL));
     public static final ChannelDetails channelAccelY = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_MPU_Y,
@@ -64,7 +60,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             DatabaseChannelHandles.ALTERNATIVE_ACC_Y,
             CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
-            // no CAL channel currently as calibration parameters are not stored anywhere
             Arrays.asList(CHANNEL_TYPE.UNCAL));
     public static final ChannelDetails channelAccelZ = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_MPU_Z,
@@ -72,11 +67,7 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             DatabaseChannelHandles.ALTERNATIVE_ACC_Z,
             CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
-            // no CAL channel currently as calibration parameters are not stored anywhere
             Arrays.asList(CHANNEL_TYPE.UNCAL));
-    //MPU MAG
-    //Mag is actually 13-bit, signed and LSB
-    //refer to https://github.com/kriswiner/MPU-9150/blob/master/MPU9150BasicAHRS.ino for calibration
     public static final ChannelDetails channelMagX = new ChannelDetails(
             ObjectClusterSensorName.MAG_MPU_X,
             ObjectClusterSensorName.MAG_MPU_X,
@@ -98,7 +89,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.U_TESLA,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Quaternions 6DOF
     public static final ChannelDetails channelQuatMpl6DofW = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MPL_6DOF_W,
             ObjectClusterSensorName.QUAT_MPL_6DOF_W,
@@ -127,7 +117,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Quaternions 9DOF
     public static final ChannelDetails channelQuatMpl9DofW = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MPL_9DOF_W,
             ObjectClusterSensorName.QUAT_MPL_9DOF_W,
@@ -156,7 +145,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Euler
     public static final ChannelDetails channelEulerMpl6DofX = new ChannelDetails(
             ObjectClusterSensorName.EULER_MPL_6DOF_X,
             ObjectClusterSensorName.EULER_MPL_6DOF_X,
@@ -199,7 +187,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Heading
     public static final ChannelDetails channelMplHeading = new ChannelDetails(
             ObjectClusterSensorName.MPL_HEADING,
             ObjectClusterSensorName.MPL_HEADING,
@@ -207,7 +194,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.DEGREES,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPU9150 Temperature
     public static final ChannelDetails channelMplTemperature = new ChannelDetails(
             ObjectClusterSensorName.MPL_TEMPERATURE,
             ObjectClusterSensorName.MPL_TEMPERATURE,
@@ -215,7 +201,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.DEGREES_CELSIUS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Pedometer
     public static final ChannelDetails channelMplPedomCount = new ChannelDetails(
             ObjectClusterSensorName.MPL_PEDOM_CNT,
             ObjectClusterSensorName.MPL_PEDOM_CNT,
@@ -230,15 +215,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.UINT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    //	// MPL Tap
-//	public static final ChannelDetails channelMplTapDirAndTapCnt = new ChannelDetails(
-//					ObjectClusterSensorName.TAPDIRANDTAPCNT,
-//					ObjectClusterSensorName.TAPDIRANDTAPCNT,
-//					DatabaseChannelHandles.TAP_DIR_AND_CNT,
-//					CHANNEL_DATA_TYPE.UINT8, 1, CHANNEL_DATA_ENDIAN.MSB,
-//					CHANNEL_UNITS.NO_UNITS,
-//					Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Tap Direction
     public static final ChannelDetails channelMplTapDir = new ChannelDetails(
             ObjectClusterSensorName.TAPDIR,
             ObjectClusterSensorName.TAPDIR,
@@ -246,7 +222,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.UINT8, 1, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    //MPL Tap Count
     public static final ChannelDetails channelMplTapCnt = new ChannelDetails(
             ObjectClusterSensorName.TAPCNT,
             ObjectClusterSensorName.TAPCNT,
@@ -254,7 +229,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.UINT8, 1, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Motion Orient
     public static final ChannelDetails channelMplMotionAndOrient = new ChannelDetails(
             ObjectClusterSensorName.MOTIONANDORIENT,
             ObjectClusterSensorName.MOTIONANDORIENT,
@@ -262,7 +236,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.UINT8, 1, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Motion
     public static final ChannelDetails channelMplMotion = new ChannelDetails(
             ObjectClusterSensorName.MOTION,
             ObjectClusterSensorName.MOTION,
@@ -270,7 +243,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.UINT8, 1, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Orient
     public static final ChannelDetails channelMplOrient = new ChannelDetails(
             ObjectClusterSensorName.ORIENT,
             ObjectClusterSensorName.ORIENT,
@@ -278,7 +250,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.UINT8, 1, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Gyro Calibrated
     public static final ChannelDetails channelGyroMpuMplX = new ChannelDetails(
             ObjectClusterSensorName.GYRO_MPU_MPL_X,
             ObjectClusterSensorName.GYRO_MPU_MPL_X,
@@ -300,7 +271,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.DEGREES_PER_SECOND,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL MPU Accelerometer Calibrated
     public static final ChannelDetails channelAccelMpuMplX = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_MPU_MPL_X,
             ObjectClusterSensorName.ACCEL_MPU_MPL_X,
@@ -322,7 +292,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.GRAVITY,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // MPL Magnetometer Calibrated
     public static final ChannelDetails channelMagMpuMplX = new ChannelDetails(
             ObjectClusterSensorName.MAG_MPU_MPL_X,
             ObjectClusterSensorName.MAG_MPU_MPL_X,
@@ -344,7 +313,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             CHANNEL_DATA_TYPE.INT32, 4, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.U_TESLA,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // Raw 6DOF Quaterian's from the DMP hardware module of the MPU9150
     public static final ChannelDetails channelQuatDmp6DofW = new ChannelDetails(
             ObjectClusterSensorName.QUAT_DMP_6DOF_W,
             ObjectClusterSensorName.QUAT_DMP_6DOF_W,
@@ -405,13 +373,8 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             false);
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
 
-    //--------- Channel info end --------------
 
-    //--------- Sensor info start --------------
     public static final Map<String, OldCalDetails> mOldCalRangeMap;
-    //	{
-//		sensorMpu9150GyroRef.mCalibSensorKey = 0x01;
-//	}
     public static final ConfigOptionDetailsSensor configOptionMpu9150GyroRange = new ConfigOptionDetailsSensor(
             SensorMPU9X50.GuiLabelConfig.MPU9X50_GYRO_RANGE,
             SensorMPU9150.DatabaseConfigHandle.GYRO_RANGE,
@@ -419,7 +382,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             ListofMPU9X50GyroRangeConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
-    //MPL Options
     public static final ConfigOptionDetailsSensor configOptionMpu9150AccelRange = new ConfigOptionDetailsSensor(
             SensorMPU9X50.GuiLabelConfig.MPU9X50_ACCEL_RANGE,
             SensorMPU9150.DatabaseConfigHandle.ALTERNATIVE_ACC_RANGE,
@@ -441,7 +403,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             ListofMPU9150MplLpfOptionsConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors);
-    //--------- Sensor info end --------------
     public static final ConfigOptionDetailsSensor configOptionMpu9150MplRate = new ConfigOptionDetailsSensor(
             SensorMPU9X50.GuiLabelConfig.MPU9X50_MPL_RATE,
             SensorMPU9150.DatabaseConfigHandle.MPU_MPL_SAMPLING_RATE,
@@ -457,10 +418,7 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors);
 
-    //--------- Sensor specific variables end --------------
 
-    //--------- Configuration options start --------------
-    //MPL CheckBoxes
     public static final ConfigOptionDetailsSensor configOptionMpu9150Dmp = new ConfigOptionDetailsSensor(
             SensorMPU9X50.GuiLabelConfig.MPU9X50_DMP,
             SensorMPU9150.DatabaseConfigHandle.MPU_DMP,
@@ -491,7 +449,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             SensorMPU9150.DatabaseConfigHandle.MPU_MAG,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors);
-    //General Config
     public static final ConfigOptionDetailsSensor configOptionMpu9150GyroRate = new ConfigOptionDetailsSensor(
             SensorMPU9X50.GuiLabelConfig.MPU9X50_GYRO_RATE,
             SensorMPU9150.DatabaseConfigHandle.GYRO_RATE,
@@ -506,48 +463,39 @@ public class SensorMPU9150 extends SensorMPU9X50 {
 
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
-        // MPU9150 Gyro
         aMap.put(ObjectClusterSensorName.GYRO_X, SensorMPU9150.channelGyroX);
         aMap.put(ObjectClusterSensorName.GYRO_Y, SensorMPU9150.channelGyroY);
         aMap.put(ObjectClusterSensorName.GYRO_Z, SensorMPU9150.channelGyroZ);
-        // MPU9150 Accel
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_X, SensorMPU9150.channelAccelX);
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_Y, SensorMPU9150.channelAccelY);
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_Z, SensorMPU9150.channelAccelZ);
-        // MPU9150 Mag
         aMap.put(ObjectClusterSensorName.MAG_MPU_X, SensorMPU9150.channelMagX);
         aMap.put(ObjectClusterSensorName.MAG_MPU_Y, SensorMPU9150.channelMagY);
         aMap.put(ObjectClusterSensorName.MAG_MPU_Z, SensorMPU9150.channelMagZ);
 
-        // MPL Gyro Calibrated
         aMap.put(ObjectClusterSensorName.GYRO_MPU_MPL_X, SensorMPU9150.channelGyroMpuMplX);
         aMap.put(ObjectClusterSensorName.GYRO_MPU_MPL_Y, SensorMPU9150.channelGyroMpuMplY);
         aMap.put(ObjectClusterSensorName.GYRO_MPU_MPL_Z, SensorMPU9150.channelGyroMpuMplZ);
 
-        // MPL Accelerometer Calibrated
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_MPL_X, SensorMPU9150.channelAccelMpuMplX);
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_MPL_Y, SensorMPU9150.channelAccelMpuMplY);
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_MPL_Z, SensorMPU9150.channelAccelMpuMplZ);
 
-        // MPL Magnetometer Calibrated
         aMap.put(ObjectClusterSensorName.MAG_MPU_MPL_X, SensorMPU9150.channelMagMpuMplX);
         aMap.put(ObjectClusterSensorName.MAG_MPU_MPL_Y, SensorMPU9150.channelMagMpuMplY);
         aMap.put(ObjectClusterSensorName.MAG_MPU_MPL_Z, SensorMPU9150.channelMagMpuMplZ);
 
 
-        // MPL Quaternions 6DOF
         aMap.put(ObjectClusterSensorName.QUAT_MPL_6DOF_W, SensorMPU9150.channelQuatMpl6DofW);
         aMap.put(ObjectClusterSensorName.QUAT_MPL_6DOF_X, SensorMPU9150.channelQuatMpl6DofX);
         aMap.put(ObjectClusterSensorName.QUAT_MPL_6DOF_Y, SensorMPU9150.channelQuatMpl6DofY);
         aMap.put(ObjectClusterSensorName.QUAT_MPL_6DOF_Z, SensorMPU9150.channelQuatMpl6DofZ);
 
-        // MPL Quaternions 9DOF
         aMap.put(ObjectClusterSensorName.QUAT_MPL_9DOF_W, SensorMPU9150.channelQuatMpl9DofW);
         aMap.put(ObjectClusterSensorName.QUAT_MPL_9DOF_X, SensorMPU9150.channelQuatMpl9DofX);
         aMap.put(ObjectClusterSensorName.QUAT_MPL_9DOF_Y, SensorMPU9150.channelQuatMpl9DofY);
         aMap.put(ObjectClusterSensorName.QUAT_MPL_9DOF_Z, SensorMPU9150.channelQuatMpl9DofZ);
 
-        // MPL Euler
         aMap.put(ObjectClusterSensorName.EULER_MPL_6DOF_X, SensorMPU9150.channelEulerMpl6DofX);
         aMap.put(ObjectClusterSensorName.EULER_MPL_6DOF_Y, SensorMPU9150.channelEulerMpl6DofY);
         aMap.put(ObjectClusterSensorName.EULER_MPL_6DOF_Z, SensorMPU9150.channelEulerMpl6DofZ);
@@ -556,28 +504,19 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         aMap.put(ObjectClusterSensorName.EULER_MPL_9DOF_Y, SensorMPU9150.channelEulerMpl9DofY);
         aMap.put(ObjectClusterSensorName.EULER_MPL_9DOF_Z, SensorMPU9150.channelEulerMpl9DofZ);
 
-        // MPL Heading
         aMap.put(ObjectClusterSensorName.MPL_HEADING, SensorMPU9150.channelMplHeading);
 
-        // MPU9150 Temperature
         aMap.put(ObjectClusterSensorName.MPL_TEMPERATURE, SensorMPU9150.channelMplTemperature);
 
-        // MPL Pedometer
         aMap.put(ObjectClusterSensorName.MPL_PEDOM_CNT, SensorMPU9150.channelMplPedomCount);
         aMap.put(ObjectClusterSensorName.MPL_PEDOM_TIME, SensorMPU9150.channelMplPedomTime);
 
-//		// MPL Tap
-//		aMap.put(ObjectClusterSensorName.TAPDIRANDTAPCNT, SensorMPU9150.channelMplTapDirAndTapCnt);
-        // MPL Tap Direction
         aMap.put(ObjectClusterSensorName.TAPDIR, SensorMPU9150.channelMplTapDir);
-        // MPL Tap Count
         aMap.put(ObjectClusterSensorName.TAPCNT, SensorMPU9150.channelMplTapCnt);
 
-        // MPL Motion Orient
         aMap.put(ObjectClusterSensorName.MOTIONANDORIENT, SensorMPU9150.channelMplMotionAndOrient);
         aMap.put(ObjectClusterSensorName.MOTION, SensorMPU9150.channelMplMotion);
         aMap.put(ObjectClusterSensorName.ORIENT, SensorMPU9150.channelMplOrient);
-        // Raw 6DOF Quaterian's from the DMP hardware module of the MPU9150
         aMap.put(ObjectClusterSensorName.QUAT_DMP_6DOF_W, SensorMPU9150.channelQuatDmp6DofW);
         aMap.put(ObjectClusterSensorName.QUAT_DMP_6DOF_X, SensorMPU9150.channelQuatDmp6DofX);
         aMap.put(ObjectClusterSensorName.QUAT_DMP_6DOF_Y, SensorMPU9150.channelQuatDmp6DofY);
@@ -611,157 +550,19 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         super(SENSORS.MPU9X50, shimmerDevice);
         initialise();
     }
-    //--------- Configuration options end --------------
 
 
-    //--------- Constructors for this class start --------------
 
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
-        //TODO Old approach, can be removed
-//		String objectClusterName = "";
-//		if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.GYRO_X)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.GYRO_X;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.GYRO_Y)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.GYRO_Y;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.GYRO_Z)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.GYRO_Z;
 //
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.ALTERNATIVE_ACC_X)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_X;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.ALTERNATIVE_ACC_Y)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_Y;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.ALTERNATIVE_ACC_Z)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_Z;
 //
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_W)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.QUAT_MPL_6DOF_W;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_X)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.QUAT_MPL_6DOF_X;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_Y)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.QUAT_MPL_6DOF_Y;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_Z)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.QUAT_MPL_6DOF_Z;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_EULER_6DOF_X)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.EULER_MPL_6DOF_X;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_EULER_6DOF_Y)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.EULER_MPL_6DOF_Y;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_EULER_6DOF_Z)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.EULER_MPL_6DOF_Z;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_HEADING)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.MPL_HEADING;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_TEMP)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.MPL_TEMPERATURE;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.PEDOMETER_CNT)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.MPL_PEDOM_CNT;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.PEDOMETER_TIME)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.MPL_PEDOM_TIME;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.TAP_DIR_AND_CNT)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.TAPDIRANDTAPCNT;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MOTION_AND_ORIENT)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.MOTIONANDORIENT;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_GYRO_X)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.GYRO_MPU_MPL_X;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_GYRO_Y)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.GYRO_MPU_MPL_Y;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_GYRO_Z)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.GYRO_MPU_MPL_Z;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_ACC_X)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_MPL_X;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_ACC_Y)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_MPL_Y;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_ACC_Z)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_MPL_Z;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_MAG_X)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.MAG_MPU_MPL_X;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_MAG_Y)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.MAG_MPU_MPL_Y;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_MAG_Z)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.MAG_MPU_MPL_Z;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_DMP_W)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.QUAT_DMP_6DOF_W;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_DMP_X)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.QUAT_DMP_6DOF_X;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_DMP_Y)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.QUAT_DMP_6DOF_Y;
-//		} else if (databaseChannelHandle.equals(SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_DMP_Z)) {
-//			objectClusterName = SensorMPU9X50.ObjectClusterSensorName.QUAT_DMP_6DOF_Z;
-//		}
-//		return objectClusterName;
 
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
-        //TODO Old approach, can be removed
-//		String databaseChannelHandle = "";
-//		if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.GYRO_X)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.GYRO_X;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.GYRO_Y)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.GYRO_Y;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.GYRO_Z)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.GYRO_Z;
 //
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_X)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.ALTERNATIVE_ACC_X;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_Y)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.ALTERNATIVE_ACC_Y;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_Z)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.ALTERNATIVE_ACC_Z;
 //
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.QUAT_MPL_6DOF_W)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_W;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.QUAT_MPL_6DOF_X)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_X;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.QUAT_MPL_6DOF_Y)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_Y;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.QUAT_MPL_6DOF_Z)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_Z;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.EULER_MPL_6DOF_X)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_EULER_6DOF_X;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.EULER_MPL_6DOF_Y)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_EULER_6DOF_Y;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.EULER_MPL_6DOF_Z)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_EULER_6DOF_Z;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.MPL_HEADING)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_HEADING;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.MPL_TEMPERATURE)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_TEMP;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.MPL_PEDOM_CNT)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.PEDOMETER_CNT;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.MPL_PEDOM_TIME)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.PEDOMETER_TIME;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.TAPDIRANDTAPCNT)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.TAP_DIR_AND_CNT;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.MOTIONANDORIENT)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MOTION_AND_ORIENT;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.GYRO_MPU_MPL_X)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_GYRO_X;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.GYRO_MPU_MPL_Y)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_GYRO_Y;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.GYRO_MPU_MPL_Z)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_GYRO_Z;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_MPL_X)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_ACC_X;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_MPL_Y)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_ACC_Y;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.ACCEL_MPU_MPL_Z)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_ACC_Z;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.MAG_MPU_MPL_X)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_MAG_X;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.MAG_MPU_MPL_Y)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_MAG_Y;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.MAG_MPU_MPL_Z)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_MPL_MAG_Z;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.QUAT_DMP_6DOF_W)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_DMP_W;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.QUAT_DMP_6DOF_X)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_DMP_X;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.QUAT_DMP_6DOF_Y)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_DMP_Y;
-//		} else if (objectClusterName.equals(SensorMPU9X50.ObjectClusterSensorName.QUAT_DMP_6DOF_Z)) {
-//			databaseChannelHandle = SensorMPU9X50.DatabaseChannelHandles.MPU_QUAT_6DOF_DMP_Z;
-//		}
-//		return databaseChannelHandle;
 
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
     }
@@ -778,26 +579,22 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         updateCurrentGyroCalibInUse();
     }
 
-    //--------- Constructors for this class end --------------
 
     @Override
     public void generateConfigOptionsMap() {
         mConfigOptionsMap.clear();
         addConfigOption(configOptionMpu9150GyroRange);
-        //MPL Options
         addConfigOption(configOptionMpu9150AccelRange);
         addConfigOption(configOptionMpu9150DmpGyroCal);
         addConfigOption(configOptionMpu9150MplLpf);
         addConfigOption(configOptionMpu9150MplRate);
         addConfigOption(configOptionMpu9150MagRate);
-        //MPL CheckBoxes
         addConfigOption(configOptionMpu9150Dmp);
         addConfigOption(configOptionMpu9150Mpl);
         addConfigOption(configOptionMpu9150Mpl9DofSensorFusion);
         addConfigOption(configOptionMpu9150MplGyroCal);
         addConfigOption(configOptionMpu9150MplVectorCal);
         addConfigOption(configOptionMpu9150MplMagCal);
-        //General Config
         addConfigOption(configOptionMpu9150GyroRate);
         addConfigOption(configOptionMpu9150GyroLpm);
     }
@@ -821,20 +618,8 @@ public class SensorMPU9150 extends SensorMPU9X50 {
                     CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW));
         }
 
-        // RM commented out the MPU channels prior to ConsensysPRO release as the firmware and maybe software also need update to support these channels
         if (mShimmerVerObject.isSupportedMpl()) {
-//			mSensorGroupingMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.MPU_ACCEL_GYRO_MAG.ordinal(), new SensorGroupingDetails(
-//					LABEL_SENSOR_TILE.MPU_ACCEL_GYRO_MAG,
-//					Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9150_MPL_ACCEL,
-//							Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9150_MPL_GYRO,
-//							Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9150_MPL_MAG),
-//					CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors));
-//			
-//			mSensorGroupingMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.MPU_OTHER.ordinal(), new SensorGroupingDetails(
-//					LABEL_SENSOR_TILE.MPU_OTHER,
-//					Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9X50_TEMP,
-//								Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9150_MPL_QUAT_6DOF),
-//					CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors));
+//
         }
 
         super.updateSensorGroupingMap();
@@ -930,36 +715,28 @@ public class SensorMPU9150 extends SensorMPU9X50 {
             setMPLEnabled(((Double) mapOfConfigPerShimmer.get(DatabaseConfigHandle.MPU_MPL_ENABLE)) > 0 ? true : false);
         }
 
-        //Gyroscope Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 mSensorIdGyro,
                 getGyroRange(),
                 SensorMPU9150.DatabaseConfigHandle.LIST_OF_CALIB_HANDLES_GYRO,
                 SensorMPU9150.DatabaseConfigHandle.GYRO_CALIB_TIME);
 
-        //TODO
-        //MPL Accel Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9X50_MPL_ACCEL,
                 getMPU9X50AccelRange(),
                 SensorMPU9150.DatabaseConfigHandle.LIST_OF_CALIB_HANDLES_MPU_MPL_ACC);
 
-        //TODO
-        //MPL Mag Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9X50_MPL_MAG,
                 0,
                 SensorMPU9150.DatabaseConfigHandle.LIST_OF_CALIB_HANDLES_MPU_MPL_MAG);
 
-        //TODO
-        //MPL Gyro Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9X50_MPL_GYRO,
                 getGyroRange(),
                 SensorMPU9150.DatabaseConfigHandle.LIST_OF_CALIB_HANDLES_MPU_MPL_GYRO);
     }
 
-    //--------- Sensor specific variables start --------------
     public static class DatabaseChannelHandles {
 
         public static final String MPU_HEADING = "MPU9150_MPL_Heading"; // not available but supported in FW
@@ -990,8 +767,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         public static final String MPU_EULER_9DOF_X = "MPU9150_MPL_EULER_9DOF_X"; // not available but supported in FW
         public static final String MPU_EULER_9DOF_Y = "MPU9150_MPL_EULER_9DOF_Y"; // not available but supported in FW
         public static final String MPU_EULER_9DOF_Z = "MPU9150_MPL_EULER_9DOF_Z"; // not available but supported in FW
-        //		public static final String MPU_HEADING = "MPU9150_MPL_HEADING"; -> already define for the shimmerCongig Table
-//		public static final String MPU_TEMP = "MPU9150_Temperature"; -> already define for the shimmerCongig Table
         public static final String PEDOMETER_CNT = "MPU9150_MPL_PEDOM_CNT"; // not available but supported in FW
         public static final String PEDOMETER_TIME = "MPU9150_MPL_PEDOM_TIME"; // not available but supported in FW
         public static final String TAP_DIR_AND_CNT = "MPU9150_MPL_TAP"; // not available but supported in FW
@@ -1018,9 +793,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
     }
 
     public static final class DatabaseConfigHandle {
-//		public static final String GYRO = "MPU9150_Gyro";
-//		public static final String ALTERNATIVE_ACC = "MPU9150_Acc"; // not available but supported in FW
-//		public static final String ALTERNATIVE_MAG = "MPU9150_Mag"; // not available but supported in FW
 
         public static final String MPU_QUAT_6DOF = "MPU9150_MPL_Quat_6DOF";
         public static final String MPU_EULER_6DOF = "MPU9150_MPL_Euler_6DOF";
@@ -1050,7 +822,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         public static final String MPU_MPL_VECT_COMP = "MPU9150_MPL_Vect_Comp";
         public static final String MPU_MAG_DIST = "MPU9150_MAG_Dist";
         public static final String MPU_MPL_ENABLE = "MPU9150_MPL_Enable";
-        // MPU GYRO
         public static final String GYRO_CALIB_TIME = "MPU9150_Gyro_Calib_Time";
         public static final String GYRO_OFFSET_X = "MPU9150_Gyro_Offset_X";
         public static final String GYRO_OFFSET_Y = "MPU9150_Gyro_Offset_Y";
@@ -1067,7 +838,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         public static final String GYRO_ALIGN_ZX = "MPU9150_Gyro_Align_ZX";
         public static final String GYRO_ALIGN_ZY = "MPU9150_Gyro_Align_ZY";
         public static final String GYRO_ALIGN_ZZ = "MPU9150_Gyro_Align_ZZ";
-        // MPU MPL ACCEL
         public static final String MPU_ACC_OFFSET_X = "MPU9150_MPL_Acc_Cal_Offset_X";
         public static final String MPU_ACC_OFFSET_Y = "MPU9150_MPL_Acc_Cal_Offset_Y";
         public static final String MPU_ACC_OFFSET_Z = "MPU9150_MPL_Acc_Cal_Offset_Z";
@@ -1083,7 +853,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         public static final String MPU_ACC_ALIGN_ZX = "MPU9150_MPL_Acc_Cal_Align_ZX";
         public static final String MPU_ACC_ALIGN_ZY = "MPU9150_MPL_Acc_Cal_Align_ZY";
         public static final String MPU_ACC_ALIGN_ZZ = "MPU9150_MPL_Acc_Cal_Align_ZZ";
-        // MPU MPL MAG
         public static final String MPU_MAG_OFFSET_X = "MPU9150_MPL_Mag_Cal_Offset_X";
         public static final String MPU_MAG_OFFSET_Y = "MPU9150_MPL_Mag_Cal_Offset_Y";
         public static final String MPU_MAG_OFFSET_Z = "MPU9150_MPL_Mag_Cal_Offset_Z";
@@ -1099,7 +868,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         public static final String MPU_MAG_ALIGN_ZX = "MPU9150_MPL_Mag_Cal_Align_ZX";
         public static final String MPU_MAG_ALIGN_ZY = "MPU9150_MPL_Mag_Cal_Align_ZY";
         public static final String MPU_MAG_ALIGN_ZZ = "MPU9150_MPL_Mag_Cal_Align_ZZ";
-        // MPU MPL GYRO
         public static final String MPU_GYRO_OFFSET_X = "MPU9150_MPL_Gyro_Cal_Offset_X";
         public static final String MPU_GYRO_OFFSET_Y = "MPU9150_MPL_Gyro_Cal_Offset_Y";
         public static final String MPU_GYRO_OFFSET_Z = "MPU9150_MPL_Gyro_Cal_Offset_Z";

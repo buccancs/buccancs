@@ -39,8 +39,6 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
     String mMac;
     String uuid;
 
-    //"DA:A6:19:F0:4A:D7"
-    //"E7:45:2C:6D:6F:14"
     TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
@@ -134,7 +132,6 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
                 if (service.getUuid().compareTo(sid) == 0) {
                     for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
                         if (characteristic.getUuid().compareTo(txid) == 0) {
-                            //newConnectedBLEDevice(bleDevice,characteristic);
                             CharSequence text = "TXID!";
                         } else if (characteristic.getUuid().compareTo(rxid) == 0) {
                             newConnectedBLEDevice(bleDevice, characteristic);

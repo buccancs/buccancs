@@ -118,7 +118,6 @@ public class YAxisRenderer extends AxisRenderer {
                 ? mYAxis.mEntryCount
                 : (mYAxis.mEntryCount - 1);
 
-        // draw
         for (int i = from; i < to; i++) {
 
             String text = mYAxis.getFormattedLabel(i);
@@ -147,10 +146,8 @@ public class YAxisRenderer extends AxisRenderer {
             Path gridLinePath = mRenderGridLinesPath;
             gridLinePath.reset();
 
-            // draw the grid
             for (int i = 0; i < positions.length; i += 2) {
 
-                // draw a path because lines don't support dashing on lower android versions
                 c.drawPath(linePath(gridLinePath, i, positions), mGridPaint);
                 gridLinePath.reset();
             }
@@ -185,7 +182,6 @@ public class YAxisRenderer extends AxisRenderer {
         float[] positions = mGetTransformedPositionsBuffer;
 
         for (int i = 0; i < positions.length; i += 2) {
-            // only fill y values, x values are not needed for y-labels
             positions[i + 1] = mYAxis.mEntries[i / 2];
         }
 
@@ -200,7 +196,6 @@ public class YAxisRenderer extends AxisRenderer {
         mZeroLineClippingRect.inset(0.f, -mYAxis.getZeroLineWidth());
         c.clipRect(mZeroLineClippingRect);
 
-        // draw zero line
         MPPointD pos = mTrans.getPixelForValues(0f, 0f);
 
         mZeroLinePaint.setColor(mYAxis.getZeroLineColor());
@@ -212,7 +207,6 @@ public class YAxisRenderer extends AxisRenderer {
         zeroLinePath.moveTo(mViewPortHandler.contentLeft(), (float) pos.y);
         zeroLinePath.lineTo(mViewPortHandler.contentRight(), (float) pos.y);
 
-        // draw a path because lines don't support dashing on lower android versions
         c.drawPath(zeroLinePath, mZeroLinePaint);
 
         c.restoreToCount(clipRestoreCount);
@@ -258,11 +252,9 @@ public class YAxisRenderer extends AxisRenderer {
 
             c.drawPath(limitLinePath, mLimitLinePaint);
             limitLinePath.reset();
-            // c.drawLines(pts, mLimitLinePaint);
 
             String label = l.getLabel();
 
-            // if drawing the limit-value label is enabled
             if (label != null && !label.equals("")) {
 
                 mLimitLinePaint.setStyle(l.getTextStyle());

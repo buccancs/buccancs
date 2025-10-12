@@ -32,7 +32,6 @@ public class ShimmerPCExample {
     ShimmerPC shimmer;
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         ShimmerPCExample example = new ShimmerPCExample();
         example.initialize();
     }
@@ -47,14 +46,11 @@ public class ShimmerPCExample {
         ShimmerPCExample example = new ShimmerPCExample();
         SensorDataReceived sdr = example.new SensorDataReceived();
         shimmer = new ShimmerPC("E454");
-        //shimmer.connect("COM14","");
         sdr.setWaitForData(shimmer);
 
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //shimmer = new ShimmerPC("E454");
                 shimmer.connect("COM12", "");
-                //sdr.setWaitForData(shimmer);
             }
         });
         btnNewButton.setBounds(10, 30, 89, 23);
@@ -66,7 +62,6 @@ public class ShimmerPCExample {
                 try {
                     shimmer.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -80,7 +75,6 @@ public class ShimmerPCExample {
                 try {
                     shimmer.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -121,13 +115,10 @@ public class ShimmerPCExample {
 
         @Override
         protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-            // TODO Auto-generated method stub
             System.out.println(shimmerMSG.mIdentifier);
 
 
-            // TODO Auto-generated method stub
 
-            // TODO Auto-generated method stub
             int ind = shimmerMSG.mIdentifier;
 
             Object object = (Object) shimmerMSG.mB;
@@ -138,7 +129,6 @@ public class ShimmerPCExample {
                 if (callbackObject.mState == BT_STATE.CONNECTING) {
                 } else if (callbackObject.mState == BT_STATE.CONNECTED) {
                 } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-//						|| callbackObject.mState == BT_STATE.NONE
                         || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
 
                 }

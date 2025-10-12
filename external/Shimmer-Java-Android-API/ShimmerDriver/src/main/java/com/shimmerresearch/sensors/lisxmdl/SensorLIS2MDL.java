@@ -40,7 +40,6 @@ import com.shimmerresearch.sensors.ActionSetting;
 public class SensorLIS2MDL extends AbstractSensor {
 
     public static final double[][] DefaultAlignmentLIS2MDL = {{-1, 0, 0}, {0, -1, 0}, {0, 0, -1}};
-    // ----------   Mag start ---------------
     public static final double[][] DefaultAlignmentMatrixMagShimmer3r = DefaultAlignmentLIS2MDL;
     public static final double[][] DefaultOffsetVectorMagShimmer3r = {{0}, {0}, {0}};
     public static final double[][] DefaultSensitivityMatrixMagShimmer3r = {{667, 0, 0}, {0, 667, 0}, {0, 0, 667}};
@@ -49,7 +48,6 @@ public class SensorLIS2MDL extends AbstractSensor {
     public static final String[] ListofLIS2MDLMagRange = {"+/- 49.152Ga"};
 
 
-    //--------- Sensor specific variables start --------------
     public static final Integer[] ListofLIS2MDLMagRangeConfigValues = {0};
     public static final ConfigOptionDetailsSensor configOptionMagRange = new ConfigOptionDetailsSensor(
             SensorLIS2MDL.GuiLabelConfig.LIS2MDL_MAG_RANGE,
@@ -72,13 +70,11 @@ public class SensorLIS2MDL extends AbstractSensor {
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS2MDL,
             Arrays.asList(GuiLabelConfig.LIS2MDL_MAG_RANGE,
                     GuiLabelConfig.LIS2MDL_MAG_RATE),
-            //MAG channel parsing order is XZY instead of XYZ but it would be better to represent it on the GUI in XYZ
             Arrays.asList(ObjectClusterSensorName.MAG_X,
                     ObjectClusterSensorName.MAG_Y,
                     ObjectClusterSensorName.MAG_Z));
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
 
-    // ----------   Mag end ---------------
     public static final ChannelDetails channelLIS2MDLMagX = new ChannelDetails(
             ObjectClusterSensorName.MAG_X,
             ObjectClusterSensorName.MAG_X,
@@ -108,12 +104,9 @@ public class SensorLIS2MDL extends AbstractSensor {
             LABEL_SENSOR_TILE.MAG,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_LIS2MDL_MAG),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS2MDL);
-    //--------- Bluetooth commands start --------------
     public static final byte SET_MAG_CALIBRATION_COMMAND = (byte) 0x17;
 
-    //--------- Sensor specific variables end --------------
 
-    //--------- Configuration options start --------------
     public static final byte MAG_CALIBRATION_RESPONSE = (byte) 0x18;
     public static final byte GET_MAG_CALIBRATION_COMMAND = (byte) 0x19;
     public static final byte SET_MAG_GAIN_COMMAND = (byte) 0x37;
@@ -121,16 +114,12 @@ public class SensorLIS2MDL extends AbstractSensor {
     public static final byte GET_MAG_GAIN_COMMAND = (byte) 0x39;
     public static final byte SET_MAG_SAMPLING_RATE_COMMAND = (byte) 0x3A;
 
-    //--------- Configuration options end --------------
 
-    //--------- Sensor info start --------------
     public static final byte MAG_SAMPLING_RATE_RESPONSE = (byte) 0x3B;
     public static final byte GET_MAG_SAMPLING_RATE_COMMAND = (byte) 0x3C;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
 
-    //--------- Sensor info end --------------
 
-    //--------- Channel info start --------------
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
         private static final long serialVersionUID = -2366590050010873738L;
 
@@ -156,7 +145,6 @@ public class SensorLIS2MDL extends AbstractSensor {
         mBtGetCommandMap = Collections.unmodifiableMap(aMap);
     }
 
-    //--------- Channel info end --------------
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -206,9 +194,7 @@ public class SensorLIS2MDL extends AbstractSensor {
     public void generateSensorMap() {
         super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
     }
-    //--------- Bluetooth commands end --------------
 
-    //--------- Constructors for this class start --------------
 
     @Override
     public void generateConfigOptionsMap() {
@@ -226,18 +212,13 @@ public class SensorLIS2MDL extends AbstractSensor {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
-        //XXX - RS: Also returning null in BMP180 and GSR sensors classes
         return null;
     }
 
-    //--------- Constructors for this class end --------------
 
-    //--------- Abstract methods implemented start --------------
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // 		Object returnValue = null;
         ActionSetting actionsetting = new ActionSetting(commType);
 
         return actionsetting;
@@ -260,7 +241,6 @@ public class SensorLIS2MDL extends AbstractSensor {
     }
 
     public CalibDetailsKinematic getCurrentCalibDetailsMag() {
-//		return getCurrentCalibDetails(mSensorIdMag, getMagRange());
         if (mCurrentCalibDetailsMag == null) {
             updateCurrentMagCalibInUse();
         }
@@ -268,7 +248,6 @@ public class SensorLIS2MDL extends AbstractSensor {
     }
 
     public void updateCurrentMagCalibInUse() {
-//		mCurrentCalibDetailsMag = getCurrentCalibDetailsMag();
         mCurrentCalibDetailsMag = getCurrentCalibDetailsIfKinematic(mSensorIdMag, getMagRange());
     }
 
@@ -310,7 +289,6 @@ public class SensorLIS2MDL extends AbstractSensor {
             setLIS2MDLMagRate(((Double) mapOfConfigPerShimmer.get(SensorLIS2MDL.DatabaseConfigHandle.MAG_RATE)).intValue());
         }
 
-        //Magnetometer Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_LIS2MDL_MAG,
                 getMagRange(),
@@ -320,11 +298,9 @@ public class SensorLIS2MDL extends AbstractSensor {
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
-    //--------- Optional methods to override in Sensor Class start --------
     @Override
     public void initialise() {
         mSensorIdMag = Configuration.Shimmer3.SENSOR_ID.SHIMMER_LIS2MDL_MAG;
@@ -356,8 +332,6 @@ public class SensorLIS2MDL extends AbstractSensor {
 
     public int setLIS2MDLAltMagRateFromFreq(double freq) {
         boolean isEnabled = isSensorEnabled(mSensorIdMag);
-//		System.out.println("Setting Sampling Rate: " + freq + "\tmLowPowerAccelAlt:" + mLowPowerAccelAlt);
-        //setLISMagRateInternal(getMagRateFromFreqForSensor(isEnabled, freq));
         if (isLowPowerMagEnabled()) {
             mLISMagRate = getMagRateFromFreqForSensor(isEnabled, freq, 0);
         } else {
@@ -366,7 +340,6 @@ public class SensorLIS2MDL extends AbstractSensor {
         return mLISMagRate;
     }
 
-    //--------- Abstract methods implemented end --------------
 
     public boolean checkLowPowerMag() {
         setLowPowerMag((getLIS2MDLMagRate() == 0) ? true : false); // 10Hz
@@ -381,9 +354,7 @@ public class SensorLIS2MDL extends AbstractSensor {
         return (isLowPowerMagEnabled() ? 1 : 0);
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
-    //--------- Sensor specific methods start --------------
 
     public void setLowPowerMag(boolean enable) {
         mLowPowerMag = enable;
@@ -419,15 +390,12 @@ public class SensorLIS2MDL extends AbstractSensor {
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType,
                                            ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs) {
 
-        // process data originating from the Shimmer
         objectCluster = sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestampMs);
 
-        //Calibration
         if (mEnableCalibration) {
             if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.MAG) && mCurrentCalibDetailsMag != null) {
                 double[] unCalibratedMagData = new double[3];
                 for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
-                    //Uncalibrated Magnetometer data
                     if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.MAG_X)) {
                         unCalibratedMagData[0] = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
                     } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.MAG_Y)) {
@@ -437,7 +405,6 @@ public class SensorLIS2MDL extends AbstractSensor {
                     }
                 }
 
-//				double[] calibratedMagData = UtilCalibration.calibrateInertialSensorData(unCalibratedMagData, mAlignmentMatrixMagnetometer, mSensitivityMatrixMagnetometer, mOffsetVectorMagnetometer);
                 double[] calibratedMagData = UtilCalibration.calibrateInertialSensorData(unCalibratedMagData, mCurrentCalibDetailsMag);
 
                 if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.MAG)) {
@@ -452,7 +419,6 @@ public class SensorLIS2MDL extends AbstractSensor {
                     }
                 }
 
-                //Debugging
                 if (mIsDebugOutput) {
                     super.consolePrintChannelsCal(objectCluster, Arrays.asList(
                             new String[]{ObjectClusterSensorName.MAG_X, CHANNEL_TYPE.UNCAL.toString()},
@@ -484,11 +450,8 @@ public class SensorLIS2MDL extends AbstractSensor {
         if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
             ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) configByteLayout;
 
-            //configBytes[configByteLayoutCast.idxConfigSetupByte2] |= (byte) ((getMagRange() & configByteLayoutCast.maskLSM303DLHCMagRange) << configByteLayoutCast.bitShiftLSM303DLHCMagRange);
             configBytes[configByteLayoutCast.idxConfigSetupByte2] |= (byte) ((getLIS2MDLMagRate() & configByteLayoutCast.maskLSM303DLHCMagSamplingRate) << configByteLayoutCast.bitShiftLSM303DLHCMagSamplingRate);
-            //configBytes[configByteLayoutCast.idxConfigSetupByte5] |= (byte) ((getLIS2MDLMagRate() >> 3 & configByteLayoutCast.maskLIS2MDLMagRateMSB) << configByteLayoutCast.bitShiftLIS2MDLMagRateMSB);
 
-            // LISM3MDL Magnetometer Calibration Parameters
             byte[] bufferCalibrationParameters = generateCalParamLIS2MDLMag();
             System.arraycopy(bufferCalibrationParameters, 0, configBytes, configByteLayoutCast.idxLSM303DLHCMagCalibration, configByteLayoutCast.lengthGeneralCalibrationBytes);
         }
@@ -504,10 +467,7 @@ public class SensorLIS2MDL extends AbstractSensor {
         if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
             ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) configByteLayout;
 
-            //setLISMagRange((configBytes[configByteLayoutCast.idxConfigSetupByte2] >> configByteLayoutCast.bitShiftLSM303DLHCMagRange) & configByteLayoutCast.maskLSM303DLHCMagRange);
-            //setLISMagRate((configBytes[configByteLayoutCast.idxConfigSetupByte2] >> configByteLayoutCast.bitShiftLSM303DLHCMagSamplingRate) & configByteLayoutCast.maskLSM303DLHCMagSamplingRate);
             int magRate = (configBytes[configByteLayoutCast.idxConfigSetupByte2] >> configByteLayoutCast.bitShiftLSM303DLHCMagSamplingRate) & configByteLayoutCast.maskLSM303DLHCMagSamplingRate;
-            //int msbMagRate = (configBytes[configByteLayoutCast.idxConfigSetupByte5] >> configByteLayoutCast.bitShiftLIS2MDLMagRateMSB) & configByteLayoutCast.maskLIS2MDLMagRateMSB;
             setLIS2MDLMagRate(magRate);
             checkLowPowerMag(); // check rate to determine if Sensor is in LPM mode
 
@@ -515,7 +475,6 @@ public class SensorLIS2MDL extends AbstractSensor {
                 getCurrentCalibDetailsMag().mCalibReadSource = CALIB_READ_SOURCE.INFOMEM;
             }
 
-            // LSM303DLHC Magnetometer Calibration Parameters
             byte[] bufferCalibrationParameters = new byte[configByteLayoutCast.lengthGeneralCalibrationBytes];
             System.arraycopy(configBytes, configByteLayoutCast.idxLSM303DLHCMagCalibration, bufferCalibrationParameters, 0, configByteLayoutCast.lengthGeneralCalibrationBytes);
             parseCalibParamFromPacketMag(bufferCalibrationParameters, CALIB_READ_SOURCE.INFOMEM);
@@ -541,11 +500,6 @@ public class SensorLIS2MDL extends AbstractSensor {
                 setLIS2MDLMagRate((int) valueToSet);
                 break;
 
-//			case(GuiLabelConfigCommon.KINEMATIC_CALIBRATION_ALL):
-//				TreeMap<Integer, TreeMap<Integer, CalibDetails>> mapOfKinematicSensorCalibration = (TreeMap<Integer, TreeMap<Integer, CalibDetails>>) valueToSet;
-//				setCalibration(mapOfKinematicSensorCalibration);
-//				returnValue = valueToSet;
-//	    		break;
             case (GuiLabelConfigCommon.RANGE):
                 if (sensorId == mSensorIdMag) {
                     this.setConfigValueUsingConfigLabel(GuiLabelConfig.LIS2MDL_MAG_RANGE, valueToSet);
@@ -584,12 +538,8 @@ public class SensorLIS2MDL extends AbstractSensor {
                 returnValue = getLIS2MDLMagRate();
                 break;
             case (GuiLabelConfig.LIS2MDL_MAG_RANGE):
-                //TODO check below and commented out code (RS (20/5/2016): Same as in ShimmerObject.)
                 returnValue = getMagRange();
 
-//			case(Configuration.Shimmer3.GuiLabelConfig.KINEMATIC_CALIBRATION_ALL):
-//				returnValue = getKinematicCalibration();
-//				break;
             case (GuiLabelConfigCommon.RANGE):
                 if (sensorId == mSensorIdMag) {
                     returnValue = this.getConfigValueUsingConfigLabel(GuiLabelConfig.LIS2MDL_MAG_RANGE);
@@ -632,7 +582,6 @@ public class SensorLIS2MDL extends AbstractSensor {
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -664,7 +613,6 @@ public class SensorLIS2MDL extends AbstractSensor {
         return getCurrentCalibDetailsMag().getValidOffsetVector();
     }
 
-    //--------- Sensor specific methods end --------------
 
     public static class DatabaseChannelHandles {
         public static final String MAG_X = "LIS2MDL_MAG_X";
@@ -678,7 +626,6 @@ public class SensorLIS2MDL extends AbstractSensor {
 
         public static final String MAG_LPM = "LIS2MDL_Mag_LPM";
 
-//		public static final String MAG = "LIS2MDL_Mag";
 
         public static final String MAG_CALIB_TIME = "LIS2MDL_Mag_Calib_Time";
         public static final String MAG_OFFSET_X = "LIS2MDL_Mag_Offset_X";
@@ -720,7 +667,6 @@ public class SensorLIS2MDL extends AbstractSensor {
         public static final String LIS2MDL_MAG_LP = "Mag Low-Power Mode";
         public static final String LIS2MDL_MAG_DEFAULT_CALIB = "Mag Default Calibration";
 
-        //NEW
         public static final String LIS2MDL_MAG_CALIB_PARAM = "Mag Calibration Details";
         public static final String LIS2MDL_MAG_VALID_CALIB = "Mag Valid Calibration";
 

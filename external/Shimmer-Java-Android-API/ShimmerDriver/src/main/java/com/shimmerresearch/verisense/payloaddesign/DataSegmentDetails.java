@@ -21,7 +21,6 @@ public class DataSegmentDetails implements Serializable {
 
     public static double getStartTimeMsFromDataBlockList(List<DataBlockDetails> listOfDataBlocks, boolean returnRwcTime) {
         if (listOfDataBlocks != null && listOfDataBlocks.size() > 0) {
-            // Return the first datablock belonging to the sensor from the list
             DataBlockDetails dataBlockDetails = listOfDataBlocks.get(0);
             if (returnRwcTime) {
                 return dataBlockDetails.getTimeDetailsRwc().getStartTimeMs();
@@ -34,7 +33,6 @@ public class DataSegmentDetails implements Serializable {
 
     public static double getEndTimeMsFromDataBlockList(List<DataBlockDetails> listOfDataBlocks, boolean returnRwcTime) {
         if (listOfDataBlocks != null && listOfDataBlocks.size() > 0) {
-            // Return the last datablock belonging to the sensor from the list
             DataBlockDetails dataBlockDetails = listOfDataBlocks.get(listOfDataBlocks.size() - 1);
             if (returnRwcTime) {
                 return dataBlockDetails.getTimeDetailsRwc().getEndTimeMs();
@@ -103,7 +101,6 @@ public class DataSegmentDetails implements Serializable {
                 + ", End=" + UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getEndTimeRwcMs())
                 + ", Duration=" + UtilVerisenseDriver.convertSecondsToHHmmssSSS((getEndTimeRwcMs() - getStartTimeRwcMs()) / 1000)
                 + "]"
-//		+ ", CalculatedSamplingRate=" + getCalculatedSamplingRate()
         );
     }
 

@@ -59,11 +59,6 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-//        paint.setColor(Color.RED);
-//        paint.setStrokeWidth(4.0f);
-//        paint.setStyle(Paint.Style.STROKE);
-//        canvas.drawRect(offset, offset, getWidth() - offset, getHeight()
-//                - offset, paint);
     }
 
     @Override
@@ -79,7 +74,6 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
             dragDirection = getDirection(v, (int) event.getX(),
                     (int) event.getY());
         }
-        // 处理拖动事件
         delDrag(v, event, action);
         invalidate();
         return false;

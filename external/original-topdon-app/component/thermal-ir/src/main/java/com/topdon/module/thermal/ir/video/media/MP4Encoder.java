@@ -34,9 +34,6 @@ public class MP4Encoder extends Encoder {
     private static final String TAG = MP4Encoder.class.getSimpleName();
     private static final int TIMEOUT_US = 10000;
     private int addedFrameCount;
-    //TODO 设置4096在高版本会出现崩溃 java.nio.BufferOverflowException
-    //音频文件不需要处理
-//    private byte[] audioArray = new byte[2048];
     private MediaCodec audioCodec;
     private int audioTrackIndex;
     private BufferInfo bufferInfo;
@@ -131,7 +128,6 @@ public class MP4Encoder extends Encoder {
         } else {
             int inputBufIndex = videoCodec.dequeueInputBuffer(TIMEOUT_US);
             if (inputBufIndex >= 0) {
-//                byte[] input = getNV12(bitmap.getWidth(), bitmap.getHeight(), bitmap);
                 byte[] input = EncodeYuvTools.INSTANCE.getNV12(bitmap.getWidth(), bitmap.getHeight(), bitmap, getColorFormat());
                 ByteBuffer inputBuffer = videoCodec.getInputBuffer(inputBufIndex);
                 inputBuffer.clear();
@@ -141,11 +137,6 @@ public class MP4Encoder extends Encoder {
             }
             int audioInputBufferIndex = audioCodec.dequeueInputBuffer(TIMEOUT_US);
             if (audioInputBufferIndex >= -1) {
-//                ByteBuffer encoderInputBuffer = audioCodec.getInputBuffer(audioInputBufferIndex);
-//                encoderInputBuffer.clear();
-//                encoderInputBuffer.put(audioArray);
-//                audioCodec.queueInputBuffer(audioInputBufferIndex, 0, audioArray.length,
-//                        getPresentationTimeUsec(addedFrameCount), 0);
             }
             addedFrameCount++;
             while (addedFrameCount > encodedFrameCount) {

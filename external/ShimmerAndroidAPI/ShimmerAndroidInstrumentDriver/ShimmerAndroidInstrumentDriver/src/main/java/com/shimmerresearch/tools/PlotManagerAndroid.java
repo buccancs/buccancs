@@ -97,10 +97,8 @@ public class PlotManagerAndroid extends AbstractPlotManager {
 
         public void addSignal(String[] signal, XYPlot chart) throws Exception {
         if (!checkIfPropertyExist(signal)) {
-            //Add the series first, cause the filter might find the signal before the series is added
             int index = mListofSeries.size();
             String name = signal[0] + " " + signal[1] + " " + signal[2] + " " + signal[3];
-            //List<Number> data = new ArrayList<Number>();
             List<Number> d = new ArrayList<Number>();
             XYSeriesShimmer xys = new XYSeriesShimmer(d);
             xys.setTitle(name);
@@ -125,10 +123,8 @@ public class PlotManagerAndroid extends AbstractPlotManager {
 
         public void addSignal(String[] signal, XYPlot chart, int[] color) throws Exception {
         if (!checkIfPropertyExist(signal)) {
-            //Add the series first, cause the filter might find the signal before the series is added
 
             String name = joinChannelStringArray(signal);
-            //List<Number> data = new ArrayList<Number>();
             List<Number> d = new ArrayList<Number>();
             int index = mListofSeries.size();
             XYSeriesShimmer xys = new XYSeriesShimmer(d);
@@ -198,8 +194,6 @@ public class PlotManagerAndroid extends AbstractPlotManager {
 
         for (int j = listOfIndex.size() - 1; j >= 0; j--) {
             mDynamicPlot.removeSeries(mListofSeries.get(listOfIndex.get(j)));
-//			mListofSeries.remove(listOfIndex.get(j));
-//			super.removeSignal(listOfIndex.get(j));
         }
         mListofSeries.removeAll(tempListOfSeries);
         super.removeCollectionOfSignal(propertiesToRemove, tempListOfColors);
@@ -207,7 +201,6 @@ public class PlotManagerAndroid extends AbstractPlotManager {
     }
 
         public void filterDataAndPlot(ObjectCluster ojc) throws Exception {
-        // TODO Auto-generated method stub
 
         for (int i = 0; i < mListofPropertiestoPlot.size(); i++) {
             String[] props = mListofPropertiestoPlot.get(i);
@@ -263,19 +256,16 @@ public class PlotManager extends AbstractPlotManager {
 	
 	public PlotManager(List<String[]> propertiestoPlot) {
 		super(propertiestoPlot);
-		// TODO Auto-generated constructor stub
 		x=0;
 	}
 
 	public PlotManager(List<String[]> propertiestoPlot,List<int[]> listofColors) {
 		super(propertiestoPlot,listofColors);
-		// TODO Auto-generated constructor stub
 		x=0;
 	}
 	
 	public List<ITrace2D> FilterData(ObjectCluster ojc,List<ITrace2D> traces) {
-		// TODO Auto-generated method stub
-		
+
 		for (int i=0;i<mListofPropertiestoPlot.size();i++){
 			String[] props = mListofPropertiestoPlot.get(i);
 			if (ojc.mMyName.equals(props[0])){

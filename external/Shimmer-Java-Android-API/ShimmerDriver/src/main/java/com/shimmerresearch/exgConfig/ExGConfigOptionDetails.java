@@ -15,7 +15,6 @@ public class ExGConfigOptionDetails implements Serializable {
     public String GuiLabel;
     public String[] GuiValues;
     public Integer[] ConfigValues;
-    //	public int valueInt = 0;
     public int bitShift = 0;
     public int mask = 0;
     public ExGConfigOption[] mExGConfigOptions;
@@ -44,7 +43,6 @@ public class ExGConfigOptionDetails implements Serializable {
         this.settingType = SettingType.COMBOBOX;
     }
 
-//	public boolean valueBool = false;
 
     public ExGConfigOptionDetails(EXG_CHIP_INDEX chipIndex, int byteIndex, String GuiLabel, ExGConfigOption[] exGConfigOptions, int bitShift, int mask) {
         super();

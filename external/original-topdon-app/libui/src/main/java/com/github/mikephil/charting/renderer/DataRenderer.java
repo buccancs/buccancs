@@ -53,7 +53,6 @@ public abstract class DataRenderer extends Renderer {
     }
 
     protected boolean isDrawingValuesAllowed(ChartInterface chart) {
-        //TODO Attempt to invoke virtual method 'int com.github.mikephil.charting.data.ChartData.getEntryCount()' on a null object reference
         return chart.getData().getEntryCount() < chart.getMaxVisibleCount()
                 * mViewPortHandler.getScaleX();
     }

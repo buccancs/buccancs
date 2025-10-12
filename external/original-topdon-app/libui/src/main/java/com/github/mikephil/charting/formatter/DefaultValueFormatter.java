@@ -29,8 +29,6 @@ public class DefaultValueFormatter extends ValueFormatter {
     @Override
     public String getFormattedValue(float value) {
 
-        // put more logic here ...
-        // avoid memory allocations here (for performance reasons)
 
         return mFormat.format(value);
     }

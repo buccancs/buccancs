@@ -53,7 +53,6 @@ public class DockJobDetails extends AbstractErrorCodes {
         aMap.put(getJobErrorCode(DOCK_JOB_TYPE.DOCK_RESET_VIA_FW), "Failed to reset Base");
         aMap.put(getJobErrorCode(DOCK_JOB_TYPE.DOCK_RESET_VIA_BSL), "Failed to reset Base");
 
-        //Experimental
         aMap.put(getJobErrorCode(DOCK_JOB_TYPE.DOCK_MANAGER_RELOAD), "DOCK_MANAGER_RELOAD");
         aMap.put(getJobErrorCode(DOCK_JOB_TYPE.DOCK_MANAGER_LOAD), "DOCK_MANAGER_LOAD");
         aMap.put(getJobErrorCode(DOCK_JOB_TYPE.DOCK_MANAGER_RETRY_SETUP_DOCK), "DOCK_MANAGER_RETRY_SETUP_DOCK");
@@ -65,68 +64,49 @@ public class DockJobDetails extends AbstractErrorCodes {
 
     public DOCK_JOB_TYPE currentJob = DOCK_JOB_TYPE.NONE;
     public boolean state = false;
-    //SET_GPIO_STATE
     public GPIO_STATE gpioState = GPIO_STATE.UNKNOWN;
     public int gpioToggleCount = 1;
     public int gpioToggleDelay = 1000;
-    //SET_INDICATOR_LEDS_STATE
     public List<Integer> ledDisplayList = new ArrayList<Integer>();
     public int ledToggleDelay = 1000;
-    //SET_ACTIVE_SLOT_WITHOUT_SD
-    //SET_ACTIVE_SLOT_WITH_SD
     public int slotNumber = -1;
-    //DockManager
     public String dockId = "";
     public List<String> listOfDockIds = new ArrayList<String>();
     List<ShimmerDevice> listofDockedShimmersForJob = new ArrayList<ShimmerDevice>();
 
-    //GET_VERSION_INFO
-    //GET_CONNECTED_SLOTS
-    //GET_SHIMMERS_RESET_STATE,
-    //GET_INDICATOR_LEDS_STATE
     public DockJobDetails(DOCK_JOB_TYPE dockJobType) {
         this.currentJob = dockJobType;
 
     }
 
-    //SET_BSL_MASK_DOCK
-    //SET_BSL_MASK_SHIMMER
     public DockJobDetails(DOCK_JOB_TYPE jobType, boolean b) {
         this(jobType);
         state = b;
     }
 
-    //SET_SHIMMERS_RESET_STATE,
     public DockJobDetails(DOCK_JOB_TYPE jobType, GPIO_STATE gpioState) {
         this(jobType);
         this.gpioState = gpioState;
     }
 
-    //SET_GPIO_OUT_TOGGLE
     public DockJobDetails(DOCK_JOB_TYPE jobType, int count, int milliSecDelay) {
         this(jobType);
         gpioToggleCount = count;
         gpioToggleDelay = milliSecDelay;
     }
 
-    //SET_INDICATOR_LEDS_STATE
     public DockJobDetails(DOCK_JOB_TYPE jobType, List<Integer> displayList, int milliSecDelay) {
         this(jobType);
         this.ledDisplayList = displayList;
         this.ledToggleDelay = milliSecDelay;
     }
 
-    //ACCESS_SD_CARD
     public DockJobDetails(DOCK_JOB_TYPE jobType, int slotNumber) {
         this(jobType);
         this.slotNumber = slotNumber;
     }
 
-//	public DockJobDetails(JOB_TYPE jobType, List<SlotDetails> listofDockedShimmersForJob){
-//		this.currentJob = jobType;
-//	}
 
-    //DockManager
     public DockJobDetails(DOCK_JOB_TYPE jobType, String dockId) {
         this(jobType);
         this.dockId = dockId;
@@ -174,18 +154,10 @@ public class DockJobDetails extends AbstractErrorCodes {
 
         FW_DOCK,
 
-        // Start of individual Shimmer communication operations
         SHIMMER_WRITE_EXP_BRD_MEMORY,
         SHIMMER_WRITE_DAUGHTER_CARD_ID,
 
-//		READ_SHIMMERS,
-//		FW_SHIMMERS,
-//		SCAN_SHIMMERS_SD,
-//		COPY_SHIMMERS_SD,
-//		CONFIG_SHIMMERS,
-//		DELETE_SHIMMERS_SD_LOGS
 
-        //Experimental
         DOCK_MANAGER_RELOAD,
         DOCK_MANAGER_LOAD,
         DOCK_MANAGER_RETRY_SETUP_DOCK,

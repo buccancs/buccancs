@@ -37,7 +37,6 @@ public class DeviceConfigFragment extends Fragment {
     ShimmerDevice shimmerDeviceClone;
 
     public DeviceConfigFragment() {
-        // Required empty public constructor
     }
 
     public static DeviceConfigFragment newInstance() {
@@ -75,7 +74,6 @@ public class DeviceConfigFragment extends Fragment {
             listOfKeys.remove(key);
         }
 
-        //        final CharSequence[] cs = listOfKeys.toArray(new CharSequence[listOfKeys.size()]);
 
         expandListAdapter = new DeviceConfigListAdapter(context, listOfKeys, configOptionsMap, shimmerDevice, shimmerDeviceClone);
         expandListView = (ExpandableListView) getView().findViewById(R.id.expandable_listview);
@@ -96,7 +94,6 @@ public class DeviceConfigFragment extends Fragment {
                         String newSetting = (String) expandListAdapter.getChild(groupPosition, childPosition);
                         String keySetting = (String) expandListAdapter.getGroup(groupPosition);
 
-                        //Write the setting to the Shimmer Clone
                         final ConfigOptionDetailsSensor cods = configOptionsMap.get(keySetting);
 
                         shimmerDeviceClone.setConfigValueUsingConfigLabel(keySetting, cods.mConfigValues[childPosition]);
@@ -109,36 +106,10 @@ public class DeviceConfigFragment extends Fragment {
             }
         });
 
-//        expandListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//            @Override
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                if (v.findViewById(R.id.saveButton) != null) {
-//                    Button writeConfigButton = (Button) v.findViewById(R.id.saveButton);
-//                    Button resetListButton = (Button) v.findViewById(R.id.resetButton);
 //
-//                    writeConfigButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Toast.makeText(context, "Writing config to Shimmer...", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
 //
-//                    resetListButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            shimmerDeviceClone = shimmerDevice.deepClone();
-//                            expandListAdapter.updateCloneDevice(shimmerDeviceClone);
-//                            expandListAdapter.notifyDataSetChanged();
-//                            Toast.makeText(context, "Settings have been reset", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
 //
-//                return false;
-//            }
-//        });
 
-        //Only add the buttons if they haven't been added before:
         if (expandListView.getFooterViewsCount() == 0) {
             LinearLayout buttonLayout = new LinearLayout(context);
             buttonLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -153,9 +124,7 @@ public class DeviceConfigFragment extends Fragment {
                     cloneList.add(0, shimmerDeviceClone);
                     AssembleShimmerConfig.generateMultipleShimmerConfig(cloneList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
 
-                    //if(shimmerDeviceClone instanceof Shimmer) {
                     bluetoothManager.configureShimmer(shimmerDeviceClone);
-                    //}
 
                 }
             });

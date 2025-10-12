@@ -26,7 +26,6 @@ public class TimePayload extends AbstractPayload {
 
     @Override
     public byte[] generatePayloadContents() {
-        // TODO Auto-generated method stub
         return null;
     }
 

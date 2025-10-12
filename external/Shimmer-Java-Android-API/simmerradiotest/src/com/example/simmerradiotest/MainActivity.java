@@ -29,7 +29,6 @@ public class MainActivity extends Activity {
         try {
             mShimmerRadioProtocol.connect();
         } catch (DeviceException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -39,7 +38,6 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 byte[] ins = new byte[1];
                 ins[0] = LiteProtocolInstructionSet.InstructionsGet.GET_ACCEL_SENSITIVITY_COMMAND_VALUE;
                 mShimmerRadioProtocol.mRadioProtocol.writeInstruction(ins);
@@ -49,41 +47,32 @@ public class MainActivity extends Activity {
 
             @Override
             public void connected() {
-                // TODO Auto-generated method stub
 
                 mShimmerRadioProtocol.mRadioProtocol.initialize();
 
-                //Read infomem, and set packetsize
-                //mSRP.mRadioProtocol.writeInstruction(new byte[]{(byte) LiteProtocolInstructionSet.Instructions.GET_INFOMEM_COMMAND_VALUE});
 
                 mShimmerRadioProtocol.mRadioProtocol.setPacketSize(41);
             }
 
             @Override
             public void disconnected() {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void eventNewPacket(byte[] pbA) {
-                // TODO Auto-generated method stub
                 System.out.println("New Packet: " + UtilShimmer.bytesToHexString(pbA));
 
             }
 
             @Override
             public void eventResponseReceived(byte[] responseBytes) {
-                // TODO Auto-generated method stub
-                // TODO Auto-generated method stub
                 System.out.println("Response Received: " + UtilShimmer.bytesToHexString(responseBytes));
 
             }
 
             @Override
             public void eventAckReceived(byte[] instructionSent) {
-                // TODO Auto-generated method stub
-                // TODO Auto-generated method stub
                 System.out.println("Ack Received: " + UtilShimmer.bytesToHexString(instructionSent));
 
             }
@@ -92,16 +81,12 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;

@@ -24,10 +24,7 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
         VerisenseProtocolByteJavelinCommunicationTest test = new VerisenseProtocolByteJavelinCommunicationTest();
         test.initialize();
 
-        // connect
 
-        // System.out.println(p);
-        // p.destroy();
     }
 
     public void initialize() {
@@ -42,7 +39,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol1.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -56,7 +52,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol1.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -70,7 +65,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol1.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -84,7 +78,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol1.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -98,7 +91,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol2.connect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -112,7 +104,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol2.readStatus();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -126,7 +117,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol2.readLoggedData();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -140,7 +130,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol2.disconnect();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -154,7 +143,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol1.startStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -168,7 +156,6 @@ public class VerisenseProtocolByteJavelinCommunicationTest {
                 try {
                     protocol1.stopStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }

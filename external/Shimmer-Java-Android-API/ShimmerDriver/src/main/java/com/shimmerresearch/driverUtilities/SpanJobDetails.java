@@ -22,7 +22,6 @@ public class SpanJobDetails extends AbstractErrorCodes {
         aMap.put(getJobErrorCode(SPAN_JOB_TYPE.WRITE_LED_STATE), "WRITE_LED_STATE");
         aMap.put(getJobErrorCode(SPAN_JOB_TYPE.SET_RADIO_CONFIG), "SET_RADIO_CONFIG");
         aMap.put(getJobErrorCode(SPAN_JOB_TYPE.GET_RADIO_CONFIG), "GET_RADIO_CONFIG");
-//        aMap.put(getJobErrorCode(SPAN_JOB_TYPE.ASSIGN_BEST_CHANNELS_TO_SPANS), "ASSIGN_BEST_CHANNELS_TO_SPANS");
         aMap.put(getJobErrorCode(SPAN_JOB_TYPE.SPECTRUM_ANALYSER_START), "SPECTRUM_ANALYSER_START");
         aMap.put(getJobErrorCode(SPAN_JOB_TYPE.SPECTRUM_ANALYSER_PROGRESS), "SPECTRUM_ANALYSER_PROGRESS");
         aMap.put(getJobErrorCode(SPAN_JOB_TYPE.SPECTRUM_ANALYSER_STOP), "SPECTRUM_ANALYSER_STOP");
@@ -55,7 +54,6 @@ public class SpanJobDetails extends AbstractErrorCodes {
         this.mRadioGroupIdToSet = radioGroupId;
     }
 
-    //TODO add these error codes to the error codes in AbstractGUI
     public static int getJobErrorCode(SPAN_JOB_TYPE jT) {
         return ((ERROR_CODES_ID * 1000) + jT.ordinal());
     }
@@ -67,7 +65,6 @@ public class SpanJobDetails extends AbstractErrorCodes {
         WRITE_LED_STATE,
         SET_RADIO_CONFIG,
         GET_RADIO_CONFIG,
-        //		ASSIGN_BEST_CHANNELS_TO_SPANS,
         SPECTRUM_ANALYSER_START,
         SPECTRUM_ANALYSER_PROGRESS,
         SPECTRUM_ANALYSER_STOP,

@@ -14,8 +14,6 @@ import com.buccancs.desktop.domain.model.FileTransferProgress
 import com.buccancs.desktop.domain.model.FileTransferState
 import com.buccancs.desktop.domain.model.Session
 import com.buccancs.desktop.domain.model.StoredSession
-import com.buccancs.desktop.domain.model.Session
-import com.buccancs.desktop.domain.model.StoredSession
 import com.buccancs.desktop.domain.model.SessionStatus
 import com.buccancs.desktop.ui.state.AppUiState
 import com.buccancs.desktop.ui.state.ControlPanelState
@@ -82,22 +80,6 @@ class AppViewModel(
                 transferState.value = progress
             }
         }
-        val baseSnapshotFlow = combine(
-            sessionRepository.activeSession,
-            deviceRepository.observe(),
-            retentionManager.state(),
-            previewRepository.observe(),
-            sessionRepository.activeEvents()
-        ) { session, devices, retention, previews, events ->
-            PartialSnapshot(
-                session = session,
-                devices = devices,
-                retention = retention,
-                previews = previews,
-                events = events
-            )
-        }
-
         val baseSnapshotFlow = combine(
             sessionRepository.activeSession,
             deviceRepository.observe(),

@@ -38,14 +38,12 @@ public class ConsoleDiverter {
 
         if (logsFolderPath.exists()) {
             if (numLogFilesToKeep > 0) {
-                // maintain max number of log files
                 File[] currentLogfiles = logsFolderPath.listFiles(new FilenameFilter() {
                     public boolean accept(File dir, String name) {
                         return name.contains(fileNamePrefix) && name.endsWith(fileNameSuffix);
                     }
                 });
                 if (currentLogfiles.length >= numLogFilesToKeep) {
-                    // Sort files by newest first
                     Arrays.sort(currentLogfiles, new Comparator<File>() {
                         public int compare(File f1, File f2) {
                             return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
@@ -62,7 +60,6 @@ public class ConsoleDiverter {
                 }
             }
 
-//			PrintStream printStream = null;
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
             Calendar cal = Calendar.getInstance();
             try {
@@ -75,9 +72,6 @@ public class ConsoleDiverter {
 
                 setPrintStreamToConsoleAndFile();
 
-//				printStream = new PrintStream(new FileOutputStream(logsFolderPath + PATH_SEP + dateFormat.format(cal.getTime()) + LOG_FILE_EXT, true));
-//				System.setOut(printStream);
-//				System.setErr(printStream);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -92,7 +86,6 @@ public class ConsoleDiverter {
             try {
                 fout.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

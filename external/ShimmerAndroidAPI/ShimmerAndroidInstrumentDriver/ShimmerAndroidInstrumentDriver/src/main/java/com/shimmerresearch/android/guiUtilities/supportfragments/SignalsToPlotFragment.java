@@ -40,7 +40,6 @@ public class SignalsToPlotFragment extends ListFragment {
     ShimmerDevice shimmerDevice = null;
 
     public SignalsToPlotFragment() {
-        // Required empty public constructor
     }
 
     public static SignalsToPlotFragment newInstance() {
@@ -132,14 +131,12 @@ public class SignalsToPlotFragment extends ListFragment {
 
             for (int i = 0; i < mList.size(); i++) {
                 String[] array = mList.get(i);
-                //Remove the device name and units before putting into sensorList:
                 String s = array[1] + " " + array[2];
                 sensorList.add(i, s);
             }
 
             this.mList = mList;
 
-            //final String[] sensorNames = sensorList.toArray(new String[sensorList.size()]);
             final String[] sensorNames = sensorList.toArray(new String[sensorList.size()]);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.simple_list_item_multiple_choice_force_black_text, android.R.id.text1, sensorNames);

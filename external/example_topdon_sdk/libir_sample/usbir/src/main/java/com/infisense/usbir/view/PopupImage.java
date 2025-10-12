@@ -40,7 +40,6 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
     private byte[] PROJECT_INFO = new byte[4];
     private boolean isUseIRISP;
     private UVCCamera uvcCamera;
-    // 电子变倍
     private float currentScale = 1.0f;
 
         public PopupImage(Context context, OnRotateListener onRotateListener,
@@ -138,7 +137,6 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
                         break;
                     }
                     case R.id.btnSaveConfig: {
-                        // save param config
                         result = ircmd.saveSpiConfig(CommonParams.SpiConfigType.SPI_MOD_CFG_ALL);
                         if (result == 0) {
                             Toast.makeText(mContext, "success", Toast.LENGTH_SHORT).show();
@@ -174,7 +172,6 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         popupWindow.setOnDismissListener(dismissListener);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000)); // 解决 7.0 手机，点击外部不消失
         imageBinding.getRoot().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        //创建布局管理
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
     }
@@ -218,13 +215,6 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
                 break;
             }
             case R.id.switchOverProtect: {
-                                //                if (isChecked) {
-//                    ircmd.setOverexposureParams(CommonParams.PropOverexposureParams.OVEXP_PROP_SWITCH,
-//                            CommonParams.PropOverexposureParamsValue.StatusSwith.ON);
-//                } else {
-//                    ircmd.setOverexposureParams(CommonParams.PropOverexposureParams.OVEXP_PROP_SWITCH,
-//                            CommonParams.PropOverexposureParamsValue.StatusSwith.OFF);
-//                }
                                 SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_OVER_PROTECT, isChecked);
                 break;
             }
@@ -354,7 +344,6 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
                     default:
                         break;
                 }
-                // AGC不同档位都对应了一对MAXGAIN和BOS,也就是说AGC切换档位都应该重新读一下MAXGAIN和BOS,不同档位重新设置后值是不同的
                 int[] mode = new int[1];
                 ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_MAX_GAIN, mode);
                 imageBinding.MAXGAIN.setText(String.valueOf(mode[0]));
@@ -377,25 +366,21 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         int[] mode = new int[1];
         //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_TNR, mode);
-        // 上电之后立即读取会出现错误值的情况，需要等待出图稳定之后再读取
         imageBinding.TNR.setOnItemSelectedListener(null);
         imageBinding.TNR.setSelection(mode[0], true);
         imageBinding.TNR.setOnItemSelectedListener(this);
         //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_SNR, mode);
-        // 上电之后立即读取会出现错误值的情况，需要等待出图稳定之后再读取
         imageBinding.SNR.setOnItemSelectedListener(null);
         imageBinding.SNR.setSelection(mode[0], true);
         imageBinding.SNR.setOnItemSelectedListener(this);
         //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_DDE, mode);
-        // 上电之后立即读取会出现错误值的情况，需要等待出图稳定之后再读取
         imageBinding.DDE.setOnItemSelectedListener(null);
         imageBinding.DDE.setSelection(mode[0], true);
         imageBinding.DDE.setOnItemSelectedListener(this);
         //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_MODE_AGC, mode);
-        // 上电之后立即读取会出现错误值的情况，需要等待出图稳定之后再读取
         imageBinding.AGC.setOnItemSelectedListener(null);
         imageBinding.AGC.setSelection(mode[0], true);
         imageBinding.AGC.setOnItemSelectedListener(this);
@@ -416,9 +401,6 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
                 imageBinding.switchAutoGain.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
                 MyApplication.getInstance().SWITCH_AUTO_GAIN_KEY, false));
         imageBinding.switchAutoGain.setOnCheckedChangeListener(this);
-                //        long overValue[] = new long[4];
-//        ircmd.getOverexposureParams(CommonParams.PropOverexposureParams.OVEXP_PROP_SWITCH, overValue);
-//        imageBinding.switchOverProtect.setChecked(overValue[0] == 1);
                 imageBinding.switchOverProtect.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
                 MyApplication.getInstance().SWITCH_OVER_PROTECT, false));
         imageBinding.switchOverProtect.setOnCheckedChangeListener(this);

@@ -60,7 +60,6 @@ public class DockException extends ShimmerException {
     }
 
 
-    // TODO 2016-04-21 Mark currently working on
     public DockException(ShimmerException dE) {
         this(dE.mComPort, dE.mErrorCode, dE.mErrorCodeLowLevel, dE.mUniqueID, dE.mExceptionMsg, dE.mExceptionStackTrace);
     }

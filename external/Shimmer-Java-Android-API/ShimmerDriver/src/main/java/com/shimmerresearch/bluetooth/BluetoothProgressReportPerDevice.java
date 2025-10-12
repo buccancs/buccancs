@@ -10,8 +10,6 @@ import java.io.Serializable;
 import com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE;
 import com.shimmerresearch.driver.ShimmerDevice;
 
-//TODO add proper comments
-//TODO remove unnecessary code carried over from dock progress details
 public class BluetoothProgressReportPerDevice implements Serializable {
 
     public static final String[] mListOfOperationStates = new String[]{
@@ -41,8 +39,6 @@ public class BluetoothProgressReportPerDevice implements Serializable {
         mProgressEndValue = endValue;
     }
 
-//	public List<ErrorDetails> mListOfErrors = new ArrayList<ErrorDetails>(); 
-//	public String mLog = "";
 
     public BluetoothProgressReportPerDevice(ShimmerDevice shimmerDevice, BT_STATE currentOperationBtState, int endValue) {
         this(shimmerDevice.getComPort(), currentOperationBtState, endValue);
@@ -66,12 +62,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
         }
     }
 
-    /// /		mShimmerBluetoothDetailsMini.mListOfFailMsg = shimmerBluetooth.mListOfFailMsg;
-    /// /		mShimmerBluetoothDetailsMini.mShimmerLastReadRealTimeClockValue = shimmerBluetooth.mShimmerLastReadRealTimeClockValue;
-    /// /		mShimmerBluetoothDetailsMini.mShimmerLastReadRtcValueParsed = shimmerBluetooth.mShimmerLastReadRtcValueParsed;
 //
-//		//TODO: add entry for sdlogdetails
-//	}
     public void updateShimmerDeviceMini(ShimmerDevice shimmerDevice) {
         if (shimmerDevice != null) {
             if (shimmerDevice instanceof ShimmerBluetooth) {
@@ -88,38 +79,18 @@ public class BluetoothProgressReportPerDevice implements Serializable {
             mShimmerBluetoothDetailsMini.mFirmwareVersionParsed = shimmerDevice.getFirmwareVersionParsed();
             mShimmerBluetoothDetailsMini.mShimmerUserAssignedName = shimmerDevice.getShimmerUserAssignedName();
 
-            //		mshimmerBluetoothMini.mListOfFailMsg = shimmerBluetooth.mListOfFailMsg;
-//			mShimmerBluetoothDetailsMini.mShimmerLastReadRealTimeClockValue = shimmerBluetooth.mShimmerLastReadRealTimeClockValue;
-//			mShimmerBluetoothDetailsMini.mShimmerLastReadRtcValueParsed = shimmerBluetooth.mShimmerLastReadRtcValueParsed;
         }
 
-        //TODO: add entry for sdlogdetails
     }
 
-//	public void setShimmerBluetooth(ShimmerBluetooth shimmerBluetooth) {
-//		mShimmerBluetoothDetailsMini.mUniqueID = shimmerBluetooth.getComPort();
-//		mShimmerBluetoothDetailsMini.mShimmerMacID = shimmerBluetooth.getBluetoothAddress();
-//		mShimmerBluetoothDetailsMini.mShimmerMacIDParsed = shimmerBluetooth.getMacIdFromBtParsed();
-//		
-//		mShimmerBluetoothDetailsMini.mFirmwareVersionParsed  = shimmerBluetooth.getFirmwareVersionParsed();
-//		mShimmerBluetoothDetailsMini.mShimmerUserAssignedName = shimmerBluetooth.getShimmerUserAssignedName();
-//		
+//
+//
 
     public void finishOperation() {
         mProgressCounter = mProgressEndValue;
         mProgressPercentageComplete = 100;
     }
 
-//	public void addErrorMessage(Map<Integer,String> mapOfErrorCodes, MsgDock msgDock) {
-//		ErrorDetails newError = new ErrorDetails();
-//		newError.msgID = msgDock.mMsgID;
-//		newError.msgIDParsed = mapOfErrorCodes.get(msgDock.mMsgID);
-//		newError.action = msgDock.mErrorCode;
-//		newError.actionParsed = mapOfErrorCodes.get(msgDock.mErrorCode);
-//		newError.lowLevelErrorCode = msgDock.mErrorCodeLowLevel;
-//		newError.lowLevelErrorCodeParsed = mapOfErrorCodes.get(msgDock.mErrorCodeLowLevel);
-////		newError.mExceptionStacktrace = msgDock.;
-//		newError.errMessage = msgDock.mExceptionMsg;
 
         public BluetoothProgressReportPerDevice deepClone() {
         try {
@@ -148,22 +119,8 @@ public class BluetoothProgressReportPerDevice implements Serializable {
         CANCELLED
     }
 
-    /// /		newError.errMessage = msgDock.mMessage;
-//		mListOfErrors.add(newError);
-//	}
 
 
-//	public class ErrorDetails implements Serializable {
-//		//		private static final long serialVersionUID = 3172068431540685782L;
-//		public int msgID;
-//		public String msgIDParsed;
-//		public int action;
-//		public String actionParsed;
-//		public int lowLevelErrorCode;
-//		public String lowLevelErrorCodeParsed;
-//		public StackTraceElement[] mExceptionStacktrace;
-//		public String errMessage;
-//	}
 
     public class ShimmerBluetoothDetailsMini implements Serializable {
                 private static final long serialVersionUID = 4289859702565448002L;
@@ -175,15 +132,10 @@ public class BluetoothProgressReportPerDevice implements Serializable {
         public String mDockID = "";
         public String mUniqueID = "";
 
-//		public String mActivityLog = "";
-//		public int mFwImageWriteProgress = 0;
-//		public int mFwImageTotalSize = 0;
-//		public float mFwImageWriteSpeed = 0;
 
         public long mShimmerLastReadRealTimeClockValue = 0;
         public String mShimmerLastReadRtcValueParsed = "";
 
-        //		public List<MsgDock> mListOfFailMsg = new ArrayList<MsgDock>();
         public String mFirmwareVersionParsed = "";
 
         public String mShimmerUserAssignedName = "";

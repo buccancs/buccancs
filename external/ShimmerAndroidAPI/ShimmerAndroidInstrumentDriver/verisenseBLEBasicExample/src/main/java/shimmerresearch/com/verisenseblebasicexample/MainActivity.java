@@ -41,7 +41,6 @@ public class MainActivity extends Activity {
     String macAddress = "C0:04:19:85:9A:D5";
 
     VerisenseBleAndroidRadioByteCommunication radio1 = new VerisenseBleAndroidRadioByteCommunication(macAddress);
-    //AndroidBleRadioByteCommunication radio1 = new AndroidBleRadioByteCommunication("C9:61:17:53:74:02");
     VerisenseProtocolByteCommunication protocol1 = new VerisenseProtocolByteCommunication(radio1);
     VerisenseDeviceAndroid device1;
         Handler mHandler = new Handler() {
@@ -53,10 +52,8 @@ public class MainActivity extends Activity {
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
                     if ((msg.obj instanceof ObjectCluster)) {
 
-                        //Print data to Logcat
                         ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
-                        //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
                         FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
@@ -143,7 +140,6 @@ public class MainActivity extends Activity {
             }
         }
         if (!permissionGranted) {
-            // Should we show an explanation?
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
 
         }
@@ -269,7 +265,6 @@ public class MainActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 BleManager.getInstance().init(getApplication());
                 device1 = new VerisenseDeviceAndroid(mHandler);
-                //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 radio1 = new VerisenseBleAndroidRadioByteCommunication(macAdd);
                 protocol1 = new VerisenseProtocolByteCommunication(radio1);
@@ -281,7 +276,6 @@ public class MainActivity extends Activity {
                         try {
                             device1.connect();
                         } catch (ShimmerException e1) {
-                            // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
 

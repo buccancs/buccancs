@@ -13,20 +13,15 @@ public class Filter implements Serializable {
     public static int HIGH_PASS = 1;
     public static int BAND_PASS = 2;
     public static int BAND_STOP = 3;
-    // filter coefficients {h}
     public double[] coefficients;
-    // filter parameters
     private int filterType;
     private double samplingRate = Double.NaN;
     private double[] cornerFrequency;
     private int nTaps;
     private double minCornerFrequency, maxCornerFrequency;
-    // buffered data (for filtering streamed data)
     private double[] bufferedX;
-    // input parameters are invalid
     private boolean validparameters = false;
 
-    // default parameters
     private double defaultSamplingRate = 512;
     private double[] defaultCornerFrequency = {0.5};
     private int defaultNTaps = 200;
@@ -69,7 +64,6 @@ public class Filter implements Serializable {
 
     public void SetFilterParameters(int LoHi, double samplingRate, double[] cornerFrequency, int nTaps) throws Exception {
 
-        //reset the buffers
         resetBuffer();
 
         if (cornerFrequency.length != 1) {
@@ -90,7 +84,6 @@ public class Filter implements Serializable {
         } else {
             if (nTaps % 2 != 0) {
                 nTaps--;
-                //JOptionPane.showMessageDialog(null, "Warning: nTaps is not an even number. nTaps will be rounded to " +Integer.toString(nTaps));
             }
 
             if (LoHi == LOW_PASS || LoHi == HIGH_PASS) // High pass or Low pass filter
@@ -100,7 +93,6 @@ public class Filter implements Serializable {
                 this.nTaps = nTaps;
 
                 double fc = (cornerFrequency[0] / samplingRate);
-                // calculate filter coefficients
                 coefficients = new double[nTaps];
                 coefficients = calculateCoefficients(fc, LoHi, nTaps);
                 this.validparameters = true;
@@ -114,7 +106,6 @@ public class Filter implements Serializable {
                 double fcHigh = maxCornerFrequency / samplingRate;
                 double fcLow = minCornerFrequency / samplingRate;
 
-                // calculate filter coefficients
                 double[] coefficientHighPass = calculateCoefficients(fcHigh, HIGH_PASS, nTaps);
                 double[] coefficientLowPass = calculateCoefficients(fcLow, LOW_PASS, nTaps);
 
@@ -171,7 +162,6 @@ public class Filter implements Serializable {
                 dataFiltered[i] = individualDataFiltered;
             }
 
-            //reset the buffers
             resetBuffer();
 
             return dataFiltered;
@@ -190,7 +180,6 @@ public class Filter implements Serializable {
                 dataFiltered.add(i, individualDataFiltered);
             }
 
-            //reset the buffers
             resetBuffer();
 
             return dataFiltered;
@@ -213,7 +202,6 @@ public class Filter implements Serializable {
         if (!(LoHi == LOW_PASS || LoHi == HIGH_PASS))
             throw new Exception("Error: the function calculateCoefficients() can only be called for LPF or HPF.");
 
-        //Initialization
         int M = nTaps;
         double[] h = new double[M];
         for (int i = 0; i < M; i++)

@@ -43,7 +43,6 @@ public class SendData extends BasicProcessWithCallBack {
     static final int NUM_DEVICES = btComports.length;
     static final BasicShimmerBluetoothManagerPc btManager = new BasicShimmerBluetoothManagerPc();
     static final double SAMPLE_RATE = 51.2;
-    // Sensor labels
     static final String[] SENSOR_LABELS = {
             "Accel_LN_X", "Accel_LN_Y", "Accel_LN_Z",
             "Gyro_X", "Gyro_Y", "Gyro_Z",
@@ -150,21 +149,15 @@ public class SendData extends BasicProcessWithCallBack {
 
     public static void configureShimmers(List<ShimmerDevice> listOfShimmerClones) {
 
-        //mProgressReportAll = new BluetoothProgressReportAll(BT_STATE.CONFIGURING, listOfShimmerClones);
 
         for (ShimmerDevice cloneShimmer : listOfShimmerClones) {
-            //TODO include below?
-//			cloneShimmerCast.setBluetoothRadioState(BT_STATE.CONFIGURING);
 
             ShimmerDevice originalShimmerDevice = btManager.getShimmerDeviceBtConnected(cloneShimmer.getComPort()); //changed from getmacid to getcomport
-            //int cloneHwId = cloneShimmer.getHardwareVersion();
             if (originalShimmerDevice != null) {
                 try {
-//					System.out.println("MAC ID IS " +cloneShimmer.getMacId()); // the getmacid is null because the connection is happening using comport
                     originalShimmerDevice.configureFromClone(cloneShimmer);
                     originalShimmerDevice.operationStart(BT_STATE.CONFIGURING);
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             } else {
@@ -179,7 +172,6 @@ public class SendData extends BasicProcessWithCallBack {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -226,7 +218,6 @@ public class SendData extends BasicProcessWithCallBack {
     }
 
     private void createStreamOutlet(ShimmerDevice shimmerDevice) {
-        // TODO Auto-generated method stub
         try {
             NativeLibraryLoader.loadLibrary();
             String shimmerName = shimmerDevice.getShimmerUserAssignedName();
@@ -264,7 +255,6 @@ public class SendData extends BasicProcessWithCallBack {
 
                     data[0] = (float) sensorValue;
                     if (data[0] == 0.0f) {
-                        // 0.0f to represent null value
                     } else {
                         outlets.get(i).push_sample(data);
                         System.out.println("Device " + outlets.get(i).info().type() + " data sent to " + SENSOR_LABELS[i] + " @ " + shimmerName + " : " + data[0]);

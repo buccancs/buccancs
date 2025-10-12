@@ -1,4 +1,3 @@
-//Rev0.3
 
 
 package com.shimmerresearch.driver;

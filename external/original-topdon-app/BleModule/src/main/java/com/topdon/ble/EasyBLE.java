@@ -48,7 +48,6 @@ public class EasyBLE {
     private final Logger logger;
     private final ScannerType scannerType;
     private final Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
-    //已连接的设备MAC地址集合
     private final List<String> addressList = new CopyOnWriteArrayList<>();
     private final boolean internalObservable;
     private Scanner scanner;
@@ -161,17 +160,14 @@ public class EasyBLE {
         }
         Inspector.requireNonNull(application, "application can't be");
         this.application = application;
-        //检查是否支持BLE
         if (!application.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             return;
         }
-        //获取蓝牙配置器
         BluetoothManager bluetoothManager = (BluetoothManager) application.getSystemService(Context.BLUETOOTH_SERVICE);
         if (bluetoothManager == null || bluetoothManager.getAdapter() == null) {
             return;
         }
         bluetoothAdapter = bluetoothManager.getAdapter();
-        //注册蓝牙开关状态广播接收者
         if (broadcastReceiver == null) {
             broadcastReceiver = new InnerBroadcastReceiver();
             IntentFilter filter = new IntentFilter();
@@ -253,7 +249,6 @@ public class EasyBLE {
         }
     }
 
-    //检查并实例化搜索器
     private void checkAndInstanceScanner() {
         if (scanner == null) {
             synchronized (this) {
@@ -361,7 +356,6 @@ public class EasyBLE {
         if (checkStatus()) {
             Inspector.requireNonNull(device, "device can't be null");
             Connection connection = connectionMap.remove(device.getAddress());
-            //如果连接已存在，先释放掉
             if (connection != null) {
                 connection.releaseNoEvent();
             }
@@ -558,19 +552,15 @@ public class EasyBLE {
                 switch (action) {
                     case BluetoothAdapter.ACTION_STATE_CHANGED: //蓝牙开关状态变化
                         if (bluetoothAdapter != null) {
-                            //通知观察者蓝牙状态
                             observable.notifyObservers(MethodInfoGenerator.onBluetoothAdapterStateChanged(bluetoothAdapter.getState()));
                             if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_OFF) { //蓝牙关闭
                                 logger.log(Log.DEBUG, Logger.TYPE_GENERAL, "蓝牙关闭了");
-                                //通知搜索器
                                 if (scanner != null) {
                                     scanner.onBluetoothOff();
                                 }
-                                //断开所有连接
                                 disconnectAllConnections();
                             } else if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_ON) {
                                 logger.log(Log.DEBUG, Logger.TYPE_GENERAL, "蓝牙开启了");
-                                //重连所有设置了自动重连的连接
                                 for (Connection connection : connectionMap.values()) {
                                     if (connection.isAutoReconnectEnabled()) {
                                         connection.reconnect();
@@ -606,19 +596,15 @@ public class EasyBLE {
             }
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) { //蓝牙开关状态变化
                 if (bluetoothAdapter != null) {
-                    //通知观察者蓝牙状态
                     observable.notifyObservers(MethodInfoGenerator.onBluetoothAdapterStateChanged(bluetoothAdapter.getState()));
                     if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_OFF) { //蓝牙关闭
                         logger.log(Log.DEBUG, Logger.TYPE_GENERAL, "蓝牙关闭了");
-                        //通知搜索器
                         if (scanner != null) {
                             scanner.onBluetoothOff();
                         }
-                        //断开所有连接
                         disconnectAllConnections();
                     } else if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_ON) {
                         logger.log(Log.DEBUG, Logger.TYPE_GENERAL, "蓝牙开启了");
-                        //重连所有设置了自动重连的连接
                         for (Connection connection : connectionMap.values()) {
                             if (connection.isAutoReconnectEnabled()) {
                                 connection.reconnect();

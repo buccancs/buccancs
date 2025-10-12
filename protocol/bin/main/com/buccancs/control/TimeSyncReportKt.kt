@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializetimeSyncReport")
 public inline fun timeSyncReport(block: com.buccancs.control.TimeSyncReportKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncReport =
   com.buccancs.control.TimeSyncReportKt.Dsl._create(com.buccancs.control.TimeSyncReport.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.TimeSyncReport`
+ */
 public object TimeSyncReportKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,39 +27,63 @@ public object TimeSyncReportKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.TimeSyncReport = _builder.build()
 
-        public var deviceId: kotlin.String
+    /**
+     * `string device_id = 1;`
+     */
+    public var deviceId: kotlin.String
       get() = _builder.getDeviceId()
       set(value) {
         _builder.setDeviceId(value)
       }
-        public fun clearDeviceId() {
+    /**
+     * `string device_id = 1;`
+     */
+    public fun clearDeviceId() {
       _builder.clearDeviceId()
     }
 
-        public var offsetMs: kotlin.Double
+    /**
+     * `double offset_ms = 2;`
+     */
+    public var offsetMs: kotlin.Double
       get() = _builder.getOffsetMs()
       set(value) {
         _builder.setOffsetMs(value)
       }
-        public fun clearOffsetMs() {
+    /**
+     * `double offset_ms = 2;`
+     */
+    public fun clearOffsetMs() {
       _builder.clearOffsetMs()
     }
 
-        public var roundTripMs: kotlin.Double
+    /**
+     * `double round_trip_ms = 3;`
+     */
+    public var roundTripMs: kotlin.Double
       get() = _builder.getRoundTripMs()
       set(value) {
         _builder.setRoundTripMs(value)
       }
-        public fun clearRoundTripMs() {
+    /**
+     * `double round_trip_ms = 3;`
+     */
+    public fun clearRoundTripMs() {
       _builder.clearRoundTripMs()
     }
 
-        public var sampleEpochMs: kotlin.Long
+    /**
+     * `int64 sample_epoch_ms = 4;`
+     */
+    public var sampleEpochMs: kotlin.Long
       get() = _builder.getSampleEpochMs()
       set(value) {
         _builder.setSampleEpochMs(value)
       }
-        public fun clearSampleEpochMs() {
+    /**
+     * `int64 sample_epoch_ms = 4;`
+     */
+    public fun clearSampleEpochMs() {
       _builder.clearSampleEpochMs()
     }
   }

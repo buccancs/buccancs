@@ -53,7 +53,6 @@ import java.util.TreeMap;
 public class ShimmerDialogConfigurations {
 
 
-    //Additional variables for custom signals and filtered signals for the SelectSensorPlot dialog
     static protected List<String[]> mAdditionalSignalsList = null;
     static protected List<String[]> mFilteredSignalsList = null;
 
@@ -84,10 +83,7 @@ public class ShimmerDialogConfigurations {
                 count++;
             }
         }
-        // Set the dialog title
         builder.setTitle("Sensors")
-                // Specify the list array, the items to be selected by default (null for none),
-                // and the listener through which to receive callbacks when items are selected
                 .setMultiChoiceItems(arraySensors, listEnabled,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
@@ -102,23 +98,18 @@ public class ShimmerDialogConfigurations {
 
                             }
                         })
-                // Set the action buttons
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK, so save the mSelectedItems results somewhere
-                        // or return them to the component that opened the dialog
                         ShimmerDevice shimmerDeviceClone = shimmerDevice.deepClone();
                         for (int selected : mSelectedItems) {
                             shimmerDeviceClone.setSensorEnabledState((int) sensorKeys[selected], listEnabled[selected]);
                         }
-                        //shimmerDeviceClone.refreshShimmerInfoMemBytes();
                         List<ShimmerDevice> cloneList = new ArrayList<ShimmerDevice>();
                         cloneList.add(0, shimmerDeviceClone);
                         AssembleShimmerConfig.generateMultipleShimmerConfig(cloneList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
 
                         if (shimmerDevice instanceof Shimmer) {
-                            //((Shimmer)shimmerDevice).writeConfigBytes(shimmerDeviceClone.getShimmerInfoMemBytes());
                             /*try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
@@ -126,7 +117,6 @@ public class ShimmerDialogConfigurations {
                             }*/
                             ((Shimmer) shimmerDevice).writeEnabledSensors(shimmerDeviceClone.getEnabledSensors());
                         } else if (shimmerDevice instanceof Shimmer4Android) {
-                            //((Shimmer4Android)shimmerDevice).writeConfigBytes(shimmerDeviceClone.getShimmerInfoMemBytes());
                         }
                     }
                 })
@@ -171,10 +161,7 @@ public class ShimmerDialogConfigurations {
         }
 
 
-        // Set the dialog title
         builder.setTitle("Sensors");
-        // Specify the list array, the items to be selected by default (null for none),
-        // and the listener through which to receive callbacks when items are selected
         final DialogInterface.OnMultiChoiceClickListener onClick =
                 new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -256,10 +243,7 @@ public class ShimmerDialogConfigurations {
         builder.setItems(cs,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
                         Toast.makeText(context, cs[which], Toast.LENGTH_SHORT).show();
-                        //buildConfigOptionDetailsSensor(cs[which].toString(),configOptionsMap,context, shimmerDevice, shimmerDeviceClone);
                         buildConfigOptionDetailsSensor(cs[which].toString(), configOptionsMap, context, shimmerDevice, shimmerDeviceClone, bluetoothManager);
                     }
                 });
@@ -281,21 +265,15 @@ public class ShimmerDialogConfigurations {
             Object returnedValue = shimmerDevice.getConfigValueUsingConfigLabel(key);
 
             if (returnedValue != null) {
-//                int configValue = (int) returnedValue;
-//                int itemIndex = Arrays.asList(configOptionsMap.get(key).getConfigValues()).indexOf(configValue);
-//                title = Arrays.asList(configOptionsMap.get(key).getGuiValues()).get(itemIndex);
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 shimmerDevice.getConfigValueUsingConfigLabel(key);
                 builder.setTitle(title);
                 builder.setItems(cs,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
                                 Toast.makeText(context, cs[which], Toast.LENGTH_SHORT).show();
                                 shimmerDeviceClone.setConfigValueUsingConfigLabel(key, cods.mConfigValues[which]);
 
-                                //shimmerDeviceClone.refreshShimmerInfoMemBytes();
                                 List<ShimmerDevice> cloneList = new ArrayList<ShimmerDevice>();
                                 cloneList.add(0, shimmerDeviceClone);
                                 AssembleShimmerConfig.generateMultipleShimmerConfig(cloneList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
@@ -332,7 +310,6 @@ public class ShimmerDialogConfigurations {
                     public void onClick(DialogInterface dialog, int which) {
                         shimmerDeviceClone.setConfigValueUsingConfigLabel(key, et.getText().toString());
 
-                        //shimmerDeviceClone.refreshShimmerInfoMemBytes();
                         List<ShimmerDevice> cloneList = new ArrayList<ShimmerDevice>();
                         cloneList.add(0, shimmerDeviceClone);
                         AssembleShimmerConfig.generateMultipleShimmerConfig(cloneList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
@@ -361,27 +338,20 @@ public class ShimmerDialogConfigurations {
             Object returnedValue = shimmerDevice.getConfigValueUsingConfigLabel(key);
 
             if (returnedValue != null) {
-//                int configValue = (int) returnedValue;
-//                int itemIndex = Arrays.asList(configOptionsMap.get(key).getConfigValues()).indexOf(configValue);
-//                title = Arrays.asList(configOptionsMap.get(key).getGuiValues()).get(itemIndex);
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 shimmerDevice.getConfigValueUsingConfigLabel(key);
                 builder.setTitle(title);
                 builder.setItems(cs,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
                                 Toast.makeText(context, cs[which], Toast.LENGTH_SHORT).show();
                                 shimmerDeviceClone.setConfigValueUsingConfigLabel(key, cods.mConfigValues[which]);
                                 List<ShimmerDevice> cloneList = new ArrayList<ShimmerDevice>();
                                 cloneList.add(0, shimmerDeviceClone);
                                 AssembleShimmerConfig.generateMultipleShimmerConfig(cloneList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
 
-                                //shimmerDeviceClone.refreshShimmerInfoMemBytes();
                                 if (shimmerDevice instanceof Shimmer) {
                                     bluetoothManager.configureShimmer(shimmerDeviceClone);
-                                    //((Shimmer)shimmerDevice).configureShimmer(shimmerDeviceClone);
                                 } else if (shimmerDevice instanceof Shimmer4Android) {
                                     bluetoothManager.configureShimmer(shimmerDeviceClone);
                                 } else if (shimmerDevice instanceof Shimmer3BLEAndroid) {
@@ -412,7 +382,6 @@ public class ShimmerDialogConfigurations {
                     public void onClick(DialogInterface dialog, int which) {
                         shimmerDeviceClone.setConfigValueUsingConfigLabel(key, et.getText().toString());
 
-                        //shimmerDeviceClone.refreshShimmerInfoMemBytes();
                         List<ShimmerDevice> cloneList = new ArrayList<ShimmerDevice>();
                         cloneList.add(0, shimmerDeviceClone);
                         AssembleShimmerConfig.generateMultipleShimmerConfig(cloneList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
@@ -440,24 +409,18 @@ public class ShimmerDialogConfigurations {
             Object returnedValue = shimmerDeviceClone.getConfigValueUsingConfigLabel(key);
 
             if (returnedValue != null) {
-//                int configValue = (int) returnedValue;
-//                int itemIndex = Arrays.asList(configOptionsMap.get(key).getConfigValues()).indexOf(configValue);
-//                title = Arrays.asList(configOptionsMap.get(key).getGuiValues()).get(itemIndex);
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 shimmerDeviceClone.getConfigValueUsingConfigLabel(key);
                 builder.setTitle(title);
                 builder.setItems(cs,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
                                 Toast.makeText(context, cs[which], Toast.LENGTH_SHORT).show();
                                 shimmerDeviceClone.setConfigValueUsingConfigLabel(key, cods.mConfigValues[which]);
                                 shimmerDialogConfigurations.writeConfigToShimmer(shimmerDeviceClone, bluetoothManager);
                             }
                         });
 
-                //Empty method which can be overwritten to interact with the Builder (e.g. to customize the look of the dialog)
                 shimmerDialogConfigurations.setADBuilderTheme(context, builder, title);
 
                 builder.create().show();
@@ -487,7 +450,6 @@ public class ShimmerDialogConfigurations {
                     }
                 });
 
-                //Empty method which can be overwritten to interact with the Builder (e.g. to customize the look of the dialog)
                 shimmerDialogConfigurations.setADBuilderTheme(context, builder, (String) returnedValue);
 
                 builder.create().show();
@@ -580,7 +542,6 @@ public class ShimmerDialogConfigurations {
         final ListView listView = (ListView) dialog.findViewById(android.R.id.list);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        //Temporary list so we have the option of adding additional custom channels
         List<String[]> listOfChannels = shimmerService.getListofEnabledSensorSignals(bluetoothAddress);
 
         if (mAdditionalSignalsList != null && mAdditionalSignalsList.size() > 0) {
@@ -589,7 +550,6 @@ public class ShimmerDialogConfigurations {
             }
         }
 
-        //Create a temporary list of channels to remove the filter signals while iterating through the original list of channels
         List<String[]> tempListOfChannelsWithSignalsFiltered = new ArrayList<String[]>();
         for (String[] temp : listOfChannels) {
             tempListOfChannelsWithSignalsFiltered.add(temp);
@@ -598,7 +558,6 @@ public class ShimmerDialogConfigurations {
         if (mFilteredSignalsList != null && mFilteredSignalsList.size() > 0) {
             for (String[] signalToFilter : mFilteredSignalsList) {
                 for (String[] signal : listOfChannels) {
-                    //Check if the channel name and format (CAL/UNCAL) matches the signal to be filtered
                     if (signal[1].equals(signalToFilter[1]) && signal[2].equals(signalToFilter[2])) {
                         tempListOfChannelsWithSignalsFiltered.remove(signal);
                     }
@@ -606,10 +565,8 @@ public class ShimmerDialogConfigurations {
             }
         }
 
-        //Assign the filtered list back to the original list
         listOfChannels = tempListOfChannelsWithSignalsFiltered;
 
-        //Join the Strings in each individual array in the list of channels in order to pass them to the ArrayAdapter
         List<String> sensorList = new ArrayList<String>();
         for (int i = 0; i < listOfChannels.size(); i++) {
             sensorList.add(joinStrings(listOfChannels.get(i)));
@@ -640,7 +597,6 @@ public class ShimmerDialogConfigurations {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 List<String> sensorList = new ArrayList<String>();
                 String plotSignaltoFilter = editTextSignalFilter.getText().toString();
 
@@ -678,7 +634,6 @@ public class ShimmerDialogConfigurations {
                             try {
                                 shimmerService.mPlotManager.addSignal(listOfChannelsFinal.get(index), dynamicPlot);
                             } catch (Exception e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                         } else {
@@ -695,7 +650,6 @@ public class ShimmerDialogConfigurations {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 final List<String[]> listofChannels = shimmerService.getListofEnabledSensorSignals(bluetoothAddress);
                 List<String> sensorList = new ArrayList<String>();
                 for (int i = 0; i < listofChannels.size(); i++) {
@@ -707,7 +661,6 @@ public class ShimmerDialogConfigurations {
                 final ArrayAdapter<String> adapterSensorNames = new ArrayAdapter<String>(dialog.getContext(), android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, sensorNames);
                 listView.setAdapter(adapterSensorNames);
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                //listView.setItemChecked(position, value);
 
                 for (int p = 0; p < listofChannels.size(); p++) {
                     if (shimmerService.mPlotManager.checkIfPropertyExist(listofChannels.get(p))) {
@@ -725,7 +678,6 @@ public class ShimmerDialogConfigurations {
                             try {
                                 shimmerService.mPlotManager.addSignal(listofChannels.get(index), dynamicPlot);
                             } catch (Exception e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                         } else {
@@ -749,7 +701,6 @@ public class ShimmerDialogConfigurations {
                     try {
                         shimmerService.mPlotManager.addSignal(listOfChannelsFinal.get(index), dynamicPlot);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 } else {
@@ -791,7 +742,6 @@ public class ShimmerDialogConfigurations {
 
         public void buildShimmersConnectedList(final List<ShimmerDevice> deviceList, final Context context,
                                            final ShimmerBluetoothManagerAndroid bluetoothManager) {
-        //List<ShimmerDevice> deviceList = btManager.getListOfConnectedDevices();
         CharSequence[] nameList = new CharSequence[deviceList.size()];
         CharSequence[] macList = new CharSequence[deviceList.size()];
         CharSequence[] displayList = new CharSequence[deviceList.size()];
@@ -816,7 +766,6 @@ public class ShimmerDialogConfigurations {
             public void onClick(DialogInterface dialogInterface, int i) {
                 ShimmerDevice shimmerDevice = deviceList.get(i);
                 buildSensorOrConfigOptions(shimmerDevice, context, bluetoothManager);
-                //dialogInterface.cancel();
             }
         });
 
@@ -882,7 +831,6 @@ public class ShimmerDialogConfigurations {
                     shimmerDeviceClone.setShimmerAndSensorsSamplingRate(samplingRate);
                 }
 
-                //Get the adjusted sampling rate back from the clone and display it in EditText
                 double newSamplingRate = shimmerDeviceClone.getSamplingRateShimmer();
                 editText.setText(Double.toString(newSamplingRate));
             }
@@ -902,7 +850,6 @@ public class ShimmerDialogConfigurations {
         horizontalLinearLayout.addView(editText);
         horizontalLinearLayout.addView(validateButton);
 
-        //Add the ListView first, then the EditText and Button for setting a custom sampling rate
         verticalLinearLayout.addView(listView);
         verticalLinearLayout.addView(horizontalLinearLayout);
 
@@ -922,7 +869,6 @@ public class ShimmerDialogConfigurations {
             }
         });
 
-        //Empty method which can be overwritten to customize the builder theme
         setADBuilderTheme(context, builder, Double.toString(currentSamplingRate) + "Hz");
 
         final AlertDialog dialog = builder.create();
@@ -934,7 +880,6 @@ public class ShimmerDialogConfigurations {
                 Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
                 Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
 
-                //Empty method which can be overwritten to customize the dialog and buttons theme
                 setDialogAndButtonsTheme(context, dialog, positiveButton, negativeButton);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -955,11 +900,9 @@ public class ShimmerDialogConfigurations {
     }
 
         public void setADBuilderTheme(Context context, AlertDialog.Builder builder, String title) {
-        //Insert code to edit and customize the builder here
     }
 
         public void setDialogAndButtonsTheme(Context context, AlertDialog dialog, Button positiveButton, Button negativeButton) {
-        //Insert code to edit and customize the dialog and buttons here
     }
 
 

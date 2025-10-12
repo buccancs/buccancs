@@ -192,11 +192,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                     createBinFile(verisenseMessage, false);
                 } else // if there is an existing file check the file size
                 {
-                    // check size of file and create new bin file if required
                     long length = new File(dataFilePath).length();
                     if (length > MaximumNumberOfBytesPerBinFile) {
-                        // SaveBinFileToDB();
-                        // AdvanceLog(LogObject, "BinFileCheckNewFileRequired", dataFilePath + " size " + length, ASMName);
                         createBinFile(verisenseMessage, false);
                     }
                 }
@@ -242,7 +239,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                             dataTransferRate = verisenseMessage.consolePrintTransferTime(mByteCommunication.getUuid());
                             latestMemoryLookupTablePayload = new MemoryLookupTablePayload();
                             if (latestMemoryLookupTablePayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
-                                //System.out.println(latestMemoryLookupTablePayload.generateDebugString());
                                 sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, latestMemoryLookupTablePayload);
                             }
                             break;
@@ -253,10 +249,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                             }
                             break;
                         case VERISENSE_DEBUG_MODE.TRANSFER_LOOP:
-                            //TODO
                             break;
                         case VERISENSE_DEBUG_MODE.CHECK_PAYLOADS_FOR_CRC_ERRORS:
-                            //TODO response is a array of bank indexes (2 bytes each LSB) that contain Payloads with CRC errors
                             List<Long> listOfBankIdsWithCrcErrors = new ArrayList<Long>();
                             for (int i = 0; i < verisenseMessage.payloadBytes.length; i += 2) {
                                 listOfBankIdsWithCrcErrors.add(AbstractPayload.parseByteArrayAtIndex(verisenseMessage.payloadBytes, i, CHANNEL_DATA_TYPE.UINT16));
@@ -312,10 +306,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                     }
                 }
             } else if (verisenseMessage.commandMask == VERISENSE_COMMAND.ACK.getCommandMask()) {
-                //TODO handle general ACKs
 
             } else {
-                // AdvanceLog(LogObject, "NonDataResponse", BitConverter.ToString(ResponseBuffer), ASMName);
                 throw new Exception();
             }
 
@@ -323,13 +315,11 @@ public class VerisenseProtocolByteCommunication implements Serializable {
             ex.printStackTrace();
         }
 
-        // Add it after it has been processed.
         rxVerisenseMessageBuffer.add(verisenseMessage);
     }
 
     private void sendObjectToRadioListenerList(byte commandAndProperty, Object object) {
         for (RadioListener rl : mRadioListenerList) {
-            //clone here because if the message is sent to a different thread there is a risk it could be set to null in the origal thread
             rl.eventResponseReceived(commandAndProperty, object);
         }
     }
@@ -346,7 +336,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         try {
             WritePayloadToBinFile(verisenseMessage);
         } catch (Exception ex) {
-            // DataTCS.TrySetResult(false);
             return;
         }
         writeLoggedDataAck();
@@ -356,10 +345,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
     protected void createBinFile(VerisenseMessage verisenseMessage, boolean crcError) {
         try {
-            // var asm = RealmService.GetSensorbyID(Asm_uuid.ToString());
-            // var trialSettings = RealmService.LoadTrialSettings();
 
-            // var participantID = asm.ParticipantID;
 
             if (mRootPathForBinFile.isEmpty()) {
                 binFileFolderDir = String.format("%s/%s/%s/BinaryFiles", getTrialName(), getParticipantID(), mByteCommunication.getUuid());
@@ -368,7 +354,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
             }
             Path path = Paths.get(binFileFolderDir);
 
-            // java.nio.file.Files;
             Files.createDirectories(path);
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
@@ -380,15 +365,12 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                 dataFileName = String.format("%s_%s.bin", new SimpleDateFormat("yyMMdd_HHmmss").format(new Date()), pIndex);
             }
 
-            // AdvanceLog(LogObject, "BinFileNameCreated", dataFileName, ASMName);
             Path rootPath = Paths.get(binFileFolderDir);
             Path dfn = Paths.get(dataFileName);
 
             dataFilePath = rootPath.resolve(dfn).toString();
 
-            // AdvanceLog(LogObject, "BinFileCreated", dataFilePath, ASMName);
         } catch (Exception ex) {
-            // AdvanceLog(LogObject, "BinFileCreatedException", ex, ASMName);
         }
     }
 
@@ -396,7 +378,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
         if (PreviouslyWrittenPayloadIndex != verisenseMessage.payloadIndex) {
             try {
-                // System.Console.WriteLine("Write Payload To Bin File!");
                 File f = new File(dataFilePath);
                 if (!f.exists()) {
                     f.createNewFile();
@@ -412,22 +393,13 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
 				*/
                 if (verisenseMessage.mCRCErrorPayload) {
-                    //SaveBinFileToDB();
                 } else {
-                    // only assume non crc error payload index is valid
                     PreviouslyWrittenPayloadIndex = verisenseMessage.payloadIndex;
                 }
-                // DataBufferToBeSaved = null;
-                // RealmService.UpdateSensorDataSyncDate(Asm_uuid.ToString());
-                // UpdateSensorDataSyncDate();
             } catch (Exception ex) {
-                // AdvanceLog(LogObject, "FileAppendException", ex, ASMName);
-                // throw ex;
                 System.out.println(ex.toString());
             }
         } else {
-            // AdvanceLog(LogObject, "WritePayloadToBinFile", "Same Payload Index = " +
-            // PayloadIndex.ToString(), ASMName);
         }
 
     }
@@ -620,7 +592,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         try {
             verisenseMessageTask.waitForCompletion();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             throw new ShimmerException(ERROR_MSG_TCS_INTERRUPTED);
         }
@@ -657,7 +628,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
             try {
                 verisenseMessageTask.waitForCompletion();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 throw new ShimmerException(ERROR_MSG_TCS_INTERRUPTED);
             }
@@ -679,7 +649,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
             try {
                 taskVM.waitForCompletion();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 throw (ShimmerException) taskVM.getError();
             }
         } else {
@@ -696,7 +665,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
             try {
                 taskVM.waitForCompletion();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 throw (ShimmerException) taskVM.getError();
             }
         } else {
@@ -715,7 +683,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
 
                 int loopCount = 0;
                 int waitIntervalMs = 100;
@@ -768,7 +735,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                         try {
                             readFlashLookupTable();
                         } catch (ShimmerException e1) {
-                            // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
                     }
@@ -814,7 +780,6 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         return dataFilePath;
     }
 
-    //TODO this might be doubling up on setBluetoothRadioState inside ShimmerDevice, could we reuse that instead?
     public enum VerisenseProtocolState {
         None, Disconnected, Connecting, Connected, Streaming, StreamingLoggedData, Limited, SpeedTest
     }

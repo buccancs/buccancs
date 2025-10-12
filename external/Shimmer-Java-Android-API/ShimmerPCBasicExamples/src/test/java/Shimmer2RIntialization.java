@@ -3,7 +3,6 @@ import com.shimmerresearch.pcDriver.ShimmerPC;
 public class Shimmer2RIntialization {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         String myName = "";
         double samplingRate = 256;
         int accelRange = 3;

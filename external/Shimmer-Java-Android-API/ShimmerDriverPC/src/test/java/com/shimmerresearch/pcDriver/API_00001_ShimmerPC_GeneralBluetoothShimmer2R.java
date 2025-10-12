@@ -112,7 +112,6 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
     public void testGMultipleStartStopStreaming() throws Exception {
         for (double i = 1; i < 8; i++) {
 
-            //odd value of i will start streaming
             if (i % 2 != 0) {
                 shimmer.startStreaming();
                 Thread.sleep(DELAY_DURATION_MS);
@@ -122,7 +121,6 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
                     assert (false);
                 }
             }
-            //even value of i will stop streaming
             else {
                 shimmer.stopStreaming();
                 Thread.sleep(DELAY_DURATION_MS);
@@ -141,7 +139,6 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
         try {
             shimmer.disconnect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             assert (false);
         }

@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case CONNECTED:
                             Log.i(LOG_TAG, "Device connected: " + macAddress);
-                            //Check if Accel is enabled on the Shimmer, and if not, enable it
                             if (mFirstTimeConnection) {
                                 Shimmer shimmer = (Shimmer) btManager.getShimmerDeviceBtConnectedFromMac(macAddress);
                                 ((ShimmerBluetooth) shimmer).writeEnabledSensors(ShimmerBluetooth.SENSOR_ACCEL);
@@ -106,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                     if (msg.obj instanceof CallbackObject) {
                         int ind = ((CallbackObject) msg.obj).mIndicator;
                         if (ind == NOTIFICATION_SHIMMER_FULLY_INITIALIZED) {
-                            //FULLY_INITIALIZED state is returned when Shimmer is connected or after Shimmer has been configured
                         }
                     }
                     break;
@@ -177,10 +175,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                //Ensure no previous device is connected to the App as it only supports a single device at a time:
                 btManager.disconnectAllDevices();
 
-                //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 btManager.connectShimmerThroughBTAddress(macAdd);   //Connect to the selected device
                 shimmerBtAdd = macAdd;

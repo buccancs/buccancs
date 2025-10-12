@@ -67,7 +67,6 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
                 }
             }
         });
-        //s.setWaitForData(shimmer);
     }
 
         public void initialize() {
@@ -86,14 +85,12 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
         textField.setBounds(10, 91, 144, 29);
         frame.getContentPane().add(textField);
         textField.setColumns(10);
-        //00000000-0000-0000-0000-e7452c6d6f14
         textField.setText("e7:45:2c:6d:6f:14");
         JButton btnConnect = new JButton("CONNECT");
         btnConnect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
 
                 btComport = textField.getText();
-                //btManager.connectShimmerThroughCommPort(btComport);
                 BluetoothDeviceDetails devDetails = new BluetoothDeviceDetails("", textField.getText(), "Verisense");
                 btManager.connectShimmerThroughBTAddress(devDetails);
 
@@ -134,7 +131,6 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
         mntmSelectSensors.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
 
-                //Ensure the Shimmer is not streaming or SD logging before configuring it
                 if (shimmer.isConnected()) {
                     if (!shimmer.isStreaming() && !shimmer.isSDLogging()) {
                         EnableSensorsDialog sensorsDialog = new EnableSensorsDialog(shimmer, btManager);
@@ -146,8 +142,6 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
                     JOptionPane.showMessageDialog(frame, "No device connected!", "Info", JOptionPane.WARNING_MESSAGE);
                 }
 
-//				EnableSensorsDialog sensorsDialog = new EnableSensorsDialog(shimmerDevice);
-//				sensorsDialog.initialize();
             }
         });
         mnTools.add(mntmSelectSensors);
@@ -199,7 +193,6 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
                 try {
                     shimmer.startStreaming();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
@@ -215,7 +208,6 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
                 try {
                     shimmer.stopStreaming();
                 } catch (ShimmerException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
 
@@ -229,9 +221,7 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -244,10 +234,7 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
             } else if (callbackObject.mState == BT_STATE.CONNECTED) {
                 textPaneStatus.setText("connected");
                 shimmer = btManager.getShimmerDeviceBtConnected(textField.getText().toUpperCase());
-//				shimmerDevice = btManager.getShimmerDeviceBtConnected(btComport);
-                //shimmer.startStreaming();
             } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-//					|| callbackObject.mState == BT_STATE.NONE
                     || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
                 textPaneStatus.setText("disconnected");
             }

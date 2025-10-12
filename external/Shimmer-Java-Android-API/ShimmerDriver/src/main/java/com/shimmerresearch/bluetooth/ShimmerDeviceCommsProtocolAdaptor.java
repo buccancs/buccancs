@@ -15,7 +15,6 @@ public class ShimmerDeviceCommsProtocolAdaptor {
     }
 
     public void connect() throws ShimmerException {
-//		clearShimmerVersionObject();
 
         mShimmerDevice.setBluetoothRadioState(BT_STATE.CONNECTING);
         if (mShimmerDevice.mCommsProtocolRadio != null) {

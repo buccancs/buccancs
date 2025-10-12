@@ -29,7 +29,6 @@ public class FftCalculateDetails {
     private double sumProductFreqPsd = 0;
     private double sumPsdAmplitude = 0;
 
-    //TODO add support for the below
     private int mFftOverlapPercent = 0;
     private boolean mIsShowingTwoSidedFFT = false;
 
@@ -44,7 +43,6 @@ public class FftCalculateDetails {
     }
 
     public FftCalculateDetails() {
-        // TODO Auto-generated constructor stub
     }
 
     public static double[] toPrimitive(Double[] array) {
@@ -59,18 +57,12 @@ public class FftCalculateDetails {
         }
         return result;
 
-        //Alternatives
-//		double[] arr = frameList.stream().mapToDouble(Double::doubleValue).toArray(); //via method reference
-//		double[] arr = frameList.stream().mapToDouble(d -> d).toArray(); //identity function, Java unboxes automatically to get the double value
     }
 
     public void addData(double xData, double yData) {
         mTimeBuffer.add(xData);
         mDataBuffer.add(yData);
 
-        // TODO need to take both sets of data into consideration as samples
-        // maybe missing and therefore interpolation (or similar) needs to be
-        // performed before and FFT calculation
     }
 
     public void clearBuffers() {
@@ -79,7 +71,6 @@ public class FftCalculateDetails {
     }
 
     public void clearDataOverlap() {
-        //TODO clear window instead of all based on mFftOverlapPercent
         if (mFftOverlapPercent == 0) {
             mDataBuffer.clear();
             mTimeBuffer.clear();
@@ -104,12 +95,8 @@ public class FftCalculateDetails {
         return fft;
     }
 
-    //TODO calculate FFT on data buffers
     public double[] calculateFft(int timeDiffMs) {
-        //TODO interpolate missing samples
 
-//		System.err.println("" + mSamplingRate*(timeDiffMs/1000));
-        //TODO check if size is the same as the required minimum, not just >0
         if (mDataBuffer.size() > ((mSamplingRate * (timeDiffMs / 1000)) * 0.9)) { //setting 90% packet loss to be acceptable (arbitrary)
             Double[] inputTemp = mDataBuffer.toArray(new Double[mDataBuffer.size()]);
 
@@ -141,7 +128,6 @@ public class FftCalculateDetails {
     }
 
     public ObjectCluster getResultsObjectCluster() {
-        //TODO convert results to object cluster and plot
         return null;
     }
 
@@ -172,7 +158,6 @@ public class FftCalculateDetails {
 
     public double[][] calculateFftAndGenerateArray(int periodMs) {
 
-        //TODO improve below - just implementing quick method to calculate sampling rate for the moment
         if (mTimeBuffer.size() > 2 && mTimeBuffer.get(0) != null && mTimeBuffer.get(1) != null) {
             mSamplingRate = 1000 / (mTimeBuffer.get(1) - mTimeBuffer.get(0));
         }
@@ -213,7 +198,6 @@ public class FftCalculateDetails {
 
             setPSDFrequency(index, multiplier);
             setPSDAmplitude(fft, index);
-            //setPSDAmplitudeInDbs(fft, index);
 
             sumPSDproductFreq(index);
             sumPSDAmplitude(index);
@@ -227,10 +211,8 @@ public class FftCalculateDetails {
 
     private void setFFTFrequency(int index, double multiplier) {
         if (Double.isNaN(mSamplingRate)) {
-            //Use index
             fftResults[0][index] = index;
         } else {
-            //Use freq
             fftResults[0][index] = index * multiplier;
         }
     }
@@ -241,10 +223,8 @@ public class FftCalculateDetails {
 
     private void setPSDFrequency(int index, double multiplier) {
         if (mSamplingRate == Double.NaN) {
-            // Use index
             psdFrequenciesAndAmplitudes[0][index] = index;
         } else {
-            // Use freq
             psdFrequenciesAndAmplitudes[0][index] = index * multiplier; //problem i = 0;
         }
     }
@@ -274,8 +254,6 @@ public class FftCalculateDetails {
     }
 
     private void setMedianPSDFrequency() {
-        // Calculate Median [1]
-        // TODO: Better check?
         for (int index = 0; index < psdFrequenciesAndAmplitudes[0].length; index++) {
             if (psdFrequenciesAndAmplitudes[1][index] > sumPsdAmplitude / 2) {
                 medianPSDFreq = psdFrequenciesAndAmplitudes[0][index];
@@ -283,12 +261,6 @@ public class FftCalculateDetails {
             }
         }
 
-//	    int middle = psdFrequenciesAndAmplitudes[0].length/2;
-//	    if (psdFrequenciesAndAmplitudes[0].length%2 == 1) {
-//	    	medianPSDFreq = psdFrequenciesAndAmplitudes[0][middle];
-//	    } else {
-//	    	medianPSDFreq = (psdFrequenciesAndAmplitudes[0][middle-1] + psdFrequenciesAndAmplitudes[0][middle]) / 2.0;
-//	    }
     }
 
     public double getMedianPSDFrequency() {

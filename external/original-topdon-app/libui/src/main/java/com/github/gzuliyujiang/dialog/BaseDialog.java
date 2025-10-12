@@ -54,15 +54,12 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
     private void init(Activity activity) {
         this.activity = activity;
         setOwnerActivity(activity);
-        //触摸屏幕取消窗体
         setCanceledOnTouchOutside(false);
-        //按返回键取消窗体
         setCancelable(false);
         super.setOnShowListener(this);
         super.setOnDismissListener(this);
         Window window = super.getWindow();
         if (window != null) {
-            //requestFeature must be called before adding content
             window.requestFeature(Window.FEATURE_NO_TITLE);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             window.setLayout(activity.getResources().getDisplayMetrics().widthPixels, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -70,7 +67,6 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
             window.getDecorView().setPadding(0, 0, 0, 0);
         }
         onInit(null);
-        // 调用create或show才能触发onCreate
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             super.create();
         } else {
@@ -86,7 +82,6 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
 
     @CallSuper
     protected void onInit(@Nullable Bundle savedInstanceState) {
-        //noinspection deprecation
         onInit(activity, savedInstanceState);
     }
 
@@ -119,7 +114,6 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
 
     @CallSuper
     protected void initView() {
-        //noinspection deprecation
         initView(contentView);
     }
 
@@ -236,9 +230,6 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
             super.show();
             DialogLog.print("dialog show");
         } catch (Exception e) {
-            //...not attached to window manager
-            //...Unable to add window...is your activity running?
-            //...Activity...has leaked window...that was originally added here
             DialogLog.print(e);
         }
     }
@@ -253,8 +244,6 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
             super.dismiss();
             DialogLog.print("dialog dismiss");
         } catch (Exception e) {
-            //...not attached to window manager
-            //...Activity...has leaked window...that was originally added here
             DialogLog.print(e);
         }
     }

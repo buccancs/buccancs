@@ -34,7 +34,6 @@ public class LoggingPC {
             outputFile = new File(mFileName + ".csv");
         }
         if (outputFile.exists()) {
-            //TODO
             System.out.println("File Exists");
             mFileExists = true;
         } else {
@@ -52,7 +51,6 @@ public class LoggingPC {
             outputFile = new File(mFileName + ".csv");
         }
         if (outputFile.exists()) {
-            //TODO
             System.out.println("File Exists");
             mFileExists = true;
         } else {
@@ -68,7 +66,6 @@ public class LoggingPC {
             if (mFirstWrite == true) {
                 writer = new BufferedWriter(new FileWriter(outputFile, true));
 
-                //First retrieve all the unique keys from the objectClusterLog
                 Multimap<String, FormatCluster> m = objectClusterLog.getPropertyCluster();
 
                 int size = m.size();
@@ -79,13 +76,11 @@ public class LoggingPC {
                 int i = 0;
                 int p = 0;
                 for (String key : m.keys()) {
-                    //first check that there are no repeat entries
 
                     if (compareStringArray(mSensorNames, key) == true) {
                         for (FormatCluster formatCluster : m.get(key)) {
                             mSensorFormats[p] = formatCluster.mFormat;
                             mSensorUnits[p] = formatCluster.mUnits;
-                            //Log.d("Shimmer",key + " " + mSensorFormats[p] + " " + mSensorUnits[p]);
                             p++;
                         }
 
@@ -96,7 +91,6 @@ public class LoggingPC {
                 }
 
 
-                // write header to a file
 
                 writer = new BufferedWriter(new FileWriter(outputFile, false));
 
@@ -139,7 +133,6 @@ public class LoggingPC {
                 mFirstWrite = false;
             }
 
-            //now print data
             for (int r = 0; r < mSensorNames.length; r++) {
                 Collection<FormatCluster> dataFormats = objectClusterLog.getCollectionOfFormatClusters(mSensorNames[r]);
                 FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);  // retrieve the calibrated data
@@ -150,7 +143,6 @@ public class LoggingPC {
 
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("Shimmer" + "Error with bufferedwriter");
         }
@@ -163,7 +155,6 @@ public class LoggingPC {
             if (mFirstWrite == true) {
                 writer = new BufferedWriter(new FileWriter(outputFile, true));
 
-                //First retrieve all the unique keys from the objectClusterLog
                 Multimap<String, FormatCluster> m = objectClusterLog.getPropertyCluster();
 
                 int size = m.size();
@@ -174,13 +165,11 @@ public class LoggingPC {
                 int i = 0;
                 int p = 0;
                 for (String key : m.keys()) {
-                    //first check that there are no repeat entries
 
                     if (compareStringArray(mSensorNames, key) == true) {
                         for (FormatCluster formatCluster : m.get(key)) {
                             mSensorFormats[p] = formatCluster.mFormat;
                             mSensorUnits[p] = formatCluster.mUnits;
-                            //Log.d("Shimmer",key + " " + mSensorFormats[p] + " " + mSensorUnits[p]);
                             p++;
                         }
 
@@ -191,7 +180,6 @@ public class LoggingPC {
                 }
 
 
-                // write header to a file
 
                 writer = new BufferedWriter(new FileWriter(outputFile, false));
 
@@ -234,7 +222,6 @@ public class LoggingPC {
                 mFirstWrite = false;
             }
 
-            //now print data
             for (int r = 0; r < mSensorNames.length; r++) {
                 Collection<FormatCluster> dataFormats = objectClusterLog.getCollectionOfFormatClusters(mSensorNames[r]);
                 FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);  // retrieve the calibrated data
@@ -280,7 +267,6 @@ public class LoggingPC {
 
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("Shimmer" + "Error with bufferedwriter");
         }
@@ -291,7 +277,6 @@ public class LoggingPC {
             try {
                 writer.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

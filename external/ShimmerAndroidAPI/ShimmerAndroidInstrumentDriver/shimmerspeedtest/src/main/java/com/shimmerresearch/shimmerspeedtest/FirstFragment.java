@@ -142,7 +142,6 @@ public class FirstFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) { //The devices paired list has returned a result
             if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
                 shimmer = new Shimmer(mHandler, getActivity().getApplicationContext());

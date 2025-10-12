@@ -28,7 +28,6 @@ public abstract class AbstractSignalGenerator extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -41,14 +40,11 @@ public abstract class AbstractSignalGenerator extends BasicProcessWithCallBack {
         }
 
         private void createSignalGen() {
-            // TODO Auto-generated method stub
 
             while (generate) {
                 Object x = generateSignal();
 
                 if (x != null) {
-                    //System.out.println(x);
-                    //PLOT HERE
                     threadSleep();
                 }
             }
@@ -67,7 +63,6 @@ public abstract class AbstractSignalGenerator extends BasicProcessWithCallBack {
             try {
                 Thread.sleep(sleepDurationInMilli, sleepDurationInNano);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

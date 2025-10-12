@@ -56,10 +56,8 @@ public abstract class ShimmerBluetoothManager {
     protected int msDelayBetweenSetCommands = 0;
     protected BluetoothProgressReportAll mProgressReportAll;
 
-    //Timers start
     transient protected Timer mTimerTimerCalcReceptionRate;
         protected FIXED_SHIMMER_CONFIG_MODE mFixedShimmerConfigGlobal = FIXED_SHIMMER_CONFIG_MODE.NONE;
-    //Timers end
         protected boolean mAutoStartStreaming = false;
     private ConnectionExceptionListener connectionExceptionListener;
     private int mCalcReceptionRateMs = 1000;
@@ -82,9 +80,6 @@ public abstract class ShimmerBluetoothManager {
 
     protected abstract void connectExistingShimmer(Object... params) throws ShimmerException;
 
-    // TODO Might be better to be able to set mFixedShimmerConfig and
-    // mAutoStartStreaming on a per Shimmer basis through variables passed into the
-    // connect() method rather then globals for all devices
 
         protected abstract ShimmerDevice createNewShimmer3(String comPort, String bluetoothAddress);
 
@@ -101,7 +96,6 @@ public abstract class ShimmerBluetoothManager {
         public void connectShimmer(String connectionHandle, ShimmerVerObject shimmerVerObject, ExpansionBoardDetails expansionBoardDetails) {
         BluetoothDeviceDetails bluetoothDetails = getBluetoothDeviceDetails(connectionHandle);
 
-        //No need to start the thread if the device isn't available
         if (bluetoothDetails != null) {
             ConnectThread connectThread = new ConnectThread(connectionHandle, shimmerVerObject, expansionBoardDetails);
             mapOfConnectionThreads.put(connectThread.connectionHandle, connectThread);
@@ -163,7 +157,6 @@ public abstract class ShimmerBluetoothManager {
             try {
                 startStreaming(shimmerDevice);
             } catch (ShimmerException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             threadSleep(SLEEP_BETWEEN_GROUP_ACTIONS_MS);
@@ -183,7 +176,6 @@ public abstract class ShimmerBluetoothManager {
             try {
                 stopStreaming(shimmerDevice);
             } catch (ShimmerException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             threadSleep(SLEEP_BETWEEN_GROUP_ACTIONS_MS);
@@ -217,10 +209,7 @@ public abstract class ShimmerBluetoothManager {
     }
 
     public void stopSDLogging(ShimmerDevice shimmerDevice) {
-        //Remove check?
-//		if (shimmerDevice.isConnected() && shimmerDevice.isSDLogging()) {
         shimmerDevice.stopSDLogging();
-//		}
     }
 
     public void stopSDLogging(List<ShimmerDevice> listOfShimmers) {
@@ -270,48 +259,26 @@ public abstract class ShimmerBluetoothManager {
 
         @Deprecated
     public void setCadenceBTConfig(ShimmerDevice device) {
-//		ShimmerDevice shimmerDevice = getShimmerDeviceBtConnected(device.getComPort());
         ShimmerDevice shimmerDevice = getShimmerDeviceBtConnected(device.getBtConnectionHandle());
 
         if (shimmerDevice != null) {
-            //TODO remove the first half of this if statement, second half is more generic and will work for Shimmer3/4
-//			if (shimmerDevice.getHardwareVersion() == ShimmerVerDetails.HW_ID.SHIMMER_3){
-//				if (shimmerDevice instanceof ShimmerBluetooth){
-//					ShimmerBluetooth shimmerBluetooth = (ShimmerBluetooth)shimmerDevice;
-//					shimmerBluetooth.checkShimmerConfigBeforeConfiguring();
 //
-//					shimmerBluetooth.operationPrepare();
-//					shimmerBluetooth.setSendProgressReport(true);
 //				
-//					//setting accel range +-4g
-//					shimmerBluetooth.writeAccelRange(1);
-//					//setting sampling rate 51.2 hardcoded
-//					shimmerBluetooth.writeShimmerAndSensorsSamplingRate(51.20);// s3 = 4
-//					//write sensors 
-//					shimmerBluetooth.writeEnabledSensors((long)4096); // setting wide range accel as only sensor
-//					shimmerBluetooth.operationStart(BT_STATE.CONFIGURING);
-//				}
-//			}
-//			else {
             shimmerDevice.operationPrepare();
 
             shimmerDevice.setDefaultShimmerConfiguration();
             shimmerDevice.disableAllAlgorithms();
             shimmerDevice.disableAllSensors();
 
-            //write sensors
             if (shimmerDevice.getSensorIdsSet().contains(Shimmer3.SENSOR_ID.SHIMMER_LSM303_ACCEL)) {
-                //- setting wide range accel as only sensor
                 shimmerDevice.setSensorEnabledState(Shimmer3.SENSOR_ID.SHIMMER_LSM303_ACCEL, true);
 
-                //setting accel range +/- 4g
                 shimmerDevice.setConfigValueUsingConfigLabel(
                         Shimmer3.SENSOR_ID.SHIMMER_LSM303_ACCEL,
                         SensorLSM303DLHC.GuiLabelConfig.LSM303_ACCEL_RANGE,
                         1);
             }
 
-            //setting sampling rate 51.2 hardcoded
             shimmerDevice.setShimmerAndSensorsSamplingRate(51.20);
 
             if (shimmerDevice instanceof ShimmerBluetooth) {
@@ -321,7 +288,6 @@ public abstract class ShimmerBluetoothManager {
             }
 
             shimmerDevice.operationStart(BT_STATE.CONFIGURING);
-//			}
         }
     }
 
@@ -341,8 +307,6 @@ public abstract class ShimmerBluetoothManager {
         mProgressReportAll = new BluetoothProgressReportAll(BT_STATE.CONFIGURING, listOfShimmerClones);
 
         for (ShimmerDevice cloneShimmer : listOfShimmerClones) {
-            //TODO include below?
-//			cloneShimmerCast.setBluetoothRadioState(BT_STATE.CONFIGURING);
 
             ShimmerDevice originalShimmerDevice = getShimmerDeviceBtConnected(cloneShimmer.getMacId());
             int cloneHwId = cloneShimmer.getHardwareVersion();
@@ -354,7 +318,6 @@ public abstract class ShimmerBluetoothManager {
                     originalShimmerDevice.configureFromClone(cloneShimmer);
                     originalShimmerDevice.operationStart(BT_STATE.CONFIGURING);
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             } else {
@@ -366,7 +329,6 @@ public abstract class ShimmerBluetoothManager {
     }
 
 
-    //-------------- EventMarkers methods start -----------------------------
     public void setEventTriggered(long eventCode, int eventType) {
         for (ShimmerDevice spc : mMapOfBtConnectedShimmers.values()) {
             if (spc.isStreaming() || spc.isConnected()) {
@@ -390,9 +352,7 @@ public abstract class ShimmerBluetoothManager {
             shimmerDevice.resetEventMarkerValuetoDefault();
         }
     }
-    //-------------- EventMarkers methods end -----------------------------
 
-    //-------------- Timer methods start -----------------------------
 
     public void startTimerCalcReceptionRate() {
         if (mTimerTimerCalcReceptionRate == null) {
@@ -420,17 +380,9 @@ public abstract class ShimmerBluetoothManager {
         return null;
     }
 
-    //-------------- Timer methods end -----------------------------
 
 
-    //---------- GET Methods start -------------------------------
 
-    //	public String[] getListofBluetoothComPorts(){
-    //	String[] list = new String[2];
-    //	list[0] = "COM16";
-    //	list[1] = "COM19";
-    //	return list;
-    //}
 
     protected void putShimmerBtConnectedMap(ShimmerDevice shimmerDevice) {
         String connectionHandle = shimmerDevice.getBtConnectionHandle();
@@ -444,7 +396,6 @@ public abstract class ShimmerBluetoothManager {
     public ShimmerDevice getShimmerDeviceBtConnected(String connectionHandle) {
         ShimmerDevice shimmerDevice = mMapOfBtConnectedShimmers.get(connectionHandle);
         if (shimmerDevice == null) {
-//			System.err.println("No Shimmer in BT connected map for connectionHandle:" + (connectionHandle.isEmpty()? "EMPTY":connectionHandle));
             shimmerDevice = getShimmerDeviceBtConnectedFromMac(connectionHandle);
         }
         return shimmerDevice;
@@ -496,12 +447,6 @@ public abstract class ShimmerBluetoothManager {
                     && !shimmerDevice.isStreaming()) {
                 return "Connected";
             }
-//			else if(((ShimmerBluetooth)shimmerDevice).getBTState()==BT_STATE.CONNECTING){
-//				return "Connecting";
-//			}
-//			else if(((ShimmerBluetooth)shimmerDevice).getBTState()==BT_STATE.NONE){
-//				return "Disconnected";
-//			}
             else if (shimmerDevice.isConnected()
                     && shimmerDevice.isStreaming()) {
                 return "Streaming";
@@ -517,30 +462,15 @@ public abstract class ShimmerBluetoothManager {
         @Deprecated
     public int getDeviceStateInt(String comPort) {
 
-//		System.out.println("keyset size:" + mMultiShimmer.keySet().size());
         ShimmerDevice shimmerDevice = getShimmerDeviceBtConnected(comPort);
         if (shimmerDevice != null) {
-//			if(((ShimmerBluetooth)shimmerDevice).isConnected()
-//					&& !((ShimmerBluetooth)shimmerDevice).isStreaming()){
-//				return BT_STATE.CONNECTED.ordinal();
-//			}
-//			else if(((ShimmerBluetooth)shimmerDevice).getBTState()==BT_STATE.CONNECTING){
-//				return BT_STATE.CONNECTING.ordinal();
-//			}
-//			else if(((ShimmerBluetooth)shimmerDevice).getBTState()==BT_STATE.NONE){
-//				return BT_STATE.NONE.ordinal();
-//			}
             if (shimmerDevice.isConnected()
                     && shimmerDevice.isStreaming()) {
                 return BT_STATE.STREAMING.ordinal();
             } else {
-//				return ShimmerBluetooth.STATE_UNINTIALISED;
-//				return BT_STATE.NONE.ordinal();
                 return BT_STATE.DISCONNECTED.ordinal();
             }
         } else {
-//			return ShimmerBluetooth.STATE_UNINTIALISED;
-//			return BT_STATE.NONE.ordinal();
             return BT_STATE.DISCONNECTED.ordinal();
         }
     }
@@ -575,7 +505,6 @@ public abstract class ShimmerBluetoothManager {
         return list;
     }
 
-    //TODO add support for Shimmer4
     public List<String[]> getListOfSignalsFromAllDevices() {
         List<String[]> list = new ArrayList<String[]>();
         for (ShimmerDevice shimmerDevice : mMapOfBtConnectedShimmers.values()) {
@@ -589,7 +518,6 @@ public abstract class ShimmerBluetoothManager {
         return list;
     }
 
-    //TODO add support for Shimmer4
     public List<String[]> getListOfSignalsFromAllConnectedDevices() {
         List<String[]> list = new ArrayList<String[]>();
         for (ShimmerDevice shimmerDevice : mMapOfBtConnectedShimmers.values()) {
@@ -614,7 +542,6 @@ public abstract class ShimmerBluetoothManager {
         return null;
     }
 
-    //TODO add support for Shimmer4
     public List<String[]> getListOfSignalsFromDevices(String address) {
         List<String[]> list = new ArrayList<String[]>();
         ShimmerDevice shimmerDevice = mMapOfBtConnectedShimmers.get(address);
@@ -636,7 +563,6 @@ public abstract class ShimmerBluetoothManager {
         }
     }
 
-    //---------- GET Methods end -------------------------------
 
     protected void connectVerisenseDevice(BluetoothDeviceDetails bdd) {
 
@@ -660,36 +586,26 @@ public abstract class ShimmerBluetoothManager {
     }
 
     protected ShimmerDevice createNewSweatchDevice(String comPort, String bluetoothAddress) {
-        //Overridden in ShimmerBluetoothManagerPC
         return null;
     }
 
-//	protected void connectArduino(String comPort) throws DeviceException {
-//		ArduinoDevice arduino = new ArduinoDevice();
-//		connectThirdPartyDevice(arduino, comPort, comPort);
-//	}
 
     protected ShimmerDevice createNewSweatchDevice(ShimmerRadioInitializer shimmerRadioInitializer, String bluetoothAddress) {
-        //Overridden in ShimmerBluetoothManagerPC
         return null;
     }
 
     protected void initializeNewShimmerCommon(ShimmerDevice shimmerDevice) {
         shimmerDevice.addCommunicationRoute(COMMUNICATION_TYPE.BLUETOOTH);
 
-        //TODO add to BT connected map after connected callback has been received?
         putShimmerBtConnectedMap(shimmerDevice);
         putShimmerGlobalMap(shimmerDevice.getMacId(), shimmerDevice);
 
         addCallBack(shimmerDevice);
         shimmerDevice.updateThreadName();
 
-        // If a fixed Shimmer config hasn't already been set by the driver for a
-        // particular device, set it to be the global setting in this class
         if (!shimmerDevice.isFixedShimmerConfigModeSet()) {
             shimmerDevice.setFixedShimmerConfig(mFixedShimmerConfigGlobal);
         }
-        //Just to be safe
         if (mFixedShimmerConfigGlobal == FIXED_SHIMMER_CONFIG_MODE.NEUHOME || mFixedShimmerConfigGlobal == FIXED_SHIMMER_CONFIG_MODE.NEUHOMEGSRONLY) {
             if (shimmerDevice instanceof ShimmerBluetooth) {
                 ((ShimmerBluetooth) shimmerDevice).setSetupDeviceWhileConnecting(true);
@@ -732,7 +648,6 @@ public abstract class ShimmerBluetoothManager {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -798,7 +713,6 @@ public abstract class ShimmerBluetoothManager {
                 try {
                     shimmerRadioInitializer.getSerialCommPort().disconnect();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -811,7 +725,6 @@ public abstract class ShimmerBluetoothManager {
                 try {
                     connectUnknownShimmer();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     System.err.println(e.getErrStringFormatted());
                     return;
                 }
@@ -832,34 +745,20 @@ public abstract class ShimmerBluetoothManager {
 
                     sendFeedbackOnConnectionStart(connectionHandle);
 
-                    //Handle third party Bluetooth devices here
                     if (deviceTypeDetected == DEVICE_TYPE.NONIN_ONYX_II) {
                         connectNoninOnyxII(comPort, bluetoothAddress);
                     }
                     if (deviceTypeDetected == DEVICE_TYPE.VERISENSE) {
                         connectVerisenseDevice(bluetoothDetails);
                     } else if (deviceTypeDetected == DEVICE_TYPE.LUMAFIT) {
-                        //TODO
                     } else if (deviceTypeDetected == DEVICE_TYPE.ARDUINO) {
-                        //					connectArduino(comPort);
                     }
-                    //Handle Shimmer devices here
                     else {
-                        // Check if Shimmer already exists in the global map. If not,
-                        // create a new Shimmer based on whether we can determine the
-                        // Shimmer hardware version from the Bluetooth module device
-                        // name (e.g., Shimmer3_3A44, Shimmer4_2784). Early versions of
-                        // Shimmer shipped with the Bluetooth module name set to
-                        // "RN42_xxxx" and in these cases we need to connect to the
-                        // device first to find it's hardware version
                         ShimmerDevice shimmerDevice = getShimmerGlobalMap(bluetoothAddress);
                         if (shimmerDevice == null || shimmerDevice instanceof ShimmerShell) {
                             shimmerDevice = createShimmerIfKnown();
                         }
 
-                        // ShimmerDevice should be created at this point if we were able
-                        // to determine the hardware version from the bluetooth module
-                        // name. If yes, then connect and initialise.
                         if (shimmerDevice != null && !(shimmerDevice instanceof ShimmerShell)) {
                             printMessage("Connecting to " + shimmerDevice.getClass().getSimpleName() + " with connection handle = " + (connectThroughComPort ? comPort : bluetoothAddress));
                             if (connectThroughComPort) {
@@ -872,7 +771,6 @@ public abstract class ShimmerBluetoothManager {
                                 connectExistingShimmer(shimmerDevice, bluetoothAddress);
                             }
                         }
-                        //If Shimmer is still unknown, connect and find out what type it is
                         else {
                             connectUnknownShimmer();
                         }
@@ -928,7 +826,6 @@ public abstract class ShimmerBluetoothManager {
         protected void connectUnknownShimmer() throws ShimmerException {
             printMessage("Connecting to new Shimmer with connection handle = " + (connectThroughComPort ? comPort : bluetoothAddress));
 
-            //radio address will be the com port in case of the PC and the BT address in case of Android
             shimmerRadioInitializer = new ShimmerRadioInitializer();
             final AbstractSerialPortHal serialPortComm = createNewSerialPortComm(comPort, bluetoothAddress);
             shimmerRadioInitializer.setSerialCommPort(serialPortComm);
@@ -940,7 +837,6 @@ public abstract class ShimmerBluetoothManager {
 
                 @Override
                 public void eventDisconnected() {
-                    // TODO Auto-generated method stub
                     sendFeedbackOnConnectStartException(serialPortComm.getConnectionHandle());
                 }
             });
@@ -971,11 +867,6 @@ public abstract class ShimmerBluetoothManager {
                     shimmerDeviceNew.setShimmerVersionObjectAndCreateSensorMap(sVO);
 
 
-                    //Temporarily added, not needed at the moment so commenting out
-                    //				ExpansionBoardDetails expBrdDetails = shimmerRadioInitializer.readExpansionBoardID();
-                    //				if(expBrdDetails!=null){
-                    //					shimmerDeviceNew.setExpansionBoardDetails(expBrdDetails);
-                    //				}
 
 
                     initializeNewShimmerCommon(shimmerDeviceNew);
@@ -991,7 +882,6 @@ public abstract class ShimmerBluetoothManager {
                 try {
                     shimmerRadioInitializer.getSerialCommPort().disconnect();
                 } catch (Exception ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
             }

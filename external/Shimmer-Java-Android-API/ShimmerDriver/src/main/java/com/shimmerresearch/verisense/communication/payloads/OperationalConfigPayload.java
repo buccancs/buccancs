@@ -60,9 +60,7 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
 
     public static byte[] getDefaultPayloadConfigForFwVersion(ShimmerVerObject mShimmerVerObject) {
         if (PayloadContentsDetails.isPayloadDesignV7orAbove(mShimmerVerObject)) {
-            //TODO change over here when we can get the byte arrays to match in main() within this file
             return DEFAULT_OP_CONFIG_BYTES_FW_1_02_70.clone();
-//			return generateDefaultOpConfigBytesFw_1_02_070();
         } else {
             return null;
         }
@@ -89,13 +87,8 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
 
         verisenseDevice.disableAllSensors();
 
-//		verisenseDevice.setSensorEnabledStateAccel1(true);
-//		verisenseDevice.setSensorEnabledStateAccel2(true);
-//		verisenseDevice.setSensorEnabledStateGyro(true);
 
-        //verisenseDevice.printSensorParserAndAlgoMaps();
 
-        // General settings
         verisenseDevice.setDataCompressionMode(DATA_COMPRESSION_MODE.NONE);
         verisenseDevice.setBatteryType(BATTERY_TYPE.ZINC_AIR);
         verisenseDevice.setBluetoothEnabled(false);
@@ -122,16 +115,13 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
         verisenseDevice.setPpgRecordingDurationSeconds(60);
         verisenseDevice.setPpgRecordingIntervalMinutes(14);
 
-        //TODO the following won't make any changes to the config bytes as the sensor classes currently check whether each sensor is enabled before parsing/generating config bytes. Need to consider changing this but also keep in mind that this will cause issues for bin file parsing (as bits/bytes are reused for Accel1/Accel2)
 
-        // Accel1 basic settings
         SensorLIS2DW12 sensorLIS2DW12 = verisenseDevice.getSensorLIS2DW12();
         sensorLIS2DW12.setAccelRange(LIS2DW12_ACCEL_RANGE.RANGE_4G);
         sensorLIS2DW12.setAccelRate(LIS2DW12_ACCEL_RATE.LOW_POWER_25_0_HZ);
         sensorLIS2DW12.setAccelMode(LIS2DW12_MODE.LOW_POWER);
         sensorLIS2DW12.setAccelLpMode(LIS2DW12_LP_MODE.LOW_POWER1_12BIT_4_5_MG_NOISE);
 
-        // Accel1 advanced settings
         sensorLIS2DW12.setBwFilt(LIS2DW12_BW_FILT.ODR_DIVIDED_BY_2);
         sensorLIS2DW12.setFds(LIS2DW12_FILTERED_DATA_TYPE_SELECTION.LOW_PASS_FILTER_PATH_SELECTED);
         sensorLIS2DW12.setLowNoise(LIS2DW12_LOW_NOISE.DISABLED);
@@ -139,13 +129,11 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
         sensorLIS2DW12.setFifoMode(LIS2DW12_FIFO_MODE.CONTINUOUS_TO_FIFO_MODE);
         sensorLIS2DW12.setFifoThreshold(LIS2DW12_FIFO_THRESHOLD.SAMPLE_31);
 
-        // Accel2/Gyro basic settings
         SensorLSM6DS3 sensorLSM6DS3 = verisenseDevice.getSensorLSM6DS3();
         sensorLSM6DS3.setGyroRange(LSM6DS3_GYRO_RANGE.RANGE_500DPS);
         sensorLSM6DS3.setAccelRange(LSM6DS3_ACCEL_RANGE.RANGE_4G);
         sensorLSM6DS3.setRate(LSM6DS3_RATE.RATE_52_HZ);
 
-        // Accel2/Gyro advanced settings
         sensorLSM6DS3.setTimerPedoFifodEnable(false);
         sensorLSM6DS3.setTimerPedoFifodDrdy(false);
         sensorLSM6DS3.setDecimationFifoAccel(FIFO_DECIMATION_ACCEL.NO_DECIMATION);
@@ -163,7 +151,6 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
         sensorLSM6DS3.setAccelHighPassOrSlopeFilterSelectionEnable(false);
         sensorLSM6DS3.setLowPassOn6D(false);
 
-        // PPG
         SensorMAX86916 sensorMax86916 = verisenseDevice.getSensorMax86916();
         sensorMax86916.setPpgAdcResolution(MAX86XXX_ADC_RESOLUTION.RESOLUTION_15_BIT);
         sensorMax86916.setPpgPulseWidth(MAX86XXX_PULSE_WIDTH.PW_400_US);
@@ -180,14 +167,9 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
         sensorMax86916.setPpgDac4CrossTalk(0);
         sensorMax86916.setProximityDetectionMode(PROX_DETECTION_MODE.AUTO_GAIN_ON_PROX_DETECTION_ON_DRIVER);
 
-        // Battery Voltage
         SensorBattVoltageVerisense sensorBatteryVoltage = verisenseDevice.getSensorBatteryVoltage();
         sensorBatteryVoltage.setSensorSamplingRate(ADC_SAMPLING_RATES.OFF);
 
-        // GSR
-//		SensorGSRVerisense sensorGsr = verisenseDevice.getSensorGsr();
-//		sensorGsr.setSensorSamplingRate(ADC_SAMPLING_RATES.OFF);
-//		sensorGsr.setGsrRange(GSR_RANGE.AUTO_RANGE);
 
         return verisenseDevice.configBytesGenerate(false, COMMUNICATION_TYPE.BLUETOOTH);
     }
@@ -219,7 +201,6 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
 
     @Override
     public byte[] generatePayloadContents() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -321,7 +302,6 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
     }
 
     public class OP_CONFIG_BIT_MASK {
-        // GEN_CFG_0
         public static final int BLUETOOTH_ENABLED = 0x01 << 4;
         public static final int USB_ENABLED = 0x01 << 3;
         public static final int PRIORITISE_LONG_TERM_FLASH_STORAGE = 0x01 << 2;
@@ -329,18 +309,15 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
         public static final int RECORDING_ENABLED = 0x01 << 0;
         public static final int ENABLED_SENSORS_GEN_CFG_0 = 0xE0;
 
-        // GEN_CFG_1
         public static final int ENABLED_SENSORS_GEN_CFG_1 = 0xFC;
         public static final int DATA_COMPRESSION_MODE = 0x03;
 
-        // GEN_CFG_2
         public static final int ENABLED_SENSORS_GEN_CFG_2 = 0x02;
         public static final int PASSKEY_MODE = 0x03;
         public static final int BATTERY_TYPE = 0x01;
     }
 
     public class OP_CONFIG_BIT_SHIFT {
-        // GEN_CFG_2
         public static final int BATTERY_TYPE = 0;
         public static final int PASSKEY_MODE = 2;
     }

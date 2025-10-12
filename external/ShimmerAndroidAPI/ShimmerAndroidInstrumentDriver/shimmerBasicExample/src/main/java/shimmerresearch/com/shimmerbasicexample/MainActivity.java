@@ -52,10 +52,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
                     if ((msg.obj instanceof ObjectCluster)) {
 
-                        //Print data to Logcat
                         ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
-                        //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
                         FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
@@ -162,7 +160,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
 
         if (!permissionGranted) {
-            // Should we show an explanation?
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
             } else {
@@ -174,16 +171,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         shimmer = new Shimmer(mHandler, MainActivity.this);
         spinner = (Spinner) findViewById(R.id.crcSpinner);
         spinner.setEnabled(false);
-        // Spinner click listener
         spinner.setOnItemSelectedListener(this);
         List<String> categories = new ArrayList<String>();
         categories.add("Disable crc");
         categories.add("Enable 1 byte CRC");
         categories.add("Enable 2 byte CRC");
-        // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
     }
 
@@ -206,7 +200,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
     }
 
     public void connectDevice(View v) {
@@ -236,7 +229,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 shimmer = new Shimmer(mHandler, MainActivity.this);
                 shimmer.connect(macAdd, "default");                  //Connect to the selected device

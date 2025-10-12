@@ -17,7 +17,6 @@ import com.shimmerresearch.sensors.ActionSetting;
 
 public class SensorShimmer2Gyro extends AbstractSensor {
 
-    //Shimmer2/2r Calibration - Default values (LPR450AL = X+Y axes, LPY450AL = X axis)
     protected static final double[][] AlignmentMatrixGyroShimmer2 = {{0, -1, 0}, {-1, 0, 0}, {0, 0, -1}};
     protected static final double[][] OffsetVectorGyroShimmer2 = {{1843}, {1843}, {1843}};
     protected static final double[][] SensitivityMatrixGyroShimmer2 = {{2.73, 0, 0}, {0, 2.73, 0}, {0, 0, 2.73}};
@@ -48,44 +47,37 @@ public class SensorShimmer2Gyro extends AbstractSensor {
 
     @Override
     public void generateSensorMap() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void generateConfigOptionsMap() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void generateSensorGroupMapping() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType,
                                            ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimeStampMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -93,8 +85,6 @@ public class SensorShimmer2Gyro extends AbstractSensor {
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
         Object returnValue = null;
         switch (configLabel) {
-//			case(GuiLabelConfigCommon.RANGE):
-//	    		break;
             default:
                 returnValue = super.setConfigValueUsingConfigLabelCommon(sensorId, configLabel, valueToSet);
                 break;
@@ -107,9 +97,6 @@ public class SensorShimmer2Gyro extends AbstractSensor {
         Object returnValue = null;
         switch (configLabel) {
             case (GuiLabelConfigCommon.RANGE):
-//				if(sensorId==Configuration.Shimmer3.SENSOR_ID.SHIMMER_ANALOG_ACCEL){
-//					returnValue = 0;
-//				}
                 break;
             default:
                 returnValue = super.getConfigValueUsingConfigLabelCommon(sensorId, configLabel);
@@ -125,43 +112,36 @@ public class SensorShimmer2Gyro extends AbstractSensor {
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 

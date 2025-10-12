@@ -19,23 +19,10 @@ public class CalibDetailsBmp180 extends CalibDetailsBmpX80 {
     public double MC = -8711;
     public double MD = 2868;
 
-    //JC HACK
-//	public double AC1 = 8489;
-//	public double AC2 = -1302;
-//	public double AC3 = -14539;
-//	public double AC4 = 34333;
-//	public double AC5 = 25111;
-//	public double AC6 = 14686;
-//	public double B1 = 6515;
-//	public double B2 = 56;
-//	public double MB = -32768;
-//	public double MC = -11786;
-//	public double MD = 2752;
 
 
     @Override
     public byte[] generateCalParamByteArray() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -66,7 +53,6 @@ public class CalibDetailsBmp180 extends CalibDetailsBmpX80 {
 
     @Override
     public void resetToDefaultParameters() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -90,7 +76,6 @@ public class CalibDetailsBmp180 extends CalibDetailsBmpX80 {
 
     @Override
     public double[] calibratePressureSensorData(double UP, double UT) {
-        //Calculate the true temperature
         double X1 = (UT - AC6) * (AC5 / 32768);
         double X2 = (MC * 2048 / (X1 + MD));
         double B5 = X1 + X2;

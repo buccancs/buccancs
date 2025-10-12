@@ -25,7 +25,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     public final static String TEST_ENDING = "TEST END *************************************//";
     public final static byte[] TEST_ACK = new byte[]{36, -1, -39, -78};
     public final static int TIMEOUT_IN_SHIMMER_TEST = 60; //assumes test will complete in 60 seconds;
-    //the timeout value for connecting with the port
     protected final static int SERIAL_PORT_TIMEOUT = 500; // was 2000
     public InterfaceSerialPortHal mSerialPortInterface;
     public String mUniqueId = "";
@@ -40,14 +39,11 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         private boolean mIsUARTInUse = false;
     private int mBaudToUse = SHIMMER_UART_BAUD_RATES.SHIMMER3_DOCKED;
     private UtilShimmer mUtilShimmer = new UtilShimmer(getClass().getSimpleName(), mVerboseMode);
-    //	private List<UartRxPacketObject> mListOfUartRxPacketObjects = new ArrayList<UartRxPacketObject>();
     private List<UartRxPacketObject> mListOfUartRxPacketObjects = Collections.synchronizedList(new ArrayList<UartRxPacketObject>());
-    //	private UartRxCallback mUartRxCallback = null;
     private boolean mSendCallbackRxOverride = false;
     private UART_PACKET_CMD currentPacketCmd;
     private UartComponentPropertyDetails currentMsgArg;
 
-    //	public AbstractCommsProtocolWired(String comPort, String uniqueId, int baudToUse){
     public AbstractCommsProtocolWired(String comPort, String uniqueId, int baudToUse, InterfaceSerialPortHal shimmerSerialPortInterface) {
         mComPort = comPort;
         mUniqueId = uniqueId;
@@ -55,7 +51,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
         mSerialPortInterface = shimmerSerialPortInterface;
         mSerialPortInterface.registerSerialPortRxEventCallback(this);
-//		shimmerSerialPortInterface = new SerialPortCommJssc(mComPort, mUniqueId, mBaudToUse, this);
 
         setVerbose(mVerboseMode, mIsDebugMode);
         setThreadName(mUniqueId + "-" + this.getClass().getSimpleName());
@@ -286,8 +281,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         }
         ArrayUtils.reverse(memAddressToWrite);
 
-        // TODO check I'm not missing the last two bytes here because the mem
-        // address length is not being included in the length field
         byte[] payload = new byte[memLengthToWrite.length + memAddressToWrite.length + valueBuffer.length];
         System.arraycopy(memLengthToWrite, 0, payload, 0, memLengthToWrite.length);
         System.arraycopy(memAddressToWrite, 0, payload, memLengthToWrite.length, memAddressToWrite.length);
@@ -340,8 +333,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         if (value != null) {
             txBufPreCrcSize += value.length;
         }
-        //Full Sequence order
-        //byte[] txBufPreCrc = new byte[header.length + cmd.length + msgArg.mCompPropByteArray.length + msgLength.length + value.length];
         byte[] txBufPreCrc = new byte[txBufPreCrcSize];
 
         int currentIndex = 0;
@@ -364,7 +355,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
         byte[] calculatedCrc = ShimmerCrc.shimmerUartCrcCalc(txBufPreCrc, txBufPreCrc.length);
 
-        //+2 for CRC
         byte[] txBufPostCrc = new byte[txBufPreCrc.length + 2];
         System.arraycopy(txBufPreCrc, 0, txBufPostCrc, 0, txBufPreCrc.length);
         System.arraycopy(calculatedCrc, 0, txBufPostCrc, txBufPreCrc.length, calculatedCrc.length);
@@ -372,38 +362,11 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         return txBufPostCrc;
     }
 
-//	//	protected byte[] assembleTxPacket(int command, UartComponentPropertyDetails msgArg, byte[] value) {
-//		byte[] header = (UartPacketDetails.PACKET_HEADER).getBytes();
-//		byte[] cmd = new byte[]{(byte) command};
-//		byte[] msgLength = new byte[]{(byte) 2};
-//		if(value!=null) {
-//			msgLength[0] += value.length;
-//		}
-//		
-//		byte[] txBufPreCrc;
-//		if(value!=null) {
-//			txBufPreCrc = new byte[header.length + cmd.length + msgArg.mCompPropByteArray.length + msgLength.length + value.length];
-//		}
-//		else {
-//			txBufPreCrc = new byte[header.length + cmd.length + msgArg.mCompPropByteArray.length + msgLength.length];
-//		}
-//		
-//		System.arraycopy(header, 0, txBufPreCrc, 0, header.length);
-//		System.arraycopy(cmd, 0, txBufPreCrc, header.length, cmd.length);
-//		System.arraycopy(msgLength, 0, txBufPreCrc, header.length + cmd.length, msgLength.length);
-//		System.arraycopy(msgArg.mCompPropByteArray, 0, txBufPreCrc, header.length + cmd.length + msgLength.length, msgArg.mCompPropByteArray.length);
-//		if(value!=null) {
-//			System.arraycopy(value, 0, txBufPreCrc, header.length + cmd.length + msgLength.length + msgArg.mCompPropByteArray.length, value.length);
-//		}
 //
-//		byte[] calculatedCrc = ShimmerCrc.shimmerUartCrcCalc(txBufPreCrc, txBufPreCrc.length);
-//		
-//		byte[] txBufPostCrc = new byte[txBufPreCrc.length + 2]; 
-//		System.arraycopy(txBufPreCrc, 0, txBufPostCrc, 0, txBufPreCrc.length);
-//		System.arraycopy(calculatedCrc, 0, txBufPostCrc, txBufPreCrc.length, calculatedCrc.length);
-//		
-//		return txBufPostCrc;
-//    }
+//
+//
+//
+//
 
 
     private byte[] waitForResponse(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg) throws DockException {
@@ -414,7 +377,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
             boolean flag = true;
 
             int loopCount = 0;
-            //100*100 = 10s
             int waitIntervalMs = 100;
             int loopCountTotal = SERIAL_PORT_TIMEOUT / waitIntervalMs;
 
@@ -461,45 +423,26 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
             return null;
         }
 
-        // when iterating over a synchronized list, we need to synchronize access to the synchronized list
         synchronized (mListOfUartRxPacketObjects) {
             Iterator<UartRxPacketObject> iterator = mListOfUartRxPacketObjects.iterator();
             while (iterator.hasNext()) {
                 UartRxPacketObject uRPO = iterator.next();
                 if (packetCmd == UartPacketDetails.UART_PACKET_CMD.WRITE
                         && uRPO.mUartCommandByte == UartPacketDetails.UART_PACKET_CMD.ACK_RESPONSE.toCmdByte()) {
-//					iterator.remove();
                     return uRPO;
                 } else if ((packetCmd == UartPacketDetails.UART_PACKET_CMD.READ)
                         && uRPO.mUartCommandByte == UartPacketDetails.UART_PACKET_CMD.DATA_RESPONSE.toCmdByte()
                         && msgArg.mComponentByte == uRPO.mUartComponentByte
                         && msgArg.mPropertyByte == uRPO.mUartPropertyByte) {
-//					iterator.remove();
                     return uRPO;
                 }
             }
         }
 
-//		for (Iterator<UartRxPacketObject> uRPOIter = mListOfUartRxPacketObjects.iterator(); uRPOIter.hasNext();) {
-//			UartRxPacketObject uRPO = uRPOIter.next();
-//			if(packetCmd==UartPacketDetails.UART_PACKET_CMD.WRITE
-//					&& uRPO.mUartCommandByte == UartPacketDetails.UART_PACKET_CMD.ACK_RESPONSE.toCmdByte()){
-//				uRPOIter.remove();
-//				return uRPO;
-//			}
-//			else if((packetCmd==UartPacketDetails.UART_PACKET_CMD.READ)
-//					&& uRPO.mUartCommandByte == UartPacketDetails.UART_PACKET_CMD.DATA_RESPONSE.toCmdByte()
-//					&& msgArg.mComponentByte==uRPO.mUartComponentByte
-//					&& msgArg.mPropertyByte==uRPO.mUartPropertyByte){
-//				uRPOIter.remove();
-//				return uRPO;
-//			}
-//		}
         return null;
     }
 
     private void processUnexpectedResponse(UartRxPacketObject uRPO) throws DockException {
-        // Response is not the expected response type
         byte commandByte = uRPO.mUartCommandByte;
 
         if (commandByte == UartPacketDetails.UART_PACKET_CMD.BAD_CMD_RESPONSE.toCmdByte()) {
@@ -534,22 +477,18 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
             }
             processRxBuf(rxBuf);
         } catch (Exception ex) {
-            //TODO improve error handling here
             consolePrintLn("Serial port ERROR");
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
     }
 
-    //TODO not setup to handle streaming via dock connector -> add additional capability?
     private void processRxBuf(byte[] rxBuf) throws ShimmerException {
 
         byte headerByte = rxBuf[0];
         if (headerByte == UartPacketDetails.PACKET_HEADER.toCharArray()[0]) {
             long timestampMs = System.currentTimeMillis();
 
-            // 1) check length before proceeding, need to have at least the
-            // command byte. 3rd byte is just useful for data response
             if (rxBuf.length < 3) {
                 int lengthToRead = 3 - rxBuf.length;
                 byte[] tempBuf = mSerialPortInterface.rxBytes(lengthToRead);
@@ -559,15 +498,12 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
             byte cmdByte = rxBuf[1];
             boolean continueWithParsing = true;
 
-            // 2) Determine how many more bytes the current packet needs to
-            // proceed with parsing.
             int expectedResponseLength = 0;
             if (continueWithParsing) {
                 if (cmdByte == UartPacketDetails.UART_PACKET_CMD.DATA_RESPONSE.toCmdByte()
                         || cmdByte == UartPacketDetails.UART_PACKET_CMD.READ.toCmdByte()
                         || cmdByte == UartPacketDetails.UART_PACKET_CMD.WRITE.toCmdByte()) {
                     int payloadLength = rxBuf[2] & 0xFF;
-                    // handle invalid payload length
                     if (payloadLength < 0) {
                         consolePrintLn("Invalid payload length: " + payloadLength);
                         carriedRxBuf = removeFirstByteFromArray(rxBuf);
@@ -587,9 +523,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
                 }
             }
 
-            // 3) Make sure the current packet is complete - read any unread
-            // bytes for the current packet and carry over any extra bytes
-            // to the next packet
             byte[] packet = null;
             if (continueWithParsing) {
                 if (rxBuf.length == expectedResponseLength) {
@@ -598,7 +531,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
                     packet = new byte[expectedResponseLength];
                     System.arraycopy(rxBuf, 0, packet, 0, expectedResponseLength);
 
-                    // add remaining bytes to start of next serial port read
                     int carriedOverLenth = rxBuf.length - expectedResponseLength;
                     carriedRxBuf = new byte[carriedOverLenth];
                     System.arraycopy(rxBuf, expectedResponseLength, carriedRxBuf, 0, carriedOverLenth);
@@ -621,7 +553,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
                 }
             }
 
-            // 4) Parse current packet - verify CRC and then pass to upper levels
             if (continueWithParsing && packet != null) {
                 try {
                     parseSinglePacket(packet, timestampMs);
@@ -635,19 +566,15 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
                     } else {
                         System.out.println(mUniqueId + mComPort + "\tProblem parsing packet: " + UtilShimmer.bytesToHexStringWithSpacesFormatted(packet));
                         System.out.println(de.getErrStringFormatted());
-//						de.printStackTrace();
 
 
                     }
-//					mUtilShimmer.consolePrintLn(e.getMsgDockErrString());
                 }
             }
         } else {
-            //remove first and add remaining bytes to start of next serial port read
             carriedRxBuf = removeFirstByteFromArray(rxBuf);
         }
 
-        // Attempt to re-process any remaining bytes
         if (carriedRxBuf.length > 0) {
             byte[] tempBuf = carriedRxBuf;
             carriedRxBuf = new byte[]{};
@@ -659,16 +586,13 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         private void parseSinglePacket(byte[] rxBuf, long timestampMs) throws DockException {
         UartRxPacketObject uRPO = new UartRxPacketObject(rxBuf, timestampMs);
 
-        //check CRC before sending callback. If fails then remove first byte and carry forward
         try {
-            // Check CRC
             if (!ShimmerCrc.shimmerUartCrcCheck(uRPO.mRxPacket)) {
                 consolePrintLn("RX\tERR_CRC");
                 throw new DockException(mUniqueId, mComPort, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_CRC, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_CRC);
             }
             consolePrintRxPacketInfo(uRPO);
         } catch (DockException dE) {
-            //Problem with the CRC, remove first byte and continue processing
             byte[] tempBuf = removeFirstByteFromArray(rxBuf);
             insertToCarrierBuffer(tempBuf);
             throw (dE);
@@ -679,7 +603,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
     private void processParsedPacket(UartRxPacketObject uRPO, long timestampMs) throws DockException {
         try {
-            //handle 'bad' responses
             try {
                 processUnexpectedResponse(uRPO);
             } catch (DockException de) {
@@ -696,7 +619,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         } catch (DockException dE) {
             throw (dE);
         } finally {
-            //If managed properly it should never get here
             if (uRPO.mLeftOverBytes != null) {
                 insertToCarrierBuffer(uRPO.mLeftOverBytes);
             }
@@ -740,22 +662,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     }
 
 
-//	private class CallbackUartRx implements UartRxCallback{
-//		@Override
-//		public void newMsg(byte[] rxBuf, long timestampMs) {
-//			try {
-//				parseRxPacket(rxBuf, timestampMs);
-//			} catch (DockException e) {
-//				mThrownException = e;
-//			}
-//		}
 //
-//		@Override
-//		public void newParsedMsg(UartRxPacketObject uRPO) {
-//			//NOT USED IN THIS CLASS
-//		}
 //
-//	}
 
 
     private void wrapMsgSpanAndSend(int msgId, Object object) {
@@ -780,7 +688,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     }
 
         private void consolePrintTxPacketInfo(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] valueBuffer) {
-        //Requires extra processing so a waste if verbose mode is already off
         if (mVerboseMode) {
             consolePrintLn(assemblePrintTxPacketInfo(packetCmd, msgArg, valueBuffer));
         }
@@ -790,7 +697,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         String consoleString = "TX\tCommand:" + packetCmd.toString()
                 + "\tComponent:" + (msgArg == null ? "null" : msgArg.mComponent.toString())
                 + "\tProperty:" + (msgArg == null ? "null" : msgArg.mPropertyName)
-                //				+ (valueBuffer==null? "":("\tPayload:" + UtilShimmer.bytesToHexStringWithSpacesFormatted(valueBuffer)))
                 ;
 
         if (packetCmd != UartPacketDetails.UART_PACKET_CMD.READ) {
@@ -809,7 +715,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     }
 
         private void consolePrintRxPacketInfo(UartRxPacketObject uRPO) {
-        //Requires extra processing so a waste if verbose mode is already off
         if (mVerboseMode) {
             consolePrintLn("RX\t" + uRPO.getConsoleString());
         }

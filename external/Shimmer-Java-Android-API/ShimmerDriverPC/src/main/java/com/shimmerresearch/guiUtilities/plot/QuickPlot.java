@@ -41,7 +41,6 @@ public class QuickPlot {
         frame.setSize(800, 600);
         frame.add(mChart);
         frame.setVisible(true);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void createTracesAndAddData(double[][] data, String[] signalNames, Color[] signalColors, int timestampIndex) {
@@ -57,8 +56,6 @@ public class QuickPlot {
                 if (signalColors != null) {
                     trace.setColor(signalColors[y]);
                 } else {
-                    //TODO
-//					trace.setColor(A);
                 }
 
                 trace.setVisible(false);

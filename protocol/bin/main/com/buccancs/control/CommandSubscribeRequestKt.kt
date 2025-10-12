@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializecommandSubscribeRequest")
 public inline fun commandSubscribeRequest(block: com.buccancs.control.CommandSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandSubscribeRequest =
   com.buccancs.control.CommandSubscribeRequestKt.Dsl._create(com.buccancs.control.CommandSubscribeRequest.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.CommandSubscribeRequest`
+ */
 public object CommandSubscribeRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,68 +27,118 @@ public object CommandSubscribeRequestKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.CommandSubscribeRequest = _builder.build()
 
-        public var deviceId: kotlin.String
+    /**
+     * `string device_id = 1;`
+     */
+    public var deviceId: kotlin.String
       get() = _builder.getDeviceId()
       set(value) {
         _builder.setDeviceId(value)
       }
-        public fun clearDeviceId() {
+    /**
+     * `string device_id = 1;`
+     */
+    public fun clearDeviceId() {
       _builder.clearDeviceId()
     }
 
-        public var sessionId: kotlin.String
+    /**
+     * `string session_id = 2;`
+     */
+    public var sessionId: kotlin.String
       get() = _builder.getSessionId()
       set(value) {
         _builder.setSessionId(value)
       }
-        public fun clearSessionId() {
+    /**
+     * `string session_id = 2;`
+     */
+    public fun clearSessionId() {
       _builder.clearSessionId()
     }
 
-        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     public class CapabilitiesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
-        public val capabilities: com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>
+    /**
+     * `repeated string capabilities = 3;`
+     * @return A list containing the capabilities.
+     */
+    public val capabilities: com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>
       @kotlin.jvm.JvmSynthetic
       get() = com.google.protobuf.kotlin.DslList(
         _builder.getCapabilitiesList()
       )
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string capabilities = 3;`
+     * @param value The capabilities to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("addCapabilities")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.add(value: kotlin.String) {
       _builder.addCapabilities(value)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string capabilities = 3;`
+     * @param value The capabilities to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("plusAssignCapabilities")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.plusAssign(value: kotlin.String) {
       add(value)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string capabilities = 3;`
+     * @param values The capabilities to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("addAllCapabilities")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
       _builder.addAllCapabilities(values)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string capabilities = 3;`
+     * @param values The capabilities to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("plusAssignAllCapabilities")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
       addAll(values)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string capabilities = 3;`
+     * @param index The index to set the value at.
+     * @param value The capabilities to set.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("setCapabilities")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.set(index: kotlin.Int, value: kotlin.String) {
       _builder.setCapabilities(index, value)
-    }    @kotlin.jvm.JvmSynthetic
+    }/**
+     * `repeated string capabilities = 3;`
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("clearCapabilities")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.clear() {
       _builder.clearCapabilities()
     }
-        public var includeBroadcast: kotlin.Boolean
+    /**
+     * `bool include_broadcast = 4;`
+     */
+    public var includeBroadcast: kotlin.Boolean
       get() = _builder.getIncludeBroadcast()
       set(value) {
         _builder.setIncludeBroadcast(value)
       }
-        public fun clearIncludeBroadcast() {
+    /**
+     * `bool include_broadcast = 4;`
+     */
+    public fun clearIncludeBroadcast() {
       _builder.clearIncludeBroadcast()
     }
   }

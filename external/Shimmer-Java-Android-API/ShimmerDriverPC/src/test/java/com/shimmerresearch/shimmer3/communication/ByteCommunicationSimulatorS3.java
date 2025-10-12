@@ -18,7 +18,6 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
     BlockingQueue<Byte> mBuffer = new ArrayBlockingQueue<>(1000); // Fixed size 1000
 
     public ByteCommunicationSimulatorS3(String address) {
-        // TODO Auto-generated constructor stub
     }
 
     public void setIsNewBMPSupported(boolean isNewBMPSupported) {
@@ -27,25 +26,21 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
 
     @Override
     public int getInputBufferBytesCount() throws SerialPortException {
-        // TODO Auto-generated method stub
         return mBuffer.size();
     }
 
     @Override
     public boolean isOpened() {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public boolean closePort() throws SerialPortException {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public boolean openPort() throws SerialPortException {
-        // TODO Auto-generated method stub
         return true;
     }
 
@@ -93,7 +88,6 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
     }
 
     protected void streaming() {
-        //not implemented for connect test please see ByteCommunicationS3_streaming.java
     }
 
     protected void inquiryResponse() {
@@ -133,18 +127,15 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
             try {
                 result[i] = mBuffer.take();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } // Blocks if the buffer is empty
         }
 
-        //System.out.println("Read " + byteCount + " bytes from buffer.");
         return result;
     }
 
     @Override
     public boolean writeBytes(byte[] buffer) throws SerialPortException {
-        // TODO Auto-generated method stub
 
         if (buffer[0] == ShimmerObject.GET_SHIMMER_VERSION_COMMAND_NEW) {
             System.out.println(UtilShimmer.bytesToHexString(buffer));
@@ -253,7 +244,6 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
         } else if (buffer[0] == ShimmerObject.GET_RWC_COMMAND) {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x90);
-            //0x00 0xEF 0xBE 0x1B 0xE7 0x09 0x3C 0x08 0x3F 0x09 0x7A
             byte[] bytes = UtilShimmer.hexStringToByteArray("A7D7555200340000");
             for (byte b : bytes) {
                 mBuffer.add(b);
@@ -271,25 +261,21 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
 
     @Override
     public boolean setParams(int i, int j, int k, int l) throws SerialPortException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean purgePort(int i) throws SerialPortException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void setByteCommunicationListener(ByteCommunicationListener byteCommListener) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void removeRadioListenerList() {
-        // TODO Auto-generated method stub
 
     }
 

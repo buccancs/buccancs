@@ -21,7 +21,6 @@ public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
 
     @Override
     public byte[] generateCalParamByteArray() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -92,16 +91,11 @@ public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
         double adc_T = UT;
         double adc_P = UP;
 
-        // Returns temperature in DegC, double precision. Output value of �51.23� equals 51.23 DegC.
-        // t_fine carries fine temperature as global value
         double var1 = ((adc_T) / 16384.0 - dig_T1 / 1024.0) * dig_T2;
         double var2 = (((adc_T) / 131072.0 - dig_T1 / 8192.0) * (adc_T / 131072.0 - dig_T1 / 8192.0)) * dig_T3;
         double t_fine = var1 + var2;
         double T = t_fine / 5120.0;
-//		double fTemp = T * 1.8 + 32; // Fahrenheit
-//		T = T/100.0;
 
-        // Returns pressure in Pa as double. Output value of �96386.2� equals 96386.2 Pa = 963.862 hPa
         var1 = (t_fine / 2.0) - 64000.0;
         var2 = var1 * var1 * dig_P6 / 32768.0;
         var2 = var2 + var1 * dig_P5 * 2.0;
@@ -109,7 +103,6 @@ public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
         var1 = (dig_P3 * var1 * var1 / 524288.0 + dig_P2 * var1) / 524288.0;
         var1 = (1.0 + var1 / 32768.0) * dig_P1;
         if (var1 == 0.0) {
-//			return 0; // avoid exception caused by division by zero
         }
         double p = 1048576.0 - adc_P;
         p = (p - (var2 / 4096.0)) * 6250.0 / var1;

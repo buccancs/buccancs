@@ -49,7 +49,6 @@ public abstract class SensorMAX86XXX extends AbstractSensor {
     protected MAX86XXX_SAMPLE_AVG sampleAverage = MAX86XXX_SAMPLE_AVG.NO_AVERAGING;
     protected int ppgLedAmplitudeRedConfigValue = 0;
 
-    // --------------- Configuration options start ----------------
     protected int ppgLedAmplitudeIrConfigValue = 0;
     protected int ppgLedAmplitudeRangeRed = 0;
     protected int ppgLedAmplitudeRangeIr = 0;
@@ -63,7 +62,6 @@ public abstract class SensorMAX86XXX extends AbstractSensor {
 
     @Override
     public void generateConfigOptionsMap() {
-        // Overwritten in parent class
         addConfigOption(CONFIG_OPTION_PPG_ADC_RESOLUTION);
         addConfigOption(CONFIG_OPTION_PPG_PULSE_WIDTH);
         addConfigOption(CONFIG_OPTION_PPG_SAMPLE_AVG);
@@ -71,22 +69,18 @@ public abstract class SensorMAX86XXX extends AbstractSensor {
 
     @Override
     public void generateSensorGroupMapping() {
-        // TODO Auto-generated method stub
 
     }
 
     protected double calibratePpg(double ppgUncal) {
-        // Bit shit the channel by the appropriate value
         double ppgCal = ppgUncal / adcResolution.bitShift;
         ppgCal = (ppgCal * adcResolution.lsb);
-        //To convert from pA to nA
         ppgCal = ppgCal / 1000;
         return ppgCal;
     }
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -117,7 +111,6 @@ public abstract class SensorMAX86XXX extends AbstractSensor {
         return returnValue;
     }
 
-    // --------------- Configuration options end ----------------
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId, String configLabel) {
@@ -162,37 +155,31 @@ public abstract class SensorMAX86XXX extends AbstractSensor {
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -206,11 +193,9 @@ public abstract class SensorMAX86XXX extends AbstractSensor {
     @Override
     public void generateCalibMap() {
         super.generateCalibMap();
-        // TODO calib details accel
     }
 
     public void updateCurrentPpgRedCalibInUse() {
-        // TODO add method to update calib values
     }
 
     public int getPpgLedAmplitudeRedConfigValue() {

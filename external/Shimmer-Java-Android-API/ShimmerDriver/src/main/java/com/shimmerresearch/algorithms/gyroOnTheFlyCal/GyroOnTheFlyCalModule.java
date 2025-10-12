@@ -28,7 +28,6 @@ import com.shimmerresearch.sensors.mpu9x50.SensorMPU9X50;
 
 public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
 
-    // -------------------  Static Algorithm map start -----------------------
     public static final AlgorithmDetails algoGyroOnTheFlyCal = new AlgorithmDetails(
             Arrays.asList(//Configuration.Shimmer2.SENSOR_ID.GYRO,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9X50_GYRO,
@@ -36,12 +35,7 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
             CHANNEL_UNITS.NO_UNITS,
             SENSOR_CHECK_METHOD.ANY);
 
-    //--------- Algorithm specific variables start --------------
-    // TODO remove the need for a static map here by passing in the Shimmer
-    // version information to the constructor in order to dynamically create
-    // mAlgorithmChannelsMap
     public static final Map<String, AlgorithmDetails> mAlgorithmMapRef;
-    //--------- Configuration options start --------------
     public static final ConfigOptionDetails configOptionGyroOnTheFlyCalibThreshold = new ConfigOptionDetails(
             GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_THRESHOLD,
             DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_THRESHOLD,
@@ -53,7 +47,6 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.INFO,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
     private static final long serialVersionUID = 5109697319098246753L;
-    // ------------------- Algorithms grouping map start -----------------------
     private static final SensorGroupingDetails sGDGyroOnTheFlyCalib = new SensorGroupingDetails(
             Configuration.Shimmer3.GuiLabelAlgorithmGrouping.GYRO_ON_THE_FLY_CAL.getTileText(),
             Arrays.asList(algoGyroOnTheFlyCal),
@@ -68,34 +61,24 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
         mAlgorithmMapRef = Collections.unmodifiableMap(aMap);
     }
 
-    //--------- Algorithm specific variables end --------------
 
     public int sensorId = -1;
     public String ojcNameGyroX = SensorMPU9X50.ObjectClusterSensorName.GYRO_X;
 
-    //--------- Algorithm specific variables end --------------
     public String ojcNameGyroY = SensorMPU9X50.ObjectClusterSensorName.GYRO_Y;
     public String ojcNameGyroZ = SensorMPU9X50.ObjectClusterSensorName.GYRO_Z;
     protected OnTheFlyGyroOffsetCal mOnTheFlyGyroOffsetCal = new OnTheFlyGyroOffsetCal();
-    //TODO add support?
     private AbstractSensor.SENSORS sensorClass = AbstractSensor.SENSORS.MPU9X50;
-    // ------------------- Static algorithm map stop -----------------------
 
     {
         algoGyroOnTheFlyCal.mAlgorithmName = GENERAL_ALGORITHM_NAME;
         algoGyroOnTheFlyCal.mDerivedSensorBitmapID = DerivedSensorsBitMask.GYRO_ON_THE_FLY_CAL;
     }
-    // ------------------- Algorithms grouping map end -----------------------
 
     public GyroOnTheFlyCalModule(ShimmerDevice shimmerDevice, AlgorithmDetails algorithmDetails, double samplingRateShimmer) {
         super(shimmerDevice, algorithmDetails);
         setupAlgorithm();
 
-//		//Temp here - bad approach?
-//		if(shimmerDevice instanceof ShimmerObject) {
-//			ShimmerObject shimmerObject = (ShimmerObject)shimmerDevice;
-//			shimmerObject.getgyro
-//		}
 
         setShimmerSamplingRate(samplingRateShimmer);
     }
@@ -104,27 +87,21 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
     public void setGeneralAlgorithmName() {
         super.setGeneralAlgorithmName(GENERAL_ALGORITHM_NAME);
     }
-    //--------- Configuration options end --------------
 
 
-    // ------  Constructors start ----------------------
 
     @Override
     public void setFilteringOption() {
         mFilteringOptions = FILTERING_OPTION.NONE;
     }
 
-    // ------  Constructors end
 
     @Override
     public void setMinSamplingRateForAlgorithm() {
-        // NOT NEEDED IN THIS ALGORITHM
     }
 
     @Override
     public void setSupportedVerInfo() {
-        // add to SVO list
-//		mListOfCompatibleSVO.add(svoSh3);
     }
 
     @Override
@@ -140,7 +117,6 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
 
     @Override
     public void initialize() throws Exception {
-//		mOnTheFlyGyroOffsetCal = new OnTheFlyGyroOffsetCal();
         setBufferSizeFromSamplingRate(mShimmerSamplingRate);
     }
 
@@ -206,18 +182,7 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
     @Override
     public AlgorithmResultObject processDataRealTime(ObjectCluster ojc) throws Exception {
 
-//		AbstractSensor abstractSensor = mShimmerDevice.getSensorClass(sensorClass);
-//		CalibDetailsKinematic calibDetails = abstractSensor.getCurrentCalibDetailsIfKinematic(sensorId, range);
 
-//		if(channelDetailsGyroX!=null && channelDetailsGyroY!=null && channelDetailsGyroZ!=null && calibDetails!=null) {
-//			double[] gyroCalibratedData = new double[] {
-//					ojc.getFormatClusterValue(channelDetailsGyroX, CHANNEL_TYPE.CAL),
-//					ojc.getFormatClusterValue(channelDetailsGyroY, CHANNEL_TYPE.CAL),
-//					ojc.getFormatClusterValue(channelDetailsGyroZ, CHANNEL_TYPE.CAL)};
-//		double[] gyroUncalibratedData = new double[] {
-//				ojc.getFormatClusterValue(channelDetailsGyroX, CHANNEL_TYPE.UNCAL),
-//				ojc.getFormatClusterValue(channelDetailsGyroY, CHANNEL_TYPE.UNCAL),
-//				ojc.getFormatClusterValue(channelDetailsGyroZ, CHANNEL_TYPE.UNCAL)};
 
         double[] gyroCalibratedData = new double[]{
                 ojc.getFormatClusterValue(ojcNameGyroX, CHANNEL_TYPE.CAL.toString()),
@@ -229,13 +194,11 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
                 ojc.getFormatClusterValue(ojcNameGyroY, CHANNEL_TYPE.UNCAL.toString()),
                 ojc.getFormatClusterValue(ojcNameGyroZ, CHANNEL_TYPE.UNCAL.toString())};
 
-        //Temp here - bad approach?
         if (mShimmerDevice instanceof ShimmerObject) {
             ShimmerObject shimmerObject = (ShimmerObject) mShimmerDevice;
             CalibDetails calibDetails = shimmerObject.getCurrentCalibDetailsGyro();
             mOnTheFlyGyroOffsetCal.updateGyroOnTheFlyGyroOVCal((CalibDetailsKinematic) calibDetails, gyroCalibratedData, gyroUncalibratedData);
         } else {
-            //TODO this approach should work also for ShimmerObject above if implemented there.
             Object object = mShimmerDevice.getConfigValueUsingConfigLabel(Integer.toString(sensorId), AbstractSensor.GuiLabelConfigCommon.CALIBRATION_CURRENT_PER_SENSOR);
             if (object != null && (object instanceof CalibDetails)) {
                 CalibDetails calibDetails = (CalibDetails) object;
@@ -243,27 +206,22 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
             }
         }
 
-//		}
 
-        //No need to return anything
         return null;
     }
 
     @Override
     public AlgorithmResultObject processDataPostCapture(Object object) throws Exception {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String printBatchMetrics() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void eventDataReceived(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -283,7 +241,6 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
         }
         if (mapOfConfigPerShimmer.containsKey(DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE)) {
             double bufferSize = (Double) mapOfConfigPerShimmer.get(DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE);
-//			setBufferSize(bufferSize);
             setBufferSizeFromSamplingRate(bufferSize);
         }
     }
@@ -300,7 +257,6 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
         setBufferSizeFromSamplingRate(samplingRate);
     }
 
-    // ------------ Optional overrides start --------------------
 
         public void enableOnTheFlyGyroCal(boolean state, int bufferSize, double threshold) {
         mOnTheFlyGyroOffsetCal.setIsEnabled(state, bufferSize, threshold);
@@ -310,7 +266,6 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
         mOnTheFlyGyroOffsetCal.setIsEnabled(state);
     }
 
-    // ------------ Optional overrides end --------------------
 
     public boolean isGyroOnTheFlyCalEnabled() {
         return mOnTheFlyGyroOffsetCal.isEnabled();
@@ -343,7 +298,6 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
     }
 
     public static final class DatabaseConfigHandle {
-        //		public static final String GYRO_ON_THE_FLY_CALIB_STATE = "Gyro_on_the_fly_offset_cal_state";
         public static final String GYRO_ON_THE_FLY_CALIB_THRESHOLD = "Gyro_on_the_fly_offset_cal_Threshold";
         public static final String GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE = "Gyro_on_the_fly_offset_cal_BufferSize";
     }

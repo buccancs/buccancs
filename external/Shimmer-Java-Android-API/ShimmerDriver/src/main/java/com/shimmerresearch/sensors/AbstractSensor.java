@@ -32,12 +32,10 @@ public abstract class AbstractSensor implements Serializable {
     public SENSORS mSensorType = null;
     public TreeMap<Integer, SensorDetails> mSensorMap = new TreeMap<Integer, SensorDetails>();
 
-    // --------------- Abstract methods start ----------------
     public HashMap<String, ConfigOptionDetailsSensor> mConfigOptionsMap = new HashMap<String, ConfigOptionDetailsSensor>();
     public LinkedHashMap<Integer, SensorGroupingDetails> mSensorGroupingMap = new LinkedHashMap<Integer, SensorGroupingDetails>();
     public TreeMap<Integer, TreeMap<Integer, CalibDetails>> mCalibMap = new TreeMap<Integer, TreeMap<Integer, CalibDetails>>();
     protected String mSensorName = "";
-    //	public abstract ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] sensorByteArray, COMMUNICATION_TYPE commType, ObjectCluster objectCluster);
     protected ShimmerVerObject mShimmerVerObject = new ShimmerVerObject();
     protected boolean mIsDebugOutput = false;
     protected ShimmerDevice mShimmerDevice = null;
@@ -173,7 +171,6 @@ public abstract class AbstractSensor implements Serializable {
 
         public abstract void generateSensorMap();
 
-    // --------------- Abstract methods end ----------------
 
     public abstract void generateConfigOptionsMap();
 
@@ -185,10 +182,7 @@ public abstract class AbstractSensor implements Serializable {
 
     public abstract void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType);
 
-//	protected Double mMaxSetShimmerSamplingRate = 51.2;
 
-    //TODO implement below?
-//	protected int mFirmwareSensorIdentifier; // this is how the firmware identifies the sensor
 
     public abstract void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType);
 
@@ -279,49 +273,26 @@ public abstract class AbstractSensor implements Serializable {
     @Deprecated //?? not sure whether it's be to do this here or in ShimmerDevice
     public void updateStateFromEnabledSensorsVars(COMMUNICATION_TYPE commType, long enabledSensors, long derivedSensors) {
         for (SensorDetails sensorDetails : mSensorMap.values()) {
-            //check as to whether the sensor originates from the Shimmer data packet or the API
-//			if(sensorDetails.isApiSensor()){
-//				continue;
-//			}
 
             sensorDetails.updateFromEnabledSensorsVars(commType, enabledSensors, derivedSensors);
 
-//			boolean state = false;
-//			if(sensorDetails.isDerivedChannel()){
-//				//TODO check enabledSensors as well if required???
-//				state = (derivedSensors & sensorDetails.mDerivedSensorBitmapID)>0? true:false;
-//			}
-//			else {
-//				state = (enabledSensors & sensorDetails.mSensorDetailsRef.mSensorBitmapIDStreaming)>0? true:false;
-//			}
-//			sensorDetails.setIsEnabled(commType, state);
         }
 
-//		//TODO: enabledSensors should be directed at channels coming from the Shimmer, derivedSensors at channels from the API
-//		//TODO move to abstract or override in the extended sensor classes so complexities like EXG can be handled
-//		mIsEnabled = false;
-//		boolean state = (enabledSensors & mSensorBitmapIDStreaming)>0? true:false;
-//		mIsEnabled = state;
-//		setSensorChannelsState(commType, state);
     }
 
     public void updateSensorGroupingMap() {
         for (SensorGroupingDetails sensorGroup : mSensorGroupingMap.values()) {
-            // Ok to clear here because variable is initiated in the class
             sensorGroup.mListOfConfigOptionKeysAssociated = new ArrayList<String>();
             for (Integer sensorKey : sensorGroup.mListOfSensorIdsAssociated) {
                 SensorDetails sensorDetails = mSensorMap.get(sensorKey);
                 if (sensorDetails != null && sensorDetails.mSensorDetailsRef != null && sensorDetails.mSensorDetailsRef.mListOfConfigOptionKeysAssociated != null) {
                     for (String configOption : sensorDetails.mSensorDetailsRef.mListOfConfigOptionKeysAssociated) {
-                        // do not add duplicates
                         if (!(sensorGroup.mListOfConfigOptionKeysAssociated.contains(configOption))) {
                             sensorGroup.mListOfConfigOptionKeysAssociated.add(configOption);
                         }
                     }
                 }
 
-                //TODO handle mListOfCompatibleVersionInfo here?
-//				sensorGroup.mListOfCompatibleVersionInfo = listOfCompatibleVersionInfo;
             }
         }
     }
@@ -364,9 +335,7 @@ public abstract class AbstractSensor implements Serializable {
             SensorDetails sensorDetails = new SensorDetails(false, 0, sensorDetailsRef) {
                 @Override
                 public ObjectCluster processData(byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster object, boolean isTimeSyncEnabled, double pcTimestampMs) {
-//					System.out.println("PARSING\t" + this.mSensorDetails.mGuiFriendlyLabel);
                     return processDataCustom(this, rawData, commType, object, isTimeSyncEnabled, pcTimestampMs);
-//					return super.processData(rawData, commType, object);
                 }
             };
             updateSensorDetailsWithChannels(sensorDetails, channelMapRef);
@@ -393,10 +362,6 @@ public abstract class AbstractSensor implements Serializable {
     }
 
     public boolean isSensorEnabled(int sensorId) {
-        //below Shouldn't be needed
-//		if(mShimmerDevice!=null){
-//			return mShimmerDevice.isSensorEnabled(sensorId);
-//		}
 
         if (mSensorMap != null) {
             SensorDetails sensorDetails = mSensorMap.get(sensorId);
@@ -408,12 +373,10 @@ public abstract class AbstractSensor implements Serializable {
     }
 
     public void setSamplingRateFromShimmer(double maxSetRate) {
-//		mMaxSetShimmerSamplingRate = maxSetRate;
         setSensorSamplingRate(maxSetRate);
     }
 
     protected double getSamplingRateShimmer() {
-//		return mMaxSetShimmerSamplingRate;
         if (mShimmerDevice != null) {
             return mShimmerDevice.getSamplingRateShimmer();
         }
@@ -451,7 +414,6 @@ public abstract class AbstractSensor implements Serializable {
             }
             textToPrint += "\t";
         }
-        //TODO use the consolePrintLn system
         System.out.println(textToPrint);
     }
 
@@ -467,7 +429,6 @@ public abstract class AbstractSensor implements Serializable {
 
     public void setCalibrationMapPerSensor(int sensorId, TreeMap<Integer, CalibDetails> mapOfSensorCalibration) {
         mCalibMap.put(sensorId, mapOfSensorCalibration);
-//		System.out.println("Calib make check");
     }
 
     public CalibDetails getCalibForSensor(int sensorId, int range) {
@@ -484,11 +445,8 @@ public abstract class AbstractSensor implements Serializable {
         return calibDetailsPerSensor;
     }
 
-    //--------- Optional methods to override in Sensor Class start --------
     public void generateCalibMap() {
         mCalibMap = new TreeMap<Integer, TreeMap<Integer, CalibDetails>>();
-        //NOT USED IN THIS CLASS
-        //USED in {Kinematic sensors}
     }
 
         public boolean isSensorUsingDefaultCal(int sensorId) {
@@ -496,101 +454,35 @@ public abstract class AbstractSensor implements Serializable {
     }
 
     public void handleSpecialCasesAfterSensorMapCreate() {
-        //NOT USED IN THIS CLASS
-        //USED in {SensorEXG}
     }
 
     public void handleSpecCasesBeforeSensorMapUpdateGeneral(ShimmerDevice shimmerDevice) {
-        //NOT USED IN THIS CLASS
-        //USED in {SensorEXG}
     }
 
     public boolean handleSpecCasesBeforeSensorMapUpdatePerSensor(ShimmerDevice shimmerDevice, Integer sensorId) {
-        //NOT USED IN THIS CLASS
-        //USED in {SensorPPG, SensorEXG}
         return false;
     }
 
-//	public byte[] generateAllCalibByteArray() {
-//		if(mCalibMap.isEmpty()){
-//			return null;
-//		}
-//		
-//		byte[] calibBytesAllPerSensor = new byte[]{};
-//		for(Integer sensorId:mCalibMap.keySet()){
-//			TreeMap<Integer, CalibDetails> calMapPerSensor = mCalibMap.get(sensorId);
-////			SensorDetails sensorDetais = mSensorMap.get(sensorId);
-////			Integer calibSensorKey = sensorDetais.mSensorDetailsRef.mCalibSensorKey;
-////			if(sensorId!=0){
-//				for(Integer range:calMapPerSensor.keySet()){
-//					byte[] calibSensorKeyBytes = new byte[2];
-//					calibSensorKeyBytes[0] = (byte)((sensorId>>0)&0xFF);
-//					calibSensorKeyBytes[1] = (byte)((sensorId>>8)&0xFF);
-//					
-//					CalibDetails calDetailsPerRange = calMapPerSensor.get(range);		
-//					byte[] calibBytesPerRange = calDetailsPerRange.generateCalParamByteArrayWithTimestamp();
 //
-//					//Create a new calibration param array
-//					byte[] calibBytesPacketPerRange = new byte[calibSensorKeyBytes.length+calibBytesPerRange.length];
-//					System.arraycopy(calibSensorKeyBytes, 0, calibBytesPacketPerRange, 0, calibSensorKeyBytes.length);
-//					System.arraycopy(calibBytesPerRange, 0, calibBytesPacketPerRange, calibSensorKeyBytes.length, calibBytesPerRange.length);
-//					
-//					//Copy new calib param array to end of exisiting array
-//					byte[] newCalibBytesAllPerSensor = new byte[calibBytesAllPerSensor.length+calibBytesPacketPerRange.length];
-//					System.arraycopy(calibBytesAllPerSensor, 0, newCalibBytesAllPerSensor, 0, calibBytesAllPerSensor.length);
-//					System.arraycopy(calibBytesPacketPerRange, 0, newCalibBytesAllPerSensor, calibBytesAllPerSensor.length, calibBytesPacketPerRange.length);
-//					calibBytesAllPerSensor = newCalibBytesAllPerSensor;
-//				}
-////            }
-//		}
-//		return calibBytesAllPerSensor;
-//	}
-//	
-//	//TODO
-//	public boolean parseAllCalibByteArray(int sensorId, int rangeValue, byte[] calibTimeBytesTicks, byte[] calibBytes) {
-//		if(!mSensorMap.containsKey(sensorId)){
-//			return false;
-//		}
-//		
-//		TreeMap<Integer, CalibDetails> mapOfSensorCalib = mCalibMap.get(sensorId);
-//		if(mapOfSensorCalib==null){
-//			mCalibMap.put(sensorId, new TreeMap<Integer, CalibDetails>());
-//		}
-//		
-//		mapOfSensorCalib = mCalibMap.get(sensorId);
-//		CalibDetails calibDetailsPerRange = mapOfSensorCalib.get(rangeValue);
-//		if(calibDetailsPerRange==null){
-//			//TODO UNKOWN RANGE
+//
+//
+//
+//
+//
+//
 
-    /// /			mapOfSensorCalib.put(range, new CalibDetailsKinematic(rangeValue, rangeString))
-//		}
-//		
-//		calibDetailsPerRange = mapOfSensorCalib.get(rangeValue);
-//		if(calibDetailsPerRange!=null && calibDetailsPerRange instanceof CalibDetailsKinematic){
-//			calibDetailsPerRange.setCalibTimeFromMs(calibTimeBytesTicks, calibTime);
+//
     public void handleSpecCasesAfterSensorMapUpdateFromEnabledSensors() {
-        //NOT IN THIS CLASS
-        //USED in {SensorPPG, SensorEXG}
     }
 
     public void handleSpecCasesUpdateEnabledSensors() {
-        //TODO Auto-generated method stub
-        //USED in {SensorEXG}
     }
 
     public int handleSpecCasesBeforeSetSensorState(int sensorId, boolean state) {
-        //NOT USED IN THIS CLASS
-        //USED in {SensorPPG}
         return sensorId;
     }
 
-    /// /			System.out.println("Set Calib Time");
-    /// /			System.out.println("Check");
-//			((CalibDetailsKinematic)calibDetailsPerRange).parseCalParamByteArray(calibBytes);
-//		}
 //
-//		return true;
-//	}
     protected void setAllCalibSensitivityScaleFactor(CALIBRATION_SCALE_FACTOR sensitivityScaleFactor) {
         for (Integer sensorId : mCalibMap.keySet()) {
             setCalibSensitivityScaleFactor(sensorId, sensitivityScaleFactor);
@@ -611,8 +503,6 @@ public abstract class AbstractSensor implements Serializable {
         switch (configLabel) {
             case (GuiLabelConfigCommon.CALIBRATION_ALL):
                 setCalibration((TreeMap<Integer, TreeMap<Integer, CalibDetails>>) valueToSet);
-                //TODO decide whether to include the below
-//				returnValue = valueToSet;
                 break;
             case (GuiLabelConfigCommon.CALIBRATION_PER_SENSOR):
                 setCalibrationMapPerSensor(sensorId, (TreeMap<Integer, CalibDetails>) valueToSet);
@@ -682,19 +572,16 @@ public abstract class AbstractSensor implements Serializable {
         return null;
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
     public void addConfigOption(ConfigOptionDetailsSensor configOptionDetails) {
         mConfigOptionsMap.put(configOptionDetails.mGuiHandle, configOptionDetails);
     }
 
     public List<ISensorConfig> getSensorConfig() {
-        // Can be overridden by extended class
         return new ArrayList<>();
     }
 
     public void setSensorConfig(ISensorConfig sensorConfig) {
-        // Can be overridden by extended class
     }
 
     public enum SENSORS {
@@ -754,7 +641,6 @@ public abstract class AbstractSensor implements Serializable {
         public static final String TIMESTAMP_SYSTEM = "System_Timestamp";
     }
 
-    //General Configurations options that are normally used in conjunction with a sensorId
     public class GuiLabelConfigCommon {
         public static final String RATE = "Rate";
         public static final String RANGE = "Range";

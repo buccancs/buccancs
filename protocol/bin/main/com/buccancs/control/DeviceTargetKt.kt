@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializedeviceTarget")
 public inline fun deviceTarget(block: com.buccancs.control.DeviceTargetKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceTarget =
   com.buccancs.control.DeviceTargetKt.Dsl._create(com.buccancs.control.DeviceTarget.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.DeviceTarget`
+ */
 public object DeviceTargetKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,50 +27,88 @@ public object DeviceTargetKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.DeviceTarget = _builder.build()
 
-        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     public class DeviceIdsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
-        public val deviceIds: com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>
+    /**
+     * `repeated string device_ids = 1;`
+     * @return A list containing the deviceIds.
+     */
+    public val deviceIds: com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>
       @kotlin.jvm.JvmSynthetic
       get() = com.google.protobuf.kotlin.DslList(
         _builder.getDeviceIdsList()
       )
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string device_ids = 1;`
+     * @param value The deviceIds to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("addDeviceIds")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.add(value: kotlin.String) {
       _builder.addDeviceIds(value)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string device_ids = 1;`
+     * @param value The deviceIds to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("plusAssignDeviceIds")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.plusAssign(value: kotlin.String) {
       add(value)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string device_ids = 1;`
+     * @param values The deviceIds to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("addAllDeviceIds")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
       _builder.addAllDeviceIds(values)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string device_ids = 1;`
+     * @param values The deviceIds to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("plusAssignAllDeviceIds")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
       addAll(values)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string device_ids = 1;`
+     * @param index The index to set the value at.
+     * @param value The deviceIds to set.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("setDeviceIds")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.set(index: kotlin.Int, value: kotlin.String) {
       _builder.setDeviceIds(index, value)
-    }    @kotlin.jvm.JvmSynthetic
+    }/**
+     * `repeated string device_ids = 1;`
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("clearDeviceIds")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.clear() {
       _builder.clearDeviceIds()
     }
-        public var broadcast: kotlin.Boolean
+    /**
+     * `bool broadcast = 2;`
+     */
+    public var broadcast: kotlin.Boolean
       get() = _builder.getBroadcast()
       set(value) {
         _builder.setBroadcast(value)
       }
-        public fun clearBroadcast() {
+    /**
+     * `bool broadcast = 2;`
+     */
+    public fun clearBroadcast() {
       _builder.clearBroadcast()
     }
   }

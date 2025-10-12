@@ -91,7 +91,6 @@ public class SignalsToPlotDialog {
 
         for (int i = 0; i < mList.size(); i++) {
             String[] array = mList.get(i);
-            //Remove the device name and units before adding to sensorList:
             String s = array[1] + " " + array[2];
             sensorList.add(i, s);
         }

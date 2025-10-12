@@ -29,15 +29,12 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
     String l_device;
 
     public JavelinBLERadioByteCommunication() {
-        // TODO Auto-generated constructor stub
 
     }
 
 
         public JavelinBLERadioByteCommunication(String macaddress) {
-        //if (!Initialized) {
         InitializeProcess();
-        //}
         this.macaddress = macaddress;
         for (String bleDev : javelinBLEDevices) {
             if (bleDev.contains(macaddress)) {
@@ -72,7 +69,6 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
     }
 
     public static String getAbsoluteDLLPath(String dllPath) {
-        // Get the absolute path to the JAR file's directory
         String jarDirectory;
         try {
             jarDirectory = new File(JavelinBLERadioByteCommunication.class.getProtectionDomain()
@@ -85,7 +81,6 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
             String absoluteDLLPath = new File(directory, dllPath).getAbsolutePath();
             return absoluteDLLPath;
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return "";
@@ -99,8 +94,6 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
         frame.setSize(300, 300);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // TODO Auto-generated method stub
-        //BTHLE\Dev_e7452c6d6f14
 
         JavelinBLERadioByteCommunication ble = new JavelinBLERadioByteCommunication("e7:45:2c:6d:6f:14");
         try {
@@ -108,12 +101,9 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
             ble.getStatus();
             Thread.sleep(1000);
             ble.disconnect();
-            //BTHLE\Dev_daa619f04ad7
 			        } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.out.println();
@@ -121,7 +111,6 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
 
     public void InitializeProcess() {
 
-        // Construct the absolute path to the DLL
         System.out.println("Loading dlls");
         System.load(getAbsoluteDLLPath("libs/javelin.dll"));
         System.load(getAbsoluteDLLPath("libs/msvcp140d_app.dll"));
@@ -150,10 +139,8 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
 
     @Override
     public void connect() throws ShimmerException {
-        // TODO Auto-generated method stub
         String l_name = javelin.getBLEDeviceName(javelinID);
         String l_services[] = javelin.listBLEDeviceServices(javelinID);
-        //String l_chars[] = javelin.listBLEServiceCharacteristics(l_device, l_services[2]);
         String l_chars[] = javelin.listBLEServiceCharacteristics(javelinID, ServiceUUID);
         System.out.println("  Name: " + l_name);
         boolean connected = javelin.watchBLECharacteristicChanges(javelinID,
@@ -169,7 +156,6 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             System.out.println(l_name + " Connected");
@@ -225,13 +211,11 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
 			System.out.print(" "+l_byte);
 		}
 		 */
-		        //mByteCommunicationListener.eventDisconnected();
 
     }
 
     @Override
     public void writeBytes(byte[] bytes) {
-        // TODO Auto-generated method stub
         System.out.println("Set char said: " + javelin.setBLECharacteristicValue(javelinID,
                 ServiceUUID,
                 TXUUID,
@@ -240,13 +224,11 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
 
     @Override
     public void stop() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public String getUuid() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -262,7 +244,6 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
 
         public void run() {
             running = true;
-            // Thread's code here
             while (true) {
                 Set<String> keySet = stringKeyMap.keySet();
                 for (String key : keySet) {

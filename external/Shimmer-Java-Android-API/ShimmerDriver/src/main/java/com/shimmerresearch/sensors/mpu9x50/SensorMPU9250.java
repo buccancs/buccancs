@@ -24,8 +24,6 @@ import com.shimmerresearch.sensors.mpu9x50.SensorMPU9X50.GuiLabelConfig;
 
 public class SensorMPU9250 extends SensorMPU9X50 {
 
-    //--------- Channel info start --------------
-    // MPU9250 Gyro
     public static final ChannelDetails channelGyroX = new ChannelDetails(
             ObjectClusterSensorName.GYRO_X,
             ObjectClusterSensorName.GYRO_X,
@@ -50,14 +48,12 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             CHANNEL_UNITS.DEGREES_PER_SECOND,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x0C);
-    // MPU Accel
     public static final ChannelDetails channelAccelX = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_MPU_X,
             ObjectClusterSensorName.ACCEL_MPU_X,
             DatabaseChannelHandles.ALTERNATIVE_ACC_X,
             CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
-            // no CAL channel currently as calibration parameters are not stored anywhere
             Arrays.asList(CHANNEL_TYPE.UNCAL));
     public static final ChannelDetails channelAccelY = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_MPU_Y,
@@ -65,7 +61,6 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             DatabaseChannelHandles.ALTERNATIVE_ACC_Y,
             CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
-            // no CAL channel currently as calibration parameters are not stored anywhere
             Arrays.asList(CHANNEL_TYPE.UNCAL));
     public static final ChannelDetails channelAccelZ = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_MPU_Z,
@@ -73,11 +68,7 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             DatabaseChannelHandles.ALTERNATIVE_ACC_Z,
             CHANNEL_DATA_TYPE.INT16, 2, CHANNEL_DATA_ENDIAN.MSB,
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
-            // no CAL channel currently as calibration parameters are not stored anywhere
             Arrays.asList(CHANNEL_TYPE.UNCAL));
-    //MPU MAG
-    //Mag is actually 13-bit, signed and LSB
-    //refer to https://github.com/kriswiner/MPU-9150/blob/master/MPU9150BasicAHRS.ino for calibration
     public static final ChannelDetails channelMagX = new ChannelDetails(
             ObjectClusterSensorName.MAG_MPU_X,
             ObjectClusterSensorName.MAG_MPU_X,
@@ -131,9 +122,7 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             false);
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
 
-    //--------- Channel info end --------------
 
-    //--------- Sensor info start --------------
     public static final ConfigOptionDetailsSensor configOptionMpu9250GyroRange = new ConfigOptionDetailsSensor(
             SensorMPU9X50.GuiLabelConfig.MPU9X50_GYRO_RANGE,
             SensorMPU9250.DatabaseConfigHandle.GYRO_RANGE,
@@ -141,10 +130,6 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             ListofMPU9X50GyroRangeConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
-    //	{
-//		sensorMpu9150GyroRef.mCalibSensorKey = 0x01;
-//	}
-    //MPL Options
     public static final ConfigOptionDetailsSensor configOptionMpu9250AccelRange = new ConfigOptionDetailsSensor(
             SensorMPU9X50.GuiLabelConfig.MPU9X50_ACCEL_RANGE,
             SensorMPU9250.DatabaseConfigHandle.ALTERNATIVE_ACC_RANGE,
@@ -159,7 +144,6 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             ListofMPU9X50MagRateConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors);
-    //General Config
     public static final ConfigOptionDetailsSensor configOptionMpu9250GyroRate = new ConfigOptionDetailsSensor(
             SensorMPU9X50.GuiLabelConfig.MPU9X50_GYRO_RATE,
             SensorMPU9250.DatabaseConfigHandle.GYRO_RATE,
@@ -170,22 +154,17 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             null,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
-    //--------- Sensor info end --------------
 
-    //--------- Configuration options start --------------
     private static final long serialVersionUID = 6559532137082204767L;
 
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
-        // MPU9250 Gyro
         aMap.put(ObjectClusterSensorName.GYRO_X, SensorMPU9250.channelGyroX);
         aMap.put(ObjectClusterSensorName.GYRO_Y, SensorMPU9250.channelGyroY);
         aMap.put(ObjectClusterSensorName.GYRO_Z, SensorMPU9250.channelGyroZ);
-        // MPU9250 Accel
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_X, SensorMPU9250.channelAccelX);
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_Y, SensorMPU9250.channelAccelY);
         aMap.put(ObjectClusterSensorName.ACCEL_MPU_Z, SensorMPU9250.channelAccelZ);
-        // MPU9250 Mag
         aMap.put(ObjectClusterSensorName.MAG_MPU_X, SensorMPU9250.channelMagX);
         aMap.put(ObjectClusterSensorName.MAG_MPU_Y, SensorMPU9250.channelMagY);
         aMap.put(ObjectClusterSensorName.MAG_MPU_Z, SensorMPU9250.channelMagZ);
@@ -210,13 +189,10 @@ public class SensorMPU9250 extends SensorMPU9X50 {
         super(SENSORS.MPU9X50, shimmerDevice);
         initialise();
     }
-    //--------- Configuration options end --------------
 
 
-    //--------- Sensor specific variables end --------------
 
 
-    //--------- Constructors for this class start --------------
 
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
@@ -238,16 +214,13 @@ public class SensorMPU9250 extends SensorMPU9X50 {
         updateCurrentGyroCalibInUse();
     }
 
-    //--------- Constructors for this class end --------------
 
     @Override
     public void generateConfigOptionsMap() {
         mConfigOptionsMap.clear();
         addConfigOption(configOptionMpu9250GyroRange);
-        //MPL Options
         addConfigOption(configOptionMpu9250AccelRange);
         addConfigOption(configOptionMpu9250MagRate);
-        //General Config
         addConfigOption(configOptionMpu9250GyroRate);
         addConfigOption(configOptionMpu9250GyroLpm);
     }
@@ -326,7 +299,6 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             setMPU9X50MagSamplingRate(((Double) mapOfConfigPerShimmer.get(DatabaseConfigHandle.MPU_MAG_SAMPLING_RATE)).intValue());
         }
 
-        //Gyroscope Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 mSensorIdGyro,
                 getGyroRange(),
@@ -334,7 +306,6 @@ public class SensorMPU9250 extends SensorMPU9X50 {
                 SensorMPU9250.DatabaseConfigHandle.GYRO_CALIB_TIME);
     }
 
-    //--------- Sensor specific variables start --------------
     public static class DatabaseChannelHandles {
         public static final String GYRO_X = "MPU9250_GYRO_X";
         public static final String GYRO_Y = "MPU9250_GYRO_Y";
@@ -359,7 +330,6 @@ public class SensorMPU9250 extends SensorMPU9X50 {
 
         public static final String MPU_MAG_SAMPLING_RATE = "MPU9250_MAG_Sampling_rate";
 
-        // MPU GYRO
         public static final String GYRO_CALIB_TIME = "MPU9250_Gyro_Calib_Time";
 
         public static final String GYRO_OFFSET_X = "MPU9250_Gyro_Offset_X";
@@ -377,7 +347,6 @@ public class SensorMPU9250 extends SensorMPU9X50 {
         public static final String GYRO_ALIGN_ZX = "MPU9250_Gyro_Align_ZX";
         public static final String GYRO_ALIGN_ZY = "MPU9250_Gyro_Align_ZY";
         public static final String GYRO_ALIGN_ZZ = "MPU9250_Gyro_Align_ZZ";
-        // MPU ACCEL
         public static final String MPU_ACC_OFFSET_X = "MPU9250_Acc_Offset_X";
         public static final String MPU_ACC_OFFSET_Y = "MPU9250_Acc_Offset_Y";
         public static final String MPU_ACC_OFFSET_Z = "MPU9250_Acc_Offset_Z";
@@ -393,7 +362,6 @@ public class SensorMPU9250 extends SensorMPU9X50 {
         public static final String MPU_ACC_ALIGN_ZX = "MPU9250_Acc_Align_ZX";
         public static final String MPU_ACC_ALIGN_ZY = "MPU9250_Acc_Align_ZY";
         public static final String MPU_ACC_ALIGN_ZZ = "MPU9250_Acc_Align_ZZ";
-        // MPU MAG
         public static final String MPU_MAG_OFFSET_X = "MPU9250_Mag_Offset_X";
         public static final String MPU_MAG_OFFSET_Y = "MPU9250_Mag_Offset_Y";
         public static final String MPU_MAG_OFFSET_Z = "MPU9250_Mag_Offset_Z";

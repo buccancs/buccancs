@@ -35,19 +35,16 @@ public class ShimmerClientGrpcStream extends BasicProcessWithCallBack {
 
             @Override
             public void onNext(HelloReply value) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onError(Throwable t) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onCompleted() {
-                // TODO Auto-generated method stub
 
             }
         };
@@ -57,49 +54,40 @@ public class ShimmerClientGrpcStream extends BasicProcessWithCallBack {
 
             @Override
             public void onNext(HelloReply value) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onError(Throwable t) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onCompleted() {
-                // TODO Auto-generated method stub
 
             }
         };
 
-        //Sending Data to the server
         requestObserver = stub.sendDataStream(responseObserver);
         requestObserverFile = stub.sendFileStream(responseObserverFile);
 
 
-        //Receiving Data from the server
         stub.getDataStream(sreq, new StreamObserver<ObjectCluster2>() {
 
             @Override
             public void onNext(ObjectCluster2 value) {
-                // TODO Auto-generated method stub
                 ObjectCluster ojc = new ObjectCluster(value);
                 mLastRXOJC = ojc;
-                //System.out.println(mLastRXOJC.returnFormatCluster(mLastRXOJC.getPropertyCluster().get("Accel_LN_X"), "CAL").mData);
                 sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET, ojc);
             }
 
             @Override
             public void onError(Throwable t) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onCompleted() {
-                // TODO Auto-generated method stub
 
             }
 
@@ -110,19 +98,16 @@ public class ShimmerClientGrpcStream extends BasicProcessWithCallBack {
 
 				@Override
 				public void onNext(HelloReply value) {
-					// TODO Auto-generated method stub
 					 System.out.println(value.getMessage());
 				}
 
 				@Override
 				public void onError(Throwable t) {
-					// TODO Auto-generated method stub
 					System.out.println("ERROR");
 				}
 
 				@Override
 				public void onCompleted() {
-					// TODO Auto-generated method stub
 					System.out.println("COMPLETED");
 				}});
 				*/
@@ -144,7 +129,6 @@ public class ShimmerClientGrpcStream extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
     }
 }

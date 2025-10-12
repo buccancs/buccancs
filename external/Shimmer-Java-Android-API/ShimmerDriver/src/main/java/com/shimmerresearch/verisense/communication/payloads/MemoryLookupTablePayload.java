@@ -34,7 +34,6 @@ public class MemoryLookupTablePayload extends AbstractPayload {
         for (int i = idx; i < payloadContents.length; i += 3) {
             byte statusByte = payloadContents[i];
             if (i + 1 == payloadContents.length) {
-                //this cant be parsed, this should be revisited
                 System.out.println("This can't be parsed " + (i + 1) + " " + payloadContents.length);
             } else {
                 long payloadIndex = parseByteArrayAtIndex(payloadContents, i + 1, CHANNEL_DATA_TYPE.UINT16);
@@ -50,7 +49,6 @@ public class MemoryLookupTablePayload extends AbstractPayload {
 
     @Override
     public byte[] generatePayloadContents() {
-        // TODO Auto-generated method stub
         return null;
     }
 

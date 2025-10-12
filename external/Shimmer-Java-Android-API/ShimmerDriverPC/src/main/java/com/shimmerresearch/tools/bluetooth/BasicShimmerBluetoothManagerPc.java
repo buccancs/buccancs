@@ -82,25 +82,21 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
 
     @Override
     protected void loadBtShimmers(Object... params) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void addCallBack(BasicProcessWithCallBack basicProcess) {
-        // TODO Auto-generated method stub
         callBackObject.setWaitForDataWithSingleInstanceCheck(basicProcess);
     }
 
     @Override
     public void printMessage(String message) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public ShimmerDevice getShimmerGlobalMap(String bluetoothAddress) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -113,7 +109,6 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
 
     @Override
     protected void connectExistingShimmer(Object... params) throws ShimmerException {
-        // TODO Auto-generated method stub
 
     }
 
@@ -169,7 +164,6 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
         VerisenseDevice verisenseDevice;
 
         if (!verisenseMacIdList.contains(bdd.mShimmerMacId)) {
-            //BleRadioByteCommunication radio1 = new BleRadioByteCommunication(bdd, "bleconsoleapp\\BLEConsoleApp1.exe");
 
             GrpcBLERadioByteCommunication radio1 = new GrpcBLERadioByteCommunication(bdd, "localhost", mGRPCPort);
             VerisenseProtocolByteCommunication protocol1 = new VerisenseProtocolByteCommunication(radio1);
@@ -236,19 +230,16 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
 
             @Override
             public void onConnectionStart(String connectionHandle) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onConnectionException(Exception exception) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onConnectStartException(String connectionHandle) {
-                // TODO Auto-generated method stub
                 CallbackObject cbo = new CallbackObject(ShimmerBluetooth.NOTIFICATION_SHIMMER_STATE_CHANGE, BT_STATE.DISCONNECTED, "", connectionHandle);
                 callBackObject.sendCallBackMsg(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, cbo);
 
@@ -262,12 +253,10 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
 
     @Override
     public void putShimmerGlobalMap(String bluetoothAddress, ShimmerDevice shimmerDevice) {
-        // TODO Auto-generated method stub
 
     }
 
 
-    //-------------- Callback methods start -----------------------------
 
     protected void setupShimmer3BluetoothForBtManager(ShimmerDevice shimmerDevice) {
         ((ShimmerPC) shimmerDevice).setUseInfoMemConfigMethod(USE_INFOMEM_CONFIG_METHOD);

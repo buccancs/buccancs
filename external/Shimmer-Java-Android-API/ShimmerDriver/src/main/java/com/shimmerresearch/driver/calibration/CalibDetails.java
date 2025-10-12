@@ -31,7 +31,6 @@ public abstract class CalibDetails implements Serializable {
 
     public String getCalibTimeParsed() {
         return UtilShimmer.convertMilliSecondsToDateString(getCalibTimeMs(), false);
-//		return UtilShimmer.convertMilliSecondsToHrMinSecString(mCalibTime);
     }
 
     public boolean isCalibTimeZero() {
@@ -55,7 +54,6 @@ public abstract class CalibDetails implements Serializable {
     public void parseCalibDump(byte[] calibTimeBytesTicks, byte[] bufferCalibrationParameters, CALIB_READ_SOURCE calibReadSource) {
         long calibTimeMs = UtilShimmer.convertShimmerRtcDataBytesToMilliSecondsLSB(calibTimeBytesTicks);
 
-        // Parse in order of priority
         if (calibTimeMs > getCalibTimeMs() || calibReadSource.ordinal() >= getCalibReadSource().ordinal()) {
             if (UtilShimmer.isAllFF(bufferCalibrationParameters)
                     || UtilShimmer.isAllZeros(bufferCalibrationParameters)) {
@@ -77,10 +75,8 @@ public abstract class CalibDetails implements Serializable {
 
     public void resetToDefaultParametersCommon() {
         setCalibTimeMs(0);
-//		setCalibReadSource(CALIB_READ_SOURCE.USER_MODIFIED);
     }
 
-    //In order of increasing priority
     public enum CALIB_READ_SOURCE {
         UNKNOWN,
         SD_HEADER,

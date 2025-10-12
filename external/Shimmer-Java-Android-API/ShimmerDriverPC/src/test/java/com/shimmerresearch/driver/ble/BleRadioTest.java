@@ -18,19 +18,16 @@ public class BleRadioTest {
 
         @Override
         public void eventNewBytesReceived(byte[] rxBytes) {
-            // TODO Auto-generated method stub
             System.out.println("EVENT BYTES 6f14" + Hex.toHexString(rxBytes));
         }
 
         @Override
         public void eventDisconnected() {
-            // TODO Auto-generated method stub
             System.out.println("EVENT DISCONNECTED 6f14");
         }
 
         @Override
         public void eventConnected() {
-            // TODO Auto-generated method stub
             System.out.println("EVENT CONNECTED 6f14");
         }
     });
@@ -39,19 +36,16 @@ public class BleRadioTest {
 
         @Override
         public void eventNewBytesReceived(byte[] rxBytes) {
-            // TODO Auto-generated method stub
             System.out.println("EVENT BYTES 4ad7" + Hex.toHexString(rxBytes));
         }
 
         @Override
         public void eventDisconnected() {
-            // TODO Auto-generated method stub
             System.out.println("EVENT DISCONNECTED 4ad7");
         }
 
         @Override
         public void eventConnected() {
-            // TODO Auto-generated method stub
             System.out.println("EVENT CONNECTED 4ad7");
 
         }
@@ -61,10 +55,7 @@ public class BleRadioTest {
         BleRadioTest test = new BleRadioTest();
         test.initialize();
 
-        // connect
 
-        // System.out.println(p);
-        // p.destroy();
     }
 
     public void initialize() {

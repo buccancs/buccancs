@@ -25,21 +25,16 @@ public class PayloadDetails {
     private CRC16CCITT CRC16CCITT = new CRC16CCITT();
 
     public PayloadDetails() {
-        // TODO Auto-generated constructor stub
     }
 
     public boolean parsePayload(InputStream inputStream, boolean isZipFile, int byteIndex) throws IOException {
-        //Payload Header
         byte[] payloadHeader = new byte[BYTE_COUNT.PAYLOAD_INDEX + BYTE_COUNT.PAYLOAD_LENGTH + BYTE_COUNT.PAYLOAD_CONFIG_CORE];
         try {
             readBytesFromStream(inputStream, payloadHeader);
         } catch (IOException e) {
-            // If not a zip or this is the first byte to be read, throw error.
             if (!isZipFile || byteIndex == 0) {
                 throw (e);
             } else {
-                // in the case of a zip file (especially while streaming from S3 and not a local
-                // PC file), this is used to indicate there are no bytes left in the inputstream
                 System.out.println("Reached end of ZIP file");
                 return false;
             }
@@ -53,8 +48,6 @@ public class PayloadDetails {
         System.arraycopy(payloadHeader, 2, payloadLengthBytes, 0, payloadLengthBytes.length);
         payloadLengthBytesValue = UtilVerisenseDriver.lsbByteArrayToInt(payloadLengthBytes);
 
-        // ASM-1248: A Bad Crc binary file might have 0xFF bytes for both payload index and payload size
-        // Below conditional checks this condition and throws an exception
         if (payloadIndex == payloadLengthBytesValue && payloadLengthBytesValue == 0xFFFF) {
             throw new IOException("Bad Crc binary file: Bytes for payload index and size are " + UtilShimmer.bytesToHexStringWithSpacesFormatted(payloadLengthBytes));
         }
@@ -62,10 +55,6 @@ public class PayloadDetails {
         byte[] payloadConfigCore = new byte[BYTE_COUNT.PAYLOAD_CONFIG_CORE];
         System.arraycopy(payloadHeader, 4, payloadConfigCore, 0, payloadConfigCore.length);
 
-        // Originally there were 2 config bytes (as parsed above). From FW v0.35.000
-        // onwards, the FW version is included in the configuration and subsequently
-        // support can be added to increase the number of config bytes in the future
-        // depending on the FW version.
         ShimmerVerObject svo = null;
         byte[] payloadConfigExtended = new byte[0];
         if (VerisenseDevice.isExtendedPayloadConfig(payloadConfigCore[0])) {
@@ -87,18 +76,14 @@ public class PayloadDetails {
 
         payloadHeaderLength = payloadHeader.length + payloadConfigExtended.length;
 
-        //Payload contents
         int ramBlockDataLength = calculateRamBlockDataLength(payloadLengthBytesValue, svo);
         ramBlockDataBytes = new byte[ramBlockDataLength];
         readBytesFromStream(inputStream, ramBlockDataBytes);
 
-        //Payload footer
         byte[] crcBytes = new byte[BYTE_COUNT.PAYLOAD_CRC];
         readBytesFromStream(inputStream, crcBytes);
         crcOriginal = CRC16CCITT.crcBytesToInt(crcBytes);
-        //consolePrintLn("CRC=" + UtilShimmer.bytesToHexStringWithSpacesFormatted(crcBytes));
 
-        //Rebuild payload in order to check CRC
         payloadWithoutCrc = new byte[payloadHeaderLength + ramBlockDataBytes.length];
         System.arraycopy(payloadHeader, 0, payloadWithoutCrc, 0, payloadHeader.length);
         System.arraycopy(payloadConfigExtended, 0, payloadWithoutCrc, payloadHeader.length, payloadConfigExtended.length);
@@ -106,7 +91,6 @@ public class PayloadDetails {
 
         if (!AsmBinaryFileConstants.OPTIMISE_32KB_PAYLOAD_SIZE) {
             payloadWhiteSpace = BYTE_COUNT.PAYLOAD_CONTENTS_RESERVED_SIZE - payloadWithoutCrc.length - BYTE_COUNT.PAYLOAD_FOOTER;
-            //Clear off the empty bytes from the buffer
             readBytesFromStream(inputStream, new byte[payloadWhiteSpace]);
         }
 
@@ -124,12 +108,10 @@ public class PayloadDetails {
         private int readBytesFromStream(InputStream inputStream, int count) throws IOException {
         byte[] lengthBuffer = new byte[count];
         readBytesFromStream(inputStream, lengthBuffer);
-//		consolePrintDebugLn("Length Bytes" + UtilShimmer.bytesToHexStringWithSpacesFormatted(lengthBuffer));
         return UtilVerisenseDriver.lsbByteArrayToInt(lengthBuffer);
     }
 
     private void readBytesFromStream(InputStream inputStream, byte[] buffer) throws IOException {
-//		inputStream.read(buffer);
         int lenRemaining = buffer.length;
         int lenRead = 0;
         int offset = 0;
@@ -187,9 +169,6 @@ public class PayloadDetails {
                 && payloadContentsDetails.verisenseDevice != null
                 && payloadContentsDetails.verisenseDevice.isPayloadDesignV8orAbove()) {
             totalPayloadLength -= payloadConfig.length;
-//			totalPayloadLength -= BYTE_COUNT.PAYLOAD_CONTENTS_FOOTER_GEN8;
-//		} else {
-//			totalPayloadLength = payloadHeaderLength+payloadLengthBytesValue+BYTE_COUNT.PAYLOAD_FOOTER-1;
         }
 
         return totalPayloadLength;
@@ -218,21 +197,13 @@ public class PayloadDetails {
             sb.append("\n");
         } else {
             sb.append(
-//			 "\tTemperature -> Uncal:" + getTemperatureUncal()  + "(" + UtilShimmer.intToHexStringFormatted((int) getTemperatureUncal(), 2, true) + ")" + " Cal:" + getTemperatureCal() 
                     ", Temperature=" + payloadContentsDetails.getTemperatureCal() + " " + CHANNEL_UNITS.DEGREES_CELSIUS_SHORT
-//			 + "\tBattery Voltage -> " + getBatteryVoltageCal() + "(" + UtilShimmer.intToHexStringFormatted((int) getBatteryVoltageCal(), 2, true) + ")" 
                             + ", Battery Voltage=" + payloadContentsDetails.getBatteryVoltageCal() + " mV\n"
                             + " |_ Payload Timing [Start=" + payloadContentsDetails.getStartTimeRwcStr()
                             + ", End=" + payloadContentsDetails.getEndTimeRwcStr()
                             + ", Duration=" + payloadContentsDetails.getPayloadDurationStr()
                             + ", Packaging Delay=" + payloadContentsDetails.getPayloadPackagingDelayStr() + "]");
 
-//			if(payloadContentsDetails.DEBUG_ACCEL_ARRAYS) {
-            //TODO Get back working
-//				sb.append("\tAccel Default Cal Average\tX=" + Arrays.stream(payloadContents.accelDataArrayDefaultCal[0]).average().getAsDouble()
-//				+ "\tY=" + Arrays.stream(payloadContents.accelDataArrayDefaultCal[1]).average().getAsDouble()
-//				+ "\tZ=" + Arrays.stream(payloadContents.accelDataArrayDefaultCal[2]).average().getAsDouble());
-//			}
         }
 
         System.out.println(sb.toString());
@@ -241,12 +212,6 @@ public class PayloadDetails {
             payloadContentsDetails.datasetToSave.printReportOfDataSegments();
         }
 
-//		System.out.println("");
-//		System.out.println("DataBlock Details");
-//		if(payloadDetails.payloadContentsDetails instanceof PayloadContentsDetailsV8orAbove) {
-//			((PayloadContentsDetailsV8orAbove)payloadDetails.payloadContentsDetails).printListOfDataBlockDetails();
-//		}
-//		System.out.println("");
     }
 
 }

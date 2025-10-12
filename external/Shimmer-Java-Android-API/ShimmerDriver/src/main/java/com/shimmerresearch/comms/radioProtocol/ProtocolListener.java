@@ -39,7 +39,6 @@ public interface ProtocolListener {
 
     public void initialiseStreamingCallback();
 
-    //	public void eventSyncStates(boolean isDocked, boolean isInitialised, boolean isSdLogging, boolean isSensing, boolean isStreaming, boolean haveAttemptedToRead);
     public void eventSetIsDocked(boolean isDocked);
 
     public void eventSetIsStreaming(boolean isStreaming);

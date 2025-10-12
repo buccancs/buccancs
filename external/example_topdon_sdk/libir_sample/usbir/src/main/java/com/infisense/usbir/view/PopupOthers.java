@@ -59,7 +59,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
             "SPI_MOD_CFG_PROPERTY_PAGE"};
     private static final String[] restoreConfigArray = {"NO EDIT", "DEF_CFG_ALL", "DEF_CFG_TPD", "DEF_CFG_PROP_PAGE",
             "DEF_CFG_USER_CFG"};
-    // deviceType
     private static final String[] spnProductTypeArray = {"TINY1B", "TINY1C", "TINY1BE", "MINI256", "MINI384",
             "MINI640", "P2"};
     //
@@ -69,9 +68,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     private PopupWindow popupWindow;
     private LayoutOthersBinding othersBinding;
     private Context mContext;
-    // 当前的增益状态
     private CommonParams.GainStatus gainStatus = CommonParams.GainStatus.HIGH_GAIN;
-    // 模组支持的高低增益模式
     private CommonParams.GainMode gainMode = CommonParams.GainMode.GAIN_MODE_HIGH_LOW;
     private byte[] tau_data_H;
     private byte[] tau_data_L;
@@ -81,9 +78,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     private short[] nuc_table_low = new short[8192];
     private int[] param = new int[9];
     private ArrayAdapter<String> saveConfigAdapter, restoreConfigAdapter;
-    // progressDialog
     private AlertDialog progressDialog;
-    // 要测试的模组类型
     private CommonParams.ProductType productType = CommonParams.ProductType.P2;
     private ArrayAdapter<String> spnProductTypeAdapter;
         private boolean deviceConnected = true;
@@ -131,7 +126,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         popupWindow.setOnDismissListener(dismissListener);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000)); // 解决 7.0 手机，点击外部不消失
         othersBinding.getRoot().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        //创建布局管理
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         //
@@ -185,12 +179,10 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnTempCorrection1: {
-                // Temperature correction step 1
                                 if (progressDialog == null) {
                     initProgressDialog();
                 }
                 progressDialog.show();
-                // 是否使用assets中的数据，方便测试查看效果和验证问题
                 boolean isUseAssetsData = false;
                 Log.i(TAG, "isUseSaveData = " + isUseAssetsData + " deviceConnected = " + deviceConnected);
                 //
@@ -202,16 +194,12 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             AssetManager am = mContext.getAssets();
                             InputStream is = null;
                             try {
-                                // 根据不同的高低增益加载不同的等效大气透过率表
                                 int[] value = new int[1];
                                 ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL, value);
                                 Log.d(TAG, "TPD_PROP_GAIN_SEL=" + value[0]);
                                 if (value[0] == 1) {
-                                    // 当前机芯为高增益
                                     gainStatus = CommonParams.GainStatus.HIGH_GAIN;
-                                    // 等效大气透过率表
                                 } else {
-                                    // 当前机芯为低增益
                                     gainStatus = CommonParams.GainStatus.LOW_GAIN;
                                 }
                                                                 tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
@@ -223,7 +211,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                 ircmd.getDeviceInfo(CommonParams.DeviceInfoType.DEV_INFO_GET_SN, SN);
                                 String deviceSNUnCodePath =
                                         MyApplication.getInstance().DEVICE_DATA_SAVE_DIR + File.separator;
-                                // 使用模组的唯一信息作为key,避免多个模组插拔造成的数据问题
                                 md5PNSNKey = FileUtil.getMD5Key(new String(SN));
                                 SharedPreferencesUtil.saveData(mContext, "md5PNSNKey", md5PNSNKey);
                                 //
@@ -237,7 +224,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                     Log.i(TAG,
                                             "已经存在文件:" + (isUseAssetsData ? "从assets文件夹下读取 " : "从SD卡上读取 ") + nucHighFileName + "\n" + nucLowFileName);
                                     if (isUseAssetsData) {
-                                        // 从assets文件夹下读取
                                         is = am.open("nuc_table_high.bin");
                                         int lenthNuc = is.available();
                                         byte nuc_table_high_byte[] = new byte[lenthNuc];
@@ -256,7 +242,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                         Log.d(TAG, "read nuc_table_low file lenth " + lenthNuc);
                                         nuc_table_low = FileUtil.toShortArray(nuc_table_low_byte);
                                     } else {
-                                        // 从SD卡上读取
                                         byte[] nuc_table_high_byte = FileUtil.readFile2BytesByStream(mContext,
                                                 new File(deviceSNUnCodePath + nucHighFileName));
                                         nuc_table_high = FileUtil.toShortArray(nuc_table_high_byte);
@@ -287,12 +272,10 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                         isGetNucFromFlash = true;
                                         tempinfo = ircmd.readNucTableFromFlash(gainMode, gainStatus, nuc_table_high,
                                                 nuc_table_low);
-                                        // 保存数据，方便查看，可按照需要确定是否保存
                                         FileUtil.saveShortFileForDeviceData(nuc_table_high, nucHighFileName);
                                         FileUtil.saveShortFileForDeviceData(nuc_table_low, nucLowFileName);
                                     }
                                 }
-                                // 获取nuc_table表数据
                                 for (int i = 0; i < nuc_table_low.length; i += 1000) {
                                     Log.i(TAG,
                                             "nuc_table_high[" + i + "]=" + nuc_table_high[i] + " nuc_table_low[" + i +
@@ -325,7 +308,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             Log.i(TAG, "tau_data_H[" + 1000 + "]=" + tau_data_H[1000] +
                                     " tau_data_L[" + 1000 + "]=" + tau_data_L[1000]);
 
-                            // 从SD卡上读取
                             byte[] nuc_table_high_byte = FileUtil.readFile2BytesByStream(mContext,
                                     new File(deviceSNUnCodePath + nucHighFileName));
                             nuc_table_high = FileUtil.toShortArray(nuc_table_high_byte);
@@ -334,7 +316,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                     new File(deviceSNUnCodePath + nucLowFileName));
                             nuc_table_low = FileUtil.toShortArray(nuc_table_low_byte);
 
-                            // 获取nuc_table表数据
                             for (int i = 0; i < nuc_table_low.length; i += 1000) {
                                 Log.i(TAG, "nuc_table_high[" + i + "]=" + nuc_table_high[i] + " nuc_table_low[" + i +
                                         "]=" + nuc_table_low[i]);
@@ -360,7 +341,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnTempCorrection2: {
-                                //                tempinfo = ircmd.updateOrgEnvParam(gainStatus, tempinfo);
                                 TempCalibrationInputDialog tempInputDialog = new TempCalibrationInputDialog(mContext,
                         mContext.getString(R.string.input_correct_param),
                         "40.0\n1.0\n27.0\n27.0\n0.25\n0.8");
@@ -379,14 +359,12 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                         for (int i = 0; i < params.length; i++) {
                             params_array[i] = Float.parseFloat(params[i]);
                         }
-                        // 单点修正过程
                         tempCorrect(params_array);
                     }
                 });
                 break;
             }
             case R.id.btnTempCorrection3: {
-                // Temperature correction step 3
                                 Log.i(TAG, "releaseTemperatureCorrection-start");
                 if (tempinfo != 0) {
                     IRUtils.releaseTemperatureCorrection(IRCMDType.USB_IR_256_384, tempinfo, isGetNucFromFlash);
@@ -395,7 +373,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnFPS: {
-                // 输出帧频调节
                 int fpsNum = Integer.parseInt(othersBinding.etFPS.getText().toString().trim());
                 if (fpsNum < 1 || fpsNum > 30) {
                     Toast.makeText(mContext, "输出帧频范围1~30", Toast.LENGTH_SHORT).show();
@@ -405,7 +382,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnShutSubmit: {
-                // 自动快门参数设置
                 String minValue = othersBinding.min.getText().toString().trim();
                 if (minValue.length() != 0) {
                     ircmd.setPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_MIN_INTERVAL,
@@ -456,37 +432,31 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                     param[othersBinding.ParamSel.getSelectedItemPosition()] = (char) Integer.parseInt(value);
                     switch (othersBinding.ParamSel.getSelectedItemPosition()) {
                         case 0: {
-                            /// Distance property. unit:cnt(128cnt=1m), range:0-25600(0-200m)
                             ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_DISTANCE,
                                     new CommonParams.PropTPDParamsValue.NumberType(value));
                             break;
                         }
                         case 1: {
-                            /// Reflection temperature property. unit:K, range:230-500(high gain), 230-900(low gain)
                             ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_TU,
                                     new CommonParams.PropTPDParamsValue.NumberType(value));
                             break;
                         }
                         case 2: {
-                            /// Atmospheric temperature property. unit:K, range:230-500(high gain), 230-900(low gain)
                             ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_TA,
                                     new CommonParams.PropTPDParamsValue.NumberType(value));
                             break;
                         }
                         case 3: {
-                            /// Emissivity property. unit:1/128, range:1-128(0.01-1)
                             ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_EMS,
                                     new CommonParams.PropTPDParamsValue.NumberType(value));
                             break;
                         }
                         case 4: {
-                            /// Atmospheric transmittance property. unit:1/128, range:1-128(0.01-1)
                             ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_TAU,
                                     new CommonParams.PropTPDParamsValue.NumberType(value));
                             break;
                         }
                         case 5: {
-                            /// Gain select. 0:low gain, 1:high gain
                             if (value.equals("0") || value.equals("1")) {
                                 if (Integer.parseInt(value) == 0) {
                                     ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL,
@@ -548,13 +518,11 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                // 存储到本地，可以查看生成的伪彩表文件，copy出来给其它的项目使用
                 FileUtil.writeTxtToFile(pseudoDataByte, path, COLOR_DATA);
                 Log.d(TAG, "file path : " + path + COLOR_DATA);
                 break;
             }
             case R.id.btnPseudocolorConvert: {
-                // 伪彩表格式转换
                 byte[] pseudoDataByte = new byte[768]; // 伪彩数据,长度固定
                 String path = FileUtil.getSaveFilePath(mContext);
                                 File file = new File(path + COLOR_DATA);
@@ -563,50 +531,29 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 } else {
                     Toast.makeText(mContext, "文件不存在", Toast.LENGTH_SHORT).show();
                 }
-                //                AssetManager am = mContext.getAssets();
-//                InputStream is;
-//                try {
-//                    is = am.open("pseudocolor/White_Hot.bin");
-//                    int lenth = is.available();
-//                    pseudoDataByte = new byte[lenth];
-//                    if (is.read(pseudoDataByte) != lenth) {
-//                        Log.e(TAG, "read file fail ");
-//                    }
-//                    //
-//                    is.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
 
                 int index0 = 740, index1 = 750; // 用以检验数据的索引位置
                 Log.i(TAG,
                         "pseudoDataByte.lenth = " + pseudoDataByte.length + " " + pseudoDataByte[index0] + " " + pseudoDataByte[index1]);
-                                // RGB伪彩
                 int[][] pseudoRGBDataInt = CommonUtils.convertRGBPseudocolorData(pseudoDataByte);
                 Log.i(TAG,
                         "pseudoRGBDataInt.lenth = " + pseudoRGBDataInt.length + " " + pseudoRGBDataInt[index0 / 3][index0 % 3] + " " + pseudoRGBDataInt[index1 / 3][index1 % 3]);
-                // YUV伪彩
                 int[][] pseudoYUVDataInt = CommonUtils.convertYUVPseudocolorData(pseudoDataByte);
                 Log.i(TAG,
                         "pseudoYUVDataInt.lenth = " + pseudoYUVDataInt.length + " " + pseudoYUVDataInt[index0 / 3][index0 % 3] + " " + pseudoYUVDataInt[index1 / 3][index1 % 3]);
-                                // RGB伪彩
-//                String pseudoRGBDataIntStr = Arrays.deepToString(pseudoRGBDataInt); // 系统方法转换
                 String pseudoRGBDataIntStr = JSON.toJSON(pseudoRGBDataInt).toString(); // fastjson方式转换
                 Log.d(TAG, "pseudoRGBDataIntStr : " + pseudoRGBDataIntStr);
                 FileUtil.saveStringToFile(pseudoRGBDataIntStr, path + COLOR_RGB_DATA_INT);
                 Log.d(TAG, "pseudoRGB file path : " + path + COLOR_RGB_DATA_INT);
-                // YUV伪彩
                 String pseudoYUVDataIntStr = JSON.toJSON(pseudoYUVDataInt).toString(); // fastjson方式转换
                 Log.d(TAG, "pseudoYUVDataIntStr : " + pseudoYUVDataIntStr);
                 FileUtil.saveStringToFile(pseudoYUVDataIntStr, path + COLOR_YUV_DATA_INT);
                 Log.d(TAG, "pseudoYUV file path : " + path + COLOR_YUV_DATA_INT);
-                                // RGB伪彩
                 String pseudoRGBDataIntStr2 = FileUtil.getStringFromFile(path + COLOR_RGB_DATA_INT);
                 Log.d(TAG, "pseudoRGBDataIntStr2 : " + pseudoRGBDataIntStr2);
                 int[][] pseudoRGBDataInt2 = JSON.parseObject(pseudoRGBDataIntStr2, int[][].class);
                 Log.i(TAG,
                         "pseudoRGBDataInt2.lenth = " + pseudoRGBDataInt2.length + " " + pseudoRGBDataInt2[index0 / 3][index0 % 3] + " " + pseudoRGBDataInt2[index1 / 3][index1 % 3]);
-                // YUV伪彩
                 String pseudoYUVDataIntStr2 = FileUtil.getStringFromFile(path + COLOR_YUV_DATA_INT);
                 Log.d(TAG, "pseudoYUVDataIntStr2 : " + pseudoYUVDataIntStr2);
                 int[][] pseudoYUVDataInt2 = JSON.parseObject(pseudoYUVDataIntStr2, int[][].class);
@@ -623,7 +570,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.automode: {
-                // 自动快门
                 if (isChecked) {
                     ircmd.setPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH,
                             CommonParams.PropAutoShutterParameterValue.StatusSwith.ON);
@@ -696,7 +642,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             int result = 0;
                             switch (position) {
                                 case 1:
-                                    // 需要重启生效
                                     result = ircmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_ALL);
                                     isNeedRestart = true;
                                     break;
@@ -704,7 +649,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                     result = ircmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_TPD);
                                     break;
                                 case 3:
-                                    // 需要重启生效
                                     result =
                                             ircmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_PROP_PAGE);
                                     isNeedRestart = true;

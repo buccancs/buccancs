@@ -133,7 +133,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
 
     public TemperatureView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
-        // 注意这个方法尽早执行(可以在构造方法里面执行)，解决在小米mix2(Android7.0)上出现的surfaceView内容不展示问题
         setZOrderOnTop(true);
 
         getHolder().addCallback(this);
@@ -143,7 +142,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         try {
             drawCount = ta.getInteger(R.styleable.TemperatureView_temperature_count, 3);
         } catch (Exception e) {
-            // ignored
         } finally {
             ta.recycle();
         }
@@ -161,7 +159,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                             Log.d(TAG, "remapTempData == NULL");
                             if (dualUVCCamera != null && llTempData != null
                                     && dualUVCCamera.getTempData(llTempData) != 0) {
-                                //获取映射后的温度数据失败
                                 Log.d(TAG, "--------error----------");
                                 SystemClock.sleep(1000);
                                 continue;
@@ -184,7 +181,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                 } else {
                     try {
                         synchronized (syncimage.dataLock) {
-                            // 用来关联温度数据和TemperatureView,方便后面的点线框测温
                             irtemp.setTempData(temperature);
                             if (syncimage.type == 1) irtemp.setScale(16);
                         }
@@ -204,13 +200,11 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                         yScale = (float) viewHeight / (float) temperatureHeight;
                     }
                     LibIRTemp.TemperatureSampleResult temperatureSampleResult = irtemp.getTemperatureOfRect(new Rect(0, 0, temperatureWidth / 2, temperatureHeight - 1));
-                    // 点线框
                     if (regionAndValueBitmap != null) {
                         synchronized (regionLock) {
                             Canvas canvas = new Canvas(regionAndValueBitmap);
                             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                             canvas.drawBitmap(regionBitmap, new Rect(0, 0, viewWidth, viewHeight), new Rect(0, 0, viewWidth, viewHeight), null);
-                            // 获取最高温和最低温的数据
                             float fullMaxTemp;
                             float fullMinTemp;
                             LibIRTemp.TemperatureSampleResult fullResult = irtemp.getTemperatureOfRect(new Rect(0, 0, temperatureWidth - 1, temperatureHeight - 1));
@@ -220,7 +214,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                                 listener.getTemp((int) (fullMaxTemp * 100) / 100f, (int) (fullMinTemp * 100) / 100f, temperature);
                             }
 
-                            // 最低温
                             if (isShowFull) {
                                 String minTem = UnitTools.showC(fullMinTemp, isShowC);
                                 int x = TempDrawHelper.Companion.correct(fullResult.minTemperaturePixel.x * xScale, getWidth());
@@ -235,7 +228,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                                 drawCircle(canvas, x, y, false);
                             }
 
-                            // 最高温
                             if (isShowFull) {
                                 String maxTem = UnitTools.showC(fullMaxTemp, isShowC);
                                 int x = TempDrawHelper.Companion.correct(fullResult.maxTemperaturePixel.x * xScale, getWidth());
@@ -250,7 +242,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                                 drawCircle(canvas, x, y, true);
                             }
 
-                            //趋势图
                             Line trendLine = this.trendLine;
                             if (trendLine != null) {
                                 int startX = (int) (trendLine.start.x / xScale);
@@ -324,7 +315,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                                     drawTempText(canvas, max, point.x, point.y);
                                 }
                             }
-                            //中心温度
                             if (isShowFull || (!lineList.isEmpty() || !pointList.isEmpty() || !rectList.isEmpty())) {
                                 drawPoint(canvas, getWidth() / 2, getHeight() / 2);
                                 temperatureSampleResult = irtemp.getTemperatureOfPoint(new Point(temperatureWidth / 2, temperatureHeight / 2));
@@ -855,7 +845,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                         }
                     } else {
                         synchronized (regionLock) {
-                            // 真是醉了，Line 没有重写 equals 方法，不过好在这个 line 本来就是从 lineList 里取出来的，所以 remove 没问题
                             lineList.remove(line);
                         }
                     }
@@ -941,7 +930,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                     surfaceViewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                     Canvas bitmapCanvas = new Canvas(regionBitmap);
 
-                    // TODO: 2024/12/13 这里有历史遗留问题，拖动的时候可以把直线拖成点
                     if (Math.abs(x - downX) > TOUCH_TOLERANCE || Math.abs(y - downY) > TOUCH_TOLERANCE) {
                         Point start = new Point();
                         Point end = new Point();
@@ -1144,7 +1132,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                     Canvas surfaceViewCanvas = getHolder().lockCanvas();
                     surfaceViewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                     Canvas bitmapCanvas = new Canvas(regionBitmap);
-                    // TODO: 2024/12/13 这里有历史遗留问题，拖动的时候可以把矩形拖成直线
                     if (Math.abs(x - downX) > TOUCH_TOLERANCE || Math.abs(y - downY) > TOUCH_TOLERANCE) {
                         switch (rectMoveType) {
                             case ALL:
@@ -1246,8 +1233,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
 
     
         private void drawLine(Canvas canvas, int x1, int y1, int x2, int y2, boolean isTrend) {
-        // 由于线段与实心点的的绘制是分开的，线段使用当前 View 坐标，而实心点使用温度(192x256)坐标转换为 View 坐标
-        // 故而这里需要把当前的坐标，尽量贴近温度坐标的整数倍，否则会出现实心圆偏离直线太远的情况
         int startX = (int) ((int) (x1 / xScale) * xScale);
         int startY = (int) ((int) (y1 / yScale) * yScale);
         int stopX = (int) ((int) (x2 / xScale) * xScale);
@@ -1272,7 +1257,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     }
 
         private void drawDot(Canvas canvas, Point point, boolean isMax) {
-        //这里的 (x,y) 是通过温度坐标转换来的，所以已经是温度坐标的整数倍
         int x = TempDrawHelper.Companion.correct(point.x * xScale, getWidth());
         int y = TempDrawHelper.Companion.correct(point.y * yScale, getHeight());
         helper.drawCircle(canvas, x, y, isMax);

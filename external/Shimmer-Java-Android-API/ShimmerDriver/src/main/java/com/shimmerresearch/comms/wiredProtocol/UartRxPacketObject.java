@@ -19,7 +19,6 @@ public class UartRxPacketObject {
     public byte[] mPayload = null;
     public byte[] mCrc = null;
 
-    //For IEEE802.15.4 AM packets wrapped in the Shimmer CommsProtocol UART protocol
     public int mAmPktRadioDestId = UNKNOWN;
     public byte mAmPktType = UNKNOWN;
     public byte[] mAmPktPayload = null;
@@ -42,7 +41,6 @@ public class UartRxPacketObject {
 
                 mPayload = Arrays.copyOfRange(rxBuf, 5, 5 + mPayloadLength - 2);
 
-                //Parse wrapped AM packets
                 if (mUartCommandByte == UART_PACKET_CMD.WRITE.toCmdByte()) {
                     if (mUartComponentByte == UART_COMPONENT.RADIO_802154.toCmdByte()) {
                         if (mUartPropertyByte == UART_COMPONENT_AND_PROPERTY.RADIO_802154.TX_TO_SHIMMER.mPropertyByte) {
@@ -68,12 +66,10 @@ public class UartRxPacketObject {
 
             mRxPacket = Arrays.copyOfRange(rxBuf, 0, packetLength);
 
-            //split rxBufs if left over bytes
             if (rxBuf.length > packetLength) {
                 mLeftOverBytes = Arrays.copyOfRange(rxBuf, packetLength + 1, rxBuf.length);
             }
         } else {
-            //First byte isn't the expected header so remove it for next try.
             mLeftOverBytes = Arrays.copyOfRange(rxBuf, 1, rxBuf.length);
         }
     }
@@ -123,7 +119,6 @@ public class UartRxPacketObject {
                 + (mUartPropertyByte == UartRxPacketObject.UNKNOWN ? "" : "\tProperty:" + getUartPropertyParsed());
 
         consoleString += (mPayload == null ? "" : "\tPayload" + "(" + mPayload.length + "):" + UtilShimmer.bytesToHexStringWithSpacesFormatted(mPayload));
-//		consoleString += "\n" 				+ UtilShimmer.bytesToHexStringWithSpacesFormatted(mRxPacket);
 
         if (mAmPktType != UNKNOWN) {
             consoleString += "\n\tAM Packet -> \tType=" + UtilShimmer.byteToHexStringFormatted((byte) (mAmPktType & 0xFF))//AmCommandDetails.getAmTypeParsedmAmType(mAmType);

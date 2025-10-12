@@ -144,7 +144,6 @@ public abstract class PayloadContentsDetails implements Serializable {
     public static int calculatePayloadConfigBytesSize(ShimmerVerObject svo) {
         int payloadConfigByteSize = BYTE_COUNT.PAYLOAD_CONFIG_CORE;
         if (isPayloadDesignV2orAbove(svo)) {
-            //4 bytes for FW Version (Major, Minor, Internal LSB & MSB)
             payloadConfigByteSize += 4;
             payloadConfigByteSize += calculateExtendedPayloadConfigBytesSize(svo);
         }
@@ -270,7 +269,6 @@ public abstract class PayloadContentsDetails implements Serializable {
 
         parsePayloadContentsMetaData(binFileByteIndex);
         sortDataBlocksByContinuity();
-        // Needed here for console prints describing the current payload
         datasetToSave.updateSampleCountForEachDataSegmentDetails();
 
         if (DEBUG_DATA_BLOCKS) {
@@ -283,7 +281,6 @@ public abstract class PayloadContentsDetails implements Serializable {
     }
 
     protected int parseTemperatureBytes(int currentByteIndex) {
-        //2's complement, left-justified, 12-bit with 16 LSB per degree C
         byte[] temperatureArray = new byte[BYTE_COUNT.PAYLOAD_CONTENTS_TEMPERATURE];
         System.arraycopy(byteBuffer, currentByteIndex, temperatureArray, 0, BYTE_COUNT.PAYLOAD_CONTENTS_TEMPERATURE);
         long temperatureUncal = UtilParseData.parseData(temperatureArray, CHANNEL_DATA_TYPE.INT16, CHANNEL_DATA_ENDIAN.LSB);
@@ -337,18 +334,10 @@ public abstract class PayloadContentsDetails implements Serializable {
                 DataSegmentDetails dataSegmentToAddTo = null;
                 List<DataSegmentDetails> listOfDataSegmentDetails = datasetToSave.getMapOfDataSegmentsPerSensor().get(sensorClassKey);
                 if (listOfDataSegmentDetails == null) {
-                    // If sensor ID is not present, create a new list and DataSegmentDetails.
                     listOfDataSegmentDetails = new ArrayList<DataSegmentDetails>();
                     datasetToSave.putInMapOfDataSegmentsPerSensor(sensorClassKey, listOfDataSegmentDetails);
                 } else if (dataBlockDetails.isResultOfSplitAtMiddayOrMidnight()) {
-                    // Midnight/midday transition detected it in the middle of a data block (for
-                    // PayloadContentsDetailsV8orAbove), allow it to create a new DataSegment
                 } else {
-                    // If a datablock has been split on a per sample basis based on a
-                    // midnight/midday transition, it's a more reliable method of checking for
-                    // continuity to check the original datablock and not the first part of the
-                    // newly split datablock. That does mean though that the original datablock
-                    // needs to be temporarily reassembled.
                     DataBlockDetails dataBlockDetailsToCheckForContinuity = null;
                     if (dataBlockDetails.isFirstPartOfSplitDataBlock() && listOfDataBlocksInOrder.size() > i) {
                         dataBlockDetailsToCheckForContinuity = DataBlockDetails.recombineDataBlockDetailsForContinuityCheck(dataBlockDetails, listOfDataBlocksInOrder.get(i + 1));
@@ -356,8 +345,6 @@ public abstract class PayloadContentsDetails implements Serializable {
                         dataBlockDetailsToCheckForContinuity = dataBlockDetails;
                     }
 
-                    // If the time-gap between the previous and the latest data blocks is expected,
-                    // add the latest data block to the previous data segment
                     DataSegmentDetails dataSegmentDetailsPrevious = listOfDataSegmentDetails.get(listOfDataSegmentDetails.size() - 1);
                     if (UtilCsvSplitting.isDataBlockContinuous(sensorClassKey, dataSegmentDetailsPrevious, dataBlockDetailsToCheckForContinuity).isEmpty()) {
                         dataSegmentToAddTo = dataSegmentDetailsPrevious;
@@ -400,9 +387,6 @@ public abstract class PayloadContentsDetails implements Serializable {
             DataBlockDetails firstDataBlock = listOfDataBlocksInOrder.get(0);
             VerisenseTimeDetails firstDataBlockTimeDetails = setUcClockTime ? firstDataBlock.getTimeDetailsUcClock() : firstDataBlock.getTimeDetailsRwc();
             calculatedStartTimeMs = firstDataBlockTimeDetails.getStartTimeMs();
-            // need to cycle through them all here (at least per sensor) because different
-            // sensors will have different FIFOs sizes and sampling rates which means the
-            // second datablock could have started before the first datablock
             for (DataBlockDetails dataBlockDetails : listOfDataBlocksInOrder) {
                 if (payloadSensorIdsToFind.size() == 0) {
                     break;

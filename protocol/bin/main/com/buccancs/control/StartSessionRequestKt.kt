@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializestartSessionRequest")
 public inline fun startSessionRequest(block: com.buccancs.control.StartSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StartSessionRequest =
   com.buccancs.control.StartSessionRequestKt.Dsl._create(com.buccancs.control.StartSessionRequest.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.StartSessionRequest`
+ */
 public object StartSessionRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,70 +27,124 @@ public object StartSessionRequestKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.StartSessionRequest = _builder.build()
 
-        public var session: com.buccancs.control.SessionIdentifier
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     */
+    public var session: com.buccancs.control.SessionIdentifier
       get() = _builder.getSession()
       set(value) {
         _builder.setSession(value)
       }
-        public fun clearSession() {
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     */
+    public fun clearSession() {
       _builder.clearSession()
     }
-        public fun hasSession(): kotlin.Boolean {
+    /**
+     * `.com.buccancs.control.SessionIdentifier session = 1;`
+     * @return Whether the session field is set.
+     */
+    public fun hasSession(): kotlin.Boolean {
       return _builder.hasSession()
     }
 
-        public var scheduledEpochMs: kotlin.Long
+    /**
+     * `int64 scheduled_epoch_ms = 2;`
+     */
+    public var scheduledEpochMs: kotlin.Long
       get() = _builder.getScheduledEpochMs()
       set(value) {
         _builder.setScheduledEpochMs(value)
       }
-        public fun clearScheduledEpochMs() {
+    /**
+     * `int64 scheduled_epoch_ms = 2;`
+     */
+    public fun clearScheduledEpochMs() {
       _builder.clearScheduledEpochMs()
     }
 
-        public var operatorId: kotlin.String
+    /**
+     * `string operator_id = 3;`
+     */
+    public var operatorId: kotlin.String
       get() = _builder.getOperatorId()
       set(value) {
         _builder.setOperatorId(value)
       }
-        public fun clearOperatorId() {
+    /**
+     * `string operator_id = 3;`
+     */
+    public fun clearOperatorId() {
       _builder.clearOperatorId()
     }
 
-        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     public class SubjectIdsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
-        public val subjectIds: com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>
+    /**
+     * `repeated string subject_ids = 4;`
+     * @return A list containing the subjectIds.
+     */
+    public val subjectIds: com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>
       @kotlin.jvm.JvmSynthetic
       get() = com.google.protobuf.kotlin.DslList(
         _builder.getSubjectIdsList()
       )
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string subject_ids = 4;`
+     * @param value The subjectIds to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("addSubjectIds")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.add(value: kotlin.String) {
       _builder.addSubjectIds(value)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string subject_ids = 4;`
+     * @param value The subjectIds to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("plusAssignSubjectIds")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.plusAssign(value: kotlin.String) {
       add(value)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string subject_ids = 4;`
+     * @param values The subjectIds to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("addAllSubjectIds")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
       _builder.addAllSubjectIds(values)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string subject_ids = 4;`
+     * @param values The subjectIds to add.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("plusAssignAllSubjectIds")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
       addAll(values)
     }
-        @kotlin.jvm.JvmSynthetic
+    /**
+     * `repeated string subject_ids = 4;`
+     * @param index The index to set the value at.
+     * @param value The subjectIds to set.
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("setSubjectIds")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.set(index: kotlin.Int, value: kotlin.String) {
       _builder.setSubjectIds(index, value)
-    }    @kotlin.jvm.JvmSynthetic
+    }/**
+     * `repeated string subject_ids = 4;`
+     */
+    @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("clearSubjectIds")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.clear() {
       _builder.clearSubjectIds()

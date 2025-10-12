@@ -30,7 +30,6 @@ public class SensorMAX86916 extends SensorMAX86XXX {
 
     public static final int MAX_DAC_VALUE = (int) (Math.pow(2, 5) - 1);
     public static final int MAX_LED_CURRENT_MILLIAMPS = 204;
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef SENSOR_MAX86916_PPG_RED = new SensorDetailsRef(
             Configuration.Verisense.SensorBitmap.MAX86XXX_PPG_RED,
             Configuration.Verisense.SensorBitmap.MAX86XXX_PPG_RED,
@@ -121,7 +120,6 @@ public class SensorMAX86916 extends SensorMAX86XXX {
         CHANNEL_MAP_REF = Collections.unmodifiableMap(aMap);
     }
 
-    // Used during SD parsing
     protected int ppgLedAmplitudeGreenConfigValue = 0;
     protected int ppgLedAmplitudeBlueConfigValue = 0;
     protected int ppgLedAmplitudeRangeGreen = 0;
@@ -138,9 +136,7 @@ public class SensorMAX86916 extends SensorMAX86XXX {
     protected PROX_DETECTION_MODE proximityDetectionMode = PROX_DETECTION_MODE.AUTO_GAIN_ON_PROX_DETECTION_ON_DRIVER;
     private MAX86916_SAMPLE_RATE sampleRate = MAX86916_SAMPLE_RATE.SR_50_0_HZ;
 
-    //--------- Sensor info end --------------
 
-    //--------- Channel info start --------------
 
     public SensorMAX86916(VerisenseDevice verisenseDevice) {
         super(SENSORS.MAX86916, verisenseDevice);
@@ -177,7 +173,6 @@ public class SensorMAX86916 extends SensorMAX86XXX {
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs) {
 
-        // get uncalibrated data for each (sub)sensor
         if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensorsCommon.PPG_RED)
                 || sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensorsCommon.PPG_IR)
                 || sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.PPG_GREEN)
@@ -249,7 +244,6 @@ public class SensorMAX86916 extends SensorMAX86XXX {
         }
     }
 
-    //--------- Channel info end --------------
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
@@ -292,7 +286,6 @@ public class SensorMAX86916 extends SensorMAX86XXX {
         if (mSensorMap.containsKey(sensorId)) {
             super.setDefaultConfigForSensor(sensorId, isSensorEnabled);
 
-            //TODO handle isSensorEnabled = true and false
 
             setSampleRate(MAX86916_SAMPLE_RATE.SR_50_0_HZ);
             setPpgDefaultCurrentAllLedsMilliamps(40);
@@ -331,9 +324,6 @@ public class SensorMAX86916 extends SensorMAX86XXX {
         Object returnValue = null;
 
         switch (configLabel) {
-//			case(GuiLabelConfigCommon.RATE):
-//				returnValue = getSampleRate().freqHz;
-//				break;
             case (GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE):
                 returnValue = getSampleRate().configValue;
                 break;
@@ -580,7 +570,6 @@ public class SensorMAX86916 extends SensorMAX86XXX {
         AUTO_GAIN_OFF_PROX_DETECTION_OFF("Auto-gain Off, Proximity Detection Off", 0),
         AUTO_GAIN_ON_PROX_DETECTION_ON_DRIVER("Auto-gain Off, Proximity Detection - Driver Mode", 1),
         AUTO_GAIN_ON_PROX_DETECTION_ON_HYBRID("Auto-gain Off, Proximity detection - Hybrid Mode", 2),
-//			AUTO_GAIN_ON_PROX_DETECTION_OFF("Auto-gain On, Proximity detection Off", 3) //Not supported yet
         ;
 
         static Map<String, Integer> REF_MAP = new HashMap<>();

@@ -34,8 +34,6 @@ public class XAxisRendererHorizontalBarChart extends XAxisRenderer {
     @Override
     public void computeAxis(float min, float max, boolean inverted) {
 
-        // calculate the starting and entry point of the y-labels (depending on
-        // zoom / contentrect bounds)
         if (mViewPortHandler.contentWidth() > 10 && !mViewPortHandler.isFullyZoomedOutY()) {
 
             MPPointD p1 = mTrans.getValuesByTouchPoint(mViewPortHandler.contentLeft(), mViewPortHandler.contentBottom());
@@ -140,7 +138,6 @@ public class XAxisRendererHorizontalBarChart extends XAxisRenderer {
 
         for (int i = 0; i < positions.length; i += 2) {
 
-            // only fill x values
             if (centeringEnabled) {
                 positions[i + 1] = mXAxis.mCenteredEntries[i / 2];
             } else {
@@ -175,7 +172,6 @@ public class XAxisRendererHorizontalBarChart extends XAxisRenderer {
         gridLinePath.moveTo(mViewPortHandler.contentRight(), y);
         gridLinePath.lineTo(mViewPortHandler.contentLeft(), y);
 
-        // draw a path because lines don't support dashing on lower android versions
         c.drawPath(gridLinePath, mGridPaint);
 
         gridLinePath.reset();
@@ -248,11 +244,9 @@ public class XAxisRendererHorizontalBarChart extends XAxisRenderer {
 
             c.drawPath(limitLinePath, mLimitLinePaint);
             limitLinePath.reset();
-            // c.drawLines(pts, mLimitLinePaint);
 
             String label = l.getLabel();
 
-            // if drawing the limit-value label is enabled
             if (label != null && !label.equals("")) {
 
                 mLimitLinePaint.setStyle(l.getTextStyle());

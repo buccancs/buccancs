@@ -108,11 +108,9 @@ public class MainActivity extends Activity {
             }
         }
         if (!permissionGranted) {
-            // Should we show an explanation?
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
 
         } else {
-            //startServiceandBTManager();
         }
 
     }
@@ -151,7 +149,6 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                //Get the Bluetooth mac address of the selected device:
                 macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 totalIterationLimit = Integer.parseInt(editTextTotalIteration.getText().toString());
                 retryCountLimit = Integer.parseInt(editTextRetryCountLimit.getText().toString());
@@ -205,11 +202,7 @@ public class MainActivity extends Activity {
 
                         }
                     });
-                    //isCurrentIterationSuccess = false;
                     ResultMap.put(currentIteration, -1);
-                    //shimmer = null;
-                    //shimmer = new Shimmer(mHandler);
-                    //shimmer.connect(macAdd, "default");
                     Log.i(LOG_TAG, "Connect Called, retry count: " + Integer.toString(retryCount) + "; Total number of retries:" + totalRetries);
                     Shimmer shimmer = new Shimmer(mHandler, MainActivity.this);
                     shimmer.setMacIdFromUart(macAdd);
@@ -248,10 +241,8 @@ public class MainActivity extends Activity {
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
                     if ((msg.obj instanceof ObjectCluster)) {
 
-                        //Print data to Logcat
                         ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
-                        //Retrieve all possible formats for the current sensor device:
                         Collection<FormatCluster> allFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
                         FormatCluster timeStampCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(allFormats, "CAL"));
                         double timeStampData = timeStampCluster.mData;
@@ -306,15 +297,11 @@ public class MainActivity extends Activity {
                                     totalRetries++;
                                     editTextRetryCount.setText(Integer.toString(retryCount));
                                     editTextTotalRetries.setText(Integer.toString(totalRetries));
-                                    //Toast.makeText(getApplicationContext(), "Retry Count " + Integer.toString(retryCount), Toast.LENGTH_SHORT).show();
                                     try {
                                         Thread.sleep(500);
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
-                                    //shimmer = null;
-                                    //shimmer = new Shimmer(mHandler);
-                                    //shimmer.connect(macAdd, "default");
                                     Log.i(LOG_TAG, "Connect Called, retry count: " + Integer.toString(retryCount) + "; Total number of retries:" + totalRetries);
                                     btManager.removeShimmerDeviceBtConnected(macAdd);
                                     btManager.putShimmerGlobalMap(macAdd, new Shimmer(mHandler, MainActivity.this));

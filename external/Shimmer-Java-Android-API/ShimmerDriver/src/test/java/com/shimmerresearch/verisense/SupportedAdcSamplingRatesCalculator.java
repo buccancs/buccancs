@@ -18,7 +18,6 @@ public class SupportedAdcSamplingRatesCalculator {
             double samplingRate = 32768.0 / ticks;
 
             String str = String.format("%." + numDecimalPlacesToCheckForZero + "f", samplingRate);
-//			System.out.println(str);
             for (int x = str.length() - 1; x >= str.length() - numDecimalPlacesToCheckForZero + acceptableDecimalPlaces; x--) {
                 if (str.charAt(x) != '0') {
                     continue divisorLoop;
@@ -29,7 +28,6 @@ public class SupportedAdcSamplingRatesCalculator {
             resultIndex++;
         }
 
-        // Print vertical table
         String codeComment = "# "; // # for Python, // for Java
         System.out.println(codeComment + "Setting Value, Sampling Rate (Hz), Ticks");
         System.out.println(codeComment + "0, Off, Off");
@@ -39,7 +37,6 @@ public class SupportedAdcSamplingRatesCalculator {
 
         System.out.println("\n\n");
 
-        // Print horizonal table
         String settingValueRow = "// Setting Value = 0", samplingRateRow = "// Sampling Rate (Hz) = Off", ticksRow = "// Ticks = Off";
         for (SupportedAdcSamplingRate validResult : listOfResults) {
             settingValueRow += ", " + validResult.settingValue;

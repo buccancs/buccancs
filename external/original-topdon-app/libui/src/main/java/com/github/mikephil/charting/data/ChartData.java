@@ -67,7 +67,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
             set.calcMinMaxY(fromX, toX);
         }
 
-        // apply the new data
         calcMinMax();
     }
 
@@ -90,7 +89,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
         mRightAxisMax = -Float.MAX_VALUE;
         mRightAxisMin = Float.MAX_VALUE;
 
-        // left axis
         T firstLeft = getFirstLeft(mDataSets);
 
         if (firstLeft != null) {
@@ -109,7 +107,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
             }
         }
 
-        // right axis
         T firstRight = getFirstRight(mDataSets);
 
         if (firstRight != null) {
@@ -256,7 +253,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
 
         boolean removed = mDataSets.remove(d);
 
-        // if a DataSet was removed
         if (removed) {
             calcMinMax();
         }
@@ -278,7 +274,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
         if (mDataSets.size() > dataSetIndex && dataSetIndex >= 0) {
 
             IDataSet set = mDataSets.get(dataSetIndex);
-            // add the entry to the dataset
             if (!set.addEntry(e))
                 return;
 
@@ -343,14 +338,12 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
 
         public boolean removeEntry(Entry e, int dataSetIndex) {
 
-        // entry null, outofbounds
         if (e == null || dataSetIndex >= mDataSets.size())
             return false;
 
         IDataSet set = mDataSets.get(dataSetIndex);
 
         if (set != null) {
-            // remove the entry from the dataset
             boolean removed = set.removeEntry(e);
 
             if (removed) {

@@ -41,10 +41,8 @@ public abstract class SensorKionixAccel extends AbstractSensor {
 
     public static final int LN_ACCEL_RANGE_VALUE = 0;
 
-    //--------- Sensor specific variables start --------------
     public static final String LN_ACCEL_RANGE_STRING = UtilShimmer.UNICODE_PLUS_MINUS + " 2g";//"+/- 2g";
     public static final String OldCalRangeLN2g = "accel_ln_2g";
-    //--------- Bluetooth commands start --------------
     public static final byte SET_ACCEL_CALIBRATION_COMMAND = (byte) 0x11;
     public static final byte ACCEL_CALIBRATION_RESPONSE = (byte) 0x12;
     public static final byte GET_ACCEL_CALIBRATION_COMMAND = (byte) 0x13;
@@ -57,7 +55,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
         aMap.put(GET_ACCEL_CALIBRATION_COMMAND, new BtCommandDetails(GET_ACCEL_CALIBRATION_COMMAND, "GET_ACCEL_CALIBRATION_COMMAND", ACCEL_CALIBRATION_RESPONSE));
         mBtGetCommandMap = Collections.unmodifiableMap(aMap);
     }
-    //--------- Sensor specific variables end --------------
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -82,35 +79,19 @@ public abstract class SensorKionixAccel extends AbstractSensor {
 
     @Override
     public void generateConfigOptionsMap() {
-        //No configuration options.
     }
-    //--------- Bluetooth commands end --------------
 
 
-    //--------- Configuration options start --------------
-    // No configuration options.
-    //--------- Configuration options end --------------
 
 
-    //--------- Constructors for this class start --------------
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs) {
 
         objectCluster = sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestampMs);
 
-//		int index = 0;
-//		for (ChannelDetails channelDetails:sensorDetails.mListOfChannels){
-//			//first process the data originating from the Shimmer sensor
-//			byte[] channelByteArray = new byte[channelDetails.mDefaultNumBytes];
-//			System.arraycopy(rawData, index, channelByteArray, 0, channelDetails.mDefaultNumBytes);
-//			objectCluster = SensorDetails.processShimmerChannelData(channelByteArray, channelDetails, objectCluster);
-//			index = index + channelDetails.mDefaultNumBytes;
-//			objectCluster.incrementIndexKeeper();
-//		}
 
         if (mEnableCalibration && mCurrentCalibDetailsAccelLn != null) {
-            //Uncalibrated Accelerometer data
             double[] unCalibratedAccelData = new double[3];
             for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
                 if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_X)) {
@@ -122,11 +103,8 @@ public abstract class SensorKionixAccel extends AbstractSensor {
                 }
             }
 
-            //Calibration
             double[] calibratedAccelData = UtilCalibration.calibrateInertialSensorData(unCalibratedAccelData, mCurrentCalibDetailsAccelLn);
-//			double[] calibratedAccelData = UtilCalibration.calibrateInertialSensorData(unCalibratedAccelData, mAlignmentMatrixAnalogAccel, mSensitivityMatrixAnalogAccel, mOffsetVectorAnalogAccel);
 
-            //Add calibrated data to Object cluster
             for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
                 if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_X)) {
                     objectCluster.addCalData(channelDetails, calibratedAccelData[0], objectCluster.getIndexKeeper() - 3, isUsingDefaultLNAccelParam());
@@ -138,7 +116,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
             }
         }
 
-        //Debugging
         if (mIsDebugOutput) {
             super.consolePrintChannelsCal(objectCluster, Arrays.asList(
                     new String[]{ObjectClusterSensorName.ACCEL_LN_X, CHANNEL_TYPE.UNCAL.toString()},
@@ -159,7 +136,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
         if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
             ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) configByteLayout;
 
-            // Analog Accel Calibration Parameters
             byte[] bufferCalibrationParameters = generateCalParamByteArrayAccelLn();
             System.arraycopy(bufferCalibrationParameters, 0, configBytes, configByteLayoutCast.idxAnalogAccelCalibration, configByteLayoutCast.lengthGeneralCalibrationBytes);
         }
@@ -175,29 +151,19 @@ public abstract class SensorKionixAccel extends AbstractSensor {
                 getCurrentCalibDetailsAccelLn().mCalibReadSource = CALIB_READ_SOURCE.INFOMEM;
             }
 
-            // Analog Accel Calibration Parameters
             byte[] bufferCalibrationParameters = new byte[configByteLayoutCast.lengthGeneralCalibrationBytes];
             System.arraycopy(configBytes, configByteLayoutCast.idxAnalogAccelCalibration, bufferCalibrationParameters, 0, configByteLayoutCast.lengthGeneralCalibrationBytes);
             parseCalibParamFromPacketAccelAnalog(bufferCalibrationParameters, CALIB_READ_SOURCE.INFOMEM);
         }
     }
 
-    //--------- Constructors for this class end --------------
 
 
-    //--------- Abstract methods implemented start --------------
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
         Object returnValue = null;
         switch (configLabel) {
-//			case(GuiLabelConfigCommon.KINEMATIC_CALIBRATION_PER_SENSOR):
-//				if(sensorId==Configuration.Shimmer3.SENSOR_ID.SHIMMER_ANALOG_ACCEL){
-//					TreeMap<Integer, CalibDetailsKinematic> mapOfKinematicSensorCalibration = (TreeMap<Integer, CalibDetailsKinematic>) valueToSet;
-//					setKinematicCalibration(mapOfKinematicSensorCalibration);
-//					returnValue = valueToSet;
-//				}
-//	    		break;
             default:
                 returnValue = super.setConfigValueUsingConfigLabelCommon(sensorId, configLabel, valueToSet);
                 break;
@@ -223,7 +189,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // No data rate setting.
     }
 
     @Override
@@ -238,7 +203,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
         if (mConfigOptionsMap.containsKey(stringKey)) {
-            //XXX Return true if mSensorMap contains sensorId regardless of the fact there a no configuration options?
             return true;
         }
         return false;
@@ -246,30 +210,25 @@ public abstract class SensorKionixAccel extends AbstractSensor {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        //TODO RS - Implement rest of this method.
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
         ActionSetting actionsetting = new ActionSetting(commType);
-        //TODO RS - Implement rest of this method.
         return actionsetting;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
-    //--------- Sensor specific methods start --------------
     private byte[] generateCalParamAnalogAccel() {
         return mCurrentCalibDetailsAccelLn.generateCalParamByteArray();
     }
@@ -285,7 +244,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
     public String getSensorName() {
         return mSensorName;
     }
-    //--------- Abstract methods implemented end --------------
 
     public boolean isUsingDefaultLNAccelParam() {
         return mCurrentCalibDetailsAccelLn.isUsingDefaultParameters();
@@ -343,15 +301,12 @@ public abstract class SensorKionixAccel extends AbstractSensor {
         public static String ACCEL_LN_Z = "Accel_LN_Z";
     }
 
-    //--------- Sensor specific methods end --------------
 
 
-    //--------- Optional methods to override in Sensor Class start --------
 
     public class GuiLabelConfig {
         public static final String KIONIX_ACCEL_DEFAULT_CALIB = "Low Noise Accel Default Calibration";
 
-        //NEW
         public static final String KIONIX_ACCEL_VALID_CALIB = "Low Noise Accel Valid Calibration";
         public static final String KIONIX_ACCEL_CALIB_PARAM = "Low Noise Accel Calibration Details";
     }
@@ -360,7 +315,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
         public static final String ACCEL_LN = "Low-Noise Accelerometer";
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
     public class LABEL_SENSOR_TILE {
         public static final String LOW_NOISE_ACCEL = GuiLabelSensors.ACCEL_LN;

@@ -29,7 +29,6 @@ public class AAPI_00001_Shimmer_GeneralBluetoothShimmer2R {
 
     @Test   //test Shimmer 2R connection
     public void test001_Connect() throws Exception {
-        //shimmer = new Shimmer(mHandler);
 
         if (shimmer.isConnected()) {
             assertTrue(true);
@@ -118,13 +117,11 @@ public class AAPI_00001_Shimmer_GeneralBluetoothShimmer2R {
     public void test007_MultipleStartStopStreaming() throws Exception {
         for (int i = 1; i < 8; i++) {
 
-            //odd value of i will start streaming
             if (i % 2 != 0) {
                 shimmer.startStreaming();
                 Thread.sleep(DELAY_DURATION_MS);
                 assertTrue(shimmer.isStreaming());
             }
-            //even value of i will stop streaming
             else {
                 shimmer.stopStreaming();
                 Thread.sleep(DELAY_DURATION_MS);

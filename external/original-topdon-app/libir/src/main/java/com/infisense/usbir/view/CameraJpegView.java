@@ -49,7 +49,6 @@ public class CameraJpegView extends TextureView {
                             if (canvas == null)
                                 continue;
 
-                            //p2
                                                         Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                             canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 

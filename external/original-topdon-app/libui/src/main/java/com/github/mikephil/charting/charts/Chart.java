@@ -87,39 +87,12 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         protected float mMaxHighlightDistance = 0f;
         protected boolean mDrawMarkers = true;
 
-    // public void initWithDummyData() {
-    // ColorTemplate template = new ColorTemplate();
-    // template.addColorsForDataSets(ColorTemplate.COLORFUL_COLORS,
-    // getContext());
     //
-    // setColorTemplate(template);
-    // setDrawYValues(false);
     //
-    // ArrayList<String> xVals = new ArrayList<String>();
-    // Calendar calendar = Calendar.getInstance();
-    // for (int i = 0; i < 12; i++) {
-    // xVals.add(calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT,
-    // Locale.getDefault()));
-    // }
     //
-    // ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
-    // for (int i = 0; i < 3; i++) {
     //
-    // ArrayList<Entry> yVals = new ArrayList<Entry>();
     //
-    // for (int j = 0; j < 12; j++) {
-    // float val = (float) (Math.random() * 100);
-    // yVals.add(new Entry(val, j));
-    // }
     //
-    // DataSet set = new DataSet(yVals, "DataSet " + i);
-    // dataSets.add(set); // add the datasets
-    // }
-    // // create a data object with the datasets
-    // ChartData data = new ChartData(xVals, dataSets);
-    // setData(data);
-    // invalidate();
-    // }
         protected IMarker mMarker;
         protected ArrayList<Runnable> mJobs = new ArrayList<Runnable>();
         private boolean mDragDecelerationEnabled = true;
@@ -152,18 +125,15 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         protected void init() {
 
         setWillNotDraw(false);
-        // setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         mAnimator = new ChartAnimator(new AnimatorUpdateListener() {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                // ViewCompat.postInvalidateOnAnimation(Chart.this);
                 postInvalidate();
             }
         });
 
-        // initialize the utils
         Utils.init(getContext());
         mMaxHighlightDistance = Utils.convertDpToPixel(500f);
 
@@ -230,13 +200,11 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
         int digits = Utils.getDecimals(reference);
 
-        // setup the formatter with a new number of digits
         mDefaultValueFormatter.setup(digits);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // super.onDraw(canvas);
 
         if (mData == null) {
 
@@ -259,7 +227,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
         protected void drawDescription(Canvas c) {
 
-        // check if description should be drawn
         if (mDescription != null && mDescription.isEnabled()) {
 
             MPPointF position = mDescription.getPosition();
@@ -271,7 +238,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
             float x, y;
 
-            // if no position specified, draw on default position
             if (position == null) {
                 x = getWidth() - mViewPortHandler.offsetRight() - mDescription.getXOffset();
                 y = getHeight() - mViewPortHandler.offsetBottom() - mDescription.getYOffset();
@@ -322,12 +288,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
         public void highlightValues(Highlight[] highs) {
 
-        // set the indices to highlight
         mIndicesToHighlight = highs;
 
         setLastHighlighted(highs);
 
-        // redraw the chart
         invalidate();
     }
 
@@ -375,7 +339,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
                 high = null;
             } else {
 
-                // set the indices to highlight
                 mIndicesToHighlight = new Highlight[]{
                         high
                 };
@@ -389,12 +352,10 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             if (!valuesToHighlight())
                 mSelectionListener.onNothingSelected();
             else {
-                // notify the listener
                 mSelectionListener.onValueSelected(e, high);
             }
         }
 
-        // redraw the chart
         invalidate();
     }
 
@@ -418,7 +379,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
         protected void drawMarkers(Canvas canvas) {
 
-        // if there is no marker view or drawing marker is disabled
         if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
             return;
 
@@ -429,24 +389,19 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             IDataSet set = mData.getDataSetByIndex(highlight.getDataSetIndex());
 
             Entry e = mData.getEntryForHighlight(mIndicesToHighlight[i]);
-            //TODO Attempt to invoke interface method 'int com.github.mikephil.charting.interfaces.datasets.IDataSet.getEntryIndex(com.github.mikephil.charting.data.Entry)' on a null object reference
             try {
                 int entryIndex = set.getEntryIndex(e);
 
-                // make sure entry not null
                 if (e == null || entryIndex > set.getEntryCount() * mAnimator.getPhaseX())
                     continue;
 
                 float[] pos = getMarkerPosition(highlight);
 
-                // check bounds
                 if (!mViewPortHandler.isInBounds(pos[0], pos[1]))
                     continue;
 
-                // callbacks to update the content
                 mMarker.refreshContent(e, highlight);
 
-                // draw the marker
                 mMarker.draw(canvas, pos[0], pos[1]);
             } catch (Exception exception) {
                 Log.e("测试", exception.getMessage());
@@ -744,7 +699,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             return;
         }
 
-        // calculate how many digits are needed
         setupDefaultFormatter(data.getYMin(), data.getYMax());
 
         for (IDataSet set : mData.getDataSets()) {
@@ -752,7 +706,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
                 set.setValueFormatter(mDefaultValueFormatter);
         }
 
-        // let the chart know there is new data
         notifyDataSetChanged();
 
         if (mLogEnabled)
@@ -787,22 +740,14 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
         public Bitmap getChartBitmap() {
-        // Define a bitmap with the same size as the view
         Bitmap returnedBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
-        // Bind a canvas to it
         Canvas canvas = new Canvas(returnedBitmap);
-        // Get the view's background
         Drawable bgDrawable = getBackground();
         if (bgDrawable != null)
-            // has background drawable, then draw it on the canvas
             bgDrawable.draw(canvas);
         else
-            // does not have background drawable, then draw white background on
-            // the canvas
             canvas.drawColor(Color.WHITE);
-        // draw the view on the canvas
         draw(canvas);
-        // return the bitmap
         return returnedBitmap;
     }
 
@@ -830,7 +775,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
         public boolean saveToGallery(String fileName, String subFolderPath, String fileDescription, CompressFormat
             format, int quality) {
-        // restrain quality
         if (quality < 0 || quality > 100)
             quality = 50;
 
@@ -885,7 +829,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
         ContentValues values = new ContentValues(8);
 
-        // store the details
         values.put(Images.Media.TITLE, fileName);
         values.put(Images.Media.DISPLAY_NAME, fileName);
         values.put(Images.Media.DATE_ADDED, currentTime);
@@ -962,8 +905,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
                 Log.w(LOG_TAG, "*Avoiding* setting chart dimens! width: " + w + ", height: " + h);
         }
 
-        // This may cause the chart view to mutate properties affecting the view port --
-        //   lets do this before we try to run any pending jobs on the view port itself
         notifyDataSetChanged();
 
         for (Runnable r : mJobs) {
@@ -987,7 +928,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        //Log.i(LOG_TAG, "Detaching...");
 
         if (mUnbind)
             unbindDrawables(this);

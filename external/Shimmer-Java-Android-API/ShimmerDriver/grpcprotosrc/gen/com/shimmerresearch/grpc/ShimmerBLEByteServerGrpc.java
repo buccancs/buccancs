@@ -28,7 +28,6 @@ public final class ShimmerBLEByteServerGrpc {
     private static final int METHODID_WRITE_BYTES_SHIMMER = 4;
     private static final int METHODID_SAY_HELLO = 5;
     private static final int METHODID_SEND_DATA_STREAM = 6;
-    // Static method descriptors that strictly reflect the proto.
     private static volatile io.grpc.MethodDescriptor<com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest,
             com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> getGetDataStreamMethod;
     private static volatile io.grpc.MethodDescriptor<com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest,

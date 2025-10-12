@@ -12,12 +12,9 @@ import java.util.List;
 
 import com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE;
 import com.shimmerresearch.driver.ShimmerDevice;
-//import com.shimmerresearch.bluetooth.ShimmerBluetooth.CURRENT_OPERATION;
 import com.shimmerresearch.driver.ShimmerObject;
 import com.shimmerresearch.driver.shimmer4sdk.Shimmer4sdk;
 
-//TODO add proper comments
-//TODO remove unnecessary code carried over from dock progress details
 public class BluetoothProgressReportAll implements Serializable {
 
     public static final String[] mListOfOperationStates = new String[]{
@@ -35,7 +32,6 @@ public class BluetoothProgressReportAll implements Serializable {
     public int mProgressEndValue = 100;
     public int mProgressCounter = 0;
     public int mNumberOfFails = 0;
-    //	public List<Integer> mListOfFailedCmds = new ArrayList<Integer>();
     public int mProgressPercentageComplete = 0;
 
     public BluetoothProgressReportAll(BT_STATE currentOperationBtState, List<ShimmerDevice> lso) {

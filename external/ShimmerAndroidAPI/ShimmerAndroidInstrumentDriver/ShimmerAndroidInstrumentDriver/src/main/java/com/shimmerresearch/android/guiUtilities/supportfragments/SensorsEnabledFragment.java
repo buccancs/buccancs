@@ -43,7 +43,6 @@ public class SensorsEnabledFragment extends ListFragment {
 
 
     public SensorsEnabledFragment() {
-        // Required empty public constructor
     }
 
     public static SensorsEnabledFragment newInstance(String param1, String param2) {
@@ -84,7 +83,6 @@ public class SensorsEnabledFragment extends ListFragment {
         originalShimmerDevice = shimmerDevice;
         shimmerDeviceClone = shimmerDevice.deepClone();
 
-        //Get the list of sensor groups the device is compatible with and store it in an ArrayList
         compatibleSensorGroupMap = new TreeMap<Integer, SensorGroupingDetails>();
         TreeMap<Integer, SensorGroupingDetails> groupMap = shimmerDeviceClone.getSensorGroupingMap();
         for (Map.Entry<Integer, SensorGroupingDetails> entry : groupMap.entrySet()) {
@@ -96,7 +94,6 @@ public class SensorsEnabledFragment extends ListFragment {
         for (SensorGroupingDetails sgd : groupMap.values()) {
             List<ShimmerVerObject> listOfCompatibleVersionInfo = sgd.mListOfCompatibleVersionInfo;
             List<String> listOfGuiConfigNames = sgd.mListofGuiConfigNames;
-            //TODO: Refactor listOfSensorMapKeysAssociated (SENSOR_ID)
             List<Integer> listOfSensorMapKeysAssociated = sgd.mListOfSensorIdsAssociated;
             int a = 1;
             a++;
@@ -133,7 +130,6 @@ public class SensorsEnabledFragment extends ListFragment {
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 
         if (listView.getFooterViewsCount() == 0) {   //Only add the button if there is no existing button
-            //Create button in the ListView footer
             Button button = new Button(activityContext);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -149,25 +145,20 @@ public class SensorsEnabledFragment extends ListFragment {
 
                         List<ShimmerDevice> cloneList = new ArrayList<ShimmerDevice>();
                         cloneList.add(0, shimmerDeviceClone);
-                        //TODO: Change this when AssembleShimmerConfig has been updated:
                         AssembleShimmerConfig.generateMultipleShimmerConfig(cloneList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
 
                         if (shimmerDevice instanceof Shimmer || shimmerDevice instanceof VerisenseDevice || shimmerDevice instanceof Shimmer3BLEAndroid) {
-                            //((Shimmer)device).writeConfigBytes(shimmerDeviceClone.getShimmerInfoMemBytes());
                             /*try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }*/
 
-                            //((Shimmer) device).writeEnabledSensors(shimmerDeviceClone.getEnabledSensors());
 
                             bluetoothManager.configureShimmer(shimmerDeviceClone);
-                            //configureShimmers(cloneList);
                             mCallback.onSensorsSelected();
 
                         } else if (shimmerDevice instanceof Shimmer4Android) {
-                            //((Shimmer4Android)device).writeConfigBytes(shimmerDeviceClone.getShimmerInfoMemBytes());
                         }
                     } else {
                         Toast.makeText(activityContext, "Error! Shimmer Device clone is null!", Toast.LENGTH_SHORT).show();
@@ -179,11 +170,9 @@ public class SensorsEnabledFragment extends ListFragment {
             listView.addFooterView(button);
         }
 
-        //Set sensors which are already enabled in the Shimmer clone to be checked in the ListView
         updateCheckboxes(listView, count);
         final int countUpdate = count;
 
-        //Set the listener for ListView item clicks
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

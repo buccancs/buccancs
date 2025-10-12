@@ -52,10 +52,6 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
                 (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, 0x00, 0x00, 0x00,
                 0x00, 0x00, (byte) 0xFC, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x00};
 
-        //TODO would be better to be passing statusPayloadBytes through verisenseProtocolByteCommunication rather then splitting out the payload contents
-//		VerisenseProtocolByteCommunication verisenseProtocolByteCommunication = new VerisenseProtocolByteCommunication(null);
-//		verisenseProtocolByteCommunication.addRadioListener(new RadioListener);
-//		verisenseProtocolByteCommunication.handleCommonResponse(statusPayload);
 
         VerisenseMessage verisenseMessage = new VerisenseMessage(messageBytes, System.currentTimeMillis());
 
@@ -170,7 +166,6 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
 
         VerisenseMessage verisenseMessage = new VerisenseMessage(messageBytes, System.currentTimeMillis());
 
-        //TODO improve below (sensor class access and running through VerisenseProtocolByteCommunication) and implement checks for more settings
 
         VerisenseDevice verisenseDevice = new VerisenseDevice(COMMUNICATION_TYPE.BLUETOOTH);
         verisenseDevice.setShimmerVersionObject(VerisenseDevice.FW_CHANGES.CCF21_010_3);
@@ -180,7 +175,6 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
 
         verisenseDevice.printSensorParserAndAlgoMaps();
 
-        //Dev board v64-1 supports Clock, LIS2DW12, LSM6DS3, MAX86916, Battery
         LinkedHashMap<SENSORS, AbstractSensor> mapOfSensorClasses = verisenseDevice.getMapOfSensorsClasses();
         assertTrue(mapOfSensorClasses.size() == 5);
         assertTrue(mapOfSensorClasses.containsKey(SENSORS.CLOCK));
@@ -200,7 +194,6 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
         assertTrue(!verisenseDevice.isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_IR));
         assertTrue(!verisenseDevice.isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_RED));
 
-        // GEN_CFG_0
         assertTrue(verisenseDevice.isBluetoothEnabled());
         assertTrue(!verisenseDevice.isUsbEnabled());
         assertTrue(verisenseDevice.isPrioritiseLongTermFlash());
@@ -213,18 +206,14 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
 
         SensorLIS2DW12 sensorLIS2DW12 = verisenseDevice.getSensorLIS2DW12();
         assertTrue(sensorLIS2DW12 != null);
-        // ACCEL1_CFG_0
         assertTrue(sensorLIS2DW12.getAccelRate() == LIS2DW12_ACCEL_RATE.LOW_POWER_25_0_HZ);
         assertTrue(sensorLIS2DW12.getAccelLpMode() == SensorLIS2DW12.LIS2DW12_LP_MODE.LOW_POWER1_12BIT_4_5_MG_NOISE);
         assertTrue(sensorLIS2DW12.getAccelMode() == SensorLIS2DW12.LIS2DW12_MODE.LOW_POWER);
-        // ACCEL1_CFG_1
         assertTrue(sensorLIS2DW12.getBwFilt() == SensorLIS2DW12.LIS2DW12_BW_FILT.ODR_DIVIDED_BY_2);
         assertTrue(sensorLIS2DW12.getAccelRange() == SensorLIS2DW12.LIS2DW12_ACCEL_RANGE.RANGE_8G);
         assertTrue(sensorLIS2DW12.getFilteredDataTypeSelection() == SensorLIS2DW12.LIS2DW12_FILTERED_DATA_TYPE_SELECTION.LOW_PASS_FILTER_PATH_SELECTED);
         assertTrue(sensorLIS2DW12.getLowNoise() == SensorLIS2DW12.LIS2DW12_LOW_NOISE.DISABLED);
-        // ACCEL1_CFG_2
         assertTrue(sensorLIS2DW12.getHpFilterMode() == SensorLIS2DW12.LIS2DW12_HP_REF_MODE.DISABLED);
-        // ACCEL1_CFG_3
         assertTrue(sensorLIS2DW12.getFifoMode() == SensorLIS2DW12.LIS2DW12_FIFO_MODE.CONTINUOUS_TO_FIFO_MODE);
         assertTrue(sensorLIS2DW12.getFifoThreshold() == SensorLIS2DW12.LIS2DW12_FIFO_THRESHOLD.SAMPLE_31);
 
@@ -258,7 +247,6 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
         assertTrue(verisenseDevice.getAdaptiveSchedulerInterval() == 65535);
         assertTrue(verisenseDevice.getAdaptiveSchedulerFailCount() == 255);
 
-        // Byte generation test
         byte[] generatedBytes = verisenseDevice.configBytesGenerate(true, COMMUNICATION_TYPE.BLUETOOTH);
         testByteArrays(verisenseMessage.payloadBytes, generatedBytes);
     }
@@ -283,7 +271,6 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
 
         assertTrue(rwcSchedulePayload.isSuccess);
 
-        //TODO add tests
     }
 
     @Test
@@ -346,7 +333,6 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
 
         assertTrue(recordBufferDetailsPayload.isSuccess);
 
-        //TODO add tests
     }
 
     @Test
@@ -364,7 +350,6 @@ public class API_00003_VerisenseProtocolByteCommunicationTest {
 
         assertTrue(memoryLookupTablePayload.isSuccess);
 
-        //TODO add tests
     }
 
     private void testStartCommon(String testId) {

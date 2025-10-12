@@ -24,7 +24,6 @@ public class ScanConfiguration {
     }
 
         public ScanConfiguration setScanPeriodMillis(int scanPeriodMillis) {
-        //至少1秒
         if (scanPeriodMillis >= 1000) {
             this.scanPeriodMillis = scanPeriodMillis;
         }

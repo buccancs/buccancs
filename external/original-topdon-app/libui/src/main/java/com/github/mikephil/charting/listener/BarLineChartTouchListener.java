@@ -104,7 +104,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         if (!mChart.isDragEnabled() && (!mChart.isScaleXEnabled() && !mChart.isScaleYEnabled()))
             return true;
 
-        // Handle touch events here...
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
             case MotionEvent.ACTION_DOWN:
@@ -125,13 +124,10 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
 
                     saveTouchStart(event);
 
-                    // get the distance between the pointers on the x-axis
                     mSavedXDist = getXDist(event);
 
-                    // get the distance between the pointers on the y-axis
                     mSavedYDist = getYDist(event);
 
-                    // get the total distance between the pointers
                     mSavedDist = spacing(event);
 
                     if (mSavedDist > 10f) {
@@ -147,7 +143,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
                         }
                     }
 
-                    // determine the touch-pointer center
                     midPoint(mTouchPointCenter, event);
                 }
                 break;
@@ -184,7 +179,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
                             float distanceX = Math.abs(event.getX() - mTouchStartPoint.x);
                             float distanceY = Math.abs(event.getY() - mTouchStartPoint.y);
 
-                            // Disable dragging in a direction that's disallowed
                             if ((mChart.isDragXEnabled() || distanceY >= distanceX) &&
                                     (mChart.isDragYEnabled() || distanceY <= distanceX)) {
 
@@ -231,7 +225,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
                         mDecelerationVelocity.y = velocityY;
 
                         Utils.postInvalidateOnAnimation(mChart); // This causes computeScroll to fire, recommended for this by
-                        // Google
                     }
                 }
 
@@ -240,9 +233,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
                         mTouchMode == PINCH_ZOOM ||
                         mTouchMode == POST_ZOOM) {
 
-                    // Range might have changed, which means that Y-axis labels
-                    // could have changed in size, affecting Y-axis size.
-                    // So we need to recalculate offsets.
                     mChart.calculateOffsets();
                     mChart.postInvalidate();
                 }
@@ -271,7 +261,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
                 break;
         }
 
-        // perform the transformation, update the chart
         mMatrix = mChart.getViewPortHandler().refresh(mMatrix, mChart, true);
 
         return true; // indicate event was handled
@@ -295,10 +284,8 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
 
         OnChartGestureListener l = mChart.getOnChartGestureListener();
 
-        // check if axis is inverted
         if (inverted()) {
 
-            // if there is an inverted horizontalbarchart
             if (mChart instanceof HorizontalBarChart) {
                 distanceX = -distanceX;
             } else {
@@ -318,16 +305,13 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
 
             OnChartGestureListener l = mChart.getOnChartGestureListener();
 
-            // get the distance between the pointers of the touch event
             float totalDist = spacing(event);
 
             if (totalDist > mMinScalePointerDistance) {
 
-                // get the translation
                 MPPointF t = getTrans(mTouchPointCenter.x, mTouchPointCenter.y);
                 ViewPortHandler h = mChart.getViewPortHandler();
 
-                // take actions depending on the activated touch mode
                 if (mTouchMode == PINCH_ZOOM) {
 
                     mLastGesture = ChartGesture.PINCH_ZOOM;
@@ -421,7 +405,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         float xTrans = x - vph.offsetLeft();
         float yTrans = 0f;
 
-        // check if axis is inverted
         if (inverted()) {
             yTrans = -(y - vph.offsetTop());
         } else {
@@ -456,7 +439,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
             l.onChartDoubleTapped(e);
         }
 
-        // check if double-tap zooming is enabled
         if (mChart.isDoubleTapToZoomEnabled() && mChart.getData().getEntryCount() > 0) {
 
             MPPointF trans = getTrans(e.getX(), e.getY());
@@ -560,9 +542,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         if (Math.abs(mDecelerationVelocity.x) >= 0.01 || Math.abs(mDecelerationVelocity.y) >= 0.01)
             Utils.postInvalidateOnAnimation(mChart); // This causes computeScroll to fire, recommended for this by Google
         else {
-            // Range might have changed, which means that Y-axis labels
-            // could have changed in size, affecting Y-axis size.
-            // So we need to recalculate offsets.
             mChart.calculateOffsets();
             mChart.postInvalidate();
 

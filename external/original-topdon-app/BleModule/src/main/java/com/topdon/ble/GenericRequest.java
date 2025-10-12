@@ -21,10 +21,8 @@ class GenericRequest implements Request, Comparable<GenericRequest> {
     RequestCallback callback;
     WriteOptions writeOptions;
     byte[] descriptorTemp;//临时保存描述符的值
-    //---------  分包发送相关  ---------
     Queue<byte[]> remainQueue;
     byte[] sendingBytes;
-    //--------------------------------
 
     GenericRequest(RequestBuilder builder) {
         tag = builder.tag;

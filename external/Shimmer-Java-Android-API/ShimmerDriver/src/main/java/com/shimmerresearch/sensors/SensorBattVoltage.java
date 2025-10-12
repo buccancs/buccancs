@@ -29,15 +29,11 @@ import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 
 public class SensorBattVoltage extends AbstractSensor {
 
-    // The battery voltage is divided by half before entering the Microcontroller's ADC.  The value is not quite equal to 2 due to the components used in the circuit.
     public static final double BATTERY_VOLTAGE_DIVIDER_RATIO = 1.988;
 
-    //--------- Sensor specific variables start --------------
-//	protected DescriptiveStatistics mVSenseBattMA= new DescriptiveStatistics(1024);
     public static final byte VBATT_RESPONSE = (byte) 0x94;
     public static final byte GET_VBATT_COMMAND = (byte) 0x95;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorBattVoltageRef = new SensorDetailsRef(
             0x20 << 8,
             0x20 << 8,
@@ -50,7 +46,6 @@ public class SensorBattVoltage extends AbstractSensor {
     public static final SensorGroupingDetails sensorGroupBattVoltage = new SensorGroupingDetails(
             LABEL_SENSOR_TILE.BATTERY_MONITORING,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_VBATT),
-//			CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBattVoltage);
     public static final ChannelDetails channelBattPercentage = new ChannelDetails(
             ObjectClusterSensorName.BATT_PERCENTAGE,
@@ -70,9 +65,7 @@ public class SensorBattVoltage extends AbstractSensor {
             true,
             true);
 
-    //--------- Sensor specific variables end --------------
 
-    //--------- Bluetooth commands start ------------------
     public static final Map<String, ChannelDetails> mChannelMapRef;
         private static final long serialVersionUID = -2835431738933986391L;
 
@@ -88,15 +81,9 @@ public class SensorBattVoltage extends AbstractSensor {
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
 
-//    public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-//    static {
-//       mBtSetCommandMap = Collections.unmodifiableMap(aMap);
-//    }
-//	
+//
 
 
-    //--------- Configuration options start --------------
-    //--------- Configuration options end --------------
 
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
@@ -109,17 +96,14 @@ public class SensorBattVoltage extends AbstractSensor {
         protected int mSamplingDividerVBatt = 0;
     private ShimmerBattStatusDetails mShimmerBattStatusDetails = new ShimmerBattStatusDetails();
 
-    //--------- Constructors for this class start --------------
     public SensorBattVoltage(ShimmerDevice shimmerDevice) {
         super(SENSORS.Battery, shimmerDevice);
         mShimmerBattStatusDetails = shimmerDevice.mShimmerBattStatusDetails;
         initialise();
     }
 
-    //--------- Sensor info end --------------
 
 
-    //--------- Channel info start --------------
 
     public SensorBattVoltage(ShimmerVerObject svo) {
         super(SENSORS.Battery, svo);
@@ -133,7 +117,6 @@ public class SensorBattVoltage extends AbstractSensor {
 
     @Override
     public void generateConfigOptionsMap() {
-        //Not in this class
     }
 
     @Override
@@ -145,11 +128,9 @@ public class SensorBattVoltage extends AbstractSensor {
         super.updateSensorGroupingMap();
     }
 
-    // -----------Channel info end ------
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // Not in this class
     }
 
     @Override
@@ -157,10 +138,8 @@ public class SensorBattVoltage extends AbstractSensor {
 
         sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestampMs);
 
-//		if(mEnableCalibration){
         for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
             if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.BATTERY)) {
-//					objectCluster = SensorADC.processMspAdcChannel(sensorDetails, rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestamp);
 
                 double unCalData = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
                 double offset = 0;
@@ -179,95 +158,72 @@ public class SensorBattVoltage extends AbstractSensor {
                 }
             }
         }
-//		}
 
-//		System.err.println(
-//				getShimmerBattStatusDetails().getBattVoltage()
-//				+ "\t" + getShimmerBattStatusDetails().getEstimatedChargePercentage()
-//				+ "\t" + getShimmerBattStatusDetails().getEstimatedChargePercentageParsed());
 
         return objectCluster;
     }
-    //--------- Constructors for this class end --------------
 
 
-    //--------- Abstract methods implemented start --------------
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
         Object returnValue = null;
-//		if (componentName.equals(Configuration.ShimmerGqBle.GuiLabelConfig.SAMPLING_RATE_DIVIDER_VBATT)){
-//		    setSamplingDividerVBatt((int)valueToSet);
-//		}
         return returnValue;
     }
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId, String configLabel) {
         Object returnValue = null;
-//		if(componentName.equals(Configuration.ShimmerGqBle.GuiLabelConfig.SAMPLING_RATE_DIVIDER_VBATT)){
-//			returnValue = getSamplingDividerVBatt();
-//		}
         return returnValue;
     }
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
-        // //Not in this class
         return false;
     }
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        //Not in this class
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // Not in this class
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // Not in this class
         return null;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        //Not in this class
         return null;
     }
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 

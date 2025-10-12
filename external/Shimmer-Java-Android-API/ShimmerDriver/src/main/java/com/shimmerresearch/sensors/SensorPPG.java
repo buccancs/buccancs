@@ -29,7 +29,6 @@ public class SensorPPG extends AbstractSensor {
 
     public static final String[] ListOfPpgAdcSelection = {"Int A13", "Int A12"};
 
-    //--------- Sensor specific variables start --------------
     public static final String[] ListOfPpgAdcSelection3r = {"Int A1", "Int A0"};
     public static final Integer[] ListOfPpgAdcSelectionConfigValues = {0, 1};
     public static final String[] ListOfPpg1AdcSelection = {"Int A13", "Int A12"};
@@ -70,17 +69,12 @@ public class SensorPPG extends AbstractSensor {
             ListOfPpg1AdcSelectionConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoProto3Deluxe);
-    //--------- Sensor specific variables End --------------
 
 
-    //--------- Bluetooth commands start --------------
-
-    //			Not in this class
-
-    //--------- Bluetooth commands end --------------
 
 
-    //--------- Configuration options start --------------
+
+
     public static final ConfigOptionDetailsSensor configOptionPpg1AdcSelection3r = new ConfigOptionDetailsSensor(
             SensorPPG.GuiLabelConfig.PPG1_ADC_SELECTION,
             null,
@@ -111,7 +105,6 @@ public class SensorPPG extends AbstractSensor {
             Arrays.asList(GuiLabelConfig.PPG_ADC_SELECTION),
             null,
             true);
-    // Derived Channels - Proto3 Board
     public static final SensorDetailsRef sensorPpg1Dummy = new SensorDetailsRef(
             0,
             0,
@@ -134,10 +127,6 @@ public class SensorPPG extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_RESISTANCE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_BRIDGE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_A13,
@@ -146,9 +135,6 @@ public class SensorPPG extends AbstractSensor {
             null,
             Arrays.asList(ObjectClusterSensorName.PPG1_A12),
             true);
-    //	{
-//		sensorPpgHostPPG1_A12.mDerivedSensorBitmapID = ShimmerObject.DerivedSensorsBitMask.PPG1_12_13;
-//	}
     public static final SensorDetailsRef sensorPpgHostPPG1_A0 = new SensorDetailsRef(
             SensorADC.sensorADC_INT_EXP_ADC_A12Ref.mSensorBitmapIDStreaming,
             SensorADC.sensorADC_INT_EXP_ADC_A12Ref.mSensorBitmapIDSDLogHeader,
@@ -162,10 +148,6 @@ public class SensorPPG extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_RESISTANCE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_BRIDGE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_A13,
@@ -186,10 +168,6 @@ public class SensorPPG extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_TEST,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_RESISTANCE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_BRIDGE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_A12,
@@ -198,9 +176,6 @@ public class SensorPPG extends AbstractSensor {
             null,
             Arrays.asList(ObjectClusterSensorName.PPG1_A13),
             true);
-    //	{
-//		sensorPpgHostPPG1_A13.mDerivedSensorBitmapID = ShimmerObject.DerivedSensorsBitMask.PPG1_12_13;
-//	}
     public static final SensorDetailsRef sensorPpgHostPPG1_A1 = new SensorDetailsRef(
             SensorADC.sensorADC_INT_EXP_ADC_A13Ref.mSensorBitmapIDStreaming,
             SensorADC.sensorADC_INT_EXP_ADC_A13Ref.mSensorBitmapIDSDLogHeader,
@@ -213,10 +188,6 @@ public class SensorPPG extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_TEST,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_RESISTANCE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_BRIDGE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_A12,
@@ -245,10 +216,6 @@ public class SensorPPG extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_TEST,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_RESISTANCE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_BRIDGE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_A14,
@@ -257,9 +224,6 @@ public class SensorPPG extends AbstractSensor {
             null,
             Arrays.asList(ObjectClusterSensorName.PPG2_A1),
             true);
-    //	{
-//		sensorPpgHostPPG2_A1.mDerivedSensorBitmapID = ShimmerObject.DerivedSensorsBitMask.PPG2_1_14;
-//	}
     public static final SensorDetailsRef sensorPpgHostPPG2_A3 = new SensorDetailsRef(
             SensorADC.sensorADC_INT_EXP_ADC_A1Ref.mSensorBitmapIDStreaming,
             SensorADC.sensorADC_INT_EXP_ADC_A1Ref.mSensorBitmapIDSDLogHeader,
@@ -272,10 +236,6 @@ public class SensorPPG extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_TEST,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_RESISTANCE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_BRIDGE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_A14,
@@ -297,10 +257,6 @@ public class SensorPPG extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_RESISTANCE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_BRIDGE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_A1,
@@ -309,9 +265,6 @@ public class SensorPPG extends AbstractSensor {
             null,
             Arrays.asList(ObjectClusterSensorName.PPG2_A14),
             true);
-    //	{
-//		sensorPpgHostPPG2_A1.mDerivedSensorBitmapID = ShimmerObject.DerivedSensorsBitMask.PPG2_1_14;
-//	}
     public static final SensorDetailsRef sensorPpgHostPPG2_A2 = new SensorDetailsRef(
             SensorADC.sensorADC_INT_EXP_ADC_A14Ref.mSensorBitmapIDStreaming,
             SensorADC.sensorADC_INT_EXP_ADC_A14Ref.mSensorBitmapIDSDLogHeader,
@@ -325,10 +278,6 @@ public class SensorPPG extends AbstractSensor {
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION,
                     Configuration.Shimmer3.SENSOR_ID.HOST_EXG_THREE_UNIPOLAR,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_16BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG1_24BIT,
-//					Configuration.Shimmer3.SENSOR_ID.EXG2_24BIT,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_RESISTANCE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_BRIDGE_AMP,
                     Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_A1,
@@ -339,8 +288,6 @@ public class SensorPPG extends AbstractSensor {
             true);
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef3r;
-    //--------- Channel info start --------------
-    // PPG - Using GSR+ board
     public static final ChannelDetails channelPPG_A12 = new ChannelDetails(
             ObjectClusterSensorName.PPG_A12,
             ObjectClusterSensorName.PPG_A12,
@@ -349,10 +296,8 @@ public class SensorPPG extends AbstractSensor {
             CHANNEL_UNITS.MILLIVOLTS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
 
-    //--------- Configuration options end --------------
 
 
-    //--------- Sensor info start --------------
     public static final ChannelDetails channelPPG_A13 = new ChannelDetails(
             ObjectClusterSensorName.PPG_A13,
             ObjectClusterSensorName.PPG_A13,
@@ -374,7 +319,6 @@ public class SensorPPG extends AbstractSensor {
             CHANNEL_DATA_TYPE.UINT12, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.MILLIVOLTS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // PPG - Using Proto3 Deluxe TRRS Socket 2
     public static final ChannelDetails channelPPG2_A1 = new ChannelDetails(
             ObjectClusterSensorName.PPG2_A1,
             ObjectClusterSensorName.PPG2_A1,
@@ -389,7 +333,6 @@ public class SensorPPG extends AbstractSensor {
             CHANNEL_DATA_TYPE.UINT12, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.MILLIVOLTS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // PPG - Using GSR+ board
     public static final ChannelDetails channelPPG_A0 = new ChannelDetails(
             ObjectClusterSensorName.PPG_A0,
             ObjectClusterSensorName.PPG_A0,
@@ -418,7 +361,6 @@ public class SensorPPG extends AbstractSensor {
             CHANNEL_DATA_TYPE.UINT14, 2, CHANNEL_DATA_ENDIAN.LSB,
             CHANNEL_UNITS.MILLIVOLTS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    // PPG - Using Proto3 Deluxe TRRS Socket 2
     public static final ChannelDetails channelPPG2_A3 = new ChannelDetails(
             ObjectClusterSensorName.PPG2_A3,
             ObjectClusterSensorName.PPG2_A3,
@@ -477,7 +419,6 @@ public class SensorPPG extends AbstractSensor {
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
 
-        // Derived Channels - GSR Board
 
         aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY, sensorPpgDummy);
         aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A12, sensorPpgHostPPG_A12);
@@ -495,7 +436,6 @@ public class SensorPPG extends AbstractSensor {
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
 
-        // Derived Channels - GSR Board
 
         aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY, sensorPpgDummy);
         aMap.put(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A12, sensorPpgHostPPG_A0);
@@ -513,13 +453,10 @@ public class SensorPPG extends AbstractSensor {
     static {
         Map<String, ChannelDetails> aChannelMap = new LinkedHashMap<String, ChannelDetails>();
 
-        // PPG - Using GSR+ board
         aChannelMap.put(ObjectClusterSensorName.PPG_A12, SensorPPG.channelPPG_A12);
         aChannelMap.put(ObjectClusterSensorName.PPG_A13, SensorPPG.channelPPG_A13);
-        // PPG - Using Proto3 Deluxe TRRS Socket 1
         aChannelMap.put(ObjectClusterSensorName.PPG1_A12, SensorPPG.channelPPG1_A12);
         aChannelMap.put(ObjectClusterSensorName.PPG1_A13, SensorPPG.channelPPG1_A13);
-        // PPG - Using Proto3 Deluxe TRRS Socket 2
         aChannelMap.put(ObjectClusterSensorName.PPG2_A1, SensorPPG.channelPPG2_A1);
         aChannelMap.put(ObjectClusterSensorName.PPG2_A14, SensorPPG.channelPPG2_A14);
 
@@ -529,13 +466,10 @@ public class SensorPPG extends AbstractSensor {
     static {
         Map<String, ChannelDetails> aChannelMap = new LinkedHashMap<String, ChannelDetails>();
 
-        // PPG - Using GSR+ board
         aChannelMap.put(ObjectClusterSensorName.PPG_A0, SensorPPG.channelPPG_A0);
         aChannelMap.put(ObjectClusterSensorName.PPG_A1, SensorPPG.channelPPG_A1);
-        // PPG - Using Proto3 Deluxe TRRS Socket 1
         aChannelMap.put(ObjectClusterSensorName.PPG1_A0, SensorPPG.channelPPG1_A0);
         aChannelMap.put(ObjectClusterSensorName.PPG1_A1, SensorPPG.channelPPG1_A1);
-        // PPG - Using Proto3 Deluxe TRRS Socket 2
         aChannelMap.put(ObjectClusterSensorName.PPG2_A3, SensorPPG.channelPPG2_A3);
         aChannelMap.put(ObjectClusterSensorName.PPG2_A2, SensorPPG.channelPPG2_A2);
 
@@ -550,7 +484,6 @@ public class SensorPPG extends AbstractSensor {
     {
         sensorPpgDummy.mIsDummySensor = true;
     }
-    //--------- Sensor info end --------------
 
     {
         List<Integer> listOfKeysConflicting = new ArrayList<Integer>();
@@ -560,7 +493,6 @@ public class SensorPPG extends AbstractSensor {
         listOfKeysConflicting.add(Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A13);
         sensorPpgHostPPG_A12.mListOfSensorIdsConflicting = Collections.unmodifiableList(listOfKeysConflicting);
 
-//		sensorPpgHostPPG_A12.mDerivedSensorBitmapID = ShimmerObject.DerivedSensorsBitMask.PPG_12_13;
     }
 
     {
@@ -571,10 +503,8 @@ public class SensorPPG extends AbstractSensor {
         listOfKeysConflicting.add(Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A13);
         sensorPpgHostPPG_A0.mListOfSensorIdsConflicting = Collections.unmodifiableList(listOfKeysConflicting);
 
-//		sensorPpgHostPPG_A12.mDerivedSensorBitmapID = ShimmerObject.DerivedSensorsBitMask.PPG_12_13;
     }
 
-    // PPG - Using Proto3 Deluxe TRRS Socket 1
 
     {
         List<Integer> listOfKeysConflicting = new ArrayList<Integer>();
@@ -584,7 +514,6 @@ public class SensorPPG extends AbstractSensor {
         listOfKeysConflicting.add(Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A13);
         sensorPpgHostPPG_A13.mListOfSensorIdsConflicting = Collections.unmodifiableList(listOfKeysConflicting);
 
-//		sensorPpgHostPPG_A13.mDerivedSensorBitmapID = ShimmerObject.DerivedSensorsBitMask.PPG_12_13;
     }
 
     {
@@ -595,7 +524,6 @@ public class SensorPPG extends AbstractSensor {
         listOfKeysConflicting.add(Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A13);
         sensorPpgHostPPG_A1.mListOfSensorIdsConflicting = Collections.unmodifiableList(listOfKeysConflicting);
 
-//		sensorPpgHostPPG_A13.mDerivedSensorBitmapID = ShimmerObject.DerivedSensorsBitMask.PPG_12_13;
     }
 
     {
@@ -606,16 +534,11 @@ public class SensorPPG extends AbstractSensor {
         sensorPpg2Dummy.mIsDummySensor = true;
     }
 
-    //	public SensorPPG(ShimmerVerObject svo) {
-//		super(svo);
-//		setSensorName(SENSORS.PPG.toString());
-//	}
     public SensorPPG(ShimmerDevice shimmerDevice) {
         super(SENSORS.PPG, shimmerDevice);
         initialise();
     }
 
-        //TODO Talk to MN about replacing
     public static final List<Integer> getListSensorPpgHostPPG_A12() {
         List<Integer> listOfKeysConflicting = new ArrayList<Integer>();
         listOfKeysConflicting.addAll(FixedConflictingSensorIdsList);
@@ -626,9 +549,7 @@ public class SensorPPG extends AbstractSensor {
         return listOfKeysConflicting;
     }
 
-    // PPG - Using Proto3 Deluxe TRRS Socket 1
 
-        //TODO Talk to MN about replacing
     public static final List<Integer> getListSensorPpgHostPPG_A13() {
         List<Integer> listOfKeysConflicting = new ArrayList<Integer>();
         listOfKeysConflicting.addAll(FixedConflictingSensorIdsList);
@@ -639,17 +560,14 @@ public class SensorPPG extends AbstractSensor {
         return listOfKeysConflicting;
     }
 
-    //--------- Abstract methods implemented start --------------
     @Override
     public void generateSensorMap() {
-        //TODO either use createLocalSensorMap or fill in the "processDataCustom" method
         if (getHardwareVersion() == HW_ID.SHIMMER_3R) {
             super.createLocalSensorMapWithCustomParser(mSensorMapRef3r, mChannelMapRef3r);
         } else {
             super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
         }
 
-        //Update the derived sensor bit index
         for (Integer sensorId : mSensorMap.keySet()) {
             long derivedSensorBitmapID = 0;
             if (sensorId == Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A12
@@ -684,7 +602,6 @@ public class SensorPPG extends AbstractSensor {
         }
 
 
-//		mConfigOptionsMap.put(GuiLabelConfig.SAMPLING_RATE_DIVIDER_PPG, mConfigOptionsMapRef.get(GuiLabelConfig.SAMPLING_RATE_DIVIDER_PPG));
     }
 
     @Override
@@ -695,7 +612,6 @@ public class SensorPPG extends AbstractSensor {
             mSensorGroupingMap.put(groupIndex, new SensorGroupingDetails(
                     LABEL_SENSOR_TILE.PROTO3_DELUXE_SUPP,
                     Arrays.asList(
-//							Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY,
                             Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_DUMMY,
                             Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_DUMMY),
                     CompatibilityInfoForMaps.listOfCompatibleVersionInfoGsr));
@@ -710,19 +626,14 @@ public class SensorPPG extends AbstractSensor {
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
-        //XXX What about this?
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
-        //XXX What about this?
     }
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
-        ////XXX What about this? Are the newly introduced method handling the commented out stuff below?
 
         Object returnValue = null;
         int buf = 0;
@@ -744,10 +655,8 @@ public class SensorPPG extends AbstractSensor {
         return null;
     }
 
-// --------------------------- Channel info end ----------------------------------------
 
 
-//--------- Constructors for this class start --------------	
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId, String configLabel) {
@@ -766,18 +675,15 @@ public class SensorPPG extends AbstractSensor {
         return returnValue;
     }
 
-//--------- Constructors for this class end --------------
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
         if (mSensorMap.containsKey(sensorId)) {
-            //TODO set defaults for particular sensor
             return true;
         }
         return false;
@@ -785,7 +691,6 @@ public class SensorPPG extends AbstractSensor {
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // XXX added the if + return true, nothing happen further
         if (mConfigOptionsMap.containsKey(stringKey)) {
             return true;
         }
@@ -794,13 +699,11 @@ public class SensorPPG extends AbstractSensor {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -818,26 +721,21 @@ public class SensorPPG extends AbstractSensor {
     @Override
     public void parseConfigMap(
             LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
     public boolean checkIfSensorEnabled(int sensorId) {
-        //TODO update for proper Shimmer4 sensors
         if (mShimmerVerObject.isShimmerGen3() || mShimmerVerObject.isShimmerGen4()) {
-            //Used for Shimmer GSR hardware
             if (sensorId == Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY) {
                 if ((isSensorEnabled(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A12)) || (isSensorEnabled(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A13)))
                     return true;
@@ -893,16 +791,13 @@ public class SensorPPG extends AbstractSensor {
         public int getSamplingDividerPpg() {
         return mSamplingDividerPpg;
     }
-    //--------- Abstract methods implemented end --------------
 
 
-    //--------- Sensor specific methods start --------------
 
         public void setSamplingDividerPpg(int mSamplingDividerPpg) {
         this.mSamplingDividerPpg = mSamplingDividerPpg;
     }
 
-    //--------- Optional methods to override in Sensor Class start --------
     @Override
     public boolean handleSpecCasesBeforeSensorMapUpdatePerSensor(ShimmerDevice shimmerDevice, Integer sensorId) {
         if (((sensorId == Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A12)
@@ -918,7 +813,6 @@ public class SensorPPG extends AbstractSensor {
 
     @Override
     public void handleSpecCasesAfterSensorMapUpdateFromEnabledSensors() {
-        //Used for Shimmer GSR hardware
         if (mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A12) != null) {
             if ((mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A12).isEnabled()) || (mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_A13).isEnabled())) {
                 mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY).setIsEnabled(true);
@@ -933,7 +827,6 @@ public class SensorPPG extends AbstractSensor {
 
             }
         }
-        //Used for Shimmer Proto3 Deluxe hardware
         if (mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_A12) != null) {
             if ((mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_A12).isEnabled()) || (mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_A13).isEnabled())) {
                 mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_DUMMY).setIsEnabled(true);
@@ -946,7 +839,6 @@ public class SensorPPG extends AbstractSensor {
                 mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG1_DUMMY).setIsEnabled(false);
             }
         }
-        //Used for Shimmer Proto3 Deluxe hardware
         if (mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_A1) != null) {
             if ((mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_A1).isEnabled()) || (mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_A14).isEnabled())) {
                 mSensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_PPG2_DUMMY).setIsEnabled(true);
@@ -963,7 +855,6 @@ public class SensorPPG extends AbstractSensor {
 
     @Override
     public int handleSpecCasesBeforeSetSensorState(int sensorId, boolean state) {
-        // Special case for Dummy entries in the Sensor Map
         if (sensorId == Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY) {
             mSensorMap.get(sensorId).setIsEnabled(state);
             if (ListOfPpgAdcSelection[mPpgAdcSelectionGsrBoard].contains("A12")) {
@@ -1013,10 +904,8 @@ public class SensorPPG extends AbstractSensor {
     }
 
     public static class GuiLabelSensors {
-        //BLE
         public static final String PPG = "PPG";
 
-        //Other
         public static final String PPG_DUMMY = "PPG";
         public static final String PPG_A12 = "PPG A12";
         public static final String PPG_A13 = "PPG A13";
@@ -1072,7 +961,6 @@ public class SensorPPG extends AbstractSensor {
         public static final String PPG2_A2 = "F5437a_PPG2_A2";
         public static final String PPG2_A3 = "F5437a_PPG2_A3";
     }
-    //--------- Optional methods to override in Sensor Class end --------
 
 
 }

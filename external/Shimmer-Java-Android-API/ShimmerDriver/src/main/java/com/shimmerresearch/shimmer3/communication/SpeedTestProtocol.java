@@ -32,7 +32,6 @@ public class SpeedTestProtocol {
 
             @Override
             public void eventConnected() {
-                // TODO Auto-generated method stub
                 if (mSpeedTestListener != null) {
                     mSpeedTestListener.onConnected();
                 }
@@ -40,7 +39,6 @@ public class SpeedTestProtocol {
 
             @Override
             public void eventDisconnected() {
-                // TODO Auto-generated method stub
                 if (mSpeedTestListener != null) {
                     mSpeedTestListener.onDisconnected();
                 }
@@ -48,8 +46,6 @@ public class SpeedTestProtocol {
 
             @Override
             public void eventNewBytesReceived(byte[] rxBytes) {
-                // TODO Auto-generated method stub
-                //System.out.println(rxBytes);
                 for (byte b : rxBytes) {
                     mQ.add(b);
                 }
@@ -60,7 +56,6 @@ public class SpeedTestProtocol {
     }
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -128,7 +123,6 @@ public class SpeedTestProtocol {
 
                     if (!mProtocol.TestFirstByteReceived) {
                         TestFirstByteReceived = true;
-                        //ProgrammerUtilities.CopyAndRemoveBytes(ref buffer, 1);
                         byteArray = ByteUtils.removeFirstByte(byteArray);
                         System.out.println(UtilShimmer.bytesToHexString(byteArray));
                     }
@@ -143,11 +137,9 @@ public class SpeedTestProtocol {
                             TestSignalTotalEffectiveNumberOfBytes += 5;
                             byte[] bytes = new byte[lengthOfPacket - 1];
                             System.arraycopy(bytesFullPacket, 1, bytes, 0, bytes.length);
-                            //System.arraycopy(bytesFullPacket, 1, bytes, 0, bytes.length);
                             ByteBuffer buffer = ByteBuffer.wrap(bytes, 0, 4).order(ByteOrder.LITTLE_ENDIAN);
                             int intValue = buffer.getInt();
                             data = ByteUtils.removeFirstBytes(data, lengthOfPacket);
-                            //System.out.println("COUNT : " + intValue );
 
                             if (keepValue != 0) {
                                 int difference = intValue - keepValue;

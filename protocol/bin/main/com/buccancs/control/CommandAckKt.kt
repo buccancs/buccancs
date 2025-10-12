@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializecommandAck")
 public inline fun commandAck(block: com.buccancs.control.CommandAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandAck =
   com.buccancs.control.CommandAckKt.Dsl._create(com.buccancs.control.CommandAck.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.CommandAck`
+ */
 public object CommandAckKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,21 +27,33 @@ public object CommandAckKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.CommandAck = _builder.build()
 
-        public var accepted: kotlin.Boolean
+    /**
+     * `bool accepted = 1;`
+     */
+    public var accepted: kotlin.Boolean
       get() = _builder.getAccepted()
       set(value) {
         _builder.setAccepted(value)
       }
-        public fun clearAccepted() {
+    /**
+     * `bool accepted = 1;`
+     */
+    public fun clearAccepted() {
       _builder.clearAccepted()
     }
 
-        public var info: kotlin.String
+    /**
+     * `string info = 2;`
+     */
+    public var info: kotlin.String
       get() = _builder.getInfo()
       set(value) {
         _builder.setInfo(value)
       }
-        public fun clearInfo() {
+    /**
+     * `string info = 2;`
+     */
+    public fun clearInfo() {
       _builder.clearInfo()
     }
   }

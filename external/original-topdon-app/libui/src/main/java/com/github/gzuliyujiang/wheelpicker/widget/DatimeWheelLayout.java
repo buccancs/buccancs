@@ -75,7 +75,6 @@ public class DatimeWheelLayout extends BaseWheelLayout {
         dateWheelLayout = findViewById(R.id.wheel_picker_date_wheel);
         timeWheelLayout = findViewById(R.id.wheel_picker_time_wheel);
 
-        //初始颜色
         setCurtainEnabled(true);
         getMonthLabelView().setTextColor(0xffffffff);
         getYearLabelView().setTextColor(0xffffffff);

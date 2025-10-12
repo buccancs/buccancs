@@ -6,12 +6,10 @@ import com.shimmerresearch.exceptions.ShimmerException;
 
 public interface RadioListener {
 
-    //Inherited from ByteLevelDataCommListener()
     public void connected();
 
     public void disconnected();
 
-    //Inherited from ProtocolListener()
     public void eventNewPacket(byte[] packetByteArray, long pcTimestamp);
 
     @Deprecated
@@ -41,7 +39,6 @@ public interface RadioListener {
 
     public void initialiseStreamingCallback();
 
-    //	public void eventSyncStates(boolean isDocked, boolean isInitialised, boolean isSdLogging, boolean isSensing, boolean isStreaming, boolean haveAttemptedToRead);
     public void eventSetIsDocked(boolean isDocked);
 
     public void eventSetIsStreaming(boolean isStreaming);

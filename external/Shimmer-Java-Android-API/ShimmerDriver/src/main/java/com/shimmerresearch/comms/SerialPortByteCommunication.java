@@ -36,7 +36,6 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
                 try {
                     mByteCommunicationListener.eventNewBytesReceived(abstractSerialPortHal.rxBytes(byteLength));
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
@@ -49,7 +48,6 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
         try {
             abstractSerialPortHal.connect();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -59,7 +57,6 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
         try {
             abstractSerialPortHal.closeSafely();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -69,7 +66,6 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
         try {
             abstractSerialPortHal.txBytes(bytes);
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -81,7 +77,6 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
 
     @Override
     public String getUuid() {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -139,7 +139,6 @@ public class ParserStreamedDataToCSV {
             bufferedWriter.write(unitsHeader);
             bufferedWriter.newLine();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -155,7 +154,6 @@ public class ParserStreamedDataToCSV {
             bufferedWriter.write(channelsHeader);
             bufferedWriter.newLine();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -203,7 +201,6 @@ public class ParserStreamedDataToCSV {
             bufferedWriter.write(sampleToWrite);
             bufferedWriter.newLine();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -214,28 +211,15 @@ public class ParserStreamedDataToCSV {
                 bufferedWriter.close();
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-//	private boolean isChannelCompatibleWithWriteToFile(String channelName){
-//		return isListOfChannelNamesToWriteToCSVInvalid() || 
-//				listOfChannelNamesToWriteToCSV.contains(channelName);
-//	}
 
     private boolean isListOfChannelNamesToWriteToCSVInvalid() {
         return listOfChannelNamesToWriteToCSV == null ||
                 listOfChannelNamesToWriteToCSV.isEmpty();
     }
 
-//	private int getIndexOfChannelName(String channelName){
-//		for(int i=0; i<listOfChannelNamesToWriteToCSV.size(); i++){
-//			if(channelName.equals(listOfChannelNamesToWriteToCSV.get(i))){
-//				return i;
-//			}
-//		}
-//		return -1;
-//	}
 
 }

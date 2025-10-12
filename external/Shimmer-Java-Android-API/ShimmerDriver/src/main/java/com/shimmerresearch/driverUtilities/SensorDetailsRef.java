@@ -9,11 +9,9 @@ public class SensorDetailsRef implements Serializable {
 
         private static final long serialVersionUID = 4567211941610864326L;
 
-    //TODO no real need to have an ID for streaming and a different one for sd header -> remove one
         public long mSensorBitmapIDStreaming = 0;
         public long mSensorBitmapIDSDLogHeader = 0;
 
-//	//	public long mDerivedSensorBitmapID = 0;
 
     public String mGuiFriendlyLabel = "";
     public List<Integer> mListOfSensorIdsRequired = null; //needs to be null by default
@@ -27,14 +25,11 @@ public class SensorDetailsRef implements Serializable {
     public boolean mIsDummySensor = false;
     public boolean mIsApiSensor = false;
 
-    //Testing for GQ BLE
     public String mHeaderFileLabel = "";
     public int mHeaderByteMask = 0;
     public int mNumChannels = 0;
 
-//	public int mLengthOfCalibBytes = 0;
 
-//	//	public int mCalibSensorKey = 0x00;
 
         public SensorDetailsRef(
             long sensorBitmapIDStreaming,

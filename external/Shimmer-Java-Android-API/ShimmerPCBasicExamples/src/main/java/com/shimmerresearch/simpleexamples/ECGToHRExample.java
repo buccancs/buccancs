@@ -26,7 +26,6 @@ import com.shimmerresearch.tools.bluetooth.BasicShimmerBluetoothManagerPc;
 public class ECGToHRExample extends BasicProcessWithCallBack {
 
     static BasicShimmerBluetoothManagerPc bluetoothManager = new BasicShimmerBluetoothManagerPc();
-    //Put your device COM port here (e.g. COM1, COM2, etc):
     final String deviceComPort = "COM35";
     ShimmerPC shimmerDevice = new ShimmerPC("ShimmerDevice");
     private ECGtoHRAdaptive heartRateCalculationECG;
@@ -44,9 +43,7 @@ public class ECGToHRExample extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
 
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -65,20 +62,15 @@ public class ECGToHRExample extends BasicProcessWithCallBack {
                     AssembleShimmerConfig.generateSingleShimmerConfig(cloneDevice, COMMUNICATION_TYPE.BLUETOOTH);
                     bluetoothManager.configureShimmer(cloneDevice);
                     shimmerDevice.writeShimmerAndSensorsSamplingRate(256);
-                    //shimmerDevice.writeEnabledSensors(SensorBitmap.SENSOR_EXG1_24BIT|SensorBitmap.SENSOR_EXG2_24BIT);
-                    //shimmerDevice.enableDefaultECGConfiguration();
-                    //checkECGEnabled();	//Check if ECG is enabled first before streaming
                     heartRateCalculationECG = new ECGtoHRAdaptive(shimmerDevice.getSamplingRateShimmer());
                     try {
                         shimmerDevice.startStreaming();
                     } catch (ShimmerException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     mConfigureOnFirstTime = false;
                 }
             } else if (callbackObject.mState == BT_STATE.DISCONNECTED
-                    //					|| callbackObject.mState == BT_STATE.NONE
                     || callbackObject.mState == BT_STATE.CONNECTION_LOST) {
 
             }
@@ -120,14 +112,12 @@ public class ECGToHRExample extends BasicProcessWithCallBack {
         Map<Integer, SensorDetails> sensorMap = shimmerDevice.getSensorMap();
         int count = 0;
 
-        //Check how many sensors the device is compatible with
         for (SensorDetails details : sensorMap.values()) {
             if (shimmerDevice.isVerCompatibleWithAnyOf(details.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
                 count++;
             }
         }
 
-        //final int[] sensorKeys = new int[count];
 
         for (int key : sensorMap.keySet()) {
             SensorDetails sd = sensorMap.get(key);
@@ -143,7 +133,6 @@ public class ECGToHRExample extends BasicProcessWithCallBack {
 
         double samplingRate = shimmerDevice.getSamplingRateShimmer();
         if (samplingRate < 128) {
-            //We need at least 128Hz sampling rate for the ECG to HR algorithm
             shimmerDevice.setSamplingRateShimmer(256);
         }
 

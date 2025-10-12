@@ -33,7 +33,6 @@ public class MoveImageView extends ImageView {
         init();
     }
 
-    //最多70毫秒执行一次move
     public static boolean delayMoveTime() {
         boolean flag = false;
         long curClickTime = System.currentTimeMillis();

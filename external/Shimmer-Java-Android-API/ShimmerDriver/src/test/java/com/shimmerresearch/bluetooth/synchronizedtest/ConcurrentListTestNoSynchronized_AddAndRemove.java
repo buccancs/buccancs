@@ -1,5 +1,3 @@
-//This is related to test conducted in AA-192
-//Null being placed in the list because the list is not synchronized
 package com.shimmerresearch.bluetooth.synchronizedtest;
 
 import java.util.ArrayList;
@@ -60,7 +58,6 @@ public class ConcurrentListTestNoSynchronized_AddAndRemove {
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             for (int i = 1; i < 1000; i++) {
                 byte[] b = {1, 1};
                 app.addinstruction(b);
@@ -79,7 +76,6 @@ public class ConcurrentListTestNoSynchronized_AddAndRemove {
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             for (int i = 1; i < 1000; i++) {
                 app.removeinstruction();
             }
@@ -97,7 +93,6 @@ public class ConcurrentListTestNoSynchronized_AddAndRemove {
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             for (int i = 1; i < 1000; i++) {
                 app.clearinstructions();
             }

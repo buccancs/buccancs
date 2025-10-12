@@ -45,17 +45,13 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         mContext = context;
         logFile = new File(mContext.getCacheDir(), "crashLog.trace");
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
-        //设置为线程默认的异常处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        // 打印异常信息
         ex.printStackTrace();
-        // 我们没有处理异常 并且默认异常处理不为空 则交给系统处理
         if (!handlelException(ex) && mDefaultHandler != null) {
-            // 系统处理
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             try {
@@ -64,24 +60,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 e.printStackTrace();
             }
             try {
-                // 上传错误日志到服务器
                 upLoadErrorFileToServer(logFile);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//            Intent intent = new Intent(mContext, SplashActivity.class);
-//            // 新开任务栈
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            mContext.startActivity(intent);
-//            // 杀死我们的进程
-//            Timer timer = new Timer();
-//            timer.schedule(new TimerTask() {
 //
-//                @Override
-//                public void run() {
-//                    Process.killProcess(Process.myPid());
-//                }
-//            }, 2 * 1000);
 
         }
     }
@@ -91,12 +74,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             return false;
         }
 
-        // 使用Toast来显示异常信息
         new Thread() {
             @Override
             public void run() {
                 Looper.prepare();
-//                Log.e("发成异常","数据采集成功"+ex.getMessage());
                 Toast.makeText(mContext, "程序发生异常，即将重启", Toast.LENGTH_LONG)
                         .show();
                 Looper.loop();
@@ -109,7 +90,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 logFile.createNewFile();
             }
             pw = new PrintWriter(logFile);
-            // 收集手机及错误信息
             logFile = collectInfoToSDCard(pw, ex);
             pw.close();
         } catch (Exception e) {
@@ -128,14 +108,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
         PackageManager pm = mContext.getPackageManager();
         PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
-        // 错误发生时间
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         pw.print("time : ");
         pw.println(time);
-        // 版本信息
         pw.print("versionCode : ");
         pw.println(pi.versionCode);
-        // 应用版本号
         pw.print("versionName : ");
         pw.println(pi.versionName);
         try {
@@ -149,7 +126,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             Log.i(TAG, "an error occured when collect crash info" + e);
         }
 
-        // 打印堆栈信息
         ex.printStackTrace(pw);
         return logFile;
     }

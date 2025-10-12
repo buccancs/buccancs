@@ -88,7 +88,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
     public static final double[][] DEFAULT_SENSITIVITY_MATRIX_LIS2DW12_4G = {{835.832961457, 0, 0}, {0, 835.832961457, 0}, {0, 0, 835.832961457}};
     public static final double[][] DEFAULT_SENSITIVITY_MATRIX_LIS2DW12_8G = {{417.916480729, 0, 0}, {0, 417.916480729, 0}, {0, 0, 417.916480729}};
     public static final double[][] DEFAULT_SENSITIVITY_MATRIX_LIS2DW12_16G = {{208.958240364, 0, 0}, {0, 208.958240364, 0}, {0, 0, 208.958240364}};
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef SENOSR_LIS2DW12_ACCEL = new SensorDetailsRef(
             Configuration.Verisense.SensorBitmap.LIS2DW12_ACCEL,
             Configuration.Verisense.SensorBitmap.LIS2DW12_ACCEL,
@@ -149,7 +148,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
             DEFAULT_SENSITIVITY_MATRIX_LIS2DW12_2G,
             DEFAULT_OFFSET_VECTOR_LIS2DW12);
 
-    // --------------- Configuration options start ----------------
     public CalibDetailsKinematic calibDetailsAccel4g = new CalibDetailsKinematic(
             LIS2DW12_ACCEL_RANGE.RANGE_4G.configValue,
             LIS2DW12_ACCEL_RANGE.RANGE_4G.label,
@@ -177,9 +175,7 @@ public class SensorLIS2DW12 extends AbstractSensor {
     protected LIS2DW12_FILTERED_DATA_TYPE_SELECTION fds = LIS2DW12_FILTERED_DATA_TYPE_SELECTION.LOW_PASS_FILTER_PATH_SELECTED;
     protected LIS2DW12_LOW_NOISE lowNoise = LIS2DW12_LOW_NOISE.DISABLED;
 
-    // --------------- Configuration options end ----------------
 
-    // ----------------- Calibration Start -----------------------
     protected LIS2DW12_HP_REF_MODE hpFilterMode = LIS2DW12_HP_REF_MODE.DISABLED;
     protected LIS2DW12_FIFO_MODE fifoMode = LIS2DW12_FIFO_MODE.CONTINUOUS_TO_FIFO_MODE;
     protected LIS2DW12_FIFO_THRESHOLD fifoThreshold = LIS2DW12_FIFO_THRESHOLD.SAMPLE_31;
@@ -197,7 +193,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
     @Override
     public void generateSensorMap() {
         super.createLocalSensorMapWithCustomParser(SENSOR_MAP_REF, CHANNEL_MAP_REF);
-//		super.createLocalSensorMap(mSensorMapRef, mChannelMapRef);
     }
 
     @Override
@@ -228,7 +223,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs) {
 
-        // ADC values
         objectCluster = sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestampMs);
 
         double[] unCalibratedAccel = new double[3];
@@ -236,13 +230,11 @@ public class SensorLIS2DW12 extends AbstractSensor {
         unCalibratedAccel[1] = objectCluster.getFormatClusterValue(SensorLIS2DW12.CHANNEL_LISDW12_ACCEL_Y, CHANNEL_TYPE.UNCAL);
         unCalibratedAccel[2] = objectCluster.getFormatClusterValue(SensorLIS2DW12.CHANNEL_LISDW12_ACCEL_Z, CHANNEL_TYPE.UNCAL);
         if (Double.isFinite(unCalibratedAccel[0]) && Double.isFinite(unCalibratedAccel[1]) && Double.isFinite(unCalibratedAccel[2])) {
-            //Add default calibrated data to Object cluster
             double[] defaultCalAccel = UtilCalibration.calibrateInertialSensorData(unCalibratedAccel, mCurrentCalibDetailsAccel.getDefaultMatrixMultipliedInverseAMSM(), mCurrentCalibDetailsAccel.getDefaultOffsetVector());
             objectCluster.addCalData(CHANNEL_LISDW12_ACCEL_X, defaultCalAccel[0], objectCluster.getIndexKeeper() - 3);
             objectCluster.addCalData(CHANNEL_LISDW12_ACCEL_Y, defaultCalAccel[1], objectCluster.getIndexKeeper() - 2);
             objectCluster.addCalData(CHANNEL_LISDW12_ACCEL_Z, defaultCalAccel[2], objectCluster.getIndexKeeper() - 1);
 
-            //Add auto-calibrated data to Object cluster - if available
             boolean isCurrentValuesSet = mCurrentCalibDetailsAccel.isCurrentValuesSet();
             if (isCurrentValuesSet) {
                 double[] autoCalAccel = UtilCalibration.calibrateImuData(defaultCalAccel, mCurrentCalibDetailsAccel.getCurrentSensitivityMatrix(), mCurrentCalibDetailsAccel.getCurrentOffsetVector());
@@ -257,7 +249,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -275,7 +266,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
             configBytes[configByteLayout.idxAccel1Cfg0] |= (getAccelLpModeConfigValue() & configByteLayout.maskLpMode) << configByteLayout.bitShiftLpMode;
 
             if (configByteLayout.idxAccel1Cfg1 >= 0) {
-                // Clear all bits except the range bits as these have already been set above
                 configBytes[configByteLayout.idxAccel1Cfg1] &= (configByteLayout.maskbitFsAccel1 << configByteLayout.bitShiftFsAccel1);
                 configBytes[configByteLayout.idxAccel1Cfg1] |= (getBwFilt().configValue & configByteLayout.maskBwFilt) << configByteLayout.bitShiftBwFilt;
                 configBytes[configByteLayout.idxAccel1Cfg1] |= (getFilteredDataTypeSelection().configValue & configByteLayout.maskFds) << configByteLayout.bitShiftFds;
@@ -295,7 +285,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
         }
     }
 
-    // ----------------- Calibration end -----------------------
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
@@ -307,7 +296,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
             byte accel1Cfg0 = configBytes[configByteLayout.idxAccel1Cfg0];
             setAccelModeConfigValue((accel1Cfg0 >> configByteLayout.bitShiftMode) & configByteLayout.maskMode);
             setAccelLpModeConfigValue((accel1Cfg0 >> 0) & 0x03);
-            //Need to parse rate after mode
             setAccelRateConfigValue((accel1Cfg0 >> configByteLayout.bitShiftAccelRate) & configByteLayout.maskAccelRate);
 
             if (configByteLayout.idxAccel1Cfg1 >= 0) {
@@ -381,9 +369,7 @@ public class SensorLIS2DW12 extends AbstractSensor {
         return returnValue;
     }
 
-    //--------- Sensor info end --------------
 
-    //--------- Channel info start --------------
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
@@ -418,7 +404,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
         if (mSensorMap.containsKey(sensorId)) {
-            //TODO handle isSensorEnabled = true and false
 
             setAccelRange(LIS2DW12_ACCEL_RANGE.RANGE_4G);
             setAccelRate(LIS2DW12_ACCEL_RATE.LOW_POWER_25_0_HZ);
@@ -438,39 +423,32 @@ public class SensorLIS2DW12 extends AbstractSensor {
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    //--------- Channel info end --------------
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -593,20 +571,16 @@ public class SensorLIS2DW12 extends AbstractSensor {
 
     public String getAccelModeMergedString() {
         if (mode == LIS2DW12_MODE.HIGH_PERFORMANCE) {
-            // High-performance Mode
             return LIS2DW12_MODE_MERGED[0];
         } else {
-            // Low-Power Mode X
             return LIS2DW12_MODE_MERGED[lpMode.configValue + 1];
         }
     }
 
     public String getAccelResolutionString() {
         if (mode == LIS2DW12_MODE.LOW_POWER && lpMode == LIS2DW12_LP_MODE.LOW_POWER1_12BIT_4_5_MG_NOISE) {
-            // 12-bit
             return LIS2DW12_RESOLUTION[0];
         } else {
-            // 14-bit
             return LIS2DW12_RESOLUTION[1];
         }
     }
@@ -1106,7 +1080,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
         }
 
         public static LIS2DW12_FIFO_MODE getForConfigValue(int configValue) {
-            //Different approach here as supported config values are not a continuous range
             for (LIS2DW12_FIFO_MODE fifoMode : LIS2DW12_FIFO_MODE.values()) {
                 if (configValue == fifoMode.configValue) {
                     return fifoMode;

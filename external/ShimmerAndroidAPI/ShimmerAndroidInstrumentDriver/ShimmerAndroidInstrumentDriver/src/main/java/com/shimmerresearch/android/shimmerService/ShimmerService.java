@@ -1,8 +1,5 @@
-//v0.2 -  8 January 2013
 
 
-//Future updates needed
-//- the handler should be converted to static
 
 package com.shimmerresearch.android.shimmerService;
 
@@ -88,7 +85,6 @@ public class ShimmerService extends Service {
     public final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             for (Handler handler : mHandlerList) {
-                //Rebroadcast the message received to the List of Handlers
                 handler.obtainMessage(msg.what, msg.arg1, msg.arg2, msg.obj).sendToTarget();
             }
             switch (msg.what) { // handlers have a what identifier which is used to identify the type of msg
@@ -145,7 +141,6 @@ public class ShimmerService extends Service {
             Toast.makeText(this, "Error! Could not create Bluetooth Manager!", Toast.LENGTH_LONG).show();
         }
 
-        //btManager.configureShimmer();
     }
 
     public void setPPGtoHRSignal(String ppgtoHR) {
@@ -191,7 +186,6 @@ public class ShimmerService extends Service {
             try {
                 mFilter = new Filter(Filter.LOW_PASS, sR, mLPFc);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -205,14 +199,12 @@ public class ShimmerService extends Service {
             try {
                 mLPFilterECG = new Filter(Filter.LOW_PASS, sR, mLPFcECG);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
             try {
                 mHPFilterECG = new Filter(Filter.HIGH_PASS, sR, mHPFcECG);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -273,7 +265,6 @@ public class ShimmerService extends Service {
         btManager.toggleLED(bluetoothAddress);
     }
 
-    //TODO: Remove This when done testing
     public void clickToggle() {
         btManager.toggleAllLEDS();
     }
@@ -282,8 +273,6 @@ public class ShimmerService extends Service {
         if ((msg.obj instanceof ObjectCluster)) {    // within each msg an object can be include, objectclusters are used to represent the data structure of the shimmer device
             ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
-            //Filter Signal
-            //PPG to HR
             if (mPPGtoHREnabled) {
                 Collection<FormatCluster> dataFormats = objectCluster.getCollectionOfFormatClusters(mPPGtoHRSignalName);  // first retrieve all the possible formats for the current sensor device
                 FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
@@ -293,7 +282,6 @@ public class ShimmerService extends Service {
                     try {
                         ppgdata = mFilter.filterData(ppgdata);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
@@ -309,8 +297,6 @@ public class ShimmerService extends Service {
                 }
             }
 
-            //Filter Signal
-            //ECG to HR
             if (mECGtoHREnabled) {
                 Collection<FormatCluster> dataFormats = objectCluster.getCollectionOfFormatClusters(mECGtoHRSignalName);  // first retrieve all the possible formats for the current sensor device
                 FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
@@ -321,7 +307,6 @@ public class ShimmerService extends Service {
                         ecgdata = mLPFilterECG.filterData(ecgdata);
                         ecgdata = mHPFilterECG.filterData(ecgdata);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
@@ -336,7 +321,6 @@ public class ShimmerService extends Service {
                 }
             }
 
-            //PPG to HR
 
             if (mConvertGSRtoSiemens) {
                 Collection<FormatCluster> dataFormatsGSR = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.GSR_RESISTANCE);  // first retrieve all the possible formats for the current sensor device
@@ -345,22 +329,18 @@ public class ShimmerService extends Service {
                     double gsrdata = formatClusterGSR.mData * 1000; //in ohms
                     double conductance = 1 / gsrdata;
                     conductance = conductance * 1000000; //convert to microSiemens
-                    //objectCluster.mPropertyCluster.remove(Configuration.Shimmer3.ObjectClusterSensorName.GSR, formatClusterGSR);
                     objectCluster.addData(Configuration.Shimmer3.ObjectClusterSensorName.GSR_CONDUCTANCE, CHANNEL_TYPE.CAL, "microSiemens", conductance);
                 }
             }
 
-            //Plot the data in the ObjectCluster
             try {
                 mPlotManager.filterDataAndPlot((ObjectCluster) msg.obj);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
 
             objectCluster.removeAll(Configuration.Shimmer3.ObjectClusterSensorName.BATT_PERCENTAGE);
-            //objectCluster.removeAll(Configuration.Shimmer3.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT);
             objectCluster.removeAll(Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL);
             objectCluster.removeAll(Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_CURRENT);
             objectCluster.removeAll(Configuration.Shimmer3.ObjectClusterSensorName.SYSTEM_TIMESTAMP);
@@ -393,7 +373,6 @@ public class ShimmerService extends Service {
             }
 
             if (mGraphing == true) {
-                // Log.d("ShimmerGraph","Sending");
                 mHandlerGraph.obtainMessage(ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET, objectCluster)
                         .sendToTarget();
             }
@@ -477,7 +456,6 @@ public class ShimmerService extends Service {
     }
 
         public void handleNotificationMsg(Message msg) {
-        //Handle message here
     }
 
     public void stopStreamingAllDevices() {
@@ -532,7 +510,6 @@ public class ShimmerService extends Service {
                     try {
                         mFilter = new Filter(Filter.LOW_PASS, samplingRate, mLPFc);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -542,14 +519,12 @@ public class ShimmerService extends Service {
                     try {
                         mLPFilterECG = new Filter(Filter.LOW_PASS, samplingRate, mLPFcECG);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
                     try {
                         mHPFilterECG = new Filter(Filter.HIGH_PASS, samplingRate, mHPFcECG);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -560,24 +535,20 @@ public class ShimmerService extends Service {
 
         @Deprecated
     public void setAllAccelRange(int accelRange) {
-        //TODO: Test this.
         btManager.setAllAccelRange(accelRange);
     }
 
         @Deprecated
     public void setAllGSRRange(int gsrRange) {
-        // TODO: Test this.
         btManager.setAllGSRRange(gsrRange);
     }
 
         @Deprecated
     public void setAllEnabledSensors(int enabledSensors) {
-        //TODO: Test this.
         btManager.setAllEnabledSensors(enabledSensors);
     }
 
     public void setEnabledSensors(long enabledSensors, String bluetoothAddress) {
-        // TODO Auto-generated method stub
         Collection<Object> colS = mMultiShimmer.values();
         Iterator<Object> iterator = colS.iterator();
         while (iterator.hasNext()) {
@@ -624,21 +595,17 @@ public class ShimmerService extends Service {
     }
 
     public void writeSamplingRate(String bluetoothAddress, double samplingRate) {
-        // TODO Auto-generated method stub
         Collection<Object> colS = mMultiShimmer.values();
         Iterator<Object> iterator = colS.iterator();
         while (iterator.hasNext()) {
             Shimmer stemp = (Shimmer) iterator.next();
             if ((stemp.getBluetoothRadioState() == BT_STATE.CONNECTED || stemp.getBluetoothRadioState() == BT_STATE.SDLOGGING) && stemp.getBluetoothAddress().equals(bluetoothAddress)) {
-                //Jos removed Oct 2017 -> reverted Nov 2017
                 stemp.writeShimmerAndSensorsSamplingRate(samplingRate);
-//				stemp.setShimmerAndSensorsSamplingRate(samplingRate);
                 if (mPPGtoHREnabled) {
                     mPPGtoHR = new PPGtoHRAlgorithm(samplingRate, mNumberOfBeatsToAvg, true);
                     try {
                         mFilter = new Filter(Filter.LOW_PASS, samplingRate, mLPFc);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -648,14 +615,12 @@ public class ShimmerService extends Service {
                     try {
                         mLPFilterECG = new Filter(Filter.LOW_PASS, samplingRate, mLPFcECG);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
                     try {
                         mHPFilterECG = new Filter(Filter.HIGH_PASS, samplingRate, mHPFcECG);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -744,7 +709,6 @@ public class ShimmerService extends Service {
 
 /*	TODO: Remove this?
 	public void startStreaming(String bluetoothAddress) {
-		// TODO Auto-generated method stub
 				Collection<Object> colS=mMultiShimmer.values();
 				Iterator<Object> iterator = colS.iterator();
 				while (iterator.hasNext()) {
@@ -762,7 +726,6 @@ public class ShimmerService extends Service {
 						if (stemp instanceof Shimmer) {
 							((Shimmer)stemp).startStreaming();
 						} else if (stemp instanceof Shimmer4Android){
-//							((Shimmer4Android)stemp).mShimmerRadioHWLiteProtocol.startStreaming();
 						}
 					}
 				}
@@ -809,7 +772,6 @@ public class ShimmerService extends Service {
 
 /*	TODO: Remove this?
 	public void stopStreaming(String bluetoothAddress) {
-		// TODO Auto-generated method stub
 				Collection<Object> colS=mMultiShimmer.values();
 				Iterator<Object> iterator = colS.iterator();
 				while (iterator.hasNext()) {
@@ -821,7 +783,6 @@ public class ShimmerService extends Service {
 						if (stemp instanceof Shimmer){
 							((Shimmer)stemp).stopStreaming();
 						} else if (stemp instanceof Shimmer4Android){
-//							((Shimmer4Android)stemp).mShimmerRadioHWLiteProtocol.stopStreaming();
 						}
 						if (mPlotManager!=null){
 							mPlotManager.removeAllSignals();
@@ -975,7 +936,6 @@ public class ShimmerService extends Service {
         btManager.writeEXGSetting(bluetoothAddress, setting);
     }
 
-    //convert the system time in miliseconds to a "readable" date format with the next format: YYYY MM DD HH MM SS
     private String fromMilisecToDate(long miliseconds) {
 
         String date = "";
@@ -1064,7 +1024,6 @@ public class ShimmerService extends Service {
 
     public class LocalBinder extends Binder {
         public ShimmerService getService() {
-            // Return this instance of LocalService so clients can call public methods
             return ShimmerService.this;
         }
     }

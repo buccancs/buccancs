@@ -28,12 +28,10 @@ import com.shimmerresearch.sensors.SensorBattVoltage.LABEL_SENSOR_TILE;
 import com.shimmerresearch.sensors.SensorBattVoltage.GuiLabelSensors;
 import com.shimmerresearch.sensors.SensorBattVoltage.ObjectClusterSensorName;
 
-//TODO switch over to using (SensorSTC3100Details mStc3100Details) rather then the individual variables declared and parsed in this class 
 public class SensorSTC3100 extends AbstractSensor {
 
     public static final double BATT_CHARGE_CAPACITY = 0.45;        //Ah
     public static final double BATT_MAX_VOLTAGE = 4.167;
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorSTC3100Ref = new SensorDetailsRef(
             0x01 << 16, // CHECK FOR CORRECT VALUE
             0x01 << 16,
@@ -108,7 +106,6 @@ public class SensorSTC3100 extends AbstractSensor {
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             true,
             false);
-    // Derived Channels
     public static final ChannelDetails channelDerivedSTMCharge = new ChannelDetails(
             ObjectClusterSensorName.DERIVED_STC_CHARGE,
             ObjectClusterSensorName.DERIVED_STC_CHARGE,
@@ -141,12 +138,9 @@ public class SensorSTC3100 extends AbstractSensor {
         aMap.put(Configuration.Shimmer3.SENSOR_ID.SHIMMER_STC3100, SensorSTC3100.sensorSTC3100Ref);
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
-    //--------- Sensor specific variables end --------------
-
-    //--------- Bluetooth commands start ------------------
 
 
-    //--------- Bluetooth commands end ------------------
+
 
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
@@ -164,15 +158,12 @@ public class SensorSTC3100 extends AbstractSensor {
     }
 
     public double mBattInitialCharge = 0;            //mAh
-    //RAW channels
     @Deprecated // No longer a streaming channel
     public double mBattCurrentVoltage = 0;           //mV
     @Deprecated // No longer a streaming channel
     public double mBattCurrent = 0;                  //mA
 
-    //--------- Sensor info end --------------
 
-    //--------- Channel info start --------------
     @Deprecated // No longer a streaming channel
     public double mBattTemperature = 0;                // degrees C
     @Deprecated // No longer a streaming channel
@@ -180,7 +171,6 @@ public class SensorSTC3100 extends AbstractSensor {
     public double mBattPercentage = 0;
     public double mBattTimeRemaining = 0;             //mins
     public String mBattPercentageParsed = "";
-    //--------- Sensor specific variables start --------------
     private SensorSTC3100Details mStc3100Details = new SensorSTC3100Details();
 
     {
@@ -208,7 +198,6 @@ public class SensorSTC3100 extends AbstractSensor {
 
     @Override
     public void generateConfigOptionsMap() {
-        //No configuration options.
     }
 
     @Override
@@ -222,11 +211,9 @@ public class SensorSTC3100 extends AbstractSensor {
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
-    //--------- Channel info end --------------
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled,
@@ -265,7 +252,6 @@ public class SensorSTC3100 extends AbstractSensor {
                     objectCluster.addCalData(channelDetails, calData, objectCluster.getIndexKeeper() - 1);
                 }
             }
-            //SW derived
             else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.DERIVED_STC_CHARGE)) {
                 calculateBattInitialCharge();
                 objectCluster.addCalData(channelDetails, mBattInitialCharge);
@@ -286,77 +272,65 @@ public class SensorSTC3100 extends AbstractSensor {
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId,
                                                  String configLabel, Object valueToSet) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId,
                                                  String configLabel) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId,
                                              boolean isSensorEnabled) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(
             LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -414,7 +388,6 @@ public class SensorSTC3100 extends AbstractSensor {
     }
 
     public static class DatabaseChannelHandles {
-        // NOT IN THIS CLASS
     }
 
     public static class ObjectClusterSensorName {
@@ -425,7 +398,6 @@ public class SensorSTC3100 extends AbstractSensor {
         public static String STC_BATERY_PERCENTAGE = "STC3100_Battery_Percentage";
         public static String STC_TIME_REMAINING = "STC3100_Time_Remaining";
 
-        // Derived Channels
         public static String DERIVED_STC_CHARGE = "Derived STC3100_Charge";
         public static String DERIVED_STC_BATTERY_PERCENTAGE = "Derived STC3100_Battery_Percentage";
         public static String DERIVED_STC_TIME_REMAINING = "Derived STC3100_Time_Remaining";

@@ -103,7 +103,6 @@ public class Shimmer3DOrientationExample extends Activity {
                                 m3d.set(aa);
                                 Matrix3d fm3dtemp = new Matrix3d();
 
-                                //set function, the purpose of this is to find a rotation such that the orientation output of the Shimmer device, matches the orientation of the cube when the orange side is facing the user which in terms of rotation matrix is the identity matrix.
                                 fm3dtemp.set(invm3d);
                                 fm3dtemp.mul(m3d);
                                 aa.set(fm3dtemp);
@@ -120,7 +119,6 @@ public class Shimmer3DOrientationExample extends Activity {
                     switch (((ObjectCluster) msg.obj).mState) {
                         case CONNECTED:
                             Log.d("ConnectionStatus", "Successful");
-                            //because the default mag range for Shimmer2 and 3 are 0 and 1 respectively, please be aware of what range you use when calibrating using Shimmer 9DOF Cal App, and use the same range here
                             mShimmerDevice1.enableOnTheFlyGyroCal(true, 102, 1.2);
                             try {
                                 mShimmerDevice1.startStreaming();
@@ -157,19 +155,14 @@ public class Shimmer3DOrientationExample extends Activity {
 
     protected void setup() {
         t = new MyGLSurfaceView(this);
-        //Create an Instance with this Activity
         glSurface = (GLSurfaceView) findViewById(R.id.graphics_glsurfaceview1);
         buttonSet = (Button) findViewById(R.id.buttonSet);
         buttonReset = (Button) findViewById(R.id.buttonReset);
-        //Set our own Renderer
         glSurface.setRenderer(t);
-        //Set the GLSurface as View to this Activity
-        //setContentView(glSurface);
         invm3d = new Matrix3d();
         fm3d = new Matrix3d();
         m3d = new Matrix3d();
         invm3d.setIdentity();
-        // TODO Auto-generated method stub
         buttonReset.setOnClickListener(new OnClickListener() {
 
             public void onClick(View arg0) {
@@ -181,7 +174,6 @@ public class Shimmer3DOrientationExample extends Activity {
         buttonSet.setOnClickListener(new OnClickListener() {
 
             public void onClick(View arg0) {
-                //invm3d.set(fm3d);
                 invm3d.set(m3d);
                 invm3d.invert();
             }
@@ -228,7 +220,6 @@ public class Shimmer3DOrientationExample extends Activity {
 
 
         if (!permissionGranted) {
-            // Should we show an explanation?
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 110);
             } else {
@@ -265,7 +256,6 @@ public class Shimmer3DOrientationExample extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_options, menu);
         return true;
     }
@@ -297,7 +287,6 @@ public class Shimmer3DOrientationExample extends Activity {
         switch (requestCode) {
 
             case REQUEST_CONNECT_SHIMMER:
-                // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
                     if (mShimmerDevice1.getStreamingStatus() == true) {
                         mShimmerDevice1.stop();

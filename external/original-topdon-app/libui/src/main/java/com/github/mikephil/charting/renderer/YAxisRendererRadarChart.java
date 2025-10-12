@@ -40,35 +40,27 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
             return;
         }
 
-        // Find out how much spacing (in y value space) between axis values
         double rawInterval = range / labelCount;
         double interval = Utils.roundToNextSignificant(rawInterval);
 
-        // If granularity is enabled, then do not allow the interval to go below specified granularity.
-        // This is used to avoid repeated values when rounding values for display.
         if (mAxis.isGranularityEnabled())
             interval = interval < mAxis.getGranularity() ? mAxis.getGranularity() : interval;
 
-        // Normalize interval
         double intervalMagnitude = Utils.roundToNextSignificant(Math.pow(10, (int) Math.log10(interval)));
         int intervalSigDigit = (int) (interval / intervalMagnitude);
         if (intervalSigDigit > 5) {
-            // Use one order of magnitude higher, to avoid intervals like 0.9 or
-            // 90
             interval = Math.floor(10 * intervalMagnitude);
         }
 
         boolean centeringEnabled = mAxis.isCenterAxisLabelsEnabled();
         int n = centeringEnabled ? 1 : 0;
 
-        // force label count
         if (mAxis.isForceLabelsEnabled()) {
 
             float step = (float) range / (float) (labelCount - 1);
             mAxis.mEntryCount = labelCount;
 
             if (mAxis.mEntries.length < labelCount) {
-                // Ensure stops contains at least numStops elements.
                 mAxis.mEntries = new float[labelCount];
             }
 
@@ -81,7 +73,6 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
 
             n = labelCount;
 
-            // no forced count
         } else {
 
             double first = interval == 0.0 ? 0.0 : Math.ceil(yMin / interval) * interval;
@@ -105,7 +96,6 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
             mAxis.mEntryCount = n;
 
             if (mAxis.mEntries.length < n) {
-                // Ensure stops contains at least numStops elements.
                 mAxis.mEntries = new float[n];
             }
 
@@ -118,7 +108,6 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
             }
         }
 
-        // set decimals
         if (interval < 1) {
             mAxis.mDecimals = (int) Math.ceil(-Math.log10(interval));
         } else {
@@ -186,8 +175,6 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
 
         float sliceangle = mChart.getSliceAngle();
 
-        // calculate the factor that is needed for transforming the value to
-        // pixels
         float factor = mChart.getFactor();
 
         MPPointF center = mChart.getCenterOffsets();

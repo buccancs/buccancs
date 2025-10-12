@@ -63,10 +63,8 @@ import com.shimmerresearch.guiUtilities.AbstractPlotManager;
 public class BasicPlotManagerPC extends AbstractPlotManager {
 
     public static float DEFAULT_LINE_THICKNESS = 2;
-    //public List<ITrace2D> mListofTraces = new ArrayList<ITrace2D>();
     public List<ITrace2D> mListofTraces = Collections.synchronizedList(new ArrayList<ITrace2D>());
     public HashMap<String, CircularFifoBuffer> mMapOfCirculurBufferedTraceDataPoints = new HashMap<String, CircularFifoBuffer>();
-    //public HashMap<String, ArrayList< Point2D.Double>> mMapofPoints = new HashMap<String, ArrayList< Point2D.Double>>();
     public HashMap<String, Integer> mMapofDefaultXAxisSizes = new HashMap<String, Integer>();
     public int mWindowSize = 0;
     public HashMap<String, Double> mMapofHalfWindowSize = new HashMap<String, Double>();
@@ -94,10 +92,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
     private boolean mIsDebugMode = false;
     private boolean mIsTraceDataBuffered = false;
     private String mTitle = "";
-    //private AAxis<IAxisScalePolicy> yAxisLeft;
     private AAxis<IAxisScalePolicy> yAxisRight;
     private IAxis<?> xAxis;
-    //Mark test code
     private CHANNEL_AXES mXAisType = CHANNEL_AXES.TIME;
     private int mTimerPeriodCalculateFft = 1000;
     private int mTimerDelayCalculateFft = 1000;
@@ -112,7 +108,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         initializeAxesForTimeBig();
     }
 
-    // --- Constructors START
 
         public BasicPlotManagerPC(List<String[]> propertiestoPlot, int limit, Chart2D chart) throws Exception {
         mXAxisLimit = limit;
@@ -127,18 +122,12 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
         initializeAxesForTimeBig();
 
-//		for(int j = 0; j< propertiestoPlot.size(); j++){
-//			for(int l = 0 ; l < propertiestoPlot.get(j).length;l++){
-//				utilShimmer.consolePrintLn(""+propertiestoPlot.get(j)[l]);
-//			}
-//		}
     }
 
         public ITrace2D addSignal(String[] signal, Chart2D chart) throws Exception {
         return this.addSignal(signal, chart, mXAxisLimit);
     }
 
-    // --- Constructors END
 
         public ITrace2D addSignalAsBarPlot(String[] signal, Chart2D chart, int windowSize) throws Exception {
         return this.addSignalAsBarPlot(signal, chart, mXAxisLimit, windowSize);
@@ -192,7 +181,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             throw new Exception("Error: " + joinChannelStringArray(signal) + " Signal/Property already exist.");
         }
 
-//		printListOfTraces();
 
         return trace;
     }
@@ -212,31 +200,22 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
     }
 
     private AAxis<IAxisScalePolicy> createRightYAxis(Chart2D chart) {
-        //AAxis<IAxisScalePolicy> yAxisRight;
         AAxis<IAxisScalePolicy> yAxisRight = new AxisLinear<IAxisScalePolicy>();
-//		yAxisRight.setAxisScalePolicy(new AxisScalePolicyManualTicks());
         yAxisRight.setAxisScalePolicy(new AxisScalePolicyAutomaticBestFit());
         yAxisRight.setFormatter(new LabelFormatterNumber());
-        //yAxisRight.setMinorTickSpacing(10);
-        //yAxisRight.setStartMajorTick(true);
         yAxisRight.setPaintGrid(false);
-        //yAxisRight.setAxisTitle(new IAxis.AxisTitle(title));
-        //IRangePolicy rangePolicy = new RangePolicyFixedViewport(new Range(minRange,maxRange));
 
-        //yRightAxis.setRangePolicy(rangePolicy);
         return yAxisRight;
     }
 
     private String addSignalCommon(Chart2D chart, ITrace2D trace, String[] signal, int plotMaxSize) {
         mListofTraces.add(trace);
-        //super.addSignalGenerateRandomColor(signal);
         super.addSignalUseDefaultColors(signal);
         int i = mListOfTraceColorsCurrentlyUsed.size() - 1;
         int[] colorrgbaray = mListOfTraceColorsCurrentlyUsed.get(i);
         Color color = new Color(colorrgbaray[0], colorrgbaray[1], colorrgbaray[2]);
         mListofTraces.get(i).setColor(color);
         String traceName = joinChannelStringArray(signal);
-        //utilShimmer.consolePrintErrLn("TRACE NAME: " +name);
         if (mSetTraceName) {
             mListofTraces.get(i).setName(traceName);
         } else {
@@ -246,7 +225,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         mMapofDefaultXAxisSizes.put(traceName, plotMaxSize);
 
         if (isXAxisFrequency()) {
-//			mMapOfFftsToPlot.put(traceName, new FftCalculateDetails(signal[0], signal, samplingRate));
             FftCalculateDetails fftCalculateDetails = new FftCalculateDetails(signal[0], signal);
             fftCalculateDetails.setFftOverlapPercent(mFftOverlapPercent);
             mMapOfFftsToPlot.put(traceName, fftCalculateDetails);
@@ -322,9 +300,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return mChart;
     }
 
-//	public void addXAxis(String[] key){
-//		super.addXAxis(key);
-//	}
 
         public void removeAllSignals() {
         mCurrentXValue = 0;
@@ -355,7 +330,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 for (int p = 0; p < numberOfRowPropertiestoCheck; p++) {
                     if (!prop[p].equals(signal[p])) {
                         found = false;
-//						utilShimmer.consolePrintLn("SIGNAL NOT FOUND: " + joinChannelStringArray(signal));
                         break;
                     }
                 }
@@ -364,7 +338,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
                     removeSignalCommon(traceName);
 
-                    //utilShimmer.consolePrintErrLn("mChart.removeTrace: " +mListofTraces.get(i));
                     mChart.removeTrace(mListofTraces.get(i));
                     mListofTraces.remove(i);
                     super.removeSignal(i);
@@ -387,7 +360,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 for (int p = 0; p < numberOfRowPropertiestoCheck; p++) {
                     if (!prop[p].equals(signal[p])) {
                         found = false;
-                        //					utilShimmer.consolePrintLn("SIGNAL NOT FOUND: " + joinChannelStringArray(signal));
                         break;
                     }
                 }
@@ -506,8 +478,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         } else if (isXAxisFrequency()) {
             initializeAxesAutoUnits();
             setXAxisLabel("Freq (Hz)", null);
-//			setYAxisLabel("Power (dB)");
-//			setXAxisRange(0, 100);
         } else if (isXAxisValue()) {
             initializeAxesAutoUnits();
         }
@@ -540,29 +510,9 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             xAxis = mChart.getAxisX();
             xAxis.setFormatter(xAxisLblFormatter);
 
-//		  //mChart.setRequestedRepaint(true);
 //
-//		  // JC: the yAxis code seems to be legacy code which no longer does anything (20 Jan 2015)
-//		  // RM: we need to create the yAxis so we can set the range
-//		  yAxisLeft = new AxisLinear<IAxisScalePolicy>();
 //
-//		  //yAxisRight = new AxisLinear<IAxisScalePolicy>();
-////			NumberFormat format = new DecimalFormat("#");
-////			format.setMaximumIntegerDigits(3);
-////			yAxis.setFormatter(new LabelFormatterNumber(format));
-//		  if(mChart != null){
-//			  if(yAxisLeft != null){
-//				  //TODO the below line throws a NullPointerException sometimes! Don't know why (RM)
 //
-//				  try{
-//					  mChart.setAxisYLeft(yAxisLeft, 0);
-//				  }
-//				  catch(Exception e){
-//					  // RM Double.Nan was causing a non critical exception here
-//					  //e.printStackTrace();
-//				  }
-//			  }
-//		  }
 
         }
     }
@@ -575,7 +525,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         this.timeZone = TimeZone.getTimeZone("GMT");
     }
 
-    //change color
     public void changeTraceColor(String traceName, int[] colorArray) {
         int index = getTraceIndexFromName(traceName);
         if (index != -1) {
@@ -632,13 +581,11 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
     }
 
     public void changeTraceColor(int index, int[] colorArray) {
-        //change color
         mListOfTraceColorsCurrentlyUsed.set(index, colorArray);
         mListofTraces.get(index).setColor(new Color(colorArray[0], colorArray[1], colorArray[2]));
     }
 
     public void changeAllTraceColor(int[] colorArray) {
-        //change color
         synchronized (mListOfTraceColorsCurrentlyUsed) {
             Iterator<int[]> entries = mListOfTraceColorsCurrentlyUsed.iterator();
             while (entries.hasNext()) {
@@ -763,45 +710,9 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-//	public void changeAllTraceStyle(TRACE_STYLE style) {
-//		synchronized(mListofTraces){
-//			Iterator <ITrace2D> entries = mListofTraces.iterator();
-//			while (entries.hasNext()) {
-//				ITrace2D trace = entries.next();
-//				changeTraceStyle(trace, style);
-//			}
-//		}
-//	}
 //
-//	public void changeTraceStyle(int index, TRACE_STYLE style) {
-//		ITrace2D trace = mListofTraces.get(index);
-//		changeTraceStyle(trace, style);
-//	}
 //
-//	private void changeTraceStyle(ITrace2D trace, TRACE_STYLE style) {
-//		if(trace != null){
-//			BasicStroke strokeOld = ((BasicStroke)trace.getStroke());
-//			BasicStroke strokeNew = null;
-//			if (TRACE_STYLE.DASHED == style){
-//				float dash1[] = {10.0f};
-//				strokeNew = new BasicStroke(strokeOld.getLineWidth(),
-//								BasicStroke.CAP_BUTT,
-//								BasicStroke.JOIN_MITER,
-//								10.0f, dash1, 0.0f);
-//			}
-//			else if (TRACE_STYLE.DOTTED == style){
-//				float dash1[] = {3.0f};
-//				strokeNew = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {1,2}, 0);
-//						//			}
-//			else if (TRACE_STYLE.CONTINUOUS == style){
-//				strokeNew = new BasicStroke(strokeOld.getLineWidth());
-//			}
-//			
-//			if(strokeNew!=null) {
-//				trace.setStroke(strokeNew);
-//			}
-//		}
-//	}
+//
 
     public void setTraceLineStyle(String traceName, PLOT_LINE_STYLE plotLineStyle) {
         ITrace2D trace = getTraceFromName(traceName);
@@ -811,7 +722,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
     }
 
     public void setTraceLineStyle(ITrace2D trace, PLOT_LINE_STYLE selectedLineStyle) {
-        //Defaults
         trace.setTracePainter(new TracePainterLine());
         trace.setStroke(new BasicStroke());
 
@@ -826,7 +736,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             if (selectedLineStyle == PLOT_LINE_STYLE.CONTINUOUS
                     || selectedLineStyle == PLOT_LINE_STYLE.INDIVIDUAL_POINTS) {
                 strokeNew = new BasicStroke(
-//						strokeOld.getLineWidth(),
                         DEFAULT_LINE_THICKNESS,
                         strokeOld.getEndCap(),
                         strokeOld.getLineJoin(),
@@ -846,11 +755,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                         10.0f, dash1, 0.0f);
                 trace.setStroke(strokeNew);
             } else if (selectedLineStyle == PLOT_LINE_STYLE.DOTTED) {
-//				float dash1[] = {3.0f};
                 strokeNew = new BasicStroke(
                         1,
-//						strokeOld.getLineWidth(),
-//						DEFAULT_LINE_THICKNESS,
                         BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1, 2}, 0);
 						                trace.setStroke(strokeNew);
             }
@@ -866,8 +772,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         double yMax = 0;
         if (!mListofTraces.isEmpty()) {
             if (scaleSetting == SCALE_SETTING.AUTO) {
-//				yMin = (double) yAxisMin;
-//				yMax = (double) yAxisMax;
 
                 IAxis<?> axisToUse = null;
                 if (isLeftYAxis /*&& yAxisLeft != null*/) {
@@ -876,13 +780,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                     axisToUse = yAxisRight;
                 }
 
-                // y-axis scale
-//				axisToUse.setRangePolicy(new RangePolicyUnbounded(new Range(yMin, yMax)));
                 axisToUse.setRangePolicy(new RangePolicyUnbounded());
 
-//				// x-axis scale.
-//		        double percentage = (double)5/InternalFrameWithPlotManager.mSliderMidValue;
-//		        adjustTraceLength(percentage);
             } else if (scaleSetting == SCALE_SETTING.FIXED) {
                 yMin = (double) yAxisMin;
                 yMax = (double) yAxisMax;
@@ -892,7 +791,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             } else if (scaleSetting == SCALE_SETTING.CUSTOM) {
 
                 if (yAxisMin != null && yAxisMax == null) {  // y-axis min only
-                    //utilShimmer.consolePrintLn("\nY-AXIS MIN ONLY\n");
                     yMin = (double) yAxisMin;
                     if (yMin < 0) {
                         setYAxisMinMax(isLeftYAxis, yMin, -yMin);
@@ -900,7 +798,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                         setYAxisMinMax(isLeftYAxis, yMin, yMin * 2);
                     }
                 } else if (yAxisMin == null && yAxisMax != null) {  // y-axis max only
-                    //utilShimmer.consolePrintLn("\nY-AXIS MAX ONLY\n");
                     yMax = (double) yAxisMax;
                     if (yMax > 0) {
                         setYAxisMinMax(isLeftYAxis, -yMax, yMax);
@@ -909,7 +806,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                     }
 
                 } else if (yAxisMin != null && yAxisMax != null) {  // y-axis both
-                    //utilShimmer.consolePrintLn("\nY-AXIS BOTH\n");
                     yMin = (double) yAxisMin;
                     yMax = (double) yAxisMax;
 
@@ -924,7 +820,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             Range range = new Range(minY, maxY);
             RangePolicyFixedViewport rangePolicy = new RangePolicyFixedViewport(range);
 
-//			utilShimmer.consolePrintErrLn("\tminY=" + minY + "\tminY=" + maxY);
 
             IAxis<?> axisToUse = null;
             if (isLeftYAxis /*&& yAxisLeft != null*/) {
@@ -937,21 +832,12 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
                 IRangePolicy currentRangePolicy = axisToUse.getRangePolicy();
                 if (currentRangePolicy instanceof RangePolicyUnbounded) {
-                    // TODO sometimes an IllegalArgurmentException error is thrown
-                    // when setRangePolicy() is called because there is already an
-                    // RangePolicyUnbounded set and this has +=Infinity as the
-                    // max/min values. Current solution is to try it twice in
-                    // order to try and replace the old RangePolicy
 
-                    //First fix attempt - doesn't work
-//					currentRangePolicy.setRange(range);
 
-                    //Second fix attempt - works?
                     try {
                         axisToUse.setRangePolicy(rangePolicy);
                         return;
                     } catch (IllegalArgumentException e) {
-                        //Ignore
                     }
                 }
 
@@ -968,7 +854,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         List<String[]> listNameArray = new ArrayList<String[]>();
         List<Set<ITracePainter<?>>> listTracePainters = new ArrayList<Set<ITracePainter<?>>>();
 
-        //Store old settings
         synchronized (mListofTraces) {
             Iterator<ITrace2D> entries = mListofTraces.iterator();
             while (entries.hasNext()) {
@@ -985,12 +870,10 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             }
         }
 
-        //now remove
         for (int i = 0; i < listColor.size(); i++) {
             String[] namearray = listNameArray.get(i);
             removeSignalInternal(namearray);
         }
-        //now create
         for (int i = 0; i < listColor.size(); i++) {
             String[] namearray = listNameArray.get(i);
             String name = joinChannelStringArray(namearray);
@@ -999,17 +882,12 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             try {
                 ITrace2D trace = addSignalToExistingChartInternal(namearray, newSize, color);
 
-                // Trying to copy over tracepainter for the case where the trace
-                // points are not joined by a line (usePaintIndividualPointsOnly)
                 Set<ITracePainter<?>> tracePaintersPerTrace = listTracePainters.get(i);
                 for (ITracePainter<?> iTP : tracePaintersPerTrace) {
                     trace.addTracePainter(iTP);
-//					trace.setTracePainter(iTP);
                 }
-//				trace.setTracePainter(new TracePainterDisc(4));
 
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -1024,11 +902,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                     String name = trace.getName();
                     if (mMapofDefaultXAxisSizes.get(name) != null && trace.getName().contains(signal)) {
                         int newSize = (int) Math.round((mMapofDefaultXAxisSizes.get(name) * percentage));
-                        //utilShimmer.consolePrintLn("%: " + percentage +"   Size: " +mMapofDefaultXAxisSizes.get(name));
                         setTraceSize(trace, newSize);
-                        //utilShimmer.consolePrintErrLn("(Trace2DLtd)trace).setMaxSize: " +newSize);
                     } else {
-                        //utilShimmer.consolePrintErrLn("mMapofDefaultXAxisSizes.get(name) is NULL");
                     }
                 }
             }
@@ -1041,7 +916,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 "setTraceSize()\tTrace: " + trace.getName()
                         + " CurrentSize: " + trace.getSize()
                         + " NewSize: " + newSize);
-//		UtilShimmer.consolePrintCurrentStackTrace();
         ((Trace2DLtd) trace).setMaxSize(newSize);
     }
 
@@ -1303,7 +1177,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         mIsPlotPaused = state;
     }
 
-    //---------------------- Heart Rate Value Display Starts -----------------------//
     public boolean isHRVisible() {
         return mIsHRVisible;
     }
@@ -1312,20 +1185,12 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         mIsHRVisible = state;
     }
 
-    //TODO
     public Color getAxisColor() {
         return null;
     }
 
-    //TODO
     public void setAxisColor(int[] newColor) {
-//		Graphics g2d = new Graphics ();
-//		g2d.setColor(this.getColor());
-//		g2d.drawLine(xAxisLine, yAxisStart, xAxisLine, yAxisEnd);
-//		g2d.setColor(this.getColor());
 //
-//		IAxisTickPainter tickPainter = new IAxisTickPainter();
-//		mChart.setAxisTickPainter(tickPainter);.getAxisTickPainter().paintXTick(xAxisLine, tmp, label.isMajorTick(), true, g2d);
     }
 
     public boolean changeChannelType(String[] oldName, String[] newName) {
@@ -1393,16 +1258,10 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 ITrace2D trace = entries.next();
                 if (trace != null) {
                     String[] props = trace.getName().split(" ");
-                    // May 2017: RM commeneted out making event marker trace invisible as it was disappearing when one of multiple Shimmers stopped streaming in Consensys
                     if (props[0].equals(deviceName) /*|| trace.getName().contains(InternalFrameWithPlotManager.EVENT_MARKER_PLOT_TITLE)*/) {
                         trace.removeAllPoints();
                         trace.removeAllPointHighlighters();
                         trace.setVisible(isVisible);
-                        //ITrace2D t = new Trace2DLtd(trace.getMaxSize());
-                        //t.setColor(trace.getColor());
-                        //t.setName(trace.getName());
-                        //mChart.removeTrace(trace);
-                        //mChart.addTrace(t);
                     }
                 }
             }
@@ -1416,8 +1275,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 ITrace2D trace = entries.next();
                 if (trace != null) {
                     if (trace.getName().equals(channelName)) {
-                        //trace.removeAllPoints();
-                        //trace.removeAllPointHighlighters();
                         trace.setVisible(isVisible);
                     }
                 }
@@ -1477,7 +1334,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
     }
 
     public void addPointToTrace(ITrace2D trace, double xData, double yData) {
-        //TODO this is handled twice - also in checkAndCorrectData()
         if (xData == 0.0 || Double.isNaN(xData) || Double.isInfinite(xData)) {
             xData = 0.000001;
         }
@@ -1520,7 +1376,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         } else if (Double.isInfinite(yData)) {
             throw new Exception("Signal data is Infinite: (" + traceName + ")");
         }
-        // Make sure data isn't 0.0 for plotting, otherwise it causes GUI to hang
         else if (yData == 0.0) {
             yData = 0.000001;
         }
@@ -1528,16 +1383,12 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return yData;
     }
 
-        //TODO don't duplicate an entire method, use common code from existing filterDataAndPlot method
     @Deprecated
     public void filterDataAndPlotList(ObjectCluster ojc, int index) throws Exception {
         if (!mIsPlotPaused) {
             String shimmerName = ojc.getShimmerName();
             double xData = getXDataForPlotting(shimmerName, ojc, index);
 
-            //MN testing
-//			for(ITrace2D trace:mChart.getTraces()){
-//				String[] props = trace.getName().split(" ");
 
             synchronized (mListofPropertiestoPlot) {
                 Iterator<String[]> entries = mListofPropertiestoPlot.iterator();
@@ -1553,18 +1404,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                             ITrace2D trace = mListofTraces.get(i);
                             addTracePoint(trace, xData, yData);
 
-//							if(InternalFrameWithPlotManager.mShowInstantaneousValuesPanel){
-//								if(mCurrentXValue%12 == 0) {
-//									String compareNames = props[0]+"_"+props[1];
-//									for(String key : InternalFrameWithPlotManager.instantaneousValuesTextFields.keySet()) {
-//										if(compareNames.equals(key)) {
-//											DecimalFormat dc = new DecimalFormat("0.00");
-//											String formattedText = dc.format(f.mData);
-//											InternalFrameWithPlotManager.instantaneousValuesTextFields.get(key).setText(formattedText);
-//										}
-//									}
-//								}
-//							}
 
                         } else {
                             throwExceptionSignalNotFound(props, ojc);
@@ -1576,17 +1415,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-//	private void updateMetricPanelIfVisable(String[] props, ObjectCluster ojc) {
-//		if(mIsMetricVisible){
-//			if(mUpdateCounterForHRLabel == 0){
-//				setPnlHR(props, ojc);
-//			}
-//			mUpdateCounterForHRLabel++;
-//			if(mUpdateCounterForHRLabel > 128){ //update HR panel after 128 object clusters received to limit number of update calls
-//				mUpdateCounterForHRLabel = 0;
-//			}
-//		}
-//	}
 
     private void throwExceptionSignalNotFound(String[] props, ObjectCluster ojc) throws Exception {
         throwExceptionSignalNotFound(joinChannelStringArray(props), ojc);
@@ -1597,23 +1425,18 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         if (ojc != null) {
             ojc.consolePrintChannelsAndDataSingleLine();
         }
-        //throw new Exception("Signal not found: (" + traceName + ")"); MAY 2018: RM commented out for NEUR-685 as it conflicts with 'continue' keyword where this method is called
     }
 
     private double getXDataForPlotting(String shimmerName, ObjectCluster ojc, int index) {
         double xData = 0;
-        //first check is x axis signal exist
         if (mMapofXAxis.size() > 0) {
             if (mMapofXAxis.get(shimmerName) == null) {
-                //check if generated x axis exist
                 if (mMapofXAxisGeneratedValue.get(shimmerName) == null) {
                     mMapofXAxisGeneratedValue.put(shimmerName, xData);
                 } else {
-                    //if exist take the value
                     xData = mMapofXAxisGeneratedValue.get(shimmerName);
                 }
 
-                //check if x is the max value
                 if (xData == mCurrentXValue) {
                     xData = xData + 1;
                 } else {
@@ -1659,13 +1482,11 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return formattedText;
     }
 
-    //----------------------FFT timer test code start ---------------------
     public void startTimerCalculateFft() {
         stopTimerCalculateFft();
 
         if (mTimerCalculateFft == null) {
             mTimerCalculateFft = new Timer(mChart.getName() + "_FFT_Timer");
-            //mTimerCalculateFft.schedule(new calculateFftTimerTask(mTimerPeriodCalculateFft),mTimerDelayCalculateFft, mTimerPeriodCalculateFft);
             mTimerCalculateFft.schedule(new calculateFftTimerTask(), mTimerDelayCalculateFft, mTimerPeriodCalculateFft);
         }
     }
@@ -1689,8 +1510,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                         if (props[1].equals(channelName)
                                 || channelName.equals("all")
                                 || trace.getName().contains(mEventMarkerCheck)) {
-                            //trace.removeAllPoints();
-                            //trace.removeAllPointHighlighters();
                             trace.setVisible(true);
                         } else {
                             trace.setVisible(false);
@@ -1705,21 +1524,15 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
         public void filterDataAndPlot(ObjectCluster ojc) throws Exception {
         if (!mIsPlotPaused) {
-            //		utilShimmer.consolePrintErrLn("PLOTMANGERPC -> STAGE1");
             String shimmerName = ojc.getShimmerName();
 
             double xData = getXDataForPlotting(shimmerName, ojc);
-            //		utilShimmer.consolePrintErrLn("PLOTMANGERPC -> STAGE2");
 
-            //Sometimes the first x data point of a new graphs comes back with a zero so return if it does
             if (xData == 0) {
                 return;
             }
             ;
 
-            //MN testing trying to get rid of legend flutter
-            //		for(ITrace2D trace:mChart.getTraces()){
-            //			String[] props = trace.getName().split(" ");
 
             boolean isXAxisTime = isXAxisTime();
             boolean isXAxisFrequency = isXAxisFrequency();
@@ -1734,14 +1547,12 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
                     String traceName = joinChannelStringArray(props);
 
-                    //prevent eventmarkers from plotting back in time
                     boolean eventMarker = false;
 
                     if (isEventMarkerData(shimmerName, props[0])) {
                         if (xData > mCurrentXValue) {
                             eventMarker = true;
                         } else { // skip any data which is in the past, as there are multiple shimmer devices, this is possible
-                            //JC: Just to be safe, do a check to ensure a marker is not missed, this is probably not needed..
                             FormatCluster f = ObjectCluster.returnFormatCluster(ojc.getCollectionOfFormatClusters(props[1]), props[2]);
                             if (f == null) {
                                 indexOfTrace++;
@@ -1754,7 +1565,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                                 yData = checkAndCorrectData(ojc.getShimmerName(), props[1], traceName, f.mData);
                             } catch (Exception e) {
                                 indexOfTrace++;
-                                //2018-03-08 MN:Used to throw the entire method here but removing this for the moment
                                 continue;
                             }
 
@@ -1781,7 +1591,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                             yData = checkAndCorrectData(shimmerName, props[1], traceName, f.mData);
                         } catch (Exception e) {
                             indexOfTrace++;
-                            //2018-03-08 MN:Used to throw the entire method here but removing this for the moment
                             continue;
                         }
 
@@ -1789,7 +1598,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                             throw new Exception("Trace does not exist: (" + traceName + ")");
                         }
                         ITrace2D currentTrace = mListofTraces.get(indexOfTrace);
-                        //utilShimmer.consolePrintErrLn(currentTrace.getMaxY());
 
                         mCurrentXValue = xData;
 
@@ -1810,7 +1618,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                                 }
                                 addTracePoint(currentTrace, xData, yData);
                             } else if (isXAxisFrequency) {
-                                //TODO buffer data for FFT calculation
                                 FftCalculateDetails fftCalculateDetails = mMapOfFftsToPlot.get(traceName);
                                 if (fftCalculateDetails != null) {
                                     fftCalculateDetails.addData(xData, yData);
@@ -1823,19 +1630,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                             }
                         }
 
-                        // the below isn't used.. yet..
-                        //					if(InternalFrameWithPlotManager.mShowInstantaneousValuesPanel){
-                        //						if(mCurrentXValue%12 == 0) {
-                        //							String compareNames = props[0]+"_"+props[1];
-                        //							for(String key : InternalFrameWithPlotManager.instantaneousValuesTextFields.keySet()) {
-                        //								if(compareNames.equals(key)) {
-                        //									DecimalFormat dc = new DecimalFormat("0.00");
-                        //									String formattedText = dc.format(f.mData);
-                        //									InternalFrameWithPlotManager.instantaneousValuesTextFields.get(key).setText(formattedText);
-                        //								}
-                        //							}
-                        //						}
-                        //					}
                     }
                     indexOfTrace++;
                 }
@@ -1844,9 +1638,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 }
             }
         }
-        //	mChart.getAxisX().setRange(new Range(mCurrentXValue-(mXAxisTimeDuraton*1000),mCurrentXValue));
-        //setXAxisRange(mCurrentXValue-(mXAxisTimeDuraton*1000), mCurrentXValue);
-        //filterOldDataOutOfTrace();
         if (pcf != null) {
             pcf.custom(this);
         }
@@ -1858,10 +1649,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
     private boolean isEventMarkerData(String shimmerName, String signalName) {
         if (isSingleEventMarkerTest) {
-            // used for Consensys (CON-628)
             return mEventMarkerCheck.equals(signalName);
         } else {
-            // used for NeuroLynQ
             return mEventMarkerCheck.equals(signalName) && shimmerName.equals(signalName);
         }
     }
@@ -1870,7 +1659,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return false;
     }
 
-    //TODO Method under development
     public void filterDataAndPlotBasic(List<String[]> listOfSignals, List<double[]> dataArray) throws Exception {
 
         for (int x = 0; x < listOfSignals.size(); x++) {
@@ -1888,7 +1676,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                         ITrace2D trace = mListofTraces.get(i);
 
                         for (double[] data : dataArray) {
-                            //TODO hack. We assume index 0 is time and for cross-session aggregation the 2nd column is skipped
                             trace.addPoint(data[0], data[x + 2]);
                         }
                     }
@@ -1898,32 +1685,22 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-    //used by advance plot manager
     protected void updateHrPanelIfVisible(String[] props, ObjectCluster ojc) {
-        //Does nothing in basic
 
     }
 
     private double getXDataForPlotting(String shimmerName, ObjectCluster ojc) throws Exception {
         double xData = 0;
-        //first check is x axis signal exist
         if (mMapofXAxis.size() > 0) {
-            //was
-            //if (mMapofXAxis.get(shimmerName)==null){
             if (mMapofXAxis.get(shimmerName) == null && !mMapofXAxis.containsKey(mEventMarkerCheck)) {
-                //check if generated x axis exist
                 if (mMapofXAxisGeneratedValue.get(shimmerName) == null) {
                     mMapofXAxisGeneratedValue.put(shimmerName, xData);
                 } else {
-                    //if exist take the value
                     xData = mMapofXAxisGeneratedValue.get(shimmerName);
-                    //				utilShimmer.consolePrintErrLn("X1 VALUE: " +xData);
                 }
 
-                //check if x is the max value
                 if (xData == mCurrentXValue) {
                     xData = xData + 1;
-                    //				utilShimmer.consolePrintErrLn("X2 VALUE: " +xData);
                 } else {
                     xData = mCurrentXValue;
                 }
@@ -1931,7 +1708,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 mMapofXAxisGeneratedValue.put(shimmerName, xData);
             } else {
                 String[] props = mMapofXAxis.get(shimmerName);
-                //New code
                 if (props == null) {
                     props = mMapofXAxis.get(mEventMarkerCheck);
                 }
@@ -2004,7 +1780,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
     }
 
         public BufferedImage getSnapShot() {
-//		mChart.snapShot()
 
         synchronized (this) {
             Color savedColour = mChart.getBackground();
@@ -2079,22 +1854,16 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         @Override
         public void run() {
             if (!isPlotPaused()) {
-                // clear all traces
-                //clearAllDataBuffer();
 
                 Iterator<FftCalculateDetails> iterator = mMapOfFftsToPlot.values().iterator();
                 while (iterator.hasNext()) {
                     FftCalculateDetails fftCalculateDetails = iterator.next();
 
-//					// clear this trace
-//					ITrace2D trace = getTraceFromName(joinChannelStringArray(fftCalculateDetails.mTraceName));
-//					trace.removeAllPoints();
 
                     double[][] results = fftCalculateDetails.calculateFftAndGenerateArray(mTimerPeriodCalculateFft);
                     String traceName = fftCalculateDetails.getTraceNameJoined();
                     ITrace2D trace = getTraceFromName(traceName);
 
-                    //InternalFrameWithPlotManager.setLblMetricIfEnabled(fftCalculateDetails.meanFreq, fftCalculateDetails.meanFreq);
 
                     if (trace != null) {
                         int startBin = (mIsFftShowingDc ? 0 : 1);
@@ -2108,17 +1877,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                         }
                     }
 
-                    //double[][] psdResults = fftCalculateDetails.calculatePSDAndGenerateArray(results);
 
-//					ObjectCluster[] ojcArray = fftCalculateDetails.calculateFftAndGenerateOJC();
-//					try {
-//						for(ObjectCluster ojc:ojcArray){
-//							filterDataAndPlot(ojc);
-//						}
-//					} catch (Exception e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 
                     fftCalculateDetails.clearBuffers();
                 }
@@ -2126,7 +1885,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
         }
     }
-    //----------------------FFT timer test code start ---------------------
 
 
 }

@@ -25,7 +25,6 @@ import com.shimmerresearch.verisense.payloaddesign.AsmBinaryFileConstants.PAYLOA
 
 public class SensorMAX86150 extends SensorMAX86XXX {
 
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef SENSOR_MAX86150_PPG_RED = new SensorDetailsRef(
             Configuration.Verisense.SensorBitmap.MAX86XXX_PPG_RED,
             Configuration.Verisense.SensorBitmap.MAX86XXX_PPG_RED,
@@ -89,9 +88,7 @@ public class SensorMAX86150 extends SensorMAX86XXX {
         SENSOR_MAP_REF = Collections.unmodifiableMap(aMap);
     }
 
-    //--------- Sensor info end --------------
 
-    //--------- Channel info start --------------
 
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
@@ -120,12 +117,10 @@ public class SensorMAX86150 extends SensorMAX86XXX {
         super.generateConfigOptionsMap();
     }
 
-    //--------- Channel info end --------------
 
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs) {
 
-        // get uncalibrated data for each (sub)sensor
         if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensorsCommon.PPG_RED)
                 || sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensorsCommon.PPG_IR)) {
             rawData[0] = (byte) (rawData[0] & 0x07);
@@ -145,7 +140,6 @@ public class SensorMAX86150 extends SensorMAX86XXX {
         } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.ECG)) {
             double ecgUncal = objectCluster.getFormatClusterValue(SensorMAX86150.CHANNEL_MAX86150_PPG_ECG, CHANNEL_TYPE.UNCAL);
             if (Double.isFinite(ecgUncal)) {
-//				double calValueInMillivolt = SensorADC.calibrateAdcValueToMillivolts(objectCluster.mUncalData[index], offset, vRefP, gain, CHANNEL_DATA_TYPE.UINT16);
 
             }
         }
@@ -154,11 +148,9 @@ public class SensorMAX86150 extends SensorMAX86XXX {
 
     @Override
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
-        // TODO Add bit operations for payload config details
         if (isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_RED) ||
                 isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_IR)) {
 
-            //TODO update for streaming support if ever needed
             if (commType == COMMUNICATION_TYPE.SD) {
                 configBytes[PAYLOAD_CONFIG_BYTE_INDEX.PAYLOAD_CONFIG1] |= (getPpgAdcResolutionConfigValue() & 0x03) << 6;
                 configBytes[PAYLOAD_CONFIG_BYTE_INDEX.PAYLOAD_CONFIG1] |= (getSampleRate().configValue & 0x0F) << 2;
@@ -181,7 +173,6 @@ public class SensorMAX86150 extends SensorMAX86XXX {
         if (isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_RED) ||
                 isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86XXX_PPG_IR)) {
 
-            //TODO update for streaming support if ever needed
             if (commType == COMMUNICATION_TYPE.SD) {
                 setPpgPulseWidthConfigValue((configBytes[PAYLOAD_CONFIG_BYTE_INDEX.PAYLOAD_CONFIG1] >> 0) & 0x03);
                 setRateConfigValue((configBytes[PAYLOAD_CONFIG_BYTE_INDEX.PAYLOAD_CONFIG1] >> 2) & 0x0F);

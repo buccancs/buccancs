@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.shimmerresearch.shimmer3dexample.R;
 
 public class ConfigureActivity extends Activity {
-    // Return Intent extra
     public static String mDone = "Done";
 
     CheckBox cboxEnableLowPowerMag;
@@ -25,7 +24,6 @@ public class ConfigureActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Setup the window
         setContentView(R.layout.configure);
 
         Bundle extras = getIntent().getExtras();
@@ -36,11 +34,9 @@ public class ConfigureActivity extends Activity {
 
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean enable) {
-                // TODO Auto-generated method stub
                 Intent intent = new Intent();
                 intent.putExtra("Command", "Mag");
                 intent.putExtra("Enable", enable);
-                // Set result and finish this Activity
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -53,11 +49,9 @@ public class ConfigureActivity extends Activity {
 
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean enable) {
-                // TODO Auto-generated method stub
                 Intent intent = new Intent();
                 intent.putExtra("Command", "Gyro");
                 intent.putExtra("Enable", enable);
-                // Set result and finish this Activity
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -72,7 +66,6 @@ public class ConfigureActivity extends Activity {
     public void onPause() {
         super.onPause();
         Log.d("Shimmer", "On Pause");
-        //finish();
 
     }
 

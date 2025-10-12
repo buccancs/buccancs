@@ -82,7 +82,6 @@ public class LineDraw extends BaseDraw {
                 boolean hasSame = false;
                 for (int i = 0; i < mLineList.size(); i++) {
                     if (mLineList.get(i).getLabel().equals(newLabel)) {
-                        //存在一样的
                         hasSame = true;
                         Log.d(TAG, "addLine is same");
                         break;
@@ -172,12 +171,10 @@ public class LineDraw extends BaseDraw {
         float right = rectF.right + rectWidth / 2;
         float top = rectF.top;
         float bottom = rectF.bottom;
-        //左侧超出
         if (left < 0) {
             left = 0;
             right = rectWidth;
         }
-        //右侧超出
         if (right > mViewWidth) {
             left = mViewWidth - rectWidth;
             right = mViewWidth;
@@ -285,7 +282,6 @@ public class LineDraw extends BaseDraw {
 
             mLineList.get(mTouchIndex).changeLocation(startMovingLineX, startMovingLineY, endMovingLineX, endMovingLineY);
         } else if (mOperateStatus == OPERATE_STATUS_LINE_IN_TOUCH_CENTER) {
-            // 防止数据越界到图像外部
             int startMovingLineX = (int) (lineView.mStartPoint.x + moveX);
             int startMovingLineY = (int) (lineView.mStartPoint.y + moveY);
             int endMovingLineX = (int) (lineView.mEndPoint.x + moveX);

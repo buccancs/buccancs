@@ -23,7 +23,6 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
     public double Bmp3QuantizedCalibData_ParP10;
     public double Bmp3QuantizedCalibData_ParP11;
     public double Bmp3QuantizedCalibData_TLin;
-    // Trim Variables
     public short Bmp3RegCalibData_ParT1;
     public short Bmp3RegCalibData_ParT2;
     public byte Bmp3RegCalibData_ParT3;
@@ -75,7 +74,6 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
                             (byte) 0x00, (byte) 0xBA, (byte) 0x7F
                     };
 
-                    // Array of strings in Java
                     String[] sensorDataType = {"u24"};
                     long[] uncalibResultP = UtilParseData.parseData(sensorDataP, sensorDataType);
                     long[] uncalibResultT = UtilParseData.parseData(sensorDataT, sensorDataType);
@@ -94,7 +92,6 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
                             (byte) 0x00, (byte) 0xCF, (byte) 0x7F
                     };
 
-                    // Array of strings in Java
                     long[] uncalibResultP2 = UtilParseData.parseData(sensorDataP2, sensorDataType);
                     long[] uncalibResultT2 = UtilParseData.parseData(sensorDataT2, sensorDataType);
                     System.out.println("uncalibResultP2 = " + uncalibResultP2[0]);
@@ -159,10 +156,8 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
 
         byte result = Bmp3Constants.BMP3_OK;
 
-        // Variable to store the compensated pressure
         double compPress;
 
-        // Temporary variables used for compensation
         double partialData1;
         double partialData2;
         double partialData3;
@@ -202,14 +197,12 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
         return caldata;
     }
 
-    // Method to calculate the power of a number
     private double powBmp3(double base, int exponent) {
         return Math.pow(base, exponent);
     }
 
     @Override
     public byte[] generateCalParamByteArray() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -227,7 +220,6 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
             byte[] pressureResoResTest = bufferCalibrationParameters;
             double tempVar;
 
-            // 1 / 2^8
             tempVar = 0.00390625;
             Bmp3RegCalibData_ParT1 = (short) concatenateBytes(pressureResoResTest[1], pressureResoResTest[0]);
             Bmp3QuantizedCalibData_ParT1 = ((double) Bmp3RegCalibData_ParT1 / tempVar);
@@ -258,7 +250,6 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
 
             Bmp3RegCalibData_ParP5 = concatenateBytes(pressureResoResTest[12], pressureResoResTest[11]);
 
-            // 1 / 2^3
             tempVar = 0.125;
             Bmp3QuantizedCalibData_ParP5 = ((double) Bmp3RegCalibData_ParP5 / tempVar);
 
@@ -303,25 +294,21 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
         }
     }
 
-    // Concatenate bytes method
     private int concatenateBytes(byte highByte, byte lowByte) {
         return ((highByte & 0xFF) << 8) | (lowByte & 0xFF);
     }
 
     @Override
     public void resetToDefaultParameters() {
-        // TODO Auto-generated method stub
 
     }
 
     public class Bmp3Constants {
-        // Floating-point constants
         public static final double BMP3_MIN_PRES_DOUBLE = 30000.0;
         public static final double BMP3_MAX_PRES_DOUBLE = 125000.0;
         public static final double BMP3_MIN_TEMP_DOUBLE = -40.0;
         public static final double BMP3_MAX_TEMP_DOUBLE = 85.0;
 
-        // Byte constants
         public static final byte BMP3_OK = 0;
         public static final byte BMP3_W_MIN_TEMP = 3;
         public static final byte BMP3_W_MAX_TEMP = 4;

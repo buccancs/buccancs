@@ -19,7 +19,6 @@ public class BluetootManagerTest extends BasicProcessWithCallBack {
     static ShimmerPC shimmer;
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
         bmt.setWaitForData(manager.callBackObject);
         manager.connectShimmerThroughCommPort("COM35");
@@ -32,9 +31,7 @@ public class BluetootManagerTest extends BasicProcessWithCallBack {
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
         System.out.println(shimmerMSG);
-        //Modify format to make it usable for Abstract GUI MultiSensor
         if (shimmerMSG.mIdentifier == ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET) {
             System.out.println(shimmerMSG.mB);
         } else if (shimmerMSG.mIdentifier == ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE) {
@@ -49,7 +46,6 @@ public class BluetootManagerTest extends BasicProcessWithCallBack {
                 try {
                     shimmer.startStreaming();
                 } catch (ShimmerException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

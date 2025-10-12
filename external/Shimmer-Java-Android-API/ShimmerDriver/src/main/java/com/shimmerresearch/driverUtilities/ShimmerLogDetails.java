@@ -36,10 +36,8 @@ public class ShimmerLogDetails implements Serializable {
     public int mNumOfShimmers;
     public double mRTCUserInput;
 
-    //For applying SD sync during individual file parsing
     public ArrayList<ArrayList<Double>> offsetTimestampPairsPerSession = null;
 
-    //TODO just use ShimmerDevice below instead of declaring new variables
     public transient ShimmerDevice mShimmerDevice = null;
 
     public String mShimmerUserAssignedName;
@@ -52,7 +50,6 @@ public class ShimmerLogDetails implements Serializable {
     public double mDerivedSensors;
 
 
-    //GQ related
     public LinkedHashMap<String, SensorParsingDetails> mMapOfSensorsToParse = new LinkedHashMap<String, SensorParsingDetails>();
     public String mHeaderFileAbsoluteFilePath = "";
 
@@ -91,7 +88,6 @@ public class ShimmerLogDetails implements Serializable {
         mDerivedSensors = shimmerDevice.getDerivedSensors();
         mShimmerUserAssignedName = shimmerDevice.getShimmerUserAssignedName();
 
-        //TODO experimental
         mShimmerDevice = shimmerDevice;
     }
 

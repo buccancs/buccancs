@@ -248,7 +248,6 @@ public class UtilShimmer implements Serializable {
             i += 2;
         }
         String returnString = new String(hexChars);
-//	    returnString = "[" + returnString + "]";
         return returnString;
     }
 
@@ -317,7 +316,6 @@ public class UtilShimmer implements Serializable {
             data = 0;
         } else if (len <= 8) {
 
-            //max value fitting in int: "7FFFFFFF" (= 2^31-1)
             if (len == 8 && Integer.parseInt(s.substring(0, 1), radix) > 7) {
                 data = 0;
             } else {
@@ -332,17 +330,13 @@ public class UtilShimmer implements Serializable {
         return Integer.toString(b & 0x00FF);
     }
 
-    //TODO move to ByteUtils
     public static byte[] convertLongToByteArray(long longNumber) {
         byte[] returnVal = ByteBuffer.allocate(8).putLong(longNumber).array();
 
-//		byte[] returnVal = new byte[8];
-//		returnVal = ByteBuffer.allocate(8).putLong(longNumber).array();
 
         return returnVal;
     }
 
-    //TODO move to ByteUtils
     public static long convertByteArrayToLong(byte[] byteArray) {
         byte[] bSystemTS = byteArray;
         ByteBuffer bb = ByteBuffer.allocate(8);
@@ -362,10 +356,6 @@ public class UtilShimmer implements Serializable {
         }
         return compareVersions(thisFwIdent, thisMajor, thisMinor, thisInternal, compFwIdent, compMajor, compMinor, compInternal);
 
-//		if (thisHwIdent==compHwIdent){
-//			return compareVersions(thisFwIdent, thisMajor, thisMinor, thisInternal, compFwIdent, compMajor, compMinor, compInternal);
-//		}
-//		return false; // if less or not the same FW_ID and HW_ID
     }
 
     public static boolean compareVersions(ShimmerVerObject svo, ShimmerVerObject svoTarget) {
@@ -391,7 +381,6 @@ public class UtilShimmer implements Serializable {
         public static boolean compareVersions(int thisFwIdent, int thisMajor, int thisMinor, int thisInternal,
                                           int compFwIdent, int compMajor, int compMinor, int compInternal) {
 
-        // if not the same FW ID, fail
         if (compFwIdent != ShimmerVerDetails.ANY_VERSION) {
             if (thisFwIdent != compFwIdent) {
                 return false;
@@ -536,7 +525,6 @@ public class UtilShimmer implements Serializable {
                 if (i > p) {
                     extension = fileName.substring(i + 1);
                 }
-//	            return extension.matches("txt");
                 return extension.matches(fileType);
             }
         });
@@ -610,7 +598,6 @@ public class UtilShimmer implements Serializable {
     public static ArrayList<Double> sortByComparator(Map<Double, Double> unsortMap, final boolean order) {
         List<Entry<Double, Double>> list = new LinkedList<Entry<Double, Double>>(unsortMap.entrySet());
 
-        // Sorting the list based on values
         Collections.sort(list, new Comparator<Entry<Double, Double>>() {
             @Override
             public int compare(Entry<Double, Double> o1,
@@ -623,7 +610,6 @@ public class UtilShimmer implements Serializable {
             }
         });
 
-        // Maintaining insertion order with the help of LinkedList
         Map<Double, Double> sortedMap = new LinkedHashMap<Double, Double>();
         for (Entry<Double, Double> entry : list) {
             sortedMap.put(entry.getKey(), entry.getValue());
@@ -719,7 +705,6 @@ public class UtilShimmer implements Serializable {
 
         radioConfigArray[0] = (byte) ((radioChannel >> 0) & 0x00FF);
 
-        //All MSB first
         radioConfigArray[1] = (byte) ((radioGroupId >> 8) & 0x00FF);
         radioConfigArray[2] = (byte) ((radioGroupId >> 0) & 0x00FF);
         radioConfigArray[3] = (byte) ((radioDeviceId >> 8) & 0x00FF);
@@ -740,21 +725,11 @@ public class UtilShimmer implements Serializable {
     public static String convertStackTraceToString(StackTraceElement[] exceptionStackTrace) {
         Exception e = new Exception();
         e.setStackTrace(exceptionStackTrace);
-//		e.printStackTrace();
 
-//		for(StackTraceElement element:msg.mExceptionStackTrace) {
-//			consolePrint("Exception thrown from " + element.getMethodName()
-//              + " in class " + element.getClassName() + " [on line number "
-//              + element.getLineNumber() + " of file " + element.getFileName() + "\n");
-//		}
 
-        //create new StringWriter object
         StringWriter sWriter = new StringWriter();
-        //create PrintWriter for StringWriter
         PrintWriter pWriter = new PrintWriter(sWriter);
-        //now print the stacktrace to PrintWriter we just created
         e.printStackTrace(pWriter);
-        //use toString method to get stacktrace to String from StringWriter object
         String strStackTrace = sWriter.toString();
         return strStackTrace;
     }
@@ -794,9 +769,7 @@ public class UtilShimmer implements Serializable {
     public static double[][] nudgeDoubleArray(double maxVal, double minVal, int precision, double[][] newArray) {
         for (int x = 0; x < newArray.length; x++) {
             for (int y = 0; y < newArray[x].length; y++) {
-                //nudge into range
                 newArray[x][y] = UtilShimmer.nudgeDouble(newArray[x][y], minVal, maxVal);
-                //correct the precision
                 newArray[x][y] = applyPrecisionCorrection(newArray[x][y], precision);
             }
         }
@@ -879,7 +852,6 @@ public class UtilShimmer implements Serializable {
     }
 
     public static String formatDouble(double d) {
-        //TODO not sure if there is an easier way to do this by just using DecimalFormat
         if ((d == 0) || (d >= 1.0 && d <= 9999.0)) {
             return Double.toString(UtilShimmer.round(d, 2));
         } else if (d >= 0.001 && d < 1.0) {
@@ -1029,7 +1001,6 @@ public class UtilShimmer implements Serializable {
     }
 
     public static String getParsedSamplingRateWithTwoDecimalPlaces(double samplingRate) {
-        // limit rate to 2 decimal places
         String convertedDouble = Double.toString(samplingRate);
         String[] splitArray = String.valueOf(samplingRate).split("\\.");
 
@@ -1059,9 +1030,7 @@ public class UtilShimmer implements Serializable {
     }
 
     public void consolePrintErrLn(Object message) {
-//		if(mVerboseMode) {
         System.err.println(generateConsolePrintHeader() + message);
-//		}
     }
 
     public void consolePrintExeptionLn(String message, StackTraceElement[] stackTrace) {
@@ -1079,28 +1048,14 @@ public class UtilShimmer implements Serializable {
     private String generateConsolePrintHeader() {
         Calendar rightNow = Calendar.getInstance();
 
-        //Negligable difference here between StringBuilder and manually creating the String
         String rightNowString = "[" + String.format("%02d", rightNow.get(Calendar.HOUR_OF_DAY))
                 + ":" + String.format("%02d", rightNow.get(Calendar.MINUTE))
                 + ":" + String.format("%02d", rightNow.get(Calendar.SECOND))
                 + ":" + String.format("%03d", rightNow.get(Calendar.MILLISECOND)) + "]";
         return (rightNowString + " " + mParentClassName + ": ");
 
-//		StringBuilder builder = new StringBuilder();
-//		builder.append("[");
-//		builder.append(String.format("%02d",rightNow.get(Calendar.HOUR_OF_DAY)));
-//		builder.append(":");
-//		builder.append(String.format("%02d",rightNow.get(Calendar.MINUTE)));
-//		builder.append(":");
-//		builder.append(String.format("%02d",rightNow.get(Calendar.SECOND)));
-//		builder.append(":");
-//		builder.append(String.format("%03d",rightNow.get(Calendar.MILLISECOND)));
-//		builder.append("]");
 //
-//		builder.append(mParentClassName);
-//		builder.append(message);
 //
-//		return builder.toString();
     }
 
     public void setParentClassName(String parentClassName) {
@@ -1149,7 +1104,6 @@ public class UtilShimmer implements Serializable {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             consolePrintLn("Thread sleep FAIL");
-            //	e.printStackTrace();
         }
     }
 
@@ -1158,11 +1112,9 @@ public class UtilShimmer implements Serializable {
             Thread.sleep(0, nanos);
         } catch (InterruptedException e) {
             consolePrintLn("Thread sleep FAIL");
-            //	e.printStackTrace();
         }
     }
 
-    //TODO utilise this enum widely in future
     public enum ENUM_FILE_DELIMITERS {
         TAB("\t", "tab (\\t)"),
         COMMA(",", "Comma (,)"),
@@ -1177,7 +1129,6 @@ public class UtilShimmer implements Serializable {
         }
     }
 
-    //TODO utilise this enum widely in future
     public enum ENUM_FILE_FORMAT {
         CSV(".csv"),
         DAT(".dat"),
@@ -1191,35 +1142,24 @@ public class UtilShimmer implements Serializable {
         }
     }
 
-    //TODO move above into below
     public static class UNICODE_CHAR {
         public static final String ARROW_FROM_START = "\u21A6";
         public static final String ARROW_TO_END = "\u21E5";
     }
 
-    // Numeric value so that they`ll work with android
     public static class SHIMMER_DEFAULT_COLOURS {
-        // Shimmer Orange
         public static final int[] colourShimmerOrange = new int[]{241, 93, 34};
         public static final int[] colourBrown = new int[]{153, 76, 0};
         public static final int[] colourCyanAqua = new int[]{0, 153, 153};
         public static final int[] colourPurple = new int[]{102, 0, 204};
         public static final int[] colourMaroon = new int[]{102, 0, 0};
         public static final int[] colourGreen = new int[]{0, 153, 76};
-        // Shimmer Grey
         public static final int[] colourShimmerGrey = new int[]{119, 120, 124};
-        // Shimmer Blue
         public static final int[] colourShimmerBlue = new int[]{0, 129, 198};
 
         public static final int[] colourLightRed = new int[]{255, 0, 0};
     }
 
-//	public static void main(String[] args) {
-//		long milliSeconds = System.currentTimeMillis();
-//		
-//		System.err.println(convertMilliSecondsToDateString(milliSeconds, true));
-//		System.err.println(milliSeconds);
-//		System.err.println(UtilShimmer.bytesToHexStringWithSpacesFormatted(convertMilliSecondsToShimmerRtcDataBytesLSB(milliSeconds)));
-//	}
+//
 
 }

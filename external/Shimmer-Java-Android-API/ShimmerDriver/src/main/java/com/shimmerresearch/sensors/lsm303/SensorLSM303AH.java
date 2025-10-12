@@ -27,40 +27,27 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 import com.shimmerresearch.sensors.AbstractSensor;
 import com.shimmerresearch.sensors.ActionSetting;
 
-//TODO update alignments for accel and mag (x swapped with y)
-//TODO take into account Accel 12-bit vs. 14-bit vs. 10-bit modes when setting default calibration sensitivity values 
 public class SensorLSM303AH extends SensorLSM303 {
 
     public static final double[][] DefaultAlignmentLSM303AH = {{0, -1, 0}, {1, 0, 0}, {0, 0, -1}};
 
 
-    //--------- Sensor specific variables start --------------
 
-    // ----------   Wide-range accel start ---------------
     public static final double[][] DefaultAlignmentMatrixWideRangeAccelShimmer3 = DefaultAlignmentLSM303AH;
     public static final double[][] DefaultOffsetVectorWideRangeAccelShimmer3 = {{0}, {0}, {0}};
-    // Manufacturer stated +-2g -> 0.061 mg/LSB -> or 16393.4 LSB/g or 1671.1 LSB/(m/s2)
     public static final double[][] DefaultSensitivityMatrixWideRangeAccel2gShimmer3 = {{1671, 0, 0}, {0, 1671, 0}, {0, 0, 1671}};
-    // Manufacturer stated +-4g -> 0.122 mg/LSB -> or 8196.72 LSB/g or 835.55 LSB/(m/s2)
     public static final double[][] DefaultSensitivityMatrixWideRangeAccel4gShimmer3 = {{836, 0, 0}, {0, 836, 0}, {0, 0, 836}};
-    // Manufacturer stated +-8g -> 0.244 mg/LSB -> or 4098.36 LSB/g or 417.77 LSB/(m/s2)
     public static final double[][] DefaultSensitivityMatrixWideRangeAccel8gShimmer3 = {{418, 0, 0}, {0, 418, 0}, {0, 0, 418}};
-    // Manufacturer stated +-16g -> 0.488 mg/LSB -> or 2049.18 LSB/g or 208.89 LSB/(m/s2)
     public static final double[][] DefaultSensitivityMatrixWideRangeAccel16gShimmer3 = {{209, 0, 0}, {0, 209, 0}, {0, 0, 209}};
-    // ----------   Mag start ---------------
     public static final double[][] DefaultAlignmentMatrixMagShimmer3 = DefaultAlignmentLSM303AH;
     public static final double[][] DefaultOffsetVectorMagShimmer3 = {{0}, {0}, {0}};
-    //  Based on a manufacturer stated, 1.5 mgauss/LSB (or 667 LSB/mgauss) over a full range of +-49.152 gauss
-    // [16-bit ADC -> 0-65536 for 0-98.304gauss -> 65536 LSBs/98304 mgauss = 0.6666 LSB/mgauss]
     public static final double[][] DefaultSensitivityMatrixMag50GaShimmer3 = {{667, 0, 0}, {0, 667, 0}, {0, 0, 667}};
     public static final Integer[] ListofLSM303AccelRangeConfigValues = {0, 2, 3, 1};
     public static final String[] ListofLSM303AHAccelRateHr = {"Power-down", "12.5Hz", "25.0Hz", "50.0Hz", "100.0Hz", "200.0Hz", "400.0Hz", "800.0Hz", "1600.0Hz", "3200.0Hz", "6400.0Hz"};
 
-    // ----------   Wide-range accel end ---------------
     public static final Integer[] ListofLSM303AHAccelRateHrConfigValues = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     public static final String[] ListofLSM303AHAccelRateLpm = {"Power-down", "1.0Hz", "12.5Hz", "25.0Hz", "50.0Hz", "100.0Hz", "200.0Hz", "400.0Hz", "800.0Hz"};
     public static final Integer[] ListofLSM303AHAccelRateLpmConfigValues = {0, 8, 9, 10, 11, 12, 13, 14, 15};
-    //TODO figure out if the output units are correct give that the above sensitivity calculation is off by 1000
     public static final ConfigOptionDetailsSensor configOptionAccelRange = new ConfigOptionDetailsSensor(
             SensorLSM303.GuiLabelConfig.LSM303_ACCEL_RANGE,
             SensorLSM303AH.DatabaseConfigHandle.WR_ACC_RANGE,
@@ -80,14 +67,11 @@ public class SensorLSM303AH extends SensorLSM303 {
                             ListofLSM303AHAccelRateLpm,
                             ListofLSM303AHAccelRateLpmConfigValues)));
 
-    // ----------   Mag end ---------------
     public static final String[] ListofLSM303AHMagRate = {"10.0Hz", "20.0Hz", "50.0Hz", "100.0Hz"};
     public static final Integer[] ListofLSM303AHMagRateConfigValues = {0, 1, 2, 3};
 
-    //--------- Sensor specific variables end --------------
 
 
-    //--------- Configuration options start --------------
     public static final String[] ListofLSM303AHMagRange = {"+/- 49.152Ga"};
     public static final Integer[] ListofLSM303AHMagRangeConfigValues = {0};
     public static final ConfigOptionDetailsSensor configOptionMagRange = new ConfigOptionDetailsSensor(
@@ -108,7 +92,6 @@ public class SensorLSM303AH extends SensorLSM303 {
             SensorLSM303.GuiLabelConfig.LSM303_ACCEL_LPM,
             SensorLSM303AH.DatabaseConfigHandle.WR_ACC_LPM,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX);
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorLSM303AHAccel = new SensorDetailsRef(
             0x10 << 8, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
             0x10 << 8, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
@@ -126,12 +109,10 @@ public class SensorLSM303AH extends SensorLSM303 {
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLSM303AH,
             Arrays.asList(GuiLabelConfig.LSM303_MAG_RANGE,
                     GuiLabelConfig.LSM303_MAG_RATE),
-            //MAG channel order is XYZ for the LSM303AH
             Arrays.asList(ObjectClusterSensorName.MAG_X,
                     ObjectClusterSensorName.MAG_Y,
                     ObjectClusterSensorName.MAG_Z));
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
-    //--------- Channel info start --------------
     public static final ChannelDetails channelLSM303AHAccelX = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_WR_X,
             ObjectClusterSensorName.ACCEL_WR_X,
@@ -181,7 +162,6 @@ public class SensorLSM303AH extends SensorLSM303 {
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x09);
 
-    //--------- Configuration options end --------------
     public static final Map<String, ChannelDetails> mChannelMapRef;
     public static final SensorGroupingDetails sensorGroupLsmAccel = new SensorGroupingDetails(
             LABEL_SENSOR_TILE.WIDE_RANGE_ACCEL,
@@ -192,7 +172,6 @@ public class SensorLSM303AH extends SensorLSM303 {
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_LSM303_MAG),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLSM303AH);
     private static final long serialVersionUID = 5566898733753766631L;
-    //--------- Sensor info end --------------
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -243,9 +222,7 @@ public class SensorLSM303AH extends SensorLSM303 {
             DefaultSensitivityMatrixMag50GaShimmer3,
             DefaultOffsetVectorMagShimmer3);
     public CalibDetailsKinematic mCurrentCalibDetailsMag = calibDetailsMag50Ga;
-    //--------- Channel info end --------------
 
-    //--------- Constructors for this class start --------------
     public SensorLSM303AH() {
         super();
         initialise();
@@ -306,46 +283,12 @@ public class SensorLSM303AH extends SensorLSM303 {
     }
 
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
-        //TODO Old approach, can be removed
-//		String objectClusterName = "";
-//		if (databaseChannelHandle.equals(SensorLSM303AH.DatabaseChannelHandles.WR_ACC_X)) {
-//			objectClusterName = SensorLSM303.ObjectClusterSensorName.ACCEL_WR_X;
-//		} else if (databaseChannelHandle.equals(SensorLSM303AH.DatabaseChannelHandles.WR_ACC_Y)) {
-//			objectClusterName = SensorLSM303.ObjectClusterSensorName.ACCEL_WR_Y;
-//		} else if (databaseChannelHandle.equals(SensorLSM303AH.DatabaseChannelHandles.WR_ACC_Z)) {
-//			objectClusterName = SensorLSM303.ObjectClusterSensorName.ACCEL_WR_Z;
-//		} else if (databaseChannelHandle.equals(SensorLSM303AH.DatabaseChannelHandles.MAG_X)) {
-//			objectClusterName = SensorLSM303.ObjectClusterSensorName.MAG_X;
-//		} else if (databaseChannelHandle.equals(SensorLSM303AH.DatabaseChannelHandles.MAG_Y)) {
-//			objectClusterName = SensorLSM303.ObjectClusterSensorName.MAG_Y;
-//		} else if (databaseChannelHandle.equals(SensorLSM303AH.DatabaseChannelHandles.MAG_Z)) {
-//			objectClusterName = SensorLSM303.ObjectClusterSensorName.MAG_Z;
-//		}
-//		return objectClusterName;
 
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
-    //--------- Constructors for this class end --------------
 
-    //--------- Abstract methods implemented start --------------
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
-        //TODO Old approach, can be removed
-//		String databaseChannelHandle = "";
-//		if (objectClusterName.equals(SensorLSM303.ObjectClusterSensorName.ACCEL_WR_X)) {
-//			databaseChannelHandle = SensorLSM303AH.DatabaseChannelHandles.WR_ACC_X;
-//		} else if (objectClusterName.equals(SensorLSM303.ObjectClusterSensorName.ACCEL_WR_Y)) {
-//			databaseChannelHandle = SensorLSM303AH.DatabaseChannelHandles.WR_ACC_Y;
-//		} else if (objectClusterName.equals(SensorLSM303.ObjectClusterSensorName.ACCEL_WR_Z)) {
-//			databaseChannelHandle = SensorLSM303AH.DatabaseChannelHandles.WR_ACC_Z;
-//		} else if (objectClusterName.equals(SensorLSM303.ObjectClusterSensorName.MAG_X)) {
-//			databaseChannelHandle = SensorLSM303AH.DatabaseChannelHandles.MAG_X;
-//		} else if (objectClusterName.equals(SensorLSM303.ObjectClusterSensorName.MAG_Y)) {
-//			databaseChannelHandle = SensorLSM303AH.DatabaseChannelHandles.MAG_Y;
-//		} else if (objectClusterName.equals(SensorLSM303.ObjectClusterSensorName.MAG_Z)) {
-//			databaseChannelHandle = SensorLSM303AH.DatabaseChannelHandles.MAG_Z;
-//		}
-//		return databaseChannelHandle;
 
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
     }
@@ -374,19 +317,16 @@ public class SensorLSM303AH extends SensorLSM303 {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -415,12 +355,10 @@ public class SensorLSM303AH extends SensorLSM303 {
         return mapOfConfig;
     }
 
-    //--------- Abstract methods implemented end --------------
 
     @Override
     public void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
 
-        //Better if LPM/HRM are processed first as they can override the sampling rate
         if (mapOfConfigPerShimmer.containsKey(SensorLSM303AH.DatabaseConfigHandle.WR_ACC_LPM)) {
             setLowPowerAccelWR(((Double) mapOfConfigPerShimmer.get(SensorLSM303AH.DatabaseConfigHandle.WR_ACC_LPM)) > 0 ? true : false);
         }
@@ -434,7 +372,6 @@ public class SensorLSM303AH extends SensorLSM303 {
             setLSM303AccelRange(((Double) mapOfConfigPerShimmer.get(SensorLSM303AH.DatabaseConfigHandle.WR_ACC_RANGE)).intValue());
         }
 
-        //Digital Accel Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_LSM303_ACCEL,
                 getAccelRange(),
@@ -448,7 +385,6 @@ public class SensorLSM303AH extends SensorLSM303 {
             setLSM303MagRate(((Double) mapOfConfigPerShimmer.get(SensorLSM303AH.DatabaseConfigHandle.MAG_RATE)).intValue());
         }
 
-        //Magnetometer Calibration Configuration
         parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer,
                 Configuration.Shimmer3.SENSOR_ID.SHIMMER_LSM303_MAG,
                 getMagRange(),
@@ -456,7 +392,6 @@ public class SensorLSM303AH extends SensorLSM303 {
                 SensorLSM303AH.DatabaseConfigHandle.MAG_CALIB_TIME);
     }
 
-    //--------- Optional methods to override in Sensor Class start --------
     @Override
     public void initialise() {
         mSensorIdAccel = Configuration.Shimmer3.SENSOR_ID.SHIMMER_LSM303_ACCEL;
@@ -469,10 +404,8 @@ public class SensorLSM303AH extends SensorLSM303 {
         updateCurrentMagCalibInUse();
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
 
-    //--------- Sensor specific methods start --------------
 
     @Override
     public void generateCalibMap() {
@@ -506,7 +439,6 @@ public class SensorLSM303AH extends SensorLSM303 {
     public void setLSM303DigitalAccelRate(int valueToSet) {
         super.setLSM303DigitalAccelRateInternal(valueToSet);
         if (mLowPowerAccelWR) {
-            //LPM is not compatible with mLSM303DigitalAccelRate == 1 to 7, set to next higher rate
             for (Integer i : SensorLSM303AH.ListofLSM303AHAccelRateLpmConfigValues) {
                 if (i == valueToSet) {
                     return;
@@ -514,7 +446,6 @@ public class SensorLSM303AH extends SensorLSM303 {
             }
             super.setLSM303DigitalAccelRateInternal(SensorLSM303AH.ListofLSM303AHAccelRateLpmConfigValues[SensorLSM303AH.ListofLSM303AHAccelRateLpmConfigValues.length - 1]);
         } else {
-            //HR is not compatible with mLSM303DigitalAccelRate > 10, set to higher rate
             for (Integer i : SensorLSM303AH.ListofLSM303AHAccelRateHrConfigValues) {
                 if (i == valueToSet) {
                     return;
@@ -532,7 +463,6 @@ public class SensorLSM303AH extends SensorLSM303 {
 
     @Override
     public void setLSM303MagRange(int valueToSet) {
-        //Not needed for LSM303AH as it only has one range
     }
 
     @Override
@@ -627,7 +557,6 @@ public class SensorLSM303AH extends SensorLSM303 {
                 DatabaseConfigHandle.WR_ACC_ALIGN_ZX, DatabaseConfigHandle.WR_ACC_ALIGN_ZY, DatabaseConfigHandle.WR_ACC_ALIGN_ZZ);
     }
 
-    //--------- Sensor specific methods end --------------
 
 
 }

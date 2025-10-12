@@ -27,14 +27,12 @@ import com.shimmerresearch.verisense.sensors.SensorBattVoltageVerisense.ADC_SAMP
 
 public class SensorGSRVerisense extends SensorGSR {
 
-    // Values appropriate to the Verisense Pulse+ (SR68). The Verisense GSR+ (SR62) uses Shimmer3 values.
     public static final double[] VERISENSE_PULSE_PLUS_GSR_REF_RESISTORS_KOHMS = new double[]{
             21.0,        //Range 0
             150.0,        //Range 1
             562.0,        //Range 2
             1740.0};    //Range 3
     public static final int VERISENSE_PULSE_PLUS_GSR_UNCAL_LIMIT_RANGE3 = 1134;
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef SENSOR_GSR_VERISENSE = new SensorDetailsRef(
             (long) Verisense.SensorBitmap.GSR,
             (long) Verisense.SensorBitmap.GSR,
@@ -48,7 +46,6 @@ public class SensorGSRVerisense extends SensorGSR {
                     ObjectClusterSensorName.GSR_RANGE),
             true);
     public static final Map<Integer, SensorDetailsRef> SENSOR_MAP_REF_VERISENSE;
-    //--------- Sensor specific variables end --------------
     private static final long serialVersionUID = -3937042079000714506L;
 
     static {
@@ -57,12 +54,10 @@ public class SensorGSRVerisense extends SensorGSR {
         SENSOR_MAP_REF_VERISENSE = Collections.unmodifiableMap(aMap);
     }
 
-    //--------- Sensor specific variables start --------------
     private GSR_RANGE gsrRange = GSR_RANGE.AUTO_RANGE;
     private ADC_SAMPLING_RATES sensorSamplingRate = ADC_SAMPLING_RATES.OFF;
     private ADC_OVERSAMPLING_RATES adcOversamplingRate = ADC_OVERSAMPLING_RATES.DISABLED;
 
-    //--------- Constructors for this class start --------------
     public SensorGSRVerisense(ShimmerVerObject svo) {
         super(svo);
 
@@ -71,14 +66,11 @@ public class SensorGSRVerisense extends SensorGSR {
             setCurrentGsrUncalLimitRange3(VERISENSE_PULSE_PLUS_GSR_UNCAL_LIMIT_RANGE3);
         }
     }
-    //--------- Sensor info end --------------
 
-    //--------- Abstract methods implemented start --------------
     @Override
     public void generateSensorMap() {
         super.createLocalSensorMapWithCustomParser(SENSOR_MAP_REF_VERISENSE, mChannelMapRef);
     }
-    //--------- Constructors for this class end --------------
 
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
@@ -229,7 +221,6 @@ public class SensorGSRVerisense extends SensorGSR {
         return gsrRange;
     }
 
-    //--------- Abstract methods implemented end --------------
 
     public void setGsrRange(GSR_RANGE gsrRange) {
         this.gsrRange = gsrRange;

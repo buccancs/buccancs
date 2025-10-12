@@ -54,7 +54,6 @@ public class API_0000X_ByteCommunicationShimmer3 extends BasicProcessWithCallBac
         try {
             mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS); //Just to give time to connect to finish
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -94,7 +93,6 @@ public class API_0000X_ByteCommunicationShimmer3 extends BasicProcessWithCallBac
         try {
             boolean result = mWaitTask.getTask().waitForCompletion(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -146,7 +144,6 @@ public class API_0000X_ByteCommunicationShimmer3 extends BasicProcessWithCallBac
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -160,7 +157,6 @@ public class API_0000X_ByteCommunicationShimmer3 extends BasicProcessWithCallBac
                         try {
                             Thread.sleep(200);
                         } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
 

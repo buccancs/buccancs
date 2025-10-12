@@ -20,8 +20,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 
 public class OrientationModule6DOF extends OrientationModule {
 
-    //--------- Channel maps start --------------
-    //Euler
     public static final ChannelDetails channel_Euler_Yaw_6DOF_LN = new ChannelDetails(
             ObjectClusterSensorName.EULER_6DOF_YAW_LN, //ObjectClusterName
             ObjectClusterSensorName.EULER_6DOF_YAW_LN, //GUI friendly text to display
@@ -64,7 +62,6 @@ public class OrientationModule6DOF extends OrientationModule {
             ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_LN, //database name
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
-    //--------- Algorithm specific variables end --------------
     public static final ChannelDetails channelQuatW_6DOF_LN = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_W_LN,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_W_LN,
@@ -133,7 +130,6 @@ public class OrientationModule6DOF extends OrientationModule {
             Arrays.asList(CHANNEL_TYPE.CAL));
 
 
-    //6DOF wide range
     public static final ChannelDetails channelQuatW_6DOF_WR = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_W_WR,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_W_WR,
@@ -162,7 +158,6 @@ public class OrientationModule6DOF extends OrientationModule {
     protected static final String WR = "_WR";
     protected static final String LN = "_LN";
     private static final long serialVersionUID = 278045647130089746L;
-    //6DOF channel groups
     public static List<ChannelDetails> listChannelsQuat6DOF_WR = Arrays.asList(
             channelQuatW_6DOF_WR, channelQuatX_6DOF_WR, channelQuatY_6DOF_WR, channelQuatZ_6DOF_WR);
     public static final AlgorithmDetails algo6DoFOrientation_WR_Acc = new AlgorithmDetails(
@@ -190,7 +185,6 @@ public class OrientationModule6DOF extends OrientationModule {
             channelAngleA_6DOF_WR, channelAngleX_6DOF_WR, channelAngleY_6DOF_WR, channelAngleZ_6DOF_WR);
     public static List<ChannelDetails> listChannelsEuler6DOF_LN = Arrays.asList(
             channel_Euler_Yaw_6DOF_LN, channel_Euler_Pitch_6DOF_LN, channel_Euler_Roll_6DOF_LN);
-    //--------- Algorithm maps start --------------
     public static final AlgorithmDetails algo6DoFOrientation_LN_Acc = new AlgorithmDetails(
             AlgorithmName.ORIENTATION_6DOF_LN,
             OrientationModule.GuiLabelConfig.ORIENTATAION_LN,
@@ -208,7 +202,6 @@ public class OrientationModule6DOF extends OrientationModule {
             CHANNEL_UNITS.NO_UNITS,
             SENSOR_CHECK_METHOD.ANY,
             listChannelsEuler6DOF_LN);
-    // ------------------- Algorithms grouping map start -----------------------
     public static final SensorGroupingDetails sGD6Dof = new SensorGroupingDetails(
             Configuration.Shimmer3.GuiLabelAlgorithmGrouping.ORIENTATION_6DOF.getTileText(),
             Arrays.asList(OrientationModule6DOF.algo6DoFOrientation_LN_Acc,
@@ -219,7 +212,6 @@ public class OrientationModule6DOF extends OrientationModule {
     public static List<ChannelDetails> listChannelsEuler6DOF_WR = Arrays.asList(
             channel_Euler_Yaw_6DOF_WR, channel_Euler_Pitch_6DOF_WR, channel_Euler_Roll_6DOF_WR);
 
-    //--------- Channel maps end --------------
 
     static {
         Map<String, AlgorithmDetails> aMap = new LinkedHashMap<String, AlgorithmDetails>();
@@ -251,36 +243,22 @@ public class OrientationModule6DOF extends OrientationModule {
 
     @Override
     public void setGeneralAlgorithmName() {
-        // TODO Auto-generated method stub
 
     }
-    //--------- Algorithm maps end --------------
 
     @Override
     public void setFilteringOption() {
-        // TODO Auto-generated method stub
 
     }
-    // ------------------- Algorithms grouping map end -----------------------
 
-//	{
-//		//TODO move to generateConfigOptionsMap()
-//		mConfigOptionsMap.put(GuiLabelConfig.QUATERNION_OUTPUT_6DOF, configOptionQuatOutput);
-//		mConfigOptionsMap.put(GuiLabelConfig.EULER_OUTPUT_6DOF, configOptionEulerOutput);
 //
-//		//TODO move to generateAlgorithmGroupingMap()
-//		mMapOfAlgorithmGrouping.put(Configuration.Shimmer3.GuiLabelAlgorithmGrouping.ORIENTATION_6DOF.ordinal(), sGD6Dof);
-//	}
 
-    //--------- Constructors for this class start --------------
 
     @Override
     public void setMinSamplingRateForAlgorithm() {
-        // TODO Auto-generated method stub
 
     }
 
-    //--------- Constructors for this class end --------------
 
     @Override
     public void setSupportedVerInfo() {
@@ -359,7 +337,6 @@ public class OrientationModule6DOF extends OrientationModule {
             }
         }
 
-        //		return super.getChannelDetails();
         return listOfChannelDetails;
     }
 
@@ -375,9 +352,6 @@ public class OrientationModule6DOF extends OrientationModule {
             case (GuiLabelConfigCommon.SHIMMER_SAMPLING_RATE):
                 returnValue = getShimmerSamplingRate();
                 break;
-//		case(GuiLabelConfig.ACCELEROMETER):
-//			returnValue = getAccelerometer();
-//		break;
             case (GuiLabelConfig.QUATERNION_OUTPUT_6DOF):
                 returnValue = isQuaternionOutput();
                 break;
@@ -395,9 +369,6 @@ public class OrientationModule6DOF extends OrientationModule {
             case (GuiLabelConfigCommon.SHIMMER_SAMPLING_RATE):
                 returnValue = 512;
                 break;
-//		case(GuiLabelConfig.ACCELEROMETER):
-//			returnValue = Shimmer3.LABEL_SENSOR_TILE.LOW_NOISE_ACCEL;
-//			break;
             case (GuiLabelConfig.QUATERNION_OUTPUT_6DOF):
                 returnValue = true;
                 break;
@@ -421,9 +392,6 @@ public class OrientationModule6DOF extends OrientationModule {
                     setShimmerSamplingRate((Double) valueToSet);
                 }
                 break;
-//		case(GuiLabelConfig.ACCELEROMETER):
-//			setAccelerometer((String) valueToSet);
-//			break;
             case (GuiLabelConfig.QUATERNION_OUTPUT_6DOF):
                 if (valueToSet instanceof Boolean) {
                     setQuaternionOutput((boolean) valueToSet);
@@ -448,8 +416,6 @@ public class OrientationModule6DOF extends OrientationModule {
         setAxisAngleOutput(false);
         setIsEnabled(false);
 
-        // This is necessary because all 6DOF modules need to have synced
-        // booleans for enabling Quaternion/Euler outputs for the Consensys implementation.
         if (((derivedSensorBitmapID & DerivedSensorsBitMask.ORIENTATION_6DOF_LN_QUAT) > 0)
                 || (derivedSensorBitmapID & DerivedSensorsBitMask.ORIENTATION_6DOF_WR_QUAT) > 0) {
             setQuaternionOutput(true);
@@ -475,13 +441,11 @@ public class OrientationModule6DOF extends OrientationModule {
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMapFromDb(LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -530,7 +494,6 @@ public class OrientationModule6DOF extends OrientationModule {
         return objectCluster;
     }
 
-    //--------- Algorithm specific variables start --------------
     public static class AlgorithmName {
         public static final String ORIENTATION_6DOF_LN = "LN_Acc_6DoF";
         public static final String ORIENTATION_6DOF_WR = "WR_Acc_6DoF";
@@ -574,14 +537,6 @@ public class OrientationModule6DOF extends OrientationModule {
         public static final String EULER_6DOF_ROLL_WR = EULER_6DOF_ROLL + WR;
 
 
-//		@Deprecated //need to describe axis angle 9DOF vs 6DOF
-//		public static final String AXIS_ANGLE_A = "Axis_Angle_A";//Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_A;
-//		@Deprecated //need to describe axis angle 9DOF vs 6DOF
-//		public static final String AXIS_ANGLE_X = "Axis_Angle_X";//Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_X;
-//		@Deprecated //need to describe axis angle 9DOF vs 6DOF
-//		public static final String AXIS_ANGLE_Y = "Axis_Angle_Y";//Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_Y;
-//		@Deprecated //need to describe axis angle 9DOF vs 6DOF
-//		public static final String AXIS_ANGLE_Z = "Axis_Angle_Z";//Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_Z;
     }
 
     public static class DatabaseChannelHandles {

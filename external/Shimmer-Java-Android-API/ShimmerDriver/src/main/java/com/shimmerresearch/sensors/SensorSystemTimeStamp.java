@@ -21,11 +21,9 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 import com.shimmerresearch.sensors.AbstractSensor.DatabaseChannelHandlesCommon;
 import com.shimmerresearch.sensors.SensorShimmerClock.GuiLabelSensors;
 
-//TODO I've only started on this class. I need to extract any old code from ShimmerClock and put it in here
 
 public class SensorSystemTimeStamp extends AbstractSensor {
 
-    //--------- Sensor info start --------------
     public static final SensorDetailsRef sensorSystemTimeStampRef = new SensorDetailsRef(
             GuiLabelSensors.SYSTEM_TIMESTAMP,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW,
@@ -35,20 +33,14 @@ public class SensorSystemTimeStamp extends AbstractSensor {
                     SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT_ZEROED
             ));
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
-    //--------- Channel info start --------------
     public static final ChannelDetails channelSystemTimestamp = new ChannelDetails(
             ObjectClusterSensorName.SYSTEM_TIMESTAMP,
             ObjectClusterSensorName.SYSTEM_TIMESTAMP,
             DatabaseChannelHandlesCommon.TIMESTAMP_SYSTEM,
             CHANNEL_UNITS.MILLISECONDS,
             Arrays.asList(CHANNEL_TYPE.CAL), false, true);
-    //--------- Sensor specific variables end --------------
 
-    //--------- Bluetooth commands start --------------
-    //--------- Bluetooth commands end --------------
 
-    //--------- Configuration options start --------------
-    //--------- Configuration options end --------------
     public static final ChannelDetails channelSystemTimestampPlot = new ChannelDetails(
             ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT,
             ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT,
@@ -68,7 +60,6 @@ public class SensorSystemTimeStamp extends AbstractSensor {
             CHANNEL_UNITS.MILLISECONDS,
             Arrays.asList(CHANNEL_TYPE.CAL), false, false);
     public static final Map<String, ChannelDetails> mChannelMapRef;
-    //--------- Sensor info end --------------
         private static final long serialVersionUID = 8974371709657275355L;
 
     static {
@@ -81,8 +72,6 @@ public class SensorSystemTimeStamp extends AbstractSensor {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
         aMap.put(ObjectClusterSensorName.SYSTEM_TIMESTAMP, channelSystemTimestamp);
         aMap.put(ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT, channelSystemTimestampPlot);
-        //TODO why is below not enabled
-//		aMap.put(ObjectClusterSensorName.SYSTEM_TIMESTAMP_DIFFERENCE, channelSystemTimestampDiff);
         aMap.put(ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT_ZEROED, channelSystemTimestampPlotZeroed);
         mChannelMapRef = Collections.unmodifiableMap(aMap);
     }
@@ -100,19 +89,14 @@ public class SensorSystemTimeStamp extends AbstractSensor {
 
     {
         channelSystemTimestampPlot.mChannelSource = CHANNEL_SOURCE.API;
-        //channelSystemTimestampPlot.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.CAL;
     }
 
     {
-        //TODO put below into constructor - not sure if it's possible to modify here because the channel is a static final
         channelSystemTimestampPlotZeroed.mChannelSource = CHANNEL_SOURCE.API;
-//		channelSystemTimestampPlotZeroed.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.CAL;
     }
 
     {
-        //TODO put below into constructor - not sure if it's possible to modify here because the channel is a static final
         channelSystemTimestampDiff.mChannelSource = CHANNEL_SOURCE.API;
-//		channelSystemTimestamp.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.CAL;
     }
 
     public SensorSystemTimeStamp(ShimmerVerObject svo) {
@@ -120,7 +104,6 @@ public class SensorSystemTimeStamp extends AbstractSensor {
         initialise();
     }
 
-    //--------- Channel info end --------------
 
     public SensorSystemTimeStamp(ShimmerDevice shimmerDevice) {
         super(SENSORS.SYSTEM_TIMESTAMP, shimmerDevice);
@@ -134,12 +117,10 @@ public class SensorSystemTimeStamp extends AbstractSensor {
 
     @Override
     public void generateSensorGroupMapping() {
-        // NOT NEEDED BECAUSE NOT DISPLAYED ON GUI CONFIG PANEL
     }
 
     @Override
     public void generateConfigOptionsMap() {
-        // NOT NEEDED BECAUSE NO CONFIGURATION OPTIONS NEEDED
     }
 
     @Override
@@ -147,13 +128,11 @@ public class SensorSystemTimeStamp extends AbstractSensor {
 
         for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
             if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.SYSTEM_TIMESTAMP)) {
-//				objectCluster.mSystemTimeStampBytes = UtilShimmer.convertLongToByteArray(pcTimestamp);
                 objectCluster.setSystemTimeStamp(pcTimestampMs);
                 objectCluster.addCalData(channelDetails, pcTimestampMs);
                 objectCluster.incrementIndexKeeper();
             } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT)) {
                 if (doesDeviceSendATimestamp) {
-                    //TODO move from ShimmerClock
                 } else {
                     objectCluster.addCalData(channelDetails, pcTimestampMs);
                     objectCluster.incrementIndexKeeper();
@@ -174,25 +153,21 @@ public class SensorSystemTimeStamp extends AbstractSensor {
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Object getConfigValueUsingConfigLabel(Integer sensorId, String configLabel) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
         if (mSensorMap.containsKey(sensorId)) {
-            //TODO set defaults for particular sensor
             return true;
         }
         return false;
@@ -200,48 +175,40 @@ public class SensorSystemTimeStamp extends AbstractSensor {
 
     @Override
     public Object getSettings(String componentName, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public LinkedHashMap<String, Object> generateConfigMap() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void parseConfigMap(
             LinkedHashMap<String, Object> mapOfConfigPerShimmer) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean checkConfigOptionValues(String stringKey) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-        // TODO Auto-generated method stub
 
     }
 
-    //--------- Sensor specific variables start --------------
     public static class ObjectClusterSensorName {
         public static final String SYSTEM_TIMESTAMP = "System_Timestamp";
         public static final String SYSTEM_TIMESTAMP_PLOT = "System_Timestamp_Plot";
@@ -249,8 +216,6 @@ public class SensorSystemTimeStamp extends AbstractSensor {
         public static final String SYSTEM_TIMESTAMP_PLOT_ZEROED = "System_Timestamp_Plot_Zeroed";
     }
 
-    //--------- Optional methods to override in Sensor Class start --------
-    //--------- Optional methods to override in Sensor Class end --------
 
 
 }

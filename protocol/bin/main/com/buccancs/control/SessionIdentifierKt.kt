@@ -8,6 +8,9 @@ package com.buccancs.control
 @kotlin.jvm.JvmName("-initializesessionIdentifier")
 public inline fun sessionIdentifier(block: com.buccancs.control.SessionIdentifierKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SessionIdentifier =
   com.buccancs.control.SessionIdentifierKt.Dsl._create(com.buccancs.control.SessionIdentifier.newBuilder()).apply { block() }._build()
+/**
+ * Protobuf type `com.buccancs.control.SessionIdentifier`
+ */
 public object SessionIdentifierKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
@@ -24,12 +27,18 @@ public object SessionIdentifierKt {
     @kotlin.PublishedApi
     internal fun _build(): com.buccancs.control.SessionIdentifier = _builder.build()
 
-        public var id: kotlin.String
+    /**
+     * `string id = 1;`
+     */
+    public var id: kotlin.String
       get() = _builder.getId()
       set(value) {
         _builder.setId(value)
       }
-        public fun clearId() {
+    /**
+     * `string id = 1;`
+     */
+    public fun clearId() {
       _builder.clearId()
     }
   }

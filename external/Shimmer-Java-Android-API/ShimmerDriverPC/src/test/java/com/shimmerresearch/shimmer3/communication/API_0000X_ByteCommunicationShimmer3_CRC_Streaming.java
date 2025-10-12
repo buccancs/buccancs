@@ -56,14 +56,12 @@ public class API_0000X_ByteCommunicationShimmer3_CRC_Streaming extends BasicProc
         try {
             boolean result = mCalibrationTask.getTask().waitForCompletion(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         try {
             mDevice.startStreaming();
         } catch (ShimmerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try {
@@ -72,7 +70,6 @@ public class API_0000X_ByteCommunicationShimmer3_CRC_Streaming extends BasicProc
                 assert (false);
             }
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -82,7 +79,6 @@ public class API_0000X_ByteCommunicationShimmer3_CRC_Streaming extends BasicProc
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-        // TODO Auto-generated method stub
         int ind = shimmerMSG.mIdentifier;
 
         Object object = (Object) shimmerMSG.mB;
@@ -96,7 +92,6 @@ public class API_0000X_ByteCommunicationShimmer3_CRC_Streaming extends BasicProc
                         try {
                             Thread.sleep(200);
                         } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
 

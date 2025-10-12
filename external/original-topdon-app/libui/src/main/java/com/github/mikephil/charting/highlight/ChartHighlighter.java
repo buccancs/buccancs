@@ -34,7 +34,6 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
 
         protected MPPointD getValsForTouch(float x, float y) {
 
-        // take any transformer to determine the x-axis value
         MPPointD pos = mChart.getTransformer(YAxis.AxisDependency.LEFT).getValuesByTouchPoint(x, y);
         return pos;
     }
@@ -94,7 +93,6 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
 
             IDataSet dataSet = data.getDataSetByIndex(i);
 
-            // don't include DataSets that cannot be highlighted
             if (!dataSet.isHighlightEnabled())
                 continue;
 
@@ -108,13 +106,10 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
 
         ArrayList<Highlight> highlights = new ArrayList<>();
 
-        //noinspection unchecked
         List<Entry> entries = set.getEntriesForXValue(xVal);
         if (entries.size() == 0) {
-            // Try to find closest x-value and take all entries for that x-value
             final Entry closest = set.getEntryForXValue(xVal, Float.NaN, rounding);
             if (closest != null) {
-                //noinspection unchecked
                 entries = set.getEntriesForXValue(closest.getX());
             }
         }
@@ -160,8 +155,6 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
     }
 
         protected float getDistance(float x1, float y1, float x2, float y2) {
-        //return Math.abs(y1 - y2);
-        //return Math.abs(x1 - x2);
         return (float) Math.hypot(x1 - x2, y1 - y2);
     }
 

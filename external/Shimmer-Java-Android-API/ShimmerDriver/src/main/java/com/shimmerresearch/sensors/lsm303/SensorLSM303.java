@@ -23,8 +23,6 @@ import com.shimmerresearch.sensors.AbstractSensor;
 
 public abstract class SensorLSM303 extends AbstractSensor {
 
-    //--------- Configuration options start --------------
-//	public static final String[] ListofLSM303AccelRange={"+/- 2g","+/- 4g","+/- 8g","+/- 16g"};
     public static final String[] ListofLSM303AccelRange = {
             UtilShimmer.UNICODE_PLUS_MINUS + " 2g",
             UtilShimmer.UNICODE_PLUS_MINUS + " 4g",
@@ -40,16 +38,13 @@ public abstract class SensorLSM303 extends AbstractSensor {
     protected int mAccelRange = 0;
 
 
-    // ----------   Wide-range accel start ---------------
     protected boolean mLowPowerAccelWR = false;
     protected boolean mHighResAccelWR = true;
     protected int mLSM303DigitalAccelRate = 0;
-    // ----------   Mag start ---------------
     protected int mLSM303MagRate = 4;
         protected boolean mLowPowerMag = false;
     protected int mMagRange = 0;
 
-    // ----------   Wide-range accel end ---------------
 
         public SensorLSM303() {
         super(SENSORS.LSM303);
@@ -66,7 +61,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
     public abstract int getAccelRateFromFreqForSensor(boolean isEnabled, double freq, boolean isLowPowerMode);
 
     public abstract int getMagRateFromFreqForSensor(boolean isEnabled, double freq, boolean isLowPowerMode);
-    // ----------   Mag end ---------------
 
     public abstract void setLSM303MagRange(int valueToSet);
 
@@ -75,7 +69,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
     public abstract void setLSM303AccelRange(int valueToSet);
 
 
-    //--------- Configuration options end --------------
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
@@ -87,46 +80,35 @@ public abstract class SensorLSM303 extends AbstractSensor {
             setDefaultLsm303MagSensorConfig(false);
         }
 
-        //Added this for Conensys 1.0.0 release - assumes individual sampling rates of each sensor matches the Shimmer sampling
         setLowPowerAccelWR(false);
         setLowPowerMag(false);
     }
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        //set sampling rate of the sensors as close to the Shimmer sampling rate as possible (sensor sampling rate >= shimmer sampling rate)
         setLowPowerAccelWR(false);
         setLowPowerMag(false);
 
         setLSM303AccelRateFromFreq(samplingRateHz);
         setLSM303MagRateFromFreq(samplingRateHz);
 
-        //TODO
-        //	checkLowPowerAccelWR();
         checkLowPowerMag();
     }
 
 
-    //--------- Constructors for this class start --------------
 
-    //--------- Optional methods to override in Sensor Class start --------
     @Override
     public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs) {
 
-        // process data originating from the Shimmer
         objectCluster = sensorDetails.processDataCommon(rawData, commType, objectCluster, isTimeSyncEnabled, pcTimestampMs);
 
         if (this instanceof SensorLSM303DLHC) {
-            //TODO swap Y and Z channels
         }
 
-        //Calibration
         if (mEnableCalibration) {
-            // get uncalibrated data for each (sub)sensor
             if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.ACCEL_WR) && mCurrentCalibDetailsAccelWr != null) {
                 double[] unCalibratedAccelWrData = new double[3];
                 for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
-                    //Uncalibrated Accelerometer data
                     if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_X)) {
                         unCalibratedAccelWrData[0] = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
                     } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_Y)) {
@@ -137,9 +119,7 @@ public abstract class SensorLSM303 extends AbstractSensor {
                 }
 
                 double[] calibratedAccelWrData = UtilCalibration.calibrateInertialSensorData(unCalibratedAccelWrData, mCurrentCalibDetailsAccelWr);
-//				double[] calibratedAccelWrData = UtilCalibration.calibrateInertialSensorData(unCalibratedAccelWrData, mAlignmentMatrixWRAccel, mSensitivityMatrixWRAccel, mOffsetVectorWRAccel);
 
-                //Add calibrated data to Object cluster
                 if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.ACCEL_WR)) {
                     for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
                         if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_X)) {
@@ -152,7 +132,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
                     }
                 }
 
-                //Debugging
                 if (mIsDebugOutput) {
                     super.consolePrintChannelsCal(objectCluster, Arrays.asList(
                             new String[]{ObjectClusterSensorName.ACCEL_WR_X, CHANNEL_TYPE.UNCAL.toString()},
@@ -166,7 +145,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
             } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.MAG) && mCurrentCalibDetailsMag != null) {
                 double[] unCalibratedMagData = new double[3];
                 for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
-                    //Uncalibrated Magnetometer data
                     if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.MAG_X)) {
                         unCalibratedMagData[0] = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
                     } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.MAG_Y)) {
@@ -176,7 +154,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
                     }
                 }
 
-//				double[] calibratedMagData = UtilCalibration.calibrateInertialSensorData(unCalibratedMagData, mAlignmentMatrixMagnetometer, mSensitivityMatrixMagnetometer, mOffsetVectorMagnetometer);
                 double[] calibratedMagData = UtilCalibration.calibrateInertialSensorData(unCalibratedMagData, mCurrentCalibDetailsMag);
 
                 if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.MAG)) {
@@ -191,7 +168,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
                     }
                 }
 
-                //Debugging
                 if (mIsDebugOutput) {
                     super.consolePrintChannelsCal(objectCluster, Arrays.asList(
                             new String[]{ObjectClusterSensorName.MAG_X, CHANNEL_TYPE.UNCAL.toString()},
@@ -225,11 +201,9 @@ public abstract class SensorLSM303 extends AbstractSensor {
             configBytes[configByteLayoutCast.idxConfigSetupByte2] |= (byte) ((getMagRange() & configByteLayoutCast.maskLSM303DLHCMagRange) << configByteLayoutCast.bitShiftLSM303DLHCMagRange);
             configBytes[configByteLayoutCast.idxConfigSetupByte2] |= (byte) ((getLSM303MagRate() & configByteLayoutCast.maskLSM303DLHCMagSamplingRate) << configByteLayoutCast.bitShiftLSM303DLHCMagSamplingRate);
 
-            // LSM303DLHC Magnetometer Calibration Parameters
             byte[] bufferCalibrationParameters = generateCalParamLSM303DLHCMag();
             System.arraycopy(bufferCalibrationParameters, 0, configBytes, configByteLayoutCast.idxLSM303DLHCMagCalibration, configByteLayoutCast.lengthGeneralCalibrationBytes);
 
-            // LSM303DLHC Digital Accel Calibration Parameters
             bufferCalibrationParameters = generateCalParamLSM303DLHCAccel();
             System.arraycopy(bufferCalibrationParameters, 0, configBytes, configByteLayoutCast.idxLSM303DLHCAccelCalibration, configByteLayoutCast.lengthGeneralCalibrationBytes);
 
@@ -266,20 +240,16 @@ public abstract class SensorLSM303 extends AbstractSensor {
                 getCurrentCalibDetailsAccelWr().mCalibReadSource = CALIB_READ_SOURCE.INFOMEM;
             }
 
-            // LSM303DLHC Magnetometer Calibration Parameters
             byte[] bufferCalibrationParameters = new byte[configByteLayoutCast.lengthGeneralCalibrationBytes];
             System.arraycopy(configBytes, configByteLayoutCast.idxLSM303DLHCMagCalibration, bufferCalibrationParameters, 0, configByteLayoutCast.lengthGeneralCalibrationBytes);
             parseCalibParamFromPacketMag(bufferCalibrationParameters, CALIB_READ_SOURCE.INFOMEM);
 
-            // LSM303DLHC Digital Accel Calibration Parameters
             bufferCalibrationParameters = new byte[configByteLayoutCast.lengthGeneralCalibrationBytes];
             System.arraycopy(configBytes, configByteLayoutCast.idxLSM303DLHCAccelCalibration, bufferCalibrationParameters, 0, configByteLayoutCast.lengthGeneralCalibrationBytes);
             parseCalibParamFromPacketAccelLsm(bufferCalibrationParameters, CALIB_READ_SOURCE.INFOMEM);
         }
     }
-    //--------- Constructors for this class end --------------
 
-    //--------- Abstract methods implemented start --------------
 
     @Override
     public Object setConfigValueUsingConfigLabel(Integer sensorId, String configLabel, Object valueToSet) {
@@ -305,11 +275,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
                 setLSM303MagRate((int) valueToSet);
                 break;
 
-//			case(GuiLabelConfigCommon.KINEMATIC_CALIBRATION_ALL):
-//				TreeMap<Integer, TreeMap<Integer, CalibDetails>> mapOfKinematicSensorCalibration = (TreeMap<Integer, TreeMap<Integer, CalibDetails>>) valueToSet;
-//				setCalibration(mapOfKinematicSensorCalibration);
-//				returnValue = valueToSet;
-//	    		break;
             case (GuiLabelConfigCommon.RANGE):
                 if (sensorId == mSensorIdAccel) {
                     this.setConfigValueUsingConfigLabel(GuiLabelConfig.LSM303_ACCEL_RANGE, valueToSet);
@@ -355,31 +320,18 @@ public abstract class SensorLSM303 extends AbstractSensor {
                 returnValue = getAccelRange();
                 break;
             case (GuiLabelConfig.LSM303_MAG_RANGE):
-                //TODO check below and commented out code (RS (20/5/2016): Same as in ShimmerObject.)
                 returnValue = getMagRange();
 
-                //						// firmware sets mag range to 7 (i.e. index 6 in combobox) if user set mag range to 0 in config file
-                //						if(getMagRange() == 0) cmBx.setSelectedIndex(6);
-                //						else cmBx.setSelectedIndex(getMagRange()-1);
                 break;
             case (GuiLabelConfig.LSM303_ACCEL_RATE):
                 int configValue = getLSM303DigitalAccelRate();
 
-//		    	if(!isLSM303DigitalAccelLPM()) {
-//		        	if(configValue==8) {
-//		        		//TODO:
-//		        		//		        		configValue = 9;
-//		        	}
-//		    	}
                 returnValue = configValue;
                 break;
             case (GuiLabelConfig.LSM303_MAG_RATE):
                 returnValue = getLSM303MagRate();
                 break;
 
-//			case(Configuration.Shimmer3.GuiLabelConfig.KINEMATIC_CALIBRATION_ALL):
-//				returnValue = getKinematicCalibration();
-//				break;
             case (GuiLabelConfigCommon.RANGE):
                 if (sensorId == mSensorIdAccel) {
                     returnValue = this.getConfigValueUsingConfigLabel(GuiLabelConfig.LSM303_ACCEL_RANGE);
@@ -403,7 +355,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
 
     }
 
-    //--------- Abstract methods implemented end --------------
 
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
@@ -426,8 +377,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
                     mConfigOptionsMap.get(stringKey).setIndexOfValuesToUse(ConfigOptionDetailsSensor.VALUE_INDEXES.LSM303_ACCEL_RATE.IS_LPM);
                 } else {
                     mConfigOptionsMap.get(stringKey).setIndexOfValuesToUse(ConfigOptionDetailsSensor.VALUE_INDEXES.LSM303_ACCEL_RATE.NOT_LPM);
-                    // double check that rate is compatible with LPM (8 not compatible so set to higher rate)
-//					setLSM303DigitalAccelRate(mLSM303DigitalAccelRate);
                 }
             }
             return true;
@@ -485,14 +434,11 @@ public abstract class SensorLSM303 extends AbstractSensor {
         }
     }
 
-    //--------- Optional methods to override in Sensor Class end --------
 
 
-    //--------- Sensor specific methods start --------------
 
         public int setLSM303AccelRateFromFreq(double freq) {
         boolean isEnabled = isSensorEnabled(mSensorIdAccel);
-//		System.out.println("Setting Sampling Rate: " + freq + "\tmLowPowerAccelWR:" + mLowPowerAccelWR);
         setLSM303DigitalAccelRateInternal(getAccelRateFromFreqForSensor(isEnabled, freq, mLowPowerAccelWR));
         return mLSM303DigitalAccelRate;
     }
@@ -504,7 +450,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
     }
 
     public CalibDetailsKinematic getCurrentCalibDetailsMag() {
-//		return getCurrentCalibDetails(mSensorIdMag, getMagRange());
         if (mCurrentCalibDetailsMag == null) {
             updateCurrentMagCalibInUse();
         }
@@ -512,7 +457,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
     }
 
     public CalibDetailsKinematic getCurrentCalibDetailsAccelWr() {
-//		return getCurrentCalibDetails(mSensorIdAccel, getAccelRange());
         return mCurrentCalibDetailsAccelWr;
     }
 
@@ -573,12 +517,10 @@ public abstract class SensorLSM303 extends AbstractSensor {
     }
 
     public void updateCurrentMagCalibInUse() {
-//		mCurrentCalibDetailsMag = getCurrentCalibDetailsMag();
         mCurrentCalibDetailsMag = getCurrentCalibDetailsIfKinematic(mSensorIdMag, getMagRange());
     }
 
     public void updateCurrentAccelWrCalibInUse() {
-//		mCurrentCalibDetailsAccelWr = getCurrentCalibDetailsAccelWr();
         mCurrentCalibDetailsAccelWr = getCurrentCalibDetailsIfKinematic(mSensorIdAccel, getAccelRange());
     }
 
@@ -610,7 +552,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
         mHighResAccelWR = (i > 0) ? true : false;
     }
 
-    //TODO Returning same variable as isHighResAccelWr() -> remove one method?
     public boolean isLSM303DigitalAccelHRM() {
         return mHighResAccelWR;
     }
@@ -619,7 +560,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
         return (mHighResAccelWR ? 1 : 0);
     }
 
-    //TODO Returning same variable as isLowPowerAccelWr() -> remove one method?
     public boolean isLSM303DigitalAccelLPM() {
         return mLowPowerAccelWR;
     }
@@ -640,7 +580,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
         }
     }
 
-    //TODO Returning same variable as isLowPowerAccelWr() -> remove one method?
     public boolean isLowPowerAccelEnabled() {
         return isLSM303DigitalAccelLPM();
     }
@@ -680,8 +619,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
     }
 
     public void setLSM303DigitalAccelRateInternal(int valueToSet) {
-        //System.out.println("Accel Rate:\t" + valueToSet);
-        //UtilShimmer.consolePrintCurrentStackTrace();
         mLSM303DigitalAccelRate = valueToSet;
     }
 
@@ -726,13 +663,11 @@ public abstract class SensorLSM303 extends AbstractSensor {
         public static final String LSM303_ACCEL_DEFAULT_CALIB = "Wide Range Accel Default Calibration";
         public static final String LSM303_MAG_DEFAULT_CALIB = "Mag Default Calibration";
 
-        //NEW
         public static final String LSM303_ACCEL_CALIB_PARAM = "Wide Range Accel Calibration Details";
         public static final String LSM303_ACCEL_VALID_CALIB = "Wide Range Accel Valid Calibration";
         public static final String LSM303_MAG_CALIB_PARAM = "Mag Calibration Details";
         public static final String LSM303_MAG_VALID_CALIB = "Mag Valid Calibration";
     }
-    //--------- Sensor specific methods end --------------
 
 
 }

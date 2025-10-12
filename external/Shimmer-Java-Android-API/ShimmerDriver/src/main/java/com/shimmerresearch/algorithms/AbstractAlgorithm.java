@@ -33,15 +33,12 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     public String mAlgorithmGroupingName;
     public AlgorithmDetails mAlgorithmDetails;
         public List<ShimmerVerObject> mListOfCompatibleSVO = new ArrayList<ShimmerVerObject>();
-    //	public List<ChannelDetails> mListofChannelDetails;
     public List<String> mOutputChannels; // list of all output channels - can be used for extracting specific metrics after processing
 
-    //This identifies what inputs are required for the signal, and the corresponding gui option (e.g. checkbox, textbox)
     public FILTERING_OPTION mFilteringOptions = FILTERING_OPTION.NONE;
     public ALGORITHM_TYPE mAlgorithmType = ALGORITHM_TYPE.ALGORITHM_TYPE_CONTINUOUS;
     public ALGORITHM_RESULT_TYPE mAlgorithmResultType = ALGORITHM_RESULT_TYPE.ALGORITHM_RESULT_TYPE_SINGLE_OBJECT_CLUSTER;
 
-    //This are the core variables every algorithm should have
     public ALGORITHM_INPUT_TYPE mAlgorithmInputType = ALGORITHM_INPUT_TYPE.ALGORITHM_INPUT_TYPE_SINGLE_OBJECT_CLUSTER;
         public HashMap<String, ConfigOptionDetails> mConfigOptionsMap = new HashMap<String, ConfigOptionDetails>();//Define the gui to be generated
     public HashMap<String, AlgorithmDetails> mAlgorithmChannelsMap = new HashMap<String, AlgorithmDetails>();//Defines algorithm requirements
@@ -80,7 +77,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         mShimmerDevice = shimmerDevice;
     }
 
-    //General methods used during algorithm initialisation
     public abstract void setGeneralAlgorithmName();
 
     public abstract void setFilteringOption();
@@ -101,7 +97,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
     public abstract Object getSettings(String componentName);
 
-    //	public abstract void setSettings(String componentName, Object valueToSet) throws Exception;
     public abstract void setSettings(String componentName, Object valueToSet);
 
     public abstract Object getDefaultSettings(String componentName);
@@ -120,7 +115,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
     private void setAlgorithmDetails(AlgorithmDetails algorithmDetails) {
         mAlgorithmDetails = algorithmDetails;
-//		setSignalName(algorithmDetails.mAlgorithmName);
         mAlgorithmName = algorithmDetails.mAlgorithmName;
         mAlgorithmGroupingName = algorithmDetails.mAlgorithmName;
         mAlgorithmChannelsMap.put(mAlgorithmName, mAlgorithmDetails);
@@ -135,7 +129,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         generateAlgorithmGroupingMap();
     }
 
-    // ------  Constructors start (should be overridden in Algorithm classes in order to setupAlgorithm() locally)
 
     public String getAlgorithmName() {
         return mAlgorithmName;
@@ -154,7 +147,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         return mSignalName[0];
     }
 
-    // ------  Constructors end
 
     @Deprecated
     public void setSignalName(String signalName) {
@@ -228,10 +220,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     }
 
     public void setIsEnabled(boolean isEnabled) {
-//		if(isEnabled){
-//			System.out.print(mAlgorithmName + " is being set to " + isEnabled);
-//			System.out.print(UtilShimmer.convertStackTraceToString(Thread.currentThread().getStackTrace()));
-//		}
 
         mIsEnabled = isEnabled;
         if (!isEnabled) {
@@ -255,19 +243,16 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
         @Deprecated
     public String[] getSignalOutputNameArray() {
-        // TODO Auto-generated method stub
         return mSignalOutputNameArray;
     }
 
         @Deprecated
     public String[] getSignalOutputFormatArray() {
-        // TODO Auto-generated method stub
         return mSignalOutputFormatArray;
     }
 
         @Deprecated
     public String[] getSignalOutputUnitArray() {
-        // TODO Auto-generated method stub
         return mSignalOutputUnitArray;
     }
 
@@ -339,13 +324,11 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         return mMinSamplingRateForAlgorithhm;
     }
 
-    //TODO fix below if needed
     public AlgorithmResultObject processDataRealTime(List<ObjectCluster> objectClusterArray) {
         for (ObjectCluster ojc : objectClusterArray) {
             try {
                 return processDataRealTime(ojc);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -371,7 +354,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     }
 
     public void setDefaultSetting() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -411,7 +393,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         if (mShimmerDevice != null) {
             mShimmerDevice.consolePrintLn(message);
         } else {
-//			System.out.println(message);
             mUtilShimmer.consolePrintLn(message);
         }
     }
@@ -420,7 +401,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         if (mShimmerDevice != null) {
             mShimmerDevice.consolePrintErrLn(message);
         } else {
-//			System.out.println(message);
             mUtilShimmer.consolePrintErrLn(message);
         }
     }
@@ -429,13 +409,11 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         if (mShimmerDevice != null) {
             mShimmerDevice.consolePrintExeptionLn(message, stackTrace);
         } else {
-//			System.out.println(message);
             mUtilShimmer.consolePrintExeptionLn(message, stackTrace);
         }
     }
 
         public void loadAlgorithmVariables(AbstractAlgorithm abstractAlgorithmSource) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -495,7 +473,6 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
     public class GuiLabelConfigCommon {
         public final static String SHIMMER_SAMPLING_RATE = Configuration.Shimmer3.GuiLabelConfig.SHIMMER_SAMPLING_RATE;
-        //TODO implement support for the below across all algorithms
         public final static String MIN_ALGO_SAMPLING_RATE = "Algo Min " + SHIMMER_SAMPLING_RATE;
         public final static String TIMESTAMP_SIGNAL_NAME = "Time Stamp Signal Name";
         public final static String TIMESTAMP_SIGNAL_FORMAT = "Time Stamp Signal Format";

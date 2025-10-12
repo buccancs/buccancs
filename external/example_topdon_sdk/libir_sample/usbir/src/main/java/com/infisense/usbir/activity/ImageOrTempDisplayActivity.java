@@ -38,7 +38,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     public static final int START_PREVIEW_COMPLETE = 1001;
     public static final int IRCMD_INIT_FAIL = 1002;
     private static final String TAG = "ImageOrTempDisplayActivity";
-    // 中间出图选项
     private static final String[] y16ModePreviewSrcType = {"Y16_MODE_TEMPERATURE", "Y16_MODE_IR", "Y16_MODE_KBC",
             "Y16_MODE_HBC_DPC", "Y16_MODE_VBC", "Y16_MODE_TNR", "Y16_MODE_SNR", "Y16_MODE_AGC", "Y16_MODE_DDE",
             "Y16_MODE_GAMMA", "Y16_MODE_MIRROR"};
@@ -49,9 +48,7 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     private IRCMD ircmd;
     private UVCCamera uvcCamera;
     private CommonParams.DataFlowMode defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
-    // 是否使用IRISP算法集成
     private boolean isUseIRISP = false;
-    // 是否使用GPU方案
     private boolean isUseGPU = false;
     private int cameraWidth; // 传感器的原始宽度
     private int cameraHeight;// 传感器的原始高度
@@ -63,7 +60,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     private SynchronizedBitmap syncimage = new SynchronizedBitmap();
     private boolean isrun = false;
     private RelativeLayout.LayoutParams fullScreenlayoutParams;
-    // progressDialog
     private AlertDialog progressDialog;
 
     @Override
@@ -150,7 +146,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     }
 
         private void initdata() {
-        // 计算画面的宽高，避免被拉伸变形
         int screenWidth = ScreenUtils.getScreenWidth(this);
         fullScreenlayoutParams = new RelativeLayout.LayoutParams(screenWidth,
                 imageHeight * screenWidth / imageWidth);
@@ -277,7 +272,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.manualShutButton) {
-            //=== 打快门
             if (syncimage.type == 1) {
                 ircmd.tiny1bShutterManual();
             } else {

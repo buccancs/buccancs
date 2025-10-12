@@ -136,7 +136,6 @@ public class UnitUtils {
     }
 
         public static String getDecimalFormatByDouble(double score) {
-        //不足两位则补0
         DecimalFormat decimalFormat = new DecimalFormat("0.00#");
         return decimalFormat.format(score);
     }

@@ -18,9 +18,7 @@ public class DeviceIrcmdControlManager {
 
     private static final String TAG = "DeviceIrcmdControlManager";
     private static DeviceIrcmdControlManager mInstance;
-    //图像交互类
     private IrcamEngine mIrcamEngine;
-    //命令交互类
     private IrcmdEngine mIrcmdEngine;
     private boolean mSendFPGACommand = false;
     private boolean mSendISPCommand = false;
@@ -63,9 +61,7 @@ public class DeviceIrcmdControlManager {
     }
 
         public static String getReadValue(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end) {
-        // 读取出来的一个int，共四个字节的值
         StringBuilder ispParamReadByteArrStr = new StringBuilder();
-        // 00000111 00000000 00000000 00000000
         for (int i = 0; i < ispParamReadByteArray.length; i++) {
             ispParamReadByteArrStr.append(String.format("%8s",
                     Integer.toBinaryString(ispParamReadByteArray[i] & 0xFF)).replace(' ' , '0'));
@@ -77,15 +73,12 @@ public class DeviceIrcmdControlManager {
         Log.i(TAG, "name = " + name + " orgValue = " + orgValue +
                 " orgValueInt = " + Long.parseLong(orgValue, 2));
 
-        //01110000   00000000 00001010 00000000 00000001
         return String.valueOf(Long.parseLong(orgValue, 2));
     }
 
         public static long byteArrToBinStr(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end,
                                        byte[] valueArray) {
-        // 读取出来的一个int，共四个字节的值
         StringBuilder ispParamReadByteArrStr = new StringBuilder();
-        // 00000111 00000000 00000000 00000000
         for (int i = 0; i < ispParamReadByteArray.length; i++) {
             ispParamReadByteArrStr.append(String.format("%8s",
                     Integer.toBinaryString(ispParamReadByteArray[i] & 0xFF)).replace(' ' , '0'));
@@ -93,9 +86,7 @@ public class DeviceIrcmdControlManager {
         Log.i(TAG, "name = " + name + " ispParamReadByteArrStr = " + ispParamReadByteArrStr.toString() +
                 " ispParamReadByteArrStrInt = " + Long.parseLong(ispParamReadByteArrStr.toString(), 2));
 
-        // 要写入的值，以int类型给出，共四个字节  0000000000000001 00000000 10001001
         StringBuilder valueArrStr = new StringBuilder();
-        // 00000111 00000000 00000000 00000000
         for (int i = 0; i < valueArray.length; i++) {
             valueArrStr.append(String.format("%8s", Integer.toBinaryString(valueArray[i] & 0xFF)).replace(' ' , '0'));
         }
@@ -106,14 +97,12 @@ public class DeviceIrcmdControlManager {
         Log.i(TAG, "name = " + name + " orgValue = " + orgValue +
                 " orgValueInt = " + Long.parseLong(orgValue, 2));
 
-        // 需要根据begin和end来截取要传入的值,然后替换读取出来的值
         String valueStr = ispParamReadByteArrStr.replace(byteWidth * 8 - end - 1, byteWidth * 8 - begin,
                 valueArrStr.substring(byteWidth * 8 - end - 1, byteWidth * 8 - begin)).toString();
 
         Log.i(TAG, "name = " + name + " valueStr = " + valueArrStr.toString() + " valueStr = " + valueStr +
                 " valueStrInt = " + Long.parseLong(valueStr, 2));
 
-        //01110000   00000000 00001010 00000000 00000001
         return Long.parseLong(valueStr, 2);
     }
 
@@ -146,7 +135,6 @@ public class DeviceIrcmdControlManager {
             public void run() {
                 Log.i(TAG, "sendFPGAParam");
                 try {
-                    //todo 暂时先一条一条指令发送
                     String fpga_param_path = Const.DATA_FILE_SAVE_PATH + File.separator + "fpga.json";
                     File file = new File(fpga_param_path);
                     if (!file.exists()) {
@@ -157,7 +145,6 @@ public class DeviceIrcmdControlManager {
 
                     JSONArray jsonArray = new JSONArray(fpgaParams);
                     Log.d(TAG, "first jsonArray length : " + jsonArray.length());
-//                    float[] params = new float[jsonArray.length()];
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         int[] params = new int[1];
@@ -166,11 +153,6 @@ public class DeviceIrcmdControlManager {
                         double value = jsonObject.getDouble("value");
                         params[0] = (int) value;
                         Log.d(TAG, "first params value : " + params[0]);
-//                        if (i == 0) {
-//                            Log.d(TAG, "first address string : " + address);
-//                            firstAddress = Integer.parseInt(address.substring(2), 16);
-//                            Log.d(TAG, "first address int : " + firstAddress);
-//                        }
                         int reAddress = Integer.parseInt(address.substring(2), 16);
                         Log.d(TAG, "first address string : " + reAddress);
                         if (mIrcmdEngine != null) {
@@ -178,7 +160,6 @@ public class DeviceIrcmdControlManager {
                                     .advAlgorithmParametersWrite(reAddress, params);
                             Log.d(TAG, "algorithmParametersWriteGet result = " + algorithmParametersWriteGet);
 
-                            //获取FPGA算法参数读取 PASS
                             int[] algorithmParametersReadData = new int[1];
                             IrcmdError algorithmParametersReadGet = mIrcmdEngine
                                     .advAlgorithmParametersRead(reAddress, algorithmParametersReadData);
@@ -191,22 +172,9 @@ public class DeviceIrcmdControlManager {
                         }
                     }
 
-//                    if (mIrcmdEngine != null) {
-//                        IrcmdError algorithmParametersWriteGet = mIrcmdEngine
-//                                .advAlgorithmParametersWrite(firstAddress, params);
-//                        Log.d(TAG, "algorithmParametersWriteGet result = " + algorithmParametersWriteGet);
 //
-//                        //获取FPGA算法参数读取 PASS
-//                        float[] algorithmParametersReadData = new float[jsonArray.length()];
-//                        IrcmdError algorithmParametersReadGet = mIrcmdEngine
-//                                .advAlgorithmParametersRead(firstAddress, algorithmParametersReadData);
 //
-//                        Log.d(TAG, "algorithmParametersReadGet result = " + algorithmParametersReadGet);
 //
-//                        for (int i = 0; i < algorithmParametersReadData.length; i ++) {
-//                            Log.d(TAG, "algorithmParametersReadGet value = " + algorithmParametersReadData[i]);
-//                        }
-//                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -250,22 +218,14 @@ public class DeviceIrcmdControlManager {
                         int begin = jsonObject.getInt("begin");
                         int end = jsonObject.getInt("end");
                         int value = jsonObject.getInt("value");
-//                        Log.i(TAG, "name = " + name + " address = " + address + " begin = " + begin + " end = " +
-//                                end + " value = " + value);
                         int reAddress = Integer.parseInt(address, 16);
                         if (mIrcmdEngine != null) {
-                            // 需要先把该地址的值读出来
                             long[] ispParamReadData = new long[1];
                             if (IrcmdError.IRCMD_SUCCESS != mIrcmdEngine.advISPParamRead(reAddress, ispParamReadData)) {
                                 throw new IllegalArgumentException("The method advISPParamRead execute fail.");
                             }
-                            // 然后单独修改begin到end之前的值，重新写入进去
                             ispParamWriteData[0] = byteArrToBinStr(name, intToBytes2(ispParamReadData[0]), 4,
                                     begin, end, intToBytes2(value));
-//                            if (IrcmdError.IRCMD_SUCCESS != mIrcmdEngine.advISPParamWrite(reAddress,
-//                                    ispParamWriteData)) {
-//                                throw new IllegalArgumentException("The method advISPParamWrite execute fail.");
-//                            }
                         }
                     }
                 } catch (JSONException e) {

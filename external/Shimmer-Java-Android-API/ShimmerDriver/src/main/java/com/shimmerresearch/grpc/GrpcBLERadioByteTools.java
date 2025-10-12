@@ -17,7 +17,6 @@ public class GrpcBLERadioByteTools {
     String mExeName = "ShimmerBLEGrpc.exe";
     String mExePath = "C:\\Github\\Shimmer-C-API\\ShimmerAPI\\ShimmerBLEGrpc\\bin\\Debug\\" + mExeName; // Replace with the path to your .exe file
     private Process runningProcess;
-    //String exePath = "C:\\Users\\JC\\Desktop\\testgrpc\\ShimmerBLEGrpc.exe"; // Replace with the path to your .exe file
 
     public GrpcBLERadioByteTools() {
 
@@ -31,7 +30,6 @@ public class GrpcBLERadioByteTools {
     public static void main(String[] args) {
 
         GrpcBLERadioByteTools grpcTools = new GrpcBLERadioByteTools();
-        // TODO Auto-generated method stub
         JFrame frame = new JFrame();
         frame.getContentPane().setLayout(null);
 
@@ -42,7 +40,6 @@ public class GrpcBLERadioByteTools {
                     int port = grpcTools.startServer();
                     System.out.println("Server Started : " + port);
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -82,7 +79,6 @@ public class GrpcBLERadioByteTools {
 
                     System.out.println(port + " is free");
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -98,8 +94,6 @@ public class GrpcBLERadioByteTools {
         public int getFreePort() throws Exception {
         for (int i = 50000; i < 60000; i++) {
             try {
-                // Try to create a ServerSocket on the specified port.
-                // If the port is in use, this will throw an IOException.
                 ServerSocket serverSocket = new ServerSocket(i);
                 serverSocket.close(); // Close the socket if it was successfully created.
                 return i; // Port is available.
@@ -138,7 +132,6 @@ public class GrpcBLERadioByteTools {
         System.out.println(port + " is free");
         List<String> command = new ArrayList<>();
 
-        // Add the command itself
         command.add(mExePath);
         command.add(Integer.toString(port));
         ProcessBuilder processBuilder = new ProcessBuilder(command);
@@ -151,14 +144,12 @@ public class GrpcBLERadioByteTools {
                     System.out.println(line);
                 }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
 
         processThread.start();
         return port;
-        // You can continue with other tasks here
 
     }
 

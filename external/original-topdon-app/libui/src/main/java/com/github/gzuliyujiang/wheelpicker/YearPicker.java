@@ -25,7 +25,6 @@ public class YearPicker extends ModalDialog {
     public YearPicker(@NonNull Activity activity, @Nullable Integer year) {
         super(activity);
 
-        //初始化年份范围及当前选中年份
         int nowYear = Calendar.getInstance().get(Calendar.YEAR);
         DatimeEntity startTimeEntity = new DatimeEntity();
         startTimeEntity.setDate(DateEntity.target(nowYear - 1000, 1, 1));

@@ -15,7 +15,6 @@ public class BluetoothDeviceDetails {
 
     public DEVICE_TYPE mDeviceTypeDetected = DEVICE_TYPE.UNKOWN;
 
-    //TODO Testing for GUI feedback - shouldn't really be here
     public boolean mAttemptingConnection = false;
     public BT_STATE mLastConnectionSate = BT_STATE.DISCONNECTED;
     public boolean isBleDevice = false;
