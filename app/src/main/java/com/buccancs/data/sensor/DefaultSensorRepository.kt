@@ -1,5 +1,4 @@
 package com.buccancs.data.sensor
-
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
@@ -22,31 +21,24 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class DefaultSensorRepository @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
     connectors: List<SensorConnector>
 ) : SensorRepository {
-
     private val orderedConnectors = connectors.sortedBy { it.deviceId.value }
     private val connectorsById = orderedConnectors.associateBy { it.deviceId }
-
     private val devicesCache = orderedConnectors.associate { it.deviceId to it.device.value }.toMutableMap()
     private val devicesMutex = Mutex()
     private val statusesCache =
         orderedConnectors.associate { it.deviceId to emptyList<SensorStreamStatus>() }.toMutableMap()
     private val statusMutex = Mutex()
-
     private val _simulationEnabled = MutableStateFlow(false)
     override val simulationEnabled: StateFlow<Boolean> = _simulationEnabled.asStateFlow()
-
     private val _devices = MutableStateFlow(devicesSnapshot())
     override val devices: StateFlow<List<SensorDevice>> = _devices.asStateFlow()
-
     private val _streamStatuses = MutableStateFlow(emptyList<SensorStreamStatus>())
     override val streamStatuses: StateFlow<List<SensorStreamStatus>> = _streamStatuses.asStateFlow()
-
     private val _recordingState = MutableStateFlow(
         RecordingState(
             lifecycle = RecordingLifecycleState.Idle,
@@ -55,7 +47,6 @@ class DefaultSensorRepository @Inject constructor(
         )
     )
     override val recordingState: StateFlow<RecordingState> = _recordingState.asStateFlow()
-
     init {
         orderedConnectors.forEach { connector ->
             scope.launch {
@@ -76,21 +67,17 @@ class DefaultSensorRepository @Inject constructor(
             }
         }
     }
-
     override suspend fun refreshInventory() {
         orderedConnectors.forEach { connector ->
             connector.refreshInventory()
         }
     }
-
     override suspend fun connect(deviceId: DeviceId) {
         connectorsById[deviceId]?.connect()
     }
-
     override suspend fun disconnect(deviceId: DeviceId) {
         connectorsById[deviceId]?.disconnect()
     }
-
     override suspend fun setSimulationEnabled(enabled: Boolean) {
         if (_simulationEnabled.value == enabled) return
         _simulationEnabled.value = enabled
@@ -98,7 +85,6 @@ class DefaultSensorRepository @Inject constructor(
             connector.applySimulation(enabled)
         }
     }
-
     override suspend fun startStreaming(anchor: RecordingSessionAnchor) {
         val now = Clock.System.now()
         _recordingState.value = RecordingState(
@@ -122,7 +108,6 @@ class DefaultSensorRepository @Inject constructor(
             updatedAt = Clock.System.now()
         )
     }
-
     override suspend fun stopStreaming(): RecordingSessionAnchor? {
         val anchor = _recordingState.value.anchor
         _recordingState.value = RecordingState(
@@ -147,7 +132,6 @@ class DefaultSensorRepository @Inject constructor(
         )
         return anchor
     }
-
     override suspend fun collectSessionArtifacts(sessionId: String): List<SessionArtifact> {
         val collected = mutableListOf<SessionArtifact>()
         orderedConnectors.forEach { connector ->
@@ -157,7 +141,6 @@ class DefaultSensorRepository @Inject constructor(
         }
         return collected
     }
-
     private fun devicesSnapshot(): List<SensorDevice> =
         orderedConnectors.mapNotNull { connector ->
             devicesCache[connector.deviceId]

@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.activity
-
 import android.annotation.SuppressLint
 import android.location.*
 import android.os.Bundle
@@ -35,29 +34,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-
 @Route(path = RouterConfig.IR_CAMERA_SETTING)
 class IRCameraSettingActivity : BaseActivity() {
-
     companion object {
         const val KEY_PRODUCT_TYPE = "key_product_type"
     }
-
     private var locationManager: LocationManager? = null
     private var locationProvider: String? = null
-
 
     private var watermarkBean: WatermarkBean = SharedManager.watermarkBean
     private var continuousBean: ContinuousBean = SharedManager.continuousBean
     private var productName = ""
-
     private val permissionList = listOf(
         Permission.ACCESS_FINE_LOCATION,
         Permission.ACCESS_COARSE_LOCATION
     )
-
     override fun initContentView(): Int = R.layout.activity_ir_camera_setting
-
     override fun initView() {
         productName = intent.getStringExtra(KEY_PRODUCT_TYPE) ?: ""
         if (isTC007()) {
@@ -67,7 +59,6 @@ class IRCameraSettingActivity : BaseActivity() {
             watermarkBean = SharedManager.watermarkBean
             continuousBean = SharedManager.continuousBean
         }
-
         bar_pick_view_time.setProgressAndRefresh((continuousBean.continuaTime / 100).toInt())
         bar_pick_view_time.onStopTrackingTouch = { progress, _ ->
             continuousBean.continuaTime = progress.toLong() * 100
@@ -76,25 +67,20 @@ class IRCameraSettingActivity : BaseActivity() {
         bar_pick_view_time.valueFormatListener = {
             (it / 10).toString() + if (it % 10 == 0) "" else ("." + (it % 10).toString())
         }
-
         bar_pick_view_count.setProgressAndRefresh(continuousBean.count)
         bar_pick_view_count.onStopTrackingTouch = { progress, _ ->
             continuousBean.count = progress
             SharedManager.continuousBean = continuousBean
         }
 
-
         switch_time.isChecked = watermarkBean.isAddTime
         switch_watermark.isChecked = watermarkBean.isOpen
         switch_delay.isChecked = continuousBean.isOpen
-
         cl_delay_more.isVisible = continuousBean.isOpen
         cl_watermark_more.isVisible = watermarkBean.isOpen
         cl_show_ep.isVisible = watermarkBean.isOpen
-
         tv_time_show.text = TimeTool.getNowTime()
         tv_time_show.isVisible = watermarkBean.isAddTime
-
         tv_address.inputType = InputType.TYPE_NULL
         if (TextUtils.isEmpty(watermarkBean.address)) {
             tv_address.visibility = View.GONE
@@ -136,12 +122,9 @@ class IRCameraSettingActivity : BaseActivity() {
         ed_title.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
-
             override fun afterTextChanged(s: Editable?) {
-
                 watermarkBean.title = ed_title.text.toString()
                 tv_title_show.text = watermarkBean.title
             }
@@ -149,10 +132,8 @@ class IRCameraSettingActivity : BaseActivity() {
         ed_address.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
-
             override fun afterTextChanged(s: Editable?) {
                 watermarkBean.address = ed_address.text.toString()
                 tv_address.text = watermarkBean.address
@@ -170,15 +151,12 @@ class IRCameraSettingActivity : BaseActivity() {
         })
         ly_auto.visibility = if (isTC007()) View.GONE else View.VISIBLE
     }
-
     fun isTC007(): Boolean {
         return productName.contains("TC007")
     }
-
     @SuppressLint("MissingPermission")
     private fun getLocation(): String? {
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-
         val providers = locationManager?.getProviders(true)
         locationProvider = if (providers!!.contains(LocationManager.GPS_PROVIDER)) {
             LocationManager.GPS_PROVIDER
@@ -195,30 +173,25 @@ class IRCameraSettingActivity : BaseActivity() {
             null
         } else {
             getAddress(location)
-
         }
     }
-
     var locationListener: LocationListener = object : LocationListener {
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
             Toast.makeText(
                 this@IRCameraSettingActivity, provider, Toast.LENGTH_SHORT
             ).show()
         }
-
         override fun onProviderEnabled(provider: String) {
             Toast.makeText(
                 this@IRCameraSettingActivity, "GPS打开", Toast.LENGTH_SHORT
             ).show()
             getLocation()
         }
-
         override fun onProviderDisabled(provider: String) {
             Toast.makeText(
                 this@IRCameraSettingActivity, "GPS关闭", Toast.LENGTH_SHORT
             ).show()
         }
-
         override fun onLocationChanged(location: Location) {
             if (location != null) {
                 Toast.makeText(
@@ -228,7 +201,6 @@ class IRCameraSettingActivity : BaseActivity() {
             }
         }
     }
-
     @SuppressLint("MissingPermission")
     private fun getLastKnownLocation(): Location? {
         locationManager = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
@@ -237,13 +209,11 @@ class IRCameraSettingActivity : BaseActivity() {
         for (provider in providers) {
             val l: Location = locationManager!!.getLastKnownLocation(provider) ?: continue
             if (bestLocation == null || l.accuracy < bestLocation.accuracy) {
-                // Found best last known location: %s", l);
                 bestLocation = l
             }
         }
         return bestLocation
     }
-
     private fun getAddress(location: Location?): String {
         var result: List<Address?>? = null
         try {
@@ -275,7 +245,6 @@ class IRCameraSettingActivity : BaseActivity() {
         }
         return str
     }
-
     private fun getNullString(str: String?): String {
         return if (str.isNullOrEmpty()) {
             ""
@@ -283,7 +252,6 @@ class IRCameraSettingActivity : BaseActivity() {
             str
         }
     }
-
 
     override fun onPause() {
         super.onPause()
@@ -293,15 +261,12 @@ class IRCameraSettingActivity : BaseActivity() {
             SharedManager.watermarkBean = watermarkBean
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
     }
 
-
     override fun initData() {
     }
-
 
     private fun initLocationPermission() {
         XXPermissions.with(this@IRCameraSettingActivity)
@@ -330,7 +295,6 @@ class IRCameraSettingActivity : BaseActivity() {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
-
                 override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                     if (never) {
                         if (BaseApplication.instance.isDomestic()) {
@@ -351,10 +315,8 @@ class IRCameraSettingActivity : BaseActivity() {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
-
             })
     }
-
     private fun checkStoragePermission() {
         if (!XXPermissions.isGranted(this, permissionList)) {
             if (BaseApplication.instance.isDomestic()) {

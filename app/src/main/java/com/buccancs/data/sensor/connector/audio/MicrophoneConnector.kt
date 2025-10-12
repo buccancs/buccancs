@@ -1,5 +1,4 @@
 package com.buccancs.data.sensor.connector.audio
-
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
@@ -30,7 +29,6 @@ import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
-
 @Singleton
 class MicrophoneConnector @Inject constructor(
     @ApplicationScope private val appScope: CoroutineScope,
@@ -49,13 +47,10 @@ class MicrophoneConnector @Inject constructor(
         attributes = emptyMap()
     )
 ) {
-
     private val logTag = "MicrophoneConnector"
-
     private var audioRecord: AudioRecord? = null
     private var bufferSizeInFrames: Int = 0
     private var recordingJob: Job? = null
-
     private var currentSessionId: String? = null
     private var completedSessionId: String? = null
     private var audioFile: File? = null
@@ -64,13 +59,11 @@ class MicrophoneConnector @Inject constructor(
     private var bytesWritten: Long = 0
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
     private var pcmScratch = ByteArray(0)
-
     override suspend fun refreshInventory() {
         if (isSimulationMode) {
             super.refreshInventory()
         }
     }
-
     override suspend fun applySimulation(enabled: Boolean) {
         if (enabled) {
             stopHardwareRecording()
@@ -78,7 +71,6 @@ class MicrophoneConnector @Inject constructor(
         }
         super.applySimulation(enabled)
     }
-
     override suspend fun connect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.connect()
@@ -101,7 +93,6 @@ class MicrophoneConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
-
     override suspend fun disconnect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.disconnect()
@@ -118,7 +109,6 @@ class MicrophoneConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
-
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         if (isSimulationMode) {
             return super.startStreaming(anchor)
@@ -163,7 +153,6 @@ class MicrophoneConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
-
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.stopStreaming()
@@ -178,13 +167,9 @@ class MicrophoneConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
-
     override fun streamIntervalMs(): Long = 220L
-
     override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
-
     override fun simulatedRssi(device: SensorDevice): Int? = null
-
     override fun sampleStatuses(
         timestamp: kotlinx.datetime.Instant,
         frameCounter: Long,
@@ -208,7 +193,6 @@ class MicrophoneConnector @Inject constructor(
         )
         return listOf(status)
     }
-
     override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {
         if (isSimulationMode) {
             return super.collectArtifacts(sessionId)
@@ -221,7 +205,6 @@ class MicrophoneConnector @Inject constructor(
         pendingArtifacts.clear()
         return artifacts
     }
-
     private fun ensureAudioRecord(): AudioRecord {
         val existing = audioRecord
         if (existing != null && existing.state == AudioRecord.STATE_INITIALIZED) {
@@ -245,7 +228,6 @@ class MicrophoneConnector @Inject constructor(
         bufferSizeInFrames = minBufferSize
         return record
     }
-
     private fun stopHardwareRecording() {
         recordingJob?.cancel()
         recordingJob = null
@@ -259,13 +241,11 @@ class MicrophoneConnector @Inject constructor(
             }
         }
     }
-
     private fun releaseAudioRecord() {
         audioRecord?.release()
         audioRecord = null
         bufferSizeInFrames = 0
     }
-
     private fun prepareOutputFile(sessionId: String) {
         val directory = recordingStorage.deviceDirectory(sessionId, deviceId.value)
         val fileName = "audio-${System.currentTimeMillis()}.wav"
@@ -279,7 +259,6 @@ class MicrophoneConnector @Inject constructor(
         bytesWritten = 0
         currentSessionId = sessionId
     }
-
     private fun writePcmSamples(samples: ShortArray, length: Int) {
         val bytesNeeded = length * BYTES_PER_SAMPLE
         if (pcmScratch.size < bytesNeeded) {
@@ -299,7 +278,6 @@ class MicrophoneConnector @Inject constructor(
             Log.e(logTag, "Failed to persist audio samples", t)
         }
     }
-
     private fun finalizeRecording() {
         val writer = audioWriter ?: return
         val file = audioFile
@@ -333,7 +311,6 @@ class MicrophoneConnector @Inject constructor(
         bytesWritten = 0
         currentSessionId = null
     }
-
     private fun writeWavHeader(
         file: RandomAccessFile,
         sampleRate: Int,
@@ -349,8 +326,8 @@ class MicrophoneConnector @Inject constructor(
         header.writeIntLE(4, chunkSize)
         header.writeAscii(8, "WAVE")
         header.writeAscii(12, "fmt ")
-        header.writeIntLE(16, 16) // PCM subchunk size
-        header.writeShortLE(20, 1) // PCM format
+        header.writeIntLE(16, 16)
+        header.writeShortLE(20, 1)
         header.writeShortLE(22, channels)
         header.writeIntLE(24, sampleRate)
         header.writeIntLE(28, byteRate)
@@ -361,24 +338,20 @@ class MicrophoneConnector @Inject constructor(
         file.seek(0)
         file.write(header, 0, WAV_HEADER_SIZE)
     }
-
     private fun ByteArray.writeAscii(offset: Int, value: String) {
         val bytes = value.toByteArray(Charsets.US_ASCII)
         bytes.copyInto(this, offset, 0, bytes.size.coerceAtMost(size - offset))
     }
-
     private fun ByteArray.writeIntLE(offset: Int, value: Int) {
         this[offset] = (value and 0xFF).toByte()
         this[offset + 1] = ((value shr 8) and 0xFF).toByte()
         this[offset + 2] = ((value shr 16) and 0xFF).toByte()
         this[offset + 3] = ((value shr 24) and 0xFF).toByte()
     }
-
     private fun ByteArray.writeShortLE(offset: Int, value: Int) {
         this[offset] = (value and 0xFF).toByte()
         this[offset + 1] = ((value shr 8) and 0xFF).toByte()
     }
-
     companion object {
         private const val SAMPLE_RATE_HZ = 44_100
         private const val CHANNEL_COUNT = 1

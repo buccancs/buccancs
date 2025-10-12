@@ -1,8 +1,6 @@
 package com.buccancs.data.sensor.connector.simulated
-
 import android.test.mock.MockContext
 import java.io.File
-
 internal object SimulatedTestSupport {
     fun artifactFactory(): SimulatedArtifactFactory {
         val context = object : MockContext() {

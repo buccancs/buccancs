@@ -1,5 +1,4 @@
 package com.topdon.house.util
-
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentValues
@@ -36,9 +35,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
-
 object PDFUtil {
-
     suspend fun delAllPDF(context: Context) = withContext(Dispatchers.IO) {
         if (Build.VERSION.SDK_INT < 29) {
             val files: Array<File> = File(FileConfig.documentsDir).listFiles() ?: return@withContext
@@ -60,7 +57,6 @@ object PDFUtil {
         }
     }
 
-
     suspend fun delPDF(context: Context, houseReport: HouseReport): Boolean = withContext(Dispatchers.IO) {
         if (Build.VERSION.SDK_INT < 29) {
             return@withContext FileUtils.delete(File(FileConfig.documentsDir, houseReport.getPdfFileName()))
@@ -74,31 +70,25 @@ object PDFUtil {
             return@withContext delCount > 0
         }
     }
-
     @SuppressLint("InflateParams")
     suspend fun savePDF(context: Context, houseReport: HouseReport): Uri? = withContext(Dispatchers.IO) {
         val pageWidth = ScreenUtil.getScreenWidth(context).coerceAtMost(ScreenUtil.getScreenHeight(context))
         val pageHeight = (pageWidth * 297f / 210f).toInt()
-
         val pdfDocument = PdfDocument()
-
         val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1)
             .setContentRect(Rect(0, 0, pageWidth, pageHeight))
             .create()
         var page: PdfDocument.Page = pdfDocument.startPage(pageInfo)
         var canvas: Canvas = page.canvas
 
-
         val headView = buildHeadView(context, houseReport)
         headView.draw(canvas)
         canvas.translate(0f, headView.height.toFloat())
-
 
         var hasUseHeight = headView.height
         val margin = SizeUtils.dp2px(6f)
         val marginPaint = Paint()
         marginPaint.color = 0xfff5f5f7.toInt()
-
         for (dirBean in houseReport.dirList) {
             val titleText = TextView(context)
             titleText.text = dirBean.dirName
@@ -111,7 +101,6 @@ object PDFUtil {
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
             )
             titleText.layout(0, 0, titleText.measuredWidth, titleText.measuredHeight)
-
             var hasAnyItem = false
             for (itemBean in dirBean.itemList) {
                 if (itemBean.state != 0 || itemBean.inputText.isNotEmpty()) {
@@ -126,7 +115,6 @@ object PDFUtil {
                     MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
                 )
                 tabTitleView.layout(0, 0, tabTitleView.measuredWidth, tabTitleView.measuredHeight)
-
                 val tabItemView = LayoutInflater.from(context).inflate(R.layout.pdf_tab_item, null)
                 tabItemView.tv_item_name.text = dirBean.itemList[0].itemName
                 tabItemView.tv_input.text =
@@ -136,7 +124,6 @@ object PDFUtil {
                     MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
                 )
                 tabItemView.layout(0, 0, tabItemView.measuredWidth, tabItemView.measuredHeight)
-
                 if (hasUseHeight + margin + titleText.height + tabTitleView.measuredHeight + tabItemView.measuredHeight > pageHeight) {
                     pdfDocument.finishPage(page)
                     page = pdfDocument.startPage(pageInfo)
@@ -147,15 +134,12 @@ object PDFUtil {
                     canvas.translate(0f, margin.toFloat())
                     hasUseHeight += margin
                 }
-
                 titleText.draw(canvas)
                 canvas.translate(0f, titleText.height.toFloat())
                 hasUseHeight += titleText.height
-
                 tabTitleView.draw(canvas)
                 canvas.translate(0f, tabTitleView.height.toFloat())
                 hasUseHeight += tabTitleView.height
-
                 for (itemBean in dirBean.itemList) {
                     tabItemView.tv_item_name.text = itemBean.itemName
                     tabItemView.iv_good.isVisible = itemBean.state == 1
@@ -167,7 +151,6 @@ object PDFUtil {
                         MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
                     )
                     tabItemView.layout(0, 0, tabItemView.measuredWidth, tabItemView.measuredHeight)
-
                     if (hasUseHeight + tabItemView.height > pageHeight) {
                         pdfDocument.finishPage(page)
                         page = pdfDocument.startPage(pageInfo)
@@ -178,13 +161,11 @@ object PDFUtil {
                     } else {
                         tabItemView.view_top_line.isVisible = false
                     }
-
                     tabItemView.draw(canvas)
                     canvas.translate(0f, tabItemView.height.toFloat())
                     hasUseHeight += tabItemView.height
                 }
             }
-
             val dataList: ArrayList<ImageInfo> = ArrayList()
             for (itemBean in dirBean.itemList) {
                 if (itemBean.image1.isNotEmpty()) {
@@ -216,7 +197,6 @@ object PDFUtil {
                     MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
                 )
                 photoText.layout(0, 0, photoText.measuredWidth, photoText.measuredHeight)
-
                 val imgLineView = LayoutInflater.from(context).inflate(R.layout.pdf_image_line, null)
                 imgLineView.tv_item_name1.text = dataList[0].itemName
                 imgLineView.tv_item_name2.text = if (dataList.size > 1) dataList[1].itemName else ""
@@ -227,7 +207,6 @@ object PDFUtil {
                     MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
                 )
                 imgLineView.layout(0, 0, imgLineView.measuredWidth, imgLineView.measuredHeight)
-
                 if (hasAnyItem) {
                     if (hasUseHeight + photoText.height + imgLineView.height > pageHeight) {
                         pdfDocument.finishPage(page)
@@ -235,7 +214,6 @@ object PDFUtil {
                         canvas = page.canvas
                         hasUseHeight = 0
                     }
-
                     photoText.draw(canvas)
                     canvas.translate(0f, photoText.height.toFloat())
                     hasUseHeight += photoText.height
@@ -250,16 +228,13 @@ object PDFUtil {
                         canvas.translate(0f, margin.toFloat())
                         hasUseHeight += margin
                     }
-
                     titleText.draw(canvas)
                     canvas.translate(0f, titleText.height.toFloat())
                     hasUseHeight += titleText.height
-
                     photoText.draw(canvas)
                     canvas.translate(0f, photoText.height.toFloat())
                     hasUseHeight += photoText.height
                 }
-
                 val lineCount = dataList.size / 4 + if (dataList.size % 4 == 0) 0 else 1
                 for (i in 0 until lineCount) {
                     imgLineView.cl_image1.isVisible = dataList.size > i * 4
@@ -270,13 +245,11 @@ object PDFUtil {
                     imgLineView.tv_item_name2.text = if (dataList.size > i * 4 + 1) dataList[i * 4 + 1].itemName else ""
                     imgLineView.tv_item_name3.text = if (dataList.size > i * 4 + 2) dataList[i * 4 + 2].itemName else ""
                     imgLineView.tv_item_name4.text = if (dataList.size > i * 4 + 3) dataList[i * 4 + 3].itemName else ""
-
                     imgLineView.measure(
                         MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
                         MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
                     )
                     imgLineView.layout(0, 0, imgLineView.measuredWidth, imgLineView.measuredHeight)
-
                     for (j in 0 until 4) {
                         if (dataList.size > i * 4 + j) {
                             val imageView = when (j) {
@@ -291,7 +264,6 @@ object PDFUtil {
                             imageView.setImageDrawable(drawable)
                         }
                     }
-
                     if (hasUseHeight + imgLineView.height > pageHeight) {
                         pdfDocument.finishPage(page)
                         page = pdfDocument.startPage(pageInfo)
@@ -299,18 +271,15 @@ object PDFUtil {
                         canvas.translate(0f, SizeUtils.dp2px(13f).toFloat())
                         hasUseHeight = SizeUtils.dp2px(13f)
                     }
-
                     imgLineView.draw(canvas)
                     canvas.translate(0f, imgLineView.height.toFloat())
                     hasUseHeight += imgLineView.height
                 }
-
                 val paddingBottom = SizeUtils.dp2px(3f).coerceAtMost(pageHeight - hasUseHeight)
                 canvas.translate(0f, paddingBottom.toFloat())
                 hasUseHeight += paddingBottom
             }
         }
-
         val footView = buildFootView(context, houseReport)
         if (hasUseHeight + margin + footView.height > pageHeight) {
             pdfDocument.finishPage(page)
@@ -323,7 +292,6 @@ object PDFUtil {
         }
         footView.draw(canvas)
         pdfDocument.finishPage(page)
-
         var pdfUri: Uri? = null
         try {
             if (Build.VERSION.SDK_INT < 29) {
@@ -341,7 +309,6 @@ object PDFUtil {
                     val outputStream: OutputStream? = resolver.openOutputStream(pdfUri)
                     if (outputStream != null) {
                         pdfDocument.writeTo(outputStream)
-
                         val selection =
                             "${MediaStore.MediaColumns.RELATIVE_PATH} = ? AND ${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
                         val selectionArgs: Array<String> =
@@ -373,7 +340,6 @@ object PDFUtil {
         }
         return@withContext pdfUri
     }
-
     private fun getPdfUri(context: Context, pdfFileName: String): Uri? {
         if (Build.VERSION.SDK_INT < 29) {
             val pdfFile = File(FileConfig.documentsDir, pdfFileName)
@@ -398,45 +364,37 @@ object PDFUtil {
             }
         }
     }
-
     @SuppressLint("SetTextI18n,InflateParams")
     private fun buildHeadView(context: Context, houseReport: HouseReport): View {
         val pageWidth = ScreenUtil.getScreenWidth(context).coerceAtMost(ScreenUtil.getScreenHeight(context))
         val headView = LayoutInflater.from(context).inflate(R.layout.pdf_head, null)
-
         headView.tv_inspector_name_title.text = "${context.getString(R.string.inspector_name)}:"
         headView.tv_house_year_title.text = "${context.getString(R.string.house_build_time)}:"
         headView.tv_house_space_title.text = "${context.getString(R.string.house_space)}:"
         headView.tv_cost_title.text = "${context.getString(R.string.detection_cost)}:"
-
         headView.tv_report_name.text = houseReport.name
         headView.tv_time.text = context.getString(R.string.detect_time) + ": " + TimeUtils.millis2String(
             houseReport.detectTime,
             "yyyy-MM-dd HH:mm"
         )
         headView.tv_house_address.text = houseReport.address
-
         headView.tv_inspector_name.text = houseReport.inspectorName
         headView.tv_house_year.text = houseReport.year?.toString() ?: "--"
         headView.tv_house_space.text =
             if (houseReport.houseSpace.isEmpty()) "--" else "${houseReport.houseSpace} ${houseReport.getSpaceUnitStr()}"
         headView.tv_cost.text =
             if (houseReport.cost.isEmpty()) "--" else "${houseReport.getCostUnitStr()} ${houseReport.cost}"
-
         val ivWidth = pageWidth - SizeUtils.dp2px(13f + 13f)
         val ivHeight = (pageWidth * 129 / 358f).toInt()
         val drawable = Glide.with(context).asDrawable().load(houseReport.imagePath).submit(ivWidth, ivHeight).get()
         headView.iv_house_image.setImageDrawable(drawable)
-
         headView.measure(
             MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         )
         headView.layout(0, 0, headView.measuredWidth, headView.measuredHeight)
-
         return headView
     }
-
     @SuppressLint("InflateParams")
     private fun buildFootView(context: Context, houseReport: HouseReport): View {
         val pageWidth = ScreenUtil.getScreenWidth(context).coerceAtMost(ScreenUtil.getScreenHeight(context))
@@ -446,21 +404,17 @@ object PDFUtil {
             MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         )
         footView.layout(0, 0, footView.measuredWidth, footView.measuredHeight)
-
         val inspectorWidth = footView.iv_inspector_signature.width
         val inspectorHeight = footView.iv_inspector_signature.height
         val inspectorDrawable = Glide.with(context).asDrawable().load(houseReport.inspectorBlackPath)
             .submit(inspectorWidth, inspectorHeight).get()
         footView.iv_inspector_signature.setImageDrawable(inspectorDrawable)
-
         val ownerWidth = footView.iv_house_owner_signature.width
         val ownerHeight = footView.iv_house_owner_signature.height
         val ownerDrawable =
             Glide.with(context).asDrawable().load(houseReport.houseOwnerBlackPath).submit(ownerWidth, ownerHeight).get()
         footView.iv_house_owner_signature.setImageDrawable(ownerDrawable)
-
         return footView
     }
-
     private data class ImageInfo(val itemName: String, val imagePath: String)
 }

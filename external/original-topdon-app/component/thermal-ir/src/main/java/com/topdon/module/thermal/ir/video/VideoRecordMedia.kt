@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.video
-
 import android.graphics.Bitmap
 import com.topdon.lib.core.utils.BitmapUtils
 import com.infisense.usbir.view.CameraView
@@ -13,7 +12,6 @@ import io.reactivex.disposables.Disposable
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
-
 /**
  * 硬编码
  * bitmap -> mp4
@@ -22,14 +20,11 @@ class VideoRecordMedia(
     private var cameraView: CameraView,
     private var temperatureView: TemperatureView
 ) : VideoRecord() {
-
     private lateinit var exportDisposable: Disposable
     private var encoder: Encoder = MP4Encoder()
     private var isRunning = false
-
     var width = 480
     var height = 640
-
     init {
         encoder.setFrameDelay(25)
         width = 480
@@ -39,19 +34,13 @@ class VideoRecordMedia(
         }
     }
 
-
     override fun startRecord() {
-
         val downloadDir = FileConfig.lineGalleryDir
         val exportedFile = File(downloadDir, "${Date().time}.mp4")
         if (exportedFile.exists()) {
             exportedFile.delete()
         }
         encoder.setOutputFilePath(exportedFile.path)
-//        if (bitmap == null) {
-//            Log.w("123", "录制准备失败")
-//            return
-//        }
         encoder.setOutputSize(width, height)
         encoder.startEncode()
         isRunning = true
@@ -64,10 +53,8 @@ class VideoRecordMedia(
                 encoder.addFrame(it)
             }
     }
-
     override fun startRecord(fileDir: String) {
     }
-
     override fun stopRecord() {
         if (isRunning) {
             encoder.stopEncode()
@@ -75,11 +62,9 @@ class VideoRecordMedia(
         }
         isRunning = false
     }
-
     override fun updateAudioState(audioRecord: Boolean) {
         TODO("Not yet implemented")
     }
-
     private fun createBitmapFromView(): Bitmap {
         var cameraViewBitmap = cameraView.bitmap
         if (temperatureView.temperatureRegionMode != TemperatureView.REGION_MODE_CLEAN) {
@@ -101,5 +86,4 @@ class VideoRecordMedia(
         }
         return dstBitmap
     }
-
 }

@@ -1,5 +1,4 @@
 package com.topdon.libcom.dialog
-
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -15,16 +14,12 @@ import com.skydoves.colorpickerview.ColorPickerView
 import com.skydoves.colorpickerview.listeners.ColorListener
 import com.topdon.libcom.R
 import com.topdon.libcom.adpter.DColorSelectAdapter
-
 @Deprecated("产品要求所有颜色拾取都更改为 ColorPickDialog 那种样式，这个弹框废弃")
 class ColorDialog(color: Int) : DialogFragment() {
 
-
     var positiveEvent: ((color: Int) -> Unit)? = null
     var cancelEvent: (() -> Unit)? = null
-
     var selColor: Int = color
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,7 +27,6 @@ class ColorDialog(color: Int) : DialogFragment() {
     ): View? {
         return inflater.inflate(R.layout.dialog_color_picker, container, false)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val cyView = view.findViewById<RecyclerView>(R.id.color_picker_recycler)
         val pView = view.findViewById<ColorPickerView>(R.id.color_picker_view)
@@ -66,12 +60,10 @@ class ColorDialog(color: Int) : DialogFragment() {
         }
     }
 
-
     override fun onDestroy() {
         cancelEvent?.invoke()
         super.onDestroy()
     }
-
     override fun onResume() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
@@ -80,7 +72,6 @@ class ColorDialog(color: Int) : DialogFragment() {
         dialog?.window?.attributes = params as WindowManager.LayoutParams
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
-
     override fun show(manager: FragmentManager, tag: String?) {
         try {
             super.show(manager, tag)
@@ -88,5 +79,4 @@ class ColorDialog(color: Int) : DialogFragment() {
             e.printStackTrace()
         }
     }
-
 }

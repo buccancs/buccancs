@@ -1,13 +1,8 @@
 package com.guide.zm04c.matrix
-
 class RingBuffer {
-
     private lateinit var byteArray: ByteArray
-
     private var mReadPositon = 0
-
     private var mUnReadLength = 0
-
     /**
      * Create a new RingBuffer of the specified size.
      * @param size The size in bytes of the RingBuffer.
@@ -15,11 +10,9 @@ class RingBuffer {
     constructor(size: Int) {
         byteArray = ByteArray(size)
     }
-
     constructor(buffer: ByteArray) {
         byteArray = buffer
     }
-
     /**
      * Turn a byte array which already contains data into a RingBuffer.
      * @param buffer A byte array to be used as a RingBuffer.
@@ -31,7 +24,6 @@ class RingBuffer {
         mReadPositon = tail
         mUnReadLength = length
     }
-
     /**
      * Write to the RingBuffer from a byte array.
      * If the write exceeds the free space in the RingBuffer, only part of the
@@ -56,21 +48,15 @@ class RingBuffer {
         }
         if (toWrite > 0) {
             if (toWrite > toEnd) {
-                // write from the head to the end
                 System.arraycopy(buffer!!, offset, byteArray, head, toEnd)
-                // write the remainder from the beginning
                 System.arraycopy(buffer!!, offset + toEnd, byteArray, 0, toWrite - toEnd)
             } else {
-                // write the whole thing at once
                 System.arraycopy(buffer!!, offset, byteArray, head, toWrite)
             }
-
-            // writing increases the length
             synchronized(this) { mUnReadLength += toWrite }
         }
         return toWrite
     }
-
     /**
      * Read from the RingBuffer into a byte array.
      *
@@ -90,23 +76,17 @@ class RingBuffer {
             toRead = Math.min(length, mUnReadLength)
         }
         if (toRead > toEnd) {
-            // read from the tail to the end
             System.arraycopy(byteArray, mReadPositon, buffer, offset, toEnd)
-            // read the requested remainder from the beginning
             System.arraycopy(byteArray, 0, buffer, offset + toEnd, toRead - toEnd)
         } else {
-            // read the whole requested thing at once
             System.arraycopy(byteArray, mReadPositon, buffer, offset, toRead)
         }
-
-        // reading moves the tail and decreases the length
         synchronized(this) {
             mReadPositon = (mReadPositon + toRead) % byteArray.size
             mUnReadLength -= toRead
         }
         return toRead
     }
-
 
     fun moveForward(length: Int): Int {
         synchronized(this) {
@@ -115,7 +95,6 @@ class RingBuffer {
         }
         return length
     }
-
     fun moveBack(length: Int): Int {
         synchronized(this) {
             if (mReadPositon > length) {
@@ -127,7 +106,6 @@ class RingBuffer {
         }
         return length
     }
-
     /**
      * Get the length of the data contained in the RingBuffer.
      * @return The length of the data in bytes.
@@ -135,7 +113,6 @@ class RingBuffer {
     fun getUnReadLength(): Int {
         return mUnReadLength
     }
-
     /**
      * Get the maximum capacity of the RingBuffer.
      * @return The maximum capacity in bytes.
@@ -143,7 +120,6 @@ class RingBuffer {
     fun getMaxLength(): Int {
         return byteArray.size
     }
-
     /**
      * Get the size of the unused space in the RingBuffer.
      * @return The unused capacity in bytes.
@@ -151,7 +127,6 @@ class RingBuffer {
     fun getFreeSpace(): Int {
         return byteArray.size - mUnReadLength
     }
-
     /**
      * Get the underlying byte array.
      * @return The underlying byte array.
@@ -159,7 +134,6 @@ class RingBuffer {
     fun getByteArray(): ByteArray? {
         return byteArray
     }
-
     /**
      * Get the tail pointer for the underlying byte array.
      * @return The tail pointer.
@@ -167,9 +141,7 @@ class RingBuffer {
     fun getReadPositon(): Int {
         return mReadPositon
     }
-
     override fun toString(): String {
         return "RingBuffer(byteArray=${byteArray.contentToString()}, mReadPositon=$mReadPositon, mUnReadLength=$mUnReadLength)"
     }
-
 }

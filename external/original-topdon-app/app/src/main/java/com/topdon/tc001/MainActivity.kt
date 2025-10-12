@@ -1,5 +1,4 @@
 package com.topdon.tc001
-
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
@@ -68,15 +67,11 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 
-
 @Route(path = RouterConfig.MAIN)
 class MainActivity : BaseActivity(), View.OnClickListener {
-
     private val versionViewModel: VersionViewModel by viewModels()
-
     private var checkPermissionType: Int = -1
     override fun initContentView() = R.layout.activity_main
-
     private fun logInfo() {
         try {
             val str = StringBuilder()
@@ -100,7 +95,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     override fun initView() {
         logInfo()
         lifecycleScope.launch(Dispatchers.IO) {
@@ -117,9 +111,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         if (savedInstanceState == null) {
             view_page.setCurrentItem(1, false)
         }
-
         view_mine_point.isVisible = !SharedManager.hasClickWinter
-
         cl_icon_gallery.setOnClickListener(this)
         view_main.setOnClickListener(this)
         cl_icon_mine.setOnClickListener(this)
@@ -131,7 +123,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         } else {
             versionViewModel.checkVersion()
         }
-
         if (!SharedManager.hasTcLine && !SharedManager.hasTS004 && !SharedManager.hasTC007) {
             if (DeviceTools.isConnect()) {
                 if (!WebSocketProxy.getInstance().isConnected()) {
@@ -151,7 +142,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 }
             }
         }
-
         if (DeviceTools.isConnect()) {
             SharedManager.hasTcLine = true
         }
@@ -161,12 +151,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         if (WebSocketProxy.getInstance().isTC007Connect()) {
             SharedManager.hasTC007 = true
         }
-//        initLauncher()
     }
-
     override fun onStart() {
         super.onStart()
-
         versionViewModel.updateLiveData.observe(this) {
             FirmwareUpDialog(this).apply {
                 titleStr = getString(com.topdon.lib.core.R.string.update_new_version)
@@ -182,7 +169,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }.show()
         }
     }
-
     private fun updateApk(url: String) {
         if (applicationInfo.targetSdkVersion < Build.VERSION_CODES.P) {
             val intent = Intent()
@@ -210,7 +196,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private var resetTipsDialog: TipDialog? = null
     private fun showResetTipsDialog() {
         disconnectDialog?.dismiss()
@@ -223,7 +208,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
         resetTipsDialog?.show()
     }
-
 
     private var disconnectDialog: TipDialog? = null
     private fun dialogDisconnect() {
@@ -239,7 +223,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
         disconnectDialog?.show()
     }
-
     private fun copyFile(filename: String, targetFile: File) {
         if (targetFile.exists()) {
             return
@@ -258,39 +241,31 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             e.printStackTrace()
         }
     }
-
     override fun initData() {
         checkPermissionType = 0
         checkCameraPermission()
     }
-
     override fun onResume() {
         super.onResume()
         LMS.getInstance().language = SharedManager.getLanguage(this)
-//        DeviceTools.isConnect(true)
     }
-
     override fun onPause() {
         super.onPause()
     }
-
     override fun onClick(v: View?) {
         when (v) {
             cl_icon_gallery -> {
                 checkPermissionType = 1
                 checkStoragePermission()
             }
-
             view_main -> {
                 view_page.setCurrentItem(1, false)
             }
-
             cl_icon_mine -> {
                 view_page.setCurrentItem(2, false)
             }
         }
     }
-
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -306,50 +281,41 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
         return super.onKeyDown(keyCode, event)
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun getDevicePermission(event: DevicePermissionEvent) {
         DeviceTools.requestUsb(this, 0, event.device)
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onWinterClick(event: WinterClickEvent) {
         view_mine_point.isVisible = false
     }
-
     private fun refreshTabSelect(index: Int) {
         iv_icon_gallery.isSelected = false
         tv_icon_gallery.isSelected = false
         iv_icon_mine.isSelected = false
         tv_icon_mine.isSelected = false
         iv_bottom_main_bg.setImageResource(R.drawable.ic_main_bg_not_select)
-
         when (index) {
             0 -> {
                 iv_icon_gallery.isSelected = true
                 tv_icon_gallery.isSelected = true
             }
-
             1 -> {
                 iv_bottom_main_bg.setImageResource(R.drawable.ic_main_bg_select)
             }
-
             2 -> {
                 iv_icon_mine.isSelected = true
                 tv_icon_mine.isSelected = true
             }
         }
     }
-
     override fun connected() {
         if (SharedManager.isConnectAutoOpen) {
             checkPermissionType = 2
             checkCameraPermission()
         }
     }
-
     private var tipOtgDialog: TipOtgDialog? = null
-
     override fun disConnected() {
         if (WebSocketProxy.getInstance().isTS004Connect()) {
             ARouter.getInstance().build(RouterConfig.IR_MONOCULAR).navigation(this)
@@ -368,26 +334,21 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             BaseApplication.instance.hasOtgShow = true
         }
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTS004ResetEvent(event: TS004ResetEvent) {
         showResetTipsDialog()
     }
-
     override fun onSocketConnected(isTS004: Boolean) {
         disconnectDialog?.dismiss()
     }
-
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED) && isTS004) {
             dialogDisconnect()
         }
     }
 
-
     private class ViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
         override fun getItemCount() = 3
-
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> {
@@ -399,13 +360,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         }
                     }
                 }
-
                 1 -> MainFragment()
                 else -> MineFragment()
             }
         }
     }
-
 
     /**
      * 权限检测
@@ -434,7 +393,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
         return sparseArray
     }
-
     private fun checkCameraPermission() {
         if (!PermissionUtils.isVisualUser() && !XXPermissions.isGranted(
                 this,
@@ -459,7 +417,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             initCameraPermission()
         }
     }
-
     private fun initCameraPermission() {
         XXPermissions.with(this)
             .permission(getNeedPermissionList()[R.string.permission_request_camera_app])
@@ -469,7 +426,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         checkStoragePermission()
                     }
                 }
-
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (BaseApplication.instance.isDomestic()) {
                         SharedManager.setMainPermissionsState(true)
@@ -493,7 +449,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 }
             })
     }
-
     private fun checkStoragePermission() {
         if (!XXPermissions.isGranted(this, getNeedPermissionList()[R.string.permission_request_storage_app])) {
             if (BaseApplication.instance.isDomestic()) {
@@ -511,7 +466,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             initStoragePermission()
         }
     }
-
     private fun initStoragePermission() {
         if (PermissionUtils.isVisualUser()) {
             jumpIRActivity()
@@ -527,7 +481,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         jumpIRActivity()
                     }
                 }
-
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
                         TipDialog.Builder(this@MainActivity)
@@ -545,19 +498,15 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             })
     }
 
-
     fun jumpIRActivity() {
         when (checkPermissionType) {
             0 -> {
                 DeviceTools.isConnect(isSendConnectEvent = true)
             }
-
             1 -> {
                 view_page.setCurrentItem(0, false)
             }
-
             2 -> {
-
                 if (DeviceTools.isTC001PlusConnect()) {
                     ARouter.getInstance().build(RouterConfig.IR_MAIN).navigation(this@MainActivity)
                     startActivityForResult(Intent(this@MainActivity, IRThermalPlusActivity::class.java), 101)
@@ -574,14 +523,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private var appVersionUtil: AppVersionUtil? = null
     private fun checkAppVersion(isShow: Boolean) {
         if (appVersionUtil == null) {
             appVersionUtil = AppVersionUtil(this, object : AppVersionUtil.DotIsShowListener {
                 override fun isShow(show: Boolean) {
                 }
-
                 override fun version(version: String) {
                 }
             })

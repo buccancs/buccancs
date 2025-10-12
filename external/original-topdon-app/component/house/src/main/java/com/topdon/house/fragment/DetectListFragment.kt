@@ -1,5 +1,4 @@
 package com.topdon.house.fragment
-
 import android.content.Intent
 import android.view.View
 import androidx.core.view.isVisible
@@ -27,21 +26,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-
 internal class DetectListFragment : BaseFragment(), View.OnClickListener {
     private lateinit var adapter: HouseAdapter
-
     private val tabViewModel: TabViewModel by activityViewModels()
-
     private val viewModel: DetectViewModel by activityViewModels()
-
     override fun initContentView(): Int = R.layout.fragment_detect_list
-
     override fun initView() {
         cl_del.isEnabled = false
         iv_del.isEnabled = false
         tv_del.isEnabled = false
-
         adapter = HouseAdapter(requireContext(), true)
         adapter.onItemClickListener = {
             val intent = Intent(context, ReportAddActivity::class.java)
@@ -57,11 +50,9 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
                         intent.putExtra(ExtraKeyConfig.DETECT_ID, adapter.dataList[position].id)
                         startActivity(intent)
                     }
-
                     1 -> {
                         viewModel.copyDetect(position, adapter.dataList[position] as HouseDetect)
                     }
-
                     2 -> {
                         TipDialog.Builder(requireContext())
                             .setTitleMessage(getString(R.string.monitor_report_delete))
@@ -91,10 +82,8 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
         }
         recycler_view.layoutManager = LinearLayoutManager(requireContext())
         recycler_view.adapter = adapter
-
         tv_add.setOnClickListener(this)
         cl_del.setOnClickListener(this)
-
 
         tabViewModel.isEditModeLD.observe(viewLifecycleOwner) {
             adapter.isEditMode = it
@@ -105,7 +94,6 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
             iv_del.isEnabled = it > 0
             tv_del.isEnabled = it > 0
         }
-
         viewModel.detectListLD.observe(viewLifecycleOwner) {
             group_empty.isVisible = it.isEmpty()
             recycler_view.isVisible = it.isNotEmpty()
@@ -129,20 +117,16 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
         }
         viewModel.queryAll()
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onDetectCreate(event: HouseDetectAddEvent) {
         viewModel.queryAll()
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onDetectUpdate(event: HouseDetectEditEvent) {
         viewModel.queryById(event.id)
     }
-
     override fun initData() {
     }
-
     override fun onClick(v: View?) {
         when (v) {
             tv_add -> {
@@ -150,7 +134,6 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
                 intent.putExtra(ExtraKeyConfig.IS_TC007, arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false)
                 startActivity(intent)
             }
-
             cl_del -> {
                 if (adapter.selectIndexList.isNotEmpty()) {
                     TipDialog.Builder(requireContext())

@@ -1,5 +1,4 @@
 package com.buccancs.data.calibration
-
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -14,7 +13,6 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.random.Random
-
 @Singleton
 class SimulatedDualCameraController @Inject constructor() : DualCameraController {
     override val rgbInfo: CameraStreamInfo = CameraStreamInfo(
@@ -23,22 +21,16 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
         height = 1080,
         description = "Simulated RGB Camera"
     )
-
     override val thermalInfo: CameraStreamInfo = CameraStreamInfo(
         cameraId = "sim-thermal",
         width = 256,
         height = 192,
         description = "Simulated Thermal Camera"
     )
-
     override val isSimulation: Boolean = true
-
     private val random = Random(0xBACC4D3)
-
     override suspend fun ensureReady() = Unit
-
     override suspend fun shutdown() = Unit
-
     override suspend fun capturePair(pattern: CalibrationPatternConfig): CalibrationFramePair {
         val timestamp = Clock.System.now()
         val rgbBitmap = renderPattern(
@@ -74,19 +66,15 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
             )
         )
     }
-
     private fun randomRotation(extraJitter: Float = 0.05f): Float {
         val base = (random.nextFloat() - 0.5f) * 0.35f
         val jitter = (random.nextFloat() - 0.5f) * extraJitter
         return (base + jitter) * PI.toFloat()
     }
-
     private fun randomOffset(scale: Float = 0.18f): Float =
         (random.nextFloat() - 0.5f) * 2f * scale
-
     private fun randomScale(base: Float, jitter: Float): Float =
         base + (random.nextFloat() - 0.5f) * jitter
-
     private fun renderPattern(
         width: Int,
         height: Int,
@@ -101,27 +89,22 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(background)
-
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.FILL
-
         val minDimension = min(width, height).toFloat()
         val squareSize = minDimension * 0.65f / maxOf(pattern.cols, pattern.rows)
         val patternWidth = pattern.cols * squareSize
         val patternHeight = pattern.rows * squareSize
-
         val centerX = width / 2f
         val centerY = height / 2f
         val translationX = translationXPct * centerX * 0.6f
         val translationY = translationYPct * centerY * 0.6f
-
         val transform = Matrix().apply {
             preTranslate(-patternWidth / 2f, -patternHeight / 2f)
             postScale(scaleMultiplier, scaleMultiplier)
             postRotate(rotationRad * 180f / PI.toFloat())
             postTranslate(centerX + translationX, centerY + translationY)
         }
-
         val rect = RectF()
         for (row in 0 until pattern.rows) {
             for (col in 0 until pattern.cols) {
@@ -134,13 +117,10 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
                 canvas.drawRect(rect, paint)
             }
         }
-
         addVignetting(canvas, width, height, foreground, background)
         addStructuredNoise(canvas, width, height, foreground)
-
         return bitmap
     }
-
     private fun addVignetting(
         canvas: Canvas,
         width: Int,
@@ -163,7 +143,6 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
             canvas.drawCircle(centerX, centerY, radius, paint)
         }
     }
-
     private fun addStructuredNoise(canvas: Canvas, width: Int, height: Int, foreground: Int) {
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.FILL
@@ -177,7 +156,6 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
             canvas.drawCircle(cx, cy, radius, paint)
         }
     }
-
     private fun blendColors(base: Int, overlay: Int, alpha: Float): Int {
         val inv = 1f - alpha
         val r = (Color.red(base) * inv + Color.red(overlay) * alpha).toInt().coerceIn(0, 255)

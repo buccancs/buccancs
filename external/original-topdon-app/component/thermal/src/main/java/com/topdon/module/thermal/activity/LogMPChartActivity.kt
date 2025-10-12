@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.activity
-
 import android.graphics.Color
 import android.util.Log
 import android.view.WindowManager
@@ -32,20 +31,14 @@ import com.topdon.module.thermal.viewmodel.LogViewModel
 import kotlinx.android.synthetic.main.activity_log_mp_chart.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 @Route(path = RouterConfig.THERMAL_LOG_MP_CHART)
 class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
-
     private val viewModel: LogViewModel by viewModels()
-
     private val adapter: SettingTimeAdapter by lazy { SettingTimeAdapter(this) }
-
     //    private var dataList: ArrayList<ThermalEntity> = arrayListOf()
     private lateinit var chart: LineChart
     private var selectType = 1
-
     override fun initContentView() = R.layout.activity_log_mp_chart
-
     override fun initView() {
         setTitleText(R.string.app_record)
         chart = log_chart_time_chart
@@ -69,24 +62,19 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
         }
         clearEntity(true)
     }
-
     override fun initData() {
         queryLog()
     }
-
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     private fun queryLog() {
         showLoading()
-//        viewModel.queryLogByType(selectType)
         lifecycleScope.launch(Dispatchers.IO) {
             viewModel.queryLogVolsByStartTime(
                 type = SharedManager.getSelectFenceType(),
@@ -94,7 +82,6 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
             )
         }
     }
-
     private fun initChart() {
         chart.clear()
         chart.setOnChartValueSelectedListener(this)
@@ -142,9 +129,7 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
         leftAxis.setLabelCount(6, false)
         val rightAxis = chart.axisRight
         rightAxis.isEnabled = false
-//        chart.zoom(10f, 1f, chart.xChartMax, 0f)
     }
-
     private val bgChartColors = intArrayOf(
         R.drawable.bg_chart_fill,
         R.drawable.bg_chart_fill2,
@@ -156,18 +141,14 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
         R.color.chart_line_center
     )
     private val textColor by lazy { ContextCompat.getColor(this, R.color.chart_text) }
-
     private fun createSet(index: Int, label: String): LineDataSet {
         val set = LineDataSet(null, label)
-//        set.mode = LineDataSet.Mode.CUBIC_BEZIER
         set.mode = LineDataSet.Mode.LINEAR
         set.setDrawFilled(false)
         set.fillDrawable = ContextCompat.getDrawable(this, bgChartColors[index])
         set.axisDependency = YAxis.AxisDependency.LEFT
         set.color = ContextCompat.getColor(this, lineChartColors[index])
         set.setCircleColor(ContextCompat.getColor(this, R.color.white))
-//        set.fillColor = ContextCompat.getColor(this, R.color.purple_500)
-//        set.highLightColor = ContextCompat.getColor(this, R.color.white)
         set.valueTextColor = Color.WHITE
         set.lineWidth = 2f
         set.circleRadius = 1f
@@ -177,7 +158,6 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
         set.setDrawValues(false)
         return set
     }
-
     private fun initEntry(data: ArrayList<ThermalEntity>) {
         synchronized(chart) {
             lifecycleScope.launch(Dispatchers.IO) {
@@ -213,14 +193,12 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
                             }
                             XLog.w("DataSet:${set.entryCount}")
                         }
-
                         "line" -> {
                             var maxDataSet = lineData.getDataSetByIndex(0)
                             if (maxDataSet == null) {
                                 maxDataSet = createSet(0, "line maxTemp")
                                 lineData.addDataSet(maxDataSet)
                             }
-
                             var minDataSet = lineData.getDataSetByIndex(1)
                             if (minDataSet == null) {
                                 minDataSet = createSet(1, "line minTemp")
@@ -240,15 +218,12 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
                             }
                             XLog.w("DataSet:${maxDataSet.entryCount}")
                         }
-
                         else -> {
-                            //max
                             var maxTempDataSet = lineData.getDataSetByIndex(0)
                             if (maxTempDataSet == null) {
                                 maxTempDataSet = createSet(0, "fence maxTemp")
                                 lineData.addDataSet(maxTempDataSet)
                             }
-                            //center
                             var centerTempDataSet = lineData.getDataSetByIndex(1)
                             if (centerTempDataSet == null) {
                                 centerTempDataSet = createSet(1, "fence minTemp")
@@ -281,15 +256,10 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
         }
     }
 
-
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-
     }
-
     override fun onNothingSelected() {
-
     }
-
     private fun getLabCount(count: Int): Int {
         return when (count) {
             in 0..2 -> 1
@@ -299,22 +269,19 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
             else -> 5
         }
     }
-
     private fun getMinimum(): Float {
         val min = when (selectType) {
-            1 -> 1 * 10 * 1000f //10s
-            2 -> 10 * 60 * 1000f //10min
-            3 -> 10 * 60 * 60 * 1000f //10hour
-            4 -> 10 * 24 * 60 * 60 * 1000f //10day
-            else -> 1 * 10 * 1000f //10s
+            1 -> 1 * 10 * 1000f
+            2 -> 10 * 60 * 1000f
+            3 -> 10 * 60 * 60 * 1000f
+            4 -> 10 * 24 * 60 * 60 * 1000f
+            else -> 1 * 10 * 1000f
         }
         return min
     }
-
     private fun getMaximum(): Float {
         return getMinimum() * 50f
     }
-
     private fun clearEntity(isEmpty: Boolean) {
         initChart()
         if (isEmpty) {
@@ -323,5 +290,4 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
             chart.clearValues()
         }
     }
-
 }

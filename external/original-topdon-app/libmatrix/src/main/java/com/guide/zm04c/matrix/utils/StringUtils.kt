@@ -1,21 +1,15 @@
 package com.guide.zm04c.matrix.utils
-
 import android.graphics.Paint
 import android.graphics.Rect
-
 class StringUtils {
-
     companion object {
-
         fun isBlank(str: String?): Boolean {
             return str == null || str.trim().length == 0
         }
 
-
         fun createFileName(tiemStr: String): String {
             return "_" + tiemStr
         }
-
 
         fun dateString(date: String): String {
             val year = date.substring(0, 4)
@@ -23,11 +17,9 @@ class StringUtils {
             val day = date.substring(6, 8)
             return "$year-$month-$day"
         }
-
         fun equals(a: CharSequence?, b: CharSequence?): Boolean {
             if (a === b)
                 return true
-
             if (a != null && b != null && (a.length == b.length)) {
                 if (a is String && b is String) {
                     return a == b
@@ -41,7 +33,6 @@ class StringUtils {
             }
             return false
         }
-
         /**
          * 根据字体大小返回字符串需要的宽高数组，int[]{宽,高}
          *
@@ -61,6 +52,5 @@ class StringUtils {
             }
             return intArrayOf(bounds.width(), bounds.height())
         }
-
     }
 }

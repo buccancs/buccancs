@@ -1,10 +1,7 @@
 package com.topdon.module.user.model
-
 import com.blankj.utilcode.util.Utils
 import com.topdon.module.user.R
-
 object FaqRepository {
-
     fun getQuestionList(isTS001: Boolean): ArrayList<QuestionData> = if (isTS001) arrayListOf(
         QuestionData(
             question = Utils.getApp().getString(R.string.question1),
@@ -61,7 +58,6 @@ object FaqRepository {
         ),
     )
 }
-
 data class QuestionData(
     val question: String,
     val answer: String

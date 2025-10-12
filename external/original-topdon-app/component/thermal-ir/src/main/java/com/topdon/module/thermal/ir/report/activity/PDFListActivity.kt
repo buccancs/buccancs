@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.report.activity
-
 import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
@@ -33,23 +32,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-
 @Route(path = RouterConfig.REPORT_LIST)
 class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
-
     private var isTC007 = false
-
     var page = 1
     override fun providerVMClass() = PdfViewModel::class.java
     var reportAdapter = PDFAdapter(R.layout.item_pdf)
-
     override fun initContentView(): Int {
         return R.layout.activity_pdf_list
     }
-
     override fun initView() {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-
         viewModel.listData.observe(this) {
             dismissLoadingDialog()
             if (!reportAdapter.hasEmptyView()) {
@@ -92,11 +85,8 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
         }
         initRecycler()
     }
-
     override fun initData() {
-
     }
-
     private fun initRecycler() {
         fragment_pdf_recycler.layoutManager = LinearLayoutManager(this)
         fragment_pdf_recycler_lay.setOnRefreshListener {
@@ -143,11 +133,8 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                                     }
                                     Log.w("删除成功", response.toString())
                                 }
-
                                 override fun onFail(exception: Exception?) {
-
                                 }
-
                                 override fun onFail(failMsg: String?, errorCode: String) {
                                     super.onFail(failMsg, errorCode)
                                     try {
@@ -173,15 +160,11 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                             reportAdapter.notifyItemRemoved(position)
                         }
                     }
-
                 }
                 .setCancelListener(R.string.app_cancel) {
-
                 }
                 .create().show()
         }
-
         fragment_pdf_recycler.adapter = reportAdapter
-//        viewModel.getReportData(1)
     }
 }

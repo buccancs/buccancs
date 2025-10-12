@@ -1,5 +1,4 @@
 package com.buccancs.data.sensor
-
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedMicrophoneConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedRgbCameraConnector
@@ -17,22 +16,17 @@ import kotlinx.datetime.Clock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-
 class DefaultSensorRepositoryTest {
-
     @Test
     fun simulationToggleConnectsDevices() = runTest {
         val repository = createRepository(this)
-
         repository.setSimulationEnabled(true)
         advanceUntilIdle()
-
         val devices = repository.devices.value
         assertTrue(devices.isNotEmpty())
         assertTrue(devices.all { it.connectionStatus is ConnectionStatus.Connected })
         assertTrue(repository.simulationEnabled.value)
     }
-
     @Test
     fun startStreamingPopulatesStreamStatuses() = runTest {
         val repository = createRepository(this)
@@ -43,10 +37,8 @@ class DefaultSensorRepositoryTest {
             referenceTimestamp = Clock.System.now(),
             sharedClockOffsetMillis = 0
         )
-
         repository.startStreaming(anchor)
         advanceTimeBy(400L)
-
         val statuses = repository.streamStatuses.value
         assertTrue(statuses.isNotEmpty())
         val gsrStream = statuses.firstOrNull { it.streamType == SensorStreamType.GSR }
@@ -55,7 +47,6 @@ class DefaultSensorRepositoryTest {
         assertEquals(RecordingLifecycleState.Recording, state.lifecycle)
         repository.stopStreaming()
     }
-
     @Test
     fun disablingSimulationDisconnectsDevices() = runTest {
         val repository = createRepository(this)
@@ -66,17 +57,14 @@ class DefaultSensorRepositoryTest {
             referenceTimestamp = Clock.System.now(),
             sharedClockOffsetMillis = 0
         )
-
         repository.startStreaming(anchor)
         advanceTimeBy(400L)
         repository.setSimulationEnabled(false)
         advanceUntilIdle()
-
         val devices = repository.devices.value
         assertTrue(devices.all { it.connectionStatus is ConnectionStatus.Disconnected })
         assertTrue(repository.streamStatuses.value.isEmpty())
     }
-
     private fun createRepository(scope: TestScope): DefaultSensorRepository {
         val connectors: List<SensorConnector> = listOf(
             SimulatedShimmerConnector(scope),

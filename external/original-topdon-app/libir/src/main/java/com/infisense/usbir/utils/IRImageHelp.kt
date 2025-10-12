@@ -1,5 +1,4 @@
 package com.infisense.usbir.utils
-
 import android.graphics.Bitmap
 import android.util.Log
 import com.example.open3d.JNITool
@@ -9,26 +8,20 @@ import org.opencv.core.Mat
 import org.opencv.imgproc.Imgproc
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-
 class IRImageHelp {
-
 
     @Volatile
     private var colorList: IntArray? = null
-
     @Volatile
     private var places: FloatArray? = null
-
     private var isUseGray = true
     private var customMaxTemp = 0f
     private var customMinTemp = 0f
     private var maxRGB = IntArray(3)
     private var minRGB = IntArray(3)
-
     fun getColorList(): IntArray? {
         return colorList
     }
-
     fun setColorList(
         colorList: IntArray?,
         places: FloatArray?,
@@ -56,7 +49,6 @@ class IRImageHelp {
             this.minRGB[2] = minColor and 0xFF
         }
     }
-
 
     /**
      * 自定义伪彩处理，在执行这个方法之前，变更伪彩属性时先通过 上面setColorList进行属性设置
@@ -114,7 +106,6 @@ class IRImageHelp {
                     index += 4
                     j += 2
                 }
-//                                        Log.w("测试上色耗时-总耗时", System.currentTimeMillis() - startTimeAll + "//");
             }
         } catch (exception: Exception) {
             Log.e("上色异常", exception.message!!)
@@ -122,7 +113,6 @@ class IRImageHelp {
             return imageDst
         }
     }
-
 
     fun setPseudoColorMaxMin(
         imageDst: ByteArray?, temperatureSrc: ByteArray?, max: Float,
@@ -136,7 +126,6 @@ class IRImageHelp {
             val startTimeAll = System.currentTimeMillis()
             var index = 0
             while (index < imageDstLength) {
-
                 var temperature0: Float =
                     ((temperatureSrc[j].toInt() and 0xff) + (temperatureSrc[j + 1]
                         .toInt() and 0xff) * 256).toFloat()
@@ -157,7 +146,6 @@ class IRImageHelp {
             }
         }
     }
-
     fun contourDetection(
         alarmBean: AlarmBean?, imageDst: ByteArray?, temperatureSrc: ByteArray?,
         imageWidth: Int, imageHeight: Int
@@ -197,6 +185,5 @@ class IRImageHelp {
         }
         return imageDst
     }
-
 
 }

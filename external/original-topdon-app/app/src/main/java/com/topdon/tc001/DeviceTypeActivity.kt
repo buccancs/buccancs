@@ -1,5 +1,4 @@
 package com.topdon.tc001
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +13,9 @@ import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.tools.DeviceTools
 import kotlinx.android.synthetic.main.activity_device_type.*
 import kotlinx.android.synthetic.main.item_device_type.view.*
-
 class DeviceTypeActivity : BaseActivity() {
-
     private var clientType: IRDeviceType? = null
-
     override fun initContentView(): Int = R.layout.activity_device_type
-
     override fun initView() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = MyAdapter(this).apply {
@@ -33,14 +28,12 @@ class DeviceTypeActivity : BaseActivity() {
                             .withBoolean("isTS004", true)
                             .navigation(this@DeviceTypeActivity)
                     }
-
                     IRDeviceType.TC007 -> {
                         ARouter.getInstance()
                             .build(RouterConfig.IR_DEVICE_ADD)
                             .withBoolean("isTS004", false)
                             .navigation(this@DeviceTypeActivity)
                     }
-
                     else -> {
                         ARouter.getInstance()
                             .build(RouterConfig.IR_MAIN)
@@ -54,16 +47,13 @@ class DeviceTypeActivity : BaseActivity() {
             }
         }
     }
-
     override fun initData() {
     }
-
     override fun connected() {
         if (clientType?.isLine() == true) {
             finish()
         }
     }
-
     override fun onSocketConnected(isTS004: Boolean) {
         if (isTS004) {
             if (clientType == IRDeviceType.TS004) {
@@ -75,31 +65,23 @@ class DeviceTypeActivity : BaseActivity() {
             }
         }
     }
-
     private class MyAdapter(val context: Context) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-
         var onItemClickListener: ((type: IRDeviceType) -> Unit)? = null
-
         private data class ItemInfo(val isTitle: Boolean, val firstType: IRDeviceType, val secondType: IRDeviceType?)
-
         private val dataList: ArrayList<ItemInfo> = arrayListOf(
             ItemInfo(true, IRDeviceType.TS001, IRDeviceType.TC001),
             ItemInfo(false, IRDeviceType.TC001_PLUS, IRDeviceType.TC002C_DUO),
-//            ItemInfo(true, IRDeviceType.TS004, IRDeviceType.TC007),
             ItemInfo(true, IRDeviceType.TS004, null),
         )
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_device_type, parent, false))
         }
-
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val firstType: IRDeviceType = dataList[position].firstType
             val secondType: IRDeviceType? = dataList[position].secondType
             holder.itemView.tv_title.isVisible = dataList[position].isTitle
             holder.itemView.tv_title.text =
                 context.getString(if (firstType.isLine()) R.string.tc_connect_line else R.string.tc_connect_wifi)
-
             holder.itemView.tv_item1.text = firstType.getDeviceName()
             when (firstType) {
                 IRDeviceType.TC001 -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_tc001)
@@ -109,7 +91,6 @@ class DeviceTypeActivity : BaseActivity() {
                 IRDeviceType.TS001 -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_ts001)
                 IRDeviceType.TS004 -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_ts004)
             }
-
             holder.itemView.group_item2.isVisible = secondType != null
             if (secondType != null) {
                 holder.itemView.tv_item2.text = secondType.getDeviceName()
@@ -123,9 +104,7 @@ class DeviceTypeActivity : BaseActivity() {
                 }
             }
         }
-
         override fun getItemCount(): Int = dataList.size
-
         inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.view_bg_item1.setOnClickListener {
@@ -144,7 +123,6 @@ class DeviceTypeActivity : BaseActivity() {
             }
         }
     }
-
     enum class IRDeviceType {
         TC001 {
             override fun isLine(): Boolean = true
@@ -170,7 +148,6 @@ class DeviceTypeActivity : BaseActivity() {
             override fun isLine(): Boolean = false
             override fun getDeviceName(): String = "TS004"
         };
-
         abstract fun isLine(): Boolean
         abstract fun getDeviceName(): String
     }

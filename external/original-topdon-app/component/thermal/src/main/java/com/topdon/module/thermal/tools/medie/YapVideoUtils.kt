@@ -1,12 +1,9 @@
 package com.topdon.module.thermal.tools.medie
-
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.View
-
 @Suppress("DEPRECATION")
 object YapVideoUtils {
-
     fun convertViewToBitmap(view: View): Bitmap {
         var bitmap: Bitmap?
         view.destroyDrawingCache()
@@ -22,5 +19,4 @@ object YapVideoUtils {
         }
         return bitmap!!
     }
-
 }

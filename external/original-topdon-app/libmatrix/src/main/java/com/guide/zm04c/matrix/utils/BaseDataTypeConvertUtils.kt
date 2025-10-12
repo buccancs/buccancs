@@ -1,31 +1,25 @@
 package com.guide.zm04c.matrix.utils
-
 import com.guide.zm04c.matrix.Logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 import kotlin.experimental.and
-
 class BaseDataTypeConvertUtils private constructor() {
-
     companion object {
         private val TAG = BaseDataTypeConvertUtils::class.java.simpleName
         private var df: DecimalFormat? = null
-
         fun convertShort2LittleEndianByteArr(value: Short): ByteArray {
             val shortByteArray = ByteArray(2)
             shortByteArray[0] = (value and 0xff).toByte()
             shortByteArray[1] = (value.toInt() ushr 8 and 0xff).toByte()
             return shortByteArray
         }
-
         fun convertShort2BigEndianByteArr(value: Short): ByteArray {
             val shortByteArray = ByteArray(2)
             shortByteArray[0] = (value.toInt() ushr 8 and 0xff).toByte()
             shortByteArray[1] = (value and 0xff).toByte()
             return shortByteArray
         }
-
         private fun convertShortArr2ByteArr(valueArr: ShortArray, convert: (Short) -> ByteArray): ByteArray {
             val valueByteArr = ByteArray(valueArr.size * 2)
             for (i in 0 until valueArr.size) {
@@ -35,15 +29,12 @@ class BaseDataTypeConvertUtils private constructor() {
             }
             return valueByteArr
         }
-
         fun convertShortArr2LittleEndianByteArr(valueArr: ShortArray): ByteArray {
             return convertShortArr2ByteArr(valueArr, ::convertShort2LittleEndianByteArr)
         }
-
         fun convertShortArr2BigEndianByteArr(valueArr: ShortArray): ByteArray {
             return convertShortArr2ByteArr(valueArr, ::convertShort2BigEndianByteArr)
         }
-
         fun byteArr2HexString(src: ByteArray): String? {
             val stringBuilder = StringBuilder()
             for (i in src.indices) {
@@ -56,11 +47,9 @@ class BaseDataTypeConvertUtils private constructor() {
             }
             return stringBuilder.toString()
         }
-
         fun convertFloatWith2Decimals(value: Float): Float {
             return (value * 100).toInt() / 100.0f
         }
-
         /**
          * 将float格式化为只带有一位小数的字符串
          *
@@ -83,7 +72,6 @@ class BaseDataTypeConvertUtils private constructor() {
                 return str;
             }
         }
-
         /**
          * 将float格式化为只带有一位小数的字符串
          *
@@ -106,7 +94,6 @@ class BaseDataTypeConvertUtils private constructor() {
                 return str;
             }
         }
-
         /**
          * 将float格式化为字符串
          *
@@ -118,9 +105,7 @@ class BaseDataTypeConvertUtils private constructor() {
             return df.format(number.toDouble())
         }
     }
-
     init {
         throw AssertionError("cannot be instantiated")
     }
-
 }

@@ -1,5 +1,4 @@
 package com.buccancs.data.orchestration
-
 import android.content.Context
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -24,29 +23,24 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.plus
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class DataStoreOrchestratorConfigRepository @Inject constructor(
     @ApplicationContext context: Context,
     @ApplicationScope scope: CoroutineScope
 ) : OrchestratorConfigRepository {
-
     private val dataStore = PreferenceDataStoreFactory.create(
         corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
         scope = scope + Dispatchers.IO,
         produceFile = { context.preferencesDataStoreFile(STORE_NAME) }
     )
-
     private val defaults = OrchestratorConfig(
         host = BuildConfig.ORCHESTRATOR_HOST,
         port = BuildConfig.ORCHESTRATOR_PORT,
         useTls = BuildConfig.ORCHESTRATOR_USE_TLS
     )
-
     private val hostKey = stringPreferencesKey("host")
     private val portKey = intPreferencesKey("port")
     private val tlsKey = booleanPreferencesKey("use_tls")
-
     override val config: StateFlow<OrchestratorConfig> = dataStore.data
         .catch { ex ->
             if (ex is java.io.IOException) {
@@ -57,7 +51,6 @@ class DataStoreOrchestratorConfigRepository @Inject constructor(
         }
         .map { prefs -> prefs.toConfig() }
         .stateIn(scope, kotlinx.coroutines.flow.SharingStarted.Eagerly, defaults)
-
     override suspend fun update(config: OrchestratorConfig) {
         dataStore.edit { prefs ->
             prefs[hostKey] = config.host
@@ -65,13 +58,11 @@ class DataStoreOrchestratorConfigRepository @Inject constructor(
             prefs[tlsKey] = config.useTls
         }
     }
-
     private fun Preferences.toConfig(): OrchestratorConfig = OrchestratorConfig(
         host = this[hostKey] ?: defaults.host,
         port = this[portKey] ?: defaults.port,
         useTls = this[tlsKey] ?: defaults.useTls
     )
-
     private companion object {
         const val STORE_NAME = "orchestrator_config"
     }

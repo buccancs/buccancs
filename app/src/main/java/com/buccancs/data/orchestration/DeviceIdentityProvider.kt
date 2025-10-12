@@ -1,12 +1,10 @@
 package com.buccancs.data.orchestration
-
 import android.content.Context
 import android.os.Build
 import android.provider.Settings
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class DeviceIdentityProvider @Inject constructor(
     @ApplicationContext private val context: Context

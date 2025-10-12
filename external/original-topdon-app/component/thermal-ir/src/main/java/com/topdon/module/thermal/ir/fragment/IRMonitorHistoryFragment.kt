@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.fragment
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -34,19 +33,14 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.Calendar
-
 class IRMonitorHistoryFragment : Fragment() {
-
     private val adapter = MyAdapter(ArrayList())
-
     private val viewModel: IRMonitorViewModel by viewModels()
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         EventBus.getDefault().register(this)
         return inflater.inflate(R.layout.fragment_ir_monitor_history, container)
     }
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,7 +60,6 @@ class IRMonitorHistoryFragment : Fragment() {
                     adapter.removeAt(it)
                 }
                 .setCancelListener(R.string.app_cancel) {
-
                 }
                 .create().show()
         }
@@ -101,29 +94,22 @@ class IRMonitorHistoryFragment : Fragment() {
             }
         }
     }
-
     override fun onResume() {
         super.onResume()
         viewModel.queryRecordList()
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         EventBus.getDefault().unregister(this)
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMonitorCreate(event: MonitorCreateEvent) {
         viewModel.queryRecordList()
     }
-
     private class MyAdapter(dataList: MutableList<ThermalDao.Record>?) : BaseQuickAdapter<ThermalDao.Record,
             BaseViewHolder>(R.layout.item_monitory_history, dataList), LoadMoreModule {
-
         var onItemClickListener: ((position: Int) -> Unit)? = null
-
         var onItemLongClickListener: ((position: Int) -> Unit)? = null
-
 
         override fun convert(holder: BaseViewHolder, item: ThermalDao.Record) {
             val position = data.indexOf(item)
@@ -133,7 +119,6 @@ class IRMonitorHistoryFragment : Fragment() {
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH) + 1
             val day = calendar.get(Calendar.DAY_OF_MONTH)
-
             if (item.showTitle || position == 0 || data.size == 1) {
                 holder.itemView.group_title.isVisible = true
                 holder.itemView.view_line_top.isVisible = false
@@ -145,7 +130,6 @@ class IRMonitorHistoryFragment : Fragment() {
                 holder.itemView.group_title.isVisible = beforeMonth != month && beforeYear != year
                 holder.itemView.view_line_top.isVisible = beforeMonth != month && beforeYear != year
             }
-
             holder.itemView.tv_date.text = "$year-$month"
             holder.itemView.tv_time.text = "$month-$day"
             holder.itemView.tv_duration.text = TimeTool.showVideoTime(record.duration * 1000L)
@@ -154,7 +138,6 @@ class IRMonitorHistoryFragment : Fragment() {
                 "line" -> holder.itemView.tv_type.setText(R.string.thermal_line)
                 "fence" -> holder.itemView.tv_type.setText(R.string.thermal_rect)
             }
-
             holder.itemView.view_content_bg.setOnClickListener {
                 if (position != RecyclerView.NO_POSITION) {
                     onItemClickListener?.invoke(position)

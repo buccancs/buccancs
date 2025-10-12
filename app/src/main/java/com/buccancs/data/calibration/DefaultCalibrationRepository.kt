@@ -1,5 +1,4 @@
 package com.buccancs.data.calibration
-
 import android.graphics.BitmapFactory
 import androidx.annotation.VisibleForTesting
 import com.buccancs.di.ApplicationScope
@@ -75,24 +74,19 @@ import kotlin.text.get
 import kotlin.text.indices
 import kotlin.text.take
 import kotlin.text.toInt
-
 @Singleton
 class DefaultCalibrationRepository @Inject constructor(
     private val controller: DualCameraController,
     private val storage: CalibrationStorage,
     @ApplicationScope private val scope: CoroutineScope
 ) : CalibrationRepository {
-
     private val stateMutex = Mutex()
     private val calculationMutex = Mutex()
     private val _state = MutableStateFlow(initialState())
-
     private var sessionId: String? = null
     private var captureCounter = 0
-
     override val sessionState: StateFlow<CalibrationSessionState>
         get() = _state.asStateFlow()
-
     override suspend fun configure(pattern: CalibrationPatternConfig, requiredPairs: Int) {
         require(requiredPairs >= 3) { "requiredPairs must be at least 3" }
         stateMutex.withLock {
@@ -104,7 +98,6 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         }
     }
-
     override suspend fun beginSession() {
         stateMutex.withLock {
             if (_state.value.active) return
@@ -124,7 +117,6 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         }
     }
-
     override suspend fun capturePair(): CalibrationCapture {
         val currentSession = sessionId ?: throw IllegalStateException("Calibration session not started")
         val pattern = _state.value.pattern
@@ -132,11 +124,9 @@ class DefaultCalibrationRepository @Inject constructor(
         val sessionDir = storage.sessionDirectory(currentSession)
         val rgbFile = File(sessionDir, "${captureId}_rgb.png")
         val thermalFile = File(sessionDir, "${captureId}_thermal.png")
-
         val framePair = controller.capturePair(pattern)
         storage.persistBitmap(framePair.rgb.bitmap, rgbFile)
         storage.persistBitmap(framePair.thermal.bitmap, thermalFile)
-
         val capture = CalibrationCapture(
             id = captureId,
             rgb = CalibrationImageDescriptor(
@@ -161,7 +151,6 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         return capture
     }
-
     override suspend fun removeCapture(id: String) {
         val currentSession = sessionId ?: return
         stateMutex.withLock {
@@ -177,7 +166,6 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         storage.createSessionDirectory(currentSession)
     }
-
     override suspend fun computeAndPersist(): CalibrationResult = calculationMutex.withLock {
         val currentSession = sessionId ?: throw IllegalStateException("Calibration session not started")
         val captures = _state.value.captures
@@ -189,7 +177,6 @@ class DefaultCalibrationRepository @Inject constructor(
             _state.value =
                 _state.value.copy(isProcessing = true, infoMessage = "Computing calibration...", errorMessage = null)
         }
-
         val result = runCatching {
             withContext(Dispatchers.Default) {
                 performCalibration(_state.value.pattern, captures)
@@ -203,7 +190,6 @@ class DefaultCalibrationRepository @Inject constructor(
                 )
             }
         }.getOrThrow()
-
         storage.writeResult(currentSession, result)
         stateMutex.withLock {
             val maxError = result.perViewErrors.maxOrNull() ?: 0.0
@@ -221,7 +207,6 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         return result
     }
-
     override suspend fun loadLatestResult(): CalibrationResult? = storage.loadLatestResult().also { result ->
         if (result != null) {
             stateMutex.withLock {
@@ -229,7 +214,6 @@ class DefaultCalibrationRepository @Inject constructor(
             }
         }
     }
-
     override suspend fun clearSession() {
         val previousSession = sessionId
         sessionId = null
@@ -241,7 +225,6 @@ class DefaultCalibrationRepository @Inject constructor(
             previousSession?.let { storage.deleteSessionDirectory(it) }
         }
     }
-
     private suspend fun performCalibration(
         pattern: CalibrationPatternConfig,
         captures: List<CalibrationCapture>
@@ -250,7 +233,6 @@ class DefaultCalibrationRepository @Inject constructor(
         val objectPoints = ArrayList<Mat>()
         val rgbPoints = ArrayList<Mat>()
         val thermalPoints = ArrayList<Mat>()
-
         val rgbSize = Size(
             captures.first().rgb.width.toDouble(),
             captures.first().rgb.height.toDouble()
@@ -259,16 +241,13 @@ class DefaultCalibrationRepository @Inject constructor(
             captures.first().thermal.width.toDouble(),
             captures.first().thermal.height.toDouble()
         )
-
         captures.forEach { capture ->
             val rgbGray = loadGrayMat(capture.rgb.path)
             val thermalGray = loadGrayMat(capture.thermal.path)
-
             val rgbCorners = MatOfPoint2f()
             val thermalCorners = MatOfPoint2f()
             val chessboardFlags =
                 Calib3d.CALIB_CB_ADAPTIVE_THRESH or Calib3d.CALIB_CB_NORMALIZE_IMAGE or Calib3d.CALIB_CB_FAST_CHECK
-
             val foundRgb = Calib3d.findChessboardCorners(rgbGray, patternSize, rgbCorners, chessboardFlags)
             val foundThermal = Calib3d.findChessboardCorners(thermalGray, patternSize, thermalCorners, chessboardFlags)
             if (!foundRgb || !foundThermal) {
@@ -278,22 +257,17 @@ class DefaultCalibrationRepository @Inject constructor(
                 thermalCorners.release()
                 throw IllegalStateException("Failed to detect calibration pattern in capture ${capture.id}")
             }
-
             refineCorners(rgbGray, rgbCorners)
             refineCorners(thermalGray, thermalCorners)
-
             val objectPointMat = createObjectPoints(pattern)
             objectPoints.add(objectPointMat)
             rgbPoints.add(rgbCorners)
             thermalPoints.add(thermalCorners)
-
             rgbGray.release()
             thermalGray.release()
         }
-
         val rgbResult = calibrateSingleCamera(objectPoints, rgbPoints, rgbSize)
         val thermalResult = calibrateSingleCamera(objectPoints, thermalPoints, thermalSize)
-
         val stereo = performStereoCalibration(
             objectPoints = objectPoints,
             rgbPoints = rgbPoints,
@@ -302,7 +276,6 @@ class DefaultCalibrationRepository @Inject constructor(
             rgbIntrinsic = rgbResult,
             thermalIntrinsic = thermalResult
         )
-
         val perViewErrors = computeAveragePerViewErrors(
             objectPoints,
             rgbPoints,
@@ -310,9 +283,7 @@ class DefaultCalibrationRepository @Inject constructor(
             rgbResult,
             thermalResult
         )
-
         val meanRms = (rgbResult.rms + thermalResult.rms + stereo.rms) / 3.0
-
         return CalibrationResult(
             generatedAt = Clock.System.now(),
             pattern = pattern,
@@ -328,7 +299,6 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         )
     }
-
     private fun loadGrayMat(path: String): Mat {
         val bitmap = BitmapFactory.decodeFile(path) ?: throw IllegalStateException("Unable to load image $path")
         val mat = Mat()
@@ -339,7 +309,6 @@ class DefaultCalibrationRepository @Inject constructor(
         bitmap.recycle()
         return gray
     }
-
     private fun refineCorners(image: Mat, corners: MatOfPoint2f) {
         Imgproc.cornerSubPix(
             image,
@@ -353,7 +322,6 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         )
     }
-
     private data class SingleCalibration(
         val rms: Double,
         val cameraMatrix: Mat,
@@ -395,13 +363,11 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         }
     }
-
     private data class StereoCalibration(
         val rms: Double,
         val rotationMatrixValues: List<Double>,
         val translationValues: List<Double>
     )
-
     private fun calibrateSingleCamera(
         objectPoints: List<Mat>,
         imagePoints: List<Mat>,
@@ -432,7 +398,6 @@ class DefaultCalibrationRepository @Inject constructor(
             imageSize = imageSize
         )
     }
-
     private fun performStereoCalibration(
         objectPoints: List<Mat>,
         rgbPoints: List<Mat>,
@@ -483,7 +448,6 @@ class DefaultCalibrationRepository @Inject constructor(
             translationValues = translationValues
         )
     }
-
     private fun computeAveragePerViewErrors(
         objectPoints: List<Mat>,
         rgbPoints: List<Mat>,
@@ -514,7 +478,6 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         return errors
     }
-
     private fun computeReprojectionError(
         objectPoints: Mat,
         imagePoints: Mat,
@@ -537,7 +500,6 @@ class DefaultCalibrationRepository @Inject constructor(
         projected.release()
         return kotlin.math.sqrt(errorSum / projectedArray.size)
     }
-
     private fun createObjectPoints(pattern: CalibrationPatternConfig): MatOfPoint3f {
         val points = ArrayList<Point3>(pattern.rows * pattern.cols)
         for (row in 0 until pattern.rows) {
@@ -551,7 +513,6 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         return MatOfPoint3f(*points.toTypedArray())
     }
-
     private fun ensureOpenCvLoaded() {
         if (OPEN_CV_READY.get()) return
         synchronized(OPEN_CV_READY) {
@@ -563,12 +524,10 @@ class DefaultCalibrationRepository @Inject constructor(
             OPEN_CV_READY.set(true)
         }
     }
-
     private fun createSessionId(): String {
         val timestamp = Clock.System.now().toEpochMilliseconds()
         return "cal-${timestamp}-${UUID.randomUUID().toString().take(8)}"
     }
-
     private fun initialState(): CalibrationSessionState = CalibrationSessionState(
         active = false,
         pattern = CalibrationDefaults.Pattern,
@@ -579,11 +538,9 @@ class DefaultCalibrationRepository @Inject constructor(
         infoMessage = null,
         errorMessage = null
     )
-
     companion object {
         private val OPEN_CV_READY = AtomicBoolean(false)
     }
-
     @VisibleForTesting
     internal fun resetForTesting() {
         sessionId = null

@@ -1,5 +1,4 @@
 package com.buccancs.desktop.viewmodel
-
 import com.buccancs.desktop.data.erasure.SubjectErasureManager
 import com.buccancs.desktop.data.repository.CommandRepository
 import com.buccancs.desktop.data.repository.DeviceRepository
@@ -40,7 +39,6 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
-
 class AppViewModel(
     private val sessionRepository: SessionRepository,
     private val deviceRepository: DeviceRepository,
@@ -67,15 +65,12 @@ class AppViewModel(
             control = ControlPanelState(),
             events = emptyList(),
             historicalSessions = emptyList()
-
         )
     )
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
     private val clock = tickerFlow()
-
     private val timestampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         .withZone(ZoneId.systemDefault())
-
     init {
         scope.launch {
             sessionRepository.transferUpdates().collect { progress ->
@@ -106,7 +101,6 @@ class AppViewModel(
                 control = control
             )
         }
-
         scope.launch {
             combine(snapshotFlow, clock) { snapshot, now ->
                 buildUiState(snapshot, now)
@@ -119,7 +113,6 @@ class AppViewModel(
                 when (event) {
                     is DeviceConnectionEvent.Connected ->
                         appendAlert("Device ${event.deviceId} connected")
-
                     is DeviceConnectionEvent.Disconnected -> {
                         val reason = event.reason.name.lowercase(Locale.US).replace('_', '-')
                         appendAlert("Device ${event.deviceId} disconnected ($reason)")
@@ -128,7 +121,6 @@ class AppViewModel(
             }
         }
     }
-
     fun startSession() {
         scope.launch {
             try {
@@ -152,7 +144,6 @@ class AppViewModel(
             }
         }
     }
-
     fun stopSession() {
         scope.launch {
             try {
@@ -173,7 +164,6 @@ class AppViewModel(
             }
         }
     }
-
     fun eraseSession(sessionId: String) {
         scope.launch {
             try {
@@ -185,7 +175,6 @@ class AppViewModel(
             }
         }
     }
-
     fun eraseSubject() {
         scope.launch {
             try {
@@ -203,7 +192,6 @@ class AppViewModel(
             }
         }
     }
-
     fun triggerSyncSignal() {
         scope.launch {
             val session = sessionRepository.activeSession.value
@@ -238,7 +226,6 @@ class AppViewModel(
             }
         }
     }
-
     fun addEventMarker() {
         scope.launch {
             val session = sessionRepository.activeSession.value
@@ -273,7 +260,6 @@ class AppViewModel(
             }
         }
     }
-
     fun triggerStimulus() {
         scope.launch {
             val session = sessionRepository.activeSession.value
@@ -310,7 +296,6 @@ class AppViewModel(
             }
         }
     }
-
     fun updateOperatorId(value: String) = updateControl { it.copy(operatorId = value) }
     fun updateSubjectIds(value: String) = updateControl { it.copy(subjectIds = value) }
     fun updateSyncSignalType(value: String) = updateControl { it.copy(syncSignalType = value) }
@@ -323,11 +308,9 @@ class AppViewModel(
     fun updateStimulusAction(value: String) = updateControl { it.copy(stimulusAction = value) }
     fun updateStimulusTargets(value: String) = updateControl { it.copy(stimulusTargets = value) }
     fun updateSubjectEraseId(value: String) = updateControl { it.copy(subjectEraseId = value) }
-
     fun clearAlert(message: String) {
         alerts.value = alerts.value.filterNot { it == message }
     }
-
     private fun handleTransferNotifications(progress: List<FileTransferProgress>) {
         val grouped = progress.groupBy { it.sessionId }
         grouped.forEach { (sessionId, items) ->
@@ -347,15 +330,12 @@ class AppViewModel(
         }
     }
 
-
     private fun appendAlert(message: String) {
         alerts.value = (alerts.value + message).takeLast(10)
     }
-
     private fun updateControl(transform: (ControlPanelState) -> ControlPanelState) {
         controlState.value = transform(controlState.value)
     }
-
     private fun resolveTargetsForCommand(raw: String): TargetResolution {
         val explicit = parseCsv(raw).toSet()
         val connected = deviceRepository.snapshot()
@@ -369,20 +349,16 @@ class AppViewModel(
         }
         return TargetResolution(commandTargets, eventDeviceIds)
     }
-
     private fun parseCsv(raw: String): List<String> =
         raw.split(",", ";", " ")
             .map { it.trim() }
             .filter { it.isNotEmpty() }
             .distinct()
-
     private fun formatRetentionAlert(action: DataRetentionManager.QuotaAction): String = when (action) {
         is DataRetentionManager.QuotaAction.DeviceCapExceeded ->
             "Device ${action.deviceId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
-
         is DataRetentionManager.QuotaAction.GlobalCapExceeded ->
             "Global quota exceeded (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
-
         is DataRetentionManager.QuotaAction.SessionCapExceeded ->
             "Session ${action.sessionId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
                 bytesToReadable(
@@ -390,14 +366,12 @@ class AppViewModel(
                 )
             })"
     }
-
     private fun tickerFlow(periodMillis: Long = 1_000L) = flow {
         while (true) {
             emit(Instant.now())
             delay(periodMillis)
         }
     }
-
     private fun bytesToReadable(bytes: Long): String {
         if (bytes <= 0) return "0 B"
         val units = arrayOf("B", "KB", "MB", "GB", "TB")
@@ -405,7 +379,6 @@ class AppViewModel(
         val value = bytes / Math.pow(1024.0, exp.toDouble())
         return String.format("%.2f %s", value, units[exp])
     }
-
     private data class TargetResolution(
         val commandTargets: Set<String>,
         val eventDeviceIds: List<String>

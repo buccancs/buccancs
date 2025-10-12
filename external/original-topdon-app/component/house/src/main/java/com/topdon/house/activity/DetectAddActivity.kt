@@ -1,5 +1,4 @@
 package com.topdon.house.activity
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.View
@@ -44,27 +43,18 @@ import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-
 class DetectAddActivity : BaseActivity(), View.OnClickListener {
     private val viewModel: DetectViewModel by viewModels()
-
     private var editId: Long = 0
-
     private var houseDetect = HouseDetect()
-
     private var inputDetectTime: Long? = null
 
-
     override fun initContentView(): Int = R.layout.activity_detect_add
-
     override fun initView() {
         editId = intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0)
-
         title_view.setTitleText(if (editId > 0) R.string.edit_detection_report else R.string.add_detection_report)
         title_view.setLeftClickListener { showExitTipsDialog() }
-
         tv_create_report.setText(if (editId > 0) R.string.person_save else R.string.create_report)
-
         viewModel.detectLD.observe(this) {
             houseDetect = it ?: return@observe
             inputDetectTime = houseDetect.detectTime
@@ -72,20 +62,15 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             et_inspector_name.setText(houseDetect.inspectorName)
             tv_detect_time.text = TimeUtils.millis2String(houseDetect.detectTime, "yyyy-MM-dd HH:mm")
             et_house_address.setText(houseDetect.address)
-
             Glide.with(iv_house_image).load(houseDetect.imagePath).into(iv_house_image)
             iv_house_image_camera.isVisible = false
             tv_house_image_camera.isVisible = false
-
             tv_house_year.text = houseDetect.year?.toString() ?: ""
-
             et_house_space.setText(houseDetect.houseSpace)
             tv_house_space_unit.text = resources.getStringArray(R.array.area)[houseDetect.houseSpaceUnit]
-
             et_cost.setText(houseDetect.cost)
             tv_cost_unit.text = resources.getStringArray(R.array.currency)[houseDetect.costUnit]
         }
-
         if (editId > 0) {
             viewModel.queryById(editId)
         } else {
@@ -95,7 +80,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             tv_cost_unit.text = resources.getStringArray(R.array.currency)[houseDetect.costUnit]
         }
 
-
         tv_detect_time.setOnClickListener(this)
         iv_address_location.setOnClickListener(this)
         iv_house_image.setOnClickListener(this)
@@ -103,7 +87,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
         tv_house_space_unit.setOnClickListener(this)
         tv_cost_unit.setOnClickListener(this)
         tv_create_report.setOnClickListener(this)
-
         tv_detect_name_title.text =
             SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.album_report_name))
         tv_inspector_name_title.text =
@@ -114,27 +97,22 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.house_detail_address))
         tv_house_image_title.text =
             SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.house_image))
-
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 showExitTipsDialog()
             }
         })
     }
-
     override fun initData() {
     }
-
     override fun onClick(v: View?) {
         when (v) {
             tv_detect_time -> {
                 showDetectTimeDialog()
             }
-
             iv_address_location -> {
                 getLocation()
             }
-
             iv_house_image -> {
                 ImagePickFromDialog(this)
                     .setSelectListener {
@@ -152,7 +130,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                     .show()
             }
-
             tv_house_year -> {
                 YearPicker(this, houseDetect.year).also {
                     it.setTitle(R.string.year_built)
@@ -162,7 +139,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
-
             tv_house_space_unit -> {
                 StrArrayPicker(this, resources.getStringArray(R.array.area), SharedManager.houseSpaceUnit).also {
                     it.setTitle(R.string.area)
@@ -173,7 +149,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
-
             tv_cost_unit -> {
                 StrArrayPicker(this, resources.getStringArray(R.array.currency), SharedManager.costUnit).also {
                     it.setTitle(R.string.diagnosis_unit)
@@ -184,37 +159,31 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
-
             tv_create_report -> {
                 val reportName = et_detect_name.text.toString()
                 if (reportName.isEmpty()) {
                     TToast.shortToast(this, R.string.album_report_input_name_tips)
                     return
                 }
-
                 val inspectorName = et_inspector_name.text.toString()
                 if (inspectorName.isEmpty()) {
                     TToast.shortToast(this, R.string.inspector_name_input_hint)
                     return
                 }
-
                 val detectTime = this.inputDetectTime
                 if (detectTime == null) {
                     TToast.shortToast(this, R.string.please_select_detect_time)
                     return
                 }
-
                 val address = et_house_address.text.toString()
                 if (address.isEmpty()) {
                     TToast.shortToast(this, R.string.house_detail_address_input_hint)
                     return
                 }
-
                 if (houseDetect.imagePath.isEmpty()) {
                     TToast.shortToast(this, R.string.house_image_input_hint)
                     return
                 }
-
                 lifecycleScope.launch {
                     showLoadingDialog()
                     withContext(Dispatchers.IO) {
@@ -226,7 +195,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                         houseDetect.cost = et_cost.text.toString()
                         houseDetect.createTime = if (editId > 0) houseDetect.createTime else currentTime
                         houseDetect.updateTime = currentTime
-
                         if (editId > 0) {
                             AppDatabase.getInstance().houseDetectDao().updateDetect(houseDetect)
                             EventBus.getDefault().post(HouseDetectEditEvent(houseDetect.id))
@@ -250,7 +218,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     @SuppressLint("MissingPermission")
     private fun getLocation() {
         PermissionTool.requestLocation(this) {
@@ -267,7 +234,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private val galleryPickResult = registerForActivityResult(ActivityResultContracts.GetContent()) {
         val srcFile: File? = UriUtils.uri2File(it)
         if (srcFile != null) {
@@ -279,7 +245,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             tv_house_image_camera.isVisible = false
         }
     }
-
     private val lightPhotoResult = registerForActivityResult(TakePhotoResult()) {
         if (it != null) {
             houseDetect.imagePath = it.absolutePath
@@ -288,7 +253,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             tv_house_image_camera.isVisible = false
         }
     }
-
     private fun showExitTipsDialog() {
         TipDialog.Builder(this)
             .setMessage(R.string.diy_tip_save)
@@ -298,7 +262,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             .setCancelListener(R.string.app_cancel)
             .create().show()
     }
-
     private fun showDetectTimeDialog() {
         val picker = DatimePicker(this)
         picker.setTitle(R.string.detect_time)
@@ -310,15 +273,11 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             inputDetectTime = time
             houseDetect.detectTime = time
         }
-
         val calendar = Calendar.getInstance()
         val nowYear = calendar.get(Calendar.YEAR)
-
         val startTimeEntity = DatimeEntity()
         startTimeEntity.date = DateEntity.target(nowYear - 1000, 1, 1)
-
         val endTimeEntity = DatimeEntity.yearOnFuture(1000)
-
         val timeEntity = if (inputDetectTime == null) DatimeEntity.now() else DatimeEntity()
         if (inputDetectTime != null) {
             calendar.timeInMillis = inputDetectTime ?: 0
@@ -331,7 +290,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             timeEntity.date = DateEntity.target(year, month, day)
             timeEntity.time = TimeEntity.target(hours, minutes, seconds)
         }
-
         picker.wheelLayout.setRange(startTimeEntity, endTimeEntity, timeEntity)
         picker.show()
     }

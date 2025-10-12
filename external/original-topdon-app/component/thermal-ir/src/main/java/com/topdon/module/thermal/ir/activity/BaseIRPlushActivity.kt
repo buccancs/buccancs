@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.activity
-
 import android.graphics.Bitmap
 import android.graphics.ImageFormat
 import android.hardware.usb.UsbDevice
@@ -43,13 +42,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
-
 abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListener, IIRFrameCallback {
-
     private var snStr = ""
-
     protected var dualView: DualViewWithExternalCameraCommonApi? = null
-
     /**
      * ir camera
      * 22576 - 0x5830
@@ -57,13 +52,10 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
      */
     private var irPid = 0x5830
 
-
     private var imageWidth = 0
     private var imageHeight = 0
     private var syncimage = SynchronizedBitmap()
-
     protected var mCurrentFusionType = DualParamsUtil.fusionTypeToParams(SaveSettingUtil.fusionType)
-
     /**
      * vl camera
      * 12341 - 0x3035  30 fps 640*480
@@ -72,39 +64,26 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
      */
     private var vlPid = 12337
     private var vlFps = 30
-
     protected var vlCameraWidth = 1280
     protected var vlCameraHeight = 720
     private var vlData = ByteArray(vlCameraWidth * vlCameraHeight * 3)
-
     /**
      * dual camera
      */
     private var dualCameraWidth = 480
     private var dualCameraHeight = 640
-
     private val isUseIRISP = false
-
     private var psedocolor: Array<ByteArray>? = null
-
     protected var dualDisp = 30
-
     private var vlUVCCamera: IRUVCDual? = null
 
-
     abstract fun getSurfaceView(): SurfaceView
-
     abstract fun getTemperatureDualView(): TemperatureView
-
     abstract fun isDualIR(): Boolean
-
     abstract fun setTemperatureViewType()
 
-
     open fun setDispViewData(dualDisp: Int) {
-
     }
-
 
     override fun initView() {
         super.initView()
@@ -115,23 +94,19 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             USBMonitorManager.getInstance().addOnUSBConnectListener(this)
         }
     }
-
     override fun onResume() {
         super.onResume()
         dualStart()
     }
-
     override fun onStop() {
         super.onStop()
         dualStop()
     }
-
     override fun onDestroy() {
         super.onDestroy()
         mIrHandler.removeCallbacksAndMessages(null)
         USBMonitorManager.getInstance().removeOnUSBConnectListener(this)
     }
-
     private fun dualStart() {
         if (!isDualIR()) {
             return
@@ -146,7 +121,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
         setTemperatureViewType()
         getTemperatureDualView().start()
     }
-
     private var mIrHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             if (!isDualIR()) {
@@ -176,7 +150,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             }
         }
     }
-
     private fun restartDualCamera() {
         if (isrun) {
             USBMonitorManager.getInstance().isReStart = true
@@ -185,7 +158,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             dualStart()
         }
     }
-
     private fun initDefIntegralArgsDISPValue(typeLoadParameters: DualCameraParams.TypeLoadParameters) {
         if (!isDualIR()) {
             return
@@ -199,7 +171,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             dualView?.startPreview()
         }
     }
-
     private fun initDualCamera() {
         if (!isDualIR()) {
             return
@@ -217,16 +188,12 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             isUseIRISP, dualRotate, this
         )
         dualView?.addFrameCallback(getTemperatureDualView())
-        //
         getTemperatureDualView().setDualUVCCamera(dualView!!.getDualUVCCamera())
         initPseudoColor()
         initAmplify(true)
-        //        setFusion(mCurrentFusionType)
-//        dualView!!.startPreview()
         dualView?.setHandler(mIrHandler)
         isrun = true
     }
-
     private fun initPseudoColor() {
         val am = assets
         var inputStream: InputStream? = null
@@ -236,7 +203,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             val length = inputStream.available()
             psedocolor!![0] = ByteArray(length + 1)
             if (inputStream.read(psedocolor!![0]) != length) {
-
             }
             psedocolor!![0][length] = 0
             dualView!!.getDualUVCCamera().loadPseudocolor(
@@ -255,7 +221,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             }
         }
     }
-
     protected fun setFusion(fusion: DualCameraParams.FusionType) {
         dualView?.setCurrentFusionType(fusion)
         getTemperatureDualView().setCurrentFusionType(fusion)
@@ -265,7 +230,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             getTemperatureDualView().setImageSize(dualCameraWidth, dualCameraHeight, null)
         }
     }
-
     private fun startVLCamera(pid: Int, fps: Int, cameraWidth: Int, cameraHeight: Int) {
         if (!isDualIR()) {
             return
@@ -278,9 +242,7 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             fps,
             object : ConnectCallback {
                 override fun onCameraOpened(uvcCamera: UVCCamera) {
-
                 }
-
                 override fun onIRCMDCreate(ircmd: IRCMD) {
                     setUVCCameraICMD(ircmd)
                 }
@@ -300,20 +262,11 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
         vlUVCCamera?.registerUSB()
         vlUVCCamera?.TAG = "mjpeg"
     }
-
     private fun setUVCCameraICMD(ircmd: IRCMD) {
         this.ircmd = ircmd
         snStr = getSNStr(ircmd)
         isConfigWait = false
-//        getTemperatureDualView().setIrcmd(ircmd)
-//        popupCalibration.setIrcmd(ircmd)
-//        popupImage.setIrcmd(ircmd)
-//        popupOthers.setIrcmd(ircmd)
-//        getTemperatureDualView().setIrcmd(ircmd)
-//        popupCalibration.setRotate(true)
-//        popupImage.setRotate(true)
     }
-
     private fun dualStop() {
         if (!isDualIR()) {
             return
@@ -330,64 +283,42 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             dualView?.removeFrameCallback(getTemperatureDualView())
             dualView?.dualUVCCamera?.onPausePreview()
             USBMonitorManager.getInstance().stopPreview()
-            //
             if (vlUVCCamera != null) {
                 vlUVCCamera?.unregisterUSB()
                 vlUVCCamera?.stopPreview()
                 vlUVCCamera = null
             }
-            //
             SystemClock.sleep(100)
             dualView?.stopPreview()
             dualView = null
         }
     }
-
     override fun onAttach(device: UsbDevice?) {
-
     }
-
     override fun onGranted(usbDevice: UsbDevice?, granted: Boolean) {
-
     }
-
     override fun onDettach(device: UsbDevice?) {
-
     }
-
     override fun onConnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?, createNew: Boolean) {
         mIrHandler.sendEmptyMessage(Const.HANDLE_CONNECT)
     }
-
     override fun onDisconnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?) {
-
     }
-
     override fun onCancel(device: UsbDevice?) {
-
     }
-
     override fun onIRCMDInit(ircmd: IRCMD?) {
         setUVCCameraICMD(ircmd!!)
     }
-
     override fun onCompleteInit() {
         mIrHandler.sendEmptyMessage(Const.HIDE_LOADING)
     }
-
     override fun onSetPreviewSizeFail() {
         mIrHandler.sendEmptyMessage(Const.SHOW_RESTART_MESSAGE)
     }
-
     protected val preIrARGBData = ByteArray(256 * 192 * 4)
     protected val preIrData = ByteArray(256 * 192 * 2)
     protected val preTempData = ByteArray(256 * 192 * 2)
-
     override fun onIrFrame(irFrame: ByteArray?): ByteArray {
-        /**
-         * @param irFrame 原始红外YUV422数据 + 温度数据 长度 irWidth * irHeight * 2 + irWidth * irHeight * 2
-         * @return
-         */
         System.arraycopy(irFrame, 0, preIrData, 0, preIrData.size);
         LibIRProcess.convertYuyvMapToARGBPseudocolor(
             preIrData, (Const.IR_WIDTH * Const.IR_HEIGHT).toLong(),
@@ -395,7 +326,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
         )
         return preIrARGBData
     }
-
     override fun switchAmplify() {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -418,7 +348,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             }
             isOpenAmplify = !isOpenAmplify
             dualView?.isOpenAmplify = isOpenAmplify
-
             title_view.setRight2Drawable(if (isOpenAmplify) R.drawable.svg_tisr_on else R.drawable.svg_tisr_off)
             SaveSettingUtil.isOpenAmplify = isOpenAmplify
             if (isOpenAmplify) {
@@ -428,7 +357,6 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             }
         }
     }
-
     override fun initAmplify(show: Boolean) {
         lifecycleScope.launch {
             title_view.setRight2Drawable(if (isOpenAmplify) R.drawable.svg_tisr_on else R.drawable.svg_tisr_off)
@@ -440,6 +368,5 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
             dualView?.isOpenAmplify = isOpenAmplify
         }
     }
-
 
 }

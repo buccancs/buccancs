@@ -29,11 +29,12 @@ junitJupiter = "5.11.0"
 kotlinxCoroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
 kotlinxSerialization = "1.7.3"
-opencvAndroid = "4.9.0"
+opencvAndroid = "4.5.2"
 protobuf = "3.25.3"
 slf4j = "2.0.17"
 tink = "1.18.0"
 vecmath = "1.3.1"
+material = "1.12.0"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -88,7 +89,8 @@ junit-junit = { module = "junit:junit", version.ref = "junit4" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-opencv-android = { module = "org.opencv:opencv-android", version.ref = "opencvAndroid" }
+opencv-android = { module = "ai.eye2you:opencv-android", version.ref = "opencvAndroid" }
+google-material = { module = "com.google.android.material:material", version.ref = "material" }
 protobuf-java-util = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf" }
 protobuf-kotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protobuf" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }

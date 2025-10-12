@@ -1,7 +1,5 @@
 package com.buccancs.desktop.data.session
-
 import kotlinx.serialization.Serializable
-
 @Serializable
 data class SessionMetadata(
     val sessionId: String,
@@ -17,7 +15,6 @@ data class SessionMetadata(
     val metrics: MetadataMetrics = MetadataMetrics(),
     val retention: RetentionSnapshot? = null
 )
-
 @Serializable
 data class EventLog(
     val eventId: String,
@@ -25,7 +22,6 @@ data class EventLog(
     val timestampEpochMs: Long,
     val deviceIds: List<String> = emptyList()
 )
-
 @Serializable
 data class RecordedFile(
     val deviceId: String,
@@ -36,7 +32,6 @@ data class RecordedFile(
     val createdEpochMs: Long,
     val streamType: String? = null
 )
-
 @Serializable
 data class MetadataMetrics(
     val gsrSamples: Long = 0,
@@ -44,14 +39,12 @@ data class MetadataMetrics(
     val thermalFrames: Long = 0,
     val audioSamples: Long = 0
 )
-
 @Serializable
 data class RetentionSnapshot(
     val perDeviceBytes: Map<String, Long>,
     val perSessionBytes: Long,
     val globalBytes: Long
 )
-
 @Serializable
 enum class SessionStatusDto {
     IDLE,

@@ -1,5 +1,4 @@
 package com.topdon.hik.activity
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
@@ -80,37 +79,27 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import kotlin.math.roundToInt
-
 @Route(path = RouterConfig.IR_HIK_MAIN)
 class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() {
-
     private val saveSetBean = SaveSettingBean()
-
     private var customPseudoBean = CustomPseudoBean.loadFromShared()
 
-
     private var popupWindow: PopupWindow? = null
-
 
     private var limitTempMin = Float.MIN_VALUE
         set(value) {
             field = value
             binding.hikSurfaceView.limitTempMin = value
         }
-
     private var limitTempMax = Float.MAX_VALUE
         set(value) {
             field = value
             binding.hikSurfaceView.limitTempMax = value
         }
-
     private var currentMin: Float = 0f
-
     private var currentMax: Float = 0f
 
-
     override fun initContentLayoutId(): Int = R.layout.activity_ir_thermal_hik
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         HikHelper.bind(this)
@@ -136,13 +125,11 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                 HikHelper.setEnhanceLevel((saveSetBean.ddeConfig * 100f / 4).toInt())
                 HikHelper.setMirror(saveSetBean.rotateAngle, saveSetBean.isOpenMirror)
                 HikHelper.setTemperatureMode(saveSetBean.temperatureMode)
-
                 val config: DataBean = ConfigRepository.readConfig(false)
                 HikHelper.setEmissivity((config.radiation * 100).toInt())
                 HikHelper.setDistance((config.distance * 100).toInt().coerceAtLeast(30))
             }
         }
-
         binding.titleView.setRight2Drawable(if (saveSetBean.isOpenAmplify) R.drawable.svg_tisr_on else R.drawable.svg_tisr_off)
         binding.titleView.setLeftClickListener {
             if (!binding.timeDownView.isRunning) {
@@ -161,15 +148,12 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             switchAmplify()
         }
 
-
-
         binding.timeDownView.onFinishListener = {
             if (!saveSetBean.isVideoMode) {
                 binding.menuSecondView.updateCameraModel()
             }
             centerCamera()
         }
-
         binding.hikSurfaceView.isOpenAmplify = saveSetBean.isOpenAmplify
         binding.hikSurfaceView.rotateAngle = saveSetBean.rotateAngle
         binding.hikSurfaceView.alarmBean = saveSetBean.alarmBean
@@ -179,7 +163,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                 SupHelp.getInstance().initA4KCPP()
             }
         }
-
         binding.cameraPreView.cameraPreViewCloseListener = {
             if (binding.cameraPreView.isPreviewing) {
                 popupWindow?.dismiss()
@@ -191,58 +174,48 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                 switchPinPState(false)
             }
         }
-
         initPseudoBar()
         initTempView()
         initCarDetect()
         initMenu()
         refreshCustomPseudo(customPseudoBean)
         rotateUI(saveSetBean.isRotatePortrait())
-
         AlarmHelp.getInstance(this).updateData(saveSetBean.alarmBean)
-
         lifecycleScope.launch {
             delay(1000)
             showEmissivityTipsDialog()
         }
     }
-
     override fun onResume() {
         super.onResume()
         binding.menuSecondView.refreshImg()
         AlarmHelp.getInstance(this).onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onPause() {
         super.onPause()
         stopIfContinua()
         AlarmHelp.getInstance(this).pause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onStop() {
         super.onStop()
         binding.timeDownView.cancel()
         stopIfVideoing(false)
     }
-
     override fun onDestroy() {
         super.onDestroy()
         binding.tempLayout.stopAnimation()
         AlarmHelp.getInstance(this).onDestroy(saveSetBean.isSaveSetting)
     }
-
     override fun disConnected() {
         finish()
     }
-
     private fun initPseudoBar() {
         binding.clPseudoBar.isVisible = saveSetBean.isOpenPseudoBar
         if (ScreenTool.isIPad(this)) {
             binding.clPseudoBar.setPadding(0, SizeUtils.dp2px(40f), 0, SizeUtils.dp2px(40f))
         }
-
         binding.ivPseudoBarLock.setOnClickListener {
             if (it.isVisible) {
                 it.isSelected = !it.isSelected
@@ -251,7 +224,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                     if (it.isSelected) 0xffe17606.toInt() else 0
                 binding.pseudoSeekBar.rightSeekBar.indicatorBackgroundColor =
                     if (it.isSelected) 0xffe17606.toInt() else 0
-                if (!it.isSelected) {//解锁->锁
+                if (!it.isSelected) {
                     limitTempMin = Float.MIN_VALUE
                     limitTempMax = Float.MAX_VALUE
                     binding.pseudoSeekBar.setRangeAndPro(limitTempMin, limitTempMax, currentMin, currentMax)
@@ -263,7 +236,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             intent.putExtra(ExtraKeyConfig.IS_TC007, false)
             pseudoSetResult.launch(intent)
         }
-
         binding.pseudoSeekBar.isEnabled = false
         binding.pseudoSeekBar.setIndicatorTextDecimalFormat("0.0")
         binding.pseudoSeekBar.setPseudocode(saveSetBean.pseudoColorMode)
@@ -288,15 +260,12 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         Float.MAX_VALUE
                     }
             }
-
             override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
             }
-
             override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
             }
         })
     }
-
     @SuppressLint("SetTextI18n")
     private fun initTempView() {
         binding.temperatureView.mode = Mode.FULL
@@ -335,7 +304,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             }
         }
     }
-
     private fun initCarDetect() {
         binding.llCarDetect.isVisible = intent.getBooleanExtra(ExtraKeyConfig.IS_CAR_DETECT_ENTER, false)
         binding.tvCarDetect.text = SharedManager.getCarDetectInfo().buildString()
@@ -352,16 +320,13 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             }
         }
     }
-
     private var hasClickTrendDel = true
-
     private fun initMenu() {
         binding.menuFirstView.onTabClickListener = {
             popupWindow?.dismiss()
             binding.temperatureView.isEnabled = it.selectPosition == 1
             binding.menuSecondView.selectPosition(it.selectPosition)
         }
-
         binding.menuSecondView.onCameraClickListener = {
             when (it) {
                 0 -> {
@@ -375,23 +340,20 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                                 centerCamera()
                             }
                         }
-
                         CameraState.DELAY -> {
                             cameraState = CameraState.INIT
                             binding.timeDownView.cancel()
                             binding.menuSecondView.updateCameraModel()
                         }
-
                         CameraState.TAKING -> {
-                            if (saveSetBean.isVideoMode) {//录像 录制中->结束录制
+                            if (saveSetBean.isVideoMode) {
                                 stopIfVideoing()
-                            } else {//拍照 连续拍照或拍照->取消连续拍照
+                            } else {
                                 stopIfContinua()
                             }
                         }
                     }
                 }
-
                 1 -> {
                     lifecycleScope.launch {
                         stopIfVideoing()
@@ -402,16 +364,13 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                             .navigation()
                     }
                 }
-
                 2 -> {
                     showCameraItemPopup()
                 }
-
                 3 -> {
                     stopIfContinua()
                     saveSetBean.isVideoMode = false
                 }
-
                 4 -> {
                     stopIfContinua()
                     saveSetBean.isVideoMode = true
@@ -439,7 +398,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         binding.trendView.close()
                     }
                 }
-
                 FenceType.DEL -> {
                     hasClickTrendDel = true
                     binding.temperatureView.mode = Mode.CLEAR
@@ -453,7 +411,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                 TwoLightType.P_IN_P -> {
                     switchPinPState(true)
                 }
-
                 TwoLightType.BLEND_EXTENT -> {
                     if (!binding.cameraPreView.isPreviewing && isSelected) {
                         switchPinPState(false)
@@ -462,9 +419,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         showBlendExtentPopup()
                     }
                 }
-
                 else -> {
-
                 }
             }
         }
@@ -476,13 +431,11 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                     .setPositiveListener(R.string.app_yes) {
                         customPseudoBean.isUseCustomPseudo = false
                         customPseudoBean.saveToShared()
-
                         saveSetBean.pseudoColorMode = it
                         binding.hikSurfaceView.setPseudoCode(it)
                         binding.pseudoSeekBar.setPseudocode(it)
                         refreshCustomPseudo(customPseudoBean)
                     }.setCancelListener(R.string.app_no) {
-
                     }
                     .create().show()
             } else {
@@ -499,40 +452,31 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                     binding.clPseudoBar.isVisible = saveSetBean.isOpenPseudoBar
                     binding.menuSecondView.setSettingSelected(SettingType.PSEUDO_BAR, saveSetBean.isOpenPseudoBar)
                 }
-
                 SettingType.CONTRAST -> {
                     if (!isSelected) {
                         showContrastPopup()
                     }
                 }
-
                 SettingType.DETAIL -> {
                     if (!isSelected) {
                         showSharpnessPopup()
                     }
                 }
-
                 SettingType.ALARM -> {
                     showTempAlarmSetDialog()
                 }
-
                 SettingType.ROTATE -> {
                     saveSetBean.rotateAngle = if (saveSetBean.rotateAngle == 0) 270 else (saveSetBean.rotateAngle - 90)
                     binding.menuSecondView.setSettingRotate(saveSetBean.rotateAngle)
-
                     binding.hikSurfaceView.rotateAngle = saveSetBean.rotateAngle
-
                     binding.temperatureView.rotateAngle = saveSetBean.rotateAngle
                     binding.temperatureView.mode = Mode.CLEAR
                     binding.temperatureView.mode = Mode.FULL
                     binding.menuSecondView.fenceSelectType = FenceType.FULL
-
                     hasClickTrendDel = true
                     binding.trendView.isVisible = false
-
                     rotateUI(saveSetBean.isRotatePortrait())
                 }
-
                 SettingType.FONT -> {
                     val colorPickDialog = ColorPickDialog(this, saveSetBean.tempTextColor, saveSetBean.tempTextSize)
                     colorPickDialog.onPickListener = { color, size ->
@@ -544,7 +488,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                     }
                     colorPickDialog.show()
                 }
-
                 SettingType.MIRROR -> {
                     saveSetBean.isOpenMirror = !isSelected
                     binding.menuSecondView.setSettingSelected(SettingType.MIRROR, !isSelected)
@@ -552,10 +495,8 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         HikHelper.setMirror(saveSetBean.rotateAngle, !isSelected)
                     }
                 }
-
                 SettingType.COMPASS -> {
                 }
-
                 SettingType.WATERMARK -> {
                 }
             }
@@ -584,7 +525,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                 ToastTools.showShort(R.string.auto_open)
             }
         }
-
         binding.menuSecondView.isVideoMode = saveSetBean.isVideoMode
         binding.menuSecondView.fenceSelectType = FenceType.FULL
         binding.menuSecondView.setPseudoColor(saveSetBean.pseudoColorMode)
@@ -597,19 +537,13 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         binding.menuSecondView.isUnitF = SharedManager.getTemperature() == 0
     }
 
-
     private var cameraState = CameraState.INIT
-
     private enum class CameraState {
         INIT,
-
         DELAY,
-
         TAKING,
     }
-
     private var continuousJob: Job? = null
-
     private fun stopIfContinua() {
         if (cameraState == CameraState.TAKING) {
             continuousJob?.cancel()
@@ -618,7 +552,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             binding.tvContinuousTips.isVisible = false
         }
     }
-
     private fun centerCamera() {
         if (saveSetBean.isVideoMode) {
             startVideo()
@@ -647,11 +580,8 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             }
         }
     }
-
     private var videoRecord: VideoRecordFFmpeg? = null
-
     private var videoTimeJob: Job? = null
-
     private fun startVideo() {
         if (!VideoRecordFFmpeg.canStartVideoRecord(this)) {
             return
@@ -659,7 +589,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         cameraState = CameraState.TAKING
         binding.clPseudoBar.updateBitmap()
         binding.menuSecondView.setToRecord(false)
-
         videoRecord = VideoRecordFFmpeg(
             binding.hikSurfaceView,
             binding.cameraPreView,
@@ -681,7 +610,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         }
         videoRecord?.updateAudioState(saveSetBean.isRecordAudio)
         videoRecord?.startRecord()
-
         videoTimeJob = lifecycleScope.launch {
             flow {
                 repeat(60 * 60 * 2) {
@@ -694,16 +622,13 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         }
         binding.tvVideoTime.isVisible = true
     }
-
     private fun stopIfVideoing(isLifecycle: Boolean = true) {
         if (cameraState == CameraState.TAKING) {
             cameraState = CameraState.INIT
             videoRecord?.stopRecord()
-
             videoTimeJob?.cancel()
             videoTimeJob = null
             binding.tvVideoTime.isVisible = false
-
             val scope = if (isLifecycle) lifecycleScope else CoroutineScope(Dispatchers.Main)
             scope.launch(Dispatchers.Main) {
                 delay(500)
@@ -712,20 +637,16 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             }
         }
     }
-
     private suspend fun camera() = withContext(Dispatchers.Default) {
         withContext(Dispatchers.Main) {
             binding.menuSecondView.setToCamera()
         }
-
         var bitmap: Bitmap = binding.hikSurfaceView.getScaleBitmap()
-
         if (saveSetBean.isOpenTwoLight) {
             bitmap =
                 BitmapUtils.mergeBitmapByViewNonNull(bitmap, binding.cameraPreView.getBitmap(), binding.cameraPreView)
             ImageUtils.saveImageToApp(bitmap)
         }
-
         if (binding.clPseudoBar.isVisible) {
             val seekBarBitmap = binding.clPseudoBar.drawToBitmap()
             bitmap = BitmapUtils.mergeBitmap(
@@ -735,15 +656,12 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                 (bitmap.height - seekBarBitmap.height) / 2,
             )
         }
-
         if (binding.temperatureView.mode != Mode.CLEAR) {
             binding.temperatureView.draw(Canvas(bitmap))
         }
-
         if (binding.llCarDetect.isVisible) {
             bitmap = BitmapUtils.mergeBitmap(bitmap, binding.llCarDetect.drawToBitmap(), 0, 0)
         }
-
         val watermarkBean: WatermarkBean = SharedManager.watermarkBean
         if (watermarkBean.isOpen) {
             bitmap = BitmapUtils.drawCenterLable(
@@ -754,9 +672,7 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                 if (binding.pseudoSeekBar.isVisible) binding.pseudoSeekBar.measuredWidth else 0
             )
         }
-
         val filename: String = ImageUtils.save(bitmap)
-
         val emConfig: DataBean = ConfigRepository.readConfig(false)
         val capital = FrameStruct.toCode(
             name = ProductType.PRODUCT_NAME_TC002C_DUO,
@@ -779,21 +695,19 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             isAmplify = saveSetBean.isOpenAmplify
         )
         ImageUtils.saveFrame(bs = HikHelper.copyFrameData(), capital = capital, name = filename)
-
         withContext(Dispatchers.Main) {
             binding.menuSecondView.refreshImg()
         }
         EventBus.getDefault().post(GalleryAddEvent())
     }
-
     private fun switchPinPState(isShowTips: Boolean) {
         if (!CheckDoubleClick.isFastDoubleClick()) {
-            if (binding.cameraPreView.isPreviewing) {//开启->关闭
+            if (binding.cameraPreView.isPreviewing) {
                 saveSetBean.isOpenTwoLight = false
                 binding.cameraPreView.isVisible = false
                 binding.cameraPreView.closeCamera()
                 binding.menuSecondView.setTwoLightSelected(TwoLightType.P_IN_P, false)
-            } else {//关闭->开启
+            } else {
                 PermissionTool.requestCamera(this) {
                     saveSetBean.isOpenTwoLight = true
                     binding.cameraPreView.isVisible = true
@@ -802,7 +716,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
                         binding.cameraPreView.openCamera()
                     }
                     binding.menuSecondView.setTwoLightSelected(TwoLightType.P_IN_P, true)
-
                     if (isShowTips && SharedManager.isTipPinP) {
                         val dialog = TipPreviewDialog.newInstance()
                         dialog.closeEvent = {
@@ -814,17 +727,14 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             }
         }
     }
-
     private fun rotateUI(isPortrait: Boolean) {
         val constraintSet = ConstraintSet()
         constraintSet.clone(binding.clRoot)
         constraintSet.setDimensionRatio(R.id.thermal_lay, (if (isPortrait) 192 / 256f else (256 / 192f)).toString())
         constraintSet.applyTo(binding.clRoot)
-
         binding.clPseudoBar.requestLayout()
         binding.clPseudoBar.updateBitmap()
     }
-
 
     private val pseudoSetResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
@@ -836,7 +746,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             }
         }
     }
-
     private fun refreshCustomPseudo(newData: CustomPseudoBean) {
         val isCustom: Boolean = newData.isUseCustomPseudo
         binding.tvTempContent.isVisible = isCustom
@@ -846,11 +755,9 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         binding.pseudoSeekBar.setPlaces(newData.getPlaceList())
         binding.hikSurfaceView.refreshCustomPseudo(newData)
         binding.menuSecondView.setPseudoColor(if (isCustom) -1 else saveSetBean.pseudoColorMode)
-
         limitTempMin = Float.MIN_VALUE
         limitTempMax = Float.MAX_VALUE
         binding.pseudoSeekBar.setRangeAndPro(limitTempMin, limitTempMax, currentMin, currentMax)
-
         if (isCustom) {
             val min: Float = UnitTools.showUnitValue(newData.minTemp)
             val max: Float = UnitTools.showUnitValue(newData.maxTemp)
@@ -862,7 +769,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         }
         this.customPseudoBean = newData
     }
-
     private fun switchAmplify() {
         if (SupHelp.getInstance().loadOpenclSuccess) {
             lifecycleScope.launch {
@@ -900,7 +806,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         }
     }
 
-
     private fun showEmissivityTipsDialog() {
         if (SharedManager.isHideEmissivityTips) {
             return
@@ -915,7 +820,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         }
         dialog.show()
     }
-
     private fun showCameraItemPopup() {
         if (popupWindow?.isShowing == true) {
             popupWindow?.dismiss()
@@ -937,11 +841,11 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
             }
         }
         cameraItemPopup.onAudioCLickListener = {
-            if (saveSetBean.isRecordAudio) {//开启->关闭
+            if (saveSetBean.isRecordAudio) {
                 saveSetBean.isRecordAudio = false
                 cameraItemPopup.isAudioSelect = false
                 videoRecord?.updateAudioState(false)
-            } else {//关闭->开启
+            } else {
                 PermissionTool.requestRecordAudio(this) {
                     saveSetBean.isRecordAudio = true
                     cameraItemPopup.isAudioSelect = true
@@ -952,7 +856,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         cameraItemPopup.showAsUp(binding.menuSecondView)
         popupWindow = cameraItemPopup
     }
-
     private fun showBlendExtentPopup() {
         val seekBarPopup = SeekBarPopup(this, true)
         seekBarPopup.isRealTimeTrigger = true
@@ -967,10 +870,8 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         seekBarPopup.show(binding.thermalLay, !saveSetBean.isRotatePortrait())
         popupWindow = seekBarPopup
     }
-
     private fun showContrastPopup() {
         binding.menuSecondView.setSettingSelected(SettingType.CONTRAST, true)
-
         val maxContrast = 255
         val seekBarPopup = SeekBarPopup(this)
         seekBarPopup.progress = (saveSetBean.contrastValue * 100 / 255f).toInt()
@@ -986,10 +887,8 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         seekBarPopup.show(binding.thermalLay, !saveSetBean.isRotatePortrait())
         popupWindow = seekBarPopup
     }
-
     private fun showSharpnessPopup() {
         binding.menuSecondView.setSettingSelected(SettingType.DETAIL, true)
-
         val maxSharpness = 4
         val seekBarPopup = SeekBarPopup(this)
         seekBarPopup.progress = (saveSetBean.ddeConfig * 100f / maxSharpness).toInt()
@@ -1007,7 +906,6 @@ class IRThermalHikActivity : BaseBindingActivity<ActivityIrThermalHikBinding>() 
         seekBarPopup.show(binding.thermalLay, !saveSetBean.isRotatePortrait())
         popupWindow = seekBarPopup
     }
-
     private fun showTempAlarmSetDialog() {
         val tempAlarmSetDialog = TempAlarmSetDialog(this, false)
         tempAlarmSetDialog.alarmBean = saveSetBean.alarmBean

@@ -1,5 +1,4 @@
 package com.topdon.tc001
-
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,16 +13,13 @@ import com.topdon.lms.sdk.LMS
 import kotlinx.android.synthetic.main.activity_splash.tv_app_name
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
 class SplashActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LMS.getInstance().screenOrientation = Config.SCREEN_PORTRAIT
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_splash)
         window.navigationBarColor = ContextCompat.getColor(this, R.color.toolbar_16131E)
-
         lifecycleScope.launch {
             delay(if (BuildConfig.DEBUG) 3000 else 1000)
             if (SharedManager.getHasShowClause()) {
@@ -35,8 +31,6 @@ class SplashActivity : AppCompatActivity() {
         }
         tv_app_name.text = CommUtils.getAppName()
     }
-
     override fun onBackPressed() {
-
     }
 }

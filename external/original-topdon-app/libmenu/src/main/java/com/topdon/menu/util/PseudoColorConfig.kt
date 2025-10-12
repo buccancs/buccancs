@@ -1,7 +1,5 @@
 package com.topdon.menu.util
-
 object PseudoColorConfig {
-
     @JvmStatic
     fun getColors(code: Int): IntArray = when (code) {
         1 -> intArrayOf(0xffffffff.toInt(), 0xff000000.toInt())
@@ -13,7 +11,6 @@ object PseudoColorConfig {
             0xff0003c8.toInt(),
             0xff01000e.toInt()
         )
-
         5 -> intArrayOf(
             0xffe7321d.toInt(),
             0xfffdee38.toInt(),
@@ -22,7 +19,6 @@ object PseudoColorConfig {
             0xff0d06d2.toInt(),
             0xff701b71.toInt()
         )
-
         6 -> intArrayOf(
             0xfffce7e5.toInt(),
             0xffec361e.toInt(),
@@ -32,7 +28,6 @@ object PseudoColorConfig {
             0xff3e0d8d.toInt(),
             0xff060011.toInt()
         )
-
         7 -> intArrayOf(0xffe83120.toInt(), 0xffc2c2c2.toInt(), 0xff010101.toInt())
         8 -> intArrayOf(0xffec391f.toInt(), 0xfffffe3b.toInt(), 0xff375e5e.toInt(), 0xff000000.toInt())
         9 -> intArrayOf(
@@ -44,7 +39,6 @@ object PseudoColorConfig {
             0xff00066b.toInt(),
             0xff000006.toInt()
         )
-
         10 -> intArrayOf(
             0xfffffff7.toInt(),
             0xfffeff50.toInt(),
@@ -55,11 +49,9 @@ object PseudoColorConfig {
             0xff0006d8.toInt(),
             0xff000012.toInt()
         )
-
         11 -> intArrayOf(0xff000000.toInt(), 0xffffffff.toInt())
         else -> intArrayOf(0xfffbda00.toInt(), 0xffea0e0e.toInt(), 0xff6907af.toInt())
     }
-
     @JvmStatic
     fun getPositions(code: Int): FloatArray = when (code) {
         1 -> floatArrayOf(0f, 1f)
@@ -74,10 +66,8 @@ object PseudoColorConfig {
         11 -> floatArrayOf(0f, 1f)
         else -> floatArrayOf(0f, 0.5f, 1f)
     }
-
     @JvmStatic
     fun getSeekBarColors(): IntArray = intArrayOf(0xffdddddd.toInt(), 0xff333333.toInt())
-
     @JvmStatic
     fun getSeekBarAlpha(): FloatArray = floatArrayOf(0f, 1f)
 }

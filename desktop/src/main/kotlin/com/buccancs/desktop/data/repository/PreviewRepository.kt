@@ -1,15 +1,11 @@
 package com.buccancs.desktop.data.repository
-
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.Instant
-
 class PreviewRepository {
     private val previews = MutableStateFlow<Map<PreviewKey, PreviewFrameData>>(emptyMap())
-
     fun observe(): StateFlow<Map<PreviewKey, PreviewFrameData>> = previews.asStateFlow()
-
     fun update(
         deviceId: String,
         cameraId: String,
@@ -34,12 +30,10 @@ class PreviewRepository {
         )
         previews.value = previews.value.toMutableMap().apply { put(key, data) }
     }
-
     data class PreviewKey(
         val deviceId: String,
         val cameraId: String
     )
-
     data class PreviewFrameData(
         val deviceId: String,
         val cameraId: String,

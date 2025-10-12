@@ -1,5 +1,4 @@
 package com.topdon.libcom.util
-
 import android.app.Activity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.topdon.lib.core.common.WifiSaveSettingUtil
@@ -7,7 +6,6 @@ import com.topdon.lib.core.config.ExtraKeyConfig.RESULT_IMAGE_PATH
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.lib.core.tools.ToastTools
-
 object ARouterUtil {
     fun jumpImagePick(activity: Activity, isTC007: Boolean, imgPath: String) {
         if (isTC007) {
@@ -29,5 +27,4 @@ object ARouterUtil {
                 .navigation(activity, 101)
         }
     }
-
 }

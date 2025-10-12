@@ -1,5 +1,4 @@
 package com.buccancs.data.sensor.connector.simulated
-
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.SensorDevice
@@ -11,7 +10,6 @@ import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
-
 @Singleton
 internal class SimulatedMicrophoneConnector @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
@@ -29,15 +27,10 @@ internal class SimulatedMicrophoneConnector @Inject constructor(
         attributes = emptyMap()
     )
 ) {
-
     constructor(scope: CoroutineScope) : this(scope, SimulatedTestSupport.artifactFactory())
-
     override fun streamIntervalMs(): Long = 220L
-
     override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
-
     override fun simulatedRssi(device: SensorDevice): Int? = null
-
     override fun sampleStatuses(
         timestamp: Instant,
         frameCounter: Long,

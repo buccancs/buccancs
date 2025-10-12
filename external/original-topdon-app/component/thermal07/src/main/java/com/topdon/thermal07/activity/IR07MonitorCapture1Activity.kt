@@ -1,5 +1,4 @@
 package com.topdon.thermal07.activity
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -21,19 +20,14 @@ import kotlinx.android.synthetic.main.activity_ir_07_monitor_capture1.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.easydarwin.video.Client
-
 @Route(path = RouterConfig.IR_MONITOR_CAPTURE_07)
 class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
-
     companion object {
         private const val RTSP_URL = "rtsp://192.168.40.1/stream0"
     }
-
     private var selectInfo: SelectInfoBean? = null
 
-
     override fun initContentView(): Int = R.layout.activity_ir_07_monitor_capture1
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -41,7 +35,6 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
             supportFragmentManager.beginTransaction().add(R.id.fl_rtsp, playFragment).commit()
         }
     }
-
     override fun initView() {
         geometry_view.mode = Mode.CLEAR
         geometry_view.setImageSize(8191, 8191)
@@ -69,13 +62,10 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
                 TC007Repository.setTempRectList(it)
             }
         }
-
         motion_btn.setOnClickListener(this)
         motion_start_btn.setOnClickListener(this)
-
         initConfig()
     }
-
     private fun initConfig() {
         lifecycleScope.launch(Dispatchers.IO) {
             val config = ConfigRepository.readConfig(true)
@@ -85,34 +75,28 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
             TC007Repository.setTempFrame(false)
         }
     }
-
     override fun initData() {
     }
-
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
-
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (!isTS004) {
             finish()
         }
     }
 
-
     override fun onClick(v: View?) {
         when (v) {
             motion_btn -> {
                 showMonitorSelectDialog()
             }
-
             motion_start_btn -> {
                 if (selectInfo == null) {
                     showMonitorSelectDialog()
@@ -125,7 +109,6 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private fun showMonitorSelectDialog() {
         MonitorSelectDialog.Builder(this)
             .setPositiveListener {

@@ -1,5 +1,4 @@
 package com.buccancs.desktop.data.repository
-
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.retention.DataRetentionManager
 import com.buccancs.desktop.data.session.EventLog
@@ -31,7 +30,6 @@ import java.time.Instant
 import java.util.*
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.exists
-
 class SessionRepository(
     private val baseDir: Path,
     private val encryptionManager: EncryptionManager,
@@ -51,23 +49,16 @@ class SessionRepository(
     private val eventTimeline = MutableStateFlow<List<EventLog>>(emptyList())
     private val transferStates = MutableStateFlow<Map<String, FileTransferProgress>>(emptyMap())
     private val transferSnapshots = MutableStateFlow<List<FileTransferProgress>>(emptyList())
-
     init {
         Files.createDirectories(baseDir)
         storedSessions.value = rebuildStoredSessionsUnlocked()
     }
-
     fun storedSessions(): StateFlow<List<StoredSession>> = storedSessions.asStateFlow()
-
     fun activeEvents(): StateFlow<List<EventLog>> = eventTimeline.asStateFlow()
-
     fun transferUpdates(): StateFlow<List<FileTransferProgress>> = transferSnapshots.asStateFlow()
-
     fun sessionDirectory(sessionId: String): Path = baseDir.resolve(sessionId)
-
     fun isSessionActive(sessionId: String): Boolean =
         _activeSession.value?.let { it.id == sessionId && it.status == SessionStatus.ACTIVE } == true
-
     suspend fun startSession(
         sessionId: String = UUID.randomUUID().toString(),
         operatorId: String? = null,
@@ -89,7 +80,6 @@ class SessionRepository(
             }
             Files.createDirectories(sessionDir.resolve("devices"))
             Files.createDirectories(sessionDir.resolve("events"))
-
             val now = Instant.now()
             val metadata = SessionMetadata(
                 sessionId = sessionId,
@@ -100,7 +90,6 @@ class SessionRepository(
                 startedAtEpochMs = now.toEpochMilli()
             )
             persistMetadata(sessionDir, metadata)
-
             val session = Session(
                 id = sessionId,
                 createdAt = now,
@@ -117,7 +106,6 @@ class SessionRepository(
             logger.info("Started session {}", sessionId)
             session
         }
-
     suspend fun stopSession(): Session? = mutex.withLock {
         val current = _activeSession.value ?: return null
         val metadata = readMetadata(current.directory)
@@ -139,7 +127,6 @@ class SessionRepository(
         logger.info("Stopped session {}", current.id)
         session
     }
-
     suspend fun eraseSession(sessionId: String) = mutex.withLock {
         if (_activeSession.value?.id == sessionId) {
             throw IllegalStateException("Cannot erase active session $sessionId")
@@ -161,7 +148,6 @@ class SessionRepository(
         }
         logger.info("Erased session {}", sessionId)
     }
-
     suspend fun registerEvent(
         eventId: String,
         label: String,
@@ -184,7 +170,6 @@ class SessionRepository(
         storedSessions.value = rebuildStoredSessionsUnlocked()
         logger.info("Registered event {} for session {}", eventId, current.id)
     }
-
     suspend fun markTransferStarted(
         sessionId: String,
         deviceId: String,
@@ -210,7 +195,6 @@ class SessionRepository(
         next[key] = progress
         publishTransfers(next)
     }
-
     suspend fun markTransferProgress(
         sessionId: String,
         deviceId: String,
@@ -229,7 +213,6 @@ class SessionRepository(
         next[key] = updated
         publishTransfers(next)
     }
-
     suspend fun markTransferFailed(
         sessionId: String,
         deviceId: String,
@@ -258,7 +241,6 @@ class SessionRepository(
         next[key] = updated
         publishTransfers(next)
     }
-
     suspend fun markTransferCompleted(
         sessionId: String,
         deviceId: String,
@@ -285,7 +267,6 @@ class SessionRepository(
         next[key] = updated
         publishTransfers(next)
     }
-
     suspend fun attachFile(
         sessionId: String,
         deviceId: String,
@@ -333,7 +314,6 @@ class SessionRepository(
         persistMetadata(sessionDir, updated)
         storedSessions.value = rebuildStoredSessionsUnlocked()
     }
-
     suspend fun updateStreamingFile(
         sessionId: String,
         deviceId: String,
@@ -378,7 +358,6 @@ class SessionRepository(
         persistMetadata(sessionDir, updated)
         storedSessions.value = rebuildStoredSessionsUnlocked()
     }
-
     suspend fun registerMetrics(transform: (MetadataMetrics) -> MetadataMetrics) = mutex.withLock {
         val current = _activeSession.value ?: return@withLock
         val metadata = readMetadata(current.directory)
@@ -391,7 +370,6 @@ class SessionRepository(
         _activeSession.value = current.copy(metrics = transformed.toDomain(current.metrics))
         storedSessions.value = rebuildStoredSessionsUnlocked()
     }
-
     suspend fun listSessionIds(): List<String> = mutex.withLock {
         if (!Files.exists(baseDir)) {
             return@withLock emptyList()
@@ -402,7 +380,6 @@ class SessionRepository(
                 .toList()
         }
     }
-
     suspend fun metadataFor(sessionId: String): SessionMetadata? = mutex.withLock {
         val directory = baseDir.resolve(sessionId)
         val metadataPath = directory.resolve(metadataFileName)
@@ -411,7 +388,6 @@ class SessionRepository(
         }
         readMetadata(directory)
     }
-
     private fun latestRetentionSnapshot(sessionId: String): RetentionSnapshot {
         val snapshot = retentionManager.state().value
         return RetentionSnapshot(
@@ -420,7 +396,6 @@ class SessionRepository(
             globalBytes = snapshot.totalBytes
         )
     }
-
     private fun clearTransfersForSession(sessionId: String) {
         val current = transferStates.value
         if (current.isEmpty()) {
@@ -431,20 +406,17 @@ class SessionRepository(
             publishTransfers(filtered.toMutableMap())
         }
     }
-
     private fun transferKey(
         sessionId: String,
         deviceId: String,
         fileName: String,
         streamType: String?
     ): String = listOf(sessionId, deviceId, fileName, streamType.orEmpty()).joinToString("|")
-
     private fun publishTransfers(next: MutableMap<String, FileTransferProgress>) {
         val immutable = next.toMap()
         transferStates.value = immutable
         transferSnapshots.value = immutable.values.toList()
     }
-
     private fun persistMetadata(sessionDir: Path, metadata: SessionMetadata) {
         val jsonBytes = json.encodeToString(metadata).toByteArray(StandardCharsets.UTF_8)
         val encrypted = encryptionManager.encrypt(jsonBytes, metadata.sessionId.toByteArray(StandardCharsets.UTF_8))
@@ -463,7 +435,6 @@ class SessionRepository(
             StandardOpenOption.WRITE
         )
     }
-
     private fun readMetadata(sessionDir: Path): SessionMetadata {
         val sessionId = sessionDir.fileName.toString()
         val encryptedPath = sessionDir.resolve(metadataFileName)
@@ -479,7 +450,6 @@ class SessionRepository(
         }
         val jsonBytes = Files.readAllBytes(plainPath)
         val metadata = json.decodeFromString(SessionMetadata.serializer(), String(jsonBytes, StandardCharsets.UTF_8))
-        // Backfill encrypted copy if legacy data exists without encryption.
         Files.write(
             encryptedPath,
             encryptionManager.encrypt(jsonBytes, sessionId.toByteArray(StandardCharsets.UTF_8)),
@@ -489,7 +459,6 @@ class SessionRepository(
         )
         return metadata
     }
-
     private fun ensurePlainMetadata(sessionDir: Path, jsonBytes: ByteArray) {
         val plainPath = sessionDir.resolve(metadataPlainFileName)
         if (Files.exists(plainPath)) {
@@ -503,7 +472,6 @@ class SessionRepository(
             StandardOpenOption.WRITE
         )
     }
-
     private fun rebuildStoredSessionsUnlocked(): List<StoredSession> {
         if (!baseDir.exists()) {
             return emptyList()
@@ -537,7 +505,6 @@ class SessionRepository(
                 .sortedByDescending { it.createdAt }
         }
     }
-
     private fun MetadataMetrics.toDomain(previous: SessionMetrics): SessionMetrics =
         SessionMetrics(
             gsrSamples = gsrSamples,
@@ -548,13 +515,11 @@ class SessionRepository(
             activeRecordingCount = previous.activeRecordingCount,
             updatedAt = Instant.now()
         )
-
     private fun SessionStatusDto.toDomainStatus(): SessionStatus = when (this) {
         SessionStatusDto.IDLE -> SessionStatus.IDLE
         SessionStatusDto.ACTIVE -> SessionStatus.ACTIVE
         SessionStatusDto.STOPPING -> SessionStatus.STOPPING
         SessionStatusDto.COMPLETED -> SessionStatus.COMPLETED
     }
-
     private fun ByteArray.toHexString(): String = joinToString("") { "%02x".format(it) }
 }

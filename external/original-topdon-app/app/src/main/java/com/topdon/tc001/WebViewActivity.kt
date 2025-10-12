@@ -1,5 +1,4 @@
 package com.topdon.tc001
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebResourceError
@@ -13,26 +12,20 @@ import com.topdon.lib.core.config.ExtraKeyConfig
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.ktbase.BaseBindingActivity
 import com.topdon.tc001.databinding.ActivityWebViewBinding
-
 @Route(path = RouterConfig.WEB_VIEW)
 class WebViewActivity : BaseBindingActivity<ActivityWebViewBinding>() {
-
     override fun initContentLayoutId(): Int = R.layout.activity_web_view
-
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         showLoadingDialog()
-
         val url: String = intent.extras?.getString(ExtraKeyConfig.URL) ?: ""
-
         binding.tvReload.setOnClickListener {
             showLoadingDialog()
             binding.viewCover.isVisible = true
             binding.clError.isVisible = false
             binding.webView.loadUrl(url)
         }
-
         val webSettings: WebSettings = binding.webView.settings
         webSettings.setSupportZoom(false)
         webSettings.useWideViewPort = true
@@ -42,14 +35,12 @@ class WebViewActivity : BaseBindingActivity<ActivityWebViewBinding>() {
         webSettings.allowFileAccess = true
         webSettings.cacheMode = WebSettings.LOAD_NO_CACHE
         webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-
         binding.webView.webViewClient = object : BridgeWebViewClient(binding.webView) {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 dismissLoadingDialog()
                 binding.viewCover.isVisible = false
             }
-
             override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                 dismissLoadingDialog()
                 binding.viewCover.isVisible = false
@@ -58,7 +49,6 @@ class WebViewActivity : BaseBindingActivity<ActivityWebViewBinding>() {
                 }
             }
         }
-
         binding.webView.registerHandler("goBack") { _, function ->
             function.onCallBack("android")
             finish()

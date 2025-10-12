@@ -1,7 +1,5 @@
 package com.buccancs.desktop.domain.model
-
 import java.time.Instant
-
 data class FileTransferProgress(
     val sessionId: String,
     val deviceId: String,
@@ -14,7 +12,6 @@ data class FileTransferProgress(
     val lastError: String? = null,
     val completedAt: Instant? = null
 )
-
 enum class FileTransferState {
     IN_PROGRESS,
     COMPLETED,

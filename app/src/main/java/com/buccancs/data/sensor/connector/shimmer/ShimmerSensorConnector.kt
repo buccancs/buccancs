@@ -1,5 +1,4 @@
 package com.buccancs.data.sensor.connector.shimmer
-
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -40,7 +39,6 @@ import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
-
 @Singleton
 class ShimmerSensorConnector @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
@@ -61,9 +59,7 @@ class ShimmerSensorConnector @Inject constructor(
         attributes = emptyMap()
     )
 ) {
-
     private val logTag = "ShimmerConnector"
-
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
@@ -71,19 +67,16 @@ class ShimmerSensorConnector @Inject constructor(
                 ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET -> if (msg.obj is ObjectCluster) {
                     handleDataPacket(msg.obj as ObjectCluster)
                 }
-
                 Shimmer.MESSAGE_TOAST -> {
                     val text = msg.data?.getString(Shimmer.TOAST)
                     if (!text.isNullOrBlank()) {
                         Log.i(logTag, text)
                     }
                 }
-
                 else -> super.handleMessage(msg)
             }
         }
     }
-
     private var bluetoothManager: ShimmerBluetoothManagerAndroid? = null
     private var shimmerDevice: ShimmerDevice? = null
     private var targetMac: String? = null
@@ -91,7 +84,6 @@ class ShimmerSensorConnector @Inject constructor(
     private var samplesSeen = 0L
     private var lastSampleTimestamp: Instant? = null
     private var streamEmitter: SensorStreamEmitter? = null
-
     override suspend fun refreshInventory() {
         if (isSimulationMode) {
             super.refreshInventory()
@@ -121,14 +113,12 @@ class ShimmerSensorConnector @Inject constructor(
             )
         }
     }
-
     override suspend fun applySimulation(enabled: Boolean) {
         if (enabled) {
             disconnectHardware()
         }
         super.applySimulation(enabled)
     }
-
     override suspend fun connect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.connect()
@@ -155,7 +145,6 @@ class ShimmerSensorConnector @Inject constructor(
             }
         }
     }
-
     override suspend fun disconnect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.disconnect()
@@ -172,7 +161,6 @@ class ShimmerSensorConnector @Inject constructor(
             }
         }
     }
-
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         if (isSimulationMode) {
             return super.startStreaming(anchor)
@@ -198,7 +186,6 @@ class ShimmerSensorConnector @Inject constructor(
             }
         }
     }
-
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.stopStreaming()
@@ -219,16 +206,12 @@ class ShimmerSensorConnector @Inject constructor(
             }
         }
     }
-
     override fun streamIntervalMs(): Long = 250L
-
     override fun simulatedBatteryPercent(device: SensorDevice): Int? {
         val baseline = 90 - (device.id.value.hashCode().absoluteValue % 12)
         return baseline.coerceIn(40, 98)
     }
-
     override fun simulatedRssi(device: SensorDevice): Int? = -45
-
     override fun sampleStatuses(
         timestamp: Instant,
         frameCounter: Long,
@@ -254,7 +237,6 @@ class ShimmerSensorConnector @Inject constructor(
             )
         )
     }
-
     @SuppressLint("MissingPermission")
     private fun bondedShimmerDevices(adapter: BluetoothAdapter): List<BluetoothDevice> {
         return adapter.bondedDevices?.filter { device ->
@@ -262,7 +244,6 @@ class ShimmerSensorConnector @Inject constructor(
             name.contains("shimmer", ignoreCase = true)
         } ?: emptyList()
     }
-
     private fun ensureManager(): ShimmerBluetoothManagerAndroid {
         val existing = bluetoothManager
         if (existing != null) {
@@ -272,7 +253,6 @@ class ShimmerSensorConnector @Inject constructor(
             bluetoothManager = it
         }
     }
-
     private fun handleStateChange(payload: Any?) {
         val state: ShimmerBluetooth.BT_STATE
         val mac: String
@@ -281,31 +261,25 @@ class ShimmerSensorConnector @Inject constructor(
                 state = payload.mState
                 mac = payload.macAddress
             }
-
             is CallbackObject -> {
                 state = payload.mState
                 mac = payload.mBluetoothAddress ?: ""
             }
-
             else -> return
         }
-
         when (state) {
             ShimmerBluetooth.BT_STATE.CONNECTED -> onConnected(mac)
             ShimmerBluetooth.BT_STATE.CONNECTING -> onConnecting()
             ShimmerBluetooth.BT_STATE.DISCONNECTED -> onDisconnected()
             ShimmerBluetooth.BT_STATE.STREAMING,
             ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING -> onStreaming()
-
             ShimmerBluetooth.BT_STATE.SDLOGGING -> onLogging()
             else -> Unit
         }
     }
-
     private fun onConnecting() {
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false) }
     }
-
     private fun onConnected(mac: String) {
         val manager = bluetoothManager ?: return
         shimmerDevice = manager.getShimmerDeviceBtConnectedFromMac(mac)
@@ -320,7 +294,6 @@ class ShimmerSensorConnector @Inject constructor(
             )
         }
     }
-
     private fun onStreaming() {
         deviceState.update { current ->
             val existing = current.connectionStatus as? ConnectionStatus.Connected
@@ -334,11 +307,9 @@ class ShimmerSensorConnector @Inject constructor(
             )
         }
     }
-
     private fun onLogging() {
         onStreaming()
     }
-
     private fun onDisconnected() {
         shimmerDevice = null
         samplesSeen = 0
@@ -346,7 +317,6 @@ class ShimmerSensorConnector @Inject constructor(
         statusState.value = emptyList()
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
     }
-
     private fun handleDataPacket(cluster: ObjectCluster) {
         val now = Clock.System.now()
         lastSampleTimestamp = now
@@ -373,7 +343,6 @@ class ShimmerSensorConnector @Inject constructor(
             }
         )
     }
-
     private fun extractTimestamp(cluster: ObjectCluster): Instant? {
         val collections =
             cluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP)
@@ -382,7 +351,6 @@ class ShimmerSensorConnector @Inject constructor(
         val millis = (seconds * 1_000.0).toLong()
         return Instant.fromEpochMilliseconds(millis)
     }
-
     private suspend fun disconnectHardware() {
         withContext(Dispatchers.Main) {
             try {
@@ -404,7 +372,6 @@ class ShimmerSensorConnector @Inject constructor(
         streamEmitter = null
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
     }
-
     private suspend fun stopHardwareStreamingInternal() {
         withContext(Dispatchers.Main) {
             shimmerDevice?.let { device ->
@@ -418,12 +385,10 @@ class ShimmerSensorConnector @Inject constructor(
             }
         }
     }
-
     private fun randomJitter(seed: Long): Double {
         val hash = (seed + deviceId.value.hashCode()).absoluteValue % 1000
         return hash / 10_000.0
     }
-
     private fun extractConductance(cluster: ObjectCluster): Double? {
         val conductanceClusters = cluster.getCollectionOfFormatClusters(
             Configuration.Shimmer3.ObjectClusterSensorName.GSR_CONDUCTANCE
@@ -431,7 +396,6 @@ class ShimmerSensorConnector @Inject constructor(
         val calibrated = ObjectCluster.returnFormatCluster(conductanceClusters, "CAL") as? FormatCluster
         return calibrated?.mData
     }
-
     private companion object {
         private val preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BLE
         private const val STREAM_ID = "gsr"

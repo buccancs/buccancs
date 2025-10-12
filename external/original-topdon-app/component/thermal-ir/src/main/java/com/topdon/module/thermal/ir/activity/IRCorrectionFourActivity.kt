@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.activity
-
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -15,14 +14,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
-
 @Route(path = RouterConfig.IR_CORRECTION_FOUR)
 class IRCorrectionFourActivity : BaseActivity() {
-
     val time = 60
-
     override fun initContentView(): Int = R.layout.activity_ir_correction_four
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title_view.setLeftClickListener {
@@ -37,7 +32,6 @@ class IRCorrectionFourActivity : BaseActivity() {
                 .create().show()
         }
 
-
         val irFragment = if (savedInstanceState == null) {
             IRCorrectionFragment()
         } else {
@@ -50,7 +44,6 @@ class IRCorrectionFourActivity : BaseActivity() {
                 .commit()
         }
 
-
         time_down_view.postDelayed({
             if (time_down_view.downTimeWatcher == null) {
                 time_down_view.setOnTimeDownListener(object : TimeDownView.DownTimeWatcher {
@@ -61,11 +54,8 @@ class IRCorrectionFourActivity : BaseActivity() {
                             }
                         }
                     }
-
                     override fun onLastTime(num: Int) {
-
                     }
-
                     override fun onLastTimeFinish(num: Int) {
                         try {
                             if (!this@IRCorrectionFourActivity.isFinishing) {
@@ -78,7 +68,6 @@ class IRCorrectionFourActivity : BaseActivity() {
                                     .create().show()
                             }
                         } catch (e: Exception) {
-
                         }
                     }
                 })
@@ -86,10 +75,8 @@ class IRCorrectionFourActivity : BaseActivity() {
             time_down_view.downSecond(time, false)
         }, 2000)
     }
-
     override fun initView() {
     }
-
     override fun onBackPressed() {
         TipDialog.Builder(this)
             .setTitleMessage(getString(R.string.app_tip))
@@ -101,24 +88,19 @@ class IRCorrectionFourActivity : BaseActivity() {
             }
             .create().show()
     }
-
     override fun disConnected() {
         super.disConnected()
         time_down_view.cancel()
         EventBus.getDefault().post(CorrectionFinishEvent())
         finish()
     }
-
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().post(CorrectionFinishEvent())
         finish()
     }
-
     override fun initData() {
-
     }
-
     override fun onDestroy() {
         super.onDestroy()
         time_down_view.cancel()

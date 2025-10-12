@@ -1,7 +1,5 @@
 package com.buccancs.domain.model
-
 import java.io.File
-
 data class SessionArtifact(
     val deviceId: DeviceId,
     val streamType: SensorStreamType,
@@ -10,7 +8,6 @@ data class SessionArtifact(
     val sizeBytes: Long,
     val checksumSha256: ByteArray
 )
-
 data class UploadStatus(
     val sessionId: String,
     val deviceId: DeviceId,
@@ -22,7 +19,6 @@ data class UploadStatus(
     val state: UploadState,
     val errorMessage: String? = null
 )
-
 enum class UploadState {
     QUEUED,
     IN_PROGRESS,

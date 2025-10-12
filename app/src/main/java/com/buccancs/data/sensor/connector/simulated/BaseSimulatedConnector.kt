@@ -1,5 +1,4 @@
 package com.buccancs.data.sensor.connector.simulated
-
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
@@ -25,36 +24,28 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.random.Random
-
 internal abstract class BaseSimulatedConnector @Inject constructor(
     protected val scope: CoroutineScope,
     protected val artifactFactory: SimulatedArtifactFactory,
     initialDevice: SensorDevice
 ) : SensorConnector {
-
     final override val deviceId: DeviceId = initialDevice.id
-
     protected val deviceState = MutableStateFlow(initialDevice)
     protected val statusState = MutableStateFlow(emptyList<SensorStreamStatus>())
-
     private var streamJob: Job? = null
     private var simulationEnabled = false
     private var recordingStartedAt: Instant? = null
     protected var lastRecordingDurationMs: Long = 0
     protected var lastSessionAnchor: RecordingSessionAnchor? = null
-
     protected val isSimulationMode: Boolean
         get() = simulationEnabled
-
     override val device: StateFlow<SensorDevice> = deviceState.asStateFlow()
     override val streamStatuses: StateFlow<List<SensorStreamStatus>> = statusState.asStateFlow()
-
     override suspend fun refreshInventory() {
         if (simulationEnabled) {
             ensureConnectedForSimulation()
         }
     }
-
     override suspend fun applySimulation(enabled: Boolean) {
         simulationEnabled = enabled
         if (enabled) {
@@ -63,7 +54,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
             disconnect()
         }
     }
-
     override suspend fun connect(): DeviceCommandResult {
         if (!simulationEnabled) {
             return DeviceCommandResult.Rejected("Simulation disabled and no hardware handler implemented yet.")
@@ -71,7 +61,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
         ensureConnectedForSimulation()
         return DeviceCommandResult.Accepted
     }
-
     override suspend fun disconnect(): DeviceCommandResult {
         stopStreaming()
         deviceState.update { device ->
@@ -84,7 +73,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
         clearRecordingMetadata()
         return DeviceCommandResult.Accepted
     }
-
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         if (deviceState.value.connectionStatus !is ConnectionStatus.Connected) {
             return DeviceCommandResult.Rejected("Device not connected.")
@@ -107,7 +95,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
         }
         return DeviceCommandResult.Accepted
     }
-
     override suspend fun stopStreaming(): DeviceCommandResult {
         streamJob?.cancel()
         streamJob = null
@@ -120,7 +107,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
         statusState.value = emptyList()
         return DeviceCommandResult.Accepted
     }
-
     override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {
         if (!isSimulationMode) {
             return emptyList()
@@ -143,7 +129,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
                     ) {
                         generateGsrCsv(durationMs)
                     }
-
                 SensorStreamType.RGB_VIDEO ->
                     artifactFactory.createRandomArtifact(
                         sessionId = sessionId,
@@ -153,7 +138,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
                         mimeType = "video/mp4",
                         sizeBytes = estimateBinarySize(durationMs, bytesPerSecond = 750_000, minimumBytes = 512_000)
                     )
-
                 SensorStreamType.THERMAL_VIDEO ->
                     artifactFactory.createRandomArtifact(
                         sessionId = sessionId,
@@ -163,7 +147,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
                         mimeType = "application/octet-stream",
                         sizeBytes = estimateBinarySize(durationMs, bytesPerSecond = 320_000, minimumBytes = 196_608)
                     )
-
                 SensorStreamType.AUDIO ->
                     artifactFactory.createRandomArtifact(
                         sessionId = sessionId,
@@ -173,14 +156,12 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
                         mimeType = "audio/wav",
                         sizeBytes = estimateBinarySize(durationMs, bytesPerSecond = 176_000, minimumBytes = 131_072)
                     )
-
                 SensorStreamType.PREVIEW -> null
             }
         }
         clearRecordingMetadata()
         return artifacts
     }
-
     protected fun ensureConnectedForSimulation() {
         val connected = deviceState.value.connectionStatus is ConnectionStatus.Connected
         if (connected) return
@@ -196,7 +177,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
             )
         }
     }
-
     protected abstract fun streamIntervalMs(): Long
     protected abstract fun simulatedBatteryPercent(device: SensorDevice): Int?
     protected abstract fun simulatedRssi(device: SensorDevice): Int?
@@ -205,7 +185,6 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
         frameCounter: Long,
         anchor: RecordingSessionAnchor
     ): List<SensorStreamStatus>
-
     protected fun simulatedBufferedSeconds(
         streamType: SensorStreamType,
         baseVideo: Double,
@@ -215,28 +194,22 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
         val base = when (streamType) {
             SensorStreamType.GSR,
             SensorStreamType.AUDIO -> baseSample
-
             else -> baseVideo
         }
         return (base + randomizer()).coerceAtLeast(0.0)
     }
-
     protected fun recordingDurationMs(minimumMs: Long = 1_000L): Long =
         lastRecordingDurationMs.coerceAtLeast(minimumMs)
-
     protected fun currentSessionAnchor(): RecordingSessionAnchor? = lastSessionAnchor
-
     protected fun clearRecordingMetadata() {
         lastRecordingDurationMs = 0
         lastSessionAnchor = null
     }
-
     private fun estimateBinarySize(durationMs: Long, bytesPerSecond: Int, minimumBytes: Int): Int {
         val seconds = durationMs.coerceAtLeast(1_000L) / 1_000.0
         val estimated = (seconds * bytesPerSecond).toInt()
         return max(minimumBytes, estimated)
     }
-
     private fun generateGsrCsv(durationMs: Long): ByteArray {
         val sampleRate = 128
         val duration = durationMs.coerceAtLeast(1_000L)

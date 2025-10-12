@@ -1,5 +1,4 @@
 package com.topdon.tc001
-
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
@@ -10,7 +9,6 @@ import com.topdon.lib.core.common.SharedManager
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.module.thermal.ir.activity.IRMainActivity
 import com.topdon.tc001.app.App
-
 class BlankDevActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +25,6 @@ class BlankDevActivity : AppCompatActivity() {
             finish()
         }
     }
-
     fun isActivityExists(context: Context, activityClassName: String): Boolean {
         val activityManager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
             ?: return false

@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.adapter
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -29,30 +28,24 @@ import kotlinx.android.synthetic.main.item_report_floor.view.rcy_report
 import kotlinx.android.synthetic.main.item_report_floor.view.tv_floor_number
 import kotlinx.android.synthetic.main.item_report_floor.view.view_category_mask
 
-
 @SuppressLint("NotifyDataSetChanged")
 class ReportPreviewAdapter(private val cxt: Context, var dataList: List<HouseRepPreviewItemBean>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     override fun getItemViewType(position: Int): Int {
         return position
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ItemView(
             LayoutInflater.from(parent.context).inflate(R.layout.item_report_floor, parent, false)
         )
     }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = dataList[position]
         holder.itemView.tv_floor_number.text = data.itemName
-
         holder.itemView.rcy_report.layoutManager = LinearLayoutManager(cxt)
         val reportPreviewAdapter =
             ReportPreviewFloorAdapter(cxt, data.projectItemBeans)
         holder.itemView.rcy_report?.adapter = reportPreviewAdapter
-
         if (CollectionUtils.isNotEmpty(data.projectItemBeans)) {
             holder.itemView.fly_project.visibility = View.VISIBLE
             holder.itemView.rcy_category.layoutManager = LinearLayoutManager(cxt)
@@ -62,7 +55,6 @@ class ReportPreviewAdapter(private val cxt: Context, var dataList: List<HouseRep
         } else {
             holder.itemView.fly_project.visibility = View.GONE
         }
-
         if (CollectionUtils.isNotEmpty(data.albumItemBeans)) {
             holder.itemView.lly_album.visibility = View.VISIBLE
             holder.itemView.rcy_album.layoutManager = GridLayoutManager(cxt, 3)
@@ -81,30 +73,24 @@ class ReportPreviewAdapter(private val cxt: Context, var dataList: List<HouseRep
         } else {
             holder.itemView.lly_album.visibility = View.GONE
         }
-
         holder.itemView.hsv_report.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 holder.itemView.hsv_report.startScrollerTask()
             }
             false
         }
-
         holder.itemView.hsv_report.setOnScrollStopListner(object : OnScrollStopListner {
             override fun onScrollToRightEdge() {
                 holder.itemView.view_category_mask.visibility = View.VISIBLE
             }
-
             override fun onScrollToMiddle() {
                 holder.itemView.view_category_mask.visibility = View.VISIBLE
             }
-
             override fun onScrollToLeftEdge() {
                 holder.itemView.view_category_mask.visibility = View.GONE
             }
-
             override fun onScrollStoped() {
             }
-
             override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
                 if (holder.itemView.view_category_mask.visibility == View.VISIBLE) {
                     return
@@ -113,11 +99,9 @@ class ReportPreviewAdapter(private val cxt: Context, var dataList: List<HouseRep
             }
         })
     }
-
     override fun getItemCount(): Int {
         return dataList.size
     }
-
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvFloorNo: TextView = itemView.tv_floor_number
         val rcyReportFloor: RecyclerView = itemView.rcy_report

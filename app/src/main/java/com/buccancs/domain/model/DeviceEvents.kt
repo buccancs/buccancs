@@ -1,14 +1,11 @@
 package com.buccancs.domain.model
-
 import kotlinx.datetime.Instant
-
 enum class DeviceEventType {
     SYNC_SIGNAL,
     EVENT_MARKER,
     STIMULUS,
     COMMAND
 }
-
 data class DeviceEvent(
     val id: String,
     val type: DeviceEventType,

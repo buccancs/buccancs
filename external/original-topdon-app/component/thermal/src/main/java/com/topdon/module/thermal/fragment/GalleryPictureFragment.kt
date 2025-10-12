@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.fragment
-
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -17,20 +16,15 @@ import com.topdon.module.thermal.viewmodel.GalleryViewModel
 import kotlinx.android.synthetic.main.fragment_gallery_picture.*
 import java.io.File
 
-
 class GalleryPictureFragment : BaseViewModelFragment<GalleryViewModel>() {
-
     private val adapter by lazy { GalleryAdapter(requireContext()) }
-
     override fun providerVMClass() = GalleryViewModel::class.java
     override fun initContentView() = R.layout.fragment_gallery_picture
-
 
     override fun initView() {
         val span = if (ScreenUtils.isLandscape()) 6 else 3
         gallery_recycler.layoutManager = GridLayoutManager(requireContext(), span)
         gallery_recycler.adapter = adapter
-
         viewModel.galleryLiveData.observe(this) {
             adapter.datas = it
         }
@@ -38,29 +32,21 @@ class GalleryPictureFragment : BaseViewModelFragment<GalleryViewModel>() {
             override fun onClick(index: Int, path: String) {
                 previewPicture(path)
             }
-
             override fun onLongClick(index: Int, path: String) {
                 TipDialog.Builder(requireContext()).setMessage("导出图片")
                     .setPositiveListener("分享") {
                         share(path)
                     }
-
                     .create().show()
             }
-
         }
-
     }
-
     override fun initData() {
-
     }
-
     override fun onStart() {
         super.onStart()
         viewModel.getData()
     }
-
     fun share(path: String) {
         val file = File(path)
         var intent = Intent()
@@ -76,7 +62,6 @@ class GalleryPictureFragment : BaseViewModelFragment<GalleryViewModel>() {
         intent = Intent.createChooser(intent, "分享图片")
         startActivity(intent)
     }
-
     fun previewPicture(path: String) {
         val imageEngine = GlideImageEngine()
         MNImageBrowser.with(context)
@@ -85,5 +70,4 @@ class GalleryPictureFragment : BaseViewModelFragment<GalleryViewModel>() {
             .setImageUrl(path)
             .show()
     }
-
 }

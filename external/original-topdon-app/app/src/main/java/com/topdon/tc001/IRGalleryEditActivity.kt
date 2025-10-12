@@ -1,5 +1,4 @@
 package com.topdon.tc001
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
@@ -70,24 +69,18 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
-
 @Route(path = RouterConfig.IR_GALLERY_EDIT)
 class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListener {
 
-
     private var isShowC: Boolean = false
-
     private var isTC007 = false
-
     private val imageWidth = 256
     private val imageHeight = 192
     private val viewModel: IRGalleryEditViewModel by viewModels()
     private var filePath = ""
-
     //    private var mCapital = ByteArray(1024)
     private var mFrame = ByteArray(192 * 256 * 4)
     private val frameTool by lazy { FrameTool() }
-
     private var pseudocodeMode = 3
     private var leftValue = 0f
     private var rightValue = 10000f
@@ -97,9 +90,7 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
     private var struct: FrameStruct = FrameStruct()
     private var ts_data_H: ByteArray? = null
     private var ts_data_L: ByteArray? = null
-
     override fun initContentView(): Int = R.layout.activity_ir_gallery_edit
-
     override fun initView() {
         initIntent()
         initUI()
@@ -107,12 +98,10 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
         initRecycler()
         initObserve()
     }
-
     private fun initIntent() {
         lifecycleScope.launch {
             ts_data_H = CommonUtil.getAssetData(this@IRGalleryEditActivity, "ts/TS001_H.bin")
             ts_data_L = CommonUtil.getAssetData(this@IRGalleryEditActivity, "ts/TS001_L.bin")
-
             if (BaseApplication.instance.tau_data_H == null) {
                 BaseApplication.instance.tau_data_H =
                     CommonUtil.getAssetData(mContext, IrConst.TAU_HIGH_GAIN_ASSET_PATH)
@@ -126,7 +115,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
         }
         isReportPick = intent.getBooleanExtra(ExtraKeyConfig.IS_PICK_REPORT_IMG, false)
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-
         edit_recycler_second.fenceSelectType = FenceType.DEL
         temperature_view.isShowName = isReportPick
         temperature_view.mode = Mode.CLEAR
@@ -135,7 +123,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             temperature_seekbar?.progressHeight = SizeUtils.dp2px(10f)
         }
     }
-
     private fun initObserve() {
         viewModel.resultLiveData.observe(this) {
 //            System.arraycopy(it.capital, 0, mCapital, 0, it.capital.size)
@@ -143,19 +130,15 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             showImage(it.capital, it.frame)
         }
     }
-
     override fun initData() {
         viewModel.initData(filePath)
-
         edit_recycler_first.isBarSelect = true
         color_bar_view.isVisible = true
     }
-
     private fun initListener() {
         temperature_iv_lock.setOnClickListener(this)
         temperature_iv_input.setOnClickListener(this)
     }
-
     private fun setRotate(rotate: ImageParams) {
         if (rotate == ImageParams.ROTATE_270 || rotate == ImageParams.ROTATE_90) {
             temperature_view.setImageSize(imageHeight, imageWidth)
@@ -163,7 +146,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             temperature_view.setImageSize(imageWidth, imageHeight)
         }
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun showImage(capital: ByteArray, frame: ByteArray) {
@@ -186,7 +168,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                     isAmplify = struct.isAmplify
                 )
             )
-
             val tempResult = frameTool.getSrcTemp()
             if (!struct.customPseudoBean.isUseCustomPseudo) {
                 struct.customPseudoBean.maxTemp = tempCorrect(tempResult.maxTemperature)
@@ -195,7 +176,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             }
 //        color_bar_view.isVisible = struct.isShowPseudoBar
 //        adapter.enPseudoColorBar(struct.isShowPseudoBar)
-
             edit_recycler_second.setSettingSelected(
                 SettingType.ALARM,
                 struct.alarmBean.isHighOpen || struct.alarmBean.isLowOpen
@@ -240,13 +220,10 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                         )
                     }
                 }
-
                 override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
                 }
-
                 override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
                 }
-
             })
             temperature_seekbar.setIndicatorTextStringFormat("%.1f")
             if (struct.customPseudoBean.isUseCustomPseudo) {
@@ -285,7 +262,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             }
         }
     }
-
     private fun updateImage(bitmap: Bitmap?) {
         bitmap?.let {
             val params = ir_image_view.layoutParams as ConstraintLayout.LayoutParams
@@ -314,7 +290,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             }
         }
     }
-
     private fun initRecycler() {
         edit_recycler_first.onTabClickListener = {
             when (it) {
@@ -326,7 +301,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
         edit_recycler_first.onBarClickListener = {
             color_bar_view.isVisible = it
         }
-
         edit_recycler_second.onFenceListener = { fenceType, isSelected ->
             when (fenceType) {
                 FenceType.POINT -> temperature_view.mode = Mode.POINT
@@ -349,7 +323,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                         setPColor(it)
                         updateImageAndSeekbarColorList(struct.customPseudoBean)
                     }.setCancelListener(R.string.app_no) {
-
                     }
                     .create().show()
             } else {
@@ -360,7 +333,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             setSettingValue(type)
         }
     }
-
     private fun setDefLimit() {
         val tempResult = frameTool.getSrcTemp()
         rightValue = showUnitValue(tempCorrect(tempResult.maxTemperature), isShowC)
@@ -368,7 +340,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
         temperature_seekbar.setRange(leftValue, rightValue, 0.1f)
         temperature_seekbar.setProgress(leftValue, rightValue)
     }
-
     private fun setPColor(code: Int) {
         pseudocodeMode = code
         temperature_seekbar.setPseudocode(pseudocodeMode)
@@ -388,7 +359,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
         temperature_seekbar.setPlaces(struct.customPseudoBean.getPlaceList())
         edit_recycler_second.setPseudoColor(code)
     }
-
     private var tempAlarmSetDialog: TempAlarmSetDialog? = null
     private fun setSettingValue(type: SettingType) {
         when (type) {
@@ -416,7 +386,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                 tempAlarmSetDialog?.alarmBean = struct.alarmBean
                 tempAlarmSetDialog?.show()
             }
-
             SettingType.FONT -> {
                 val colorPickDialog = ColorPickDialog(this, temperature_view.textColor, temperature_view.tempTextSize)
                 colorPickDialog.onPickListener = { it: Int, textSize: Int ->
@@ -430,7 +399,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                 }
                 colorPickDialog.show()
             }
-
             SettingType.WATERMARK -> {
                 TipWaterMarkDialog.Builder(this, struct.watermarkBean)
                     .setCancelListener {
@@ -452,12 +420,10 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                     }
                     .create().show()
             }
-
             else -> {
             }
         }
     }
-
     private fun updateTemperatureSeekBar(isEnabled: Boolean, resource: Int, content: String) {
         temperature_seekbar.isEnabled = isEnabled
         temperature_iv_lock.setImageResource(resource)
@@ -470,7 +436,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             temperature_seekbar.rightSeekBar.indicatorBackgroundColor = 0
         }
     }
-
     override fun onClick(v: View?) {
         when (v) {
             temperature_iv_lock -> {
@@ -485,7 +450,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                     updateTemperatureSeekBar(false, R.drawable.svg_pseudo_bar_lock, "lock")
                 }
             }
-
             temperature_iv_input -> {
                 val intent = Intent(this, PseudoSetActivity::class.java)
                 intent.putExtra(ExtraKeyConfig.IS_TC007, isTC007)
@@ -494,7 +458,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             }
         }
     }
-
     private val pseudoSetResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
@@ -503,11 +466,8 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                 updateImageAndSeekbarColorList(tmp)
                 temperature_seekbar.setColorList(tmp.getColorList(struct.isTC007())?.reversedArray())
                 temperature_seekbar.setPlaces(tmp.getPlaceList())
-//            customPseudoBean.saveToShared()
-
             }
         }
-
     private fun updateImageAndSeekbarColorList(customPseudoBean: CustomPseudoBean?) {
         customPseudoBean?.let {
             updateImage(
@@ -544,9 +504,7 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             temperature_seekbar.setColorList(customPseudoBean.getColorList(struct.isTC007())?.reversedArray())
             temperature_seekbar.setPlaces(customPseudoBean.getPlaceList())
         }
-//        tv_temp_content.visibility = View.VISIBLE
     }
-
     private var isReportPick = false
     private fun initUI() {
         isReportPick = intent.getBooleanExtra(ExtraKeyConfig.IS_PICK_REPORT_IMG, false)
@@ -609,16 +567,13 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
         }
         edit_recycler_second.selectPosition(-1)
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReportCreate(event: ReportCreateEvent) {
         if (isReportPick) {
             finish()
         }
     }
-
     private fun keepOneDigit(float: Float) = String.format(Locale.ENGLISH, "%.1f", float)
-
     private fun buildImageTempBean(): ImageTempBean {
         var full: ImageTempBean.TempBean? = null
         if (temperature_view.isShowFull) {
@@ -628,14 +583,12 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                 full = ImageTempBean.TempBean(max, min)
             }
         }
-
         val pointList = arrayListOf<ImageTempBean.TempBean>()
         for (temp in temperature_view.tempListData.pointTemps) {
             if (temp.type != -99) {
                 pointList.add(ImageTempBean.TempBean(keepOneDigit(tempCorrect(temp.maxTemperature))))
             }
         }
-
         val lineList = arrayListOf<ImageTempBean.TempBean>()
         for (temp in temperature_view.tempListData.lineTemps) {
             if (temp.type != -99) {
@@ -645,7 +598,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                 lineList.add(ImageTempBean.TempBean(max, min, average))
             }
         }
-
         val rectList = arrayListOf<ImageTempBean.TempBean>()
         for (temp in temperature_view.tempListData.rectangleTemps) {
             if (temp.type != -99) {
@@ -655,10 +607,8 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                 rectList.add(ImageTempBean.TempBean(max, min, average))
             }
         }
-
         return ImageTempBean(full, pointList, lineList, rectList)
     }
-
 
     private fun saveImage() {
         TipDialog.Builder(this)
@@ -670,9 +620,7 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                 finish()
             }
             .create().show()
-
     }
-
     private fun updateIconSave() {
         lifecycleScope.launch(Dispatchers.IO) {
             var irBitmap = if (struct.isAmplify) {
@@ -703,7 +651,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             finish()
         }
     }
-
     private fun getCapital(): ByteArray {
         val capital: ByteArray?
         capital = FrameStruct.toCode(
@@ -728,7 +675,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
         )
         return capital
     }
-
     override fun onBackPressed() {
         lifecycleScope.launch {
             if (isReportPick) {
@@ -738,7 +684,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
             }
         }
     }
-
     override fun tempCorrectByTs(temp: Float?): Float {
         var tmp = temp
         try {
@@ -748,7 +693,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
         }
         return tmp!!
     }
-
     private fun tempCorrect(
         temp: Float
     ): Float {

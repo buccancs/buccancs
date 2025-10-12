@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.fragment
-
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -40,32 +39,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-
 class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
-
     private var isTC007 = false
-
     private var page = 1
     private var reportAdapter = PDFAdapter(R.layout.item_pdf)
-
     private val loginBroadcastReceiver = LoginBroadcastReceiver()
-
     override fun providerVMClass() = PdfViewModel::class.java
-
     override fun initContentView(): Int {
         return R.layout.fragment_pdf_list
     }
-
     override fun initView() {
         isTC007 = arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false
-
         val intentFilter = IntentFilter()
         intentFilter.addAction(Config.ACTION_BROADCAST_LOGIN)
         intentFilter.addAction(Config.ACTION_BROADCAST_LOGOFF)
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(loginBroadcastReceiver, intentFilter)
-
         initRecycler()
-
         viewModel.listData.observe(this) {
             dismissLoadingDialog()
             if (!reportAdapter.hasEmptyView()) {
@@ -81,7 +70,6 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
             it?.let { data ->
                 val tvEmpty: TextView? = reportAdapter.emptyLayout?.findViewById(R.id.tv_empty)
                 tvEmpty?.setText(if (page == 1 && data.code != LMS.SUCCESS) R.string.request_fail else R.string.tip_no_more_data)
-
                 if (page == 1) {
                     if (data.code == LMS.SUCCESS) {
                         reportAdapter.loadMoreModule.isEnableLoadMore = !data.data?.records.isNullOrEmpty()
@@ -118,18 +106,13 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
             }
         })
     }
-
     private var hasLoadData = false
-
     override fun initData() {
-
     }
-
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(loginBroadcastReceiver)
     }
-
     private inner class LoginBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             when (intent?.action) {
@@ -141,7 +124,6 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
             }
         }
     }
-
     private fun initRecycler() {
         reportAdapter.isUseEmpty = true
         reportAdapter.delListener = { item, position ->
@@ -172,11 +154,8 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
                                     }
                                     Log.w("删除成功", response.toString())
                                 }
-
                                 override fun onFail(exception: Exception?) {
-
                                 }
-
                                 override fun onFail(failMsg: String?, errorCode: String) {
                                     super.onFail(failMsg, errorCode)
                                     try {
@@ -202,10 +181,8 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
                             reportAdapter.notifyItemRemoved(position)
                         }
                     }
-
                 }
                 .setCancelListener(R.string.app_cancel) {
-
                 }
                 .create().show()
         }
@@ -218,14 +195,12 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
         reportAdapter.loadMoreModule.setOnLoadMoreListener {
             viewModel.getReportData(isTC007, ++page)
         }
-
         fragment_pdf_recycler.adapter = reportAdapter
         fragment_pdf_recycler.layoutManager = LinearLayoutManager(requireContext())
         fragment_pdf_recycler_lay.setOnRefreshListener {
             page = 1
             viewModel.getReportData(isTC007, page)
         }
-
         fragment_pdf_recycler_lay.setEnableLoadMore(false)
     }
 }

@@ -1,5 +1,4 @@
 package com.buccancs.di
-
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.hardware.camera2.CameraManager
@@ -10,20 +9,16 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
 @Module
 @InstallIn(SingletonComponent::class)
 object HardwareModule {
-
     @Provides
     @Singleton
     fun provideBluetoothAdapter(): BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-
     @Provides
     @Singleton
     fun provideCameraManager(@ApplicationContext context: Context): CameraManager =
         context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
-
     @Provides
     @Singleton
     fun provideUsbManager(@ApplicationContext context: Context): UsbManager =

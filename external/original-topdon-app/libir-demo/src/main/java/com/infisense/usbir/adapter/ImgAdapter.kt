@@ -1,5 +1,4 @@
 package com.infisense.usbir.adapter
-
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -14,29 +13,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.infisense.usbir.R
 import com.infisense.usbir.bean.ImgBean
 import kotlinx.android.synthetic.main.item_filter.view.*
-
 class ImgAdapter(
     private val context: Context,
     private val mDataList: ArrayList<ImgBean>,
     var listenter: OnItemOnClickListenter
 ) : RecyclerView.Adapter<ImgAdapter.ViewHolder>() {
-
     private var bitmap: Bitmap? = null
-
     interface OnItemOnClickListenter {
         fun onClick(position: Int)
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(context).inflate(R.layout.item_filter, parent, false)
         return ViewHolder(view)
     }
-
     fun setBitmap(bitmap: Bitmap?) {
         this.bitmap = bitmap
         notifyDataSetChanged()
     }
-
     /**
      * 调整图片大小
      *
@@ -54,9 +47,7 @@ class ImgAdapter(
         matrix.postScale(scale_w, scale_h)
         return Bitmap.createBitmap(bitmap, 0, 0, src_w, src_h, matrix, true)
     }
-
     var canvas: Canvas? = null
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val filterBean = mDataList[position]
         holder.tvName.text = filterBean.titleName
@@ -67,11 +58,9 @@ class ImgAdapter(
             )
         }
     }
-
     override fun getItemCount(): Int {
         return mDataList.size
     }
-
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var textureView: TextureView = view.textureView
         var tvName: TextView = view.filter_name

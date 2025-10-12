@@ -1,10 +1,7 @@
 package com.buccancs.domain.model
-
 import kotlinx.datetime.Instant
-
 @JvmInline
 value class DeviceId(val value: String)
-
 enum class SensorDeviceType {
     SHIMMER_GSR,
     ANDROID_RGB_CAMERA,
@@ -13,7 +10,6 @@ enum class SensorDeviceType {
     AUDIO_MICROPHONE,
     UNKNOWN
 }
-
 enum class SensorStreamType {
     GSR,
     RGB_VIDEO,
@@ -21,7 +17,6 @@ enum class SensorStreamType {
     AUDIO,
     PREVIEW
 }
-
 sealed interface ConnectionStatus {
     data object Disconnected : ConnectionStatus
     data object Connecting : ConnectionStatus
@@ -31,7 +26,6 @@ sealed interface ConnectionStatus {
         val rssiDbm: Int? = null
     ) : ConnectionStatus
 }
-
 data class SensorDevice(
     val id: DeviceId,
     val displayName: String,
@@ -41,7 +35,6 @@ data class SensorDevice(
     val isSimulated: Boolean,
     val attributes: Map<String, String> = emptyMap()
 )
-
 data class SensorStreamStatus(
     val deviceId: DeviceId,
     val streamType: SensorStreamType,
@@ -52,26 +45,22 @@ data class SensorStreamStatus(
     val isStreaming: Boolean,
     val isSimulated: Boolean
 )
-
 enum class RecordingLifecycleState {
     Idle,
     Starting,
     Recording,
     Stopping
 }
-
 data class RecordingSessionAnchor(
     val sessionId: String,
     val referenceTimestamp: Instant,
     val sharedClockOffsetMillis: Long
 )
-
 data class RecordingState(
     val lifecycle: RecordingLifecycleState,
     val anchor: RecordingSessionAnchor?,
     val updatedAt: Instant
 )
-
 data class TimeSyncStatus(
     val offsetMillis: Long,
     val roundTripMillis: Long,

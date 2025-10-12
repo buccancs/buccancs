@@ -1,5 +1,4 @@
 package com.buccancs.domain
-
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.repository.SensorRepository
@@ -9,7 +8,6 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class RecordingCoordinator @Inject constructor(
     private val sensorRepository: SensorRepository,
@@ -26,7 +24,6 @@ class RecordingCoordinator @Inject constructor(
         sensorRepository.startStreaming(anchor)
         return sensorRepository.recordingState.value
     }
-
     suspend fun stop(): RecordingState {
         val anchor = sensorRepository.stopStreaming()
         if (anchor != null) {

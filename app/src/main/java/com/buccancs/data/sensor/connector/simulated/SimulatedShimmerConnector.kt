@@ -1,5 +1,4 @@
 package com.buccancs.data.sensor.connector.simulated
-
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
 import com.buccancs.di.ApplicationScope
@@ -24,7 +23,6 @@ import kotlin.math.PI
 import kotlin.math.absoluteValue
 import kotlin.math.sin
 import kotlin.random.Random
-
 @Singleton
 internal class SimulatedShimmerConnector @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
@@ -43,25 +41,19 @@ internal class SimulatedShimmerConnector @Inject constructor(
         attributes = mapOf("mac" to "00:00:00:00:00:01")
     )
 ) {
-
     private var emitter: SensorStreamEmitter? = null
     private var emissionJob: Job? = null
-
     constructor(scope: CoroutineScope) : this(
         scope = scope,
         artifactFactory = SimulatedTestSupport.artifactFactory(),
         streamClient = NoOpSensorStreamClient()
     )
-
     override fun streamIntervalMs(): Long = 250L
-
     override fun simulatedBatteryPercent(device: SensorDevice): Int? {
         val baseline = 90 - (device.id.value.hashCode().absoluteValue % 12)
         return baseline.coerceIn(40, 98)
     }
-
     override fun simulatedRssi(device: SensorDevice): Int? = -48
-
     override fun sampleStatuses(
         timestamp: kotlinx.datetime.Instant,
         frameCounter: Long,
@@ -88,7 +80,6 @@ internal class SimulatedShimmerConnector @Inject constructor(
             )
         )
     }
-
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         val result = super.startStreaming(anchor)
         if (result is DeviceCommandResult.Accepted) {
@@ -122,7 +113,6 @@ internal class SimulatedShimmerConnector @Inject constructor(
         }
         return result
     }
-
     override suspend fun stopStreaming(): DeviceCommandResult {
         emissionJob?.cancel()
         emissionJob = null
@@ -130,13 +120,11 @@ internal class SimulatedShimmerConnector @Inject constructor(
         emitter = null
         return super.stopStreaming()
     }
-
     private fun generateConductance(index: Long): Double {
         val base = 5.0 + sin(index * 2.0 * PI / 256.0) * 0.2
         val noise = Random(index.toInt()).nextDouble(-0.05, 0.05)
         return (base + noise).coerceAtLeast(0.1)
     }
-
     private class NoOpSensorStreamClient : SensorStreamClient {
         override suspend fun openStream(
             sessionId: String,
@@ -148,7 +136,6 @@ internal class SimulatedShimmerConnector @Inject constructor(
             override suspend fun close() = Unit
         }
     }
-
     private companion object {
         private const val STREAM_ID = "gsr"
         private const val SAMPLE_RATE_HZ = 128.0

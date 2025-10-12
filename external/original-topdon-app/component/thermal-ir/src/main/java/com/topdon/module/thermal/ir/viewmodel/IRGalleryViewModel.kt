@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.viewmodel
-
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.topdon.lib.core.bean.GalleryBean
@@ -13,21 +12,16 @@ import com.topdon.module.thermal.ir.utils.WriteTools
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-
 class IRGalleryViewModel : BaseViewModel() {
     companion object {
         const val PAGE_COUNT = 20
     }
-
     val sourceListLD: MutableLiveData<ArrayList<GalleryBean>> = MutableLiveData()
-
     val showListLD: MutableLiveData<ArrayList<GalleryBean>> = MutableLiveData()
-
     fun queryAllReportImg(dirType: GalleryRepository.DirType) {
         viewModelScope.launch(Dispatchers.IO) {
             val sourceList: ArrayList<GalleryBean> = GalleryRepository.loadAllReportImg(dirType)
             sourceListLD.postValue(sourceList)
-
             val showList: ArrayList<GalleryBean> = ArrayList(sourceList.size)
             var beforeTime = 0L
             for (galleryBean in sourceList) {
@@ -41,17 +35,13 @@ class IRGalleryViewModel : BaseViewModel() {
             showListLD.postValue(showList)
         }
     }
-
     var hasLoadPage = 0
-
     val pageListLD: MutableLiveData<ArrayList<GalleryBean>?> = MutableLiveData()
-
     fun queryGalleryByPage(isVideo: Boolean, dirType: GalleryRepository.DirType) {
         viewModelScope.launch(Dispatchers.IO) {
             val pageList: ArrayList<GalleryBean>? =
                 GalleryRepository.loadByPage(isVideo, dirType, hasLoadPage + 1, PAGE_COUNT)
             pageListLD.postValue(pageList)
-
             if (pageList != null) {
                 val sourceList =
                     if (hasLoadPage == 0) ArrayList(pageList.size) else sourceListLD.value ?: ArrayList(pageList.size)
@@ -60,7 +50,6 @@ class IRGalleryViewModel : BaseViewModel() {
                 if (pageList.isNotEmpty()) {
                     hasLoadPage++
                 }
-
                 var beforeTime = if (sourceList.isEmpty()) 0 else TimeTool.timeToMinute(sourceList.last().timeMillis, 4)
                 for (galleryBean in pageList) {
                     val currentTime = TimeTool.timeToMinute(galleryBean.timeMillis, 4)
@@ -70,7 +59,6 @@ class IRGalleryViewModel : BaseViewModel() {
                     }
                     showList.add(galleryBean)
                 }
-
                 sourceList.addAll(pageList)
                 sourceListLD.postValue(sourceList)
                 showListLD.postValue(showList)
@@ -78,9 +66,7 @@ class IRGalleryViewModel : BaseViewModel() {
         }
     }
 
-
     val deleteResultLD: MutableLiveData<Boolean> = MutableLiveData()
-
     fun delete(deleteList: List<GalleryBean>, dirType: GalleryRepository.DirType, isDelLocal: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             if (dirType == GalleryRepository.DirType.TS004_REMOTE) {

@@ -1,5 +1,4 @@
 package com.topdon.house.activity
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -32,16 +31,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import java.util.Collections
-
 @SuppressLint("NotifyDataSetChanged")
 class DirEditActivity : BaseActivity(), View.OnClickListener {
     private val adapter = MyAdapter(this)
     private val itemTouchCallback = MyItemTouchCallback()
-
     private val viewModel: DetectViewModel by viewModels()
-
     override fun initContentView(): Int = R.layout.activity_dir_edit
-
     override fun initView() {
         iv_copy.isEnabled = false
         tv_copy.isEnabled = false
@@ -49,14 +44,12 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
         tv_del.isEnabled = false
         view_copy.isEnabled = false
         view_del.isEnabled = false
-
         iv_exit.setOnClickListener(this)
         iv_save.setOnClickListener(this)
         view_select_all.setOnClickListener(this)
         view_copy.setOnClickListener(this)
         view_del.setOnClickListener(this)
         tv_add.setOnClickListener(this)
-
         adapter.onSelectChangeListener = {
             iv_copy.isEnabled = it > 0
             tv_copy.isEnabled = it > 0
@@ -72,7 +65,6 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = adapter
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(recycler_view)
-
         viewModel.detectLD.observe(this) {
             if (it != null) {
                 adapter.refresh(it.dirList)
@@ -80,17 +72,14 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             }
         }
         viewModel.queryById(intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
-
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 showExitTipsDialog()
             }
         })
     }
-
     override fun initData() {
     }
-
     override fun onClick(v: View?) {
         when (v) {
             iv_exit -> showExitTipsDialog()
@@ -108,16 +97,13 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
-
             view_select_all -> {
                 adapter.isSelectAll = !adapter.isSelectAll
             }
-
             view_copy -> {
                 adapter.copySelect()
                 TToast.shortToast(this@DirEditActivity, R.string.ts004_copy_success)
             }
-
             view_del -> {
                 TipDialog.Builder(this)
                     .setTitleMessage(getString(R.string.tips_del_item_title))
@@ -133,7 +119,6 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
                     }
                     .create().show()
             }
-
             tv_add -> {
                 recycler_view.isVisible = true
                 cl_bottom.isVisible = true
@@ -149,7 +134,6 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private fun showExitTipsDialog() {
         TipDialog.Builder(this)
             .setMessage(R.string.diy_tip_save)
@@ -159,18 +143,14 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             .setCancelListener(R.string.app_cancel)
             .create().show()
     }
-
     private class MyItemTouchCallback : ItemTouchHelper.Callback() {
         private var dataList: ArrayList<DirDetect> = ArrayList(0)
-
         fun refresh(newList: ArrayList<DirDetect>) {
             dataList = newList
         }
-
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0)
         }
-
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -190,25 +170,21 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
             return true
         }
-
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         }
     }
-
     private class MyAdapter(val context: Context) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
         var dataList: ArrayList<DirDetect> = ArrayList(0)
-
         private var selectCount = 0
-
         var isSelectAll: Boolean
             get() = selectCount == dataList.size && dataList.size > 0
             set(value) {
-                if (value) {//->全选
+                if (value) {
                     selectCount = dataList.size
                     for (dir in dataList) {
                         dir.hasSelect = true
                     }
-                } else {//全选->取消全选
+                } else {
                     selectCount = 0
                     for (dir in dataList) {
                         dir.hasSelect = false
@@ -217,14 +193,11 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
                 onSelectChangeListener?.invoke(selectCount)
                 notifyItemRangeChanged(0, itemCount)
             }
-
         var onSelectChangeListener: ((selectSize: Int) -> Unit)? = null
-
         fun refresh(newList: ArrayList<DirDetect>) {
             dataList = newList
             notifyDataSetChanged()
         }
-
         fun delSelect() {
             selectCount = 0
             if (isSelectAll) {
@@ -240,7 +213,6 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             }
             onSelectChangeListener?.invoke(0)
         }
-
         fun copySelect() {
             selectCount *= 2
             val selectIndexList: ArrayList<Int> = ArrayList()
@@ -256,18 +228,14 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             }
             onSelectChangeListener?.invoke(selectCount)
         }
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_edit_dir, parent, false))
         }
-
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.itemView.iv_select.isSelected = dataList[position].hasSelect
             holder.itemView.et_input_name.setText(dataList[position].dirName)
         }
-
         override fun getItemCount(): Int = dataList.size
-
         inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.setOnClickListener {

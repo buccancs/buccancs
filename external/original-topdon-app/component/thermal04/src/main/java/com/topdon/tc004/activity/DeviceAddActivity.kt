@@ -1,5 +1,4 @@
 package com.topdon.tc004.activity
-
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
@@ -50,25 +49,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
-
 @SuppressLint("NotifyDataSetChanged")
 @Route(path = RouterConfig.IR_DEVICE_ADD)
 class DeviceAddActivity : BaseActivity() {
-
     private var isTS004 = true
-
     private var isFirstRequest = true
-
     private lateinit var topTipHolder: TopTipHolder
     private lateinit var locationManager: LocationManager
     private lateinit var wifiManager: WifiManager
     private lateinit var btAdapter: BluetoothAdapter
-
     private val adapter = MyAdapter()
-
     override fun initContentView(): Int = R.layout.activity_device_add
     var job: Job? = null
-
     override fun initView() {
         title_view.setLeftClickListener {
             finish()
@@ -78,15 +70,12 @@ class DeviceAddActivity : BaseActivity() {
                 .withBoolean(ExtraKeyConfig.IS_TC007, !isTS004)
                 .navigation(this)
         }
-
         isTS004 = intent.getBooleanExtra("isTS004", true)
         topTipHolder = TopTipHolder(tv_top_tips)
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
         btAdapter = (getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
-
         tv_scan_tips.movementMethod = LinkMovementMethod.getInstance()
-
         adapter.isTS004 = isTS004
         adapter.onConnectClickListener = {
             connectWIFI(it)
@@ -94,9 +83,7 @@ class DeviceAddActivity : BaseActivity() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = adapter
 
-
         requestPermission(2)
-
         LocationUtil.addBtStateListener(this) {
             XLog.i("【添加设备】 位置信息开关状态：${if (it) "已开启" else "已关闭"}")
             refreshStateAndTips()
@@ -116,7 +103,6 @@ class DeviceAddActivity : BaseActivity() {
                 adapter.notifyDataSetChanged()
             }
         }
-
         BluetoothUtil.setLeScanListener(isTS004) {
             adapter.addOne(it)
         }
@@ -139,7 +125,6 @@ class DeviceAddActivity : BaseActivity() {
                 adapter.notifyDataSetChanged()
             }
         }
-
         WifiUtil.addWifiStateListener(this) {
             XLog.i("【添加设备】 WIFI 开关状态：${if (it) "已开启" else "已关闭或未知"}")
             refreshStateAndTips()
@@ -160,7 +145,6 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
-
     private fun refreshStateAndTips() {
         val isBtEnable = btAdapter.isEnabled
         val isWifiEnable = wifiManager.isWifiEnabled
@@ -209,23 +193,18 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
-
     override fun initData() {
     }
-
     override fun onRestart() {
         super.onRestart()
         startBtScan()
     }
-
     override fun onStop() {
         super.onStop()
         stopBtScan()
     }
 
-
     private var openLocationDialog: TipDialog? = null
-
     private fun showOpenLocationDialog() {
         if (openLocationDialog?.isShowing == true) {
             return
@@ -258,9 +237,7 @@ class DeviceAddActivity : BaseActivity() {
         openLocationDialog?.show()
     }
 
-
     private var openBtDialog: TipDialog? = null
-
     private fun showOpenBtDialog() {
         if (openBtDialog?.isShowing == true) {
             return
@@ -293,9 +270,7 @@ class DeviceAddActivity : BaseActivity() {
         openBtDialog?.show()
     }
 
-
     private var openWifiDialog: TipDialog? = null
-
     private fun showOpenWifiDialog() {
         if (openWifiDialog?.isShowing == true) {
             return
@@ -336,9 +311,7 @@ class DeviceAddActivity : BaseActivity() {
         openWifiDialog?.show()
     }
 
-
     private var isRequesting = false
-
     private fun requestPermission(actionType: Int) {
         if (isRequesting) {
             return
@@ -390,7 +363,6 @@ class DeviceAddActivity : BaseActivity() {
                     TToast.shortToast(this@DeviceAddActivity, R.string.scan_ble_tip_authorize)
                 }
             }
-
             override fun onNever(isJump: Boolean) {
                 isRequesting = false
                 if (topTipHolder.state == TopTipHolder.State.BLUETOOTH_PERMISSION) {
@@ -406,9 +378,7 @@ class DeviceAddActivity : BaseActivity() {
         })
     }
 
-
     private var timeoutEmptyJob: Job? = null
-
     /**
      * 开始蓝牙搜索，若缺少相应权限或开关未开启，则直接 return.
      */
@@ -426,9 +396,7 @@ class DeviceAddActivity : BaseActivity() {
             return
         }
         isFirstRequest = false
-
         wifiManager.startScan()
-
         val isSuccess = BluetoothUtil.startLeScan(this)
         if (isSuccess) {
             if (!iv_scan_gif.isAnimating) {
@@ -436,13 +404,11 @@ class DeviceAddActivity : BaseActivity() {
             }
             tv_scan_state.setText(R.string.ts004_scan_doing)
             tv_scan_tips.setText(R.string.ts004_device_open)
-
             timeoutEmptyJob?.cancel()
             timeoutEmptyJob = lifecycleScope.launch {
                 delay(60 * 1000)
                 if (adapter.dataList.isEmpty()) {
                     stopBtScan()
-
                     tv_scan_state.setText(R.string.ts004_scan_nothing)
                     tv_scan_tips.text =
                         SpanBuilder().appendColorAndClick(getString(R.string.ts004_scan_again), 0xff06aaff.toInt()) {
@@ -452,14 +418,11 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
-
     private fun stopBtScan() {
         iv_scan_gif.pauseAnimation()
-
         timeoutEmptyJob?.cancel()
         BluetoothUtil.stopLeScan(this)
     }
-
     private fun connectWIFI(wifiName: String) {
         if (WifiUtil.getCurrentWifiSSID(this) == wifiName && WebSocketProxy.getInstance().isConnected()) {
             EventBus.getDefault().post(SocketStateEvent(true, isTS004))
@@ -476,7 +439,6 @@ class DeviceAddActivity : BaseActivity() {
             finish()
             return
         }
-
         XLog.i("当前连接 ${WifiUtil.getCurrentWifiSSID(this)} 准备连接 $wifiName")
         showCameraLoading()
         job = lifecycleScope.launch {
@@ -508,7 +470,6 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
-
     suspend fun examineConnect() {
         delay(10 * 1000)
         if (WebSocketProxy.getInstance().isConnected()) {
@@ -531,7 +492,6 @@ class DeviceAddActivity : BaseActivity() {
         }
         dismissCameraLoading()
     }
-
     private class TopTipHolder(val textView: TextView) {
         var state = State.NONE
             set(value) {
@@ -544,11 +504,9 @@ class DeviceAddActivity : BaseActivity() {
                     State.BLUETOOTH_SWITCH -> textView.setText(R.string.open_bt_switch_tips)
                     State.WIFI_SWITCH -> textView.setText(R.string.ts004_wlan_auth)
                     else -> {
-
                     }
                 }
             }
-
         enum class State {
             NONE,
             LOCATION_PERMISSION,
@@ -558,14 +516,10 @@ class DeviceAddActivity : BaseActivity() {
             WIFI_SWITCH,
         }
     }
-
     private class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
         var isTS004 = true
-
         val dataList: ArrayList<String> = ArrayList()
-
         var onConnectClickListener: ((ssid: String) -> Unit)? = null
-
         fun addOne(newDevice: String) {
             for (hasAddDevice in dataList) {
                 if (hasAddDevice == newDevice) {
@@ -575,18 +529,14 @@ class DeviceAddActivity : BaseActivity() {
             dataList.add(newDevice)
             notifyItemInserted(dataList.size)
         }
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_device_add, parent, false))
         }
-
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.itemView.iv_icon.setImageResource(if (isTS004) R.mipmap.ic_device_add_ts004 else R.mipmap.ic_device_add_tc007)
             holder.itemView.tv_name.text = dataList[position]
         }
-
         override fun getItemCount(): Int = dataList.size
-
         inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.tv_connect.setOnClickListener {
@@ -598,7 +548,6 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
         job?.cancel()

@@ -1,5 +1,4 @@
 package com.topdon.thermal07
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
@@ -120,16 +119,12 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
-
 @Route(path = RouterConfig.IR_THERMAL_07)
 class IRThermal07Activity : BaseWifiActivity() {
     private val saveSetBean = SaveSettingBean(true)
-
     private var isTouchSeekBar: Boolean = false
     private var pseudoColorMode = WifiSaveSettingUtil.pseudoColorMode
-
     private var popupWindow: PopupWindow? = null
-
     private var textColor: Int = WifiSaveSettingUtil.tempTextColor
     private var textSize: Int = WifiSaveSettingUtil.tempTextSize
     private var tempAlarmSetDialog: TempAlarmSetDialog? = null
@@ -156,13 +151,9 @@ class IRThermal07Activity : BaseWifiActivity() {
             }
         }
     }
-
     private var irFile: File? = null
-
     private var dcFile: File? = null
-
     private var gwData: GWData? = null
-
     private var batteryInfo: BatteryInfo? = null
         set(value) {
             if (value != null && field != value) {
@@ -172,21 +163,17 @@ class IRThermal07Activity : BaseWifiActivity() {
                 battery_view.isCharging = value.isCharging()
             }
         }
-
     private var editMaxValue = Float.MAX_VALUE
     private var editMinValue = Float.MIN_VALUE
     private var realLeftValue = -1f
     private var realRightValue = -1f
     private var isShowC = false
 
-
     companion object {
         private const val RTSP_URL = "rtsp://192.168.40.1/stream0"
     }
 
-
     private var playFragment: PlayFragment? = null
-
     private val param by lazy {
         Param(
             contrast = (saveSetBean.contrastValue / 256f * 100).toInt(),
@@ -194,9 +181,7 @@ class IRThermal07Activity : BaseWifiActivity() {
         )
     }
 
-
     override fun initContentView(): Int = R.layout.activity_ir_thermal07
-
     override fun onCreate(savedInstanceState: Bundle?) {
         isShowC = SharedManager.getTemperature() == 1
         super.onCreate(savedInstanceState)
@@ -222,15 +207,12 @@ class IRThermal07Activity : BaseWifiActivity() {
                         -1 -> {
                             moveY -= thermal_steering_view.moveI
                         }
-
                         1 -> {
                             moveY += thermal_steering_view.moveI
                         }
-
                         2 -> {
                             moveX += thermal_steering_view.moveI
                         }
-
                         3 -> {
                             moveX -= thermal_steering_view.moveI
                         }
@@ -318,8 +300,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                 tempMode: Int
             ) {
                 if (isTouchSeekBar) {
-//                    editMinValue = UnitTools.showToCValue(leftValue,isShowC)
-//                    editMaxValue = UnitTools.showToCValue(rightValue,isShowC)
                     editMinValue =
                         if (tempMode == RangeSeekBar.TEMP_MODE_MIN || tempMode == RangeSeekBar.TEMP_MODE_INTERVAL) {
                             UnitTools.showToCValue(leftValue)
@@ -333,17 +313,11 @@ class IRThermal07Activity : BaseWifiActivity() {
                             Float.MAX_VALUE
                         }
                     mode = tempMode
-//                    imageThread?.setLimit(
-//                        editMaxValue,
-//                        editMinValue,
-//                        upColor, downColor
                 }
             }
-
             override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
                 isTouchSeekBar = true
             }
-
             override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
                 isTouchSeekBar = false
                 val max = ((editMaxValue + 273.15f) * 10).toInt()
@@ -356,13 +330,11 @@ class IRThermal07Activity : BaseWifiActivity() {
                     TC007Repository.setIsotherm(isothermC)
                 }
             }
-
         })
         if (!SharedManager.is07HideEmissivityTips) {
             showEmissivityTips()
         }
     }
-
     private fun showEmissivityTips() {
         val config = ConfigRepository.readConfig(false)
         var text = ""
@@ -385,12 +357,10 @@ class IRThermal07Activity : BaseWifiActivity() {
         }
         dialog.show()
     }
-
     private fun startCorrection() {
         scheduler = Executors.newScheduledThreadPool(1)
         scheduler?.scheduleAtFixedRate(task, 0, 60, TimeUnit.SECONDS)
     }
-
     private fun stopCorrection() {
         try {
             scheduler?.shutdownNow()
@@ -398,7 +368,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             XLog.e("线程池回收异常：${e.message}")
         }
     }
-
 
     override fun initView() {
         AlarmHelp.getInstance(this).updateData(alarmBean)
@@ -512,9 +481,7 @@ class IRThermal07Activity : BaseWifiActivity() {
         thermal_recycler_night.onTwoLightListener = { twoLightType, isSelected ->
             setTwoLight(twoLightType, isSelected)
         }
-
         initConfig()
-
         thermal_recycler_night.fenceSelectType = FenceType.DEL
         geometry_view.mode = TemperatureBaseView.Mode.CLEAR
         geometry_view.setImageSize(8191, 8191)
@@ -537,7 +504,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             if (temperature_iv_lock.visibility != View.VISIBLE) {
                 return@setOnClickListener
             }
-
             if (temperature_iv_lock.contentDescription != "lock") {
                 setDefLimit()
             }
@@ -553,13 +519,11 @@ class IRThermal07Activity : BaseWifiActivity() {
         thermal_recycler_night.updateCameraModel()
     }
 
-
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (!isTS004) {
             this.finish()
         }
     }
-
     private val pseudoSetResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
@@ -569,7 +533,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                 )
             }
         }
-
     private fun updateImageAndSeekbarColorList(customPseudoBean: CustomPseudoBean?) {
         lifecycleScope.launch {
             customPseudoBean?.let {
@@ -608,7 +571,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             }
         }
     }
-
     private suspend fun setCustomPseudoColorList(
         colorList: IntArray?,
         places: FloatArray?,
@@ -642,7 +604,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             TC007Repository.setPallete(palleteBean)
         }
     }
-
     private fun setDefLimit() {
         editMaxValue = Float.MAX_VALUE
         editMinValue = Float.MIN_VALUE
@@ -654,7 +615,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             realRightValue
         )
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onSocketMsgEvent(event: SocketMsgEvent) {
         if (SocketCmdUtil.getCmdResponse(event.text) == WsCmdConstants.APP_EVENT_HEART_BEATS) {
@@ -663,11 +623,9 @@ class IRThermal07Activity : BaseWifiActivity() {
                 batteryInfo =
                     BatteryInfo(battery.getString("status"), battery.getString("remaining"))
             } catch (_: Exception) {
-
             }
         }
     }
-
     private fun initConfig() {
         thermal_recycler_night.setSettingSelected(SettingType.ALARM, alarmBean.isHighOpen || alarmBean.isLowOpen)
         lifecycleScope.launch {
@@ -713,14 +671,12 @@ class IRThermal07Activity : BaseWifiActivity() {
                     temperature_iv_lock.visibility = View.INVISIBLE
                     thermal_recycler_night.twoLightType = TwoLightType.TWO_LIGHT_1
                 }
-
                 SaveSettingUtil.FusionTypeMeanFusion -> {
                     TC007Repository.setMode(3)
                     temperature_iv_input.visibility = View.INVISIBLE
                     temperature_iv_lock.visibility = View.INVISIBLE
                     thermal_recycler_night.twoLightType = TwoLightType.TWO_LIGHT_2
                 }
-
                 SaveSettingUtil.FusionTypeIROnly -> {
                     TC007Repository.setMode(0)
                     temperature_iv_input.visibility = View.VISIBLE
@@ -743,14 +699,12 @@ class IRThermal07Activity : BaseWifiActivity() {
                     }
                     thermal_recycler_night.twoLightType = TwoLightType.IR
                 }
-
                 SaveSettingUtil.FusionTypeVLOnly -> {
                     TC007Repository.setMode(1)
                     temperature_iv_input.visibility = View.INVISIBLE
                     temperature_iv_lock.visibility = View.INVISIBLE
                     thermal_recycler_night.twoLightType = TwoLightType.LIGHT
                 }
-
                 SaveSettingUtil.FusionTypeTC007Fusion -> {
                     TC007Repository.setMode(2)
                     temperature_iv_input.visibility = View.INVISIBLE
@@ -763,7 +717,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             dismissCameraLoading()
         }
     }
-
     private fun updateCustomPseudo() {
         temperature_seekbar.setColorList(customPseudoBean.getColorList(true)?.reversedArray())
         temperature_seekbar.setPlaces(customPseudoBean.getPlaceList())
@@ -778,7 +731,6 @@ class IRThermal07Activity : BaseWifiActivity() {
         thermal_recycler_night.setPseudoColor(-1)
         temperature_iv_input.setImageResource(com.topdon.module.thermal.ir.R.drawable.ir_model)
     }
-
     private fun setTwoLight(twoLightType: TwoLightType, isSelected: Boolean) {
         popupWindow?.dismiss()
         when (twoLightType) {
@@ -794,15 +746,9 @@ class IRThermal07Activity : BaseWifiActivity() {
                         }
                     }
                 }, cancelListener = {
-
                 })
             }
-
             TwoLightType.TWO_LIGHT_2 -> {
-                //                mCurrentFusionType = DualCameraParams.FusionType.MeanFusion
-//                thermal_recycler_night.dualFusionType = WifiSaveSettingUtil.FusionTypeMeanFusion
-//                WifiSaveSettingUtil.fusionType = WifiSaveSettingUtil.FusionTypeMeanFusion
-//                setFusion(mCurrentFusionType)
                 showCustomPseudoDialogOrNo(positiveListener = {
                     lifecycleScope.launch {
                         val data = TC007Repository.setMode(3)
@@ -817,7 +763,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                     thermal_recycler_night.setTwoLightSelected(TwoLightType.BLEND_EXTENT, false)
                 })
             }
-
             TwoLightType.IR -> {
                 lifecycleScope.launch {
                     val data = TC007Repository.setMode(0)
@@ -831,7 +776,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                 thermal_steering_view.visibility = View.GONE
                 thermal_recycler_night.setTwoLightSelected(TwoLightType.CORRECT, false)
             }
-
             TwoLightType.LIGHT -> {
                 showCustomPseudoDialogOrNo(positiveListener = {
                     lifecycleScope.launch {
@@ -849,7 +793,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                     thermal_recycler_night.setTwoLightSelected(TwoLightType.BLEND_EXTENT, false)
                 })
             }
-
             TwoLightType.CORRECT -> {
                 if (isSelected) {
                     if (thermal_recycler_night.twoLightType != TwoLightType.TWO_LIGHT_1
@@ -877,7 +820,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                     thermal_steering_view.visibility = View.GONE
                 }
             }
-
             TwoLightType.P_IN_P -> {
                 showCustomPseudoDialogOrNo(positiveListener = {
                     lifecycleScope.launch {
@@ -892,10 +834,8 @@ class IRThermal07Activity : BaseWifiActivity() {
                     thermal_steering_view.visibility = View.GONE
                     thermal_recycler_night.setTwoLightSelected(TwoLightType.CORRECT, false)
                 }, cancelListener = {
-
                 })
             }
-
             TwoLightType.BLEND_EXTENT -> {
                 if (isSelected) {
                     showCustomPseudoDialogOrNo(positiveListener = {
@@ -917,7 +857,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             }
         }
     }
-
     private fun setSetting(type: SettingType, isSelected: Boolean) {
         popupWindow?.dismiss()
         when (type) {
@@ -926,26 +865,21 @@ class IRThermal07Activity : BaseWifiActivity() {
                 cl_seek_bar.isVisible = saveSetBean.isOpenPseudoBar
                 thermal_recycler_night.setSettingSelected(SettingType.PSEUDO_BAR, saveSetBean.isOpenPseudoBar)
             }
-
             SettingType.CONTRAST -> {
                 if (!isSelected) {
                     showContrastPopup()
                 }
             }
-
             SettingType.DETAIL -> {
                 if (!isSelected) {
                     showSharpnessPopup()
                 }
             }
-
             SettingType.ALARM -> {
                 showTempAlarmSetDialog()
             }
-
             SettingType.ROTATE -> {
             }
-
             SettingType.FONT -> {
                 val colorPickDialog = ColorPickDialog(this, textColor, textSize, true)
                 colorPickDialog.onPickListener = { it: Int, textSize: Int ->
@@ -953,7 +887,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                 }
                 colorPickDialog.show()
             }
-
             SettingType.MIRROR -> {
                 saveSetBean.isOpenMirror = !saveSetBean.isOpenMirror
                 lifecycleScope.launch {
@@ -966,15 +899,12 @@ class IRThermal07Activity : BaseWifiActivity() {
                     }
                 }
             }
-
             SettingType.COMPASS -> {
             }
-
             SettingType.WATERMARK -> {
             }
         }
     }
-
     private fun showCustomPseudoDialogOrNo(positiveListener: (() -> Unit), cancelListener: (() -> Unit)) {
         if (customPseudoBean.isUseCustomPseudo) {
             TipDialog.Builder(this@IRThermal07Activity)
@@ -995,7 +925,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                             positiveListener.invoke()
                         }
                     }
-
                 }.setCancelListener(R.string.app_cancel) {
                     cancelListener.invoke()
                 }
@@ -1014,9 +943,7 @@ class IRThermal07Activity : BaseWifiActivity() {
                 }
             }
         }
-
     }
-
 
     private fun showBlendExtentPopup() {
         val seekBarPopup = SeekBarPopup(this, true)
@@ -1035,11 +962,9 @@ class IRThermal07Activity : BaseWifiActivity() {
         seekBarPopup.show(thermal_lay, true)
         popupWindow = seekBarPopup
     }
-
     private fun getProductName(): String {
         return PRODUCT_NAME_TC007
     }
-
     private fun setConfigForIr(
         type: IrParam,
         data: Any?,
@@ -1060,7 +985,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                     dismissCameraLoading()
                 }
             }
-
             IrParam.ParamPColor -> {
                 lifecycleScope.launch {
                     TC007Repository.setPallete(
@@ -1072,7 +996,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                     netListener?.invoke()
                 }
             }
-
             IrParam.ParamTempFont -> {
                 lifecycleScope.launch {
                     val red = Color.red((data as TempFont).textColor)
@@ -1099,7 +1022,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                     }
                 }
             }
-
             IrParam.ParamAlarm -> {
                 alarmBean.isMarkOpen = false
                 WifiSaveSettingUtil.alarmBean = alarmBean
@@ -1109,14 +1031,10 @@ class IRThermal07Activity : BaseWifiActivity() {
                     if (alarmBean.isRingtoneOpen) alarmBean.ringtoneType else null
                 )
             }
-
             else -> {
-
             }
         }
-
     }
-
     private fun showTempAlarmSetDialog() {
         if (tempAlarmSetDialog == null) {
             tempAlarmSetDialog = TempAlarmSetDialog(this, false)
@@ -1130,10 +1048,8 @@ class IRThermal07Activity : BaseWifiActivity() {
         tempAlarmSetDialog?.alarmBean = alarmBean
         tempAlarmSetDialog?.show()
     }
-
     private fun showContrastPopup() {
         thermal_recycler_night.setSettingSelected(SettingType.CONTRAST, true)
-
         val seekBarPopup = SeekBarPopup(this)
         seekBarPopup.progress = NumberTools.scale(saveSetBean.contrastValue / 2.56f, 0).toInt()
         seekBarPopup.onValuePickListener = {
@@ -1151,10 +1067,8 @@ class IRThermal07Activity : BaseWifiActivity() {
         seekBarPopup.show(thermal_lay, true)
         popupWindow = seekBarPopup
     }
-
     private fun showSharpnessPopup() {
         thermal_recycler_night.setSettingSelected(SettingType.DETAIL, true)
-
         val maxSharpness = 4
         val seekBarPopup = SeekBarPopup(this)
         seekBarPopup.progress = (saveSetBean.ddeConfig * 100f / maxSharpness).toInt()
@@ -1174,7 +1088,6 @@ class IRThermal07Activity : BaseWifiActivity() {
         seekBarPopup.show(thermal_lay, true)
         popupWindow = seekBarPopup
     }
-
     private fun pseudoColorModeToIndex(code: Int): Int {
         return if (code >= 3) {
             code - 2
@@ -1182,7 +1095,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             code - 1
         }
     }
-
 
     private fun setPColor(index: Int, code: Int, isShowError: Boolean = false, netListener: (() -> Unit)? = null) {
         pseudoColorMode = code
@@ -1192,7 +1104,6 @@ class IRThermal07Activity : BaseWifiActivity() {
         WifiSaveSettingUtil.pseudoColorMode = pseudoColorMode
         thermal_recycler_night.setPseudoColor(code)
     }
-
     private suspend fun updateTemperatureSeekBar(isEnabled: Boolean) {
         temperature_seekbar.isEnabled = isEnabled
         temperature_seekbar.drawIndPath(isEnabled)
@@ -1215,7 +1126,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             temperature_seekbar.invalidate()
         }
     }
-
     private fun setTemp(fenceType: FenceType, isSelected: Boolean) {
         when (fenceType) {
             FenceType.POINT -> {
@@ -1224,21 +1134,18 @@ class IRThermal07Activity : BaseWifiActivity() {
                     TC007Repository.setTempFrame(false)
                 }
             }
-
             FenceType.LINE -> {
                 geometry_view.mode = TemperatureBaseView.Mode.LINE
                 lifecycleScope.launch {
                     TC007Repository.setTempFrame(false)
                 }
             }
-
             FenceType.RECT -> {
                 geometry_view.mode = TemperatureBaseView.Mode.RECT
                 lifecycleScope.launch {
                     TC007Repository.setTempFrame(false)
                 }
             }
-
             FenceType.FULL -> {
                 geometry_view.isShowFull = isSelected
                 geometry_view.mode = TemperatureBaseView.Mode.FULL
@@ -1246,10 +1153,8 @@ class IRThermal07Activity : BaseWifiActivity() {
                     TC007Repository.setTempFrame(true)
                 }
             }
-
             FenceType.TREND -> {
             }
-
             FenceType.DEL -> {
                 geometry_view.mode = TemperatureBaseView.Mode.CLEAR
                 lifecycleScope.launch {
@@ -1260,34 +1165,28 @@ class IRThermal07Activity : BaseWifiActivity() {
         }
     }
 
-
     private fun setCamera(actionCode: Int) {
         when (actionCode) {
             0 -> {
                 checkStoragePermission()
             }
-
             1 -> {
                 ARouter.getInstance()
                     .build(RouterConfig.IR_GALLERY_HOME)
                     .withInt(ExtraKeyConfig.DIR_TYPE, GalleryRepository.DirType.TC007.ordinal)
                     .navigation()
             }
-
             2 -> {
                 settingCamera()
             }
-
             3 -> {
                 WifiSaveSettingUtil.isVideoMode = false
             }
-
             4 -> {
                 WifiSaveSettingUtil.isVideoMode = true
             }
         }
     }
-
     private var showCameraSetting = false
     private val cameraItemBeanList by lazy {
         mutableListOf(
@@ -1300,23 +1199,12 @@ class IRThermal07Activity : BaseWifiActivity() {
                 isSel = WifiSaveSettingUtil.isAutoShutter
             ),
             CameraItemBean("手动快门", CameraItemBean.TYPE_SDKM),
-//            CameraItemBean(
-//                "声音", CameraItemBean.TYPE_AUDIO,
-//                isSel = WifiSaveSettingUtil.isRecordAudio &&
-//                        ActivityCompat.checkSelfPermission(
-//                            this,
-//                            Manifest.permission.RECORD_AUDIO
-//                        )
-//                        == PackageManager.PERMISSION_GRANTED
-//            ),
             CameraItemBean("设置", CameraItemBean.TYPE_SETTING),
         )
     }
-
     private var cameraDelaySecond: Int = WifiSaveSettingUtil.delayCaptureSecond
     private var cameraItemAdapter: CameraItemAdapter? = null
     private var isAutoShutter: Boolean = WifiSaveSettingUtil.isAutoShutter
-
     private fun settingCamera() {
         showCameraSetting = !showCameraSetting
         if (showCameraSetting) {
@@ -1345,7 +1233,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                                     .navigation(this)
                                 return@listener
                             }
-
                             CameraItemBean.TYPE_DELAY -> {
                                 if (time_down_view.isRunning) {
                                     return@listener
@@ -1356,11 +1243,9 @@ class IRThermal07Activity : BaseWifiActivity() {
                                     CameraItemBean.DELAY_TIME_0 -> {
                                         ToastUtils.showShort(com.topdon.module.thermal.ir.R.string.off_photography)
                                     }
-
                                     CameraItemBean.DELAY_TIME_3 -> {
                                         ToastUtils.showShort(com.topdon.module.thermal.ir.R.string.seconds_dalay_3)
                                     }
-
                                     CameraItemBean.DELAY_TIME_6 -> {
                                         ToastUtils.showShort(com.topdon.module.thermal.ir.R.string.seconds_dalay_6)
                                     }
@@ -1368,11 +1253,9 @@ class IRThermal07Activity : BaseWifiActivity() {
                                 cameraDelaySecond = cameraItemAdapter!!.data[position].time
                                 WifiSaveSettingUtil.delayCaptureSecond = cameraDelaySecond
                             }
-
                             CameraItemBean.TYPE_AUDIO -> {
                                 return@listener
                             }
-
                             CameraItemBean.TYPE_SDKM -> {
                                 lifecycleScope.launch {
                                     cameraItemAdapter!!.data[position].isSel = true
@@ -1381,11 +1264,9 @@ class IRThermal07Activity : BaseWifiActivity() {
                                     cameraItemAdapter!!.data[position].isSel = false
                                     cameraItemAdapter!!.notifyItemChanged(position)
                                 }
-
                                 ToastUtils.showShort(com.topdon.module.thermal.ir.R.string.app_Manual_Shutter)
                                 return@listener
                             }
-
                             CameraItemBean.TYPE_ZDKM -> {
                                 isAutoShutter = !isAutoShutter
                                 WifiSaveSettingUtil.isAutoShutter = isAutoShutter
@@ -1406,7 +1287,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                                 } else {
                                     stopCorrection()
                                 }
-//                                ircmd?.setAutoShutter(isAutoShutter)
                                 return@listener
                             }
                         }
@@ -1421,7 +1301,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             ViewStubUtils.showViewStub(view_stub_camera, false, null)
         }
     }
-
     private fun checkStoragePermission() {
         if (!XXPermissions.isGranted(this, permissionList)) {
             if (BaseApplication.instance.isDomestic()) {
@@ -1445,7 +1324,6 @@ class IRThermal07Activity : BaseWifiActivity() {
         }
     }
 
-
     private fun initStoragePermission() {
         XXPermissions.with(this)
             .permission(
@@ -1468,10 +1346,8 @@ class IRThermal07Activity : BaseWifiActivity() {
                                     override fun onTime(num: Int) {
                                         updateDelayView()
                                     }
-
                                     override fun onLastTime(num: Int) {
                                     }
-
                                     override fun onLastTimeFinish(num: Int) {
                                         if (!thermal_recycler_night.isVideoMode) {
                                             camera()
@@ -1483,12 +1359,10 @@ class IRThermal07Activity : BaseWifiActivity() {
                             }
                             time_down_view.downSecond(cameraDelaySecond)
                         }
-
                     } else {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
-
 
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
@@ -1510,7 +1384,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                 }
             })
     }
-
     fun updateDelayView() {
         try {
             if (time_down_view.isRunning) {
@@ -1526,7 +1399,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             Log.e("线程", e.message.toString())
         }
     }
-
     private fun camera() {
         lifecycleScope.launch {
             thermal_recycler_night.setToCamera()
@@ -1622,11 +1494,8 @@ class IRThermal07Activity : BaseWifiActivity() {
             }
         }
     }
-
     private var isVideo = false
-
     private var videoRecord: VideoRecordFFmpeg? = null
-
     private fun initVideoRecordFFmpeg() {
         playFragment?.let {
             videoRecord = VideoRecordFFmpeg(
@@ -1642,7 +1511,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             )
         }
     }
-
     private fun video() {
         if (!isVideo) {
             initVideoRecordFFmpeg()
@@ -1669,7 +1537,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                     }
                 }
             }
-//            cl_seek_bar.updateBitmap()
             videoRecord?.updateAudioState(false)
             videoRecord?.startRecord(FileConfig.tc007GalleryDir)
             isVideo = true
@@ -1681,7 +1548,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             stopIfVideoing()
         }
     }
-
     private fun stopIfVideoing() {
         if (isVideo) {
             isVideo = false
@@ -1694,9 +1560,7 @@ class IRThermal07Activity : BaseWifiActivity() {
             }
         }
     }
-
     private var flow: Job? = null
-
     private fun videoTimeShow() {
         flow = lifecycleScope.launch {
             val time = 60 * 60 * 4
@@ -1716,23 +1580,17 @@ class IRThermal07Activity : BaseWifiActivity() {
         }
         pop_time_lay.visibility = View.VISIBLE
     }
-
     private fun videoTimeClose() {
         flow?.cancel()
         flow = null
         pop_time_lay.visibility = View.GONE
     }
-
     @SuppressLint("CheckResult")
     private fun centerCamera() {
-//        storageRequestType = 0
         checkStoragePermission()
     }
-
     override fun initData() {
-
     }
-
     override fun onResume() {
         super.onResume()
         AlarmHelp.getInstance(this).onResume()
@@ -1742,13 +1600,11 @@ class IRThermal07Activity : BaseWifiActivity() {
         thermal_recycler_night.refreshImg(GalleryRepository.DirType.TC007)
         setCarDetectPrompt()
     }
-
     override fun onPause() {
         super.onPause()
         stopCorrection()
         AlarmHelp.getInstance(this).pause()
     }
-
     override fun onDestroy() {
         super.onDestroy()
         AlarmHelp.getInstance(application).onDestroy(WifiSaveSettingUtil.isSaveSetting)
@@ -1758,7 +1614,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             TC007Repository.clearAllTemp()
         }
     }
-
     override fun onStop() {
         super.onStop()
         time_down_view?.cancel()
@@ -1776,7 +1631,6 @@ class IRThermal07Activity : BaseWifiActivity() {
             }
         }
     }
-
     private fun setCarDetectPrompt() {
         var carDetectInfo = SharedManager.getCarDetectInfo()
         var tvDetectPrompt = view_car_detect.findViewById<TextView>(R.id.tv_detect_prompt)

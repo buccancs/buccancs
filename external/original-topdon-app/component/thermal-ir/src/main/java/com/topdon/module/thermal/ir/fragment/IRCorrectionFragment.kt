@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.fragment
-
 import android.graphics.Bitmap
 import android.util.Log
 import android.view.WindowManager
@@ -31,26 +30,17 @@ import kotlinx.android.synthetic.main.fragment_ir_monitor_thermal.*
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-
 class IRCorrectionFragment : BaseFragment(), ITsTempListener {
-
     protected var defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT
-
     private var ircmd: IRCMD? = null
-
     override fun initContentView() = R.layout.fragment_ir_monitor_thermal
-
     private var rotateAngle = 270
-
     override fun initView() {
         requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         initDataIR()
     }
-
     override fun initData() {
-
     }
-
     private var imageThread: ImageThreadTC? = null
     private var bitmap: Bitmap? = null
     private var iruvc: IRUVCTC? = null
@@ -64,14 +54,12 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
     private val syncimage = SynchronizedBitmap()
     private var isrun = false
     private var pseudocolorMode = 0
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun irEvent(event: IRMsgEvent) {
         if (event.code == MsgCode.RESTART_USB) {
             restartUsbCamera()
         }
     }
-
     private fun initDataIR() {
         imageWidth = cameraHeight - tempHeight
         imageHeight = cameraWidth
@@ -99,9 +87,7 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
         temperatureView.clear()
         temperatureView.temperatureRegionMode = REGION_MODE_CLEAN
     }
-
     private fun startISP() {
-
         try {
             imageThread = ImageThreadTC(context, imageWidth, imageHeight)
             imageThread!!.setDataFlowMode(defaultDataFlowMode)
@@ -116,7 +102,6 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             Log.e("图像线程重复启动", e.message.toString())
         }
     }
-
     /**
      *
      */
@@ -126,17 +111,13 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
                 cameraWidth, cameraHeight, context, syncimage,
                 defaultDataFlowMode, object : ConnectCallback {
                     override fun onCameraOpened(uvcCamera: UVCCamera) {
-
                     }
-
                     override fun onIRCMDCreate(ircmd: IRCMD) {
                         Log.i(
                             TAG,
                             "ConnectCallback->onIRCMDCreate"
                         )
                         this@IRCorrectionFragment.ircmd = ircmd
-                        //                        ircmd.setPseudoColor(CommonParams.PreviewPathChannel.PREVIEW_PATH0,
-//                            PseudocodeUtils.changePseudocodeModeByOld(pseudocolorMode))
                     }
                 }, object : USBMonitorCallback {
                     override fun onAttach() {}
@@ -146,7 +127,6 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
                     override fun onDettach() {
                         activity?.finish()
                     }
-
                     override fun onCancel() {
                         activity?.finish()
                     }
@@ -158,7 +138,6 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             iruvc!!.registerUSB()
         }
     }
-
     /**
      *
      */
@@ -169,7 +148,6 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
         }
         startUSB(true)
     }
-
     override fun onStart() {
         super.onStart()
         Log.w(TAG, "onStart")
@@ -185,7 +163,6 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             }, 1500)
         }
     }
-
     override fun onStop() {
         super.onStop()
         Log.w(TAG, "onStop")
@@ -199,7 +176,6 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
         cameraView?.stop()
         isrun = false
     }
-
     override fun onDestroy() {
         super.onDestroy()
         Log.w(TAG, "onDestroy")
@@ -209,19 +185,16 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             Log.e(TAG, "imageThread.join(): catch an interrupted exception")
         }
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun iruvctc(event: PreviewComplete) {
         dealY16ModePreviewComplete()
     }
-
     var frameReady = false;
     private fun dealY16ModePreviewComplete() {
         isConfigWait = false
         iruvc?.setFrameReady(true)
         frameReady = true
     }
-
     private fun setViewLay() {
         thermal_lay.post {
             if (ScreenUtil.isPortrait(requireContext())) {
@@ -237,14 +210,12 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             }
         }
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun cameraEvent(event: DeviceCameraEvent) {
         when (event.action) {
             100 -> {
                 showLoadingDialog()
             }
-
             101 -> {
                 lifecycleScope.launch {
                     delay(500)
@@ -255,9 +226,7 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             }
         }
     }
-
     private var isConfigWait = true
-
     private fun configParam() {
         lifecycleScope.launch {
             isConfigWait = true
@@ -332,7 +301,6 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
         }
     }
 
-
     suspend fun autoStart() {
         withContext(Dispatchers.IO) {
             //            ToastUtils.showShort("任务开始")
@@ -363,5 +331,4 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             XLog.w("锅盖矫正：" + "锅盖结束")
         }
     }
-
 }

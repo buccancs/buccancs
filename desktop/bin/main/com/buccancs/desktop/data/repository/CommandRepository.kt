@@ -1,5 +1,4 @@
 package com.buccancs.desktop.data.repository
-
 import com.buccancs.control.commands.CommandSerialization
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
@@ -20,7 +19,6 @@ import kotlin.collections.Set
 import kotlin.collections.emptySet
 import kotlin.collections.forEach
 import kotlin.collections.set
-
 class CommandRepository {
     private val broadcastFlow = MutableSharedFlow<CommandDispatch>(
         replay = HISTORY_SIZE,
@@ -31,7 +29,6 @@ class CommandRepository {
     private val startStopCommands = ConcurrentHashMap<String, DeviceCommandPayload>()
     private val startStopOrder = ArrayDeque<String>()
     private val startStopLock = Any()
-
     fun observe(deviceId: String, includeBroadcast: Boolean = true): Flow<CommandDispatch> {
         return if (includeBroadcast) {
             merge(
@@ -42,7 +39,6 @@ class CommandRepository {
             deviceFlow(deviceId).asSharedFlow()
         }
     }
-
     suspend fun enqueueSyncSignal(
         sessionId: String,
         signalType: String,
@@ -60,7 +56,6 @@ class CommandRepository {
         )
         dispatch(payload, targets)
     }
-
     suspend fun enqueueEventMarker(
         sessionId: String,
         markerId: String,
@@ -80,7 +75,6 @@ class CommandRepository {
         )
         dispatch(payload, targets)
     }
-
     suspend fun enqueueStartRecording(
         sessionId: String,
         anchorEpochMs: Long,
@@ -97,7 +91,6 @@ class CommandRepository {
         )
         dispatch(payload, targets)
     }
-
     suspend fun enqueueStopRecording(
         sessionId: String,
         stopEpochMs: Long,
@@ -111,7 +104,6 @@ class CommandRepository {
         )
         dispatch(payload, targets)
     }
-
     suspend fun enqueueStimulus(
         sessionId: String,
         stimulusId: String,
@@ -131,10 +123,8 @@ class CommandRepository {
         )
         dispatch(payload, targets)
     }
-
     fun findStartStopCommand(commandId: String): DeviceCommandPayload? =
         startStopCommands[commandId]
-
     private suspend fun dispatch(payload: DeviceCommandPayload, targets: Set<String>) {
         val json = CommandSerialization.json.encodeToString(DeviceCommandPayload.serializer(), payload)
         val base = CommandDispatch(
@@ -155,7 +145,6 @@ class CommandRepository {
             }
         }
     }
-
     private fun recordStartStop(payload: DeviceCommandPayload) {
         if (payload !is StartRecordingCommandPayload && payload !is StopRecordingCommandPayload) {
             return
@@ -169,7 +158,6 @@ class CommandRepository {
             }
         }
     }
-
     private suspend fun emitCommand(
         flow: MutableSharedFlow<CommandDispatch>,
         command: CommandDispatch
@@ -178,7 +166,6 @@ class CommandRepository {
             flow.emit(command)
         }
     }
-
     private fun deviceFlow(deviceId: String): MutableSharedFlow<CommandDispatch> =
         deviceFlows.computeIfAbsent(deviceId) {
             MutableSharedFlow(
@@ -187,7 +174,6 @@ class CommandRepository {
                 onBufferOverflow = BufferOverflow.DROP_OLDEST
             )
         }
-
     data class CommandDispatch(
         val commandId: String,
         val sessionId: String,
@@ -196,7 +182,6 @@ class CommandRepository {
         val commandJson: String,
         val targetDeviceId: String?
     )
-
     private companion object {
         private const val HISTORY_SIZE = 32
         private const val START_STOP_HISTORY = 64

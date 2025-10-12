@@ -1,17 +1,14 @@
 package com.topdon.menu.adapter
-
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.topdon.menu.R
 import com.topdon.menu.constant.MenuType
 import com.topdon.menu.constant.SettingType
-
 @SuppressLint("NotifyDataSetChanged")
 internal class SettingAdapter(menuType: MenuType = MenuType.SINGLE_LIGHT, isObserver: Boolean = false) :
     BaseMenuAdapter() {
     var onSettingListener: ((settingType: SettingType, isSelected: Boolean) -> Unit)? = null
-
 
     var rotateAngle: Int = 270
         set(value) {
@@ -20,7 +17,6 @@ internal class SettingAdapter(menuType: MenuType = MenuType.SINGLE_LIGHT, isObse
                 setSelected(SettingType.ROTATE, value != 270)
             }
         }
-
     fun setSelected(settingType: SettingType, isSelected: Boolean) {
         for (i in dataList.indices) {
             if (dataList[i].settingType == settingType) {
@@ -31,9 +27,7 @@ internal class SettingAdapter(menuType: MenuType = MenuType.SINGLE_LIGHT, isObse
         }
     }
 
-
     private val dataList: ArrayList<Data> = ArrayList(7)
-
     init {
         if (isObserver) {
             dataList.add(
@@ -74,7 +68,6 @@ internal class SettingAdapter(menuType: MenuType = MenuType.SINGLE_LIGHT, isObse
             }
         }
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: Data = dataList[position]
         holder.binding.ivIcon.setImageResource(data.drawableId)
@@ -97,9 +90,7 @@ internal class SettingAdapter(menuType: MenuType = MenuType.SINGLE_LIGHT, isObse
             onSettingListener?.invoke(data.settingType, data.isSelected)
         }
     }
-
     override fun getItemCount(): Int = dataList.size
-
     data class Data(
         @StringRes val stringId: Int,
         @DrawableRes val drawableId: Int,

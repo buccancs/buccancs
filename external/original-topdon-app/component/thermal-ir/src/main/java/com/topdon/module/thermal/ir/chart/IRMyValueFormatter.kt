@@ -1,22 +1,18 @@
 package com.topdon.module.thermal.ir.chart
-
 import android.annotation.SuppressLint
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.topdon.lib.core.common.SharedManager
 import com.topdon.module.thermal.ir.utils.ChartTools
 import java.text.SimpleDateFormat
 import java.util.*
-
 class IRMyValueFormatter(private val startTime: Long, private val type: Int = 1) :
     IndexAxisValueFormatter() {
-
     companion object {
         const val TYPE_TIME_SECOND = 1
         const val TYPE_TIME_MINUTE = 2
         const val TYPE_TIME_HOUR = 3
         const val TYPE_TIME_DAY = 4
     }
-
     override fun getFormattedValue(value: Float): String {
         val time = if (value.toLong() % 1000 == 999L) {
             value.toLong() + 1L
@@ -27,11 +23,9 @@ class IRMyValueFormatter(private val startTime: Long, private val type: Int = 1)
         return showDateSecond(realTime)
     }
 
-
     @SuppressLint("SimpleDateFormat")
     fun showDateSecond(time: Long): String {
         val date = Date(time)
-        //yyyy-MM-dd HH:mm:ss
         val pattern = when (type) {
             TYPE_TIME_SECOND -> "HH:mm:ss"
             TYPE_TIME_MINUTE -> "HH:mm"

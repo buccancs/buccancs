@@ -1,11 +1,9 @@
 package com.topdon.menu.adapter
-
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.topdon.menu.R
 import com.topdon.menu.constant.MenuType
-
 @SuppressLint("NotifyDataSetChanged")
 internal class TempLevelAdapter(menuType: MenuType) : BaseMenuAdapter() {
     var isUnitF = false
@@ -15,7 +13,6 @@ internal class TempLevelAdapter(menuType: MenuType) : BaseMenuAdapter() {
                 notifyDataSetChanged()
             }
         }
-
     var selectCode: Int = 1
         set(value) {
             if (field != value) {
@@ -23,12 +20,9 @@ internal class TempLevelAdapter(menuType: MenuType) : BaseMenuAdapter() {
                 notifyDataSetChanged()
             }
         }
-
     var onTempLevelListener: ((code: Int) -> Unit)? = null
 
-
     private val dataList: ArrayList<Data> = ArrayList(6)
-
     init {
         dataList.add(
             Data(
@@ -59,7 +53,6 @@ internal class TempLevelAdapter(menuType: MenuType) : BaseMenuAdapter() {
         }
         dataList.add(Data(R.string.thermal_automatic, R.drawable.selector_menu2_temp_level_2, code = -1))
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: Data = dataList[position]
         holder.binding.ivIcon.setImageResource(data.drawableId)
@@ -75,17 +68,13 @@ internal class TempLevelAdapter(menuType: MenuType) : BaseMenuAdapter() {
             }
         }
     }
-
     private fun IntRange.getTempStr(isUnitF: Boolean): String = if (isUnitF) {
         "${c2f(start)}\n~\n${c2f(endInclusive)}°F"
     } else {
         "${start}\n~\n${endInclusive}°C"
     }
-
     private fun c2f(cValue: Int): Int = (cValue * 1.8f + 32).toInt()
-
     override fun getItemCount(): Int = dataList.size
-
     data class Data(
         @StringRes val stringId: Int,
         @DrawableRes val drawableId: Int,

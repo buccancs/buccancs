@@ -1,5 +1,4 @@
 package com.buccancs.control
-
 import io.grpc.CallOptions
 import io.grpc.CallOptions.DEFAULT
 import io.grpc.Channel
@@ -33,46 +32,36 @@ import com.buccancs.control.OrchestrationServiceGrpc.getServiceDescriptor as orc
 import com.buccancs.control.PreviewServiceGrpc.getServiceDescriptor as previewServiceGrpcGetServiceDescriptor
 import com.buccancs.control.SensorStreamServiceGrpc.getServiceDescriptor as sensorStreamServiceGrpcGetServiceDescriptor
 import com.buccancs.control.TimeSyncServiceGrpc.getServiceDescriptor as timeSyncServiceGrpcGetServiceDescriptor
-
 /**
  * Holder for Kotlin coroutine-based client and server APIs for
  * com.buccancs.control.OrchestrationService.
  */
 public object OrchestrationServiceGrpcKt {
   public const val SERVICE_NAME: String = OrchestrationServiceGrpc.SERVICE_NAME
-
   @JvmStatic
   public val serviceDescriptor: ServiceDescriptor
     get() = orchestrationServiceGrpcGetServiceDescriptor()
-
   public val registerDeviceMethod: MethodDescriptor<DeviceRegistration, RegistrationAck>
     @JvmStatic
     get() = OrchestrationServiceGrpc.getRegisterDeviceMethod()
-
   public val startSessionMethod: MethodDescriptor<StartSessionRequest, CommandAck>
     @JvmStatic
     get() = OrchestrationServiceGrpc.getStartSessionMethod()
-
   public val stopSessionMethod: MethodDescriptor<StopSessionRequest, CommandAck>
     @JvmStatic
     get() = OrchestrationServiceGrpc.getStopSessionMethod()
-
   public val sendSyncSignalMethod: MethodDescriptor<SyncSignalRequest, CommandAck>
     @JvmStatic
     get() = OrchestrationServiceGrpc.getSendSyncSignalMethod()
-
   public val sendEventMarkerMethod: MethodDescriptor<EventMarkerRequest, CommandAck>
     @JvmStatic
     get() = OrchestrationServiceGrpc.getSendEventMarkerMethod()
-
   public val subscribeStatusMethod: MethodDescriptor<StatusSubscribeRequest, DeviceStatus>
     @JvmStatic
     get() = OrchestrationServiceGrpc.getSubscribeStatusMethod()
-
   public val reportStatusMethod: MethodDescriptor<DeviceStatus, CommandAck>
     @JvmStatic
     get() = OrchestrationServiceGrpc.getReportStatusMethod()
-
   /**
    * A stub for issuing RPCs to a(n) com.buccancs.control.OrchestrationService service as suspending
    * coroutines.
@@ -84,7 +73,6 @@ public object OrchestrationServiceGrpcKt {
   ) : AbstractCoroutineStub<OrchestrationServiceCoroutineStub>(channel, callOptions) {
     override fun build(channel: Channel, callOptions: CallOptions):
         OrchestrationServiceCoroutineStub = OrchestrationServiceCoroutineStub(channel, callOptions)
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -106,7 +94,6 @@ public object OrchestrationServiceGrpcKt {
       callOptions,
       headers
     )
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -128,7 +115,6 @@ public object OrchestrationServiceGrpcKt {
       callOptions,
       headers
     )
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -150,7 +136,6 @@ public object OrchestrationServiceGrpcKt {
       callOptions,
       headers
     )
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -172,7 +157,6 @@ public object OrchestrationServiceGrpcKt {
       callOptions,
       headers
     )
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -194,7 +178,6 @@ public object OrchestrationServiceGrpcKt {
       callOptions,
       headers
     )
-
     /**
      * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
      * server as they arrive.  That flow finishes normally if the server closes its response with
@@ -216,7 +199,6 @@ public object OrchestrationServiceGrpcKt {
       callOptions,
       headers
     )
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -239,7 +221,6 @@ public object OrchestrationServiceGrpcKt {
       headers
     )
   }
-
   /**
    * Skeletal implementation of the com.buccancs.control.OrchestrationService service based on
    * Kotlin coroutines.
@@ -260,7 +241,6 @@ public object OrchestrationServiceGrpcKt {
      */
     public open suspend fun registerDevice(request: DeviceRegistration): RegistrationAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.OrchestrationService.RegisterDevice is unimplemented"))
-
     /**
      * Returns the response to an RPC for com.buccancs.control.OrchestrationService.StartSession.
      *
@@ -274,7 +254,6 @@ public object OrchestrationServiceGrpcKt {
      */
     public open suspend fun startSession(request: StartSessionRequest): CommandAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.OrchestrationService.StartSession is unimplemented"))
-
     /**
      * Returns the response to an RPC for com.buccancs.control.OrchestrationService.StopSession.
      *
@@ -288,7 +267,6 @@ public object OrchestrationServiceGrpcKt {
      */
     public open suspend fun stopSession(request: StopSessionRequest): CommandAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.OrchestrationService.StopSession is unimplemented"))
-
     /**
      * Returns the response to an RPC for com.buccancs.control.OrchestrationService.SendSyncSignal.
      *
@@ -302,7 +280,6 @@ public object OrchestrationServiceGrpcKt {
      */
     public open suspend fun sendSyncSignal(request: SyncSignalRequest): CommandAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.OrchestrationService.SendSyncSignal is unimplemented"))
-
     /**
      * Returns the response to an RPC for com.buccancs.control.OrchestrationService.SendEventMarker.
      *
@@ -316,7 +293,6 @@ public object OrchestrationServiceGrpcKt {
      */
     public open suspend fun sendEventMarker(request: EventMarkerRequest): CommandAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.OrchestrationService.SendEventMarker is unimplemented"))
-
     /**
      * Returns a [Flow] of responses to an RPC for
      * com.buccancs.control.OrchestrationService.SubscribeStatus.
@@ -332,7 +308,6 @@ public object OrchestrationServiceGrpcKt {
      */
     public open fun subscribeStatus(request: StatusSubscribeRequest): Flow<DeviceStatus> = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.OrchestrationService.SubscribeStatus is unimplemented"))
-
     /**
      * Returns the response to an RPC for com.buccancs.control.OrchestrationService.ReportStatus.
      *
@@ -346,7 +321,6 @@ public object OrchestrationServiceGrpcKt {
      */
     public open suspend fun reportStatus(request: DeviceStatus): CommandAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.OrchestrationService.ReportStatus is unimplemented"))
-
     final override fun bindService(): ServerServiceDefinition =
         builder(orchestrationServiceGrpcGetServiceDescriptor())
       .addMethod(unaryServerMethodDefinition(
@@ -386,26 +360,21 @@ public object OrchestrationServiceGrpcKt {
     )).build()
   }
 }
-
 /**
  * Holder for Kotlin coroutine-based client and server APIs for
  * com.buccancs.control.TimeSyncService.
  */
 public object TimeSyncServiceGrpcKt {
   public const val SERVICE_NAME: String = TimeSyncServiceGrpc.SERVICE_NAME
-
   @JvmStatic
   public val serviceDescriptor: ServiceDescriptor
     get() = timeSyncServiceGrpcGetServiceDescriptor()
-
   public val pingMethod: MethodDescriptor<TimeSyncPing, TimeSyncPong>
     @JvmStatic
     get() = TimeSyncServiceGrpc.getPingMethod()
-
   public val reportMethod: MethodDescriptor<TimeSyncReport, CommandAck>
     @JvmStatic
     get() = TimeSyncServiceGrpc.getReportMethod()
-
   /**
    * A stub for issuing RPCs to a(n) com.buccancs.control.TimeSyncService service as suspending
    * coroutines.
@@ -417,7 +386,6 @@ public object TimeSyncServiceGrpcKt {
   ) : AbstractCoroutineStub<TimeSyncServiceCoroutineStub>(channel, callOptions) {
     override fun build(channel: Channel, callOptions: CallOptions): TimeSyncServiceCoroutineStub =
         TimeSyncServiceCoroutineStub(channel, callOptions)
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -439,7 +407,6 @@ public object TimeSyncServiceGrpcKt {
       callOptions,
       headers
     )
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -462,7 +429,6 @@ public object TimeSyncServiceGrpcKt {
       headers
     )
   }
-
   /**
    * Skeletal implementation of the com.buccancs.control.TimeSyncService service based on Kotlin
    * coroutines.
@@ -483,7 +449,6 @@ public object TimeSyncServiceGrpcKt {
      */
     public open suspend fun ping(request: TimeSyncPing): TimeSyncPong = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.TimeSyncService.Ping is unimplemented"))
-
     /**
      * Returns the response to an RPC for com.buccancs.control.TimeSyncService.Report.
      *
@@ -497,7 +462,6 @@ public object TimeSyncServiceGrpcKt {
      */
     public open suspend fun report(request: TimeSyncReport): CommandAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.TimeSyncService.Report is unimplemented"))
-
     final override fun bindService(): ServerServiceDefinition =
         builder(timeSyncServiceGrpcGetServiceDescriptor())
       .addMethod(unaryServerMethodDefinition(
@@ -512,21 +476,17 @@ public object TimeSyncServiceGrpcKt {
     )).build()
   }
 }
-
 /**
  * Holder for Kotlin coroutine-based client and server APIs for com.buccancs.control.PreviewService.
  */
 public object PreviewServiceGrpcKt {
   public const val SERVICE_NAME: String = PreviewServiceGrpc.SERVICE_NAME
-
   @JvmStatic
   public val serviceDescriptor: ServiceDescriptor
     get() = previewServiceGrpcGetServiceDescriptor()
-
   public val streamPreviewMethod: MethodDescriptor<PreviewFrame, PreviewAck>
     @JvmStatic
     get() = PreviewServiceGrpc.getStreamPreviewMethod()
-
   /**
    * A stub for issuing RPCs to a(n) com.buccancs.control.PreviewService service as suspending
    * coroutines.
@@ -538,7 +498,6 @@ public object PreviewServiceGrpcKt {
   ) : AbstractCoroutineStub<PreviewServiceCoroutineStub>(channel, callOptions) {
     override fun build(channel: Channel, callOptions: CallOptions): PreviewServiceCoroutineStub =
         PreviewServiceCoroutineStub(channel, callOptions)
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -567,7 +526,6 @@ public object PreviewServiceGrpcKt {
       headers
     )
   }
-
   /**
    * Skeletal implementation of the com.buccancs.control.PreviewService service based on Kotlin
    * coroutines.
@@ -591,7 +549,6 @@ public object PreviewServiceGrpcKt {
      */
     public open suspend fun streamPreview(requests: Flow<PreviewFrame>): PreviewAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.PreviewService.StreamPreview is unimplemented"))
-
     final override fun bindService(): ServerServiceDefinition =
         builder(previewServiceGrpcGetServiceDescriptor())
       .addMethod(clientStreamingServerMethodDefinition(
@@ -601,22 +558,18 @@ public object PreviewServiceGrpcKt {
     )).build()
   }
 }
-
 /**
  * Holder for Kotlin coroutine-based client and server APIs for
  * com.buccancs.control.DataTransferService.
  */
 public object DataTransferServiceGrpcKt {
   public const val SERVICE_NAME: String = DataTransferServiceGrpc.SERVICE_NAME
-
   @JvmStatic
   public val serviceDescriptor: ServiceDescriptor
     get() = dataTransferServiceGrpcGetServiceDescriptor()
-
   public val uploadMethod: MethodDescriptor<DataTransferRequest, DataTransferStatus>
     @JvmStatic
     get() = DataTransferServiceGrpc.getUploadMethod()
-
   /**
    * A stub for issuing RPCs to a(n) com.buccancs.control.DataTransferService service as suspending
    * coroutines.
@@ -628,7 +581,6 @@ public object DataTransferServiceGrpcKt {
   ) : AbstractCoroutineStub<DataTransferServiceCoroutineStub>(channel, callOptions) {
     override fun build(channel: Channel, callOptions: CallOptions): DataTransferServiceCoroutineStub
         = DataTransferServiceCoroutineStub(channel, callOptions)
-
     /**
      * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
      * server as they arrive.  That flow finishes normally if the server closes its response with
@@ -658,7 +610,6 @@ public object DataTransferServiceGrpcKt {
       headers
     )
   }
-
   /**
    * Skeletal implementation of the com.buccancs.control.DataTransferService service based on Kotlin
    * coroutines.
@@ -683,7 +634,6 @@ public object DataTransferServiceGrpcKt {
      */
     public open fun upload(requests: Flow<DataTransferRequest>): Flow<DataTransferStatus> = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.DataTransferService.Upload is unimplemented"))
-
     final override fun bindService(): ServerServiceDefinition =
         builder(dataTransferServiceGrpcGetServiceDescriptor())
       .addMethod(bidiStreamingServerMethodDefinition(
@@ -693,22 +643,18 @@ public object DataTransferServiceGrpcKt {
     )).build()
   }
 }
-
 /**
  * Holder for Kotlin coroutine-based client and server APIs for
  * com.buccancs.control.SensorStreamService.
  */
 public object SensorStreamServiceGrpcKt {
   public const val SERVICE_NAME: String = SensorStreamServiceGrpc.SERVICE_NAME
-
   @JvmStatic
   public val serviceDescriptor: ServiceDescriptor
     get() = sensorStreamServiceGrpcGetServiceDescriptor()
-
   public val streamMethod: MethodDescriptor<SensorSampleBatch, SensorStreamAck>
     @JvmStatic
     get() = SensorStreamServiceGrpc.getStreamMethod()
-
   /**
    * A stub for issuing RPCs to a(n) com.buccancs.control.SensorStreamService service as suspending
    * coroutines.
@@ -720,7 +666,6 @@ public object SensorStreamServiceGrpcKt {
   ) : AbstractCoroutineStub<SensorStreamServiceCoroutineStub>(channel, callOptions) {
     override fun build(channel: Channel, callOptions: CallOptions): SensorStreamServiceCoroutineStub
         = SensorStreamServiceCoroutineStub(channel, callOptions)
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -749,7 +694,6 @@ public object SensorStreamServiceGrpcKt {
       headers
     )
   }
-
   /**
    * Skeletal implementation of the com.buccancs.control.SensorStreamService service based on Kotlin
    * coroutines.
@@ -773,7 +717,6 @@ public object SensorStreamServiceGrpcKt {
      */
     public open suspend fun stream(requests: Flow<SensorSampleBatch>): SensorStreamAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.SensorStreamService.Stream is unimplemented"))
-
     final override fun bindService(): ServerServiceDefinition =
         builder(sensorStreamServiceGrpcGetServiceDescriptor())
       .addMethod(clientStreamingServerMethodDefinition(
@@ -783,25 +726,20 @@ public object SensorStreamServiceGrpcKt {
     )).build()
   }
 }
-
 /**
  * Holder for Kotlin coroutine-based client and server APIs for com.buccancs.control.CommandService.
  */
 public object CommandServiceGrpcKt {
   public const val SERVICE_NAME: String = CommandServiceGrpc.SERVICE_NAME
-
   @JvmStatic
   public val serviceDescriptor: ServiceDescriptor
     get() = commandServiceGrpcGetServiceDescriptor()
-
   public val subscribeCommandsMethod: MethodDescriptor<CommandSubscribeRequest, CommandEnvelope>
     @JvmStatic
     get() = CommandServiceGrpc.getSubscribeCommandsMethod()
-
   public val reportCommandReceiptMethod: MethodDescriptor<CommandReceipt, CommandAck>
     @JvmStatic
     get() = CommandServiceGrpc.getReportCommandReceiptMethod()
-
   /**
    * A stub for issuing RPCs to a(n) com.buccancs.control.CommandService service as suspending
    * coroutines.
@@ -813,7 +751,6 @@ public object CommandServiceGrpcKt {
   ) : AbstractCoroutineStub<CommandServiceCoroutineStub>(channel, callOptions) {
     override fun build(channel: Channel, callOptions: CallOptions): CommandServiceCoroutineStub =
         CommandServiceCoroutineStub(channel, callOptions)
-
     /**
      * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
      * server as they arrive.  That flow finishes normally if the server closes its response with
@@ -835,7 +772,6 @@ public object CommandServiceGrpcKt {
       callOptions,
       headers
     )
-
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
      * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
@@ -858,7 +794,6 @@ public object CommandServiceGrpcKt {
       headers
     )
   }
-
   /**
    * Skeletal implementation of the com.buccancs.control.CommandService service based on Kotlin
    * coroutines.
@@ -882,7 +817,6 @@ public object CommandServiceGrpcKt {
     public open fun subscribeCommands(request: CommandSubscribeRequest): Flow<CommandEnvelope> =
         throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.CommandService.SubscribeCommands is unimplemented"))
-
     /**
      * Returns the response to an RPC for com.buccancs.control.CommandService.ReportCommandReceipt.
      *
@@ -896,7 +830,6 @@ public object CommandServiceGrpcKt {
      */
     public open suspend fun reportCommandReceipt(request: CommandReceipt): CommandAck = throw
         StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.CommandService.ReportCommandReceipt is unimplemented"))
-
     final override fun bindService(): ServerServiceDefinition =
         builder(commandServiceGrpcGetServiceDescriptor())
       .addMethod(serverStreamingServerMethodDefinition(

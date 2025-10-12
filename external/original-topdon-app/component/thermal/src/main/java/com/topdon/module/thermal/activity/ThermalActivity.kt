@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.activity
-
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,14 +13,10 @@ import com.topdon.module.thermal.adapter.MenuTabAdapter
 import com.topdon.module.thermal.fragment.event.ThermalActionEvent
 import kotlinx.android.synthetic.main.activity_thermal.*
 import org.greenrobot.eventbus.EventBus
-
 @Route(path = RouterConfig.THERMAL_MAIN)
 class ThermalActivity : BaseActivity() {
-
     private val menuAdapter by lazy { MenuTabAdapter(this) }
-
     override fun initContentView() = R.layout.activity_thermal
-
     override fun initView() {
         setTitleText(R.string.main_thermal)
         mToolBar!!.setBackgroundColor(blackColor)
@@ -32,14 +27,10 @@ class ThermalActivity : BaseActivity() {
             override fun selectPosition(position: Int) {
                 showRecycler(position)
             }
-
         })
     }
-
     override fun initData() {
-
     }
-
     private fun initRecycler() {
         thermal_recycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         thermal_recycler.adapter = menuAdapter
@@ -50,10 +41,8 @@ class ThermalActivity : BaseActivity() {
                 Log.w("123", "index: $index")
                 EventBus.getDefault().post(ThermalActionEvent(action = index))
             }
-
         }
     }
-
     fun showRecycler(select: Int) {
         thermal_recycler.initType(select)
         if (select == 5) {
@@ -63,5 +52,4 @@ class ThermalActivity : BaseActivity() {
             thermal_recycler.visibility = View.VISIBLE
         }
     }
-
 }

@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.report.activity
-
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -34,25 +33,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
-
 @Route(path = RouterConfig.REPORT_PREVIEW_SECOND)
 class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), View.OnClickListener {
-
     private var isTC007 = false
-
     private var reportBean: ReportBean? = null
-
     private var pdfFilePath: String? = null
 
-
     override fun initContentView() = R.layout.activity_report_preview_second
-
     override fun providerVMClass() = UpReportViewModel::class.java
-
     override fun initView() {
         reportBean = intent.getParcelableExtra(ExtraKeyConfig.REPORT_BEAN)
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-
         title_view.setTitleText(R.string.album_edit_preview)
         title_view.setLeftDrawable(R.drawable.svg_arrow_left_e8)
         title_view.setRightDrawable(R.drawable.ic_report_exit_svg)
@@ -71,14 +62,11 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
                 .setCanceled(false)
                 .create().show()
         }
-
         report_info_view.refreshInfo(reportBean?.report_info)
         report_info_view.refreshCondition(reportBean?.detection_condition)
-
         if (reportBean?.report_info?.is_report_watermark == 1) {
             watermark_view.watermarkText = reportBean?.report_info?.report_watermark
         }
-
         val irList = reportBean?.infrared_data
         if (irList != null) {
             for (i in irList.indices) {
@@ -95,7 +83,6 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
                 )
             }
         }
-
         tv_to_pdf.setOnClickListener(this)
         tv_complete.setOnClickListener(this)
         lifecycle.addObserver(object : DefaultLifecycleObserver {
@@ -106,7 +93,6 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             }
         })
     }
-
     override fun initData() {
         viewModel.commonBeanLD.observe(this) {
             dismissCameraLoading()
@@ -125,15 +111,12 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             requestError(it)
         }
     }
-
     override fun onClick(v: View?) {
         when (v) {
             tv_to_pdf -> {
                 saveWithPDF()
             }
-
             tv_complete -> {
-
                 if (LMS.getInstance().isLogin) {
                     if (!NetworkUtils.isConnected()) {
                         TToast.shortToast(this, R.string.setting_http_error)
@@ -147,7 +130,6 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             }
         }
     }
-
     private fun saveWithPDF() {
         if (TextUtils.isEmpty(pdfFilePath)) {
             showCameraLoading()
@@ -178,7 +160,6 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             actionShare()
         }
     }
-
     private fun actionShare() {
         val uri = FileTools.getUri(File(pdfFilePath!!))
         val shareIntent = Intent()
@@ -187,7 +168,6 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
         shareIntent.type = "application/pdf"
         startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
     }
-
     private fun getPrintViewList(): ArrayList<View> {
         val result = ArrayList<View>()
         result.add(report_info_view)

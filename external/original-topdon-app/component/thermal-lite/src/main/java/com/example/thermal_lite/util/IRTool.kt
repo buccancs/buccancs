@@ -1,5 +1,4 @@
 package com.example.thermal_lite.util
-
 import android.util.Log
 import com.elvishew.xlog.XLog
 import com.energy.ac020library.bean.CommonParams
@@ -10,10 +9,8 @@ import com.example.thermal_lite.camera.CameraPreviewManager
 import com.example.thermal_lite.camera.DeviceIrcmdControlManager
 import com.topdon.lib.core.bean.CameraItemBean
 import kotlinx.coroutines.delay
-
 object IRTool {
     const val TAG: String = "IRTool"
-
 
     fun setAutoShutter(isAutoShutter: Boolean) {
         val basicAutoFFCStatusSet: IrcmdError? =
@@ -27,7 +24,6 @@ object IRTool {
             "basicAutoFFCStatusSet=$basicAutoFFCStatusSet"
         )
     }
-
     fun setOneShutter() {
         val basicFFCUpdate = DeviceIrcmdControlManager.getInstance().ircmdEngine?.basicFFCUpdate()
         Log.d(
@@ -35,7 +31,6 @@ object IRTool {
             "basicFFCUpdate=$basicFFCUpdate"
         )
     }
-
     fun basicGainSet(gainType: Int) {
         if (gainType == CameraItemBean.TYPE_TMP_ZD) {
             CameraPreviewManager.getInstance().setAutoSwitchGainEnable(true)
@@ -51,7 +46,6 @@ object IRTool {
             Log.d(TAG, "basicGainSet=$basicGainSet--$gainType")
         }
     }
-
     fun basicGlobalContrastLevelSet(levelValue: Int) {
         val basicGlobalContrastLevelSetResult = DeviceIrcmdControlManager.getInstance().ircmdEngine
             ?.basicGlobalContrastLevelSet(levelValue)
@@ -60,15 +54,8 @@ object IRTool {
             "basicGlobalContrastLevelSet=$basicGlobalContrastLevelSetResult"
         )
     }
-
     fun basicImageDetailEnhanceLevelSet(levelValue: Int) {
-//        val professionModeSetResult = DeviceIrcmdControlManager.getInstance().ircmdEngine
-//            .advProfessionModeSet(CommonParams.ProfessionMode.valueOf(0))
-//        val basicImageDetailEnhanceLevelSetResult = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
-//            ?.basicImageDetailEnhanceLevelSet(levelValue);
-//        Log.d(TAG, "basicImageDetailEnhanceLevelSet=" + basicImageDetailEnhanceLevelSetResult)
     }
-
     fun basicMirrorAndFlipStatusSet(openMirror: Boolean) {
         val basicMirrorAndFlipStatusSet = DeviceIrcmdControlManager.getInstance().ircmdEngine
             ?.basicMirrorAndFlipStatusSet(
@@ -77,7 +64,6 @@ object IRTool {
             )
         Log.d(TAG, "basicGlobalContrastLevelSet=$basicMirrorAndFlipStatusSet")
     }
-
     /**
      * 一次完成的锅盖标定流程
      * https://alidocs.dingtalk.com/i/p/QqWXwywDMb9xKG31/docs/14lgGw3P8vL0P2qbu7OR39d5V5daZ90D
@@ -94,26 +80,19 @@ object IRTool {
      * mIrcmdEngine.basicSaveData(CommonParams.DeviceDataSaveType.BASIC_SAVE_RMCOVER_DATA);
      */
     fun onceAuto(): Boolean {
-        //Setp2
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.basicRestoreDefaultData(CommonParams.DeviceRestoreTypeType.BASIC_RESTROE_RMCOVER_DATA)
-        //Setp3
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.basicAutoFFCStatusSet(CommonParams.AutoFFCStatus.AUTO_FFC_DISABLED)
-        //Setp4
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()?.basicFFCUpdate()
-        //Setp5
         val result = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()?.advAutoRmcoverCali()
         Log.d(TAG, "advAutoRmcoverCali=${result}")
-        //Setp6
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.basicAutoFFCStatusSet(CommonParams.AutoFFCStatus.AUTO_FFC_ENABLE)
-        //Setp7
         val ircmdError = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.basicSaveData(CommonParams.DeviceDataSaveType.BASIC_SAVE_RMCOVER_DATA)
         return ircmdError == IrcmdError.IRCMD_SUCCESS
     }
-
 
     suspend fun autoStart(): Boolean {
         basicGainSet(CameraItemBean.TYPE_TMP_C)
@@ -129,7 +108,6 @@ object IRTool {
         return onceAuto()
     }
 
-
     fun advEnvCorrectSwitchSet(open: Boolean) {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.advEnvCorrectSwitchSet(
@@ -137,17 +115,14 @@ object IRTool {
                 else CommonParams.BasicEnableStatus.BASIC_DISABLE
             )
     }
-
     fun advEnvCorrectEMSSet(value: Int) {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             .advEnvCorrectEMSSet(value);
     }
-
     fun advEnvCorrectTUSet(value: Int) {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.advEnvCorrectTUSet(value);
     }
-
 
     /**
      * lite项目的温度修正
@@ -184,14 +159,7 @@ object IRTool {
             return newTemp
         }
     }
-
     fun setMode() {
-//        val professionModeSetResult = DeviceIrcmdControlManager.getInstance().ircmdEngine
-//            .advProfessionModeSet(CommonParams.ProfessionMode.valueOf(0))
-//        val ircmdError = DeviceIrcmdControlManager.getInstance().ircmdEngine
-//            .basicImageSceneModeSet(3)
-//        Log.d(TAG, "setModel=${ircmdError}")
     }
-
 
 }

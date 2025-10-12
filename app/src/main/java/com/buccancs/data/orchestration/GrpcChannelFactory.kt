@@ -1,5 +1,4 @@
 package com.buccancs.data.orchestration
-
 import com.buccancs.domain.model.OrchestratorConfig
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -8,13 +7,11 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class GrpcChannelFactory @Inject constructor() {
     private val mutex = Mutex()
     private var cachedChannel: ManagedChannel? = null
     private var cachedConfig: OrchestratorConfig? = null
-
     suspend fun channel(config: OrchestratorConfig): ManagedChannel = mutex.withLock {
         val existing = cachedChannel
         if (

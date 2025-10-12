@@ -1,5 +1,4 @@
 package com.topdon.pseudo.activity
-
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.view.View
@@ -18,26 +17,20 @@ import kotlinx.android.synthetic.main.activity_pseudo_set.*
 import java.lang.NumberFormatException
 import java.math.BigDecimal
 import java.math.RoundingMode
-
 class PseudoSetActivity : BaseActivity(), View.OnClickListener {
     private lateinit var customPseudoBean: CustomPseudoBean
 
-
     override fun initContentView() = R.layout.activity_pseudo_set
-
     override fun initView() {
         val isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
         customPseudoBean =
             intent.getParcelableExtra(ExtraKeyConfig.CUSTOM_PSEUDO_BEAN) ?: CustomPseudoBean.loadFromShared(isTC007)
         switchDynamicCustom(customPseudoBean.isUseCustomPseudo)
-
         et_max_temp.setText(UnitTools.showNoUnit(customPseudoBean.maxTemp))
         et_min_temp.setText(UnitTools.showNoUnit(customPseudoBean.minTemp))
         tv_max_temp_unit.text = UnitTools.showUnit()
         tv_min_temp_unit.text = UnitTools.showUnit()
-
         switchColorType(customPseudoBean.isColorCustom)
-
         pseudo_pick_view.onSelectChangeListener = {
             reset6CustomColor()
             color_select_view.reset()
@@ -59,16 +52,13 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
             customPseudoBean.getCustomZAltitudes(),
             customPseudoBean.getCustomPlaces()
         )
-
         view_recommend_color1.background = buildRectDrawableArray(ColorRecommend.colorList1)
         view_recommend_color2.background = buildRectDrawableArray(ColorRecommend.colorList2)
         view_recommend_color3.background = buildRectDrawableArray(ColorRecommend.getColorByIndex(isTC007, 2))
         view_recommend_color4.background = buildRectDrawableArray(ColorRecommend.colorList4)
         view_recommend_color5.background = buildRectDrawableArray(ColorRecommend.colorList5)
         switchRecommendColorIndex(customPseudoBean.customRecommendIndex)
-
         switchUseGray(customPseudoBean.isUseGray)
-
 
         cl_dynamic.setOnClickListener(this)
         cl_custom.setOnClickListener(this)
@@ -91,7 +81,6 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         cl_over_color.setOnClickListener(this)
         tv_confirm.setOnClickListener(this)
         tv_cancel.setOnClickListener(this)
-
         color_select_view.onSelectListener = {
             reset6CustomColor()
             when (it) {
@@ -105,107 +94,86 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
             pseudo_pick_view.refreshColor(it)
         }
     }
-
     override fun initData() {
     }
-
     override fun onClick(v: View?) {
         when (v) {
             cl_dynamic -> {
                 switchDynamicCustom(false)
             }
-
             cl_custom -> {
                 switchDynamicCustom(true)
             }
-
             tv_color_custom -> {
                 switchColorType(true)
             }
-
             tv_color_recommend -> {
                 switchColorType(false)
                 switchRecommendColorIndex(customPseudoBean.customRecommendIndex)
             }
-
             view_custom_color1 -> {
                 reset6CustomColor()
                 view_custom_color1.isSelected = true
                 color_select_view.selectColor(0xff0000ff.toInt())
                 pseudo_pick_view.refreshColor(0xff0000ff.toInt())
             }
-
             view_custom_color2 -> {
                 reset6CustomColor()
                 view_custom_color2.isSelected = true
                 color_select_view.selectColor(0xffff0000.toInt())
                 pseudo_pick_view.refreshColor(0xffff0000.toInt())
             }
-
             view_custom_color3 -> {
                 reset6CustomColor()
                 view_custom_color3.isSelected = true
                 color_select_view.selectColor(0xff00ff00.toInt())
                 pseudo_pick_view.refreshColor(0xff00ff00.toInt())
             }
-
             view_custom_color4 -> {
                 reset6CustomColor()
                 view_custom_color4.isSelected = true
                 color_select_view.selectColor(0xffffff00.toInt())
                 pseudo_pick_view.refreshColor(0xffffff00.toInt())
             }
-
             view_custom_color5 -> {
                 reset6CustomColor()
                 view_custom_color5.isSelected = true
                 color_select_view.selectColor(0xff000000.toInt())
                 pseudo_pick_view.refreshColor(0xff000000.toInt())
             }
-
             view_custom_color6 -> {
                 reset6CustomColor()
                 view_custom_color6.isSelected = true
                 color_select_view.selectColor(0xffffffff.toInt())
                 pseudo_pick_view.refreshColor(0xffffffff.toInt())
             }
-
             iv_custom_add -> {
                 pseudo_pick_view.add()
             }
-
             iv_custom_del -> {
                 pseudo_pick_view.del()
             }
-
             view_recommend_bg_color1 -> {
                 switchRecommendColorIndex(0)
             }
-
             view_recommend_bg_color2 -> {
                 switchRecommendColorIndex(1)
             }
-
             view_recommend_bg_color3 -> {
                 switchRecommendColorIndex(2)
             }
-
             view_recommend_bg_color4 -> {
                 switchRecommendColorIndex(3)
             }
-
             view_recommend_bg_color5 -> {
                 switchRecommendColorIndex(4)
             }
-
             cl_over_grey -> {
                 switchUseGray(true)
             }
-
             cl_over_color -> {
                 switchUseGray(false)
             }
-
             tv_confirm -> {
                 if (cl_custom_content.isVisible) {
                     val inputMax = et_max_temp.text.toString()
@@ -218,7 +186,6 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
                         ToastUtils.showShort(R.string.tip_input_format)
                         return
                     }
-
                     val maxTemp = try {
                         UnitTools.showToCValue(BigDecimal(inputMax).setScale(1, RoundingMode.HALF_UP).toFloat())
                     } catch (e: NumberFormatException) {
@@ -244,20 +211,17 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
                     customPseudoBean.zAltitudes = pseudo_pick_view.zAltitudes
                     customPseudoBean.places = pseudo_pick_view.places
                 }
-
                 val resultIntent = Intent()
                 resultIntent.putExtra(ExtraKeyConfig.CUSTOM_PSEUDO_BEAN, customPseudoBean)
                 setResult(RESULT_OK, resultIntent)
                 finish()
             }
-
             tv_cancel -> {
                 setResult(RESULT_CANCELED)
                 finish()
             }
         }
     }
-
     private fun switchDynamicCustom(isToCustom: Boolean) {
         customPseudoBean.isUseCustomPseudo = isToCustom
         cl_custom_content.isVisible = isToCustom
@@ -268,7 +232,6 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         tv_dynamic_title.setTextColor(if (isToCustom) 0xffffffff.toInt() else 0xffffba42.toInt())
         tv_custom_title.setTextColor(if (isToCustom) 0xffffba42.toInt() else 0xffffffff.toInt())
     }
-
     private fun switchColorType(isToCustom: Boolean) {
         customPseudoBean.isColorCustom = isToCustom
         cl_color_custom.isVisible = isToCustom
@@ -278,7 +241,6 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         tv_color_custom.setBackgroundResource(if (isToCustom) R.drawable.bg_corners50_solid_2a183e_stroke_theme else 0)
         tv_color_recommend.setBackgroundResource(if (isToCustom) 0 else R.drawable.bg_corners50_solid_2a183e_stroke_theme)
     }
-
     private fun reset6CustomColor() {
         view_custom_color1.isSelected = false
         view_custom_color2.isSelected = false
@@ -287,29 +249,24 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         view_custom_color5.isSelected = false
         view_custom_color6.isSelected = false
     }
-
     private fun switchRecommendColorIndex(index: Int) {
         when (customPseudoBean.customRecommendIndex) {
             0 -> {
                 tv_recommend_color1.setTextColor(0x80ffffff.toInt())
                 view_recommend_bg_color1.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
             }
-
             1 -> {
                 tv_recommend_color2.setTextColor(0x80ffffff.toInt())
                 view_recommend_bg_color2.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
             }
-
             2 -> {
                 tv_recommend_color3.setTextColor(0x80ffffff.toInt())
                 view_recommend_bg_color3.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
             }
-
             3 -> {
                 tv_recommend_color4.setTextColor(0x80ffffff.toInt())
                 view_recommend_bg_color4.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
             }
-
             4 -> {
                 tv_recommend_color5.setTextColor(0x80ffffff.toInt())
                 view_recommend_bg_color5.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
@@ -320,22 +277,18 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
                 tv_recommend_color1.setTextColor(0xffffba42.toInt())
                 view_recommend_bg_color1.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
             }
-
             1 -> {
                 tv_recommend_color2.setTextColor(0xffffba42.toInt())
                 view_recommend_bg_color2.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
             }
-
             2 -> {
                 tv_recommend_color3.setTextColor(0xffffba42.toInt())
                 view_recommend_bg_color3.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
             }
-
             3 -> {
                 tv_recommend_color4.setTextColor(0xffffba42.toInt())
                 view_recommend_bg_color4.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
             }
-
             4 -> {
                 tv_recommend_color5.setTextColor(0xffffba42.toInt())
                 view_recommend_bg_color5.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
@@ -343,7 +296,6 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         }
         customPseudoBean.customRecommendIndex = index
     }
-
     private fun switchUseGray(isUseGray: Boolean) {
         iv_over_grey_select.isVisible = isUseGray
         iv_over_color_select.isVisible = !isUseGray
@@ -353,7 +305,6 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         cl_over_color.setBackgroundResource(if (isUseGray) R.drawable.bg_corners05_solid_626569 else R.drawable.bg_corners05_solid_2a183e_stroke_theme)
         customPseudoBean.isUseGray = isUseGray
     }
-
 
     private fun buildRectDrawableArray(color: IntArray): GradientDrawable {
         val drawable = GradientDrawable()

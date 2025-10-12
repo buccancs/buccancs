@@ -1,7 +1,5 @@
 package com.topdon.module.thermal.ir.report.bean
-
 import com.blankj.utilcode.util.GsonUtils
-
 class ReportData {
     /**
      * code : 2000
@@ -13,7 +11,6 @@ class ReportData {
     var data: DataBean? = null
     var msg: String? = null
     var serverTime: String? = null
-
     class DataBean {
         /**
          * total : 0
@@ -35,7 +32,6 @@ class ReportData {
         var isSearchCount = false
         var records: MutableList<Records?>? = null
     }
-
     class Records {
         var testReportId: String? = null
         var testTime: String? = null
@@ -51,7 +47,5 @@ class ReportData {
                 }
                 return field
             }
-
     }
 }
-

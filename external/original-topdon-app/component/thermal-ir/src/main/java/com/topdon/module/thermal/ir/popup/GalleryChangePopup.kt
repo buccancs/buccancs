@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.popup
-
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -9,12 +8,9 @@ import android.widget.PopupWindow
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.module.thermal.ir.R
 import kotlinx.android.synthetic.main.popup_gallery_change.view.*
-
 class GalleryChangePopup(private val context: Context) : PopupWindow() {
 
-
     var onPickListener: ((position: Int, str: String) -> Unit)? = null
-
 
     init {
         val widthMeasureSpec = MeasureSpec.makeMeasureSpec(
@@ -25,12 +21,9 @@ class GalleryChangePopup(private val context: Context) : PopupWindow() {
             MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.heightPixels, MeasureSpec.AT_MOST)
         contentView = LayoutInflater.from(context).inflate(R.layout.popup_gallery_change, null)
         contentView.measure(widthMeasureSpec, heightMeasureSpec)
-
         width = contentView.measuredWidth
         height = contentView.measuredHeight
-
         isOutsideTouchable = true
-
 
         contentView.tv_line.setOnClickListener {
             dismiss()
@@ -45,11 +38,9 @@ class GalleryChangePopup(private val context: Context) : PopupWindow() {
             onPickListener?.invoke(2, "TC007")
         }
     }
-
     fun show(anchor: View) {
         val locationArray = IntArray(2)
         anchor.getLocationInWindow(locationArray)
-
         val x = locationArray[0] + anchor.width / 2 - width / 2
         val y = locationArray[1] + anchor.height - SizeUtils.dp2px(5f)
         showAtLocation(anchor, Gravity.NO_GRAVITY, x, y)

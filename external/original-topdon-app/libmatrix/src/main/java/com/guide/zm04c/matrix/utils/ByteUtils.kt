@@ -1,9 +1,6 @@
 package com.guide.zm04c.matrix.utils
-
 import java.util.*
-
 object ByteUtils {
-
     /**
      * byte[] => int
      */
@@ -16,7 +13,6 @@ object ByteUtils {
         }
         return count
     }
-
     /**
      * byte[] => string
      * [0x01, 0x02] => 01 02
@@ -25,7 +21,6 @@ object ByteUtils {
     fun ByteArray.toHexString() = asUByteArray().joinToString(" ") {
         it.toString(16).padStart(2, '0').uppercase(Locale.getDefault())
     }
-
     /**
      * string => byte[]
      * 0102 => [0x01, 0x02]
@@ -33,7 +28,6 @@ object ByteUtils {
     @ExperimentalUnsignedTypes
     fun String.hexStringToByteArray() =
         ByteArray(this.length / 2) { this.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
-
     /**
      * UUID => ff01
      */

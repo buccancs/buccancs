@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.view
-
 import android.content.Context
 import android.graphics.Color
 import android.os.Handler
@@ -24,11 +23,8 @@ import com.topdon.module.thermal.ir.utils.ChartTools
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
 class ChartLogView : LineChart {
-
     private val mHandler by lazy { Handler(Looper.getMainLooper()) }
-
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
@@ -38,16 +34,13 @@ class ChartLogView : LineChart {
     ) {
         initChart()
     }
-
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         mHandler.removeCallbacksAndMessages(null)
     }
-
     private val textColor by lazy { ContextCompat.getColor(context, R.color.chart_text) }
     private val axisChartColors by lazy { ContextCompat.getColor(context, R.color.chart_axis) }
     private val axisLine by lazy { ContextCompat.getColor(context, R.color.circle_white) }
-
     //MPChart
     private fun initChart() {
         synchronized(this) {
@@ -99,11 +92,9 @@ class ChartLogView : LineChart {
             leftAxis.setLabelCount(6, true)
             leftAxis.valueFormatter = YValueFormatter()
             leftAxis.textSize = 8f
-
             this.axisRight.isEnabled = false
         }
     }
-
 
     fun initEntry(data: ArrayList<ThermalEntity>, type: Int = 1) {
         synchronized(this) {
@@ -123,7 +114,6 @@ class ChartLogView : LineChart {
                     val startTime = data[0].createTime / 1000 * 1000
                     xAxis.valueFormatter = IRMyValueFormatter(startTime = startTime, type = type)
                     XLog.w("chart init startTime:$startTime")
-//                    data[0].type = "default"
                     when (data[0].type) {
                         "point" -> {
                             var set = lineData.getDataSetByIndex(0)
@@ -144,18 +134,14 @@ class ChartLogView : LineChart {
                             }
                             XLog.w("DataSet:${set.entryCount}")
                         }
-
                         "line" -> {
                             var maxDataSet = lineData.getDataSetByIndex(0)
                             if (maxDataSet == null) {
                                 maxDataSet = createSet(0, "line max temp")
-
                             }
-
                             var minDataSet = lineData.getDataSetByIndex(1)
                             if (minDataSet == null) {
                                 minDataSet = createSet(1, "line min temp")
-
                             }
                             Log.w("123", "两条曲线")
                             data.forEach {
@@ -178,15 +164,12 @@ class ChartLogView : LineChart {
                             lineData.addDataSet(minDataSet)
                             XLog.w("DataSet:${maxDataSet.entryCount}")
                         }
-
                         else -> {
-                            //max
                             var maxTempDataSet = lineData.getDataSetByIndex(0)
                             if (maxTempDataSet == null) {
                                 maxTempDataSet = createSet(0, "fence max temp")
                                 lineData.addDataSet(maxTempDataSet)
                             }
-                            //center
                             var centerTempDataSet = lineData.getDataSetByIndex(1)
                             if (centerTempDataSet == null) {
                                 centerTempDataSet = createSet(1, "fence min temp")
@@ -218,13 +201,11 @@ class ChartLogView : LineChart {
                     setVisibleXRangeMaximum(ChartTools.getMaximum(type = type))
                     zoom(1f, 1f, xChartMin, 0f)
                     ChartTools.setX(this@ChartLogView, type)
-//                    ChartTools.setY(this@ChartTempView)
                 }
                 Log.w("chart", "update chart finish")
             }
         }
     }
-
     private val bgChartColors = intArrayOf(
         R.drawable.bg_chart_fill,
         R.drawable.bg_chart_fill2,
@@ -235,13 +216,11 @@ class ChartLogView : LineChart {
         R.color.chart_line_min,
         R.color.chart_line_center
     )
-
     private val linePointColors = intArrayOf(
         R.color.chart_point_max,
         R.color.chart_point_min,
         R.color.chart_point_center
     )
-
     private fun createSet(index: Int, label: String): LineDataSet {
         val set = LineDataSet(null, label)
         set.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
@@ -259,7 +238,6 @@ class ChartLogView : LineChart {
         set.setDrawValues(false)
         return set
     }
-
     private fun clearEntity(isEmpty: Boolean) {
         initChart()
         if (isEmpty) {
@@ -268,5 +246,4 @@ class ChartLogView : LineChart {
             clearValues()
         }
     }
-
 }

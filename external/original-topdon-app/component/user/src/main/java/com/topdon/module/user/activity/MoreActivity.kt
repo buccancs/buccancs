@@ -1,5 +1,4 @@
 package com.topdon.module.user.activity
-
 import android.os.Build
 import android.view.View
 import androidx.activity.viewModels
@@ -36,14 +35,10 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.text.DecimalFormat
-
 @Route(path = RouterConfig.TS004_MORE)
 class MoreActivity : BaseActivity(), View.OnClickListener {
-
     private val firmwareViewModel: FirmwareViewModel by viewModels()
-
     override fun initContentView() = R.layout.activity_more
-
     override fun initView() {
         setting_device_information.setOnClickListener(this)
         setting_tisr.setOnClickListener(this)
@@ -52,16 +47,10 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
         setting_version.setOnClickListener(this)
         setting_disconnect.setOnClickListener(this)
         setting_auto_save.setOnClickListener(this)
-
-        /*if (Build.VERSION.SDK_INT < 29) {//低于 Android10
-            setting_version.isVisible = false
-        }*/
         setting_version.isVisible = false
     }
-
     override fun initData() {
         updateVersion()
-
         firmwareViewModel.firmwareDataLD.observe(this) {
             tv_upgrade_point.isVisible = it != null
             dismissCameraLoading()
@@ -77,7 +66,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
             tv_upgrade_point.isVisible = false
         }
     }
-
     override fun onClick(v: View?) {
         when (v) {
             setting_device_information -> {
@@ -86,21 +74,16 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
                     .withBoolean(ExtraKeyConfig.IS_TC007, false)
                     .navigation(this@MoreActivity)
             }
-
             setting_tisr -> {
                 ARouter.getInstance().build(RouterConfig.TISR).navigation(this@MoreActivity)
             }
-
             setting_auto_save -> {
                 ARouter.getInstance().build(RouterConfig.AUTO_SAVE).navigation(this@MoreActivity)
             }
-
             setting_storage_space -> {
                 ARouter.getInstance().build(RouterConfig.STORAGE_SPACE).navigation(this@MoreActivity)
             }
-
             setting_version -> {
-                //                if (LMS.getInstance().isLogin) {
                 val firmwareData = firmwareViewModel.firmwareDataLD.value
                 if (firmwareData != null) {
                     showFirmwareUpDialog(firmwareData)
@@ -109,15 +92,10 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
                     showCameraLoading()
                     firmwareViewModel.queryFirmware(true)
                 }
-//                } else {
-//                    LMS.getInstance().activityLogin()
-//                }
             }
-
             setting_reset -> {
                 restoreFactory()
             }
-
             setting_disconnect -> {
                 ARouter.getInstance().build(RouterConfig.IR_MORE_HELP)
                     .withInt(Constants.SETTING_CONNECTION_TYPE, Constants.SETTING_DISCONNECTION)
@@ -125,7 +103,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private fun showFirmwareUpDialog(firmwareData: FirmwareViewModel.FirmwareData) {
         val dialog = FirmwareUpDialog(this)
         dialog.titleStr = "${getString(R.string.update_new_version)} ${firmwareData.version}"
@@ -138,7 +115,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
         }
         dialog.show()
     }
-
     private fun getFileSizeStr(size: Long): String = if (size < 1024) {
         "${size}B"
     } else if (size < 1024 * 1024) {
@@ -148,13 +124,11 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
     } else {
         DecimalFormat("#.0").format(size.toDouble() / 1024 / 1024 / 1024) + "GB"
     }
-
     private fun downloadFirmware(firmwareData: FirmwareViewModel.FirmwareData) {
         lifecycleScope.launch {
             XLog.d("TS004 固件升级 - 开始下载固件升级包")
             val progressDialog = DownloadProDialog(this@MoreActivity)
             progressDialog.show()
-
             val file = FileConfig.getFirmwareFile("TS004${firmwareData.version}.zip")
             val isSuccess = DownloadTool.download(firmwareData.downUrl, file) { current, total ->
                 progressDialog.refreshProgress(current, total)
@@ -169,13 +143,11 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private fun installFirmware(file: File) {
         lifecycleScope.launch {
             XLog.d("TS004 固件升级 - 开始安装固件升级包")
             val installDialog = FirmwareInstallDialog(this@MoreActivity)
             installDialog.show()
-
             val isSuccess = TS004Repository.updateFirmware(file)
             installDialog.dismiss()
             if (isSuccess) {
@@ -189,7 +161,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private fun showReInstallDialog(file: File) {
         val dialog = ConfirmSelectDialog(this)
         dialog.setShowIcon(true)
@@ -201,7 +172,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
         }
         dialog.show()
     }
-
     private fun showReDownloadDialog(firmwareData: FirmwareViewModel.FirmwareData) {
         val dialog = ConfirmSelectDialog(this)
         dialog.setShowIcon(true)
@@ -213,7 +183,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
         }
         dialog.show()
     }
-
     private fun updateVersion() {
         lifecycleScope.launch {
             val versionBean = TS004Repository.getVersion()
@@ -225,7 +194,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private fun restoreFactory() {
         TipDialog.Builder(this)
             .setTitleMessage(getString(R.string.ts004_reset_tip1, "TS004"))
@@ -238,7 +206,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
             .setCanceled(true)
             .create().show()
     }
-
     private fun resetAll() {
         showLoadingDialog(R.string.ts004_reset_tip3)
         lifecycleScope.launch {

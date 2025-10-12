@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.activity
-
 import android.graphics.Color
 import android.text.TextUtils
 import android.util.Log
@@ -42,15 +41,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-
 @Route(path = RouterConfig.MONITOR_CHART)
 class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueSelectedListener {
-
     private val viewModel: LogViewModel by viewModels()
-
     private val timeAdapter: SettingTimeAdapter by lazy { SettingTimeAdapter(this) }
     private val adapter: SettingCheckAdapter by lazy { SettingCheckAdapter(this) }
-
     //    var MONITOR_ACTION = STATS_START
     private var selectDuration = 1
     private var selectType = 1
@@ -59,11 +54,8 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
     private var selectTimeType = 1
     private var latestTime = 0L
     private var startMonitor = false
-
     private lateinit var chart: LineChart
-
     override fun initContentView() = R.layout.activity_monitor_chart
-
     override fun initView() {
         setTitleText(R.string.main_thermal_motion)
         selectType = intent.getIntExtra("type", 3)
@@ -89,32 +81,24 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             onIrVideoStart()
         }
     }
-
     override fun initData() {
-
     }
-
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onDestroy() {
         super.onDestroy()
         onIrVideoStop()
     }
-
     override fun onClick(v: View?) {
         when (v) {
-
         }
     }
-
     private fun initRecycler() {
         monitor_chart_time_recycler.layoutManager = GridLayoutManager(this, 4)
         monitor_chart_time_recycler.adapter = timeAdapter
@@ -138,7 +122,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     recordTask!!.cancel()
                     recordTask = null
                 }
-//                canUpdate = false
                 Log.w("123", "select:$time")
                 adapter.setCheck(index)
                 timeMillis = time * 1000L
@@ -147,17 +130,13 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             }
         }
     }
-
     val defaultCount = 20
     val startIndex = 0f
     var pointIndex = startIndex - defaultCount
-
     ///////////
     var mIsIrVideoStart = false
-
     private var mGuideInterface: GuideInterface? = null
     var rotateType = 3
-
     private fun onIrVideoStart() {
         mIsIrVideoStart = if (mIsIrVideoStart) {
             ToastUtils.showShort("视频流已开启")
@@ -185,20 +164,16 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     Log.e(TAG, "提取温度异常:${e.message}")
                 }
             }
-
         })
-
         if (ret == 5) {
             Log.w("123", "视频流开启完成")
             recordThermal()
         } else {
-//            ToastUtils.showShort("视频流开启失败")
             Log.w("123", "视频流开启失败")
             mGuideInterface = null
             mIsIrVideoStart = false
         }
     }
-
     private fun onIrVideoStop() {
         mIsIrVideoStart = if (!mIsIrVideoStart) {
             Log.w("123", "视频流已停止")
@@ -210,7 +185,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
         mGuideInterface = null
         Log.w("123", "视频流停止完成")
     }
-
     var isRecord = false
     var type = ""
     var timeMillis = 1000L
@@ -218,7 +192,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
     var recordTask: Job? = null
     var thermalId = TimeTool.showDateSecond()
     var startTime = 0L
-
     private fun recordThermal() {
         recordTask = lifecycleScope.launch(Dispatchers.IO) {
             isRecord = true
@@ -248,7 +221,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             Log.w("123", "停止记录, 数据量:$time")
         }
     }
-
 
     //MPChart
     private fun initChart() {
@@ -305,28 +277,24 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
         canUpdate = true
     }
 
-
     private fun updateChart() {
         ++pointIndex
         when (selectTimeType) {
             1 -> {
                 addPointToChart(bean)
             }
-
             2 -> {
                 val addTime = 2 * 60 * 1000L
                 if (bean.createTime > TimeTool.timeToMinute(latestTime, 2) + addTime) {
                     queryLog(3)
                 }
             }
-
             3 -> {
                 val addTime = 2 * 60 * 60 * 1000L
                 if (bean.createTime > TimeTool.timeToMinute(latestTime, 3) + addTime) {
                     queryLog(3)
                 }
             }
-
             4 -> {
                 val addTime = 2 * 24 * 60 * 60 * 1000L
                 if (bean.createTime > TimeTool.timeToMinute(latestTime, 4) + addTime) {
@@ -335,7 +303,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             }
         }
     }
-
     private fun addPointToChart(bean: ThermalBean) {
         synchronized(chart) {
             try {
@@ -368,7 +335,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                         volDataSet.addEntry(entity)
                         Log.w("123", "添加一个数据:$entity")
                     }
-
                     "line" -> {
                         if (volDataSet == null) {
                             volDataSet = createSet("red")
@@ -378,7 +344,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                         val entity = Entry(x, data.thermalMax)
                         entity.data = data
                         volDataSet.addEntry(entity)
-
                         var secondDataSet = lineData.getDataSetByIndex(1)
                         if (secondDataSet == null) {
                             secondDataSet = createSet("blue")
@@ -388,7 +353,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                         secondEntity.data = data
                         secondDataSet.addEntry(secondEntity)
                     }
-
                     else -> {
                         if (volDataSet == null) {
                             volDataSet = createSet("red")
@@ -397,7 +361,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                         val entity = Entry(x, data.thermalMax)
                         entity.data = data
                         volDataSet.addEntry(entity)
-
                         var secondDataSet = lineData.getDataSetByIndex(1)
                         if (secondDataSet == null) {
                             secondDataSet = createSet("blue")
@@ -408,7 +371,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                         secondDataSet.addEntry(secondEntity)
                     }
                 }
-
                 lineData.notifyDataChanged()
                 chart.notifyDataSetChanged()
                 chart.setVisibleXRangeMinimum(getMinimum())
@@ -425,38 +387,31 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             }
         }
     }
-
     private val fillColor by lazy { ContextCompat.getDrawable(this, R.drawable.bg_chart_fill2) }
     private val lineRed by lazy { ContextCompat.getColor(this, R.color.chart_line_max) }
     private val lineBlue by lazy { ContextCompat.getColor(this, R.color.chart_line_min) }
     private val lineGreen by lazy { ContextCompat.getColor(this, R.color.chart_line_center) }
     private val whiteColors by lazy { ContextCompat.getColor(this, R.color.circle_white) }
     private val textColor by lazy { ContextCompat.getColor(this, R.color.chart_text) }
-
     private fun createSet(label: String): LineDataSet {
         val set = LineDataSet(null, label)
-//        set.mode = LineDataSet.Mode.LINEAR
         set.mode = LineDataSet.Mode.CUBIC_BEZIER
         set.setDrawFilled(false)
         set.axisDependency = YAxis.AxisDependency.LEFT
-
         when (label) {
             "red" -> {
                 set.color = lineRed
                 set.circleHoleColor = lineRed
             }
-
             "blue" -> {
                 set.color = lineBlue
                 set.circleHoleColor = lineBlue
             }
-
             else -> {
                 set.color = lineGreen
                 set.circleHoleColor = lineGreen
             }
         }
-
         set.setCircleColor(whiteColors)
         set.circleHoleRadius = 4f
         set.circleRadius = 5f
@@ -470,7 +425,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
         set.enableDashedHighlightLine(8f, 8f, 0f)
         return set
     }
-
     private fun queryLog(action: Int) {
         startMonitor = false
         lifecycleScope.launch(Dispatchers.IO) {
@@ -478,7 +432,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             viewModel.queryLogThermals(selectTimeType = selectTimeType, action = action)
         }
     }
-
     private fun resultVol(bean: LogViewModel.ChartList) {
         dismissLoading()
         if (selectTimeType != 1 && bean.dataList.size > 0) {
@@ -488,14 +441,12 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                 bean.dataList.removeLast()
             }
         }
-//        dataList = bean.dataList
         if (latestTime == 0L) {
             addEntity(bean.dataList)
         } else if (bean.dataList.size > 0 && latestTime < bean.dataList.last().createTime) {
             addEntity(bean.dataList)
         }
     }
-
     private fun addEntity(data: ArrayList<ThermalEntity>) {
         clearEntity(data.size == 0)
         if (data.size == 0) {
@@ -528,7 +479,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     volDataSet.addEntry(entity)
                     Log.w("123", "添加一个数据:$entity")
                 }
-
                 "line" -> {
                     if (volDataSet == null) {
                         volDataSet = createSet("red")
@@ -538,7 +488,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     val entity = Entry(x, it.thermalMax)
                     entity.data = it
                     volDataSet.addEntry(entity)
-
                     var secondDataSet = lineData.getDataSetByIndex(1)
                     if (secondDataSet == null) {
                         secondDataSet = createSet("blue")
@@ -548,7 +497,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     secondEntity.data = it
                     secondDataSet.addEntry(secondEntity)
                 }
-
                 else -> {
                     if (volDataSet == null) {
                         volDataSet = createSet("red")
@@ -557,7 +505,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
                     val entity = Entry(x, it.thermalMax)
                     entity.data = it
                     volDataSet.addEntry(entity)
-
                     var secondDataSet = lineData.getDataSetByIndex(1)
                     if (secondDataSet == null) {
                         secondDataSet = createSet("blue")
@@ -583,7 +530,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
         chart.zoom(100f, 1f, chart.xChartMax, 0f)
         startMonitor = true
     }
-
     private fun clearEntity(isEmpty: Boolean) {
         initChart()
         if (isEmpty) {
@@ -592,15 +538,10 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             chart.clearValues()
         }
     }
-
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-
     }
-
     override fun onNothingSelected() {
-
     }
-
     private fun getLabCount(count: Int): Int {
         return when (count) {
             in 0..2 -> 1
@@ -610,18 +551,16 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             else -> 5
         }
     }
-
     private fun getMinimum(): Float {
         val min = when (selectTimeType) {
-            1 -> 1 * 10 * 1000f //10s
-            2 -> 10 * 60 * 1000f //10min
-            3 -> 10 * 60 * 60 * 1000f //10hour
-            4 -> 10 * 24 * 60 * 60 * 1000f //10day
-            else -> 1 * 10 * 1000f //10s
+            1 -> 1 * 10 * 1000f
+            2 -> 10 * 60 * 1000f
+            3 -> 10 * 60 * 60 * 1000f
+            4 -> 10 * 24 * 60 * 60 * 1000f
+            else -> 1 * 10 * 1000f
         }
         return min
     }
-
     private fun getMaximum(): Float {
         return getMinimum() * 50f
     }

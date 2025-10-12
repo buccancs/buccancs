@@ -1,8 +1,6 @@
 package com.buccancs.domain.model
-
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-
 @Serializable
 data class CalibrationPatternConfig(
     val rows: Int,
@@ -15,7 +13,6 @@ data class CalibrationPatternConfig(
         require(squareSizeMeters > 0.0) { "squareSizeMeters must be positive" }
     }
 }
-
 @Serializable
 data class CameraIntrinsicParameters(
     val fx: Double,
@@ -28,13 +25,11 @@ data class CameraIntrinsicParameters(
     val width: Int,
     val height: Int
 )
-
 @Serializable
 data class ExtrinsicTransform(
     val rotationMatrix: List<Double>,
     val translation: List<Double>
 )
-
 @Serializable
 data class CalibrationResult(
     val generatedAt: Instant,
@@ -47,20 +42,17 @@ data class CalibrationResult(
     val thermalIntrinsics: CameraIntrinsicParameters,
     val extrinsic: ExtrinsicTransform
 )
-
 data class CalibrationImageDescriptor(
     val path: String,
     val width: Int,
     val height: Int,
     val capturedAt: Instant
 )
-
 data class CalibrationCapture(
     val id: String,
     val rgb: CalibrationImageDescriptor,
     val thermal: CalibrationImageDescriptor
 )
-
 data class CalibrationSessionState(
     val active: Boolean,
     val pattern: CalibrationPatternConfig,
@@ -71,7 +63,6 @@ data class CalibrationSessionState(
     val infoMessage: String?,
     val errorMessage: String?
 )
-
 object CalibrationDefaults {
     val Pattern = CalibrationPatternConfig(rows = 7, cols = 9, squareSizeMeters = 0.024)
     const val RequiredPairs = 12

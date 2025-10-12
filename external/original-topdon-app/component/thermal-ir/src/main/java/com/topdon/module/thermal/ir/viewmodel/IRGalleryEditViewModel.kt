@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.viewmodel
-
 import androidx.lifecycle.viewModelScope
 import com.elvishew.xlog.XLog
 import com.topdon.lib.core.ktbase.BaseViewModel
@@ -9,11 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-
 class IRGalleryEditViewModel : BaseViewModel() {
-
     val resultLiveData = SingleLiveEvent<FrameBean>()
-
     fun initData(path: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val file = File(path)
@@ -34,12 +30,8 @@ class IRGalleryEditViewModel : BaseViewModel() {
             resultLiveData.postValue(FrameBean(headDataBytes, frameDataBytes))
         }
     }
-
     fun getTailData(bytes: ByteArray) {
-
     }
 
-
     data class FrameBean(val capital: ByteArray, val frame: ByteArray)
-
 }

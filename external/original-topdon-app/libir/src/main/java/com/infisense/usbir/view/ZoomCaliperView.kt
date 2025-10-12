@@ -1,5 +1,4 @@
 package com.infisense.usbir.view
-
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -17,7 +16,6 @@ import com.infisense.usbir.R
 import com.infisense.usbir.utils.TargetUtils
 import com.topdon.lib.core.bean.ObserveBean
 
-
 class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListener {
     private var centerX: Float = Float.MAX_VALUE
     private var centerY: Float = Float.MAX_VALUE
@@ -29,34 +27,26 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
     var magnifier: Magnifier? = null
     var textureMagnifier: Magnifier? = null
     var m: Float = 0.0f
-
     var zoomViewCloseListener: (() -> Unit)? = null
-
     constructor(context: Context) : this(context, null)
-
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         initView()
     }
-
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
     )
-
     private fun initView() {
         inflate(context, R.layout.zoom_bb, this)
         mTextureView = findViewById(R.id.camera_texture)
         lis = ScaleGestureDetector(context, this)
         originalBitmap =
             (resources.getDrawable(R.drawable.svg_ic_target_horizontal_person_green) as BitmapDrawable).bitmap
-//        pxBitmapHeight = originalBitmap.height.toFloat()
         originalBitmapWidth = originalBitmap.width.toFloat()
         originalBitmapHeight = originalBitmap.height.toFloat()
-//        setCaliperM(50f)
         onResumeView()
     }
-
     fun setImageSize(imageHeight: Int, imageWidth: Int, parentViewWidth: Int, parentViewHeight: Int) {
         if (this.imageHeight == imageHeight && this.imageWidth == imageWidth) {
             return
@@ -84,15 +74,12 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         val layoutParams = mTextureView.layoutParams
         layoutParams.width = showBitmapHeightWidth.toInt()
         layoutParams.height = showBitmapHeight.toInt()
-//        Log.e("测试","旋转后的宽高：标靶"+showBitmapHeight+"///"+imageHeight+"---")
         mTextureView.layoutParams = layoutParams
         (mTextureView as ImageView).setImageBitmap(originalBitmap)
     }
-
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
     }
-
     private var startX = 0f
     private var startY = 0f
     private var moveX = 0f
@@ -103,7 +90,6 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
     private var scale = 1f
     private var scaleW = 0f
     private var scaleH = 0f
-
     private lateinit var originalBitmap: Bitmap
     private var imageWidth = 0
     private var imageHeight = 0
@@ -113,17 +99,13 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
     private var yscale = 0f
     private var originalBitmapWidth = 0f
     private var originalBitmapHeight = 0f
-
     private var pxBitmapHeight = 200f
-
     private var showBitmapHeightWidth = 0f
     private var showBitmapHeight = 0f
-
     private lateinit var lis: ScaleGestureDetector
     var isCheckChildView = false
     var contentWith = 0
     var contentHeight = 0
-
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (canScale && isScale && event.action != MotionEvent.ACTION_UP) {
@@ -140,7 +122,6 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
                 parentViewH = view.measuredHeight.toFloat()
                 isCheckChildView = isTouchPointInView(mTextureView, event.rawX.toInt(), event.rawY.toInt())
             }
-
             MotionEvent.ACTION_MOVE -> {
                 if (isCheckChildView) {
                     moveX = event.x - startX
@@ -200,7 +181,6 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
                     }
                 }
             }
-
             MotionEvent.ACTION_UP -> {
                 isCheckChildView = false
                 isScale = false
@@ -219,16 +199,11 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         if (canScale) {
             canTouch = lis.onTouchEvent(event)
         }
-//        if (!isCheckChildView){
-//            parentView.requestFocus()
-//        }
         return canTouch
     }
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
     }
-
     private fun isTouchPointInView(targetView: View?, xAxis: Int, yAxis: Int): Boolean {
         if (targetView == null) {
             return false
@@ -241,7 +216,6 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         val bottom = top + targetView.measuredHeight
         return (yAxis >= top) && (yAxis <= bottom) && (xAxis >= left) && (xAxis <= right)
     }
-
     override fun onScale(detector: ScaleGestureDetector): Boolean {
         isScale = true
         detector?.let {
@@ -252,23 +226,18 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         }
         return true
     }
-
     override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
         isScale = true
         return true
     }
-
     override fun onScaleEnd(detector: ScaleGestureDetector) {
     }
-
     private var mPreviewSize: Size? = null
-
 
     fun setRotation(isReverse: Boolean) {
         this.isReverse = isReverse
         updateRotation()
     }
-
     private fun updateRotation() {
         if (isReverse) {
             mTextureView.rotation = 180f
@@ -276,10 +245,8 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
             mTextureView.rotation = 0f
         }
     }
-
     private fun onResumeView() {
     }
-
 
     val viewX: Float
         get() = mTextureView.x - (viewWidth - mTextureView.width) / 2
@@ -293,18 +260,15 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         get() = mTextureView.height * scale
     val viewScale: Float
         get() = scale
-
     fun setCameraAlpha(alpha: Float) {
         mTextureView?.alpha = 1 - alpha
     }
-
     fun setCaliperM(m: Float) {
         scale = m / def_caliper
         mTextureView.scaleX = scale
         mTextureView.scaleY = scale
         invalidate()
     }
-
     private var curChooseMeasureMode: Int = ObserveBean.TYPE_MEASURE_PERSON
     private var curChooseTargetMode: Int = ObserveBean.TYPE_TARGET_HORIZONTAL
     fun updateSelectBitmap(targetMeasureMode: Int, targetType: Int, targetColorType: Int, parentCameraView: View?) {
@@ -315,14 +279,12 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         curChooseTargetMode = targetType
         updateTargetBitmap(targetMeasureMode, targetType, targetColorType, parentCameraView)
     }
-
     fun updateTargetBitmap(targetMeasureMode: Int, targetType: Int, targetColorType: Int, parentCameraView: View?) {
         this.visibility = View.VISIBLE
         m = TargetUtils.getMeasureSize(targetMeasureMode)
         val targetIcon = TargetUtils.getSelectTargetDraw(targetMeasureMode, targetType, targetColorType)
         originalBitmap = (resources.getDrawable(targetIcon) as BitmapDrawable).bitmap
         (mTextureView as ImageView).setImageBitmap(originalBitmap)
-//        Log.e("测试","旋转后的宽高updateSelectBitmap"+parentCameraView!!.width+"---"+parentCameraView!!.height)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             magnifier?.dismiss()
             if (m >= 100f) {
@@ -350,9 +312,7 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
                 } else if (m >= 50f && m < 100f) {
                     setCaliperM(def_caliper / 2)
                     mTextureView.visibility = View.VISIBLE
-//                    builder.setInitialZoom(1.15f)
                     builder.setInitialZoom(2f)
-//                    builder.setOverlay(ContextCompat.getDrawable(context,targetIcon))
                     builder.setCornerRadius(SizeUtils.dp2px(282f).toFloat())
                     builder.setClippingEnabled(false)
                     builder.setSize(
@@ -361,7 +321,6 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
                     )
                     magnifier = builder.build()
                 }
-
             }
             requestLayout()
             mTextureView.postDelayed(Runnable {
@@ -375,27 +334,23 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
             }, 200)
         }
     }
-
     fun hideView() {
         this.visibility = GONE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             magnifier?.dismiss()
         }
     }
-
     fun showView() {
         this.visibility = VISIBLE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             magnifier?.show(centerX, centerY)
         }
     }
-
     fun updateMagnifier() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             magnifier?.update()
         }
     }
-
     fun del(reductionXY: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             magnifier?.dismiss()
@@ -415,9 +370,7 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
                 mTextureView.y = centerY - mTextureView.height / 2
             }
         }
-
     }
-
     fun updateCenter() {
         val parent = parent as ViewGroup
         centerX = parent.measuredWidth.toFloat() / 2
@@ -428,6 +381,5 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
             magnifier?.show(centerX, centerY)
         }
     }
-
 
 }

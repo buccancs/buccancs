@@ -1,5 +1,4 @@
 package com.topdon.thermal07.activity
-
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
@@ -13,16 +12,12 @@ import com.topdon.module.thermal.ir.repository.ConfigRepository
 import com.topdon.tc004.activity.video.PlayFragment
 import kotlinx.coroutines.launch
 import org.easydarwin.video.Client
-
 @Route(path = RouterConfig.IR_CORRECTION_07)
 class IR07CorrectionThreeActivity : BaseActivity() {
-
     companion object {
         private const val RTSP_URL = "rtsp://192.168.40.1/stream0"
     }
-
     override fun initContentView(): Int = R.layout.activity_ir_correction_three
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -30,14 +25,12 @@ class IR07CorrectionThreeActivity : BaseActivity() {
             supportFragmentManager.beginTransaction().setReorderingAllowed(true)
                 .add(R.id.fragment_container_view, playFragment).commit()
         }
-
         val tvCorrection: TextView = findViewById(R.id.tv_correction)
         tvCorrection.setOnClickListener {
             val intent = Intent(this, IR07CorrectionFourActivity::class.java)
             startActivity(intent)
             finish()
         }
-
         lifecycleScope.launch {
             val config = ConfigRepository.readConfig(true)
             TC007Repository.setIRConfig(config.environment, config.distance, config.radiation)
@@ -45,15 +38,12 @@ class IR07CorrectionThreeActivity : BaseActivity() {
             TC007Repository.setTempFrame(false)
         }
     }
-
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (!isTS004) {
             finish()
         }
     }
-
     override fun initView() {
     }
-
     override fun initData() {}
 }

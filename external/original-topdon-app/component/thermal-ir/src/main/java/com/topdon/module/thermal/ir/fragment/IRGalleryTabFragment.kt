@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.fragment
-
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,21 +16,14 @@ import com.topdon.module.thermal.ir.popup.OptionPickPopup
 import com.topdon.module.thermal.ir.viewmodel.IRGalleryTabViewModel
 import kotlinx.android.synthetic.main.fragment_gallery_tab.*
 import org.greenrobot.eventbus.EventBus
-
 class IRGalleryTabFragment : BaseFragment() {
     private var hasBackIcon = false
-
     private var canSwitchDir = true
-
     private var currentDirType = DirType.LINE
 
-
     private val viewModel: IRGalleryTabViewModel by activityViewModels()
-
     private var viewPagerAdapter: ViewPagerAdapter? = null
-
     override fun initContentView(): Int = R.layout.fragment_gallery_tab
-
     override fun initView() {
         hasBackIcon = arguments?.getBoolean(ExtraKeyConfig.HAS_BACK_ICON, false) ?: false
         canSwitchDir = arguments?.getBoolean(ExtraKeyConfig.CAN_SWITCH_DIR, false) ?: false
@@ -41,7 +33,6 @@ class IRGalleryTabFragment : BaseFragment() {
             DirType.TC007.ordinal -> DirType.TC007
             else -> DirType.LINE
         }
-
         tv_title_dir.text = when (currentDirType) {
             DirType.LINE -> getString(R.string.tc_has_line_device)
             DirType.TC007 -> "TC007"
@@ -61,7 +52,6 @@ class IRGalleryTabFragment : BaseFragment() {
             }
             popup.show(tv_title_dir)
         }
-
         title_view.setTitleText(if (canSwitchDir) "" else getString(R.string.app_gallery))
         title_view.setLeftDrawable(if (hasBackIcon) R.drawable.ic_back_white_svg else 0)
         title_view.setLeftClickListener {
@@ -81,13 +71,11 @@ class IRGalleryTabFragment : BaseFragment() {
                 viewModel.isEditModeLD.value = true
             }
         }
-
         viewPagerAdapter = ViewPagerAdapter(this)
         view_pager2.adapter = viewPagerAdapter
         TabLayoutMediator(tab_layout, view_pager2) { tab, position ->
             tab.setText(if (position == 0) R.string.album_menu_Photos else R.string.app_video)
         }.attach()
-
         viewModel.isEditModeLD.observe(viewLifecycleOwner) { isEditMode ->
             if (isEditMode) {
                 title_view.setLeftDrawable(R.drawable.svg_x_cc)
@@ -116,14 +104,10 @@ class IRGalleryTabFragment : BaseFragment() {
             }
         }
     }
-
     override fun initData() {
     }
-
     private inner class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
         override fun getItemCount() = 2
-
         override fun createFragment(position: Int): Fragment {
             val bundle = Bundle()
             bundle.putBoolean(ExtraKeyConfig.IS_VIDEO, position == 1)

@@ -1,5 +1,4 @@
 package com.infisense.usbir.tools
-
 import androidx.annotation.ColorInt
 import com.elvishew.xlog.XLog
 import com.infisense.usbir.tools.bean.SelectIndexBean
@@ -7,18 +6,14 @@ import com.topdon.lib.core.tools.NumberTools
 import com.topdon.lib.core.utils.ByteUtils.bytesToInt
 import com.topdon.lib.core.utils.ByteUtils.descBytes
 import java.util.concurrent.LinkedBlockingQueue
-
 object ImageTools {
-
     fun readFrame(imageBytes: ByteArray, tempBytes: ByteArray, max: Float = 40f, min: Float = 20f) {
         if (max < min) {
             return
         }
         val selectBean = getTempIndex(tempBytes, max, min)
-//        Log.w("123", "max size: ${selectBean.maxIndex.size}, min size: ${selectBean.minIndex.size}")
         bitmapFromRgbaGrey(bytes = imageBytes, bean = selectBean)
     }
-
     fun readFrame(
         imageBytes: ByteArray,
         tempBytes: ByteArray,
@@ -38,7 +33,6 @@ object ImageTools {
             minColor = minColor
         )
     }
-
     private fun bitmapFromRgba(
         bytes: ByteArray,
         bean: SelectIndexBean,
@@ -67,10 +61,10 @@ object ImageTools {
         val minB = ((minColor shr 0) and 0xff).toByte()
         for (i in 0 until len) {
             if (maxQueue.peek() == i) {
-                bytes[i * 4] = maxR //r
-                bytes[i * 4 + 1] = maxG //g
-                bytes[i * 4 + 2] = maxB//b
-                bytes[i * 4 + 3] = maxA //a
+                bytes[i * 4] = maxR
+                bytes[i * 4 + 1] = maxG
+                bytes[i * 4 + 2] = maxB
+                bytes[i * 4 + 3] = maxA
                 maxQueue.poll()
             }
             if (minQueue.peek() == i) {
@@ -82,7 +76,6 @@ object ImageTools {
             }
         }
     }
-
     private fun bitmapFromRgbaGrey(bytes: ByteArray, bean: SelectIndexBean) {
         val len = bytes.size / 4
         val selectIndex = bean.maxIndex.plus(bean.minIndex)
@@ -109,7 +102,6 @@ object ImageTools {
         }
     }
 
-
     private fun getTempIndex(bytes: ByteArray, max: Float, min: Float): SelectIndexBean {
         var data: ByteArray
         val maxList = arrayListOf<Int>()
@@ -128,48 +120,12 @@ object ImageTools {
         val minIndex: IntArray = minList.toIntArray()
         return SelectIndexBean(maxIndex, minIndex)
     }
-
     private fun readTempValue(bytes: ByteArray): Float {
         val data: ByteArray = bytes.descBytes()
         val scale = 16
         val tempInt = data.bytesToInt() / 4
         return (tempInt.toDouble() / scale.toDouble() - 273.15).toFloat()
     }
-
-//    fun bitmapFromRgba(bytes: ByteArray, width: Int, height: Int): Bitmap {
-//        val len = bytes.size / 4
-//        val pixels = IntArray(len)
-//        for (i in pixels.indices) {
-//            if (i > len / 4 * 3 && i < len) {
-//                val r = 255
-//                val g = 215
-//                val b = 0
-//                val a = 255
-//                val pixel = (a shl 24) or (r shl 16) or (g shl 8) or b
-//                pixels[i] = pixel
-//            } else if (i > 0 && i < len / 2) {
-//                val r: Int = (bytes[i * 4] and 0xff.toByte()).toUByte().toInt()
-//                val g: Int = (bytes[i * 4 + 1] and 0xff.toByte()).toUByte().toInt()
-//                val b: Int = (bytes[i * 4 + 2] and 0xff.toByte()).toUByte().toInt()
-//                val a: Int = (bytes[i * 4 + 3] and 0xff.toByte()).toUByte().toInt()
-//
-//                val grey = (r * 0.3f).toInt() + (g * 0.59f).toInt() + (b * 0.11f).toInt()
-//                val pixel = (a shl 24) or (grey shl 16) or (grey shl 8) or grey
-//                pixels[i] = pixel
-//            } else {
-//                val r: Int = (bytes[i * 4] and 0xff.toByte()).toUByte().toInt()
-//                val g: Int = (bytes[i * 4 + 1] and 0xff.toByte()).toUByte().toInt()
-//                val b: Int = (bytes[i * 4 + 2] and 0xff.toByte()).toUByte().toInt()
-//                val a: Int = (bytes[i * 4 + 3] and 0xff.toByte()).toUByte().toInt()
-//                val pixel = (a shl 24) or (r shl 16) or (g shl 8) or b
-//                pixels[i] = pixel
-//            }
-//        }
-//        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-//        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-//        return bitmap
-//    }
-
     fun dualReadFrame(
         imageBytes: ByteArray,
         tempBytes: ByteArray,
@@ -183,7 +139,6 @@ object ImageTools {
         }
         dualReplaceColor(imageBytes, tempBytes, max, min, maxColor, minColor)
     }
-
     @JvmStatic
     private fun dualReplaceColor(
         imageBytes: ByteArray,
@@ -206,7 +161,6 @@ object ImageTools {
                     data = tempBytes.copyOfRange(i * 2, i * 2 + 2)
                     value = readTempValue(data)
                     if (value > max || value < min) {
-                        //max color
                         r = imageBytes[i * 4].toInt() and 0xff
                         g = imageBytes[i * 4 + 1].toInt() and 0xff
                         b = imageBytes[i * 4 + 2].toInt() and 0xff
@@ -232,14 +186,12 @@ object ImageTools {
                     data = tempBytes.copyOfRange(i * 2, i * 2 + 2)
                     value = readTempValue(data)
                     if (value > max) {
-                        //max color
-                        imageBytes[i * 4] = maxR //r
-                        imageBytes[i * 4 + 1] = maxG //g
-                        imageBytes[i * 4 + 2] = maxB //b
-                        imageBytes[i * 4 + 3] = maxA //a
+                        imageBytes[i * 4] = maxR
+                        imageBytes[i * 4 + 1] = maxG
+                        imageBytes[i * 4 + 2] = maxB
+                        imageBytes[i * 4 + 3] = maxA
                     }
                     if (value < min) {
-                        //min color
                         imageBytes[i * 4] = minR
                         imageBytes[i * 4 + 1] = minG
                         imageBytes[i * 4 + 2] = minB
@@ -252,4 +204,3 @@ object ImageTools {
         }
     }
 }
-

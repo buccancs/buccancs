@@ -1,5 +1,4 @@
 package com.topdon.hik.activity
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
@@ -14,14 +13,10 @@ import com.topdon.libhik.util.HikHelper
 import com.topdon.module.thermal.ir.bean.DataBean
 import com.topdon.module.thermal.ir.repository.ConfigRepository
 import kotlinx.coroutines.launch
-
 @Route(path = RouterConfig.IR_HIK_CORRECT_THREE)
 class IRCorrectHikThreeActivity : BaseBindingActivity<ActivityIrCorrectHikThreeBinding>() {
-
     private var hasClickNext = false
-
     override fun initContentLayoutId(): Int = R.layout.activity_ir_correct_hik_three
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         HikHelper.init(this)
@@ -38,18 +33,15 @@ class IRCorrectHikThreeActivity : BaseBindingActivity<ActivityIrCorrectHikThreeB
         }
         HikHelper.onReadyListener = {
             lifecycleScope.launch {
-
                 HikHelper.initConfig()
                 HikHelper.setAutoShutter(true)
                 HikHelper.setContrast(50)
                 HikHelper.setEnhanceLevel(50)
-
                 val config: DataBean = ConfigRepository.readConfig(false)
                 HikHelper.setEmissivity((config.radiation * 100).toInt())
                 HikHelper.setDistance((config.distance * 100).toInt().coerceAtLeast(30))
             }
         }
-
         binding.tvCorrection.setOnClickListener {
             hasClickNext = true
             HikHelper.stopStream()
@@ -58,7 +50,6 @@ class IRCorrectHikThreeActivity : BaseBindingActivity<ActivityIrCorrectHikThreeB
             finish()
         }
     }
-
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
@@ -66,26 +57,22 @@ class IRCorrectHikThreeActivity : BaseBindingActivity<ActivityIrCorrectHikThreeB
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onStop() {
         super.onStop()
         if (!hasClickNext) {
             HikHelper.stopStream()
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
         if (!hasClickNext) {
             HikHelper.release()
         }
     }
-
     override fun disConnected() {
         finish()
     }

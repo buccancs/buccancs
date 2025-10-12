@@ -1,5 +1,4 @@
 package com.topdon.house.view
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -23,29 +22,20 @@ import com.topdon.lib.core.tools.SpanBuilder
 import com.topdon.lms.sdk.weiget.TToast
 import kotlinx.android.synthetic.main.item_report_add_default.view.*
 import kotlinx.android.synthetic.main.item_report_add_head.view.*
-
 @SuppressLint("NotifyDataSetChanged")
 class HouseDetectView : FrameLayout {
     private var dirList: ArrayList<DirDetect> = ArrayList()
-
     private val dataList: ArrayList<Any> = ArrayList()
-
     private var currentPosition: Int = 0
-
 
     private val adapter = MyAdapter()
     private val onScrollListener = MyOnScrollListener()
     private val layoutManager: LinearLayoutManager
     private val recyclerView: RecyclerView
-
     private val titleView: View
-
     constructor(context: Context) : this(context, null)
-
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
-
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
         context,
         attrs,
@@ -54,7 +44,6 @@ class HouseDetectView : FrameLayout {
     ) {
         titleView = LayoutInflater.from(context).inflate(R.layout.item_report_add_head, this, false)
         titleView.isVisible = false
-
         layoutManager = LinearLayoutManager(context)
         recyclerView = RecyclerView(context, attrs, defStyleAttr)
         recyclerView.adapter = adapter
@@ -62,10 +51,8 @@ class HouseDetectView : FrameLayout {
         recyclerView.addOnScrollListener(onScrollListener)
         recyclerView.addOnLayoutChangeListener(MyOnLayoutChangeListener())
         recyclerView.isVisible = true
-
         addView(recyclerView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         addView(titleView, titleView.layoutParams ?: LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
-
         titleView.setOnClickListener {
             adapter.switchExpand(currentPosition)
         }
@@ -78,25 +65,16 @@ class HouseDetectView : FrameLayout {
             onDirCopyListener?.invoke(Pair(currentPosition, dataList[currentPosition] as DirDetect))
         }
     }
-
     var onDirCopyListener: ((pair: Pair<Int, DirDetect>) -> Unit)? = null
-
     var onItemCopyListener: ((pair: Pair<Int, ItemDetect>) -> Unit)? = null
-
     var onItemDelListener: ((pair: Pair<Int, ItemDetect>) -> Unit)? = null
 
-
     var onImageAddListener: ((layoutIndex: Int, v: View, item: ItemDetect) -> Unit)? = null
-
     var onTextInputListener: ((pair: Pair<Int, ItemDetect>) -> Unit)? = null
 
-
     var onDirChangeListener: ((dirDetect: DirDetect) -> Unit)? = null
-
     var onDirExpandListener: ((isExpand: Boolean) -> Unit)? = null
-
     var onItemChangeListener: ((itemDetect: ItemDetect) -> Unit)? = null
-
 
     fun refresh(newList: ArrayList<DirDetect>) {
         this.dirList = newList
@@ -110,7 +88,6 @@ class HouseDetectView : FrameLayout {
         }
         adapter.notifyDataSetChanged()
     }
-
     fun notifyDirInsert(position: Int, dirDetect: DirDetect) {
         if (dirDetect.isExpand) {
             dataList.add(position + dirDetect.itemList.size + 1, dirDetect)
@@ -121,7 +98,6 @@ class HouseDetectView : FrameLayout {
             adapter.notifyItemInserted(position + 1)
         }
     }
-
     fun notifyItemInsert(position: Int, itemDetect: ItemDetect) {
         val isLastItemInDir = position == dataList.size - 1 || dataList[position + 1] is DirDetect
         dataList.add(position + 1, itemDetect)
@@ -137,7 +113,6 @@ class HouseDetectView : FrameLayout {
             }
         }
     }
-
     fun notifyItemRemove(position: Int, itemDetect: ItemDetect) {
         val dirPosition = findDirPosition(position)
         val isLastItemInDir = position == dataList.size - 1 || dataList[position + 1] is DirDetect
@@ -161,11 +136,9 @@ class HouseDetectView : FrameLayout {
             }
         }
     }
-
     fun notifyItemChange(position: Int) {
         adapter.notifyItemChanged(position)
     }
-
     fun expandAllDir() {
         dataList.clear()
         for (dir in dirList) {
@@ -175,7 +148,6 @@ class HouseDetectView : FrameLayout {
         }
         adapter.notifyDataSetChanged()
     }
-
     fun retractAllDir() {
         dataList.clear()
         for (dir in dirList) {
@@ -185,20 +157,18 @@ class HouseDetectView : FrameLayout {
         adapter.notifyDataSetChanged()
     }
 
-
     private inner class MyAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun switchExpand(position: Int) {
             val dirDetect: DirDetect = dataList[position] as DirDetect
             dirDetect.isExpand = !dirDetect.isExpand
-            if (dirDetect.isExpand) {//关闭->展开
+            if (dirDetect.isExpand) {
                 dataList.addAll(position + 1, dirDetect.itemList)
-            } else {//展开->关闭
+            } else {
                 dataList.removeAll(dirDetect.itemList.toSet())
             }
             notifyDataSetChanged()
             onDirExpandListener?.invoke(dirDetect.isExpand)
         }
-
         fun refreshDir(dirView: View, dirDetect: DirDetect) {
             dirView.tv_dir_name.text = dirDetect.dirName
             dirView.tv_good_count.text = dirDetect.getGoodCountStr()
@@ -212,9 +182,7 @@ class HouseDetectView : FrameLayout {
                 dirView.view_bg_dir.setBackgroundResource(R.drawable.bg_corners10_solid_23202e)
             }
         }
-
         override fun getItemViewType(position: Int): Int = if (dataList[position] is DirDetect) 0 else 1
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return if (viewType == 0) {
                 HeadViewHolder(
@@ -226,7 +194,6 @@ class HouseDetectView : FrameLayout {
                 )
             }
         }
-
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder is HeadViewHolder) {
                 val dirDetect: DirDetect = dataList[position] as DirDetect
@@ -240,7 +207,6 @@ class HouseDetectView : FrameLayout {
                 holder.itemView.tv_state.text = itemDetect.getStateStr(context)
                 holder.itemView.tv_input_text.text = itemDetect.inputText
                 holder.itemView.tv_input_text.isVisible = itemDetect.inputText.isNotEmpty()
-
                 holder.itemView.cl_image.isVisible = itemDetect.image1.isNotEmpty()
                 holder.itemView.iv_image1.isVisible = itemDetect.image1.isNotEmpty()
                 holder.itemView.iv_del_image1.isVisible = itemDetect.image1.isNotEmpty()
@@ -264,7 +230,6 @@ class HouseDetectView : FrameLayout {
                 if (itemDetect.image4.isNotEmpty()) {
                     Glide.with(context).load(itemDetect.image4).into(holder.itemView.iv_image4)
                 }
-
                 if (position == dataList.size - 1 || dataList[position + 1] is DirDetect) {
                     holder.itemView.setBackgroundResource(R.drawable.bg_corners10_bottom_solid_23202e)
                     holder.itemView.setPadding(0, 0, 0, SizeUtils.dp2px(16f))
@@ -274,9 +239,7 @@ class HouseDetectView : FrameLayout {
                 }
             }
         }
-
         override fun getItemCount(): Int = dataList.size
-
         inner class HeadViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.setOnClickListener {
@@ -301,7 +264,6 @@ class HouseDetectView : FrameLayout {
                 }
             }
         }
-
         inner class ItemViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.tv_good.setOnClickListener {
@@ -373,7 +335,6 @@ class HouseDetectView : FrameLayout {
                     }
                 }
             }
-
             private fun handleStateChange(newState: Int) {
                 val position = bindingAdapterPosition
                 if (position == RecyclerView.NO_POSITION) {
@@ -406,7 +367,6 @@ class HouseDetectView : FrameLayout {
                 onDirChangeListener?.invoke(dirDetect)
                 onItemChangeListener?.invoke(itemDetect)
             }
-
             private fun handleImageClick(imagePosition: Int) {
                 val position = bindingAdapterPosition
                 if (position == RecyclerView.NO_POSITION) {
@@ -418,7 +378,6 @@ class HouseDetectView : FrameLayout {
                 intent.putExtra(ExtraKeyConfig.IMAGE_PATH_LIST, itemDetect.buildImageList())
                 context.startActivity(intent)
             }
-
             private fun handleImageDel(imageNum: Int) {
                 val position = bindingAdapterPosition
                 if (position == RecyclerView.NO_POSITION) {
@@ -431,7 +390,6 @@ class HouseDetectView : FrameLayout {
             }
         }
     }
-
     private fun findDirPosition(itemPosition: Int): Int {
         for (i in itemPosition downTo 0) {
             if (dataList[i] is DirDetect) {
@@ -440,7 +398,6 @@ class HouseDetectView : FrameLayout {
         }
         return 0
     }
-
     private inner class MyOnLayoutChangeListener : OnLayoutChangeListener {
         override fun onLayoutChange(
             v: View?,
@@ -464,19 +421,14 @@ class HouseDetectView : FrameLayout {
             onScrollListener.onScrolled(recyclerView, 0, 0)
         }
     }
-
     private inner class MyOnScrollListener : RecyclerView.OnScrollListener() {
-
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-
         }
-
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val seeFirstPosition = layoutManager.findFirstVisibleItemPosition()
             if (seeFirstPosition == RecyclerView.NO_POSITION || seeFirstPosition >= dataList.size - 1) {
                 return
             }
-
             if (currentPosition != seeFirstPosition) {
                 if (dataList[seeFirstPosition] is DirDetect) {
                     currentPosition = seeFirstPosition
@@ -490,20 +442,9 @@ class HouseDetectView : FrameLayout {
                     }
                 }
             }
-
-            /*if ((dataList[currentPosition] as DirDetect).isExpand) {
-                if (dataList[seeFirstPosition] is ItemDetect && dataList[seeFirstPosition + 1] is DirDetect) {
-                    titleView.view_bg_dir.setBackgroundResource(R.drawable.bg_corners10_solid_23202e)
-                } else {
-                    titleView.view_bg_dir.setBackgroundResource(R.drawable.bg_corners10_top_solid_23202e)
-                }
-            } else {//收起肯定是4圆角
-                titleView.view_bg_dir.setBackgroundResource(R.drawable.bg_corners10_solid_23202e)
-            }*/
             if (dataList[seeFirstPosition] is ItemDetect && dataList[seeFirstPosition + 1] is DirDetect) {
                 titleView.view_bg_dir.setBackgroundResource(R.drawable.bg_corners10_solid_23202e)
             }
-
 
             if (dataList[seeFirstPosition + 1] is DirDetect) {
                 val nextView: View? = layoutManager.findViewByPosition(seeFirstPosition + 1)

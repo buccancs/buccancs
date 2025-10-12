@@ -1,5 +1,4 @@
 package com.buccancs.data.control
-
 import android.util.Log
 import com.buccancs.control.CommandServiceGrpcKt
 import com.buccancs.control.commandReceipt
@@ -23,7 +22,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class CommandClient @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
@@ -34,10 +32,8 @@ class CommandClient @Inject constructor(
     private val _commands = MutableSharedFlow<DeviceCommandPayload>(extraBufferCapacity = 64)
     val commands: SharedFlow<DeviceCommandPayload> = _commands.asSharedFlow()
     private val ackMutex = Mutex()
-
     @Volatile
     private var latestStub: CommandServiceGrpcKt.CommandServiceCoroutineStub? = null
-
     init {
         scope.launch {
             val deviceId = identityProvider.deviceId()
@@ -71,7 +67,6 @@ class CommandClient @Inject constructor(
             }
         }
     }
-
     suspend fun reportReceipt(commandId: String, success: Boolean, message: String?) {
         val stub = latestStub ?: return
         val receipt = commandReceipt {
@@ -90,7 +85,6 @@ class CommandClient @Inject constructor(
             Log.w(TAG, "Unable to report command receipt for $commandId: ${ex.message}", ex)
         }
     }
-
     private companion object {
         private const val RETRY_DELAY_MS = 3_000L
         private const val TAG = "CommandClient"

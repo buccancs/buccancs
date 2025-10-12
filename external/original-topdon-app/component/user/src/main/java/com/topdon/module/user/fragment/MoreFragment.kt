@@ -1,5 +1,4 @@
 package com.topdon.module.user.fragment
-
 import android.os.Build
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -38,19 +37,13 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.text.DecimalFormat
-
 @Route(path = RouterConfig.TC_MORE)
 class MoreFragment : BaseFragment(), View.OnClickListener {
-
     private var isTC007 = false
-
     private val firmwareViewModel: FirmwareViewModel by viewModels()
-
     override fun initContentView() = R.layout.fragment_more
-
     override fun initView() {
         isTC007 = arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false
-
         setting_item_model.setOnClickListener(this)
         setting_item_correction.setOnClickListener(this)
         setting_item_dual.setOnClickListener(this)
@@ -58,17 +51,13 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         setting_version.setOnClickListener(this)
         setting_device_information.setOnClickListener(this)
         setting_reset.setOnClickListener(this)
-
         setting_reset.isVisible = false
-
         setting_version.isVisible = isTC007 && Build.VERSION.SDK_INT >= 29
         setting_device_information.isVisible = isTC007
         setting_item_dual.isVisible = !isTC007 && DeviceTools.isTC001PlusConnect()
-
         if (isTC007) {
             refresh07Connect(WebSocketProxy.getInstance().isTC007Connect())
         }
-
         setting_item_auto_show.isChecked =
             if (isTC007) SharedManager.isConnect07AutoOpen else SharedManager.isConnectAutoOpen
         setting_item_auto_show.setOnCheckedChangeListener { _, isChecked ->
@@ -78,7 +67,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                 SharedManager.isConnectAutoOpen = isChecked
             }
         }
-
         setting_item_config_select.isChecked =
             if (isTC007) WifiSaveSettingUtil.isSaveSetting else SaveSettingUtil.isSaveSetting
         setting_item_config_select.setOnCheckedChangeListener { _, isChecked ->
@@ -107,7 +95,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
-
         firmwareViewModel.firmwareDataLD.observe(this) {
             tv_upgrade_point.isVisible = it != null
             dismissLoadingDialog()
@@ -123,52 +110,41 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             tv_upgrade_point.isVisible = false
         }
     }
-
     override fun initData() {
     }
-
     override fun connected() {
         setting_item_dual.isVisible = !isTC007 && DeviceTools.isTC001PlusConnect()
     }
-
     override fun disConnected() {
         setting_item_dual.isVisible = false
     }
-
     override fun onSocketConnected(isTS004: Boolean) {
         if (!isTS004 && isTC007) {
             refresh07Connect(true)
         }
     }
-
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (!isTS004 && isTC007) {
             refresh07Connect(false)
         }
     }
-
     override fun onClick(v: View?) {
         when (v) {
             setting_item_model -> {
                 ARouter.getInstance().build(RouterConfig.IR_SETTING).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .navigation(requireContext())
             }
-
             setting_item_dual -> {
                 ARouter.getInstance().build(RouterConfig.MANUAL_START).navigation(requireContext())
             }
-
             setting_item_unit -> {
                 ARouter.getInstance().build(RouterConfig.UNIT).navigation(requireContext())
             }
-
             setting_item_correction -> {
                 ARouter.getInstance().build(RouterConfig.IR_CORRECTION).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .navigation(requireContext())
             }
-
             setting_version -> {
-                //               if (LMS.getInstance().isLogin) {
                 val firmwareData = firmwareViewModel.firmwareDataLD.value
                 if (firmwareData != null) {
                     showFirmwareUpDialog(firmwareData)
@@ -177,11 +153,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                     showLoadingDialog()
                     firmwareViewModel.queryFirmware(false)
                 }
-//               } else {
-//                   LMS.getInstance().activityLogin()
-//               }
             }
-
             setting_device_information -> {
                 if (WebSocketProxy.getInstance().isTC007Connect()) {
                     ARouter.getInstance()
@@ -190,7 +162,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                         .navigation(requireContext())
                 }
             }
-
             setting_reset -> {
                 if (WebSocketProxy.getInstance().isTC007Connect()) {
                     restoreFactory()
@@ -199,14 +170,12 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-
     private fun refresh07Connect(isConnect: Boolean) {
         setting_device_information.isRightArrowVisible = isConnect
         setting_device_information.setRightTextId(if (isConnect) 0 else R.string.app_no_connect)
         setting_reset.isRightArrowVisible = isConnect
         setting_reset.setRightTextId(if (isConnect) 0 else R.string.app_no_connect)
         tv_right_text.isVisible = isConnect
-
         if (isConnect) {
             lifecycleScope.launch {
                 val productBean: ProductBean? = TC007Repository.getProductInfo()
@@ -222,7 +191,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-
     private fun showFirmwareUpDialog(firmwareData: FirmwareViewModel.FirmwareData) {
         val dialog = FirmwareUpDialog(requireContext())
         dialog.titleStr = "${getString(R.string.update_new_version)} ${firmwareData.version}"
@@ -235,7 +203,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
         dialog.show()
     }
-
     private fun getFileSizeStr(size: Long): String = if (size < 1024) {
         "${size}B"
     } else if (size < 1024 * 1024) {
@@ -245,12 +212,10 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
     } else {
         DecimalFormat("#.0").format(size.toDouble() / 1024 / 1024 / 1024) + "GB"
     }
-
     private fun downloadFirmware(firmwareData: FirmwareViewModel.FirmwareData) {
         lifecycleScope.launch {
             val progressDialog = DownloadProDialog(requireContext())
             progressDialog.show()
-
             val file = File(requireContext().getExternalFilesDir("firmware"), "TC007${firmwareData.version}.zip")
             val isSuccess = DownloadTool.download(firmwareData.downUrl, file) { current, total ->
                 progressDialog.refreshProgress(current, total)
@@ -263,13 +228,11 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
-
     private fun installFirmware(file: File) {
         lifecycleScope.launch {
             XLog.d("TC007 固件升级 - 开始安装固件升级包")
             val installDialog = FirmwareInstallDialog(requireContext())
             installDialog.show()
-
             val isSuccess = TC007Repository.updateFirmware(file)
             installDialog.dismiss()
             if (isSuccess) {
@@ -283,7 +246,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                         requireActivity().finish()
                     }
                     .setCancelListener(R.string.app_cancel) {
-
                     }
                     .create().show()
             } else {
@@ -292,7 +254,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
-
     private fun showReInstallDialog(file: File) {
         val dialog = ConfirmSelectDialog(requireContext())
         dialog.setShowIcon(true)
@@ -304,7 +265,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
         dialog.show()
     }
-
     private fun showReDownloadDialog(firmwareData: FirmwareViewModel.FirmwareData) {
         val dialog = ConfirmSelectDialog(requireContext())
         dialog.setShowIcon(true)
@@ -316,7 +276,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
         dialog.show()
     }
-
 
     private fun restoreFactory() {
         TipDialog.Builder(requireContext())
@@ -330,7 +289,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             .setCanceled(true)
             .create().show()
     }
-
 
     private fun resetAll() {
         showLoadingDialog(R.string.ts004_reset_tip3)

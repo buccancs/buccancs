@@ -1,5 +1,4 @@
 package com.buccancs.desktop.data.encryption
-
 import com.google.crypto.tink.Aead
 import com.google.crypto.tink.CleartextKeysetHandle
 import com.google.crypto.tink.JsonKeysetReader
@@ -14,22 +13,17 @@ import java.nio.file.Path
 import java.security.GeneralSecurityException
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
-
 class EncryptionKeyProvider(
     private val keyFile: Path
 ) {
     private val logger = LoggerFactory.getLogger(EncryptionKeyProvider::class.java)
     private val lock = ReentrantLock()
-
     @Volatile
     private var cachedHandle: KeysetHandle? = null
-
     init {
         AeadConfig.register()
     }
-
     fun keyset(): KeysetHandle = cachedHandle ?: loadOrCreate().also { cachedHandle = it }
-
     private fun loadOrCreate(): KeysetHandle = lock.withLock {
         cachedHandle?.let { return it }
         return try {
@@ -52,13 +46,10 @@ class EncryptionKeyProvider(
         }
     }
 }
-
 class EncryptionManager(
     keyProvider: EncryptionKeyProvider
 ) {
     private val aead: Aead = keyProvider.keyset().getPrimitive(Aead::class.java)
-
     fun encrypt(plain: ByteArray, context: ByteArray): ByteArray = aead.encrypt(plain, context)
-
     fun decrypt(cipher: ByteArray, context: ByteArray): ByteArray = aead.decrypt(cipher, context)
 }

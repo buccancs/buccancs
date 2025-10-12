@@ -1,5 +1,4 @@
 package com.buccancs.data.transfer
-
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.UploadState
@@ -16,20 +15,16 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class DefaultSessionTransferRepository @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
     private val client: DataTransferClient
 ) : SessionTransferRepository {
-
     private val uploadsState = MutableStateFlow<Map<String, UploadStatus>>(emptyMap())
     private val uploadsSnapshot = MutableStateFlow<List<UploadStatus>>(emptyList())
     private val mutex = Mutex()
     private val queue = Channel<UploadCommand>(Channel.UNLIMITED)
-
     override val uploads: StateFlow<List<UploadStatus>> = uploadsSnapshot.asStateFlow()
-
     init {
         scope.launch {
             for (command in queue) {
@@ -37,7 +32,6 @@ class DefaultSessionTransferRepository @Inject constructor(
             }
         }
     }
-
     override suspend fun enqueue(sessionId: String, artifacts: List<SessionArtifact>) {
         if (artifacts.isEmpty()) {
             return
@@ -63,7 +57,6 @@ class DefaultSessionTransferRepository @Inject constructor(
             queue.send(UploadCommand(sessionId, artifact))
         }
     }
-
     private suspend fun process(command: UploadCommand) {
         var attempt = 1
         while (true) {
@@ -103,7 +96,6 @@ class DefaultSessionTransferRepository @Inject constructor(
             }
         }
     }
-
     private suspend fun updateProgress(command: UploadCommand, attempt: Int, transferred: Long) {
         mutex.withLock {
             val key = keyFor(command.sessionId, command.artifact)
@@ -119,7 +111,6 @@ class DefaultSessionTransferRepository @Inject constructor(
             publish(next)
         }
     }
-
     private suspend fun updateStatus(
         command: UploadCommand,
         attempt: Int,
@@ -147,7 +138,6 @@ class DefaultSessionTransferRepository @Inject constructor(
             publish(next)
         }
     }
-
     private fun publish(next: MutableMap<String, UploadStatus>) {
         uploadsState.value = next.toMap()
         uploadsSnapshot.value = next.values
@@ -167,17 +157,13 @@ class DefaultSessionTransferRepository @Inject constructor(
                 )
             )
     }
-
     private fun keyFor(sessionId: String, artifact: SessionArtifact): String =
         listOf(sessionId, artifact.deviceId.value, artifact.streamType.name).joinToString("|")
-
     private fun backoffFor(attempt: Int): Long = 1_000L * attempt.coerceAtMost(5)
-
     private data class UploadCommand(
         val sessionId: String,
         val artifact: SessionArtifact
     )
-
     private companion object {
         private const val MAX_ATTEMPTS = 3
     }

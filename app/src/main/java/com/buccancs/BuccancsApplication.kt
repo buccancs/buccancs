@@ -1,9 +1,7 @@
 package com.buccancs
-
 import android.app.Application
 import com.clj.fastble.BleManager
 import dagger.hilt.android.HiltAndroidApp
-
 @HiltAndroidApp
 class BuccancsApplication : Application() {
     override fun onCreate() {

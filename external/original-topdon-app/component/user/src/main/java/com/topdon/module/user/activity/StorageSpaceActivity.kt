@@ -1,5 +1,4 @@
 package com.topdon.module.user.activity
-
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_storage_space.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
-
 @Route(path = RouterConfig.STORAGE_SPACE)
 class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
     companion object {
@@ -34,7 +32,6 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
         } else {
             DecimalFormat("#.0").format(fileSize.toDouble() / 1073741824)
         }
-
         private fun getUnit(fileSize: Long): String = if (fileSize < 1024) {
             "B"
         } else if (fileSize < 1048576) {
@@ -45,13 +42,10 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
             "GB"
         }
     }
-
     override fun initContentView() = R.layout.activity_storage_space
-
     override fun initView() {
         tv_format_storage.setOnClickListener(this)
     }
-
     @SuppressLint("SetTextI18n")
     override fun initData() {
         lifecycleScope.launch {
@@ -60,19 +54,15 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
                 TToast.shortToast(this@StorageSpaceActivity, R.string.operation_failed_tips)
             } else {
                 TLog.d("ts004", "║ response :$freeSpaceBean")
-
                 tv_progress_value.text =
                     "${(freeSpaceBean.hasUseSize() * 100.0 / freeSpaceBean.total).toInt().coerceAtLeast(1)}"
-
                 tv_used_value.text = formatFileSize(freeSpaceBean.hasUseSize())
                 tv_used.text = getUnit(freeSpaceBean.hasUseSize())
                 tv_total_value.text = " / " + formatFileSize(freeSpaceBean.total)
                 tv_total.text = getUnit(freeSpaceBean.total)
-
                 list_storage_photo.setRightText(formatFileSize(freeSpaceBean.image_size) + getUnit(freeSpaceBean.image_size))
                 list_storage_video.setRightText(formatFileSize(freeSpaceBean.video_size) + getUnit(freeSpaceBean.video_size))
                 list_storage_system.setRightText(formatFileSize(freeSpaceBean.system) + getUnit(freeSpaceBean.system))
-
                 val systemPercent =
                     (freeSpaceBean.system * 100.0 / freeSpaceBean.total).toInt().coerceAtLeast(1).coerceAtMost(98)
                 val imagePercent =
@@ -93,7 +83,6 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     override fun onClick(v: View?) {
         when (v) {
             tv_format_storage -> {

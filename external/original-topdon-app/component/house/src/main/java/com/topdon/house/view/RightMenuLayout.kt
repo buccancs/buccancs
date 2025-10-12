@@ -1,5 +1,4 @@
 package com.topdon.house.view
-
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -8,33 +7,23 @@ import android.widget.Scroller
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import kotlin.math.abs
-
 class RightMenuLayout : ConstraintLayout {
-
     companion object {
         private const val DEFAULT_AUTO_PERCENT = 0.5f
-
         @JvmStatic
         private var currentOpenView: RightMenuLayout? = null
     }
 
-
     private val scroller: Scroller
-
     private val scaledTouchSlop: Int
-
     private var autoPercent: Float = DEFAULT_AUTO_PERCENT
 
-
     constructor(context: Context) : this(context, null)
-
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         scroller = Scroller(context)
         scaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
     }
-
 
     private var menuWidth = 0
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -48,7 +37,6 @@ class RightMenuLayout : ConstraintLayout {
         }
         menuWidth = (totalWidth - measuredWidth).coerceAtLeast(0)
     }
-
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         var left = 0
         for (i in 0 until childCount) {
@@ -59,7 +47,6 @@ class RightMenuLayout : ConstraintLayout {
             }
         }
     }
-
     private var downX = 0
     private var downY = 0
     private var downScrollX = 0
@@ -70,7 +57,6 @@ class RightMenuLayout : ConstraintLayout {
         if (super.onInterceptTouchEvent(ev)) {
             return true
         }
-
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
                 downX = ev.x.toInt()
@@ -80,7 +66,6 @@ class RightMenuLayout : ConstraintLayout {
                     currentOpenView?.close()
                 }
             }
-
             MotionEvent.ACTION_MOVE -> {
                 val distanceX = abs(ev.x.toInt() - downX)
                 val distanceY = abs(ev.y.toInt() - downY)
@@ -89,14 +74,11 @@ class RightMenuLayout : ConstraintLayout {
                     return true
                 }
             }
-
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
-
             }
         }
         return super.onInterceptTouchEvent(ev)
     }
-
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event == null || menuWidth <= 0) {
             return true
@@ -106,7 +88,6 @@ class RightMenuLayout : ConstraintLayout {
             MotionEvent.ACTION_MOVE -> {
                 scrollX = (downScrollX + downX - currentX).coerceAtMost(menuWidth).coerceAtLeast(0)
             }
-
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 if (abs(currentX - downX) < scaledTouchSlop) {
                     if (scrollX != 0 && scrollX != menuWidth) {
@@ -136,7 +117,6 @@ class RightMenuLayout : ConstraintLayout {
         }
         return true
     }
-
     override fun computeScroll() {
         if (scroller.computeScrollOffset()) {
             if (scroller.currX == scrollX) {
@@ -146,7 +126,6 @@ class RightMenuLayout : ConstraintLayout {
             scrollX = scroller.currX
         }
     }
-
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         if (currentOpenView === this) {
@@ -155,7 +134,6 @@ class RightMenuLayout : ConstraintLayout {
             scrollX = 0
         }
     }
-
     fun close() {
         if (currentOpenView === this) {
             currentOpenView = null
@@ -163,12 +141,10 @@ class RightMenuLayout : ConstraintLayout {
         scroller.startScroll(scrollX, 0, -scrollX, 0)
         invalidate()
     }
-
     fun expand() {
         if (currentOpenView !== this) {
             currentOpenView?.close()
         }
-
         currentOpenView = this
         scroller.startScroll(scrollX, 0, menuWidth - scrollX, 0)
         invalidate()

@@ -1,5 +1,4 @@
 package com.buccancs.desktop.data.repository
-
 import com.buccancs.desktop.data.encryption.EncryptionKeyProvider
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.retention.DataRetentionManager
@@ -20,15 +19,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-
 class SessionRepositoryTest {
-
     @TempDir
     lateinit var tempDir: Path
-
     private lateinit var sessionRepository: SessionRepository
     private lateinit var json: Json
-
     @BeforeTest
     fun setUp() {
         val sessionsRoot = tempDir.resolve("sessions")
@@ -49,12 +44,10 @@ class SessionRepositoryTest {
             ignoreUnknownKeys = true
         }
     }
-
     @AfterTest
     fun tearDown() {
         tempDir.toFile().deleteRecursively()
     }
-
     @Test
     fun `start session creates metadata artifacts`() = runBlocking {
         val session = sessionRepository.startSession(
@@ -62,18 +55,14 @@ class SessionRepositoryTest {
             operatorId = "operator-1",
             subjectIds = listOf("subject-001")
         )
-
         val sessionDir = sessionRepository.sessionDirectory(session.id)
         val metadataFile = sessionDir.resolve("metadata.json")
         val encryptedMetadata = sessionDir.resolve("metadata.enc")
-
         assertTrue(Files.exists(sessionDir), "Expected session directory to be created")
         assertTrue(Files.exists(metadataFile), "Expected plaintext metadata.json to be created")
         assertTrue(Files.exists(encryptedMetadata), "Expected encrypted metadata.enc to be created")
-
         val payload = Files.readAllBytes(metadataFile)
         val metadata = json.decodeFromString(SessionMetadata.serializer(), String(payload, StandardCharsets.UTF_8))
-
         assertEquals(session.id, metadata.sessionId)
         assertEquals(SessionStatusDto.ACTIVE, metadata.status)
         assertEquals("operator-1", metadata.operatorId)
@@ -81,7 +70,6 @@ class SessionRepositoryTest {
         assertNotNull(metadata.startedAtEpochMs, "Expected session start timestamp to be recorded")
         assertEquals(null, metadata.stoppedAtEpochMs, "Stop timestamp should not be set while active")
     }
-
     @Test
     fun `stop session finalises metadata`() = runBlocking {
         val sessionId = "session-bravo"
@@ -89,7 +77,6 @@ class SessionRepositoryTest {
         // Allow measurable duration
         delay(5)
         val session = sessionRepository.stopSession()
-
         assertNotNull(session, "Expected session to be returned on stop")
         val metadata = sessionRepository.metadataFor(sessionId)
         assertNotNull(metadata, "Metadata should exist after stopping session")
@@ -108,23 +95,19 @@ class SessionRepositoryTest {
             )
         }
     }
-
     @Test
     fun `cannot start multiple active sessions`() = runBlocking {
         sessionRepository.startSession(sessionId = "session-charlie")
-
         val exception = assertFailsWith<IllegalStateException> {
             sessionRepository.startSession(sessionId = "session-delta")
         }
         assertTrue(exception.message.orEmpty().contains("already active"))
     }
-
     @Test
     fun `cannot reuse existing session identifier`() = runBlocking {
         val sessionId = "session-echo"
         sessionRepository.startSession(sessionId = sessionId)
         sessionRepository.stopSession()
-
         val exception = assertFailsWith<IllegalStateException> {
             sessionRepository.startSession(sessionId = sessionId)
         }

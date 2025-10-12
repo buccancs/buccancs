@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.activity
-
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -35,19 +34,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import kotlin.math.abs
-
 @Route(path = RouterConfig.REPORT_PREVIEW)
 class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
-
     private val detectViewModel: DetectViewModel by viewModels()
     private val reportViewModel: ReportViewModel by viewModels()
-
     private var isReport = false
     private var houseReport = HouseReport()
     private var mPreviewBean: HouseRepPreviewBean? = null
-
     override fun initContentView() = R.layout.activity_report_preview
-
     override fun initView() {
         showLoadingDialog("")
         isReport = intent.getBooleanExtra(ExtraKeyConfig.IS_REPORT, false)
@@ -59,13 +53,11 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
         tv_save.setOnClickListener(this)
         rly_inspector_signature.setOnClickListener(this)
         rly_house_owner_signature.setOnClickListener(this)
-
         if (cl_sign.isShown) {
             val mAppBarChildAt: View = lay_appbar.getChildAt(0)
             val mAppBarParams = mAppBarChildAt.layoutParams as AppBarLayout.LayoutParams
             mAppBarParams.scrollFlags = 0
         }
-
         detectViewModel.detectLD.observe(this) {
             tv_save.isEnabled = it != null
             if (it != null) {
@@ -84,26 +76,22 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
             }
             dismissLoadingDialog()
         }
-
         if (isReport) {
             reportViewModel.queryById(intent.getLongExtra(ExtraKeyConfig.LONG_ID, 0))
         } else {
             detectViewModel.queryById(intent.getLongExtra(ExtraKeyConfig.LONG_ID, 0))
         }
     }
-
     override fun initData() {
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setAvatorChange()
     }
-
     private fun setAvatorChange() {
         lay_appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val percent = abs(verticalOffset * 1.0f) / appBarLayout.totalScrollRange
             lay_toolbar.setBackgroundColor(changeAlpha(getColor(R.color.color_23202E), percent))
         }
     }
-
     private fun changeAlpha(color: Int, fraction: Float): Int {
         val red = Color.red(color)
         val green = Color.green(color)
@@ -111,25 +99,21 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
         val alpha = (Color.alpha(color) * fraction).toInt()
         return Color.argb(alpha, red, green, blue)
     }
-
     override fun onClick(v: View?) {
         when (v) {
             toolbar_back_img -> {
                 finish()
             }
-
             rly_inspector_signature -> {
                 var intent = Intent(this, SignInputActivity::class.java)
                 intent.putExtra(ExtraKeyConfig.IS_PICK_INSPECTOR, true)
                 startActivityForResult(intent, 1000)
             }
-
             rly_house_owner_signature -> {
                 var intent = Intent(this, SignInputActivity::class.java)
                 intent.putExtra(ExtraKeyConfig.IS_PICK_INSPECTOR, false)
                 startActivityForResult(intent, 1001)
             }
-
             tv_save -> {
                 if (isReport) {
                     lifecycleScope.launch {
@@ -171,7 +155,6 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
@@ -183,7 +166,6 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
                     houseReport.inspectorWhitePath = whitePath
                     houseReport.inspectorBlackPath = blackPath
                 }
-
                 1001 -> {
                     Glide.with(this).load(whitePath).into(iv_house_owner_signature)
                     houseReport.houseOwnerWhitePath = whitePath
@@ -192,7 +174,6 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private fun convertDataModel(houseReport: HouseReport): HouseRepPreviewBean {
         var houseRepPreviewBean = HouseRepPreviewBean()
         houseRepPreviewBean.housePhoto = houseReport.imagePath
@@ -214,7 +195,6 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
             var count = dirReport.goodCount + dirReport.warnCount + dirReport.dangerCount
             itemBean.projectItemBeans = ArrayList<HouseRepPreviewProjectItemBean>()
             itemBean.albumItemBeans = ArrayList<HouseRepPreviewAlbumItemBean>()
-
             dirReport.itemList.forEachIndexed { _, itemReport ->
                 var projectItemBean = HouseRepPreviewProjectItemBean()
                 projectItemBean.projectName = itemReport.itemName
@@ -223,7 +203,6 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
                 if (itemReport.state > 0 || itemReport.inputText.isNotEmpty()) {
                     itemBean.projectItemBeans.add(projectItemBean)
                 }
-
                 if (itemReport.getImageSize() > 0) {
                     var albumItemBean: HouseRepPreviewAlbumItemBean? = null
                     if (itemReport.image1.isNotEmpty()) {
@@ -252,7 +231,6 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
-
             var isEmpty =
                 CollectionUtils.isEmpty(itemBean.projectItemBeans) && CollectionUtils.isEmpty(
                     itemBean.albumItemBeans
@@ -268,7 +246,6 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
         houseRepPreviewBean.houseOwnerWhitePath = houseReport.houseOwnerWhitePath
         return houseRepPreviewBean
     }
-
     private fun setAdapter() {
         mPreviewBean?.let {
             Glide.with(this).load(it.housePhoto).into(iv_header_bg)
@@ -279,12 +256,10 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
             tv_build_year.text = it.houseYear
             tv_area.text = it.houseArea
             tv_cost.text = it.expenses
-
             rcy_floor.layoutManager = LinearLayoutManager(this)
             val reportPreviewAdapter = ReportPreviewAdapter(this, it.itemBeans)
             rcy_floor.isNestedScrollingEnabled = false
             rcy_floor?.adapter = reportPreviewAdapter
-
             Glide.with(this).load(it.inspectorWhitePath).into(iv_inspector_signature)
             Glide.with(this).load(it.houseOwnerWhitePath).into(iv_house_owner_signature)
         }

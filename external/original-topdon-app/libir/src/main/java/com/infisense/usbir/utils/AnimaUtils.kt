@@ -1,13 +1,10 @@
 package com.infisense.usbir.utils
-
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
-
 public object AnimaUtils {
     const val DEFAULT_ANIMATION_DURATION: Long = 400
-
     /**
      * 获取一个旋转动画
      *
@@ -41,7 +38,6 @@ public object AnimaUtils {
         }
         return rotateAnimation
     }
-
     /**
      * 获取一个根据视图自身中心点旋转的动画
      *
@@ -59,7 +55,6 @@ public object AnimaUtils {
             animationListener
         )
     }
-
     /**
      * 获取一个根据中心点旋转的动画
      *
@@ -69,7 +64,6 @@ public object AnimaUtils {
     fun getRotateAnimationByCenter(duration: Long): RotateAnimation {
         return getRotateAnimationByCenter(duration, null)
     }
-
     /**
      * 获取一个根据视图自身中心点旋转的动画
      *
@@ -82,7 +76,6 @@ public object AnimaUtils {
             animationListener
         )
     }
-
     /**
      * 获取一个根据中心点旋转的动画
      *
@@ -90,7 +83,6 @@ public object AnimaUtils {
      */
     val rotateAnimationByCenter: RotateAnimation
         get() = getRotateAnimationByCenter(DEFAULT_ANIMATION_DURATION, null)
-
     /**
      * 获取一个透明度渐变动画
      *
@@ -113,7 +105,6 @@ public object AnimaUtils {
         }
         return alphaAnimation
     }
-
     /**
      * 获取一个透明度渐变动画
      *
@@ -129,7 +120,6 @@ public object AnimaUtils {
     ): AlphaAnimation {
         return getAlphaAnimation(fromAlpha, toAlpha, durationMillis, null)
     }
-
     /**
      * 获取一个透明度渐变动画
      *
@@ -148,7 +138,6 @@ public object AnimaUtils {
             animationListener
         )
     }
-
     /**
      * 获取一个透明度渐变动画
      *
@@ -162,7 +151,6 @@ public object AnimaUtils {
             null
         )
     }
-
     /**
      * 获取一个由完全显示变为不可见的透明度渐变动画
      *
@@ -176,7 +164,6 @@ public object AnimaUtils {
     ): AlphaAnimation {
         return getAlphaAnimation(1.0f, 0.0f, durationMillis, animationListener)
     }
-
     /**
      * 获取一个由完全显示变为不可见的透明度渐变动画
      *
@@ -186,7 +173,6 @@ public object AnimaUtils {
     fun getHiddenAlphaAnimation(durationMillis: Long): AlphaAnimation {
         return getHiddenAlphaAnimation(durationMillis, null)
     }
-
     /**
      * 获取一个由完全显示变为不可见的透明度渐变动画
      *
@@ -199,7 +185,6 @@ public object AnimaUtils {
             animationListener
         )
     }
-
     /**
      * 获取一个由完全显示变为不可见的透明度渐变动画
      *
@@ -207,7 +192,6 @@ public object AnimaUtils {
      */
     val hiddenAlphaAnimation: AlphaAnimation
         get() = getHiddenAlphaAnimation(DEFAULT_ANIMATION_DURATION, null)
-
     /**
      * 获取一个由不可见变为完全显示的透明度渐变动画
      *
@@ -221,7 +205,6 @@ public object AnimaUtils {
     ): AlphaAnimation {
         return getAlphaAnimation(0.0f, 1.0f, durationMillis, animationListener)
     }
-
     /**
      * 获取一个由不可见变为完全显示的透明度渐变动画
      *
@@ -231,7 +214,6 @@ public object AnimaUtils {
     fun getShowAlphaAnimation(durationMillis: Long): AlphaAnimation {
         return getAlphaAnimation(0.0f, 1.0f, durationMillis, null)
     }
-
     /**
      * 获取一个由不可见变为完全显示的透明度渐变动画
      *
@@ -244,7 +226,6 @@ public object AnimaUtils {
             animationListener
         )
     }
-
     /**
      * 获取一个由不可见变为完全显示的透明度渐变动画
      *
@@ -252,7 +233,6 @@ public object AnimaUtils {
      */
     val showAlphaAnimation: AlphaAnimation
         get() = getAlphaAnimation(0.0f, 1.0f, DEFAULT_ANIMATION_DURATION, null)
-
     /**
      * 获取一个缩小动画
      *
@@ -273,7 +253,6 @@ public object AnimaUtils {
         scaleAnimation.setAnimationListener(animationListener)
         return scaleAnimation
     }
-
     /**
      * 获取一个缩小动画
      *
@@ -283,7 +262,6 @@ public object AnimaUtils {
     fun getLessenScaleAnimation(durationMillis: Long): ScaleAnimation {
         return getLessenScaleAnimation(durationMillis, null)
     }
-
     /**
      * 获取一个缩小动画
      *
@@ -296,7 +274,6 @@ public object AnimaUtils {
             animationListener
         )
     }
-
     /**
      * 获取一个放大动画
      * @param durationMillis   时间
@@ -317,7 +294,6 @@ public object AnimaUtils {
         scaleAnimation.setAnimationListener(animationListener)
         return scaleAnimation
     }
-
     /**
      * 获取一个放大动画
      *
@@ -328,7 +304,6 @@ public object AnimaUtils {
     fun getAmplificationAnimation(durationMillis: Long): ScaleAnimation {
         return getAmplificationAnimation(durationMillis, null)
     }
-
     /**
      * 获取一个放大动画
      *

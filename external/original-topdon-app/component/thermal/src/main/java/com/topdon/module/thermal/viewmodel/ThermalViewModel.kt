@@ -1,7 +1,5 @@
 package com.topdon.module.thermal.viewmodel
-
 import com.topdon.lib.core.ktbase.BaseViewModel
-
 class ThermalViewModel : BaseViewModel() {
     fun yuvArea(yuv: ByteArray, temp: FloatArray, max: Float, min: Float) {
         for (i in temp.indices) {
@@ -15,5 +13,4 @@ class ThermalViewModel : BaseViewModel() {
             }
         }
     }
-
 }

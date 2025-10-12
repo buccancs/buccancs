@@ -1,5 +1,4 @@
 package com.buccancs.desktop.ui
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,14 +46,12 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.ln
 import kotlin.math.pow
-
 @Composable
 fun DesktopApp(viewModel: AppViewModel) {
     val state by viewModel.uiState.collectAsState()
     val formatter = rememberFormatter()
     val sessionTitle = state.session?.let { "Session ${it.id} (${it.status})" } ?: "No active session"
     val sessionActive = state.session?.status == SessionStatus.ACTIVE.name
-
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -106,7 +103,6 @@ fun DesktopApp(viewModel: AppViewModel) {
         }
     }
 }
-
 @Composable
 private fun ControlPanel(
     control: ControlPanelState,
@@ -277,7 +273,6 @@ private fun ControlPanel(
         }
     }
 }
-
 @Composable
 private fun SessionSummaryCard(
     summary: SessionSummary,
@@ -334,7 +329,6 @@ private fun SessionSummaryCard(
         }
     }
 }
-
 @Composable
 private fun MetricItem(label: String, value: Long, modifier: Modifier = Modifier) {
     Column(
@@ -349,7 +343,6 @@ private fun MetricItem(label: String, value: Long, modifier: Modifier = Modifier
         )
     }
 }
-
 @Composable
 private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeFormatter) {
     Card {
@@ -412,7 +405,6 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
         }
     }
 }
-
 @Composable
 private fun StatusBadge(text: String, background: Color, content: Color, modifier: Modifier = Modifier) {
     Surface(
@@ -430,7 +422,6 @@ private fun StatusBadge(text: String, background: Color, content: Color, modifie
         )
     }
 }
-
 @Composable
 private fun RetentionSection(retention: RetentionState) {
     Card {
@@ -471,7 +462,6 @@ private fun RetentionSection(retention: RetentionState) {
         }
     }
 }
-
 @Composable
 private fun TransferSection(transfers: List<TransferStatusItem>) {
     if (transfers.isEmpty()) return
@@ -498,7 +488,6 @@ private fun TransferSection(transfers: List<TransferStatusItem>) {
         }
     }
 }
-
 @Composable
 private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: DateTimeFormatter) {
     if (events.isEmpty()) return
@@ -523,7 +512,6 @@ private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: Dat
         }
     }
 }
-
 @Composable
 private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTimeFormatter) {
     if (previews.isEmpty()) return
@@ -559,7 +547,6 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
         }
     }
 }
-
 @Composable
 private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTimeFormatter) {
     if (archives.isEmpty()) return
@@ -587,7 +574,6 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
         }
     }
 }
-
 @Composable
 private fun AlertsSection(alerts: List<String>) {
     if (alerts.isEmpty()) return
@@ -605,14 +591,12 @@ private fun AlertsSection(alerts: List<String>) {
         }
     }
 }
-
 @Composable
 private fun rememberFormatter(): DateTimeFormatter =
     remember {
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             .withZone(ZoneId.systemDefault())
     }
-
 private fun bytesToReadable(bytes: Long): String {
     if (bytes <= 0) return "0 B"
     val units = arrayOf("B", "KB", "MB", "GB", "TB")
@@ -620,7 +604,6 @@ private fun bytesToReadable(bytes: Long): String {
     val value = bytes / 1024.0.pow(exponent.toDouble())
     return String.format(Locale.US, "%.2f %s", value, units[exponent])
 }
-
 private fun durationToReadable(durationMs: Long): String {
     if (durationMs <= 0) return "00:00:00.000"
     val hours = durationMs / 3_600_000
@@ -629,9 +612,7 @@ private fun durationToReadable(durationMs: Long): String {
     val millis = durationMs % 1_000
     return String.format(Locale.US, "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis)
 }
-
 private fun formatCount(value: Long): String = String.format(Locale.US, "%,d", value)
-
 private fun decodeImage(bytes: ByteArray): ImageBitmap? {
     if (bytes.isEmpty()) return null
     return runCatching { Image.makeFromEncoded(bytes).asImageBitmap() }.getOrNull()

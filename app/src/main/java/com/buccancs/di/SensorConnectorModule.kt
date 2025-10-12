@@ -1,5 +1,4 @@
 package com.buccancs.di
-
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.data.sensor.connector.audio.MicrophoneConnector
 import com.buccancs.data.sensor.connector.camera.RgbCameraConnector
@@ -10,7 +9,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
 @Module
 @InstallIn(SingletonComponent::class)
 object SensorConnectorModule {

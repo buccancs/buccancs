@@ -1,5 +1,4 @@
 package com.topdon.tc001.app
-
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
@@ -31,9 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class App : BaseApplication() {
-
     init {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ ->
             MaterialHeader(
@@ -44,10 +41,8 @@ class App : BaseApplication() {
             LoadingFooter(context)
         }
     }
-
     companion object {
         lateinit var instance: App
-
         fun delayInit() {
             initReceiver()
             initLog()
@@ -57,22 +52,16 @@ class App : BaseApplication() {
         }
     }
 
-
     override fun getSoftWareCode(): String = BuildConfig.SOFT_CODE
-
     override fun isDomestic(): Boolean = BuildConfig.ENV_TYPE == 1
-
     val activityNameList: MutableList<String> = mutableListOf()
-
     override fun onCreate() {
         super.onCreate()
         instance = this
         SPUtils.getInstance(this).put(Config.KEY_PRIVACY_AGREEMENT, true)
-
         if (SharedManager.getHasShowClause() || !isDomestic()) {
             delayInit()
         }
-
         RxJavaPlugins.setErrorHandler {
             if (SharedManager.getHasShowClause()) {
                 XLog.w("未知异常： ${it.message}")
@@ -95,7 +84,6 @@ class App : BaseApplication() {
             tau_data_H = CommonUtil.getAssetData(mContext, IrConst.TAU_HIGH_GAIN_ASSET_PATH)
             tau_data_L = CommonUtil.getAssetData(mContext, IrConst.TAU_LOW_GAIN_ASSET_PATH)
         }
-//        CrashReport.initCrashReport(applicationContext, "cd1f9e26ee", false)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -103,31 +91,22 @@ class App : BaseApplication() {
                     activityNameList.add(activity.javaClass.getSimpleName())
                 }
             }
-
             override fun onActivityStarted(activity: Activity) {
             }
-
             override fun onActivityResumed(activity: Activity) {
             }
-
             override fun onActivityPaused(activity: Activity) {
-
             }
-
             override fun onActivityStopped(activity: Activity) {
             }
-
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
             }
-
             override fun onActivityDestroyed(activity: Activity) {
                 activityNameList.remove(activity.javaClass.getSimpleName())
             }
-
         })
         initZoho()
     }
-
     private fun initZoho() {
         ZohoSalesIQ.init(
             this,
@@ -136,15 +115,11 @@ class App : BaseApplication() {
             null,
             object : InitListener {
                 override fun onInitSuccess() {
-//                    ZohoSalesIQ.Launcher.show(ZohoSalesIQ.Launcher.VisibilityMode.ALWAYS)
                     XLog.e("bcf", "ZohoSalesIQ成功")
                 }
-
                 override fun onInitError(errorCode: Int, errorMessage: String?) {
-                    //your code
                     XLog.e("bcf", "ZohoSalesIQ失敗")
                 }
             })
     }
 }
-

@@ -1,5 +1,4 @@
 package com.topdon.transfer
-
 import android.media.MediaScannerConnection
 import android.view.WindowManager
 import androidx.core.view.isVisible
@@ -25,24 +24,17 @@ import java.io.InputStream
 import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-
 class TransferActivity : BaseActivity() {
-
     private lateinit var transferDialog: TransferDialog
-
     override fun initContentView(): Int = R.layout.activity_transfer
-
     override fun initView() {
         iv_back.setOnClickListener {
             finish()
         }
-
         requestPermission()
     }
-
     override fun initData() {
     }
-
     private fun requestPermission() {
         XXPermissions.with(this)
             .permission(if (applicationInfo.targetSdkVersion < 33) Permission.READ_EXTERNAL_STORAGE else Permission.READ_MEDIA_IMAGES)
@@ -54,7 +46,6 @@ class TransferActivity : BaseActivity() {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
-
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
                         TipDialog.Builder(this@TransferActivity)
@@ -72,36 +63,29 @@ class TransferActivity : BaseActivity() {
             })
     }
 
-
     private fun startTransfer() {
         val oldGalleryList: Array<File>? = File(FileConfig.oldTc001GalleryDir).listFiles()
-
         transferDialog = TransferDialog(this)
         transferDialog.max = oldGalleryList?.size ?: 0
         transferDialog.show()
-
         lifecycleScope.launch {
             window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             transferIrFiles()
             transferImgFile()
             MediaScannerConnection.scanFile(this@TransferActivity, arrayOf(FileConfig.lineGalleryDir), null, null)
             window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
             transferDialog.dismiss()
             cl_success.isVisible = true
         }
     }
-
     private suspend fun transferIrFiles() {
         withContext(Dispatchers.IO) {
             val irZipFile: File = UriUtils.uri2File(intent.data) ?: return@withContext
             val zipFile = ZipFile(irZipFile)
             val buffer = ByteArray(200 * 1024)
-
             launch(Dispatchers.Main) {
                 transferDialog.max += zipFile.size()
             }
-
             val enumeration: Enumeration<out ZipEntry> = zipFile.entries()
             while (enumeration.hasMoreElements()) {
                 try {
@@ -122,7 +106,6 @@ class TransferActivity : BaseActivity() {
                         }
                     }
                 } catch (_: Exception) {
-
                 }
                 launch(Dispatchers.Main) {
                     transferDialog.progress += 1
@@ -130,7 +113,6 @@ class TransferActivity : BaseActivity() {
             }
         }
     }
-
     private suspend fun transferImgFile() {
         withContext(Dispatchers.IO) {
             val oldGalleryList: Array<File> = File(FileConfig.oldTc001GalleryDir).listFiles() ?: return@withContext

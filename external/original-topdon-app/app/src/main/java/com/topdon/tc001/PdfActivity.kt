@@ -1,5 +1,4 @@
 package com.topdon.tc001
-
 import android.view.WindowManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.topdon.lib.core.config.RouterConfig
@@ -9,12 +8,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
-
 @Route(path = RouterConfig.PDF)
 class PdfActivity : BaseActivity() {
-
     override fun initContentView() = R.layout.activity_pdf
-
     override fun initView() {
         pdf_view.fromAsset(if (intent.getBooleanExtra("isTS001", false)) "TC001.pdf" else "TS004.pdf")
             .enableSwipe(true) // allows to block changing pages using swipe
@@ -29,29 +25,24 @@ class PdfActivity : BaseActivity() {
             .spacing(0)
             .load()
     }
-
     override fun initData() {
         val tc001File = File(getExternalFilesDir("pdf")!!, "TC001.pdf")
         if (!tc001File.exists()) {
             copyBigDataToSD("TC001.pdf", tc001File)
         }
-
         val tc004File = File(getExternalFilesDir("pdf")!!, "TS004.pdf")
         if (!tc004File.exists()) {
             copyBigDataToSD("TS004.pdf", tc004File)
         }
     }
-
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
-
     @Throws(IOException::class)
     private fun copyBigDataToSD(assetsName: String, targetFile: File) {
         val myOutput: OutputStream = FileOutputStream(targetFile)
@@ -66,5 +57,4 @@ class PdfActivity : BaseActivity() {
         myInput.close()
         myOutput.close()
     }
-
 }

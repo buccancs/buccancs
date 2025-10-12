@@ -1,18 +1,15 @@
 package com.topdon.libhik.util
-
 internal object ByteArrayUtil {
     internal fun ByteArray.toInt(index: Int): Int = try {
         (this[index].toInt() and 0xff) or (this[index + 1].toInt() and 0xff shl 8) or (this[index + 2].toInt() and 0xff shl 16) or (this[index + 3].toInt() and 0xff shl 24)
     } catch (_: IndexOutOfBoundsException) {
         0
     }
-
     internal fun ByteArray.toFloat(index: Int): Float = try {
         java.lang.Float.intBitsToFloat((this[index].toInt() and 0xff) or (this[index + 1].toInt() and 0xff shl 8) or (this[index + 2].toInt() and 0xff shl 16) or (this[index + 3].toInt() and 0xff shl 24))
     } catch (_: IndexOutOfBoundsException) {
         0f
     }
-
     internal fun ByteArray.toStr(startIndex: Int, size: Int): String = try {
         var validCount = 0
         for (i in startIndex until (startIndex + size)) {
@@ -27,7 +24,6 @@ internal object ByteArrayUtil {
     } catch (_: IndexOutOfBoundsException) {
         ""
     }
-
 
     internal fun ByteArray.buildPrintStr(startIndex: Int, size: Int): String = try {
         val stringBuilder = StringBuilder()

@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.adapter
-
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -15,19 +14,14 @@ import com.topdon.lib.core.tools.TimeTool
 import com.topdon.module.thermal.ir.R
 import kotlinx.android.synthetic.main.item_gallery_head_lay.view.*
 import kotlinx.android.synthetic.main.item_gallery_lay.view.*
-
 @SuppressLint("NotifyDataSetChanged")
 class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     companion object {
         private const val TYPE_HEAD = 0
         private const val TYPE_DATA = 1
     }
-
     val dataList: ArrayList<GalleryBean> = ArrayList()
-
     val selectList: ArrayList<Int> = ArrayList()
-
     var isTS004Remote = false
         set(value) {
             if (field != value) {
@@ -35,7 +29,6 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 notifyDataSetChanged()
             }
         }
-
     var isEditMode = false
         set(value) {
             if (field != value) {
@@ -48,24 +41,19 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
-
     var onLongEditListener: (() -> Unit)? = null
-
     /**
      * 选中数量变更回调.
      * data 当前选中的 item position 列表
      */
     var selectCallback: ((data: ArrayList<Int>) -> Unit)? = null
-
     var itemClickCallback: ((position: Int) -> Unit)? = null
-
 
     fun refreshList(newList: List<GalleryBean>) {
         dataList.clear()
         dataList.addAll(newList)
         notifyDataSetChanged()
     }
-
     fun buildSelectList(): ArrayList<GalleryBean> {
         val resultList: ArrayList<GalleryBean> = ArrayList()
         selectList.forEach {
@@ -73,7 +61,6 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
         return resultList
     }
-
     fun selectAll() {
         var dataCount = 0
         dataList.forEach {
@@ -94,7 +81,6 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         selectCallback?.invoke(selectList)
         notifyDataSetChanged()
     }
-
     override fun getItemViewType(position: Int): Int {
         return if (dataList[position] is GalleryTitle) {
             TYPE_HEAD
@@ -102,7 +88,6 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             TYPE_DATA
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_HEAD) {
             ItemHeadView(LayoutInflater.from(parent.context).inflate(R.layout.item_gallery_head_lay, parent, false))
@@ -110,7 +95,6 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             ItemView(LayoutInflater.from(parent.context).inflate(R.layout.item_gallery_lay, parent, false))
         }
     }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = dataList[position]
         if (holder is ItemView) {
@@ -122,12 +106,9 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.info.text = ""
                 holder.itemView.iv_video_time.isVisible = false
             }
-
             holder.itemView.iv_has_download.isVisible = isTS004Remote && data.hasDownload
-
             holder.itemView.iv_check.isVisible = isEditMode
             holder.itemView.iv_check.isSelected = selectList.contains(position)
-
             holder.img.setOnClickListener {
                 if (isEditMode) {
                     if (selectList.contains(position)) {
@@ -136,7 +117,6 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         selectList.add(position)
                     }
                     selectCallback?.invoke(selectList)
-
                     holder.itemView.iv_check.isSelected = selectList.contains(position)
                 } else {
                     itemClickCallback?.invoke(position)
@@ -158,19 +138,15 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.name.setTextColor(0x80ffffff.toInt())
         }
     }
-
     override fun getItemCount(): Int {
         return dataList.size
     }
-
     inner class ItemHeadView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.item_gallery_head_text
     }
-
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img: ImageView = itemView.item_gallery_img
         val info: TextView = itemView.item_gallery_text
     }
-
 
 }

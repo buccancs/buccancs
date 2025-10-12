@@ -1,9 +1,7 @@
 package com.buccancs.control.commands
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-
 @Serializable
 sealed interface DeviceCommandPayload {
     val commandId: String
@@ -11,7 +9,6 @@ sealed interface DeviceCommandPayload {
     val issuedEpochMs: Long
     val executeEpochMs: Long
 }
-
 @Serializable
 @SerialName("sync_signal")
 data class SyncSignalCommandPayload(
@@ -22,7 +19,6 @@ data class SyncSignalCommandPayload(
     val signalType: String,
     val initiator: String? = null
 ) : DeviceCommandPayload
-
 @Serializable
 @SerialName("event_marker")
 data class EventMarkerCommandPayload(
@@ -34,7 +30,6 @@ data class EventMarkerCommandPayload(
     val description: String,
     val stimulusId: String? = null
 ) : DeviceCommandPayload
-
 @Serializable
 @SerialName("start_recording")
 data class StartRecordingCommandPayload(
@@ -45,7 +40,6 @@ data class StartRecordingCommandPayload(
     val anchorEpochMs: Long,
     val scheduledEpochMs: Long? = null
 ) : DeviceCommandPayload
-
 @Serializable
 @SerialName("stop_recording")
 data class StopRecordingCommandPayload(
@@ -54,7 +48,6 @@ data class StopRecordingCommandPayload(
     override val issuedEpochMs: Long,
     override val executeEpochMs: Long
 ) : DeviceCommandPayload
-
 @Serializable
 @SerialName("stimulus")
 data class StimulusCommandPayload(
@@ -66,7 +59,6 @@ data class StimulusCommandPayload(
     val action: String,
     val metadata: Map<String, String> = emptyMap()
 ) : DeviceCommandPayload
-
 object CommandSerialization {
     val json: Json = Json {
         encodeDefaults = false

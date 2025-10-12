@@ -1,5 +1,4 @@
 package com.buccancs.desktop.di
-
 import com.buccancs.desktop.data.encryption.EncryptionKeyProvider
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.erasure.SubjectErasureManager
@@ -20,7 +19,6 @@ import kotlinx.coroutines.cancel
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-
 class AppGraph private constructor(
     private val sessionRepository: SessionRepository,
     private val deviceRepository: DeviceRepository,
@@ -34,20 +32,15 @@ class AppGraph private constructor(
     private val connectionMonitor: DeviceConnectionMonitor
 ) {
     fun provideAppViewModel(): AppViewModel = appViewModel
-
     fun provideGrpcServer(): GrpcServer = grpcServer
-
     fun provideSubjectErasureManager(): SubjectErasureManager = subjectErasureManager
-
     fun shutdown() {
         connectionMonitor.stop()
         appScope.cancel()
     }
-
     companion object {
         private const val DEFAULT_PORT = 50051
         private const val SESSION_CAP_BYTES = 10L * 1024 * 1024 * 1024
-
         fun create(): AppGraph {
             val baseDir = resolveBaseDirectory()
             val keyProvider = EncryptionKeyProvider(baseDir.resolve("keysets").resolve("desktop-aead.json"))
@@ -104,7 +97,6 @@ class AppGraph private constructor(
                 connectionMonitor = connectionMonitor
             )
         }
-
         private fun resolveBaseDirectory(): Path {
             val home = Paths.get(System.getProperty("user.home"), ".buccancs")
             Files.createDirectories(home)

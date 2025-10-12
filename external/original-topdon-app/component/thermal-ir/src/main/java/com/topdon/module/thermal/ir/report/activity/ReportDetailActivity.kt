@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.report.activity
-
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -20,20 +19,14 @@ import kotlinx.android.synthetic.main.activity_report_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-
 @Route(path = RouterConfig.REPORT_DETAIL)
 class ReportDetailActivity : BaseActivity() {
-
     private var reportBean: ReportBean? = null
-
     private var pdfFilePath: String? = null
 
-
     override fun initContentView() = R.layout.activity_report_detail
-
     override fun initView() {
         reportBean = intent.getParcelableExtra(ExtraKeyConfig.REPORT_BEAN)
-
         title_view.setTitleText(R.string.album_edit_report)
         title_view.setLeftDrawable(R.drawable.svg_arrow_left_e8)
         title_view.setRightDrawable(R.drawable.ic_share_black_svg)
@@ -43,14 +36,11 @@ class ReportDetailActivity : BaseActivity() {
         title_view.setRightClickListener {
             saveWithPDF()
         }
-
         report_info_view.refreshInfo(reportBean?.report_info)
         report_info_view.refreshCondition(reportBean?.detection_condition)
-
         if (reportBean?.report_info?.is_report_watermark == 1) {
             watermark_view.watermarkText = reportBean?.report_info?.report_watermark
         }
-
         val irList = reportBean?.infrared_data
         if (irList != null) {
             for (i in irList.indices) {
@@ -68,10 +58,8 @@ class ReportDetailActivity : BaseActivity() {
             }
         }
     }
-
     override fun initData() {
     }
-
     private fun saveWithPDF() {
         if (TextUtils.isEmpty(pdfFilePath)) {
             showCameraLoading()
@@ -101,7 +89,6 @@ class ReportDetailActivity : BaseActivity() {
             actionShare()
         }
     }
-
     private fun actionShare() {
         val uri = FileTools.getUri(File(pdfFilePath!!))
         val shareIntent = Intent()
@@ -110,7 +97,6 @@ class ReportDetailActivity : BaseActivity() {
         shareIntent.type = "application/pdf"
         startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
     }
-
     private fun getPrintViewList(): ArrayList<View> {
         val result = ArrayList<View>()
         result.add(report_info_view)

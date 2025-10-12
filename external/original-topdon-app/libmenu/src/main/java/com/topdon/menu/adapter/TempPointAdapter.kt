@@ -1,11 +1,9 @@
 package com.topdon.menu.adapter
-
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.topdon.menu.R
 import com.topdon.menu.constant.TempPointType
-
 /**
  * 观测模式-菜单5-高低温点 菜单所用 Adapter，按旧逻辑存在全部未选择的状态。
  *
@@ -17,7 +15,6 @@ import com.topdon.menu.constant.TempPointType
 @SuppressLint("NotifyDataSetChanged")
 internal class TempPointAdapter : BaseMenuAdapter() {
     var onTempPointListener: ((type: TempPointType, isSelected: Boolean) -> Unit)? = null
-
     fun setSelected(tempPointType: TempPointType, isSelected: Boolean) {
         for (i in dataArray.indices) {
             if (dataArray[i].tempPointType == tempPointType) {
@@ -27,14 +24,12 @@ internal class TempPointAdapter : BaseMenuAdapter() {
             }
         }
     }
-
     fun clearAllSelect() {
         for (data in dataArray) {
             data.isSelected = false
         }
         notifyDataSetChanged()
     }
-
 
     private val dataArray: Array<Data> = arrayOf(
         Data(
@@ -45,7 +40,6 @@ internal class TempPointAdapter : BaseMenuAdapter() {
         Data(R.string.main_tab_second_low_temperature_point, R.drawable.selector_menu2_temp_point_2, TempPointType.LOW),
         Data(R.string.thermal_delete, R.drawable.selector_menu2_del, TempPointType.DELETE),
     )
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: Data = dataArray[position]
         holder.binding.ivIcon.setImageResource(data.drawableId)
@@ -77,9 +71,7 @@ internal class TempPointAdapter : BaseMenuAdapter() {
             }
         }
     }
-
     override fun getItemCount(): Int = dataArray.size
-
     data class Data(
         @StringRes val stringId: Int,
         @DrawableRes val drawableId: Int,

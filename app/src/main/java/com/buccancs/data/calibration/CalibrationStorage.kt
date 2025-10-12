@@ -1,5 +1,4 @@
 package com.buccancs.data.calibration
-
 import android.content.Context
 import android.graphics.Bitmap
 import com.buccancs.domain.model.CalibrationResult
@@ -10,7 +9,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class CalibrationStorage @Inject constructor(
     @ApplicationContext context: Context
@@ -25,7 +23,6 @@ class CalibrationStorage @Inject constructor(
         encodeDefaults = true
         ignoreUnknownKeys = true
     }
-
     fun createSessionDirectory(sessionId: String): File {
         val dir = File(rootDir, sessionId)
         if (!dir.exists()) {
@@ -33,13 +30,10 @@ class CalibrationStorage @Inject constructor(
         }
         return dir
     }
-
     fun sessionDirectory(sessionId: String): File = File(rootDir, sessionId)
-
     fun deleteSessionDirectory(sessionId: String) {
         sessionDirectory(sessionId).deleteRecursively()
     }
-
     fun persistBitmap(bitmap: Bitmap, file: File) {
         file.parentFile?.mkdirs()
         FileOutputStream(file).use { stream ->
@@ -48,20 +42,17 @@ class CalibrationStorage @Inject constructor(
             }
         }
     }
-
     fun writeResult(sessionId: String, result: CalibrationResult) {
         val sessionDir = createSessionDirectory(sessionId)
         val output = File(sessionDir, "result.json")
         output.writeText(json.encodeToString(result))
         File(rootDir, "latest_result.json").writeText(output.readText())
     }
-
     fun loadResult(sessionId: String): CalibrationResult? {
         val file = File(sessionDirectory(sessionId), "result.json")
         if (!file.exists()) return null
         return runCatching { json.decodeFromString<CalibrationResult>(file.readText()) }.getOrNull()
     }
-
     fun loadLatestResult(): CalibrationResult? {
         val file = File(rootDir, "latest_result.json")
         if (!file.exists()) return null

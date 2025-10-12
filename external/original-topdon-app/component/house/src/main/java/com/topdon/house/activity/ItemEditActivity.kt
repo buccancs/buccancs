@@ -1,5 +1,4 @@
 package com.topdon.house.activity
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -33,16 +32,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import java.util.Collections
-
 @SuppressLint("NotifyDataSetChanged")
 class ItemEditActivity : BaseActivity(), View.OnClickListener {
     private val adapter = MyAdapter(this)
     private val itemTouchCallback = MyItemTouchCallback()
-
     private val viewModel: DetectViewModel by viewModels()
-
     override fun initContentView(): Int = R.layout.activity_item_edit
-
     override fun initView() {
         iv_copy.isEnabled = false
         tv_copy.isEnabled = false
@@ -50,21 +45,18 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
         tv_del.isEnabled = false
         view_copy.isEnabled = false
         view_del.isEnabled = false
-
         iv_exit.setOnClickListener(this)
         iv_save.setOnClickListener(this)
         cl_dir.setOnClickListener(this)
         view_select_all.setOnClickListener(this)
         view_copy.setOnClickListener(this)
         view_del.setOnClickListener(this)
-
         et_dir_name.addTextChangedListener {
             val dirDetect: DirDetect? = viewModel.dirLD.value
             if (dirDetect != null) {
                 dirDetect.dirName = it?.toString() ?: ""
             }
         }
-
         adapter.onSelectChangeListener = {
             iv_copy.isEnabled = it > 0
             tv_copy.isEnabled = it > 0
@@ -98,7 +90,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
         recycler_view.adapter = adapter
         recycler_view.addItemDecoration(MyItemDecoration(this).apply { wholeBottom = 16f })
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(recycler_view)
-
         viewModel.dirLD.observe(this) {
             if (it != null) {
                 et_dir_name.setText(it.dirName)
@@ -110,17 +101,14 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
             }
         }
         viewModel.queryDirById(intent.getLongExtra(ExtraKeyConfig.DIR_ID, 0))
-
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 showExitTipsDialog()
             }
         })
     }
-
     override fun initData() {
     }
-
     override fun onClick(v: View?) {
         when (v) {
             iv_exit -> showExitTipsDialog()
@@ -138,7 +126,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
-
             cl_dir -> {
                 adapter.isExpand = !adapter.isExpand
                 if (adapter.isExpand) {
@@ -149,16 +136,13 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                     cl_dir.setBackgroundResource(R.drawable.bg_corners10_solid_23202e)
                 }
             }
-
             view_select_all -> {
                 adapter.isSelectAll = !adapter.isSelectAll
             }
-
             view_copy -> {
                 adapter.copySelect()
                 TToast.shortToast(this@ItemEditActivity, R.string.ts004_copy_success)
             }
-
             view_del -> {
                 TipDialog.Builder(this)
                     .setTitleMessage(getString(R.string.tips_del_item_title))
@@ -176,7 +160,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
     private fun showExitTipsDialog() {
         TipDialog.Builder(this)
             .setMessage(R.string.diy_tip_save)
@@ -186,18 +169,14 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
             .setCancelListener(R.string.app_cancel)
             .create().show()
     }
-
     private class MyItemTouchCallback : ItemTouchHelper.Callback() {
         var dataList: ArrayList<ItemDetect> = ArrayList(0)
-
         fun refresh(newList: ArrayList<ItemDetect>) {
             dataList = newList
         }
-
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0)
         }
-
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -205,7 +184,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
         ): Boolean {
             val fromPosition = viewHolder.bindingAdapterPosition
             val toPosition = target.bindingAdapterPosition
-
             if (fromPosition == dataList.size - 1 || toPosition == dataList.size - 1) {
                 if (viewHolder is MyAdapter.ViewHolder) {
                     viewHolder.refreshIsLast(toPosition == dataList.size - 1)
@@ -214,7 +192,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                     target.refreshIsLast(fromPosition == dataList.size - 1)
                 }
             }
-
             if (fromPosition < toPosition) {
                 for (i in fromPosition until toPosition) {
                     Collections.swap(dataList, i, i + 1)
@@ -227,14 +204,11 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
             recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
             return true
         }
-
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         }
     }
-
     private class MyAdapter(val context: Context) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
         private var dataList: ArrayList<ItemDetect> = ArrayList(0)
-
         var isExpand = true
             set(value) {
                 if (field != value) {
@@ -242,18 +216,16 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                     notifyDataSetChanged()
                 }
             }
-
         private var selectCount = 0
-
         var isSelectAll: Boolean
             get() = selectCount == dataList.size && dataList.size > 0
             set(value) {
-                if (value) {//->全选
+                if (value) {
                     selectCount = dataList.size
                     for (item in dataList) {
                         item.hasSelect = true
                     }
-                } else {//全选->取消全选
+                } else {
                     selectCount = 0
                     for (item in dataList) {
                         item.hasSelect = false
@@ -262,16 +234,12 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                 onSelectChangeListener?.invoke(selectCount)
                 notifyItemRangeChanged(0, itemCount)
             }
-
         var onSelectChangeListener: ((selectSize: Int) -> Unit)? = null
-
         var onStateChangeListener: ((oldState: Int, newState: Int) -> Unit)? = null
-
         fun refresh(newList: ArrayList<ItemDetect>) {
             dataList = newList
             notifyDataSetChanged()
         }
-
         fun delSelect() {
             selectCount = 0
             if (isSelectAll) {
@@ -292,7 +260,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
             }
             onSelectChangeListener?.invoke(0)
         }
-
         fun copySelect() {
             selectCount *= 2
             val selectIndexList: ArrayList<Int> = ArrayList()
@@ -316,11 +283,9 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
             }
             onSelectChangeListener?.invoke(selectCount)
         }
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_edit_item, parent, false))
         }
-
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val itemDetect: ItemDetect = dataList[position]
             holder.itemView.iv_select.isSelected = itemDetect.hasSelect
@@ -331,9 +296,7 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
             holder.itemView.tv_state.text = itemDetect.getStateStr(context)
             holder.refreshIsLast(position == dataList.size - 1)
         }
-
         override fun getItemCount(): Int = if (isExpand) dataList.size else 0
-
         inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.setOnClickListener {
@@ -362,7 +325,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                     handleStateChange(3)
                 }
             }
-
             fun refreshIsLast(isLastItem: Boolean) {
                 if (isLastItem) {
                     itemView.setBackgroundResource(R.drawable.bg_corners10_bottom_solid_23202e)
@@ -372,7 +334,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                     itemView.setPadding(0, SizeUtils.dp2px(6f), 0, SizeUtils.dp2px(6f))
                 }
             }
-
             private fun handleStateChange(newState: Int) {
                 val position = bindingAdapterPosition
                 if (position == RecyclerView.NO_POSITION) {
@@ -384,7 +345,6 @@ class ItemEditActivity : BaseActivity(), View.OnClickListener {
                 }
                 onStateChangeListener?.invoke(itemDetect.state, newState)
                 itemDetect.state = newState
-
                 itemView.tv_good.isSelected = itemDetect.state == 1
                 itemView.tv_warn.isSelected = itemDetect.state == 2
                 itemView.tv_danger.isSelected = itemDetect.state == 3

@@ -1,5 +1,4 @@
 package com.buccancs.desktop.data.monitor
-
 import com.buccancs.desktop.data.repository.DeviceRepository
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.domain.model.DeviceConnectionEvent
@@ -14,7 +13,6 @@ import java.time.Duration
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
-
 class DeviceConnectionMonitor(
     private val deviceRepository: DeviceRepository,
     private val sessionRepository: SessionRepository,
@@ -27,7 +25,6 @@ class DeviceConnectionMonitor(
     private val started = AtomicBoolean(false)
     private var monitorJob: Job? = null
     private var eventJob: Job? = null
-
     fun start() {
         if (!started.compareAndSet(false, true)) {
             return
@@ -35,7 +32,6 @@ class DeviceConnectionMonitor(
         monitorJob = scope.launch { monitorLoop() }
         eventJob = scope.launch { collectEvents() }
     }
-
     fun stop() {
         monitorJob?.cancel()
         eventJob?.cancel()
@@ -43,7 +39,6 @@ class DeviceConnectionMonitor(
         eventJob = null
         started.set(false)
     }
-
     private suspend fun monitorLoop() {
         while (currentCoroutineContext().isActive) {
             val now = timeProvider()
@@ -69,7 +64,6 @@ class DeviceConnectionMonitor(
             delay(pollIntervalMs)
         }
     }
-
     private suspend fun collectEvents() {
         deviceRepository.events().collect { event ->
             when (event) {
@@ -78,7 +72,6 @@ class DeviceConnectionMonitor(
             }
         }
     }
-
     private suspend fun handleConnected(event: DeviceConnectionEvent.Connected) {
         val session = sessionRepository.activeSession.value
         val timestamp = event.timestamp.toEpochMilli()
@@ -105,7 +98,6 @@ class DeviceConnectionMonitor(
             logger.info("Device {} connected (no active session)", event.deviceId)
         }
     }
-
     private suspend fun handleDisconnected(event: DeviceConnectionEvent.Disconnected) {
         val session = sessionRepository.activeSession.value
         val timestamp = event.timestamp.toEpochMilli()
@@ -138,7 +130,6 @@ class DeviceConnectionMonitor(
             )
         }
     }
-
     companion object {
         private const val DEFAULT_HEARTBEAT_TIMEOUT_MS = 5_000L
         private const val DEFAULT_POLL_INTERVAL_MS = 1_000L

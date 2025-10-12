@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.utils
-
 import android.graphics.Bitmap
 import android.util.Log
 import android.widget.ImageView
@@ -15,9 +14,7 @@ import org.opencv.core.Scalar
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 import kotlin.math.pow
-
 object IRImageUtil {
-
     fun showContrast(
         imageView: ImageView,
         @FloatRange(from = 0.0, to = 2.0) contrast: Double,
@@ -57,7 +54,6 @@ object IRImageUtil {
         }
     }
 
-
     private fun lutGamma(@FloatRange(from = 0.0, to = 1.0) x: Double, a: Double = 0.5, gamma: Double): Double {
         val y = if (x <= a) {
             a - a * ((1 - x / a).pow(gamma))
@@ -66,13 +62,11 @@ object IRImageUtil {
         }
         return y
     }
-
     private fun showSharpen(imageView: ImageView, @FloatRange(from = 0.0, to = 2.55) sharpen: Double) {
         Log.i("123", "show sharpen: $sharpen")
         val scale = 1.0
         val delta = 0.0
         val kernelSize = 3
-
         val srcMat = Utils.loadResource(com.blankj.utilcode.util.Utils.getApp(), R.drawable.ic_main_menu_battery) //BGR
         val dstMat = Mat(srcMat.rows(), srcMat.cols(), srcMat.type())
         val preGray = Mat()

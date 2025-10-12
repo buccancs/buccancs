@@ -1,5 +1,4 @@
 package com.topdon.module.thermal.ir.report.view
-
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -13,7 +12,6 @@ import com.topdon.module.thermal.ir.report.bean.ReportIRBean
 import com.topdon.module.thermal.ir.report.bean.ReportTempBean
 import kotlinx.android.synthetic.main.item_report_ir_show.view.*
 import kotlinx.android.synthetic.main.view_report_ir_show.view.*
-
 class ReportIRShowView : LinearLayout {
     companion object {
         private const val TYPE_FULL = 0
@@ -22,35 +20,27 @@ class ReportIRShowView : LinearLayout {
         private const val TYPE_RECT = 3
     }
 
-
     constructor(context: Context) : this(context, null)
-
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         inflate(context, R.layout.view_report_ir_show, this)
-
         initTitleText(cl_full, TYPE_FULL, 0)
-
         initTitleText(cl_point1, TYPE_POINT, 0)
         initTitleText(cl_point2, TYPE_POINT, 1)
         initTitleText(cl_point3, TYPE_POINT, 2)
         initTitleText(cl_point4, TYPE_POINT, 3)
         initTitleText(cl_point5, TYPE_POINT, 4)
-
         initTitleText(cl_line1, TYPE_LINE, 0)
         initTitleText(cl_line2, TYPE_LINE, 1)
         initTitleText(cl_line3, TYPE_LINE, 2)
         initTitleText(cl_line4, TYPE_LINE, 3)
         initTitleText(cl_line5, TYPE_LINE, 4)
-
         initTitleText(cl_rect1, TYPE_RECT, 0)
         initTitleText(cl_rect2, TYPE_RECT, 1)
         initTitleText(cl_rect3, TYPE_RECT, 2)
         initTitleText(cl_rect4, TYPE_RECT, 3)
         initTitleText(cl_rect5, TYPE_RECT, 4)
     }
-
     private fun initTitleText(itemRoot: View, type: Int, index: Int) {
         itemRoot.tv_title.isVisible = index == 0
         itemRoot.tv_title.text = when (type) {
@@ -71,25 +61,20 @@ class ReportIRShowView : LinearLayout {
             else -> "R${index + 1} " + context.getString(R.string.album_report_comment)
         }
     }
-
     fun getPrintViewList(): ArrayList<View> {
         val result = ArrayList<View>()
         result.add(cl_image)
-
         getItemChild(cl_full, result)
-
         getItemChild(cl_point1, result)
         getItemChild(cl_point2, result)
         getItemChild(cl_point3, result)
         getItemChild(cl_point4, result)
         getItemChild(cl_point5, result)
-
         getItemChild(cl_line1, result)
         getItemChild(cl_line2, result)
         getItemChild(cl_line3, result)
         getItemChild(cl_line4, result)
         getItemChild(cl_line5, result)
-
         getItemChild(cl_rect1, result)
         getItemChild(cl_rect2, result)
         getItemChild(cl_rect3, result)
@@ -97,7 +82,6 @@ class ReportIRShowView : LinearLayout {
         getItemChild(cl_rect5, result)
         return result
     }
-
     private fun getItemChild(itemRoot: View, resultList: ArrayList<View>) {
         if (itemRoot.isVisible) {
             if (itemRoot.cl_range.isVisible) {
@@ -111,7 +95,6 @@ class ReportIRShowView : LinearLayout {
             }
         }
     }
-
     fun setImageDrawable(drawable: Drawable?) {
         val isLand = (drawable?.intrinsicWidth ?: 0) > (drawable?.intrinsicHeight ?: 0)
         val width = (ScreenUtil.getScreenWidth(context) * (if (isLand) 234 else 175) / 375f).toInt()
@@ -122,15 +105,12 @@ class ReportIRShowView : LinearLayout {
         iv_image.layoutParams = layoutParams
         iv_image.setImageDrawable(drawable)
     }
-
     fun refreshData(isFirst: Boolean, isLast: Boolean, reportIRBean: ReportIRBean) {
         tv_head.isVisible = isFirst
         view_not_head.isVisible = !isFirst
         view_image_bg.setBackgroundResource(if (isFirst) R.drawable.layer_report_ir_show_top_bg else R.drawable.layer_report_ir_show_item_bg)
         cl_image.setPadding(0, if (isFirst) SizeUtils.dp2px(20f) else 0, 0, 0)
-
         refreshItem(cl_full, reportIRBean.full_graph_data, TYPE_FULL, 0)
-
         val pointList = reportIRBean.point_data
         for (i in pointList.indices) {
             when (i) {
@@ -146,7 +126,6 @@ class ReportIRShowView : LinearLayout {
         cl_point4.tv_title.isVisible = !cl_point1.isVisible && !cl_point2.isVisible && !cl_point3.isVisible
         cl_point5.tv_title.isVisible =
             !cl_point1.isVisible && !cl_point2.isVisible && !cl_point3.isVisible && !cl_point4.isVisible
-
         val lineList = reportIRBean.line_data
         for (i in lineList.indices) {
             when (i) {
@@ -162,7 +141,6 @@ class ReportIRShowView : LinearLayout {
         cl_line4.tv_title.isVisible = !cl_line1.isVisible && !cl_line2.isVisible && !cl_line3.isVisible
         cl_line5.tv_title.isVisible =
             !cl_line1.isVisible && !cl_line2.isVisible && !cl_line3.isVisible && !cl_line4.isVisible
-
         val rectList = reportIRBean.surface_data
         for (i in rectList.indices) {
             when (i) {
@@ -178,7 +156,6 @@ class ReportIRShowView : LinearLayout {
         cl_rect4.tv_title.isVisible = !cl_rect1.isVisible && !cl_rect2.isVisible && !cl_rect3.isVisible
         cl_rect5.tv_title.isVisible =
             !cl_rect1.isVisible && !cl_rect2.isVisible && !cl_rect3.isVisible && !cl_rect4.isVisible
-
         if (rectList.isNotEmpty()) {
             when (rectList.size) {
                 1 -> hideLastLine(isLast, cl_rect1, rectList[0], TYPE_RECT)
@@ -211,7 +188,6 @@ class ReportIRShowView : LinearLayout {
         }
         hideLastLine(isLast, cl_full, reportIRBean.full_graph_data, TYPE_FULL)
     }
-
     private fun hideLastLine(isLast: Boolean, itemRoot: View, tempBean: ReportTempBean?, type: Int) {
         if (tempBean == null) {
             return
@@ -238,13 +214,11 @@ class ReportIRShowView : LinearLayout {
             itemRoot.cl_range.setBackgroundResource(R.drawable.layer_report_ir_show_bottom_bg)
         }
     }
-
     private fun refreshItem(itemRoot: View, tempBean: ReportTempBean?, type: Int, index: Int) {
         if (tempBean == null) {
             itemRoot.isVisible = false
             return
         }
-
         itemRoot.isVisible = when (type) {
             TYPE_FULL -> tempBean.isMaxOpen() || tempBean.isMinOpen() || tempBean.isExplainOpen()
             TYPE_POINT -> tempBean.isTempOpen() || tempBean.isExplainOpen()
@@ -253,7 +227,6 @@ class ReportIRShowView : LinearLayout {
         if (!itemRoot.isVisible) {
             return
         }
-
         val rangeTitle = if (type == TYPE_POINT) {
             "P${index + 1} " + context.getString(R.string.chart_temperature)
         } else {
@@ -281,7 +254,6 @@ class ReportIRShowView : LinearLayout {
                 tempBean.max_temperature
             }
         }
-
         itemRoot.tv_range_title.isVisible =
             if (type == TYPE_POINT) tempBean.isTempOpen() else tempBean.isMinOpen() || tempBean.isMaxOpen()
         itemRoot.tv_range_value.isVisible =

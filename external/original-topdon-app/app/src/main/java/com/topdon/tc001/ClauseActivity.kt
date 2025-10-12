@@ -1,5 +1,4 @@
 package com.topdon.tc001
-
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
@@ -23,10 +22,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
-
 @Route(path = RouterConfig.CLAUSE)
 class ClauseActivity : AppCompatActivity() {
-
     private lateinit var dialog: TipProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +31,13 @@ class ClauseActivity : AppCompatActivity() {
         initView()
     }
 
-
     private fun initView() {
         dialog = TipProgressDialog.Builder(this)
             .setMessage(com.topdon.lib.core.R.string.tip_loading)
             .setCanceleable(false)
             .create()
-
         val year = Calendar.getInstance().get(Calendar.YEAR)
         clause_year_txt.text = getString(R.string.version_year, "2023-$year")
-
         clause_agree_btn.setOnClickListener {
             confirmInitApp()
         }
@@ -93,7 +87,6 @@ class ClauseActivity : AppCompatActivity() {
                     .navigation(this)
             }
         }
-
         if (BaseApplication.instance.isDomestic()) {
             tv_privacy.text = "    ${getString(R.string.privacy_agreement_tips_new, CommUtils.getAppName())}"
             tv_privacy.visibility = View.VISIBLE
@@ -103,7 +96,6 @@ class ClauseActivity : AppCompatActivity() {
         tv_version.text = "${getString(R.string.set_version)}V${VersionUtils.getCodeStr(this)}"
         clause_name.text = CommUtils.getAppName()
     }
-
     private fun confirmInitApp() {
         lifecycleScope.launch {
             showLoading()
@@ -119,11 +111,9 @@ class ClauseActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun showLoading() {
         dialog.show()
     }
-
     private fun dismissLoading() {
         dialog.dismiss()
     }
