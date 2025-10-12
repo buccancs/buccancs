@@ -6,7 +6,6 @@ import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.SessionTransferRepository
 import com.buccancs.domain.repository.TimeSyncRepository
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton

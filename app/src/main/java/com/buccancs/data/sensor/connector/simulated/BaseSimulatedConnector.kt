@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import java.nio.charset.StandardCharsets
 import java.util.*
@@ -106,8 +105,8 @@ internal abstract class BaseSimulatedConnector(
         streamJob?.cancel()
         streamJob = null
         recordingStartedAt?.let { start ->
-            val nowInstant = nowInstant()
-            val duration = (nowInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(0)
+        val currentInstant = nowInstant()
+        val duration = (currentInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(0)
             lastRecordingDurationMs = duration
         }
         recordingStartedAt = null

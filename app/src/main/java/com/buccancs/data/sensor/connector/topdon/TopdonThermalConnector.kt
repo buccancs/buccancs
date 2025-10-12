@@ -30,7 +30,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
@@ -39,7 +38,7 @@ import javax.inject.Singleton
 import kotlin.math.absoluteValue
 
 @Singleton
-class TopdonThermalConnector @Inject constructor(
+internal class TopdonThermalConnector @Inject constructor(
     @ApplicationScope private val appScope: CoroutineScope,
     @ApplicationContext private val context: Context,
     private val usbManager: UsbManager,

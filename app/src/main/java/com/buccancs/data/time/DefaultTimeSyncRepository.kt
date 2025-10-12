@@ -1,6 +1,6 @@
 package com.buccancs.data.time
 
-import com.buccancs.util.currentInstant
+import com.buccancs.util.nowInstant
 import android.util.Log
 import com.buccancs.control.TimeSyncServiceGrpcKt
 import com.buccancs.control.timeSyncPing
@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -98,7 +97,7 @@ class DefaultTimeSyncRepository @Inject constructor(
         val best = ranked.take(BEST_SAMPLE_COUNT.coerceAtMost(ranked.size))
         val offsetAverage = best.map { it.offsetMs }.average()
         val roundTripAverage = best.map { it.roundTripMs }.average()
-        val currentInstant = currentInstant()
+        val currentInstant = nowInstant()
         stub.report(
             timeSyncReport {
                 this.deviceId = deviceId
@@ -128,7 +127,7 @@ class DefaultTimeSyncRepository @Inject constructor(
         Log.w(TAG, "Time sync failed: ${error.message}", error)
         val previous = _status.value
         _status.value = previous.copy(
-            lastSync = currentInstant(),
+            lastSync = nowInstant(),
             roundTripMillis = Long.MAX_VALUE
         )
     }
@@ -137,7 +136,7 @@ class DefaultTimeSyncRepository @Inject constructor(
     private fun initialStatus(): TimeSyncStatus = TimeSyncStatus(
         offsetMillis = 0,
         roundTripMillis = Long.MAX_VALUE,
-        lastSync = currentInstant(),
+        lastSync = nowInstant(),
         driftEstimateMillis = 0.0
     )
 

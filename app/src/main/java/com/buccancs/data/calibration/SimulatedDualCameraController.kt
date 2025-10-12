@@ -8,7 +8,6 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
 import com.buccancs.domain.model.CalibrationPatternConfig
-import kotlinx.datetime.Clock
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.PI

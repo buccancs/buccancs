@@ -32,7 +32,6 @@ import com.buccancs.domain.model.SessionArtifact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import java.io.File
 import java.io.FileInputStream

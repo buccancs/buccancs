@@ -1,6 +1,5 @@
 package com.buccancs.data.sensor.connector.simulated
 
-import android.content.Context
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
@@ -9,13 +8,21 @@ import java.io.File
 import java.security.MessageDigest
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.random.Random
 
-@Singleton
-internal class SimulatedArtifactFactory @Inject constructor(
-    @ApplicationContext private val context: Context
+@javax.inject.Singleton
+internal class SimulatedArtifactFactory private constructor(
+    private val rootDirectory: File
 ) {
+    @Inject
+    constructor(@ApplicationContext context: android.content.Context) : this(context.filesDir)
+
+    internal companion object {
+        fun fromRoot(root: File): SimulatedArtifactFactory = SimulatedArtifactFactory(root)
+
+        val random: Random = Random(System.currentTimeMillis())
+    }
+
     fun createArtifact(
         sessionId: String,
         deviceId: DeviceId,
@@ -63,7 +70,7 @@ internal class SimulatedArtifactFactory @Inject constructor(
     private fun sessionDirectory(sessionId: String, deviceId: DeviceId): File {
         val sanitizedSession = sanitize(sessionId)
         val sanitizedDevice = sanitize(deviceId.value)
-        return File(context.filesDir, "sessions/$sanitizedSession/$sanitizedDevice")
+        return File(rootDirectory, "sessions/$sanitizedSession/$sanitizedDevice")
     }
 
     private fun sanitize(input: String): String =
@@ -73,9 +80,5 @@ internal class SimulatedArtifactFactory @Inject constructor(
         val suffix = System.currentTimeMillis()
         val prefix = streamType.name.lowercase(Locale.US)
         return "$prefix-$suffix.$extension"
-    }
-
-    private companion object {
-        val random: Random = Random(System.currentTimeMillis())
     }
 }
