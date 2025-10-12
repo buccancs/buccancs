@@ -1,5 +1,6 @@
 package com.buccancs.data.time
 
+import com.buccancs.util.currentInstant
 import android.util.Log
 import com.buccancs.control.TimeSyncServiceGrpcKt
 import com.buccancs.control.timeSyncPing
@@ -97,28 +98,28 @@ class DefaultTimeSyncRepository @Inject constructor(
         val best = ranked.take(BEST_SAMPLE_COUNT.coerceAtMost(ranked.size))
         val offsetAverage = best.map { it.offsetMs }.average()
         val roundTripAverage = best.map { it.roundTripMs }.average()
-        val nowInstant = Clock.System.now()
+        val currentInstant = currentInstant()
         stub.report(
             timeSyncReport {
                 this.deviceId = deviceId
                 offsetMs = offsetAverage
                 roundTripMs = roundTripAverage
-                sampleEpochMs = nowInstant.toEpochMilliseconds()
+                sampleEpochMs = currentInstant.toEpochMilliseconds()
             }
         )
         val driftEstimate = lastObservation?.let { previous ->
             val elapsedMs =
-                (nowInstant.toEpochMilliseconds() - previous.timestamp.toEpochMilliseconds()).coerceAtLeast(1L)
+                (currentInstant.toEpochMilliseconds() - previous.timestamp.toEpochMilliseconds()).coerceAtLeast(1L)
             (offsetAverage - previous.offsetMs) / elapsedMs * 1000.0
         } ?: 0.0
         lastObservation = SyncObservation(
-            timestamp = nowInstant,
+            timestamp = currentInstant,
             offsetMs = offsetAverage
         )
         _status.value = TimeSyncStatus(
             offsetMillis = offsetAverage.roundToLong(),
             roundTripMillis = roundTripAverage.roundToLong().coerceAtLeast(0L),
-            lastSync = nowInstant,
+            lastSync = currentInstant,
             driftEstimateMillis = abs(driftEstimate)
         )
     }
@@ -127,7 +128,7 @@ class DefaultTimeSyncRepository @Inject constructor(
         Log.w(TAG, "Time sync failed: ${error.message}", error)
         val previous = _status.value
         _status.value = previous.copy(
-            lastSync = Clock.System.now(),
+            lastSync = currentInstant(),
             roundTripMillis = Long.MAX_VALUE
         )
     }
@@ -136,7 +137,7 @@ class DefaultTimeSyncRepository @Inject constructor(
     private fun initialStatus(): TimeSyncStatus = TimeSyncStatus(
         offsetMillis = 0,
         roundTripMillis = Long.MAX_VALUE,
-        lastSync = Clock.System.now(),
+        lastSync = currentInstant(),
         driftEstimateMillis = 0.0
     )
 

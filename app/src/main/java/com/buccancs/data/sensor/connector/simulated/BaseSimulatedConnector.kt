@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.simulated
 
+import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
@@ -83,14 +84,14 @@ internal abstract class BaseSimulatedConnector(
             return DeviceCommandResult.Rejected("Device not connected.")
         }
         streamJob?.cancel()
-        recordingStartedAt = Clock.System.now()
+        recordingStartedAt = nowInstant()
         lastSessionAnchor = anchor
         lastRecordingDurationMs = 0
         streamJob = scope.launch {
             var frameCounter = 0L
             while (isActive) {
                 statusState.value = sampleStatuses(
-                    timestamp = Clock.System.now(),
+                    timestamp = nowInstant(),
                     frameCounter = frameCounter,
                     anchor = anchor
                 )
@@ -105,7 +106,7 @@ internal abstract class BaseSimulatedConnector(
         streamJob?.cancel()
         streamJob = null
         recordingStartedAt?.let { start ->
-            val nowInstant = Clock.System.now()
+            val nowInstant = nowInstant()
             val duration = (nowInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(0)
             lastRecordingDurationMs = duration
         }
@@ -177,7 +178,7 @@ internal abstract class BaseSimulatedConnector(
     protected fun ensureConnectedForSimulation() {
         val connected = deviceState.value.connectionStatus is ConnectionStatus.Connected
         if (connected) return
-        val now = Clock.System.now()
+        val now = nowInstant()
         deviceState.update { device ->
             device.copy(
                 connectionStatus = ConnectionStatus.Connected(
@@ -233,7 +234,7 @@ internal abstract class BaseSimulatedConnector(
         val sampleRate = 128
         val duration = durationMs.coerceAtLeast(1_000L)
         val sampleCount = max(sampleRate, ((duration * sampleRate) / 1_000L).toInt())
-        val startTimestamp = (currentSessionAnchor()?.referenceTimestamp ?: Clock.System.now()).toEpochMilliseconds()
+        val startTimestamp = (currentSessionAnchor()?.referenceTimestamp ?: nowInstant()).toEpochMilliseconds()
         val random = Random(deviceId.value.hashCode())
         val builder = StringBuilder()
         builder.append("timestamp_ms,gsr_uS\n")

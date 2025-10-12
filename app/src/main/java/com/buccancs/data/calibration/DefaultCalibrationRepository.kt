@@ -1,5 +1,6 @@
 package com.buccancs.data.calibration
 
+import com.buccancs.util.nowInstant
 import android.graphics.BitmapFactory
 import androidx.annotation.VisibleForTesting
 import com.buccancs.di.ApplicationScope
@@ -258,7 +259,7 @@ class DefaultCalibrationRepository @Inject constructor(
         )
         val meanRms = (rgbResult.rms + thermalResult.rms + stereo.rms) / 3.0
         return CalibrationResult(
-            generatedAt = Clock.System.now(),
+            generatedAt = nowInstant(),
             pattern = pattern,
             requiredPairs = _state.value.requiredPairs,
             usedPairs = captures.size,
@@ -509,7 +510,7 @@ class DefaultCalibrationRepository @Inject constructor(
     }
 
     private fun createSessionId(): String {
-        val timestamp = Clock.System.now().toEpochMilliseconds()
+        val timestamp = nowInstant().toEpochMilliseconds()
         return "cal-${timestamp}-${UUID.randomUUID().toString().take(8)}"
     }
 

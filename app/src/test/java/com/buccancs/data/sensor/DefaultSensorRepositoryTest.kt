@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor
 
+import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedMicrophoneConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedRgbCameraConnector
@@ -37,7 +38,7 @@ class DefaultSensorRepositoryTest {
         advanceUntilIdle()
         val anchor = RecordingSessionAnchor(
             sessionId = "test-session",
-            referenceTimestamp = Clock.System.now(),
+            referenceTimestamp = nowInstant(),
             sharedClockOffsetMillis = 0
         )
         repository.startStreaming(anchor)
@@ -58,7 +59,7 @@ class DefaultSensorRepositoryTest {
         advanceUntilIdle()
         val anchor = RecordingSessionAnchor(
             sessionId = "test-session",
-            referenceTimestamp = Clock.System.now(),
+            referenceTimestamp = nowInstant(),
             sharedClockOffsetMillis = 0
         )
         repository.startStreaming(anchor)

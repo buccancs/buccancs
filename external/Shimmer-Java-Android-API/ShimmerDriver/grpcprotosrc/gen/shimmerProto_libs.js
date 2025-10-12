@@ -1,5 +1,3 @@
-
-
 goog.provide('proto.shimmerGRPC.HelloReply');
 goog.provide('proto.shimmerGRPC.HelloRequest');
 goog.provide('proto.shimmerGRPC.ObjectCluster2');

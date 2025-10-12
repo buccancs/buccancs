@@ -155,6 +155,7 @@ function serialize_shimmerGRPC_StringMsg(arg) {
 function deserialize_shimmerGRPC_StringMsg(buffer_arg) {
     return src_ShimmerGrpcAndOJC_pb.StringMsg.deserializeBinary(new Uint8Array(buffer_arg));
 }
+
 var ShimmerServerService = exports.ShimmerServerService = {
     sayHello: {
         path: '/shimmerGRPC.ShimmerServer/SayHello',

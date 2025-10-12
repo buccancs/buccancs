@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor
 
+import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
@@ -45,7 +46,7 @@ class DefaultSensorRepository @Inject constructor(
         RecordingState(
             lifecycle = RecordingLifecycleState.Idle,
             anchor = null,
-            updatedAt = Clock.System.now()
+            updatedAt = nowInstant()
         )
     )
     override val recordingState: StateFlow<RecordingState> = _recordingState.asStateFlow()
@@ -94,7 +95,7 @@ class DefaultSensorRepository @Inject constructor(
     }
 
     override suspend fun startStreaming(anchor: RecordingSessionAnchor) {
-        val now = Clock.System.now()
+        val now = nowInstant()
         _recordingState.value = RecordingState(
             lifecycle = RecordingLifecycleState.Starting,
             anchor = anchor,
@@ -113,7 +114,7 @@ class DefaultSensorRepository @Inject constructor(
         _recordingState.value = RecordingState(
             lifecycle = RecordingLifecycleState.Recording,
             anchor = anchor,
-            updatedAt = Clock.System.now()
+            updatedAt = nowInstant()
         )
     }
 
@@ -122,7 +123,7 @@ class DefaultSensorRepository @Inject constructor(
         _recordingState.value = RecordingState(
             lifecycle = RecordingLifecycleState.Stopping,
             anchor = anchor,
-            updatedAt = Clock.System.now()
+            updatedAt = nowInstant()
         )
         orderedConnectors.forEach { connector ->
             when (val result = connector.stopStreaming()) {
@@ -137,7 +138,7 @@ class DefaultSensorRepository @Inject constructor(
         _recordingState.value = RecordingState(
             lifecycle = RecordingLifecycleState.Idle,
             anchor = null,
-            updatedAt = Clock.System.now()
+            updatedAt = nowInstant()
         )
         return anchor
     }

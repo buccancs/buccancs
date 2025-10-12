@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.shimmer
 
+import com.buccancs.util.nowInstant
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -305,7 +306,7 @@ class ShimmerSensorConnector @Inject constructor(
         deviceState.update {
             it.copy(
                 connectionStatus = ConnectionStatus.Connected(
-                    since = Clock.System.now(),
+                    since = nowInstant(),
                     batteryPercent = null,
                     rssiDbm = null
                 ),
@@ -319,7 +320,7 @@ class ShimmerSensorConnector @Inject constructor(
             val existing = current.connectionStatus as? ConnectionStatus.Connected
             current.copy(
                 connectionStatus = ConnectionStatus.Connected(
-                    since = existing?.since ?: Clock.System.now(),
+                    since = existing?.since ?: nowInstant(),
                     batteryPercent = existing?.batteryPercent,
                     rssiDbm = existing?.rssiDbm
                 ),
@@ -341,7 +342,7 @@ class ShimmerSensorConnector @Inject constructor(
     }
 
     private fun handleDataPacket(cluster: ObjectCluster) {
-        val now = Clock.System.now()
+        val now = nowInstant()
         lastSampleTimestamp = now
         samplesSeen += 1
         val sampleInstant = extractTimestamp(cluster) ?: now

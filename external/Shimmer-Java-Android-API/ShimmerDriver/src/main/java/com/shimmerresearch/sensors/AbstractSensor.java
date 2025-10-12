@@ -460,7 +460,9 @@ public abstract class AbstractSensor implements Serializable {
 
     public boolean handleSpecCasesBeforeSensorMapUpdatePerSensor(ShimmerDevice shimmerDevice, Integer sensorId) {
         return false;
-    }    public void handleSpecCasesAfterSensorMapUpdateFromEnabledSensors() {
+    }
+
+    public void handleSpecCasesAfterSensorMapUpdateFromEnabledSensors() {
     }
 
     public void handleSpecCasesUpdateEnabledSensors() {

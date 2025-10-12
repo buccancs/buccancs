@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.topdon
 
+import com.buccancs.util.nowInstant
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
@@ -91,7 +92,7 @@ class TopdonThermalConnector @Inject constructor(
                 deviceState.update {
                     it.copy(
                         connectionStatus = ConnectionStatus.Connected(
-                            since = Clock.System.now(),
+                            since = nowInstant(),
                             batteryPercent = null,
                             rssiDbm = null
                         ),
@@ -142,7 +143,7 @@ class TopdonThermalConnector @Inject constructor(
         val device = detectTopdonDevice()
         val status = when {
             uvcCamera != null -> ConnectionStatus.Connected(
-                since = Clock.System.now(),
+                since = nowInstant(),
                 batteryPercent = null,
                 rssiDbm = null
             )
@@ -427,7 +428,7 @@ class TopdonThermalConnector @Inject constructor(
                 Log.w(logTag, "Failed to persist thermal frame", t)
             }
         }
-        val now = Clock.System.now()
+        val now = nowInstant()
         val thermal = SensorStreamStatus(
             deviceId = deviceId,
             streamType = SensorStreamType.THERMAL_VIDEO,

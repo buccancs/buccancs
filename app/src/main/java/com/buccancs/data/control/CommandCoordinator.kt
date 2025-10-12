@@ -1,5 +1,6 @@
 package com.buccancs.data.control
 
+import com.buccancs.util.nowInstant
 import android.util.Log
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
@@ -62,7 +63,7 @@ class CommandCoordinator @Inject constructor(
                     type = DeviceEventType.SYNC_SIGNAL,
                     label = payload.signalType,
                     scheduledAt = Instant.fromEpochMilliseconds(payload.executeEpochMs),
-                    receivedAt = Clock.System.now()
+                    receivedAt = nowInstant()
                 )
             )
             _syncSignals.emit(payload)
@@ -79,7 +80,7 @@ class CommandCoordinator @Inject constructor(
                     type = DeviceEventType.EVENT_MARKER,
                     label = payload.description,
                     scheduledAt = Instant.fromEpochMilliseconds(payload.executeEpochMs),
-                    receivedAt = Clock.System.now()
+                    receivedAt = nowInstant()
                 )
             )
             Log.i(TAG, "Event marker ${payload.markerId} acknowledged")
@@ -95,7 +96,7 @@ class CommandCoordinator @Inject constructor(
                     type = DeviceEventType.STIMULUS,
                     label = payload.action,
                     scheduledAt = Instant.fromEpochMilliseconds(payload.executeEpochMs),
-                    receivedAt = Clock.System.now()
+                    receivedAt = nowInstant()
                 )
             )
             Log.i(TAG, "Stimulus ${payload.stimulusId} (${payload.action}) recorded")
@@ -111,7 +112,7 @@ class CommandCoordinator @Inject constructor(
                     type = DeviceEventType.COMMAND,
                     label = payload::class.simpleName ?: "command",
                     scheduledAt = Instant.fromEpochMilliseconds(payload.executeEpochMs),
-                    receivedAt = Clock.System.now()
+                    receivedAt = nowInstant()
                 )
             )
             Log.i(TAG, "Command ${payload.commandId} executed")

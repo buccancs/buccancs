@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.simulated
 
+import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
 import com.buccancs.di.ApplicationScope
@@ -99,7 +100,7 @@ internal class SimulatedShimmerConnector @Inject constructor(
             emissionJob?.cancel()
             emissionJob = scope.launch(Dispatchers.Default) {
                 var sampleIndex = 0L
-                val startTimestamp = Clock.System.now()
+                val startTimestamp = nowInstant()
                 while (isActive) {
                     val elapsedMs = sampleIndex * SAMPLE_PERIOD_MS
                     val timestampMs = startTimestamp.toEpochMilliseconds() + elapsedMs

@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.camera
 
+import com.buccancs.util.nowInstant
 import android.annotation.SuppressLint
 import android.graphics.ImageFormat
 import android.hardware.camera2.CameraAccessException
@@ -86,7 +87,7 @@ class RgbCameraConnector @Inject constructor(
             val connection = if (cameraDevice != null) {
                 val existing = current.connectionStatus as? ConnectionStatus.Connected
                 ConnectionStatus.Connected(
-                    since = existing?.since ?: Clock.System.now(),
+                    since = existing?.since ?: nowInstant(),
                     batteryPercent = null,
                     rssiDbm = null
                 )
@@ -127,7 +128,7 @@ class RgbCameraConnector @Inject constructor(
             deviceState.update {
                 it.copy(
                     connectionStatus = ConnectionStatus.Connected(
-                        since = Clock.System.now(),
+                        since = nowInstant(),
                         batteryPercent = null,
                         rssiDbm = null
                     ),
@@ -527,7 +528,7 @@ class RgbCameraConnector @Inject constructor(
         if (image != null) {
             image.close()
         }
-        val now = Clock.System.now()
+        val now = nowInstant()
         val rgbStatus = SensorStreamStatus(
             deviceId = deviceId,
             streamType = SensorStreamType.RGB_VIDEO,

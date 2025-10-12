@@ -1,5 +1,6 @@
 package com.buccancs.data.calibration
 
+import com.buccancs.util.nowInstant
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -34,7 +35,7 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
     override suspend fun ensureReady() = Unit
     override suspend fun shutdown() = Unit
     override suspend fun capturePair(pattern: CalibrationPatternConfig): CalibrationFramePair {
-        val timestamp = Clock.System.now()
+        val timestamp = nowInstant()
         val rgbBitmap = renderPattern(
             width = rgbInfo.width,
             height = rgbInfo.height,

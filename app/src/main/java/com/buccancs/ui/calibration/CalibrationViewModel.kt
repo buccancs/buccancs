@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.buccancs.ui.calibration
 
 import androidx.lifecycle.ViewModel
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.ExperimentalTime
 
 @HiltViewModel
 class CalibrationViewModel @Inject constructor(

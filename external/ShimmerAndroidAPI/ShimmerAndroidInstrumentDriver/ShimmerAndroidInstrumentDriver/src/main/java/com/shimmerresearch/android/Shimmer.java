@@ -191,7 +191,9 @@ public class Shimmer extends ShimmerBluetooth {
         mShimmerUserAssignedName = myName;
         mSetupDeviceWhileConnecting = true;
         mUseProcessingThread = true;
-    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    }
+
+    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -1156,6 +1158,7 @@ public class Shimmer extends ShimmerBluetooth {
         }
 
     }
+
     public void setRadio(BluetoothSocket socket) {
         System.out.println("initialize process set radio");
         registerDisconnectListener();
@@ -1434,8 +1437,6 @@ public class Shimmer extends ShimmerBluetooth {
             }
         }
     }
-
-
 
 
 }

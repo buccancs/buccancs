@@ -2,6 +2,7 @@
 
 package com.buccancs.ui
 
+import com.buccancs.util.nowInstant
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,12 +39,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import kotlin.time.ExperimentalTime
+import com.buccancs.util.nowInstant
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -455,7 +456,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun deriveConnectionLabel(status: TimeSyncStatus): String {
-        val now = Clock.System.now().toEpochMilliseconds()
+        val now = nowInstant().toEpochMilliseconds()
         val ageMs = now - status.lastSync.toEpochMilliseconds()
         return when {
             ageMs <= CONNECTED_THRESHOLD_MS -> "Connected"
@@ -473,7 +474,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun generateSessionId(): String {
-        val now = Clock.System.now()
+        val now = nowInstant()
         return "session-${now.epochSeconds}"
     }
 
@@ -551,7 +552,7 @@ data class MainUiState(
 
     companion object {
         fun initial(): MainUiState = MainUiState(
-            sessionIdInput = "session-${Clock.System.now().epochSeconds}",
+            sessionIdInput = "session-${nowInstant().epochSeconds}",
             simulationEnabled = false,
             devices = emptyList(),
             streamStatuses = emptyList(),
@@ -562,7 +563,7 @@ data class MainUiState(
             timeSyncStatus = TimeSyncStatus(
                 offsetMillis = 0,
                 roundTripMillis = 0,
-                lastSync = Clock.System.now(),
+                lastSync = nowInstant(),
                 driftEstimateMillis = 0.0
             ),
             isBusy = false,

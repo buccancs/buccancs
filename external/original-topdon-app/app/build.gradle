@@ -225,6 +225,7 @@ def versionApk(variant, defaultConfig) {
         outputFileName = appName
     }
 }
+
 def copyApk(type, flavor) {
     copy {
         from "build/outputs/apk/${flavor}/${type}"
@@ -239,6 +240,7 @@ def copyApk(type, flavor) {
         }
     }
 }
+
 def copyAab(type) {
     copy {
         from "build/outputs/bundle/${type}"

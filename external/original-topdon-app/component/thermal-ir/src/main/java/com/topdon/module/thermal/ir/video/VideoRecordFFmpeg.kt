@@ -149,6 +149,7 @@ class VideoRecordFFmpeg(
     private val pixArray = ByteArray(width * height * 4)
     private val bufferRef: AtomicReference<ByteBuffer> =
         AtomicReference(ByteBuffer.allocate(pixArray.size))
+
     private fun readByteBuffer(): ByteBuffer? {
         return bufferRef.get()?.duplicate()
     }

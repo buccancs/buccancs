@@ -264,8 +264,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                     bufferConfigByte0 = readBytes(4);
                 }
                 eventResponseReceived(responseCommand, bufferConfigByte0);
-            }
-            else if (responseCommand == InstructionsResponse.GET_SHIMMER_VERSION_RESPONSE_VALUE) {
+            } else if (responseCommand == InstructionsResponse.GET_SHIMMER_VERSION_RESPONSE_VALUE) {
                 delayForBtResponse(100);
                 byte[] bufferShimmerVersion = new byte[1];
                 bufferShimmerVersion = readBytes(1);

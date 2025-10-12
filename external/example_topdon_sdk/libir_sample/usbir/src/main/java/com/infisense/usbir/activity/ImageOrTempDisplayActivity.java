@@ -112,7 +112,9 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
 
         imageSrc = new byte[imageWidth * imageHeight * 2];
         temperatureSrc = new byte[imageWidth * imageHeight * 2];
-    }    private Handler mHandler = new Handler(Looper.myLooper()) {
+    }
+
+    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -340,8 +342,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             Log.e(TAG, "imageThread.join(): catch an interrupted exception");
         }
     }
-
-
 
 
 }

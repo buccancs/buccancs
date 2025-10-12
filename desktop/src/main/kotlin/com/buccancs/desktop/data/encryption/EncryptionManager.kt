@@ -82,6 +82,7 @@ class EncryptionManager(
     private val aead: Aead = keyProvider
         .keyset()
         .getPrimitive(RegistryConfiguration.get(), Aead::class.java)
+
     fun encrypt(plain: ByteArray, context: ByteArray): ByteArray = aead.encrypt(plain, context)
     fun decrypt(cipher: ByteArray, context: ByteArray): ByteArray = aead.decrypt(cipher, context)
 }

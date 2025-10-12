@@ -1,5 +1,6 @@
 package com.buccancs.domain
 
+import com.buccancs.util.nowInstant
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.repository.SensorRepository
@@ -20,7 +21,7 @@ class RecordingCoordinator @Inject constructor(
         val syncStatus = timeSyncRepository.forceSync()
         val anchor = RecordingSessionAnchor(
             sessionId = sessionId,
-            referenceTimestamp = requestedStart ?: Clock.System.now(),
+            referenceTimestamp = requestedStart ?: nowInstant(),
             sharedClockOffsetMillis = syncStatus.offsetMillis
         )
         sensorRepository.startStreaming(anchor)

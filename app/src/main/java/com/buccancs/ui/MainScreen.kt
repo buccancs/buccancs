@@ -30,7 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -316,33 +316,6 @@ private fun SessionCard(
 
 @Composable
 private fun ErrorBanner(message: String) {
-    @Composable
-    private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text("Recent Commands", style = MaterialTheme.typography.titleMedium)
-                events.forEach { event ->
-                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        Text(": ", style = MaterialTheme.typography.bodyMedium)
-                        Text(
-                            text = "Scheduled  | Received ",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    Divider()
-                }
-            }
-        }
-    }
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
     ) {
@@ -352,6 +325,50 @@ private fun ErrorBanner(message: String) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onErrorContainer
         )
+    }
+}
+
+@Composable
+private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text("Recent Commands", style = MaterialTheme.typography.titleMedium)
+            if (events.isEmpty()) {
+                Text(
+                    text = "No recent events",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            } else {
+                events.forEach { event ->
+                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                        Text(
+                            text = "${event.label} (${event.type})",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Scheduled: ${event.scheduledAt}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = "Received: ${event.receivedAt}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Divider()
+                }
+            }
+        }
     }
 }
 

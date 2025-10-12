@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.audio
 
+import com.buccancs.util.nowInstant
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
@@ -84,7 +85,7 @@ class MicrophoneConnector @Inject constructor(
             deviceState.update {
                 it.copy(
                     connectionStatus = ConnectionStatus.Connected(
-                        since = Clock.System.now(),
+                        since = nowInstant(),
                         batteryPercent = null,
                         rssiDbm = null
                     ),
@@ -137,7 +138,7 @@ class MicrophoneConnector @Inject constructor(
                     }
                     if (read > 0) {
                         writePcmSamples(shortBuffer, read)
-                        val now = Clock.System.now()
+                        val now = nowInstant()
                         val bufferedSeconds = read.toDouble() / SAMPLE_RATE_HZ.toDouble()
                         val status = SensorStreamStatus(
                             deviceId = deviceId,
