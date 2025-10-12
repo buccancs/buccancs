@@ -5,10 +5,6 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 
-/**
- * @author: CaiSongL
- * @date: 2022/6/9 22:14
- */
 public object AnimaUtils {
     const val DEFAULT_ANIMATION_DURATION: Long = 400
 

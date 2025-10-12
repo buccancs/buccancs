@@ -41,10 +41,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-/**
- * @author: CaiSongL
- * @date: 2023/5/12 11:34
- */
 class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
 
     private var isTC007 = false

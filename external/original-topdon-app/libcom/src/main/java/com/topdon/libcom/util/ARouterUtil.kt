@@ -8,11 +8,6 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.lib.core.tools.ToastTools
 
-/**
- * des:
- * author: CaiSongL
- * date: 2024/8/26 19:50
- **/
 object ARouterUtil {
     fun jumpImagePick(activity: Activity, isTC007: Boolean, imgPath: String) {
         if (isTC007) {

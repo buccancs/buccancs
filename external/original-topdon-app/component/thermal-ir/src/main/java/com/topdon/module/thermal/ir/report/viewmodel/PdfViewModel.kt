@@ -24,10 +24,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.CountDownLatch
 
-/**
- * @author: CaiSongL
- * @date: 2023/5/12 17:43
- */
 class PdfViewModel : BaseViewModel() {
 
     val listData = MutableLiveData<ReportData?>()

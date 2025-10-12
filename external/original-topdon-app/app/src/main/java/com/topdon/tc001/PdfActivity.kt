@@ -10,9 +10,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 
-/**
- * create by fylder on 2018/8/9
- **/
 @Route(path = RouterConfig.PDF)
 class PdfActivity : BaseActivity() {
 

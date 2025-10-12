@@ -4,9 +4,13 @@ import com.buccancs.desktop.data.erasure.SubjectErasureManager
 import com.buccancs.desktop.data.repository.CommandRepository
 import com.buccancs.desktop.data.repository.DeviceRepository
 import com.buccancs.desktop.data.repository.PreviewRepository
+import com.buccancs.desktop.data.repository.PreviewRepository.PreviewFrameData
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.data.retention.DataRetentionManager
+import com.buccancs.desktop.data.retention.DataRetentionManager.QuotaSnapshot
+import com.buccancs.desktop.data.session.EventLog
 import com.buccancs.desktop.domain.model.DeviceConnectionEvent
+import com.buccancs.desktop.domain.model.DeviceInfo
 import com.buccancs.desktop.domain.model.FileTransferProgress
 import com.buccancs.desktop.domain.model.FileTransferState
 import com.buccancs.desktop.domain.model.SessionStatus
@@ -79,136 +83,33 @@ class AppViewModel(
                 transferState.value = progress
             }
         }
+        val snapshotFlow = combine(
+            sessionRepository.activeSession,
+            deviceRepository.observe(),
+            retentionManager.state(),
+            previewRepository.observe(),
+            sessionRepository.activeEvents(),
+            sessionRepository.storedSessions(),
+            transferState,
+            alerts,
+            controlState
+        ) { session, devices, retention, previews, events, archives, transfers, alertList, control ->
+            UiSnapshot(
+                session = session,
+                devices = devices,
+                retention = retention,
+                previews = previews.values,
+                events = events,
+                archives = archives,
+                transfers = transfers,
+                alerts = alertList,
+                control = control
+            )
+        }
+
         scope.launch {
-            combine(
-                sessionRepository.activeSession,
-                deviceRepository.observe(),
-                retentionManager.state(),
-                previewRepository.observe(),
-                sessionRepository.activeEvents(),
-                sessionRepository.storedSessions(),
-                transferState,
-                alerts,
-                controlState,
-                clock
-            ) { session, devices, retention, previews, events, archives, transfers, alertList, control, now ->
-                val clockOffsets = devices
-                    .mapNotNull { info ->
-                        val offset = info.clockOffsetMs ?: return@mapNotNull null
-                        info.id to offset
-                    }
-                    .toMap()
-                val controlWithMetrics = if (clockOffsets == control.clockOffsetsPreview) {
-                    control
-                } else {
-                    control.copy(clockOffsetsPreview = clockOffsets)
-                }
-                val offlineWarnings = devices
-                    .filter { !it.connected }
-                    .map { info -> "Device ${info.id} disconnected" }
-                val sessionSummary = session?.let {
-                    val startInstant = it.startedAt ?: it.createdAt
-                    val elapsedMillis = when {
-                        it.status == SessionStatus.COMPLETED && it.totalDurationMs != null -> it.totalDurationMs
-                        else -> Duration.between(startInstant, now).toMillis().coerceAtLeast(0)
-                    }
-                    val metricsState = SessionMetricsState(
-                        gsrSamples = it.metrics.gsrSamples,
-                        videoFrames = it.metrics.videoFrames,
-                        thermalFrames = it.metrics.thermalFrames,
-                        audioSamples = it.metrics.audioSamples,
-                        updatedAt = it.metrics.updatedAt
-                    )
-                    SessionSummary(
-                        id = it.id,
-                        status = it.status.name,
-                        startedAt = startInstant,
-                        createdAt = it.createdAt,
-                        totalBytes = retention.perSessionBytes[it.id] ?: 0,
-                        durationMs = it.totalDurationMs,
-                        subjectIds = it.subjectIds,
-                        elapsedMillis = elapsedMillis,
-                        metrics = metricsState
-                    )
-                }
-                AppUiState(
-                    session = sessionSummary,
-                    devices = devices.map { device ->
-                        DeviceListItem(
-                            id = device.id,
-                            model = device.model,
-                            platform = device.platform,
-                            connected = device.connected,
-                            recording = device.recording,
-                            batteryPercent = device.batteryPercent,
-                            previewLatencyMs = device.previewLatencyMs,
-                            clockOffsetMs = device.clockOffsetMs,
-                            lastHeartbeat = device.lastHeartbeat,
-                            sessionId = device.sessionId
-                        )
-                    },
-                    retention = RetentionState(
-                        perSessionBytes = retention.perSessionBytes,
-                        perDeviceBytes = retention.perDeviceBytes,
-                        perSessionDeviceBytes = retention.perSessionDeviceBytes,
-                        totalBytes = retention.totalBytes,
-                        breaches = retention.actions.map { action -> formatRetentionAlert(action) }
-                    ),
-                    previews = previews.values.map { frame ->
-                        PreviewStreamState(
-                            deviceId = frame.deviceId,
-                            cameraId = frame.cameraId,
-                            mimeType = frame.mimeType,
-                            width = frame.width,
-                            height = frame.height,
-                            latencyMs = frame.latencyMs,
-                            receivedAt = frame.receivedAt,
-                            payload = frame.payload
-                        )
-                    },
-                    transfers = transfers.map { transfer ->
-                        TransferStatusItem(
-                            sessionId = transfer.sessionId,
-                            deviceId = transfer.deviceId,
-                            fileName = transfer.fileName,
-                            streamType = transfer.streamType,
-                            state = transfer.state.name,
-                            attempt = transfer.attempt,
-                            bytesTransferred = transfer.receivedBytes,
-                            bytesTotal = transfer.expectedBytes,
-                            errorMessage = transfer.lastError
-                        )
-                    },
-                    alerts = (alertList + offlineWarnings + retention.actions.map { formatRetentionAlert(it) }).distinct(),
-                    control = controlWithMetrics,
-                    events = events
-                        .sortedBy { it.timestampEpochMs }
-                        .takeLast(200)
-                        .map { event ->
-                            EventTimelineItem(
-                                eventId = event.eventId,
-                                label = event.label,
-                                timestamp = Instant.ofEpochMilli(event.timestampEpochMs),
-                                deviceIds = event.deviceIds
-                            )
-                        },
-                    historicalSessions = archives
-                        .sortedByDescending { it.createdAt }
-                        .map { archive ->
-                            SessionArchiveItem(
-                                id = archive.id,
-                                status = archive.status.name,
-                                createdAt = archive.createdAt,
-                                startedAt = archive.startedAt,
-                                stoppedAt = archive.stoppedAt,
-                                totalBytes = archive.totalBytes,
-                                durationMs = archive.durationMs,
-                                subjects = archive.subjects,
-                                eventCount = archive.eventCount,
-                                deviceCount = archive.deviceCount
-                            )
-                        }
-                )
+            combine(snapshotFlow, clock) { snapshot, now ->
+                buildUiState(snapshot, now)
             }.collect { state ->
                 _uiState.value = state
             }

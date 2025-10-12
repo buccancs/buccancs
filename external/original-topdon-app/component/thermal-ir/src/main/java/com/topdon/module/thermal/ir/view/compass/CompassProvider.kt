@@ -93,9 +93,6 @@ class CompassProvider(private val context: Context) {
 //    }
 
     companion object {
-        /**
-         * Returns the available compass sources in order of quality
-         */
         fun getAvailableSources(context: Context): List<CompassSource> {
             val sources = mutableListOf<CompassSource>()
 

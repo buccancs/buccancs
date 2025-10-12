@@ -2,11 +2,6 @@ package com.topdon.thermal07.util
 
 import com.topdon.lib.core.bean.CameraItemBean
 
-/**
- * des:
- * author: CaiSongL
- * date: 2024/5/7 18:27
- **/
 object WifiAttributeChangeU {
 
     fun getTemperatureModeToWifi(temperatureMode: Int): Int {

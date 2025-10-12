@@ -595,7 +595,7 @@ private class SensorStreamServiceImpl(
             }
             sensorStreamAck {
                 success = true
-                totalSamples = totalSamples.coerceAtLeast(0).toULong()
+                totalSamples = totalSamples.coerceAtLeast(0)
             }
         } catch (statusEx: StatusException) {
             activeKey?.let { recordingManager.abortStream(it.sessionId, it.deviceId, it.streamId) }
@@ -659,7 +659,7 @@ private class DataTransferServiceImpl(
                         attempt = attempt
                     )
                 }
-                if (request.chunk.isNotEmpty()) {
+                if (!request.chunk.isEmpty()) {
                     val chunkBytes = request.chunk.toByteArray()
                     accumulator.stream.write(chunkBytes)
                     accumulator.bytes += chunkBytes.size
@@ -726,15 +726,7 @@ private class DataTransferServiceImpl(
                                 ex
                             )
                         }
-                        trySend(
-                            dataTransferStatus {
-                                fileName = accumulator.fileName
-                                deviceId = accumulator.deviceId
-                                streamType = accumulator.streamType.orEmpty()
-                                success = false
-                                errorMessage = message
-                            }
-                        )
+                        trySend(buildTransferStatus(accumulator, success = false, errorMessage = message))
                         return@collect
                     }
                     if (accumulator.checksum.isNotEmpty()) {
@@ -765,15 +757,7 @@ private class DataTransferServiceImpl(
                                     ex
                                 )
                             }
-                            trySend(
-                                dataTransferStatus {
-                                    fileName = accumulator.fileName
-                                    deviceId = accumulator.deviceId
-                                    streamType = accumulator.streamType.orEmpty()
-                                    success = false
-                                    errorMessage = message
-                                }
-                            )
+                            trySend(buildTransferStatus(accumulator, success = false, errorMessage = message))
                             return@collect
                         }
                     }
@@ -812,14 +796,7 @@ private class DataTransferServiceImpl(
                             accumulator.deviceId,
                             actualBytes
                         )
-                        trySend(
-                            dataTransferStatus {
-                                fileName = accumulator.fileName
-                                deviceId = accumulator.deviceId
-                                streamType = accumulator.streamType.orEmpty()
-                                success = true
-                            }
-                        )
+                        trySend(buildTransferStatus(accumulator, success = true))
                     } catch (ex: Exception) {
                         logger.error(
                             "Failed to persist file {} for session {}",
@@ -847,13 +824,11 @@ private class DataTransferServiceImpl(
                             )
                         }
                         trySend(
-                            dataTransferStatus {
-                                fileName = accumulator.fileName
-                                deviceId = accumulator.deviceId
-                                streamType = accumulator.streamType.orEmpty()
-                                success = false
+                            buildTransferStatus(
+                                accumulator = accumulator,
+                                success = false,
                                 errorMessage = ex.message.orEmpty()
-                            }
+                            )
                         )
                     }
                 }
@@ -884,4 +859,18 @@ private class DataTransferServiceImpl(
         val stream: ByteArrayOutputStream = ByteArrayOutputStream(),
         var bytes: Long = 0
     )
+
+    private fun buildTransferStatus(
+        accumulator: TransferAccumulator,
+        success: Boolean,
+        errorMessage: String? = null
+    ): DataTransferStatus {
+        val builder = DataTransferStatus.newBuilder()
+            .setFileName(accumulator.fileName)
+            .setDeviceId(accumulator.deviceId)
+            .setSuccess(success)
+        builder.streamType = accumulator.streamType ?: ""
+        errorMessage?.let { builder.errorMessage = it }
+        return builder.build()
+    }
 }

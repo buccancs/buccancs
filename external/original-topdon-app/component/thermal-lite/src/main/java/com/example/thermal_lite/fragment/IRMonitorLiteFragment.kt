@@ -66,11 +66,6 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.ResourceBundle
 import java.util.ResourceBundle.getBundle
 
-/**
- * des:
- * author: CaiSongL
- * date: 2024/8/5 14:44
- **/
 class IRMonitorLiteFragment : BaseFragment(), ITsTempListener {
 
     private var configJob: Job? = null

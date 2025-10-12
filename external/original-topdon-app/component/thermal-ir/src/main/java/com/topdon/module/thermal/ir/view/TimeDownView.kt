@@ -12,10 +12,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.blankj.utilcode.util.SizeUtils
 import java.util.*
 
-/**
- * @author: CaiSongL
- * @date: 2023/4/7 23:43
- */
 public class TimeDownView : AppCompatTextView {
     private var timer: Timer? = null
     private var downTimerTask: DownTimerTask? = null

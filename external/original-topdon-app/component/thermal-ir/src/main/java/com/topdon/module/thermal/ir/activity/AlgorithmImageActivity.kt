@@ -18,10 +18,6 @@ import org.opencv.imgproc.Imgproc.*
 import java.io.IOException
 import java.io.InputStream
 
-/**
- * @author: CaiSongL
- * @date: 2023/10/28 15:35
- */
 class AlgorithmImageActivity : AppCompatActivity() {
 
 

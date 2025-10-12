@@ -6,10 +6,6 @@ import com.elvishew.xlog.XLog
 import com.topdon.lib.core.utils.ByteUtils.bytesToInt
 import com.topdon.lib.core.utils.ByteUtils.descBytes
 
-/**
- * @author: CaiSongL
- * @date: 2023/4/13 9:33
- */
 object BitmapTools {
 
 

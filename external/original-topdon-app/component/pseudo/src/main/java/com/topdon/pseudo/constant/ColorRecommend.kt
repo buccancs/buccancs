@@ -1,9 +1,5 @@
 package com.topdon.pseudo.constant
 
-/**
- * @author: CaiSongL
- * @date: 2023/8/8 19:37
- */
 object ColorRecommend {
 
     val colorList1 = intArrayOf(

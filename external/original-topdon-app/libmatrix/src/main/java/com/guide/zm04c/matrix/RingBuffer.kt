@@ -16,10 +16,6 @@ class RingBuffer {
         byteArray = ByteArray(size)
     }
 
-    /**
-     * Turn an existing byte array into a RingBuffer.
-     * @param buffer A byte array to be used as a RingBuffer.
-     */
     constructor(buffer: ByteArray) {
         byteArray = buffer
     }

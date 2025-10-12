@@ -17,9 +17,6 @@ import kotlinx.android.synthetic.main.item_question.view.item_question_info
 import kotlinx.android.synthetic.main.item_question.view.item_question_lay
 import java.util.ArrayList
 
-/**
- * FAQ
- */
 @Route(path = RouterConfig.QUESTION)
 class QuestionActivity : BaseActivity() {
 

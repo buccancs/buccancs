@@ -44,9 +44,6 @@ import org.greenrobot.eventbus.EventBus
 import java.io.IOException
 import java.io.InputStream
 
-/**
- * Created by fengjibo on 2024/1/10.
- */
 class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
     View.OnClickListener {
 
@@ -310,7 +307,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
 
     fun onViewClicked(view: View?) {}
     override fun onStart() {
-        Log.w(Companion.TAG, "onStart")
+        Log.w(TAG, "onStart")
         super.onStart()
     }
 
@@ -414,7 +411,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
     }
 
     override fun onDestroy() {
-        Log.w(Companion.TAG, "onDestroy")
+        Log.w(TAG, "onDestroy")
         super.onDestroy()
         USBMonitorDualManager.getInstance().removeOnUSBConnectListener(this)
         USBMonitorDualManager.getInstance().onRelease()

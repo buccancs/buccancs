@@ -11,11 +11,6 @@ import com.example.thermal_lite.camera.DeviceIrcmdControlManager
 import com.topdon.lib.core.bean.CameraItemBean
 import kotlinx.coroutines.delay
 
-/**
- * des:
- * author: CaiSongL
- * date: 2024/8/2 16:43
- **/
 object IRTool {
     const val TAG: String = "IRTool"
 

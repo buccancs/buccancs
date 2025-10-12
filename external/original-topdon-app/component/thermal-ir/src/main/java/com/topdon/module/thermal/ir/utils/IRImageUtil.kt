@@ -16,10 +16,6 @@ import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 import kotlin.math.pow
 
-/**
- * @author: CaiSongL
- * @date: 2023/4/4 14:28
- */
 object IRImageUtil {
 
     fun showContrast(
