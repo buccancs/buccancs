@@ -32,7 +32,7 @@ import javax.inject.Singleton
 import kotlin.math.absoluteValue
 
 @Singleton
-class MicrophoneConnector @Inject constructor(
+internal class MicrophoneConnector @Inject constructor(
     @ApplicationScope private val appScope: CoroutineScope,
     private val recordingStorage: RecordingStorage,
     artifactFactory: SimulatedArtifactFactory

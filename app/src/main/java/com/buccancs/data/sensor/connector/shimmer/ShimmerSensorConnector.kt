@@ -42,7 +42,7 @@ import javax.inject.Singleton
 import kotlin.math.absoluteValue
 
 @Singleton
-class ShimmerSensorConnector @Inject constructor(
+internal class ShimmerSensorConnector @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
     @ApplicationContext private val context: Context,
     private val bluetoothAdapter: BluetoothAdapter?,

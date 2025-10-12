@@ -44,7 +44,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.math.absoluteValue
 
 @Singleton
-class RgbCameraConnector @Inject constructor(
+internal class RgbCameraConnector @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
     private val cameraManager: CameraManager,
     private val recordingStorage: RecordingStorage,

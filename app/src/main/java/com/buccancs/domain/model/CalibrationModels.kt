@@ -1,6 +1,7 @@
 package com.buccancs.domain.model
 
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -37,7 +38,7 @@ data class ExtrinsicTransform(
 
 @Serializable
 data class CalibrationResult(
-    val generatedAt: Instant,
+    @Contextual val generatedAt: Instant,
     val pattern: CalibrationPatternConfig,
     val requiredPairs: Int,
     val usedPairs: Int,
@@ -52,7 +53,7 @@ data class CalibrationImageDescriptor(
     val path: String,
     val width: Int,
     val height: Int,
-    val capturedAt: Instant
+    @Contextual val capturedAt: Instant
 )
 
 data class CalibrationCapture(
