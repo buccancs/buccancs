@@ -169,7 +169,7 @@ public class Device implements Comparable<Device>, Cloneable, Parcelable {
         return "Device{" +
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                '}';
+                '}' ;
     }
 
     @Override

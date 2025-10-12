@@ -1780,7 +1780,7 @@ public class Configuration {
                     svoShimmer4Stock, svoArduino, svoSweatch, svoStrokare);
             private static final List<ShimmerVerObject> listOfCompatibleVersionInfoSdLog = Arrays.asList(svoSdLog);
 
-//			public static final List<ShimmerVerObject> listOfCompatibleVersionInfoExtAdcs = Arrays.asList(
+            //			public static final List<ShimmerVerObject> listOfCompatibleVersionInfoExtAdcs = Arrays.asList(
 //					svoNewImuSdLog, svoNewImuLogAndStream,
 //					svoNewImuAnyExpBrdSdLog, svoNewImuAnyExpBrdLogAndStream,
 //					svoGsrSdLog, svoGsrBtStream, svoGsrLogAndStream,

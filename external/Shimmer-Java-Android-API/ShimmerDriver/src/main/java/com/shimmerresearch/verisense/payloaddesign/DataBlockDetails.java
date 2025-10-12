@@ -54,6 +54,7 @@ public class DataBlockDetails implements Serializable {
      * in-which the datablock didn't need to be split sample-by-sample
      */
     private boolean firstUnsplitDataBlockAfterMiddayMidnightTransition = false;
+
     public DataBlockDetails(DATABLOCK_SENSOR_ID datablockSensorId, int payloadIndex, int dataBlockIndexInPayload, List<SENSORS> listOfSensorClassKeys,
                             int dataBlockStartByteIndexInFile, int dataBlockStartByteIndexInPayload) {
         this.datablockSensorId = datablockSensorId;

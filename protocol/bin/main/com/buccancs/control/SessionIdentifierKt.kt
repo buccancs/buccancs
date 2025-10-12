@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializesessionIdentifier")
 public inline fun sessionIdentifier(block: com.buccancs.control.SessionIdentifierKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SessionIdentifier =
@@ -31,9 +31,7 @@ public object SessionIdentifierKt {
      * `string id = 1;`
      */
     public var id: kotlin.String
-      @JvmName("getId")
       get() = _builder.getId()
-      @JvmName("setId")
       set(value) {
         _builder.setId(value)
       }

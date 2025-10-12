@@ -7,14 +7,13 @@ import com.buccancs.domain.model.CalibrationPatternConfig
 import com.buccancs.domain.model.CalibrationResult
 import com.buccancs.domain.repository.CalibrationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class CalibrationViewModel @Inject constructor(
@@ -80,7 +79,8 @@ class CalibrationViewModel @Inject constructor(
     fun applyPatternSettings() {
         val rows = patternRowsInput.value.toIntOrNull()?.coerceAtLeast(2) ?: return
         val cols = patternColsInput.value.toIntOrNull()?.coerceAtLeast(2) ?: return
-        val squareSizeMeters = squareSizeMmInput.value.toDoubleOrNull()?.let { it / 1_000.0 }?.takeIf { it > 0.0 } ?: return
+        val squareSizeMeters =
+            squareSizeMmInput.value.toDoubleOrNull()?.let { it / 1_000.0 }?.takeIf { it > 0.0 } ?: return
         val requiredPairs = requiredPairsInput.value.toIntOrNull()?.coerceAtLeast(3) ?: return
         viewModelScope.launch {
             calibrationRepository.configure(

@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializesensorSample")
 public inline fun sensorSample(block: com.buccancs.control.SensorSampleKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSample =
@@ -31,9 +31,7 @@ public object SensorSampleKt {
      * `int64 timestamp_epoch_ms = 1;`
      */
     public var timestampEpochMs: kotlin.Long
-      @JvmName("getTimestampEpochMs")
       get() = _builder.getTimestampEpochMs()
-      @JvmName("setTimestampEpochMs")
       set(value) {
         _builder.setTimestampEpochMs(value)
       }

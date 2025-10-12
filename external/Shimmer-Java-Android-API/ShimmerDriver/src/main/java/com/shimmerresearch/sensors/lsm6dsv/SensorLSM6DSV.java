@@ -346,11 +346,13 @@ public class SensorLSM6DSV extends AbstractSensor {
             SensitivityMatrixGyro4000dpsShimmer3r,
             OffsetVectorGyroShimmer3r,
             CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+
     // Constructors for Class START ------------------------------------------
     public SensorLSM6DSV() {
         super(SENSORS.LSM6DSV);
         initialise();
     }
+
     public SensorLSM6DSV(ShimmerVerObject shimmerVerObject) {
         super(SENSORS.LSM6DSV, shimmerVerObject);
         initialise();

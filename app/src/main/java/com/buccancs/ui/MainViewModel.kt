@@ -4,46 +4,42 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buccancs.control.commands.DeviceCommandPayload
-import com.buccancs.control.commands.SyncSignalCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
 import com.buccancs.control.commands.StartRecordingCommandPayload
-import com.buccancs.control.commands.StopRecordingCommandPayload
 import com.buccancs.control.commands.StimulusCommandPayload
+import com.buccancs.control.commands.StopRecordingCommandPayload
+import com.buccancs.control.commands.SyncSignalCommandPayload
 import com.buccancs.data.control.CommandCoordinator
 import com.buccancs.domain.RecordingCoordinator
 import com.buccancs.domain.model.ConnectionStatus
-import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.DeviceEvent
+import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.OrchestratorConfig
 import com.buccancs.domain.model.RecordingLifecycleState
-import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
-import com.buccancs.domain.model.UploadStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.TimeSyncStatus
-import com.buccancs.domain.repository.OrchestratorConfigRepository
+import com.buccancs.domain.model.UploadStatus
 import com.buccancs.domain.repository.DeviceEventRepository
+import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.buccancs.domain.repository.SensorRepository
-import com.buccancs.domain.repository.SessionTransferRepository
 import com.buccancs.domain.repository.TimeSyncRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import java.util.Locale
-import kotlin.math.roundToInt
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import java.util.*
+import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -420,9 +416,9 @@ class MainViewModel @Inject constructor(
     private fun inputsDirty(reference: OrchestratorConfig): Boolean {
         val port = portInput.value.toIntOrNull()
         return hostInput.value != reference.host ||
-            port == null ||
-            port != reference.port ||
-            useTlsInput.value != reference.useTls
+                port == null ||
+                port != reference.port ||
+                useTlsInput.value != reference.useTls
     }
 
     private fun generateSessionId(): String {

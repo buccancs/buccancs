@@ -3,17 +3,16 @@ package com.buccancs.desktop.data.monitor
 import com.buccancs.desktop.data.repository.DeviceRepository
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.domain.model.DeviceConnectionEvent
-import java.time.Duration
-import java.time.Instant
-import java.util.Locale
-import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.collect
 import org.slf4j.LoggerFactory
+import java.time.Duration
+import java.time.Instant
+import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 class DeviceConnectionMonitor(
     private val deviceRepository: DeviceRepository,

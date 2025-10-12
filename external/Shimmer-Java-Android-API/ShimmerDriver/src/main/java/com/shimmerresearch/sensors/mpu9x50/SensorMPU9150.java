@@ -409,7 +409,7 @@ public class SensorMPU9150 extends SensorMPU9X50 {
 
     //--------- Sensor info start --------------
     public static final Map<String, OldCalDetails> mOldCalRangeMap;
-//	{
+    //	{
 //		sensorMpu9150GyroRef.mCalibSensorKey = 0x01;
 //	}
     public static final ConfigOptionDetailsSensor configOptionMpu9150GyroRange = new ConfigOptionDetailsSensor(
@@ -601,6 +601,7 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         aMap.put("gyro_2000dps", new OldCalDetails("gyro_2000dps", Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9X50_GYRO, 3));
         mOldCalRangeMap = Collections.unmodifiableMap(aMap);
     }
+
     /**
      * Just used for accessing calibration
      */

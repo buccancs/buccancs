@@ -80,6 +80,7 @@ public class SensorMMA736x extends AbstractSensor {
         mCalibMapAccelShimmer2r.put(calibDetailsShimmer2r1p5g.mRangeValue, calibDetailsShimmer2r1p5g);
         mCalibMapAccelShimmer2r.put(calibDetailsShimmer2r6g.mRangeValue, calibDetailsShimmer2r6g);
     }
+
     public SensorMMA736x(ShimmerDevice shimmerDevice) {
         super(SENSORS.MMA776X, shimmerDevice);
         initialise();

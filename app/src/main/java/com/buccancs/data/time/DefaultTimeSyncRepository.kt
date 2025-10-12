@@ -1,9 +1,9 @@
 package com.buccancs.data.time
 
 import android.util.Log
+import com.buccancs.control.TimeSyncServiceGrpcKt
 import com.buccancs.control.timeSyncPing
 import com.buccancs.control.timeSyncReport
-import com.buccancs.control.TimeSyncServiceGrpcKt
 import com.buccancs.data.orchestration.DeviceIdentityProvider
 import com.buccancs.data.orchestration.GrpcChannelFactory
 import com.buccancs.di.ApplicationScope
@@ -11,10 +11,6 @@ import com.buccancs.domain.model.OrchestratorConfig
 import com.buccancs.domain.model.TimeSyncStatus
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.buccancs.domain.repository.TimeSyncRepository
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.math.abs
-import kotlin.math.roundToLong
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +25,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.math.abs
+import kotlin.math.roundToLong
 
 @Singleton
 class DefaultTimeSyncRepository @Inject constructor(
@@ -115,7 +115,8 @@ class DefaultTimeSyncRepository @Inject constructor(
         )
 
         val driftEstimate = lastObservation?.let { previous ->
-            val elapsedMs = (nowInstant.toEpochMilliseconds() - previous.timestamp.toEpochMilliseconds()).coerceAtLeast(1L)
+            val elapsedMs =
+                (nowInstant.toEpochMilliseconds() - previous.timestamp.toEpochMilliseconds()).coerceAtLeast(1L)
             (offsetAverage - previous.offsetMs) / elapsedMs * 1000.0
         } ?: 0.0
 

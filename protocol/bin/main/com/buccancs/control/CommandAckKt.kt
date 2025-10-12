@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializecommandAck")
 public inline fun commandAck(block: com.buccancs.control.CommandAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandAck =
@@ -31,9 +31,7 @@ public object CommandAckKt {
      * `bool accepted = 1;`
      */
     public var accepted: kotlin.Boolean
-      @JvmName("getAccepted")
       get() = _builder.getAccepted()
-      @JvmName("setAccepted")
       set(value) {
         _builder.setAccepted(value)
       }
@@ -48,9 +46,7 @@ public object CommandAckKt {
      * `string info = 2;`
      */
     public var info: kotlin.String
-      @JvmName("getInfo")
       get() = _builder.getInfo()
-      @JvmName("setInfo")
       set(value) {
         _builder.setInfo(value)
       }

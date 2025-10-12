@@ -26,6 +26,7 @@ public class VerisenseMessage implements Serializable {
     byte commandAndProperty;
     byte commandMask;
     byte propertyMask;
+
     public VerisenseMessage(byte[] rxBytes, long timeMs) {
         startTimeMs = timeMs;
         lastTransactionMs = timeMs;
@@ -44,6 +45,7 @@ public class VerisenseMessage implements Serializable {
             endTimeMs = timeMs;
         }
     }
+
     public VerisenseMessage(byte commandAndProperty, byte[] payloadBytes) {
         setCommandAndProperty(commandAndProperty);
         this.payloadBytes = payloadBytes;

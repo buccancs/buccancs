@@ -23,6 +23,7 @@ public class ExGConfigOptionDetails implements Serializable {
     public int mask = 0;
     public ExGConfigOption[] mExGConfigOptions;
     public SettingType settingType = SettingType.CHECKBOX;
+
     public ExGConfigOptionDetails(EXG_CHIP_INDEX chipIndex, int byteIndex, String GuiLabel, int bitShift) {
         super();
         this.chipIndex = chipIndex;

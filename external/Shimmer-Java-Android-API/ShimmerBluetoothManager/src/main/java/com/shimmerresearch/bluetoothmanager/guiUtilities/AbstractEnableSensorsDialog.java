@@ -24,6 +24,7 @@ public abstract class AbstractEnableSensorsDialog {
     protected List<Integer> keysToFilter = null;
     //	ShimmerDevice shimmer;
     ShimmerBluetoothManager bluetoothManager;
+
     public AbstractEnableSensorsDialog(ShimmerDevice shimmer, ShimmerBluetoothManager btManager) {
         this.shimmerDevice = shimmer;
         this.bluetoothManager = btManager;

@@ -7,13 +7,9 @@ import com.buccancs.control.sensorSampleBatch
 import com.buccancs.control.sensorSampleValue
 import com.buccancs.control.sessionIdentifier
 import com.buccancs.data.orchestration.GrpcChannelFactory
+import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.repository.OrchestratorConfigRepository
-import com.buccancs.di.ApplicationScope
-import java.io.IOException
-import java.util.concurrent.atomic.AtomicBoolean
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +17,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.util.concurrent.atomic.AtomicBoolean
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface SensorStreamEmitter {
     suspend fun emit(timestampEpochMs: Long, values: Map<String, Double>)

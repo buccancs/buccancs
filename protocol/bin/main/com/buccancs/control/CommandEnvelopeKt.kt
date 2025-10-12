@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializecommandEnvelope")
 public inline fun commandEnvelope(block: com.buccancs.control.CommandEnvelopeKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandEnvelope =
@@ -31,9 +31,7 @@ public object CommandEnvelopeKt {
      * `string command_id = 1;`
      */
     public var commandId: kotlin.String
-      @JvmName("getCommandId")
       get() = _builder.getCommandId()
-      @JvmName("setCommandId")
       set(value) {
         _builder.setCommandId(value)
       }
@@ -48,9 +46,7 @@ public object CommandEnvelopeKt {
      * `string session_id = 2;`
      */
     public var sessionId: kotlin.String
-      @JvmName("getSessionId")
       get() = _builder.getSessionId()
-      @JvmName("setSessionId")
       set(value) {
         _builder.setSessionId(value)
       }
@@ -65,9 +61,7 @@ public object CommandEnvelopeKt {
      * `string device_id = 3;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -82,9 +76,7 @@ public object CommandEnvelopeKt {
      * `int64 issued_epoch_ms = 4;`
      */
     public var issuedEpochMs: kotlin.Long
-      @JvmName("getIssuedEpochMs")
       get() = _builder.getIssuedEpochMs()
-      @JvmName("setIssuedEpochMs")
       set(value) {
         _builder.setIssuedEpochMs(value)
       }
@@ -99,9 +91,7 @@ public object CommandEnvelopeKt {
      * `int64 execute_epoch_ms = 5;`
      */
     public var executeEpochMs: kotlin.Long
-      @JvmName("getExecuteEpochMs")
       get() = _builder.getExecuteEpochMs()
-      @JvmName("setExecuteEpochMs")
       set(value) {
         _builder.setExecuteEpochMs(value)
       }
@@ -116,9 +106,7 @@ public object CommandEnvelopeKt {
      * `string command_json = 6;`
      */
     public var commandJson: kotlin.String
-      @JvmName("getCommandJson")
       get() = _builder.getCommandJson()
-      @JvmName("setCommandJson")
       set(value) {
         _builder.setCommandJson(value)
       }

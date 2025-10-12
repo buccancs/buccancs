@@ -2,13 +2,13 @@ package com.buccancs.data.events
 
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.repository.DeviceEventRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class DefaultDeviceEventRepository @Inject constructor() : DeviceEventRepository {

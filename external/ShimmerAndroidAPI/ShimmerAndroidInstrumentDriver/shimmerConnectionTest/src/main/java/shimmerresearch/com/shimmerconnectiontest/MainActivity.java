@@ -180,6 +180,53 @@ public class MainActivity extends Activity {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public class ConnectTask extends TimerTask {
+        @Override
+        public void run() {
+            if (isTestStarted) {
+                Log.i(LOG_TAG, "Current Iteration: " + currentIteration);
+                retryCount = 0;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        editTextRetryCount.setText(Integer.toString(retryCount));
+                    }
+                });
+
+                if (currentIteration >= totalIterationLimit) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            editTextInterval.setEnabled(true);
+                            editTextTotalIteration.setEnabled(true);
+                        }
+                    });
+                    timer.cancel();
+                    isTestStarted = false;
+                    return;
+                } else {
+                    currentIteration += 1;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            editTextTestProgress.setText(String.valueOf(currentIteration) + " of " + String.valueOf(totalIterationLimit));
+
+                        }
+                    });
+                    //isCurrentIterationSuccess = false;
+                    ResultMap.put(currentIteration, -1);
+                    //shimmer = null;
+                    //shimmer = new Shimmer(mHandler);
+                    //shimmer.connect(macAdd, "default");
+                    Log.i(LOG_TAG, "Connect Called, retry count: " + Integer.toString(retryCount) + "; Total number of retries:" + totalRetries);
+                    Shimmer shimmer = new Shimmer(mHandler, MainActivity.this);
+                    shimmer.setMacIdFromUart(macAdd);
+                    btManager.removeShimmerDeviceBtConnected(macAdd);
+                    btManager.putShimmerGlobalMap(macAdd, shimmer);
+                    btManager.connectShimmerThroughBTAddress(macAdd);
+                }
+
+            }
+        }
     }    /**
      * Messages from the Shimmer device including sensor data are received here
      */
@@ -318,53 +365,6 @@ public class MainActivity extends Activity {
             super.handleMessage(msg);
         }
     };
-
-    public class ConnectTask extends TimerTask {
-        @Override
-        public void run() {
-            if (isTestStarted) {
-                Log.i(LOG_TAG, "Current Iteration: " + currentIteration);
-                retryCount = 0;
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        editTextRetryCount.setText(Integer.toString(retryCount));
-                    }
-                });
-
-                if (currentIteration >= totalIterationLimit) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            editTextInterval.setEnabled(true);
-                            editTextTotalIteration.setEnabled(true);
-                        }
-                    });
-                    timer.cancel();
-                    isTestStarted = false;
-                    return;
-                } else {
-                    currentIteration += 1;
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            editTextTestProgress.setText(String.valueOf(currentIteration) + " of " + String.valueOf(totalIterationLimit));
-
-                        }
-                    });
-                    //isCurrentIterationSuccess = false;
-                    ResultMap.put(currentIteration, -1);
-                    //shimmer = null;
-                    //shimmer = new Shimmer(mHandler);
-                    //shimmer.connect(macAdd, "default");
-                    Log.i(LOG_TAG, "Connect Called, retry count: " + Integer.toString(retryCount) + "; Total number of retries:" + totalRetries);
-                    Shimmer shimmer = new Shimmer(mHandler, MainActivity.this);
-                    shimmer.setMacIdFromUart(macAdd);
-                    btManager.removeShimmerDeviceBtConnected(macAdd);
-                    btManager.putShimmerGlobalMap(macAdd, shimmer);
-                    btManager.connectShimmerThroughBTAddress(macAdd);
-                }
-
-            }
-        }
-    }
 
 
 

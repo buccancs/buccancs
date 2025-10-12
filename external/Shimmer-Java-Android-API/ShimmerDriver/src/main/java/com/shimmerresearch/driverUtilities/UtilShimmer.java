@@ -241,7 +241,7 @@ public class UtilShimmer implements Serializable {
                 int v = bytes[j] & 0xFF;
                 hexChars[j * 3] = hexArray[v >>> 4];
                 hexChars[j * 3 + 1] = hexArray[v & 0x0F];
-                hexChars[j * 3 + 2] = ' ';
+                hexChars[j * 3 + 2] = ' ' ;
             }
             return new String(hexChars);
         } else {
@@ -253,8 +253,8 @@ public class UtilShimmer implements Serializable {
         int charCntPerByte = 4;
         char hexChars[] = new char[charCntPerByte];
         int v = bytes & 0xFF;
-        hexChars[0] = '0';
-        hexChars[1] = 'x';
+        hexChars[0] = '0' ;
+        hexChars[1] = 'x' ;
         hexChars[2] = hexArray[v >>> 4];
         hexChars[3] = hexArray[v & 0x0F];
         String returnString = new String(hexChars);
@@ -271,8 +271,8 @@ public class UtilShimmer implements Serializable {
         }
         int charCntPerByte = 2 + (numBytes * 2);
         char hexChars[] = new char[charCntPerByte];
-        hexChars[0] = '0';
-        hexChars[1] = 'x';
+        hexChars[0] = '0' ;
+        hexChars[1] = 'x' ;
         int i = 2;
         for (byte v : bytes) {
             hexChars[i] = hexArray[(v & 0xFF) >>> 4];
@@ -306,13 +306,13 @@ public class UtilShimmer implements Serializable {
             char[] hexChars = new char[(bytes.length * charCntPerByte) - 1];
             for (int j = 0; j < bytes.length; j++) {
                 int v = bytes[j] & 0xFF;
-                hexChars[j * charCntPerByte] = '0';
-                hexChars[j * charCntPerByte + 1] = 'x';
+                hexChars[j * charCntPerByte] = '0' ;
+                hexChars[j * charCntPerByte + 1] = 'x' ;
 
                 hexChars[j * charCntPerByte + 2] = hexArray[v >>> 4];
                 hexChars[j * charCntPerByte + 3] = hexArray[v & 0x0F];
                 if (j != bytes.length - 1) {
-                    hexChars[j * charCntPerByte + 4] = ' ';
+                    hexChars[j * charCntPerByte + 4] = ' ' ;
                 }
             }
             String returnString = new String(hexChars);

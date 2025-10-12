@@ -181,10 +181,12 @@ public class SensorLIS2MDL extends AbstractSensor {
             DefaultAlignmentMatrixMagShimmer3r,
             DefaultSensitivityMatrixMagShimmer3r,
             DefaultOffsetVectorMagShimmer3r);
+
     public SensorLIS2MDL() {
         super(SENSORS.LIS2MDL);
         initialise();
     }
+
     public SensorLIS2MDL(ShimmerObject obj) {
         super(SENSORS.LIS2MDL, obj);
         initialise();

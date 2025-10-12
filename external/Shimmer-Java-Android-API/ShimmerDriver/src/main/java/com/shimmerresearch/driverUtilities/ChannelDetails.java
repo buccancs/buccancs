@@ -59,6 +59,7 @@ public class ChannelDetails implements Serializable {
     public ChannelDetails() {
         // TODO Auto-generated constructor stub
     }
+
     public ChannelDetails(String objectClusterName, String guiName, String defaultCalibratedUnits, List<CHANNEL_TYPE> listOfChannelTypes) {
         mObjectClusterName = objectClusterName;
         mGuiName = guiName;

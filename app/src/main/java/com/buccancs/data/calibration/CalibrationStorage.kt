@@ -4,13 +4,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.buccancs.domain.model.CalibrationResult
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.serialization.json.Json
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Singleton
 class CalibrationStorage @Inject constructor(

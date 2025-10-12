@@ -46,6 +46,7 @@ public class BluetoothProgressReportAll implements Serializable {
     public int mNumberOfFails = 0;
     //	public List<Integer> mListOfFailedCmds = new ArrayList<Integer>();
     public int mProgressPercentageComplete = 0;
+
     public BluetoothProgressReportAll(BT_STATE currentOperationBtState, List<ShimmerDevice> lso) {
         this.currentOperationBtState = currentOperationBtState;
         mListOfShimmers = lso;

@@ -221,9 +221,11 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     public TemperatureView(final Context context) {
         this(context, null, 0);
     }
+
     public TemperatureView(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
+
     public TemperatureView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         // 注意这个方法尽早执行(可以在构造方法里面执行)，解决在小米mix2(Android7.0)上出现的surfaceView内容不展示问题
@@ -1500,11 +1502,14 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private enum RectMoveType {ALL, EDGE, CORNER}
 
     private enum RectMoveEdge {LEFT, TOP, RIGHT, BOTTOM}
+
     private enum RectMoveCorner {LT, RT, RB, LB}
+
     @IntDef({REGION_MODE_RESET, REGION_MODE_POINT, REGION_MODE_LINE, REGION_MODE_RECTANGLE, REGION_MODE_CENTER, REGION_NODE_TREND, REGION_MODE_CLEAN})
     @Retention(RetentionPolicy.SOURCE)
     private @interface RegionMode {
     }
+
     /**
      * 趋势图对应的温度数据变更监听。
      * 注意！回调不在主线程！！

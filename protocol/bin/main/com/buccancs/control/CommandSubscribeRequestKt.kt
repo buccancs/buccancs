@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializecommandSubscribeRequest")
 public inline fun commandSubscribeRequest(block: com.buccancs.control.CommandSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandSubscribeRequest =
@@ -31,9 +31,7 @@ public object CommandSubscribeRequestKt {
      * `string device_id = 1;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -48,9 +46,7 @@ public object CommandSubscribeRequestKt {
      * `string session_id = 2;`
      */
     public var sessionId: kotlin.String
-      @JvmName("getSessionId")
       get() = _builder.getSessionId()
-      @JvmName("setSessionId")
       set(value) {
         _builder.setSessionId(value)
       }
@@ -135,9 +131,7 @@ public object CommandSubscribeRequestKt {
      * `bool include_broadcast = 4;`
      */
     public var includeBroadcast: kotlin.Boolean
-      @JvmName("getIncludeBroadcast")
       get() = _builder.getIncludeBroadcast()
-      @JvmName("setIncludeBroadcast")
       set(value) {
         _builder.setIncludeBroadcast(value)
       }

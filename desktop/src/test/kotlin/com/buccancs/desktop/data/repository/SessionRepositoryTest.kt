@@ -6,6 +6,10 @@ import com.buccancs.desktop.data.retention.DataRetentionManager
 import com.buccancs.desktop.data.session.SessionMetadata
 import com.buccancs.desktop.data.session.SessionStatusDto
 import com.buccancs.desktop.domain.policy.RetentionPolicy
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import org.junit.jupiter.api.io.TempDir
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
@@ -16,10 +20,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.io.TempDir
-import kotlinx.coroutines.delay
 
 class SessionRepositoryTest {
 

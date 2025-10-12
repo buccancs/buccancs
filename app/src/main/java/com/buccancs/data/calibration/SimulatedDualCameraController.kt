@@ -8,14 +8,11 @@ import android.graphics.Paint
 import android.graphics.RectF
 import com.buccancs.domain.model.CalibrationPatternConfig
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.PI
 import kotlin.math.abs
-import kotlin.math.cos
 import kotlin.math.min
-import kotlin.math.sin
 import kotlin.random.Random
 
 @Singleton

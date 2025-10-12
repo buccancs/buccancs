@@ -9,8 +9,6 @@ import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.DeviceEventType
 import com.buccancs.domain.repository.DeviceEventRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,6 +20,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class CommandCoordinator @Inject constructor(

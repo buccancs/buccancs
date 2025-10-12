@@ -1,9 +1,11 @@
+import com.google.protobuf.gradle.GenerateProtoTask
+import com.google.protobuf.gradle.id
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("com.google.protobuf")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.protobuf)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -11,37 +13,72 @@ kotlin {
 }
 
 dependencies {
-    api("io.grpc:grpc-kotlin-stub:1.4.1")
-    api("io.grpc:grpc-protobuf:1.64.0")
-    api("io.grpc:grpc-stub:1.64.0")
-    api("com.google.protobuf:protobuf-kotlin:3.25.3")
-    api("com.google.protobuf:protobuf-java-util:3.25.3")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    api(libs.grpc.kotlin.stub)
+    api(libs.grpc.protobuf)
+    api(libs.grpc.stub)
+    api(libs.protobuf.kotlin)
+    api(libs.protobuf.java.util)
+    api(libs.coroutines.core)
+    api(libs.kotlinx.serialization.json)
 }
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.25.3"
+        artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
     }
     plugins {
         create("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.64.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.get()}"
         }
         create("grpckotlin") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.4.1:jdk8@jar"
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:${libs.versions.grpcKotlin.get()}:jdk8@jar"
         }
     }
     generateProtoTasks {
-        all().forEach { task ->
-            task.plugins {
-                create("grpc")
-                create("grpckotlin")
+        all().configureEach {
+            plugins {
+                id("grpc")
+                id("grpckotlin")
             }
-            task.builtins {
-                create("kotlin")
+            builtins {
+                id("kotlin")
             }
         }
+    }
+}
+
+tasks.withType<GenerateProtoTask>().configureEach {
+    doLast {
+        val kotlinOutputDir = project.layout.buildDirectory
+            .dir("generated/sources/proto/${sourceSet.name}/kotlin")
+            .get()
+            .asFile
+        if (!kotlinOutputDir.exists()) return@doLast
+        kotlinOutputDir.walkTopDown()
+            .filter { it.isFile && it.extension == "kt" }
+            .forEach { file ->
+                val original = file.readText()
+                var changed = false
+                val sanitizedLines = buildList {
+                    original.split('\n').forEach { line ->
+                        when {
+                            line.startsWith("package ") && line.trimEnd().endsWith(";") -> {
+                                add(line.trimEnd().removeSuffix(";"))
+                                changed = true
+                            }
+                            line.trimStart().startsWith("@JvmName(") -> {
+                                changed = true
+                            }
+                            else -> add(line)
+                        }
+                    }
+                }
+                val fixed = sanitizedLines.joinToString("\n")
+                if (changed && fixed != original) {
+                    file.writeText(fixed)
+                    logger.info("Sanitized protobuf Kotlin DSL in ${file.relativeTo(project.projectDir)}")
+                }
+            }
     }
 }
 

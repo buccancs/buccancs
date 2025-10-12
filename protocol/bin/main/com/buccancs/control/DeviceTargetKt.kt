@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializedeviceTarget")
 public inline fun deviceTarget(block: com.buccancs.control.DeviceTargetKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceTarget =
@@ -101,9 +101,7 @@ public object DeviceTargetKt {
      * `bool broadcast = 2;`
      */
     public var broadcast: kotlin.Boolean
-      @JvmName("getBroadcast")
       get() = _builder.getBroadcast()
-      @JvmName("setBroadcast")
       set(value) {
         _builder.setBroadcast(value)
       }

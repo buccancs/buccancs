@@ -24,9 +24,6 @@ import com.infisense.iruvc.uvc.ConcreateUVCBuilder
 import com.infisense.iruvc.uvc.UVCCamera
 import com.infisense.iruvc.uvc.UVCType
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.math.absoluteValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
@@ -36,6 +33,9 @@ import kotlinx.datetime.Clock
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.math.absoluteValue
 
 @Singleton
 class TopdonThermalConnector @Inject constructor(
@@ -150,6 +150,7 @@ class TopdonThermalConnector @Inject constructor(
                 batteryPercent = null,
                 rssiDbm = null
             )
+
             device != null -> ConnectionStatus.Disconnected
             else -> ConnectionStatus.Disconnected
         }

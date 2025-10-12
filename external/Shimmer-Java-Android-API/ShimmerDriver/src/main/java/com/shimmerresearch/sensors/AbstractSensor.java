@@ -40,7 +40,7 @@ public abstract class AbstractSensor implements Serializable {
     public LinkedHashMap<Integer, SensorGroupingDetails> mSensorGroupingMap = new LinkedHashMap<Integer, SensorGroupingDetails>();
     public TreeMap<Integer, TreeMap<Integer, CalibDetails>> mCalibMap = new TreeMap<Integer, TreeMap<Integer, CalibDetails>>();
     protected String mSensorName = "";
-//	public abstract ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] sensorByteArray, COMMUNICATION_TYPE commType, ObjectCluster objectCluster);
+    //	public abstract ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] sensorByteArray, COMMUNICATION_TYPE commType, ObjectCluster objectCluster);
     protected ShimmerVerObject mShimmerVerObject = new ShimmerVerObject();
     protected boolean mIsDebugOutput = false;
     protected ShimmerDevice mShimmerDevice = null;
@@ -601,13 +601,13 @@ public abstract class AbstractSensor implements Serializable {
 //		CalibDetails calibDetailsPerRange = mapOfSensorCalib.get(rangeValue);
 //		if(calibDetailsPerRange==null){
 //			//TODO UNKOWN RANGE
-////			mapOfSensorCalib.put(range, new CalibDetailsKinematic(rangeValue, rangeString))
+
+    /// /			mapOfSensorCalib.put(range, new CalibDetailsKinematic(rangeValue, rangeString))
 //		}
 //		
 //		calibDetailsPerRange = mapOfSensorCalib.get(rangeValue);
 //		if(calibDetailsPerRange!=null && calibDetailsPerRange instanceof CalibDetailsKinematic){
 //			calibDetailsPerRange.setCalibTimeFromMs(calibTimeBytesTicks, calibTime);
-
     public void handleSpecCasesAfterSensorMapUpdateFromEnabledSensors() {
         //NOT IN THIS CLASS
         //USED in {SensorPPG, SensorEXG}

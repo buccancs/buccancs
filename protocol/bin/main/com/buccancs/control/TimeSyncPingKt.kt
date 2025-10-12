@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializetimeSyncPing")
 public inline fun timeSyncPing(block: com.buccancs.control.TimeSyncPingKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncPing =
@@ -31,9 +31,7 @@ public object TimeSyncPingKt {
      * `int64 client_send_epoch_ms = 1;`
      */
     public var clientSendEpochMs: kotlin.Long
-      @JvmName("getClientSendEpochMs")
       get() = _builder.getClientSendEpochMs()
-      @JvmName("setClientSendEpochMs")
       set(value) {
         _builder.setClientSendEpochMs(value)
       }
@@ -48,9 +46,7 @@ public object TimeSyncPingKt {
      * `string device_id = 2;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }

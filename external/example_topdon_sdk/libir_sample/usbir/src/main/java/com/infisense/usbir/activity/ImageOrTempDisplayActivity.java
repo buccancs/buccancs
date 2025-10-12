@@ -86,6 +86,17 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         binding.btnImageTemp.setOnClickListener(this);
         binding.btnImage.setOnClickListener(this);
         binding.btnY16ModeSet.setOnClickListener(this);
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
+        initDataFlowMode(defaultDataFlowMode);
+        initdata();
+        //
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_custom, y16ModePreviewSrcType);
+        binding.ParamY16ModeType.setAdapter(adapter);
+        binding.ParamY16ModeType.setOnItemSelectedListener(this);
+        binding.ParamY16ModeType.setSelection(0);
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -112,17 +123,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    @Override
-    protected void init(Bundle savedInstanceState) {
-        initDataFlowMode(defaultDataFlowMode);
-        initdata();
-        //
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_custom, y16ModePreviewSrcType);
-        binding.ParamY16ModeType.setAdapter(adapter);
-        binding.ParamY16ModeType.setOnItemSelectedListener(this);
-        binding.ParamY16ModeType.setSelection(0);
-    }
 
     /**
      * @param dataFlowMode

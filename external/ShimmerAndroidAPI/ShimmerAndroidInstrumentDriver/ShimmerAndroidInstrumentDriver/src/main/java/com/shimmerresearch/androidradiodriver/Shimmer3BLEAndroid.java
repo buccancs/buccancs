@@ -86,6 +86,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         mMac = mac;
         mHandler = null;
     }
+
     /**
      * Only support Shimmer3 and Shimmer3R
      *

@@ -181,11 +181,13 @@ public class SensorLIS3MDL extends AbstractSensor {
     private CalibDetailsKinematic calibDetailsMag16 = new CalibDetailsKinematic(ListofLIS3MDLAltMagRangeConfigValues[3],
             ListofLIS3MDLAltMagRange[3], DefaultAlignmentMatrixAltMagShimmer3r,
             DefaultSensitivityMatrixAltMag16GaShimmer3r, DefaultOffsetVectorAltMagShimmer3r);
+
     // --------- Constructors for this class start --------------
     public SensorLIS3MDL() {
         super(SENSORS.LIS3MDL);
         initialise();
     }
+
     public SensorLIS3MDL(ShimmerObject obj) {
         super(SENSORS.LIS3MDL, obj);
         initialise();

@@ -307,6 +307,7 @@ public class SensorLSM6DS3 extends AbstractSensor {
      */
     protected boolean lowPassFilterOn6D = false;
     private int fifoSizeInChip = DEFAULT_FIFO_BYTE_SIZE_IN_CHIP / 2;
+
     public SensorLSM6DS3(ShimmerDevice shimmerDevice) {
         super(SENSORS.LSM6DS3, shimmerDevice);
         initialise();

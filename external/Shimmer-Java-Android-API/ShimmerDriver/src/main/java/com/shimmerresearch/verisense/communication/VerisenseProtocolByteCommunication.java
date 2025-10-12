@@ -78,6 +78,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
     private RwcSchedulePayload latestRwcSchedulePayload;
     private MemoryLookupTablePayload latestMemoryLookupTablePayload;
     private RecordBufferDetailsPayload latestRecordBufferDetailsPayload;
+
     public VerisenseProtocolByteCommunication(AbstractByteCommunication byteComm) {
         mByteCommunication = byteComm;
         byteComm.setByteCommunicationListener(new ByteCommunicationListener() {

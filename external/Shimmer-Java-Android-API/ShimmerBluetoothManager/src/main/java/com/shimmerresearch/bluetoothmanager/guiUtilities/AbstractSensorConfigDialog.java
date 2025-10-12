@@ -27,6 +27,7 @@ public abstract class AbstractSensorConfigDialog {
     protected List<String> keysToFilter = null;
     protected boolean mDisplayButDisableEnableFilter = false;
     protected List<String> keysToDisplayButDisableFilter = null;
+
     public AbstractSensorConfigDialog(ShimmerDevice shimmer, ShimmerBluetoothManager btManager) {
         this.shimmerDevice = shimmer;
         this.bluetoothManager = btManager;

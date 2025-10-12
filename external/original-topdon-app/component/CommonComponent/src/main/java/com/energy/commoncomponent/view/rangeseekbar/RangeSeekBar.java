@@ -121,9 +121,11 @@ public class RangeSeekBar extends View {
     private boolean isEnable = true;
     private int progressPaddingRight;
     private OnRangeChangedListener callback;
+
     public RangeSeekBar(Context context) {
         this(context, null);
     }
+
     public RangeSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttrs(attrs);

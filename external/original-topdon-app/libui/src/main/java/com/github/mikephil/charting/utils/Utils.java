@@ -296,7 +296,7 @@ public abstract class Utils {
 
             // add decimal point
             if (charCount == digitCount) {
-                out[ind--] = ',';
+                out[ind--] = ',' ;
                 charCount++;
                 decimalPointAdded = true;
 
@@ -322,13 +322,13 @@ public abstract class Utils {
 
         // if number around zero (between 1 and -1)
         if (zero) {
-            out[ind--] = '0';
+            out[ind--] = '0' ;
             charCount += 1;
         }
 
         // if the number is negative
         if (neg) {
-            out[ind--] = '-';
+            out[ind--] = '-' ;
             charCount += 1;
         }
 

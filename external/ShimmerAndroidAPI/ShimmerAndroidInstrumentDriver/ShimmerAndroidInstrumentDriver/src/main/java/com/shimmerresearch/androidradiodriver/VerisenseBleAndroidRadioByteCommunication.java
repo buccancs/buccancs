@@ -46,6 +46,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
     //"E7:45:2C:6D:6F:14"
     TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
+
     /**
      * Initialize a ble radio
      *

@@ -24,6 +24,7 @@ public abstract class BasicProcessWithCallBack {
     private List<WaitForData> mListWaitForData = Collections.synchronizedList(new ArrayList<WaitForData>());
     private String threadName = "";
     private boolean mIsDebug = false;
+
     public BasicProcessWithCallBack() {
 
     }
@@ -222,7 +223,9 @@ public abstract class BasicProcessWithCallBack {
 
     ;
 
-    /** TODO needs work to include all cases in "setWaitForData" */
+    /**
+     * TODO needs work to include all cases in "setWaitForData"
+     */
 
     public void setWaitForDataWithSingleInstanceCheck(BasicProcessWithCallBack b) {
         startConsumerThreadIfNull();

@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializecommandReceipt")
 public inline fun commandReceipt(block: com.buccancs.control.CommandReceiptKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandReceipt =
@@ -31,9 +31,7 @@ public object CommandReceiptKt {
      * `string command_id = 1;`
      */
     public var commandId: kotlin.String
-      @JvmName("getCommandId")
       get() = _builder.getCommandId()
-      @JvmName("setCommandId")
       set(value) {
         _builder.setCommandId(value)
       }
@@ -48,9 +46,7 @@ public object CommandReceiptKt {
      * `string device_id = 2;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -65,9 +61,7 @@ public object CommandReceiptKt {
      * `bool success = 3;`
      */
     public var success: kotlin.Boolean
-      @JvmName("getSuccess")
       get() = _builder.getSuccess()
-      @JvmName("setSuccess")
       set(value) {
         _builder.setSuccess(value)
       }
@@ -82,9 +76,7 @@ public object CommandReceiptKt {
      * `string message = 4;`
      */
     public var message: kotlin.String
-      @JvmName("getMessage")
       get() = _builder.getMessage()
-      @JvmName("setMessage")
       set(value) {
         _builder.setMessage(value)
       }

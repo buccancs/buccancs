@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializepreviewAck")
 public inline fun previewAck(block: com.buccancs.control.PreviewAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.PreviewAck =
@@ -31,9 +31,7 @@ public object PreviewAckKt {
      * `bool received = 1;`
      */
     public var received: kotlin.Boolean
-      @JvmName("getReceived")
       get() = _builder.getReceived()
-      @JvmName("setReceived")
       set(value) {
         _builder.setReceived(value)
       }
@@ -48,9 +46,7 @@ public object PreviewAckKt {
      * `string info = 2;`
      */
     public var info: kotlin.String
-      @JvmName("getInfo")
       get() = _builder.getInfo()
-      @JvmName("setInfo")
       set(value) {
         _builder.setInfo(value)
       }

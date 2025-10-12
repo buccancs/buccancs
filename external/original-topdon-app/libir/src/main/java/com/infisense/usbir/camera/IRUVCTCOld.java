@@ -186,9 +186,9 @@
 //                Libirprocess.ImageRes_t imageRes = new Libirprocess.ImageRes_t();
 //                imageRes.height = (char) (cameraHeight / 2);
 //                imageRes.width = (char) cameraWidth;
-////                Libirprocess.rotate_right_90(frame, imageRes, Libirprocess.IRPROC_SRC_FMT_Y14, imageEditTemp);
-////                //获取原始温度数据
-////                System.arraycopy(frame, length / 2, temperatureSrc, 0, length / 2);
+/// /                Libirprocess.rotate_right_90(frame, imageRes, Libirprocess.IRPROC_SRC_FMT_Y14, imageEditTemp);
+/// /                //获取原始温度数据
+/// /                System.arraycopy(frame, length / 2, temperatureSrc, 0, length / 2);
 //
 ////                //保存测试数据
 ////                countTemp++;

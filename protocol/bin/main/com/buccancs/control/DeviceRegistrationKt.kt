@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializedeviceRegistration")
 public inline fun deviceRegistration(block: com.buccancs.control.DeviceRegistrationKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceRegistration =
@@ -31,9 +31,7 @@ public object DeviceRegistrationKt {
      * `string device_id = 1;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -48,9 +46,7 @@ public object DeviceRegistrationKt {
      * `string model = 2;`
      */
     public var model: kotlin.String
-      @JvmName("getModel")
       get() = _builder.getModel()
-      @JvmName("setModel")
       set(value) {
         _builder.setModel(value)
       }
@@ -65,9 +61,7 @@ public object DeviceRegistrationKt {
      * `string platform = 3;`
      */
     public var platform: kotlin.String
-      @JvmName("getPlatform")
       get() = _builder.getPlatform()
-      @JvmName("setPlatform")
       set(value) {
         _builder.setPlatform(value)
       }
@@ -82,9 +76,7 @@ public object DeviceRegistrationKt {
      * `string software_version = 4;`
      */
     public var softwareVersion: kotlin.String
-      @JvmName("getSoftwareVersion")
       get() = _builder.getSoftwareVersion()
-      @JvmName("setSoftwareVersion")
       set(value) {
         _builder.setSoftwareVersion(value)
       }

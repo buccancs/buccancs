@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializesyncSignalRequest")
 public inline fun syncSignalRequest(block: com.buccancs.control.SyncSignalRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SyncSignalRequest =
@@ -31,9 +31,7 @@ public object SyncSignalRequestKt {
      * `.com.buccancs.control.SessionIdentifier session = 1;`
      */
     public var session: com.buccancs.control.SessionIdentifier
-      @JvmName("getSession")
       get() = _builder.getSession()
-      @JvmName("setSession")
       set(value) {
         _builder.setSession(value)
       }
@@ -55,9 +53,7 @@ public object SyncSignalRequestKt {
      * `string signal_type = 2;`
      */
     public var signalType: kotlin.String
-      @JvmName("getSignalType")
       get() = _builder.getSignalType()
-      @JvmName("setSignalType")
       set(value) {
         _builder.setSignalType(value)
       }
@@ -72,9 +68,7 @@ public object SyncSignalRequestKt {
      * `.com.buccancs.control.DeviceTarget targets = 3;`
      */
     public var targets: com.buccancs.control.DeviceTarget
-      @JvmName("getTargets")
       get() = _builder.getTargets()
-      @JvmName("setTargets")
       set(value) {
         _builder.setTargets(value)
       }
@@ -96,9 +90,7 @@ public object SyncSignalRequestKt {
      * `int64 scheduled_epoch_ms = 4;`
      */
     public var scheduledEpochMs: kotlin.Long
-      @JvmName("getScheduledEpochMs")
       get() = _builder.getScheduledEpochMs()
-      @JvmName("setScheduledEpochMs")
       set(value) {
         _builder.setScheduledEpochMs(value)
       }

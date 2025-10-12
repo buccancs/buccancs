@@ -392,7 +392,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     //endregion --------- TIMERS ---------
     transient protected boolean InShimmerTest = false;
 
-//	private boolean mVerboseMode = true;
+    //	private boolean mVerboseMode = true;
 //	private String mParentClassName = "ShimmerBluetooth";
     ArrayBlockingQueue<RawBytePacketWithPCTimeStamp> mABQPacketByeArray = new ArrayBlockingQueue<RawBytePacketWithPCTimeStamp>(10000);
     transient StringListener mStringTestListener;
@@ -418,11 +418,13 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     public ShimmerBluetooth() {
         addCommunicationRoute(COMMUNICATION_TYPE.BLUETOOTH);
     }
+
     public ShimmerBluetooth(String userAssignedName, double samplingRate, Integer[] sensorIdsToEnable, int accelRange, int gsrRange, int gyroRange, int magRange, int pressureResolution) {
         this(userAssignedName, samplingRate, sensorIdsToEnable, accelRange, gsrRange, magRange, pressureResolution);
 
         addFixedShimmerConfig(SensorMPU9X50.GuiLabelConfig.MPU9X50_GYRO_RANGE, gyroRange);
     }
+
     public ShimmerBluetooth(String userAssignedName, double samplingRate, Integer[] sensorIdsToEnable, int accelRange, int gsrRange, int magRange, int pressureResolution) {
         this();
 
@@ -439,6 +441,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         addFixedShimmerConfig(SensorBMPX80.GuiLabelConfig.PRESSURE_RESOLUTION, pressureResolution);
         addFixedShimmerConfig(Shimmer3.GuiLabelConfig.SHIMMER_USER_ASSIGNED_NAME, userAssignedName);
     }
+
     /**
      * Only for Shimmer2r note that sensormaps aren't supported on Shimmer2r devices
      *
@@ -2790,6 +2793,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
     /**
      * Sets the configGyroTempVref bit value on the Shimmer to the value of the input SETBIT. The configGyroTempVref bit is the 2nd MSB of config byte0.
+     *
      * @param setBit value defining the desired setting of the Gyro Vref (1=ON, 0=OFF).
      */
 	/*public void writeConfigGyroTempVref(int setBit) {
@@ -2807,7 +2811,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 			mTransactionCompleted=false;
 			responseTimer(ACK_TIMER_DURATION);
 	}*/
-
     public void readAccelRange() {
         writeInstruction(GET_ACCEL_SENSITIVITY_COMMAND);
     }
@@ -4152,7 +4155,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     /**** ENABLE FUNCTIONS *****/
 
     //TODO: use set3DOrientation(enable) in ShimmerObject instead -> check that the "enable the sensors if they have not been enabled" comment is correct
-
     public boolean enableBtCommsOneByteCrc() {
         return writeBtCommsCrcMode(BT_CRC_MODE.ONE_BYTE_CRC);
     }

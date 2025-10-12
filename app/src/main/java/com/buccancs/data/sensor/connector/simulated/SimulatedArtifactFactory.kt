@@ -2,12 +2,12 @@ package com.buccancs.data.sensor.connector.simulated
 
 import android.content.Context
 import com.buccancs.domain.model.DeviceId
-import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.security.MessageDigest
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random

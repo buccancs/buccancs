@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializesensorStreamAck")
 public inline fun sensorStreamAck(block: com.buccancs.control.SensorStreamAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorStreamAck =
@@ -31,9 +31,7 @@ public object SensorStreamAckKt {
      * `bool success = 1;`
      */
     public var success: kotlin.Boolean
-      @JvmName("getSuccess")
       get() = _builder.getSuccess()
-      @JvmName("setSuccess")
       set(value) {
         _builder.setSuccess(value)
       }
@@ -48,9 +46,7 @@ public object SensorStreamAckKt {
      * `string error_message = 2;`
      */
     public var errorMessage: kotlin.String
-      @JvmName("getErrorMessage")
       get() = _builder.getErrorMessage()
-      @JvmName("setErrorMessage")
       set(value) {
         _builder.setErrorMessage(value)
       }
@@ -65,9 +61,7 @@ public object SensorStreamAckKt {
      * `uint64 total_samples = 3;`
      */
     public var totalSamples: kotlin.Long
-      @JvmName("getTotalSamples")
       get() = _builder.getTotalSamples()
-      @JvmName("setTotalSamples")
       set(value) {
         _builder.setTotalSamples(value)
       }

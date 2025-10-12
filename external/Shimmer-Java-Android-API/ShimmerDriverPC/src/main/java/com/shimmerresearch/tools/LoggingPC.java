@@ -110,6 +110,7 @@ public class LoggingPC {
 
     /**
      * This function takes an object cluster and logs all the data within it. User should note that the function will write over prior files with the same name.
+     *
      * @param objectClusterLog data which will be written into the file
      */
     public void logData(ObjectCluster objectCluster) {
@@ -209,6 +210,7 @@ public class LoggingPC {
 
     /**
      * This function takes an object cluster and logs all the data within it. User should note that the function will write over prior files with the same name.
+     *
      * @param objectClusterLog data which will be written into the file
      */
     public void logFilteredData(ObjectCluster objectCluster, double[] exg1_24bit, double[] exg2_24bit, double[] exg1_16bit, double[] exg2_16bit) {

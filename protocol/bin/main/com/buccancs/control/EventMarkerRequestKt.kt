@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializeeventMarkerRequest")
 public inline fun eventMarkerRequest(block: com.buccancs.control.EventMarkerRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.EventMarkerRequest =
@@ -31,9 +31,7 @@ public object EventMarkerRequestKt {
      * `.com.buccancs.control.SessionIdentifier session = 1;`
      */
     public var session: com.buccancs.control.SessionIdentifier
-      @JvmName("getSession")
       get() = _builder.getSession()
-      @JvmName("setSession")
       set(value) {
         _builder.setSession(value)
       }
@@ -55,9 +53,7 @@ public object EventMarkerRequestKt {
      * `string marker_id = 2;`
      */
     public var markerId: kotlin.String
-      @JvmName("getMarkerId")
       get() = _builder.getMarkerId()
-      @JvmName("setMarkerId")
       set(value) {
         _builder.setMarkerId(value)
       }
@@ -72,9 +68,7 @@ public object EventMarkerRequestKt {
      * `string description = 3;`
      */
     public var description: kotlin.String
-      @JvmName("getDescription")
       get() = _builder.getDescription()
-      @JvmName("setDescription")
       set(value) {
         _builder.setDescription(value)
       }
@@ -89,9 +83,7 @@ public object EventMarkerRequestKt {
      * `.com.buccancs.control.DeviceTarget targets = 4;`
      */
     public var targets: com.buccancs.control.DeviceTarget
-      @JvmName("getTargets")
       get() = _builder.getTargets()
-      @JvmName("setTargets")
       set(value) {
         _builder.setTargets(value)
       }
@@ -113,9 +105,7 @@ public object EventMarkerRequestKt {
      * `int64 timestamp_epoch_ms = 5;`
      */
     public var timestampEpochMs: kotlin.Long
-      @JvmName("getTimestampEpochMs")
       get() = _builder.getTimestampEpochMs()
-      @JvmName("setTimestampEpochMs")
       set(value) {
         _builder.setTimestampEpochMs(value)
       }

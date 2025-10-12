@@ -28,20 +28,20 @@ import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.math.absoluteValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import java.io.File
 import java.io.FileInputStream
 import java.security.DigestInputStream
 import java.security.MessageDigest
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.math.absoluteValue
 
 @Singleton
 class RgbCameraConnector @Inject constructor(
@@ -266,18 +266,29 @@ class RgbCameraConnector @Inject constructor(
                             if (continuation.isActive) {
                                 continuation.resumeWithException(CameraAccessException(CameraAccessException.CAMERA_DISCONNECTED))
                             } else {
-                                deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
+                                deviceState.update {
+                                    it.copy(
+                                        connectionStatus = ConnectionStatus.Disconnected,
+                                        isSimulated = false
+                                    )
+                                }
                             }
                         }
 
                         override fun onError(device: CameraDevice, error: Int) {
                             Log.e(logTag, "Camera error $error.")
                             device.close()
-                            val exception = CameraAccessException(CameraAccessException.CAMERA_ERROR, "Camera error $error")
+                            val exception =
+                                CameraAccessException(CameraAccessException.CAMERA_ERROR, "Camera error $error")
                             if (continuation.isActive) {
                                 continuation.resumeWithException(exception)
                             } else {
-                                deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
+                                deviceState.update {
+                                    it.copy(
+                                        connectionStatus = ConnectionStatus.Disconnected,
+                                        isSimulated = false
+                                    )
+                                }
                             }
                         }
                     },

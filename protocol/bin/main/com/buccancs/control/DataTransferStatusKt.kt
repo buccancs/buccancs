@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializedataTransferStatus")
 public inline fun dataTransferStatus(block: com.buccancs.control.DataTransferStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferStatus =
@@ -31,9 +31,7 @@ public object DataTransferStatusKt {
      * `string file_name = 1;`
      */
     public var fileName: kotlin.String
-      @JvmName("getFileName")
       get() = _builder.getFileName()
-      @JvmName("setFileName")
       set(value) {
         _builder.setFileName(value)
       }
@@ -48,9 +46,7 @@ public object DataTransferStatusKt {
      * `string device_id = 2;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -65,9 +61,7 @@ public object DataTransferStatusKt {
      * `bool success = 3;`
      */
     public var success: kotlin.Boolean
-      @JvmName("getSuccess")
       get() = _builder.getSuccess()
-      @JvmName("setSuccess")
       set(value) {
         _builder.setSuccess(value)
       }
@@ -82,9 +76,7 @@ public object DataTransferStatusKt {
      * `string error_message = 4;`
      */
     public var errorMessage: kotlin.String
-      @JvmName("getErrorMessage")
       get() = _builder.getErrorMessage()
-      @JvmName("setErrorMessage")
       set(value) {
         _builder.setErrorMessage(value)
       }
@@ -99,9 +91,7 @@ public object DataTransferStatusKt {
      * `string stream_type = 5;`
      */
     public var streamType: kotlin.String
-      @JvmName("getStreamType")
       get() = _builder.getStreamType()
-      @JvmName("setStreamType")
       set(value) {
         _builder.setStreamType(value)
       }

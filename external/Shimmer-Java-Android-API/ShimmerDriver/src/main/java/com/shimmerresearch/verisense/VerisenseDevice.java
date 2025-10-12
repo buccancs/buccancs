@@ -118,6 +118,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     private transient StatusPayload status;
     private transient OperationalConfigPayload opConfig;
     private transient ProductionConfigPayload prodConfigPayload;
+
     /**
      *
      */
@@ -128,6 +129,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         setShimmerUserAssignedName(mUniqueID);
         setMacIdFromUart(mUniqueID);
     }
+
     public VerisenseDevice(COMMUNICATION_TYPE commType) {
         this();
         addCommunicationRoute(commType);

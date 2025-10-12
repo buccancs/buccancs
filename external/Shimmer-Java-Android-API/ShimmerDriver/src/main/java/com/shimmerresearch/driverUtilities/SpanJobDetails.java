@@ -44,6 +44,7 @@ public class SpanJobDetails extends AbstractErrorCodes {
     public int mRadioChannelToSet = -1;
     public int mRadioGroupIdToSet = -1;
     List<ShimmerDevice> listofDockedShimmersForJob = new ArrayList<ShimmerDevice>();
+
     public SpanJobDetails(SPAN_JOB_TYPE jobType) {
         this.currentJob = jobType;
     }
@@ -52,6 +53,7 @@ public class SpanJobDetails extends AbstractErrorCodes {
         this(jobType);
         mStateToSet = state;
     }
+
     public SpanJobDetails(SPAN_JOB_TYPE jobType, int channel, int radioGroupId) {
         this(jobType);
         this.mRadioChannelToSet = channel;

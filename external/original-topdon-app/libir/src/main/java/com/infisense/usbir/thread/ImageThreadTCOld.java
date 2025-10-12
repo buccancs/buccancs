@@ -126,10 +126,10 @@
 //                        Libirparse.yuv422_to_argb(imagerTemp1, imageHeight * imageWidth, imagerTemp2);
 //                    }
 //
-////                    // imagerTemp2二次处理 (温度原始数据)
-////                    if (max != 0 && min != 0) {
-////                        ImageTools.INSTANCE.readFrame(imagerTemp2, temperatureSrc, max, min);
-////                    }
+/// /                    // imagerTemp2二次处理 (温度原始数据)
+/// /                    if (max != 0 && min != 0) {
+/// /                        ImageTools.INSTANCE.readFrame(imagerTemp2, temperatureSrc, max, min);
+/// /                    }
 //
 //                    if (rotate == 270) {
 //                        Libirprocess.ImageRes_t imageRes = new Libirprocess.ImageRes_t();

@@ -109,7 +109,9 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
      */
     public String mMacIdFromUart = DEFAULT_MAC_ID;
     public String mShimmerUserAssignedName = "";//DEFAULT_SHIMMER_NAME; // This stores the user assigned name
-    /** All supported channels based on hardware, expansion board and firmware */
+    /**
+     * All supported channels based on hardware, expansion board and firmware
+     */
 //	protected Map<String, AlgorithmDetails> mMapOfAlgorithmDetails = new LinkedHashMap<String, AlgorithmDetails>();
     public String mAlternativeName = "";
     public HashMap<COMMUNICATION_TYPE, Double> mMapOfSamplingRatesShimmer = new HashMap<COMMUNICATION_TYPE, Double>(); // 51.2Hz is the default sampling rate
@@ -206,7 +208,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     private boolean mIsUsbPluggedIn = false;
     private double mPacketReceptionRateCurrent = DEFAULT_RECEPTION_RATE;
     private double mPacketReceptionRateOverall = DEFAULT_RECEPTION_RATE;
-//	public static TreeMap<Integer,String> mMapOfErrorCodes = new TreeMap<Integer,String>();
+    //	public static TreeMap<Integer,String> mMapOfErrorCodes = new TreeMap<Integer,String>();
     private long mPacketLossCountPerTrial = 0;        //Used by ShimmerBluetooth
     private boolean mUpdateOnlyWhenStateChanges = false;
 
@@ -215,6 +217,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
         mMapOfSamplingRatesShimmer.put(COMMUNICATION_TYPE.SD, 51.2);
         mMapOfSamplingRatesShimmer.put(COMMUNICATION_TYPE.BLUETOOTH, 51.2);
     }
+
     /**
      * Constructor for this class
      */

@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializesensorSampleBatch")
 public inline fun sensorSampleBatch(block: com.buccancs.control.SensorSampleBatchKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSampleBatch =
@@ -31,9 +31,7 @@ public object SensorSampleBatchKt {
      * `.com.buccancs.control.SessionIdentifier session = 1;`
      */
     public var session: com.buccancs.control.SessionIdentifier
-      @JvmName("getSession")
       get() = _builder.getSession()
-      @JvmName("setSession")
       set(value) {
         _builder.setSession(value)
       }
@@ -55,9 +53,7 @@ public object SensorSampleBatchKt {
      * `string device_id = 2;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -72,9 +68,7 @@ public object SensorSampleBatchKt {
      * `string stream_id = 3;`
      */
     public var streamId: kotlin.String
-      @JvmName("getStreamId")
       get() = _builder.getStreamId()
-      @JvmName("setStreamId")
       set(value) {
         _builder.setStreamId(value)
       }
@@ -89,9 +83,7 @@ public object SensorSampleBatchKt {
      * `double sample_rate_hz = 4;`
      */
     public var sampleRateHz: kotlin.Double
-      @JvmName("getSampleRateHz")
       get() = _builder.getSampleRateHz()
-      @JvmName("setSampleRateHz")
       set(value) {
         _builder.setSampleRateHz(value)
       }
@@ -178,9 +170,7 @@ public object SensorSampleBatchKt {
      * `bool end_of_stream = 6;`
      */
     public var endOfStream: kotlin.Boolean
-      @JvmName("getEndOfStream")
       get() = _builder.getEndOfStream()
-      @JvmName("setEndOfStream")
       set(value) {
         _builder.setEndOfStream(value)
       }

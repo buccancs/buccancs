@@ -12,12 +12,6 @@ import com.buccancs.domain.model.CalibrationSessionState
 import com.buccancs.domain.model.CameraIntrinsicParameters
 import com.buccancs.domain.model.ExtrinsicTransform
 import com.buccancs.domain.repository.CalibrationRepository
-import java.io.File
-import java.util.UUID
-import java.util.concurrent.atomic.AtomicBoolean
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.math.pow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +22,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.calib3d.Calib3d
@@ -39,6 +32,49 @@ import org.opencv.core.MatOfPoint3f
 import org.opencv.core.Point3
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
+import java.io.File
+import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.Double
+import kotlin.DoubleArray
+import kotlin.IllegalStateException
+import kotlin.Int
+import kotlin.String
+import kotlin.also
+import kotlin.collections.ArrayList
+import kotlin.collections.List
+import kotlin.collections.emptyList
+import kotlin.collections.filterNot
+import kotlin.collections.find
+import kotlin.collections.first
+import kotlin.collections.forEach
+import kotlin.collections.indices
+import kotlin.collections.listOf
+import kotlin.collections.maxOrNull
+import kotlin.collections.minus
+import kotlin.collections.mutableListOf
+import kotlin.collections.plus
+import kotlin.collections.plusAssign
+import kotlin.collections.toList
+import kotlin.collections.toTypedArray
+import kotlin.compareTo
+import kotlin.getOrThrow
+import kotlin.let
+import kotlin.math.pow
+import kotlin.minus
+import kotlin.onFailure
+import kotlin.or
+import kotlin.require
+import kotlin.runCatching
+import kotlin.sequences.minus
+import kotlin.synchronized
+import kotlin.text.format
+import kotlin.text.get
+import kotlin.text.indices
+import kotlin.text.take
+import kotlin.text.toInt
 
 @Singleton
 class DefaultCalibrationRepository @Inject constructor(
@@ -150,7 +186,8 @@ class DefaultCalibrationRepository @Inject constructor(
             throw IllegalStateException("Need at least $required capture pairs before computing calibration")
         }
         stateMutex.withLock {
-            _state.value = _state.value.copy(isProcessing = true, infoMessage = "Computing calibration...", errorMessage = null)
+            _state.value =
+                _state.value.copy(isProcessing = true, infoMessage = "Computing calibration...", errorMessage = null)
         }
 
         val result = runCatching {
@@ -229,7 +266,8 @@ class DefaultCalibrationRepository @Inject constructor(
 
             val rgbCorners = MatOfPoint2f()
             val thermalCorners = MatOfPoint2f()
-            val chessboardFlags = Calib3d.CALIB_CB_ADAPTIVE_THRESH or Calib3d.CALIB_CB_NORMALIZE_IMAGE or Calib3d.CALIB_CB_FAST_CHECK
+            val chessboardFlags =
+                Calib3d.CALIB_CB_ADAPTIVE_THRESH or Calib3d.CALIB_CB_NORMALIZE_IMAGE or Calib3d.CALIB_CB_FAST_CHECK
 
             val foundRgb = Calib3d.findChessboardCorners(rgbGray, patternSize, rgbCorners, chessboardFlags)
             val foundThermal = Calib3d.findChessboardCorners(thermalGray, patternSize, thermalCorners, chessboardFlags)

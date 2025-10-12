@@ -191,6 +191,7 @@ public class SensorLIS2DW12 extends AbstractSensor {
     protected LIS2DW12_HP_REF_MODE hpFilterMode = LIS2DW12_HP_REF_MODE.DISABLED;
     protected LIS2DW12_FIFO_MODE fifoMode = LIS2DW12_FIFO_MODE.CONTINUOUS_TO_FIFO_MODE;
     protected LIS2DW12_FIFO_THRESHOLD fifoThreshold = LIS2DW12_FIFO_THRESHOLD.SAMPLE_31;
+
     public SensorLIS2DW12(VerisenseDevice verisenseDevice) {
         super(SENSORS.LIS2DW12, verisenseDevice);
         initialise();

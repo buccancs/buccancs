@@ -43,6 +43,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
     public int mProgressPercentageComplete = 0;
     public int mProgressEndValue = 100;
     public float mProgressSpeed = 0;
+
     public BluetoothProgressReportPerDevice(String comPort, BT_STATE currentOperationBtState, int endValue) {
         mComPort = comPort;
         mCurrentOperationBtState = currentOperationBtState;

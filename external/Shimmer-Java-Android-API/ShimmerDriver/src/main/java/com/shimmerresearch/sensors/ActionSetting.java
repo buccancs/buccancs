@@ -12,6 +12,7 @@ public class ActionSetting {
     public byte[] mActionByteArray;
     public List<byte[]> mActionListByteArray;
     public int mIndex;
+
     public ActionSetting(COMMUNICATION_TYPE commType) {
         mCommType = commType;
     }

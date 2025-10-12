@@ -4,18 +4,17 @@ import com.buccancs.control.SensorSample
 import com.buccancs.control.SensorSampleBatch
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.data.session.MetadataMetrics
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import org.slf4j.LoggerFactory
 import java.io.BufferedWriter
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.security.MessageDigest
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.io.DEFAULT_BUFFER_SIZE
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import org.slf4j.LoggerFactory
 
 class SensorRecordingManager(
     private val sessionRepository: SessionRepository
@@ -52,9 +51,11 @@ class SensorRecordingManager(
             val metricsUpdate = when {
                 streamId.equals(STREAM_GSR, ignoreCase = true) ->
                     { metrics: MetadataMetrics -> metrics.copy(gsrSamples = metrics.gsrSamples + result.samples) }
+
                 streamId.equals(STREAM_AUDIO, ignoreCase = true) ||
-                    streamId.contains("audio", ignoreCase = true) ->
+                        streamId.contains("audio", ignoreCase = true) ->
                     { metrics: MetadataMetrics -> metrics.copy(audioSamples = metrics.audioSamples + result.samples) }
+
                 else -> null
             }
             if (metricsUpdate != null) {

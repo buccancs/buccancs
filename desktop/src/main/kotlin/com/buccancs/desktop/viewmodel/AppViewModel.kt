@@ -15,11 +15,11 @@ import com.buccancs.desktop.ui.state.ControlPanelState
 import com.buccancs.desktop.ui.state.DeviceListItem
 import com.buccancs.desktop.ui.state.EventTimelineItem
 import com.buccancs.desktop.ui.state.PreviewStreamState
-import com.buccancs.desktop.ui.state.TransferStatusItem
 import com.buccancs.desktop.ui.state.RetentionState
 import com.buccancs.desktop.ui.state.SessionArchiveItem
 import com.buccancs.desktop.ui.state.SessionMetricsState
 import com.buccancs.desktop.ui.state.SessionSummary
+import com.buccancs.desktop.ui.state.TransferStatusItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -27,16 +27,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import java.time.Duration
 import org.slf4j.LoggerFactory
+import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Locale
+import java.util.*
 
 class AppViewModel(
     private val sessionRepository: SessionRepository,
@@ -219,6 +218,7 @@ class AppViewModel(
                 when (event) {
                     is DeviceConnectionEvent.Connected ->
                         appendAlert("Device ${event.deviceId} connected")
+
                     is DeviceConnectionEvent.Disconnected -> {
                         val reason = event.reason.name.lowercase(Locale.US).replace('_', '-')
                         appendAlert("Device ${event.deviceId} disconnected ($reason)")
@@ -478,10 +478,16 @@ class AppViewModel(
     private fun formatRetentionAlert(action: DataRetentionManager.QuotaAction): String = when (action) {
         is DataRetentionManager.QuotaAction.DeviceCapExceeded ->
             "Device ${action.deviceId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
+
         is DataRetentionManager.QuotaAction.GlobalCapExceeded ->
             "Global quota exceeded (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
+
         is DataRetentionManager.QuotaAction.SessionCapExceeded ->
-            "Session ${action.sessionId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
+            "Session ${action.sessionId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
+                bytesToReadable(
+                    action.limitBytes
+                )
+            })"
     }
 
     private fun tickerFlow(periodMillis: Long = 1_000L) = flow {

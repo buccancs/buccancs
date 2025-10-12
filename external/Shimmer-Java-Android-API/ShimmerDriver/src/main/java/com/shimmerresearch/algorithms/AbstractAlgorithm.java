@@ -97,6 +97,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
      */
     @Deprecated
     protected String[] mSignalOutputUnitArray;
+
     public AbstractAlgorithm() {
         setGeneralAlgorithmName();
     }
@@ -104,6 +105,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     public AbstractAlgorithm(AlgorithmDetails algorithmDetails) {
         setAlgorithmDetails(algorithmDetails);
     }
+
     public AbstractAlgorithm(ShimmerDevice shimmerDevice, AlgorithmDetails algorithmDetails) {
         setAlgorithmDetails(algorithmDetails);
         mShimmerDevice = shimmerDevice;

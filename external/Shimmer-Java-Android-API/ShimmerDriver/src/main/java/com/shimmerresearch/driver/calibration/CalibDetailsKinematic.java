@@ -48,6 +48,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
     public double mOffsetMin = 0.0;
     public int mOffsetPrecision = 0;
     public byte[] mCalRawParamsFromShimmer = new byte[21];
+
     public CalibDetailsKinematic(int rangeValue, String rangeString) {
         this.mRangeValue = rangeValue;
         this.mRangeString = rangeString;
@@ -199,6 +200,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
     /**
      * Method to perform a basic sanity check on the sensitivity of the IMUs, implemented
      * as there were instances when the sensitivity of the gyroscope was -0.01 or 0.65 for example
+     *
      * @return boolean: true if the sensitivity is outside of the percentage range of the default sensitivity
      * where the percentage is defined by validScaling factor
      */
@@ -228,7 +230,6 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
 //		
 //		return isValid;
 //	}
-
     public boolean isCurrentValuesSet() {
         return mCurrentCalibration.isCurrentValuesSet();
     }

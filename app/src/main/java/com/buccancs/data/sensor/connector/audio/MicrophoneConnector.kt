@@ -12,17 +12,11 @@ import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.RecordingSessionAnchor
-import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
-import java.io.File
-import java.io.RandomAccessFile
-import java.security.MessageDigest
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.math.absoluteValue
+import com.buccancs.domain.model.SessionArtifact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,6 +24,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import java.io.File
+import java.io.RandomAccessFile
+import java.security.MessageDigest
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.math.absoluteValue
 
 @Singleton
 class MicrophoneConnector @Inject constructor(

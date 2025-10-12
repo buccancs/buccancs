@@ -83,7 +83,7 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
             0x02);
     //--------- Sensor specific variables end --------------
     public static final Map<String, ChannelDetails> mChannelMapRef;
-//	{
+    //	{
 //		sensorKionixKXTC92050.mCalibSensorKey = 0x01;
 //	}
     public static final SensorGroupingDetails sensorGroupLnAccelKXTC92050 = new SensorGroupingDetails(

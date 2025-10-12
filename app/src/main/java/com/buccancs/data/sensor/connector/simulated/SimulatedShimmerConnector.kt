@@ -2,6 +2,7 @@ package com.buccancs.data.sensor.connector.simulated
 
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
+import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
 import com.buccancs.domain.model.DeviceId
@@ -10,13 +11,6 @@ import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
-import com.buccancs.di.ApplicationScope
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.math.absoluteValue
-import kotlin.math.PI
-import kotlin.math.sin
-import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,6 +18,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.math.PI
+import kotlin.math.absoluteValue
+import kotlin.math.sin
+import kotlin.random.Random
 
 @Singleton
 internal class SimulatedShimmerConnector @Inject constructor(

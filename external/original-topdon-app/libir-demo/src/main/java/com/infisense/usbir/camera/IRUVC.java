@@ -248,7 +248,7 @@ package com.infisense.usbir.camera;//package com.infisense.usbir.camera;
 //        List<DeviceFilter> deviceFilters = DeviceFilter
 //                .getDeviceFilters(context, R.xml.device_filter);
 //        if (mUSBMonitor == null || deviceFilters == null)
-////            throw new NullPointerException("mUSBMonitor ="+mUSBMonitor+"deviceFilters=;"+deviceFilters);
+/// /            throw new NullPointerException("mUSBMonitor ="+mUSBMonitor+"deviceFilters=;"+deviceFilters);
 //            return null;
 //        // matching all of filter devices
 //        return mUSBMonitor.getDeviceList(deviceFilters);

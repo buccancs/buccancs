@@ -31,16 +31,15 @@ import com.shimmerresearch.driver.ObjectCluster
 import com.shimmerresearch.driver.ShimmerDevice
 import com.shimmerresearch.exceptions.ShimmerException
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.math.absoluteValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.math.absoluteValue
 
 @Singleton
 class ShimmerSensorConnector @Inject constructor(
@@ -72,12 +71,14 @@ class ShimmerSensorConnector @Inject constructor(
                 ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET -> if (msg.obj is ObjectCluster) {
                     handleDataPacket(msg.obj as ObjectCluster)
                 }
+
                 Shimmer.MESSAGE_TOAST -> {
                     val text = msg.data?.getString(Shimmer.TOAST)
                     if (!text.isNullOrBlank()) {
                         Log.i(logTag, text)
                     }
                 }
+
                 else -> super.handleMessage(msg)
             }
         }
@@ -280,10 +281,12 @@ class ShimmerSensorConnector @Inject constructor(
                 state = payload.mState
                 mac = payload.macAddress
             }
+
             is CallbackObject -> {
                 state = payload.mState
                 mac = payload.mBluetoothAddress ?: ""
             }
+
             else -> return
         }
 
@@ -293,6 +296,7 @@ class ShimmerSensorConnector @Inject constructor(
             ShimmerBluetooth.BT_STATE.DISCONNECTED -> onDisconnected()
             ShimmerBluetooth.BT_STATE.STREAMING,
             ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING -> onStreaming()
+
             ShimmerBluetooth.BT_STATE.SDLOGGING -> onLogging()
             else -> Unit
         }
@@ -371,7 +375,8 @@ class ShimmerSensorConnector @Inject constructor(
     }
 
     private fun extractTimestamp(cluster: ObjectCluster): Instant? {
-        val collections = cluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP)
+        val collections =
+            cluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP)
         val calibrated = ObjectCluster.returnFormatCluster(collections, "CAL") as? FormatCluster
         val seconds = calibrated?.mData ?: return null
         val millis = (seconds * 1_000.0).toLong()

@@ -419,6 +419,7 @@ public final class ShimmerGRPC {
                 internal_static_shimmerGRPC_EmulatedDevices_EmulatedDevicesMapEntry_descriptor,
                 new java.lang.String[]{"Key", "Value",});
     }
+
     private ShimmerGRPC() {
     }
 
@@ -436,6 +437,7 @@ public final class ShimmerGRPC {
     getDescriptor() {
         return descriptor;
     }
+
     public interface FileByteTransferOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.FileByteTransfer)
             com.google.protobuf.MessageOrBuilder {
@@ -469,6 +471,7 @@ public final class ShimmerGRPC {
          */
         boolean getEndoffile();
     }
+
     public interface CommandStatusOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.CommandStatus)
             com.google.protobuf.MessageOrBuilder {
@@ -488,6 +491,7 @@ public final class ShimmerGRPC {
         com.google.protobuf.ByteString
         getStatusBytes();
     }
+
     public interface HelloRequestOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.HelloRequest)
             com.google.protobuf.MessageOrBuilder {
@@ -507,6 +511,7 @@ public final class ShimmerGRPC {
         com.google.protobuf.ByteString
         getNameBytes();
     }
+
     public interface HelloReplyOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.HelloReply)
             com.google.protobuf.MessageOrBuilder {
@@ -526,6 +531,7 @@ public final class ShimmerGRPC {
         com.google.protobuf.ByteString
         getMessageBytes();
     }
+
     public interface ShimmerRequestOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.ShimmerRequest)
             com.google.protobuf.MessageOrBuilder {
@@ -545,6 +551,7 @@ public final class ShimmerGRPC {
         com.google.protobuf.ByteString
         getAddressBytes();
     }
+
     public interface StreamRequestOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.StreamRequest)
             com.google.protobuf.MessageOrBuilder {
@@ -564,6 +571,7 @@ public final class ShimmerGRPC {
         com.google.protobuf.ByteString
         getMessageBytes();
     }
+
     public interface ObjectCluster2OrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.ObjectCluster2)
             com.google.protobuf.MessageOrBuilder {
@@ -665,6 +673,7 @@ public final class ShimmerGRPC {
          */
         double getCalibratedTimeStamp();
     }
+
     public interface StringMsgOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.StringMsg)
             com.google.protobuf.MessageOrBuilder {
@@ -684,6 +693,7 @@ public final class ShimmerGRPC {
         com.google.protobuf.ByteString
         getMessageBytes();
     }
+
     public interface StringArrayMsgOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.StringArrayMsg)
             com.google.protobuf.MessageOrBuilder {
@@ -720,6 +730,7 @@ public final class ShimmerGRPC {
         com.google.protobuf.ByteString
         getMessageArrayBytes(int index);
     }
+
     public interface BoolMsgOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.BoolMsg)
             com.google.protobuf.MessageOrBuilder {
@@ -731,6 +742,7 @@ public final class ShimmerGRPC {
          */
         boolean getState();
     }
+
     public interface DoubleMsgOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.DoubleMsg)
             com.google.protobuf.MessageOrBuilder {
@@ -742,6 +754,7 @@ public final class ShimmerGRPC {
          */
         double getNumber();
     }
+
     public interface OperationRequestOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.OperationRequest)
             com.google.protobuf.MessageOrBuilder {
@@ -797,6 +810,7 @@ public final class ShimmerGRPC {
         com.google.protobuf.ByteString
         getProgressPercentageParsedBytes();
     }
+
     public interface ShimmersInfoOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.ShimmersInfo)
             com.google.protobuf.MessageOrBuilder {
@@ -862,6 +876,7 @@ public final class ShimmerGRPC {
         com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrThrow(
                 java.lang.String key);
     }
+
     public interface Ieee802154InfoOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.Ieee802154Info)
             com.google.protobuf.MessageOrBuilder {
@@ -887,6 +902,7 @@ public final class ShimmerGRPC {
          */
         int getRadioDeviceId();
     }
+
     public interface InfoSpansOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.InfoSpans)
             com.google.protobuf.MessageOrBuilder {
@@ -971,6 +987,7 @@ public final class ShimmerGRPC {
          */
         com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
     }
+
     public interface EmulatedDevicesOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerGRPC.EmulatedDevices)
             com.google.protobuf.MessageOrBuilder {
@@ -1086,6 +1103,7 @@ public final class ShimmerGRPC {
             name_ = "";
             data_ = com.google.protobuf.ByteString.EMPTY;
         }
+
         private FileByteTransfer(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1820,6 +1838,7 @@ public final class ShimmerGRPC {
         private CommandStatus() {
             status_ = "";
         }
+
         private CommandStatus(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2418,6 +2437,7 @@ public final class ShimmerGRPC {
         private HelloRequest() {
             name_ = "";
         }
+
         private HelloRequest(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3020,6 +3040,7 @@ public final class ShimmerGRPC {
         private HelloReply() {
             message_ = "";
         }
+
         private HelloReply(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3618,6 +3639,7 @@ public final class ShimmerGRPC {
         private ShimmerRequest() {
             address_ = "";
         }
+
         private ShimmerRequest(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4212,6 +4234,7 @@ public final class ShimmerGRPC {
         private StreamRequest() {
             message_ = "";
         }
+
         private StreamRequest(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4808,6 +4831,7 @@ public final class ShimmerGRPC {
         private long systemTime_;
         private double calibratedTimeStamp_;
         private byte memoizedIsInitialized = -1;
+
         // Use ObjectCluster2.newBuilder() to construct.
         private ObjectCluster2(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -6049,6 +6073,7 @@ public final class ShimmerGRPC {
                 private DataCluster2(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
                     super(builder);
                 }
+
                 private DataCluster2() {
                     unit_ = "";
                     dataArray_ = emptyDoubleList();
@@ -7978,6 +8003,7 @@ public final class ShimmerGRPC {
         private StringMsg() {
             message_ = "";
         }
+
         private StringMsg(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8576,6 +8602,7 @@ public final class ShimmerGRPC {
         private StringArrayMsg() {
             messageArray_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         }
+
         private StringArrayMsg(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9239,6 +9266,7 @@ public final class ShimmerGRPC {
 
         private BoolMsg() {
         }
+
         private BoolMsg(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9754,6 +9782,7 @@ public final class ShimmerGRPC {
 
         private DoubleMsg() {
         }
+
         private DoubleMsg(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10270,6 +10299,7 @@ public final class ShimmerGRPC {
         private double progressPercentage_;
         private volatile java.lang.Object progressPercentageParsed_;
         private byte memoizedIsInitialized = -1;
+
         // Use OperationRequest.newBuilder() to construct.
         private OperationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -11230,6 +11260,7 @@ public final class ShimmerGRPC {
         private ShimmersInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private ShimmersInfo() {
             message_ = "";
         }
@@ -12071,6 +12102,7 @@ public final class ShimmerGRPC {
                 pairedDevice_ = com.google.protobuf.LazyStringArrayList.EMPTY;
                 configTimeParsed_ = "";
             }
+
             private ShimmerInfo(
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -15728,6 +15760,7 @@ public final class ShimmerGRPC {
         private Ieee802154Info(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private Ieee802154Info() {
         }
 
@@ -16389,6 +16422,7 @@ public final class ShimmerGRPC {
         private InfoSpans() {
             message_ = "";
         }
+
         private InfoSpans(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -16990,6 +17024,7 @@ public final class ShimmerGRPC {
                 portBsl_ = "";
                 portComms_ = "";
             }
+
             private InfoSpan(
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -18525,6 +18560,7 @@ public final class ShimmerGRPC {
         private EmulatedDevices() {
             message_ = "";
         }
+
         private EmulatedDevices(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -19103,6 +19139,7 @@ public final class ShimmerGRPC {
             private com.google.protobuf.LazyStringList hwDeviceInterfacePath_;
             private boolean isDeviceEnabled_;
             private byte memoizedIsInitialized = -1;
+
             // Use EmulatedDevice.newBuilder() to construct.
             private EmulatedDevice(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
                 super(builder);

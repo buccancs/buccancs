@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializestatusSubscribeRequest")
 public inline fun statusSubscribeRequest(block: com.buccancs.control.StatusSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StatusSubscribeRequest =
@@ -31,9 +31,7 @@ public object StatusSubscribeRequestKt {
      * `.com.buccancs.control.SessionIdentifier session = 1;`
      */
     public var session: com.buccancs.control.SessionIdentifier
-      @JvmName("getSession")
       get() = _builder.getSession()
-      @JvmName("setSession")
       set(value) {
         _builder.setSession(value)
       }

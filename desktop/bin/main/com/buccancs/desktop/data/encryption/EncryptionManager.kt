@@ -1,12 +1,12 @@
 package com.buccancs.desktop.data.encryption
 
 import com.google.crypto.tink.Aead
+import com.google.crypto.tink.JsonKeysetReader
+import com.google.crypto.tink.JsonKeysetWriter
 import com.google.crypto.tink.KeysetHandle
 import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.aead.AesGcmKeyManager
 import com.google.crypto.tink.io.CleartextKeysetHandle
-import com.google.crypto.tink.JsonKeysetReader
-import com.google.crypto.tink.JsonKeysetWriter
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.nio.file.Files
@@ -20,6 +20,7 @@ class EncryptionKeyProvider(
 ) {
     private val logger = LoggerFactory.getLogger(EncryptionKeyProvider::class.java)
     private val lock = ReentrantLock()
+
     @Volatile
     private var cachedHandle: KeysetHandle? = null
 

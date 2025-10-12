@@ -8,13 +8,12 @@ import com.buccancs.data.orchestration.GrpcChannelFactory
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.google.protobuf.ByteString
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import java.io.FileInputStream
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 
 @Singleton
 class DataTransferClient @Inject constructor(

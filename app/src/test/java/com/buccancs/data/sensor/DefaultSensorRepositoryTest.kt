@@ -9,14 +9,14 @@ import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.RecordingLifecycleState
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.SensorStreamType
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class DefaultSensorRepositoryTest {
 

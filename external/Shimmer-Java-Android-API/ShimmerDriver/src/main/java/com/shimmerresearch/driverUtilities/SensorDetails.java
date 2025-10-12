@@ -26,7 +26,7 @@ public class SensorDetails implements Serializable {
      */
     public Map<COMMUNICATION_TYPE, Boolean> mapOfIsEnabledPerCommsType = new ConcurrentHashMap<COMMUNICATION_TYPE, Boolean>();
     public long mDerivedSensorBitmapID = 0;
-//	public boolean mIsEnabled = false;
+    //	public boolean mIsEnabled = false;
     public SensorDetailsRef mSensorDetailsRef;
     public List<ChannelDetails> mListOfChannels = new ArrayList<ChannelDetails>();
 

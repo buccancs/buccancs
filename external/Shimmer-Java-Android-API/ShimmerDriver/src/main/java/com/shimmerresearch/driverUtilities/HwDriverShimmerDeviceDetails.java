@@ -15,7 +15,7 @@ public class HwDriverShimmerDeviceDetails {
     public HwDriverDeviceDetails usbHub = null;
     public HwDriverDeviceDetails compositeDevice = null;
 
-//	public class DOCK_STATE {
+    //	public class DOCK_STATE {
 //		public final static int STATE_NONE = 0 ;
 //		public final static int STATE_READY = 1;
 //		public final static int STATE_BUSY = 2;
@@ -45,9 +45,11 @@ public class HwDriverShimmerDeviceDetails {
      */
     public String mFtdiSerialID = "";
     public SPAN_VERSION mSpanVersion = SPAN_VERSION.UNKNOWN;
+
     public HwDriverShimmerDeviceDetails() {
         // TODO Auto-generated constructor stub
     }
+
     public HwDriverShimmerDeviceDetails(String dockAssignedId, String smartDockBSLComPort, String smartDockUARTComPort, String shimmerBSLComPort, String shimmerUARTComPort, String shimmerDrivePath) {
         mDockID = dockAssignedId;
         mSmartDockFwComPort = smartDockBSLComPort;

@@ -243,7 +243,7 @@
 //
 //            linePaint = new Paint();
 //            linePaint.setStrokeWidth(LINE_STROKE_WIDTH);
-////                greenPaint.setColor(Color.GREEN);
+/// /                greenPaint.setColor(Color.GREEN);
 //            linePaint.setColor(Color.WHITE);
 //
 //            bluePaint = new Paint();

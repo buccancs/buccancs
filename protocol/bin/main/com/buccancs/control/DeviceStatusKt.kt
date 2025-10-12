@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializedeviceStatus")
 public inline fun deviceStatus(block: com.buccancs.control.DeviceStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceStatus =
@@ -31,9 +31,7 @@ public object DeviceStatusKt {
      * `string device_id = 1;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -48,9 +46,7 @@ public object DeviceStatusKt {
      * `bool online = 2;`
      */
     public var online: kotlin.Boolean
-      @JvmName("getOnline")
       get() = _builder.getOnline()
-      @JvmName("setOnline")
       set(value) {
         _builder.setOnline(value)
       }
@@ -65,9 +61,7 @@ public object DeviceStatusKt {
      * `bool recording = 3;`
      */
     public var recording: kotlin.Boolean
-      @JvmName("getRecording")
       get() = _builder.getRecording()
-      @JvmName("setRecording")
       set(value) {
         _builder.setRecording(value)
       }
@@ -82,9 +76,7 @@ public object DeviceStatusKt {
      * `double battery_percent = 4;`
      */
     public var batteryPercent: kotlin.Double
-      @JvmName("getBatteryPercent")
       get() = _builder.getBatteryPercent()
-      @JvmName("setBatteryPercent")
       set(value) {
         _builder.setBatteryPercent(value)
       }
@@ -99,9 +91,7 @@ public object DeviceStatusKt {
      * `int64 last_heartbeat_epoch_ms = 5;`
      */
     public var lastHeartbeatEpochMs: kotlin.Long
-      @JvmName("getLastHeartbeatEpochMs")
       get() = _builder.getLastHeartbeatEpochMs()
-      @JvmName("setLastHeartbeatEpochMs")
       set(value) {
         _builder.setLastHeartbeatEpochMs(value)
       }
@@ -116,9 +106,7 @@ public object DeviceStatusKt {
      * `string session_id = 6;`
      */
     public var sessionId: kotlin.String
-      @JvmName("getSessionId")
       get() = _builder.getSessionId()
-      @JvmName("setSessionId")
       set(value) {
         _builder.setSessionId(value)
       }
@@ -133,9 +121,7 @@ public object DeviceStatusKt {
      * `double preview_latency_ms = 7;`
      */
     public var previewLatencyMs: kotlin.Double
-      @JvmName("getPreviewLatencyMs")
       get() = _builder.getPreviewLatencyMs()
-      @JvmName("setPreviewLatencyMs")
       set(value) {
         _builder.setPreviewLatencyMs(value)
       }
@@ -150,9 +136,7 @@ public object DeviceStatusKt {
      * `double clock_offset_ms = 8;`
      */
     public var clockOffsetMs: kotlin.Double
-      @JvmName("getClockOffsetMs")
       get() = _builder.getClockOffsetMs()
-      @JvmName("setClockOffsetMs")
       set(value) {
         _builder.setClockOffsetMs(value)
       }

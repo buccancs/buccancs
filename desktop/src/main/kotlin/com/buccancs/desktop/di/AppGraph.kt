@@ -13,13 +13,13 @@ import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.data.retention.DataRetentionManager
 import com.buccancs.desktop.domain.policy.RetentionPolicy
 import com.buccancs.desktop.viewmodel.AppViewModel
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 class AppGraph private constructor(
     private val sessionRepository: SessionRepository,

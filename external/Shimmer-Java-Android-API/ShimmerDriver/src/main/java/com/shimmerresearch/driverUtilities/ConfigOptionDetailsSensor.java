@@ -35,6 +35,7 @@ public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Se
     private Integer[] mConfigValuesAlt6;
     private int mIndexValuesToUse = 0;
     private COMMUNICATION_TYPE mCommunicationType;
+
     /**
      * Used in Consensys to hold Shimmer configuration GUI information for
      * each configuration option to allow for dynamic GUI creation based on

@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializedataTransferRequest")
 public inline fun dataTransferRequest(block: com.buccancs.control.DataTransferRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferRequest =
@@ -31,9 +31,7 @@ public object DataTransferRequestKt {
      * `.com.buccancs.control.SessionIdentifier session = 1;`
      */
     public var session: com.buccancs.control.SessionIdentifier
-      @JvmName("getSession")
       get() = _builder.getSession()
-      @JvmName("setSession")
       set(value) {
         _builder.setSession(value)
       }
@@ -55,9 +53,7 @@ public object DataTransferRequestKt {
      * `string device_id = 2;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -72,9 +68,7 @@ public object DataTransferRequestKt {
      * `string file_name = 3;`
      */
     public var fileName: kotlin.String
-      @JvmName("getFileName")
       get() = _builder.getFileName()
-      @JvmName("setFileName")
       set(value) {
         _builder.setFileName(value)
       }
@@ -89,9 +83,7 @@ public object DataTransferRequestKt {
      * `uint64 size_bytes = 4;`
      */
     public var sizeBytes: kotlin.Long
-      @JvmName("getSizeBytes")
       get() = _builder.getSizeBytes()
-      @JvmName("setSizeBytes")
       set(value) {
         _builder.setSizeBytes(value)
       }
@@ -106,9 +98,7 @@ public object DataTransferRequestKt {
      * `bytes chunk = 5;`
      */
     public var chunk: com.google.protobuf.ByteString
-      @JvmName("getChunk")
       get() = _builder.getChunk()
-      @JvmName("setChunk")
       set(value) {
         _builder.setChunk(value)
       }
@@ -123,9 +113,7 @@ public object DataTransferRequestKt {
      * `bool end_of_stream = 6;`
      */
     public var endOfStream: kotlin.Boolean
-      @JvmName("getEndOfStream")
       get() = _builder.getEndOfStream()
-      @JvmName("setEndOfStream")
       set(value) {
         _builder.setEndOfStream(value)
       }
@@ -140,9 +128,7 @@ public object DataTransferRequestKt {
      * `bytes sha256 = 7;`
      */
     public var sha256: com.google.protobuf.ByteString
-      @JvmName("getSha256")
       get() = _builder.getSha256()
-      @JvmName("setSha256")
       set(value) {
         _builder.setSha256(value)
       }
@@ -157,9 +143,7 @@ public object DataTransferRequestKt {
      * `string mime_type = 8;`
      */
     public var mimeType: kotlin.String
-      @JvmName("getMimeType")
       get() = _builder.getMimeType()
-      @JvmName("setMimeType")
       set(value) {
         _builder.setMimeType(value)
       }
@@ -174,9 +158,7 @@ public object DataTransferRequestKt {
      * `string stream_type = 9;`
      */
     public var streamType: kotlin.String
-      @JvmName("getStreamType")
       get() = _builder.getStreamType()
-      @JvmName("setStreamType")
       set(value) {
         _builder.setStreamType(value)
       }

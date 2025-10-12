@@ -9,11 +9,9 @@ import com.buccancs.domain.model.RecordingLifecycleState
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.repository.SensorRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +20,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class DefaultSensorRepository @Inject constructor(
@@ -34,7 +34,8 @@ class DefaultSensorRepository @Inject constructor(
 
     private val devicesCache = orderedConnectors.associate { it.deviceId to it.device.value }.toMutableMap()
     private val devicesMutex = Mutex()
-    private val statusesCache = orderedConnectors.associate { it.deviceId to emptyList<SensorStreamStatus>() }.toMutableMap()
+    private val statusesCache =
+        orderedConnectors.associate { it.deviceId to emptyList<SensorStreamStatus>() }.toMutableMap()
     private val statusMutex = Mutex()
 
     private val _simulationEnabled = MutableStateFlow(false)

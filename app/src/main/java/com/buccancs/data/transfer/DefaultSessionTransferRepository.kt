@@ -5,8 +5,6 @@ import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.UploadState
 import com.buccancs.domain.model.UploadStatus
 import com.buccancs.domain.repository.SessionTransferRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -16,6 +14,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class DefaultSessionTransferRepository @Inject constructor(
@@ -153,12 +153,14 @@ class DefaultSessionTransferRepository @Inject constructor(
         uploadsSnapshot.value = next.values
             .sortedWith(
                 compareBy<UploadStatus>(
-                    { when (it.state) {
-                        UploadState.IN_PROGRESS -> 0
-                        UploadState.FAILED -> 1
-                        UploadState.QUEUED -> 2
-                        UploadState.COMPLETED -> 3
-                    } },
+                    {
+                        when (it.state) {
+                            UploadState.IN_PROGRESS -> 0
+                            UploadState.FAILED -> 1
+                            UploadState.QUEUED -> 2
+                            UploadState.COMPLETED -> 3
+                        }
+                    },
                     { it.sessionId },
                     { it.deviceId.value },
                     { it.streamType.name }

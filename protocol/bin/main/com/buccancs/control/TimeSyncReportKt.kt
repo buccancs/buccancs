@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializetimeSyncReport")
 public inline fun timeSyncReport(block: com.buccancs.control.TimeSyncReportKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncReport =
@@ -31,9 +31,7 @@ public object TimeSyncReportKt {
      * `string device_id = 1;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -48,9 +46,7 @@ public object TimeSyncReportKt {
      * `double offset_ms = 2;`
      */
     public var offsetMs: kotlin.Double
-      @JvmName("getOffsetMs")
       get() = _builder.getOffsetMs()
-      @JvmName("setOffsetMs")
       set(value) {
         _builder.setOffsetMs(value)
       }
@@ -65,9 +61,7 @@ public object TimeSyncReportKt {
      * `double round_trip_ms = 3;`
      */
     public var roundTripMs: kotlin.Double
-      @JvmName("getRoundTripMs")
       get() = _builder.getRoundTripMs()
-      @JvmName("setRoundTripMs")
       set(value) {
         _builder.setRoundTripMs(value)
       }
@@ -82,9 +76,7 @@ public object TimeSyncReportKt {
      * `int64 sample_epoch_ms = 4;`
      */
     public var sampleEpochMs: kotlin.Long
-      @JvmName("getSampleEpochMs")
       get() = _builder.getSampleEpochMs()
-      @JvmName("setSampleEpochMs")
       set(value) {
         _builder.setSampleEpochMs(value)
       }

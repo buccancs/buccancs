@@ -432,17 +432,17 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
     protected int mPpgAdcSelectionGsrBoard = 0;
     protected int mPpg1AdcSelectionProto3DeluxeBoard = 0;
     protected int mPpg2AdcSelectionProto3DeluxeBoard = 0;
-//	/** Used in UART command through the base/dock*/
+    //	/** Used in UART command through the base/dock*/
 //	protected String mMacIdFromUart = "";
     protected int mCurrentLEDStatus = 0;
     protected DescriptiveStatistics mVSenseBattMA = new DescriptiveStatistics(1024); //YYY -BattVolt-SensorClass
 
-//	protected String mShimmerUserAssignedName=""; // This stores the user assigned name
+    //	protected String mShimmerUserAssignedName=""; // This stores the user assigned name
     protected double mDefaultOnTheFlyGyroCalibThreshold = 1.2;
     protected boolean mEnableCalibration = true;
     protected boolean mConfigFileCreationFlag = true;
     protected boolean mShimmerUsingConfigFromInfoMem = false;
-// ------------------------------------------------------------------
+    // ------------------------------------------------------------------
     protected boolean mUseInfoMemConfigMethod = true;
     protected boolean mUseArraysDataStructureInObjectCluster = false;
     protected byte[] mInquiryResponseBytes;
@@ -482,9 +482,9 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
     protected double mStreamingStartTimeMilliSecs;
     protected int mTimeStampPacketByteSize = 2;
     protected int mTimeStampTicksMaxValue = 65536;// 16777216 or 65536
-// ----------- Now implemented in SensorPPG -------------------------
+    // ----------- Now implemented in SensorPPG -------------------------
     protected long mRTCDifferenceInTicks = 0; //this is in ticks
-// ------------------------------------------------------------------
+    // ------------------------------------------------------------------
     protected boolean mFirstTime = true;
     /**
      * This variable was originally implemented because the

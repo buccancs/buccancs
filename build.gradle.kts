@@ -1,13 +1,30 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.kotlin.dsl.the
+
+val libs = the<LibrariesForLibs>()
+
 plugins {
-    id("com.android.application") version "8.13.0" apply false
-    id("org.jetbrains.kotlin.android") version "2.0.21" apply false
-    id("org.jetbrains.kotlin.jvm") version "2.0.21" apply false
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" apply false
-    id("org.jetbrains.compose") version "1.7.0" apply false
-    id("com.google.dagger.hilt.android") version "2.57.2" apply false
-    id("com.google.protobuf") version "0.9.5" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21" apply false
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.kotlinAndroid) apply false
+    alias(libs.plugins.kotlinJvm) apply false
+    alias(libs.plugins.kotlinCompose) apply false
+    alias(libs.plugins.composeMultiplatform) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.protobuf) apply false
+    alias(libs.plugins.kotlinSerialization) apply false
+    alias(libs.plugins.kotlinKapt) apply false
+}
+
+extra.apply {
+    set("android.minSdk", libs.versions.androidMinSdk.get().toInt())
+    set("android.targetSdk", libs.versions.androidTargetSdk.get().toInt())
+    set("android.compileSdk", libs.versions.androidCompileSdk.get().toInt())
+}
+
+tasks.register("build") {
+    group = "build"
+    description = "Aggregate build for all subprojects."
+    dependsOn(subprojects.map { "${it.path}:build" })
 }
 
 tasks.register("all") {

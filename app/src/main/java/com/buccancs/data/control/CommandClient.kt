@@ -1,31 +1,28 @@
 package com.buccancs.data.control
 
 import android.util.Log
-import com.buccancs.control.CommandReceipt
 import com.buccancs.control.CommandServiceGrpcKt
-import com.buccancs.control.commandSubscribeRequest
 import com.buccancs.control.commandReceipt
+import com.buccancs.control.commandSubscribeRequest
 import com.buccancs.control.commands.CommandSerialization
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.data.orchestration.DeviceIdentityProvider
 import com.buccancs.data.orchestration.GrpcChannelFactory
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.repository.OrchestratorConfigRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.decodeFromString
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class CommandClient @Inject constructor(
@@ -37,6 +34,7 @@ class CommandClient @Inject constructor(
     private val _commands = MutableSharedFlow<DeviceCommandPayload>(extraBufferCapacity = 64)
     val commands: SharedFlow<DeviceCommandPayload> = _commands.asSharedFlow()
     private val ackMutex = Mutex()
+
     @Volatile
     private var latestStub: CommandServiceGrpcKt.CommandServiceCoroutineStub? = null
 

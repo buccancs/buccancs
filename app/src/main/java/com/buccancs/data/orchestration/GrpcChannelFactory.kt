@@ -4,10 +4,10 @@ import com.buccancs.domain.model.OrchestratorConfig
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.okhttp.OkHttpChannelBuilder
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class GrpcChannelFactory @Inject constructor() {

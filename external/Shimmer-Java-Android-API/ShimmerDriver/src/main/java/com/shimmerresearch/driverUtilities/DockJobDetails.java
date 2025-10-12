@@ -84,6 +84,7 @@ public class DockJobDetails extends AbstractErrorCodes {
     public String dockId = "";
     public List<String> listOfDockIds = new ArrayList<String>();
     List<ShimmerDevice> listofDockedShimmersForJob = new ArrayList<ShimmerDevice>();
+
     //GET_VERSION_INFO
     //GET_CONNECTED_SLOTS
     //GET_SHIMMERS_RESET_STATE,
@@ -105,6 +106,7 @@ public class DockJobDetails extends AbstractErrorCodes {
         this(jobType);
         this.gpioState = gpioState;
     }
+
     //SET_GPIO_OUT_TOGGLE
     public DockJobDetails(DOCK_JOB_TYPE jobType, int count, int milliSecDelay) {
         this(jobType);

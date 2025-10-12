@@ -131,6 +131,7 @@ public final class ShimmerBLEGRPC {
     getDescriptor() {
         return descriptor;
     }
+
     /**
      * Protobuf enum {@code shimmerBLEGRPC.BluetoothState}
      */
@@ -250,6 +251,7 @@ public final class ShimmerBLEGRPC {
 
         // @@protoc_insertion_point(enum_scope:shimmerBLEGRPC.BluetoothState)
     }
+
     public interface ReplyOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerBLEGRPC.Reply)
             com.google.protobuf.MessageOrBuilder {
@@ -269,6 +271,7 @@ public final class ShimmerBLEGRPC {
         com.google.protobuf.ByteString
         getMessageBytes();
     }
+
     public interface RequestOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerBLEGRPC.Request)
             com.google.protobuf.MessageOrBuilder {
@@ -288,6 +291,7 @@ public final class ShimmerBLEGRPC {
         com.google.protobuf.ByteString
         getNameBytes();
     }
+
     public interface WriteBytesOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerBLEGRPC.WriteBytes)
             com.google.protobuf.MessageOrBuilder {
@@ -314,6 +318,7 @@ public final class ShimmerBLEGRPC {
          */
         com.google.protobuf.ByteString getByteToWrite();
     }
+
     public interface StreamRequestOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerBLEGRPC.StreamRequest)
             com.google.protobuf.MessageOrBuilder {
@@ -333,6 +338,7 @@ public final class ShimmerBLEGRPC {
         com.google.protobuf.ByteString
         getMessageBytes();
     }
+
     public interface StateStatusOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerBLEGRPC.StateStatus)
             com.google.protobuf.MessageOrBuilder {
@@ -366,6 +372,7 @@ public final class ShimmerBLEGRPC {
         com.google.protobuf.ByteString
         getMessageBytes();
     }
+
     public interface ObjectClusterByteArrayOrBuilder extends
             // @@protoc_insertion_point(interface_extends:shimmerBLEGRPC.ObjectClusterByteArray)
             com.google.protobuf.MessageOrBuilder {
@@ -477,6 +484,7 @@ public final class ShimmerBLEGRPC {
         private Reply() {
             message_ = "";
         }
+
         private Reply(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1079,6 +1087,7 @@ public final class ShimmerBLEGRPC {
         private Request() {
             name_ = "";
         }
+
         private Request(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1670,6 +1679,7 @@ public final class ShimmerBLEGRPC {
         private volatile java.lang.Object address_;
         private com.google.protobuf.ByteString byteToWrite_;
         private byte memoizedIsInitialized = -1;
+
         // Use WriteBytes.newBuilder() to construct.
         private WriteBytes(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -2345,6 +2355,7 @@ public final class ShimmerBLEGRPC {
         private StreamRequest() {
             message_ = "";
         }
+
         private StreamRequest(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2932,6 +2943,7 @@ public final class ShimmerBLEGRPC {
         private int state_;
         private volatile java.lang.Object message_;
         private byte memoizedIsInitialized = -1;
+
         // Use StateStatus.newBuilder() to construct.
         private StateStatus(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -3650,6 +3662,7 @@ public final class ShimmerBLEGRPC {
         private ObjectClusterByteArray(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private ObjectClusterByteArray() {
             uuid_ = "";
             bluetoothAddress_ = "";

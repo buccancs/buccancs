@@ -49,10 +49,10 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
     public static final byte SET_GYRO_CALIBRATION_COMMAND = (byte) 0x14;
     public static final byte GYRO_CALIBRATION_RESPONSE = (byte) 0x15;
 
-//	protected int mMPU9X50GyroRate = 0;
+    //	protected int mMPU9X50GyroRate = 0;
     public static final byte GET_GYRO_CALIBRATION_COMMAND = (byte) 0x16;
     public static final byte SET_GYRO_TEMP_VREF_COMMAND = (byte) 0x33;
-//	protected int mMagRange=1;
+    //	protected int mMagRange=1;
     public static final byte SET_MPU9150_GYRO_RANGE_COMMAND = (byte) 0x49;
     public static final byte MPU9150_GYRO_RANGE_RESPONSE = (byte) 0x4A;
     public static final byte GET_MPU9150_GYRO_RANGE_COMMAND = (byte) 0x4B;
@@ -225,7 +225,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
 //	public byte[] mMagCalRawXParams = new byte[22];
 
 
-//	------------ Keep in Configuration? ------------
+    //	------------ Keep in Configuration? ------------
 //	public class SENSOR_ID{
     public static final Map<Integer, SensorDetailsRef> mSensorMapRefCommon;
     /**

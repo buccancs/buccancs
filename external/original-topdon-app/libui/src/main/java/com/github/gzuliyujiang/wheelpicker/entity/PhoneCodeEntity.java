@@ -94,7 +94,7 @@ public class PhoneCodeEntity implements TextProvider, Serializable {
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", english" + english + '\'' +
-                '}';
+                '}' ;
     }
 
 }

@@ -94,7 +94,7 @@ public class EthnicEntity implements TextProvider, Serializable {
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", spelling='" + spelling + '\'' +
-                '}';
+                '}' ;
     }
 
 }

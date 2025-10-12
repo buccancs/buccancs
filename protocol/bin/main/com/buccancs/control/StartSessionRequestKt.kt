@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializestartSessionRequest")
 public inline fun startSessionRequest(block: com.buccancs.control.StartSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StartSessionRequest =
@@ -31,9 +31,7 @@ public object StartSessionRequestKt {
      * `.com.buccancs.control.SessionIdentifier session = 1;`
      */
     public var session: com.buccancs.control.SessionIdentifier
-      @JvmName("getSession")
       get() = _builder.getSession()
-      @JvmName("setSession")
       set(value) {
         _builder.setSession(value)
       }
@@ -55,9 +53,7 @@ public object StartSessionRequestKt {
      * `int64 scheduled_epoch_ms = 2;`
      */
     public var scheduledEpochMs: kotlin.Long
-      @JvmName("getScheduledEpochMs")
       get() = _builder.getScheduledEpochMs()
-      @JvmName("setScheduledEpochMs")
       set(value) {
         _builder.setScheduledEpochMs(value)
       }
@@ -72,9 +68,7 @@ public object StartSessionRequestKt {
      * `string operator_id = 3;`
      */
     public var operatorId: kotlin.String
-      @JvmName("getOperatorId")
       get() = _builder.getOperatorId()
-      @JvmName("setOperatorId")
       set(value) {
         _builder.setOperatorId(value)
       }

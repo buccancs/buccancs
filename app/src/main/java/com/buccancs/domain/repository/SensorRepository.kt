@@ -3,9 +3,9 @@ package com.buccancs.domain.repository
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.RecordingState
-import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SessionArtifact
 import kotlinx.coroutines.flow.StateFlow
 
 interface SensorRepository {

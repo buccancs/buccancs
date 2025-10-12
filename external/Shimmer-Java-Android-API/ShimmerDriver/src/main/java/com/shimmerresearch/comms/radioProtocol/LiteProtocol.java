@@ -82,7 +82,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
     transient ByteArrayOutputStream mByteArrayOutputStream = new ByteArrayOutputStream();
     List<Long> mListofPCTimeStamps = new ArrayList<Long>();
 
-//	public long mPacketReceivedCount = 0; 	//Used by ShimmerGQ
+    //	public long mPacketReceivedCount = 0; 	//Used by ShimmerGQ
 //	public long mPacketExpectedCount = 0; 	//Used by ShimmerGQ
 //	protected long mPacketLossCount = 0;		//Used by ShimmerBluetooth
 //	protected double mPacketReceptionRate = 100;
@@ -96,6 +96,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
     private boolean mUseShimmerBluetoothApproach = true;
     private boolean mUseLegacyDelayToDelayForResponse = false;
     private int mTempChipID;
+
     /**
      * Constructor
      *

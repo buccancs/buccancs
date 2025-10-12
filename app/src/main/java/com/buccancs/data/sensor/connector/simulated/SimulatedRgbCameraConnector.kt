@@ -1,16 +1,16 @@
 package com.buccancs.data.sensor.connector.simulated
 
+import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
-import com.buccancs.di.ApplicationScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.datetime.Instant
 
 @Singleton
 internal class SimulatedRgbCameraConnector @Inject constructor(

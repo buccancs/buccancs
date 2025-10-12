@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializestopSessionRequest")
 public inline fun stopSessionRequest(block: com.buccancs.control.StopSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StopSessionRequest =
@@ -31,9 +31,7 @@ public object StopSessionRequestKt {
      * `.com.buccancs.control.SessionIdentifier session = 1;`
      */
     public var session: com.buccancs.control.SessionIdentifier
-      @JvmName("getSession")
       get() = _builder.getSession()
-      @JvmName("setSession")
       set(value) {
         _builder.setSession(value)
       }
@@ -55,9 +53,7 @@ public object StopSessionRequestKt {
      * `int64 scheduled_epoch_ms = 2;`
      */
     public var scheduledEpochMs: kotlin.Long
-      @JvmName("getScheduledEpochMs")
       get() = _builder.getScheduledEpochMs()
-      @JvmName("setScheduledEpochMs")
       set(value) {
         _builder.setScheduledEpochMs(value)
       }
@@ -72,9 +68,7 @@ public object StopSessionRequestKt {
      * `bool finalize = 3;`
      */
     public var finalize: kotlin.Boolean
-      @JvmName("getFinalize")
       get() = _builder.getFinalize()
-      @JvmName("setFinalize")
       set(value) {
         _builder.setFinalize(value)
       }

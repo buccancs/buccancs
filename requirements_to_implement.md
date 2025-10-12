@@ -52,8 +52,8 @@ drift so that all devices maintain a high-precision shared time base.
 
 **Acceptance Criteria:** All devices continuously adjust to the PC's
 clock; measured timestamp offsets between any two devices remain very
-low (on the order of a few milliseconds, e.g. within \~5 ms and never
-exceeding 10 ms) during
+low (on the order of a few milliseconds, e.g. within \~5 ms and never
+exceeding 10 ms) during
 recording[\[1\]](file://file-59dbMmLLFHR2oahNVJTqd5#:~:text=%5Citem%5B%5Ctextbf,recording%2C%20ensuring%20valid%20sensor%20fusion)[\[2\]](file://file-59dbMmLLFHR2oahNVJTqd5#:~:text=clock%20synchronisation%20accuracy%20on%20the,recording%2C%20ensuring%20valid%20sensor%20fusion).
 In practice, logs of timestamps from different devices show no
 discernible drift over the course of a session.
@@ -80,20 +80,20 @@ session) is correctly recorded.
 Test) -- Data Recording and Storage:* For each session, the system shall
 record all enabled sensor streams and video/thermal feeds in parallel.
 Specifically: **(a)** GSR (galvanic skin response) and any other
-physiological channels from the Shimmer sensor(s) at 128 Hz, and **(b)**
-video (at least 1920×1080 resolution, 30 FPS) and thermal infrared data
+physiological channels from the Shimmer sensor(s) at 128 Hz, and **(b)**
+video (at least 1920×1080 resolution, 30 FPS) and thermal infrared data
 from each Android device. *(For example, if using a Topdon TC001 thermal
-camera, it provides thermal images at \~25 Hz with 256×192 resolution.)*
+camera, it provides thermal images at \~25 Hz with 256×192 resolution.)*
 Sensor readings (e.g. GSR samples) shall stream to the PC in real time
 and be written to local CSV files immediately as they arrive. Each
 Android device shall store its raw video and thermal files locally in
 full quality during the recording, and later **transfer** them to the PC
 after the session ends. Audio data (e.g. microphone recording at
-44.1 kHz) shall also be recorded and synchronised if enabled, following
+44.1 kHz) shall also be recorded and synchronised if enabled, following
 the same timing and storage requirements.
 
 **Acceptance Criteria:** In a test session, GSR data is logged to the PC
-at 128 Hz with no gaps or interruptions, and each Android device records
+at 128 Hz with no gaps or interruptions, and each Android device records
 full-HD RGB video **and** thermal IR video simultaneously; all resulting
 files (GSR CSV, video files, thermal images, audio, etc.) exist on disk
 after the session completes. No data loss, frame dropping, or excessive
@@ -257,7 +257,7 @@ on the PC for offline analysis.
 **NFR1** *(Performance -- Real-Time Handling):* The system shall process
 incoming data in real time with minimal end-to-end latency, even while
 handling multiple modalities and live preview streams. It must support
-at least 128 Hz sensor sampling alongside 30 FPS video recording
+at least 128 Hz sensor sampling alongside 30 FPS video recording
 concurrently, without any data loss or buffering
 delays[\[3\]\[4\]](file://file-59dbMmLLFHR2oahNVJTqd5#:~:text=%5Citem%5B%5Ctextbf%7BNFR1%7D%5D%20%5Ctextbf%7B%28Performance%20%E2%80%93%20Real,drops%20even%20with%20multiple%20devices).
 This performance level applies under scenarios with several devices
@@ -273,8 +273,8 @@ logging or video recording.
 synchronization accuracy on the order of milliseconds or
 better[\[1\]](file://file-59dbMmLLFHR2oahNVJTqd5#:~:text=%5Citem%5B%5Ctextbf,recording%2C%20ensuring%20valid%20sensor%20fusion).
 The built-in time server and synchronization protocol must keep
-timestamp differences across all devices within \~5 ms (and at most
-10 ms) during recording, ensuring valid sensor fusion and alignment of
+timestamp differences across all devices within \~5 ms (and at most
+10 ms) during recording, ensuring valid sensor fusion and alignment of
 multimodal
 data[\[5\]](file://file-59dbMmLLFHR2oahNVJTqd5#:~:text=%5Citem%5B%5Ctextbf,recording%2C%20ensuring%20valid%20sensor%20fusion).
 This precision level means that events observed in different data
@@ -358,7 +358,7 @@ devices) and recording sessions of at least 120 minutes in length. To
 accommodate the large volume of data generated (especially
 high-resolution video and continuous sensor data), the system may
 automatically chunk or segment recordings -- for example, creating
-\~1 GB video file segments -- so that very long sessions do not produce
+\~1 GB video file segments -- so that very long sessions do not produce
 unwieldy single files and to reduce the risk of data loss if a failure
 occurs mid-session. Similarly, the network communication and data
 processing pipeline should handle the bandwidth of multiple video

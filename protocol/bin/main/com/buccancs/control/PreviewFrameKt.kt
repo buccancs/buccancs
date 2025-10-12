@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializepreviewFrame")
 public inline fun previewFrame(block: com.buccancs.control.PreviewFrameKt.Dsl.() -> kotlin.Unit): com.buccancs.control.PreviewFrame =
@@ -31,9 +31,7 @@ public object PreviewFrameKt {
      * `string device_id = 1;`
      */
     public var deviceId: kotlin.String
-      @JvmName("getDeviceId")
       get() = _builder.getDeviceId()
-      @JvmName("setDeviceId")
       set(value) {
         _builder.setDeviceId(value)
       }
@@ -48,9 +46,7 @@ public object PreviewFrameKt {
      * `string camera_id = 2;`
      */
     public var cameraId: kotlin.String
-      @JvmName("getCameraId")
       get() = _builder.getCameraId()
-      @JvmName("setCameraId")
       set(value) {
         _builder.setCameraId(value)
       }
@@ -65,9 +61,7 @@ public object PreviewFrameKt {
      * `int64 frame_timestamp_epoch_ms = 3;`
      */
     public var frameTimestampEpochMs: kotlin.Long
-      @JvmName("getFrameTimestampEpochMs")
       get() = _builder.getFrameTimestampEpochMs()
-      @JvmName("setFrameTimestampEpochMs")
       set(value) {
         _builder.setFrameTimestampEpochMs(value)
       }
@@ -82,9 +76,7 @@ public object PreviewFrameKt {
      * `bytes encoded_frame = 4;`
      */
     public var encodedFrame: com.google.protobuf.ByteString
-      @JvmName("getEncodedFrame")
       get() = _builder.getEncodedFrame()
-      @JvmName("setEncodedFrame")
       set(value) {
         _builder.setEncodedFrame(value)
       }
@@ -99,9 +91,7 @@ public object PreviewFrameKt {
      * `string mime_type = 5;`
      */
     public var mimeType: kotlin.String
-      @JvmName("getMimeType")
       get() = _builder.getMimeType()
-      @JvmName("setMimeType")
       set(value) {
         _builder.setMimeType(value)
       }
@@ -116,9 +106,7 @@ public object PreviewFrameKt {
      * `uint32 width = 6;`
      */
     public var width: kotlin.Int
-      @JvmName("getWidth")
       get() = _builder.getWidth()
-      @JvmName("setWidth")
       set(value) {
         _builder.setWidth(value)
       }
@@ -133,9 +121,7 @@ public object PreviewFrameKt {
      * `uint32 height = 7;`
      */
     public var height: kotlin.Int
-      @JvmName("getHeight")
       get() = _builder.getHeight()
-      @JvmName("setHeight")
       set(value) {
         _builder.setHeight(value)
       }

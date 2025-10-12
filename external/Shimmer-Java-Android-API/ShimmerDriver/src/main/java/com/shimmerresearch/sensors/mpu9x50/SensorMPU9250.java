@@ -141,7 +141,7 @@ public class SensorMPU9250 extends SensorMPU9X50 {
             ListofMPU9X50GyroRangeConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
-//	{
+    //	{
 //		sensorMpu9150GyroRef.mCalibSensorKey = 0x01;
 //	}
     //MPL Options
@@ -200,6 +200,7 @@ public class SensorMPU9250 extends SensorMPU9X50 {
         aMap.put(Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9X50_MAG, SensorMPU9250.sensorMpu9250MagRef);
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
+
     /**
      * Just used for accessing calibration
      */

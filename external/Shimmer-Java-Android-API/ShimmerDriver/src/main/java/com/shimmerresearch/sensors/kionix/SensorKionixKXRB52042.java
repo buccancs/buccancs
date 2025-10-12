@@ -65,7 +65,7 @@ public class SensorKionixKXRB52042 extends SensorKionixAccel {
             CHANNEL_UNITS.METER_PER_SECOND_SQUARE,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x00);
-//	public CalibDetailsKinematic mCurrentCalibDetailsAccelLn = calibDetailsAccelLn2g;
+    //	public CalibDetailsKinematic mCurrentCalibDetailsAccelLn = calibDetailsAccelLn2g;
     public static final ChannelDetails channelAccelY = new ChannelDetails(
             ObjectClusterSensorName.ACCEL_LN_Y,
             ObjectClusterSensorName.ACCEL_LN_Y,
@@ -86,7 +86,7 @@ public class SensorKionixKXRB52042 extends SensorKionixAccel {
             0x02);
     //--------- Sensor specific variables end --------------
     public static final Map<String, ChannelDetails> mChannelMapRef;
-//	{
+    //	{
 //		sensorKionixKXRB52042.mCalibSensorKey = 0x01;
 //	}
     public static final SensorGroupingDetails sensorGroupLnAccelKXRB52042 = new SensorGroupingDetails(

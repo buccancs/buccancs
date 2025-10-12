@@ -107,7 +107,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
 
     // ------- New Array approach -------
     public SensorDataArray sensorDataArray;
-//	public SensorDataPerType[] sensorDataArray = new SensorDataPerType[2];
+    //	public SensorDataPerType[] sensorDataArray = new SensorDataPerType[2];
     public double mSystemTimeStamp = 0;
     public double mLSLTimeStamp = 0;
     /**
@@ -142,6 +142,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
     //TODO is mSystemTimeStampBytes actually used by anything?
     private byte[] mSystemTimeStampBytes = new byte[8];
     private double mTimeStampMilliSecs;
+
     public ObjectCluster() {
 
     }
@@ -810,6 +811,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
         public String[] mUnits;
         public double[] mData;
         public boolean[] mIsUsingDefaultCalibParams;
+
         public SensorDataPerType(int length) {
             mSensorNames = new String[length];
             mUnits = new String[length];

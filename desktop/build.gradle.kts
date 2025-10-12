@@ -3,10 +3,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.compose")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.kotlinCompose)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -19,21 +19,21 @@ dependencies {
     implementation(compose.runtime)
     implementation(compose.foundation)
     implementation(compose.material3)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.swing)
+    implementation(libs.coroutines.jdk8)
+    implementation(libs.kotlinx.serialization.json)
 
-    implementation("io.grpc:grpc-netty-shaded:1.64.0")
+    implementation(libs.grpc.netty.shaded)
 
-    implementation("com.google.crypto.tink:tink:1.18.0")
-    implementation("org.bouncycastle:bcprov-jdk18on:1.82")
+    implementation(libs.tink)
+    implementation(libs.bouncycastle.bcprov)
 
-    implementation("org.slf4j:slf4j-api:2.0.17")
-    runtimeOnly("org.slf4j:slf4j-simple:2.0.17")
+    implementation(libs.slf4j.api)
+    runtimeOnly(libs.slf4j.simple)
 
     testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
+    testImplementation(libs.junit.jupiter)
 }
 
 compose.desktop {

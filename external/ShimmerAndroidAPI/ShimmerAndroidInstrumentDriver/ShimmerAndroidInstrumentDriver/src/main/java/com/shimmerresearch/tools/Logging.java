@@ -109,6 +109,7 @@ public class Logging {
         }
         outputFile = new File(root, mFileName + "." + ShimmerService.FILE_TYPE.DAT.getName());
     }
+
     @Deprecated
     /**
      * Constructor to select output file type

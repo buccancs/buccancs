@@ -23,15 +23,15 @@ import com.buccancs.control.TimeSyncPong
 import com.buccancs.control.TimeSyncReport
 import com.buccancs.control.TimeSyncServiceGrpcKt
 import com.buccancs.control.commandAck
+import com.buccancs.control.commandEnvelope
+import com.buccancs.control.commands.StartRecordingCommandPayload
+import com.buccancs.control.commands.StopRecordingCommandPayload
 import com.buccancs.control.dataTransferStatus
 import com.buccancs.control.deviceStatus
 import com.buccancs.control.previewAck
 import com.buccancs.control.registrationAck
-import com.buccancs.control.timeSyncPong
-import com.buccancs.control.commandEnvelope
 import com.buccancs.control.sensorStreamAck
-import com.buccancs.control.commands.StartRecordingCommandPayload
-import com.buccancs.control.commands.StopRecordingCommandPayload
+import com.buccancs.control.timeSyncPong
 import com.buccancs.desktop.data.recording.SensorRecordingManager
 import com.buccancs.desktop.data.repository.CommandRepository
 import com.buccancs.desktop.data.repository.DeviceRepository
@@ -47,17 +47,16 @@ import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayOutputStream
-import java.time.Instant
 import java.security.MessageDigest
+import java.time.Instant
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
-import java.util.Locale
 import kotlin.math.abs
 
 class GrpcServer(
@@ -73,7 +72,14 @@ class GrpcServer(
     private val server: Server = NettyServerBuilder
         .forPort(port)
         .executor(Dispatchers.Default.asExecutor())
-        .addService(OrchestrationServiceImpl(sessionRepository, deviceRepository, commandRepository, sensorRecordingManager))
+        .addService(
+            OrchestrationServiceImpl(
+                sessionRepository,
+                deviceRepository,
+                commandRepository,
+                sensorRecordingManager
+            )
+        )
         .addService(CommandServiceImpl(commandRepository, deviceRepository))
         .addService(TimeSyncServiceImpl(deviceRepository))
         .addService(PreviewServiceImpl(sessionRepository, deviceRepository, previewRepository))
@@ -134,10 +140,12 @@ private class CommandServiceImpl(
                     request.deviceId,
                     recording = true
                 )
+
                 is StopRecordingCommandPayload -> deviceRepository.updateRecordingState(
                     request.deviceId,
                     recording = false
                 )
+
                 else -> Unit
             }
         }
@@ -489,6 +497,7 @@ private class PreviewServiceImpl(
             when (kind) {
                 FrameKind.RGB ->
                     metrics.copy(videoFrames = metrics.videoFrames + 1)
+
                 FrameKind.THERMAL ->
                     metrics.copy(thermalFrames = metrics.thermalFrames + 1)
             }
@@ -500,16 +509,18 @@ private class PreviewServiceImpl(
         val mime = frame.mimeType.lowercase(Locale.ROOT)
         return when {
             cameraId.contains("thermal") ||
-                cameraId.contains("ir") ||
-                mime.contains("thermal") ||
-                mime.contains("infrared") ->
+                    cameraId.contains("ir") ||
+                    mime.contains("thermal") ||
+                    mime.contains("infrared") ->
                 FrameKind.THERMAL
+
             mime.startsWith("image/") ||
-                mime.startsWith("video/") ||
-                cameraId.contains("rgb") ||
-                cameraId.contains("rear") ||
-                cameraId.contains("front") ->
+                    mime.startsWith("video/") ||
+                    cameraId.contains("rgb") ||
+                    cameraId.contains("rear") ||
+                    cameraId.contains("front") ->
                 FrameKind.RGB
+
             else -> FrameKind.RGB
         }
     }

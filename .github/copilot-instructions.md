@@ -6,8 +6,8 @@
 
 ### **Development Workflow & Verification**
 
-2. **Pre-Commit Build:** Always execute a full Gradle build (`gradle build all`) before committing changes.
-4. **Final Build Check:** Re-verify with a final `gradle build` to ensure project integrity.
+2. **Pre-Commit Build:** Always execute a full Gradle build before committing changes and try to fix the issues.
+4. **Final Build Check:** Re-verify with a final `gradle build` to ensure project integrity and try to fix the issues.
 
 ### **Coding and Architectural Standards**
 
@@ -51,4 +51,5 @@ definitive source:
 ### **Prohibitions**
 
 * Do not use emojis in any context (code, comments, documentation, or commit messages).
+
 <!-- * Do not generate Markdown (`.md`) documentation files. -->

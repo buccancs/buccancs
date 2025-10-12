@@ -5,13 +5,10 @@ import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.RecordingSessionAnchor
-import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
-import java.nio.charset.StandardCharsets
-import java.util.Locale
-import javax.inject.Inject
+import com.buccancs.domain.model.SessionArtifact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -23,6 +20,9 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import java.nio.charset.StandardCharsets
+import java.util.*
+import javax.inject.Inject
 import kotlin.math.max
 import kotlin.random.Random
 
@@ -215,6 +215,7 @@ internal abstract class BaseSimulatedConnector @Inject constructor(
         val base = when (streamType) {
             SensorStreamType.GSR,
             SensorStreamType.AUDIO -> baseSample
+
             else -> baseVideo
         }
         return (base + randomizer()).coerceAtLeast(0.0)

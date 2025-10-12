@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializeregistrationAck")
 public inline fun registrationAck(block: com.buccancs.control.RegistrationAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.RegistrationAck =
@@ -31,9 +31,7 @@ public object RegistrationAckKt {
      * `bool accepted = 1;`
      */
     public var accepted: kotlin.Boolean
-      @JvmName("getAccepted")
       get() = _builder.getAccepted()
-      @JvmName("setAccepted")
       set(value) {
         _builder.setAccepted(value)
       }
@@ -48,9 +46,7 @@ public object RegistrationAckKt {
      * `string session_id = 2;`
      */
     public var sessionId: kotlin.String
-      @JvmName("getSessionId")
       get() = _builder.getSessionId()
-      @JvmName("setSessionId")
       set(value) {
         _builder.setSessionId(value)
       }
@@ -65,9 +61,7 @@ public object RegistrationAckKt {
      * `string reason = 3;`
      */
     public var reason: kotlin.String
-      @JvmName("getReason")
       get() = _builder.getReason()
-      @JvmName("setReason")
       set(value) {
         _builder.setReason(value)
       }

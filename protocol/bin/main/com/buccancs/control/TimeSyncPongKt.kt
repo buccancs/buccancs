@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializetimeSyncPong")
 public inline fun timeSyncPong(block: com.buccancs.control.TimeSyncPongKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncPong =
@@ -31,9 +31,7 @@ public object TimeSyncPongKt {
      * `int64 server_receive_epoch_ms = 1;`
      */
     public var serverReceiveEpochMs: kotlin.Long
-      @JvmName("getServerReceiveEpochMs")
       get() = _builder.getServerReceiveEpochMs()
-      @JvmName("setServerReceiveEpochMs")
       set(value) {
         _builder.setServerReceiveEpochMs(value)
       }
@@ -48,9 +46,7 @@ public object TimeSyncPongKt {
      * `int64 server_send_epoch_ms = 2;`
      */
     public var serverSendEpochMs: kotlin.Long
-      @JvmName("getServerSendEpochMs")
       get() = _builder.getServerSendEpochMs()
-      @JvmName("setServerSendEpochMs")
       set(value) {
         _builder.setServerSendEpochMs(value)
       }

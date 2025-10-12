@@ -25,6 +25,7 @@ public class SpeedTestProtocol {
     long TestSignalTotalEffectiveNumberOfBytes = 0;
     long NumberofBytesDropped = 0;
     long NumberofNumbersSkipped = 0;
+
     public SpeedTestProtocol(AbstractByteCommunication byteComm) {
         mByteCommunication = byteComm;
         byteComm.setByteCommunicationListener(new ByteCommunicationListener() {

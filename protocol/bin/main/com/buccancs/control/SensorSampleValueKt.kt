@@ -3,7 +3,7 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package com.buccancs.control;
+package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializesensorSampleValue")
 public inline fun sensorSampleValue(block: com.buccancs.control.SensorSampleValueKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSampleValue =
@@ -31,9 +31,7 @@ public object SensorSampleValueKt {
      * `string key = 1;`
      */
     public var key: kotlin.String
-      @JvmName("getKey")
       get() = _builder.getKey()
-      @JvmName("setKey")
       set(value) {
         _builder.setKey(value)
       }
@@ -48,9 +46,7 @@ public object SensorSampleValueKt {
      * `double value = 2;`
      */
     public var value: kotlin.Double
-      @JvmName("getValue")
       get() = _builder.getValue()
-      @JvmName("setValue")
       set(value) {
         _builder.setValue(value)
       }

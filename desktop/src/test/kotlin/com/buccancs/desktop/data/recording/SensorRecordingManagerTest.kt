@@ -9,6 +9,8 @@ import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.data.retention.DataRetentionManager
 import com.buccancs.desktop.domain.policy.RetentionPolicy
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.test.AfterTest
@@ -17,8 +19,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.io.TempDir
 
 class SensorRecordingManagerTest {
 
