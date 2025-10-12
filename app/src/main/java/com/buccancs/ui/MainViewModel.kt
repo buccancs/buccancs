@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.buccancs.ui
 
 import android.util.Log
@@ -40,6 +42,7 @@ import kotlinx.datetime.Instant
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
+import kotlin.time.ExperimentalTime
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
