@@ -14,12 +14,6 @@ plugins {
     alias(libs.plugins.kotlinKapt) apply false
 }
 
-extra.apply {
-    set("android.minSdk", libs.versions.androidMinSdk.get().toInt())
-    set("android.targetSdk", libs.versions.androidTargetSdk.get().toInt())
-    set("android.compileSdk", libs.versions.androidCompileSdk.get().toInt())
-}
-
 tasks.register("build") {
     group = "build"
     description = "Aggregate build for all subprojects."

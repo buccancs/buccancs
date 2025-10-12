@@ -48,7 +48,6 @@ public class BluetoothManager implements EventObserver {
     }
 
     public static void setBleData(String message) {
-//
     }
 
     public Device getDevice() {

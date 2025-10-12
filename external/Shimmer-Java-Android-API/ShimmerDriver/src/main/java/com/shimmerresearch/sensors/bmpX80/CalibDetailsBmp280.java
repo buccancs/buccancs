@@ -113,7 +113,7 @@ public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
 
         double[] caldata = new double[2];
         caldata[0] = p;
-        caldata[1] = T;///10;
+        caldata[1] = T;/
         return caldata;
     }
 

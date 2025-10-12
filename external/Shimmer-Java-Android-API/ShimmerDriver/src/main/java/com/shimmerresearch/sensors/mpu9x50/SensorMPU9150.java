@@ -553,13 +553,11 @@ public class SensorMPU9150 extends SensorMPU9X50 {
 
 
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
-//
 
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
-//
 
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
     }
@@ -792,7 +790,7 @@ public class SensorMPU9150 extends SensorMPU9X50 {
 
         public static final String MPU_QUAT_6DOF = "MPU9150_MPL_Quat_6DOF";
         public static final String MPU_EULER_6DOF = "MPU9150_MPL_Euler_6DOF";
-        public static final String MPU_HEADING_ENABLE = "MPU9150_MPL_Heading"; // not available but supported in FW
+        public static final String MPU_HEADING_ENABLE = "MPU9150_MPL_Heading";
 
         public static final String MPU_PEDOMETER = "MPU9150_MPL_Pedometer";
         public static final String MPU_TAP = "MPU9150_MPL_Tap";

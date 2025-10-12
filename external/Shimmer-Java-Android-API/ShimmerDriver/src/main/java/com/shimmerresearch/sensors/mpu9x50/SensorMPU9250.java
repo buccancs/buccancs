@@ -318,7 +318,7 @@ public class SensorMPU9250 extends SensorMPU9X50 {
     public static final class DatabaseConfigHandle {
         public static final String MPU_QUAT_6DOF = "MPU9250_MPL_Quat_6DOF";
         public static final String MPU_EULER_6DOF = "MPU9250_MPL_Euler_6DOF";
-        public static final String MPU_HEADING_ENABLE = "MPU9250_MPL_Heading"; // not available but supported in FW
+        public static final String MPU_HEADING_ENABLE = "MPU9250_MPL_Heading";
 
         public static final String GYRO_RATE = "MPU9250_Gyro_Rate";
         public static final String GYRO_RANGE = "MPU9250_Gyro_Range";

@@ -1,6 +1,6 @@
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.id
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -10,6 +10,9 @@ plugins {
 
 kotlin {
     jvmToolchain(17)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 dependencies {
@@ -83,9 +86,4 @@ tasks.withType<GenerateProtoTask>().configureEach {
             }
     }
 }
-
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-}
-
 

@@ -353,7 +353,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     protected void isReadyForStreaming() {
         mDeviceCallbackAdapter.isReadyForStreaming();
         restartTimersIfNull();
-//
     }
 
     @Override
@@ -480,7 +479,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         boolean isChanged = super.setBluetoothRadioState(state);
         mDeviceCallbackAdapter.setBluetoothRadioState(state, isChanged);
         return isChanged;
-//
     }
 
     @Override
@@ -493,13 +491,11 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     @Override
     public void startOperation(BT_STATE currentOperation, int totalNumOfCmds) {
         mDeviceCallbackAdapter.startOperation(currentOperation, totalNumOfCmds);
-//
     }
 
     @Override
     public void finishOperation(BT_STATE state) {
         mDeviceCallbackAdapter.finishOperation(state);
-//
     }
 
     @Override
@@ -511,7 +507,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     @Override
     protected void isNowStreaming() {
         mDeviceCallbackAdapter.isNowStreaming();
-//
     }
 
 
@@ -552,7 +547,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     @Override
     protected void sendProgressReport(BluetoothProgressReportPerCmd pRPC) {
         mDeviceCallbackAdapter.sendProgressReport(pRPC);
-//
     }
 
     @Override

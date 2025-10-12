@@ -361,8 +361,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
         return txBufPostCrc;
     }
-//
-//
 
 
     private byte[] waitForResponse(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg) throws DockException {
@@ -656,7 +654,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
             }
         }
     }
-//
 
 
     private void wrapMsgSpanAndSend(int msgId, Object object) {

@@ -262,7 +262,6 @@ public abstract class ShimmerBluetoothManager {
         ShimmerDevice shimmerDevice = getShimmerDeviceBtConnected(device.getBtConnectionHandle());
 
         if (shimmerDevice != null) {
-//
             shimmerDevice.operationPrepare();
 
             shimmerDevice.setDefaultShimmerConfiguration();

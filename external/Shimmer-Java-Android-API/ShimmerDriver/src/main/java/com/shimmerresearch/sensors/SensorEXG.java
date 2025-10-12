@@ -1090,22 +1090,7 @@ public class SensorEXG extends AbstractSensor {
                     new String[]{ObjectClusterSensorName.EXG_TEST_CHIP2_CH1_24BIT, CHANNEL_TYPE.CAL.toString()},
                     new String[]{ObjectClusterSensorName.EXG_TEST_CHIP2_CH2_24BIT, CHANNEL_TYPE.CAL.toString()}
             ));
-        }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
+        }//
         return objectCluster;
     }
 
@@ -1218,7 +1203,6 @@ public class SensorEXG extends AbstractSensor {
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-//
 
         if (!SensorEXG.checkIsAnyExgChannelEnabled(mSensorMap)) {
             clearExgConfig();

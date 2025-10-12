@@ -301,7 +301,7 @@ public class Configuration {
         public static final String MAG_CAL_UNIT = LOCAL_FLUX;
 
 
-        public static final String LOCAL = "local"; //used for axis-angle and madgewick quaternions
+        public static final String LOCAL = "local";
         public static final String PERCENT = "%";
 
         public static final String PIXEL = "px";

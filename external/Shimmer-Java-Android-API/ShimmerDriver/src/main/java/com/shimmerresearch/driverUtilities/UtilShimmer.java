@@ -1053,7 +1053,6 @@ public class UtilShimmer implements Serializable {
                 + ":" + String.format("%02d", rightNow.get(Calendar.SECOND))
                 + ":" + String.format("%03d", rightNow.get(Calendar.MILLISECOND)) + "]";
         return (rightNowString + " " + mParentClassName + ": ");
-//
     }
 
     public void setParentClassName(String parentClassName) {

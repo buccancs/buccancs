@@ -345,12 +345,10 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
             }
             requestLayout()
             mTextureView.postDelayed(Runnable {
-//                if (centerX == Float.MAX_VALUE && centerY == Float.MAX_VALUE){
                 centerX = parentCameraView!!.measuredWidth.toFloat() / 2
                 centerY = parentCameraView!!.measuredHeight.toFloat() / 2
                 mTextureView.x = centerX - mTextureView.measuredWidth / 2
                 mTextureView.y = centerY - mTextureView.measuredHeight / 2
-//                }
                 magnifier?.show(centerX, centerY)
             }, 200)
         }

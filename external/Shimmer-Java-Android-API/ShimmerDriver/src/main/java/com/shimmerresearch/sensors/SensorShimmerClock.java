@@ -332,7 +332,6 @@ public class SensorShimmerClock extends AbstractSensor {
                                     }
                                     objectCluster.addData(channelRealTimeClock, (double) rtctimestamp, rtctimestampcal);
                                     objectCluster.incrementIndexKeeper();
-//
                                 }
                             }
 

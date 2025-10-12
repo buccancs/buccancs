@@ -803,12 +803,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
 
         btnCancelWriteFile = new JButton("Choose New File");
         btnCancelWriteFile.setBounds(10, 70, 130, 25);
-        fileExistsWindow.getContentPane().add(btnCancelWriteFile);
-//
-//
-//
-//
-    }
+        fileExistsWindow.getContentPane().add(btnCancelWriteFile);    }
 
     private void openFile() {
         JFileChooser fr = new JFileChooser();

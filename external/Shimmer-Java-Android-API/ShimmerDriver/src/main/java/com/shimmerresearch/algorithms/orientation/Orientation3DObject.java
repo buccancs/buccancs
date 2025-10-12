@@ -93,9 +93,6 @@ public class Orientation3DObject {
         yaw = Math.atan2(2 * (q0 * q3 + q1 * q2), 1 - 2 * (Math.pow(q2, 2) + Math.pow(q3, 2))) * 180 / Math.PI;
     }
 
-//
-//
-
     public double getYaw() {
         return yaw;
     }

@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -11,6 +11,9 @@ plugins {
 
 kotlin {
     jvmToolchain(21)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
 }
 
 dependencies {
@@ -39,12 +42,6 @@ dependencies {
 compose.desktop {
     application {
         mainClass = "com.buccancs.desktop.MainKt"
-    }
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
     }
 }
 

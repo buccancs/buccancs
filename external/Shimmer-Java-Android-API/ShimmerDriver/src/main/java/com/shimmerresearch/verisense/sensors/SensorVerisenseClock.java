@@ -91,7 +91,6 @@ public class SensorVerisenseClock extends AbstractSensor {
 
 
         channelMapRef.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP, getChannelDetailsForFwVerVersion(mShimmerDevice));
-//
 
 
         super.createLocalSensorMapWithCustomParser(mSensorMapRef, channelMapRef);

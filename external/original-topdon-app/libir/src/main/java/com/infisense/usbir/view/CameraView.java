@@ -51,7 +51,6 @@ public class CameraView extends TextureView {
         paint.setAntiAlias(true);
         paint.setDither(true);
         paint.setColor(Color.WHITE);
-        //
         greenPaint = new Paint();
         greenPaint.setStrokeWidth(6);
         greenPaint.setTextSize(56);

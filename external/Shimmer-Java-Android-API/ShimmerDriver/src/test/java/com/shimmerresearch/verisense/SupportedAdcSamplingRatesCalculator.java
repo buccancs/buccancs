@@ -28,7 +28,7 @@ public class SupportedAdcSamplingRatesCalculator {
             resultIndex++;
         }
 
-        String codeComment = "# "; // # for Python,
+        String codeComment = "# ";
         System.out.println(codeComment + "Setting Value, Sampling Rate (Hz), Ticks");
         System.out.println(codeComment + "0, Off, Off");
         for (SupportedAdcSamplingRate validResult : listOfResults) {

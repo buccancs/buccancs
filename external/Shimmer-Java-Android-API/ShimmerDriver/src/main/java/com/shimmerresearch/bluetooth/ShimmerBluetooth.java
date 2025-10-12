@@ -246,7 +246,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         aMap.put(MPU9150_GYRO_RANGE_RESPONSE, new BtCommandDetails(MPU9150_GYRO_RANGE_RESPONSE, "MPU9150_GYRO_RANGE_RESPONSE", 1));
         aMap.put(MPU9150_SAMPLING_RATE_RESPONSE, new BtCommandDetails(MPU9150_SAMPLING_RATE_RESPONSE, "MPU9150_SAMPLING_RATE_RESPONSE", 1));
         aMap.put(BMP180_PRES_RESOLUTION_RESPONSE, new BtCommandDetails(BMP180_PRES_RESOLUTION_RESPONSE, "BMP180_PRES_RESOLUTION_RESPONSE", 1));
-        aMap.put(BMP180_PRES_CALIBRATION_RESPONSE, new BtCommandDetails(BMP180_PRES_CALIBRATION_RESPONSE, "BMP180_PRES_CALIBRATION_RESPONSE", -1)); // Unhandled
+        aMap.put(BMP180_PRES_CALIBRATION_RESPONSE, new BtCommandDetails(BMP180_PRES_CALIBRATION_RESPONSE, "BMP180_PRES_CALIBRATION_RESPONSE", -1));
         aMap.put(BMP180_CALIBRATION_COEFFICIENTS_RESPONSE, new BtCommandDetails(BMP180_CALIBRATION_COEFFICIENTS_RESPONSE, "BMP180_CALIBRATION_COEFFICIENTS_RESPONSE", 22));
         aMap.put(BMP280_CALIBRATION_COEFFICIENTS_RESPONSE, new BtCommandDetails(BMP280_CALIBRATION_COEFFICIENTS_RESPONSE, "BMP280_CALIBRATION_COEFFICIENTS_RESPONSE", 24));
         aMap.put(PRESSURE_CALIBRATION_COEFFICIENTS_RESPONSE, new BtCommandDetails(PRESSURE_CALIBRATION_COEFFICIENTS_RESPONSE, "PRESSURE_CALIBRATION_COEFFICIENTS_RESPONSE", 21));
@@ -1142,8 +1142,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
                 int currentMemLength = responseData[0] & 0xFF;
                 int currentMemOffset = ((responseData[2] & 0xFF) << 8) | (responseData[1] & 0xFF);
-                //
-                //
 
                 responseData = readBytes(currentMemLength, responseCommand);
                 if (responseData != null) {
@@ -4179,7 +4177,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
                         }
                         setInstructionStackLock(false);
                     }
-                    //
                     if ((byte) byteBuffer[0] == ACK_COMMAND_PROCESSED) {
 
                         mWaitForAck = false;

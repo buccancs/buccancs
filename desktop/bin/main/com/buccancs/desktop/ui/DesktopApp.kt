@@ -13,7 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -26,7 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.buccancs.desktop.domain.model.SessionStatus
@@ -158,7 +158,7 @@ private fun ControlPanel(
                 Button(onClick = onStartSession, enabled = !sessionActive) { Text("Start Session") }
                 Button(onClick = onStopSession, enabled = sessionActive) { Text("Stop Session") }
             }
-            Divider()
+            HorizontalDivider()
             Text("Synchronization", style = MaterialTheme.typography.titleSmall)
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -188,7 +188,7 @@ private fun ControlPanel(
                 )
                 Button(onClick = onSendSync, enabled = sessionActive) { Text("Send Sync") }
             }
-            Divider()
+            HorizontalDivider()
             Text("Time Sync Snapshot", style = MaterialTheme.typography.titleSmall)
             val offsetsSummary = remember(control.clockOffsetsPreview) {
                 control.clockOffsetsPreview.entries.joinToString { (deviceId, offset) ->
@@ -199,7 +199,7 @@ private fun ControlPanel(
                 text = if (offsetsSummary.isBlank()) "Clock offsets (ms): n/a" else "Clock offsets (ms): $offsetsSummary",
                 style = MaterialTheme.typography.bodySmall
             )
-            Divider()
+            HorizontalDivider()
             Text("Event Markers", style = MaterialTheme.typography.titleSmall)
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -227,7 +227,7 @@ private fun ControlPanel(
                 )
                 Button(onClick = onAddEvent, enabled = sessionActive) { Text("Add Event") }
             }
-            Divider()
+            HorizontalDivider()
             Text("Stimulus", style = MaterialTheme.typography.titleSmall)
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -256,7 +256,7 @@ private fun ControlPanel(
                 )
                 Button(onClick = onTriggerStimulus, enabled = sessionActive) { Text("Trigger") }
             }
-            Divider()
+            HorizontalDivider()
             Text("Subject Erasure", style = MaterialTheme.typography.titleSmall)
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -300,7 +300,7 @@ private fun SessionSummaryCard(
             if (summary.subjectIds.isNotEmpty()) {
                 Text("Subjects: ${summary.subjectIds.joinToString()}")
             }
-            Divider()
+            HorizontalDivider()
             Text("Live Metrics", style = MaterialTheme.typography.titleSmall)
             val metrics = summary.metrics
             if (listOf(
@@ -469,7 +469,7 @@ private fun RetentionSection(retention: RetentionState) {
                 }
             }
             if (retention.breaches.isNotEmpty()) {
-                Divider()
+                HorizontalDivider()
                 Text(
                     "Quota Alerts",
                     style = MaterialTheme.typography.titleSmall,
@@ -507,7 +507,7 @@ private fun TransferSection(transfers: List<TransferStatusItem>) {
                         )
                     }
                 }
-                Divider()
+                HorizontalDivider()
             }
         }
     }
@@ -532,7 +532,7 @@ private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: Dat
                         Text("Targets: ${event.deviceIds.joinToString()}", style = MaterialTheme.typography.bodySmall)
                     }
                 }
-                Divider()
+                HorizontalDivider()
             }
         }
     }
@@ -568,7 +568,7 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
                         )
                     } ?: Text("Preview unavailable (unsupported format)", style = MaterialTheme.typography.bodySmall)
                 }
-                Divider()
+                HorizontalDivider()
             }
         }
     }
@@ -617,7 +617,7 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                Divider()
+                HorizontalDivider()
             }
         }
     }
@@ -668,5 +668,5 @@ private fun durationToReadable(durationMs: Long): String {
 private fun formatCount(value: Long): String = String.format(Locale.US, "%,d", value)
 private fun decodeImage(bytes: ByteArray): ImageBitmap? {
     if (bytes.isEmpty()) return null
-    return runCatching { Image.makeFromEncoded(bytes).asImageBitmap() }.getOrNull()
+    return runCatching { Image.makeFromEncoded(bytes).toComposeImageBitmap() }.getOrNull()
 }

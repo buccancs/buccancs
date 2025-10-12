@@ -39,15 +39,7 @@ import com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE;
 import com.shimmerresearch.driver.FormatCluster;
 import com.shimmerresearch.sensors.SensorShimmerClock;
 
-public abstract class TestObjectCluster {
-//
-//
-//
-//
-//
-//
-//
-//
+public abstract class TestObjectCluster {//
 
     public static final int NUM_ARRAY_LIST = 0;
     public static final int NUM_NESTED_HASHMAP = 1;

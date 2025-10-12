@@ -105,7 +105,6 @@ public class DeviceConfigFragment extends Fragment {
                 return false;
             }
         });
-//
 
         if (expandListView.getFooterViewsCount() == 0) {
             LinearLayout buttonLayout = new LinearLayout(context);

@@ -107,7 +107,7 @@ public class SensorLSM6DSV extends AbstractSensor {
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLSM6DSV);
     public static final SensorDetailsRef sensorLSM6DSVAccelRef = new SensorDetailsRef(
-            0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL,
+            0x80,
             0x80,
             GuiLabelSensors.ACCEL_LN,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLSM6DSV,

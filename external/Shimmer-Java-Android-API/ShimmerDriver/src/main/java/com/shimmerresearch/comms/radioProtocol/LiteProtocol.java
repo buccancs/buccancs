@@ -265,7 +265,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 }
                 eventResponseReceived(responseCommand, bufferConfigByte0);
             }
-//
             else if (responseCommand == InstructionsResponse.GET_SHIMMER_VERSION_RESPONSE_VALUE) {
                 delayForBtResponse(100);
                 byte[] bufferShimmerVersion = new byte[1];
@@ -1106,7 +1105,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
         if ((currentCommand & 0xFF) == InstructionsGet.GET_FW_VERSION_COMMAND_VALUE) {
             mFirstTime = false;
-//
         } else if ((currentCommand & 0xFF) == InstructionsGet.GET_SAMPLING_RATE_COMMAND_VALUE && !isInitialised()) {
             mFirstTime = false;
         } else if ((currentCommand & 0xFF) == InstructionsGet.GET_SHIMMER_VERSION_COMMAND_NEW_VALUE) { //in case the new command doesn't work, try the old command
@@ -1245,20 +1243,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
     @Override
     public void inquiry() {
         writeInstruction(InstructionsGet.INQUIRY_COMMAND_VALUE);
-    }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
+    }//
 
     public void writeTestConnectionCommand() {
         if (getFirmwareVersionCode() >= 6) {
@@ -1628,7 +1613,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
                     }
                     setInstructionStackLock(false);
                 }
-//
 
                 if (byteBuffer != null) {
                     if ((((int) byteBuffer[0]) & 0xFF) == InstructionsSet.ACK_COMMAND_PROCESSED_VALUE) {

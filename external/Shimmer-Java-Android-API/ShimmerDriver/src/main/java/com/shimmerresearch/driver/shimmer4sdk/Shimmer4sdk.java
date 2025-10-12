@@ -663,7 +663,6 @@ public class Shimmer4sdk extends ShimmerDevice {
         if (mMapOfSensorClasses.containsKey(SENSORS.BMP180)) {
             mCommsProtocolRadio.readPressureCalibrationCoefficients();
         }
-//
 
 
         if ((isThisVerCompatibleWith(HW_ID.SHIMMER_3, FW_ID.LOGANDSTREAM, 0, 5, 2))

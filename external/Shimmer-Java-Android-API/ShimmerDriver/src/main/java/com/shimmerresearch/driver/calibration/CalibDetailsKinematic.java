@@ -177,9 +177,6 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setCurrentSensitivityMatrix(UtilShimmer.deepCopyDoubleMatrix(mDefaultCalibration.mSensitivityMatrix), true);
         setCurrentAlignmentMatrix(UtilShimmer.deepCopyDoubleMatrix(mDefaultCalibration.mAlignmentMatrix), true);
     }
-
-    //
-//
     public boolean isCurrentValuesSet() {
         return mCurrentCalibration.isCurrentValuesSet();
     }

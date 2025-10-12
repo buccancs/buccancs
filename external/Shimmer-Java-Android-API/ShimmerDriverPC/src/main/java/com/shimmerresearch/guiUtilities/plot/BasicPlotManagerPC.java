@@ -509,7 +509,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         if (mEnablePCTS && mChart != null) {
             xAxis = mChart.getAxisX();
             xAxis.setFormatter(xAxisLblFormatter);
-//
 
         }
     }
@@ -706,7 +705,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             }
         }
     }
-//
 
     public void setTraceLineStyle(String traceName, PLOT_LINE_STYLE plotLineStyle) {
         ITrace2D trace = getTraceFromName(traceName);

@@ -1,7 +1,1 @@
 package com.infisense.usbir.view;
-//
-//
-//
-//
-//
-//

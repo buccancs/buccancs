@@ -86,9 +86,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     protected Highlight[] mIndicesToHighlight;
     protected float mMaxHighlightDistance = 0f;
     protected boolean mDrawMarkers = true;
-    //
-    //
-    //
     protected IMarker mMarker;
     protected ArrayList<Runnable> mJobs = new ArrayList<Runnable>();
     private boolean mDragDecelerationEnabled = true;

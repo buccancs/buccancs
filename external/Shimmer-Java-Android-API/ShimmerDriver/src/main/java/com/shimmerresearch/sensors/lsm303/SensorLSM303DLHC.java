@@ -454,8 +454,6 @@ public class SensorLSM303DLHC extends SensorLSM303 {
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
         ActionSetting actionsetting = new ActionSetting(commType);
 
-//
-
         return actionsetting;
 
     }

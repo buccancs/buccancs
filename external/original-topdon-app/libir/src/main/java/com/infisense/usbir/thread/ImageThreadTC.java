@@ -46,7 +46,6 @@ public class ImageThreadTC extends Thread {
     private byte[] imageSrc;
     private byte[] temperatureSrc;
     private boolean rotate;
-    //
     private CommonParams.DataFlowMode dataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
     private byte[] imageYUV422;
     private byte[] imageARGB;

@@ -412,7 +412,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
                 mUnitUncal[index] = units;
             }
             mSensorNames[index] = objectClusterName;
-//
 
         }
 

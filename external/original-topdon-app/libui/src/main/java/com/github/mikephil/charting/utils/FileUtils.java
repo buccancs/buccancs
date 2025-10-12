@@ -55,9 +55,6 @@ public class FileUtils {
         }
 
         return entries;
-        //
-        //
-        //
     }
 
     public static List<Entry> loadEntriesFromAssets(AssetManager am, String path) {
@@ -103,9 +100,6 @@ public class FileUtils {
         }
 
         return entries;
-        //
-        //
-        //
     }
 
     public static void saveToSdCard(List<Entry> entries, String path) {
@@ -168,8 +162,5 @@ public class FileUtils {
         }
 
         return entries;
-        //
-        //
-        //
     }
 }

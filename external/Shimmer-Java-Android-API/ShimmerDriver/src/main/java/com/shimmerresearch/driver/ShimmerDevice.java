@@ -101,7 +101,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     public String mUniqueID = "";
     public List<COMMUNICATION_TYPE> mListOfAvailableCommunicationTypes = new ArrayList<COMMUNICATION_TYPE>();
     public String mMacIdFromUart = DEFAULT_MAC_ID;
-    public String mShimmerUserAssignedName = "";//DEFAULT_SHIMMER_NAME;
+    public String mShimmerUserAssignedName = "";
     public String mAlternativeName = "";
     public HashMap<COMMUNICATION_TYPE, Double> mMapOfSamplingRatesShimmer = new HashMap<COMMUNICATION_TYPE, Double>();
     public String mDockID = DEFAULT_DOCKID;
@@ -1196,8 +1196,6 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     }
 
     public void interpretDataPacketFormat() {
-//
-//
     }
 
     public int getExpectedDataPacketSize() {

@@ -171,7 +171,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int idxEXGADS1292RLOffStat = 7;
     public int idxEXGADS1292RResp1 = 8;
     public int idxEXGADS1292RResp2 = 9;
-//
 
     public int maskBaudRate = 0xFF;
 

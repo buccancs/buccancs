@@ -1,13 +1,1 @@
-package com.infisense.usbir.camera;
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+package com.infisense.usbir.camera;//

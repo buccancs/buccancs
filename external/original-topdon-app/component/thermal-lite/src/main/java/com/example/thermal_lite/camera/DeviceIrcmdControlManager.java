@@ -170,7 +170,6 @@ public class DeviceIrcmdControlManager {
                             }
                         }
                     }
-//
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

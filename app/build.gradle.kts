@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -7,21 +9,17 @@ plugins {
     alias(libs.plugins.kotlinCompose)
 }
 
-val androidCompileSdk = rootProject.extra["android.compileSdk"] as Int
-val androidMinSdk = rootProject.extra["android.minSdk"] as Int
-val androidTargetSdk = rootProject.extra["android.targetSdk"] as Int
-
 android {
     namespace = "com.buccancs"
-    compileSdk = androidCompileSdk
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     val orchestratorHost = project.findProperty("orchestrator.host") as? String ?: "10.0.2.2"
     val orchestratorPort = (project.findProperty("orchestrator.port") as? String)?.toIntOrNull() ?: 50051
 
     defaultConfig {
         applicationId = "com.buccancs"
-        minSdk = androidMinSdk
-        targetSdk = androidTargetSdk
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -42,9 +40,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         buildConfig = true
         compose = true
@@ -56,6 +51,12 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 

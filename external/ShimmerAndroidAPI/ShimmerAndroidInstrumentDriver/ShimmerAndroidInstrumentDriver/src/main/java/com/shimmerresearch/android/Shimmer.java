@@ -1156,8 +1156,6 @@ public class Shimmer extends ShimmerBluetooth {
         }
 
     }
-
-    //
     public void setRadio(BluetoothSocket socket) {
         System.out.println("initialize process set radio");
         registerDisconnectListener();

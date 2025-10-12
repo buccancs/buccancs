@@ -221,9 +221,6 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
     public void stopTimerReadBattStatus() {
         mRadioProtocol.stopTimerReadBattStatus();
     }
-
-    //
-//
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
 

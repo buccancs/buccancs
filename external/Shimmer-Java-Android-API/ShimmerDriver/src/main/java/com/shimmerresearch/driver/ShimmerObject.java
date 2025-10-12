@@ -288,7 +288,7 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
     public static final byte GET_BT_FW_VERSION_STR_COMMAND = (byte) 0xA1;
     public static final byte BT_FW_VERSION_STR_RESPONSE = (byte) 0xA2;
     public static final byte SET_TEST = (byte) 0xA8;
-    public static final int MAX_NUMBER_OF_SIGNALS = 77;//50;
+    public static final int MAX_NUMBER_OF_SIGNALS = 77;
     public static final int MAX_INQUIRY_PACKET_SIZE = 47;
     public static final Map<String, TEST_MODE> mMapOfBluetoothDeviceTest;
     private static final long serialVersionUID = -1364568867018921219L;
@@ -1187,7 +1187,6 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
                     accelerometer.x = accelCalibratedData[0];
                     accelerometer.y = accelCalibratedData[1];
                     accelerometer.z = accelCalibratedData[2];
-//
                 }
             }
 
@@ -2841,7 +2840,7 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
     }
 
     protected int getSignalIndex(String signalName) {
-        int iSignal = -1; //better to fail
+        int iSignal = -1;
         for (int i = 0; i < mSignalNameArray.length; i++) {
             if (signalName == mSignalNameArray[i]) {
                 return i;
@@ -5082,7 +5081,6 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
             if (configOptions != null) {
                 if (getHardwareVersion() == HW_ID.SHIMMER_3 || getHardwareVersion() == HW_ID.SHIMMER_3R) {
                     int nonStandardIndex = -1;
-//
                     if (stringKey.equals(SensorEXG.GuiLabelConfig.EXG_RESPIRATION_DETECT_PHASE)) {
                         checkWhichExgRespPhaseValuesToUse();
                     } else if (stringKey.equals(SensorEXG.GuiLabelConfig.EXG_REFERENCE_ELECTRODE)) {
@@ -5524,7 +5522,6 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
     public boolean isUsingDefaultEMGParam() {
         return mDefaultCalibrationParametersEMG;
     }
-//
 
     public Map<String, ChannelDetails> getChannelMap() {
         return mChannelMap;
@@ -8226,8 +8223,6 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
             case (Configuration.ShimmerGqBle.GuiLabelConfig.SAMPLING_RATE_DIVIDER_VBATT):
                 setSamplingDividerVBatt((int) valueToSet);
                 break;
-
-//
             case (Configuration.Shimmer3.GuiLabelConfig.EXPERIMENT_ID):
                 if (!(((String) valueToSet).isEmpty())) {
                     buf = Integer.parseInt((String) valueToSet);

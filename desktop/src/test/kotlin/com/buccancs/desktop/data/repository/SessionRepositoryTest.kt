@@ -86,19 +86,18 @@ class SessionRepositoryTest {
         val metadata = sessionRepository.metadataFor(sessionId)
         assertNotNull(metadata, "Metadata should exist after stopping session")
         assertEquals(SessionStatusDto.COMPLETED, metadata.status)
-        assertNotNull(metadata.startedAtEpochMs)
-        val stoppedAt = metadata.stoppedAtEpochMs
-        assertNotNull(stoppedAt, "Stopped timestamp should be recorded")
-        val duration = metadata.totalDurationMs
-        assertNotNull(duration, "Duration should be recorded once session stops")
+        val startedAt = assertNotNull(
+            metadata.startedAtEpochMs,
+            "Expected session start timestamp to be recorded"
+        )
+        val stoppedAt = assertNotNull(metadata.stoppedAtEpochMs, "Stopped timestamp should be recorded")
+        val duration = assertNotNull(metadata.totalDurationMs, "Duration should be recorded once session stops")
         assertTrue(duration >= 0, "Duration must be non-negative")
-        if (metadata.startedAtEpochMs != null) {
-            val expected = stoppedAt - metadata.startedAtEpochMs!!
-            assertTrue(
-                kotlin.math.abs(expected - duration) <= 5,
-                "Duration should match difference between start and stop timestamps"
-            )
-        }
+        val expected = stoppedAt - startedAt
+        assertTrue(
+            kotlin.math.abs(expected - duration) <= 5,
+            "Duration should match difference between start and stop timestamps"
+        )
     }
 
     @Test

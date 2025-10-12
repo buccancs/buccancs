@@ -817,7 +817,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         ActionSetting actionSetting = new ActionSetting(commType);
         switch (componentName) {
             case (GuiLabelConfig.MPU9X50_ACCEL_RANGE):
-//
                 break;
         }
         return actionSetting;
@@ -1479,9 +1478,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
             return super.calcMaxSamplingRate();
         }
     }
-//
-//
-//
 
     public void updateCurrentGyroCalibInUse() {
         mCurrentCalibDetailsGyro = getCurrentCalibDetailsIfKinematic(mSensorIdGyro, getGyroRange());

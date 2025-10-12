@@ -59,7 +59,6 @@ public class IRUVCDual {
     private short[] nuc_table_high = new short[8192];
     private short[] nuc_table_low = new short[8192];
     private boolean isGetNucFromFlash;
-    //
     private byte[] priv_high = new byte[1201];
     private byte[] priv_low = new byte[1201];
     private short[] kt_high = new short[1201];
