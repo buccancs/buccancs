@@ -9,6 +9,9 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://maven.scijava.org/content/repositories/public")
+        maven("https://jitpack.io")
     }
 }
 dependencyResolutionManagement {
@@ -16,9 +19,13 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://maven.scijava.org/content/repositories/public")
+        maven("https://jitpack.io")
     }
 }
 
 rootProject.name = "buccancs"
 include(":app")
- 
+include(":desktop")
+include(":protocol")

@@ -1,0 +1,209 @@
+syntax = "proto3";
+
+package com.buccancs.control;
+
+option java_package = "com.buccancs.control";
+option java_multiple_files = true;
+
+message SessionIdentifier {
+  string id = 1;
+}
+
+message DeviceTarget {
+  repeated string device_ids = 1;
+  bool broadcast = 2;
+}
+
+message StartSessionRequest {
+  SessionIdentifier session = 1;
+  int64 scheduled_epoch_ms = 2;
+  string operator_id = 3;
+  repeated string subject_ids = 4;
+}
+
+message StopSessionRequest {
+  SessionIdentifier session = 1;
+  int64 scheduled_epoch_ms = 2;
+  bool finalize = 3;
+}
+
+message CommandAck {
+  bool accepted = 1;
+  string info = 2;
+}
+
+message SyncSignalRequest {
+  SessionIdentifier session = 1;
+  string signal_type = 2;
+  DeviceTarget targets = 3;
+  int64 scheduled_epoch_ms = 4;
+}
+
+message EventMarkerRequest {
+  SessionIdentifier session = 1;
+  string marker_id = 2;
+  string description = 3;
+  DeviceTarget targets = 4;
+  int64 timestamp_epoch_ms = 5;
+}
+
+message DeviceRegistration {
+  string device_id = 1;
+  string model = 2;
+  string platform = 3;
+  string software_version = 4;
+  repeated string capabilities = 5;
+}
+
+message RegistrationAck {
+  bool accepted = 1;
+  string session_id = 2;
+  string reason = 3;
+}
+
+message DeviceStatus {
+  string device_id = 1;
+  bool online = 2;
+  bool recording = 3;
+  double battery_percent = 4;
+  int64 last_heartbeat_epoch_ms = 5;
+  string session_id = 6;
+  double preview_latency_ms = 7;
+  double clock_offset_ms = 8;
+}
+
+message StatusSubscribeRequest {
+  SessionIdentifier session = 1;
+}
+
+message TimeSyncPing {
+  int64 client_send_epoch_ms = 1;
+  string device_id = 2;
+}
+
+message TimeSyncPong {
+  int64 server_receive_epoch_ms = 1;
+  int64 server_send_epoch_ms = 2;
+}
+
+message TimeSyncReport {
+  string device_id = 1;
+  double offset_ms = 2;
+  double round_trip_ms = 3;
+  int64 sample_epoch_ms = 4;
+}
+
+message PreviewFrame {
+  string device_id = 1;
+  string camera_id = 2;
+  int64 frame_timestamp_epoch_ms = 3;
+  bytes encoded_frame = 4;
+  string mime_type = 5;
+  uint32 width = 6;
+  uint32 height = 7;
+}
+
+message PreviewAck {
+  bool received = 1;
+  string info = 2;
+}
+
+message DataTransferRequest {
+  SessionIdentifier session = 1;
+  string device_id = 2;
+  string file_name = 3;
+  uint64 size_bytes = 4;
+  bytes chunk = 5;
+  bool end_of_stream = 6;
+  bytes sha256 = 7;
+  string mime_type = 8;
+  string stream_type = 9;
+}
+
+message DataTransferStatus {
+  string file_name = 1;
+  string device_id = 2;
+  bool success = 3;
+  string error_message = 4;
+  string stream_type = 5;
+}
+
+message SensorSampleValue {
+  string key = 1;
+  double value = 2;
+}
+
+message SensorSample {
+  int64 timestamp_epoch_ms = 1;
+  repeated SensorSampleValue values = 2;
+}
+
+message SensorSampleBatch {
+  SessionIdentifier session = 1;
+  string device_id = 2;
+  string stream_id = 3;
+  double sample_rate_hz = 4;
+  repeated SensorSample samples = 5;
+  bool end_of_stream = 6;
+}
+
+message SensorStreamAck {
+  bool success = 1;
+  string error_message = 2;
+  uint64 total_samples = 3;
+}
+
+message CommandEnvelope {
+  string command_id = 1;
+  string session_id = 2;
+  string device_id = 3;
+  int64 issued_epoch_ms = 4;
+  int64 execute_epoch_ms = 5;
+  string command_json = 6;
+}
+
+message CommandSubscribeRequest {
+  string device_id = 1;
+  string session_id = 2;
+  repeated string capabilities = 3;
+  bool include_broadcast = 4;
+}
+
+message CommandReceipt {
+  string command_id = 1;
+  string device_id = 2;
+  bool success = 3;
+  string message = 4;
+}
+
+service OrchestrationService {
+  rpc RegisterDevice(DeviceRegistration) returns (RegistrationAck);
+  rpc StartSession(StartSessionRequest) returns (CommandAck);
+  rpc StopSession(StopSessionRequest) returns (CommandAck);
+  rpc SendSyncSignal(SyncSignalRequest) returns (CommandAck);
+  rpc SendEventMarker(EventMarkerRequest) returns (CommandAck);
+  rpc SubscribeStatus(StatusSubscribeRequest) returns (stream DeviceStatus);
+  rpc ReportStatus(DeviceStatus) returns (CommandAck);
+}
+
+service TimeSyncService {
+  rpc Ping(TimeSyncPing) returns (TimeSyncPong);
+  rpc Report(TimeSyncReport) returns (CommandAck);
+}
+
+service PreviewService {
+  rpc StreamPreview(stream PreviewFrame) returns (PreviewAck);
+}
+
+service DataTransferService {
+  rpc Upload(stream DataTransferRequest) returns (stream DataTransferStatus);
+}
+
+service SensorStreamService {
+  rpc Stream(stream SensorSampleBatch) returns (SensorStreamAck);
+}
+
+service CommandService {
+  rpc SubscribeCommands(CommandSubscribeRequest) returns (stream CommandEnvelope);
+  rpc ReportCommandReceipt(CommandReceipt) returns (CommandAck);
+}
