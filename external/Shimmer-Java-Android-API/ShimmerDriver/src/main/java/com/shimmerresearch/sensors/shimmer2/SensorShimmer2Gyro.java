@@ -26,10 +26,7 @@ public class SensorShimmer2Gyro extends AbstractSensor {
     public TreeMap<Integer, CalibDetails> mCalibMapGyroShimmer2r = new TreeMap<Integer, CalibDetails>();
     public CalibDetailsKinematic mCurrentCalibDetailsGyro = null;
     protected boolean mLowPowerGyro = false;
-    /**
-     * all raw params should start with a 1 byte identifier in position [0]
-     */
-    protected byte[] mGyroCalRawParams = new byte[22];
+        protected byte[] mGyroCalRawParams = new byte[22];
     transient protected OnTheFlyGyroOffsetCal mOnTheFlyGyroOffsetCal = new OnTheFlyGyroOffsetCal();
     private int mGyroRange = 0;
     private CalibDetailsKinematic calibDetailsShimmer2rGyro = new CalibDetailsKinematic(

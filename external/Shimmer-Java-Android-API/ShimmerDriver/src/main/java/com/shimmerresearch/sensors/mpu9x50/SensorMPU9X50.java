@@ -1245,10 +1245,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPU9X50AccelRange;
     }
 
-    /**
-     * @param mMPU9X50AccelRange the mMPU9X50AccelRange to set
-     */
-    public void setMPU9X50AccelRange(int i) {
+        public void setMPU9X50AccelRange(int i) {
         if (ArrayUtils.contains(SensorMPU9X50.ListofMPU9X50GyroRangeConfigValues, i)) {
             if (checkIfAnyMplChannelEnabled()) {
                 i = 0; // 2g
@@ -1257,39 +1254,24 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         }
     }
 
-    /**
-     * @return the mMPU9X50GyroAccelRate
-     */
-    public int getMPU9X50GyroAccelRate() {
+        public int getMPU9X50GyroAccelRate() {
         return mMPU9X50GyroAccelRate;
     }
 
-    /**
-     * @return the mMPU9X50GyroAccelRate
-     */
-
+    
     public void setMPU9X50GyroAccelRate(int rate) {
         mMPU9X50GyroAccelRate = rate;
     }
 
-    /**
-     * @return the mMPU9X50MotCalCfg
-     */
-    public int getMPU9X50MotCalCfg() {
+        public int getMPU9X50MotCalCfg() {
         return mMPU9X50MotCalCfg;
     }
 
-    /**
-     * @return the mMPU9X50LPF
-     */
-    public int getMPU9X50LPF() {
+        public int getMPU9X50LPF() {
         return mMPU9X50LPF;
     }
 
-    /**
-     * @param mMPU9X50LPF the mMPU9X50LPF to set
-     */
-    public void setMPU9X50LPF(int mMPU9X50LPF) {
+        public void setMPU9X50LPF(int mMPU9X50LPF) {
         this.mMPU9X50LPF = mMPU9X50LPF;
     }
 
@@ -1297,31 +1279,19 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPU9X50DMP;
     }
 
-    /**
-     * @return the mMPU9X50MPLSamplingRate
-     */
-    public int getMPU9X50MPLSamplingRate() {
+        public int getMPU9X50MPLSamplingRate() {
         return mMPU9X50MPLSamplingRate;
     }
 
-    /**
-     * @return the mMPU9X50MagSamplingRate
-     */
-    public int getMPU9X50MagSamplingRate() {
+        public int getMPU9X50MagSamplingRate() {
         return mMPU9X50MagSamplingRate;
     }
 
-    /**
-     * @param mMPU9X50MagSamplingRate the mMPU9X50MagSamplingRate to set
-     */
-    public void setMPU9X50MagSamplingRate(int mMPU9X50MagSamplingRate) {
+        public void setMPU9X50MagSamplingRate(int mMPU9X50MagSamplingRate) {
         this.mMPU9X50MagSamplingRate = mMPU9X50MagSamplingRate;
     }
 
-    /**
-     * @return the mMPU9X50GyroAccelRate in Hz
-     */
-    public double getMPU9X50GyroAccelRateInHz() {
+        public double getMPU9X50GyroAccelRateInHz() {
         // Gyroscope Output Rate = 8kHz when the DLPF is disabled (DLPF_CFG = 0 or 7), and 1kHz when the DLPF is enabled
         double numerator = 1000.0;
         if (mMPU9X50LPF == 0) {
@@ -1359,24 +1329,15 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         }
     }
 
-    /**
-     * @param mMPU9X50MPLSamplingRate the mMPU9X50MPLSamplingRate to set
-     */
-    public void setMPU9150MPLSamplingRate(int mMPU9X50MPLSamplingRate) {
+        public void setMPU9150MPLSamplingRate(int mMPU9X50MPLSamplingRate) {
         this.mMPU9X50MPLSamplingRate = mMPU9X50MPLSamplingRate;
     }
 
-    /**
-     * @return the mMPU9X50DMP
-     */
-    public boolean isMPU9150DMP() {
+        public boolean isMPU9150DMP() {
         return (mMPU9X50DMP > 0) ? true : false;
     }
 
-    /**
-     * @param state the mMPU9X50DMP state to set
-     */
-    public void setMPU9150DMP(boolean state) {
+        public void setMPU9150DMP(boolean state) {
         setMPU9150DMP((state ? 1 : 0));
     }
 
@@ -1386,24 +1347,15 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         this.mMPU9X50DMP = i;
     }
 
-    /**
-     * @return the mMPLEnable
-     */
-    public boolean isMPLEnable() {
+        public boolean isMPLEnable() {
         return (mMPLEnable > 0) ? true : false;
     }
 
-    /**
-     * @param state the mMPLEnable state to set
-     */
-    public void setMPLEnabled(boolean state) {
+        public void setMPLEnabled(boolean state) {
         setMPLEnabled(state ? 1 : 0);
     }
 
-    /**
-     * @param state the mMPLEnable state to set
-     */
-    public void setMPLEnabled(int state) {
+        public void setMPLEnabled(int state) {
         mMPLEnable = state;
     }
 
@@ -1411,10 +1363,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPLEnable;
     }
 
-    /**
-     * @return the mMPLGyroCalTC
-     */
-    public boolean isMPLGyroCalTC() {
+        public boolean isMPLGyroCalTC() {
         return (mMPLGyroCalTC > 0) ? true : false;
     }
 
@@ -1422,10 +1371,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPLGyroCalTC;
     }
 
-    /**
-     * @param state the mMPLGyroCalTC state to set
-     */
-    public void setMPLGyroCalTC(boolean state) {
+        public void setMPLGyroCalTC(boolean state) {
         mMPLGyroCalTC = state ? 1 : 0;
     }
 
@@ -1433,10 +1379,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         mMPLGyroCalTC = state;
     }
 
-    /**
-     * @return the mMPLVectCompCal
-     */
-    public boolean isMPLVectCompCal() {
+        public boolean isMPLVectCompCal() {
         return (mMPLVectCompCal > 0) ? true : false;
     }
 
@@ -1444,17 +1387,11 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPLVectCompCal;
     }
 
-    /**
-     * @param state the mMPLVectCompCal state to set
-     */
-    public void setMPLVectCompCal(boolean state) {
+        public void setMPLVectCompCal(boolean state) {
         setMPLVectCompCal(state ? 1 : 0);
     }
 
-    /**
-     * @param state the mMPLVectCompCal state to set
-     */
-    public void setMPLVectCompCal(int state) {
+        public void setMPLVectCompCal(int state) {
         this.mMPLVectCompCal = state;
     }
 
@@ -1462,45 +1399,27 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPLMagDistCal;
     }
 
-    /**
-     * @return the mMPLMagDistCal
-     */
-    public boolean isMPLMagDistCal() {
+        public boolean isMPLMagDistCal() {
         return (mMPLMagDistCal > 0) ? true : false;
     }
 
-    /**
-     * @param state the mMPLMagDistCal state to set
-     */
-    public void setMPLMagDistCal(boolean state) {
+        public void setMPLMagDistCal(boolean state) {
         setMPLMagDistCal(state ? 1 : 0);
     }
 
-    /**
-     * @param state the mMPLMagDistCal state to set
-     */
-    public void setMPLMagDistCal(int state) {
+        public void setMPLMagDistCal(int state) {
         mMPLMagDistCal = state;
     }
 
-    /**
-     * @return the mMPLSensorFusion
-     */
-    public int getMPLSensorFusion() {
+        public int getMPLSensorFusion() {
         return mMPLSensorFusion;
     }
 
-    /**
-     * @return the mMPLSensorFusion
-     */
-    public boolean isMPLSensorFusion() {
+        public boolean isMPLSensorFusion() {
         return (mMPLSensorFusion > 0) ? true : false;
     }
 
-    /**
-     * @param state the mMPLSensorFusion state to set
-     */
-    public void setMPLSensorFusion(boolean state) {
+        public void setMPLSensorFusion(boolean state) {
         setMPLSensorFusion(state ? 1 : 0);
     }
 
@@ -1508,17 +1427,11 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         mMPLSensorFusion = state;
     }
 
-    /**
-     * @param mMPU9X50MotCalCfg the mMPU9X50MotCalCfg to set
-     */
-    public void setMPU9150MotCalCfg(boolean state) {
+        public void setMPU9150MotCalCfg(boolean state) {
         setMPU9X150MotCalCfg(state ? 1 : 0);
     }
 
-    /**
-     * @param mMPU9X50MotCalCfg the mMPU9X50MotCalCfg to set
-     */
-    public void setMPU9X150MotCalCfg(int state) {
+        public void setMPU9X150MotCalCfg(int state) {
         this.mMPU9X50MotCalCfg = state;
     }
 
@@ -1590,15 +1503,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mCurrentCalibDetailsGyro.isUsingDefaultParameters();
     }
 
-    /**
-     * This enables the low-power gyro option. When not enabled the sampling
-     * rate of the gyro is set to the closest supported value to the actual
-     * sampling rate that it can achieve. For the Shimmer2, in low power mode it
-     * defaults to 10Hz.
-     *
-     * @param enable
-     */
-    public void setLowPowerGyro(boolean enable) {
+        public void setLowPowerGyro(boolean enable) {
         if (!checkIfAnyMplChannelEnabled()) {
             mLowPowerGyro = enable;
         } else {
@@ -1617,14 +1522,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mLowPowerGyro ? 1 : 0;
     }
 
-    /**
-     * Checks to see if the MPU9150 gyro is in low power mode. As determined by
-     * the sensor's sampling rate being set to the lowest possible value and not
-     * related to any specific configuration bytes sent to the Shimmer/MPU9150.
-     *
-     * @return boolean, true if low-power mode enabled
-     */
-    public boolean checkLowPowerGyro() {
+        public boolean checkLowPowerGyro() {
         if (mMPU9X50GyroAccelRate == 0xFF) {
             mLowPowerGyro = true;
         } else {
@@ -1766,10 +1664,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.shimmerresearch.sensors.AbstractSensor#isSensorUsingDefaultCal(int)
-     */
-    @Override
+        @Override
     public boolean isSensorUsingDefaultCal(int sensorId) {
         if (sensorId == mSensorIdGyro) {
             return isUsingDefaultGyroParam();

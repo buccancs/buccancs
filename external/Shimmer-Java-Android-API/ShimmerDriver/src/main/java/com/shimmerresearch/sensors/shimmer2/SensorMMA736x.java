@@ -19,15 +19,6 @@ import com.shimmerresearch.sensors.ActionSetting;
 import com.shimmerresearch.sensors.AbstractSensor.GuiLabelConfigCommon;
 import com.shimmerresearch.sensors.mpu9x50.SensorMPU9X50;
 
-/**
- * Shimmer2r holder for Accel range and calibration settings.
- * <p>
- * Do not use this class as a template for new sensor classes as only the
- * minimum has been filled in.
- *
- * @author Mark Nolan
- *
- */
 public class SensorMMA736x extends AbstractSensor {
 
     //--------- Configuration options start --------------

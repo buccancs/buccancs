@@ -135,16 +135,10 @@ public class SensorGSR extends AbstractSensor {
             ObjectClusterSensorName.GSR_ADC_VALUE,
             CHANNEL_UNITS.MILLIVOLTS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-    /**
-     * used for Shimmer3 in Shimmer
-     */
-    public static final Map<String, ChannelDetails> mChannelMapRef;
+        public static final Map<String, ChannelDetails> mChannelMapRef;
     public static final Map<String, ChannelDetails> mChannelMapRefGq;
     private static final long serialVersionUID = 1773291747371088953L;
-    /**
-     * Shimmer3 Values have been reverted to 2r values
-     */
-    public static boolean isShimmer3and4UsingShimmer2rVal = true;
+        public static boolean isShimmer3and4UsingShimmer2rVal = true;
     //--------- Bluetooth commands end --------------
 
     static {
@@ -205,12 +199,7 @@ public class SensorGSR extends AbstractSensor {
         channelGsrMicroSiemens.mChannelSource = CHANNEL_SOURCE.API;
     }
 
-    /**
-     * Constructor for this Sensor
-     *
-     * @param svo
-     */
-    public SensorGSR(ShimmerVerObject svo) {
+        public SensorGSR(ShimmerVerObject svo) {
         super(SENSORS.GSR, svo);
         initialise();
 
@@ -228,8 +217,7 @@ public class SensorGSR extends AbstractSensor {
 
     public static double nudgeGsrResistance(double gsrResistanceKOhms, int gsrRangeSetting, double[][] gsrResistanceKohmsMinMax) {
         if (gsrRangeSetting == 4) {
-            /* If auto-range is enabled, limit the lower range of the resistance due to circuit design */
-            return Math.max(gsrResistanceKohmsMinMax[0][0], gsrResistanceKOhms);
+                        return Math.max(gsrResistanceKohmsMinMax[0][0], gsrResistanceKOhms);
         } else {
             double[] minMax = gsrResistanceKohmsMinMax[gsrRangeSetting];
             return UtilShimmer.nudgeDouble(gsrResistanceKOhms, minMax[0], minMax[1]);
@@ -266,15 +254,7 @@ public class SensorGSR extends AbstractSensor {
 
     //--------- Constructors for this class start --------------
 
-    /**
-     * Based on circuit theory of the GSR non-inverting amplifier.
-     *
-     * @param gsrUncalibratedData
-     * @param range
-     * @param microcontrollerAdcProperties
-     * @return
-     */
-    public static double calibrateGsrDataToKOhmsUsingAmplifierEq(double gsrUncalibratedData, int range, MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties, double[] gsrRefResistorsKohms) {
+        public static double calibrateGsrDataToKOhmsUsingAmplifierEq(double gsrUncalibratedData, int range, MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties, double[] gsrRefResistorsKohms) {
         double rFeedback = gsrRefResistorsKohms[range];
         double volts = SensorADC.calibrateAdcChannelToVolts(gsrUncalibratedData, microcontrollerAdcProperties);
         double rSource = rFeedback / ((volts / 0.5) - 1.0);
@@ -282,13 +262,7 @@ public class SensorGSR extends AbstractSensor {
     }
     //--------- Constructors for this class end --------------
 
-    /**
-     * TODO test method no functioning properly yet
-     *
-     * @param gsrkOhms
-     * @return
-     */
-    public static int uncalibrateGsrDataTokOhmsUsingAmplifierEq(double gsrkOhms, MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties, double[] gsrRefResistorsKohms, double[][] gsrResistanceKohmsMinMax) {
+        public static int uncalibrateGsrDataTokOhmsUsingAmplifierEq(double gsrkOhms, MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties, double[] gsrRefResistorsKohms, double[][] gsrResistanceKohmsMinMax) {
         int range = 0;
         for (int i = 0; i < gsrResistanceKohmsMinMax.length; i++) {
             double[] minMax = gsrResistanceKohmsMinMax[i];
@@ -308,13 +282,7 @@ public class SensorGSR extends AbstractSensor {
         return gsrUncalibratedData;
     }
 
-    /**
-     * @param svo
-     * @param currentGSRRange
-     * @param newGSRRange
-     * @return
-     */
-    // TODO for improved efficiency, implement this such that the comparison
+        // TODO for improved efficiency, implement this such that the comparison
     // against the ShimmerVerObject does not have to be done per data sample and
     // instead it should be done once on initialisation. This would need to be
     // done in SensorGSR and for legacy support in ShimmerObject

@@ -22,11 +22,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_ENDIAN;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 
-/**
- * @author Ronan McCormack
- * @author Mark Nolan
- *
- */
 
 public class SensorADC extends AbstractSensor {
 

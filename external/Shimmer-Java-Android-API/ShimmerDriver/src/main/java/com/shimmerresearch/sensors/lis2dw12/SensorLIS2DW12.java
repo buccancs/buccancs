@@ -142,10 +142,7 @@ public class SensorLIS2DW12 extends AbstractSensor {
             LABEL_SENSOR_TILE.WIDE_RANGE_ACCEL,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_LIS2DW12_ACCEL_WR),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS2DW12); // To Be Changed
-    /**
-     *
-     */
-    private static final long serialVersionUID = 5066903487855750207L;
+        private static final long serialVersionUID = 5066903487855750207L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();

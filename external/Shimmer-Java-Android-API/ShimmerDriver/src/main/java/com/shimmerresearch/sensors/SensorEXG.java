@@ -666,10 +666,7 @@ public class SensorEXG extends AbstractSensor {
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoExgRespiration,
             Arrays.asList(
                     new ConfigOptionObject(ConfigOptionDetailsSensor.VALUE_INDEXES.EXG_RESPIRATION_DETECT_PHASE.PHASE_64KHZ, ListOfExGRespirationDetectPhase64khz, ListOfExGRespirationDetectPhase64khzConfigValues)));
-    /**
-     *
-     */
-    private static final long serialVersionUID = -9150699518448307506L;
+        private static final long serialVersionUID = -9150699518448307506L;
     //Chip 1 - 24-bit
     private static List<String> listOfChannels_Chip1Ch1_24Bit = Arrays.asList(
             SensorEXG.ObjectClusterSensorName.ECG_LL_RA_24BIT,
@@ -874,12 +871,7 @@ public class SensorEXG extends AbstractSensor {
     private boolean mIsExg1_16bitEnabled = false;
     private boolean mIsExg2_16bitEnabled = false;
 
-    /**
-     * Constructor for this class
-     *
-     * @param shimmerDevice
-     */
-    public SensorEXG(ShimmerDevice shimmerDevice) {
+        public SensorEXG(ShimmerDevice shimmerDevice) {
         super(SENSORS.EXG, shimmerDevice);
         initialise();
     }
@@ -975,10 +967,7 @@ public class SensorEXG extends AbstractSensor {
 //	}
 
 
-//	/** Constructor for this class
-//	 * @param svo
-//	 */
-//	public SensorEXG(ShimmerVerObject svo) {
+//	//	public SensorEXG(ShimmerVerObject svo) {
 //		super(svo);
 //		setSensorName(SENSORS.EXG.toString());
 //	}
@@ -1707,16 +1696,7 @@ public class SensorEXG extends AbstractSensor {
 
     }
 
-    /**
-     * Populates the individual ExG related variables in ShimmerObject per ExG
-     * chip based on the ExG configuration byte arrays
-     *
-     * @param chipIndex indicates whether the bytes are specific to chip 1 or chip 2
-     *                  on the ExG expansion board.
-     * @param byteArray the configuration byte array for an individual chip (10-bytes
-     *                  long)
-     */
-    public void exgBytesGetConfigFrom(EXG_CHIP_INDEX chipIndex, byte[] byteArray) {
+        public void exgBytesGetConfigFrom(EXG_CHIP_INDEX chipIndex, byte[] byteArray) {
         // to overcome possible backward compatability issues (where
         // bufferAns.length was 11 or 12 using all of the ExG config bytes)
         int index = 1;
@@ -1772,25 +1752,13 @@ public class SensorEXG extends AbstractSensor {
         internalCheckExgModeAndUpdateSensorMap();
     }
 
-    /**
-     * Generates the ExG configuration byte arrays based on the individual ExG
-     * related variables stored in ShimmerObject. The resulting arrays are
-     * stored in the global variables mEXG1RegisterArray and mEXG2RegisterArray.
-     *
-     */
-    public void exgBytesGetFromConfig() {
+        public void exgBytesGetFromConfig() {
         mEXG1RegisterArray = mExGConfigBytesDetails.getEXG1RegisterArray();
         mEXG2RegisterArray = mExGConfigBytesDetails.getEXG2RegisterArray();
         exgBytesGetConfigFrom(mEXG1RegisterArray, mEXG2RegisterArray);
     }
 
-    /**
-     * This can only be used for Shimmer3 devices (EXG) When a enable
-     * configuration is load, the advanced exg configuration is removed, so it
-     * needs to be set again
-     *
-     */
-    public void setDefaultECGConfiguration(double shimmerSamplingRate) {
+        public void setDefaultECGConfiguration(double shimmerSamplingRate) {
 //		mEXG1RegisterArray = new byte[]{(byte) 2,(byte) 160,(byte) 16,(byte) 64,(byte) 64,(byte) 45,(byte) 0,(byte) 0,(byte) 2,(byte) 3};
 //		mEXG2RegisterArray = new byte[]{(byte) 2,(byte) 160,(byte) 16,(byte) 64,(byte) 71,(byte) 0,(byte) 0,(byte) 0,(byte) 2,(byte) 1};
 
@@ -1816,12 +1784,7 @@ public class SensorEXG extends AbstractSensor {
         setDefaultExgCommon(shimmerSamplingRate);
     }
 
-    /**
-     * This can only be used for Shimmer3 devices (EXG) When a enable
-     * configuration is load, the advanced exg configuration is removed, so it
-     * needs to be set again
-     */
-    protected void setDefaultEMGConfiguration(double shimmerSamplingRate) {
+        protected void setDefaultEMGConfiguration(double shimmerSamplingRate) {
 //		mEXG1RegisterArray = new byte[]{(byte) 2,(byte) 160,(byte) 16,(byte) 105,(byte) 96,(byte) 32,(byte) 0,(byte) 0,(byte) 2,(byte) 3};
 //		mEXG2RegisterArray = new byte[]{(byte) 2,(byte) 160,(byte) 16,(byte) 129,(byte) 129,(byte) 0,(byte) 0,(byte) 0,(byte) 2,(byte) 1};
 
@@ -1848,12 +1811,7 @@ public class SensorEXG extends AbstractSensor {
         setDefaultExgCommon(shimmerSamplingRate);
     }
 
-    /**
-     * This can only be used for Shimmer3 devices (EXG). Enables the test signal
-     * (square wave) of both EXG chips, to use, both EXG1 and EXG2 have to be
-     * enabled
-     */
-    protected void setEXGTestSignal(double shimmerSamplingRate) {
+        protected void setEXGTestSignal(double shimmerSamplingRate) {
 //		mEXG1RegisterArray = new byte[]{(byte) 2,(byte) 163,(byte) 16,(byte) 5,(byte) 5,(byte) 0,(byte) 0,(byte) 0,(byte) 2,(byte) 1};
 //		mEXG2RegisterArray = new byte[]{(byte) 2,(byte) 163,(byte) 16,(byte) 5,(byte) 5,(byte) 0,(byte) 0,(byte) 0,(byte) 2,(byte) 1};
 
@@ -1873,13 +1831,7 @@ public class SensorEXG extends AbstractSensor {
         setDefaultExgCommon(shimmerSamplingRate);
     }
 
-    /**
-     * This can only be used for Shimmer3 devices (EXG) When a enable
-     * configuration is load, the advanced exg configuration is removed, so it
-     * needs to be set again
-     *
-     */
-    protected void setDefaultRespirationConfiguration(double shimmerSamplingRate) {
+        protected void setDefaultRespirationConfiguration(double shimmerSamplingRate) {
 //		mEXG1RegisterArray = new byte[]{(byte) 2,(byte) 160,(byte) 16,(byte) 64,(byte) 64,(byte) 32,(byte) 0,(byte) 0,(byte) 2,(byte) 3};
 //		mEXG2RegisterArray = new byte[]{(byte) 2,(byte) 160,(byte) 16,(byte) 64,(byte) 71,(byte) 0,(byte) 0,(byte) 0,(byte) 234,(byte) 1};
 
@@ -1905,30 +1857,7 @@ public class SensorEXG extends AbstractSensor {
         setDefaultExgCommon(shimmerSamplingRate);
     }
 
-    /**
-     * This can only be used for Shimmer3 devices (EXG). Enables the default
-     * setting for the 'custom' channel.
-     * <p>
-     * Ben: I believe ExG can do 3 channels single ended maybe 4. For 3, The INN
-     * channels are set to "RLD" and then tie RL to ground (Won't be perfect
-     * because of R4 but should be reasonable). The RLD buffer needs to be
-     * disabled and inputs to the buffer likely set to not connected... For the
-     * 4th, it seems like we could use the RESPMOD input to get RLD - RA (and
-     * then invert in SW?). But this may always be zero if RLD is ground... We
-     * would end up with:
-     * <p>
-     * <li>Chip1 Ch1: LL - RLD
-     * <li>Chip1 Ch2: LA - RLD
-     * <li>Chip2 Ch1: Nothing?
-     * <li>Chip2 Ch2: V1 - RLD
-     * <p>
-     * However there may be an advanced configuration where we use VDD/2 as
-     * input to a channel of Chip1 and then buffer that via RLD and then tie
-     * that buffered 1.5V via RLD to the ground of a sensor and the various
-     * inputs. That config would be best for AC signals (giving a Vdd/2
-     * reference) but limits peak amplitude of the incoming signal.
-     */
-    protected void setEXGCustom(double shimmerSamplingRate) {
+        protected void setEXGCustom(double shimmerSamplingRate) {
 //		mEXG1RegisterArray = new byte[]{(byte) 2,(byte) 163,(byte) 16,(byte) 7,(byte) 7,(byte) 0,(byte) 0,(byte) 0,(byte) 2,(byte) 1};
 //		mEXG2RegisterArray = new byte[]{(byte) 2,(byte) 163,(byte) 16,(byte) 7,(byte) 7,(byte) 0,(byte) 0,(byte) 0,(byte) 2,(byte) 1};
 
@@ -2036,13 +1965,7 @@ public class SensorEXG extends AbstractSensor {
         exgBytesGetConfigFrom(mEXG1RegisterArray, mEXG2RegisterArray);
     }
 
-    /**
-     * Note: Doesn't update the Sensor Map
-     *
-     * @param chipIndex
-     * @param option
-     */
-    protected void setExgPropertySingleChip(EXG_CHIP_INDEX chipIndex, ExGConfigOption option) {
+        protected void setExgPropertySingleChip(EXG_CHIP_INDEX chipIndex, ExGConfigOption option) {
         mExGConfigBytesDetails.setExgPropertySingleChip(chipIndex, option);
         if (chipIndex == EXG_CHIP_INDEX.CHIP1) {
             mEXG1RegisterArray = mExGConfigBytesDetails.getEXG1RegisterArray();
@@ -2052,14 +1975,7 @@ public class SensorEXG extends AbstractSensor {
         updateExgVariables(chipIndex);
     }
 
-    /**
-     * Note: Doesn't update the Sensor Map
-     *
-     * @param chipIndex
-     * @param propertyName
-     * @param value
-     */
-    public void setExgPropertySingleChipValue(EXG_CHIP_INDEX chipIndex, String propertyName, int value) {
+        public void setExgPropertySingleChipValue(EXG_CHIP_INDEX chipIndex, String propertyName, int value) {
         mExGConfigBytesDetails.setExgPropertyValue(chipIndex, propertyName, value);
         if (chipIndex == EXG_CHIP_INDEX.CHIP1) {
             mEXG1RegisterArray = mExGConfigBytesDetails.getEXG1RegisterArray();
@@ -2187,71 +2103,44 @@ public class SensorEXG extends AbstractSensor {
         }
     }
 
-    /**
-     * @return the mEXG1RateSetting
-     */
-    public int getEXG1RateSetting() {
+        public int getEXG1RateSetting() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG1_DATA_RATE);
     }
 
-    /**
-     * @return the mEXGReferenceElectrode
-     */
-    public int getEXGReferenceElectrode() {
+        public int getEXGReferenceElectrode() {
         return mExGConfigBytesDetails.getEXGReferenceElectrode();
     }
 
-    /**
-     * @param mEXGReferenceElectrode the mEXGReferenceElectrode to set
-     */
-    protected void setEXGReferenceElectrode(int valueToSet) {
+        protected void setEXGReferenceElectrode(int valueToSet) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG6_CH2_RLD_NEG_INPUTS, ((valueToSet & 0x08) == 0x08) ? 1 : 0);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG6_CH2_RLD_POS_INPUTS, ((valueToSet & 0x04) == 0x04) ? 1 : 0);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG6_CH1_RLD_NEG_INPUTS, ((valueToSet & 0x02) == 0x02) ? 1 : 0);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG6_CH1_RLD_POS_INPUTS, ((valueToSet & 0x01) == 0x01) ? 1 : 0);
     }
 
-    /**
-     * @return the mEXGLeadOffDetectionCurrent
-     */
-    public int getEXGLeadOffDetectionCurrent() {
+        public int getEXGLeadOffDetectionCurrent() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG3_LEAD_OFF_CURRENT);
     }
 
-    /**
-     * @param mEXGLeadOffDetectionCurrent the mEXGLeadOffDetectionCurrent to set
-     */
-    protected void setEXGLeadOffDetectionCurrent(int mEXGLeadOffDetectionCurrent) {
+        protected void setEXGLeadOffDetectionCurrent(int mEXGLeadOffDetectionCurrent) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG3_LEAD_OFF_CURRENT, mEXGLeadOffDetectionCurrent);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG3_LEAD_OFF_CURRENT, mEXGLeadOffDetectionCurrent);
     }
 
-    /**
-     * @return the mEXGLeadOffComparatorTreshold
-     */
-    public int getEXGLeadOffComparatorTreshold() {
+        public int getEXGLeadOffComparatorTreshold() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG3_COMPARATOR_THRESHOLD);
     }
 
-    /**
-     * @param mEXGLeadOffComparatorTreshold the mEXGLeadOffComparatorTreshold to set
-     */
-    protected void setEXGLeadOffComparatorTreshold(int mEXGLeadOffComparatorTreshold) {
+        protected void setEXGLeadOffComparatorTreshold(int mEXGLeadOffComparatorTreshold) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG3_COMPARATOR_THRESHOLD, mEXGLeadOffComparatorTreshold);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG3_COMPARATOR_THRESHOLD, mEXGLeadOffComparatorTreshold);
     }
 
-    /**
-     * @return the mEXG2RespirationDetectFreq
-     */
-    public int getEXG2RespirationDetectFreq() {
+        public int getEXG2RespirationDetectFreq() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG10_RESPIRATION_CONTROL_FREQUENCY);
     }
 
-    /**
-     * @param mEXG2RespirationDetectFreq the mEXG2RespirationDetectFreq to set
-     */
-    protected void setEXG2RespirationDetectFreq(int mEXG2RespirationDetectFreq) {
+        protected void setEXG2RespirationDetectFreq(int mEXG2RespirationDetectFreq) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG10_RESPIRATION_CONTROL_FREQUENCY, mEXG2RespirationDetectFreq);
         checkWhichExgRespPhaseValuesToUse();
 
@@ -2262,56 +2151,31 @@ public class SensorEXG extends AbstractSensor {
         }
     }
 
-    /**
-     * @return the mEXG2RespirationDetectPhase
-     */
-    public int getEXG2RespirationDetectPhase() {
+        public int getEXG2RespirationDetectPhase() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG9_RESPIRATION_PHASE);
     }
 
-    /**
-     * @param mEXG2RespirationDetectPhase the mEXG2RespirationDetectPhase to set
-     */
-    protected void setEXG2RespirationDetectPhase(int mEXG2RespirationDetectPhase) {
+        protected void setEXG2RespirationDetectPhase(int mEXG2RespirationDetectPhase) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG9_RESPIRATION_PHASE, mEXG2RespirationDetectPhase);
     }
 
-    /**
-     * @return the mEXG1RegisterArray
-     */
-    public byte[] getEXG1RegisterArray() {
+        public byte[] getEXG1RegisterArray() {
         return mEXG1RegisterArray;
     }
 
-    /**
-     * Note: Doesn't update the Sensor Map
-     *
-     * @param mEXG1RegisterArray the mEXG1RegisterArray to set
-     */
-    protected void setEXG1RegisterArray(byte[] EXG1RegisterArray) {
+        protected void setEXG1RegisterArray(byte[] EXG1RegisterArray) {
         setEXGRegisterArray(EXG_CHIP_INDEX.CHIP1, EXG1RegisterArray);
     }
 
-    /**
-     * @return the mEXG2RegisterArray
-     */
-    public byte[] getEXG2RegisterArray() {
+        public byte[] getEXG2RegisterArray() {
         return mEXG2RegisterArray;
     }
 
-    /**
-     * Note: Doesn't update the Sensor Map
-     *
-     * @param mEXG2RegisterArray the mEXG2RegisterArray to set
-     */
-    protected void setEXG2RegisterArray(byte[] EXG2RegisterArray) {
+        protected void setEXG2RegisterArray(byte[] EXG2RegisterArray) {
         setEXGRegisterArray(EXG_CHIP_INDEX.CHIP2, EXG2RegisterArray);
     }
 
-    /**
-     * @return the mExGResolution
-     */
-    public int getExGResolution() {
+        public int getExGResolution() {
         //System.out.println("mExGResolution: " +mExGResolution);
         return mExGResolution;
     }
@@ -2467,41 +2331,24 @@ public class SensorEXG extends AbstractSensor {
         updateExgVariables(chipIndex);
     }
 
-    /**
-     * This can only be used for Shimmer3 devices (EXG)
-     * When a enable configuration is loaded, the advanced ExG configuration is removed, so it needs to be set again
-     */
-    protected void enableDefaultECGConfiguration(double shimmerSamplingRate) {
+        protected void enableDefaultECGConfiguration(double shimmerSamplingRate) {
         setDefaultECGConfiguration(shimmerSamplingRate);
     }
 
-    /**
-     * This can only be used for Shimmer3 devices (EXG)
-     * When a enable configuration is loaded, the advanced ExG configuration is removed, so it needs to be set again
-     */
-    protected void enableDefaultEMGConfiguration(double shimmerSamplingRate) {
+        protected void enableDefaultEMGConfiguration(double shimmerSamplingRate) {
         setDefaultEMGConfiguration(shimmerSamplingRate);
     }
 
-    /**
-     * This can only be used for Shimmer3 devices (EXG). Enables the test signal (square wave) of both EXG chips, to use, both EXG1 and EXG2 have to be enabled
-     */
-    protected void enableEXGTestSignal(double shimmerSamplingRate) {
+        protected void enableEXGTestSignal(double shimmerSamplingRate) {
         setEXGTestSignal(shimmerSamplingRate);
     }
 
-    /**
-     * @param valueToSet the valueToSet to set
-     */
-    protected void setEXGRateSetting(int valueToSet) {
+        protected void setEXGRateSetting(int valueToSet) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG1_DATA_RATE, (int) valueToSet);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG1_DATA_RATE, (int) valueToSet);
     }
 
-    /**
-     * @param valueToSet the valueToSet to set
-     */
-    protected void setEXGRateSetting(EXG_CHIP_INDEX chipID, int valueToSet) {
+        protected void setEXGRateSetting(EXG_CHIP_INDEX chipID, int valueToSet) {
         if (chipID == EXG_CHIP_INDEX.CHIP1) {
             setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG1_DATA_RATE, (int) valueToSet);
         } else if (chipID == EXG_CHIP_INDEX.CHIP2) {
@@ -2704,22 +2551,14 @@ public class SensorEXG extends AbstractSensor {
         return false;
     }
 
-    /**
-     * should only be checked last as it is a general check to determine if any
-     * of the sensor bits are enabled but the EXG configurations bytes are
-     * unknown
-     */
-    public boolean isEXGUsingCustomSignalConfiguration() {
+        public boolean isEXGUsingCustomSignalConfiguration() {
         if (mIsExg1_16bitEnabled || mIsExg2_16bitEnabled || mIsExg1_24bitEnabled || mIsExg2_24bitEnabled) {
             return true;
         }
         return false;
     }
 
-    /**
-     * @return true if ExG respiration detection frequency is 32kHz and false if 64kHz
-     */
-    public boolean isExgRespirationDetectFreq32kHz() {
+        public boolean isExgRespirationDetectFreq32kHz() {
         if (getEXG2RespirationDetectFreq() == 0)
 //		if(mEXG2RespirationDetectFreq==0)
             return true;
@@ -2727,14 +2566,7 @@ public class SensorEXG extends AbstractSensor {
             return false;
     }
 
-    /**
-     * Computes next higher available sensor sampling rate setting based on
-     * passed in "freq" variable and dependent on whether low-power mode is set.
-     *
-     * @param freq
-     * @return int the rate configuration setting for the respective sensor
-     */
-    public int setExGRateFromFreq(double freq) {
+        public int setExGRateFromFreq(double freq) {
 
         int valueToSet = 0x00; // 125Hz
         if (freq <= 125) {
