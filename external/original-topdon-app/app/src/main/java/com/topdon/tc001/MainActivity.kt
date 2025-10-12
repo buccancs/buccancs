@@ -74,10 +74,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private val versionViewModel: VersionViewModel by viewModels()
 
-    private var checkPermissionType: Int = -1 //0 initData数据 1 图库  2 connect方法
+    private var checkPermissionType: Int = -1
     override fun initContentView() = R.layout.activity_main
 
-    //记录设备信息
     private fun logInfo() {
         try {
             val str = StringBuilder()
@@ -134,7 +133,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
 
         if (!SharedManager.hasTcLine && !SharedManager.hasTS004 && !SharedManager.hasTC007) {
-            //仅当设备列表为空时，才执行自动跳转
             if (DeviceTools.isConnect()) {
                 if (!WebSocketProxy.getInstance().isConnected()) {
                     ARouter.getInstance()
@@ -169,7 +167,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
 
-        //版本下载
         versionViewModel.updateLiveData.observe(this) {
             FirmwareUpDialog(this).apply {
                 titleStr = getString(com.topdon.lib.core.R.string.update_new_version)
@@ -180,7 +177,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     updateApk(it.downPageUrl)
                 }
                 onCancelClickListener = {
-                    SharedManager.setVersionCheckDate(System.currentTimeMillis())//刷新版本提示时间
+                    SharedManager.setVersionCheckDate(System.currentTimeMillis())
                 }
             }.show()
         }
@@ -188,7 +185,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private fun updateApk(url: String) {
         if (applicationInfo.targetSdkVersion < Build.VERSION_CODES.P) {
-            //目标版本27默认跳到官网下载
             val intent = Intent()
             intent.action = "android.intent.action.VIEW"
             intent.data = Uri.parse(url)
@@ -245,7 +241,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun copyFile(filename: String, targetFile: File) {
-        if (targetFile.exists()) {//已存在就不覆盖了
+        if (targetFile.exists()) {
             return
         }
         try {
@@ -280,16 +276,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            cl_icon_gallery -> {//图库
+            cl_icon_gallery -> {
                 checkPermissionType = 1
                 checkStoragePermission()
             }
 
-            view_main -> {//首页
+            view_main -> {
                 view_page.setCurrentItem(1, false)
             }
 
-            cl_icon_mine -> {//我的
+            cl_icon_mine -> {
                 view_page.setCurrentItem(2, false)
             }
         }
@@ -321,10 +317,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         view_mine_point.isVisible = false
     }
 
-    /**
-     * 刷新 3 个 tab 的选中状态
-     * @param index 当前选中哪个 tab，`[0, 2]`
-     */
     private fun refreshTabSelect(index: Int) {
         iv_icon_gallery.isSelected = false
         tv_icon_gallery.isSelected = false
@@ -333,7 +325,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         iv_bottom_main_bg.setImageResource(R.drawable.ic_main_bg_not_select)
 
         when (index) {
-            0 -> {//图库
+            0 -> {
                 iv_icon_gallery.isSelected = true
                 tv_icon_gallery.isSelected = true
             }
@@ -342,7 +334,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 iv_bottom_main_bg.setImageResource(R.drawable.ic_main_bg_select)
             }
 
-            2 -> {//我的
+            2 -> {
                 iv_icon_mine.isSelected = true
                 tv_icon_mine.isSelected = true
             }
@@ -362,7 +354,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         if (WebSocketProxy.getInstance().isTS004Connect()) {
             ARouter.getInstance().build(RouterConfig.IR_MONOCULAR).navigation(this)
         }
-        //无连接OTG提示
         if (tipOtgDialog != null && tipOtgDialog!!.isShowing) {
             return
         }
@@ -388,7 +379,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onSocketDisConnected(isTS004: Boolean) {
-        if (lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED) && isTS004) {//TC007不用
+        if (lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED) && isTS004) {
             dialogDisconnect()
         }
     }
@@ -452,7 +443,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         ) {
             if (BaseApplication.instance.isDomestic()) {
                 if (SharedManager.getMainPermissionsState()) {
-                    //国内版拒绝授权之后就别再授权了华为上架不通过
                     return
                 }
                 TipDialog.Builder(this)
@@ -470,9 +460,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * 动态申请权限
-     */
     private fun initCameraPermission() {
         XXPermissions.with(this)
             .permission(getNeedPermissionList()[R.string.permission_request_camera_app])
@@ -488,7 +475,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         SharedManager.setMainPermissionsState(true)
                     }
                     if (doNotAskAgain) {
-                        //拒绝授权并且不再提醒
                         TipDialog.Builder(this@MainActivity)
                             .setTitleMessage(getString(R.string.app_tip))
                             .setMessage(
@@ -526,9 +512,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * 动态申请权限
-     */
     private fun initStoragePermission() {
         if (PermissionUtils.isVisualUser()) {
             jumpIRActivity()
@@ -547,7 +530,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
-                        //拒绝授权并且不再提醒
                         TipDialog.Builder(this@MainActivity)
                             .setTitleMessage(getString(R.string.app_tip))
                             .setMessage(getString(R.string.app_album_content))

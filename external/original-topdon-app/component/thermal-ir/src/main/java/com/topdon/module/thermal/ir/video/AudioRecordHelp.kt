@@ -11,11 +11,6 @@ import java.lang.ref.WeakReference
 import java.nio.ShortBuffer
 
 
-/**
- * 音频采集并且与视频合并一起
- * @author: CaiSongL
- * @date: 2023/3/28
- */
 class AudioRecordHelp private constructor() {
     private var audioRecord: AudioRecord? = null
     private var audioRecordRunnable: AudioRecordRunnable? = null
@@ -81,9 +76,6 @@ class AudioRecordHelp private constructor() {
                 audioData = ShortBuffer.allocate(bufferSize)
             }
             audioRecord!!.startRecording()
-            /**
-             * 音频进行循环编码
-             */
             try {
                 while (runAudioThread) {
                     bufferReadResult = audioRecord!!.read(audioData!!.array(), 0, audioData!!.capacity())

@@ -1,0 +1,173 @@
+TOPDON APP NAVIGATION
+=====================
+
+The original TC001 Android app uses ARouter route strings to keep navigation loosely coupled. Shell
+activities host ViewPager dashboards that forward to feature modules; taps on tiles or toolbar buttons
+resolve a route and launch the target screen. Wired TC001, TC001 Lite, TS004, and TC007 products reuse these
+surfaces, while `DeviceTools` and extras such as `ExtraKeyConfig.IS_TC007` decide which branch to open.
+
+
+ASCII NAVIGATION MAP
+--------------------
+
+```
+App Launch
+   |
+   v
++---------------------------+
+| MainActivity (/app/main)  |
++---------------------------+
+   |-- Tab 0: IRGalleryTabFragment (all media sources)
+   |-- Tab 1: MainFragment (device hub)
+   |-- Tab 2: MineFragment (user center)
+   |
+   |  MainFragment actions
+   |     - Wired TC001 -> IRMainActivity (/ir/main)
+   |     - TS004 device -> IRMonocularActivity (/ts004/IRMonocularActivity)
+   |     - TC007 device -> IRMainActivity with IS_TC007 flag
+   |     - Add device -> DeviceTypeActivity (onboarding flow)
+   |
+   |  MineFragment actions
+   |     - Settings -> MoreActivity, UnitActivity, etc.
+   |     - Manuals / FAQ -> ElectronicManualActivity
+   |     - Feedback -> LMS FeedbackActivity or Zoho chat
+   |
++-----------------------------------+
+| IRMainActivity (/ir/main)         |
++-----------------------------------+
+   |-- Tab 0: AbilityFragment (shortcut tiles)
+   |      - MonitoryHomeActivity (live monitoring shortcuts)
+   |      - HouseHomeActivity (building inspections)
+   |      - Car detect tile -> capture activity chosen by DeviceTools
+   |-- Tab 1: IRGalleryTabFragment (media scoped to current device)
+   |-- Tab 2: IRThermalFragment (connection gate)
+   |      - TC001 Plus -> IRThermalPlusActivity (/ir/frame/plush)
+   |      - TC001 Standard -> IRThermalNightActivity (/ir/frame)
+   |      - TC001 Lite -> IRThermalLiteActivity (/lite/tcLite)
+   |-- Tab 3: PDFListFragment (LMS reports leading to Report* activities)
+   |-- Tab 4: MoreFragment (/user/tcMore) (device utilities, manuals, tips)
+   |
+   |  IRThermalPlusActivity
+   |     - Dual IR/visible preview, pseudo color controls, alignment sliders
+   |     - Video and still capture, gallery shortcuts, car detection overlay
+   |     - Menus -> IRConfigActivity, IRGallery*, IRCorrection*, ManualStep1Activity
+   |
+   |  IRThermalNightActivity
+   |     - Single sensor capture UI with emissivity, DDE, alarm controls
+   |     - Video recorder, measurement overlays, report shortcuts
+   |
+   |  IRThermalLiteActivity
+   |     - Lite hardware capture UI with the same downstream links
+   |
++----------------------------+
+| Media and report sub-flow  |
++----------------------------+
+   - IRGalleryTabFragment -> IRGalleryFragment (photo/video grids)
+   - IRGalleryFragment item -> IRGalleryDetail01Activity (images) or IRVideoGSYActivity (videos)
+   - IRGalleryDetail01Activity actions -> IRGalleryEditActivity, report creation, Excel export,
+     share, delete
+   - PDFListFragment -> ReportPreviewActivity -> ReportPreviewFirst/Second -> ReportCreateSecond
+     or ReportDetailActivity
+
++----------------------------+
+| Settings and support       |
++----------------------------+
+   - IRConfigActivity (/ir/setting) centralises capture preferences
+   - MoreFragment tiles -> QuestionActivity, QuestionDetailsActivity, ElectronicManualActivity,
+     DeviceDetailsActivity, AutoSaveActivity, StorageSpaceActivity, TISRActivity, etc.
+   - MineFragment -> LanguageActivity (where available), LMS feedback, ZohoSalesIQ chat
+```
+
+
+ACTIVITY FEATURE MATRIX
+-----------------------
+
+- `MainActivity` (`/app/main`)
+  - Three-tab ViewPager (Gallery, Device hub, Mine).
+  - Requests camera, storage, and notification permissions on first run.
+  - Observes `DevicePermissionEvent` / `DeviceConnectEvent` to request USB access and optionally
+    auto-launch capture (`SharedManager.isConnectAutoOpen`).
+  - Shows OTG guidance and connection status banners.
+
+- `IRMainActivity` (`/ir/main`)
+  - Secondary hub after a device is selected.
+  - Five tabs: Ability shortcuts, scoped gallery, connection gate, LMS reports, settings/help.
+  - Syncs background artwork with connection state and enforces storage permission checks before
+    gallery/report access.
+  - Triggers LMS login when entering reports while logged out.
+
+- `IRThermalFragment`
+  - Evaluates hardware state via `DeviceTools` and `SharedManager`.
+  - Routes to Plus, Standard, Lite, or Hik capture activities and displays OTG/permission prompts
+    when a device is detected without authorisation.
+  - Provides connect/disconnect animations and a quick-enter capture button.
+
+- `IRThermalPlusActivity` (`/ir/frame/plush`)
+  - Dual-channel capture surface:
+    - IR + visible previews, fusion types, pseudo color palettes, measurement overlays.
+    - Alignment controls, dual-camera zoom, optional super-resolution.
+    - Still/video capture through `VideoRecordFFmpeg`, car detection overlay, gallery refresh.
+  - Toolbar/menus launch IR configuration, calibration suite (`IRCorrection*`, `ManualStep1Activity`),
+    gallery, report builder, and camera settings.
+
+- `IRThermalNightActivity` (`/ir/frame`)
+  - Base capture experience when only the IR sensor is present.
+  - Offers emissivity editing, DDE tuning, alarm thresholds, audio recording, pseudo color bar control.
+  - Shares capture, gallery, and report shortcuts with the Plus activity.
+
+- `IRThermalLiteActivity` (`/lite/tcLite`)
+  - Lite SKU capture flow backed by Lite-specific vendor libraries.
+  - Supports pseudo colors, measurement overlays, manual correction, video/still capture, and all
+    downstream workflows (gallery, reports, settings).
+
+- `IRGalleryTabFragment`
+  - Two-tab (Photo/Video) media browser backed by `IRGalleryFragment`.
+  - Switches between wired, TS004, and TC007 directories and exposes multi-select edit mode for
+    share/download/delete.
+
+- `IRGalleryFragment`
+  - Displays grouped media (`GalleryTitle` headers) with download states and edit mode.
+  - Handles remote TS004 downloads, local share/delete, and emits `GalleryAddEvent` / `GalleryDelEvent`
+    for observers.
+  - Launches `IRGalleryDetail01Activity` (stills) or `IRVideoGSYActivity` (videos).
+
+- `IRGalleryDetail01Activity` (`/ir/gallery/detail01`)
+  - Swipe-able viewer with measurement overlays.
+  - Provides 2D/3D editors, Excel export, report creation, share, and delete actions.
+  - Uses `IRGalleryEditViewModel` to decode IR frame data before export.
+
+- `IRGalleryEditActivity` (`/app/gallery/edit`)
+  - Batch editor for gallery items (crop/rotate, metadata, report selection).
+  - Integrates with report creation and share intents.
+
+- `IRVideoGSYActivity` (`/ir/video/gsy`)
+  - MP4 player using GSYVideoPlayer with frame capture and share/export actions.
+
+- `PDFListFragment` and report activities (`ReportCreateFirst`, `ReportCreateSecond`,
+  `ReportPreviewFirst`, `ReportPreviewSecond`, `ReportDetail`, `ReportPickImg`)
+  - Connect to LMS APIs to list, preview, create, and delete reports.
+  - Save downloaded PDFs under `FileConfig.getPdfDir()` and expose share intents.
+
+- `MoreFragment` (`/user/tcMore`) and `MoreActivity`
+  - Aggregates manuals, tutorials, storage cleanup, firmware/help utilities.
+  - Routes to QuestionActivity, QuestionDetailsActivity, ElectronicManualActivity,
+    DeviceDetailsActivity, AutoSaveActivity, StorageSpaceActivity, TISRActivity, and more.
+
+- `MineFragment`
+  - LMS-backed user center with language picker (non-domestic builds), feedback entry, Zoho chat,
+    cache clearing, and manual downloads.
+
+- `IRConfigActivity` (`/ir/setting`)
+  - Central settings panel for capture preferences (auto-save, watermark, storage paths, units,
+    Wi-Fi auto-connect).
+  - Reads/writes `SaveSettingUtil` and `SharedManager` so wired and Wi-Fi modules share configuration.
+
+
+USAGE NOTES FOR PORTING
+-----------------------
+- Navigation is route-driven. When moving to Compose or another architecture, keep an equivalent route
+  registry so feature modules remain decoupled.
+- ViewPager dashboards (`MainActivity`, `IRMainActivity`, `IRGalleryTabFragment`) are the main entry points;
+  replacing them requires alternate hubs that still surface gallery, capture, report, and support flows.
+- Many navigation decisions depend on runtime hardware checks (`DeviceTools`) or LMS authentication state.
+  Preserve similar guards in the Buccancs implementation.

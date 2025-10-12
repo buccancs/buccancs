@@ -16,11 +16,6 @@ import com.skydoves.colorpickerview.listeners.ColorListener
 import com.topdon.libcom.R
 import com.topdon.libcom.adpter.DColorSelectAdapter
 
-/**
- * 调色板
- * @author: CaiSongL
- * @date: 2023/4/23 16:07
- */
 @Deprecated("产品要求所有颜色拾取都更改为 ColorPickDialog 那种样式，这个弹框废弃")
 class ColorDialog(color: Int) : DialogFragment() {
 

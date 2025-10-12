@@ -10,11 +10,6 @@ import com.blankj.utilcode.util.SizeUtils
 import com.topdon.house.R
 import kotlinx.android.synthetic.main.popup_three_pick.view.*
 
-/**
- * 房屋检测的选项 Popup 最多 3 个选项，就不跟 TC003 一样搞列表了。
- *
- * Created by LCG on 2024/8/23.
- */
 internal class ThreePickPopup(
     val context: Context,
     strIdArray: List<Int>,
@@ -60,10 +55,6 @@ internal class ThreePickPopup(
         dismiss()
     }
 
-    /**
-     * 显示
-     * @param isLeft true-左对齐 false-右对齐
-     */
     fun show(anchor: View, isLeft: Boolean) {
         val heightPixels = context.resources.displayMetrics.heightPixels
         val locationArray = IntArray(2)
@@ -72,15 +63,15 @@ internal class ThreePickPopup(
         val x = if (isLeft) locationArray[0] else locationArray[0] + anchor.width + SizeUtils.dp2px(17f) - width
 
         if (isLeft) {
-            if (locationArray[1] >= height) {//在 anchor 上面放得下
+            if (locationArray[1] >= height) {
                 showAtLocation(anchor, Gravity.NO_GRAVITY, x, locationArray[1] - height)
-            } else {//上面放不下就放下面吧
+            } else {
                 showAsDropDown(anchor, Gravity.NO_GRAVITY, x, locationArray[1] + anchor.height)
             }
         } else {
-            if (heightPixels - locationArray[1] - anchor.height - SizeUtils.dp2px(10f) > height) {//在 anchor 底部放得下
+            if (heightPixels - locationArray[1] - anchor.height - SizeUtils.dp2px(10f) > height) {
                 showAtLocation(anchor, Gravity.NO_GRAVITY, x, locationArray[1] + anchor.height + SizeUtils.dp2px(10f))
-            } else {//下面放不下就放上面吧
+            } else {
                 showAtLocation(
                     anchor,
                     Gravity.NO_GRAVITY,

@@ -14,7 +14,6 @@ object ConfigRepository {
             ModelBean::class.java
         )
     } catch (_: Exception) {
-        //当SP里没数据必定抛异常，所以这里返回一个默认的
         ModelBean(DataBean(id = 0, use = true))
     }
 
@@ -26,9 +25,6 @@ object ConfigRepository {
         }
     }
 
-    /**
-     * 读取选中的配置信息
-     */
     fun readConfig(isTC007: Boolean): DataBean {
         val config = read(isTC007)
         if (config.defaultModel.use) {

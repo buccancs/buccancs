@@ -10,9 +10,6 @@ import android.view.animation.ScaleAnimation
  * @date: 2022/6/9 22:14
  */
 public object AnimaUtils {
-    /**
-     * 默认动画持续时间
-     */
     const val DEFAULT_ANIMATION_DURATION: Long = 400
 
     /**

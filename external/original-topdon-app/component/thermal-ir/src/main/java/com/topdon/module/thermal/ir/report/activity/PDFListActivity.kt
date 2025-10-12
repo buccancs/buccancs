@@ -34,19 +34,9 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 
-/**
- * 需要传递
- * - 是否 TC007: [ExtraKeyConfig.IS_TC007]
- * @author: CaiSongL
- * @date: 2023/5/12 11:34
- */
 @Route(path = RouterConfig.REPORT_LIST)
 class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
 
-    /**
-     * 从上一界面传递过来的，当前是否为 TC007 设备类型.
-     * true-TC007 false-其他插件式设备
-     */
     private var isTC007 = false
 
     var page = 1
@@ -74,7 +64,6 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
             }
             it?.let { data ->
                 if (page == 1) {
-                    //刷新
                     if (data.code == LMS.SUCCESS) {
                         reportAdapter.loadMoreModule.isEnableLoadMore = !data.data?.records.isNullOrEmpty()
                         fragment_pdf_recycler_lay.finishRefresh()
@@ -111,7 +100,6 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
     private fun initRecycler() {
         fragment_pdf_recycler.layoutManager = LinearLayoutManager(this)
         fragment_pdf_recycler_lay.setOnRefreshListener {
-            //刷新
             page = 1
             viewModel.getReportData(isTC007, page)
         }
@@ -119,7 +107,6 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
         reportAdapter.loadMoreModule.loadMoreView = CommLoadMoreView()
         fragment_pdf_recycler_lay.autoRefresh()
         reportAdapter.loadMoreModule.setOnLoadMoreListener {
-            //加载更多
             viewModel.getReportData(isTC007, ++page)
         }
         reportAdapter.jumpDetailListener = { item, position ->

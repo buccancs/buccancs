@@ -22,10 +22,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.easydarwin.video.Client
 
-/**
- * TC007 温度监控捕获 - 第1步 - 选取类型及区域.
- * Created by LCG on 2024/5/6.
- */
 @Route(path = RouterConfig.IR_MONITOR_CAPTURE_07)
 class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
 
@@ -33,9 +29,6 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
         private const val RTSP_URL = "rtsp://192.168.40.1/stream0"
     }
 
-    /**
-     * 当前选中的 点/线/面 数据封装，需要传递给下一界面.
-     */
     private var selectInfo: SelectInfoBean? = null
 
 
@@ -83,17 +76,11 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
         initConfig()
     }
 
-    /**
-     * 初始化相关配置
-     */
     private fun initConfig() {
         lifecycleScope.launch(Dispatchers.IO) {
-            // 读取配置设置 环境温度、测温距离、发射率
             val config = ConfigRepository.readConfig(true)
             TC007Repository.setIRConfig(config.environment, config.distance, config.radiation)
-            //设置温度单位
             TC007Repository.setEnvAttr(SharedManager.getTemperature() == 1, 0)
-            //清除点、线、面、全图
             TC007Repository.clearAllTemp()
             TC007Repository.setTempFrame(false)
         }
@@ -114,7 +101,7 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onSocketDisConnected(isTS004: Boolean) {
-        if (!isTS004) {//TC007 的 Socket 断了
+        if (!isTS004) {
             finish()
         }
     }
@@ -122,16 +109,15 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            motion_btn -> {//生成监控图
+            motion_btn -> {
                 showMonitorSelectDialog()
             }
 
-            motion_start_btn -> {//开始记录
+            motion_start_btn -> {
                 if (selectInfo == null) {
                     showMonitorSelectDialog()
                     return
                 }
-                //开始温度监听
                 val intent = Intent(this, IR07MonitorCapture2Activity::class.java)
                 intent.putExtra("select", selectInfo)
                 startActivity(intent)
@@ -145,7 +131,7 @@ class IR07MonitorCapture1Activity : BaseActivity(), View.OnClickListener {
             .setPositiveListener {
                 motion_start_btn.isVisible = true
                 motion_btn.isVisible = false
-                when (it) {//1-点 2-线 3-面
+                when (it) {
                     1 -> geometry_view.mode = Mode.POINT
                     2 -> geometry_view.mode = Mode.LINE
                     3 -> geometry_view.mode = Mode.RECT

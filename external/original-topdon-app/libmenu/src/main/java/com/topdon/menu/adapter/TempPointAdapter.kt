@@ -16,14 +16,8 @@ import com.topdon.menu.constant.TempPointType
  */
 @SuppressLint("NotifyDataSetChanged")
 internal class TempPointAdapter : BaseMenuAdapter() {
-    /**
-     * 观测模式-菜单5-高低温点 点击事件监听.
-     */
     var onTempPointListener: ((type: TempPointType, isSelected: Boolean) -> Unit)? = null
 
-    /**
-     * 设置 高温点 或 低稳点 的选中状态。
-     */
     fun setSelected(tempPointType: TempPointType, isSelected: Boolean) {
         for (i in dataArray.indices) {
             if (dataArray[i].tempPointType == tempPointType) {
@@ -34,10 +28,6 @@ internal class TempPointAdapter : BaseMenuAdapter() {
         }
     }
 
-    /**
-     * 清除所有菜单的选中状态。
-     * 这里维持原有逻辑，后续考虑是否直接给选中删除得了。
-     */
     fun clearAllSelect() {
         for (data in dataArray) {
             data.isSelected = false
@@ -64,7 +54,7 @@ internal class TempPointAdapter : BaseMenuAdapter() {
         holder.binding.tvText.isSelected = data.isSelected
         holder.binding.clRoot.setOnClickListener {
             if (data.tempPointType == TempPointType.DELETE) {
-                if (!data.isSelected) {//选中时再次删除没卵用，未选中时才处理
+                if (!data.isSelected) {
                     for (temp in dataArray) {
                         temp.isSelected = temp.tempPointType == TempPointType.DELETE
                     }
@@ -75,7 +65,7 @@ internal class TempPointAdapter : BaseMenuAdapter() {
                 data.isSelected = !data.isSelected
                 holder.binding.ivIcon.isSelected = data.isSelected
                 holder.binding.tvText.isSelected = data.isSelected
-                if (data.isSelected) {//选中高温点、低温点时要把“删除”设为未选中；取消选中时不耦合删除
+                if (data.isSelected) {
                     for (i in dataArray.indices) {
                         if (dataArray[i].tempPointType == TempPointType.DELETE && dataArray[i].isSelected) {
                             dataArray[i].isSelected = false

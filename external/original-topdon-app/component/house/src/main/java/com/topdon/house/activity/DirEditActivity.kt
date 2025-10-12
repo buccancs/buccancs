@@ -33,14 +33,6 @@ import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import java.util.Collections
 
-/**
- * 房屋检测 - 目录编辑.
- *
- * 需要传递：
- * - [ExtraKeyConfig.DETECT_ID] - 执行检测的房屋检测 Id
- *
- * Created by LCG on 2024/8/26.
- */
 @SuppressLint("NotifyDataSetChanged")
 class DirEditActivity : BaseActivity(), View.OnClickListener {
     private val adapter = MyAdapter(this)
@@ -102,7 +94,7 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             iv_exit -> showExitTipsDialog()
-            iv_save -> {//保存
+            iv_save -> {
                 val houseDetect: HouseDetect = viewModel.detectLD.value ?: return
                 showLoadingDialog()
                 lifecycleScope.launch(Dispatchers.IO) {
@@ -117,16 +109,16 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
                 }
             }
 
-            view_select_all -> {//全选、取消全选
+            view_select_all -> {
                 adapter.isSelectAll = !adapter.isSelectAll
             }
 
-            view_copy -> {//复制
+            view_copy -> {
                 adapter.copySelect()
                 TToast.shortToast(this@DirEditActivity, R.string.ts004_copy_success)
             }
 
-            view_del -> {//删除
+            view_del -> {
                 TipDialog.Builder(this)
                     .setTitleMessage(getString(R.string.tips_del_item_title))
                     .setMessage(R.string.tips_del_item_content)
@@ -142,7 +134,7 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
                     .create().show()
             }
 
-            tv_add -> {//新增默认目录
+            tv_add -> {
                 recycler_view.isVisible = true
                 cl_bottom.isVisible = true
                 cl_empty.isVisible = false
@@ -158,9 +150,6 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * 显示退出不保存提示弹框
-     */
     private fun showExitTipsDialog() {
         TipDialog.Builder(this)
             .setMessage(R.string.diy_tip_save)
@@ -209,14 +198,8 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
     private class MyAdapter(val context: Context) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
         var dataList: ArrayList<DirDetect> = ArrayList(0)
 
-        /**
-         * 当前已选中的数量.
-         */
         private var selectCount = 0
 
-        /**
-         * 当前是否已全选 true-已全选 false-未全选
-         */
         var isSelectAll: Boolean
             get() = selectCount == dataList.size && dataList.size > 0
             set(value) {
@@ -235,9 +218,6 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
                 notifyItemRangeChanged(0, itemCount)
             }
 
-        /**
-         * 一个 item 选中或取消选中事件监听.
-         */
         var onSelectChangeListener: ((selectSize: Int) -> Unit)? = null
 
         fun refresh(newList: ArrayList<DirDetect>) {
@@ -245,9 +225,6 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             notifyDataSetChanged()
         }
 
-        /**
-         * 删除选中的目录.
-         */
         fun delSelect() {
             selectCount = 0
             if (isSelectAll) {
@@ -264,9 +241,6 @@ class DirEditActivity : BaseActivity(), View.OnClickListener {
             onSelectChangeListener?.invoke(0)
         }
 
-        /**
-         * 复制选中的目录.
-         */
         fun copySelect() {
             selectCount *= 2
             val selectIndexList: ArrayList<Int> = ArrayList()

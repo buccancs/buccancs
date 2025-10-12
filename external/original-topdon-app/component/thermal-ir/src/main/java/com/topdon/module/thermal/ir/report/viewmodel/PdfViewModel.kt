@@ -33,7 +33,6 @@ class PdfViewModel : BaseViewModel() {
     val listData = MutableLiveData<ReportData?>()
 
 
-    //获取报告列表
     fun getReportData(isTC007: Boolean, page: Int) {
         if (!NetworkUtil.isConnected(Utils.getApp())) {
             TToast.shortToast(Utils.getApp(), R.string.lms_setting_http_error)

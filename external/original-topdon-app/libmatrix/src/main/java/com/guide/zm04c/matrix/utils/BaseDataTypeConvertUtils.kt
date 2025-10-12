@@ -6,9 +6,6 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.experimental.and
 
-/**
- * created by liuhongwei gd02527 on 2018年07月27日
- */
 class BaseDataTypeConvertUtils private constructor() {
 
     companion object {

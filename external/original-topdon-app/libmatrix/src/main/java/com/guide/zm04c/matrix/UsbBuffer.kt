@@ -33,9 +33,6 @@ class UsbBuffer {
     private var findHeadFrame = false
     private var findHeadFramePos = -1
 
-    /**
-     * 转无符号
-     */
     private fun getMark(buf: ByteArray, offset: Int): Int {
         return (buf[offset].toUByte().toInt().shl(0) or ((buf[offset + 1].toUByte()).toInt()
             .shl(8)))
@@ -70,7 +67,6 @@ class UsbBuffer {
         if (mRingBuffer == null) {
             return false
         }
-        //当前存储的buffer长度要大于4帧，才开始取数据
         if (mRingBuffer.getUnReadLength() < mFrameSize * 4) {
 //            Logger.d(TAG, "RingBuffer <4");
             return false
@@ -88,9 +84,7 @@ class UsbBuffer {
 //        Log.d(TAG, "1 findHeadFrame=" + findHeadFrame);
         if (findHeadFramePos != -1) {
             //Log.d(TAG, "1: " + BaseDataTypeConvertUtils.Companion.byteArr2HexString(mPakagebuffer));
-            //回退到找到帧头的那一包
             mRingBuffer.moveBack(mPacketSize - findHeadFramePos)
-            //向前移动一帧数据
             mRingBuffer.moveForward(mFrameSize)
             mRingBuffer.read(mPakagebuffer, 0, mPacketSize)
             //Log.d(TAG, "2: " + BaseDataTypeConvertUtils.Companion.byteArr2HexString(mPakagebuffer));
@@ -110,7 +104,7 @@ class UsbBuffer {
             try {
                 synchronized(this) {
                     Log.d(TAG, "wait(100)")
-                    lock.wait(100)//kotlin any没有wait()
+                    lock.wait(100)
                 }
             } catch (e: InterruptedException) {
                 e.printStackTrace()

@@ -45,31 +45,13 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-/**
- * 创建或编辑检测.
- *
- * 可选传递参数：
- * - [ExtraKeyConfig.DETECT_ID] - 仅当编辑检测时，要编辑的房屋检测 Id
- * - [ExtraKeyConfig.IS_TC007] - 仅当新增检测时，当前设备是否为 TC007（不使用，透传）
- *
- * Created by LCG on 2024/8/21.
- */
 class DetectAddActivity : BaseActivity(), View.OnClickListener {
     private val viewModel: DetectViewModel by viewModels()
 
-    /**
-     * 仅当编辑模式时，从上一界面传递过来的，要编辑的房屋检测 Id.
-     */
     private var editId: Long = 0
 
-    /**
-     * 当前编辑或新增的房屋检测信息.
-     */
     private var houseDetect = HouseDetect()
 
-    /**
-     * 当前输入的检测时间.
-     */
     private var inputDetectTime: Long? = null
 
 
@@ -122,7 +104,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
         tv_cost_unit.setOnClickListener(this)
         tv_create_report.setOnClickListener(this)
 
-        // 给各个标题添加红色*号
         tv_detect_name_title.text =
             SpanBuilder().appendColor("*", 0xffff4848.toInt()).append(getString(R.string.album_report_name))
         tv_inspector_name_title.text =
@@ -146,18 +127,18 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            tv_detect_time -> {//检测时间
+            tv_detect_time -> {
                 showDetectTimeDialog()
             }
 
-            iv_address_location -> {//房屋地址定位图标
+            iv_address_location -> {
                 getLocation()
             }
 
-            iv_house_image -> {//房屋图片
+            iv_house_image -> {
                 ImagePickFromDialog(this)
                     .setSelectListener {
-                        if (it == 0) {//相册
+                        if (it == 0) {
                             PermissionTool.requestImageRead(this) {
                                 galleryPickResult.launch("image/*")
                             }
@@ -172,7 +153,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     .show()
             }
 
-            tv_house_year -> {//建筑年份
+            tv_house_year -> {
                 YearPicker(this, houseDetect.year).also {
                     it.setTitle(R.string.year_built)
                     it.setOnYearPickedListener { year ->
@@ -182,7 +163,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                 }.show()
             }
 
-            tv_house_space_unit -> {//建筑面积单位
+            tv_house_space_unit -> {
                 StrArrayPicker(this, resources.getStringArray(R.array.area), SharedManager.houseSpaceUnit).also {
                     it.setTitle(R.string.area)
                     it.setOnOptionPickedListener { position, item ->
@@ -193,7 +174,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                 }.show()
             }
 
-            tv_cost_unit -> {//检测费用单位
+            tv_cost_unit -> {
                 StrArrayPicker(this, resources.getStringArray(R.array.currency), SharedManager.costUnit).also {
                     it.setTitle(R.string.diagnosis_unit)
                     it.setOnOptionPickedListener { position, item ->
@@ -204,7 +185,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                 }.show()
             }
 
-            tv_create_report -> {//创建报告 or 编辑报告
+            tv_create_report -> {
                 val reportName = et_detect_name.text.toString()
                 if (reportName.isEmpty()) {
                     TToast.shortToast(this, R.string.album_report_input_name_tips)
@@ -246,7 +227,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                         houseDetect.createTime = if (editId > 0) houseDetect.createTime else currentTime
                         houseDetect.updateTime = currentTime
 
-                        if (editId > 0) {//编辑模式
+                        if (editId > 0) {
                             AppDatabase.getInstance().houseDetectDao().updateDetect(houseDetect)
                             EventBus.getDefault().post(HouseDetectEditEvent(houseDetect.id))
                         } else {
@@ -270,9 +251,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * 尝试获取位置信息并反向地址信息编码为 省市区.
-     */
     @SuppressLint("MissingPermission")
     private fun getLocation() {
         PermissionTool.requestLocation(this) {
@@ -290,9 +268,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * 从系统相册拾取图片结果
-     */
     private val galleryPickResult = registerForActivityResult(ActivityResultContracts.GetContent()) {
         val srcFile: File? = UriUtils.uri2File(it)
         if (srcFile != null) {
@@ -305,9 +280,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * 从系统相机拍照结果
-     */
     private val lightPhotoResult = registerForActivityResult(TakePhotoResult()) {
         if (it != null) {
             houseDetect.imagePath = it.absolutePath
@@ -317,9 +289,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * 显示退出不保存提示弹框
-     */
     private fun showExitTipsDialog() {
         TipDialog.Builder(this)
             .setMessage(R.string.diy_tip_save)
@@ -330,9 +299,6 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             .create().show()
     }
 
-    /**
-     * 显示检测时间拾取弹窗
-     */
     private fun showDetectTimeDialog() {
         val picker = DatimePicker(this)
         picker.setTitle(R.string.detect_time)

@@ -48,9 +48,6 @@ class App : BaseApplication() {
     companion object {
         lateinit var instance: App
 
-        /**
-         * 延时初始化
-         */
         fun delayInit() {
             initReceiver()
             initLog()
@@ -70,7 +67,6 @@ class App : BaseApplication() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        //隐私政策弹框用app内的，默认设置lms里的隐私政策设置为true
         SPUtils.getInstance(this).put(Config.KEY_PRIVACY_AGREEMENT, true)
 
         if (SharedManager.getHasShowClause() || !isDomestic()) {
@@ -84,15 +80,13 @@ class App : BaseApplication() {
         }
         if (!isDomestic()) {
             if (!BuildConfig.DEBUG) {
-                // 正式版本,服务地址强制转换正式地址,并且不可更换
-                // 测试版本,可自由切换
                 UrlConstant.setBaseUrl("${HttpConfig.HOST}/", false)
             } else {
                 if (SharedManager.getHasShowClause()) {
                     XLog.w("lms host: ${UrlConstant.BASE_URL}")
                 }
             }
-            SharedManager.setBaseHost(UrlConstant.BASE_URL) //更新app服务地址
+            SharedManager.setBaseHost(UrlConstant.BASE_URL)
         }
         if (BuildConfig.DEBUG) {
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(false);
@@ -134,9 +128,6 @@ class App : BaseApplication() {
         initZoho()
     }
 
-    /**
-     * 初始化客服ZOHO
-     */
     private fun initZoho() {
         ZohoSalesIQ.init(
             this,

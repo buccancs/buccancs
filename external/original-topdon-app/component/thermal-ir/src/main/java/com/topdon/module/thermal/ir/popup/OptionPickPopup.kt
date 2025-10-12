@@ -15,11 +15,6 @@ import com.topdon.lib.core.view.MyTextView
 import com.topdon.module.thermal.ir.R
 import kotlinx.android.synthetic.main.popup_option_pick.view.*
 
-/**
- * 选项拾取 PopupWindow.
- *
- * Created by LCG on 2024/1/5.
- */
 class OptionPickPopup(
     private val context: Context,
     private val strArray: Array<String>,
@@ -27,21 +22,12 @@ class OptionPickPopup(
 ) : PopupWindow() {
 
     companion object {
-        /**
-         * 选项文字大小，单位 ***sp***
-         */
         private const val TEXT_SIZE_SP: Float = 14f
 
-        /**
-         * 选项文字顶部或底部 padding，单位 ***dp***
-         */
         private const val TEXT_PADDING: Float = 7f
     }
 
 
-    /**
-     * 一个选项被选中事件监听.
-     */
     var onPickListener: ((position: Int, str: String) -> Unit)? = null
 
 
@@ -80,9 +66,9 @@ class OptionPickPopup(
         if (context.resources.displayMetrics.heightPixels - locationArray[1] - anchor.height > height - SizeUtils.dp2px(
                 5f
             )
-        ) {//在 anchor 底部放得下
+        ) {
             showAtLocation(anchor, Gravity.NO_GRAVITY, x, locationArray[1] + anchor.height - SizeUtils.dp2px(5f))
-        } else {//下面放不下就放上面吧
+        } else {
             showAtLocation(
                 anchor,
                 Gravity.NO_GRAVITY,
@@ -94,9 +80,6 @@ class OptionPickPopup(
 
 
     private inner class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-        /**
-         * item 点击事件监听.
-         */
         var onItemClickListener: ((position: Int) -> Unit)? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -12,9 +12,6 @@ import com.topdon.module.thermal.R
 import kotlinx.android.synthetic.main.item_setting_check.view.*
 import kotlinx.android.synthetic.main.item_setting_time.view.*
 
-/**
- * 设置时间
- */
 class SettingTimeAdapter(val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

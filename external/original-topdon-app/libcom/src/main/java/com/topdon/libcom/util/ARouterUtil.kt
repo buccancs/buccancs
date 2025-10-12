@@ -14,11 +14,6 @@ import com.topdon.lib.core.tools.ToastTools
  * date: 2024/8/26 19:50
  **/
 object ARouterUtil {
-    /**
-     * 统一跳转红外拍照界面
-     * @param activity Activity
-     * @param isTC007 Boolean
-     */
     fun jumpImagePick(activity: Activity, isTC007: Boolean, imgPath: String) {
         if (isTC007) {
             ARouter.getInstance().build(RouterConfig.IR_IMG_PICK_07).withString(RESULT_IMAGE_PATH, imgPath)

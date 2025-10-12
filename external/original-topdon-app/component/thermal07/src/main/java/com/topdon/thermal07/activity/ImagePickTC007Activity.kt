@@ -12,11 +12,6 @@ import com.topdon.module.thermal.ir.R
 import com.topdon.tc004.activity.video.PlayFragment
 import org.easydarwin.video.Client
 
-/**
- * des:双光的红外拍照
- * author: CaiSongL
- * date: 2024/8/24 18:10
- **/
 @Route(path = RouterConfig.IR_IMG_PICK_07)
 class ImagePickTC007Activity : BasePickImgActivity() {
     companion object {

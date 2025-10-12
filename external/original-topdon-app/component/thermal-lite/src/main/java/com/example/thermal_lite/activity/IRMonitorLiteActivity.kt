@@ -44,13 +44,10 @@ import org.greenrobot.eventbus.EventBus
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-/**
- * 选取区域监听
- */
 @Route(path = RouterConfig.IR_THERMAL_MONITOR_LITE)
 open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTempListener {
 
-    private var selectIndex: SelectPositionBean? = null//选取点
+    private var selectIndex: SelectPositionBean? = null
     val irMonitorLiteFragment = IRMonitorLiteFragment()
     private val bean = ThermalBean()
     private var selectBean: SelectPositionBean = SelectPositionBean()
@@ -129,7 +126,7 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
                         bean.maxTemp = maxBigDecimal.setScale(1, RoundingMode.HALF_UP).toFloat()
                         bean.minTemp = minBigDecimal.setScale(1, RoundingMode.HALF_UP).toFloat()
                         bean.createTime = System.currentTimeMillis()
-                        canUpdate = true//可以开始更新记录
+                        canUpdate = true
                     }
                 }
             }
@@ -140,20 +137,17 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
             getString(if (selectIndex!!.type == 1) R.string.chart_temperature else R.string.chart_temperature_high)
         monitor_real_vol.visibility = if (selectIndex!!.type == 1) View.GONE else View.VISIBLE
         monitor_real_img.visibility = if (selectIndex!!.type == 1) View.GONE else View.VISIBLE
-        recordThermal()//开始记录
+        recordThermal()
     }
 
     private var showTask: Job? = null
 
     private var isRecord = false
-    private var timeMillis = 1000L //间隔1s
+    private var timeMillis = 1000L
     private var canUpdate = false
 
     private var recordJob: Job? = null
 
-    /**
-     * 开始每隔1秒记录一个温度数据到数据库.
-     */
     private fun recordThermal() {
         recordJob = lifecycleScope.launch(Dispatchers.IO) {
             isRecord = true
@@ -228,11 +222,9 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
                             thermal_fragment.getViewTreeObserver().addOnGlobalLayoutListener(object :
                                 ViewTreeObserver.OnGlobalLayoutListener {
                                 override fun onGlobalLayout() {
-                                    // 移除监听器以避免重复调用
                                     thermal_fragment.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                                     irMonitorLiteFragment?.restTempView()
                                     irMonitorLiteFragment?.addTempLine(selectIndex!!)
-                                    // 进行需要的操作
                                 }
                             })
                             motion_action_lay.isVisible = false
@@ -283,7 +275,6 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
                 return temp!!
             }
 
-            //获取增益状态 PASS
             if (System.currentTimeMillis() - basicGainGetTime > 5000L) {
                 try {
                     val basicGainGet: IrcmdError? = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
