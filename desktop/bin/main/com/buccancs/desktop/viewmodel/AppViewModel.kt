@@ -364,6 +364,161 @@ class AppViewModel(
             .map { it.trim() }
             .filter { it.isNotEmpty() }
             .distinct()
+    private data class BaseSnapshot(
+        val session: Session?,
+        val devices: List<DeviceInfo>,
+        val retention: QuotaSnapshot,
+        val previews: Map<PreviewRepository.PreviewKey, PreviewFrameData>,
+        val events: List<EventLog>
+    )
+
+    private data class UiInputs(
+        val base: BaseSnapshot,
+        val archives: List<StoredSession>,
+        val transfers: List<FileTransferProgress>,
+        val alerts: List<String>,
+        val control: ControlPanelState
+    )
+
+    private fun buildUiState(inputs: UiInputs, now: Instant): AppUiState {
+        val base = inputs.base
+        val clockOffsets = base.devices.mapNotNull { info ->
+            val offset = info.clockOffsetMs ?: return@mapNotNull null
+            info.id to offset
+        }.toMap()
+
+        val controlWithMetrics = if (clockOffsets == inputs.control.clockOffsetsPreview) {
+            inputs.control
+        } else {
+            inputs.control.copy(clockOffsetsPreview = clockOffsets)
+        }
+
+        val offlineWarnings = base.devices
+            .filter { !it.connected }
+            .map { info -> "Device ${info.id} disconnected" }
+
+        val sessionSummary = base.session?.let { session ->
+            val startInstant = session.startedAt ?: session.createdAt
+            val elapsedMillis = if (session.status == SessionStatus.COMPLETED && session.totalDurationMs != null) {
+                session.totalDurationMs
+            } else {
+                Duration.between(startInstant, now).toMillis().coerceAtLeast(0)
+            }
+            val metricsState = SessionMetricsState(
+                gsrSamples = session.metrics.gsrSamples,
+                videoFrames = session.metrics.videoFrames,
+                thermalFrames = session.metrics.thermalFrames,
+                audioSamples = session.metrics.audioSamples,
+                updatedAt = session.metrics.updatedAt
+            )
+            SessionSummary(
+                id = session.id,
+                status = session.status.name,
+                startedAt = startInstant,
+                createdAt = session.createdAt,
+                totalBytes = base.retention.perSessionBytes[session.id] ?: 0,
+                durationMs = session.totalDurationMs,
+                subjectIds = session.subjectIds,
+                elapsedMillis = elapsedMillis,
+                metrics = metricsState
+            )
+        }
+
+        val retentionState = RetentionState(
+            perSessionBytes = base.retention.perSessionBytes,
+            perDeviceBytes = base.retention.perDeviceBytes,
+            perSessionDeviceBytes = base.retention.perSessionDeviceBytes,
+            totalBytes = base.retention.totalBytes,
+            breaches = base.retention.actions.map { formatRetentionAlert(it) }
+        )
+
+        val previewStates = base.previews.values
+            .sortedByDescending { it.receivedAt }
+            .map { frame ->
+                PreviewStreamState(
+                    deviceId = frame.deviceId,
+                    cameraId = frame.cameraId,
+                    mimeType = frame.mimeType,
+                    width = frame.width,
+                    height = frame.height,
+                    latencyMs = frame.latencyMs,
+                    receivedAt = frame.receivedAt,
+                    payload = frame.payload
+                )
+            }
+
+        val transferStates = inputs.transfers.map { transfer ->
+            TransferStatusItem(
+                sessionId = transfer.sessionId,
+                deviceId = transfer.deviceId,
+                fileName = transfer.fileName,
+                streamType = transfer.streamType,
+                state = transfer.state.name,
+                attempt = transfer.attempt,
+                bytesTransferred = transfer.receivedBytes,
+                bytesTotal = transfer.expectedBytes,
+                errorMessage = transfer.lastError
+            )
+        }
+
+        val eventItems = base.events
+            .sortedBy { it.timestampEpochMs }
+            .takeLast(200)
+            .map { event ->
+                EventTimelineItem(
+                    eventId = event.eventId,
+                    label = event.label,
+                    timestamp = Instant.ofEpochMilli(event.timestampEpochMs),
+                    deviceIds = event.deviceIds
+                )
+            }
+
+        val archiveItems = inputs.archives
+            .sortedByDescending { it.createdAt }
+            .map { archive ->
+                SessionArchiveItem(
+                    id = archive.id,
+                    status = archive.status.name,
+                    createdAt = archive.createdAt,
+                    startedAt = archive.startedAt,
+                    stoppedAt = archive.stoppedAt,
+                    totalBytes = archive.totalBytes,
+                    durationMs = archive.durationMs,
+                    subjects = archive.subjects,
+                    eventCount = archive.eventCount,
+                    deviceCount = archive.deviceCount
+                )
+            }
+
+        val alertMessages = (inputs.alerts + offlineWarnings + base.retention.actions.map { formatRetentionAlert(it) })
+            .distinct()
+
+        return AppUiState(
+            session = sessionSummary,
+            devices = base.devices.map { device ->
+                DeviceListItem(
+                    id = device.id,
+                    model = device.model,
+                    platform = device.platform,
+                    connected = device.connected,
+                    recording = device.recording,
+                    batteryPercent = device.batteryPercent,
+                    previewLatencyMs = device.previewLatencyMs,
+                    clockOffsetMs = device.clockOffsetMs,
+                    lastHeartbeat = device.lastHeartbeat,
+                    sessionId = device.sessionId
+                )
+            },
+            retention = retentionState,
+            previews = previewStates,
+            transfers = transferStates,
+            alerts = alertMessages,
+            control = controlWithMetrics,
+            events = eventItems,
+            historicalSessions = archiveItems
+        )
+    }
+
     private fun formatRetentionAlert(action: DataRetentionManager.QuotaAction): String = when (action) {
         is DataRetentionManager.QuotaAction.DeviceCapExceeded ->
             "Device ${action.deviceId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
