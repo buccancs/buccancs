@@ -1,4 +1,5 @@
 package com.topdon.tc001.app
+
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
@@ -41,6 +42,7 @@ class App : BaseApplication() {
             LoadingFooter(context)
         }
     }
+
     companion object {
         lateinit var instance: App
         fun delayInit() {
@@ -91,22 +93,29 @@ class App : BaseApplication() {
                     activityNameList.add(activity.javaClass.getSimpleName())
                 }
             }
+
             override fun onActivityStarted(activity: Activity) {
             }
+
             override fun onActivityResumed(activity: Activity) {
             }
+
             override fun onActivityPaused(activity: Activity) {
             }
+
             override fun onActivityStopped(activity: Activity) {
             }
+
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
             }
+
             override fun onActivityDestroyed(activity: Activity) {
                 activityNameList.remove(activity.javaClass.getSimpleName())
             }
         })
         initZoho()
     }
+
     private fun initZoho() {
         ZohoSalesIQ.init(
             this,
@@ -117,6 +126,7 @@ class App : BaseApplication() {
                 override fun onInitSuccess() {
                     XLog.e("bcf", "ZohoSalesIQ成功")
                 }
+
                 override fun onInitError(errorCode: Int, errorMessage: String?) {
                     XLog.e("bcf", "ZohoSalesIQ失敗")
                 }

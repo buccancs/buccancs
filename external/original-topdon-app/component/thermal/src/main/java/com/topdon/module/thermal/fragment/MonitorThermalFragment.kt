@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.fragment
+
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.util.Log
@@ -43,6 +44,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 import java.math.BigDecimal
 import java.util.*
+
 class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> {
     protected var mIrSurfaceViewLayout: FrameLayout? = null
     protected var mIrSurfaceView: IrSurfaceView? = null
@@ -64,6 +66,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
         imageView.x = maxX.toFloat()
         imageView.y = maxY.toFloat()
     }
+
     private var mGuideInterface: GuideInterface? = null
 
     override fun initView() {
@@ -111,6 +114,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
                         irSurfaceViewHeight = screenWidth * 360 / 270
                     }
                 }
+
                 0, 2 -> {
                     irSurfaceViewWidth = width
                     irSurfaceViewHeight = height
@@ -142,8 +146,10 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
             }
         }
     }
+
     override fun initData() {
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         isRecord = false
@@ -203,6 +209,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
             mIsIrVideoStart = false
         }
     }
+
     private fun rotateBitmap(origin: Bitmap, rotate: Float): Bitmap? {
         try {
             if (origin == null) {
@@ -223,6 +230,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
             return origin
         }
     }
+
     fun onIrVideoStop() {
         mIsIrVideoStart = if (!mIsIrVideoStart) {
             Log.w("123", "视频流已停止")
@@ -243,6 +251,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
         mGuideInterface!!.setRange(1)
         ToastUtils.showShort("切换到常温档成功")
     }
+
     fun onHighRangeBtnClick(view: View?) {
         if (mGuideInterface == null) {
             ToastUtils.showShort("请先开启视频流")
@@ -251,6 +260,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
         mGuideInterface!!.setRange(2)
         ToastUtils.showShort("切换到高温档成功")
     }
+
     fun onTempBtnClick() {
         if (mGuideInterface == null) {
             ToastUtils.showShort("请先开启视频流")
@@ -286,6 +296,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
             EXPERT_HITS = LongArray(EXPERT_MODE_HIT_COUNT)
         }
     }
+
     fun onNucShutterClick(view: View?) {
         if (mGuideInterface == null) {
             ToastUtils.showShort("请先开启视频流")
@@ -293,9 +304,11 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
         }
         mGuideInterface!!.nuc()
     }
+
     fun onLut(view: View) {
         mIrSurfaceView!!.setOpenLut()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun action(event: ThermalActionEvent) {
         Log.w("123", "event:${event.action}")
@@ -304,44 +317,56 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
                 ToastUtils.showShort("拍照")
                 picture()
             }
+
             1002 -> {
                 ToastUtils.showShort("录制")
                 video()
             }
+
             2001 -> {
                 addPoint()
             }
+
             2002 -> {
                 addLine()
             }
+
             2003 -> {
                 addFence()
             }
+
             2004 -> {
                 onTempBtnClick()
             }
+
             2006 -> {
                 clearFence()
             }
+
             in 3000..3010 -> {
                 setColor(event.action)
             }
+
             in 5000..5010 -> {
                 full()
             }
+
             10001 -> {
                 recordThermal()
             }
+
             10003 -> {
                 isRecord = false
             }
         }
     }
+
     private fun clearFence() {
         fenceFlag = 0x000
         mFenceLayout!!.visibility = View.GONE
         selectIndex.clear()
     }
+
     private fun setColor(action: Int) {
         var type: Int = action % 3000 - 1
         if (type < 0 || type > 10) {
@@ -349,6 +374,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
         }
         updatePalette(type)
     }
+
     private fun updatePalette(index: Int) {
         if (mGuideInterface == null) {
             ToastUtils.showShort("请先开启视频流")
@@ -356,19 +382,23 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
         }
         mGuideInterface!!.changePalette(index)
     }
+
     var fenceFlag = 0x000
     private fun addPoint() {
         showFence(1)
         type = "point"
     }
+
     private fun addLine() {
         showFence(2)
         type = "line"
     }
+
     private fun addFence() {
         showFence(3)
         type = "fence"
     }
+
     private fun showFence(index: Int) {
         if (fenceFlag.getIndex(index) == 0) {
             fenceFlag = 1.shl(4 * (index - 1))
@@ -381,6 +411,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
             mFenceLayout!!.visibility = View.GONE
         }
     }
+
     var selectIndex: ArrayList<Int> = arrayListOf()
     private fun initFence() {
         fence_point_view.listener = object : FencePointView.CallBack {
@@ -409,9 +440,11 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
             }
         }
     }
+
     private fun picture() {
         ScreenShotUtils.shotScreenBitmap(requireContext(), mIrBitmap, 1, ScreenBean())
     }
+
     var isVideoRunning = false
     private fun video() {
         if (isVideoRunning) {
@@ -422,6 +455,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
         Log.w("123", "latestResultPath:$latestResultPath")
         YapVideoEncoder(this, File(latestResultPath)).start()
     }
+
     private fun full() {
         rotateType = if (rotateType == 0) {
             Log.w("123", "横屏显示")
@@ -431,6 +465,7 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
         }
         mIrSurfaceView!!.setMatrix(ThermalTool.getRotate(rotateType), 256f, 192f)
     }
+
     override fun size(): Int = 5 * 60
     override fun next(): Bitmap {
         return if (mIrBitmap == null) {
@@ -439,10 +474,12 @@ class MonitorThermalFragment : BaseThermalFragment(), IYapVideoProvider<Bitmap> 
             mIrBitmap!!
         }
     }
+
     override fun progress(progress: Float) {
         Log.w("123", "progress:$progress")
         isVideoRunning = progress > 0 || progress < 100
     }
+
     var isRecord = false
     var type = ""
     var timeMillis = 1000L

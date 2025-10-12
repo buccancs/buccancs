@@ -1,6 +1,8 @@
 package com.buccancs.data.time
+
 import org.junit.Assert.assertEquals
 import org.junit.Test
+
 class TimeSyncMathTest {
     @Test
     fun `computeSyncSample returns zero offset for symmetric exchange`() {
@@ -13,6 +15,7 @@ class TimeSyncMathTest {
         assertEquals(0.0, sample.offsetMs, 0.0001)
         assertEquals(15.0, sample.roundTripMs, 0.0001)
     }
+
     @Test
     fun `computeSyncSample removes server processing time from round trip`() {
         val sample = computeSyncSample(
@@ -24,6 +27,7 @@ class TimeSyncMathTest {
         assertEquals(0.0, sample.offsetMs, 0.0001)
         assertEquals(20.0, sample.roundTripMs, 0.0001)
     }
+
     @Test
     fun `computeSyncSample clamps negative round trip to zero`() {
         val sample = computeSyncSample(

@@ -13,7 +13,7 @@ import com.shimmerresearch.driverUtilities.ShimmerVerObject;
 
 public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serializable {
 
-        private static final long serialVersionUID = -5729543049033754281L;
+    private static final long serialVersionUID = -5729543049033754281L;
 
     public int maxNumOfExperimentNodes = 21;
 
@@ -264,7 +264,7 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public ConfigByteLayoutShimmer3() {
     }
 
-        public ConfigByteLayoutShimmer3(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal, int hardwareVersion) {
+    public ConfigByteLayoutShimmer3(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal, int hardwareVersion) {
         mShimmerVerObject = new ShimmerVerObject(hardwareVersion, firmwareIdentifier, firmwareVersionMajor, firmwareVersionMinor, firmwareVersionInternal);
 
         mInfoMemSize = calculateConfigByteLength();
@@ -343,11 +343,9 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
         }
 
 
-
     }
 
     public int calculateConfigByteLength(ShimmerVerObject shimmerVersionObject) {
-
 
 
         return 384;

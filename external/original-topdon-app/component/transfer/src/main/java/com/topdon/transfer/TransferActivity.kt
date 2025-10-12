@@ -1,4 +1,5 @@
 package com.topdon.transfer
+
 import android.media.MediaScannerConnection
 import android.view.WindowManager
 import androidx.core.view.isVisible
@@ -24,6 +25,7 @@ import java.io.InputStream
 import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
+
 class TransferActivity : BaseActivity() {
     private lateinit var transferDialog: TransferDialog
     override fun initContentView(): Int = R.layout.activity_transfer
@@ -33,8 +35,10 @@ class TransferActivity : BaseActivity() {
         }
         requestPermission()
     }
+
     override fun initData() {
     }
+
     private fun requestPermission() {
         XXPermissions.with(this)
             .permission(if (applicationInfo.targetSdkVersion < 33) Permission.READ_EXTERNAL_STORAGE else Permission.READ_MEDIA_IMAGES)
@@ -46,6 +50,7 @@ class TransferActivity : BaseActivity() {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
+
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
                         TipDialog.Builder(this@TransferActivity)
@@ -78,6 +83,7 @@ class TransferActivity : BaseActivity() {
             cl_success.isVisible = true
         }
     }
+
     private suspend fun transferIrFiles() {
         withContext(Dispatchers.IO) {
             val irZipFile: File = UriUtils.uri2File(intent.data) ?: return@withContext
@@ -113,6 +119,7 @@ class TransferActivity : BaseActivity() {
             }
         }
     }
+
     private suspend fun transferImgFile() {
         withContext(Dispatchers.IO) {
             val oldGalleryList: Array<File> = File(FileConfig.oldTc001GalleryDir).listFiles() ?: return@withContext

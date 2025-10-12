@@ -1,11 +1,14 @@
 package com.topdon.libcom
+
 import android.content.Context
 import android.media.MediaPlayer
 import com.topdon.lib.core.bean.AlarmBean
 import com.topdon.libcom.util.SingletonHolder
 import com.topdon.libcom.view.TempLayout
+
 class AlarmHelp private constructor(val context: Context) {
     companion object : SingletonHolder<AlarmHelp, Context>(::AlarmHelp)
+
     private var mediaPlayer: MediaPlayer? = null
     private var ringtoneResPosition = -1
     private var isOpenLowTemp = false
@@ -37,6 +40,7 @@ class AlarmHelp private constructor(val context: Context) {
             mediaPlayer = null
         }
     }
+
     fun updateData(low: Float?, high: Float?, ringtone: Int?) {
         if (low == null) {
             isOpenLowTemp = false
@@ -79,7 +83,7 @@ class AlarmHelp private constructor(val context: Context) {
         }
     }
 
-        fun alarmData(realMax: Float, realMin: Float, tempLayout: TempLayout?) {
+    fun alarmData(realMax: Float, realMin: Float, tempLayout: TempLayout?) {
         if (isOpenHighTemp && isOpenLowTemp) {
             if (realMax > maxTemp && realMin < minTemp) {
                 tempLayout?.startAnimation(TempLayout.TYPE_A)
@@ -115,17 +119,20 @@ class AlarmHelp private constructor(val context: Context) {
             stopPlayer()
         }
     }
+
     private fun stopPlayer() {
         if (mediaPlayer?.isPlaying == true) {
             mediaPlayer?.pause()
         }
     }
+
     private fun startMediaPlayer() {
         if (mediaPlayer?.isPlaying != true && !isPause) {
             mediaPlayer?.seekTo(0)
             mediaPlayer?.start()
         }
     }
+
     fun onDestroy(isSaveSetting: Boolean) {
         if (!isSaveSetting) {
             isTempAlarmRingtoneOpen = false
@@ -149,6 +156,7 @@ class AlarmHelp private constructor(val context: Context) {
             }
         }
     }
+
     fun onResume() {
         isPause = false
     }

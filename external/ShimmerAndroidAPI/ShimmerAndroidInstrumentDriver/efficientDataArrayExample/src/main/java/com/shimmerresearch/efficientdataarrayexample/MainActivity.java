@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
     private final static String LOG_TAG = "ArraysExample";
     private final static String CSV_FILE_NAME_PREFIX = "Data";
     private final static String APP_FOLDER_NAME = "ShimmerArraysExample";
-        private final static String APP_FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.efficientdataarrayexample.fileprovider";
+    private final static String APP_FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.efficientdataarrayexample.fileprovider";
     private final static int PERMISSIONS_REQUEST_WRITE_STORAGE = 5;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     ShimmerBluetoothManagerAndroid btManager;
@@ -149,7 +149,7 @@ public class MainActivity extends Activity {
                     }
                     break;
                 case Shimmer.MESSAGE_TOAST:
-                                        Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
                     break;
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
                     ShimmerBluetooth.BT_STATE state = null;
@@ -288,7 +288,7 @@ public class MainActivity extends Activity {
         }
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
@@ -402,7 +402,7 @@ public class MainActivity extends Activity {
         }
     }
 
-        @Override
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 110) {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
@@ -420,7 +420,7 @@ public class MainActivity extends Activity {
         }
     }
 
-        private void setupCSV() {
+    private void setupCSV() {
         File dir = new File(APP_DIR_PATH);
         if (!dir.exists()) {
             dir.mkdir();
@@ -444,7 +444,7 @@ public class MainActivity extends Activity {
 
     }
 
-        public void openLogFilesList(View v) {
+    public void openLogFilesList(View v) {
         Intent intent = new Intent(getApplicationContext(), FileListActivity.class);
         intent.putExtra(FileListActivity.INTENT_EXTRA_DIR_PATH, APP_DIR_PATH);
         intent.putExtra(FileListActivity.INTENT_EXTRA_PROVIDER_AUTHORITY, APP_FILE_PROVIDER_AUTHORITY);

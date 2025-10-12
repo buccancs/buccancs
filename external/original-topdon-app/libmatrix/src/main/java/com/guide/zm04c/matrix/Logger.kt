@@ -1,4 +1,5 @@
 package com.guide.zm04c.matrix
+
 import android.util.Log
 import java.io.BufferedWriter
 import java.io.File
@@ -6,6 +7,7 @@ import java.io.FileWriter
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+
 object Logger {
     @JvmStatic
     fun e(clazz: Class<*>, msg: String) {
@@ -13,6 +15,7 @@ object Logger {
             Log.e(clazz.simpleName, msg + "")
         }
     }
+
     @JvmStatic
     fun e(tag: String?, msg: String) {
         if (BuildConfig.DEBUG) {
@@ -26,6 +29,7 @@ object Logger {
             Log.w(clazz.simpleName, msg + "")
         }
     }
+
     @JvmStatic
     fun w(tag: String?, msg: String) {
         if (BuildConfig.DEBUG) {
@@ -39,6 +43,7 @@ object Logger {
             Log.i(clazz.simpleName, msg + "")
         }
     }
+
     @JvmStatic
     fun i(tag: String?, msg: String) {
         if (BuildConfig.DEBUG) {
@@ -52,6 +57,7 @@ object Logger {
             Log.d(clazz.simpleName, msg + "")
         }
     }
+
     @JvmStatic
     fun d(tag: String?, msg: String) {
         if (BuildConfig.DEBUG) {
@@ -65,6 +71,7 @@ object Logger {
             Log.v(clazz.simpleName, msg + "")
         }
     }
+
     fun v(tag: String?, msg: String) {
         if (BuildConfig.DEBUG) {
             Log.v(tag, msg + "")

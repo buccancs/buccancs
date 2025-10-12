@@ -26,7 +26,7 @@ public class QuickPlot {
         createFrame(plotName);
     }
 
-        public QuickPlot(String plotName, double[][] data, String[] signalNames, Color[] signalColors) {
+    public QuickPlot(String plotName, double[][] data, String[] signalNames, Color[] signalColors) {
         this(plotName);
         createTracesAndAddData(data, signalNames, signalColors, INVALID_CHANNEL_INDEX);
         chartSetupCommon();

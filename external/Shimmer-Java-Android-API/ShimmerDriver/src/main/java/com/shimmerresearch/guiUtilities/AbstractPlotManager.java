@@ -15,8 +15,8 @@ public abstract class AbstractPlotManager {
     public List<String[]> mListofPropertiestoPlot = Collections.synchronizedList(new ArrayList<String[]>());
     public List<int[]> mListOfTraceColorsCurrentlyUsed = Collections.synchronizedList(new ArrayList<int[]>());
     public PLOT_LINE_STYLE mDefaultLineStyle = PLOT_LINE_STYLE.CONTINUOUS;
-        protected HashMap<String, String[]> mMapofXAxis = new HashMap<String, String[]>();
-        protected HashMap<String, Double> mMapofXAxisGeneratedValue = new HashMap<String, Double>();
+    protected HashMap<String, String[]> mMapofXAxis = new HashMap<String, String[]>();
+    protected HashMap<String, Double> mMapofXAxisGeneratedValue = new HashMap<String, Double>();
 
     {
         mListofTraceColorsDefault.add(SHIMMER_DEFAULT_COLOURS.colourShimmerOrange);
@@ -106,7 +106,7 @@ public abstract class AbstractPlotManager {
         mListOfTraceColorsCurrentlyUsed.add(rgb);
     }
 
-        protected void addSignalUseDefaultColors(String[] channelStringArray) {
+    protected void addSignalUseDefaultColors(String[] channelStringArray) {
 
         addSignal(channelStringArray);
         boolean mFound = false;
@@ -155,7 +155,7 @@ public abstract class AbstractPlotManager {
         mMapofXAxis.put(deviceName, channelStringArray);
     }
 
-        public boolean checkIfPropertyExist(String[] channelStringArray) {
+    public boolean checkIfPropertyExist(String[] channelStringArray) {
         synchronized (mListofPropertiestoPlot) {
             Iterator<String[]> entries = mListofPropertiestoPlot.iterator();
             while (entries.hasNext()) {

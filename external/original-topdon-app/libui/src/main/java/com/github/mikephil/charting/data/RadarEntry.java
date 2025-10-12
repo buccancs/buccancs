@@ -13,7 +13,7 @@ public class RadarEntry extends Entry {
         super(0f, value, data);
     }
 
-        public float getValue() {
+    public float getValue() {
         return getY();
     }
 

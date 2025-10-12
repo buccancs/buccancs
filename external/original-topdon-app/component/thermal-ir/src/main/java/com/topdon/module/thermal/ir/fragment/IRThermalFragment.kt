@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.fragment
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -27,6 +28,7 @@ import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.activity.IRThermalNightActivity
 import com.topdon.module.thermal.ir.activity.IRThermalPlusActivity
 import kotlinx.android.synthetic.main.fragment_thermal_ir.*
+
 class IRThermalFragment : BaseFragment(), View.OnClickListener {
     private var isTC007 = false
     override fun initContentView() = R.layout.fragment_thermal_ir
@@ -58,14 +60,17 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
             }
         })
     }
+
     override fun initData() {
     }
+
     override fun onResume() {
         super.onResume()
         if (!isTC007) {
             checkConnect()
         }
     }
+
     override fun connected() {
         SharedManager.hasTcLine = true
         if (!isTC007) {
@@ -73,24 +78,28 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
             cl_not_connect.isVisible = false
         }
     }
+
     override fun disConnected() {
         if (!isTC007) {
             cl_connect.isVisible = false
             cl_not_connect.isVisible = true
         }
     }
+
     override fun onSocketConnected(isTS004: Boolean) {
         if (isTC007 && !isTS004) {
             cl_connect.isVisible = true
             cl_not_connect.isVisible = false
         }
     }
+
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (isTC007 && !isTS004) {
             cl_connect.isVisible = false
             cl_not_connect.isVisible = true
         }
     }
+
     private fun checkConnect() {
         if (DeviceTools.isConnect(isAutoRequest = false)) {
             connected()
@@ -101,6 +110,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             cl_open_thermal -> {
@@ -118,6 +128,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
             }
+
             tv_main_enter -> {
                 if (!DeviceTools.isConnect()) {
                     if (DeviceTools.findUsbDevice() == null) {
@@ -140,6 +151,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                                         showConnectTip()
                                     }
                                 }
+
                                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                                     if (doNotAskAgain) {
                                         context?.let {
@@ -160,11 +172,13 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
             }
+
             cl_07_connect_tips -> {
                 ARouter.getInstance().build(RouterConfig.IR_CONNECT_TIPS)
                     .withBoolean(ExtraKeyConfig.IS_TC007, true)
                     .navigation(requireContext())
             }
+
             tv_07_connect -> {
                 ARouter.getInstance()
                     .build(RouterConfig.IR_DEVICE_ADD)
@@ -173,6 +187,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     private var tipConnectDialog: TipDialog? = null
     private var isCancelUpdateVersion = false
     private fun showConnectTip() {
@@ -200,6 +215,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
             tipConnectDialog?.show()
         }
     }
+
     private fun checkStoragePermission() {
         val permissionList: List<String> = if (activity?.applicationInfo?.targetSdkVersion!! >= 34) {
             listOf(
@@ -234,6 +250,7 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
             initStoragePermission(permissionList)
         }
     }
+
     private fun initStoragePermission(permissionList: List<String>) {
     }
 

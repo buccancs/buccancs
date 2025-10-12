@@ -1,4 +1,5 @@
 package com.topdon.house.activity
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -22,6 +23,7 @@ import com.topdon.lib.core.ktbase.BaseActivity
 import kotlinx.android.synthetic.main.activity_house_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 class HouseHomeActivity : BaseActivity(), View.OnClickListener {
     private val tabViewModel: TabViewModel by viewModels()
     private val detectViewModel: DetectViewModel by viewModels()
@@ -73,23 +75,28 @@ class HouseHomeActivity : BaseActivity(), View.OnClickListener {
             tab.setText(if (position == 0) R.string.app_detection else R.string.app_report)
         }.attach()
     }
+
     override fun initData() {
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onDetectCreate(event: HouseReportAddEvent) {
         view_pager2.currentItem = 1
     }
+
     override fun onClick(v: View?) {
         when (v) {
             iv_back -> finish()
             iv_edit -> {
                 tabViewModel.isEditModeLD.value = true
             }
+
             iv_add -> {
                 val newIntent = Intent(this, DetectAddActivity::class.java)
                 newIntent.putExtra(ExtraKeyConfig.IS_TC007, intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false))
                 startActivity(newIntent)
             }
+
             iv_exit_edit -> {
                 tabViewModel.isEditModeLD.value = false
             }

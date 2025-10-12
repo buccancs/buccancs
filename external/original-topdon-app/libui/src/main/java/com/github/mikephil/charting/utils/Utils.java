@@ -31,7 +31,7 @@ public abstract class Utils {
     public final static double DOUBLE_EPSILON = Double.longBitsToDouble(1);
     @SuppressWarnings("unused")
     public final static float FLOAT_EPSILON = Float.intBitsToFloat(1);
-        private static final int POW_10[] = {
+    private static final int POW_10[] = {
             1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
     };
     private static DisplayMetrics mMetrics;
@@ -45,7 +45,7 @@ public abstract class Utils {
     private static Rect mDrawTextRectBuffer = new Rect();
     private static Paint.FontMetrics mFontMetricsBuffer = new Paint.FontMetrics();
 
-        @SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     public static void init(Context context) {
 
         if (context == null) {
@@ -65,7 +65,7 @@ public abstract class Utils {
         }
     }
 
-        @Deprecated
+    @Deprecated
     public static void init(Resources res) {
 
         mMetrics = res.getDisplayMetrics();
@@ -74,7 +74,7 @@ public abstract class Utils {
         mMaximumFlingVelocity = ViewConfiguration.getMaximumFlingVelocity();
     }
 
-        public static float convertDpToPixel(float dp) {
+    public static float convertDpToPixel(float dp) {
 
         if (mMetrics == null) {
 
@@ -88,7 +88,7 @@ public abstract class Utils {
         return dp * mMetrics.density;
     }
 
-        public static float convertPixelsToDp(float px) {
+    public static float convertPixelsToDp(float px) {
 
         if (mMetrics == null) {
 
@@ -102,11 +102,11 @@ public abstract class Utils {
         return px / mMetrics.density;
     }
 
-        public static int calcTextWidth(Paint paint, String demoText) {
+    public static int calcTextWidth(Paint paint, String demoText) {
         return (int) paint.measureText(demoText);
     }
 
-        public static int calcTextHeight(Paint paint, String demoText) {
+    public static int calcTextHeight(Paint paint, String demoText) {
 
         Rect r = mCalcTextHeightRect;
         r.set(0, 0, 0, 0);
@@ -132,14 +132,14 @@ public abstract class Utils {
         return fontMetrics.ascent - fontMetrics.top + fontMetrics.bottom;
     }
 
-        public static FSize calcTextSize(Paint paint, String demoText) {
+    public static FSize calcTextSize(Paint paint, String demoText) {
 
         FSize result = FSize.getInstance(0, 0);
         calcTextSize(paint, demoText, result);
         return result;
     }
 
-        public static void calcTextSize(Paint paint, String demoText, FSize outputFSize) {
+    public static void calcTextSize(Paint paint, String demoText, FSize outputFSize) {
 
         Rect r = mCalcTextSizeRect;
         r.set(0, 0, 0, 0);
@@ -157,11 +157,11 @@ public abstract class Utils {
         return mDefaultValueFormatter;
     }
 
-        public static String formatNumber(float number, int digitCount, boolean separateThousands) {
+    public static String formatNumber(float number, int digitCount, boolean separateThousands) {
         return formatNumber(number, digitCount, separateThousands, '.');
     }
 
-        public static String formatNumber(float number, int digitCount, boolean separateThousands,
+    public static String formatNumber(float number, int digitCount, boolean separateThousands,
                                       char separateChar) {
 
         char[] out = new char[35];
@@ -236,7 +236,7 @@ public abstract class Utils {
         return String.valueOf(out, start, out.length - start);
     }
 
-        public static float roundToNextSignificant(double number) {
+    public static float roundToNextSignificant(double number) {
         if (Double.isInfinite(number) ||
                 Double.isNaN(number) ||
                 number == 0.0)
@@ -249,7 +249,7 @@ public abstract class Utils {
         return shifted / magnitude;
     }
 
-        public static int getDecimals(float number) {
+    public static int getDecimals(float number) {
 
         float i = roundToNextSignificant(number);
 
@@ -259,7 +259,7 @@ public abstract class Utils {
         return (int) Math.ceil(-Math.log10(i)) + 2;
     }
 
-        public static int[] convertIntegers(List<Integer> integers) {
+    public static int[] convertIntegers(List<Integer> integers) {
 
         int[] ret = new int[integers.size()];
 
@@ -275,7 +275,7 @@ public abstract class Utils {
         }
     }
 
-        public static String[] convertStrings(List<String> strings) {
+    public static String[] convertStrings(List<String> strings) {
 
         String[] ret = new String[strings.size()];
 
@@ -293,7 +293,7 @@ public abstract class Utils {
         }
     }
 
-        public static double nextUp(double d) {
+    public static double nextUp(double d) {
         if (d == Double.POSITIVE_INFINITY)
             return d;
         else {
@@ -303,7 +303,7 @@ public abstract class Utils {
         }
     }
 
-        public static MPPointF getPosition(MPPointF center, float dist, float angle) {
+    public static MPPointF getPosition(MPPointF center, float dist, float angle) {
 
         MPPointF p = MPPointF.getInstance(0, 0);
         getPosition(center, dist, angle, p);
@@ -339,7 +339,7 @@ public abstract class Utils {
         }
     }
 
-        @SuppressLint("NewApi")
+    @SuppressLint("NewApi")
     public static void postInvalidateOnAnimation(View view) {
         if (Build.VERSION.SDK_INT >= 16)
             view.postInvalidateOnAnimation();
@@ -355,7 +355,7 @@ public abstract class Utils {
         return mMaximumFlingVelocity;
     }
 
-        public static float getNormalizedAngle(float angle) {
+    public static float getNormalizedAngle(float angle) {
         while (angle < 0.f)
             angle += 360.f;
 
@@ -529,24 +529,24 @@ public abstract class Utils {
         drawMultilineText(c, textLayout, x, y, paint, anchor, angleDegrees);
     }
 
-        public static FSize getSizeOfRotatedRectangleByDegrees(FSize rectangleSize, float degrees) {
+    public static FSize getSizeOfRotatedRectangleByDegrees(FSize rectangleSize, float degrees) {
         final float radians = degrees * FDEG2RAD;
         return getSizeOfRotatedRectangleByRadians(rectangleSize.width, rectangleSize.height,
                 radians);
     }
 
-        public static FSize getSizeOfRotatedRectangleByRadians(FSize rectangleSize, float radians) {
+    public static FSize getSizeOfRotatedRectangleByRadians(FSize rectangleSize, float radians) {
         return getSizeOfRotatedRectangleByRadians(rectangleSize.width, rectangleSize.height,
                 radians);
     }
 
-        public static FSize getSizeOfRotatedRectangleByDegrees(float rectangleWidth, float
+    public static FSize getSizeOfRotatedRectangleByDegrees(float rectangleWidth, float
             rectangleHeight, float degrees) {
         final float radians = degrees * FDEG2RAD;
         return getSizeOfRotatedRectangleByRadians(rectangleWidth, rectangleHeight, radians);
     }
 
-        public static FSize getSizeOfRotatedRectangleByRadians(float rectangleWidth, float
+    public static FSize getSizeOfRotatedRectangleByRadians(float rectangleWidth, float
             rectangleHeight, float radians) {
         return FSize.getInstance(
                 Math.abs(rectangleWidth * (float) Math.cos(radians)) + Math.abs(rectangleHeight *

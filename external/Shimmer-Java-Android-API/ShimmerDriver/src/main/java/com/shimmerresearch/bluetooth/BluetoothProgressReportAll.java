@@ -24,7 +24,7 @@ public class BluetoothProgressReportAll implements Serializable {
             "Cancelling",
             "Cancelled"
     };
-        private static final long serialVersionUID = 2543348738920447317L;
+    private static final long serialVersionUID = 2543348738920447317L;
     public List<ShimmerDevice> mListOfShimmers;
     public LinkedHashMap<String, BluetoothProgressReportPerDevice> mMapOfOperationProgressInfo = new LinkedHashMap<String, BluetoothProgressReportPerDevice>();
     public BT_STATE currentOperationBtState = BT_STATE.DISCONNECTED;
@@ -46,7 +46,7 @@ public class BluetoothProgressReportAll implements Serializable {
         updateProgressTotal();
     }
 
-        public BluetoothProgressReportAll(List<String> listOfShimmerHandles, BT_STATE currentOperationBtState) {
+    public BluetoothProgressReportAll(List<String> listOfShimmerHandles, BT_STATE currentOperationBtState) {
         this.currentOperationBtState = currentOperationBtState;
 
         mMapOfOperationProgressInfo.clear();
@@ -72,7 +72,7 @@ public class BluetoothProgressReportAll implements Serializable {
         }
     }
 
-        public BluetoothProgressReportAll deepClone() {
+    public BluetoothProgressReportAll deepClone() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);

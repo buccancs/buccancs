@@ -6,23 +6,23 @@ import com.github.mikephil.charting.data.CandleEntry;
 
 public interface ICandleDataSet extends ILineScatterCandleRadarDataSet<CandleEntry> {
 
-        float getBarSpace();
+    float getBarSpace();
 
-        boolean getShowCandleBar();
+    boolean getShowCandleBar();
 
-        float getShadowWidth();
+    float getShadowWidth();
 
-        int getShadowColor();
+    int getShadowColor();
 
-        int getNeutralColor();
+    int getNeutralColor();
 
-        int getIncreasingColor();
+    int getIncreasingColor();
 
-        int getDecreasingColor();
+    int getDecreasingColor();
 
-        Paint.Style getIncreasingPaintStyle();
+    Paint.Style getIncreasingPaintStyle();
 
-        Paint.Style getDecreasingPaintStyle();
+    Paint.Style getDecreasingPaintStyle();
 
-        boolean getShadowColorSameAsCandle();
+    boolean getShadowColorSameAsCandle();
 }

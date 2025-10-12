@@ -1,10 +1,12 @@
 package com.topdon.module.thermal.chart
+
 import android.annotation.SuppressLint
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.topdon.lib.core.common.SharedManager
 import java.text.SimpleDateFormat
 import java.util.*
+
 class MyValueFormatter(private val startTime: Long, private val type: Int = 1) :
     IndexAxisValueFormatter() {
     companion object {
@@ -13,10 +15,12 @@ class MyValueFormatter(private val startTime: Long, private val type: Int = 1) :
         const val TYPE_TIME_HOUR = 3
         const val TYPE_TIME_DAY = 4
     }
+
     override fun getFormattedValue(value: Float, axis: AxisBase?): String {
         val time = startTime + value.toLong()
         return showDateSecond(time)
     }
+
     @SuppressLint("SimpleDateFormat")
     fun showDateSecond(time: Long): String {
         val date = Date(time)

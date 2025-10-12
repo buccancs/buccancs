@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.adapter
+
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.topdon.lib.core.tools.GlideLoader
 import com.topdon.module.thermal.R
 import kotlinx.android.synthetic.main.item_gallery.view.*
+
 class GalleryAdapter(val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var listener: OnItemClickListener? = null
@@ -16,11 +18,13 @@ class GalleryAdapter(val context: Context) :
             field = value
             notifyDataSetChanged()
         }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_gallery, parent, false)
         return ItemView(view)
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemView) {
             GlideLoader.load(holder.img, datas[position])
@@ -35,9 +39,11 @@ class GalleryAdapter(val context: Context) :
             })
         }
     }
+
     override fun getItemCount(): Int {
         return datas.size
     }
+
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val lay = itemView.item_gallery_lay
         val img = itemView.item_gallery_img

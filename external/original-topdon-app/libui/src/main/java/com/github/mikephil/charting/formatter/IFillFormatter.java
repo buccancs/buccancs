@@ -5,5 +5,5 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 
 public interface IFillFormatter {
 
-        float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider);
+    float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider);
 }

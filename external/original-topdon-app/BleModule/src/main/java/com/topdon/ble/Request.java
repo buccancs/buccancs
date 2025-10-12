@@ -7,23 +7,23 @@ import androidx.annotation.Nullable;
 import java.util.UUID;
 
 public interface Request {
-        @NonNull
+    @NonNull
     Device getDevice();
 
-        @NonNull
+    @NonNull
     RequestType getType();
 
-        @Nullable
+    @Nullable
     String getTag();
 
-        @Nullable
+    @Nullable
     UUID getService();
 
-        @Nullable
+    @Nullable
     UUID getCharacteristic();
 
-        @Nullable
+    @Nullable
     UUID getDescriptor();
 
-        void execute(Connection connection);
+    void execute(Connection connection);
 }

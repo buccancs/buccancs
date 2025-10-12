@@ -31,12 +31,12 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     public String mComPort = "";
     public boolean mIsDebugMode = false;
     public boolean mVerboseMode = false;
-        public boolean mLeavePortOpen = true;
+    public boolean mLeavePortOpen = true;
     public DockException mThrownException = null;
     protected boolean mTestStreaming = false;
     ByteCommunicationListener mTestByteListener;
     byte[] carriedRxBuf = new byte[]{};
-        private boolean mIsUARTInUse = false;
+    private boolean mIsUARTInUse = false;
     private int mBaudToUse = SHIMMER_UART_BAUD_RATES.SHIMMER3_DOCKED;
     private UtilShimmer mUtilShimmer = new UtilShimmer(getClass().getSimpleName(), mVerboseMode);
     private List<UartRxPacketObject> mListOfUartRxPacketObjects = Collections.synchronizedList(new ArrayList<UartRxPacketObject>());
@@ -164,7 +164,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         }
     }
 
-        public void openSafely() throws DockException {
+    public void openSafely() throws DockException {
         try {
             consolePrintLn("Opening port - " + mUniqueId + " - " + mComPort);
             mSerialPortInterface.connect();
@@ -176,7 +176,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         if (!mLeavePortOpen) mIsUARTInUse = true;
     }
 
-        public void closeSafely() throws DockException {
+    public void closeSafely() throws DockException {
         try {
             mSerialPortInterface.closeSafely();
         } catch (ShimmerException devE) {
@@ -191,7 +191,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         return uartGetCommand(cPD, null);
     }
 
-        public byte[] uartGetCommand(UartComponentPropertyDetails cPD, byte[] payload) throws DockException {
+    public byte[] uartGetCommand(UartComponentPropertyDetails cPD, byte[] payload) throws DockException {
         byte[] rxBuf;
 
         if (!mLeavePortOpen) openSafely();
@@ -206,7 +206,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         return rxBuf;
     }
 
-        public void uartSetCommand(UartComponentPropertyDetails cPD, byte[] txBuf) throws ExecutionException {
+    public void uartSetCommand(UartComponentPropertyDetails cPD, byte[] txBuf) throws ExecutionException {
         if (!mLeavePortOpen) openSafely();
         try {
             shimmerUartSetCommand(cPD, txBuf);
@@ -232,11 +232,11 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         txPacket(packetCmd, msgArg, payload);
     }
 
-        protected byte[] shimmerUartGetCommand(UartComponentPropertyDetails msgArg, byte[] payload) throws DockException {
+    protected byte[] shimmerUartGetCommand(UartComponentPropertyDetails msgArg, byte[] payload) throws DockException {
         return shimmerUartCommandTxRx(UartPacketDetails.UART_PACKET_CMD.READ, msgArg, payload);
     }
 
-        protected byte[] shimmerUartGetMemCommand(UartComponentPropertyDetails msgArg, int address, int size) throws DockException {
+    protected byte[] shimmerUartGetMemCommand(UartComponentPropertyDetails msgArg, int address, int size) throws DockException {
 
         byte[] memLengthToRead = new byte[]{(byte) size};
 
@@ -254,7 +254,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         return shimmerUartCommandTxRx(UartPacketDetails.UART_PACKET_CMD.READ, msgArg, payload);
     }
 
-        protected byte[] shimmerUartSetCommand(UartComponentPropertyDetails msgArg, byte[] valueBuffer) throws DockException {
+    protected byte[] shimmerUartSetCommand(UartComponentPropertyDetails msgArg, byte[] valueBuffer) throws DockException {
         clearAllAcks();
         return shimmerUartCommandTxRx(UartPacketDetails.UART_PACKET_CMD.WRITE, msgArg, valueBuffer);
     }
@@ -271,7 +271,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     }
 
 
-        protected byte[] shimmerUartSetMemCommand(UartComponentPropertyDetails msgArg, int address, byte[] valueBuffer) throws DockException {
+    protected byte[] shimmerUartSetMemCommand(UartComponentPropertyDetails msgArg, int address, byte[] valueBuffer) throws DockException {
 
         byte[] memLengthToWrite = new byte[]{(byte) valueBuffer.length};
 
@@ -291,7 +291,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     }
 
 
-        protected byte[] shimmerUartCommandTxRx(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] payload) throws DockException {
+    protected byte[] shimmerUartCommandTxRx(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] payload) throws DockException {
         mListOfUartRxPacketObjects.clear();
 
         txPacket(packetCmd, msgArg, payload);
@@ -299,7 +299,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         return waitForResponse(packetCmd, msgArg);
     }
 
-        private void txPacket(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] valueBuffer) throws DockException {
+    private void txPacket(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] valueBuffer) throws DockException {
         consolePrintTxPacketInfo(packetCmd, msgArg, valueBuffer);
         byte[] txPacket = assembleTxPacket(packetCmd.toCmdByte(), msgArg, valueBuffer);
         mUtilShimmer.consolePrintLn(mUniqueId + " TX(" + txPacket.length + ")" + UtilShimmer.bytesToHexStringWithSpacesFormatted(txPacket));
@@ -311,7 +311,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         }
     }
 
-        protected byte[] assembleTxPacket(int command, UartComponentPropertyDetails msgArg, byte[] value) {
+    protected byte[] assembleTxPacket(int command, UartComponentPropertyDetails msgArg, byte[] value) {
         byte[] header = (UartPacketDetails.PACKET_HEADER).getBytes();
         byte[] cmd = new byte[]{(byte) command};
         int msgLength = 0;
@@ -579,7 +579,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
     }
 
-        private void parseSinglePacket(byte[] rxBuf, long timestampMs) throws DockException {
+    private void parseSinglePacket(byte[] rxBuf, long timestampMs) throws DockException {
         UartRxPacketObject uRPO = new UartRxPacketObject(rxBuf, timestampMs);
 
         try {
@@ -621,7 +621,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         }
     }
 
-        private byte[] removeFirstByteFromArray(byte[] rxBuf) {
+    private byte[] removeFirstByteFromArray(byte[] rxBuf) {
         int lengthToCarry = rxBuf.length - 1;
         byte[] processedArray = new byte[lengthToCarry];
         System.arraycopy(rxBuf, 1, processedArray, 0, lengthToCarry);
@@ -664,11 +664,11 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         sendCallBackMsg(msg);
     }
 
-        public boolean isSendCallbackRxOverride() {
+    public boolean isSendCallbackRxOverride() {
         return mSendCallbackRxOverride;
     }
 
-        public void setSendCallbackRxOverride(boolean state) {
+    public void setSendCallbackRxOverride(boolean state) {
         this.mSendCallbackRxOverride = state;
     }
 
@@ -680,7 +680,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         mSerialPortInterface.setVerboseMode(mVerboseMode, mIsDebugMode);
     }
 
-        private void consolePrintTxPacketInfo(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] valueBuffer) {
+    private void consolePrintTxPacketInfo(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] valueBuffer) {
         if (mVerboseMode) {
             consolePrintLn(assemblePrintTxPacketInfo(packetCmd, msgArg, valueBuffer));
         }
@@ -689,8 +689,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     private String assemblePrintTxPacketInfo(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails msgArg, byte[] valueBuffer) {
         String consoleString = "TX\tCommand:" + packetCmd.toString()
                 + "\tComponent:" + (msgArg == null ? "null" : msgArg.mComponent.toString())
-                + "\tProperty:" + (msgArg == null ? "null" : msgArg.mPropertyName)
-                ;
+                + "\tProperty:" + (msgArg == null ? "null" : msgArg.mPropertyName);
 
         if (packetCmd != UartPacketDetails.UART_PACKET_CMD.READ) {
             consoleString += "\tPayload";
@@ -707,7 +706,7 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         return consoleString;
     }
 
-        private void consolePrintRxPacketInfo(UartRxPacketObject uRPO) {
+    private void consolePrintRxPacketInfo(UartRxPacketObject uRPO) {
         if (mVerboseMode) {
             consolePrintLn("RX\t" + uRPO.getConsoleString());
         }

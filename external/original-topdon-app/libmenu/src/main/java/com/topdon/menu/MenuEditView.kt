@@ -1,10 +1,12 @@
 package com.topdon.menu
+
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.topdon.menu.databinding.ViewMenuEditBinding
+
 class MenuEditView : FrameLayout, View.OnClickListener {
     var isBarSelect: Boolean
         get() = binding.ivMenu4.isSelected
@@ -16,6 +18,7 @@ class MenuEditView : FrameLayout, View.OnClickListener {
     var onBarClickListener: ((isBarSelect: Boolean) -> Unit)? = null
 
     private lateinit var binding: ViewMenuEditBinding
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
@@ -48,6 +51,7 @@ class MenuEditView : FrameLayout, View.OnClickListener {
                 binding.tvMenu3.isSelected = value == 2
             }
         }
+
     override fun onClick(v: View?) {
         if (v == binding.clMenu4) {
             isBarSelect = !isBarSelect

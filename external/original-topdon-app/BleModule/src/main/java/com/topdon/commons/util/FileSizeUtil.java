@@ -33,7 +33,7 @@ public class FileSizeUtil {
         return FormetFileSize(blockSize, sizeType);
     }
 
-        public static String getUnit(int sizeType) {
+    public static String getUnit(int sizeType) {
         String memoryUnit;
         if (sizeType == SIZETYPE_B) {
             memoryUnit = "B";
@@ -47,7 +47,7 @@ public class FileSizeUtil {
         return memoryUnit;
     }
 
-        public static long getFilesSize(String filePath) {
+    public static long getFilesSize(String filePath) {
         File file = new File(filePath);
         long blockSize = 0;
         try {
@@ -63,7 +63,7 @@ public class FileSizeUtil {
         return blockSize;
     }
 
-        public static String getAutoFileOrFilesSize(String filePath, int sizeType) {
+    public static String getAutoFileOrFilesSize(String filePath, int sizeType) {
         File file = new File(filePath);
         long blockSize = 0;
         try {
@@ -80,7 +80,7 @@ public class FileSizeUtil {
     }
 
 
-        public static String getAutoFileOrFilesSize(String filePath) {
+    public static String getAutoFileOrFilesSize(String filePath) {
         File file = new File(filePath);
         long blockSize = 0;
         try {
@@ -96,7 +96,7 @@ public class FileSizeUtil {
         return FormetFileSize(blockSize);
     }
 
-        private static long getFileSize(File file) throws Exception {
+    private static long getFileSize(File file) throws Exception {
         FileChannel fc = null;
         try {
             if (file.exists() && file.isFile()) {
@@ -117,7 +117,7 @@ public class FileSizeUtil {
         return 0;
     }
 
-        private static long getFileSizes(File f) throws Exception {
+    private static long getFileSizes(File f) throws Exception {
         long size = 0;
         File flist[] = f.listFiles();
         for (int i = 0; i < flist.length; i++) {
@@ -130,7 +130,7 @@ public class FileSizeUtil {
         return size;
     }
 
-        public static String FormetFileSize(long fileS) {
+    public static String FormetFileSize(long fileS) {
         DecimalFormat df = new DecimalFormat("#.00");
         String fileSizeString = "";
         String wrongSize = "0B";
@@ -149,7 +149,7 @@ public class FileSizeUtil {
         return fileSizeString;
     }
 
-        public static double FormetFileSize(long fileS, int sizeType) {
+    public static double FormetFileSize(long fileS, int sizeType) {
         Locale enlocale = new Locale("en", "US");
         DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance(enlocale);
         df.applyPattern("#.00");
@@ -174,7 +174,7 @@ public class FileSizeUtil {
     }
 
 
-        public static long getFileSizeByWriteLog(String filename) {
+    public static long getFileSizeByWriteLog(String filename) {
         try {
             File file = new File(filename);
             if (!file.exists() || !file.isFile()) {

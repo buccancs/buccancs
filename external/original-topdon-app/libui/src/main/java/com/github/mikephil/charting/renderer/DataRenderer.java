@@ -15,17 +15,17 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public abstract class DataRenderer extends Renderer {
 
-        protected ChartAnimator mAnimator;
+    protected ChartAnimator mAnimator;
 
-        protected Paint mRenderPaint;
+    protected Paint mRenderPaint;
 
-        protected Paint mHighlightPaint;
+    protected Paint mHighlightPaint;
 
     protected Paint mHighlightDotPaint;
 
     protected Paint mDrawPaint;
 
-        protected Paint mValuePaint;
+    protected Paint mValuePaint;
 
     public DataRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(viewPortHandler);
@@ -57,33 +57,33 @@ public abstract class DataRenderer extends Renderer {
                 * mViewPortHandler.getScaleX();
     }
 
-        public Paint getPaintValues() {
+    public Paint getPaintValues() {
         return mValuePaint;
     }
 
-        public Paint getPaintHighlight() {
+    public Paint getPaintHighlight() {
         return mHighlightPaint;
     }
 
-        public Paint getPaintRender() {
+    public Paint getPaintRender() {
         return mRenderPaint;
     }
 
-        protected void applyValueTextStyle(IDataSet set) {
+    protected void applyValueTextStyle(IDataSet set) {
 
         mValuePaint.setTypeface(set.getValueTypeface());
         mValuePaint.setTextSize(set.getValueTextSize());
     }
 
-        public abstract void initBuffers();
+    public abstract void initBuffers();
 
-        public abstract void drawData(Canvas c);
+    public abstract void drawData(Canvas c);
 
-        public abstract void drawValues(Canvas c);
+    public abstract void drawValues(Canvas c);
 
-        public abstract void drawValue(Canvas c, String valueText, float x, float y, int color);
+    public abstract void drawValue(Canvas c, String valueText, float x, float y, int color);
 
-        public abstract void drawExtras(Canvas c);
+    public abstract void drawExtras(Canvas c);
 
-        public abstract void drawHighlighted(Canvas c, Highlight[] indices);
+    public abstract void drawHighlighted(Canvas c, Highlight[] indices);
 }

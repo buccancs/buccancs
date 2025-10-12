@@ -18,7 +18,7 @@ public class ScatterData extends BarLineScatterCandleBubbleData<IScatterDataSet>
         super(dataSets);
     }
 
-        public float getGreatestShapeSize() {
+    public float getGreatestShapeSize() {
 
         float max = 0f;
 

@@ -1,5 +1,7 @@
 package com.buccancs.desktop.ui.state
+
 import java.time.Instant
+
 data class AppUiState(
     val session: SessionSummary?,
     val devices: List<DeviceListItem>,
@@ -11,6 +13,7 @@ data class AppUiState(
     val events: List<EventTimelineItem>,
     val historicalSessions: List<SessionArchiveItem>
 )
+
 data class SessionSummary(
     val id: String,
     val status: String,
@@ -22,6 +25,7 @@ data class SessionSummary(
     val elapsedMillis: Long,
     val metrics: SessionMetricsState
 )
+
 data class DeviceListItem(
     val id: String,
     val model: String,
@@ -34,6 +38,7 @@ data class DeviceListItem(
     val lastHeartbeat: Instant?,
     val sessionId: String?
 )
+
 data class RetentionState(
     val perSessionBytes: Map<String, Long>,
     val perDeviceBytes: Map<String, Long>,
@@ -41,6 +46,7 @@ data class RetentionState(
     val totalBytes: Long,
     val breaches: List<String>
 )
+
 data class PreviewStreamState(
     val deviceId: String,
     val cameraId: String,
@@ -51,6 +57,7 @@ data class PreviewStreamState(
     val receivedAt: Instant,
     val payload: ByteArray
 )
+
 data class TransferStatusItem(
     val sessionId: String,
     val deviceId: String,
@@ -62,6 +69,7 @@ data class TransferStatusItem(
     val bytesTotal: Long,
     val errorMessage: String?
 )
+
 data class ControlPanelState(
     val operatorId: String = "",
     val subjectIds: String = "",
@@ -77,12 +85,14 @@ data class ControlPanelState(
     val subjectEraseId: String = "",
     val clockOffsetsPreview: Map<String, Double> = emptyMap()
 )
+
 data class EventTimelineItem(
     val eventId: String,
     val label: String,
     val timestamp: Instant,
     val deviceIds: List<String>
 )
+
 data class SessionArchiveItem(
     val id: String,
     val status: String,
@@ -95,6 +105,7 @@ data class SessionArchiveItem(
     val eventCount: Int,
     val deviceCount: Int
 )
+
 data class SessionMetricsState(
     val gsrSamples: Long,
     val videoFrames: Long,

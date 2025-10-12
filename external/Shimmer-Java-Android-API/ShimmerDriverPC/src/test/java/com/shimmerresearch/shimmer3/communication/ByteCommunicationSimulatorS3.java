@@ -46,8 +46,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
 
     protected void txInfoMem(byte[] buffer) {
 
-        if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00)
-        {
+        if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00) {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
             mBuffer.add((byte) 0x80);
@@ -56,8 +55,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
                 mBuffer.add(b);
             }
             mBuffer.add((byte) 0x8c);
-        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00)
-        {
+        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00) {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
             mBuffer.add((byte) 0x80);
@@ -67,8 +65,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
             }
 
             mBuffer.add((byte) 0x32);
-        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01)
-        {
+        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01) {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
             mBuffer.add((byte) 0x80);
@@ -210,8 +207,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
             }
             mBuffer.add((byte) 0x79);
         } else if (buffer[0] == ShimmerObject.GET_CALIB_DUMP_COMMAND) {
-            if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00)
-            {
+            if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00) {
                 mBuffer.add((byte) 0xff);
                 mBuffer.add((byte) 0x99);
                 byte[] bytes = UtilShimmer.hexStringToByteArray("8000005201030002000000160702000015BE0FB95C7E330000083C081F0825005300530054019C009C0100FEFF9C1E0000150000000000000000000000000000332C332C332C009C009C000000009C1E0001150000000000000000FDC00474FFC219D31957133C009CFF9C0100FE009C1E00021500000000000000000000000000000C");
@@ -219,8 +215,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
                     mBuffer.add(b);
                 }
                 mBuffer.add((byte) 0xB5);
-            } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00)
-            {
+            } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00) {
                 mBuffer.add((byte) 0xff);
                 mBuffer.add((byte) 0x99);
                 byte[] bytes = UtilShimmer.hexStringToByteArray("808000D00CD00CD0009C009C000000009C1E0003150000000000000000000000000000066806680668009C009C000000009C1F00001539D4942779330000FFF5018CFD240683067F0692FF9C00640000F8FE9C1F000115000000000000000000000000000000D100D100D1009C0064000000009C1F0002150000000000000000FFEB01");
@@ -228,8 +223,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
                     mBuffer.add(b);
                 }
                 mBuffer.add((byte) 0xFA);
-            } else if (buffer[1] == (byte) 0x54 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01)
-            {
+            } else if (buffer[1] == (byte) 0x54 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01) {
                 mBuffer.add((byte) 0xff);
                 mBuffer.add((byte) 0x99);
                 byte[] bytes = UtilShimmer.hexStringToByteArray("5400015AFDF8034203410348009C0064FF00FC009C1F000315000000000000000000000000000001A201A201A2009C0064000000009C200000150000000000000000002AFBEDFC21010700E500FD009C0064000000009C");

@@ -1,4 +1,5 @@
 package com.buccancs.data.sensor.connector.topdon
+
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
@@ -35,6 +36,7 @@ import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
+
 @Singleton
 class TopdonThermalConnector @Inject constructor(
     @ApplicationScope private val appScope: CoroutineScope,
@@ -76,9 +78,11 @@ class TopdonThermalConnector @Inject constructor(
                 }
             }
         }
+
         override fun onGranted(usbDevice: UsbDevice, granted: Boolean) {
             Log.d(logTag, "Permission ${if (granted) "granted" else "denied"} for ${usbDevice.deviceName}")
         }
+
         override fun onConnect(device: UsbDevice, ctrlBlock: USBMonitor.UsbControlBlock, createNew: Boolean) {
             if (!createNew) return
             Log.i(logTag, "USB device connected: ${device.deviceName}")
@@ -104,6 +108,7 @@ class TopdonThermalConnector @Inject constructor(
                 }
             }
         }
+
         override fun onDisconnect(device: UsbDevice, ctrlBlock: USBMonitor.UsbControlBlock) {
             Log.i(logTag, "USB device disconnected: ${device.deviceName}")
             appScope.launch {
@@ -113,6 +118,7 @@ class TopdonThermalConnector @Inject constructor(
                 deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
             }
         }
+
         override fun onDettach(device: UsbDevice) {
             Log.i(logTag, "USB device detached: ${device.deviceName}")
             appScope.launch {
@@ -122,10 +128,12 @@ class TopdonThermalConnector @Inject constructor(
                 deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
             }
         }
+
         override fun onCancel(device: UsbDevice) {
             Log.w(logTag, "USB permission cancelled: ${device.deviceName}")
         }
     }
+
     override suspend fun refreshInventory() {
         if (isSimulationMode) {
             super.refreshInventory()
@@ -138,6 +146,7 @@ class TopdonThermalConnector @Inject constructor(
                 batteryPercent = null,
                 rssiDbm = null
             )
+
             device != null -> ConnectionStatus.Disconnected
             else -> ConnectionStatus.Disconnected
         }
@@ -156,12 +165,14 @@ class TopdonThermalConnector @Inject constructor(
             )
         }
     }
+
     override suspend fun applySimulation(enabled: Boolean) {
         if (enabled) {
             disconnectHardware()
         }
         super.applySimulation(enabled)
     }
+
     override suspend fun connect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.connect()
@@ -178,6 +189,7 @@ class TopdonThermalConnector @Inject constructor(
             DeviceCommandResult.Accepted
         }
     }
+
     override suspend fun disconnect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.disconnect()
@@ -190,6 +202,7 @@ class TopdonThermalConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         if (isSimulationMode) {
             return super.startStreaming(anchor)
@@ -207,6 +220,7 @@ class TopdonThermalConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.stopStreaming()
@@ -220,6 +234,7 @@ class TopdonThermalConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override fun streamIntervalMs(): Long = 200L
     override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
     override fun simulatedRssi(device: SensorDevice): Int? = null
@@ -261,6 +276,7 @@ class TopdonThermalConnector @Inject constructor(
         )
         return listOf(thermal, preview)
     }
+
     private suspend fun disconnectHardware() {
         withContext(Dispatchers.Main) {
             stopStreamingInternal()
@@ -275,6 +291,7 @@ class TopdonThermalConnector @Inject constructor(
         }
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
     }
+
     private fun stopStreamingInternal() {
         try {
             uvcCamera?.setFrameCallback(null)
@@ -287,6 +304,7 @@ class TopdonThermalConnector @Inject constructor(
         statusState.value = emptyList()
         finalizeThermalRecording()
     }
+
     private fun closeCamera() {
         try {
             uvcCamera?.onDestroyPreview()
@@ -295,6 +313,7 @@ class TopdonThermalConnector @Inject constructor(
         uvcCamera = null
         usbControlBlock = null
     }
+
     private fun ensureMonitor() {
         if (usbMonitor == null) {
             usbMonitor = USBMonitor(context, listener).also {
@@ -306,11 +325,13 @@ class TopdonThermalConnector @Inject constructor(
             monitorRegistered = true
         }
     }
+
     private fun detectTopdonDevice(): UsbDevice? {
         return usbManager.deviceList.values.firstOrNull { device ->
             device.vendorId == TOPDON_VENDOR_ID && TOPDON_PRODUCT_IDS.contains(device.productId)
         }
     }
+
     private fun tryRequestPermission(device: UsbDevice): Boolean {
         ensureMonitor()
         val monitor = usbMonitor ?: return false
@@ -319,6 +340,7 @@ class TopdonThermalConnector @Inject constructor(
         }
         return monitor.requestPermission(device)
     }
+
     private fun openCamera(ctrlBlock: USBMonitor.UsbControlBlock) {
         val camera = ConcreateUVCBuilder()
             .setUVCType(UVCType.USB_UVC)
@@ -327,6 +349,7 @@ class TopdonThermalConnector @Inject constructor(
         camera.openUVCCamera(ctrlBlock)
         configureCamera(camera)
     }
+
     private fun configureCamera(camera: UVCCamera) {
         camera.setOpenStatus(true)
         camera.setDefaultPreviewMode(CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG)
@@ -338,6 +361,7 @@ class TopdonThermalConnector @Inject constructor(
             Log.w(logTag, "Failed to set preview size ($THERMAL_WIDTH x $THERMAL_HEIGHT), result=$result")
         }
     }
+
     private fun prepareThermalRecording(sessionId: String) {
         val directory = recordingStorage.deviceDirectory(sessionId, deviceId.value)
         val file = File(directory, "thermal-${System.currentTimeMillis()}.raw")
@@ -347,6 +371,7 @@ class TopdonThermalConnector @Inject constructor(
         thermalBytes = 0
         currentSessionId = sessionId
     }
+
     private fun finalizeThermalRecording() {
         val stream = thermalStream ?: return
         try {
@@ -378,6 +403,7 @@ class TopdonThermalConnector @Inject constructor(
             completedSessionId = sessionId
         }
     }
+
     override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {
         if (isSimulationMode) {
             return super.collectArtifacts(sessionId)
@@ -390,6 +416,7 @@ class TopdonThermalConnector @Inject constructor(
         pendingArtifacts.clear()
         return artifacts
     }
+
     private val frameCallback = IFrameCallback { data ->
         if (data != null) {
             try {
@@ -423,6 +450,7 @@ class TopdonThermalConnector @Inject constructor(
         )
         statusState.value = listOf(thermal, preview)
     }
+
     private companion object {
         private const val TOPDON_VENDOR_ID = 0x3426
         private val TOPDON_PRODUCT_IDS = setOf(0x0001, 0x0002, 0x0003, 0x3901)

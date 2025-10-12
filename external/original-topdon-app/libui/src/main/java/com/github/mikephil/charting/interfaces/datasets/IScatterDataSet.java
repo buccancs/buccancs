@@ -5,11 +5,11 @@ import com.github.mikephil.charting.renderer.scatter.IShapeRenderer;
 
 public interface IScatterDataSet extends ILineScatterCandleRadarDataSet<Entry> {
 
-        float getScatterShapeSize();
+    float getScatterShapeSize();
 
-        float getScatterShapeHoleRadius();
+    float getScatterShapeHoleRadius();
 
-        int getScatterShapeHoleColor();
+    int getScatterShapeHoleColor();
 
-        IShapeRenderer getShapeRenderer();
+    IShapeRenderer getShapeRenderer();
 }

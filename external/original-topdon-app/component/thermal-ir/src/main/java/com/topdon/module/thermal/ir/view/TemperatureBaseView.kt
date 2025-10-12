@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -21,6 +22,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sqrt
+
 abstract class TemperatureBaseView : View {
     companion object {
         private const val DEFAULT_MAX_COUNT = 3
@@ -36,6 +38,7 @@ abstract class TemperatureBaseView : View {
         FULL,
         CLEAR,
     }
+
     @Volatile
     var isShowFull: Boolean = true
         set(value) {
@@ -45,6 +48,7 @@ abstract class TemperatureBaseView : View {
             }
             invalidate()
         }
+
     @Volatile
     open var mode = Mode.FULL
         set(value) {
@@ -85,6 +89,7 @@ abstract class TemperatureBaseView : View {
     protected val pointList = ArrayList<Point>()
     protected val lineList = ArrayList<Line>()
     protected val rectList = ArrayList<Rect>()
+
     @Volatile
     protected var trendLine: Line? = null
     protected fun getPointListSafe(): List<Point> = synchronized(this) { pointList }
@@ -97,6 +102,7 @@ abstract class TemperatureBaseView : View {
         }
         return resultList
     }
+
     private fun getSourceLineList(): List<Point> {
         val resultList = ArrayList<Point>(lineList.size * 2)
         lineList.forEach {
@@ -107,6 +113,7 @@ abstract class TemperatureBaseView : View {
         }
         return resultList
     }
+
     private fun getSourceRectList(): List<Rect> {
         val resultList = ArrayList<Rect>(rectList.size)
         rectList.forEach {
@@ -125,6 +132,7 @@ abstract class TemperatureBaseView : View {
     protected var yScale = 0f
     protected var imageWidth = 0
     protected var imageHeight = 0
+
     @CallSuper
     open fun setImageSize(imageWidth: Int, imageHeight: Int) {
         this.imageWidth = imageWidth
@@ -134,6 +142,7 @@ abstract class TemperatureBaseView : View {
     }
 
     protected val maxCount: Int
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
@@ -147,15 +156,17 @@ abstract class TemperatureBaseView : View {
         maxCount = typeArray.getInt(R.styleable.TemperatureBaseView_maxCount, DEFAULT_MAX_COUNT)
         typeArray.recycle()
     }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         xScale = measuredWidth.toFloat() / imageWidth
         yScale = measuredHeight.toFloat() / imageHeight
     }
 
-        protected fun drawPoint(canvas: Canvas, point: Point) {
+    protected fun drawPoint(canvas: Canvas, point: Point) {
         helper.drawPoint(canvas, point.x, point.y)
     }
+
     protected fun drawLine(canvas: Canvas, line: Line) {
         val startX: Int = ((line.start.x / xScale).toInt() * xScale).toInt()
         val startY: Int = ((line.start.y / yScale).toInt() * yScale).toInt()
@@ -163,6 +174,7 @@ abstract class TemperatureBaseView : View {
         val stopY: Int = ((line.end.y / yScale).toInt() * yScale).toInt()
         helper.drawLine(canvas, startX, startY, stopX, stopY)
     }
+
     protected fun drawRect(canvas: Canvas, rect: Rect) {
         val left: Int = ((rect.left / xScale).toInt() * xScale).toInt()
         val top: Int = ((rect.top / yScale).toInt() * yScale).toInt()
@@ -174,9 +186,11 @@ abstract class TemperatureBaseView : View {
     protected fun drawCircle(canvas: Canvas, x: Int, y: Int, isMax: Boolean) {
         helper.drawCircle(canvas, x, y, isMax)
     }
+
     protected fun drawTempText(canvas: Canvas, x: Int, y: Int, temp: Float) {
         helper.drawTempText(canvas, UnitTools.showC(temp), width, x, y)
     }
+
     protected fun drawTrendText(canvas: Canvas, line: Line) {
         helper.drawTrendText(canvas, width, height, line.start.x, line.start.y, line.end.x, line.end.y)
     }
@@ -186,6 +200,7 @@ abstract class TemperatureBaseView : View {
         val y = ((point.y / yScale).toInt() * yScale).toInt()
         helper.drawPointName(canvas, name, width, height, x, y)
     }
+
     protected fun drawLineName(canvas: Canvas, name: String, line: Line) {
         val startX = ((line.start.x / xScale).toInt() * xScale).toInt()
         val startY = ((line.start.y / yScale).toInt() * yScale).toInt()
@@ -193,6 +208,7 @@ abstract class TemperatureBaseView : View {
         val stopY = ((line.end.y / yScale).toInt() * yScale).toInt()
         helper.drawPointRectName(canvas, name, width, height, startX, startY, stopX, stopY)
     }
+
     protected fun drawRectName(canvas: Canvas, name: String, rect: Rect) {
         val left: Int = ((rect.left / xScale).toInt() * xScale).toInt()
         val top: Int = ((rect.top / yScale).toInt() * yScale).toInt()
@@ -204,6 +220,7 @@ abstract class TemperatureBaseView : View {
     private var downX = 0
     private var downY = 0
     private var isAddAction = true
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) {
@@ -235,12 +252,14 @@ abstract class TemperatureBaseView : View {
                 invalidate()
                 return true
             }
+
             MotionEvent.ACTION_MOVE -> {
                 operatePoint?.x = event.x.correctPoint(width)
                 operatePoint?.y = event.y.correctPoint(height)
                 invalidate()
                 return true
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 val x: Int = event.x.correctPoint(width)
                 val y: Int = event.y.correctPoint(height)
@@ -256,9 +275,11 @@ abstract class TemperatureBaseView : View {
                 onPointListener?.invoke(getSourcePointList())
                 return true
             }
+
             else -> return false
         }
     }
+
     private fun pollPoint(x: Int, y: Int): Point? {
         for (i in pointList.size - 1 downTo 0) {
             val point: Point = pointList[i]
@@ -271,7 +292,9 @@ abstract class TemperatureBaseView : View {
 
     protected var operateLine: Line? = null
     protected var operateTrend: Line? = null
+
     private enum class LineMoveType { ALL, START, END, }
+
     private var lineMoveType = LineMoveType.ALL
     private val downLine: Line = Line(Point(0, 0), Point(0, 0))
     private fun touchLine(event: MotionEvent, isTrend: Boolean): Boolean {
@@ -320,6 +343,7 @@ abstract class TemperatureBaseView : View {
                 invalidate()
                 return true
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val x: Int = event.x.correct(width)
                 val y: Int = event.y.correct(height)
@@ -347,10 +371,12 @@ abstract class TemperatureBaseView : View {
                                 downLine.end.y + biasY
                             )
                         }
+
                         LineMoveType.START -> {
                             (if (isTrend) operateTrend else operateLine)?.start?.x = x
                             (if (isTrend) operateTrend else operateLine)?.start?.y = y
                         }
+
                         LineMoveType.END -> {
                             (if (isTrend) operateTrend else operateLine)?.end?.x = x
                             (if (isTrend) operateTrend else operateLine)?.end?.y = y
@@ -360,6 +386,7 @@ abstract class TemperatureBaseView : View {
                 invalidate()
                 return true
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 val x: Int = event.x.correct(width)
                 val y: Int = event.y.correct(height)
@@ -384,9 +411,11 @@ abstract class TemperatureBaseView : View {
                 }
                 return true
             }
+
             else -> return false
         }
     }
+
     private fun pollLine(x: Int, y: Int, isTrend: Boolean): Line? {
         if (isTrend) {
             val resultLine = trendLine
@@ -404,6 +433,7 @@ abstract class TemperatureBaseView : View {
         }
         return null
     }
+
     private fun isLineConcat(line: Line?, x: Int, y: Int): Boolean {
         if (line == null) {
             return false
@@ -422,12 +452,15 @@ abstract class TemperatureBaseView : View {
     protected var operateRect: Rect? = null
 
     private enum class RectMoveType { ALL, EDGE, CORNER, }
+
     private var rectMoveType = RectMoveType.ALL
 
     private enum class RectMoveEdge { LEFT, TOP, RIGHT, BOTTOM }
+
     private var rectMoveEdge = RectMoveEdge.LEFT
 
     private enum class RectMoveCorner { LT, RT, RB, LB }
+
     private var rectMoveCorner = RectMoveCorner.LT
     private val downRect = Rect()
     private fun touchRect(event: MotionEvent): Boolean {
@@ -455,42 +488,50 @@ abstract class TemperatureBaseView : View {
                                     rectMoveType = RectMoveType.CORNER
                                     rectMoveCorner = RectMoveCorner.LT
                                 }
+
                                 in rect.bottom - TOUCH_TOLERANCE..rect.bottom + TOUCH_TOLERANCE -> {
                                     rectMoveType = RectMoveType.CORNER
                                     rectMoveCorner = RectMoveCorner.LB
                                 }
+
                                 else -> {
                                     rectMoveType = RectMoveType.EDGE
                                     rectMoveEdge = RectMoveEdge.LEFT
                                 }
                             }
                         }
+
                         in rect.right - TOUCH_TOLERANCE..rect.right + TOUCH_TOLERANCE -> {
                             when (downY) {
                                 in rect.top - TOUCH_TOLERANCE..rect.top + TOUCH_TOLERANCE -> {
                                     rectMoveType = RectMoveType.CORNER
                                     rectMoveCorner = RectMoveCorner.RT
                                 }
+
                                 in rect.bottom - TOUCH_TOLERANCE..rect.bottom + TOUCH_TOLERANCE -> {
                                     rectMoveType = RectMoveType.CORNER
                                     rectMoveCorner = RectMoveCorner.RB
                                 }
+
                                 else -> {
                                     rectMoveType = RectMoveType.EDGE
                                     rectMoveEdge = RectMoveEdge.RIGHT
                                 }
                             }
                         }
+
                         else -> {
                             when (downY) {
                                 in rect.top - TOUCH_TOLERANCE..rect.top + TOUCH_TOLERANCE -> {
                                     rectMoveType = RectMoveType.EDGE
                                     rectMoveEdge = RectMoveEdge.TOP
                                 }
+
                                 in rect.bottom - TOUCH_TOLERANCE..rect.bottom + TOUCH_TOLERANCE -> {
                                     rectMoveType = RectMoveType.EDGE
                                     rectMoveEdge = RectMoveEdge.BOTTOM
                                 }
+
                                 else -> {
                                     rectMoveType = RectMoveType.ALL
                                 }
@@ -500,6 +541,7 @@ abstract class TemperatureBaseView : View {
                 }
                 return true
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val x: Int = event.x.correct(width)
                 val y: Int = event.y.correct(height)
@@ -524,24 +566,29 @@ abstract class TemperatureBaseView : View {
                                 downRect.bottom + biasY
                             )
                         }
+
                         RectMoveType.EDGE -> when (rectMoveEdge) {
                             RectMoveEdge.LEFT -> {
                                 operateRect?.left = min(x, downRect.right)
                                 operateRect?.right = max(x, downRect.right)
                             }
+
                             RectMoveEdge.TOP -> {
                                 operateRect?.top = min(y, downRect.bottom)
                                 operateRect?.bottom = max(y, downRect.bottom)
                             }
+
                             RectMoveEdge.RIGHT -> {
                                 operateRect?.right = max(x, downRect.left)
                                 operateRect?.left = min(x, downRect.left)
                             }
+
                             RectMoveEdge.BOTTOM -> {
                                 operateRect?.bottom = max(y, downRect.top)
                                 operateRect?.top = min(y, downRect.top)
                             }
                         }
+
                         RectMoveType.CORNER -> when (rectMoveCorner) {
                             RectMoveCorner.LT -> {
                                 operateRect?.left = min(x, downRect.right)
@@ -549,18 +596,21 @@ abstract class TemperatureBaseView : View {
                                 operateRect?.top = min(y, downRect.bottom)
                                 operateRect?.bottom = max(y, downRect.bottom)
                             }
+
                             RectMoveCorner.RT -> {
                                 operateRect?.right = max(x, downRect.left)
                                 operateRect?.left = min(x, downRect.left)
                                 operateRect?.top = min(y, downRect.bottom)
                                 operateRect?.bottom = max(y, downRect.bottom)
                             }
+
                             RectMoveCorner.RB -> {
                                 operateRect?.right = max(x, downRect.left)
                                 operateRect?.left = min(x, downRect.left)
                                 operateRect?.bottom = max(y, downRect.top)
                                 operateRect?.top = min(y, downRect.top)
                             }
+
                             RectMoveCorner.LB -> {
                                 operateRect?.left = min(x, downRect.right)
                                 operateRect?.right = max(x, downRect.right)
@@ -573,6 +623,7 @@ abstract class TemperatureBaseView : View {
                 invalidate()
                 return true
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 val x: Int = event.x.correct(width)
                 val y: Int = event.y.correct(height)
@@ -591,9 +642,11 @@ abstract class TemperatureBaseView : View {
                 onRectListener?.invoke(getSourceRectList())
                 return true
             }
+
             else -> return false
         }
     }
+
     private fun pollRect(x: Int, y: Int): Rect? {
         for (i in rectList.size - 1 downTo 0) {
             val rect: Rect = rectList[i]

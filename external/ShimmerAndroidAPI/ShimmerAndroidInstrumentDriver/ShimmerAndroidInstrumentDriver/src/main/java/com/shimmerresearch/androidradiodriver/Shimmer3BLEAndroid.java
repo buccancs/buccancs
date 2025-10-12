@@ -75,12 +75,12 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     transient TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     transient TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
-        public Shimmer3BLEAndroid(String mac) {
+    public Shimmer3BLEAndroid(String mac) {
         mMac = mac;
         mHandler = null;
     }
 
-        public Shimmer3BLEAndroid(int hardwareID, String mac, Handler handler) {
+    public Shimmer3BLEAndroid(int hardwareID, String mac, Handler handler) {
         if (hardwareID == ShimmerVerDetails.HW_ID.SHIMMER_3R) {
             sid = UUID.fromString(ServiceID_Shimmer3R);
             txid = UUID.fromString(TxID_Shimmer3R);
@@ -101,7 +101,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         }
     }
 
-        @Override
+    @Override
     public void connect(String s, String s1) {
         mTaskConnect = new TaskCompletionSource<>();
         BleManager.getInstance().connect(mMac, new BleGattCallback() {
@@ -211,7 +211,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         }
     }
 
-        public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
+    public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
         int count = 1;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             BleManager.getInstance().notify(
@@ -512,7 +512,6 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         @Override
         protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
             System.out.println(shimmerMSG.mIdentifier);
-
 
 
             int ind = shimmerMSG.mIdentifier;

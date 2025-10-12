@@ -111,7 +111,7 @@ public class UartPacketDetails {
     }
 
 
-        public static enum UART_PACKET_CMD {
+    public static enum UART_PACKET_CMD {
         WRITE((byte) 0x01),
         DATA_RESPONSE((byte) 0x02),
         READ((byte) 0x03),
@@ -123,7 +123,7 @@ public class UartPacketDetails {
 
         private final byte command;
 
-                private UART_PACKET_CMD(final byte command) {
+        private UART_PACKET_CMD(final byte command) {
             this.command = command;
         }
 
@@ -132,7 +132,7 @@ public class UartPacketDetails {
         }
     }
 
-        public static enum UART_COMPONENT {
+    public static enum UART_COMPONENT {
         MAIN_PROCESSOR((byte) 0x01),
         BAT((byte) 0x02),
         DAUGHTER_CARD((byte) 0x03),
@@ -147,7 +147,7 @@ public class UartPacketDetails {
 
         private final byte command;
 
-                private UART_COMPONENT(final byte command) {
+        private UART_COMPONENT(final byte command) {
             this.command = command;
         }
 
@@ -156,8 +156,8 @@ public class UartPacketDetails {
         }
     }
 
-        public static class UART_COMPONENT_AND_PROPERTY {
-                public static class MAIN_PROCESSOR {
+    public static class UART_COMPONENT_AND_PROPERTY {
+        public static class MAIN_PROCESSOR {
             public static final UartComponentPropertyDetails ENABLE = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 0x00, PERMISSION.READ_WRITE, listOfCompatibleVersionInfoGqBle, "ENABLE");
             public static final UartComponentPropertyDetails SAMPLE_RATE = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 0x01, PERMISSION.READ_WRITE, listOfCompatibleVersionInfoGqBle, "SAMPLE_RATE");
             public static final UartComponentPropertyDetails MAC = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 0x02, PERMISSION.READ_WRITE, listOfCompatibleVersionInfoGqBle, "MAC");

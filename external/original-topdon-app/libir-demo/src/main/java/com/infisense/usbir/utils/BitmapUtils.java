@@ -46,7 +46,7 @@ public class BitmapUtils {
         return returnBm;
     }
 
-        public static byte[] bitmapToBytes(Bitmap bitmap, int quality) {
+    public static byte[] bitmapToBytes(Bitmap bitmap, int quality) {
         if (bitmap == null) {
             return null;
         }
@@ -62,7 +62,7 @@ public class BitmapUtils {
         }
     }
 
-        public static boolean saveBitmap(Bitmap bitmap, File file, File path) {
+    public static boolean saveBitmap(Bitmap bitmap, File file, File path) {
         boolean success = false;
         byte[] bytes = bitmapToBytes(bitmap, 100);
         OutputStream out = null;
@@ -88,7 +88,7 @@ public class BitmapUtils {
         return success;
     }
 
-        public static Bitmap imageZoom(Bitmap bitmap, double width) {
+    public static Bitmap imageZoom(Bitmap bitmap, double width) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         byte[] b = baos.toByteArray();
@@ -97,7 +97,7 @@ public class BitmapUtils {
                 width * newBitmap.getHeight() / newBitmap.getWidth());
     }
 
-        public static Bitmap scaleWithWH(Bitmap bitmap, double w, double h) {
+    public static Bitmap scaleWithWH(Bitmap bitmap, double w, double h) {
         if (w == 0 || h == 0 || bitmap == null) {
             return bitmap;
         } else {
@@ -114,7 +114,7 @@ public class BitmapUtils {
         }
     }
 
-        public static boolean saveFile(String file, Bitmap bmp) {
+    public static boolean saveFile(String file, Bitmap bmp) {
         if (TextUtils.isEmpty(file) || bmp == null) return false;
 
         File f = new File(file);
@@ -138,7 +138,7 @@ public class BitmapUtils {
         return true;
     }
 
-        public static File saveBmp2Gallery(Context context, Bitmap bmp, String picName) {
+    public static File saveBmp2Gallery(Context context, Bitmap bmp, String picName) {
         String Path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 + File.separator + "infisense";
         File galleryPath = new File(Path);
@@ -179,7 +179,7 @@ public class BitmapUtils {
         return file;
     }
 
-        public static Bitmap mergeBitmap(Bitmap backBitmap, Bitmap frontBitmap, int leftFront, int topFront) {
+    public static Bitmap mergeBitmap(Bitmap backBitmap, Bitmap frontBitmap, int leftFront, int topFront) {
         if (backBitmap == null || backBitmap.isRecycled()
                 || frontBitmap == null || frontBitmap.isRecycled()) {
             return null;
@@ -191,7 +191,7 @@ public class BitmapUtils {
         return bitmap;
     }
 
-        public static void saveRawFile(byte[] bytes, byte[] bytes2) {
+    public static void saveRawFile(byte[] bytes, byte[] bytes2) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -209,15 +209,15 @@ public class BitmapUtils {
         }
     }
 
-        public static void saveIRFile(byte[] bytes) {
+    public static void saveIRFile(byte[] bytes) {
         saveByteFile(bytes, "ir");
     }
 
-        public static void saveTempFile(byte[] bytes) {
+    public static void saveTempFile(byte[] bytes) {
         saveByteFile(bytes, "temp");
     }
 
-        public static void saveByteFile(byte[] bytes, String fileTitle) {
+    public static void saveByteFile(byte[] bytes, String fileTitle) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -235,7 +235,7 @@ public class BitmapUtils {
         }
     }
 
-        public static void saveShortFile(short[] bytes, String fileTitle) {
+    public static void saveShortFile(short[] bytes, String fileTitle) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -253,7 +253,7 @@ public class BitmapUtils {
         }
     }
 
-        public static byte[] toByteArray(short[] src) {
+    public static byte[] toByteArray(short[] src) {
         int count = src.length;
         byte[] dest = new byte[count << 1];
         for (int i = 0; i < count; i++) {
@@ -263,7 +263,7 @@ public class BitmapUtils {
         return dest;
     }
 
-        public static short[] toShortArray(byte[] src) {
+    public static short[] toShortArray(byte[] src) {
         int count = src.length >> 1;
         short[] dest = new short[count];
         for (int i = 0; i < count; i++) {

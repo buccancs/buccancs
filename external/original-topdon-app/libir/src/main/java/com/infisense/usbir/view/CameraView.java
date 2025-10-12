@@ -25,9 +25,9 @@ public class CameraView extends TextureView {
     private Runnable runnable;
     private Thread cameraThread;
     private Canvas canvas = null;
-        private Paint paint;
+    private Paint paint;
     private int cross_len = 20;
-        private Paint greenPaint;
+    private Paint greenPaint;
     private boolean drawLine = true;
     private int irWidth = 192;
     private int irHeight = 256;
@@ -43,7 +43,7 @@ public class CameraView extends TextureView {
         this(context, attrs, 0);
     }
 
-        public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         paint = new Paint();
         paint = new Paint(Paint.FILTER_BITMAP_FLAG);
@@ -78,10 +78,10 @@ public class CameraView extends TextureView {
                             paint.setAntiAlias(true);
                             paint.setDither(true);
                             paint.setColor(Color.WHITE);
-                                                        Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                            Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                             canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
-                                                        if (drawLine) {
+                            if (drawLine) {
                                 canvas.drawLine(getWidth() / 2 - cross_len, getHeight() / 2,
                                         getWidth() / 2 + cross_len, getHeight() / 2, paint);
                                 canvas.drawLine(getWidth() / 2, getHeight() / 2 - cross_len,
@@ -125,11 +125,11 @@ public class CameraView extends TextureView {
         return bitmap;
     }
 
-        public void setBitmap(Bitmap bitmap) {
+    public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 
-        public void setSyncimage(SynchronizedBitmap syncimage) {
+    public void setSyncimage(SynchronizedBitmap syncimage) {
         this.syncimage = syncimage;
     }
 
@@ -142,7 +142,7 @@ public class CameraView extends TextureView {
         }
     }
 
-        public void start() {
+    public void start() {
         cameraThread = new Thread(runnable);
         cameraThread.start();
     }
@@ -160,7 +160,7 @@ public class CameraView extends TextureView {
     }
 
 
-        public void stop() {
+    public void stop() {
         try {
             if (cameraThread != null) {
                 cameraThread.interrupt();

@@ -63,7 +63,7 @@ public class SignalsToPlotFragment extends ListFragment {
         return js;
     }
 
-        @Override
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         listView = getListView();
         super.onActivityCreated(savedInstanceState);

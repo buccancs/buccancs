@@ -28,14 +28,14 @@ public class FileListActivity extends Activity {
 
     public final static String INTENT_EXTRA_DIR_PATH = "DirectoryPath";
     public final static String INTENT_EXTRA_PROVIDER_AUTHORITY = "FileProviderAuthority";
-        protected final static String FILE_TYPE = "text/";
+    protected final static String FILE_TYPE = "text/";
     protected Button cancelButton;
     protected ArrayAdapter<String> mFilesArrayAdapter;
     protected File[] filesArray;
     protected String[] fileNamesArray;
     protected ListView filesListView;
-        protected String FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.shimmer.fileprovider";
-        protected String DIRECTORY_PATH = Environment.getExternalStorageDirectory().getPath() + "/Shimmer/";
+    protected String FILE_PROVIDER_AUTHORITY = "com.shimmerresearch.shimmer.fileprovider";
+    protected String DIRECTORY_PATH = Environment.getExternalStorageDirectory().getPath() + "/Shimmer/";
     protected AdapterView.OnItemClickListener mFileClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -54,7 +54,7 @@ public class FileListActivity extends Activity {
         setupFilesList();
     }
 
-        protected void setupFilesList() {
+    protected void setupFilesList() {
         retrieveAnyStringExtras();
 
         setContentView(R.layout.file_list);

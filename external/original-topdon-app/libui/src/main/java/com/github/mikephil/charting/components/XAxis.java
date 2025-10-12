@@ -4,20 +4,20 @@ import com.github.mikephil.charting.utils.Utils;
 
 public class XAxis extends AxisBase {
 
-        public int mLabelWidth = 1;
+    public int mLabelWidth = 1;
 
-        public int mLabelHeight = 1;
+    public int mLabelHeight = 1;
 
-        public int mLabelRotatedWidth = 1;
+    public int mLabelRotatedWidth = 1;
 
-        public int mLabelRotatedHeight = 1;
+    public int mLabelRotatedHeight = 1;
 
-        protected float mLabelRotationAngle = 0f;
+    protected float mLabelRotationAngle = 0f;
 
-        private boolean mAvoidFirstLastClipping = false;
+    private boolean mAvoidFirstLastClipping = false;
 
-        private XAxisPosition mPosition = XAxisPosition.TOP;
-        private boolean isJumpFirstLabel = true;
+    private XAxisPosition mPosition = XAxisPosition.TOP;
+    private boolean isJumpFirstLabel = true;
 
     public XAxis() {
         super();
@@ -25,27 +25,27 @@ public class XAxis extends AxisBase {
         mYOffset = Utils.convertDpToPixel(4.f);
     }
 
-        public XAxisPosition getPosition() {
+    public XAxisPosition getPosition() {
         return mPosition;
     }
 
-        public void setPosition(XAxisPosition pos) {
+    public void setPosition(XAxisPosition pos) {
         mPosition = pos;
     }
 
-        public float getLabelRotationAngle() {
+    public float getLabelRotationAngle() {
         return mLabelRotationAngle;
     }
 
-        public void setLabelRotationAngle(float angle) {
+    public void setLabelRotationAngle(float angle) {
         mLabelRotationAngle = angle;
     }
 
-        public void setAvoidFirstLastClipping(boolean enabled) {
+    public void setAvoidFirstLastClipping(boolean enabled) {
         mAvoidFirstLastClipping = enabled;
     }
 
-        public boolean isAvoidFirstLastClippingEnabled() {
+    public boolean isAvoidFirstLastClippingEnabled() {
         return mAvoidFirstLastClipping;
     }
 
@@ -57,7 +57,7 @@ public class XAxis extends AxisBase {
         isJumpFirstLabel = jumpFirstLabel;
     }
 
-        public enum XAxisPosition {
+    public enum XAxisPosition {
         TOP, BOTTOM, BOTH_SIDED, TOP_INSIDE, BOTTOM_INSIDE
     }
 }

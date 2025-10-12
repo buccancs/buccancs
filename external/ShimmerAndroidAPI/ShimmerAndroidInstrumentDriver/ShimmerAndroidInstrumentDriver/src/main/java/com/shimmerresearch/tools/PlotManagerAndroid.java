@@ -1,4 +1,3 @@
-
 package com.shimmerresearch.tools;
 
 import android.graphics.Color;
@@ -25,31 +24,31 @@ public class PlotManagerAndroid extends AbstractPlotManager {
     int mXAxisLimit = 500;
     boolean mClearGraphatLimit = false;
 
-        public PlotManagerAndroid() {
+    public PlotManagerAndroid() {
 
     }
 
-        public PlotManagerAndroid(boolean clearGraphatLimit) {
+    public PlotManagerAndroid(boolean clearGraphatLimit) {
         mClearGraphatLimit = clearGraphatLimit;
     }
 
-        public PlotManagerAndroid(int limit) {
+    public PlotManagerAndroid(int limit) {
         mXAxisLimit = limit;
     }
 
-        public PlotManagerAndroid(int limit, boolean clearGraphatLimit) {
+    public PlotManagerAndroid(int limit, boolean clearGraphatLimit) {
         mClearGraphatLimit = clearGraphatLimit;
         mXAxisLimit = limit;
     }
 
-        public PlotManagerAndroid(List<String[]> propertiestoPlot, int limit, XYPlot chart) throws Exception {
+    public PlotManagerAndroid(List<String[]> propertiestoPlot, int limit, XYPlot chart) throws Exception {
         mXAxisLimit = limit;
         for (int i = 0; i < propertiestoPlot.size(); i++) {
             addSignal(propertiestoPlot.get(i), chart);
         }
     }
 
-        public PlotManagerAndroid(List<String[]> propertiestoPlot, int limit, XYPlot chart, boolean clearGraphatLimit) throws Exception {
+    public PlotManagerAndroid(List<String[]> propertiestoPlot, int limit, XYPlot chart, boolean clearGraphatLimit) throws Exception {
         mXAxisLimit = limit;
         mClearGraphatLimit = clearGraphatLimit;
         for (int i = 0; i < propertiestoPlot.size(); i++) {
@@ -57,14 +56,14 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         }
     }
 
-        public PlotManagerAndroid(List<String[]> propertiestoPlot, List<int[]> listofColors, int limit, XYPlot chart) throws Exception {
+    public PlotManagerAndroid(List<String[]> propertiestoPlot, List<int[]> listofColors, int limit, XYPlot chart) throws Exception {
         mXAxisLimit = limit;
         for (int i = 0; i < propertiestoPlot.size(); i++) {
             addSignal(propertiestoPlot.get(i), chart, listofColors.get(i));
         }
     }
 
-        public PlotManagerAndroid(List<String[]> propertiestoPlot, List<int[]> listofColors, int limit, XYPlot chart, boolean clearGraphatLimit) throws Exception {
+    public PlotManagerAndroid(List<String[]> propertiestoPlot, List<int[]> listofColors, int limit, XYPlot chart, boolean clearGraphatLimit) throws Exception {
         mXAxisLimit = limit;
         mClearGraphatLimit = clearGraphatLimit;
         for (int i = 0; i < propertiestoPlot.size(); i++) {
@@ -85,7 +84,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
 
     }
 
-        public void updateDynamicPlot(XYPlot chart) {
+    public void updateDynamicPlot(XYPlot chart) {
         mDynamicPlot = chart;
         for (int i = 0; i < mListofSeries.size(); i++) {
             int[] colorrgbaray = mListOfTraceColorsCurrentlyUsed.get(i);
@@ -95,7 +94,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         }
     }
 
-        public void addSignal(String[] signal, XYPlot chart) throws Exception {
+    public void addSignal(String[] signal, XYPlot chart) throws Exception {
         if (!checkIfPropertyExist(signal)) {
             int index = mListofSeries.size();
             String name = signal[0] + " " + signal[1] + " " + signal[2] + " " + signal[3];
@@ -121,7 +120,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
     }
 
 
-        public void addSignal(String[] signal, XYPlot chart, int[] color) throws Exception {
+    public void addSignal(String[] signal, XYPlot chart, int[] color) throws Exception {
         if (!checkIfPropertyExist(signal)) {
 
             String name = joinChannelStringArray(signal);
@@ -146,7 +145,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         }
     }
 
-        public void removeAllSignals() {
+    public void removeAllSignals() {
         super.removeAllSignals();
         if (mDynamicPlot != null) {
             mDynamicPlot.clear();
@@ -155,7 +154,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
     }
 
 
-        public void removeSignal(String[] signal) {
+    public void removeSignal(String[] signal) {
         for (int i = 0; i < mListofPropertiestoPlot.size(); i++) {
             String[] prop = mListofPropertiestoPlot.get(i);
             boolean found = true;
@@ -200,7 +199,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
 
     }
 
-        public void filterDataAndPlot(ObjectCluster ojc) throws Exception {
+    public void filterDataAndPlot(ObjectCluster ojc) throws Exception {
 
         for (int i = 0; i < mListofPropertiestoPlot.size(); i++) {
             String[] props = mListofPropertiestoPlot.get(i);
@@ -219,7 +218,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         }
     }
 
-        public void setLegendTextSize(float textSize) {
+    public void setLegendTextSize(float textSize) {
         mDynamicPlot.getLegendWidget().getTextPaint().setTextSize(textSize);
     }
 
@@ -231,7 +230,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         mDynamicPlot.getLegendWidget().setHeight(height);
     }
 
-        public void setLegendIconSize(float height, SizeLayoutType heightLayoutType, float width, SizeLayoutType widthLayoutType) {
+    public void setLegendIconSize(float height, SizeLayoutType heightLayoutType, float width, SizeLayoutType widthLayoutType) {
         mDynamicPlot.getLegendWidget().setIconSizeMetrics(new SizeMetrics(height, heightLayoutType, width, widthLayoutType));
     }
 

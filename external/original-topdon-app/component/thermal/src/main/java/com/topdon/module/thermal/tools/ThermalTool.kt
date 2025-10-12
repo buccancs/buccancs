@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.tools
+
 object ThermalTool {
     fun getRotate(rotateType: Int): Float {
         return when (rotateType) {

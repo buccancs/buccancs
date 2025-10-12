@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.topdon.module.thermal.ir.view.EmissivityView
 import kotlinx.android.synthetic.main.activity_ir_emissivity.*
 import kotlinx.android.synthetic.main.item_ir_emissivity_title.*
 import kotlinx.android.synthetic.main.item_ir_emissivity_title.view.*
+
 class IREmissivityActivity : BaseActivity() {
     override fun initContentView(): Int = R.layout.activity_ir_emissivity
     override fun initView() {
@@ -29,6 +31,7 @@ class IREmissivityActivity : BaseActivity() {
         recycler_view.addItemDecoration(itemDecoration)
         recycler_view.addOnScrollListener(MyOnScrollListener(cl_title, layoutManager, dataArray))
     }
+
     override fun initData() {
     }
 
@@ -76,6 +79,7 @@ class IREmissivityActivity : BaseActivity() {
                 }
             }
         }
+
         private fun findTitlePosition(position: Int): Int {
             for (i in position downTo 0) {
                 if (dataArray[i].isTitle) {
@@ -85,6 +89,7 @@ class IREmissivityActivity : BaseActivity() {
             return 0
         }
     }
+
     private class MyAdapter(val context: Context, val dataArray: Array<ItemBean>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun getItemViewType(position: Int): Int = if (dataArray[position].isTitle) 0 else 1
@@ -97,6 +102,7 @@ class IREmissivityActivity : BaseActivity() {
                 ValueViewHolder(emissivityView)
             }
         }
+
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val itemBean: ItemBean = dataArray[position]
             if (holder is TitleViewHolder) {
@@ -108,11 +114,13 @@ class IREmissivityActivity : BaseActivity() {
                 holder.emissivityView.refreshText(itemBean.buildTextList(context))
             }
         }
+
         override fun getItemCount(): Int = dataArray.size
 
         private class TitleViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView)
         private class ValueViewHolder(val emissivityView: EmissivityView) : RecyclerView.ViewHolder(emissivityView)
     }
+
     private data class ItemBean(
         val isTitle: Boolean = false,
         val name: String,
@@ -148,6 +156,7 @@ class IREmissivityActivity : BaseActivity() {
             return textList
         }
     }
+
     private fun buildDataArray(): Array<ItemBean> = arrayOf(
         ItemBean(true, getString(R.string.material_metal)),
         ItemBean(name = getString(R.string.material_aluminum)),

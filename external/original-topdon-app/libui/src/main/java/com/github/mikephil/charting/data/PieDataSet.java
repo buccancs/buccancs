@@ -8,10 +8,10 @@ import java.util.List;
 
 public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
 
-        private float mSliceSpace = 0f;
+    private float mSliceSpace = 0f;
     private boolean mAutomaticallyDisableSliceSpacing;
 
-        private float mShift = 18f;
+    private float mShift = 18f;
 
     private ValuePosition mXValuePosition = ValuePosition.INSIDE_SLICE;
     private ValuePosition mYValuePosition = ValuePosition.INSIDE_SLICE;
@@ -56,7 +56,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         return mSliceSpace;
     }
 
-        public void setSliceSpace(float spaceDp) {
+    public void setSliceSpace(float spaceDp) {
 
         if (spaceDp > 20)
             spaceDp = 20f;
@@ -66,11 +66,11 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         mSliceSpace = Utils.convertDpToPixel(spaceDp);
     }
 
-        public void setAutomaticallyDisableSliceSpacing(boolean autoDisable) {
+    public void setAutomaticallyDisableSliceSpacing(boolean autoDisable) {
         mAutomaticallyDisableSliceSpacing = autoDisable;
     }
 
-        @Override
+    @Override
     public boolean isAutomaticallyDisableSliceSpacingEnabled() {
         return mAutomaticallyDisableSliceSpacing;
     }
@@ -80,7 +80,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         return mShift;
     }
 
-        public void setSelectionShift(float shift) {
+    public void setSelectionShift(float shift) {
         mShift = Utils.convertDpToPixel(shift);
     }
 
@@ -102,7 +102,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         this.mYValuePosition = yValuePosition;
     }
 
-        @Override
+    @Override
     public boolean isUsingSliceColorAsValueLineColor() {
         return mUsingSliceColorAsValueLineColor;
     }
@@ -111,7 +111,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         this.mUsingSliceColorAsValueLineColor = usingSliceColorAsValueLineColor;
     }
 
-        @Override
+    @Override
     public int getValueLineColor() {
         return mValueLineColor;
     }
@@ -120,7 +120,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         this.mValueLineColor = valueLineColor;
     }
 
-        @Override
+    @Override
     public float getValueLineWidth() {
         return mValueLineWidth;
     }
@@ -129,7 +129,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         this.mValueLineWidth = valueLineWidth;
     }
 
-        @Override
+    @Override
     public float getValueLinePart1OffsetPercentage() {
         return mValueLinePart1OffsetPercentage;
     }
@@ -138,7 +138,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         this.mValueLinePart1OffsetPercentage = valueLinePart1OffsetPercentage;
     }
 
-        @Override
+    @Override
     public float getValueLinePart1Length() {
         return mValueLinePart1Length;
     }
@@ -147,7 +147,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         this.mValueLinePart1Length = valueLinePart1Length;
     }
 
-        @Override
+    @Override
     public float getValueLinePart2Length() {
         return mValueLinePart2Length;
     }
@@ -156,7 +156,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         this.mValueLinePart2Length = valueLinePart2Length;
     }
 
-        @Override
+    @Override
     public boolean isValueLineVariableLength() {
         return mValueLineVariableLength;
     }

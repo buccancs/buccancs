@@ -29,13 +29,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public abstract class BaseTemperatureView extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = "BaseTemperatureView";
 
-        private final static int BORDER_PX = 8;
+    private final static int BORDER_PX = 8;
     protected PointDraw mPointDraw;
     protected LineDraw mLineDraw;
     protected RectDraw mRectDraw;
     protected int mViewWidth;
     protected int mViewHeight;
-        protected int mTempWidth;
+    protected int mTempWidth;
     protected int mTempHeight;
     protected float xScale = 0;
     protected float yScale = 0;
@@ -55,7 +55,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
     private float mRawY;
     private float mDistanceX;
     private float mDistanceY;
-        private int mTextWidth = 110;
+    private int mTextWidth = 110;
     private TextPaint mTextPaint;
 
     public BaseTemperatureView(Context context) {
@@ -72,12 +72,12 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
     }
 
 
-        public void start() {
+    public void start() {
         mDrawThread = new DrawThread();
         mDrawThread.start();
     }
 
-        public void stop() {
+    public void stop() {
         mDrawThread.isRun = false;
         if (mDrawThread != null) {
             mDrawThread.interrupt();
@@ -85,23 +85,23 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
         }
     }
 
-        public void resume() {
+    public void resume() {
         if (mDrawThread != null) {
             mDrawThread.isRun = true;
         }
     }
 
-        public void pause() {
+    public void pause() {
         if (mDrawThread != null) {
             mDrawThread.isRun = false;
         }
     }
 
-        public void setDrawModel(DrawModel drawModel) {
+    public void setDrawModel(DrawModel drawModel) {
         this.mDrawModel = drawModel;
     }
 
-        public void clearCanvas() {
+    public void clearCanvas() {
         pause();
         if (mPointDraw != null) {
             mPointDraw.removePoint();
@@ -503,7 +503,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
 
     }
 
-        private void doShapeDraw() {
+    private void doShapeDraw() {
         if (mSurfaceHolder == null || !mCanDraw) {
             return;
         }
@@ -557,7 +557,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
         }
     }
 
-        private void doTouchDraw() {
+    private void doTouchDraw() {
         if (mSurfaceHolder == null || !mCanDraw) {
             return;
         }
@@ -608,7 +608,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
                                                                           LinkedList<LineDraw.LineView> lineViews,
                                                                           LinkedList<RectDraw.RectView> rectViews);
 
-        private void drawTempData(Context context, int screenDegree, Canvas canvas, CopyOnWriteArrayList<TempResultBean> tempResultBean) {
+    private void drawTempData(Context context, int screenDegree, Canvas canvas, CopyOnWriteArrayList<TempResultBean> tempResultBean) {
         if (tempResultBean.size() <= 0) {
             return;
         }
@@ -660,7 +660,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
         }
     }
 
-        private class TempThread extends Thread {
+    private class TempThread extends Thread {
         public boolean isRun;
 
         public TempThread() {
@@ -690,7 +690,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
         }
     }
 
-        private class DrawThread extends Thread {
+    private class DrawThread extends Thread {
 
         public boolean isRun;
 

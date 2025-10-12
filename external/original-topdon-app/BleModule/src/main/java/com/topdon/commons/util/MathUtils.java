@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Random;
 
 public class MathUtils {
-        public static double setDoubleAccuracy(double num, int scale) {
+    public static double setDoubleAccuracy(double num, int scale) {
         return ((int) (num * Math.pow(10, scale))) / Math.pow(10, scale);
     }
 
-        public static float[] getPercents(int scale, @NonNull float... values) {
+    public static float[] getPercents(int scale, @NonNull float... values) {
         float total = 0;
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < values.length; i++) {
@@ -42,7 +42,7 @@ public class MathUtils {
         return fs;
     }
 
-        @NonNull
+    @NonNull
     public static byte[] numberToBytes(boolean bigEndian, long value, int len) {
         byte[] bytes = new byte[8];
         for (int i = 0; i < 8; i++) {
@@ -56,7 +56,7 @@ public class MathUtils {
         }
     }
 
-        @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public static <T> T bytesToNumber(boolean bigEndian, Class<T> cls, @NonNull byte... src) {
         int len = Math.min(8, src.length);
         byte[] bs = new byte[8];
@@ -83,7 +83,7 @@ public class MathUtils {
         throw new IllegalArgumentException("cls must be one of short, int and long");
     }
 
-        public static byte[] reverseBitAndByte(byte[] src) {
+    public static byte[] reverseBitAndByte(byte[] src) {
         if (src == null || src.length == 0) {
             return null;
         }
@@ -100,7 +100,7 @@ public class MathUtils {
         return target;
     }
 
-        @NonNull
+    @NonNull
     public static List<byte[]> splitPackage(@NonNull byte[] src, int size) {
         List<byte[]> list = new ArrayList<>();
         int loop = src.length / size + (src.length % size == 0 ? 0 : 1);
@@ -112,7 +112,7 @@ public class MathUtils {
         return list;
     }
 
-        @NonNull
+    @NonNull
     public static byte[] joinPackage(@NonNull byte[]... src) {
         byte[] bytes = new byte[0];
         for (byte[] bs : src) {
@@ -122,7 +122,7 @@ public class MathUtils {
         return bytes;
     }
 
-        public static int calcCrc8(byte[] bytes) {
+    public static int calcCrc8(byte[] bytes) {
         int crc = 0;
         for (byte b : bytes) {
             crc ^= b;
@@ -137,7 +137,7 @@ public class MathUtils {
         return crc & 0xff;
     }
 
-        public static int calcCRC16_Modbus(byte[] data) {
+    public static int calcCRC16_Modbus(byte[] data) {
         int crc = 0xffff;
         for (byte b : data) {
             if (b < 0) {
@@ -156,7 +156,7 @@ public class MathUtils {
         return crc & 0xffff;
     }
 
-        public static int calcCRC_CCITT_XModem(byte[] bytes) {
+    public static int calcCRC_CCITT_XModem(byte[] bytes) {
         int crc = 0;
         int polynomial = 0x1021;
         for (byte b : bytes) {
@@ -170,7 +170,7 @@ public class MathUtils {
         return crc & 0xffff;
     }
 
-        public static int calcCRC_CCITT_XModem(byte[] bytes, int offset, int len) {
+    public static int calcCRC_CCITT_XModem(byte[] bytes, int offset, int len) {
         int crc = 0;
         int polynomial = 0x1021;
         for (int i = offset; i < offset + len; i++) {
@@ -185,7 +185,7 @@ public class MathUtils {
         return crc & 0xffff;
     }
 
-        public static int calcCRC_CCITT_0xFFFF(byte[] bytes) {
+    public static int calcCRC_CCITT_0xFFFF(byte[] bytes) {
         int crc = 0xffff;
         int polynomial = 0x1021;
         for (byte b : bytes) {
@@ -199,7 +199,7 @@ public class MathUtils {
         return crc & 0xffff;
     }
 
-        public static int calcCRC_CCITT_0xFFFF(byte[] bytes, int offset, int len) {
+    public static int calcCRC_CCITT_0xFFFF(byte[] bytes, int offset, int len) {
         int crc = 0xffff;
         int polynomial = 0x1021;
         for (int i = offset; i < offset + len; i++) {

@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.popup
+
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.blankj.utilcode.util.SizeUtils
 import com.topdon.lib.core.view.MyTextView
 import com.topdon.module.thermal.ir.R
 import kotlinx.android.synthetic.main.popup_option_pick.view.*
+
 class OptionPickPopup(
     private val context: Context,
     private val strArray: Array<String>,
@@ -45,6 +47,7 @@ class OptionPickPopup(
         contentView.recycler_view.adapter = adapter
         contentView.recycler_view.layoutManager = LinearLayoutManager(context)
     }
+
     fun show(anchor: View) {
         val locationArray = IntArray(2)
         anchor.getLocationInWindow(locationArray)
@@ -81,6 +84,7 @@ class OptionPickPopup(
             textView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
             return ViewHolder(textView)
         }
+
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.textView.text = strArray[position]
             if (resIdArray != null && position < resIdArray.size) {
@@ -89,6 +93,7 @@ class OptionPickPopup(
                 holder.textView.setOnlyDrawableStart(0)
             }
         }
+
         override fun getItemCount(): Int = strArray.size
         inner class ViewHolder(val textView: MyTextView) : RecyclerView.ViewHolder(textView) {
             init {

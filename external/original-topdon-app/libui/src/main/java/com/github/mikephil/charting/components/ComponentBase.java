@@ -7,52 +7,52 @@ import com.github.mikephil.charting.utils.Utils;
 
 public abstract class ComponentBase {
 
-        protected boolean mEnabled = true;
+    protected boolean mEnabled = true;
 
-        protected float mXOffset = 5f;
+    protected float mXOffset = 5f;
 
-        protected float mYOffset = 5f;
+    protected float mYOffset = 5f;
 
-        protected Typeface mTypeface = null;
+    protected Typeface mTypeface = null;
 
-        protected float mTextSize = Utils.convertDpToPixel(10f);
+    protected float mTextSize = Utils.convertDpToPixel(10f);
 
-        protected int mTextColor = Color.BLACK;
+    protected int mTextColor = Color.BLACK;
 
 
     public ComponentBase() {
 
     }
 
-        public float getXOffset() {
+    public float getXOffset() {
         return mXOffset;
     }
 
-        public void setXOffset(float xOffset) {
+    public void setXOffset(float xOffset) {
         mXOffset = Utils.convertDpToPixel(xOffset);
     }
 
-        public float getYOffset() {
+    public float getYOffset() {
         return mYOffset;
     }
 
-        public void setYOffset(float yOffset) {
+    public void setYOffset(float yOffset) {
         mYOffset = Utils.convertDpToPixel(yOffset);
     }
 
-        public Typeface getTypeface() {
+    public Typeface getTypeface() {
         return mTypeface;
     }
 
-        public void setTypeface(Typeface tf) {
+    public void setTypeface(Typeface tf) {
         mTypeface = tf;
     }
 
-        public float getTextSize() {
+    public float getTextSize() {
         return mTextSize;
     }
 
-        public void setTextSize(float size) {
+    public void setTextSize(float size) {
 
         if (size > 24f)
             size = 24f;
@@ -62,19 +62,19 @@ public abstract class ComponentBase {
         mTextSize = Utils.convertDpToPixel(size);
     }
 
-        public int getTextColor() {
+    public int getTextColor() {
         return mTextColor;
     }
 
-        public void setTextColor(int color) {
+    public void setTextColor(int color) {
         mTextColor = color;
     }
 
-        public boolean isEnabled() {
+    public boolean isEnabled() {
         return mEnabled;
     }
 
-        public void setEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled) {
         mEnabled = enabled;
     }
 }

@@ -1,4 +1,5 @@
 package com.buccancs.data.sensor
+
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
@@ -21,6 +22,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class DefaultSensorRepository @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
@@ -47,6 +49,7 @@ class DefaultSensorRepository @Inject constructor(
         )
     )
     override val recordingState: StateFlow<RecordingState> = _recordingState.asStateFlow()
+
     init {
         orderedConnectors.forEach { connector ->
             scope.launch {
@@ -67,17 +70,21 @@ class DefaultSensorRepository @Inject constructor(
             }
         }
     }
+
     override suspend fun refreshInventory() {
         orderedConnectors.forEach { connector ->
             connector.refreshInventory()
         }
     }
+
     override suspend fun connect(deviceId: DeviceId) {
         connectorsById[deviceId]?.connect()
     }
+
     override suspend fun disconnect(deviceId: DeviceId) {
         connectorsById[deviceId]?.disconnect()
     }
+
     override suspend fun setSimulationEnabled(enabled: Boolean) {
         if (_simulationEnabled.value == enabled) return
         _simulationEnabled.value = enabled
@@ -85,6 +92,7 @@ class DefaultSensorRepository @Inject constructor(
             connector.applySimulation(enabled)
         }
     }
+
     override suspend fun startStreaming(anchor: RecordingSessionAnchor) {
         val now = Clock.System.now()
         _recordingState.value = RecordingState(
@@ -108,6 +116,7 @@ class DefaultSensorRepository @Inject constructor(
             updatedAt = Clock.System.now()
         )
     }
+
     override suspend fun stopStreaming(): RecordingSessionAnchor? {
         val anchor = _recordingState.value.anchor
         _recordingState.value = RecordingState(
@@ -132,6 +141,7 @@ class DefaultSensorRepository @Inject constructor(
         )
         return anchor
     }
+
     override suspend fun collectSessionArtifacts(sessionId: String): List<SessionArtifact> {
         val collected = mutableListOf<SessionArtifact>()
         orderedConnectors.forEach { connector ->
@@ -141,6 +151,7 @@ class DefaultSensorRepository @Inject constructor(
         }
         return collected
     }
+
     private fun devicesSnapshot(): List<SensorDevice> =
         orderedConnectors.mapNotNull { connector ->
             devicesCache[connector.deviceId]

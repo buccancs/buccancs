@@ -13,7 +13,7 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 
 public class CalibDetailsKinematic extends CalibDetails implements Serializable {
 
-        private static final long serialVersionUID = -3556098650349506733L;
+    private static final long serialVersionUID = -3556098650349506733L;
     public CalibArraysKinematic mCurrentCalibration = new CalibArraysKinematic();
     public CalibArraysKinematic mDefaultCalibration = new CalibArraysKinematic();
     public CalibArraysKinematic mEmptyCalibration = new CalibArraysKinematic(
@@ -74,7 +74,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setSensitivityScaleFactor(sensitivityScaleFactor);
     }
 
-        public CalibDetailsKinematic(byte[] bufferCalibrationParameters) {
+    public CalibDetailsKinematic(byte[] bufferCalibrationParameters) {
         parseCalParamByteArray(bufferCalibrationParameters, CALIB_READ_SOURCE.UNKNOWN);
     }
 
@@ -177,7 +177,8 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setCurrentSensitivityMatrix(UtilShimmer.deepCopyDoubleMatrix(mDefaultCalibration.mSensitivityMatrix), true);
         setCurrentAlignmentMatrix(UtilShimmer.deepCopyDoubleMatrix(mDefaultCalibration.mAlignmentMatrix), true);
     }
-//
+
+    //
 //
     public boolean isCurrentValuesSet() {
         return mCurrentCalibration.isCurrentValuesSet();
@@ -190,7 +191,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         return false;
     }
 
-        public boolean isSensitivityWithinRangeOfDefault() {
+    public boolean isSensitivityWithinRangeOfDefault() {
         boolean isValid = true;
         double validScalingFactor = 0.75;
 

@@ -6,7 +6,7 @@ public class TransformerHorizontalBarChart extends Transformer {
         super(viewPortHandler);
     }
 
-        public void prepareMatrixOffset(boolean inverted) {
+    public void prepareMatrixOffset(boolean inverted) {
 
         mMatrixOffset.reset();
 

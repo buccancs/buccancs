@@ -1,4 +1,5 @@
 package com.topdon.libcom.bean
+
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.google.gson.Gson
@@ -8,6 +9,7 @@ import com.topdon.lib.core.bean.ObserveBean
 import com.topdon.lib.core.common.SaveSettingUtil
 import com.topdon.lib.core.config.DeviceConfig
 import com.topdon.lib.core.utils.CommUtils
+
 class SaveSettingBean(private val isWifi: Boolean = false) {
     private fun getSPUtils(): SPUtils = SPUtils.getInstance(if (isWifi) "WifiSaveSettingUtil" else "SaveSettingUtil")
 
@@ -137,6 +139,7 @@ class SaveSettingBean(private val isWifi: Boolean = false) {
                 getSPUtils().put("rotateAngle", value)
             }
         }
+
     fun isRotatePortrait(): Boolean = rotateAngle == 90 || rotateAngle == 270
     var isOpenMirror: Boolean = if (isSaveSetting) getSPUtils().getBoolean("isOpenMirror", false) else false
         set(value) {
@@ -168,6 +171,7 @@ class SaveSettingBean(private val isWifi: Boolean = false) {
                 getSPUtils().put("tempTextSize", value)
             }
         }
+
     fun isTempTextDefault(): Boolean = tempTextColor == 0xffffffff.toInt() && tempTextSize == SizeUtils.sp2px(14f)
 
     var temperatureMode: Int = if (isSaveSetting) getSPUtils().getInt(

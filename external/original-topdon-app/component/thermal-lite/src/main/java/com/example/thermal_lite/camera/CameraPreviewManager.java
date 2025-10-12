@@ -144,7 +144,7 @@ public class CameraPreviewManager {
 
         mSurfaceNativeWindow = new SurfaceNativeWindow();
         mIIrFrameCallback = new IIrFrameCallback() {
-                        @Override
+            @Override
             public void onFrame(byte[] frame, int length) {
                 try {
                     if (mFramePause) {
@@ -204,7 +204,7 @@ public class CameraPreviewManager {
                                             PseudocodeUtils.INSTANCE.changePseudocodeModeByOld(1), mIrARGBData);
                                 }
                                 irImageHelp.customPseudoColor(mIrARGBData, mTempData, mPreviewWidth, mPreviewHeight);
-                                                                irImageHelp.setPseudoColorMaxMin(mIrARGBData, mTempData, max, min, mPreviewWidth, mPreviewHeight);
+                                irImageHelp.setPseudoColorMaxMin(mIrARGBData, mTempData, max, min, mPreviewWidth, mPreviewHeight);
                                 mIrARGBData = irImageHelp.contourDetection(alarmBean,
                                         mIrARGBData, mTempData, mPreviewWidth, mPreviewHeight);
                             }
@@ -267,7 +267,7 @@ public class CameraPreviewManager {
         }
         switch (FRAME_OUT_PUT_FORMAT) {
             case YUYV_IMAGE_OUTPUT:
-                                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_YUYV;
+                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_YUYV;
 
                 mPreviewWidth = mStreamWidth;
                 mPreviewHeight = mStreamHeight - mInfoDataHeight;
@@ -284,7 +284,7 @@ public class CameraPreviewManager {
 
                 break;
             case YUYV_AND_TEMP_OUTPUT:
-                                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_YUYV;
+                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_YUYV;
 
                 if (mShowDoubleImage) {
                     mPreviewWidth = mStreamWidth;
@@ -309,7 +309,7 @@ public class CameraPreviewManager {
                 mTempRotateData = new byte[mIrARGBLength];
                 break;
             case NV12_IMAGE_OUTPUT:
-                                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_NV12;
+                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_NV12;
 
                 mPreviewWidth = 640;
                 mPreviewHeight = 512;
@@ -324,7 +324,7 @@ public class CameraPreviewManager {
 
                 break;
             case NV12_AND_TEMP_OUTPUT:
-                                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_NV12;
+                mFrameFormatType = UvcParams.FrameFormatType.FRAME_FORMAT_NV12;
 
                 mPreviewWidth = 640;
                 mPreviewHeight = 512;
@@ -403,21 +403,21 @@ public class CameraPreviewManager {
         return mPhotoBitmap;
     }
 
-        public List<CameraSize> getAllSupportedSize() {
+    public List<CameraSize> getAllSupportedSize() {
         return mIrcamEngine.getUsbSupportInfo();
     }
 
-        private void initHandleEngine(USBMonitor.UsbControlBlock ctrlBlock, boolean isStartPreview) {
+    private void initHandleEngine(USBMonitor.UsbControlBlock ctrlBlock, boolean isStartPreview) {
         UvcHandleParam uvcHandleParam = new UvcHandleParam();
-                uvcHandleParam.setCtrlBlock(ctrlBlock);
+        uvcHandleParam.setCtrlBlock(ctrlBlock);
 
         int fps = IrConst.DEFAULT_STREAM_FPS;
-                uvcHandleParam.setFps(fps);
+        uvcHandleParam.setFps(fps);
 
         float bandwidth = SharedPreferencesUtils.getFloat(Utils.getApp(),
                 IrConst.KEY_DEFAULT_STREAM_BANDWIDTH, IrConst.DEFAULT_STREAM_BANDWIDTH);
 
-                uvcHandleParam.setBandwidth(bandwidth);
+        uvcHandleParam.setBandwidth(bandwidth);
 
         Log.d(TAG, "initHandleEngine UvcHandleParam = " + uvcHandleParam.toString());
 
@@ -433,7 +433,7 @@ public class CameraPreviewManager {
                 .setStreamWidth(mStreamWidth)
                 .setStreamHeight(mStreamHeight)
                 .setDriverType(CommonParams.DriverType.USB)
-                                .setFrameOutputFormat(FRAME_OUT_PUT_FORMAT)
+                .setFrameOutputFormat(FRAME_OUT_PUT_FORMAT)
                 .setUvcHandleParam(uvcHandleParam)
                 .build();
         Log.d(TAG, "stopPreview onSuccess initHandle : ");
@@ -458,7 +458,7 @@ public class CameraPreviewManager {
         });
     }
 
-        public void startPreview() {
+    public void startPreview() {
         Log.d(TAG, "startPreview");
         if (mIrcamEngine != null) {
             mIrcamEngine.setIrFrameCallback(mIIrFrameCallback);
@@ -474,19 +474,19 @@ public class CameraPreviewManager {
         TempCompensation.getInstance().startTempCompensation();
     }
 
-        public void pausePreview() {
+    public void pausePreview() {
         if (mIrcamEngine != null) {
             mIrcamEngine.pauseVideoStream();
         }
     }
 
-        public void resumePreview() {
+    public void resumePreview() {
         if (mIrcamEngine != null) {
             mIrcamEngine.resumeVideoStream();
         }
     }
 
-        public void closePreview() {
+    public void closePreview() {
         if (mIrcamEngine != null) {
             mIrcamEngine.closeVideoStream();
             mIrcamEngine.releaseVideoStream();
@@ -495,7 +495,7 @@ public class CameraPreviewManager {
         }
     }
 
-        public void stopPreview() {
+    public void stopPreview() {
         Log.i(TAG, "stopPreview");
         if (Const.DEVICE_TYPE == DeviceType.DEVICE_TYPE_WN2640) {
             IrcmdError ircmdError = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
@@ -508,7 +508,7 @@ public class CameraPreviewManager {
         }
     }
 
-        public void releaseSource() {
+    public void releaseSource() {
         mIIrFrameCallback = null;
         mIrARGBData = null;
         mIrData = null;

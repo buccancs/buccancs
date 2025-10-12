@@ -185,7 +185,7 @@ public class FftCalculateDetails {
         return new double[][]{};
     }
 
-        public void calculatePSDAndGenerateArray(double[] fft) {
+    public void calculatePSDAndGenerateArray(double[] fft) {
 
         int numElements = fft.length / mDivider;
         double multiplier = mSamplingRate / fft.length;

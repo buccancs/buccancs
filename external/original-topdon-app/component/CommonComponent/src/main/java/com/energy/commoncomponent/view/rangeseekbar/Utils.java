@@ -41,7 +41,7 @@ public class Utils {
         }
     }
 
-        public static Bitmap drawableToBitmap(int width, int height, Drawable drawable) {
+    public static Bitmap drawableToBitmap(int width, int height, Drawable drawable) {
         Bitmap bitmap = null;
         try {
             if (drawable instanceof BitmapDrawable) {
@@ -66,7 +66,7 @@ public class Utils {
         return bitmap;
     }
 
-        public static void drawNinePath(Canvas canvas, Bitmap bmp, Rect rect) {
+    public static void drawNinePath(Canvas canvas, Bitmap bmp, Rect rect) {
         NinePatch.isNinePatchChunk(bmp.getNinePatchChunk());
         NinePatch patch = new NinePatch(bmp, bmp.getNinePatchChunk(), null);
         patch.draw(canvas, rect);
@@ -89,7 +89,7 @@ public class Utils {
         return (int) (dpValue * scale + 0.5f);
     }
 
-        public static int compareFloat(float a, float b) {
+    public static int compareFloat(float a, float b) {
         int ta = Math.round(a * 1000000);
         int tb = Math.round(b * 1000000);
         if (ta > tb) {
@@ -101,7 +101,7 @@ public class Utils {
         }
     }
 
-        public static int compareFloat(float a, float b, int degree) {
+    public static int compareFloat(float a, float b, int degree) {
         if (Math.abs(a - b) < Math.pow(0.1, degree)) {
             return 0;
         } else {

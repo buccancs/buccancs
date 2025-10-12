@@ -13,7 +13,7 @@ public class testRadioProtocol {
 
     public static void main(String[] args) {
 
-		
+
         System.out.println(LiteProtocolInstructionSet.InstructionsSet.getDescriptor().getValues());
 
         String[] enumValues = new String[LiteProtocolInstructionSet.InstructionsGet.getDescriptor().getValues().size()];

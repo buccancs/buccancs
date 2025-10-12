@@ -23,7 +23,7 @@ public class ScanConfiguration {
         return scanPeriodMillis;
     }
 
-        public ScanConfiguration setScanPeriodMillis(int scanPeriodMillis) {
+    public ScanConfiguration setScanPeriodMillis(int scanPeriodMillis) {
         if (scanPeriodMillis >= 1000) {
             this.scanPeriodMillis = scanPeriodMillis;
         }
@@ -34,7 +34,7 @@ public class ScanConfiguration {
         return acceptSysConnectedDevice;
     }
 
-        public ScanConfiguration setAcceptSysConnectedDevice(boolean acceptSysConnectedDevice) {
+    public ScanConfiguration setAcceptSysConnectedDevice(boolean acceptSysConnectedDevice) {
         this.acceptSysConnectedDevice = acceptSysConnectedDevice;
         return this;
     }
@@ -43,7 +43,7 @@ public class ScanConfiguration {
         return scanSettings;
     }
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public ScanConfiguration setScanSettings(ScanSettings scanSettings) {
         Inspector.requireNonNull(scanSettings, "scanSettings can't be null");
         this.scanSettings = scanSettings;
@@ -54,7 +54,7 @@ public class ScanConfiguration {
         return onlyAcceptBleDevice;
     }
 
-        public ScanConfiguration setOnlyAcceptBleDevice(boolean onlyAcceptBleDevice) {
+    public ScanConfiguration setOnlyAcceptBleDevice(boolean onlyAcceptBleDevice) {
         this.onlyAcceptBleDevice = onlyAcceptBleDevice;
         return this;
     }
@@ -63,7 +63,7 @@ public class ScanConfiguration {
         return rssiLowLimit;
     }
 
-        public ScanConfiguration setRssiLowLimit(int rssiLowLimit) {
+    public ScanConfiguration setRssiLowLimit(int rssiLowLimit) {
         this.rssiLowLimit = rssiLowLimit;
         return this;
     }
@@ -72,7 +72,7 @@ public class ScanConfiguration {
         return filters;
     }
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public ScanConfiguration setFilters(List<ScanFilter> filters) {
         this.filters = filters;
         return this;

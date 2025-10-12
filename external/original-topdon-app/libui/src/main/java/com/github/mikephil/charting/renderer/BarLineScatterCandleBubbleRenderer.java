@@ -10,17 +10,17 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
-        protected XBounds mXBounds = new XBounds();
+    protected XBounds mXBounds = new XBounds();
 
     public BarLineScatterCandleBubbleRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
     }
 
-        protected boolean shouldDrawValues(IDataSet set) {
+    protected boolean shouldDrawValues(IDataSet set) {
         return set.isVisible() && (set.isDrawValuesEnabled() || set.isDrawIconsEnabled());
     }
 
-        protected boolean isInBoundsX(Entry e, IBarLineScatterCandleBubbleDataSet set) {
+    protected boolean isInBoundsX(Entry e, IBarLineScatterCandleBubbleDataSet set) {
 
         if (e == null)
             return false;
@@ -34,15 +34,15 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
         }
     }
 
-        protected class XBounds {
+    protected class XBounds {
 
-                public int min;
+        public int min;
 
-                public int max;
+        public int max;
 
-                public int range;
+        public int range;
 
-                public void set(BarLineScatterCandleBubbleDataProvider chart, IBarLineScatterCandleBubbleDataSet dataSet) {
+        public void set(BarLineScatterCandleBubbleDataProvider chart, IBarLineScatterCandleBubbleDataSet dataSet) {
             float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));
 
             float low = chart.getLowestVisibleX();

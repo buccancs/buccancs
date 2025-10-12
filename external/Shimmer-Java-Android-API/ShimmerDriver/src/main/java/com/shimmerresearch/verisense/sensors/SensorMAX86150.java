@@ -89,7 +89,6 @@ public class SensorMAX86150 extends SensorMAX86XXX {
     }
 
 
-
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
         aMap.put(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED, SensorMAX86150.CHANNEL_MAX86150_PPG_RED);

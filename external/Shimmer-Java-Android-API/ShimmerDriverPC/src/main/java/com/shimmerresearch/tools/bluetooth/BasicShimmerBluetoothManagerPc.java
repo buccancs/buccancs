@@ -112,14 +112,14 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
 
     }
 
-        @Override
+    @Override
     protected ShimmerDevice createNewShimmer3(String comPort, String bluetoothAddress) {
         ShimmerPC shimmerPcmss = new ShimmerPC(comPort);
         putShimmerGlobalMap(bluetoothAddress, shimmerPcmss);
         return shimmerPcmss;
     }
 
-        @Override
+    @Override
     protected ShimmerDevice createNewShimmer3(ShimmerRadioInitializer radioInitializer, String bluetoothAddress) {
         SerialPortCommJssc serialPortComm = (SerialPortCommJssc) radioInitializer.getSerialCommPort();
         String comPort = serialPortComm.mComPort;
@@ -255,7 +255,6 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
     public void putShimmerGlobalMap(String bluetoothAddress, ShimmerDevice shimmerDevice) {
 
     }
-
 
 
     protected void setupShimmer3BluetoothForBtManager(ShimmerDevice shimmerDevice) {

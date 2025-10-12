@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.content.Intent
 import android.graphics.RenderEffect
 import android.graphics.Shader
@@ -42,6 +43,7 @@ import kotlinx.android.synthetic.main.activity_ir_main.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+
 @Route(path = RouterConfig.IR_MAIN)
 class IRMainActivity : BaseActivity(), View.OnClickListener {
     private var isTC007 = false
@@ -50,6 +52,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
         super.onNewIntent(intent)
         initView()
     }
+
     override fun initView() {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
         view_page.offscreenPageLimit = 5
@@ -68,6 +71,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
         cl_icon_mine.setOnClickListener(this)
         showGuideDialog()
     }
+
     override fun onResume() {
         super.onResume()
         if (isTC007) {
@@ -91,39 +95,48 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun initData() {
     }
+
     override fun connected() {
         if (!isTC007) {
             iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_connect)
         }
     }
+
     override fun disConnected() {
         if (!isTC007) {
             iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_disconnect)
         }
     }
+
     override fun onSocketConnected(isTS004: Boolean) {
         if (!isTS004 && isTC007) {
             iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_connect)
         }
     }
+
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (!isTS004 && isTC007) {
             iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_disconnect)
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             cl_icon_monitor -> {
                 view_page.setCurrentItem(0, false)
             }
+
             cl_icon_gallery -> {
                 checkStoragePermission()
             }
+
             view_main_thermal -> {
                 view_page.setCurrentItem(2, false)
             }
+
             cl_icon_report -> {
                 if (LMS.getInstance().isLogin) {
                     view_page.setCurrentItem(3, false)
@@ -136,11 +149,13 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
+
             cl_icon_mine -> {
                 view_page.setCurrentItem(4, false)
             }
         }
     }
+
     private fun refreshTabSelect(index: Int) {
         iv_icon_monitor.isSelected = false
         tv_icon_monitor.isSelected = false
@@ -155,20 +170,24 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                 iv_icon_monitor.isSelected = true
                 tv_icon_monitor.isSelected = true
             }
+
             1 -> {
                 iv_icon_gallery.isSelected = true
                 tv_icon_gallery.isSelected = true
             }
+
             3 -> {
                 iv_icon_report.isSelected = true
                 tv_icon_report.isSelected = true
             }
+
             4 -> {
                 iv_icon_mine.isSelected = true
                 tv_icon_mine.isSelected = true
             }
         }
     }
+
     private fun showGuideDialog() {
         if (SharedManager.homeGuideStep == 0) {
             return
@@ -191,6 +210,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                     }
                     SharedManager.homeGuideStep = 2
                 }
+
                 2 -> {
                     view_page.setCurrentItem(2, false)
                     if (Build.VERSION.SDK_INT < 31) {
@@ -201,6 +221,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                     }
                     SharedManager.homeGuideStep = 3
                 }
+
                 3 -> {
                     SharedManager.homeGuideStep = 0
                 }
@@ -264,6 +285,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
             initStoragePermission(permissionList)
         }
     }
+
     private fun initStoragePermission(permissionList: List<String>) {
         if (PermissionUtils.isVisualUser()) {
             view_page.setCurrentItem(1, false)
@@ -277,6 +299,7 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                         view_page.setCurrentItem(1, false)
                     }
                 }
+
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
                         TipDialog.Builder(this@IRMainActivity)

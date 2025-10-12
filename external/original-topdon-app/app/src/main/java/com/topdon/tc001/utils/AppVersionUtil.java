@@ -94,11 +94,11 @@ public class AppVersionUtil {
         });
     }
 
-        private float getDealVersionCode() {
+    private float getDealVersionCode() {
         return AppUtil.getVersionCode(mContext) / 10;
     }
 
-        private void showNewVersionDialog(AppInfoBean bean) {
+    private void showNewVersionDialog(AppInfoBean bean) {
         String information = "";
         if (bean.softConfigOtherTypeVOList != null) {
             for (AppInfoBean.UpdateDescription updateDescription : bean.softConfigOtherTypeVOList) {
@@ -300,8 +300,7 @@ public class AppVersionUtil {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-            {
+            if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
                 installApk();
             }
         }

@@ -1,4 +1,3 @@
-
 package com.shimmerresearch.tools;
 
 import java.io.BufferedWriter;
@@ -25,7 +24,7 @@ public class LoggingPC {
     File outputFile;
     String mDelimiter = ",";
 
-        public LoggingPC(String fileName) {
+    public LoggingPC(String fileName) {
 
         mFileName = fileName;
         if (mFileName.contains(".csv")) {
@@ -59,7 +58,7 @@ public class LoggingPC {
     }
 
 
-        public void logData(ObjectCluster objectCluster) {
+    public void logData(ObjectCluster objectCluster) {
         ObjectCluster objectClusterLog = objectCluster;
         try {
 
@@ -89,7 +88,6 @@ public class LoggingPC {
                     mSensorNames[i] = key;
                     i++;
                 }
-
 
 
                 writer = new BufferedWriter(new FileWriter(outputFile, false));
@@ -148,7 +146,7 @@ public class LoggingPC {
         }
     }
 
-        public void logFilteredData(ObjectCluster objectCluster, double[] exg1_24bit, double[] exg2_24bit, double[] exg1_16bit, double[] exg2_16bit) {
+    public void logFilteredData(ObjectCluster objectCluster, double[] exg1_24bit, double[] exg2_24bit, double[] exg1_16bit, double[] exg2_16bit) {
         ObjectCluster objectClusterLog = objectCluster;
         try {
 
@@ -178,7 +176,6 @@ public class LoggingPC {
                     mSensorNames[i] = key;
                     i++;
                 }
-
 
 
                 writer = new BufferedWriter(new FileWriter(outputFile, false));

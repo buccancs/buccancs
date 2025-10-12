@@ -1,4 +1,5 @@
 package com.topdon.house.adapter
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.topdon.lib.core.db.entity.HouseBase
 import com.topdon.lib.core.tools.GlideLoader
 import com.topdon.lib.core.tools.TimeTool
 import kotlinx.android.synthetic.main.item_house_list.view.*
+
 @SuppressLint("NotifyDataSetChanged")
 internal class HouseAdapter(val context: Context, val isDetect: Boolean) :
     RecyclerView.Adapter<HouseAdapter.ViewHolder>() {
@@ -32,9 +34,11 @@ internal class HouseAdapter(val context: Context, val isDetect: Boolean) :
         dataList.addAll(newList)
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_house_list, parent, false))
     }
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val houseBase: HouseBase = dataList[position]
@@ -56,6 +60,7 @@ internal class HouseAdapter(val context: Context, val isDetect: Boolean) :
         holder.itemView.tv_detect_share.setText(if (isDetect) R.string.app_detection else R.string.battery_share)
         GlideLoader.load(holder.itemView.iv_house_image, houseBase.imagePath)
     }
+
     override fun getItemCount(): Int = dataList.size
     inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
         init {

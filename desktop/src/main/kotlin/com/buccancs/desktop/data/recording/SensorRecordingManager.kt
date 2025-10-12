@@ -1,4 +1,5 @@
 package com.buccancs.desktop.data.recording
+
 import com.buccancs.control.SensorSample
 import com.buccancs.control.SensorSampleBatch
 import com.buccancs.desktop.data.repository.SessionRepository
@@ -14,6 +15,7 @@ import java.nio.file.StandardOpenOption
 import java.security.MessageDigest
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+
 class SensorRecordingManager(
     private val sessionRepository: SessionRepository
 ) {
@@ -48,9 +50,11 @@ class SensorRecordingManager(
             val metricsUpdate = when {
                 streamId.equals(STREAM_GSR, ignoreCase = true) ->
                     { metrics: MetadataMetrics -> metrics.copy(gsrSamples = metrics.gsrSamples + result.samples) }
+
                 streamId.equals(STREAM_AUDIO, ignoreCase = true) ||
                         streamId.contains("audio", ignoreCase = true) ->
                     { metrics: MetadataMetrics -> metrics.copy(audioSamples = metrics.audioSamples + result.samples) }
+
                 else -> null
             }
             if (metricsUpdate != null) {
@@ -59,16 +63,19 @@ class SensorRecordingManager(
         }
         return result.samples
     }
+
     suspend fun finalizeStream(sessionId: String, deviceId: String, streamId: String) {
         val key = StreamKey(sessionId, deviceId, streamId)
         val writer = removeWriter(key) ?: return
         finalizeWriter(key, writer, includeChecksum = true)
     }
+
     suspend fun abortStream(sessionId: String, deviceId: String, streamId: String) {
         val key = StreamKey(sessionId, deviceId, streamId)
         val writer = removeWriter(key) ?: return
         finalizeWriter(key, writer, includeChecksum = false)
     }
+
     suspend fun closeSession(sessionId: String) {
         val keys = writers.keys.filter { it.sessionId == sessionId }
         for (key in keys) {
@@ -76,6 +83,7 @@ class SensorRecordingManager(
             finalizeWriter(key, writer, includeChecksum = true)
         }
     }
+
     private suspend fun finalizeWriter(
         key: StreamKey,
         writer: StreamWriter,
@@ -108,6 +116,7 @@ class SensorRecordingManager(
             )
         }
     }
+
     private suspend fun getOrCreateWriter(
         key: StreamKey,
         batch: SensorSampleBatch
@@ -143,8 +152,10 @@ class SensorRecordingManager(
             writer
         }
     }
+
     private suspend fun removeWriter(key: StreamKey): StreamWriter? =
         writerMutex.withLock { writers.remove(key) }
+
     private fun extractChannels(batch: SensorSampleBatch): List<String> {
         val observed = linkedSetOf<String>()
         batch.samplesList.forEach { sample ->
@@ -159,6 +170,7 @@ class SensorRecordingManager(
         }
         return observed.toList()
     }
+
     private fun computeChecksum(path: Path): ByteArray {
         val digest = MessageDigest.getInstance("SHA-256")
         Files.newInputStream(path, StandardOpenOption.READ).use { input ->
@@ -171,11 +183,13 @@ class SensorRecordingManager(
         }
         return digest.digest()
     }
+
     private data class StreamKey(
         val sessionId: String,
         val deviceId: String,
         val streamId: String
     )
+
     private class StreamWriter(
         val sessionId: String,
         val deviceId: String,
@@ -198,6 +212,7 @@ class SensorRecordingManager(
             private set
         var totalBytes: Long = 0
             private set
+
         suspend fun append(samples: List<SensorSample>): AppendResult = mutex.withLock {
             if (samples.isEmpty()) return AppendResult(0, 0)
             val builder = StringBuilder(samples.size * (channels.size + 1) * 12)
@@ -220,6 +235,7 @@ class SensorRecordingManager(
             totalBytes += bytes
             AppendResult(samples.size.toLong(), bytes.toLong())
         }
+
         suspend fun writeHeader() = mutex.withLock {
             val headerMeta = "# stream_id=$streamId sample_rate_hz=${formatValue(sampleRateHz)}"
             val headerColumns = buildString {
@@ -229,16 +245,19 @@ class SensorRecordingManager(
             writeLine(headerMeta)
             writeLine(headerColumns)
         }
+
         private fun writeLine(line: String) {
             writer.write(line)
             writer.write('\n'.code)
             val bytes = line.toByteArray(charset).size + 1
             totalBytes += bytes
         }
+
         suspend fun close() = mutex.withLock {
             writer.flush()
             writer.close()
         }
+
         private fun formatValue(value: Double): String =
             if (value.isFinite()) {
                 String.format(Locale.ROOT, "%.6f", value)
@@ -246,10 +265,12 @@ class SensorRecordingManager(
                 ""
             }
     }
+
     private data class AppendResult(
         val samples: Long,
         val bytes: Long
     )
+
     private companion object {
         private const val MIME_TYPE_CSV = "text/csv"
         private const val DEFAULT_STREAM_ID = "sensor"

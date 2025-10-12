@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.fragment
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -39,6 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+
 class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
     private var isTC007 = false
     private var page = 1
@@ -48,6 +50,7 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
     override fun initContentView(): Int {
         return R.layout.fragment_pdf_list
     }
+
     override fun initView() {
         isTC007 = arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false
         val intentFilter = IntentFilter()
@@ -106,13 +109,16 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
             }
         })
     }
+
     private var hasLoadData = false
     override fun initData() {
     }
+
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(loginBroadcastReceiver)
     }
+
     private inner class LoginBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             when (intent?.action) {
@@ -124,6 +130,7 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
             }
         }
     }
+
     private fun initRecycler() {
         reportAdapter.isUseEmpty = true
         reportAdapter.delListener = { item, position ->
@@ -154,8 +161,10 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
                                     }
                                     Log.w("删除成功", response.toString())
                                 }
+
                                 override fun onFail(exception: Exception?) {
                                 }
+
                                 override fun onFail(failMsg: String?, errorCode: String) {
                                     super.onFail(failMsg, errorCode)
                                     try {

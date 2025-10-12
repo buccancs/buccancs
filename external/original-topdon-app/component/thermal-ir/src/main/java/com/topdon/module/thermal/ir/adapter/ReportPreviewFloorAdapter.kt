@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.adapter
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
@@ -31,6 +32,7 @@ import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_project
 import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_remark
 import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_repair
 import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_replace
+
 @SuppressLint("NotifyDataSetChanged")
 class ReportPreviewFloorAdapter(
     val cxt: Context,
@@ -40,12 +42,14 @@ class ReportPreviewFloorAdapter(
     override fun getItemViewType(position: Int): Int {
         return position
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ItemView(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_report_floor_child, parent, false)
         )
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val bean = dataList[position]
         holder.itemView.iv_problem.visibility = if (position == 0) View.INVISIBLE else View.VISIBLE
@@ -71,16 +75,19 @@ class ReportPreviewFloorAdapter(
                     holder.itemView.iv_repair.visibility = View.INVISIBLE
                     holder.itemView.iv_replace.visibility = View.INVISIBLE
                 }
+
                 2 -> {
                     holder.itemView.iv_problem.visibility = View.INVISIBLE
                     holder.itemView.iv_repair.visibility = View.VISIBLE
                     holder.itemView.iv_replace.visibility = View.INVISIBLE
                 }
+
                 3 -> {
                     holder.itemView.iv_problem.visibility = View.INVISIBLE
                     holder.itemView.iv_repair.visibility = View.INVISIBLE
                     holder.itemView.iv_replace.visibility = View.VISIBLE
                 }
+
                 else -> {
                     holder.itemView.iv_problem.visibility = View.INVISIBLE
                     holder.itemView.iv_repair.visibility = View.INVISIBLE
@@ -89,9 +96,11 @@ class ReportPreviewFloorAdapter(
             }
         }
     }
+
     override fun getItemCount(): Int {
         return dataList.size
     }
+
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvProject: TextView = itemView.tv_project
         val tvProblem: TextView = itemView.tv_problem

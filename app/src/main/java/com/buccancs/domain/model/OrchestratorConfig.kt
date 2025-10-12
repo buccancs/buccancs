@@ -1,4 +1,5 @@
 package com.buccancs.domain.model
+
 data class OrchestratorConfig(
     val host: String,
     val port: Int,

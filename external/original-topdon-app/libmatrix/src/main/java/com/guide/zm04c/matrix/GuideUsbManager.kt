@@ -1,4 +1,5 @@
 package com.guide.zm04c.matrix
+
 import android.app.PendingIntent
 import android.content.Context
 import android.hardware.usb.*
@@ -10,6 +11,7 @@ import com.guide.zm04c.matrix.ResultCode.SUCC_CONNECT_INTERFACE
 import com.guide.zm04c.matrix.utils.ByteUtils.toHexString
 import com.guide.zm04c.matrix.utils.HexDump
 import java.util.*
+
 class GuideUsbManager {
     private var mContext: Context? = null
     private val mPermissionIntent: PendingIntent? = null
@@ -20,6 +22,7 @@ class GuideUsbManager {
     private var mEndpointDataIn: UsbEndpoint? = null
     private var mEndpointControlOut: UsbEndpoint? = null
     private var mEndpointControlIn: UsbEndpoint? = null
+
     companion object {
         val ADDRESS_ENDPOINT_DATA_IN = 129
         val ADDRESS_ENDPOINT_CONTROL_OUT = 2
@@ -27,13 +30,16 @@ class GuideUsbManager {
         val VENDOR_ID = 0x4206
         val PRODUCT_ID = 0x3702
     }
-        private var mConnectCode: Int = ResultCode.READY_CONNECT_DEVICE
+
+    private var mConnectCode: Int = ResultCode.READY_CONNECT_DEVICE
     private val TAG = "guidecore"
     private var mNativeGuideCore: NativeGuideCore? = null
+
     constructor(context: Context?, nativeGuideCore: NativeGuideCore?) {
         mContext = context
         mNativeGuideCore = nativeGuideCore
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     fun connectUsbDevice(): Int {
         if (mConnectCode == ResultCode.READY_CONNECT_DEVICE) {
@@ -50,13 +56,16 @@ class GuideUsbManager {
         }
         return mConnectCode
     }
+
     fun disconnectUsbDevice() {
         resetUsbDevice()
         mConnectCode = ResultCode.READY_CONNECT_DEVICE
     }
+
     fun isUsbValid(): Boolean {
         return true
     }
+
     private fun resetUsbDevice() {
         if (mConnection != null) {
             mConnection!!.releaseInterface(mUsbInterface)
@@ -70,6 +79,7 @@ class GuideUsbManager {
         mEndpointControlOut = null
         mEndpointControlIn = null
     }
+
     private fun getUsbDevice() {
         mUsbManager = mContext!!.getSystemService(Context.USB_SERVICE) as UsbManager
         val deviceList = mUsbManager!!.deviceList
@@ -88,6 +98,7 @@ class GuideUsbManager {
             mConnectCode = ResultCode.ERROR_NOT_FIND_DEVICE
         }
     }
+
     /*
     private void findInterface() {
         if (mUsbDevice != null) {
@@ -131,6 +142,7 @@ class GuideUsbManager {
             }
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private fun openDevice(): Int {
         if (mUsbInterface != null) {
@@ -152,6 +164,7 @@ class GuideUsbManager {
         }
         return mConnectCode
     }
+
     private fun assignEndpoint() {
         if (mUsbInterface != null) {
             val endpointCount = mUsbInterface!!.endpointCount
@@ -174,25 +187,30 @@ class GuideUsbManager {
             }
         }
     }
+
     fun read(buffer: ByteArray): Int {
         return if (!isUsbValid()) {
             ResultCode.ERROR_USE_USB_ISVALID
         } else mConnection!!.bulkTransfer(mEndpointDataIn, buffer, buffer.size, 1000)
     }
+
     fun changePalette(i: Int) {
         val cmd = byteArrayOf(0x11, 0x00)
         sendUsbCmd(cmd, toByteArray(i))
     }
+
     fun shutter() {
         val cmd = byteArrayOf(0x15, 0x00)
         val data = byteArrayOf(0x00, 0x00, 0x00, 0x00)
         sendUsbCmd(cmd, data)
     }
+
     fun nuc() {
         val cmd = byteArrayOf(0x16, 0x00)
         val data = byteArrayOf(0x00, 0x00, 0x00, 0x00)
         sendUsbCmd(cmd, data)
     }
+
     fun upgrade(data: ByteArray): Boolean {
         val PAGE_SIZE = 3000
         val header = byteArrayOf(0x02)
@@ -242,27 +260,33 @@ class GuideUsbManager {
         val upgradeResultCmd = byteArrayOf(0x08, 0x00)
         return receive(upgradeResultCmd)
     }
+
     fun setRange(range: Int) {
         val cmd = byteArrayOf(0x20, 0x01)
         sendUsbCmd(cmd, toByteArray(range))
     }
+
     fun setEmiss(emiss: Int) {
         val cmd = byteArrayOf(0x21, 0x01)
         sendUsbCmd(cmd, toByteArray(emiss))
     }
+
     fun setDistance(value: Float) {
         val cmd = byteArrayOf(0x23, 0x01)
         val distance = (value * 10).toInt()
         sendUsbCmd(cmd, toByteArray(distance))
     }
+
     fun setBright(bright: Int) {
         val cmd = byteArrayOf(0x00, 0x02)
         sendUsbCmd(cmd, toByteArray(bright))
     }
+
     fun setContrast(contrast: Int) {
         val cmd = byteArrayOf(0x01, 0x02)
         sendUsbCmd(cmd, toByteArray(contrast))
     }
+
     private fun toByteArray(i: Int): ByteArray {
         val data = ByteArray(4)
         data[0] = (i and 0xFF).toByte()
@@ -271,6 +295,7 @@ class GuideUsbManager {
         data[3] = (i shr 24 and 0xFF).toByte()
         return data
     }
+
     private fun sendUsbCmd(cmd: ByteArray, data: ByteArray): Int {
         val header = byteArrayOf(0x02)
         val reserve = byteArrayOf(0x00)
@@ -300,6 +325,7 @@ class GuideUsbManager {
         Logger.d(TAG, "<< end (length = $length)")
         return length
     }
+
     private fun send(buffer: ByteArray): Boolean {
         val length = mConnection!!.bulkTransfer(mEndpointControlOut, buffer, buffer.size, 1000)
         Logger.d(
@@ -308,6 +334,7 @@ class GuideUsbManager {
         )
         return length == buffer.size
     }
+
     private fun receive(cmd: ByteArray): Boolean {
         val SUCCESS = byteArrayOf(0x00, 0x00, 0x00, 0x00)
         val buffer = ByteArray(17)

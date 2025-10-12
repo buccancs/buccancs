@@ -6,7 +6,7 @@ public class UtilCalibration {
 
     public final static boolean USE_EFFICIENT_CALIBRATION_METHOD = true;
 
-        public static double[] calibrateInertialSensorData(double[] data, double[][] AM, double[][] SM, double[][] OV) {
+    public static double[] calibrateInertialSensorData(double[] data, double[][] AM, double[][] SM, double[][] OV) {
         if (data == null || AM == null || SM == null || OV == null) {
             System.out.println("UtilCalibration.calibrateInertialSensorData:" + "ERROR! NaN in input data");
             return null;
@@ -34,7 +34,7 @@ public class UtilCalibration {
     }
 
 
-        public static double[] calibrateInertialSensorData(double[] data, double[][] matrixMultipliedInverseAMSM, double[][] OV) {
+    public static double[] calibrateInertialSensorData(double[] data, double[][] matrixMultipliedInverseAMSM, double[][] OV) {
         if (data == null || matrixMultipliedInverseAMSM == null || OV == null) {
             System.out.println("UtilCalibration.calibrateInertialSensorData:" + "ERROR! NaN in input data");
             return null;
@@ -57,7 +57,7 @@ public class UtilCalibration {
         return ansdata;
     }
 
-        public static double[] calibrateInertialSensorData(double[] data, CalibDetailsKinematic calibDetails) {
+    public static double[] calibrateInertialSensorData(double[] data, CalibDetailsKinematic calibDetails) {
         if (calibDetails == null) {
             return data;
         }
@@ -74,7 +74,7 @@ public class UtilCalibration {
         }
     }
 
-        public static double[] calibrateImuData(double[] xyzArray, double[][] currentSensitivityMatrix, double[][] currentOffsetVector) {
+    public static double[] calibrateImuData(double[] xyzArray, double[][] currentSensitivityMatrix, double[][] currentOffsetVector) {
         double[] xyzCalArray = new double[3];
         for (int axis = 0; axis < 3; axis++) {
             xyzCalArray[axis] = xyzArray[axis] * currentSensitivityMatrix[axis][axis] + currentOffsetVector[axis][0];

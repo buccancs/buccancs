@@ -8,7 +8,7 @@ public class DragViewUtil {
     public static void registerDragAction(View v) {
     }
 
-        public static void registerDragAction(View v, long delay) {
+    public static void registerDragAction(View v, long delay) {
         v.setOnTouchListener(new TouchListener(delay));
     }
 

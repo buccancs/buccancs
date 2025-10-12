@@ -1,4 +1,5 @@
 package com.topdon.hik.activity
+
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.core.view.isVisible
@@ -23,6 +24,7 @@ import com.topdon.module.thermal.ir.view.TemperatureHikView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+
 class IRMonitorCaptureHik2Activity : BaseBindingActivity<ActivityIrMonitorCaptureHik2Binding>() {
     private var selectBean = SelectPositionBean()
     override fun initContentLayoutId(): Int = R.layout.activity_ir_monitor_capture_hik2
@@ -60,32 +62,39 @@ class IRMonitorCaptureHik2Activity : BaseBindingActivity<ActivityIrMonitorCaptur
                 binding.temperatureView.mode = Mode.POINT
                 binding.temperatureView.addSourcePoint(selectBean.startPosition)
             }
+
             2 -> {
                 binding.temperatureView.mode = Mode.LINE
                 binding.temperatureView.addSourceLine(Line(selectBean.startPosition, selectBean.endPosition))
             }
+
             3 -> {
                 binding.temperatureView.mode = Mode.RECT
                 binding.temperatureView.addSourceRect(selectBean.getRect())
             }
         }
     }
+
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         binding.mpChartView.highlightValue(null)
     }
+
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     override fun disConnected() {
         finish()
     }
+
     override fun finish() {
         super.finish()
         EventBus.getDefault().post(MonitorSaveEvent())
     }
+
     private var startTime: Long = 0L
     private var thermalId: String = ""
     private fun saveOneRecord(tempInfo: TemperatureHikView.TempInfo) {

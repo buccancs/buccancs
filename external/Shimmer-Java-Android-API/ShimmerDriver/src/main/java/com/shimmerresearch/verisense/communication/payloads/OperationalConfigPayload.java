@@ -88,7 +88,6 @@ public class OperationalConfigPayload extends AbstractPayload implements Seriali
         verisenseDevice.disableAllSensors();
 
 
-
         verisenseDevice.setDataCompressionMode(DATA_COMPRESSION_MODE.NONE);
         verisenseDevice.setBatteryType(BATTERY_TYPE.ZINC_AIR);
         verisenseDevice.setBluetoothEnabled(false);

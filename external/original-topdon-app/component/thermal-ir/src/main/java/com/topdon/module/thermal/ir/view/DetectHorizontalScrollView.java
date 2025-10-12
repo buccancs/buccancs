@@ -68,13 +68,13 @@ public class DetectHorizontalScrollView extends HorizontalScrollView {
     }
 
     public interface OnScrollStopListner {
-                void onScrollStoped();
+        void onScrollStoped();
 
-                void onScrollToLeftEdge();
+        void onScrollToLeftEdge();
 
-                void onScrollToRightEdge();
+        void onScrollToRightEdge();
 
-                void onScrollToMiddle();
+        void onScrollToMiddle();
 
         void onScrollChanged(int l, int t, int oldl, int oldt);
     }

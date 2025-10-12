@@ -19,7 +19,7 @@ public class UartComponentPropertyDetails {
 
     public byte[] mCompPropByteArray = null;
 
-        public UartComponentPropertyDetails(UartPacketDetails.UART_COMPONENT component, int property, PERMISSION readWrite, List<ShimmerVerObject> listOfCompatibleVersionInfo, String propertyName) {
+    public UartComponentPropertyDetails(UartPacketDetails.UART_COMPONENT component, int property, PERMISSION readWrite, List<ShimmerVerObject> listOfCompatibleVersionInfo, String propertyName) {
         mComponent = component;
         mComponentByte = component.toCmdByte();
         mProperty = property;

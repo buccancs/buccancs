@@ -158,7 +158,7 @@ public class HorizontalBarChart extends BarChart {
 
     }
 
-        @Override
+    @Override
     public MPPointF getPosition(Entry e, AxisDependency axis) {
 
         if (e == null)
@@ -173,7 +173,7 @@ public class HorizontalBarChart extends BarChart {
         return MPPointF.getInstance(vals[0], vals[1]);
     }
 
-        @Override
+    @Override
     public Highlight getHighlightByTouchPoint(float x, float y) {
 
         if (mData == null) {
@@ -200,7 +200,7 @@ public class HorizontalBarChart extends BarChart {
         return result;
     }
 
-    
+
     @Override
     public void setVisibleXRangeMaximum(float maxXRange) {
         float xScale = mXAxis.mAxisRange / (maxXRange);

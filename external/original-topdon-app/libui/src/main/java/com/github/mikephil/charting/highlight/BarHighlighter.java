@@ -39,7 +39,7 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
         return high;
     }
 
-        public Highlight getStackedHighlight(Highlight high, IBarDataSet set, float xVal, float yVal) {
+    public Highlight getStackedHighlight(Highlight high, IBarDataSet set, float xVal, float yVal) {
 
         BarEntry entry = set.getEntryForXValue(xVal, yVal);
 
@@ -75,7 +75,7 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
         return null;
     }
 
-        protected int getClosestStackIndex(Range[] ranges, float value) {
+    protected int getClosestStackIndex(Range[] ranges, float value) {
 
         if (ranges == null || ranges.length == 0)
             return 0;

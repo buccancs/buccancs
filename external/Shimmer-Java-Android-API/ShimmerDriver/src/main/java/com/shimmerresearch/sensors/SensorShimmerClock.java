@@ -128,8 +128,6 @@ public class SensorShimmerClock extends AbstractSensor {
     protected double mLastReceivedTimeStampTicksUnwrapped = 0;
 
 
-
-
     protected double mCurrentTimeStampCycle = 0;
     protected long mInitialTimeStampTicksSd = 0;
     @Deprecated
@@ -361,8 +359,7 @@ public class SensorShimmerClock extends AbstractSensor {
                     }
 
                 }
-            }
-            else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.SYSTEM_TIMESTAMP)) {
+            } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.SYSTEM_TIMESTAMP)) {
                 for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
 
                     if (channelDetails.mObjectClusterName.equals(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP)) {
@@ -419,9 +416,7 @@ public class SensorShimmerClock extends AbstractSensor {
                         objectCluster.incrementIndexKeeper();
                     }
                 }
-            }
-
-            else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.DEVICE_PROPERTIES)) {
+            } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.DEVICE_PROPERTIES)) {
                 for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
                     if (channelDetails.mObjectClusterName.equals(Configuration.Shimmer3.ObjectClusterSensorName.BATT_PERCENTAGE)) {
                         objectCluster.addCalData(channelBattPercentage, mShimmerDevice.getEstimatedChargePercentage());
@@ -519,7 +514,7 @@ public class SensorShimmerClock extends AbstractSensor {
 
     }
 
-        protected double unwrapTimeStamp(double timeStampTicks) {
+    protected double unwrapTimeStamp(double timeStampTicks) {
         double timestampUnwrappedTicks = calculateTimeStampUnwrapped(timeStampTicks);
 
         if (getLastReceivedTimeStampTicksUnwrapped() > timestampUnwrappedTicks) {
@@ -569,7 +564,7 @@ public class SensorShimmerClock extends AbstractSensor {
 
     }
 
-        @Deprecated
+    @Deprecated
     public double calculatePacketReceptionRateCurrent(int intervalMs) {
         double numPacketsShouldHaveReceived = (((double) intervalMs) / 1000) * getSamplingRateShimmer();
 
@@ -601,7 +596,7 @@ public class SensorShimmerClock extends AbstractSensor {
         mCurrentTimeStampCycle = 0;
     }
 
-        public double getLastReceivedTimeStampTicksUnwrapped() {
+    public double getLastReceivedTimeStampTicksUnwrapped() {
         return mLastReceivedTimeStampTicksUnwrapped;
     }
 
@@ -609,12 +604,12 @@ public class SensorShimmerClock extends AbstractSensor {
         mLastReceivedTimeStampTicksUnwrapped = lastReceivedTimeStampTicksUnwrapped;
     }
 
-        public long getInitialTimeStampTicksSd() {
+    public long getInitialTimeStampTicksSd() {
         return mInitialTimeStampTicksSd;
     }
 
 
-        public void setInitialTimeStampTicksSd(long initialTimeStamp) {
+    public void setInitialTimeStampTicksSd(long initialTimeStamp) {
         mInitialTimeStampTicksSd = initialTimeStamp;
     }
 

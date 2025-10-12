@@ -1,4 +1,5 @@
 package com.topdon.tc001
+
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
@@ -22,6 +23,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
+
 @Route(path = RouterConfig.CLAUSE)
 class ClauseActivity : AppCompatActivity() {
     private lateinit var dialog: TipProgressDialog
@@ -96,6 +98,7 @@ class ClauseActivity : AppCompatActivity() {
         tv_version.text = "${getString(R.string.set_version)}V${VersionUtils.getCodeStr(this)}"
         clause_name.text = CommUtils.getAppName()
     }
+
     private fun confirmInitApp() {
         lifecycleScope.launch {
             showLoading()
@@ -111,9 +114,11 @@ class ClauseActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun showLoading() {
         dialog.show()
     }
+
     private fun dismissLoading() {
         dialog.dismiss()
     }

@@ -50,7 +50,7 @@ public class UtilVerisenseDriver implements Serializable {
     public static final LocalTime LT23_59 = LocalTime.of(23, 59, 59, 999999999);
     public static final String CSV_HEADER_SEPARATOR = "----------------------------------------";
     public static final String CSV_HEADER_SEPARATOR_LEGACY = "--------------------------------------------------,,\"";
-        public static final int CSV_HEADER_LINES_SEARCH_LIMIT = 12 + 5;
+    public static final int CSV_HEADER_LINES_SEARCH_LIMIT = 12 + 5;
     public static final String FILE_FILTER_69 = "69";
     public static final String FILE_FILTER_70 = "70";
     public static final String FILE_FILTER_PREFIX_69 = File.separator + FILE_FILTER_69;
@@ -62,7 +62,7 @@ public class UtilVerisenseDriver implements Serializable {
     public static SimpleDateFormat sdfGgir = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
     private static DateFormat dfForFileNameUtc = new SimpleDateFormat(DATE_FORMAT_FILENAME);
 
-        public static String binaryFileDirToDeviceLevelDir(String binaryFilePath) {
+    public static String binaryFileDirToDeviceLevelDir(String binaryFilePath) {
         File file = new File(binaryFilePath);
         File parentFile = file.getParentFile();
         String parent = parentFile.getParent();
@@ -84,12 +84,12 @@ public class UtilVerisenseDriver implements Serializable {
         return String.format("%05d", startPayloadIndex);
     }
 
-        public static boolean isTransitionMidDayOrMidnight(double timestampMs1, double timestampMs2) {
+    public static boolean isTransitionMidDayOrMidnight(double timestampMs1, double timestampMs2) {
         return (UtilVerisenseDriver.isTransistionMidday(timestampMs1, timestampMs2)
                 || UtilVerisenseDriver.isTransistionMidnight(timestampMs1, timestampMs2));
     }
 
-        public static boolean isTransistionMidday(double timestampMs1, double timestampMs2) {
+    public static boolean isTransistionMidday(double timestampMs1, double timestampMs2) {
         if (UtilVerisenseDriver.isTsBeforeMidday((long) timestampMs1)
                 && UtilVerisenseDriver.isTsAfterMidday((long) timestampMs2)) {
             return true;
@@ -97,7 +97,7 @@ public class UtilVerisenseDriver implements Serializable {
         return false;
     }
 
-        public static boolean isTransistionMidnight(double timestampMs1, double timestampMs2) {
+    public static boolean isTransistionMidnight(double timestampMs1, double timestampMs2) {
         if (UtilVerisenseDriver.isTsAfterMidday((long) timestampMs1)
                 && UtilVerisenseDriver.isTsBeforeMidday((long) timestampMs2)) {
             return true;
@@ -206,7 +206,7 @@ public class UtilVerisenseDriver implements Serializable {
         return Instant.now().atZone(TIME_ZONE_ID).toLocalDate();
     }
 
-        public static long fromTimeStringToMilliseconds(String timeString, String format) {
+    public static long fromTimeStringToMilliseconds(String timeString, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         dateFormat.setTimeZone(UtilVerisenseDriver.TIME_ZONE);
 
@@ -389,11 +389,11 @@ public class UtilVerisenseDriver implements Serializable {
         return true;
     }
 
-        public static File[] filterFileArrayForAnyFileNamePrefixAndSuffixAndSort(File[] fileArray, String fileNamePrefix, String fileNameSuffix, boolean sortAscending) {
+    public static File[] filterFileArrayForAnyFileNamePrefixAndSuffixAndSort(File[] fileArray, String fileNamePrefix, String fileNameSuffix, boolean sortAscending) {
         return filterFileArrayForAnyFileNamePrefixAndAnySuffixAndSort(fileArray, fileNamePrefix, new String[]{fileNameSuffix}, sortAscending);
     }
 
-        public static File[] filterFileArrayForAnyFileNamePrefixAndAnySuffixAndSort(File[] fileArray, String fileNamePrefix, String[] fileNameSuffix, boolean sortAscending) {
+    public static File[] filterFileArrayForAnyFileNamePrefixAndAnySuffixAndSort(File[] fileArray, String fileNamePrefix, String[] fileNameSuffix, boolean sortAscending) {
         List<File> listOfFiles = new ArrayList<File>();
 
         for (File file : fileArray) {
@@ -419,7 +419,7 @@ public class UtilVerisenseDriver implements Serializable {
         return fileArrayFilt;
     }
 
-        public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String nameContains, String fileNameSuffix) {
+    public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String nameContains, String fileNameSuffix) {
         String[][] newArray = null;
         if (nameContains != null && !nameContains.isEmpty()) {
             newArray = new String[][]{{nameContains}};
@@ -427,15 +427,15 @@ public class UtilVerisenseDriver implements Serializable {
         return filterFileArrayForAllAndRemoveDuplicates(fileArray, newArray, null, fileNameSuffix);
     }
 
-        public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String fileNameSuffix) {
+    public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String fileNameSuffix) {
         return filterFileArrayForAllAndRemoveDuplicates(fileArray, nameContains, pathContains, (fileNameSuffix == null ? null : (new String[]{fileNameSuffix})));
     }
 
-        public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String[] fileNameSuffixes) {
+    public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String[] fileNameSuffixes) {
         return filterFileArrayForAllAndRemoveDuplicates(fileArray, nameContains, pathContains, fileNameSuffixes, null);
     }
 
-        public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String[] fileNameSuffixes, String[] fileNamePrefixes) {
+    public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String[] fileNameSuffixes, String[] fileNamePrefixes) {
         List<File> listOfFiles = new ArrayList<File>();
         fileLoop:
         for (File file : fileArray) {
@@ -483,12 +483,12 @@ public class UtilVerisenseDriver implements Serializable {
         return selectedFileArray;
     }
 
-        public static File[] filterOutOfFileArrayDuplicatesAnd69And70Files(File[] fileArray) {
+    public static File[] filterOutOfFileArrayDuplicatesAnd69And70Files(File[] fileArray) {
         File[] files = filterOutOfFileArray(fileArray, new String[]{FILE_FILTER_DUPLICATE}, null);
         return filterFilenamePrefixesOutOfFileArray(files, new String[]{FILE_FILTER_69, FILE_FILTER_70});
     }
 
-        public static File[] filterOutOfFileArray(File[] fileArray, String[] nameContains, String[] pathContains) {
+    public static File[] filterOutOfFileArray(File[] fileArray, String[] nameContains, String[] pathContains) {
         List<File> listOfFiles = new ArrayList<File>();
         fileLoop:
         for (File file : fileArray) {
@@ -509,7 +509,7 @@ public class UtilVerisenseDriver implements Serializable {
         return selectedFileArray;
     }
 
-        public static File[] filterFilenamePrefixesOutOfFileArray(File[] fileArray, String[] prefixContains) {
+    public static File[] filterFilenamePrefixesOutOfFileArray(File[] fileArray, String[] prefixContains) {
         List<File> listOfFiles = new ArrayList<File>();
 
         fileLoop:
@@ -704,7 +704,7 @@ public class UtilVerisenseDriver implements Serializable {
         return formatted;
     }
 
-        public static String pickoutParameterFromLine(String dataLine, String preceedingStr) {
+    public static String pickoutParameterFromLine(String dataLine, String preceedingStr) {
         String returnStr = "";
         int indexOfPreceedingStr = dataLine.indexOf(preceedingStr);
         if (indexOfPreceedingStr >= 0) {
@@ -716,15 +716,15 @@ public class UtilVerisenseDriver implements Serializable {
         return returnStr;
     }
 
-        public static String getDateTimeStrInFileName(File file) {
+    public static String getDateTimeStrInFileName(File file) {
         return file.getName().substring(0, 13);
     }
 
-        public static boolean isDashboardEmulatorParticipant(String participantId) {
+    public static boolean isDashboardEmulatorParticipant(String participantId) {
         return participantId.matches("P[0-9]{3}");
     }
 
-        public static boolean isDashboardEmulatorSensor(String sensorId) {
+    public static boolean isDashboardEmulatorSensor(String sensorId) {
         return sensorId.matches("S[0-9]{3}");
     }
 

@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.viewmodel
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.topdon.lib.core.bean.GalleryBean
@@ -12,10 +13,12 @@ import com.topdon.module.thermal.ir.utils.WriteTools
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+
 class IRGalleryViewModel : BaseViewModel() {
     companion object {
         const val PAGE_COUNT = 20
     }
+
     val sourceListLD: MutableLiveData<ArrayList<GalleryBean>> = MutableLiveData()
     val showListLD: MutableLiveData<ArrayList<GalleryBean>> = MutableLiveData()
     fun queryAllReportImg(dirType: GalleryRepository.DirType) {
@@ -35,6 +38,7 @@ class IRGalleryViewModel : BaseViewModel() {
             showListLD.postValue(showList)
         }
     }
+
     var hasLoadPage = 0
     val pageListLD: MutableLiveData<ArrayList<GalleryBean>?> = MutableLiveData()
     fun queryGalleryByPage(isVideo: Boolean, dirType: GalleryRepository.DirType) {

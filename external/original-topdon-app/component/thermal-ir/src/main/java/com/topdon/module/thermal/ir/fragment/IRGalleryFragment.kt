@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.fragment
+
 import android.app.Activity
 import android.content.Intent
 import android.media.MediaScannerConnection
@@ -37,6 +38,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
+
 class IRGalleryFragment : BaseFragment() {
     private var currentDirType = DirType.LINE
     private val viewModel: IRGalleryViewModel by viewModels()
@@ -114,13 +116,16 @@ class IRGalleryFragment : BaseFragment() {
         }
         isVideo = arguments?.getBoolean(ExtraKeyConfig.IS_VIDEO) ?: false
     }
+
     override fun initData() {
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun galleryDirChange(event: GalleryDirChangeEvent) {
         currentDirType = event.dirType
         refresh()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun galleryDownload(event: GalleryDownloadEvent) {
         for (i in adapter.dataList.indices) {
@@ -133,14 +138,17 @@ class IRGalleryFragment : BaseFragment() {
         }
         refresh()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun galleryAdd(event: GalleryAddEvent) {
         refresh()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun galleryDel(event: GalleryDelEvent) {
         refresh()
     }
+
     private fun initRecycler() {
         val spanCount = 3
         val gridLayoutManager = GridLayoutManager(requireActivity(), spanCount)
@@ -201,11 +209,13 @@ class IRGalleryFragment : BaseFragment() {
         refresh_layout.setEnableScrollContentWhenLoaded(false)
         refresh_layout.autoRefresh()
     }
+
     private fun refresh() {
         refresh_layout.setEnableLoadMore(true)
         viewModel.hasLoadPage = 0
         viewModel.queryGalleryByPage(isVideo, currentDirType)
     }
+
     private fun showDeleteDialog() {
         val deleteList = adapter.buildSelectList()
         var hasOneDownload = false
@@ -237,6 +247,7 @@ class IRGalleryFragment : BaseFragment() {
             ToastTools.showShort(getString(R.string.tip_least_select))
         }
     }
+
     private fun downloadList(downloadList: List<GalleryBean>, isShare: Boolean) {
         val downloadMap = HashMap<String, File>()
         downloadList.forEach {
@@ -288,6 +299,7 @@ class IRGalleryFragment : BaseFragment() {
             }
         }
     }
+
     private fun shareImage(shareList: List<GalleryBean>) {
         val shareIntent = Intent()
         if (shareList.size == 1) {

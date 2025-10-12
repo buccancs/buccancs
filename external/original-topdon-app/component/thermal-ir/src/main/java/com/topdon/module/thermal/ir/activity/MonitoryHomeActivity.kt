@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -12,6 +13,7 @@ import com.topdon.module.thermal.ir.fragment.IRMonitorHistoryFragment
 import kotlinx.android.synthetic.main.activity_monitor_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 class MonitoryHomeActivity : BaseActivity() {
     override fun initContentView(): Int = R.layout.activity_monitor_home
     override fun initView() {
@@ -21,12 +23,15 @@ class MonitoryHomeActivity : BaseActivity() {
             tab.setText(if (position == 0) R.string.chart_history else R.string.chart_real_time)
         }.attach()
     }
+
     override fun initData() {
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMonitorCreate(event: MonitorSaveEvent) {
         view_pager2.currentItem = 0
     }
+
     private class ViewPagerAdapter(activity: MonitoryHomeActivity, val isTC007: Boolean) :
         FragmentStateAdapter(activity) {
         override fun getItemCount() = 2

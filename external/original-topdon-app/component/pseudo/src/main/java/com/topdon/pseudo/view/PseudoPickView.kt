@@ -1,4 +1,5 @@
 package com.topdon.pseudo.view
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.pseudo.R
 import kotlin.math.abs
+
 class PseudoPickView : View {
     companion object {
         @CheckResult
@@ -26,6 +28,7 @@ class PseudoPickView : View {
             System.arraycopy(this, index, newArray, index + 1, this.size - index)
             return newArray
         }
+
         @CheckResult
         private fun FloatArray.add(index: Int, element: Float): FloatArray {
             val newArray = FloatArray(this.size + 1)
@@ -34,6 +37,7 @@ class PseudoPickView : View {
             System.arraycopy(this, index, newArray, index + 1, this.size - index)
             return newArray
         }
+
         @CheckResult
         private fun IntArray.removeAt(index: Int): IntArray {
             val newArray = IntArray(this.size - 1)
@@ -41,6 +45,7 @@ class PseudoPickView : View {
             System.arraycopy(this, index + 1, newArray, index, this.size - index - 1)
             return newArray
         }
+
         @CheckResult
         private fun FloatArray.removeAt(index: Int): FloatArray {
             val newArray = FloatArray(this.size - 1)
@@ -49,6 +54,7 @@ class PseudoPickView : View {
             return newArray
         }
     }
+
     private val barPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val selectYesDrawable: Drawable
@@ -76,6 +82,7 @@ class PseudoPickView : View {
         selectYesDrawable.setBounds(0, 0, SizeUtils.dp2px(16f), SizeUtils.dp2px(10f))
         selectNotDrawable.setBounds(0, 0, SizeUtils.dp2px(16f), SizeUtils.dp2px(10f))
     }
+
     fun reset(selectIndex: Int, colors: IntArray, zAltitudes: IntArray, places: FloatArray) {
         this.selectIndex = selectIndex
         this.sourceColors = colors
@@ -87,6 +94,7 @@ class PseudoPickView : View {
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
+
     fun refreshColor(@ColorInt color: Int) {
         sourceColors[selectIndex] = color
         actualColors[selectIndex] = color
@@ -95,6 +103,7 @@ class PseudoPickView : View {
             LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
         invalidate()
     }
+
     private var addCount = 0
     fun add() {
         if (sourceColors.size >= 7) {
@@ -132,6 +141,7 @@ class PseudoPickView : View {
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
+
     fun del() {
         if (sourceColors.size <= 3) {
             return
@@ -154,6 +164,7 @@ class PseudoPickView : View {
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
+
     fun isCurrentOnlyLimit(): Boolean {
         val place: Float = places[selectIndex]
         if (place == 0f || place == 1f) {
@@ -166,6 +177,7 @@ class PseudoPickView : View {
         }
         return false
     }
+
     private fun refreshActualColors() {
         if (actualColors.size != sourceColors.size) {
             actualColors = IntArray(sourceColors.size)
@@ -177,6 +189,7 @@ class PseudoPickView : View {
             }
         }
     }
+
     private fun calculateZAltitude(place: Float): Int {
         var result = 0
         val gap: Float = selectRadius * 2 / barRect.width()
@@ -190,6 +203,7 @@ class PseudoPickView : View {
 
     private val barRect = RectF()
     private val selectRadius: Int = SizeUtils.dp2px(12f)
+
     @SuppressLint("DrawAllocation")
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthSize: Int = MeasureSpec.getSize(widthMeasureSpec)
@@ -205,6 +219,7 @@ class PseudoPickView : View {
             barRect.height().toInt() + SizeUtils.dp2px(2f) + selectNotDrawable.bounds.height() + selectRadius * 2
         setMeasuredDimension(widthSize, wantHeight)
     }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val barRadius = SizeUtils.dp2px(4f).toFloat()
@@ -243,6 +258,7 @@ class PseudoPickView : View {
     private var downX = 0
     private var handleTouch = false
     private var canDrag = false
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event == null) {
@@ -275,6 +291,7 @@ class PseudoPickView : View {
                     onSelectChangeListener?.invoke(selectIndex)
                 }
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val x = event.x.coerceAtLeast(barRect.left).coerceAtMost(barRect.right).toInt()
                 if (canDrag) {

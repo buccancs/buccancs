@@ -140,7 +140,7 @@ public class ShimmerSDCardDetails implements Serializable {
         setIsSDError(false);
     }
 
-        public byte[] generateDriveStatusBytes() {
+    public byte[] generateDriveStatusBytes() {
         byte[] sdCapacityStatus = new byte[4];
 
         long driveSpaceUsed = getDriveUsedSpaceKB();

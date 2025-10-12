@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 public abstract class BaseDraw {
-        protected final static int MIN_SIZE_PIX_COUNT = 20;
+    protected final static int MIN_SIZE_PIX_COUNT = 20;
     protected Context mContext;
     protected int mScreenDegree = 0;
     protected int mTouchIndex = -1;
@@ -25,11 +25,11 @@ public abstract class BaseDraw {
 
     abstract void onDraw(Canvas canvas, boolean isScroll);
 
-        public int getTouchInclude() {
+    public int getTouchInclude() {
         return mTouchIndex;
     }
 
-        public boolean isTouch() {
+    public boolean isTouch() {
         return mTouchIndex != -1;
     }
 

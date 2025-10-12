@@ -1,4 +1,3 @@
-
 package com.shimmerresearch.grpc;
 
 public final class ShimmerGRPC {
@@ -501,29 +500,29 @@ public final class ShimmerGRPC {
         return descriptor;
     }
 
-        public enum BT_STATE
+    public enum BT_STATE
             implements com.google.protobuf.ProtocolMessageEnum {
-                DISCONNECTED(0),
-                CONNECTING(1),
-                CONNECTED(2),
-                STREAMING(3),
-                STREAMING_AND_SDLOGGING(4),
-                SDLOGGING(5),
-                CONFIGURING(6),
-                CONNECTION_LOST(7),
-                CONNECTION_FAILED(8),
+        DISCONNECTED(0),
+        CONNECTING(1),
+        CONNECTED(2),
+        STREAMING(3),
+        STREAMING_AND_SDLOGGING(4),
+        SDLOGGING(5),
+        CONFIGURING(6),
+        CONNECTION_LOST(7),
+        CONNECTION_FAILED(8),
         UNRECOGNIZED(-1),
         ;
 
-                public static final int DISCONNECTED_VALUE = 0;
-                public static final int CONNECTING_VALUE = 1;
-                public static final int CONNECTED_VALUE = 2;
-                public static final int STREAMING_VALUE = 3;
-                public static final int STREAMING_AND_SDLOGGING_VALUE = 4;
-                public static final int SDLOGGING_VALUE = 5;
-                public static final int CONFIGURING_VALUE = 6;
-                public static final int CONNECTION_LOST_VALUE = 7;
-                public static final int CONNECTION_FAILED_VALUE = 8;
+        public static final int DISCONNECTED_VALUE = 0;
+        public static final int CONNECTING_VALUE = 1;
+        public static final int CONNECTED_VALUE = 2;
+        public static final int STREAMING_VALUE = 3;
+        public static final int STREAMING_AND_SDLOGGING_VALUE = 4;
+        public static final int SDLOGGING_VALUE = 5;
+        public static final int CONFIGURING_VALUE = 6;
+        public static final int CONNECTION_LOST_VALUE = 7;
+        public static final int CONNECTION_FAILED_VALUE = 8;
         private static final com.google.protobuf.Internal.EnumLiteMap<
                 BT_STATE> internalValueMap =
                 new com.google.protobuf.Internal.EnumLiteMap<BT_STATE>() {
@@ -538,12 +537,12 @@ public final class ShimmerGRPC {
             this.value = value;
         }
 
-                @java.lang.Deprecated
+        @java.lang.Deprecated
         public static BT_STATE valueOf(int value) {
             return forNumber(value);
         }
 
-                public static BT_STATE forNumber(int value) {
+        public static BT_STATE forNumber(int value) {
             switch (value) {
                 case 0:
                     return DISCONNECTED;
@@ -617,88 +616,88 @@ public final class ShimmerGRPC {
     public interface FileByteTransferOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getName();
+        java.lang.String getName();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getNameBytes();
 
-                com.google.protobuf.ByteString getData();
+        com.google.protobuf.ByteString getData();
 
-                boolean getEndoffile();
+        boolean getEndoffile();
     }
 
     public interface CommandStatusOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getStatus();
+        java.lang.String getStatus();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getStatusBytes();
     }
 
     public interface HelloRequestOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getName();
+        java.lang.String getName();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getNameBytes();
     }
 
     public interface HelloReplyOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getMessage();
+        java.lang.String getMessage();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageBytes();
     }
 
     public interface ShimmerRequestOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getAddress();
+        java.lang.String getAddress();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getAddressBytes();
     }
 
     public interface StreamRequestOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getMessage();
+        java.lang.String getMessage();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageBytes();
     }
 
     public interface ObjectCluster2OrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getName();
+        java.lang.String getName();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getNameBytes();
 
-                java.lang.String getBluetoothAddress();
+        java.lang.String getBluetoothAddress();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getBluetoothAddressBytes();
 
-                int getCommunicationTypeValue();
+        int getCommunicationTypeValue();
 
-                com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType getCommunicationType();
+        com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType getCommunicationType();
 
-                int getDataMapCount();
+        int getDataMapCount();
 
-                boolean containsDataMap(
+        boolean containsDataMap(
                 java.lang.String key);
 
-                @java.lang.Deprecated
+        @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2>
         getDataMap();
 
-                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2>
+        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2>
         getDataMapMap();
 
 
@@ -710,86 +709,86 @@ public final class ShimmerGRPC {
         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrThrow(
                 java.lang.String key);
 
-                long getSystemTime();
+        long getSystemTime();
 
-                double getCalibratedTimeStamp();
+        double getCalibratedTimeStamp();
     }
 
     public interface StringMsgOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getMessage();
+        java.lang.String getMessage();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageBytes();
     }
 
     public interface StringArrayMsgOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.util.List<java.lang.String>
+        java.util.List<java.lang.String>
         getMessageArrayList();
 
-                int getMessageArrayCount();
+        int getMessageArrayCount();
 
-                java.lang.String getMessageArray(int index);
+        java.lang.String getMessageArray(int index);
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageArrayBytes(int index);
     }
 
     public interface BoolMsgOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                boolean getState();
+        boolean getState();
     }
 
     public interface DoubleMsgOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                double getNumber();
+        double getNumber();
     }
 
     public interface OperationRequestOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                boolean getIsFinished();
+        boolean getIsFinished();
 
-                boolean getIsSuccess();
+        boolean getIsSuccess();
 
-                java.lang.String getMessage();
+        java.lang.String getMessage();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageBytes();
 
-                double getProgressPercentage();
+        double getProgressPercentage();
 
-                java.lang.String getProgressPercentageParsed();
+        java.lang.String getProgressPercentageParsed();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getProgressPercentageParsedBytes();
     }
 
     public interface ShimmersInfoOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                boolean getState();
+        boolean getState();
 
-                java.lang.String getMessage();
+        java.lang.String getMessage();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageBytes();
 
-                int getShimmerMapCount();
+        int getShimmerMapCount();
 
-                boolean containsShimmerMap(
+        boolean containsShimmerMap(
                 java.lang.String key);
 
-                @java.lang.Deprecated
+        @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo>
         getShimmerMap();
 
-                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo>
+        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo>
         getShimmerMapMap();
 
 
@@ -805,23 +804,23 @@ public final class ShimmerGRPC {
     public interface BluetoothDevicesDetailsOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                boolean getState();
+        boolean getState();
 
-                java.lang.String getMessage();
+        java.lang.String getMessage();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageBytes();
 
-                int getDeviceMapCount();
+        int getDeviceMapCount();
 
-                boolean containsDeviceMap(
+        boolean containsDeviceMap(
                 java.lang.String key);
 
-                @java.lang.Deprecated
+        @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails>
         getDeviceMap();
 
-                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails>
+        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails>
         getDeviceMapMap();
 
 
@@ -837,56 +836,56 @@ public final class ShimmerGRPC {
     public interface DeviceStateOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                java.lang.String getDeviceName();
+        java.lang.String getDeviceName();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getDeviceNameBytes();
 
-                java.lang.String getComPort();
+        java.lang.String getComPort();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getComPortBytes();
 
-                java.lang.String getMacId();
+        java.lang.String getMacId();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMacIdBytes();
 
-                int getStateValue();
+        int getStateValue();
 
-                com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE getState();
+        com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE getState();
     }
 
     public interface Ieee802154InfoOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                int getRadioChannel();
+        int getRadioChannel();
 
-                int getRadioGroupId();
+        int getRadioGroupId();
 
-                int getRadioDeviceId();
+        int getRadioDeviceId();
     }
 
     public interface InfoSpansOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                boolean getState();
+        boolean getState();
 
-                java.lang.String getMessage();
+        java.lang.String getMessage();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageBytes();
 
-                int getSpanMapCount();
+        int getSpanMapCount();
 
-                boolean containsSpanMap(
+        boolean containsSpanMap(
                 java.lang.String key);
 
-                @java.lang.Deprecated
+        @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan>
         getSpanMap();
 
-                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan>
+        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan>
         getSpanMapMap();
 
 
@@ -898,35 +897,35 @@ public final class ShimmerGRPC {
         com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan getSpanMapOrThrow(
                 java.lang.String key);
 
-                boolean hasIeee802154Info();
+        boolean hasIeee802154Info();
 
-                com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info();
+        com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info();
 
-                com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
+        com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
     }
 
     public interface EmulatedDevicesOrBuilder extends
             com.google.protobuf.MessageOrBuilder {
 
-                boolean getState();
+        boolean getState();
 
-                java.lang.String getMessage();
+        java.lang.String getMessage();
 
-                com.google.protobuf.ByteString
+        com.google.protobuf.ByteString
         getMessageBytes();
 
-                boolean getIsEmulatorSide();
+        boolean getIsEmulatorSide();
 
-                int getEmulatedDevicesMapCount();
+        int getEmulatedDevicesMapCount();
 
-                boolean containsEmulatedDevicesMap(
+        boolean containsEmulatedDevicesMap(
                 java.lang.String key);
 
-                @java.lang.Deprecated
+        @java.lang.Deprecated
         java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice>
         getEmulatedDevicesMap();
 
-                java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice>
+        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice>
         getEmulatedDevicesMapMap();
 
 
@@ -939,7 +938,7 @@ public final class ShimmerGRPC {
                 java.lang.String key);
     }
 
-        public static final class FileByteTransfer extends
+    public static final class FileByteTransfer extends
             com.google.protobuf.GeneratedMessageV3 implements
             FileByteTransferOrBuilder {
         public static final int NAME_FIELD_NUMBER = 1;
@@ -1153,7 +1152,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransfer.class, com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransfer.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getName() {
             java.lang.Object ref = name_;
             if (ref instanceof java.lang.String) {
@@ -1167,7 +1166,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getNameBytes() {
             java.lang.Object ref = name_;
@@ -1182,12 +1181,12 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString getData() {
             return data_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getEndoffile() {
             return endoffile_;
         }
@@ -1306,7 +1305,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransferOrBuilder {
             private java.lang.Object name_ = "";
@@ -1473,7 +1472,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getName() {
+            public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -1486,7 +1485,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setName(
+            public Builder setName(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -1497,7 +1496,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
                 if (ref instanceof String) {
@@ -1511,7 +1510,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setNameBytes(
+            public Builder setNameBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -1523,19 +1522,19 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearName() {
+            public Builder clearName() {
 
                 name_ = getDefaultInstance().getName();
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString getData() {
                 return data_;
             }
 
-                        public Builder setData(com.google.protobuf.ByteString value) {
+            public Builder setData(com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1545,26 +1544,26 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearData() {
+            public Builder clearData() {
 
                 data_ = getDefaultInstance().getData();
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getEndoffile() {
                 return endoffile_;
             }
 
-                        public Builder setEndoffile(boolean value) {
+            public Builder setEndoffile(boolean value) {
 
                 endoffile_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearEndoffile() {
+            public Builder clearEndoffile() {
 
                 endoffile_ = false;
                 onChanged();
@@ -1588,7 +1587,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class CommandStatus extends
+    public static final class CommandStatus extends
             com.google.protobuf.GeneratedMessageV3 implements
             CommandStatusOrBuilder {
         public static final int STATUS_FIELD_NUMBER = 1;
@@ -1787,7 +1786,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.CommandStatus.class, com.shimmerresearch.grpc.ShimmerGRPC.CommandStatus.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getStatus() {
             java.lang.Object ref = status_;
             if (ref instanceof java.lang.String) {
@@ -1801,7 +1800,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getStatusBytes() {
             java.lang.Object ref = status_;
@@ -1907,7 +1906,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.CommandStatusOrBuilder {
             private java.lang.Object status_ = "";
@@ -2060,7 +2059,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getStatus() {
+            public java.lang.String getStatus() {
                 java.lang.Object ref = status_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -2073,7 +2072,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setStatus(
+            public Builder setStatus(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -2084,7 +2083,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getStatusBytes() {
                 java.lang.Object ref = status_;
                 if (ref instanceof String) {
@@ -2098,7 +2097,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setStatusBytes(
+            public Builder setStatusBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -2110,7 +2109,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearStatus() {
+            public Builder clearStatus() {
 
                 status_ = getDefaultInstance().getStatus();
                 onChanged();
@@ -2134,7 +2133,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class HelloRequest extends
+    public static final class HelloRequest extends
             com.google.protobuf.GeneratedMessageV3 implements
             HelloRequestOrBuilder {
         public static final int NAME_FIELD_NUMBER = 1;
@@ -2333,7 +2332,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest.class, com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getName() {
             java.lang.Object ref = name_;
             if (ref instanceof java.lang.String) {
@@ -2347,7 +2346,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getNameBytes() {
             java.lang.Object ref = name_;
@@ -2453,7 +2452,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.HelloRequestOrBuilder {
             private java.lang.Object name_ = "";
@@ -2606,7 +2605,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getName() {
+            public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -2619,7 +2618,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setName(
+            public Builder setName(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -2630,7 +2629,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
                 if (ref instanceof String) {
@@ -2644,7 +2643,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setNameBytes(
+            public Builder setNameBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -2656,7 +2655,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearName() {
+            public Builder clearName() {
 
                 name_ = getDefaultInstance().getName();
                 onChanged();
@@ -2680,7 +2679,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class HelloReply extends
+    public static final class HelloReply extends
             com.google.protobuf.GeneratedMessageV3 implements
             HelloReplyOrBuilder {
         public static final int MESSAGE_FIELD_NUMBER = 1;
@@ -2879,7 +2878,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.HelloReply.class, com.shimmerresearch.grpc.ShimmerGRPC.HelloReply.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -2893,7 +2892,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -2999,7 +2998,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.HelloReplyOrBuilder {
             private java.lang.Object message_ = "";
@@ -3152,7 +3151,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getMessage() {
+            public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -3165,7 +3164,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessage(
+            public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -3176,7 +3175,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -3190,7 +3189,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessageBytes(
+            public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -3202,7 +3201,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessage() {
+            public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -3226,7 +3225,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class ShimmerRequest extends
+    public static final class ShimmerRequest extends
             com.google.protobuf.GeneratedMessageV3 implements
             ShimmerRequestOrBuilder {
         public static final int ADDRESS_FIELD_NUMBER = 1;
@@ -3425,7 +3424,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequest.class, com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequest.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getAddress() {
             java.lang.Object ref = address_;
             if (ref instanceof java.lang.String) {
@@ -3439,7 +3438,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getAddressBytes() {
             java.lang.Object ref = address_;
@@ -3545,7 +3544,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequestOrBuilder {
             private java.lang.Object address_ = "";
@@ -3698,7 +3697,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getAddress() {
+            public java.lang.String getAddress() {
                 java.lang.Object ref = address_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -3711,7 +3710,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setAddress(
+            public Builder setAddress(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -3722,7 +3721,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getAddressBytes() {
                 java.lang.Object ref = address_;
                 if (ref instanceof String) {
@@ -3736,7 +3735,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setAddressBytes(
+            public Builder setAddressBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -3748,7 +3747,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearAddress() {
+            public Builder clearAddress() {
 
                 address_ = getDefaultInstance().getAddress();
                 onChanged();
@@ -3772,7 +3771,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class StreamRequest extends
+    public static final class StreamRequest extends
             com.google.protobuf.GeneratedMessageV3 implements
             StreamRequestOrBuilder {
         public static final int MESSAGE_FIELD_NUMBER = 1;
@@ -3971,7 +3970,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest.class, com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -3985,7 +3984,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -4091,7 +4090,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.StreamRequestOrBuilder {
             private java.lang.Object message_ = "";
@@ -4244,7 +4243,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getMessage() {
+            public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -4257,7 +4256,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessage(
+            public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -4268,7 +4267,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -4282,7 +4281,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessageBytes(
+            public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -4294,7 +4293,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessage() {
+            public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -4318,7 +4317,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class ObjectCluster2 extends
+    public static final class ObjectCluster2 extends
             com.google.protobuf.GeneratedMessageV3 implements
             ObjectCluster2OrBuilder {
         public static final int NAME_FIELD_NUMBER = 1;
@@ -4579,7 +4578,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.class, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getName() {
             java.lang.Object ref = name_;
             if (ref instanceof java.lang.String) {
@@ -4593,7 +4592,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getNameBytes() {
             java.lang.Object ref = name_;
@@ -4608,7 +4607,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getBluetoothAddress() {
             java.lang.Object ref = bluetoothAddress_;
             if (ref instanceof java.lang.String) {
@@ -4622,7 +4621,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getBluetoothAddressBytes() {
             java.lang.Object ref = bluetoothAddress_;
@@ -4637,12 +4636,12 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public int getCommunicationTypeValue() {
             return communicationType_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType getCommunicationType() {
             @SuppressWarnings("deprecation")
             com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType result = com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType.valueOf(communicationType_);
@@ -4672,19 +4671,19 @@ public final class ShimmerGRPC {
             return internalGetDataMap().getMap().containsKey(key);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         @java.lang.Deprecated
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> getDataMap() {
             return getDataMapMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> getDataMapMap() {
             return internalGetDataMap().getMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrDefault(
                 java.lang.String key,
@@ -4697,7 +4696,7 @@ public final class ShimmerGRPC {
             return map.containsKey(key) ? map.get(key) : defaultValue;
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrThrow(
                 java.lang.String key) {
@@ -4712,12 +4711,12 @@ public final class ShimmerGRPC {
             return map.get(key);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public long getSystemTime() {
             return systemTime_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public double getCalibratedTimeStamp() {
             return calibratedTimeStamp_;
         }
@@ -4880,17 +4879,17 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public enum CommunicationType
+        public enum CommunicationType
                 implements com.google.protobuf.ProtocolMessageEnum {
-                        BT(0),
-                        SD(1),
-                        Radio_802_15_4(2),
+            BT(0),
+            SD(1),
+            Radio_802_15_4(2),
             UNRECOGNIZED(-1),
             ;
 
-                        public static final int BT_VALUE = 0;
-                        public static final int SD_VALUE = 1;
-                        public static final int Radio_802_15_4_VALUE = 2;
+            public static final int BT_VALUE = 0;
+            public static final int SD_VALUE = 1;
+            public static final int Radio_802_15_4_VALUE = 2;
             private static final com.google.protobuf.Internal.EnumLiteMap<
                     CommunicationType> internalValueMap =
                     new com.google.protobuf.Internal.EnumLiteMap<CommunicationType>() {
@@ -4905,12 +4904,12 @@ public final class ShimmerGRPC {
                 this.value = value;
             }
 
-                        @java.lang.Deprecated
+            @java.lang.Deprecated
             public static CommunicationType valueOf(int value) {
                 return forNumber(value);
             }
 
-                        public static CommunicationType forNumber(int value) {
+            public static CommunicationType forNumber(int value) {
                 switch (value) {
                     case 0:
                         return BT;
@@ -4972,16 +4971,16 @@ public final class ShimmerGRPC {
         public interface FormatCluster2OrBuilder extends
                 com.google.protobuf.MessageOrBuilder {
 
-                        int getFormatMapCount();
+            int getFormatMapCount();
 
-                        boolean containsFormatMap(
+            boolean containsFormatMap(
                     java.lang.String key);
 
-                        @java.lang.Deprecated
+            @java.lang.Deprecated
             java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2>
             getFormatMap();
 
-                        java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2>
+            java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2>
             getFormatMapMap();
 
 
@@ -4994,7 +4993,7 @@ public final class ShimmerGRPC {
                     java.lang.String key);
         }
 
-                public static final class FormatCluster2 extends
+        public static final class FormatCluster2 extends
                 com.google.protobuf.GeneratedMessageV3 implements
                 FormatCluster2OrBuilder {
             public static final int FORMATMAP_FIELD_NUMBER = 1;
@@ -5237,19 +5236,19 @@ public final class ShimmerGRPC {
                 return internalGetFormatMap().getMap().containsKey(key);
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> getFormatMap() {
                 return getFormatMapMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> getFormatMapMap() {
                 return internalGetFormatMap().getMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrDefault(
                     java.lang.String key,
@@ -5262,7 +5261,7 @@ public final class ShimmerGRPC {
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrThrow(
                     java.lang.String key) {
@@ -5383,21 +5382,21 @@ public final class ShimmerGRPC {
             public interface DataCluster2OrBuilder extends
                     com.google.protobuf.MessageOrBuilder {
 
-                                java.lang.String getUnit();
+                java.lang.String getUnit();
 
-                                com.google.protobuf.ByteString
+                com.google.protobuf.ByteString
                 getUnitBytes();
 
-                                double getData();
+                double getData();
 
-                                java.util.List<java.lang.Double> getDataArrayList();
+                java.util.List<java.lang.Double> getDataArrayList();
 
-                                int getDataArrayCount();
+                int getDataArrayCount();
 
-                                double getDataArray(int index);
+                double getDataArray(int index);
             }
 
-                        public static final class DataCluster2 extends
+            public static final class DataCluster2 extends
                     com.google.protobuf.GeneratedMessageV3 implements
                     DataCluster2OrBuilder {
                 public static final int UNIT_FIELD_NUMBER = 1;
@@ -5632,7 +5631,7 @@ public final class ShimmerGRPC {
                                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.class, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.Builder.class);
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public java.lang.String getUnit() {
                     java.lang.Object ref = unit_;
                     if (ref instanceof java.lang.String) {
@@ -5646,7 +5645,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public com.google.protobuf.ByteString
                 getUnitBytes() {
                     java.lang.Object ref = unit_;
@@ -5661,22 +5660,22 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public double getData() {
                     return data_;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public java.util.List<java.lang.Double>
                 getDataArrayList() {
                     return dataArray_;
                 }
 
-                                public int getDataArrayCount() {
+                public int getDataArrayCount() {
                     return dataArray_.size();
                 }
 
-                                public double getDataArray(int index) {
+                public double getDataArray(int index) {
                     return dataArray_.getDouble(index);
                 }
 
@@ -5809,7 +5808,7 @@ public final class ShimmerGRPC {
                     return DEFAULT_INSTANCE;
                 }
 
-                                public static final class Builder extends
+                public static final class Builder extends
                         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2OrBuilder {
                     private int bitField0_;
@@ -5990,7 +5989,7 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                                        public java.lang.String getUnit() {
+                    public java.lang.String getUnit() {
                         java.lang.Object ref = unit_;
                         if (!(ref instanceof java.lang.String)) {
                             com.google.protobuf.ByteString bs =
@@ -6003,7 +6002,7 @@ public final class ShimmerGRPC {
                         }
                     }
 
-                                        public Builder setUnit(
+                    public Builder setUnit(
                             java.lang.String value) {
                         if (value == null) {
                             throw new NullPointerException();
@@ -6014,7 +6013,7 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                                        public com.google.protobuf.ByteString
+                    public com.google.protobuf.ByteString
                     getUnitBytes() {
                         java.lang.Object ref = unit_;
                         if (ref instanceof String) {
@@ -6028,7 +6027,7 @@ public final class ShimmerGRPC {
                         }
                     }
 
-                                        public Builder setUnitBytes(
+                    public Builder setUnitBytes(
                             com.google.protobuf.ByteString value) {
                         if (value == null) {
                             throw new NullPointerException();
@@ -6040,26 +6039,26 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                                        public Builder clearUnit() {
+                    public Builder clearUnit() {
 
                         unit_ = getDefaultInstance().getUnit();
                         onChanged();
                         return this;
                     }
 
-                                        @java.lang.Override
+                    @java.lang.Override
                     public double getData() {
                         return data_;
                     }
 
-                                        public Builder setData(double value) {
+                    public Builder setData(double value) {
 
                         data_ = value;
                         onChanged();
                         return this;
                     }
 
-                                        public Builder clearData() {
+                    public Builder clearData() {
 
                         data_ = 0D;
                         onChanged();
@@ -6073,21 +6072,21 @@ public final class ShimmerGRPC {
                         }
                     }
 
-                                        public java.util.List<java.lang.Double>
+                    public java.util.List<java.lang.Double>
                     getDataArrayList() {
                         return ((bitField0_ & 0x00000001) != 0) ?
                                 java.util.Collections.unmodifiableList(dataArray_) : dataArray_;
                     }
 
-                                        public int getDataArrayCount() {
+                    public int getDataArrayCount() {
                         return dataArray_.size();
                     }
 
-                                        public double getDataArray(int index) {
+                    public double getDataArray(int index) {
                         return dataArray_.getDouble(index);
                     }
 
-                                        public Builder setDataArray(
+                    public Builder setDataArray(
                             int index, double value) {
                         ensureDataArrayIsMutable();
                         dataArray_.setDouble(index, value);
@@ -6095,14 +6094,14 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                                        public Builder addDataArray(double value) {
+                    public Builder addDataArray(double value) {
                         ensureDataArrayIsMutable();
                         dataArray_.addDouble(value);
                         onChanged();
                         return this;
                     }
 
-                                        public Builder addAllDataArray(
+                    public Builder addAllDataArray(
                             java.lang.Iterable<? extends java.lang.Double> values) {
                         ensureDataArrayIsMutable();
                         com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -6111,7 +6110,7 @@ public final class ShimmerGRPC {
                         return this;
                     }
 
-                                        public Builder clearDataArray() {
+                    public Builder clearDataArray() {
                         dataArray_ = emptyDoubleList();
                         bitField0_ = (bitField0_ & ~0x00000001);
                         onChanged();
@@ -6147,7 +6146,7 @@ public final class ShimmerGRPC {
                                         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.getDefaultInstance());
             }
 
-                        public static final class Builder extends
+            public static final class Builder extends
                     com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2OrBuilder {
                 private int bitField0_;
@@ -6363,19 +6362,19 @@ public final class ShimmerGRPC {
                     return internalGetFormatMap().getMap().containsKey(key);
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 @java.lang.Deprecated
                 public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> getFormatMap() {
                     return getFormatMapMap();
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
 
                 public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2> getFormatMapMap() {
                     return internalGetFormatMap().getMap();
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
 
                 public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrDefault(
                         java.lang.String key,
@@ -6388,7 +6387,7 @@ public final class ShimmerGRPC {
                     return map.containsKey(key) ? map.get(key) : defaultValue;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
 
                 public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 getFormatMapOrThrow(
                         java.lang.String key) {
@@ -6420,13 +6419,13 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                @java.lang.Deprecated
+                @java.lang.Deprecated
                 public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2>
                 getMutableFormatMap() {
                     return internalGetMutableFormatMap().getMutableMap();
                 }
 
-                                public Builder putFormatMap(
+                public Builder putFormatMap(
                         java.lang.String key,
                         com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 value) {
                     if (key == null) {
@@ -6477,7 +6476,7 @@ public final class ShimmerGRPC {
                                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2.getDefaultInstance());
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2OrBuilder {
             private int bitField0_;
@@ -6692,7 +6691,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getName() {
+            public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -6705,7 +6704,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setName(
+            public Builder setName(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -6716,7 +6715,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
                 if (ref instanceof String) {
@@ -6730,7 +6729,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setNameBytes(
+            public Builder setNameBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -6742,14 +6741,14 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearName() {
+            public Builder clearName() {
 
                 name_ = getDefaultInstance().getName();
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getBluetoothAddress() {
+            public java.lang.String getBluetoothAddress() {
                 java.lang.Object ref = bluetoothAddress_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -6762,7 +6761,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setBluetoothAddress(
+            public Builder setBluetoothAddress(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -6773,7 +6772,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getBluetoothAddressBytes() {
                 java.lang.Object ref = bluetoothAddress_;
                 if (ref instanceof String) {
@@ -6787,7 +6786,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setBluetoothAddressBytes(
+            public Builder setBluetoothAddressBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -6799,33 +6798,33 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearBluetoothAddress() {
+            public Builder clearBluetoothAddress() {
 
                 bluetoothAddress_ = getDefaultInstance().getBluetoothAddress();
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public int getCommunicationTypeValue() {
                 return communicationType_;
             }
 
-                        public Builder setCommunicationTypeValue(int value) {
+            public Builder setCommunicationTypeValue(int value) {
 
                 communicationType_ = value;
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType getCommunicationType() {
                 @SuppressWarnings("deprecation")
                 com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType result = com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType.valueOf(communicationType_);
                 return result == null ? com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType.UNRECOGNIZED : result;
             }
 
-                        public Builder setCommunicationType(com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType value) {
+            public Builder setCommunicationType(com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.CommunicationType value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -6835,7 +6834,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearCommunicationType() {
+            public Builder clearCommunicationType() {
 
                 communicationType_ = 0;
                 onChanged();
@@ -6879,19 +6878,19 @@ public final class ShimmerGRPC {
                 return internalGetDataMap().getMap().containsKey(key);
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> getDataMap() {
                 return getDataMapMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2> getDataMapMap() {
                 return internalGetDataMap().getMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrDefault(
                     java.lang.String key,
@@ -6904,7 +6903,7 @@ public final class ShimmerGRPC {
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 getDataMapOrThrow(
                     java.lang.String key) {
@@ -6936,13 +6935,13 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Deprecated
+            @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2>
             getMutableDataMap() {
                 return internalGetMutableDataMap().getMutableMap();
             }
 
-                        public Builder putDataMap(
+            public Builder putDataMap(
                     java.lang.String key,
                     com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.FormatCluster2 value) {
                 if (key == null) {
@@ -6964,38 +6963,38 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public long getSystemTime() {
                 return systemTime_;
             }
 
-                        public Builder setSystemTime(long value) {
+            public Builder setSystemTime(long value) {
 
                 systemTime_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearSystemTime() {
+            public Builder clearSystemTime() {
 
                 systemTime_ = 0L;
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public double getCalibratedTimeStamp() {
                 return calibratedTimeStamp_;
             }
 
-                        public Builder setCalibratedTimeStamp(double value) {
+            public Builder setCalibratedTimeStamp(double value) {
 
                 calibratedTimeStamp_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearCalibratedTimeStamp() {
+            public Builder clearCalibratedTimeStamp() {
 
                 calibratedTimeStamp_ = 0D;
                 onChanged();
@@ -7019,7 +7018,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class StringMsg extends
+    public static final class StringMsg extends
             com.google.protobuf.GeneratedMessageV3 implements
             StringMsgOrBuilder {
         public static final int MESSAGE_FIELD_NUMBER = 1;
@@ -7218,7 +7217,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.StringMsg.class, com.shimmerresearch.grpc.ShimmerGRPC.StringMsg.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -7232,7 +7231,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -7338,7 +7337,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.StringMsgOrBuilder {
             private java.lang.Object message_ = "";
@@ -7491,7 +7490,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getMessage() {
+            public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -7504,7 +7503,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessage(
+            public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -7515,7 +7514,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -7529,7 +7528,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessageBytes(
+            public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -7541,7 +7540,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessage() {
+            public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -7565,7 +7564,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class StringArrayMsg extends
+    public static final class StringArrayMsg extends
             com.google.protobuf.GeneratedMessageV3 implements
             StringArrayMsgOrBuilder {
         public static final int MESSAGEARRAY_FIELD_NUMBER = 1;
@@ -7771,20 +7770,20 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsg.class, com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsg.Builder.class);
         }
 
-                public com.google.protobuf.ProtocolStringList
+        public com.google.protobuf.ProtocolStringList
         getMessageArrayList() {
             return messageArray_;
         }
 
-                public int getMessageArrayCount() {
+        public int getMessageArrayCount() {
             return messageArray_.size();
         }
 
-                public java.lang.String getMessageArray(int index) {
+        public java.lang.String getMessageArray(int index) {
             return messageArray_.get(index);
         }
 
-                public com.google.protobuf.ByteString
+        public com.google.protobuf.ByteString
         getMessageArrayBytes(int index) {
             return messageArray_.getByteString(index);
         }
@@ -7887,7 +7886,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsgOrBuilder {
             private int bitField0_;
@@ -8059,25 +8058,25 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public com.google.protobuf.ProtocolStringList
+            public com.google.protobuf.ProtocolStringList
             getMessageArrayList() {
                 return messageArray_.getUnmodifiableView();
             }
 
-                        public int getMessageArrayCount() {
+            public int getMessageArrayCount() {
                 return messageArray_.size();
             }
 
-                        public java.lang.String getMessageArray(int index) {
+            public java.lang.String getMessageArray(int index) {
                 return messageArray_.get(index);
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageArrayBytes(int index) {
                 return messageArray_.getByteString(index);
             }
 
-                        public Builder setMessageArray(
+            public Builder setMessageArray(
                     int index, java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -8088,7 +8087,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder addMessageArray(
+            public Builder addMessageArray(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -8099,7 +8098,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder addAllMessageArray(
+            public Builder addAllMessageArray(
                     java.lang.Iterable<java.lang.String> values) {
                 ensureMessageArrayIsMutable();
                 com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -8108,14 +8107,14 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessageArray() {
+            public Builder clearMessageArray() {
                 messageArray_ = com.google.protobuf.LazyStringArrayList.EMPTY;
                 bitField0_ = (bitField0_ & ~0x00000001);
                 onChanged();
                 return this;
             }
 
-                        public Builder addMessageArrayBytes(
+            public Builder addMessageArrayBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -8144,7 +8143,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class BoolMsg extends
+    public static final class BoolMsg extends
             com.google.protobuf.GeneratedMessageV3 implements
             BoolMsgOrBuilder {
         public static final int STATE_FIELD_NUMBER = 1;
@@ -8341,7 +8340,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.BoolMsg.class, com.shimmerresearch.grpc.ShimmerGRPC.BoolMsg.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getState() {
             return state_;
         }
@@ -8439,7 +8438,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.BoolMsgOrBuilder {
             private boolean state_;
@@ -8591,19 +8590,19 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getState() {
                 return state_;
             }
 
-                        public Builder setState(boolean value) {
+            public Builder setState(boolean value) {
 
                 state_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearState() {
+            public Builder clearState() {
 
                 state_ = false;
                 onChanged();
@@ -8627,7 +8626,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class DoubleMsg extends
+    public static final class DoubleMsg extends
             com.google.protobuf.GeneratedMessageV3 implements
             DoubleMsgOrBuilder {
         public static final int NUMBER_FIELD_NUMBER = 1;
@@ -8824,7 +8823,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsg.class, com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsg.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public double getNumber() {
             return number_;
         }
@@ -8923,7 +8922,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsgOrBuilder {
             private double number_;
@@ -9075,19 +9074,19 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public double getNumber() {
                 return number_;
             }
 
-                        public Builder setNumber(double value) {
+            public Builder setNumber(double value) {
 
                 number_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearNumber() {
+            public Builder clearNumber() {
 
                 number_ = 0D;
                 onChanged();
@@ -9111,7 +9110,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class OperationRequest extends
+    public static final class OperationRequest extends
             com.google.protobuf.GeneratedMessageV3 implements
             OperationRequestOrBuilder {
         public static final int ISFINISHED_FIELD_NUMBER = 1;
@@ -9340,17 +9339,17 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.OperationRequest.class, com.shimmerresearch.grpc.ShimmerGRPC.OperationRequest.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getIsFinished() {
             return isFinished_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getIsSuccess() {
             return isSuccess_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -9364,7 +9363,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -9379,12 +9378,12 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public double getProgressPercentage() {
             return progressPercentage_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getProgressPercentageParsed() {
             java.lang.Object ref = progressPercentageParsed_;
             if (ref instanceof java.lang.String) {
@@ -9398,7 +9397,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getProgressPercentageParsedBytes() {
             java.lang.Object ref = progressPercentageParsed_;
@@ -9551,7 +9550,7 @@ public final class ShimmerGRPC {
             return DEFAULT_INSTANCE;
         }
 
-                public static final class Builder extends
+        public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 com.shimmerresearch.grpc.ShimmerGRPC.OperationRequestOrBuilder {
             private boolean isFinished_;
@@ -9733,45 +9732,45 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getIsFinished() {
                 return isFinished_;
             }
 
-                        public Builder setIsFinished(boolean value) {
+            public Builder setIsFinished(boolean value) {
 
                 isFinished_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearIsFinished() {
+            public Builder clearIsFinished() {
 
                 isFinished_ = false;
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getIsSuccess() {
                 return isSuccess_;
             }
 
-                        public Builder setIsSuccess(boolean value) {
+            public Builder setIsSuccess(boolean value) {
 
                 isSuccess_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearIsSuccess() {
+            public Builder clearIsSuccess() {
 
                 isSuccess_ = false;
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getMessage() {
+            public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -9784,7 +9783,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessage(
+            public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -9795,7 +9794,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -9809,7 +9808,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessageBytes(
+            public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -9821,33 +9820,33 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessage() {
+            public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public double getProgressPercentage() {
                 return progressPercentage_;
             }
 
-                        public Builder setProgressPercentage(double value) {
+            public Builder setProgressPercentage(double value) {
 
                 progressPercentage_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearProgressPercentage() {
+            public Builder clearProgressPercentage() {
 
                 progressPercentage_ = 0D;
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getProgressPercentageParsed() {
+            public java.lang.String getProgressPercentageParsed() {
                 java.lang.Object ref = progressPercentageParsed_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -9860,7 +9859,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setProgressPercentageParsed(
+            public Builder setProgressPercentageParsed(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -9871,7 +9870,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getProgressPercentageParsedBytes() {
                 java.lang.Object ref = progressPercentageParsed_;
                 if (ref instanceof String) {
@@ -9885,7 +9884,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setProgressPercentageParsedBytes(
+            public Builder setProgressPercentageParsedBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -9897,7 +9896,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearProgressPercentageParsed() {
+            public Builder clearProgressPercentageParsed() {
 
                 progressPercentageParsed_ = getDefaultInstance().getProgressPercentageParsed();
                 onChanged();
@@ -9921,7 +9920,7 @@ public final class ShimmerGRPC {
 
     }
 
-        public static final class ShimmersInfo extends
+    public static final class ShimmersInfo extends
             com.google.protobuf.GeneratedMessageV3 implements
             ShimmersInfoOrBuilder {
         public static final int STATE_FIELD_NUMBER = 1;
@@ -10157,12 +10156,12 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.class, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getState() {
             return state_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -10176,7 +10175,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -10214,19 +10213,19 @@ public final class ShimmerGRPC {
             return internalGetShimmerMap().getMap().containsKey(key);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         @java.lang.Deprecated
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo> getShimmerMap() {
             return getShimmerMapMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo> getShimmerMapMap() {
             return internalGetShimmerMap().getMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrDefault(
                 java.lang.String key,
@@ -10239,7 +10238,7 @@ public final class ShimmerGRPC {
             return map.containsKey(key) ? map.get(key) : defaultValue;
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrThrow(
                 java.lang.String key) {
@@ -10382,98 +10381,98 @@ public final class ShimmerGRPC {
         public interface ShimmerInfoOrBuilder extends
                 com.google.protobuf.MessageOrBuilder {
 
-                        java.lang.String getName();
+            java.lang.String getName();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getNameBytes();
 
-                        java.lang.String getUniqueId();
+            java.lang.String getUniqueId();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getUniqueIdBytes();
 
-                        java.lang.String getBluetoothAddress();
+            java.lang.String getBluetoothAddress();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getBluetoothAddressBytes();
 
-                        java.lang.String getTrialName();
+            java.lang.String getTrialName();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getTrialNameBytes();
 
-                        java.lang.String getBatteryPercentageParsed();
+            java.lang.String getBatteryPercentageParsed();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getBatteryPercentageParsedBytes();
 
-                        double getBatteryPercentage();
+            double getBatteryPercentage();
 
-                        java.lang.String getChargingStatusParsed();
+            java.lang.String getChargingStatusParsed();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getChargingStatusParsedBytes();
 
-                        long getDriveCapacity();
+            long getDriveCapacity();
 
-                        long getDriveSpaceUsed();
+            long getDriveSpaceUsed();
 
-                        long getDriveSpaceFree();
+            long getDriveSpaceFree();
 
-                        java.lang.String getDriveCapacityParsed();
+            java.lang.String getDriveCapacityParsed();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getDriveCapacityParsedBytes();
 
-                        boolean getIsRealTimeClockSet();
+            boolean getIsRealTimeClockSet();
 
-                        long getLastReadRtcValueMilliSecs();
+            long getLastReadRtcValueMilliSecs();
 
-                        java.lang.String getLastReadRtcValueParsed();
+            java.lang.String getLastReadRtcValueParsed();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getLastReadRtcValueParsedBytes();
 
-                        java.lang.String getHwVersionParsed();
+            java.lang.String getHwVersionParsed();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getHwVersionParsedBytes();
 
-                        java.lang.String getExpBrdVersionParsed();
+            java.lang.String getExpBrdVersionParsed();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getExpBrdVersionParsedBytes();
 
-                        java.lang.String getFwVersionParsed();
+            java.lang.String getFwVersionParsed();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getFwVersionParsedBytes();
 
-                        java.util.List<java.lang.String>
+            java.util.List<java.lang.String>
             getPairedDeviceList();
 
-                        int getPairedDeviceCount();
+            int getPairedDeviceCount();
 
-                        java.lang.String getPairedDevice(int index);
+            java.lang.String getPairedDevice(int index);
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getPairedDeviceBytes(int index);
 
-                        long getConfigTime();
+            long getConfigTime();
 
-                        java.lang.String getConfigTimeParsed();
+            java.lang.String getConfigTimeParsed();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getConfigTimeParsedBytes();
 
-                        boolean hasIeee802154Info();
+            boolean hasIeee802154Info();
 
-                        com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info();
+            com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info();
 
-                        com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
+            com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder();
         }
 
-                public static final class ShimmerInfo extends
+        public static final class ShimmerInfo extends
                 com.google.protobuf.GeneratedMessageV3 implements
                 ShimmerInfoOrBuilder {
             public static final int NAME_FIELD_NUMBER = 1;
@@ -10851,7 +10850,7 @@ public final class ShimmerGRPC {
                                 com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo.class, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo.Builder.class);
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (ref instanceof java.lang.String) {
@@ -10865,7 +10864,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
@@ -10880,7 +10879,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getUniqueId() {
                 java.lang.Object ref = uniqueId_;
                 if (ref instanceof java.lang.String) {
@@ -10894,7 +10893,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getUniqueIdBytes() {
                 java.lang.Object ref = uniqueId_;
@@ -10909,7 +10908,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getBluetoothAddress() {
                 java.lang.Object ref = bluetoothAddress_;
                 if (ref instanceof java.lang.String) {
@@ -10923,7 +10922,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getBluetoothAddressBytes() {
                 java.lang.Object ref = bluetoothAddress_;
@@ -10938,7 +10937,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getTrialName() {
                 java.lang.Object ref = trialName_;
                 if (ref instanceof java.lang.String) {
@@ -10952,7 +10951,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getTrialNameBytes() {
                 java.lang.Object ref = trialName_;
@@ -10967,7 +10966,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getBatteryPercentageParsed() {
                 java.lang.Object ref = batteryPercentageParsed_;
                 if (ref instanceof java.lang.String) {
@@ -10981,7 +10980,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getBatteryPercentageParsedBytes() {
                 java.lang.Object ref = batteryPercentageParsed_;
@@ -10996,12 +10995,12 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public double getBatteryPercentage() {
                 return batteryPercentage_;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getChargingStatusParsed() {
                 java.lang.Object ref = chargingStatusParsed_;
                 if (ref instanceof java.lang.String) {
@@ -11015,7 +11014,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getChargingStatusParsedBytes() {
                 java.lang.Object ref = chargingStatusParsed_;
@@ -11030,22 +11029,22 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public long getDriveCapacity() {
                 return driveCapacity_;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public long getDriveSpaceUsed() {
                 return driveSpaceUsed_;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public long getDriveSpaceFree() {
                 return driveSpaceFree_;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getDriveCapacityParsed() {
                 java.lang.Object ref = driveCapacityParsed_;
                 if (ref instanceof java.lang.String) {
@@ -11059,7 +11058,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getDriveCapacityParsedBytes() {
                 java.lang.Object ref = driveCapacityParsed_;
@@ -11074,17 +11073,17 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getIsRealTimeClockSet() {
                 return isRealTimeClockSet_;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public long getLastReadRtcValueMilliSecs() {
                 return lastReadRtcValueMilliSecs_;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getLastReadRtcValueParsed() {
                 java.lang.Object ref = lastReadRtcValueParsed_;
                 if (ref instanceof java.lang.String) {
@@ -11098,7 +11097,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getLastReadRtcValueParsedBytes() {
                 java.lang.Object ref = lastReadRtcValueParsed_;
@@ -11113,7 +11112,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getHwVersionParsed() {
                 java.lang.Object ref = hwVersionParsed_;
                 if (ref instanceof java.lang.String) {
@@ -11127,7 +11126,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getHwVersionParsedBytes() {
                 java.lang.Object ref = hwVersionParsed_;
@@ -11142,7 +11141,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getExpBrdVersionParsed() {
                 java.lang.Object ref = expBrdVersionParsed_;
                 if (ref instanceof java.lang.String) {
@@ -11156,7 +11155,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getExpBrdVersionParsedBytes() {
                 java.lang.Object ref = expBrdVersionParsed_;
@@ -11171,7 +11170,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getFwVersionParsed() {
                 java.lang.Object ref = fwVersionParsed_;
                 if (ref instanceof java.lang.String) {
@@ -11185,7 +11184,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getFwVersionParsedBytes() {
                 java.lang.Object ref = fwVersionParsed_;
@@ -11200,30 +11199,30 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public com.google.protobuf.ProtocolStringList
+            public com.google.protobuf.ProtocolStringList
             getPairedDeviceList() {
                 return pairedDevice_;
             }
 
-                        public int getPairedDeviceCount() {
+            public int getPairedDeviceCount() {
                 return pairedDevice_.size();
             }
 
-                        public java.lang.String getPairedDevice(int index) {
+            public java.lang.String getPairedDevice(int index) {
                 return pairedDevice_.get(index);
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getPairedDeviceBytes(int index) {
                 return pairedDevice_.getByteString(index);
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public long getConfigTime() {
                 return configTime_;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getConfigTimeParsed() {
                 java.lang.Object ref = configTimeParsed_;
                 if (ref instanceof java.lang.String) {
@@ -11237,7 +11236,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getConfigTimeParsedBytes() {
                 java.lang.Object ref = configTimeParsed_;
@@ -11252,17 +11251,17 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean hasIeee802154Info() {
                 return ieee802154Info_ != null;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info() {
                 return ieee802154Info_ == null ? com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.getDefaultInstance() : ieee802154Info_;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder() {
                 return getIeee802154Info();
             }
@@ -11586,7 +11585,7 @@ public final class ShimmerGRPC {
                 return DEFAULT_INSTANCE;
             }
 
-                        public static final class Builder extends
+            public static final class Builder extends
                     com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                     com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfoOrBuilder {
                 private int bitField0_;
@@ -11914,7 +11913,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public java.lang.String getName() {
+                public java.lang.String getName() {
                     java.lang.Object ref = name_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -11927,7 +11926,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setName(
+                public Builder setName(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -11938,7 +11937,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getNameBytes() {
                     java.lang.Object ref = name_;
                     if (ref instanceof String) {
@@ -11952,7 +11951,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setNameBytes(
+                public Builder setNameBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -11964,14 +11963,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearName() {
+                public Builder clearName() {
 
                     name_ = getDefaultInstance().getName();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getUniqueId() {
+                public java.lang.String getUniqueId() {
                     java.lang.Object ref = uniqueId_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -11984,7 +11983,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setUniqueId(
+                public Builder setUniqueId(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -11995,7 +11994,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getUniqueIdBytes() {
                     java.lang.Object ref = uniqueId_;
                     if (ref instanceof String) {
@@ -12009,7 +12008,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setUniqueIdBytes(
+                public Builder setUniqueIdBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12021,14 +12020,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearUniqueId() {
+                public Builder clearUniqueId() {
 
                     uniqueId_ = getDefaultInstance().getUniqueId();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getBluetoothAddress() {
+                public java.lang.String getBluetoothAddress() {
                     java.lang.Object ref = bluetoothAddress_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12041,7 +12040,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setBluetoothAddress(
+                public Builder setBluetoothAddress(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12052,7 +12051,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getBluetoothAddressBytes() {
                     java.lang.Object ref = bluetoothAddress_;
                     if (ref instanceof String) {
@@ -12066,7 +12065,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setBluetoothAddressBytes(
+                public Builder setBluetoothAddressBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12078,14 +12077,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearBluetoothAddress() {
+                public Builder clearBluetoothAddress() {
 
                     bluetoothAddress_ = getDefaultInstance().getBluetoothAddress();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getTrialName() {
+                public java.lang.String getTrialName() {
                     java.lang.Object ref = trialName_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12098,7 +12097,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setTrialName(
+                public Builder setTrialName(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12109,7 +12108,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getTrialNameBytes() {
                     java.lang.Object ref = trialName_;
                     if (ref instanceof String) {
@@ -12123,7 +12122,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setTrialNameBytes(
+                public Builder setTrialNameBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12135,14 +12134,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearTrialName() {
+                public Builder clearTrialName() {
 
                     trialName_ = getDefaultInstance().getTrialName();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getBatteryPercentageParsed() {
+                public java.lang.String getBatteryPercentageParsed() {
                     java.lang.Object ref = batteryPercentageParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12155,7 +12154,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setBatteryPercentageParsed(
+                public Builder setBatteryPercentageParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12166,7 +12165,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getBatteryPercentageParsedBytes() {
                     java.lang.Object ref = batteryPercentageParsed_;
                     if (ref instanceof String) {
@@ -12180,7 +12179,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setBatteryPercentageParsedBytes(
+                public Builder setBatteryPercentageParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12192,33 +12191,33 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearBatteryPercentageParsed() {
+                public Builder clearBatteryPercentageParsed() {
 
                     batteryPercentageParsed_ = getDefaultInstance().getBatteryPercentageParsed();
                     onChanged();
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public double getBatteryPercentage() {
                     return batteryPercentage_;
                 }
 
-                                public Builder setBatteryPercentage(double value) {
+                public Builder setBatteryPercentage(double value) {
 
                     batteryPercentage_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearBatteryPercentage() {
+                public Builder clearBatteryPercentage() {
 
                     batteryPercentage_ = 0D;
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getChargingStatusParsed() {
+                public java.lang.String getChargingStatusParsed() {
                     java.lang.Object ref = chargingStatusParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12231,7 +12230,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setChargingStatusParsed(
+                public Builder setChargingStatusParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12242,7 +12241,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getChargingStatusParsedBytes() {
                     java.lang.Object ref = chargingStatusParsed_;
                     if (ref instanceof String) {
@@ -12256,7 +12255,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setChargingStatusParsedBytes(
+                public Builder setChargingStatusParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12268,71 +12267,71 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearChargingStatusParsed() {
+                public Builder clearChargingStatusParsed() {
 
                     chargingStatusParsed_ = getDefaultInstance().getChargingStatusParsed();
                     onChanged();
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public long getDriveCapacity() {
                     return driveCapacity_;
                 }
 
-                                public Builder setDriveCapacity(long value) {
+                public Builder setDriveCapacity(long value) {
 
                     driveCapacity_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearDriveCapacity() {
+                public Builder clearDriveCapacity() {
 
                     driveCapacity_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public long getDriveSpaceUsed() {
                     return driveSpaceUsed_;
                 }
 
-                                public Builder setDriveSpaceUsed(long value) {
+                public Builder setDriveSpaceUsed(long value) {
 
                     driveSpaceUsed_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearDriveSpaceUsed() {
+                public Builder clearDriveSpaceUsed() {
 
                     driveSpaceUsed_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public long getDriveSpaceFree() {
                     return driveSpaceFree_;
                 }
 
-                                public Builder setDriveSpaceFree(long value) {
+                public Builder setDriveSpaceFree(long value) {
 
                     driveSpaceFree_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearDriveSpaceFree() {
+                public Builder clearDriveSpaceFree() {
 
                     driveSpaceFree_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getDriveCapacityParsed() {
+                public java.lang.String getDriveCapacityParsed() {
                     java.lang.Object ref = driveCapacityParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12345,7 +12344,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setDriveCapacityParsed(
+                public Builder setDriveCapacityParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12356,7 +12355,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getDriveCapacityParsedBytes() {
                     java.lang.Object ref = driveCapacityParsed_;
                     if (ref instanceof String) {
@@ -12370,7 +12369,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setDriveCapacityParsedBytes(
+                public Builder setDriveCapacityParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12382,52 +12381,52 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearDriveCapacityParsed() {
+                public Builder clearDriveCapacityParsed() {
 
                     driveCapacityParsed_ = getDefaultInstance().getDriveCapacityParsed();
                     onChanged();
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public boolean getIsRealTimeClockSet() {
                     return isRealTimeClockSet_;
                 }
 
-                                public Builder setIsRealTimeClockSet(boolean value) {
+                public Builder setIsRealTimeClockSet(boolean value) {
 
                     isRealTimeClockSet_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearIsRealTimeClockSet() {
+                public Builder clearIsRealTimeClockSet() {
 
                     isRealTimeClockSet_ = false;
                     onChanged();
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public long getLastReadRtcValueMilliSecs() {
                     return lastReadRtcValueMilliSecs_;
                 }
 
-                                public Builder setLastReadRtcValueMilliSecs(long value) {
+                public Builder setLastReadRtcValueMilliSecs(long value) {
 
                     lastReadRtcValueMilliSecs_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearLastReadRtcValueMilliSecs() {
+                public Builder clearLastReadRtcValueMilliSecs() {
 
                     lastReadRtcValueMilliSecs_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getLastReadRtcValueParsed() {
+                public java.lang.String getLastReadRtcValueParsed() {
                     java.lang.Object ref = lastReadRtcValueParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12440,7 +12439,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setLastReadRtcValueParsed(
+                public Builder setLastReadRtcValueParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12451,7 +12450,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getLastReadRtcValueParsedBytes() {
                     java.lang.Object ref = lastReadRtcValueParsed_;
                     if (ref instanceof String) {
@@ -12465,7 +12464,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setLastReadRtcValueParsedBytes(
+                public Builder setLastReadRtcValueParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12477,14 +12476,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearLastReadRtcValueParsed() {
+                public Builder clearLastReadRtcValueParsed() {
 
                     lastReadRtcValueParsed_ = getDefaultInstance().getLastReadRtcValueParsed();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getHwVersionParsed() {
+                public java.lang.String getHwVersionParsed() {
                     java.lang.Object ref = hwVersionParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12497,7 +12496,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setHwVersionParsed(
+                public Builder setHwVersionParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12508,7 +12507,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getHwVersionParsedBytes() {
                     java.lang.Object ref = hwVersionParsed_;
                     if (ref instanceof String) {
@@ -12522,7 +12521,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setHwVersionParsedBytes(
+                public Builder setHwVersionParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12534,14 +12533,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearHwVersionParsed() {
+                public Builder clearHwVersionParsed() {
 
                     hwVersionParsed_ = getDefaultInstance().getHwVersionParsed();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getExpBrdVersionParsed() {
+                public java.lang.String getExpBrdVersionParsed() {
                     java.lang.Object ref = expBrdVersionParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12554,7 +12553,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setExpBrdVersionParsed(
+                public Builder setExpBrdVersionParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12565,7 +12564,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getExpBrdVersionParsedBytes() {
                     java.lang.Object ref = expBrdVersionParsed_;
                     if (ref instanceof String) {
@@ -12579,7 +12578,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setExpBrdVersionParsedBytes(
+                public Builder setExpBrdVersionParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12591,14 +12590,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearExpBrdVersionParsed() {
+                public Builder clearExpBrdVersionParsed() {
 
                     expBrdVersionParsed_ = getDefaultInstance().getExpBrdVersionParsed();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getFwVersionParsed() {
+                public java.lang.String getFwVersionParsed() {
                     java.lang.Object ref = fwVersionParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12611,7 +12610,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setFwVersionParsed(
+                public Builder setFwVersionParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12622,7 +12621,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getFwVersionParsedBytes() {
                     java.lang.Object ref = fwVersionParsed_;
                     if (ref instanceof String) {
@@ -12636,7 +12635,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setFwVersionParsedBytes(
+                public Builder setFwVersionParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12648,7 +12647,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearFwVersionParsed() {
+                public Builder clearFwVersionParsed() {
 
                     fwVersionParsed_ = getDefaultInstance().getFwVersionParsed();
                     onChanged();
@@ -12662,25 +12661,25 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public com.google.protobuf.ProtocolStringList
+                public com.google.protobuf.ProtocolStringList
                 getPairedDeviceList() {
                     return pairedDevice_.getUnmodifiableView();
                 }
 
-                                public int getPairedDeviceCount() {
+                public int getPairedDeviceCount() {
                     return pairedDevice_.size();
                 }
 
-                                public java.lang.String getPairedDevice(int index) {
+                public java.lang.String getPairedDevice(int index) {
                     return pairedDevice_.get(index);
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getPairedDeviceBytes(int index) {
                     return pairedDevice_.getByteString(index);
                 }
 
-                                public Builder setPairedDevice(
+                public Builder setPairedDevice(
                         int index, java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12691,7 +12690,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder addPairedDevice(
+                public Builder addPairedDevice(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12702,7 +12701,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder addAllPairedDevice(
+                public Builder addAllPairedDevice(
                         java.lang.Iterable<java.lang.String> values) {
                     ensurePairedDeviceIsMutable();
                     com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -12711,14 +12710,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearPairedDevice() {
+                public Builder clearPairedDevice() {
                     pairedDevice_ = com.google.protobuf.LazyStringArrayList.EMPTY;
                     bitField0_ = (bitField0_ & ~0x00000001);
                     onChanged();
                     return this;
                 }
 
-                                public Builder addPairedDeviceBytes(
+                public Builder addPairedDeviceBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12730,26 +12729,26 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public long getConfigTime() {
                     return configTime_;
                 }
 
-                                public Builder setConfigTime(long value) {
+                public Builder setConfigTime(long value) {
 
                     configTime_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearConfigTime() {
+                public Builder clearConfigTime() {
 
                     configTime_ = 0L;
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getConfigTimeParsed() {
+                public java.lang.String getConfigTimeParsed() {
                     java.lang.Object ref = configTimeParsed_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -12762,7 +12761,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setConfigTimeParsed(
+                public Builder setConfigTimeParsed(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12773,7 +12772,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getConfigTimeParsedBytes() {
                     java.lang.Object ref = configTimeParsed_;
                     if (ref instanceof String) {
@@ -12787,7 +12786,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setConfigTimeParsedBytes(
+                public Builder setConfigTimeParsedBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -12799,18 +12798,18 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearConfigTimeParsed() {
+                public Builder clearConfigTimeParsed() {
 
                     configTimeParsed_ = getDefaultInstance().getConfigTimeParsed();
                     onChanged();
                     return this;
                 }
 
-                                public boolean hasIeee802154Info() {
+                public boolean hasIeee802154Info() {
                     return ieee802154InfoBuilder_ != null || ieee802154Info_ != null;
                 }
 
-                                public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info() {
+                public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info() {
                     if (ieee802154InfoBuilder_ == null) {
                         return ieee802154Info_ == null ? com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.getDefaultInstance() : ieee802154Info_;
                     } else {
@@ -12818,7 +12817,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setIeee802154Info(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info value) {
+                public Builder setIeee802154Info(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info value) {
                     if (ieee802154InfoBuilder_ == null) {
                         if (value == null) {
                             throw new NullPointerException();
@@ -12832,7 +12831,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder setIeee802154Info(
+                public Builder setIeee802154Info(
                         com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder builderForValue) {
                     if (ieee802154InfoBuilder_ == null) {
                         ieee802154Info_ = builderForValue.build();
@@ -12844,7 +12843,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder mergeIeee802154Info(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info value) {
+                public Builder mergeIeee802154Info(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info value) {
                     if (ieee802154InfoBuilder_ == null) {
                         if (ieee802154Info_ != null) {
                             ieee802154Info_ =
@@ -12860,7 +12859,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearIeee802154Info() {
+                public Builder clearIeee802154Info() {
                     if (ieee802154InfoBuilder_ == null) {
                         ieee802154Info_ = null;
                         onChanged();
@@ -12872,13 +12871,13 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder getIeee802154InfoBuilder() {
+                public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder getIeee802154InfoBuilder() {
 
                     onChanged();
                     return getIeee802154InfoFieldBuilder().getBuilder();
                 }
 
-                                public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder() {
+                public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder() {
                     if (ieee802154InfoBuilder_ != null) {
                         return ieee802154InfoBuilder_.getMessageOrBuilder();
                     } else {
@@ -12887,7 +12886,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                private com.google.protobuf.SingleFieldBuilderV3<
+                private com.google.protobuf.SingleFieldBuilderV3<
                         com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info, com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder, com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder>
                 getIeee802154InfoFieldBuilder() {
                     if (ieee802154InfoBuilder_ == null) {
@@ -13126,26 +13125,26 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getState() {
                 return state_;
             }
 
-                        public Builder setState(boolean value) {
+            public Builder setState(boolean value) {
 
                 state_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearState() {
+            public Builder clearState() {
 
                 state_ = false;
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getMessage() {
+            public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -13158,7 +13157,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessage(
+            public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -13169,7 +13168,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -13183,7 +13182,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessageBytes(
+            public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -13195,7 +13194,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessage() {
+            public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -13248,13 +13247,13 @@ public final class ShimmerGRPC {
                 return getShimmerMapMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo> getShimmerMapMap() {
                 return internalGetShimmerMap().getMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrDefault(
                     java.lang.String key,
@@ -13267,7 +13266,7 @@ public final class ShimmerGRPC {
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo getShimmerMapOrThrow(
                     java.lang.String key) {
@@ -13299,13 +13298,13 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Deprecated
+            @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo>
             getMutableShimmerMap() {
                 return internalGetMutableShimmerMap().getMutableMap();
             }
 
-                        public Builder putShimmerMap(
+            public Builder putShimmerMap(
                     java.lang.String key,
                     com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.ShimmerInfo value) {
                 if (key == null) {
@@ -13583,12 +13582,12 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.class, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getState() {
             return state_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -13602,7 +13601,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -13649,13 +13648,13 @@ public final class ShimmerGRPC {
             return getDeviceMapMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails> getDeviceMapMap() {
             return internalGetDeviceMap().getMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails getDeviceMapOrDefault(
                 java.lang.String key,
@@ -13668,7 +13667,7 @@ public final class ShimmerGRPC {
             return map.containsKey(key) ? map.get(key) : defaultValue;
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails getDeviceMapOrThrow(
                 java.lang.String key) {
@@ -13811,29 +13810,29 @@ public final class ShimmerGRPC {
         public interface BluetoothDeviceDetailsOrBuilder extends
                 com.google.protobuf.MessageOrBuilder {
 
-                        java.lang.String getComPort();
+            java.lang.String getComPort();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getComPortBytes();
 
-                        java.lang.String getName();
+            java.lang.String getName();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getNameBytes();
 
-                        java.lang.String getMacId();
+            java.lang.String getMacId();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getMacIdBytes();
 
-                        java.lang.String getDeviceType();
+            java.lang.String getDeviceType();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getDeviceTypeBytes();
 
-                        java.lang.String getLastConnectionState();
+            java.lang.String getLastConnectionState();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getLastConnectionStateBytes();
         }
 
@@ -14075,7 +14074,7 @@ public final class ShimmerGRPC {
                                 com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails.class, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails.Builder.class);
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getComPort() {
                 java.lang.Object ref = comPort_;
                 if (ref instanceof java.lang.String) {
@@ -14089,7 +14088,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getComPortBytes() {
                 java.lang.Object ref = comPort_;
@@ -14104,7 +14103,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getName() {
                 java.lang.Object ref = name_;
                 if (ref instanceof java.lang.String) {
@@ -14118,7 +14117,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getNameBytes() {
                 java.lang.Object ref = name_;
@@ -14133,7 +14132,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getMacId() {
                 java.lang.Object ref = macId_;
                 if (ref instanceof java.lang.String) {
@@ -14147,7 +14146,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getMacIdBytes() {
                 java.lang.Object ref = macId_;
@@ -14162,7 +14161,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getDeviceType() {
                 java.lang.Object ref = deviceType_;
                 if (ref instanceof java.lang.String) {
@@ -14176,7 +14175,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getDeviceTypeBytes() {
                 java.lang.Object ref = deviceType_;
@@ -14191,7 +14190,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getLastConnectionState() {
                 java.lang.Object ref = lastConnectionState_;
                 if (ref instanceof java.lang.String) {
@@ -14205,7 +14204,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getLastConnectionStateBytes() {
                 java.lang.Object ref = lastConnectionState_;
@@ -14540,7 +14539,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public java.lang.String getComPort() {
+                public java.lang.String getComPort() {
                     java.lang.Object ref = comPort_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14553,7 +14552,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setComPort(
+                public Builder setComPort(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14564,7 +14563,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getComPortBytes() {
                     java.lang.Object ref = comPort_;
                     if (ref instanceof String) {
@@ -14578,7 +14577,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setComPortBytes(
+                public Builder setComPortBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14590,14 +14589,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearComPort() {
+                public Builder clearComPort() {
 
                     comPort_ = getDefaultInstance().getComPort();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getName() {
+                public java.lang.String getName() {
                     java.lang.Object ref = name_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14610,7 +14609,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setName(
+                public Builder setName(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14621,7 +14620,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getNameBytes() {
                     java.lang.Object ref = name_;
                     if (ref instanceof String) {
@@ -14635,7 +14634,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setNameBytes(
+                public Builder setNameBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14647,14 +14646,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearName() {
+                public Builder clearName() {
 
                     name_ = getDefaultInstance().getName();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getMacId() {
+                public java.lang.String getMacId() {
                     java.lang.Object ref = macId_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14667,7 +14666,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setMacId(
+                public Builder setMacId(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14678,7 +14677,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getMacIdBytes() {
                     java.lang.Object ref = macId_;
                     if (ref instanceof String) {
@@ -14692,7 +14691,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setMacIdBytes(
+                public Builder setMacIdBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14704,14 +14703,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearMacId() {
+                public Builder clearMacId() {
 
                     macId_ = getDefaultInstance().getMacId();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getDeviceType() {
+                public java.lang.String getDeviceType() {
                     java.lang.Object ref = deviceType_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14724,7 +14723,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setDeviceType(
+                public Builder setDeviceType(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14735,7 +14734,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getDeviceTypeBytes() {
                     java.lang.Object ref = deviceType_;
                     if (ref instanceof String) {
@@ -14749,7 +14748,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setDeviceTypeBytes(
+                public Builder setDeviceTypeBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14761,14 +14760,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearDeviceType() {
+                public Builder clearDeviceType() {
 
                     deviceType_ = getDefaultInstance().getDeviceType();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getLastConnectionState() {
+                public java.lang.String getLastConnectionState() {
                     java.lang.Object ref = lastConnectionState_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -14781,7 +14780,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setLastConnectionState(
+                public Builder setLastConnectionState(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14792,7 +14791,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getLastConnectionStateBytes() {
                     java.lang.Object ref = lastConnectionState_;
                     if (ref instanceof String) {
@@ -14806,7 +14805,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setLastConnectionStateBytes(
+                public Builder setLastConnectionStateBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -14818,7 +14817,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearLastConnectionState() {
+                public Builder clearLastConnectionState() {
 
                     lastConnectionState_ = getDefaultInstance().getLastConnectionState();
                     onChanged();
@@ -15051,26 +15050,26 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getState() {
                 return state_;
             }
 
-                        public Builder setState(boolean value) {
+            public Builder setState(boolean value) {
 
                 state_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearState() {
+            public Builder clearState() {
 
                 state_ = false;
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getMessage() {
+            public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -15083,7 +15082,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessage(
+            public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -15094,7 +15093,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -15108,7 +15107,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessageBytes(
+            public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -15120,7 +15119,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessage() {
+            public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -15173,13 +15172,13 @@ public final class ShimmerGRPC {
                 return getDeviceMapMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails> getDeviceMapMap() {
                 return internalGetDeviceMap().getMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails getDeviceMapOrDefault(
                     java.lang.String key,
@@ -15192,7 +15191,7 @@ public final class ShimmerGRPC {
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails getDeviceMapOrThrow(
                     java.lang.String key) {
@@ -15224,13 +15223,13 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Deprecated
+            @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails>
             getMutableDeviceMap() {
                 return internalGetMutableDeviceMap().getMutableMap();
             }
 
-                        public Builder putDeviceMap(
+            public Builder putDeviceMap(
                     java.lang.String key,
                     com.shimmerresearch.grpc.ShimmerGRPC.BluetoothDevicesDetails.BluetoothDeviceDetails value) {
                 if (key == null) {
@@ -15498,7 +15497,7 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.DeviceState.class, com.shimmerresearch.grpc.ShimmerGRPC.DeviceState.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getDeviceName() {
             java.lang.Object ref = deviceName_;
             if (ref instanceof java.lang.String) {
@@ -15512,7 +15511,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getDeviceNameBytes() {
             java.lang.Object ref = deviceName_;
@@ -15527,7 +15526,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getComPort() {
             java.lang.Object ref = comPort_;
             if (ref instanceof java.lang.String) {
@@ -15541,7 +15540,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getComPortBytes() {
             java.lang.Object ref = comPort_;
@@ -15556,7 +15555,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMacId() {
             java.lang.Object ref = macId_;
             if (ref instanceof java.lang.String) {
@@ -15570,7 +15569,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMacIdBytes() {
             java.lang.Object ref = macId_;
@@ -15585,12 +15584,12 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public int getStateValue() {
             return state_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE getState() {
             @SuppressWarnings("deprecation")
             com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE result = com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE.valueOf(state_);
@@ -15897,7 +15896,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public java.lang.String getDeviceName() {
+            public java.lang.String getDeviceName() {
                 java.lang.Object ref = deviceName_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -15910,7 +15909,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setDeviceName(
+            public Builder setDeviceName(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -15921,7 +15920,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getDeviceNameBytes() {
                 java.lang.Object ref = deviceName_;
                 if (ref instanceof String) {
@@ -15935,7 +15934,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setDeviceNameBytes(
+            public Builder setDeviceNameBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -15947,14 +15946,14 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearDeviceName() {
+            public Builder clearDeviceName() {
 
                 deviceName_ = getDefaultInstance().getDeviceName();
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getComPort() {
+            public java.lang.String getComPort() {
                 java.lang.Object ref = comPort_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -15967,7 +15966,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setComPort(
+            public Builder setComPort(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -15978,7 +15977,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getComPortBytes() {
                 java.lang.Object ref = comPort_;
                 if (ref instanceof String) {
@@ -15992,7 +15991,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setComPortBytes(
+            public Builder setComPortBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -16004,14 +16003,14 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearComPort() {
+            public Builder clearComPort() {
 
                 comPort_ = getDefaultInstance().getComPort();
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getMacId() {
+            public java.lang.String getMacId() {
                 java.lang.Object ref = macId_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -16024,7 +16023,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMacId(
+            public Builder setMacId(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -16035,7 +16034,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMacIdBytes() {
                 java.lang.Object ref = macId_;
                 if (ref instanceof String) {
@@ -16049,7 +16048,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMacIdBytes(
+            public Builder setMacIdBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -16061,33 +16060,33 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMacId() {
+            public Builder clearMacId() {
 
                 macId_ = getDefaultInstance().getMacId();
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public int getStateValue() {
                 return state_;
             }
 
-                        public Builder setStateValue(int value) {
+            public Builder setStateValue(int value) {
 
                 state_ = value;
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE getState() {
                 @SuppressWarnings("deprecation")
                 com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE result = com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE.valueOf(state_);
                 return result == null ? com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE.UNRECOGNIZED : result;
             }
 
-                        public Builder setState(com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE value) {
+            public Builder setState(com.shimmerresearch.grpc.ShimmerGRPC.BT_STATE value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -16097,7 +16096,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearState() {
+            public Builder clearState() {
 
                 state_ = 0;
                 onChanged();
@@ -16335,17 +16334,17 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.class, com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public int getRadioChannel() {
             return radioChannel_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public int getRadioGroupId() {
             return radioGroupId_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public int getRadioDeviceId() {
             return radioDeviceId_;
         }
@@ -16633,57 +16632,57 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public int getRadioChannel() {
                 return radioChannel_;
             }
 
-                        public Builder setRadioChannel(int value) {
+            public Builder setRadioChannel(int value) {
 
                 radioChannel_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearRadioChannel() {
+            public Builder clearRadioChannel() {
 
                 radioChannel_ = 0;
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public int getRadioGroupId() {
                 return radioGroupId_;
             }
 
-                        public Builder setRadioGroupId(int value) {
+            public Builder setRadioGroupId(int value) {
 
                 radioGroupId_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearRadioGroupId() {
+            public Builder clearRadioGroupId() {
 
                 radioGroupId_ = 0;
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public int getRadioDeviceId() {
                 return radioDeviceId_;
             }
 
-                        public Builder setRadioDeviceId(int value) {
+            public Builder setRadioDeviceId(int value) {
 
                 radioDeviceId_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearRadioDeviceId() {
+            public Builder clearRadioDeviceId() {
 
                 radioDeviceId_ = 0;
                 onChanged();
@@ -16961,12 +16960,12 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.class, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getState() {
             return state_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -16980,7 +16979,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -17027,13 +17026,13 @@ public final class ShimmerGRPC {
             return getSpanMapMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan> getSpanMapMap() {
             return internalGetSpanMap().getMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan getSpanMapOrDefault(
                 java.lang.String key,
@@ -17046,7 +17045,7 @@ public final class ShimmerGRPC {
             return map.containsKey(key) ? map.get(key) : defaultValue;
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan getSpanMapOrThrow(
                 java.lang.String key) {
@@ -17061,17 +17060,17 @@ public final class ShimmerGRPC {
             return map.get(key);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean hasIeee802154Info() {
             return ieee802154Info_ != null;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info() {
             return ieee802154Info_ == null ? com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.getDefaultInstance() : ieee802154Info_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder() {
             return getIeee802154Info();
         }
@@ -17220,19 +17219,19 @@ public final class ShimmerGRPC {
         public interface InfoSpanOrBuilder extends
                 com.google.protobuf.MessageOrBuilder {
 
-                        java.lang.String getUniqueId();
+            java.lang.String getUniqueId();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getUniqueIdBytes();
 
-                        java.lang.String getPortBsl();
+            java.lang.String getPortBsl();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getPortBslBytes();
 
-                        java.lang.String getPortComms();
+            java.lang.String getPortComms();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getPortCommsBytes();
         }
 
@@ -17456,7 +17455,7 @@ public final class ShimmerGRPC {
                                 com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan.class, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan.Builder.class);
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getUniqueId() {
                 java.lang.Object ref = uniqueId_;
                 if (ref instanceof java.lang.String) {
@@ -17470,7 +17469,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getUniqueIdBytes() {
                 java.lang.Object ref = uniqueId_;
@@ -17485,7 +17484,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getPortBsl() {
                 java.lang.Object ref = portBsl_;
                 if (ref instanceof java.lang.String) {
@@ -17499,7 +17498,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getPortBslBytes() {
                 java.lang.Object ref = portBsl_;
@@ -17514,7 +17513,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getPortComms() {
                 java.lang.Object ref = portComms_;
                 if (ref instanceof java.lang.String) {
@@ -17528,7 +17527,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getPortCommsBytes() {
                 java.lang.Object ref = portComms_;
@@ -17827,7 +17826,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public java.lang.String getUniqueId() {
+                public java.lang.String getUniqueId() {
                     java.lang.Object ref = uniqueId_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -17840,7 +17839,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setUniqueId(
+                public Builder setUniqueId(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -17851,7 +17850,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getUniqueIdBytes() {
                     java.lang.Object ref = uniqueId_;
                     if (ref instanceof String) {
@@ -17865,7 +17864,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setUniqueIdBytes(
+                public Builder setUniqueIdBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -17877,14 +17876,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearUniqueId() {
+                public Builder clearUniqueId() {
 
                     uniqueId_ = getDefaultInstance().getUniqueId();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getPortBsl() {
+                public java.lang.String getPortBsl() {
                     java.lang.Object ref = portBsl_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -17897,7 +17896,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setPortBsl(
+                public Builder setPortBsl(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -17908,7 +17907,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getPortBslBytes() {
                     java.lang.Object ref = portBsl_;
                     if (ref instanceof String) {
@@ -17922,7 +17921,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setPortBslBytes(
+                public Builder setPortBslBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -17934,14 +17933,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearPortBsl() {
+                public Builder clearPortBsl() {
 
                     portBsl_ = getDefaultInstance().getPortBsl();
                     onChanged();
                     return this;
                 }
 
-                                public java.lang.String getPortComms() {
+                public java.lang.String getPortComms() {
                     java.lang.Object ref = portComms_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -17954,7 +17953,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setPortComms(
+                public Builder setPortComms(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -17965,7 +17964,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getPortCommsBytes() {
                     java.lang.Object ref = portComms_;
                     if (ref instanceof String) {
@@ -17979,7 +17978,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setPortCommsBytes(
+                public Builder setPortCommsBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -17991,7 +17990,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearPortComms() {
+                public Builder clearPortComms() {
 
                     portComms_ = getDefaultInstance().getPortComms();
                     onChanged();
@@ -18240,26 +18239,26 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getState() {
                 return state_;
             }
 
-                        public Builder setState(boolean value) {
+            public Builder setState(boolean value) {
 
                 state_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearState() {
+            public Builder clearState() {
 
                 state_ = false;
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getMessage() {
+            public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -18272,7 +18271,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessage(
+            public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -18283,7 +18282,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -18297,7 +18296,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessageBytes(
+            public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -18309,7 +18308,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessage() {
+            public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
@@ -18362,13 +18361,13 @@ public final class ShimmerGRPC {
                 return getSpanMapMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan> getSpanMapMap() {
                 return internalGetSpanMap().getMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan getSpanMapOrDefault(
                     java.lang.String key,
@@ -18381,7 +18380,7 @@ public final class ShimmerGRPC {
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan getSpanMapOrThrow(
                     java.lang.String key) {
@@ -18413,13 +18412,13 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Deprecated
+            @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan>
             getMutableSpanMap() {
                 return internalGetMutableSpanMap().getMutableMap();
             }
 
-                        public Builder putSpanMap(
+            public Builder putSpanMap(
                     java.lang.String key,
                     com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.InfoSpan value) {
                 if (key == null) {
@@ -18441,11 +18440,11 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public boolean hasIeee802154Info() {
+            public boolean hasIeee802154Info() {
                 return ieee802154InfoBuilder_ != null || ieee802154Info_ != null;
             }
 
-                        public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info() {
+            public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info getIeee802154Info() {
                 if (ieee802154InfoBuilder_ == null) {
                     return ieee802154Info_ == null ? com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.getDefaultInstance() : ieee802154Info_;
                 } else {
@@ -18453,7 +18452,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setIeee802154Info(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info value) {
+            public Builder setIeee802154Info(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info value) {
                 if (ieee802154InfoBuilder_ == null) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -18467,7 +18466,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder setIeee802154Info(
+            public Builder setIeee802154Info(
                     com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder builderForValue) {
                 if (ieee802154InfoBuilder_ == null) {
                     ieee802154Info_ = builderForValue.build();
@@ -18479,7 +18478,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder mergeIeee802154Info(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info value) {
+            public Builder mergeIeee802154Info(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info value) {
                 if (ieee802154InfoBuilder_ == null) {
                     if (ieee802154Info_ != null) {
                         ieee802154Info_ =
@@ -18495,7 +18494,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearIeee802154Info() {
+            public Builder clearIeee802154Info() {
                 if (ieee802154InfoBuilder_ == null) {
                     ieee802154Info_ = null;
                     onChanged();
@@ -18507,13 +18506,13 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder getIeee802154InfoBuilder() {
+            public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder getIeee802154InfoBuilder() {
 
                 onChanged();
                 return getIeee802154InfoFieldBuilder().getBuilder();
             }
 
-                        public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder() {
+            public com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder getIeee802154InfoOrBuilder() {
                 if (ieee802154InfoBuilder_ != null) {
                     return ieee802154InfoBuilder_.getMessageOrBuilder();
                 } else {
@@ -18522,7 +18521,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        private com.google.protobuf.SingleFieldBuilderV3<
+            private com.google.protobuf.SingleFieldBuilderV3<
                     com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info, com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.Builder, com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154InfoOrBuilder>
             getIeee802154InfoFieldBuilder() {
                 if (ieee802154InfoBuilder_ == null) {
@@ -18799,12 +18798,12 @@ public final class ShimmerGRPC {
                             com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.class, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.Builder.class);
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getState() {
             return state_;
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public java.lang.String getMessage() {
             java.lang.Object ref = message_;
             if (ref instanceof java.lang.String) {
@@ -18818,7 +18817,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public com.google.protobuf.ByteString
         getMessageBytes() {
             java.lang.Object ref = message_;
@@ -18833,7 +18832,7 @@ public final class ShimmerGRPC {
             }
         }
 
-                @java.lang.Override
+        @java.lang.Override
         public boolean getIsEmulatorSide() {
             return isEmulatorSide_;
         }
@@ -18870,13 +18869,13 @@ public final class ShimmerGRPC {
             return getEmulatedDevicesMapMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice> getEmulatedDevicesMapMap() {
             return internalGetEmulatedDevicesMap().getMap();
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice getEmulatedDevicesMapOrDefault(
                 java.lang.String key,
@@ -18889,7 +18888,7 @@ public final class ShimmerGRPC {
             return map.containsKey(key) ? map.get(key) : defaultValue;
         }
 
-                @java.lang.Override
+        @java.lang.Override
 
         public com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice getEmulatedDevicesMapOrThrow(
                 java.lang.String key) {
@@ -19044,24 +19043,24 @@ public final class ShimmerGRPC {
         public interface EmulatedDeviceOrBuilder extends
                 com.google.protobuf.MessageOrBuilder {
 
-                        java.lang.String getUniqueId();
+            java.lang.String getUniqueId();
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getUniqueIdBytes();
 
-                        int getDeviceTypeOrdinal();
+            int getDeviceTypeOrdinal();
 
-                        java.util.List<java.lang.String>
+            java.util.List<java.lang.String>
             getHwDeviceInterfacePathList();
 
-                        int getHwDeviceInterfacePathCount();
+            int getHwDeviceInterfacePathCount();
 
-                        java.lang.String getHwDeviceInterfacePath(int index);
+            java.lang.String getHwDeviceInterfacePath(int index);
 
-                        com.google.protobuf.ByteString
+            com.google.protobuf.ByteString
             getHwDeviceInterfacePathBytes(int index);
 
-                        boolean getIsDeviceEnabled();
+            boolean getIsDeviceEnabled();
         }
 
         /**
@@ -19296,7 +19295,7 @@ public final class ShimmerGRPC {
                                 com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice.class, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice.Builder.class);
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public java.lang.String getUniqueId() {
                 java.lang.Object ref = uniqueId_;
                 if (ref instanceof java.lang.String) {
@@ -19310,7 +19309,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public com.google.protobuf.ByteString
             getUniqueIdBytes() {
                 java.lang.Object ref = uniqueId_;
@@ -19325,30 +19324,30 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public int getDeviceTypeOrdinal() {
                 return deviceTypeOrdinal_;
             }
 
-                        public com.google.protobuf.ProtocolStringList
+            public com.google.protobuf.ProtocolStringList
             getHwDeviceInterfacePathList() {
                 return hwDeviceInterfacePath_;
             }
 
-                        public int getHwDeviceInterfacePathCount() {
+            public int getHwDeviceInterfacePathCount() {
                 return hwDeviceInterfacePath_.size();
             }
 
-                        public java.lang.String getHwDeviceInterfacePath(int index) {
+            public java.lang.String getHwDeviceInterfacePath(int index) {
                 return hwDeviceInterfacePath_.get(index);
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getHwDeviceInterfacePathBytes(int index) {
                 return hwDeviceInterfacePath_.getByteString(index);
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getIsDeviceEnabled() {
                 return isDeviceEnabled_;
             }
@@ -19675,7 +19674,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public java.lang.String getUniqueId() {
+                public java.lang.String getUniqueId() {
                     java.lang.Object ref = uniqueId_;
                     if (!(ref instanceof java.lang.String)) {
                         com.google.protobuf.ByteString bs =
@@ -19688,7 +19687,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setUniqueId(
+                public Builder setUniqueId(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -19699,7 +19698,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getUniqueIdBytes() {
                     java.lang.Object ref = uniqueId_;
                     if (ref instanceof String) {
@@ -19713,7 +19712,7 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public Builder setUniqueIdBytes(
+                public Builder setUniqueIdBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -19725,26 +19724,26 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearUniqueId() {
+                public Builder clearUniqueId() {
 
                     uniqueId_ = getDefaultInstance().getUniqueId();
                     onChanged();
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public int getDeviceTypeOrdinal() {
                     return deviceTypeOrdinal_;
                 }
 
-                                public Builder setDeviceTypeOrdinal(int value) {
+                public Builder setDeviceTypeOrdinal(int value) {
 
                     deviceTypeOrdinal_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearDeviceTypeOrdinal() {
+                public Builder clearDeviceTypeOrdinal() {
 
                     deviceTypeOrdinal_ = 0;
                     onChanged();
@@ -19758,25 +19757,25 @@ public final class ShimmerGRPC {
                     }
                 }
 
-                                public com.google.protobuf.ProtocolStringList
+                public com.google.protobuf.ProtocolStringList
                 getHwDeviceInterfacePathList() {
                     return hwDeviceInterfacePath_.getUnmodifiableView();
                 }
 
-                                public int getHwDeviceInterfacePathCount() {
+                public int getHwDeviceInterfacePathCount() {
                     return hwDeviceInterfacePath_.size();
                 }
 
-                                public java.lang.String getHwDeviceInterfacePath(int index) {
+                public java.lang.String getHwDeviceInterfacePath(int index) {
                     return hwDeviceInterfacePath_.get(index);
                 }
 
-                                public com.google.protobuf.ByteString
+                public com.google.protobuf.ByteString
                 getHwDeviceInterfacePathBytes(int index) {
                     return hwDeviceInterfacePath_.getByteString(index);
                 }
 
-                                public Builder setHwDeviceInterfacePath(
+                public Builder setHwDeviceInterfacePath(
                         int index, java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -19787,7 +19786,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder addHwDeviceInterfacePath(
+                public Builder addHwDeviceInterfacePath(
                         java.lang.String value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -19798,7 +19797,7 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder addAllHwDeviceInterfacePath(
+                public Builder addAllHwDeviceInterfacePath(
                         java.lang.Iterable<java.lang.String> values) {
                     ensureHwDeviceInterfacePathIsMutable();
                     com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -19807,14 +19806,14 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                public Builder clearHwDeviceInterfacePath() {
+                public Builder clearHwDeviceInterfacePath() {
                     hwDeviceInterfacePath_ = com.google.protobuf.LazyStringArrayList.EMPTY;
                     bitField0_ = (bitField0_ & ~0x00000001);
                     onChanged();
                     return this;
                 }
 
-                                public Builder addHwDeviceInterfacePathBytes(
+                public Builder addHwDeviceInterfacePathBytes(
                         com.google.protobuf.ByteString value) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -19826,19 +19825,19 @@ public final class ShimmerGRPC {
                     return this;
                 }
 
-                                @java.lang.Override
+                @java.lang.Override
                 public boolean getIsDeviceEnabled() {
                     return isDeviceEnabled_;
                 }
 
-                                public Builder setIsDeviceEnabled(boolean value) {
+                public Builder setIsDeviceEnabled(boolean value) {
 
                     isDeviceEnabled_ = value;
                     onChanged();
                     return this;
                 }
 
-                                public Builder clearIsDeviceEnabled() {
+                public Builder clearIsDeviceEnabled() {
 
                     isDeviceEnabled_ = false;
                     onChanged();
@@ -20077,26 +20076,26 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getState() {
                 return state_;
             }
 
-                        public Builder setState(boolean value) {
+            public Builder setState(boolean value) {
 
                 state_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearState() {
+            public Builder clearState() {
 
                 state_ = false;
                 onChanged();
                 return this;
             }
 
-                        public java.lang.String getMessage() {
+            public java.lang.String getMessage() {
                 java.lang.Object ref = message_;
                 if (!(ref instanceof java.lang.String)) {
                     com.google.protobuf.ByteString bs =
@@ -20109,7 +20108,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessage(
+            public Builder setMessage(
                     java.lang.String value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -20120,7 +20119,7 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public com.google.protobuf.ByteString
+            public com.google.protobuf.ByteString
             getMessageBytes() {
                 java.lang.Object ref = message_;
                 if (ref instanceof String) {
@@ -20134,7 +20133,7 @@ public final class ShimmerGRPC {
                 }
             }
 
-                        public Builder setMessageBytes(
+            public Builder setMessageBytes(
                     com.google.protobuf.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
@@ -20146,26 +20145,26 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        public Builder clearMessage() {
+            public Builder clearMessage() {
 
                 message_ = getDefaultInstance().getMessage();
                 onChanged();
                 return this;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
             public boolean getIsEmulatorSide() {
                 return isEmulatorSide_;
             }
 
-                        public Builder setIsEmulatorSide(boolean value) {
+            public Builder setIsEmulatorSide(boolean value) {
 
                 isEmulatorSide_ = value;
                 onChanged();
                 return this;
             }
 
-                        public Builder clearIsEmulatorSide() {
+            public Builder clearIsEmulatorSide() {
 
                 isEmulatorSide_ = false;
                 onChanged();
@@ -20218,13 +20217,13 @@ public final class ShimmerGRPC {
                 return getEmulatedDevicesMapMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice> getEmulatedDevicesMapMap() {
                 return internalGetEmulatedDevicesMap().getMap();
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice getEmulatedDevicesMapOrDefault(
                     java.lang.String key,
@@ -20237,7 +20236,7 @@ public final class ShimmerGRPC {
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
 
-                        @java.lang.Override
+            @java.lang.Override
 
             public com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice getEmulatedDevicesMapOrThrow(
                     java.lang.String key) {
@@ -20269,13 +20268,13 @@ public final class ShimmerGRPC {
                 return this;
             }
 
-                        @java.lang.Deprecated
+            @java.lang.Deprecated
             public java.util.Map<java.lang.String, com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice>
             getMutableEmulatedDevicesMap() {
                 return internalGetMutableEmulatedDevicesMap().getMutableMap();
             }
 
-                        public Builder putEmulatedDevicesMap(
+            public Builder putEmulatedDevicesMap(
                     java.lang.String key,
                     com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.EmulatedDevice value) {
                 if (key == null) {

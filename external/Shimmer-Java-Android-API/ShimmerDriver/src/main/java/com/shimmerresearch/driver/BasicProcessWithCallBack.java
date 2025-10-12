@@ -30,7 +30,7 @@ public abstract class BasicProcessWithCallBack {
         mWaitForData = new WaitForData(b);
     }
 
-        protected abstract void processMsgFromCallback(ShimmerMsg shimmerMSG);
+    protected abstract void processMsgFromCallback(ShimmerMsg shimmerMSG);
 
     public void queueMethod(ShimmerMsg smsg) {
         try {
@@ -62,7 +62,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-        public void removeConsumer(BasicProcessWithCallBack b) {
+    public void removeConsumer(BasicProcessWithCallBack b) {
         synchronized (mListOfConsumers) {
             Iterator<Callable> entries = mListOfConsumers.iterator();
             while (entries.hasNext()) {
@@ -81,7 +81,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-        public void stopConsumerThread() {
+    public void stopConsumerThread() {
         if (mGUIConsumerThread != null) {
             mGUIConsumerThread.stop = true;
             ShimmerMsg smsg = new ShimmerMsg(0, new EndThread());
@@ -93,7 +93,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-        public void setWaitForData(BasicProcessWithCallBack b) {
+    public void setWaitForData(BasicProcessWithCallBack b) {
         startConsumerThreadIfNull();
         mListOfMsgProducers.add(b);
         if (mWaitForData != null) {
@@ -109,7 +109,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-        public void removeSetWaitForData(BasicProcessWithCallBack b) {
+    public void removeSetWaitForData(BasicProcessWithCallBack b) {
 
 
         StringBuilder builder = null;
@@ -171,7 +171,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-        public void removeSetWaitForDataAll() {
+    public void removeSetWaitForDataAll() {
 
         for (BasicProcessWithCallBack bpwc : mListOfMsgProducers) {
             bpwc.removeConsumer(this);

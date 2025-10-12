@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     String shimmerBtAdd;
     ShimmerBluetoothManagerAndroid.BT_TYPE preferredBtType;
     TextView textView;
-        Handler mHandler = new Handler() {
+    Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case Shimmer.MESSAGE_TOAST:
-                                        Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
                     break;
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
                     ShimmerBluetooth.BT_STATE state = null;
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        public void openConfigMenu(View v) {
+    public void openConfigMenu(View v) {
         if (shimmerDevice != null) {
             if (!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
                 ShimmerDialogConfigurations.buildShimmerConfigOptions(shimmerDevice, MainActivity.this, btManager);
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        public void openMenu(View v) throws IOException {
+    public void openMenu(View v) throws IOException {
 
         if (shimmerDevice != null) {
             if (!shimmerDevice.isStreaming() && !shimmerDevice.isSDLogging()) {
@@ -282,12 +282,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        public void connectDevice(View v) {
+    public void connectDevice(View v) {
         Intent intent = new Intent(getApplicationContext(), ShimmerBluetoothDialog.class);
         startActivityForResult(intent, ShimmerBluetoothDialog.REQUEST_CONNECT_SHIMMER);
     }
 
-        public void disconnectDevice(View v) {
+    public void disconnectDevice(View v) {
         try {
             ((ShimmerBluetooth) shimmerDevice).disconnect();
         } catch (ShimmerException e) {
@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
         shimmerDevice.stopSDLogging();
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {

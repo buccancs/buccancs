@@ -6,15 +6,15 @@ public class IndexAxisValueFormatter extends ValueFormatter {
     private String[] mValues = new String[]{};
     private int mValueCount = 0;
 
-        public IndexAxisValueFormatter() {
+    public IndexAxisValueFormatter() {
     }
 
-        public IndexAxisValueFormatter(String[] values) {
+    public IndexAxisValueFormatter(String[] values) {
         if (values != null)
             setValues(values);
     }
 
-        public IndexAxisValueFormatter(Collection<String> values) {
+    public IndexAxisValueFormatter(Collection<String> values) {
         if (values != null)
             setValues(values.toArray(new String[values.size()]));
     }

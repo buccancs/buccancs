@@ -45,7 +45,7 @@ class ObserverMethodHelper {
         METHOD_CACHE.clear();
     }
 
-        Runnable generateRunnable(Observer observer, Method method, MethodInfo info) {
+    Runnable generateRunnable(Observer observer, Method method, MethodInfo info) {
         MethodInfo.Parameter[] parameters = info.getParameters();
         if (parameters == null || parameters.length == 0) {
             return () -> {
@@ -71,7 +71,7 @@ class ObserverMethodHelper {
         }
     }
 
-        String generateKey(String tag, String name, Class<?>[] paramTypes) {
+    String generateKey(String tag, String name, Class<?>[] paramTypes) {
         StringBuilder sb = new StringBuilder();
         if (tag.isEmpty()) {
             sb.append(name);
@@ -84,7 +84,7 @@ class ObserverMethodHelper {
         return sb.toString();
     }
 
-        Map<String, Method> findObserverMethod(Observer observer) {
+    Map<String, Method> findObserverMethod(Observer observer) {
         Map<String, Method> map = METHOD_CACHE.get(observer.getClass());
         if (map != null) {
             return map;

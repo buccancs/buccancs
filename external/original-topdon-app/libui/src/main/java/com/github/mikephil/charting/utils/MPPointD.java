@@ -38,7 +38,7 @@ public class MPPointD extends ObjectPool.Poolable {
         return new MPPointD(0, 0);
     }
 
-        public String toString() {
+    public String toString() {
         return "MPPointD, x: " + x + ", y: " + y;
     }
 }

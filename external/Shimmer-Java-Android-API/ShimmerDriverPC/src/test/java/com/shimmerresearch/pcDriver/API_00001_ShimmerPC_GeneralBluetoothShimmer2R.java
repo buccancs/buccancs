@@ -120,8 +120,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
                 } else {
                     assert (false);
                 }
-            }
-            else {
+            } else {
                 shimmer.stopStreaming();
                 Thread.sleep(DELAY_DURATION_MS);
                 if (shimmer.isStreaming()) {

@@ -1,4 +1,5 @@
 package com.buccancs.data.events
+
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.repository.DeviceEventRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,6 +9,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class DefaultDeviceEventRepository @Inject constructor() : DeviceEventRepository {
     private val mutex = Mutex()
@@ -19,6 +21,7 @@ class DefaultDeviceEventRepository @Inject constructor() : DeviceEventRepository
             _events.value = updated
         }
     }
+
     private companion object {
         private const val MAX_EVENTS = 128
     }

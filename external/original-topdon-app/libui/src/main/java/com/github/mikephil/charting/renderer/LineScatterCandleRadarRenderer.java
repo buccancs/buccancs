@@ -12,13 +12,13 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public abstract class LineScatterCandleRadarRenderer extends BarLineScatterCandleBubbleRenderer {
 
-        private Path mHighlightLinePath = new Path();
+    private Path mHighlightLinePath = new Path();
 
     public LineScatterCandleRadarRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
     }
 
-        protected void drawHighlightLines(Canvas c, float x, float y, ILineScatterCandleRadarDataSet set) {
+    protected void drawHighlightLines(Canvas c, float x, float y, ILineScatterCandleRadarDataSet set) {
 
         mHighlightPaint.setColor(set.getHighLightColor());
         mHighlightPaint.setStrokeWidth(set.getHighlightLineWidth());

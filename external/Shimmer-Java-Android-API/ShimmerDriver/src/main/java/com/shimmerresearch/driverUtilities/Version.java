@@ -6,7 +6,7 @@ public class Version {
     public int mMinor;
     public int mInternal;
 
-        public Version(String version) {
+    public Version(String version) {
         int[] parsedVersion = parseVersion(version);
         if (parsedVersion != null) {
             mMajor = parsedVersion[0];
@@ -20,7 +20,7 @@ public class Version {
         }
     }
 
-        public static int[] parseVersion(String version) {
+    public static int[] parseVersion(String version) {
         if (version.startsWith("v")) {
             version = version.substring(1); // Remove the 'v' prefix
         }

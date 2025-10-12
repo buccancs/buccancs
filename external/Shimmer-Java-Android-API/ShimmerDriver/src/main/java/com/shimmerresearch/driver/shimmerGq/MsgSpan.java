@@ -48,18 +48,18 @@ public class MsgSpan {
 
     public String mMessage = "";
 
-        public String mExceptionMsg;
+    public String mExceptionMsg;
 
-        public StackTraceElement[] mExceptionStackTrace;
+    public StackTraceElement[] mExceptionStackTrace;
 
-        public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
+    public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
 
     public DEVICE_STATE mSpanState;
     public String mUniqueId = "";
     public String mShimmerUserAssignName = "";
 
 
-        public MsgSpan(int msgId, Object myObject) {
+    public MsgSpan(int msgId, Object myObject) {
         mMsgID = msgId;
         this.mObject = myObject;
     }
@@ -70,7 +70,7 @@ public class MsgSpan {
     }
 
 
-        public MsgSpan(int msgID, String spanID, Object object) {
+    public MsgSpan(int msgID, String spanID, Object object) {
         mMsgID = msgID;
         mSpanID = spanID;
 

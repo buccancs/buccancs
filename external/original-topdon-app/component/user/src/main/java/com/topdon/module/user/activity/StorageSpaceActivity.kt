@@ -1,4 +1,5 @@
 package com.topdon.module.user.activity
+
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_storage_space.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+
 @Route(path = RouterConfig.STORAGE_SPACE)
 class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
     companion object {
@@ -32,6 +34,7 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
         } else {
             DecimalFormat("#.0").format(fileSize.toDouble() / 1073741824)
         }
+
         private fun getUnit(fileSize: Long): String = if (fileSize < 1024) {
             "B"
         } else if (fileSize < 1048576) {
@@ -42,10 +45,12 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
             "GB"
         }
     }
+
     override fun initContentView() = R.layout.activity_storage_space
     override fun initView() {
         tv_format_storage.setOnClickListener(this)
     }
+
     @SuppressLint("SetTextI18n")
     override fun initData() {
         lifecycleScope.launch {
@@ -83,6 +88,7 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             tv_format_storage -> {

@@ -32,7 +32,7 @@ import com.shimmerresearch.sensors.SensorShimmerClock;
 
 public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListener {
 
-        private static final long serialVersionUID = -4620570962788027578L;
+    private static final long serialVersionUID = -4620570962788027578L;
     private static final byte[] NONIN_CMD_START_STREAMING = new byte[]{0x02, 0x70, 0x02, 0x02, 0x08, 0x03};
     private static final byte NONIN_RESPONSE_ACK = 0x06;
     private static final byte NONIN_RESPONSE_NACK = 0x15;
@@ -133,8 +133,7 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
     }
 
 
-
-        @Override
+    @Override
     public ShimmerDevice deepClone() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

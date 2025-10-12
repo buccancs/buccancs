@@ -16,23 +16,23 @@ import java.util.List;
 
 public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
 
-        private Mode mMode = Mode.LINEAR;
+    private Mode mMode = Mode.LINEAR;
 
-        private List<Integer> mCircleColors = null;
+    private List<Integer> mCircleColors = null;
 
-        private int mCircleHoleColor = Color.WHITE;
+    private int mCircleHoleColor = Color.WHITE;
 
-        private float mCircleRadius = 8f;
+    private float mCircleRadius = 8f;
 
-        private float mCircleHoleRadius = 4f;
+    private float mCircleHoleRadius = 4f;
 
-        private float mCubicIntensity = 0.2f;
+    private float mCubicIntensity = 0.2f;
 
-        private DashPathEffect mDashPathEffect = null;
+    private DashPathEffect mDashPathEffect = null;
 
-        private IFillFormatter mFillFormatter = new DefaultFillFormatter();
+    private IFillFormatter mFillFormatter = new DefaultFillFormatter();
 
-        private boolean mDrawCircles = true;
+    private boolean mDrawCircles = true;
 
     private boolean mDrawCircleHole = true;
 
@@ -74,12 +74,12 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         lineDataSet.mMode = mMode;
     }
 
-        @Override
+    @Override
     public Mode getMode() {
         return mMode;
     }
 
-        public void setMode(Mode mode) {
+    public void setMode(Mode mode) {
         mMode = mode;
     }
 
@@ -88,7 +88,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mCubicIntensity;
     }
 
-        public void setCubicIntensity(float intensity) {
+    public void setCubicIntensity(float intensity) {
 
         if (intensity > 1f)
             intensity = 1f;
@@ -103,7 +103,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mCircleRadius;
     }
 
-        public void setCircleRadius(float radius) {
+    public void setCircleRadius(float radius) {
 
         if (radius >= 1f) {
             mCircleRadius = Utils.convertDpToPixel(radius);
@@ -117,7 +117,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mCircleHoleRadius;
     }
 
-        public void setCircleHoleRadius(float holeRadius) {
+    public void setCircleHoleRadius(float holeRadius) {
 
         if (holeRadius >= 0.5f) {
             mCircleHoleRadius = Utils.convertDpToPixel(holeRadius);
@@ -126,23 +126,23 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         }
     }
 
-        @Deprecated
+    @Deprecated
     public float getCircleSize() {
         return getCircleRadius();
     }
 
-        @Deprecated
+    @Deprecated
     public void setCircleSize(float size) {
         setCircleRadius(size);
     }
 
-        public void enableDashedLine(float lineLength, float spaceLength, float phase) {
+    public void enableDashedLine(float lineLength, float spaceLength, float phase) {
         mDashPathEffect = new DashPathEffect(new float[]{
                 lineLength, spaceLength
         }, phase);
     }
 
-        public void disableDashedLine() {
+    public void disableDashedLine() {
         mDashPathEffect = null;
     }
 
@@ -156,7 +156,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mDashPathEffect;
     }
 
-        public void setDrawCircles(boolean enabled) {
+    public void setDrawCircles(boolean enabled) {
         this.mDrawCircles = enabled;
     }
 
@@ -178,15 +178,15 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
     }
 
 
-        public List<Integer> getCircleColors() {
+    public List<Integer> getCircleColors() {
         return mCircleColors;
     }
 
-        public void setCircleColors(List<Integer> colors) {
+    public void setCircleColors(List<Integer> colors) {
         mCircleColors = colors;
     }
 
-        public void setCircleColors(int... colors) {
+    public void setCircleColors(int... colors) {
         this.mCircleColors = ColorTemplate.createColors(colors);
     }
 
@@ -200,7 +200,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mCircleColors.size();
     }
 
-        public void setCircleColors(int[] colors, Context c) {
+    public void setCircleColors(int[] colors, Context c) {
 
         List<Integer> clrs = mCircleColors;
         if (clrs == null) {
@@ -215,12 +215,12 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         mCircleColors = clrs;
     }
 
-        public void setCircleColor(int color) {
+    public void setCircleColor(int color) {
         resetCircleColors();
         mCircleColors.add(color);
     }
 
-        public void resetCircleColors() {
+    public void resetCircleColors() {
         if (mCircleColors == null) {
             mCircleColors = new ArrayList<Integer>();
         }
@@ -232,11 +232,11 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mCircleHoleColor;
     }
 
-        public void setCircleHoleColor(int color) {
+    public void setCircleHoleColor(int color) {
         mCircleHoleColor = color;
     }
 
-        public void setDrawCircleHole(boolean enabled) {
+    public void setDrawCircleHole(boolean enabled) {
         mDrawCircleHole = enabled;
     }
 
@@ -250,7 +250,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
         return mFillFormatter;
     }
 
-        public void setFillFormatter(IFillFormatter formatter) {
+    public void setFillFormatter(IFillFormatter formatter) {
 
         if (formatter == null)
             mFillFormatter = new DefaultFillFormatter();

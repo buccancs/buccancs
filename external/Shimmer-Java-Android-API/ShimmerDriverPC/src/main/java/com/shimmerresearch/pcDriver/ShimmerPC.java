@@ -1,4 +1,3 @@
-
 package com.shimmerresearch.pcDriver;
 
 import java.io.ByteArrayInputStream;
@@ -38,7 +37,7 @@ import jssc.SerialPortTimeoutException;
 
 public class ShimmerPC extends ShimmerBluetooth implements Serializable {
 
-        private static final long serialVersionUID = -5927054314345918072L;
+    private static final long serialVersionUID = -5927054314345918072L;
     public static boolean CONSOLE_PRINT_TX_RX_BYTES = false;
     public BluetoothProgressReportPerDevice progressReportPerDevice;
     public String message;
@@ -53,13 +52,13 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         super();
     }
 
-        public ShimmerPC(String comPort) {
+    public ShimmerPC(String comPort) {
         this();
         setComPort(comPort);
         setSamplingRateShimmer(128);
     }
 
-        @Deprecated
+    @Deprecated
     public ShimmerPC(String myName, Boolean continousSync) {
         this();
         setShimmerUserAssignedName(myName);
@@ -68,7 +67,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         setSamplingRateShimmer(128);
     }
 
-        public ShimmerPC(String comPort, String myBluetoothAddress, String myName, Boolean continousSync) {
+    public ShimmerPC(String comPort, String myBluetoothAddress, String myName, Boolean continousSync) {
         this(myName, continousSync);
         setComPort(comPort);
         mMyBluetoothAddress = myBluetoothAddress;
@@ -161,10 +160,9 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     }
 
 
-        @Deprecated
+    @Deprecated
     public ShimmerPC(String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, boolean continousSync) {
         this(myName, continousSync);
-
 
 
         setFixedShimmerConfig(FIXED_SHIMMER_CONFIG_MODE.USER);
@@ -175,13 +173,13 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     }
 
 
-        public ShimmerPC(String dockId, int slotNumber, COMMUNICATION_TYPE communicationType) {
+    public ShimmerPC(String dockId, int slotNumber, COMMUNICATION_TYPE communicationType) {
         setDockInfo(dockId, slotNumber);
         addCommunicationRoute(communicationType);
         setSamplingRateShimmer(128);
     }
 
-        public ShimmerPC(String dockId, int slotNumber, String macId, COMMUNICATION_TYPE communicationType) {
+    public ShimmerPC(String dockId, int slotNumber, String macId, COMMUNICATION_TYPE communicationType) {
         this(dockId, slotNumber, communicationType);
         setMacIdFromUart(macId);
     }
@@ -192,7 +190,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         mByteCommunication = radio;
     }
 
-        @Override
+    @Override
     public synchronized void connect(final String address, String unusedVariable) {
 
         Thread thread = new Thread() {
@@ -213,7 +211,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                     }
 
                     try {
-						                        consolePrintLn("Connecting to Shimmer on " + address);
+                        consolePrintLn("Connecting to Shimmer on " + address);
                         mByteCommunication.openPort();
                         consolePrintLn("Port Status : " + Boolean.toString(mByteCommunication.isOpened()));
                         if (mIOThread != null) {

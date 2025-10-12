@@ -1,4 +1,5 @@
 package com.topdon.thermal07.activity
+
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
@@ -10,11 +11,13 @@ import com.topdon.lib.core.repository.TC007Repository
 import com.topdon.module.thermal.ir.R
 import com.topdon.tc004.activity.video.PlayFragment
 import org.easydarwin.video.Client
+
 @Route(path = RouterConfig.IR_IMG_PICK_07)
 class ImagePickTC007Activity : BasePickImgActivity() {
     companion object {
         private const val RTSP_URL = "rtsp://192.168.40.1/stream0"
     }
+
     var playFragment: PlayFragment? = null
     override fun initView() {
         if (savedInstanceState == null) {
@@ -22,6 +25,7 @@ class ImagePickTC007Activity : BasePickImgActivity() {
             supportFragmentManager.beginTransaction().add(R.id.fragment_container_view, playFragment!!).commit()
         }
     }
+
     override suspend fun getPickBitmap(): Bitmap? {
         var resultBitmap: Bitmap? = null
         val photoBean = TC007Repository.getPhoto()
@@ -36,6 +40,7 @@ class ImagePickTC007Activity : BasePickImgActivity() {
         }
         return resultBitmap
     }
+
     override fun initData() {
     }
 

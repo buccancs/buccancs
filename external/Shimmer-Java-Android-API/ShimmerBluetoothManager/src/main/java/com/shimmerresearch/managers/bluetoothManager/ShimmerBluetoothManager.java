@@ -45,7 +45,7 @@ public abstract class ShimmerBluetoothManager {
     private static final List<Integer> HW_IDS_THAT_SUPPORT_CONFIG_VIA_BT = Arrays.asList(
             HW_ID.SHIMMER_3, HW_ID.SHIMMER_3R, HW_ID.SWEATCH, HW_ID.SHIMMER_4_SDK,
             HW_ID.VERISENSE_IMU, HW_ID.VERISENSE_DEV_BRD, HW_ID.VERISENSE_GSR_PLUS, HW_ID.VERISENSE_PPG, HW_ID.VERISENSE_PULSE_PLUS);
-        public static ConcurrentHashMap<String, ShimmerDevice> mMapOfBtConnectedShimmers = new ConcurrentHashMap<String, ShimmerDevice>(7);
+    public static ConcurrentHashMap<String, ShimmerDevice> mMapOfBtConnectedShimmers = new ConcurrentHashMap<String, ShimmerDevice>(7);
     public TreeMap<String, BluetoothDeviceDetails> mMapOfParsedBtComPorts = new TreeMap<String, BluetoothDeviceDetails>();
     public TreeMap<String, BluetoothDeviceDetails> mMapOfParsedBLEDevices = new TreeMap<String, BluetoothDeviceDetails>();
     public TreeMap<String, BluetoothDeviceDetails> mMapOfParsedBtComPortsDeepCopy = new TreeMap<String, BluetoothDeviceDetails>();
@@ -57,8 +57,8 @@ public abstract class ShimmerBluetoothManager {
     protected BluetoothProgressReportAll mProgressReportAll;
 
     transient protected Timer mTimerTimerCalcReceptionRate;
-        protected FIXED_SHIMMER_CONFIG_MODE mFixedShimmerConfigGlobal = FIXED_SHIMMER_CONFIG_MODE.NONE;
-        protected boolean mAutoStartStreaming = false;
+    protected FIXED_SHIMMER_CONFIG_MODE mFixedShimmerConfigGlobal = FIXED_SHIMMER_CONFIG_MODE.NONE;
+    protected boolean mAutoStartStreaming = false;
     private ConnectionExceptionListener connectionExceptionListener;
     private int mCalcReceptionRateMs = 1000;
 
@@ -81,19 +81,19 @@ public abstract class ShimmerBluetoothManager {
     protected abstract void connectExistingShimmer(Object... params) throws ShimmerException;
 
 
-        protected abstract ShimmerDevice createNewShimmer3(String comPort, String bluetoothAddress);
+    protected abstract ShimmerDevice createNewShimmer3(String comPort, String bluetoothAddress);
 
-        protected abstract ShimmerDevice createNewShimmer3(ShimmerRadioInitializer bldc, String bluetoothAddress);
+    protected abstract ShimmerDevice createNewShimmer3(ShimmerRadioInitializer bldc, String bluetoothAddress);
 
-        protected abstract Shimmer4sdk createNewShimmer4(String comPort, String bluetoothAddress);
+    protected abstract Shimmer4sdk createNewShimmer4(String comPort, String bluetoothAddress);
 
-        protected abstract Shimmer4sdk createNewShimmer4(ShimmerRadioInitializer radioInitializer, String bluetoothAddress);
+    protected abstract Shimmer4sdk createNewShimmer4(ShimmerRadioInitializer radioInitializer, String bluetoothAddress);
 
     public void connectShimmerThroughCommPort(String comPort) {
         connectShimmer(comPort, null, null);
     }
 
-        public void connectShimmer(String connectionHandle, ShimmerVerObject shimmerVerObject, ExpansionBoardDetails expansionBoardDetails) {
+    public void connectShimmer(String connectionHandle, ShimmerVerObject shimmerVerObject, ExpansionBoardDetails expansionBoardDetails) {
         BluetoothDeviceDetails bluetoothDetails = getBluetoothDeviceDetails(connectionHandle);
 
         if (bluetoothDetails != null) {
@@ -116,7 +116,7 @@ public abstract class ShimmerBluetoothManager {
         connectThread.start();
     }
 
-        public void disconnectShimmer(String connectionHandle) {
+    public void disconnectShimmer(String connectionHandle) {
         printMessage("Attempting to disconnect from connection handle = " + connectionHandle);
         ShimmerDevice shimmerDevice = getShimmerDeviceBtConnected(connectionHandle);
         if (shimmerDevice != null) {
@@ -257,7 +257,7 @@ public abstract class ShimmerBluetoothManager {
     }
 
 
-        @Deprecated
+    @Deprecated
     public void setCadenceBTConfig(ShimmerDevice device) {
         ShimmerDevice shimmerDevice = getShimmerDeviceBtConnected(device.getBtConnectionHandle());
 
@@ -380,9 +380,6 @@ public abstract class ShimmerBluetoothManager {
     }
 
 
-
-
-
     protected void putShimmerBtConnectedMap(ShimmerDevice shimmerDevice) {
         String connectionHandle = shimmerDevice.getBtConnectionHandle();
         ShimmerDevice existingShimmer = getShimmerDeviceBtConnected(connectionHandle);
@@ -430,7 +427,7 @@ public abstract class ShimmerBluetoothManager {
         return mMapOfBtConnectedShimmers;
     }
 
-        public String getStateParsed(String comPort) {
+    public String getStateParsed(String comPort) {
         ShimmerDevice shimmerDevice = mMapOfBtConnectedShimmers.get(comPort);
         if (shimmerDevice != null) {
             return shimmerDevice.getBluetoothRadioStateString();
@@ -438,15 +435,14 @@ public abstract class ShimmerBluetoothManager {
         return "Not Initialised";
     }
 
-        @Deprecated
+    @Deprecated
     public String getDeviceState(String comPort) {
         ShimmerDevice shimmerDevice = mMapOfBtConnectedShimmers.get(comPort);
         if (shimmerDevice != null) {
             if (shimmerDevice.isConnected()
                     && !shimmerDevice.isStreaming()) {
                 return "Connected";
-            }
-            else if (shimmerDevice.isConnected()
+            } else if (shimmerDevice.isConnected()
                     && shimmerDevice.isStreaming()) {
                 return "Streaming";
             } else {
@@ -458,7 +454,7 @@ public abstract class ShimmerBluetoothManager {
         }
     }
 
-        @Deprecated
+    @Deprecated
     public int getDeviceStateInt(String comPort) {
 
         ShimmerDevice shimmerDevice = getShimmerDeviceBtConnected(comPort);
@@ -474,7 +470,7 @@ public abstract class ShimmerBluetoothManager {
         }
     }
 
-        public List<String> getListOfConnectedDevicesUserAssignedName() {
+    public List<String> getListOfConnectedDevicesUserAssignedName() {
         List<String> list = new ArrayList<String>();
         for (ShimmerDevice shimmerDevice : mMapOfBtConnectedShimmers.values()) {
             if (shimmerDevice.isConnected()) {
@@ -484,7 +480,7 @@ public abstract class ShimmerBluetoothManager {
         return list;
     }
 
-        public List<String> getListOfConnectedDevicesComPort() {
+    public List<String> getListOfConnectedDevicesComPort() {
         List<String> list = new ArrayList<String>();
         for (ShimmerDevice shimmerDevice : mMapOfBtConnectedShimmers.values()) {
             if (shimmerDevice.isConnected()) {
@@ -532,7 +528,7 @@ public abstract class ShimmerBluetoothManager {
         return list;
     }
 
-        public String getComPortFromFriendlyName(String friendlyName) {
+    public String getComPortFromFriendlyName(String friendlyName) {
         for (BluetoothDeviceDetails bdd : mMapOfParsedBtComPorts.values()) {
             if (bdd.mFriendlyName.equals(friendlyName)) {
                 return bdd.mComPort;
@@ -613,7 +609,7 @@ public abstract class ShimmerBluetoothManager {
         shimmerDevice.setAutoStartStreaming(mAutoStartStreaming);
     }
 
-        public void setFixedConfig(FIXED_SHIMMER_CONFIG_MODE fixedConfig) {
+    public void setFixedConfig(FIXED_SHIMMER_CONFIG_MODE fixedConfig) {
         this.mFixedShimmerConfigGlobal = fixedConfig;
     }
 
@@ -667,7 +663,7 @@ public abstract class ShimmerBluetoothManager {
         }
     }
 
-        protected class ConnectThread extends Thread {
+    protected class ConnectThread extends Thread {
 
         String comPort;
         String bluetoothAddress;
@@ -676,11 +672,11 @@ public abstract class ShimmerBluetoothManager {
         ExpansionBoardDetails expansionBoardDetails;
         DEVICE_TYPE deviceTypeDetected = DEVICE_TYPE.UNKOWN;
         boolean connectThroughComPort;
-                String connectionHandle;
+        String connectionHandle;
         BluetoothDeviceDetails mDeviceDetails;
         ShimmerRadioInitializer shimmerRadioInitializer = null;
 
-                public ConnectThread(String comPort, ShimmerVerObject shimmerVerObject, ExpansionBoardDetails expansionBoardDetails) {
+        public ConnectThread(String comPort, ShimmerVerObject shimmerVerObject, ExpansionBoardDetails expansionBoardDetails) {
             this.comPort = comPort;
             this.connectionHandle = comPort;
             this.shimmerVerObject = shimmerVerObject;
@@ -689,7 +685,7 @@ public abstract class ShimmerBluetoothManager {
             this.setName(getClass().getSimpleName() + "_" + connectionHandle);
         }
 
-                public ConnectThread(String macAddress) {
+        public ConnectThread(String macAddress) {
             this.bluetoothAddress = macAddress;
             this.connectionHandle = macAddress;
             this.connectThroughComPort = false;
@@ -751,8 +747,7 @@ public abstract class ShimmerBluetoothManager {
                         connectVerisenseDevice(bluetoothDetails);
                     } else if (deviceTypeDetected == DEVICE_TYPE.LUMAFIT) {
                     } else if (deviceTypeDetected == DEVICE_TYPE.ARDUINO) {
-                    }
-                    else {
+                    } else {
                         ShimmerDevice shimmerDevice = getShimmerGlobalMap(bluetoothAddress);
                         if (shimmerDevice == null || shimmerDevice instanceof ShimmerShell) {
                             shimmerDevice = createShimmerIfKnown();
@@ -769,8 +764,7 @@ public abstract class ShimmerBluetoothManager {
                             } else {
                                 connectExistingShimmer(shimmerDevice, bluetoothAddress);
                             }
-                        }
-                        else {
+                        } else {
                             connectUnknownShimmer();
                         }
                     }
@@ -843,7 +837,7 @@ public abstract class ShimmerBluetoothManager {
             serialPortComm.connect();
         }
 
-                protected ShimmerDevice resolveUnknownShimmer(ShimmerRadioInitializer shimmerRadioInitializer) {
+        protected ShimmerDevice resolveUnknownShimmer(ShimmerRadioInitializer shimmerRadioInitializer) {
 
             ShimmerDevice shimmerDeviceNew = null;
 
@@ -864,8 +858,6 @@ public abstract class ShimmerBluetoothManager {
                     shimmerDeviceNew.setComPort(comPort);
                     shimmerDeviceNew.setMacIdFromUart(bluetoothAddress);
                     shimmerDeviceNew.setShimmerVersionObjectAndCreateSensorMap(sVO);
-
-
 
 
                     initializeNewShimmerCommon(shimmerDeviceNew);

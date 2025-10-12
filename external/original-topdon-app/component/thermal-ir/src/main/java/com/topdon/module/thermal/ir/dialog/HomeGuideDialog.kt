@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.dialog
+
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.layout_home_guide_3.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 class HomeGuideDialog(context: Context, private val currentStep: Int) : Dialog(context, R.style.TransparentDialog) {
     var onNextClickListener: ((step: Int) -> Unit)? = null
     var onSkinClickListener: (() -> Unit)? = null
@@ -34,11 +36,13 @@ class HomeGuideDialog(context: Context, private val currentStep: Int) : Dialog(c
                 cl_guide_2.isVisible = false
                 cl_guide_3.isVisible = false
             }
+
             2 -> {
                 cl_guide_1.isVisible = false
                 cl_guide_2.isVisible = true
                 cl_guide_3.isVisible = false
             }
+
             3 -> {
                 cl_guide_1.isVisible = false
                 cl_guide_2.isVisible = false
@@ -69,10 +73,12 @@ class HomeGuideDialog(context: Context, private val currentStep: Int) : Dialog(c
             dismiss()
         }
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         onSkinClickListener?.invoke()
     }
+
     fun blurBg(rootView: View) {
         CoroutineScope(Dispatchers.IO).launch {
             try {

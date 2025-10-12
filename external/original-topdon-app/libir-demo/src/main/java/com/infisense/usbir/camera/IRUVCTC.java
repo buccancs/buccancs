@@ -72,7 +72,7 @@ public class IRUVCTC {
     private short[] bt_high = new short[1201];
     private short[] bt_low = new short[1201];
 
-        public IRUVCTC(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
+    public IRUVCTC(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
                    CommonParams.DataFlowMode dataFlowMode, boolean isUseIRISP) {
         this.cameraHeight = cameraHeight;
         this.cameraWidth = cameraWidth;
@@ -161,7 +161,7 @@ public class IRUVCTC {
                     return;
                 }
                 if ((dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) || isUseIRISP && (dataFlowMode == CommonParams.DataFlowMode.TEMP_OUTPUT)) {
-                                        System.arraycopy(frame, 0, imageSrc, 0, length / 2);
+                    System.arraycopy(frame, 0, imageSrc, 0, length / 2);
                     LibIRProcess.ImageRes_t imageRes = new LibIRProcess.ImageRes_t();
                     imageRes.height = (char) cameraHeight;
                     imageRes.width = (char) cameraWidth;
@@ -197,36 +197,36 @@ public class IRUVCTC {
         };
     }
 
-        public void setHandler(Handler mHandler) {
+    public void setHandler(Handler mHandler) {
         this.mHandler = mHandler;
     }
 
-        public void setRotate(int rotate) {
+    public void setRotate(int rotate) {
         this.rotate = rotate;
     }
 
-        public void setImageSrc(byte[] image) {
+    public void setImageSrc(byte[] image) {
         this.imageSrc = image;
     }
 
-        public void setTemperatureSrc(byte[] temperatureSrc) {
+    public void setTemperatureSrc(byte[] temperatureSrc) {
         this.temperatureSrc = temperatureSrc;
     }
 
-        public void setFrameReady(boolean frameReady) {
+    public void setFrameReady(boolean frameReady) {
         isFrameReady = frameReady;
     }
 
-        private boolean isIRpid(int devpid) {
+    private boolean isIRpid(int devpid) {
         for (int x : pids) {
             if (x == devpid) return true;
         }
         return false;
     }
 
-        public void init(int cameraWidth, int cameraHeight) {
+    public void init(int cameraWidth, int cameraHeight) {
         Log.w(TAG, "init");
-                ConcreateUVCBuilder concreateUVCBuilder = new ConcreateUVCBuilder();
+        ConcreateUVCBuilder concreateUVCBuilder = new ConcreateUVCBuilder();
         uvcCamera = concreateUVCBuilder
                 .setUVCType(UVCType.USB_UVC)
                 .setOutputWidth(cameraWidth)
@@ -239,34 +239,34 @@ public class IRUVCTC {
                 .build();
     }
 
-        public UVCCamera getUvcCamera() {
+    public UVCCamera getUvcCamera() {
         return uvcCamera;
     }
 
-        public IRCMD getIrcmd() {
+    public IRCMD getIrcmd() {
         return ircmd;
     }
 
-        public void registerUSB() {
+    public void registerUSB() {
         if (mUSBMonitor != null) {
             mUSBMonitor.register();
         }
     }
 
-        public void unregisterUSB() {
+    public void unregisterUSB() {
         if (mUSBMonitor != null) {
             mUSBMonitor.unregister();
         }
     }
 
-        public List<UsbDevice> getUsbDeviceList() {
+    public List<UsbDevice> getUsbDeviceList() {
         List<DeviceFilter> deviceFilters = DeviceFilter.getDeviceFilters(mContext, R.xml.device_filter);
         if (mUSBMonitor == null || deviceFilters == null)
             return null;
         return mUSBMonitor.getDeviceList(deviceFilters);
     }
 
-        public void requestPermission(int index) {
+    public void requestPermission(int index) {
         List<UsbDevice> devList = getUsbDeviceList();
         if (devList == null || devList.size() == 0) {
             return;
@@ -279,7 +279,7 @@ public class IRUVCTC {
         }
     }
 
-        public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock, CommonParams.DataFlowMode dataFlowMode) {
+    public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock, CommonParams.DataFlowMode dataFlowMode) {
         Log.i(TAG, "openUVCCamera");
         if (ctrlBlock.getProductId() == TinyB) {
             if (syncimage != null) {
@@ -294,7 +294,7 @@ public class IRUVCTC {
         uvcCamera.openUVCCamera(ctrlBlock, DEFAULT_PREVIEW_MIN_FPS, DEFAULT_PREVIEW_MAX_FPS);
     }
 
-        public void startPreview() {
+    public void startPreview() {
         Log.i(TAG, "startPreview");
         if (uvcCamera != null) {
             uvcCamera.setOpenStatus(true);
@@ -307,7 +307,7 @@ public class IRUVCTC {
         }
     }
 
-        public void stopPreview() {
+    public void stopPreview() {
         Log.i(TAG, "stopPreview");
         if (uvcCamera != null) {
             if (uvcCamera.getOpenStatus()) {
@@ -322,12 +322,12 @@ public class IRUVCTC {
         }
     }
 
-        private void initIRISP() {
+    private void initIRISP() {
         ircmd.getCurrentVTemperature(curVtemp);
         uvcCamera.setCurVTemp(curVtemp[0]);
         Log.i(TAG, "ktbt_init->CurVTemp=" + curVtemp[0]);
 
-                uvcCamera.initIRISPModule();
+        uvcCamera.initIRISPModule();
         uvcCamera.setEnvCorrectParams(16384, 16384, 300 * 16, 300 * 16);
 
 
@@ -347,7 +347,7 @@ public class IRUVCTC {
         }
     }
 
-        public void getIRISPfParamData() {
+    public void getIRISPfParamData() {
         boolean isUseSaveData = false;
         new Thread(new Runnable() {
             @Override

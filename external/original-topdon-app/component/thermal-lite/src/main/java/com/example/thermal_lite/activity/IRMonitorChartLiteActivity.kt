@@ -1,4 +1,5 @@
 package com.example.thermal_lite.activity
+
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -40,6 +41,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.math.BigDecimal
 import java.math.RoundingMode
+
 @Route(path = RouterConfig.IR_MONITOR_CHART_LITE)
 class IRMonitorChartLiteActivity : BaseActivity(), ITsTempListener {
     private var selectBean: SelectPositionBean = SelectPositionBean()
@@ -73,6 +75,7 @@ class IRMonitorChartLiteActivity : BaseActivity(), ITsTempListener {
             recordThermal()
         }
     }
+
     override fun initView() {
         title_view.setRightClickListener {
             recordJob?.cancel()
@@ -86,10 +89,12 @@ class IRMonitorChartLiteActivity : BaseActivity(), ITsTempListener {
         monitor_real_vol.visibility = if (selectBean.type == 1) View.GONE else View.VISIBLE
         monitor_real_img.visibility = if (selectBean.type == 1) View.GONE else View.VISIBLE
     }
+
     override fun finish() {
         super.finish()
         EventBus.getDefault().post(MonitorSaveEvent())
     }
+
     private var showTask: Job? = null
     override fun initData() {
         if (showTask != null && showTask!!.isActive) {
@@ -106,6 +111,7 @@ class IRMonitorChartLiteActivity : BaseActivity(), ITsTempListener {
                         1 -> irMonitorLiteFragment!!.getTemperatureView().getPointTemp(selectBean.startPosition)
                         2 -> irMonitorLiteFragment!!.getTemperatureView()
                             .getLineTemp(Line(selectBean.startPosition, selectBean.endPosition))
+
                         else -> irMonitorLiteFragment!!.getTemperatureView().getRectTemp(selectBean.getRect())
                     } ?: continue
                     if (isFirstRead) {
@@ -137,14 +143,17 @@ class IRMonitorChartLiteActivity : BaseActivity(), ITsTempListener {
             }
         }
     }
+
     override fun onStart() {
         super.onStart()
     }
+
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         mp_chart_view.highlightValue(null)
     }
+
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -154,10 +163,12 @@ class IRMonitorChartLiteActivity : BaseActivity(), ITsTempListener {
         super.onDestroy()
         recordJob?.cancel()
     }
+
     override fun disConnected() {
         super.disConnected()
         finish()
     }
+
     private var isRecord = false
     private var timeMillis = 1000L
     private var canUpdate = false
@@ -200,12 +211,14 @@ class IRMonitorChartLiteActivity : BaseActivity(), ITsTempListener {
             XLog.w("停止记录, 数据量:$time")
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun cameraEvent(event: DeviceCameraEvent) {
         when (event.action) {
             100 -> {
                 showCameraLoading()
             }
+
             101 -> {
                 dismissCameraLoading()
             }

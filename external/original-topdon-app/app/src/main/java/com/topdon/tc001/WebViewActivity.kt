@@ -1,4 +1,5 @@
 package com.topdon.tc001
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebResourceError
@@ -12,9 +13,11 @@ import com.topdon.lib.core.config.ExtraKeyConfig
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.ktbase.BaseBindingActivity
 import com.topdon.tc001.databinding.ActivityWebViewBinding
+
 @Route(path = RouterConfig.WEB_VIEW)
 class WebViewActivity : BaseBindingActivity<ActivityWebViewBinding>() {
     override fun initContentLayoutId(): Int = R.layout.activity_web_view
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +44,7 @@ class WebViewActivity : BaseBindingActivity<ActivityWebViewBinding>() {
                 dismissLoadingDialog()
                 binding.viewCover.isVisible = false
             }
+
             override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                 dismissLoadingDialog()
                 binding.viewCover.isVisible = false

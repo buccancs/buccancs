@@ -89,7 +89,6 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
     }
 
 
-
     @Override
     public void setFilteringOption() {
         mFilteringOptions = FILTERING_OPTION.NONE;
@@ -183,7 +182,6 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
     public AlgorithmResultObject processDataRealTime(ObjectCluster ojc) throws Exception {
 
 
-
         double[] gyroCalibratedData = new double[]{
                 ojc.getFormatClusterValue(ojcNameGyroX, CHANNEL_TYPE.CAL.toString()),
                 ojc.getFormatClusterValue(ojcNameGyroY, CHANNEL_TYPE.CAL.toString()),
@@ -258,7 +256,7 @@ public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
     }
 
 
-        public void enableOnTheFlyGyroCal(boolean state, int bufferSize, double threshold) {
+    public void enableOnTheFlyGyroCal(boolean state, int bufferSize, double threshold) {
         mOnTheFlyGyroOffsetCal.setIsEnabled(state, bufferSize, threshold);
     }
 

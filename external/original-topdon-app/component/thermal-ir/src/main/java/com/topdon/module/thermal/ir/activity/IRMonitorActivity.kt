@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -11,6 +12,7 @@ import com.topdon.module.thermal.ir.event.MonitorSaveEvent
 import com.topdon.module.thermal.ir.event.ThermalActionEvent
 import kotlinx.android.synthetic.main.activity_ir_monitor.*
 import org.greenrobot.eventbus.EventBus
+
 @Route(path = RouterConfig.IR_THERMAL_MONITOR)
 class IRMonitorActivity : BaseActivity(), View.OnClickListener {
     private var selectIndex: SelectPositionBean? = null
@@ -19,8 +21,10 @@ class IRMonitorActivity : BaseActivity(), View.OnClickListener {
         motion_btn.setOnClickListener(this)
         motion_start_btn.setOnClickListener(this)
     }
+
     override fun initData() {
     }
+
     override fun onClick(v: View?) {
         when (v) {
             motion_btn -> {
@@ -35,6 +39,7 @@ class IRMonitorActivity : BaseActivity(), View.OnClickListener {
                     }
                     .create().show()
             }
+
             motion_start_btn -> {
                 if (selectIndex == null) {
                     MonitorSelectDialog.Builder(this)
@@ -56,13 +61,16 @@ class IRMonitorActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     fun select(selectIndex: SelectPositionBean?) {
         this.selectIndex = selectIndex
     }
+
     private fun updateUI() {
         motion_start_btn.visibility = View.VISIBLE
         motion_btn.visibility = View.GONE
     }
+
     override fun disConnected() {
         super.disConnected()
         finish()

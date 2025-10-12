@@ -22,17 +22,17 @@ public class RequestBuilder<T extends RequestCallback> {
         this.type = type;
     }
 
-        public RequestBuilder<T> setTag(String tag) {
+    public RequestBuilder<T> setTag(String tag) {
         this.tag = tag;
         return this;
     }
 
-        public RequestBuilder<T> setPriority(int priority) {
+    public RequestBuilder<T> setPriority(int priority) {
         this.priority = priority;
         return this;
     }
 
-        public RequestBuilder<T> setCallback(T callback) {
+    public RequestBuilder<T> setCallback(T callback) {
         this.callback = callback;
         return this;
     }

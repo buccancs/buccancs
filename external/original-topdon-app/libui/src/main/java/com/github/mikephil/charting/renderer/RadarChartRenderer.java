@@ -22,7 +22,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
     protected RadarChart mChart;
 
-        protected Paint mWebPaint;
+    protected Paint mWebPaint;
     protected Paint mHighlightCirclePaint;
     protected Path mDrawDataSetSurfacePathBuffer = new Path();
     protected Path mDrawHighlightCirclePathBuffer = new Path();
@@ -67,7 +67,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
         }
     }
 
-        protected void drawDataSet(Canvas c, IRadarDataSet dataSet, int mostEntries) {
+    protected void drawDataSet(Canvas c, IRadarDataSet dataSet, int mostEntries) {
 
         float phaseX = mAnimator.getPhaseX();
         float phaseY = mAnimator.getPhaseY();

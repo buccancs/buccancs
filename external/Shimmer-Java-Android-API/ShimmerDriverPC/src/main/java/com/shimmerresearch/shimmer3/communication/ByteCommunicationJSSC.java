@@ -40,7 +40,7 @@ public class ByteCommunicationJSSC implements ByteCommunication {
 
     @Override
     public boolean openPort() throws SerialPortException {
-		        mSerialPort.openPort();
+        mSerialPort.openPort();
         mSerialPort.setParams(115200, 8, 1, 0);
         return mSerialPort.isOpened();
     }

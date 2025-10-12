@@ -46,7 +46,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
     public byte[] mRawData;
     public double[] mUncalData = new double[50];
     public double[] mCalData = new double[50];
-        @Deprecated
+    @Deprecated
     public String[] mSensorNames;
     public String[] mUnitCal = new String[50];
     public String[] mUnitUncal = new String[50];
@@ -67,10 +67,10 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
     public int calArrayIndexResize = 0;
     public int uncalArrayIndex = 0;
     SensorDataArray sensorDataArray = new SensorDataArray(50);
-        private List<String> listOfChannelNames = new ArrayList<String>();
+    private List<String> listOfChannelNames = new ArrayList<String>();
     private String mMyName;
     private String mBluetoothAddress;
-        private Builder mObjectClusterBuilder;
+    private Builder mObjectClusterBuilder;
     private int indexKeeper = 0;
     private double mTimeStampMilliSecs;
 
@@ -104,7 +104,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
         mMyName = ojc2.getName();
     }
 
-        public static FormatCluster returnFormatCluster(Collection<FormatCluster> collectionFormatCluster, String format) {
+    public static FormatCluster returnFormatCluster(Collection<FormatCluster> collectionFormatCluster, String format) {
         FormatCluster returnFormatCluster = null;
 
         Iterator<FormatCluster> iFormatCluster = collectionFormatCluster.iterator();
@@ -127,11 +127,11 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
         return listofSignals;
     }
 
-        public static List<OBJECTCLUSTER_TYPE> getListOfOCTypesEnabled() {
+    public static List<OBJECTCLUSTER_TYPE> getListOfOCTypesEnabled() {
         return mListOfOCTypesEnabled;
     }
 
-        public static void setListOfOCTypesEnabled(List<OBJECTCLUSTER_TYPE> listOfOCTypesEnabled) {
+    public static void setListOfOCTypesEnabled(List<OBJECTCLUSTER_TYPE> listOfOCTypesEnabled) {
         ObjectClusterTest.mListOfOCTypesEnabled = listOfOCTypesEnabled;
     }
 
@@ -202,13 +202,13 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
         return null;
     }
 
-        public void removePropertyFormat(String propertyname, String formatname) {
+    public void removePropertyFormat(String propertyname, String formatname) {
         Collection<FormatCluster> colFormats = mPropertyCluster.get(propertyname);
         FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(colFormats, formatname));
         mPropertyCluster.remove(propertyname, formatCluster);
     }
 
-        public byte[] serialize() {
+    public byte[] serialize() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -380,8 +380,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
             } else if (channelType == CHANNEL_TYPE.UNCAL) {
                 mUncalData[index] = data;
                 mUnitUncal[index] = units;
-            }
-            else if (channelType == CHANNEL_TYPE.DERIVED) {
+            } else if (channelType == CHANNEL_TYPE.DERIVED) {
                 mCalData[index] = data;
                 mUnitCal[index] = units;
                 mUncalData[index] = data;
@@ -430,9 +429,6 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
     }
 
     public void addDataToMap(String channelName, String channelType, String units, double data, boolean isUsingDefaultCalib) {
-
-
-
 
 
         mPropertyCluster.put(channelName, new FormatCluster(channelType, units, data, isUsingDefaultCalib));

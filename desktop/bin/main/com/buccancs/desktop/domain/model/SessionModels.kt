@@ -1,6 +1,8 @@
 package com.buccancs.desktop.domain.model
+
 import java.nio.file.Path
 import java.time.Instant
+
 data class Session(
     val id: String,
     val createdAt: Instant,
@@ -11,6 +13,7 @@ data class Session(
     val subjectIds: List<String> = emptyList(),
     val totalDurationMs: Long? = null
 )
+
 data class SessionMetrics(
     val gsrSamples: Long = 0,
     val videoFrames: Long = 0,
@@ -20,12 +23,14 @@ data class SessionMetrics(
     val activeRecordingCount: Int = 0,
     val updatedAt: Instant? = null
 )
+
 enum class SessionStatus {
     IDLE,
     ACTIVE,
     STOPPING,
     COMPLETED
 }
+
 data class DeviceInfo(
     val id: String,
     val model: String,
@@ -39,6 +44,7 @@ data class DeviceInfo(
     val lastHeartbeat: Instant?,
     val sessionId: String?
 )
+
 data class StoredSession(
     val id: String,
     val status: SessionStatus,

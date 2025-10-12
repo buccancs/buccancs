@@ -109,7 +109,7 @@ public class SensorADXL371 extends AbstractSensor {
             LABEL_SENSOR_TILE.HIGH_G_ACCEL,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_ADXL371_ACCEL_HIGHG),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoADXL371);
-        private static final long serialVersionUID = -841122434330904985L;
+    private static final long serialVersionUID = -841122434330904985L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -484,7 +484,6 @@ public class SensorADXL371 extends AbstractSensor {
     public boolean isUsingDefaultHighGAccelParam() {
         return mCurrentCalibDetailsAccelHighG.isUsingDefaultParameters();
     }
-
 
 
     public CalibDetailsKinematic getCurrentCalibDetailsAccelHighG() {

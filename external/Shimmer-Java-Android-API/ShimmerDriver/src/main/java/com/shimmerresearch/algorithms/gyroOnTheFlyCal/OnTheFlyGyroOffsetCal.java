@@ -20,7 +20,7 @@ public class OnTheFlyGyroOffsetCal implements Serializable {
     private double mOffsetThreshold = DEFAULT_THRESHOLD;
     private int bufferSize = 1;
 
-        public void setIsEnabled(boolean state, int bufferSize, double threshold) {
+    public void setIsEnabled(boolean state, int bufferSize, double threshold) {
         setIsEnabled(state);
         setOffsetThreshold(threshold);
         setBufferSize(bufferSize);

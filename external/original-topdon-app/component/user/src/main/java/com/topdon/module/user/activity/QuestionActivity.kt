@@ -1,4 +1,5 @@
 package com.topdon.module.user.activity
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_question.*
 import kotlinx.android.synthetic.main.item_question.view.item_question_info
 import kotlinx.android.synthetic.main.item_question.view.item_question_lay
 import java.util.ArrayList
+
 @Route(path = RouterConfig.QUESTION)
 class QuestionActivity : BaseActivity() {
     override fun initContentView() = R.layout.activity_question
@@ -30,6 +32,7 @@ class QuestionActivity : BaseActivity() {
         question_recycler.layoutManager = LinearLayoutManager(this)
         question_recycler.adapter = adapter
     }
+
     override fun initData() {
     }
 
@@ -39,6 +42,7 @@ class QuestionActivity : BaseActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return ItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_question, parent, false))
         }
+
         override fun getItemCount(): Int = questionList.size
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder is ItemHolder) {
@@ -48,6 +52,7 @@ class QuestionActivity : BaseActivity() {
                 }
             }
         }
+
         private class ItemHolder(val rootView: View) : RecyclerView.ViewHolder(rootView)
     }
 }

@@ -36,7 +36,7 @@ public class FileUtil {
     private static final String DATA_SAVE_DIR = "InfiRay";
     private static int sBufferSize = 524288;
 
-        public static String getDiskCacheDir(Context context) {
+    public static String getDiskCacheDir(Context context) {
         String cachePath = context.getCacheDir().getPath();
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
@@ -48,7 +48,7 @@ public class FileUtil {
         return cachePath;
     }
 
-        public static void copyAssetsDataToSD(Context context, String srcFileName, String strOutFileName) throws IOException {
+    public static void copyAssetsDataToSD(Context context, String srcFileName, String strOutFileName) throws IOException {
         File file = new File(strOutFileName);
         if (file.exists()) {
             file.delete();
@@ -67,7 +67,7 @@ public class FileUtil {
         myOutput.close();
     }
 
-        public static void saveByteFile(Context mContext, byte[] bytes, String fileTitle) {
+    public static void saveByteFile(Context mContext, byte[] bytes, String fileTitle) {
         try {
             String fileSaveDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
             File path = new File(fileSaveDir);
@@ -86,7 +86,7 @@ public class FileUtil {
         }
     }
 
-        public static void saveByteFile(byte[] bytes, String fileTitle) {
+    public static void saveByteFile(byte[] bytes, String fileTitle) {
         try {
             String fileSaveDir = MyApplication.getInstance().DEVICE_DATA_SAVE_DIR;
             File path = new File(fileSaveDir);
@@ -102,7 +102,7 @@ public class FileUtil {
         }
     }
 
-        public static void saveShortFileForDeviceData(short[] bytes, String fileTitle) {
+    public static void saveShortFileForDeviceData(short[] bytes, String fileTitle) {
         try {
 
             String fileSaveDir = MyApplication.getInstance().DEVICE_DATA_SAVE_DIR;
@@ -117,7 +117,7 @@ public class FileUtil {
         }
     }
 
-        public static void saveShortFile(short[] bytes, String fileTitle) {
+    public static void saveShortFile(short[] bytes, String fileTitle) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -133,7 +133,7 @@ public class FileUtil {
         }
     }
 
-        public static CommonParams.Y16ModePreviewSrcType getY16SrcTypeByDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
+    public static CommonParams.Y16ModePreviewSrcType getY16SrcTypeByDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
         switch (dataFlowMode) {
             case TEMP_OUTPUT: {
                 return CommonParams.Y16ModePreviewSrcType.Y16_MODE_TEMPERATURE;
@@ -172,7 +172,7 @@ public class FileUtil {
         return null;
     }
 
-        public static boolean createFileDir(File dirFile) {
+    public static boolean createFileDir(File dirFile) {
         if (dirFile == null) return true;
         if (dirFile.exists()) {
             return true;
@@ -190,7 +190,7 @@ public class FileUtil {
         }
     }
 
-        public static File createFile(String dirPath, String fileName) {
+    public static File createFile(String dirPath, String fileName) {
         try {
             File dirFile = new File(dirPath);
             if (!dirFile.exists()) {
@@ -222,7 +222,7 @@ public class FileUtil {
         }
     }
 
-        public static void savaRawFile(byte[] bytes, byte[] bytes2) {
+    public static void savaRawFile(byte[] bytes, byte[] bytes2) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -239,7 +239,7 @@ public class FileUtil {
         }
     }
 
-        public static void savaIRFile(byte[] bytes) {
+    public static void savaIRFile(byte[] bytes) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -257,7 +257,7 @@ public class FileUtil {
         }
     }
 
-        public static void savaTempFile(byte[] bytes) {
+    public static void savaTempFile(byte[] bytes) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -275,7 +275,7 @@ public class FileUtil {
         }
     }
 
-        public static boolean isFileExists(Context context, final File file) {
+    public static boolean isFileExists(Context context, final File file) {
         if (file == null) {
             return false;
         }
@@ -285,7 +285,7 @@ public class FileUtil {
         return isFileExists(context, file.getAbsolutePath());
     }
 
-        public static boolean isFileExists(Context context, final String filePath) {
+    public static boolean isFileExists(Context context, final String filePath) {
         File file = new File(filePath);
         if (file == null) {
             return false;
@@ -296,7 +296,7 @@ public class FileUtil {
         return isFileExistsApi29(context, filePath);
     }
 
-        private static boolean isFileExistsApi29(Context context, String filePath) {
+    private static boolean isFileExistsApi29(Context context, String filePath) {
         if (Build.VERSION.SDK_INT >= 29) {
             try {
                 Uri uri = Uri.parse(filePath);
@@ -315,7 +315,7 @@ public class FileUtil {
         return false;
     }
 
-        private static byte[] toByteArray(short[] src) {
+    private static byte[] toByteArray(short[] src) {
         int count = src.length;
         byte[] dest = new byte[count << 1];
         for (int i = 0; i < count; i++) {
@@ -325,7 +325,7 @@ public class FileUtil {
         return dest;
     }
 
-        public static short[] toShortArray(byte[] src) {
+    public static short[] toShortArray(byte[] src) {
         int count = src.length >> 1;
         short[] dest = new short[count];
         for (int i = 0; i < count; i++) {
@@ -334,7 +334,7 @@ public class FileUtil {
         return dest;
     }
 
-        public static void saveShortFile(String fileDir, short[] bytes, String fileTitle) {
+    public static void saveShortFile(String fileDir, short[] bytes, String fileTitle) {
         createOrExistsDir(fileDir);
         try {
             File file = new File(fileDir, fileTitle + ".bin");
@@ -348,7 +348,7 @@ public class FileUtil {
         }
     }
 
-        private static void createOrExistsDir(File file) {
+    private static void createOrExistsDir(File file) {
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -358,7 +358,7 @@ public class FileUtil {
         }
     }
 
-        private static void createOrExistsDir(String fileDir) {
+    private static void createOrExistsDir(String fileDir) {
         File file = new File(fileDir);
         if (!file.exists() && !file.isDirectory()) {
             file.mkdir();
@@ -366,7 +366,7 @@ public class FileUtil {
         }
     }
 
-        public static byte[] readFile2BytesByStream(Context context, final File file) {
+    public static byte[] readFile2BytesByStream(Context context, final File file) {
         if (!isFileExists(context, file)) {
             return null;
         }
@@ -404,7 +404,7 @@ public class FileUtil {
         }
     }
 
-        public static void copyAssetsBigDataToSD(Context context, String srcFileName, String strOutFileName) {
+    public static void copyAssetsBigDataToSD(Context context, String srcFileName, String strOutFileName) {
         try {
             File file = new File(strOutFileName);
             Log.i(TAG, "file.exists->getAbsolutePath = " + file.getAbsolutePath());
@@ -433,7 +433,7 @@ public class FileUtil {
         }
     }
 
-        public static String getISPConfigByGainStatus(CommonParams.GainStatus gainStatus) {
+    public static String getISPConfigByGainStatus(CommonParams.GainStatus gainStatus) {
         Log.i(TAG, "INFISENSE_SAVE_DIR = " + MyApplication.getInstance().INFISENSE_SAVE_DIR);
         if (CommonParams.GainStatus.HIGH_GAIN == gainStatus) {
             return MyApplication.getInstance().INFISENSE_SAVE_DIR + File.separator + "isp_H.json";
@@ -442,7 +442,7 @@ public class FileUtil {
         }
     }
 
-        public static String getISPConfigWithEncryptHexByGainStatus(CommonParams.GainStatus gainStatus) {
+    public static String getISPConfigWithEncryptHexByGainStatus(CommonParams.GainStatus gainStatus) {
         Log.i(TAG, "INFISENSE_SAVE_DIR = " + MyApplication.getInstance().INFISENSE_SAVE_DIR);
         if (CommonParams.GainStatus.HIGH_GAIN == gainStatus) {
             return MyApplication.getInstance().INFISENSE_SAVE_DIR + File.separator + "isp_H_encrypt_hex.json";
@@ -451,7 +451,7 @@ public class FileUtil {
         }
     }
 
-        public static String getISPConfigWithEncryptBase64ByGainStatus(CommonParams.GainStatus gainStatus) {
+    public static String getISPConfigWithEncryptBase64ByGainStatus(CommonParams.GainStatus gainStatus) {
         Log.i(TAG, "INFISENSE_SAVE_DIR = " + MyApplication.getInstance().INFISENSE_SAVE_DIR);
         if (CommonParams.GainStatus.HIGH_GAIN == gainStatus) {
             return MyApplication.getInstance().INFISENSE_SAVE_DIR + File.separator + "isp_H_encrypt_base64.json";
@@ -460,7 +460,7 @@ public class FileUtil {
         }
     }
 
-        public static String getVersionName(Context context) {
+    public static String getVersionName(Context context) {
         PackageManager manager = context.getPackageManager();
         String name = null;
         try {
@@ -472,7 +472,7 @@ public class FileUtil {
         return name;
     }
 
-        public static String getMD5Key(String string) {
+    public static String getMD5Key(String string) {
         if (TextUtils.isEmpty(string)) {
             return "";
         }
@@ -495,14 +495,14 @@ public class FileUtil {
         return "";
     }
 
-        public static void makeDirectory(String filePath) {
+    public static void makeDirectory(String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
             file.mkdirs();
         }
     }
 
-        public static String getSaveFilePath(Context context) {
+    public static String getSaveFilePath(Context context) {
         boolean useExternalStorage = false;
         String directoryPath = "";
         if (Environment.getExternalStorageState().equals("mounted")) {
@@ -524,7 +524,7 @@ public class FileUtil {
         return directoryPath;
     }
 
-        private static File makeFile(String filePath, String fileName) throws IOException {
+    private static File makeFile(String filePath, String fileName) throws IOException {
         makeDirectory(filePath);
 
         File file = new File(filePath + fileName);
@@ -535,7 +535,7 @@ public class FileUtil {
         return file;
     }
 
-        public static int writeTxtToFile(byte[] bytes, String filePath, String fileName) {
+    public static int writeTxtToFile(byte[] bytes, String filePath, String fileName) {
         int result = -1;
 
         FileChannel fc = null;
@@ -568,7 +568,7 @@ public class FileUtil {
         }
     }
 
-        public static void saveStringToFile(String str, String path) {
+    public static void saveStringToFile(String str, String path) {
         File file;
         FileOutputStream stream = null;
         try {
@@ -586,7 +586,7 @@ public class FileUtil {
         }
     }
 
-        public static String getStringFromFile(String path) {
+    public static String getStringFromFile(String path) {
         StringBuffer txtContent = new StringBuffer();
         byte[] b = new byte[2048];
         InputStream in = null;

@@ -38,8 +38,7 @@ public class ByteCommunicationSimulatorS3LNS0_16_11_w_sd_bt_streaming extends By
     @Override
     protected void txInfoMem(byte[] buffer) {
 
-        if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00)
-        {
+        if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00) {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
             mBuffer.add((byte) 0x80);
@@ -48,8 +47,7 @@ public class ByteCommunicationSimulatorS3LNS0_16_11_w_sd_bt_streaming extends By
                 mBuffer.add(b);
             }
             mBuffer.add((byte) 0x0F);
-        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00)
-        {
+        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00) {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
             mBuffer.add((byte) 0x80);
@@ -59,8 +57,7 @@ public class ByteCommunicationSimulatorS3LNS0_16_11_w_sd_bt_streaming extends By
             }
 
             mBuffer.add((byte) 0x4f);
-        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01)
-        {
+        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01) {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
             mBuffer.add((byte) 0x80);

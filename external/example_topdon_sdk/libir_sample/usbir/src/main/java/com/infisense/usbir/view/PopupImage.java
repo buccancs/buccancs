@@ -42,7 +42,7 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
     private UVCCamera uvcCamera;
     private float currentScale = 1.0f;
 
-        public PopupImage(Context context, OnRotateListener onRotateListener,
+    public PopupImage(Context context, OnRotateListener onRotateListener,
                       PopupWindow.OnDismissListener dismissListener) {
         this.mContext = context;
         this.onRotateListener = onRotateListener;
@@ -174,24 +174,24 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
     }
 
-        public void showAsDropDown(View parent) {
+    public void showAsDropDown(View parent) {
         popupWindow.showAsDropDown(parent);
         getImageParam();
     }
 
-        public void setIrcmd(IRCMD ircmd) {
+    public void setIrcmd(IRCMD ircmd) {
         this.ircmd = ircmd;
     }
 
-        public void setRotate(boolean rotate) {
+    public void setRotate(boolean rotate) {
         this.rotate = rotate;
     }
 
-        public void setUseIRISP(boolean isUseIRISP) {
+    public void setUseIRISP(boolean isUseIRISP) {
         this.isUseIRISP = isUseIRISP;
     }
 
-        public void setUVCCamera(UVCCamera uvcCamera) {
+    public void setUVCCamera(UVCCamera uvcCamera) {
         this.uvcCamera = uvcCamera;
     }
 
@@ -209,11 +209,11 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
                 break;
             }
             case R.id.switchAutoGain: {
-                                SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_AUTO_GAIN_KEY, isChecked);
+                SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_AUTO_GAIN_KEY, isChecked);
                 break;
             }
             case R.id.switchOverProtect: {
-                                SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_OVER_PROTECT, isChecked);
+                SharedPreferencesUtil.saveData(mContext, MyApplication.getInstance().SWITCH_OVER_PROTECT, isChecked);
                 break;
             }
             default:
@@ -360,7 +360,7 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
 
     }
 
-        private void getImageParam() {
+    private void getImageParam() {
         int[] mode = new int[1];
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_TNR, mode);
         imageBinding.TNR.setOnItemSelectedListener(null);
@@ -390,21 +390,21 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         imageBinding.ONOFFAGC.setOnCheckedChangeListener(null);
         imageBinding.ONOFFAGC.setChecked(mode[0] == 1);
         imageBinding.ONOFFAGC.setOnCheckedChangeListener(this);
-                imageBinding.switchAutoGain.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
+        imageBinding.switchAutoGain.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
                 MyApplication.getInstance().SWITCH_AUTO_GAIN_KEY, false));
         imageBinding.switchAutoGain.setOnCheckedChangeListener(this);
-                imageBinding.switchOverProtect.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
+        imageBinding.switchOverProtect.setChecked((boolean) SharedPreferencesUtil.getData(mContext,
                 MyApplication.getInstance().SWITCH_OVER_PROTECT, false));
         imageBinding.switchOverProtect.setOnCheckedChangeListener(this);
     }
 
-        public void dismiss() {
+    public void dismiss() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
     }
 
-        public interface OnRotateListener {
+    public interface OnRotateListener {
         void onRotate(boolean isRotate);
     }
 

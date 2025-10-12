@@ -47,7 +47,7 @@ public class DeviceSensorConfigFragment extends Fragment {
         return fragment;
     }
 
-        public void buildDeviceConfigList(final ShimmerDevice shimmerDevice, final Context context,
+    public void buildDeviceConfigList(final ShimmerDevice shimmerDevice, final Context context,
                                       final ShimmerBluetoothManagerAndroid bluetoothManager,
                                       final int buttonResourceId) {
         buttonBackgroundResourceId = buttonResourceId;

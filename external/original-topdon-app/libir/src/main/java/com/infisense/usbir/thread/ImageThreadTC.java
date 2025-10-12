@@ -159,7 +159,7 @@ public class ImageThreadTC extends Thread {
                     } else {
                         LibIRProcess.convertYuyvMapToARGBPseudocolor(imageSrc, imageHeight * imageWidth, PseudocodeUtils.INSTANCE.changePseudocodeModeByOld(pseudocolorMode), imageARGB);
                     }
-                                        if (rotateInt == 270) {
+                    if (rotateInt == 270) {
                         LibIRProcess.ImageRes_t imageRes = new LibIRProcess.ImageRes_t();
                         imageRes.height = (char) imageWidth;
                         imageRes.width = (char) imageHeight;
@@ -181,7 +181,7 @@ public class ImageThreadTC extends Thread {
                         imageDst = imageARGB;
                     }
                     irImageHelp.customPseudoColor(imageDst, temperatureSrc, imageWidth, imageHeight);
-                                        irImageHelp.setPseudoColorMaxMin(imageDst, temperatureSrc, max, min, imageWidth, imageHeight);
+                    irImageHelp.setPseudoColorMaxMin(imageDst, temperatureSrc, max, min, imageWidth, imageHeight);
                 }
                 imageDst = irImageHelp.contourDetection(alarmBean,
                         imageDst, temperatureSrc,

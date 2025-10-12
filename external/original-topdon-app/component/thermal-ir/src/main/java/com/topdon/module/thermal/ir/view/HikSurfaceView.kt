@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view
+
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -15,6 +16,7 @@ import com.infisense.usbir.utils.PseudocodeUtils
 import com.topdon.lib.core.bean.AlarmBean
 import com.topdon.pseudo.bean.CustomPseudoBean
 import java.nio.ByteBuffer
+
 class HikSurfaceView : SurfaceView {
     companion object {
         private const val MULTIPLE = 2
@@ -28,6 +30,7 @@ class HikSurfaceView : SurfaceView {
             val height = (if (isPortrait) 256 else 192) * (if (value) MULTIPLE else 1)
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         }
+
     @Volatile
     var rotateAngle: Int = 270
         set(value) {
@@ -75,6 +78,7 @@ class HikSurfaceView : SurfaceView {
     fun getScaleBitmap(): Bitmap = synchronized(this) {
         Bitmap.createScaledBitmap(bitmap, width, height, true)
     }
+
     fun refresh(yuvArray: ByteArray, newTempArray: ByteArray) {
         val sourceWidth = 256
         val sourceHeight = 192
@@ -104,6 +108,7 @@ class HikSurfaceView : SurfaceView {
                 IRPROCSRCFMTType.IRPROC_SRC_FMT_ARGB8888,
                 rotateArgbArray
             )
+
             180 -> LibIRProcess.rotate180(newArray, imageRes, IRPROCSRCFMTType.IRPROC_SRC_FMT_ARGB8888, rotateArgbArray)
             270 -> LibIRProcess.rotateRight90(
                 newArray,
@@ -111,6 +116,7 @@ class HikSurfaceView : SurfaceView {
                 IRPROCSRCFMTType.IRPROC_SRC_FMT_ARGB8888,
                 rotateArgbArray
             )
+
             else -> System.arraycopy(newArray, 0, rotateArgbArray, 0, rotateArgbArray.size)
         }
         if (isOpenAmplify) {

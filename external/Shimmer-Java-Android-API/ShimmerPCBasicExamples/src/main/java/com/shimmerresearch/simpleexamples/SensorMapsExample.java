@@ -92,7 +92,7 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
         s.setWaitForData(btManager.callBackObject);
     }
 
-        public void initialize() {
+    public void initialize() {
         frame = new JFrame("Shimmer SensorMaps Example");
         frame.setBounds(100, 100, 1200, 591);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

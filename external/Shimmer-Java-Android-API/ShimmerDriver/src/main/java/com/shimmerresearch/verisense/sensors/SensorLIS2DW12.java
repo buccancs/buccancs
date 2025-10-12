@@ -370,7 +370,6 @@ public class SensorLIS2DW12 extends AbstractSensor {
     }
 
 
-
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
         int accelRate = 0;

@@ -46,7 +46,7 @@ public class FileUtil {
         return url;
     }
 
-        public static File getSnapFile(String url) {
+    public static File getSnapFile(String url) {
         File file = new File(getPicturePath(url));
         file.mkdirs();
 

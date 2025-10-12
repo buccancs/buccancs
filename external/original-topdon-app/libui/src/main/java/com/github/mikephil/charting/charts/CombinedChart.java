@@ -20,10 +20,10 @@ import com.github.mikephil.charting.renderer.CombinedChartRenderer;
 
 public class CombinedChart extends BarLineChartBase<CombinedData> implements CombinedDataProvider {
 
-        protected boolean mHighlightFullBarEnabled = false;
+    protected boolean mHighlightFullBarEnabled = false;
     protected DrawOrder[] mDrawOrder;
-        private boolean mDrawValueAboveBar = true;
-        private boolean mDrawBarShadow = false;
+    private boolean mDrawValueAboveBar = true;
+    private boolean mDrawBarShadow = false;
 
     public CombinedChart(Context context) {
         super(context);
@@ -65,7 +65,7 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
         mRenderer.initBuffers();
     }
 
-        @Override
+    @Override
     public Highlight getHighlightByTouchPoint(float x, float y) {
 
         if (mData == null) {
@@ -126,34 +126,34 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
         return mDrawValueAboveBar;
     }
 
-        public void setDrawValueAboveBar(boolean enabled) {
+    public void setDrawValueAboveBar(boolean enabled) {
         mDrawValueAboveBar = enabled;
     }
 
-        public void setDrawBarShadow(boolean enabled) {
+    public void setDrawBarShadow(boolean enabled) {
         mDrawBarShadow = enabled;
     }
 
-        @Override
+    @Override
     public boolean isHighlightFullBarEnabled() {
         return mHighlightFullBarEnabled;
     }
 
-        public void setHighlightFullBarEnabled(boolean enabled) {
+    public void setHighlightFullBarEnabled(boolean enabled) {
         mHighlightFullBarEnabled = enabled;
     }
 
-        public DrawOrder[] getDrawOrder() {
+    public DrawOrder[] getDrawOrder() {
         return mDrawOrder;
     }
 
-        public void setDrawOrder(DrawOrder[] order) {
+    public void setDrawOrder(DrawOrder[] order) {
         if (order == null || order.length <= 0)
             return;
         mDrawOrder = order;
     }
 
-        protected void drawMarkers(Canvas canvas) {
+    protected void drawMarkers(Canvas canvas) {
 
         if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
             return;
@@ -184,7 +184,7 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
         }
     }
 
-        public enum DrawOrder {
+    public enum DrawOrder {
         BAR, BUBBLE, LINE, CANDLE, SCATTER
     }
 

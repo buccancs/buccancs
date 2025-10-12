@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -29,6 +30,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
+
 @Route(path = RouterConfig.REPORT_PICK_IMG)
 class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
     private var isTC007 = false
@@ -65,12 +67,15 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
         }
         viewModel.queryAllReportImg(if (isTC007) DirType.TC007 else DirType.LINE)
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReportCreate(event: ReportCreateEvent) {
         finish()
     }
+
     override fun initData() {
     }
+
     override fun onBackPressed() {
         if (adapter.isEditMode) {
             setEditMode(false)
@@ -78,6 +83,7 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
             super.onBackPressed()
         }
     }
+
     private fun setEditMode(isEditMode: Boolean) {
         adapter.isEditMode = isEditMode
         group_bottom.isVisible = isEditMode
@@ -104,16 +110,19 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             cl_share -> {
                 shareImage()
             }
+
             cl_delete -> {
                 deleteImage()
             }
         }
     }
+
     private fun initRecycler() {
         val spanCount = 3
         val gridLayoutManager = GridLayoutManager(this, spanCount)
@@ -165,6 +174,7 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     private fun deleteImage() {
         val deleteList = adapter.buildSelectList()
         if (deleteList.size > 0) {
@@ -183,6 +193,7 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
             ToastTools.showShort(getString(R.string.tip_least_select))
         }
     }
+
     private fun shareImage() {
         val data = adapter.buildSelectList()
         if (data.size == 0) {

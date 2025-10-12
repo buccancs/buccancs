@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.popup
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
@@ -15,6 +16,7 @@ import com.topdon.lib.core.dialog.TipShutterDialog
 import com.topdon.libcom.bean.SaveSettingBean
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.databinding.PopCameraItemBinding
+
 @SuppressLint("SetTextI18n")
 class CameraItemPopup(val context: Context, private val saveSetBean: SaveSettingBean) : PopupWindow(),
     View.OnClickListener {
@@ -35,6 +37,7 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
     var onAudioCLickListener: (() -> Unit)? = null
 
     private val binding: PopCameraItemBinding = PopCameraItemBinding.inflate(LayoutInflater.from(context))
+
     init {
         val widthMeasureSpec =
             View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.widthPixels, View.MeasureSpec.EXACTLY)
@@ -55,6 +58,7 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
         binding.clAudio.setOnClickListener(this)
         binding.clSetting.setOnClickListener(this)
     }
+
     override fun onClick(v: View?) {
         when (v) {
             binding.clDelay -> if (onDelayClickListener?.invoke() == true) {
@@ -63,10 +67,12 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
                         saveSetBean.delayCaptureSecond = 3
                         ToastUtils.showShort(R.string.seconds_dalay_3)
                     }
+
                     3 -> {
                         saveSetBean.delayCaptureSecond = 6
                         ToastUtils.showShort(R.string.seconds_dalay_6)
                     }
+
                     6 -> {
                         saveSetBean.delayCaptureSecond = 0
                         ToastUtils.showShort(R.string.off_photography)
@@ -74,6 +80,7 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
                 }
                 binding.ivDelay.setImageLevel(saveSetBean.delayCaptureSecond)
             }
+
             binding.clAuto -> {
                 saveSetBean.isAutoShutter = !saveSetBean.isAutoShutter
                 binding.ivAuto.isSelected = saveSetBean.isAutoShutter
@@ -87,13 +94,16 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
                 }
                 onAutoCLickListener?.invoke(saveSetBean.isAutoShutter)
             }
+
             binding.clShutter -> if (!binding.ivShutter.isSelected) {
                 onShutterClickListener?.invoke()
             }
+
             binding.clAudio -> onAudioCLickListener?.invoke()
             binding.clSetting -> ARouter.getInstance().build(RouterConfig.IR_CAMERA_SETTING).navigation(context)
         }
     }
+
     fun showAsUp(anchor: View) {
         val locationArray = IntArray(2)
         anchor.getLocationInWindow(locationArray)

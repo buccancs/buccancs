@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view
+
 import android.content.Context
 import android.graphics.Color
 import android.os.Handler
@@ -23,8 +24,10 @@ import com.topdon.module.thermal.ir.utils.ChartTools
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+
 class ChartLogView : LineChart {
     private val mHandler by lazy { Handler(Looper.getMainLooper()) }
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
@@ -34,10 +37,12 @@ class ChartLogView : LineChart {
     ) {
         initChart()
     }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         mHandler.removeCallbacksAndMessages(null)
     }
+
     private val textColor by lazy { ContextCompat.getColor(context, R.color.chart_text) }
     private val axisChartColors by lazy { ContextCompat.getColor(context, R.color.chart_axis) }
     private val axisLine by lazy { ContextCompat.getColor(context, R.color.circle_white) }
@@ -133,6 +138,7 @@ class ChartLogView : LineChart {
                             }
                             XLog.w("DataSet:${set.entryCount}")
                         }
+
                         "line" -> {
                             var maxDataSet = lineData.getDataSetByIndex(0)
                             if (maxDataSet == null) {
@@ -161,6 +167,7 @@ class ChartLogView : LineChart {
                             lineData.addDataSet(minDataSet)
                             XLog.w("DataSet:${maxDataSet.entryCount}")
                         }
+
                         else -> {
                             var maxTempDataSet = lineData.getDataSetByIndex(0)
                             if (maxTempDataSet == null) {
@@ -201,6 +208,7 @@ class ChartLogView : LineChart {
             }
         }
     }
+
     private val bgChartColors = intArrayOf(
         R.drawable.bg_chart_fill,
         R.drawable.bg_chart_fill2,
@@ -216,6 +224,7 @@ class ChartLogView : LineChart {
         R.color.chart_point_min,
         R.color.chart_point_center
     )
+
     private fun createSet(index: Int, label: String): LineDataSet {
         val set = LineDataSet(null, label)
         set.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
@@ -233,6 +242,7 @@ class ChartLogView : LineChart {
         set.setDrawValues(false)
         return set
     }
+
     private fun clearEntity(isEmpty: Boolean) {
         initChart()
         if (isEmpty) {

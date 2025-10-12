@@ -1,4 +1,5 @@
 package com.topdon.module.user.activity
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.topdon.module.user.R
 import kotlinx.android.synthetic.main.activity_electronic_manual.*
 import kotlinx.android.synthetic.main.item_electronic_manual.view.item_lay
 import kotlinx.android.synthetic.main.item_electronic_manual.view.item_text
+
 @Route(path = RouterConfig.ELECTRONIC_MANUAL)
 class ElectronicManualActivity : BaseActivity() {
     override fun initContentView() = R.layout.activity_electronic_manual
@@ -37,23 +39,27 @@ class ElectronicManualActivity : BaseActivity() {
         electronic_manual_recycler.layoutManager = LinearLayoutManager(this)
         electronic_manual_recycler.adapter = adapter
     }
+
     override fun initData() {
     }
 
     private class MyAdapter(private val isFAQ: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var onPickListener: ((isTS001: Boolean) -> Unit)? = null
         private val optionList: ArrayList<String> = ArrayList(2)
+
         init {
             if (isFAQ) {
                 optionList.add("TS001")
             }
             optionList.add("TS004")
         }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return ItemViewHolder(
                 LayoutInflater.from(parent.context).inflate(R.layout.item_electronic_manual, parent, false)
             )
         }
+
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder is ItemViewHolder) {
                 holder.rootView.item_text.text = optionList[position]
@@ -62,6 +68,7 @@ class ElectronicManualActivity : BaseActivity() {
                 }
             }
         }
+
         override fun getItemCount(): Int = optionList.size
         private class ItemViewHolder(val rootView: View) : RecyclerView.ViewHolder(rootView)
     }

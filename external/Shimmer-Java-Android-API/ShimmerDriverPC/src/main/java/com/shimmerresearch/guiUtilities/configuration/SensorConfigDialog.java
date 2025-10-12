@@ -46,7 +46,7 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
         super(shimmerDevice, bluetoothManager);
     }
 
-        public SensorConfigDialog(ShimmerPC shimmerDevice, BasicShimmerBluetoothManagerPc bluetoothManager, List<String> filterKeys) {
+    public SensorConfigDialog(ShimmerPC shimmerDevice, BasicShimmerBluetoothManagerPc bluetoothManager, List<String> filterKeys) {
         super(shimmerDevice, bluetoothManager);
         setSensorKeysFilter(filterKeys, true);
     }
@@ -206,7 +206,7 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
     }
 
 
-        public void showDialog() {
+    public void showDialog() {
         List<String> filterList = new ArrayList<String>();
         setSensorKeysFilter(filterList, true);
 

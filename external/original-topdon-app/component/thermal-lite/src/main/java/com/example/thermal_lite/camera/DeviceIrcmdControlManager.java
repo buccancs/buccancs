@@ -35,7 +35,7 @@ public class DeviceIrcmdControlManager {
         return mInstance;
     }
 
-        public static byte[] intToBytes2(int value) {
+    public static byte[] intToBytes2(int value) {
         byte[] src = new byte[4];
         src[0] = (byte) ((value >> 24) & 0xFF);
         src[1] = (byte) ((value >> 16) & 0xFF);
@@ -53,13 +53,13 @@ public class DeviceIrcmdControlManager {
         return src;
     }
 
-        public static int bytesToInt2(byte[] src, int offset) {
+    public static int bytesToInt2(byte[] src, int offset) {
         int value =
                 (((src[offset] & 0xFF) << 24) | ((src[offset + 1] & 0xFF) << 16) | ((src[offset + 2] & 0xFF) << 8) | (src[offset + 3] & 0xFF));
         return value;
     }
 
-        public static String getReadValue(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end) {
+    public static String getReadValue(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end) {
         StringBuilder ispParamReadByteArrStr = new StringBuilder();
         for (int i = 0; i < ispParamReadByteArray.length; i++) {
             ispParamReadByteArrStr.append(String.format("%8s",
@@ -75,7 +75,7 @@ public class DeviceIrcmdControlManager {
         return String.valueOf(Long.parseLong(orgValue, 2));
     }
 
-        public static long byteArrToBinStr(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end,
+    public static long byteArrToBinStr(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end,
                                        byte[] valueArray) {
         StringBuilder ispParamReadByteArrStr = new StringBuilder();
         for (int i = 0; i < ispParamReadByteArray.length; i++) {
@@ -125,7 +125,7 @@ public class DeviceIrcmdControlManager {
         mSendFPGACommand = sendFPGACommand;
     }
 
-        public void sendFPGAParam() {
+    public void sendFPGAParam() {
         if (!mSendFPGACommand) {
             return;
         }
@@ -179,12 +179,12 @@ public class DeviceIrcmdControlManager {
         }).start();
     }
 
-        public void setISPChangePath(String param_path) {
+    public void setISPChangePath(String param_path) {
         ispParamPath = param_path;
         mSendISPCommand = true;
     }
 
-        public void sendISPParam() {
+    public void sendISPParam() {
         if (!mSendISPCommand) {
             return;
         }

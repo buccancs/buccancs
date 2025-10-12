@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.fragment
+
 import android.content.Intent
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
@@ -19,6 +20,7 @@ import com.topdon.module.thermal.ir.activity.IRThermalPlusActivity
 import com.topdon.module.thermal.ir.activity.MonitoryHomeActivity
 import kotlinx.android.synthetic.main.fragment_ability.*
 import org.greenrobot.eventbus.EventBus
+
 class AbilityFragment : BaseFragment(), View.OnClickListener {
     private var mIsTC007 = false
     override fun initContentView() = R.layout.fragment_ability
@@ -29,8 +31,10 @@ class AbilityFragment : BaseFragment(), View.OnClickListener {
         view_house.setOnClickListener(this)
         view_car.setOnClickListener(this)
     }
+
     override fun initData() {
     }
+
     override fun onClick(v: View?) {
         when (v) {
             iv_winter -> {
@@ -46,16 +50,19 @@ class AbilityFragment : BaseFragment(), View.OnClickListener {
                     .withString(ExtraKeyConfig.URL, url)
                     .navigation(requireContext())
             }
+
             view_monitory -> {
                 val intent = Intent(requireContext(), MonitoryHomeActivity::class.java)
                 intent.putExtra(ExtraKeyConfig.IS_TC007, mIsTC007)
                 startActivity(intent)
             }
+
             view_house -> {
                 val intent = Intent(requireContext(), HouseHomeActivity::class.java)
                 intent.putExtra(ExtraKeyConfig.IS_TC007, mIsTC007)
                 startActivity(intent)
             }
+
             view_car -> {
                 if (mIsTC007) {
                     if (WebSocketProxy.getInstance().isConnected()) {

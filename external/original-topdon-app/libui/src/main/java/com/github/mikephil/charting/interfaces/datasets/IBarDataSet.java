@@ -4,18 +4,18 @@ import com.github.mikephil.charting.data.BarEntry;
 
 public interface IBarDataSet extends IBarLineScatterCandleBubbleDataSet<BarEntry> {
 
-        boolean isStacked();
+    boolean isStacked();
 
-        int getStackSize();
+    int getStackSize();
 
-        int getBarShadowColor();
+    int getBarShadowColor();
 
-        float getBarBorderWidth();
+    float getBarBorderWidth();
 
-        int getBarBorderColor();
+    int getBarBorderColor();
 
-        int getHighLightAlpha();
+    int getHighLightAlpha();
 
 
-        String[] getStackLabels();
+    String[] getStackLabels();
 }

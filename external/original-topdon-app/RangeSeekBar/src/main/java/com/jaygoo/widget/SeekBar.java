@@ -27,7 +27,6 @@ import androidx.core.content.ContextCompat;
 import java.text.DecimalFormat;
 
 
-
 public class SeekBar {
     public static final int INDICATOR_SHOW_WHEN_TOUCH = 0;
     public static final int INDICATOR_ALWAYS_HIDE = 1;
@@ -55,13 +54,15 @@ public class SeekBar {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     DecimalFormat indicatorTextDecimalFormat;
 
-    /    private void initBitmap() {
+    /
+
+    private void initBitmap() {
         setIndicatorDrawableId(indicatorDrawableId);
         setThumbDrawableId(thumbDrawableId, thumbWidth, thumbHeight);
         setThumbInactivatedDrawableId(thumbInactivatedDrawableId, thumbWidth, thumbHeight);
     }
 
-        protected void onSizeChanged(int x, int y) {
+    protected void onSizeChanged(int x, int y) {
         initVariables();
         initBitmap();
         left = (int) (x - getThumbScaleWidth() / 2);
@@ -92,7 +93,7 @@ public class SeekBar {
         return getIndicatorHeight() + getIndicatorArrowSize() + getIndicatorMargin() + getThumbScaleHeight();
     }
 
-        protected void draw(Canvas canvas) {
+    protected void draw(Canvas canvas) {
         if (!isVisible) {
             return;
         }
@@ -112,7 +113,7 @@ public class SeekBar {
         canvas.restore();
     }
 
-        protected void onDrawThumb(Canvas canvas) {
+    protected void onDrawThumb(Canvas canvas) {
         if (thumbInactivatedBitmap != null && !isActivate) {
             canvas.drawBitmap(thumbInactivatedBitmap, 0, defRangeSeekBar.getProgressTop() + (defRangeSeekBar.getProgressHeight() - scaleThumbHeight) / 2f, null);
         } else if (thumbBitmap != null) {
@@ -120,7 +121,7 @@ public class SeekBar {
         }
     }
 
-        protected String formatCurrentIndicatorText(String text2Draw) {
+    protected String formatCurrentIndicatorText(String text2Draw) {
         SeekBarState[] states = defRangeSeekBar.getRangeSeekBarState();
         if (TextUtils.isEmpty(text2Draw)) {
             if (isLeft) {
@@ -143,7 +144,7 @@ public class SeekBar {
         return text2Draw;
     }
 
-        protected void onDrawIndicator(Canvas canvas, Paint paint, String text2Draw) {
+    protected void onDrawIndicator(Canvas canvas, Paint paint, String text2Draw) {
         if (text2Draw == null) return;
         paint.setTextSize(indicatorTextSize);
         paint.setStyle(Paint.Style.FILL);
@@ -220,7 +221,7 @@ public class SeekBar {
         canvas.drawText(text2Draw, tx, ty, paint);
     }
 
-        protected boolean collide(float x, float y) {
+    protected boolean collide(float x, float y) {
         int offset = (int) (defRangeSeekBar.getProgressWidth() * currPercent);
         return x > left + offset && x < right + offset && y > top && y < bottom;
     }
@@ -345,7 +346,7 @@ public class SeekBar {
         return indicatorShowMode;
     }
 
-        public void setIndicatorShowMode(@IndicatorModeDef int indicatorShowMode) {
+    public void setIndicatorShowMode(@IndicatorModeDef int indicatorShowMode) {
         this.indicatorShowMode = indicatorShowMode;
     }
 
@@ -357,7 +358,7 @@ public class SeekBar {
         return isShowIndicator;
     }
 
-        public int getIndicatorRawHeight() {
+    public int getIndicatorRawHeight() {
         if (indicatorHeight > 0) {
             if (indicatorBitmap != null) {
                 return indicatorHeight + indicatorMargin;
@@ -501,7 +502,7 @@ public class SeekBar {
         paint.setTypeface(typeFace);
     }
 
-        public float getThumbScaleRatio() {
+    public float getThumbScaleRatio() {
         return thumbScaleRatio;
     }
 
@@ -509,7 +510,7 @@ public class SeekBar {
         return isVisible;
     }
 
-        public void setVisible(boolean visible) {
+    public void setVisible(boolean visible) {
         isVisible = visible;
     }
 

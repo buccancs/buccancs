@@ -93,7 +93,7 @@ public class OpencvTools {
     }
 
 
-        public static Bitmap supImageFour(Bitmap inBitmap) {
+    public static Bitmap supImageFour(Bitmap inBitmap) {
         long startTime = System.currentTimeMillis();
         ByteBuffer rawData = ByteBuffer.wrap(SupRUtils.INSTANCE.bitmapToByteArray(inBitmap));
         ByteBuffer dataIn = ByteBuffer.allocateDirect(rawData.array().length);
@@ -212,7 +212,7 @@ public class OpencvTools {
     }
 
 
-        public static byte[] convertCelsiusToOriginalBytes(float[] temp) {
+    public static byte[] convertCelsiusToOriginalBytes(float[] temp) {
         if (temp == null) {
             return new byte[0];
         }
@@ -308,7 +308,7 @@ public class OpencvTools {
         return im;
     }
 
-        private static Mat draw_high_temp_edge_argb_pse(byte[] image, byte[] temperature, Bitmap lut, int cols, int rows, double high_t, int color_h, int type) throws IOException {
+    private static Mat draw_high_temp_edge_argb_pse(byte[] image, byte[] temperature, Bitmap lut, int cols, int rows, double high_t, int color_h, int type) throws IOException {
         double[] temp = new double[cols * rows];
         int t = 0;
         for (int i = 0; i < temperature.length; i++) {
@@ -432,7 +432,7 @@ public class OpencvTools {
         return dst;
     }
 
-        private static Mat draw_high_temp_edge_argb(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
+    private static Mat draw_high_temp_edge_argb(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
         double[] temp = new double[cols * rows];
         int t = 0;
         for (int i = 0; i < temperature.length; i++) {
@@ -487,7 +487,7 @@ public class OpencvTools {
         return im;
     }
 
-        private static Mat draw_high_temp_edge(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
+    private static Mat draw_high_temp_edge(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
         double[] temp = new double[cols * rows];
         int t = 0;
         for (int i = 0; i < temperature.length; i++) {
@@ -613,7 +613,7 @@ public class OpencvTools {
     }
 
 
-        public static Bitmap draw_edge_from_temp_reigon_bitmap(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
+    public static Bitmap draw_edge_from_temp_reigon_bitmap(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
         Mat src = draw_high_temp_edge(image, temperature, image_h, image_w, high_t, color_h, type);
         Mat mat = draw_temp_edge(src, temperature, low_t, color_l, type);
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2RGBA);
@@ -622,7 +622,7 @@ public class OpencvTools {
         return dstBitmap;
     }
 
-        public static Bitmap draw_edge_from_temp_reigon_bitmap_argb(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
+    public static Bitmap draw_edge_from_temp_reigon_bitmap_argb(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
         Mat src = draw_high_temp_edge_argb(image, temperature, image_h, image_w, high_t, color_h, type);
         Mat mat = draw_temp_edge(src, temperature, low_t, color_l, type);
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2RGBA);
@@ -631,7 +631,7 @@ public class OpencvTools {
         return dstBitmap;
     }
 
-        public static Bitmap draw_edge_from_temp_reigon_bitmap_argb_psd(byte[] image, byte[] temperature, Bitmap lut, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
+    public static Bitmap draw_edge_from_temp_reigon_bitmap_argb_psd(byte[] image, byte[] temperature, Bitmap lut, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
         Mat src = draw_high_temp_edge_argb_pse(image, temperature, image_h, image_w, high_t, color_h, type);
         Mat mat = draw_temp_edge(src, temperature, low_t, color_l, type);
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2RGBA);
@@ -640,7 +640,7 @@ public class OpencvTools {
         return dstBitmap;
     }
 
-        public static Bitmap draw_edge_from_temp_reigon_bitmap_argb_psd(byte[] image, byte[] temperature,
+    public static Bitmap draw_edge_from_temp_reigon_bitmap_argb_psd(byte[] image, byte[] temperature,
                                                                     int image_h, int image_w, float high_t,
                                                                     float low_t, int color_h, int color_l, int type) throws IOException {
         Log.w("预警值", "最高温：" + high_t + "//最低温：" + low_t);
@@ -766,7 +766,7 @@ public class OpencvTools {
     }
 
 
-        public static Mat generateColorBar(int[] colorList, float maxTemp, float minTemp, float customMaxTemp,
+    public static Mat generateColorBar(int[] colorList, float maxTemp, float minTemp, float customMaxTemp,
                                        float customMinTemp, boolean isGrayUse) {
         if (colorList == null) {
             return null;
@@ -846,7 +846,7 @@ public class OpencvTools {
         return colorBar;
     }
 
-        static int[] getStartColor(int[] colorList, float customMaxTemp, float customMinTemp, float nowTemp) {
+    static int[] getStartColor(int[] colorList, float customMaxTemp, float customMinTemp, float nowTemp) {
         double ratio = (nowTemp - customMinTemp) / (customMaxTemp - customMinTemp);
         int colorNumber = colorList.length - 1;
         float avg = 1.f / colorNumber;
@@ -873,7 +873,7 @@ public class OpencvTools {
         return nowColorList;
     }
 
-        static int[] getEndColor(int[] colorList, float customMaxTemp, float customMinTemp, float nowTemp) {
+    static int[] getEndColor(int[] colorList, float customMaxTemp, float customMinTemp, float nowTemp) {
         double ratio = (nowTemp - customMinTemp) / (customMaxTemp - customMinTemp);
         int colorNumber = colorList.length - 1;
         float avg = 1.f / colorNumber;
@@ -1025,14 +1025,14 @@ public class OpencvTools {
         return new int[]{r, g, b};
     }
 
-        public static int lastColor(int[] colorList, int index) {
+    public static int lastColor(int[] colorList, int index) {
         if (index == 0) {
             return colorList[0];
         }
         return colorList[index - 1];
     }
 
-        public static Mat generateColorBarThree(int customMinColor, int customMiddleColor, int customMaxColor,
+    public static Mat generateColorBarThree(int customMinColor, int customMiddleColor, int customMaxColor,
                                             float maxTemp, float minTemp, float customMaxTemp, float customMinTemp,
                                             boolean isGrayUse) {
         Mat colorBar = new Mat(256, 1, CvType.CV_8UC3);
@@ -1146,7 +1146,7 @@ public class OpencvTools {
         return interpolatedB;
     }
 
-        public static int[] getOneColorByTempUnif(float customMaxTemp, float customMinTemp, float nowTemp,
+    public static int[] getOneColorByTempUnif(float customMaxTemp, float customMinTemp, float nowTemp,
                                               int[] colorList, float[] positionList) {
         if (positionList != null) {
             return getOneColorByTempEx(
@@ -1380,7 +1380,6 @@ public class OpencvTools {
     }
 
     public static boolean getStatus(Mat image1, Mat image2) {
-
 
 
         final double similarity = calculateHistogram(image1, image2);

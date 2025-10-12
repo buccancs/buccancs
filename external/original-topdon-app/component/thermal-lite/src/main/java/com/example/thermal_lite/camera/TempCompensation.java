@@ -28,7 +28,7 @@ public class TempCompensation {
     public static final String KEY_PARAM1 = "KEY_PARAM1";
     public static final String KEY_PARAM2 = "KEY_PARAM2";
     public static final String KEY_PARAM3 = "KEY_PARAM3";
-        public static String DEFAULT_PARAM1 = "-0.0705";
+    public static String DEFAULT_PARAM1 = "-0.0705";
     public static String DEFAULT_PARAM2 = "14.7272";
     public static String DEFAULT_PARAM3 = "30.4937";
     private static TempCompensation mInstance;
@@ -58,7 +58,7 @@ public class TempCompensation {
         return mInstance;
     }
 
-        public void getNucTData() {
+    public void getNucTData() {
 
         if (DeviceIrcmdControlManager.getInstance().getIrcmdEngine() == null) {
             return;
@@ -83,7 +83,7 @@ public class TempCompensation {
         }
     }
 
-        private void readFlashData(CommonParams.SdFilePath sdFilePath, String localFilePath,
+    private void readFlashData(CommonParams.SdFilePath sdFilePath, String localFilePath,
                                IFileHandleCallback iFileHandleCallback) {
         IrcamEngine ircamEngine = CameraPreviewManager.getInstance().getIrcamEngine();
         if (ircamEngine == null) {
@@ -101,7 +101,7 @@ public class TempCompensation {
         }
     }
 
-        public void startTempCompensation() {
+    public void startTempCompensation() {
         if (Const.DEVICE_TYPE != DeviceType.DEVICE_TYPE_TC2C) {
             return;
         }
@@ -172,14 +172,14 @@ public class TempCompensation {
         handler.sendEmptyMessageDelayed(HANDLER_KEY_AFTER, 4000);
     }
 
-        public float compensateTemp(float temp) {
+    public float compensateTemp(float temp) {
         if (!isCompensation) {
             return temp;
         }
         return getNewTempValue(temp);
     }
 
-        public void getDeltaNucAndVTemp() {
+    public void getDeltaNucAndVTemp() {
         if (!isCompensation) {
             return;
         }
@@ -200,7 +200,7 @@ public class TempCompensation {
         }
     }
 
-        private float getNewTempValue(float temp, long deltaTime, short[] nucT, int deltaNUC) {
+    private float getNewTempValue(float temp, long deltaTime, short[] nucT, int deltaNUC) {
         if (nucT == null) {
             return temp;
         }
@@ -229,7 +229,7 @@ public class TempCompensation {
     }
 
 
-        private float getNewTempValue(float temp) {
+    private float getNewTempValue(float temp) {
         if (nucT == null) {
             return temp;
         }
@@ -258,7 +258,7 @@ public class TempCompensation {
         return newTempFloat;
     }
 
-        public void stopTempCompensation(boolean autoStop) {
+    public void stopTempCompensation(boolean autoStop) {
         if (Const.DEVICE_TYPE != DeviceType.DEVICE_TYPE_TC2C) {
             return;
         }

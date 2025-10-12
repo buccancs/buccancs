@@ -59,7 +59,7 @@ public class SpeedTestProtocol {
 
     }
 
-        public void connect() throws ShimmerException {
+    public void connect() throws ShimmerException {
         mByteCommunication.connect();
     }
 
@@ -67,7 +67,7 @@ public class SpeedTestProtocol {
         mSpeedTestListener = listener;
     }
 
-        public void disconnect() throws ShimmerException {
+    public void disconnect() throws ShimmerException {
         mByteCommunication.disconnect();
     }
 

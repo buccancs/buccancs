@@ -24,7 +24,7 @@ public class EventLogPayload extends AbstractPayload {
                 int event = payloadContents[i + 7] & 0xFF;
 
                 if (event == LOG_EVENT.NONE.ordinal()) {
-                                    } else if (event == LOG_EVENT.BATTERY_VOLTAGE.ordinal()) {
+                } else if (event == LOG_EVENT.BATTERY_VOLTAGE.ordinal()) {
                     long batteryVoltage = parseByteArrayAtIndex(payloadContents, i, CHANNEL_DATA_TYPE.UINT24);
                     listOfEventLogEntries.add(new EventLogEntry(event, batteryVoltage));
                 } else {

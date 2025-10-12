@@ -41,17 +41,17 @@ class GenericRequest implements Request, Comparable<GenericRequest> {
         return Integer.compare(other.priority, priority);
     }
 
-        @NonNull
+    @NonNull
     public Device getDevice() {
         return device;
     }
 
-        @NonNull
+    @NonNull
     public RequestType getType() {
         return type;
     }
 
-        @Nullable
+    @Nullable
     public String getTag() {
         return tag;
     }

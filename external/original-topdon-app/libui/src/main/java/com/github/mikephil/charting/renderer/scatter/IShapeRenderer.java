@@ -8,6 +8,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public interface IShapeRenderer {
 
-        void renderShape(Canvas c, IScatterDataSet dataSet, ViewPortHandler viewPortHandler,
+    void renderShape(Canvas c, IScatterDataSet dataSet, ViewPortHandler viewPortHandler,
                      float posX, float posY, Paint renderPaint);
 }

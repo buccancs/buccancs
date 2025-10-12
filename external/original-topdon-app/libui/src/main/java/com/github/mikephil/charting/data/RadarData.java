@@ -27,11 +27,11 @@ public class RadarData extends ChartData<IRadarDataSet> {
         return mLabels;
     }
 
-        public void setLabels(List<String> labels) {
+    public void setLabels(List<String> labels) {
         this.mLabels = labels;
     }
 
-        public void setLabels(String... labels) {
+    public void setLabels(String... labels) {
         this.mLabels = Arrays.asList(labels);
     }
 

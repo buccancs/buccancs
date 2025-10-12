@@ -118,7 +118,6 @@ public class ShimmerPCExample {
             System.out.println(shimmerMSG.mIdentifier);
 
 
-
             int ind = shimmerMSG.mIdentifier;
 
             Object object = (Object) shimmerMSG.mB;

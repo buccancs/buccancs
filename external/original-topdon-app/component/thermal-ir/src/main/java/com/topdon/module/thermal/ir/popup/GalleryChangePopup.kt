@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.popup
+
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.widget.PopupWindow
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.module.thermal.ir.R
 import kotlinx.android.synthetic.main.popup_gallery_change.view.*
+
 class GalleryChangePopup(private val context: Context) : PopupWindow() {
 
     var onPickListener: ((position: Int, str: String) -> Unit)? = null
@@ -38,6 +40,7 @@ class GalleryChangePopup(private val context: Context) : PopupWindow() {
             onPickListener?.invoke(2, "TC007")
         }
     }
+
     fun show(anchor: View) {
         val locationArray = IntArray(2)
         anchor.getLocationInWindow(locationArray)

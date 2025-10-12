@@ -105,7 +105,7 @@ public class ExcelUtil {
         }
     }
 
-        public static String exportExcel(ArrayList<ThermalEntity> listData, boolean isPoint) {
+    public static String exportExcel(ArrayList<ThermalEntity> listData, boolean isPoint) {
         boolean isShowC = SharedManager.INSTANCE.getTemperature() == 1;
         try {
             Workbook wb = new XSSFWorkbook();

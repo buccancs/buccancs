@@ -67,7 +67,7 @@ public class SensorsEnabledFragment extends ListFragment {
         super.onDetach();
     }
 
-        @Override
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String[] values = new String[]{"No device selected, sensors unavailable"};
@@ -76,7 +76,7 @@ public class SensorsEnabledFragment extends ListFragment {
         setListAdapter(adapter);
     }
 
-        public void buildSensorsList(final ShimmerDevice shimmerDevice, final Context activityContext,
+    public void buildSensorsList(final ShimmerDevice shimmerDevice, final Context activityContext,
                                  final ShimmerBluetoothManagerAndroid bluetoothManager) {
 
         originalShimmerDevice = shimmerDevice;
@@ -178,7 +178,7 @@ public class SensorsEnabledFragment extends ListFragment {
 
     }
 
-        public View getViewByPosition(int pos, ListView listView) {
+    public View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
@@ -199,7 +199,7 @@ public class SensorsEnabledFragment extends ListFragment {
         shimmerService = service;
     }
 
-        private void updateCheckboxes(ListView listView, int count) {
+    private void updateCheckboxes(ListView listView, int count) {
         for (int i = 0; i < count; i++) {
             View v = getViewByPosition(i, listView);
             CheckedTextView cTextView = (CheckedTextView) v.findViewById(android.R.id.text1);

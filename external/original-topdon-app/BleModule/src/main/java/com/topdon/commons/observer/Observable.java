@@ -20,16 +20,16 @@ public final class Observable {
     private final PosterDispatcher posterDispatcher;
     private final ObserverMethodHelper helper;
 
-        public Observable(@NonNull PosterDispatcher posterDispatcher, boolean isObserveAnnotationRequired) {
+    public Observable(@NonNull PosterDispatcher posterDispatcher, boolean isObserveAnnotationRequired) {
         this.posterDispatcher = posterDispatcher;
         helper = new ObserverMethodHelper(isObserveAnnotationRequired);
     }
 
-        public PosterDispatcher getPosterDispatcher() {
+    public PosterDispatcher getPosterDispatcher() {
         return posterDispatcher;
     }
 
-        public void registerObserver(@NonNull Observer observer) {
+    public void registerObserver(@NonNull Observer observer) {
         Objects.requireNonNull(observer, "observer can't be null");
         synchronized (observerInfos) {
             boolean registered = false;
@@ -51,7 +51,7 @@ public final class Observable {
         }
     }
 
-        public boolean isRegistered(@NonNull Observer observer) {
+    public boolean isRegistered(@NonNull Observer observer) {
         synchronized (observerInfos) {
             for (ObserverInfo info : observerInfos) {
                 if (info.weakObserver.get() == observer) {
@@ -62,7 +62,7 @@ public final class Observable {
         }
     }
 
-        public void unregisterObserver(@NonNull Observer observer) {
+    public void unregisterObserver(@NonNull Observer observer) {
         synchronized (observerInfos) {
             for (Iterator<ObserverInfo> it = observerInfos.iterator(); it.hasNext(); ) {
                 ObserverInfo info = it.next();
@@ -74,7 +74,7 @@ public final class Observable {
         }
     }
 
-        public void unregisterAll() {
+    public void unregisterAll() {
         synchronized (observerInfos) {
             observerInfos.clear();
         }
@@ -94,11 +94,11 @@ public final class Observable {
         }
     }
 
-        public void notifyObservers(@NonNull String methodName, @Nullable MethodInfo.Parameter... parameters) {
+    public void notifyObservers(@NonNull String methodName, @Nullable MethodInfo.Parameter... parameters) {
         notifyObservers(new MethodInfo(methodName, parameters));
     }
 
-        public void notifyObservers(@NonNull MethodInfo info) {
+    public void notifyObservers(@NonNull MethodInfo info) {
         List<ObserverInfo> infos = getObserverInfos();
         for (ObserverInfo oi : infos) {
             Observer observer = oi.weakObserver.get();

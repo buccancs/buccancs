@@ -1,4 +1,5 @@
 package com.buccancs.data.sensor
+
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedMicrophoneConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedRgbCameraConnector
@@ -16,6 +17,7 @@ import kotlinx.datetime.Clock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+
 class DefaultSensorRepositoryTest {
     @Test
     fun simulationToggleConnectsDevices() = runTest {
@@ -27,6 +29,7 @@ class DefaultSensorRepositoryTest {
         assertTrue(devices.all { it.connectionStatus is ConnectionStatus.Connected })
         assertTrue(repository.simulationEnabled.value)
     }
+
     @Test
     fun startStreamingPopulatesStreamStatuses() = runTest {
         val repository = createRepository(this)
@@ -47,6 +50,7 @@ class DefaultSensorRepositoryTest {
         assertEquals(RecordingLifecycleState.Recording, state.lifecycle)
         repository.stopStreaming()
     }
+
     @Test
     fun disablingSimulationDisconnectsDevices() = runTest {
         val repository = createRepository(this)
@@ -65,6 +69,7 @@ class DefaultSensorRepositoryTest {
         assertTrue(devices.all { it.connectionStatus is ConnectionStatus.Disconnected })
         assertTrue(repository.streamStatuses.value.isEmpty())
     }
+
     private fun createRepository(scope: TestScope): DefaultSensorRepository {
         val connectors: List<SensorConnector> = listOf(
             SimulatedShimmerConnector(scope),

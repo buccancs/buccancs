@@ -1,4 +1,5 @@
 package com.topdon.house.viewmodel
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,7 @@ import com.topdon.lib.core.db.entity.HouseDetect
 import com.topdon.lib.core.db.entity.ItemDetect
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 class DetectViewModel(application: Application) : AndroidViewModel(application) {
     val detectListLD = MutableLiveData<List<HouseDetect>>()
     fun queryAll() {
@@ -23,6 +25,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
             detectLD.postValue(AppDatabase.getInstance().houseDetectDao().queryById(id))
         }
     }
+
     fun insertDefaultDirs(houseDetect: HouseDetect) {
         viewModelScope.launch(Dispatchers.IO) {
             AppDatabase.getInstance().houseDetectDao().insertDefaultDirs(houseDetect)
@@ -43,6 +46,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
             copyDetectLD.postValue(Pair(position, AppDatabase.getInstance().houseDetectDao().copyDetect(houseDetect)))
         }
     }
+
     val copyDirLD = MutableLiveData<Pair<Int, DirDetect>>()
     fun copyDir(layoutIndex: Int, dirDetect: DirDetect) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -55,6 +59,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
+
     val copyItemLD = MutableLiveData<Pair<Int, ItemDetect>>()
     fun copyItem(layoutIndex: Int, itemDetect: ItemDetect) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -67,6 +72,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
+
     val delItemLD = MutableLiveData<Pair<Int, ItemDetect>>()
     fun delItem(layoutIndex: Int, itemDetect: ItemDetect) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -109,6 +115,7 @@ class DetectViewModel(application: Application) : AndroidViewModel(application) 
             AppDatabase.getInstance().houseDetectDao().updateDir(*dirDetect)
         }
     }
+
     fun updateItem(vararg itemDetect: ItemDetect) {
         viewModelScope.launch(Dispatchers.IO) {
             AppDatabase.getInstance().houseDetectDao().updateItem(*itemDetect)

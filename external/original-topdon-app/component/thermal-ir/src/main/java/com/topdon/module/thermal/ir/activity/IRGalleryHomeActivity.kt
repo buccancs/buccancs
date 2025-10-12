@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -11,6 +12,7 @@ import com.topdon.lib.core.utils.NetWorkUtils
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.fragment.IRGalleryTabFragment
 import com.topdon.module.thermal.ir.viewmodel.IRGalleryTabViewModel
+
 @Route(path = RouterConfig.IR_GALLERY_HOME)
 class IRGalleryHomeActivity : BaseActivity() {
     private var isTS004Remote = false
@@ -39,10 +41,13 @@ class IRGalleryHomeActivity : BaseActivity() {
             callback.isEnabled = it
         }
     }
+
     override fun initView() {
     }
+
     override fun initData() {
     }
+
     override fun onDestroy() {
         super.onDestroy()
     }

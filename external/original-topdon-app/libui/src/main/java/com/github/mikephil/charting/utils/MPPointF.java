@@ -8,13 +8,13 @@ import java.util.List;
 public class MPPointF extends ObjectPool.Poolable {
 
     public static final Parcelable.Creator<MPPointF> CREATOR = new Parcelable.Creator<MPPointF>() {
-                public MPPointF createFromParcel(Parcel in) {
+        public MPPointF createFromParcel(Parcel in) {
             MPPointF r = new MPPointF(0, 0);
             r.my_readFromParcel(in);
             return r;
         }
 
-                public MPPointF[] newArray(int size) {
+        public MPPointF[] newArray(int size) {
             return new MPPointF[size];
         }
     };
@@ -62,7 +62,7 @@ public class MPPointF extends ObjectPool.Poolable {
         pool.recycle(instances);
     }
 
-        public void my_readFromParcel(Parcel in) {
+    public void my_readFromParcel(Parcel in) {
         x = in.readFloat();
         y = in.readFloat();
     }

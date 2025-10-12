@@ -1029,60 +1029,60 @@ proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.deserializeBinaryFr
         switch (field) {
             case 1:
                 var value = proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.serializeBinaryToWriter = function (message, writer) {
-    message.serializeBinaryToWriter(writer);
-};
+                    message.serializeBinaryToWriter(writer);
+                };
 
 
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.serializeBinary = function () {
-    var writer = new jspb.BinaryWriter();
-    this.serializeBinaryToWriter(writer);
-    return writer.getResultBuffer();
-};
+                proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.serializeBinary = function () {
+                    var writer = new jspb.BinaryWriter();
+                    this.serializeBinaryToWriter(writer);
+                    return writer.getResultBuffer();
+                };
 
 
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.serializeBinaryToWriter = function (writer) {
-    var f = undefined;
-    f = this.getUnit();
-    if (f.length > 0) {
-        writer.writeString(
-            1,
-            f
-        );
-    }
-    f = this.getData();
-    if (f !== 0.0) {
-        writer.writeDouble(
-            2,
-            f
-        );
-    }
-    f = this.getDataarrayList();
-    if (f.length > 0) {
-        writer.writePackedDouble(
-            3,
-            f
-        );
-    }
-};
+                proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.serializeBinaryToWriter = function (writer) {
+                    var f = undefined;
+                    f = this.getUnit();
+                    if (f.length > 0) {
+                        writer.writeString(
+                            1,
+                            f
+                        );
+                    }
+                    f = this.getData();
+                    if (f !== 0.0) {
+                        writer.writeDouble(
+                            2,
+                            f
+                        );
+                    }
+                    f = this.getDataarrayList();
+                    if (f.length > 0) {
+                        writer.writePackedDouble(
+                            3,
+                            f
+                        );
+                    }
+                };
 
 
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.cloneMessage = function () {
-    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getUnit = function () {
-    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setUnit = function (value) {
-    jspb.Message.setField(this, 1, value);
-};
+                proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.cloneMessage = function () {
+                    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getUnit = function () {
+                        return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setUnit = function (value) {
+                            jspb.Message.setField(this, 1, value);
+                        };
 
 
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getData = function () {
-    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setData = function (value) {
-    jspb.Message.setField(this, 2, value);
-};
+                        proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getData = function () {
+                            return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setData = function (value) {
+                                jspb.Message.setField(this, 2, value);
+                            };
 
 
-proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getDataarrayList = function () {
-    return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setDataarrayList = function (value) {
-    jspb.Message.setField(this, 3, value || []);
-};
+                            proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.getDataarrayList = function () {
+                                return proto.shimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.prototype.setDataarrayList = function (value) {
+                                    jspb.Message.setField(this, 3, value || []);
+                                };
 
 
-goog.object.extend(exports, proto.shimmerGRPC);
+                                goog.object.extend(exports, proto.shimmerGRPC);

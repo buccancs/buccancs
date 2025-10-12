@@ -1,4 +1,5 @@
 package com.buccancs.data.orchestration
+
 import android.content.Context
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.plus
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class DataStoreOrchestratorConfigRepository @Inject constructor(
     @ApplicationContext context: Context,
@@ -51,6 +53,7 @@ class DataStoreOrchestratorConfigRepository @Inject constructor(
         }
         .map { prefs -> prefs.toConfig() }
         .stateIn(scope, kotlinx.coroutines.flow.SharingStarted.Eagerly, defaults)
+
     override suspend fun update(config: OrchestratorConfig) {
         dataStore.edit { prefs ->
             prefs[hostKey] = config.host
@@ -58,11 +61,13 @@ class DataStoreOrchestratorConfigRepository @Inject constructor(
             prefs[tlsKey] = config.useTls
         }
     }
+
     private fun Preferences.toConfig(): OrchestratorConfig = OrchestratorConfig(
         host = this[hostKey] ?: defaults.host,
         port = this[portKey] ?: defaults.port,
         useTls = this[tlsKey] ?: defaults.useTls
     )
+
     private companion object {
         const val STORE_NAME = "orchestrator_config"
     }

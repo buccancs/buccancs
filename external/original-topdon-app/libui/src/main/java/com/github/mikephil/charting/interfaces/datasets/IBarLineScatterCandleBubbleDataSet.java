@@ -4,5 +4,5 @@ import com.github.mikephil.charting.data.Entry;
 
 public interface IBarLineScatterCandleBubbleDataSet<T extends Entry> extends IDataSet<T> {
 
-        int getHighLightColor();
+    int getHighLightColor();
 }

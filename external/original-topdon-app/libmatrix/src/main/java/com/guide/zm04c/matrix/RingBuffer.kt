@@ -1,4 +1,5 @@
 package com.guide.zm04c.matrix
+
 class RingBuffer {
     private lateinit var byteArray: ByteArray
     private var mReadPositon = 0
@@ -7,9 +8,11 @@ class RingBuffer {
     constructor(size: Int) {
         byteArray = ByteArray(size)
     }
+
     constructor(buffer: ByteArray) {
         byteArray = buffer
     }
+
     constructor(buffer: ByteArray, tail: Int, length: Int) {
         byteArray = buffer
         mReadPositon = tail
@@ -36,6 +39,7 @@ class RingBuffer {
         }
         return toWrite
     }
+
     fun read(buffer: ByteArray?, offset: Int, length: Int): Int {
         var toEnd: Int
         var toRead: Int
@@ -63,6 +67,7 @@ class RingBuffer {
         }
         return length
     }
+
     fun moveBack(length: Int): Int {
         synchronized(this) {
             if (mReadPositon > length) {
@@ -74,21 +79,27 @@ class RingBuffer {
         }
         return length
     }
+
     fun getUnReadLength(): Int {
         return mUnReadLength
     }
+
     fun getMaxLength(): Int {
         return byteArray.size
     }
+
     fun getFreeSpace(): Int {
         return byteArray.size - mUnReadLength
     }
+
     fun getByteArray(): ByteArray? {
         return byteArray
     }
+
     fun getReadPositon(): Int {
         return mReadPositon
     }
+
     override fun toString(): String {
         return "RingBuffer(byteArray=${byteArray.contentToString()}, mReadPositon=$mReadPositon, mUnReadLength=$mUnReadLength)"
     }

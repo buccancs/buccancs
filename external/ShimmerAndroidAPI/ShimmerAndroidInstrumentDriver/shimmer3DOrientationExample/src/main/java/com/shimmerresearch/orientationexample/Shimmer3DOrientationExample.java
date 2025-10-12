@@ -41,7 +41,6 @@ import com.shimmerresearch.exceptions.ShimmerException;
 import com.shimmerresearch.shimmer3dexample.R;
 
 
-
 public class Shimmer3DOrientationExample extends Activity {
 
     static final int REQUEST_CONNECT_SHIMMER = 2;
@@ -57,7 +56,7 @@ public class Shimmer3DOrientationExample extends Activity {
     Matrix3d invm3d = new Matrix3d();
     Matrix3d fm3d = new Matrix3d();
     Matrix3d m3d = new Matrix3d();
-        private GLSurfaceView glSurface;
+    private GLSurfaceView glSurface;
     private Shimmer mShimmerDevice1 = null;
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -126,7 +125,7 @@ public class Shimmer3DOrientationExample extends Activity {
                                 e.printStackTrace();
                             }
                             break;
-	                                            case CONNECTING:
+                        case CONNECTING:
                             Log.d("ConnectionStatus", "Connecting");
                             break;
                         case STREAMING:
@@ -242,13 +241,13 @@ public class Shimmer3DOrientationExample extends Activity {
         }
     }
 
-        @Override
+    @Override
     protected void onResume() {
         super.onResume();
         glSurface.onResume();
     }
 
-        @Override
+    @Override
     protected void onPause() {
         super.onPause();
         glSurface.onPause();

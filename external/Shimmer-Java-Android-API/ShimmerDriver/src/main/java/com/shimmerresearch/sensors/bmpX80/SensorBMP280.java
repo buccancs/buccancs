@@ -52,7 +52,7 @@ public class SensorBMP280 extends SensorBMPX80 {
             Arrays.asList(ObjectClusterSensorName.TEMPERATURE_BMP280,
                     ObjectClusterSensorName.PRESSURE_BMP280));
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
-//
+    //
     public static final SensorGroupingDetails sensorGroupBmp280 = new SensorGroupingDetails(
             LABEL_SENSOR_TILE.PRESSURE_TEMPERATURE,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_BMPX80_PRESSURE),
@@ -72,7 +72,7 @@ public class SensorBMP280 extends SensorBMPX80 {
             CHANNEL_UNITS.DEGREES_CELSIUS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
     public static final Map<String, ChannelDetails> mChannelMapRef;
-        private static final long serialVersionUID = 5173164657730440965L;
+    private static final long serialVersionUID = 5173164657730440965L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -88,7 +88,6 @@ public class SensorBMP280 extends SensorBMPX80 {
     }
 
 
-    
     private CalibDetailsBmp280 mCalibDetailsBmp280Lcl;
 
     {
@@ -314,7 +313,6 @@ public class SensorBMP280 extends SensorBMPX80 {
     }
 
 
-
     @Override
     public void setPressureResolution(int i) {
         if (ArrayUtils.contains(ListofPressureResolutionConfigValuesBMP280, i)) {
@@ -390,8 +388,6 @@ public class SensorBMP280 extends SensorBMPX80 {
         public static final String TEMPERATURE_BMP280 = "Temperature_BMP280";
         public static final String PRESSURE_BMP280 = "Pressure_BMP280";
     }
-
-
 
 
 }

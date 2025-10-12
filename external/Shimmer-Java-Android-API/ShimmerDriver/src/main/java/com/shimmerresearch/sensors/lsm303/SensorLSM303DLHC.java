@@ -272,7 +272,6 @@ public class SensorLSM303DLHC extends SensorLSM303 {
     }
 
 
-
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
         aMap.put(SensorLSM303DLHC.ObjectClusterSensorName.ACCEL_WR_X, SensorLSM303DLHC.channelLSM303DLHCAccelX);
@@ -351,7 +350,7 @@ public class SensorLSM303DLHC extends SensorLSM303 {
             DefaultSensitivityMatrixMag8p1GaShimmer3,
             DefaultOffsetVectorMagShimmer3);
 
-        public SensorLSM303DLHC() {
+    public SensorLSM303DLHC() {
         super();
         initialise();
     }
@@ -362,7 +361,7 @@ public class SensorLSM303DLHC extends SensorLSM303 {
     }
 
 
-        public static int getAccelRateFromFreq(boolean isEnabled, double freq, boolean isLowPowerMode) {
+    public static int getAccelRateFromFreq(boolean isEnabled, double freq, boolean isLowPowerMode) {
         int accelRate = 0;
 
         if (isEnabled) {
@@ -528,7 +527,6 @@ public class SensorLSM303DLHC extends SensorLSM303 {
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
         return false;
     }
-
 
 
     @Override

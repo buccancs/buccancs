@@ -101,7 +101,6 @@ public abstract class OrientationModule extends AbstractAlgorithm {
     }
 
 
-
     private void setChannelValue(String channelName, double value) {
 
         if (channelName.equals(Configuration.Shimmer3.ObjectClusterSensorName.MAG_X)) {

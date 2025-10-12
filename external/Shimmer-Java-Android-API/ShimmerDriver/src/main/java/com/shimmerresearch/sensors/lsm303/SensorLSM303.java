@@ -42,11 +42,11 @@ public abstract class SensorLSM303 extends AbstractSensor {
     protected boolean mHighResAccelWR = true;
     protected int mLSM303DigitalAccelRate = 0;
     protected int mLSM303MagRate = 4;
-        protected boolean mLowPowerMag = false;
+    protected boolean mLowPowerMag = false;
     protected int mMagRange = 0;
 
 
-        public SensorLSM303() {
+    public SensorLSM303() {
         super(SENSORS.LSM303);
     }
 
@@ -67,7 +67,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
     public abstract boolean checkLowPowerMag();
 
     public abstract void setLSM303AccelRange(int valueToSet);
-
 
 
     @Override
@@ -94,7 +93,6 @@ public abstract class SensorLSM303 extends AbstractSensor {
 
         checkLowPowerMag();
     }
-
 
 
     @Override
@@ -384,7 +382,7 @@ public abstract class SensorLSM303 extends AbstractSensor {
         return false;
     }
 
-        @Override
+    @Override
     public boolean isSensorUsingDefaultCal(int sensorId) {
         if (sensorId == mSensorIdAccel) {
             return isUsingDefaultWRAccelParam();
@@ -435,15 +433,13 @@ public abstract class SensorLSM303 extends AbstractSensor {
     }
 
 
-
-
-        public int setLSM303AccelRateFromFreq(double freq) {
+    public int setLSM303AccelRateFromFreq(double freq) {
         boolean isEnabled = isSensorEnabled(mSensorIdAccel);
         setLSM303DigitalAccelRateInternal(getAccelRateFromFreqForSensor(isEnabled, freq, mLowPowerAccelWR));
         return mLSM303DigitalAccelRate;
     }
 
-        public int setLSM303MagRateFromFreq(double freq) {
+    public int setLSM303MagRateFromFreq(double freq) {
         boolean isEnabled = isSensorEnabled(mSensorIdMag);
         mLSM303MagRate = getMagRateFromFreqForSensor(isEnabled, freq, isLowPowerMagEnabled());
         return mLSM303MagRate;
@@ -544,7 +540,7 @@ public abstract class SensorLSM303 extends AbstractSensor {
         return isLSM303DigitalAccelHRM();
     }
 
-        public void setHighResAccelWR(boolean enable) {
+    public void setHighResAccelWR(boolean enable) {
         mHighResAccelWR = enable;
     }
 

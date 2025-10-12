@@ -22,7 +22,7 @@ public class API_00002_Filters {
 
     private static final String UNIT_TEST_FILES_PATH = System.getenv("USERPROFILE") + "/Shimmer Research Ltd/Shimmer - Shimmer/Applications Team/Resources/Data Repository/JUnitTests/Shimmer-Java-Android-API/API_00002_Filters/";
 
-        @Test
+    @Test
     public void Test_001_InvalidFilterConfig() {
         try {
             Filter filter = new Filter(Filter.LOW_PASS, 50.0, new double[]{75});
@@ -32,7 +32,7 @@ public class API_00002_Filters {
         }
     }
 
-        @Test
+    @Test
     public void Test_002_LowPass() {
         String testId = "Test_002";
         int filterType = Filter.LOW_PASS;
@@ -46,7 +46,7 @@ public class API_00002_Filters {
         runTestCommon(testId, sourceCsv, referenceCsv, filterType, samplingRate, cornerFrequency, nTaps);
     }
 
-        @Test
+    @Test
     public void Test_003_HighPass() {
         String testId = "Test_003";
         int filterType = Filter.HIGH_PASS;
@@ -60,7 +60,7 @@ public class API_00002_Filters {
         runTestCommon(testId, sourceCsv, referenceCsv, filterType, samplingRate, cornerFrequency, nTaps);
     }
 
-        @Test
+    @Test
     public void Test_004_BandStop() {
         String testId = "Test_004";
         int filterType = Filter.BAND_STOP;
@@ -74,7 +74,7 @@ public class API_00002_Filters {
         runTestCommon(testId, sourceCsv, referenceCsv, filterType, samplingRate, cornerFrequency, nTaps);
     }
 
-        @Test
+    @Test
     public void Test_005_BandPass() {
         String testId = "Test_005";
         int filterType = Filter.BAND_PASS;

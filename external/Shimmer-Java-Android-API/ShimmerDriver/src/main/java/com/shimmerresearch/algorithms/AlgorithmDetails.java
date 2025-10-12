@@ -17,7 +17,7 @@ public class AlgorithmDetails implements Serializable {
 
     private static final long serialVersionUID = -8249918413235100868L;
 
-        public String mAlgorithmName = "";
+    public String mAlgorithmName = "";
     public String mGuiFriendlyName = "";
     public String mDatabaseChannelHandle = "";
     public List<ChannelDetails> mListOfChannelDetails = new ArrayList<ChannelDetails>();
@@ -33,14 +33,14 @@ public class AlgorithmDetails implements Serializable {
 
     public SENSOR_CHECK_METHOD mSensorCheckMethod = SENSOR_CHECK_METHOD.ALL;
 
-        public AlgorithmDetails(List<Integer> listOfRequiredSensors, String units) {
+    public AlgorithmDetails(List<Integer> listOfRequiredSensors, String units) {
         if (listOfRequiredSensors != null) {
             mListOfRequiredSensors = listOfRequiredSensors;
         }
         mUnits = units;
     }
 
-        public AlgorithmDetails(
+    public AlgorithmDetails(
             List<Integer> listOfRequiredSensors,
             String units,
             SENSOR_CHECK_METHOD sensorCheckMethod) {
@@ -49,7 +49,7 @@ public class AlgorithmDetails implements Serializable {
     }
 
 
-        public AlgorithmDetails(
+    public AlgorithmDetails(
             String objectClusterName,
             String guiFriendlyName,
             List<String> listOfAssociatedSensorChannels,
@@ -79,7 +79,7 @@ public class AlgorithmDetails implements Serializable {
         mListOfChannelDetails.add(generateChannelDetails());
     }
 
-        public AlgorithmDetails(
+    public AlgorithmDetails(
             String objectClusterName,
             String guiFriendlyName,
             List<String> listOfAssociatedSensorChannels,
@@ -107,7 +107,7 @@ public class AlgorithmDetails implements Serializable {
         mListOfChannelDetails = listOfAlgortihmChannels;
     }
 
-        public AlgorithmDetails(
+    public AlgorithmDetails(
             String objectClusterName,
             String guiFriendlyName,
             List<String> listOfAssociatedSensorChannels,

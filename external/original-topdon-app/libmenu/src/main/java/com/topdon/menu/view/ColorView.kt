@@ -1,4 +1,5 @@
 package com.topdon.menu.view
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -11,6 +12,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.menu.R
+
 class ColorView : View {
     var colors: IntArray = intArrayOf(0xfffbda00.toInt(), 0xffea0e0e.toInt(), 0xff6907af.toInt())
     var positions: FloatArray = floatArrayOf(0f, 0.5f, 1f)
@@ -32,6 +34,7 @@ class ColorView : View {
         paint.color = 0xffffffff.toInt()
         triangleDrawable = ContextCompat.getDrawable(context, R.drawable.svg_color_select)!!
     }
+
     @SuppressLint("DrawAllocation")
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
@@ -57,6 +60,7 @@ class ColorView : View {
             height
         )
     }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val radius: Float = SizeUtils.dp2px(10f).toFloat()
@@ -86,12 +90,14 @@ class ColorView : View {
             canvas.drawRoundRect(left, top, width - left, top + normalBarHeight, radius, radius, paint)
         }
     }
+
     fun refreshColor(colors: IntArray, positions: FloatArray) {
         this.colors = colors
         this.positions = positions
         refreshShader()
         invalidate()
     }
+
     private fun refreshShader() {
         val strokeSize: Float = SizeUtils.dp2px(2f).toFloat()
         val barHeight: Int = (measuredWidth * 73f / 62).toInt()

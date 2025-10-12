@@ -1,9 +1,9 @@
 package com.buccancs.desktop.ui
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,16 +36,16 @@ import com.buccancs.desktop.ui.state.EventTimelineItem
 import com.buccancs.desktop.ui.state.PreviewStreamState
 import com.buccancs.desktop.ui.state.RetentionState
 import com.buccancs.desktop.ui.state.SessionArchiveItem
-import com.buccancs.desktop.ui.state.SessionMetricsState
 import com.buccancs.desktop.ui.state.SessionSummary
 import com.buccancs.desktop.ui.state.TransferStatusItem
 import com.buccancs.desktop.viewmodel.AppViewModel
 import org.jetbrains.skia.Image
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Locale
+import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
+
 @Composable
 fun DesktopApp(viewModel: AppViewModel) {
     val state by viewModel.uiState.collectAsState()
@@ -103,6 +103,7 @@ fun DesktopApp(viewModel: AppViewModel) {
         }
     }
 }
+
 @Composable
 private fun ControlPanel(
     control: ControlPanelState,
@@ -273,6 +274,7 @@ private fun ControlPanel(
         }
     }
 }
+
 @Composable
 private fun SessionSummaryCard(
     summary: SessionSummary,
@@ -301,7 +303,13 @@ private fun SessionSummaryCard(
             Divider()
             Text("Live Metrics", style = MaterialTheme.typography.titleSmall)
             val metrics = summary.metrics
-            if (listOf(metrics.gsrSamples, metrics.videoFrames, metrics.thermalFrames, metrics.audioSamples).any { it > 0 }) {
+            if (listOf(
+                    metrics.gsrSamples,
+                    metrics.videoFrames,
+                    metrics.thermalFrames,
+                    metrics.audioSamples
+                ).any { it > 0 }
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -329,6 +337,7 @@ private fun SessionSummaryCard(
         }
     }
 }
+
 @Composable
 private fun MetricItem(label: String, value: Long, modifier: Modifier = Modifier) {
     Column(
@@ -343,6 +352,7 @@ private fun MetricItem(label: String, value: Long, modifier: Modifier = Modifier
         )
     }
 }
+
 @Composable
 private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeFormatter) {
     Card {
@@ -367,10 +377,12 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
                             containerColor = MaterialTheme.colorScheme.errorContainer,
                             contentColor = MaterialTheme.colorScheme.onErrorContainer
                         )
+
                         device.recording -> CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.primaryContainer,
                             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
+
                         else -> CardDefaults.cardColors()
                     }
                     Card(colors = colors) {
@@ -405,6 +417,7 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
         }
     }
 }
+
 @Composable
 private fun StatusBadge(text: String, background: Color, content: Color, modifier: Modifier = Modifier) {
     Surface(
@@ -422,6 +435,7 @@ private fun StatusBadge(text: String, background: Color, content: Color, modifie
         )
     }
 }
+
 @Composable
 private fun RetentionSection(retention: RetentionState) {
     Card {
@@ -456,12 +470,17 @@ private fun RetentionSection(retention: RetentionState) {
             }
             if (retention.breaches.isNotEmpty()) {
                 Divider()
-                Text("Quota Alerts", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.error)
+                Text(
+                    "Quota Alerts",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.error
+                )
                 retention.breaches.forEach { Text("• $it", color = MaterialTheme.colorScheme.error) }
             }
         }
     }
 }
+
 @Composable
 private fun TransferSection(transfers: List<TransferStatusItem>) {
     if (transfers.isEmpty()) return
@@ -477,10 +496,15 @@ private fun TransferSection(transfers: List<TransferStatusItem>) {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text("Session ${transfer.sessionId} • Device ${transfer.deviceId}")
                     Text("File: ${transfer.fileName} (${transfer.streamType ?: "unknown"})")
-                    val progress = "${bytesToReadable(transfer.bytesTransferred)} / ${bytesToReadable(transfer.bytesTotal)}"
+                    val progress =
+                        "${bytesToReadable(transfer.bytesTransferred)} / ${bytesToReadable(transfer.bytesTotal)}"
                     Text("State: ${transfer.state} (attempt ${transfer.attempt}) • $progress")
                     transfer.errorMessage?.takeIf { it.isNotBlank() }?.let { error ->
-                        Text("Error: $error", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            "Error: $error",
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
                 Divider()
@@ -488,6 +512,7 @@ private fun TransferSection(transfers: List<TransferStatusItem>) {
         }
     }
 }
+
 @Composable
 private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: DateTimeFormatter) {
     if (events.isEmpty()) return
@@ -512,6 +537,7 @@ private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: Dat
         }
     }
 }
+
 @Composable
 private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTimeFormatter) {
     if (previews.isEmpty()) return
@@ -547,6 +573,7 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
         }
     }
 }
+
 @Composable
 private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTimeFormatter) {
     if (archives.isEmpty()) return
@@ -562,18 +589,40 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Text("Session ${archive.id} • ${archive.status}")
                     Text("Created: ${formatter.format(archive.createdAt)}", style = MaterialTheme.typography.bodySmall)
-                    archive.startedAt?.let { Text("Started: ${formatter.format(it)}", style = MaterialTheme.typography.bodySmall) }
-                    archive.stoppedAt?.let { Text("Stopped: ${formatter.format(it)}", style = MaterialTheme.typography.bodySmall) }
-                    archive.durationMs?.let { Text("Duration: ${durationToReadable(it)}", style = MaterialTheme.typography.bodySmall) }
-                    Text("Total bytes: ${bytesToReadable(archive.totalBytes)}", style = MaterialTheme.typography.bodySmall)
+                    archive.startedAt?.let {
+                        Text(
+                            "Started: ${formatter.format(it)}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    archive.stoppedAt?.let {
+                        Text(
+                            "Stopped: ${formatter.format(it)}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    archive.durationMs?.let {
+                        Text(
+                            "Duration: ${durationToReadable(it)}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    Text(
+                        "Total bytes: ${bytesToReadable(archive.totalBytes)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                     Text("Subjects: ${archive.subjects.joinToString()}", style = MaterialTheme.typography.bodySmall)
-                    Text("Events: ${archive.eventCount} • Devices: ${archive.deviceCount}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Events: ${archive.eventCount} • Devices: ${archive.deviceCount}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
                 Divider()
             }
         }
     }
 }
+
 @Composable
 private fun AlertsSection(alerts: List<String>) {
     if (alerts.isEmpty()) return
@@ -591,12 +640,14 @@ private fun AlertsSection(alerts: List<String>) {
         }
     }
 }
+
 @Composable
 private fun rememberFormatter(): DateTimeFormatter =
     remember {
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             .withZone(ZoneId.systemDefault())
     }
+
 private fun bytesToReadable(bytes: Long): String {
     if (bytes <= 0) return "0 B"
     val units = arrayOf("B", "KB", "MB", "GB", "TB")
@@ -604,6 +655,7 @@ private fun bytesToReadable(bytes: Long): String {
     val value = bytes / 1024.0.pow(exponent.toDouble())
     return String.format(Locale.US, "%.2f %s", value, units[exponent])
 }
+
 private fun durationToReadable(durationMs: Long): String {
     if (durationMs <= 0) return "00:00:00.000"
     val hours = durationMs / 3_600_000
@@ -612,6 +664,7 @@ private fun durationToReadable(durationMs: Long): String {
     val millis = durationMs % 1_000
     return String.format(Locale.US, "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis)
 }
+
 private fun formatCount(value: Long): String = String.format(Locale.US, "%,d", value)
 private fun decodeImage(bytes: ByteArray): ImageBitmap? {
     if (bytes.isEmpty()) return null

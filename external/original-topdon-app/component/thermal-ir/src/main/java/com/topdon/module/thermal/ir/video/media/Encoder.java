@@ -124,7 +124,7 @@ public abstract class Encoder {
         encodeFinishListener = listener;
     }
 
-        public void notifyLastFrameAdded() {
+    public void notifyLastFrameAdded() {
         setState(STATE_RECORDING_UNTIL_LAST_FRAME);
     }
 
@@ -144,7 +144,7 @@ public abstract class Encoder {
         return frameDelay;
     }
 
-        public void setFrameDelay(int delay) {
+    public void setFrameDelay(int delay) {
         frameDelay = delay;
     }
 

@@ -44,7 +44,7 @@ public class ConcurrentListTestSynchronizedVariable_AddAndRemove {
 
         listthreadremove rt1 = new listthreadremove(this);
         Thread th2 = new Thread(rt1);
-		
+
 
         Thread th1 = new Thread(t1);
 

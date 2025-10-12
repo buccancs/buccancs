@@ -87,13 +87,13 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private Paint minPaint;
     private int actionMode;
     private float startX, startY, endX, endY;
-        private ArrayList<Point> points = new ArrayList<Point>();
+    private ArrayList<Point> points = new ArrayList<Point>();
     private Point movingPoint;
-        private ArrayList<Line> lines = new ArrayList<Line>();
+    private ArrayList<Line> lines = new ArrayList<Line>();
     private Line movingLine;
     private int lineMoveType;
     private int lineMovePoint;
-        private ArrayList<Rect> rectangles = new ArrayList<Rect>();
+    private ArrayList<Rect> rectangles = new ArrayList<Rect>();
     private Rect movingRectangle;
     private int rectangleMoveType;
     private int rectangleMoveEdge;
@@ -415,7 +415,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         this.temperature = temperature;
     }
 
-        public void setUseIRISP(boolean useIRISP) {
+    public void setUseIRISP(boolean useIRISP) {
         isUseIRISP = useIRISP;
         if (isUseIRISP) {
             if (irtemp != null) {
@@ -473,7 +473,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         Log.w(TAG, "surfaceDestroyed");
     }
 
-        @Override
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (temperatureRegionMode == REGION_MODE_RECTANGLE) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -1043,7 +1043,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-        public Line getLine(Point point) {
+    public Line getLine(Point point) {
         Line line = new Line();
         for (int index = 0; index < lines.size(); index++) {
             Line tempLine = lines.get(index);

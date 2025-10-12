@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ConfigOptionDetails implements Serializable {
 
-        private static final long serialVersionUID = 8021677605649506093L;
+    private static final long serialVersionUID = 8021677605649506093L;
     public String mGuiHandle = "";
 
     ;
@@ -16,7 +16,7 @@ public class ConfigOptionDetails implements Serializable {
     public GUI_COMPONENT_TYPE mGuiComponentType;
     public List<ShimmerVerObject> mListOfCompatibleVersionInfo = null;
 
-        public ConfigOptionDetails(
+    public ConfigOptionDetails(
             String guiFriendlyName,
             String dbHandle,
             GUI_COMPONENT_TYPE guiComponentType,
@@ -34,7 +34,7 @@ public class ConfigOptionDetails implements Serializable {
         }
     }
 
-        public ConfigOptionDetails(
+    public ConfigOptionDetails(
             String guiFriendlyName,
             String dbHandle,
             String[] guiValues,
@@ -64,7 +64,7 @@ public class ConfigOptionDetails implements Serializable {
         }
     }
 
-        public ConfigOptionDetails(
+    public ConfigOptionDetails(
             String guiFriendlyName,
             String dbHandle,
             GUI_COMPONENT_TYPE guiComponentType) {
@@ -72,7 +72,7 @@ public class ConfigOptionDetails implements Serializable {
         this(guiFriendlyName, dbHandle, guiComponentType, null);
     }
 
-        public ConfigOptionDetails(
+    public ConfigOptionDetails(
             String guiFriendlyName,
             String dbHandle,
             String[] guiValues,

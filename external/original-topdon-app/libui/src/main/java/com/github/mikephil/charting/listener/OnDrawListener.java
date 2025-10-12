@@ -5,10 +5,10 @@ import com.github.mikephil.charting.data.Entry;
 
 public interface OnDrawListener {
 
-        void onEntryAdded(Entry entry);
+    void onEntryAdded(Entry entry);
 
-        void onEntryMoved(Entry entry);
+    void onEntryMoved(Entry entry);
 
-        void onDrawFinished(DataSet<?> dataSet);
+    void onDrawFinished(DataSet<?> dataSet);
 
 }

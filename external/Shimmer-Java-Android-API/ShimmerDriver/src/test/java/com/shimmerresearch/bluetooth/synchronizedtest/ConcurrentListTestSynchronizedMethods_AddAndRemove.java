@@ -34,9 +34,9 @@ public class ConcurrentListTestSynchronizedMethods_AddAndRemove {
 
     public void startTest() {
         listthreadadd t1 = new listthreadadd(this);
-		        listthreadremove rt1 = new listthreadremove(this);
+        listthreadremove rt1 = new listthreadremove(this);
         Thread th2 = new Thread(rt1);
-		
+
 
         Thread th1 = new Thread(t1);
 

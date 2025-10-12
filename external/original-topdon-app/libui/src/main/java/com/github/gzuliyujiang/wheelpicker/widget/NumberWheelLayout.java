@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.wheelpicker.widget;
 
 import android.content.Context;
@@ -88,13 +87,13 @@ public class NumberWheelLayout extends OptionWheelLayout {
         }
     }
 
-        @Deprecated
+    @Deprecated
     @Override
     public void setData(List<?> data) {
         throw new UnsupportedOperationException("Use setRange instead");
     }
 
-        @Deprecated
+    @Deprecated
     @Override
     public void setOnOptionSelectedListener(OnOptionSelectedListener onOptionSelectedListener) {
         throw new UnsupportedOperationException("Use setOnNumberSelectedListener instead");

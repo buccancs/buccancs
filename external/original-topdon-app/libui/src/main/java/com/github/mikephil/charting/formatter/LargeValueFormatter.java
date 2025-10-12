@@ -15,7 +15,7 @@ public class LargeValueFormatter extends ValueFormatter {
         mFormat = new DecimalFormat("###E00");
     }
 
-        public LargeValueFormatter(String appendix) {
+    public LargeValueFormatter(String appendix) {
         this();
         mText = appendix;
     }
@@ -25,11 +25,11 @@ public class LargeValueFormatter extends ValueFormatter {
         return makePretty(value) + mText;
     }
 
-        public void setAppendix(String appendix) {
+    public void setAppendix(String appendix) {
         this.mText = appendix;
     }
 
-        public void setSuffix(String[] suffix) {
+    public void setSuffix(String[] suffix) {
         this.mSuffix = suffix;
     }
 
@@ -37,7 +37,7 @@ public class LargeValueFormatter extends ValueFormatter {
         this.mMaxLength = maxLength;
     }
 
-        private String makePretty(double number) {
+    private String makePretty(double number) {
 
         String r = mFormat.format(number);
 

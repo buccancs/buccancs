@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.utils
+
 import android.graphics.Paint
 import android.graphics.Rect
 import kotlin.math.roundToLong
@@ -8,14 +9,17 @@ fun realY(str: String, y: Float, paint: Paint) = y - textHeight(str, paint) / 4f
 fun textWidth(text: String, paint: Paint): Float {
     return textDimensions(text, paint).first
 }
+
 fun textHeight(text: String, paint: Paint): Float {
     return textDimensions(text, paint).second
 }
+
 val measurementRect = Rect()
 fun textDimensions(text: String, paint: Paint): Pair<Float, Float> {
     paint.getTextBounds(text, 0, text.length, measurementRect)
     return measurementRect.width().toFloat() to measurementRect.height().toFloat()
 }
+
 fun getValuesBetween(min: Float, max: Float, divisor: Float): List<Float> {
     val values = mutableListOf<Float>()
     val start = min.roundNearest(divisor)
@@ -28,9 +32,11 @@ fun getValuesBetween(min: Float, max: Float, divisor: Float): List<Float> {
     }
     return values
 }
+
 fun Float.roundNearest(nearest: Float): Float {
     return (this / nearest).roundToLong() * nearest
 }
+
 fun getPixelLinear(
     bearing: Float,
     azimuth: Float,
@@ -41,6 +47,7 @@ fun getPixelLinear(
     val wPixelsPerDegree = viewWidth / fovWidth
     return viewWidth / 2f + newBearing * wPixelsPerDegree
 }
+
 fun deltaAngle(angle1: Float, angle2: Float): Float {
     val a = normalizeAngle(angle1 - angle2)
     val b = normalizeAngle(angle2 - angle1)
@@ -50,12 +57,15 @@ fun deltaAngle(angle1: Float, angle2: Float): Float {
         b
     }
 }
+
 fun normalizeAngle(angle: Float): Float {
     return wrap(angle, 0f, 360f) % 360
 }
+
 fun wrap(value: Float, min: Float, max: Float): Float {
     return wrap(value.toDouble(), min.toDouble(), max.toDouble()).toFloat()
 }
+
 fun wrap(value: Double, min: Double, max: Double): Double {
     val range = max - min
     if (value < min) {

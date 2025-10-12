@@ -15,12 +15,12 @@ public class PayloadDetails {
 
     public int payloadIndex;
     public int payloadWhiteSpace;
-        public int payloadHeaderLength;
+    public int payloadHeaderLength;
     public int crcOriginal;
     public int payloadLengthBytesValue;
     public byte[] payloadConfig = null;
     public byte[] payloadWithoutCrc = null;
-        public byte[] ramBlockDataBytes;
+    public byte[] ramBlockDataBytes;
     public PayloadContentsDetails payloadContentsDetails = null;
     private CRC16CCITT CRC16CCITT = new CRC16CCITT();
 
@@ -105,7 +105,7 @@ public class PayloadDetails {
         return ramBlockDataLength;
     }
 
-        private int readBytesFromStream(InputStream inputStream, int count) throws IOException {
+    private int readBytesFromStream(InputStream inputStream, int count) throws IOException {
         byte[] lengthBuffer = new byte[count];
         readBytesFromStream(inputStream, lengthBuffer);
         return UtilVerisenseDriver.lsbByteArrayToInt(lengthBuffer);
@@ -140,7 +140,7 @@ public class PayloadDetails {
         );
     }
 
-        public PayloadContentsDetails parsePayloadContentsHeaderFooter(byte[] ramBlockDataBytes,
+    public PayloadContentsDetails parsePayloadContentsHeaderFooter(byte[] ramBlockDataBytes,
                                                                    int payloadIndex,
                                                                    VerisenseDevice verisenseDevice, int binFileByteIndex) throws IOException {
 

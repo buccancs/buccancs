@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.utils
+
 import android.graphics.Bitmap
 import android.util.Log
 import android.widget.ImageView
@@ -14,6 +15,7 @@ import org.opencv.core.Scalar
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 import kotlin.math.pow
+
 object IRImageUtil {
     fun showContrast(
         imageView: ImageView,
@@ -62,6 +64,7 @@ object IRImageUtil {
         }
         return y
     }
+
     private fun showSharpen(imageView: ImageView, @FloatRange(from = 0.0, to = 2.55) sharpen: Double) {
         Log.i("123", "show sharpen: $sharpen")
         val scale = 1.0

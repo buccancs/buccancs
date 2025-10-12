@@ -62,7 +62,7 @@ public class SignalsToPlotFragment extends ListFragment {
         return js;
     }
 
-        @Override
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         listView = getListView();
         super.onActivityCreated(savedInstanceState);
@@ -81,7 +81,7 @@ public class SignalsToPlotFragment extends ListFragment {
         super.onResume();
     }
 
-        public void buildSignalsToPlotList(Context context, final ShimmerService service, final String bluetoothAddress, final XYPlot plot) {
+    public void buildSignalsToPlotList(Context context, final ShimmerService service, final String bluetoothAddress, final XYPlot plot) {
 
         this.context = context;
         shimmerService = service;

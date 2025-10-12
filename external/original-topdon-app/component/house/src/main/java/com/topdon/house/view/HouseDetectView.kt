@@ -1,4 +1,5 @@
 package com.topdon.house.view
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -22,6 +23,7 @@ import com.topdon.lib.core.tools.SpanBuilder
 import com.topdon.lms.sdk.weiget.TToast
 import kotlinx.android.synthetic.main.item_report_add_default.view.*
 import kotlinx.android.synthetic.main.item_report_add_head.view.*
+
 @SuppressLint("NotifyDataSetChanged")
 class HouseDetectView : FrameLayout {
     private var dirList: ArrayList<DirDetect> = ArrayList()
@@ -33,6 +35,7 @@ class HouseDetectView : FrameLayout {
     private val layoutManager: LinearLayoutManager
     private val recyclerView: RecyclerView
     private val titleView: View
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
@@ -65,6 +68,7 @@ class HouseDetectView : FrameLayout {
             onDirCopyListener?.invoke(Pair(currentPosition, dataList[currentPosition] as DirDetect))
         }
     }
+
     var onDirCopyListener: ((pair: Pair<Int, DirDetect>) -> Unit)? = null
     var onItemCopyListener: ((pair: Pair<Int, ItemDetect>) -> Unit)? = null
     var onItemDelListener: ((pair: Pair<Int, ItemDetect>) -> Unit)? = null
@@ -88,6 +92,7 @@ class HouseDetectView : FrameLayout {
         }
         adapter.notifyDataSetChanged()
     }
+
     fun notifyDirInsert(position: Int, dirDetect: DirDetect) {
         if (dirDetect.isExpand) {
             dataList.add(position + dirDetect.itemList.size + 1, dirDetect)
@@ -98,6 +103,7 @@ class HouseDetectView : FrameLayout {
             adapter.notifyItemInserted(position + 1)
         }
     }
+
     fun notifyItemInsert(position: Int, itemDetect: ItemDetect) {
         val isLastItemInDir = position == dataList.size - 1 || dataList[position + 1] is DirDetect
         dataList.add(position + 1, itemDetect)
@@ -113,6 +119,7 @@ class HouseDetectView : FrameLayout {
             }
         }
     }
+
     fun notifyItemRemove(position: Int, itemDetect: ItemDetect) {
         val dirPosition = findDirPosition(position)
         val isLastItemInDir = position == dataList.size - 1 || dataList[position + 1] is DirDetect
@@ -136,9 +143,11 @@ class HouseDetectView : FrameLayout {
             }
         }
     }
+
     fun notifyItemChange(position: Int) {
         adapter.notifyItemChanged(position)
     }
+
     fun expandAllDir() {
         dataList.clear()
         for (dir in dirList) {
@@ -148,6 +157,7 @@ class HouseDetectView : FrameLayout {
         }
         adapter.notifyDataSetChanged()
     }
+
     fun retractAllDir() {
         dataList.clear()
         for (dir in dirList) {
@@ -169,6 +179,7 @@ class HouseDetectView : FrameLayout {
             notifyDataSetChanged()
             onDirExpandListener?.invoke(dirDetect.isExpand)
         }
+
         fun refreshDir(dirView: View, dirDetect: DirDetect) {
             dirView.tv_dir_name.text = dirDetect.dirName
             dirView.tv_good_count.text = dirDetect.getGoodCountStr()
@@ -182,6 +193,7 @@ class HouseDetectView : FrameLayout {
                 dirView.view_bg_dir.setBackgroundResource(R.drawable.bg_corners10_solid_23202e)
             }
         }
+
         override fun getItemViewType(position: Int): Int = if (dataList[position] is DirDetect) 0 else 1
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return if (viewType == 0) {
@@ -194,6 +206,7 @@ class HouseDetectView : FrameLayout {
                 )
             }
         }
+
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder is HeadViewHolder) {
                 val dirDetect: DirDetect = dataList[position] as DirDetect
@@ -239,6 +252,7 @@ class HouseDetectView : FrameLayout {
                 }
             }
         }
+
         override fun getItemCount(): Int = dataList.size
         inner class HeadViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
@@ -264,6 +278,7 @@ class HouseDetectView : FrameLayout {
                 }
             }
         }
+
         inner class ItemViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.tv_good.setOnClickListener {
@@ -335,6 +350,7 @@ class HouseDetectView : FrameLayout {
                     }
                 }
             }
+
             private fun handleStateChange(newState: Int) {
                 val position = bindingAdapterPosition
                 if (position == RecyclerView.NO_POSITION) {
@@ -367,6 +383,7 @@ class HouseDetectView : FrameLayout {
                 onDirChangeListener?.invoke(dirDetect)
                 onItemChangeListener?.invoke(itemDetect)
             }
+
             private fun handleImageClick(imagePosition: Int) {
                 val position = bindingAdapterPosition
                 if (position == RecyclerView.NO_POSITION) {
@@ -378,6 +395,7 @@ class HouseDetectView : FrameLayout {
                 intent.putExtra(ExtraKeyConfig.IMAGE_PATH_LIST, itemDetect.buildImageList())
                 context.startActivity(intent)
             }
+
             private fun handleImageDel(imageNum: Int) {
                 val position = bindingAdapterPosition
                 if (position == RecyclerView.NO_POSITION) {
@@ -390,6 +408,7 @@ class HouseDetectView : FrameLayout {
             }
         }
     }
+
     private fun findDirPosition(itemPosition: Int): Int {
         for (i in itemPosition downTo 0) {
             if (dataList[i] is DirDetect) {
@@ -398,6 +417,7 @@ class HouseDetectView : FrameLayout {
         }
         return 0
     }
+
     private inner class MyOnLayoutChangeListener : OnLayoutChangeListener {
         override fun onLayoutChange(
             v: View?,
@@ -421,9 +441,11 @@ class HouseDetectView : FrameLayout {
             onScrollListener.onScrolled(recyclerView, 0, 0)
         }
     }
+
     private inner class MyOnScrollListener : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         }
+
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val seeFirstPosition = layoutManager.findFirstVisibleItemPosition()
             if (seeFirstPosition == RecyclerView.NO_POSITION || seeFirstPosition >= dataList.size - 1) {

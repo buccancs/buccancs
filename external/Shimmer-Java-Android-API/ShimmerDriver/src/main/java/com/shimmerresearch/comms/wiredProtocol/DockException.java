@@ -5,15 +5,15 @@ import com.shimmerresearch.exceptions.ShimmerException;
 
 public class DockException extends ShimmerException {
 
-        private static final long serialVersionUID = -7922798090312830525L;
+    private static final long serialVersionUID = -7922798090312830525L;
     public int mSlotNumber;
     public String mDockID = "";
 
-        public DockException(String message) {
+    public DockException(String message) {
         super(message);
     }
 
-        public DockException(String dockID, int slotNumber, int errorType, int lowLevelErrorCode) {
+    public DockException(String dockID, int slotNumber, int errorType, int lowLevelErrorCode) {
         mDockID = dockID;
         mSlotNumber = slotNumber;
         mUniqueID = mDockID + "." + String.format("%02d", mSlotNumber);
@@ -21,7 +21,7 @@ public class DockException extends ShimmerException {
         mErrorCodeLowLevel = lowLevelErrorCode;
     }
 
-        public DockException(String dockID, int slotNumber, int errorType, int lowLevelErrorCode, ExceptionLevel exceptionLevel) {
+    public DockException(String dockID, int slotNumber, int errorType, int lowLevelErrorCode, ExceptionLevel exceptionLevel) {
         mDockID = dockID;
         mSlotNumber = slotNumber;
         mUniqueID = mDockID + "." + String.format("%02d", mSlotNumber);
@@ -30,7 +30,7 @@ public class DockException extends ShimmerException {
         mExceptionLevel = exceptionLevel;
     }
 
-        public DockException(String comPort, int errorCode, int errorCodeLowLevel, String uniqueID) {
+    public DockException(String comPort, int errorCode, int errorCodeLowLevel, String uniqueID) {
         if (!Strings.isNullOrEmpty(uniqueID)) {
             mUniqueID = uniqueID;
             String[] subString = uniqueID.split("\\.");
@@ -46,13 +46,13 @@ public class DockException extends ShimmerException {
         mErrorCodeLowLevel = errorCodeLowLevel;
     }
 
-        public DockException(String comPort, int errorCode, int errorCodeLowLevel, String uniqueID, String exceptionMsg, StackTraceElement[] exceptionStackTrace) {
+    public DockException(String comPort, int errorCode, int errorCodeLowLevel, String uniqueID, String exceptionMsg, StackTraceElement[] exceptionStackTrace) {
         this(comPort, errorCode, errorCodeLowLevel, uniqueID);
         mExceptionMsg = exceptionMsg;
         mExceptionStackTrace = exceptionStackTrace;
     }
 
-        public DockException(String dockID, String comPort, int errorType, int lowLevelErrorCode) {
+    public DockException(String dockID, String comPort, int errorType, int lowLevelErrorCode) {
         super(dockID, comPort, errorType, lowLevelErrorCode);
         mDockID = dockID;
         mSlotNumber = -1;

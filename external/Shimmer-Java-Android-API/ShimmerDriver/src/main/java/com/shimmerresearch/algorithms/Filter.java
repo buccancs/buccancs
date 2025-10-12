@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class Filter implements Serializable {
 
     public static int LOW_PASS = 0;
@@ -86,8 +85,7 @@ public class Filter implements Serializable {
                 nTaps--;
             }
 
-            if (LoHi == LOW_PASS || LoHi == HIGH_PASS)
-            {
+            if (LoHi == LOW_PASS || LoHi == HIGH_PASS) {
                 this.samplingRate = samplingRate;
                 this.cornerFrequency = cornerFrequency;
                 this.nTaps = nTaps;

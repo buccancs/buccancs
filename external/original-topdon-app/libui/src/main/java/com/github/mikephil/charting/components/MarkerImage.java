@@ -30,7 +30,7 @@ public class MarkerImage implements IMarker {
     private FSize mSize = new FSize();
     private Rect mDrawableBoundsCache = new Rect();
 
-        public MarkerImage(Context context, int drawableResourceId) {
+    public MarkerImage(Context context, int drawableResourceId) {
         mContext = context;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

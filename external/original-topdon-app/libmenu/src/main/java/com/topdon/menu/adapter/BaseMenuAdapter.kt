@@ -1,19 +1,23 @@
 package com.topdon.menu.adapter
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.topdon.menu.databinding.ItemMenuBinding
+
 internal abstract class BaseMenuAdapter : RecyclerView.Adapter<BaseMenuAdapter.ViewHolder>() {
     companion object {
         private const val VIEW_TYPE_DEFAULT = 0
         private const val VIEW_TYPE_FIRST = 1
         private const val VIEW_TYPE_LAST = 2
     }
+
     override fun getItemViewType(position: Int): Int = when (position) {
         0 -> VIEW_TYPE_FIRST
         itemCount - 1 -> VIEW_TYPE_LAST
         else -> VIEW_TYPE_DEFAULT
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemMenuBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val widthPixels: Int = parent.context.resources.displayMetrics.widthPixels
@@ -34,5 +38,6 @@ internal abstract class BaseMenuAdapter : RecyclerView.Adapter<BaseMenuAdapter.V
         }
         return ViewHolder(binding)
     }
+
     class ViewHolder(val binding: ItemMenuBinding) : RecyclerView.ViewHolder(binding.root)
 }

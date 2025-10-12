@@ -8,7 +8,7 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 
 public abstract class CalibDetails implements Serializable {
 
-        private static final long serialVersionUID = 3071359258303179516L;
+    private static final long serialVersionUID = 3071359258303179516L;
 
     public String mRangeString = "";
     public int mRangeValue = 0;

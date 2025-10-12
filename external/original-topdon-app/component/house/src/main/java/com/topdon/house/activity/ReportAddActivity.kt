@@ -1,4 +1,5 @@
 package com.topdon.house.activity
+
 import android.content.Intent
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_report_add.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
+
 class ReportAddActivity : BaseActivity(), View.OnClickListener {
     private var isTC007 = false
     private var isAllExpand = false
@@ -69,8 +71,10 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
 
         viewModel.queryById(intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
     }
+
     override fun initData() {
     }
+
     override fun onClick(v: View?) {
         when (v) {
             iv_back -> finish()
@@ -79,6 +83,7 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
                 newIntent.putExtra(ExtraKeyConfig.DETECT_ID, intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
                 startActivity(newIntent)
             }
+
             iv_expand -> {
                 isAllExpand = !isAllExpand
                 if (isAllExpand) {
@@ -88,12 +93,14 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
                 }
                 iv_expand.isSelected = isAllExpand
             }
+
             tv_export_report -> {
                 ARouter.getInstance().build(RouterConfig.REPORT_PREVIEW)
                     .withBoolean(ExtraKeyConfig.IS_REPORT, false)
                     .withLong(ExtraKeyConfig.LONG_ID, intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
                     .navigation(this)
             }
+
             tv_add -> {
                 val detect: HouseDetect? = viewModel.detectLD.value
                 if (detect != null) {
@@ -102,6 +109,7 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     private var editLayoutIndex = 0
     private var editItemDetect = ItemDetect()
     private fun initDetectViewListener() {
@@ -131,6 +139,7 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
                             galleryPickResult.launch("image/*")
                         }
                     }
+
                     1 -> {
                         PermissionTool.requestCamera(this) {
                             val fileName = "Item${System.currentTimeMillis()}.png"
@@ -138,6 +147,7 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
                             lightPhotoResult.launch(file)
                         }
                     }
+
                     2 -> {
                         if ((isTC007 && !WebSocketProxy.getInstance()
                                 .isTC007Connect()) || (!isTC007 && !DeviceTools.isConnect())
@@ -186,14 +196,17 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
             viewModel.updateItem(it)
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReportCreate(event: HouseReportAddEvent) {
         finish()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReportCreate(event: DetectDirListEvent) {
         viewModel.queryById(intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReportCreate(event: DetectItemListEvent) {
         viewModel.queryById(intent.getLongExtra(ExtraKeyConfig.DETECT_ID, 0))
@@ -208,6 +221,7 @@ class ReportAddActivity : BaseActivity(), View.OnClickListener {
             view_house_detect.notifyItemChange(editLayoutIndex)
         }
     }
+
     private val galleryPickResult = registerForActivityResult(ActivityResultContracts.GetContent()) {
         val srcFile: File? = UriUtils.uri2File(it)
         if (srcFile != null) {

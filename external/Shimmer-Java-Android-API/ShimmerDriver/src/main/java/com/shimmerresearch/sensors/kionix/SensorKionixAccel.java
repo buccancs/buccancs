@@ -48,7 +48,7 @@ public abstract class SensorKionixAccel extends AbstractSensor {
     public static final byte GET_ACCEL_CALIBRATION_COMMAND = (byte) 0x13;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-        private static final long serialVersionUID = -5027305280613145453L;
+    private static final long serialVersionUID = -5027305280613145453L;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -65,7 +65,7 @@ public abstract class SensorKionixAccel extends AbstractSensor {
     public CalibDetailsKinematic mCurrentCalibDetailsAccelLn = null;
     public boolean mIsUsingDefaultLNAccelParam = true;
 
-        public SensorKionixAccel(SENSORS sensor) {
+    public SensorKionixAccel(SENSORS sensor) {
         super(sensor);
     }
 
@@ -80,9 +80,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
     @Override
     public void generateConfigOptionsMap() {
     }
-
-
-
 
 
     @Override
@@ -156,8 +153,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
             parseCalibParamFromPacketAccelAnalog(bufferCalibrationParameters, CALIB_READ_SOURCE.INFOMEM);
         }
     }
-
-
 
 
     @Override
@@ -273,11 +268,11 @@ public abstract class SensorKionixAccel extends AbstractSensor {
         return null;
     }
 
-        public byte[] generateCalParamByteArrayAccelLn() {
+    public byte[] generateCalParamByteArrayAccelLn() {
         return getCurrentCalibDetailsAccelLn().generateCalParamByteArray();
     }
 
-        @Override
+    @Override
     public boolean isSensorUsingDefaultCal(int sensorId) {
         if (sensorId == Configuration.Shimmer3.SENSOR_ID.SHIMMER_ANALOG_ACCEL) {
             return isUsingDefaultLNAccelParam();
@@ -300,8 +295,6 @@ public abstract class SensorKionixAccel extends AbstractSensor {
         public static String ACCEL_LN_Y = "Accel_LN_Y";
         public static String ACCEL_LN_Z = "Accel_LN_Z";
     }
-
-
 
 
     public class GuiLabelConfig {

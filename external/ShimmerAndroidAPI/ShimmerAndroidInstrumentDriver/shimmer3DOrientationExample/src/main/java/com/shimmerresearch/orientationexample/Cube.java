@@ -10,11 +10,11 @@ import android.content.Context;
 
 public class Cube {
 
-        private FloatBuffer vertexBuffer;
-        private FloatBuffer colorBuffer;
-        private ByteBuffer indexBuffer;
+    private FloatBuffer vertexBuffer;
+    private FloatBuffer colorBuffer;
+    private ByteBuffer indexBuffer;
 
-        private float vertices[] = {
+    private float vertices[] = {
             -1.0f, -1.0f, 1.0f,
             1.0f, -1.0f, 1.0f,
             -1.0f, 1.0f, 1.0f,
@@ -42,7 +42,7 @@ public class Cube {
     };
 
 
-        private float colors[][] = {
+    private float colors[][] = {
             {1.0f, 0.5f, 0.0f, 1.0f},
             {1.0f, 0.0f, 1.0f, 1.0f},
             {0.0f, 1.0f, 0.0f, 1.0f},
@@ -51,8 +51,8 @@ public class Cube {
             {1.0f, 1.0f, 0.0f, 1.0f}
     };
 
-        private byte indices[] = {
-                        0, 4, 5, 0, 5, 1,
+    private byte indices[] = {
+            0, 4, 5, 0, 5, 1,
             1, 5, 6, 1, 6, 2,
             2, 6, 7, 2, 7, 3,
             3, 7, 4, 3, 4, 0,
@@ -60,7 +60,7 @@ public class Cube {
             3, 0, 1, 3, 1, 2
     };
 
-        public Cube(Context context) {
+    public Cube(Context context) {
         ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
         vbb.order(ByteOrder.nativeOrder());
         vertexBuffer = vbb.asFloatBuffer();
@@ -68,7 +68,7 @@ public class Cube {
         vertexBuffer.position(0);
     }
 
-        public void draw(GL10 gl) {
+    public void draw(GL10 gl) {
         gl.glFrontFace(GL10.GL_CCW);
         gl.glEnable(GL10.GL_CULL_FACE);
         gl.glCullFace(GL10.GL_BACK);

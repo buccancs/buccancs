@@ -15,7 +15,7 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
         super(animator, viewPortHandler);
     }
 
-        protected void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
+    protected void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
 
         if (clipPathSupported()) {
 
@@ -35,7 +35,7 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
         }
     }
 
-        protected void drawFilledPath(Canvas c, Path filledPath, int fillColor, int fillAlpha) {
+    protected void drawFilledPath(Canvas c, Path filledPath, int fillColor, int fillAlpha) {
 
         int color = (fillAlpha << 24) | (fillColor & 0xffffff);
 
@@ -62,7 +62,7 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
         }
     }
 
-        private boolean clipPathSupported() {
+    private boolean clipPathSupported() {
         return Utils.getSDKInt() >= 18;
     }
 }

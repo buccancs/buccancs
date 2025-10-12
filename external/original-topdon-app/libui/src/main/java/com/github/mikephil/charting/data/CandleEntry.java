@@ -6,15 +6,15 @@ import android.graphics.drawable.Drawable;
 @SuppressLint("ParcelCreator")
 public class CandleEntry extends Entry {
 
-        private float mShadowHigh = 0f;
+    private float mShadowHigh = 0f;
 
-        private float mShadowLow = 0f;
+    private float mShadowLow = 0f;
 
-        private float mClose = 0f;
+    private float mClose = 0f;
 
-        private float mOpen = 0f;
+    private float mOpen = 0f;
 
-        public CandleEntry(float x, float shadowH, float shadowL, float open, float close) {
+    public CandleEntry(float x, float shadowH, float shadowL, float open, float close) {
         super(x, (shadowH + shadowL) / 2f);
 
         this.mShadowHigh = shadowH;
@@ -23,7 +23,7 @@ public class CandleEntry extends Entry {
         this.mClose = close;
     }
 
-        public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
+    public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
                        Object data) {
         super(x, (shadowH + shadowL) / 2f, data);
 
@@ -33,7 +33,7 @@ public class CandleEntry extends Entry {
         this.mClose = close;
     }
 
-        public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
+    public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
                        Drawable icon) {
         super(x, (shadowH + shadowL) / 2f, icon);
 
@@ -43,7 +43,7 @@ public class CandleEntry extends Entry {
         this.mClose = close;
     }
 
-        public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
+    public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
                        Drawable icon, Object data) {
         super(x, (shadowH + shadowL) / 2f, icon, data);
 
@@ -53,15 +53,15 @@ public class CandleEntry extends Entry {
         this.mClose = close;
     }
 
-        public float getShadowRange() {
+    public float getShadowRange() {
         return Math.abs(mShadowHigh - mShadowLow);
     }
 
-        public float getBodyRange() {
+    public float getBodyRange() {
         return Math.abs(mOpen - mClose);
     }
 
-        @Override
+    @Override
     public float getY() {
         return super.getY();
     }
@@ -74,7 +74,7 @@ public class CandleEntry extends Entry {
         return c;
     }
 
-        public float getHigh() {
+    public float getHigh() {
         return mShadowHigh;
     }
 
@@ -82,7 +82,7 @@ public class CandleEntry extends Entry {
         this.mShadowHigh = mShadowHigh;
     }
 
-        public float getLow() {
+    public float getLow() {
         return mShadowLow;
     }
 
@@ -90,7 +90,7 @@ public class CandleEntry extends Entry {
         this.mShadowLow = mShadowLow;
     }
 
-        public float getClose() {
+    public float getClose() {
         return mClose;
     }
 
@@ -98,7 +98,7 @@ public class CandleEntry extends Entry {
         this.mClose = mClose;
     }
 
-        public float getOpen() {
+    public float getOpen() {
         return mOpen;
     }
 

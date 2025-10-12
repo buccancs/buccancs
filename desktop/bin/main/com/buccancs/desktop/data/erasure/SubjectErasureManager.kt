@@ -1,8 +1,10 @@
 package com.buccancs.desktop.data.erasure
+
 import com.buccancs.desktop.data.repository.SessionRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
+
 class SubjectErasureManager(
     private val sessionRepository: SessionRepository
 ) {
@@ -12,6 +14,7 @@ class SubjectErasureManager(
         logger.info("Session {} erased per request", sessionId)
         SubjectErasureResult(subjectId = null, erasedSessions = listOf(sessionId))
     }
+
     suspend fun eraseSubject(subjectId: String): SubjectErasureResult = withContext(Dispatchers.IO) {
         val sessionIds = sessionRepository.listSessionIds()
         val erased = mutableListOf<String>()
@@ -26,6 +29,7 @@ class SubjectErasureManager(
         SubjectErasureResult(subjectId = subjectId, erasedSessions = erased)
     }
 }
+
 data class SubjectErasureResult(
     val subjectId: String?,
     val erasedSessions: List<String>

@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view.compass
+
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -18,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.EmptyCoroutineContext
+
 class LinearCompassView : View {
     private val paint = Paint()
     private val textPaint = Paint()
@@ -42,12 +44,15 @@ class LinearCompassView : View {
     private var step = 1000 / 10
     private val scope = CoroutineScope(EmptyCoroutineContext)
     var curBitmap: Bitmap? = null
+
     constructor(context: Context) : this(context, null) {
         initView()
     }
+
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0) {
         initView()
     }
+
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
@@ -86,6 +91,7 @@ class LinearCompassView : View {
         attributes.recycle()
         initView()
     }
+
     private fun initView() {
         paint.color = backgroundColor
         paint.style = Paint.Style.FILL_AND_STROKE
@@ -114,6 +120,7 @@ class LinearCompassView : View {
         positionPaint.isAntiAlias = true
         positionPaint.strokeWidth = 1f
     }
+
     private var showAzimuthArrow = true
     private var azimuth = 0f
     private var range = 180f
@@ -126,9 +133,11 @@ class LinearCompassView : View {
         drawAzimuthArrow()
         drawCompassLine()
     }
+
     private fun drawBackGround() {
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
     }
+
     private fun drawAzimuthArrow() {
         if (!showAzimuthArrow) {
             return
@@ -137,6 +146,7 @@ class LinearCompassView : View {
         val endHeight = (3 / 10f) * height
         canvas.drawText(text, realX(text, endWidth, textPaint), realY(text, endHeight, textPaint), textPaint)
     }
+
     private fun drawCompassLine() {
         drawCompass()
         val bottomHeight = height * 7 / 10f
@@ -149,6 +159,7 @@ class LinearCompassView : View {
             markerPaint
         )
     }
+
     fun setCurAzimuth(azimuth: Int) {
         scope.launch(Dispatchers.IO) {
             this@LinearCompassView.azimuth = azimuth.toFloat()
@@ -163,6 +174,7 @@ class LinearCompassView : View {
             }
         }
     }
+
     private fun drawCompass() {
         getValuesBetween(getRawMinimum(), getRawMaximum(), 5f).map {
             it.toInt()
@@ -189,6 +201,7 @@ class LinearCompassView : View {
             }
         }
     }
+
     private fun getPositionText(position: Int): String = when (position) {
         -90, 270 -> resources.getString(R.string.compass_west)
         -45, 315 -> resources.getString(R.string.compass_northwest)
@@ -200,6 +213,7 @@ class LinearCompassView : View {
         -135, 225 -> resources.getString(R.string.compass_southwest)
         else -> ""
     }
+
     private fun toPixel(bearing: Float): Float {
         return getPixelLinear(
             bearing,
@@ -208,6 +222,7 @@ class LinearCompassView : View {
             range
         )
     }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         scope.cancel()

@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
     VerisenseBleAndroidRadioByteCommunication radio1 = new VerisenseBleAndroidRadioByteCommunication(macAddress);
     VerisenseProtocolByteCommunication protocol1 = new VerisenseProtocolByteCommunication(radio1);
     VerisenseDeviceAndroid device1;
-        Handler mHandler = new Handler() {
+    Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -259,7 +259,7 @@ public class MainActivity extends Activity {
 
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CONNECT_SHIMMER) {
             if (resultCode == Activity.RESULT_OK) {

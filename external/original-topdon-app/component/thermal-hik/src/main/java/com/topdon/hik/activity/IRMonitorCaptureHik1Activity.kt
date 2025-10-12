@@ -1,4 +1,5 @@
 package com.topdon.hik.activity
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -19,6 +20,7 @@ import com.topdon.module.thermal.ir.bean.SelectPositionBean
 import com.topdon.module.thermal.ir.repository.ConfigRepository
 import com.topdon.module.thermal.ir.view.TemperatureBaseView.Mode
 import kotlinx.coroutines.launch
+
 @Route(path = RouterConfig.IR_HIK_MONITOR_CAPTURE1)
 class IRMonitorCaptureHik1Activity : BaseBindingActivity<ActivityIrMonitorCaptureHik1Binding>(), View.OnClickListener {
     private var hasClickNext = false
@@ -72,6 +74,7 @@ class IRMonitorCaptureHik1Activity : BaseBindingActivity<ActivityIrMonitorCaptur
         binding.btnSelect.setOnClickListener(this)
         binding.btnStart.setOnClickListener(this)
     }
+
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
@@ -79,30 +82,36 @@ class IRMonitorCaptureHik1Activity : BaseBindingActivity<ActivityIrMonitorCaptur
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     override fun onStop() {
         super.onStop()
         if (!hasClickNext) {
             HikHelper.stopStream()
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         if (!hasClickNext) {
             HikHelper.release()
         }
     }
+
     override fun disConnected() {
         finish()
     }
+
     override fun onClick(v: View?) {
         when (v) {
             binding.btnSelect -> {
                 showSelectDialog()
             }
+
             binding.btnStart -> {
                 if (selectIndex == null) {
                     showSelectDialog()
@@ -118,6 +127,7 @@ class IRMonitorCaptureHik1Activity : BaseBindingActivity<ActivityIrMonitorCaptur
             }
         }
     }
+
     private fun showSelectDialog() {
         MonitorSelectDialog.Builder(this)
             .setPositiveListener {

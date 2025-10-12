@@ -74,7 +74,7 @@ public class SimpleExample9DoF extends BasicProcessWithCallBack {
     private JLabel lblRotMatrixDev;
     private JLabel lblRotMatrixDev_1;
 
-        public SimpleExample9DoF() {
+    public SimpleExample9DoF() {
         initialize();
         frame.getContentPane().setLayout(null);
         setWaitForData(mShimmer);
@@ -296,7 +296,7 @@ public class SimpleExample9DoF extends BasicProcessWithCallBack {
 
     }
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -311,7 +311,7 @@ public class SimpleExample9DoF extends BasicProcessWithCallBack {
         });
     }
 
-        private void initialize() {
+    private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 1643, 592);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

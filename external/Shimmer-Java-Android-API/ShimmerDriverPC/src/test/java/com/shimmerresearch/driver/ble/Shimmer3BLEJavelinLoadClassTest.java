@@ -82,7 +82,6 @@ public class Shimmer3BLEJavelinLoadClassTest {
             String dllPath = "libs/javelin.dll";
 
 
-
             System.out.println("Loading dlls");
             System.load(getAbsoluteDLLPath("libs/javelin.dll"));
             System.load(getAbsoluteDLLPath("libs/msvcp140d_app.dll"));
@@ -106,7 +105,6 @@ public class Shimmer3BLEJavelinLoadClassTest {
             System.load(getAbsoluteDLLPath("libs/OLEAUT32.dll"));
 
 
-
             File jarFile = new File(getAbsoluteDLLPath("libs/javelin.jar"));
             URL jarUrl = jarFile.toURI().toURL();
 
@@ -118,7 +116,6 @@ public class Shimmer3BLEJavelinLoadClassTest {
             Object instance = loadedClass.newInstance();
 
             System.out.println("Loaded class: " + loadedClass.getName());
-
 
 
         } catch (Exception e) {

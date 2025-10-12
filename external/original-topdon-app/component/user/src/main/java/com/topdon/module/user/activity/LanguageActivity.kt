@@ -1,4 +1,5 @@
 package com.topdon.module.user.activity
+
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.topdon.lib.core.common.SharedManager
@@ -8,6 +9,7 @@ import com.topdon.lib.core.tools.ConstantLanguages
 import com.topdon.module.user.R
 import com.topdon.module.user.adapter.LanguageAdapter
 import kotlinx.android.synthetic.main.activity_language.*
+
 class LanguageActivity : BaseActivity() {
     private val adapter by lazy { LanguageAdapter(this) }
     private var selectIndex = 0
@@ -43,12 +45,15 @@ class LanguageActivity : BaseActivity() {
             }
         }
     }
+
     override fun initData() {
     }
+
     override fun onResume() {
         super.onResume()
         showLanguage()
     }
+
     private fun showLanguage() {
         val selectIndex = when (SharedManager.getLanguage(this)) {
             ConstantLanguages.ENGLISH -> 0

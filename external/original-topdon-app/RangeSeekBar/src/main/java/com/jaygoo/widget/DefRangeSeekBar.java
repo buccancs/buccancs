@@ -76,7 +76,9 @@ public class DefRangeSeekBar extends View {
     private int progressWidth;
     private float minInterval;
     private int gravity;
-    /    protected void onMeasureProgress(int w, int h) {
+    /
+
+    protected void onMeasureProgress(int w, int h) {
         int viewHeight = h - getPaddingBottom() - getPaddingTop();
         if (h <= 0) return;
 
@@ -334,14 +336,14 @@ public class DefRangeSeekBar extends View {
         return event.getY();
     }
 
-        private void scaleCurrentSeekBarThumb() {
+    private void scaleCurrentSeekBarThumb() {
         if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && !isScaleThumb) {
             isScaleThumb = true;
             currTouchSB.scaleThumb();
         }
     }
 
-        private void resetCurrentSeekBarThumb() {
+    private void resetCurrentSeekBarThumb() {
         if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && isScaleThumb) {
             isScaleThumb = false;
             currTouchSB.resetThumb();
@@ -568,11 +570,11 @@ public class DefRangeSeekBar extends View {
         invalidate();
     }
 
-        public void setRange(float min, float max) {
+    public void setRange(float min, float max) {
         setRange(min, max, minInterval);
     }
 
-        public void setRange(float min, float max, float minInterval) {
+    public void setRange(float min, float max, float minInterval) {
         if (max <= min) {
             throw new IllegalArgumentException("setRange() max must be greater than min ! #max:" + max + " #min:" + min);
         }
@@ -598,7 +600,7 @@ public class DefRangeSeekBar extends View {
         invalidate();
     }
 
-        public SeekBarState[] getRangeSeekBarState() {
+    public SeekBarState[] getRangeSeekBarState() {
         SeekBarState leftSeekBarState = new SeekBarState();
         leftSeekBarState.value = leftSB.getProgress();
 
@@ -623,21 +625,23 @@ public class DefRangeSeekBar extends View {
         return new SeekBarState[]{leftSeekBarState, rightSeekBarState};
     }
 
-    /    public void setIndicatorTextDecimalFormat(String formatPattern) {
+    /
+
+    public void setIndicatorTextDecimalFormat(String formatPattern) {
         leftSB.setIndicatorTextDecimalFormat(formatPattern);
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
             rightSB.setIndicatorTextDecimalFormat(formatPattern);
         }
     }
 
-        public void setIndicatorTextStringFormat(String formatPattern) {
+    public void setIndicatorTextStringFormat(String formatPattern) {
         leftSB.setIndicatorTextStringFormat(formatPattern);
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
             rightSB.setIndicatorTextStringFormat(formatPattern);
         }
     }
 
-        public SeekBar getLeftSeekBar() {
+    public SeekBar getLeftSeekBar() {
         return leftSB;
     }
 
@@ -722,7 +726,7 @@ public class DefRangeSeekBar extends View {
         return seekBarMode;
     }
 
-        public void setSeekBarMode(@SeekBarModeDef int seekBarMode) {
+    public void setSeekBarMode(@SeekBarModeDef int seekBarMode) {
         this.seekBarMode = seekBarMode;
         rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
     }
@@ -731,7 +735,7 @@ public class DefRangeSeekBar extends View {
         return tickMarkMode;
     }
 
-        public void setTickMarkMode(@TickMarkModeDef int tickMarkMode) {
+    public void setTickMarkMode(@TickMarkModeDef int tickMarkMode) {
         this.tickMarkMode = tickMarkMode;
     }
 
@@ -755,7 +759,7 @@ public class DefRangeSeekBar extends View {
         return tickMarkGravity;
     }
 
-        public void setTickMarkGravity(@TickMarkGravityDef int tickMarkGravity) {
+    public void setTickMarkGravity(@TickMarkGravityDef int tickMarkGravity) {
         this.tickMarkGravity = tickMarkGravity;
     }
 
@@ -879,7 +883,7 @@ public class DefRangeSeekBar extends View {
         return tickMarkLayoutGravity;
     }
 
-        public void setTickMarkLayoutGravity(@TickMarkLayoutGravityDef int tickMarkLayoutGravity) {
+    public void setTickMarkLayoutGravity(@TickMarkLayoutGravityDef int tickMarkLayoutGravity) {
         this.tickMarkLayoutGravity = tickMarkLayoutGravity;
     }
 
@@ -887,7 +891,7 @@ public class DefRangeSeekBar extends View {
         return gravity;
     }
 
-        public void setGravity(@GravityDef int gravity) {
+    public void setGravity(@GravityDef int gravity) {
         this.gravity = gravity;
     }
 
@@ -935,27 +939,27 @@ public class DefRangeSeekBar extends View {
         setStepsBitmaps(stepsBitmaps);
     }
 
-        @IntDef({SEEKBAR_MODE_SINGLE, SEEKBAR_MODE_RANGE})
+    @IntDef({SEEKBAR_MODE_SINGLE, SEEKBAR_MODE_RANGE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface SeekBarModeDef {
     }
 
-        @IntDef({TRICK_MARK_MODE_NUMBER, TRICK_MARK_MODE_OTHER})
+    @IntDef({TRICK_MARK_MODE_NUMBER, TRICK_MARK_MODE_OTHER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TickMarkModeDef {
     }
 
-        @IntDef({TICK_MARK_GRAVITY_LEFT, TICK_MARK_GRAVITY_CENTER, TICK_MARK_GRAVITY_RIGHT})
+    @IntDef({TICK_MARK_GRAVITY_LEFT, TICK_MARK_GRAVITY_CENTER, TICK_MARK_GRAVITY_RIGHT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TickMarkGravityDef {
     }
 
-        @IntDef({Gravity.TOP, Gravity.BOTTOM})
+    @IntDef({Gravity.TOP, Gravity.BOTTOM})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TickMarkLayoutGravityDef {
     }
 
-        @IntDef({Gravity.TOP, Gravity.CENTER, Gravity.BOTTOM})
+    @IntDef({Gravity.TOP, Gravity.CENTER, Gravity.BOTTOM})
     @Retention(RetentionPolicy.SOURCE)
     public @interface GravityDef {
     }

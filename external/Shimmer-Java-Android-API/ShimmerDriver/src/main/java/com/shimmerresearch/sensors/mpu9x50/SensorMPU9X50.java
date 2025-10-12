@@ -204,12 +204,8 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
             false);
 
 
-
-
-
-
     public static final Map<Integer, SensorDetailsRef> mSensorMapRefCommon;
-        private static final long serialVersionUID = -1137540822708521997L;
+    private static final long serialVersionUID = -1137540822708521997L;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -229,9 +225,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         aMap.put(SET_GYRO_TEMP_VREF_COMMAND, new BtCommandDetails(SET_GYRO_TEMP_VREF_COMMAND, "SET_GYRO_TEMP_VREF_COMMAND"));
         mBtSetCommandMap = Collections.unmodifiableMap(aMap);
     }
-
-
-
 
 
     static {
@@ -271,7 +264,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
     protected int mMPLSensorFusion = 0;
 
 
-
     protected int mMPLGyroCalTC = 0;
     protected int mMPLVectCompCal = 0;
     protected int mMPLMagDistCal = 0;
@@ -289,7 +281,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
 
     protected double[][] OffsetVectorMPLGyro = {{0}, {0}, {0}};
     private boolean debugGyroRate = false;
-        private int mGyroRange = 1;
+    private int mGyroRange = 1;
     private CalibDetailsKinematic calibDetailsMplAccel = new CalibDetailsKinematic(
             0,
             "0",
@@ -871,7 +863,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return false;
     }
 
-        public int setMPU9150GyroAccelRateFromFreq(double freq) {
+    public int setMPU9150GyroAccelRateFromFreq(double freq) {
         if (debugGyroRate && mShimmerDevice != null) {
             System.out.println("Gyro Rate change from freq:\t" + mShimmerDevice.getMacId() + "\t" + freq);
         }
@@ -910,7 +902,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return getMPU9X50GyroAccelRate();
     }
 
-        public int setMPU9150MagRateFromFreq(double freq) {
+    public int setMPU9150MagRateFromFreq(double freq) {
         boolean setFreq = false;
         if (checkIfAnyMplChannelEnabled()) {
             setFreq = true;
@@ -936,7 +928,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPU9X50MagSamplingRate;
     }
 
-        public int setMPU9150MplRateFromFreq(double freq) {
+    public int setMPU9150MplRateFromFreq(double freq) {
         if (!checkIfAnyMplChannelEnabled()) {
             mMPU9X50MPLSamplingRate = 0;
             return mMPU9X50MPLSamplingRate;
@@ -971,7 +963,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
             setGyroRange(3);
         }
     }
-
 
 
     public void setDefaultMpu9150AccelSensorConfig(boolean isSensorEnabled) {
@@ -1062,11 +1053,11 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return false;
     }
 
-        public int getMPU9X50AccelRange() {
+    public int getMPU9X50AccelRange() {
         return mMPU9X50AccelRange;
     }
 
-        public void setMPU9X50AccelRange(int i) {
+    public void setMPU9X50AccelRange(int i) {
         if (ArrayUtils.contains(SensorMPU9X50.ListofMPU9X50GyroRangeConfigValues, i)) {
             if (checkIfAnyMplChannelEnabled()) {
                 i = 0;
@@ -1075,24 +1066,24 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         }
     }
 
-        public int getMPU9X50GyroAccelRate() {
+    public int getMPU9X50GyroAccelRate() {
         return mMPU9X50GyroAccelRate;
     }
 
-    
+
     public void setMPU9X50GyroAccelRate(int rate) {
         mMPU9X50GyroAccelRate = rate;
     }
 
-        public int getMPU9X50MotCalCfg() {
+    public int getMPU9X50MotCalCfg() {
         return mMPU9X50MotCalCfg;
     }
 
-        public int getMPU9X50LPF() {
+    public int getMPU9X50LPF() {
         return mMPU9X50LPF;
     }
 
-        public void setMPU9X50LPF(int mMPU9X50LPF) {
+    public void setMPU9X50LPF(int mMPU9X50LPF) {
         this.mMPU9X50LPF = mMPU9X50LPF;
     }
 
@@ -1100,19 +1091,19 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPU9X50DMP;
     }
 
-        public int getMPU9X50MPLSamplingRate() {
+    public int getMPU9X50MPLSamplingRate() {
         return mMPU9X50MPLSamplingRate;
     }
 
-        public int getMPU9X50MagSamplingRate() {
+    public int getMPU9X50MagSamplingRate() {
         return mMPU9X50MagSamplingRate;
     }
 
-        public void setMPU9X50MagSamplingRate(int mMPU9X50MagSamplingRate) {
+    public void setMPU9X50MagSamplingRate(int mMPU9X50MagSamplingRate) {
         this.mMPU9X50MagSamplingRate = mMPU9X50MagSamplingRate;
     }
 
-        public double getMPU9X50GyroAccelRateInHz() {
+    public double getMPU9X50GyroAccelRateInHz() {
         double numerator = 1000.0;
         if (mMPU9X50LPF == 0) {
             numerator = 8000.0;
@@ -1145,15 +1136,15 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         }
     }
 
-        public void setMPU9150MPLSamplingRate(int mMPU9X50MPLSamplingRate) {
+    public void setMPU9150MPLSamplingRate(int mMPU9X50MPLSamplingRate) {
         this.mMPU9X50MPLSamplingRate = mMPU9X50MPLSamplingRate;
     }
 
-        public boolean isMPU9150DMP() {
+    public boolean isMPU9150DMP() {
         return (mMPU9X50DMP > 0) ? true : false;
     }
 
-        public void setMPU9150DMP(boolean state) {
+    public void setMPU9150DMP(boolean state) {
         setMPU9150DMP((state ? 1 : 0));
     }
 
@@ -1162,15 +1153,15 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         this.mMPU9X50DMP = i;
     }
 
-        public boolean isMPLEnable() {
+    public boolean isMPLEnable() {
         return (mMPLEnable > 0) ? true : false;
     }
 
-        public void setMPLEnabled(boolean state) {
+    public void setMPLEnabled(boolean state) {
         setMPLEnabled(state ? 1 : 0);
     }
 
-        public void setMPLEnabled(int state) {
+    public void setMPLEnabled(int state) {
         mMPLEnable = state;
     }
 
@@ -1178,7 +1169,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPLEnable;
     }
 
-        public boolean isMPLGyroCalTC() {
+    public boolean isMPLGyroCalTC() {
         return (mMPLGyroCalTC > 0) ? true : false;
     }
 
@@ -1186,7 +1177,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPLGyroCalTC;
     }
 
-        public void setMPLGyroCalTC(boolean state) {
+    public void setMPLGyroCalTC(boolean state) {
         mMPLGyroCalTC = state ? 1 : 0;
     }
 
@@ -1194,7 +1185,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         mMPLGyroCalTC = state;
     }
 
-        public boolean isMPLVectCompCal() {
+    public boolean isMPLVectCompCal() {
         return (mMPLVectCompCal > 0) ? true : false;
     }
 
@@ -1202,11 +1193,11 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPLVectCompCal;
     }
 
-        public void setMPLVectCompCal(boolean state) {
+    public void setMPLVectCompCal(boolean state) {
         setMPLVectCompCal(state ? 1 : 0);
     }
 
-        public void setMPLVectCompCal(int state) {
+    public void setMPLVectCompCal(int state) {
         this.mMPLVectCompCal = state;
     }
 
@@ -1214,27 +1205,27 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPLMagDistCal;
     }
 
-        public boolean isMPLMagDistCal() {
+    public boolean isMPLMagDistCal() {
         return (mMPLMagDistCal > 0) ? true : false;
     }
 
-        public void setMPLMagDistCal(boolean state) {
+    public void setMPLMagDistCal(boolean state) {
         setMPLMagDistCal(state ? 1 : 0);
     }
 
-        public void setMPLMagDistCal(int state) {
+    public void setMPLMagDistCal(int state) {
         mMPLMagDistCal = state;
     }
 
-        public int getMPLSensorFusion() {
+    public int getMPLSensorFusion() {
         return mMPLSensorFusion;
     }
 
-        public boolean isMPLSensorFusion() {
+    public boolean isMPLSensorFusion() {
         return (mMPLSensorFusion > 0) ? true : false;
     }
 
-        public void setMPLSensorFusion(boolean state) {
+    public void setMPLSensorFusion(boolean state) {
         setMPLSensorFusion(state ? 1 : 0);
     }
 
@@ -1242,11 +1233,11 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         mMPLSensorFusion = state;
     }
 
-        public void setMPU9150MotCalCfg(boolean state) {
+    public void setMPU9150MotCalCfg(boolean state) {
         setMPU9X150MotCalCfg(state ? 1 : 0);
     }
 
-        public void setMPU9X150MotCalCfg(int state) {
+    public void setMPU9X150MotCalCfg(int state) {
         this.mMPU9X50MotCalCfg = state;
     }
 
@@ -1318,7 +1309,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mCurrentCalibDetailsGyro.isUsingDefaultParameters();
     }
 
-        public void setLowPowerGyro(boolean enable) {
+    public void setLowPowerGyro(boolean enable) {
         if (!checkIfAnyMplChannelEnabled()) {
             mLowPowerGyro = enable;
         } else {
@@ -1337,7 +1328,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mLowPowerGyro ? 1 : 0;
     }
 
-        public boolean checkLowPowerGyro() {
+    public boolean checkLowPowerGyro() {
         if (mMPU9X50GyroAccelRate == 0xFF) {
             mLowPowerGyro = true;
         } else {
@@ -1414,8 +1405,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
     }
 
 
-
-
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
 
@@ -1468,7 +1457,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         }
     }
 
-        @Override
+    @Override
     public boolean isSensorUsingDefaultCal(int sensorId) {
         if (sensorId == mSensorIdGyro) {
             return isUsingDefaultGyroParam();

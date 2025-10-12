@@ -1,4 +1,5 @@
 package com.topdon.house.activity
+
 import android.content.Intent
 import android.graphics.Bitmap
 import android.view.View
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_sign_input.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 class SignInputActivity : BaseActivity(), View.OnClickListener {
     override fun isLockPortrait(): Boolean = false
     override fun initContentView(): Int = R.layout.activity_sign_input
@@ -30,8 +32,10 @@ class SignInputActivity : BaseActivity(), View.OnClickListener {
             cl_save.alpha = if (it) 1f else 0.5f
         }
     }
+
     override fun initData() {
     }
+
     override fun onClick(v: View?) {
         when (v) {
             cl_save -> {
@@ -69,6 +73,7 @@ class SignInputActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
+
             cl_clear -> {
                 sign_view.clear()
             }

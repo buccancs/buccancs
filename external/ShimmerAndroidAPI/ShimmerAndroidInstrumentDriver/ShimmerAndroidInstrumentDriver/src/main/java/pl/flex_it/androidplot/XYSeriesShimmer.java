@@ -1,4 +1,3 @@
-
 package pl.flex_it.androidplot;
 
 import java.util.ArrayList;
@@ -15,26 +14,26 @@ public class XYSeriesShimmer implements XYSeries {
     private boolean mClearGraphatLimit = false;
 
 
-        public XYSeriesShimmer(List<Number> datasource, int seriesIndex, String title, int xaxislimit) {
+    public XYSeriesShimmer(List<Number> datasource, int seriesIndex, String title, int xaxislimit) {
         this.mDataY = datasource;
         this.mSeriesIndex = seriesIndex;
         this.mTitle = title;
         this.mXAxisLimit = xaxislimit;
     }
 
-        public XYSeriesShimmer(List<Number> datasource, int seriesIndex, String title) {
+    public XYSeriesShimmer(List<Number> datasource, int seriesIndex, String title) {
         this.mDataY = datasource;
         this.mSeriesIndex = seriesIndex;
         this.mTitle = title;
     }
 
-        public XYSeriesShimmer(List<Number> datasource, int seriesIndex) {
+    public XYSeriesShimmer(List<Number> datasource, int seriesIndex) {
         this.mDataY = datasource;
         this.mSeriesIndex = seriesIndex;
         this.mTitle = "";
     }
 
-        public XYSeriesShimmer(List<Number> datasource) {
+    public XYSeriesShimmer(List<Number> datasource) {
         this.mDataY = datasource;
         this.mTitle = "";
     }

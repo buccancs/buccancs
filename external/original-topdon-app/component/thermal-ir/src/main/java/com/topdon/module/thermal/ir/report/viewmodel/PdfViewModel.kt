@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.viewmodel
+
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -22,6 +23,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.CountDownLatch
+
 class PdfViewModel : BaseViewModel() {
     val listData = MutableLiveData<ReportData?>()
 
@@ -45,6 +47,7 @@ class PdfViewModel : BaseViewModel() {
                 result = Gson().fromJson(p0, ReportData::class.java)
                 downLatch.countDown()
             }
+
             override fun onFail(p0: Exception?) {
                 result = ReportData()
                 result?.msg = p0?.message
@@ -52,6 +55,7 @@ class PdfViewModel : BaseViewModel() {
                 downLatch.countDown()
                 TLog.e("bcf", "获取报告列表失败：" + p0?.message)
             }
+
             override fun onFail(failMsg: String?, errorCode: String) {
                 super.onFail(failMsg, errorCode)
                 try {

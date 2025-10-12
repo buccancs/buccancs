@@ -31,26 +31,26 @@ public class DeviceControlManager implements IDeviceConnectListener {
         return mInstance;
     }
 
-        public void init() {
+    public void init() {
         mDeviceControlWorker = new DeviceControlWorker();
         mDeviceControlWorker.setDeviceControlCallback(this);
         mDeviceControlWorker.startWork();
         mIDeviceConnectListeners = new HashMap<>();
     }
 
-        public void addDeviceConnectListener(String key, IDeviceConnectListener iDeviceConnectListener) {
+    public void addDeviceConnectListener(String key, IDeviceConnectListener iDeviceConnectListener) {
         if (mIDeviceConnectListeners != null) {
             mIDeviceConnectListeners.put(key, iDeviceConnectListener);
         }
     }
 
-        public void removeDeviceConnectListener(String key) {
+    public void removeDeviceConnectListener(String key) {
         if (mIDeviceConnectListeners != null) {
             mIDeviceConnectListeners.remove(key);
         }
     }
 
-        public void release() {
+    public void release() {
         if (mDeviceControlWorker != null) {
             mDeviceControlWorker.release();
             mDeviceControlWorker = null;
@@ -61,28 +61,28 @@ public class DeviceControlManager implements IDeviceConnectListener {
         }
     }
 
-        public void handleStartPreview(USBMonitor.UsbControlBlock ctrlBlock) {
+    public void handleStartPreview(USBMonitor.UsbControlBlock ctrlBlock) {
         if (mDeviceControlWorker != null) {
             Log.d(TAG, "handleStartPreview");
             mDeviceControlWorker.addTask(new StartPreviewTask(ctrlBlock, mDeviceControlWorker.getDeviceState()));
         }
     }
 
-        public void handleStopPreview() {
+    public void handleStopPreview() {
         if (mDeviceControlWorker != null) {
             Log.d(TAG, "handleStopPreview");
             mDeviceControlWorker.addTask(new StopPreviewTask(mDeviceControlWorker.getDeviceState()));
         }
     }
 
-        public void handlePauseDualPreview() {
+    public void handlePauseDualPreview() {
         if (mDeviceControlWorker != null) {
             Log.d(TAG, "handlePausePreview");
             mDeviceControlWorker.addTask(new PausePreviewTask(mDeviceControlWorker.getDeviceState()));
         }
     }
 
-        public void handleResumeDualPreview() {
+    public void handleResumeDualPreview() {
         if (mDeviceControlWorker != null) {
             Log.d(TAG, "handleResumePreview");
             mDeviceControlWorker.addTask(new ResumePreviewTask(mDeviceControlWorker.getDeviceState()));

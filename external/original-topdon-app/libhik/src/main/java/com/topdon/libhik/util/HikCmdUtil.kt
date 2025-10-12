@@ -1,4 +1,5 @@
 package com.topdon.libhik.util
+
 import android.content.Context
 import com.elvishew.xlog.XLog
 import com.hcusbsdk.Interface.FStreamCallBack
@@ -17,6 +18,7 @@ import com.hcusbsdk.Interface.USB_USER_LOGIN_INFO
 import com.hcusbsdk.Interface.USB_VIDEO_PARAM
 import kotlinx.coroutines.delay
 import java.io.File
+
 object HikCmdUtil {
     private const val TAG = "HikCmd"
 
@@ -27,11 +29,13 @@ object HikCmdUtil {
         XLog.e("$TAG init() 初始化失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
         false
     }
+
     fun setLogPath(logFile: File?) {
         if (logFile != null) {
             JavaInterface.getInstance().USB_SetLogToFile(JavaInterface.INFO_LEVEL, logFile.absolutePath, 1)
         }
     }
+
     fun login(context: Context): Int {
         val deviceCount: Int = JavaInterface.getInstance().USB_GetDeviceCount(context)
         if (deviceCount < 0) {
@@ -63,6 +67,7 @@ object HikCmdUtil {
         }
         return userId
     }
+
     suspend fun initConfig(userId: Int) {
         val imageParam = USB_IMAGE_ENHANCEMENT()
         if (JavaInterface.getInstance().USB_GetImageEnhancement(userId, imageParam)) {
@@ -110,6 +115,7 @@ object HikCmdUtil {
     fun shutter(userId: Int) {
         JavaInterface.getInstance().USB_SetImageManualCorrect(userId)
     }
+
     suspend fun setAutoShutter(userId: Int, isAutoShutter: Boolean) {
         XLog.i("$TAG setAutoShutter() ${if (isAutoShutter) "开启" else "关闭"} 自动快门")
         val param = USB_SYSTEM_SERIAL_DATA_TRANSMISSION()
@@ -129,6 +135,7 @@ object HikCmdUtil {
             )
         }
     }
+
     suspend fun startCorrect(userId: Int) {
         XLog.i("$TAG startCorrect() 开始锅盖校正")
         val param = USB_SYSTEM_SERIAL_DATA_TRANSMISSION()
@@ -269,6 +276,7 @@ object HikCmdUtil {
         }
         return callbackId
     }
+
     fun removeStreamCallback(userId: Int, callbackId: Int) {
         if (callbackId != JavaInterface.USB_INVALID_CHANNEL) {
             if (!JavaInterface.getInstance().USB_StopChannel(userId, callbackId)) {
@@ -304,6 +312,7 @@ object HikCmdUtil {
             XLog.e("$TAG setEmissivity() 获取测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
         }
     }
+
     suspend fun setDistance(userId: Int, distance: Int) {
         val param = USB_THERMOMETRY_BASIC_PARAM()
         if (JavaInterface.getInstance().USB_GetThermometryBasicParam(userId, param)) {
@@ -327,6 +336,7 @@ object HikCmdUtil {
             XLog.e("$TAG setDistance() 获取测温基本参数失败！错误码：${JavaInterface.getInstance().USB_GetLastError()}")
         }
     }
+
     suspend fun setTemperatureMode(userId: Int, mode: Int) {
         val param = USB_THERMOMETRY_BASIC_PARAM()
         if (JavaInterface.getInstance().USB_GetThermometryBasicParam(userId, param)) {
@@ -366,6 +376,7 @@ object HikCmdUtil {
             )
         }
     }
+
     private fun getTempModeStr(autoEnable: Byte, range: Byte): String {
         if (autoEnable == 1.toByte()) {
             return "自动"
@@ -378,6 +389,7 @@ object HikCmdUtil {
         JavaInterface.getInstance().USB_GetCommandState(userId, state)
         return state.byState.toInt() and 0xff
     }
+
     private suspend inline fun checkCommandState(userId: Int, callback: (state: String) -> Unit) {
         var commandState = 1
         while (commandState == 1) {
@@ -388,6 +400,7 @@ object HikCmdUtil {
             }
         }
     }
+
     private fun Int.toComStateStr(): String = when (this) {
         0x00 -> "0x00: 正常"
         0x01 -> "0x01: 设备端尚未完成先前的请求"

@@ -11,16 +11,16 @@ import java.util.List;
 
 public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implements ICandleDataSet {
 
-        protected Paint.Style mIncreasingPaintStyle = Paint.Style.STROKE;
-        protected Paint.Style mDecreasingPaintStyle = Paint.Style.FILL;
-        protected int mNeutralColor = ColorTemplate.COLOR_SKIP;
-        protected int mIncreasingColor = ColorTemplate.COLOR_SKIP;
-        protected int mDecreasingColor = ColorTemplate.COLOR_SKIP;
-        protected int mShadowColor = ColorTemplate.COLOR_SKIP;
-        private float mShadowWidth = 3f;
-        private boolean mShowCandleBar = true;
-        private float mBarSpace = 0.1f;
-        private boolean mShadowColorSameAsCandle = false;
+    protected Paint.Style mIncreasingPaintStyle = Paint.Style.STROKE;
+    protected Paint.Style mDecreasingPaintStyle = Paint.Style.FILL;
+    protected int mNeutralColor = ColorTemplate.COLOR_SKIP;
+    protected int mIncreasingColor = ColorTemplate.COLOR_SKIP;
+    protected int mDecreasingColor = ColorTemplate.COLOR_SKIP;
+    protected int mShadowColor = ColorTemplate.COLOR_SKIP;
+    private float mShadowWidth = 3f;
+    private boolean mShowCandleBar = true;
+    private float mBarSpace = 0.1f;
+    private boolean mShadowColorSameAsCandle = false;
 
     public CandleDataSet(List<CandleEntry> yVals, String label) {
         super(yVals, label);
@@ -85,7 +85,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mBarSpace;
     }
 
-        public void setBarSpace(float space) {
+    public void setBarSpace(float space) {
 
         if (space < 0f)
             space = 0f;
@@ -100,7 +100,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mShadowWidth;
     }
 
-        public void setShadowWidth(float width) {
+    public void setShadowWidth(float width) {
         mShadowWidth = Utils.convertDpToPixel(width);
     }
 
@@ -109,10 +109,9 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mShowCandleBar;
     }
 
-        public void setShowCandleBar(boolean showCandleBar) {
+    public void setShowCandleBar(boolean showCandleBar) {
         mShowCandleBar = showCandleBar;
     }
-
 
 
     @Override
@@ -120,7 +119,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mNeutralColor;
     }
 
-        public void setNeutralColor(int color) {
+    public void setNeutralColor(int color) {
         mNeutralColor = color;
     }
 
@@ -129,7 +128,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mIncreasingColor;
     }
 
-        public void setIncreasingColor(int color) {
+    public void setIncreasingColor(int color) {
         mIncreasingColor = color;
     }
 
@@ -138,7 +137,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mDecreasingColor;
     }
 
-        public void setDecreasingColor(int color) {
+    public void setDecreasingColor(int color) {
         mDecreasingColor = color;
     }
 
@@ -147,7 +146,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mIncreasingPaintStyle;
     }
 
-        public void setIncreasingPaintStyle(Paint.Style paintStyle) {
+    public void setIncreasingPaintStyle(Paint.Style paintStyle) {
         this.mIncreasingPaintStyle = paintStyle;
     }
 
@@ -156,7 +155,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mDecreasingPaintStyle;
     }
 
-        public void setDecreasingPaintStyle(Paint.Style decreasingPaintStyle) {
+    public void setDecreasingPaintStyle(Paint.Style decreasingPaintStyle) {
         this.mDecreasingPaintStyle = decreasingPaintStyle;
     }
 
@@ -165,7 +164,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mShadowColor;
     }
 
-        public void setShadowColor(int shadowColor) {
+    public void setShadowColor(int shadowColor) {
         this.mShadowColor = shadowColor;
     }
 
@@ -174,7 +173,7 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         return mShadowColorSameAsCandle;
     }
 
-        public void setShadowColorSameAsCandle(boolean shadowColorSameAsCandle) {
+    public void setShadowColorSameAsCandle(boolean shadowColorSameAsCandle) {
         this.mShadowColorSameAsCandle = shadowColorSameAsCandle;
     }
 }

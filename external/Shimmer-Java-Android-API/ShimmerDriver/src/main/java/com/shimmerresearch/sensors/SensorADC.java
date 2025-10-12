@@ -150,12 +150,6 @@ public class SensorADC extends AbstractSensor {
             false);
 
 
-
-
-
-
-
-
     public static final SensorDetailsRef sensorADC_INT_ADC_3Ref = new SensorDetailsRef(
             0x04 << (1 * 8),
             0x04 << (1 * 8),

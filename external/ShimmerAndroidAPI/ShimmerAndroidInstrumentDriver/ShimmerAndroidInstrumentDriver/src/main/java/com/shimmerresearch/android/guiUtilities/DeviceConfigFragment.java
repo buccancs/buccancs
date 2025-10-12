@@ -46,7 +46,7 @@ public class DeviceConfigFragment extends Fragment {
     }
 
 
-        public void buildDeviceConfigList(final ShimmerDevice shimmerDevice, final Context context,
+    public void buildDeviceConfigList(final ShimmerDevice shimmerDevice, final Context context,
                                       final ShimmerBluetoothManagerAndroid bluetoothManager,
                                       final int buttonResourceId) {
 
@@ -55,7 +55,7 @@ public class DeviceConfigFragment extends Fragment {
     }
 
 
-        public void buildDeviceConfigList(final ShimmerDevice shimmerDevice, final Context context,
+    public void buildDeviceConfigList(final ShimmerDevice shimmerDevice, final Context context,
                                       final ShimmerBluetoothManagerAndroid bluetoothManager) {
 
         final Map<String, ConfigOptionDetailsSensor> configOptionsMap = shimmerDevice.getConfigOptionsMap();

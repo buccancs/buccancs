@@ -1,4 +1,5 @@
 package com.topdon.tc001
+
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.topdon.lms.sdk.LMS
 import kotlinx.android.synthetic.main.activity_splash.tv_app_name
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class SplashActivity : AppCompatActivity() {
         }
         tv_app_name.text = CommUtils.getAppName()
     }
+
     override fun onBackPressed() {
     }
 }

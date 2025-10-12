@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view
+
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -8,10 +9,12 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import com.blankj.utilcode.util.SizeUtils
+
 class EmissivityView : View {
     companion object {
         private const val DEFAULT_STROKE_WIDTH: Float = 0.5f
     }
+
     var isAlignTop = false
     var drawTopLine = false
     private val textList: ArrayList<CharSequence> = ArrayList(3)
@@ -20,6 +23,7 @@ class EmissivityView : View {
     private val strokeWidth = SizeUtils.dp2px(DEFAULT_STROKE_WIDTH).coerceAtLeast(1).toFloat()
     private val linePaint = Paint()
     private val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
@@ -33,6 +37,7 @@ class EmissivityView : View {
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = strokeWidth
     }
+
     fun refreshText(newList: List<String>) {
         textList.clear()
         textList.addAll(newList)
@@ -40,6 +45,7 @@ class EmissivityView : View {
         textPaint.textSize = SizeUtils.sp2px(if (textList.size == 1) 12f else 11f).toFloat()
         requestLayout()
     }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthSize: Int = MeasureSpec.getSize(widthMeasureSpec) - paddingStart - paddingEnd
         val firstWidth: Int = (widthSize * 135 / 335f).toInt()
@@ -68,6 +74,7 @@ class EmissivityView : View {
         maxHeight += SizeUtils.dp2px(12f)
         setMeasuredDimension(contentWidth + paddingStart + paddingEnd, maxHeight)
     }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.translate(paddingStart.toFloat(), 0f)

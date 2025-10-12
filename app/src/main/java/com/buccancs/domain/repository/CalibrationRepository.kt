@@ -1,9 +1,11 @@
 package com.buccancs.domain.repository
+
 import com.buccancs.domain.model.CalibrationCapture
 import com.buccancs.domain.model.CalibrationPatternConfig
 import com.buccancs.domain.model.CalibrationResult
 import com.buccancs.domain.model.CalibrationSessionState
 import kotlinx.coroutines.flow.StateFlow
+
 interface CalibrationRepository {
     val sessionState: StateFlow<CalibrationSessionState>
     suspend fun configure(pattern: CalibrationPatternConfig, requiredPairs: Int)

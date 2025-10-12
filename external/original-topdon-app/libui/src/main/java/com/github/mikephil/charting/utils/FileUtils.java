@@ -21,7 +21,7 @@ public class FileUtils {
 
     private static final String LOG = "MPChart-FileUtils";
 
-        public static List<Entry> loadEntriesFromFile(String path) {
+    public static List<Entry> loadEntriesFromFile(String path) {
 
         File sdcard = Environment.getExternalStorageDirectory();
 
@@ -60,7 +60,7 @@ public class FileUtils {
         //
     }
 
-        public static List<Entry> loadEntriesFromAssets(AssetManager am, String path) {
+    public static List<Entry> loadEntriesFromAssets(AssetManager am, String path) {
 
         List<Entry> entries = new ArrayList<Entry>();
 
@@ -108,7 +108,7 @@ public class FileUtils {
         //
     }
 
-        public static void saveToSdCard(List<Entry> entries, String path) {
+    public static void saveToSdCard(List<Entry> entries, String path) {
 
         File sdcard = Environment.getExternalStorageDirectory();
 

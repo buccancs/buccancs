@@ -40,7 +40,6 @@ import com.shimmerresearch.sensors.ActionSetting;
 public class SensorLSM6DSV extends AbstractSensor {
 
 
-
     public static final double[][] AlignmentMatrixLowNoiseAccelShimmer3r = {{-1, 0, 0}, {0, 1, 0}, {0, 0, -1}};
     public static final double[][] OffsetVectorLowNoiseAccelShimmer3r = {{0}, {0}, {0}};
     public static final double[][] SensitivityMatrixLowNoiseAccel2gShimmer3r = {{1672, 0, 0}, {0, 1672, 0}, {0, 0, 1672}};
@@ -201,7 +200,7 @@ public class SensorLSM6DSV extends AbstractSensor {
     public static final byte GET_LSM6DSV_SAMPLING_RATE_COMMAND = (byte) 0x4E;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-        private static final long serialVersionUID = -1336807717590498430L;
+    private static final long serialVersionUID = -1336807717590498430L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -343,8 +342,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         int gyroRate = 0;
 
         if (isEnabled) {
-            if (isLowPowerMode)
-            {
+            if (isLowPowerMode) {
                 gyroRate = 1;
             } else {
                 if (freq <= 7.5) {
@@ -425,7 +423,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         return mCurrentCalibDetailsAccelLn;
     }
 
-        public byte[] generateCalParamByteArrayAccelLn() {
+    public byte[] generateCalParamByteArrayAccelLn() {
         return getCurrentCalibDetailsAccelLn().generateCalParamByteArray();
     }
 
@@ -503,7 +501,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         return false;
     }
 
-        public int setLSM6DSVGyroAccelRateFromFreq(double freq) {
+    public int setLSM6DSVGyroAccelRateFromFreq(double freq) {
         boolean isEnabled = false;
         if (isSensorEnabled(mSensorIdGyro) || isSensorEnabled(mSensorIdAccelLN)) {
             isEnabled = true;
@@ -516,14 +514,14 @@ public class SensorLSM6DSV extends AbstractSensor {
         return SensorLSM6DSV.getGyroRateFromFreq(isEnabled, freq, isLowPowerMode);
     }
 
-        public void setLowPowerGyro(boolean enable) {
+    public void setLowPowerGyro(boolean enable) {
         mLowPowerGyro = enable;
         if (mShimmerDevice != null) {
             setLSM6DSVGyroAccelRateFromFreq(getSamplingRateShimmer());
         }
     }
 
-        public boolean checkLowPowerGyro() {
+    public boolean checkLowPowerGyro() {
         if (mLSM6DSVGyroAccelRate == 1) {
             mLowPowerGyro = true;
         } else {
@@ -989,7 +987,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         return mCurrentCalibDetailsGyro.isUsingDefaultParameters();
     }
 
-        public double getLSM6DSVGyroAccelRateInHz() {
+    public double getLSM6DSVGyroAccelRateInHz() {
 
         if (ArrayUtils.contains(ListofLSM6DSVGyroRateConfigValues, mLSM6DSVGyroAccelRate)) {
             return ListofLSM6DSVGyroRateDouble[mLSM6DSVGyroAccelRate];

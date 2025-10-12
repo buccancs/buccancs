@@ -17,11 +17,11 @@ import java.util.List;
 
 public class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> implements IScatterDataSet {
 
-        protected IShapeRenderer mShapeRenderer = new SquareShapeRenderer();
-        private float mShapeSize = 15f;
-        private float mScatterShapeHoleRadius = 0f;
+    protected IShapeRenderer mShapeRenderer = new SquareShapeRenderer();
+    private float mShapeSize = 15f;
+    private float mScatterShapeHoleRadius = 0f;
 
-        private int mScatterShapeHoleColor = ColorTemplate.COLOR_NONE;
+    private int mScatterShapeHoleColor = ColorTemplate.COLOR_NONE;
 
     public ScatterDataSet(List<Entry> yVals, String label) {
         super(yVals, label);
@@ -73,11 +73,11 @@ public class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> impleme
         return mShapeSize;
     }
 
-        public void setScatterShapeSize(float size) {
+    public void setScatterShapeSize(float size) {
         mShapeSize = size;
     }
 
-        public void setScatterShape(ScatterChart.ScatterShape shape) {
+    public void setScatterShape(ScatterChart.ScatterShape shape) {
         mShapeRenderer = getRendererForShape(shape);
     }
 
@@ -86,7 +86,7 @@ public class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> impleme
         return mShapeRenderer;
     }
 
-        public void setShapeRenderer(IShapeRenderer shapeRenderer) {
+    public void setShapeRenderer(IShapeRenderer shapeRenderer) {
         mShapeRenderer = shapeRenderer;
     }
 
@@ -95,7 +95,7 @@ public class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> impleme
         return mScatterShapeHoleRadius;
     }
 
-        public void setScatterShapeHoleRadius(float holeRadius) {
+    public void setScatterShapeHoleRadius(float holeRadius) {
         mScatterShapeHoleRadius = holeRadius;
     }
 
@@ -104,7 +104,7 @@ public class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> impleme
         return mScatterShapeHoleColor;
     }
 
-        public void setScatterShapeHoleColor(int holeColor) {
+    public void setScatterShapeHoleColor(int holeColor) {
         mScatterShapeHoleColor = holeColor;
     }
 }

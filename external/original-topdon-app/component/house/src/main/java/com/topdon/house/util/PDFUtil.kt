@@ -1,4 +1,5 @@
 package com.topdon.house.util
+
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentValues
@@ -35,6 +36,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
+
 object PDFUtil {
     suspend fun delAllPDF(context: Context) = withContext(Dispatchers.IO) {
         if (Build.VERSION.SDK_INT < 29) {
@@ -70,6 +72,7 @@ object PDFUtil {
             return@withContext delCount > 0
         }
     }
+
     @SuppressLint("InflateParams")
     suspend fun savePDF(context: Context, houseReport: HouseReport): Uri? = withContext(Dispatchers.IO) {
         val pageWidth = ScreenUtil.getScreenWidth(context).coerceAtMost(ScreenUtil.getScreenHeight(context))
@@ -340,6 +343,7 @@ object PDFUtil {
         }
         return@withContext pdfUri
     }
+
     private fun getPdfUri(context: Context, pdfFileName: String): Uri? {
         if (Build.VERSION.SDK_INT < 29) {
             val pdfFile = File(FileConfig.documentsDir, pdfFileName)
@@ -364,6 +368,7 @@ object PDFUtil {
             }
         }
     }
+
     @SuppressLint("SetTextI18n,InflateParams")
     private fun buildHeadView(context: Context, houseReport: HouseReport): View {
         val pageWidth = ScreenUtil.getScreenWidth(context).coerceAtMost(ScreenUtil.getScreenHeight(context))
@@ -395,6 +400,7 @@ object PDFUtil {
         headView.layout(0, 0, headView.measuredWidth, headView.measuredHeight)
         return headView
     }
+
     @SuppressLint("InflateParams")
     private fun buildFootView(context: Context, houseReport: HouseReport): View {
         val pageWidth = ScreenUtil.getScreenWidth(context).coerceAtMost(ScreenUtil.getScreenHeight(context))
@@ -416,5 +422,6 @@ object PDFUtil {
         footView.iv_house_owner_signature.setImageDrawable(ownerDrawable)
         return footView
     }
+
     private data class ImageInfo(val itemName: String, val imagePath: String)
 }

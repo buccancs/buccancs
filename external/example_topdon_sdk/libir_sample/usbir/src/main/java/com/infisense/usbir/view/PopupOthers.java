@@ -80,7 +80,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     private AlertDialog progressDialog;
     private CommonParams.ProductType productType = CommonParams.ProductType.P2;
     private ArrayAdapter<String> spnProductTypeAdapter;
-        private boolean deviceConnected = true;
+    private boolean deviceConnected = true;
     private String md5PNSNKey;
     private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
@@ -111,7 +111,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         }
     };
 
-        public PopupOthers(Context context, PopupWindow.OnDismissListener dismissListener) {
+    public PopupOthers(Context context, PopupWindow.OnDismissListener dismissListener) {
         this.mContext = context;
         othersBinding = LayoutOthersBinding.inflate(LayoutInflater.from(context));
         spnProductTypeAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, spnProductTypeArray);
@@ -148,7 +148,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         othersBinding.spnProductType.setOnItemSelectedListener(this);
     }
 
-        public void showAsDropDown(View parent) {
+    public void showAsDropDown(View parent) {
         popupWindow.showAsDropDown(parent);
         if (ircmd != null) {
             getImageParam();
@@ -163,7 +163,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         othersBinding.restoreConfig.setSelection(0);
     }
 
-        public void setIrcmd(IRCMD ircmd) {
+    public void setIrcmd(IRCMD ircmd) {
         this.ircmd = ircmd;
     }
 
@@ -171,7 +171,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnTempCorrection1: {
-                                if (progressDialog == null) {
+                if (progressDialog == null) {
                     initProgressDialog();
                 }
                 progressDialog.show();
@@ -192,12 +192,12 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                 } else {
                                     gainStatus = CommonParams.GainStatus.LOW_GAIN;
                                 }
-                                                                tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
+                                tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
                                 tau_data_L = CommonUtils.getTauData(mContext, "tau/tau_L.bin");
                                 Log.i(TAG, "tau_data_H[" + 1000 + "]=" + tau_data_H[1000] +
                                         " tau_data_L[" + 1000 + "]=" + tau_data_L[1000]);
 
-                                                                byte[] SN = new byte[16];
+                                byte[] SN = new byte[16];
                                 ircmd.getDeviceInfo(CommonParams.DeviceInfoType.DEV_INFO_GET_SN, SN);
                                 String deviceSNUnCodePath =
                                         MyApplication.getInstance().DEVICE_DATA_SAVE_DIR + File.separator;
@@ -238,7 +238,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                         nuc_table_low = FileUtil.toShortArray(nuc_table_low_byte);
                                     }
 
-                                                                        int[] orgEMS = new int[1];
+                                    int[] orgEMS = new int[1];
                                     ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_EMS, orgEMS);
                                     int[] orgTAU = new int[1];
                                     ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_TAU, orgTAU);
@@ -248,11 +248,11 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                     ircmd.getPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_TU, orgTU);
 
                                     isGetNucFromFlash = false;
-                                                                        tempinfo = IRUtils.getTemperatureCorrectionTempCalInfo(IRCMDType.USB_IR_256_384,
+                                    tempinfo = IRUtils.getTemperatureCorrectionTempCalInfo(IRCMDType.USB_IR_256_384,
                                             gainMode, gainStatus, nuc_table_high, nuc_table_low,
                                             orgEMS[0], orgTAU[0], orgTA[0], orgTU[0]);
                                 } else {
-                                                                        Log.i(TAG, "从机芯里面读取并保存:" + nucHighFileName + "\n" + nucLowFileName);
+                                    Log.i(TAG, "从机芯里面读取并保存:" + nucHighFileName + "\n" + nucLowFileName);
                                     if (ircmd != null && !md5PNSNKey.isEmpty() &&
                                             ContextCompat.checkSelfPermission(mContext,
                                                     Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -290,7 +290,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             String nucLowFileName = md5PNSNKey + "_nuc_table_low.bin";
 
                             gainStatus = CommonParams.GainStatus.LOW_GAIN;
-                                                        tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
+                            tau_data_H = CommonUtils.getTauData(mContext, "tau/tau_H.bin");
                             tau_data_L = CommonUtils.getTauData(mContext, "tau/tau_L.bin");
                             Log.i(TAG, "tau_data_H[" + 1000 + "]=" + tau_data_H[1000] +
                                     " tau_data_L[" + 1000 + "]=" + tau_data_L[1000]);
@@ -312,7 +312,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             int orgTAU = 128;
                             int orgTA = 300;
                             int orgTU = 300;
-                                                        tempinfo = IRUtils.getTemperatureCorrectionTempCalInfo(IRCMDType.USB_IR_256_384,
+                            tempinfo = IRUtils.getTemperatureCorrectionTempCalInfo(IRCMDType.USB_IR_256_384,
                                     gainMode, gainStatus, nuc_table_high, nuc_table_low,
                                     orgEMS, orgTAU, orgTA, orgTU);
 
@@ -325,7 +325,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnTempCorrection2: {
-                                TempCalibrationInputDialog tempInputDialog = new TempCalibrationInputDialog(mContext,
+                TempCalibrationInputDialog tempInputDialog = new TempCalibrationInputDialog(mContext,
                         mContext.getString(R.string.input_correct_param),
                         "40.0\n1.0\n27.0\n27.0\n0.25\n0.8");
                 tempInputDialog.show();
@@ -349,7 +349,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnTempCorrection3: {
-                                Log.i(TAG, "releaseTemperatureCorrection-start");
+                Log.i(TAG, "releaseTemperatureCorrection-start");
                 if (tempinfo != 0) {
                     IRUtils.releaseTemperatureCorrection(IRCMDType.USB_IR_256_384, tempinfo, isGetNucFromFlash);
                 }
@@ -475,7 +475,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnColorPseudocolor: {
-                                int[][] color1 = new int[][]{{0}, {0, 0, 40}};
+                int[][] color1 = new int[][]{{0}, {0, 0, 40}};
                 int[][] color2 = new int[][]{{21}, {138, 20, 150}};
                 int[][] color3 = new int[][]{{42}, {248, 135, 0}};
                 int[][] color4 = new int[][]{{209}, {208, 48, 75}};
@@ -504,7 +504,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
             case R.id.btnPseudocolorConvert: {
                 byte[] pseudoDataByte = new byte[768];
                 String path = FileUtil.getSaveFilePath(mContext);
-                                File file = new File(path + COLOR_DATA);
+                File file = new File(path + COLOR_DATA);
                 if (file.exists()) {
                     pseudoDataByte = FileUtil.readFile2BytesByStream(mContext, file);
                 } else {
@@ -692,7 +692,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-        private void getImageParam() {
+    private void getImageParam() {
         int[] mode = new int[1];
         ircmd.getPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH, mode);
         othersBinding.automode.setOnCheckedChangeListener(null);
@@ -768,13 +768,13 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         }
     }
 
-        public void dismiss() {
+    public void dismiss() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
     }
 
-        private void tempCorrect(float[] params_array) {
+    private void tempCorrect(float[] params_array) {
         float newTemp = IRUtils.temperatureCorrection(IRCMDType.USB_IR_256_384, productType, params_array[0],
                 tau_data_H, tau_data_L, params_array[1], params_array[2], params_array[3], params_array[4],
                 params_array[5], tempinfo, gainStatus);
@@ -786,7 +786,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         Toast.makeText(mContext, "correct temp is : " + newTemp, Toast.LENGTH_LONG).show();
     }
 
-        private void initProgressDialog() {
+    private void initProgressDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(R.layout.layout_loading);
         builder.setCancelable(true);

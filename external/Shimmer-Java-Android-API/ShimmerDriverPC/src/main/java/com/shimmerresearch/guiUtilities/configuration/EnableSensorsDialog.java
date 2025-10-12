@@ -44,7 +44,7 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
 
     }
 
-        public void showDialog() {
+    public void showDialog() {
         List<Integer> sensorKeysToFilter = new ArrayList<Integer>();
         sensorKeysToFilter.add(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY);
         sensorKeysToFilter.add(Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM);
@@ -93,7 +93,6 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
         panel.add((JCheckBox) listOfSensors[count]);
         ((JCheckBox) listOfSensors[count]).addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-
 
 
             }

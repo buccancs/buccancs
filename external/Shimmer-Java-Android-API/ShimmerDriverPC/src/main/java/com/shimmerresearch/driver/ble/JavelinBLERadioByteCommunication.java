@@ -33,7 +33,7 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
     }
 
 
-        public JavelinBLERadioByteCommunication(String macaddress) {
+    public JavelinBLERadioByteCommunication(String macaddress) {
         InitializeProcess();
         this.macaddress = macaddress;
         for (String bleDev : javelinBLEDevices) {
@@ -50,7 +50,7 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
     }
 
 
-        public JavelinBLERadioByteCommunication(BluetoothDeviceDetails bdd) {
+    public JavelinBLERadioByteCommunication(BluetoothDeviceDetails bdd) {
         if (!Initialized) {
             InitializeProcess();
         }
@@ -101,7 +101,7 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
             ble.getStatus();
             Thread.sleep(1000);
             ble.disconnect();
-			        } catch (ShimmerException e) {
+        } catch (ShimmerException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();

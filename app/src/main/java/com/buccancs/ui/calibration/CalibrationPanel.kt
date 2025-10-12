@@ -1,4 +1,5 @@
 package com.buccancs.ui.calibration
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlin.math.sqrt
+
 @Composable
 fun CalibrationPanel(
     state: CalibrationUiState,
@@ -199,6 +201,7 @@ fun CalibrationPanel(
         }
     }
 }
+
 data class CalibrationActions(
     val onRowsChanged: (String) -> Unit,
     val onColsChanged: (String) -> Unit,

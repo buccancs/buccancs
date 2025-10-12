@@ -42,7 +42,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
     TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
-        public VerisenseBleAndroidRadioByteCommunication(String mac) {
+    public VerisenseBleAndroidRadioByteCommunication(String mac) {
         mMac = mac;
         sid = UUID.fromString(ServiceID);
         txid = UUID.fromString(TxID);
@@ -50,7 +50,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
     }
 
-        @Override
+    @Override
     public void connect() {
         mTaskConnect = new TaskCompletionSource<>();
         BleManager.getInstance().connect(mMac, new BleGattCallback() {
@@ -122,7 +122,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
         }
     }
 
-        public void startServiceS(BleDevice bleDevice) {
+    public void startServiceS(BleDevice bleDevice) {
         List<BluetoothGattService> services = BleManager.getInstance().getBluetoothGattServices(bleDevice);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 
@@ -145,7 +145,7 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
         }
     }
 
-        public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
+    public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
 
 
         int count = 1;
@@ -181,12 +181,12 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
         }
     }
 
-        @Override
+    @Override
     public void disconnect() {
         BleManager.getInstance().disconnect(mBleDevice);
     }
 
-        @Override
+    @Override
     public void writeBytes(byte[] bytes) {
         BleManager.getInstance().write(mBleDevice, sid.toString(), txid.toString(), bytes, false, new BleWriteCallback() {
             @Override
@@ -206,12 +206,12 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
     }
 
-        public String convertMacIDtoUUID(String MacID) {
+    public String convertMacIDtoUUID(String MacID) {
         String uuid = "00000000-0000-0000-0000-";
         return uuid + MacID.replace(":", "");
     }
 
-        public String getUuid() {
+    public String getUuid() {
         return convertMacIDtoUUID(this.mMac);
     }
 }

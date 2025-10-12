@@ -6,5 +6,5 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 
 public interface ColorFormatter {
 
-        int getColor(int index, Entry e, IDataSet set);
+    int getColor(int index, Entry e, IDataSet set);
 }

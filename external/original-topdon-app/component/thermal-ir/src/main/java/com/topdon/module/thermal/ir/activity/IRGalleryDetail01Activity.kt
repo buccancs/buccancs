@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -41,6 +42,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
+
 @Route(path = RouterConfig.IR_GALLERY_DETAIL_01)
 class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
     private var isTC007 = false
@@ -94,8 +96,10 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun initData() {
     }
+
     @SuppressLint("SetTextI18n")
     private fun initViewPager() {
         ir_gallery_viewpager.adapter = GalleryViewPagerAdapter(this)
@@ -114,6 +118,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
         })
         ir_gallery_viewpager?.setCurrentItem(position, false)
     }
+
     private fun actionInfo() {
         try {
             val data = dataList[position]
@@ -134,6 +139,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
             ToastTools.showShort(R.string.status_error_load_fail)
         }
     }
+
     private fun actionShare() {
         val data = dataList[position]
         val uri = FileTools.getUri(File(data.path))
@@ -143,6 +149,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
         shareIntent.type = "image/jpeg"
         startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
     }
+
     private fun deleteImage() {
         TipDialog.Builder(this)
             .setMessage(getString(R.string.tip_delete))
@@ -165,6 +172,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
             .create()
             .show()
     }
+
     private var progressDialog: ProgressDialog? = null
     private var excelName: String = ""
     private fun actionExcel() {
@@ -187,6 +195,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
             ll_ir_edit_2D -> {
                 actionEditOrReport(false)
             }
+
             ll_ir_edit_3D -> {
                 val data = dataList[position]
                 val fileName = data.name.substringBeforeLast(".")
@@ -224,9 +233,11 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
                         .navigation(this@IRGalleryDetail01Activity)
                 }
             }
+
             ll_ir_report -> {
                 actionEditOrReport(true)
             }
+
             ll_ir_ex -> {
                 TipDialog.Builder(this).setMessage(R.string.tip_album_temp_exportfile)
                     .setPositiveListener(R.string.app_confirm) {
@@ -235,6 +246,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     private fun actionEditOrReport(isReport: Boolean) {
         val data = dataList[position]
         val fileName = data.name.substringBeforeLast(".")
@@ -250,10 +262,12 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
             .withString(ExtraKeyConfig.FILE_ABSOLUTE_PATH, irPath)
             .navigation(this)
     }
+
     inner class GalleryViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int {
             return dataList.size
         }
+
         override fun createFragment(position: Int): Fragment {
             val fragment = GalleryFragment()
             val bundle = Bundle()
@@ -262,6 +276,7 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
             return fragment
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onSaveFinishBean(imageGalleryEvent: ImageGalleryEvent) {
         finish()

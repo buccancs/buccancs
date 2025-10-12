@@ -15,7 +15,6 @@ import com.shimmerresearch.driver.ShimmerMsg;
 import com.shimmerresearch.exceptions.ShimmerException;
 
 
-
 public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
     private static final long serialVersionUID = -5368287098255841194L;
@@ -23,7 +22,7 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
     public int mPacketSize;
     public transient List<RadioListener> mRadioListenerList = new ArrayList<RadioListener>();
     public transient AbstractCommsProtocol mRadioProtocol = null;
-        public InterfaceSerialPortHal mRadioHal;
+    public InterfaceSerialPortHal mRadioHal;
 
     public CommsProtocolRadio(InterfaceSerialPortHal radioHal, AbstractCommsProtocol radioProtocol) {
         if (radioHal != null) {
@@ -223,7 +222,7 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
         mRadioProtocol.stopTimerReadBattStatus();
     }
 
-//
+    //
 //
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {

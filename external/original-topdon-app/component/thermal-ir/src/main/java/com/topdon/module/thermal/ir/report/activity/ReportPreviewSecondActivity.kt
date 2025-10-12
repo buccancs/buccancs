@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.activity
+
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -33,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
+
 @Route(path = RouterConfig.REPORT_PREVIEW_SECOND)
 class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), View.OnClickListener {
     private var isTC007 = false
@@ -93,6 +95,7 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             }
         })
     }
+
     override fun initData() {
         viewModel.commonBeanLD.observe(this) {
             dismissCameraLoading()
@@ -111,11 +114,13 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             requestError(it)
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             tv_to_pdf -> {
                 saveWithPDF()
             }
+
             tv_complete -> {
                 if (LMS.getInstance().isLogin) {
                     if (!NetworkUtils.isConnected()) {
@@ -130,6 +135,7 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             }
         }
     }
+
     private fun saveWithPDF() {
         if (TextUtils.isEmpty(pdfFilePath)) {
             showCameraLoading()
@@ -160,6 +166,7 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             actionShare()
         }
     }
+
     private fun actionShare() {
         val uri = FileTools.getUri(File(pdfFilePath!!))
         val shareIntent = Intent()
@@ -168,6 +175,7 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
         shareIntent.type = "application/pdf"
         startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
     }
+
     private fun getPrintViewList(): ArrayList<View> {
         val result = ArrayList<View>()
         result.add(report_info_view)

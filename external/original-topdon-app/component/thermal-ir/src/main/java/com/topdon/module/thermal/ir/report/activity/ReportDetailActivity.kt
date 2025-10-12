@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.activity
+
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_report_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+
 @Route(path = RouterConfig.REPORT_DETAIL)
 class ReportDetailActivity : BaseActivity() {
     private var reportBean: ReportBean? = null
@@ -58,8 +60,10 @@ class ReportDetailActivity : BaseActivity() {
             }
         }
     }
+
     override fun initData() {
     }
+
     private fun saveWithPDF() {
         if (TextUtils.isEmpty(pdfFilePath)) {
             showCameraLoading()
@@ -89,6 +93,7 @@ class ReportDetailActivity : BaseActivity() {
             actionShare()
         }
     }
+
     private fun actionShare() {
         val uri = FileTools.getUri(File(pdfFilePath!!))
         val shareIntent = Intent()
@@ -97,6 +102,7 @@ class ReportDetailActivity : BaseActivity() {
         shareIntent.type = "application/pdf"
         startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
     }
+
     private fun getPrintViewList(): ArrayList<View> {
         val result = ArrayList<View>()
         result.add(report_info_view)

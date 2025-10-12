@@ -1,4 +1,5 @@
 package com.topdon.tc004.activity
+
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Build
@@ -44,6 +45,7 @@ import org.easydarwin.video.Client
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONObject
+
 @Route(path = RouterConfig.IR_MONOCULAR)
 class IRMonocularActivity : BaseWifiActivity() {
     private var mRenderFragment: PlayFragment? = null
@@ -62,6 +64,7 @@ class IRMonocularActivity : BaseWifiActivity() {
         setStatusBarVisible(resources.configuration.orientation == 1)
         return R.layout.activity_monocular_ir
     }
+
     override fun initView() {
         PreferenceManager.getDefaultSharedPreferences(this@IRMonocularActivity)
             .edit()
@@ -78,6 +81,7 @@ class IRMonocularActivity : BaseWifiActivity() {
         }
         initListener()
     }
+
     override fun initData() {
         lifecycleScope.launch {
             TS004Repository.syncTime()
@@ -85,6 +89,7 @@ class IRMonocularActivity : BaseWifiActivity() {
         }
         refreshImg(2)
     }
+
     private fun initListener() {
         val screenNum = resources.configuration.orientation
         iv_portrait.setOnClickListener {
@@ -132,6 +137,7 @@ class IRMonocularActivity : BaseWifiActivity() {
             centerCamera()
         }
     }
+
     override fun onResume() {
         super.onResume()
         if (Build.VERSION.SDK_INT >= 29) {
@@ -197,13 +203,16 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     override fun onPause() {
         super.onPause()
         endVideoRecord()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     override fun connected() {
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PreferenceManager.getDefaultSharedPreferences(this@IRMonocularActivity)
@@ -219,12 +228,14 @@ class IRMonocularActivity : BaseWifiActivity() {
             (supportFragmentManager.findFragmentById(R.id.render_holder) as PlayFragment?)!!
         }
     }
+
     private fun resetCamera() {
         if (isVideo && isVideoRecording) {
             isVideoRecording = false
             video()
         }
     }
+
     private fun setStatusBarVisible(show: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (show) {
@@ -235,28 +246,35 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     private fun setSetting(code: Int) {
         when (code) {
             MonocularHelp.TYPE_SET_BLACK -> {
                 setPseudoColor()
             }
+
             MonocularHelp.TYPE_SET_RANGE -> {
                 setRangeFind()
             }
+
             MonocularHelp.TYPE_SET_LIGHT -> {
                 setBrightness()
             }
+
             MonocularHelp.TYPE_SET_PIP -> {
                 setPip()
             }
+
             MonocularHelp.TYPE_SET_GAIN -> {
                 setZoom()
             }
+
             MonocularHelp.TYPE_SET_MORE -> {
                 ARouter.getInstance().build(RouterConfig.TS004_MORE).navigation(this)
             }
         }
     }
+
     private fun updateCamera(enable: Boolean) {
         if (enable) {
             camera_img.setImageResource(R.drawable.ic_menu_bottom_video_recording_svg)
@@ -274,9 +292,11 @@ class IRMonocularActivity : BaseWifiActivity() {
             isVideoRecording = false
         }
     }
+
     private fun updatePseudoColorUI() {
         sixAdapter.enBlack(mDefaultHot)
     }
+
     private fun updateBrightnessUI(isWebsocket: Boolean) {
         when (mDefaultLight) {
             in 81..100 -> {
@@ -284,11 +304,13 @@ class IRMonocularActivity : BaseWifiActivity() {
                     TToast.shortToast(this@IRMonocularActivity, R.string.ts004_brightness_high)
                 }
             }
+
             in 61..80 -> {
                 if (!isWebsocket) {
                     TToast.shortToast(this@IRMonocularActivity, R.string.ts004_brightness_middle)
                 }
             }
+
             in 0..60 -> {
                 if (!isWebsocket) {
                     TToast.shortToast(this@IRMonocularActivity, R.string.ts004_brightness_low)
@@ -297,29 +319,36 @@ class IRMonocularActivity : BaseWifiActivity() {
         }
         sixAdapter.enLight(mDefaultLight)
     }
+
     private fun updateRangeUI() {
         sixAdapter.enRange(isRange)
     }
+
     private fun updatePipUI() {
         sixAdapter.enPip(isPip)
     }
+
     private fun updateZoomUI() {
         sixAdapter.enGain(mDefaultGain)
         when (mDefaultGain) {
             MenuBean.TYPE_GAIN_X1 -> {
                 mDefaultGain = MenuBean.TYPE_GAIN_X2
             }
+
             MenuBean.TYPE_GAIN_X2 -> {
                 mDefaultGain = MenuBean.TYPE_GAIN_X4
             }
+
             MenuBean.TYPE_GAIN_X4 -> {
                 mDefaultGain = MenuBean.TYPE_GAIN_X8
             }
+
             MenuBean.TYPE_GAIN_X8 -> {
                 mDefaultGain = MenuBean.TYPE_GAIN_X1
             }
         }
     }
+
     private fun setPseudoColor() {
         lifecycleScope.launch {
             val isSuccess = TS004Repository.setPseudoColor(WsUtil.getWebSocketPseudo(mDefaultHot))
@@ -331,6 +360,7 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     private fun setBrightness() {
         lifecycleScope.launch {
             val isSuccess = TS004Repository.setPanelParam(WsUtil.getBrightness(mDefaultLight))
@@ -342,6 +372,7 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     private fun setRangeFind() {
         lifecycleScope.launch {
             val isSuccess = TS004Repository.setRangeFind(if (!isRange) 1 else 0)
@@ -365,6 +396,7 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     private fun setZoom() {
         lifecycleScope.launch {
             val isSuccess = TS004Repository.setZoom(mDefaultGain)
@@ -375,6 +407,7 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     override fun finish() {
         val fragmentManager: FragmentManager = supportFragmentManager
         if (mRenderFragment != null) {
@@ -383,6 +416,7 @@ class IRMonocularActivity : BaseWifiActivity() {
         isExpand = false
         super.finish()
     }
+
     @SuppressLint("CheckResult")
     private fun centerCamera() {
         XXPermissions.with(this)
@@ -408,6 +442,7 @@ class IRMonocularActivity : BaseWifiActivity() {
                         TToast.shortToast(this@IRMonocularActivity, R.string.scan_ble_tip_authorize)
                     }
                 }
+
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
                         TipDialog.Builder(this@IRMonocularActivity)
@@ -424,9 +459,11 @@ class IRMonocularActivity : BaseWifiActivity() {
                 }
             })
     }
+
     private fun camera() {
         setCamera()
     }
+
     private fun video() {
         lifecycleScope.launch {
             val isSuccess = TS004Repository.setVideo(isVideoRecording)
@@ -439,6 +476,7 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     private fun setCamera() {
         lifecycleScope.launch {
             val isSuccess = TS004Repository.setSnapshot()
@@ -450,6 +488,7 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     private fun refreshImg(fileType: Int) {
         lifecycleScope.launch {
             val fileList: List<FileBean>? = TS004Repository.getNewestFile(fileType)
@@ -472,10 +511,12 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun galleryDel(event: GalleryDelEvent) {
         refreshImg(2)
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onSocketMsgEvent(event: SocketMsgEvent) {
         when (SocketCmdUtil.getCmdResponse(event.text)) {
@@ -487,6 +528,7 @@ class IRMonocularActivity : BaseWifiActivity() {
                     updatePseudoColorUI()
                 }
             }
+
             WsCmdConstants.AR_COMMAND_RANGE_FIND_GET -> {
                 val webSocketIp = SocketCmdUtil.getIpResponse(event.text)
                 val wsRange: WsRange? = WsUtil.getWsResponse(event.text)
@@ -495,6 +537,7 @@ class IRMonocularActivity : BaseWifiActivity() {
                     updateRangeUI()
                 }
             }
+
             WsCmdConstants.AR_COMMAND_PANEL_PARAM_GET -> {
                 val webSocketIp = SocketCmdUtil.getIpResponse(event.text)
                 val wsBrightness: WsLight? = WsUtil.getWsResponse(event.text)
@@ -503,6 +546,7 @@ class IRMonocularActivity : BaseWifiActivity() {
                     updateBrightnessUI(true)
                 }
             }
+
             WsCmdConstants.AR_COMMAND_PIP_GET -> {
                 val webSocketIp = SocketCmdUtil.getIpResponse(event.text)
                 val wsPip: WsPip? = WsUtil.getWsResponse(event.text)
@@ -511,6 +555,7 @@ class IRMonocularActivity : BaseWifiActivity() {
                     updatePipUI()
                 }
             }
+
             WsCmdConstants.AR_COMMAND_ZOOM_GET -> {
                 val webSocketIp = SocketCmdUtil.getIpResponse(event.text)
                 val wsZoom: WsZoom? = WsUtil.getWsResponse(event.text)
@@ -519,9 +564,11 @@ class IRMonocularActivity : BaseWifiActivity() {
                     updateZoomUI()
                 }
             }
+
             WsCmdConstants.AR_COMMAND_SNAPSHOT -> {
                 refreshImg(0)
             }
+
             WsCmdConstants.AR_COMMAND_VRECORD -> {
                 try {
                     val data: JSONObject = JSONObject(event.text).getJSONObject("data")
@@ -535,20 +582,24 @@ class IRMonocularActivity : BaseWifiActivity() {
             }
         }
     }
+
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (isTS004) {
             ARouter.getInstance().build(RouterConfig.MAIN).navigation(this)
             finish()
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
     }
+
     private fun endVideoRecord() {
         if (isVideoRecording) {
             resetCamera()
         }
     }
+
     private fun updateDefaultPhotoWH(isDefault: Boolean) {
         val layoutParams = camera_gallery_img.layoutParams
         layoutParams.width = SizeUtils.dp2px(if (isDefault) 74f else 54f)

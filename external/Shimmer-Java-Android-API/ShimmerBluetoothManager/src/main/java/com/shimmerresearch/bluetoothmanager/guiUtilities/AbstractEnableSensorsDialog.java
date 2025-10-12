@@ -43,7 +43,7 @@ public abstract class AbstractEnableSensorsDialog {
 
     protected abstract void createCheckBox(String sensorName, boolean state, int count);
 
-        public void initialize() {
+    public void initialize() {
 
         createFrame();
         createWriteButton();
@@ -99,7 +99,7 @@ public abstract class AbstractEnableSensorsDialog {
         bluetoothManager.configureShimmer(clone);
     }
 
-        public void setSensorKeysFilter(List<Integer> keysToRemove, boolean enableFilter) {
+    public void setSensorKeysFilter(List<Integer> keysToRemove, boolean enableFilter) {
         mEnableFilter = enableFilter;
         keysToFilter = keysToRemove;
     }

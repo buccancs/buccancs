@@ -1,4 +1,5 @@
 package com.buccancs.data.sensor.connector.simulated
+
 import android.content.Context
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamType
@@ -10,6 +11,7 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
+
 @Singleton
 internal class SimulatedArtifactFactory @Inject constructor(
     @ApplicationContext private val context: Context
@@ -40,6 +42,7 @@ internal class SimulatedArtifactFactory @Inject constructor(
             checksumSha256 = checksum
         )
     }
+
     fun createRandomArtifact(
         sessionId: String,
         deviceId: DeviceId,
@@ -56,18 +59,22 @@ internal class SimulatedArtifactFactory @Inject constructor(
     ) {
         ByteArray(sizeBytes).also { random.nextBytes(it) }
     }
+
     private fun sessionDirectory(sessionId: String, deviceId: DeviceId): File {
         val sanitizedSession = sanitize(sessionId)
         val sanitizedDevice = sanitize(deviceId.value)
         return File(context.filesDir, "sessions/$sanitizedSession/$sanitizedDevice")
     }
+
     private fun sanitize(input: String): String =
         input.replace(Regex("[^A-Za-z0-9._-]"), "_")
+
     private fun buildFileName(streamType: SensorStreamType, extension: String): String {
         val suffix = System.currentTimeMillis()
         val prefix = streamType.name.lowercase(Locale.US)
         return "$prefix-$suffix.$extension"
     }
+
     private companion object {
         val random: Random = Random(System.currentTimeMillis())
     }

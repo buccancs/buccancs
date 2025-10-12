@@ -1,10 +1,12 @@
 package com.topdon.menu.adapter
+
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.topdon.menu.constant.MenuType
 import com.topdon.menu.R
 import com.topdon.menu.constant.FenceType
+
 @SuppressLint("NotifyDataSetChanged")
 internal class FenceAdapter(menuType: MenuType) : BaseMenuAdapter() {
     var selectType: FenceType? = null
@@ -22,6 +24,7 @@ internal class FenceAdapter(menuType: MenuType) : BaseMenuAdapter() {
     var onFenceListener: ((fenceType: FenceType, isSelected: Boolean) -> Unit)? = null
 
     private val dataList: ArrayList<Data> = ArrayList(6)
+
     init {
         dataList.add(Data(R.string.thermal_point, R.drawable.selector_menu2_fence_point, FenceType.POINT))
         dataList.add(Data(R.string.thermal_line, R.drawable.selector_menu2_fence_line, FenceType.LINE))
@@ -32,6 +35,7 @@ internal class FenceAdapter(menuType: MenuType) : BaseMenuAdapter() {
         }
         dataList.add(Data(R.string.thermal_delete, R.drawable.selector_menu2_del, FenceType.DEL))
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: Data = dataList[position]
         holder.binding.ivIcon.setImageResource(data.drawableId)
@@ -59,6 +63,7 @@ internal class FenceAdapter(menuType: MenuType) : BaseMenuAdapter() {
             }
         }
     }
+
     override fun getItemCount(): Int = dataList.size
     data class Data(@StringRes val stringId: Int, @DrawableRes val drawableId: Int, val fenceType: FenceType)
 }

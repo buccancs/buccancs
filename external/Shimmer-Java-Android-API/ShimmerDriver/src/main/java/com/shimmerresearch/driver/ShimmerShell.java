@@ -19,18 +19,18 @@ import com.shimmerresearch.exceptions.ShimmerException;
 
 public class ShimmerShell extends ShimmerDevice {
 
-        private static final long serialVersionUID = 3505947289367382624L;
+    private static final long serialVersionUID = 3505947289367382624L;
 
     public ShimmerShell() {
         setFirstDockRead();
     }
 
-        public ShimmerShell(String dockId, int slotNumber) {
+    public ShimmerShell(String dockId, int slotNumber) {
         this();
         setDockInfo(dockId, slotNumber);
     }
 
-        public ShimmerShell(String dockId, int slotNumber, COMMUNICATION_TYPE connectionType) {
+    public ShimmerShell(String dockId, int slotNumber, COMMUNICATION_TYPE connectionType) {
         this(dockId, slotNumber);
         addCommunicationRoute(connectionType);
     }

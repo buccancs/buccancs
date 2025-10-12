@@ -1,4 +1,3 @@
-
 package com.shimmerresearch.driver;
 
 import java.util.ArrayList;
@@ -699,7 +698,6 @@ public class Configuration {
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.INTERNAL_EXPANSION_ADC.ordinal(), SensorADC.sensorGroupInternalExpansionADCs);
 
 
-
             for (SensorGroupingDetails sensorGroup : aMap.values()) {
                 for (Integer sensor : sensorGroup.mListOfSensorIdsAssociated) {
                     SensorDetailsRef sensorDetails = Configuration.Shimmer3.mSensorMapRef.get(sensor);
@@ -772,7 +770,6 @@ public class Configuration {
                             Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A14),
                     CompatibilityInfoForMaps.listOfCompatibleVersionInfoAdxl377Accel200G));
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.INTERNAL_EXPANSION_ADC.ordinal(), SensorADC.sensorGroupInternalExpansionADCs);
-
 
 
             for (SensorGroupingDetails sensorGroup : aMap.values()) {
@@ -1069,7 +1066,7 @@ public class Configuration {
             mConfigOptionsMapRef3r = Collections.unmodifiableMap(aMap);
         }
 
-                public enum LABEL_SENSOR_TILE {
+        public enum LABEL_SENSOR_TILE {
             STREAMING_PROPERTIES(SensorShimmerClock.LABEL_SENSOR_TILE.STREAMING_PROPERTIES),
             LOW_NOISE_ACCEL(SensorKionixAccel.LABEL_SENSOR_TILE.LOW_NOISE_ACCEL),
             LOW_NOISE_ACCEL_3R(SensorLSM6DSV.LABEL_SENSOR_TILE.LOW_NOISE_ACCEL),
@@ -1140,7 +1137,7 @@ public class Configuration {
         }
 
         public static class DatabaseChannelHandles {
-                        public static final String FILTERED = "_Filtered";
+            public static final String FILTERED = "_Filtered";
 
             public static final String ECG_TO_HR = "ECGToHR";
             public static final String PPG_TO_HR = "PPGToHR";
@@ -1306,7 +1303,6 @@ public class Configuration {
             public static String EULER_9DOF_YAW = OrientationModule9DOF.ObjectClusterSensorName.EULER_9DOF_YAW;//"Euler_9DOF_Yaw";
             public static String EULER_9DOF_PITCH = OrientationModule9DOF.ObjectClusterSensorName.EULER_9DOF_PITCH;//"Euler_9DOF_Pitch";
             public static String EULER_9DOF_ROLL = OrientationModule9DOF.ObjectClusterSensorName.EULER_9DOF_ROLL;//"Euler_9DOF_Roll";
-
 
 
             public static String ECG_TO_HR_FW = SensorECGToHRFw.ObjectClusterSensorName.ECG_TO_HR_FW_GQ;//"ECGtoHR";
@@ -1683,7 +1679,7 @@ public class Configuration {
             public static final int SENSOR_ALT_MAG = 0X200000;
         }
 
-                public class SENSOR_ID {
+        public class SENSOR_ID {
             public static final int RESERVED_ANY_SENSOR = -1;
 
             public static final int HOST_SHIMMER_STREAMING_PROPERTIES = -100;
@@ -1691,7 +1687,7 @@ public class Configuration {
 
 
             public static final int SHIMMER_TIMESTAMP = -200;
-                        public static final int SHIMMER_ANALOG_ACCEL = 2;
+            public static final int SHIMMER_ANALOG_ACCEL = 2;
             public static final int SHIMMER_VBATT = 3;
 
             public static final int SHIMMER_EXT_EXP_ADC_A7 = 4;
@@ -1715,21 +1711,20 @@ public class Configuration {
             public static final int SHIMMER_GSR = 19;
 
             public static final int SHIMMER_MPU9X50_GYRO = 30;
-                        public static final int SHIMMER_LSM303_ACCEL = 31;
+            public static final int SHIMMER_LSM303_ACCEL = 31;
             public static final int SHIMMER_LSM303_MAG = 32;
-                        public static final int SHIMMER_MPU9X50_ACCEL = 33;
-                        public static final int SHIMMER_MPU9X50_MAG = 34;
+            public static final int SHIMMER_MPU9X50_ACCEL = 33;
+            public static final int SHIMMER_MPU9X50_MAG = 34;
             public static final int SHIMMER_MPU9X50_TEMP = 35;
             public static final int SHIMMER_BMPX80_PRESSURE = 36;
 
-                        public static final int SHIMMER_LSM6DSV_ACCEL_LN = 37;
+            public static final int SHIMMER_LSM6DSV_ACCEL_LN = 37;
             public static final int SHIMMER_LSM6DSV_GYRO = 38;
             public static final int SHIMMER_LIS2DW12_ACCEL_WR = 39;
             public static final int SHIMMER_ADXL371_ACCEL_HIGHG = 40;
             public static final int SHIMMER_LIS2MDL_MAG = 42;
             public static final int SHIMMER_LIS3MDL_MAG_ALT = 41;
             public static final int SHIMMER_BMP390_PRESSURE = 43;
-
 
 
             public static final int SHIMMER_MPU9X50_MPL_QUAT_6DOF = 50;
@@ -1774,7 +1769,7 @@ public class Configuration {
             public static final int HOST_CPU_USAGE = 1004;
         }
 
-                public class DerivedSensorsBitMask {
+        public class DerivedSensorsBitMask {
             public final static int RES_AMP = 1 << 0; // (0*8 + 0);
             public final static int SKIN_TEMP = 1 << 1; // (0*8 + 1);
 
@@ -1820,7 +1815,7 @@ public class Configuration {
         public class GuiLabelConfig {
             public static final String SHIMMER_USER_ASSIGNED_NAME = "Shimmer Name";
             public static final String TRIAL_NAME = "Trial Name";
-                        public static final String SHIMMER_SAMPLING_RATE = "Sampling Rate";
+            public static final String SHIMMER_SAMPLING_RATE = "Sampling Rate";
             public static final String SHIMMER_AND_SENSORS_SAMPLING_RATE = "Shimmer and Sensors Sampling Rate";
             public static final String BUFFER_SIZE = "Buffer Size";
             public static final String CONFIG_TIME = "Config Time";
@@ -1866,7 +1861,6 @@ public class Configuration {
 
             public static final String MAG = SensorLSM303DLHC.GuiLabelSensors.MAG;
             public static final String ALT_MAG_3R = SensorLIS3MDL.GuiLabelSensors.MAG_ALT;
-
 
 
             public static final String GYRO_MPU_MPL = SensorMPU9X50.GuiLabelSensors.GYRO_MPU_MPL;

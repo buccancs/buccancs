@@ -1,10 +1,12 @@
 package com.topdon.menu
+
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.topdon.menu.databinding.ViewMenuFirstTabBinding
+
 class MenuFirstTabView : FrameLayout, View.OnClickListener {
     var selectPosition = -1
         set(value) {
@@ -33,6 +35,7 @@ class MenuFirstTabView : FrameLayout, View.OnClickListener {
     var onTabClickListener: ((v: MenuFirstTabView) -> Unit)? = null
 
     private lateinit var binding: ViewMenuFirstTabBinding
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
@@ -55,6 +58,7 @@ class MenuFirstTabView : FrameLayout, View.OnClickListener {
             binding.clMenu6.setOnClickListener(this)
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             binding.clMenu1 -> selectPosition = 0

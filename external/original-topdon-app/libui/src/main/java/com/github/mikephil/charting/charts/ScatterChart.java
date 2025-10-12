@@ -37,7 +37,7 @@ public class ScatterChart extends BarLineChartBase<ScatterData> implements Scatt
         return mData;
     }
 
-        public enum ScatterShape {
+    public enum ScatterShape {
 
         SQUARE("SQUARE"),
         CIRCLE("CIRCLE"),

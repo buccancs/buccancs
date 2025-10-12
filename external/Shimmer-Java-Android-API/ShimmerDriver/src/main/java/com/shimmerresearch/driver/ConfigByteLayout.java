@@ -22,7 +22,7 @@ public abstract class ConfigByteLayout implements Serializable {
     protected ShimmerVerObject mShimmerVerObject = new ShimmerVerObject();
     protected int mInfoMemSize = 512;
 
-        public static byte[] createConfigByteArrayEmpty(int size) {
+    public static byte[] createConfigByteArrayEmpty(int size) {
         byte[] newArray = new byte[size];
         for (int i = 0; i < size; i++) {
             newArray[i] = (byte) 0x00;
@@ -30,7 +30,7 @@ public abstract class ConfigByteLayout implements Serializable {
         return newArray;
     }
 
-        public static byte[] createConfigByteArrayDefaultMemoryValues(int size) {
+    public static byte[] createConfigByteArrayDefaultMemoryValues(int size) {
         byte[] newArray = new byte[size];
         for (int i = 0; i < size; i++) {
             newArray[i] = (byte) 0xFF;
@@ -54,7 +54,7 @@ public abstract class ConfigByteLayout implements Serializable {
         return calculateConfigByteLength(mShimmerVerObject);
     }
 
-        public byte[] createConfigByteArrayEmpty() {
+    public byte[] createConfigByteArrayEmpty() {
         return createConfigByteArrayEmpty(calculateConfigByteLength());
     }
 

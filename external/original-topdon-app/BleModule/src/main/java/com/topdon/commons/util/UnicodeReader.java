@@ -12,7 +12,7 @@ public class UnicodeReader extends Reader {
     InputStreamReader internalIn2 = null;
     String defaultEnc;
 
-        UnicodeReader(InputStream in, String defaultEnc) {
+    UnicodeReader(InputStream in, String defaultEnc) {
         internalIn = new PushbackInputStream(in, BOM_SIZE);
         this.defaultEnc = defaultEnc;
     }
@@ -21,13 +21,13 @@ public class UnicodeReader extends Reader {
         return defaultEnc;
     }
 
-        public String getEncoding() {
+    public String getEncoding() {
         if (internalIn2 == null)
             return null;
         return internalIn2.getEncoding();
     }
 
-        protected void init() throws IOException {
+    protected void init() throws IOException {
         if (internalIn2 != null)
             return;
 

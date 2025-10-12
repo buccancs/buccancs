@@ -13,9 +13,9 @@ import java.util.List;
 
 public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> implements IHighlighter {
 
-        protected T mChart;
+    protected T mChart;
 
-        protected List<Highlight> mHighlightBuffer = new ArrayList<Highlight>();
+    protected List<Highlight> mHighlightBuffer = new ArrayList<Highlight>();
 
     public ChartHighlighter(T chart) {
         this.mChart = chart;
@@ -32,13 +32,13 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
         return high;
     }
 
-        protected MPPointD getValsForTouch(float x, float y) {
+    protected MPPointD getValsForTouch(float x, float y) {
 
         MPPointD pos = mChart.getTransformer(YAxis.AxisDependency.LEFT).getValuesByTouchPoint(x, y);
         return pos;
     }
 
-        protected Highlight getHighlightForX(float xVal, float x, float y) {
+    protected Highlight getHighlightForX(float xVal, float x, float y) {
 
         List<Highlight> closestValues = getHighlightsAtXValue(xVal, x, y);
 
@@ -56,7 +56,7 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
         return detail;
     }
 
-        protected float getMinimumDistance(List<Highlight> closestValues, float pos, YAxis.AxisDependency axis) {
+    protected float getMinimumDistance(List<Highlight> closestValues, float pos, YAxis.AxisDependency axis) {
 
         float distance = Float.MAX_VALUE;
 
@@ -80,7 +80,7 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
         return h.getYPx();
     }
 
-        protected List<Highlight> getHighlightsAtXValue(float xVal, float x, float y) {
+    protected List<Highlight> getHighlightsAtXValue(float xVal, float x, float y) {
 
         mHighlightBuffer.clear();
 
@@ -102,7 +102,7 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
         return mHighlightBuffer;
     }
 
-        protected List<Highlight> buildHighlights(IDataSet set, int dataSetIndex, float xVal, DataSet.Rounding rounding) {
+    protected List<Highlight> buildHighlights(IDataSet set, int dataSetIndex, float xVal, DataSet.Rounding rounding) {
 
         ArrayList<Highlight> highlights = new ArrayList<>();
 
@@ -130,7 +130,7 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
         return highlights;
     }
 
-        public Highlight getClosestHighlightByPixel(List<Highlight> closestValues, float x, float y,
+    public Highlight getClosestHighlightByPixel(List<Highlight> closestValues, float x, float y,
                                                 YAxis.AxisDependency axis, float minSelectionDistance) {
 
         Highlight closest = null;
@@ -154,7 +154,7 @@ public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> 
         return closest;
     }
 
-        protected float getDistance(float x1, float y1, float x2, float y2) {
+    protected float getDistance(float x1, float y1, float x2, float y2) {
         return (float) Math.hypot(x1 - x2, y1 - y2);
     }
 

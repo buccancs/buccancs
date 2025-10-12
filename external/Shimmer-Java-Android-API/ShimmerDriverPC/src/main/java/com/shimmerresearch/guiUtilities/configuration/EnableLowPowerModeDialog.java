@@ -49,7 +49,7 @@ public class EnableLowPowerModeDialog {
 
     }
 
-        public void showDialog() {
+    public void showDialog() {
         createFrame();
         createWriteButton();
         initialize();

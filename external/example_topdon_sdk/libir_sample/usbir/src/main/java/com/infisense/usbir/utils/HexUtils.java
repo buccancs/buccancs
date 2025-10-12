@@ -2,7 +2,7 @@ package com.infisense.usbir.utils;
 
 public class HexUtils {
 
-        public static String binaryToHexString(byte[] bytes) {
+    public static String binaryToHexString(byte[] bytes) {
         String hexStr = "0123456789ABCDEF";
         String result = "";
         String hex = "";

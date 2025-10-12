@@ -23,13 +23,13 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBase<? extends BarLineScatterCandleBubbleData<?
         extends IBarLineScatterCandleBubbleDataSet<? extends Entry>>>> {
 
-        private Matrix mMatrix = new Matrix();
+    private Matrix mMatrix = new Matrix();
 
-        private Matrix mSavedMatrix = new Matrix();
+    private Matrix mSavedMatrix = new Matrix();
 
-        private MPPointF mTouchStartPoint = MPPointF.getInstance(0, 0);
+    private MPPointF mTouchStartPoint = MPPointF.getInstance(0, 0);
 
-        private MPPointF mTouchPointCenter = MPPointF.getInstance(0, 0);
+    private MPPointF mTouchPointCenter = MPPointF.getInstance(0, 0);
 
     private float mSavedXDist = 1f;
     private float mSavedYDist = 1f;
@@ -37,17 +37,17 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
 
     private IDataSet mClosestDataSetToTouch;
 
-        private VelocityTracker mVelocityTracker;
+    private VelocityTracker mVelocityTracker;
 
     private long mDecelerationLastTime = 0;
     private MPPointF mDecelerationCurrentPoint = MPPointF.getInstance(0, 0);
     private MPPointF mDecelerationVelocity = MPPointF.getInstance(0, 0);
 
-        private float mDragTriggerDist;
+    private float mDragTriggerDist;
 
-        private float mMinScalePointerDistance;
+    private float mMinScalePointerDistance;
 
-        public BarLineChartTouchListener(BarLineChartBase<? extends BarLineScatterCandleBubbleData<? extends
+    public BarLineChartTouchListener(BarLineChartBase<? extends BarLineScatterCandleBubbleData<? extends
             IBarLineScatterCandleBubbleDataSet<? extends Entry>>> chart, Matrix touchMatrix, float dragTriggerDistance) {
         super(chart);
         this.mMatrix = touchMatrix;
@@ -57,7 +57,7 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         this.mMinScalePointerDistance = Utils.convertDpToPixel(3.5f);
     }
 
-        private static void midPoint(MPPointF point, MotionEvent event) {
+    private static void midPoint(MPPointF point, MotionEvent event) {
         float x = event.getX(0) + event.getX(1);
         float y = event.getY(0) + event.getY(1);
         point.x = (x / 2f);
@@ -65,18 +65,18 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
     }
 
 
-        private static float spacing(MotionEvent event) {
+    private static float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
         return (float) Math.sqrt(x * x + y * y);
     }
 
-        private static float getXDist(MotionEvent e) {
+    private static float getXDist(MotionEvent e) {
         float x = Math.abs(e.getX(0) - e.getX(1));
         return x;
     }
 
-        private static float getYDist(MotionEvent e) {
+    private static float getYDist(MotionEvent e) {
         float y = Math.abs(e.getY(0) - e.getY(1));
         return y;
     }
@@ -267,7 +267,7 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
     }
 
 
-        private void saveTouchStart(MotionEvent event) {
+    private void saveTouchStart(MotionEvent event) {
 
         mSavedMatrix.set(mMatrix);
         mTouchStartPoint.x = event.getX();
@@ -276,7 +276,7 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         mClosestDataSetToTouch = mChart.getDataSetByTouchPoint(event.getX(), event.getY());
     }
 
-        private void performDrag(MotionEvent event, float distanceX, float distanceY) {
+    private void performDrag(MotionEvent event, float distanceX, float distanceY) {
 
         mLastGesture = ChartGesture.DRAG;
 
@@ -299,7 +299,7 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
             l.onChartTranslate(event, distanceX, distanceY);
     }
 
-        private void performZoom(MotionEvent event) {
+    private void performZoom(MotionEvent event) {
 
         if (event.getPointerCount() >= 2) {
 
@@ -388,7 +388,7 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         }
     }
 
-        private void performHighlightDrag(MotionEvent e) {
+    private void performHighlightDrag(MotionEvent e) {
 
         Highlight h = mChart.getHighlightByTouchPoint(e.getX(), e.getY());
 
@@ -398,7 +398,7 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         }
     }
 
-        public MPPointF getTrans(float x, float y) {
+    public MPPointF getTrans(float x, float y) {
 
         ViewPortHandler vph = mChart.getViewPortHandler();
 
@@ -414,17 +414,17 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         return MPPointF.getInstance(xTrans, yTrans);
     }
 
-        private boolean inverted() {
+    private boolean inverted() {
         return (mClosestDataSetToTouch == null && mChart.isAnyAxisInverted()) || (mClosestDataSetToTouch != null
                 && mChart.isInverted(mClosestDataSetToTouch.getAxisDependency()));
     }
 
 
-        public Matrix getMatrix() {
+    public Matrix getMatrix() {
         return mMatrix;
     }
 
-        public void setDragTriggerDist(float dragTriggerDistance) {
+    public void setDragTriggerDist(float dragTriggerDistance) {
         this.mDragTriggerDist = Utils.convertDpToPixel(dragTriggerDistance);
     }
 

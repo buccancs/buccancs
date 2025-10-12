@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CombinedChartRenderer extends DataRenderer {
 
-        protected List<DataRenderer> mRenderers = new ArrayList<DataRenderer>(5);
+    protected List<DataRenderer> mRenderers = new ArrayList<DataRenderer>(5);
 
     protected WeakReference<Chart> mChart;
     protected List<Highlight> mHighlightBuffer = new ArrayList<Highlight>();
@@ -29,7 +29,7 @@ public class CombinedChartRenderer extends DataRenderer {
         createRenderers();
     }
 
-        public void createRenderers() {
+    public void createRenderers() {
 
         mRenderers.clear();
 
@@ -133,14 +133,14 @@ public class CombinedChartRenderer extends DataRenderer {
         }
     }
 
-        public DataRenderer getSubRenderer(int index) {
+    public DataRenderer getSubRenderer(int index) {
         if (index >= mRenderers.size() || index < 0)
             return null;
         else
             return mRenderers.get(index);
     }
 
-        public List<DataRenderer> getSubRenderers() {
+    public List<DataRenderer> getSubRenderers() {
         return mRenderers;
     }
 

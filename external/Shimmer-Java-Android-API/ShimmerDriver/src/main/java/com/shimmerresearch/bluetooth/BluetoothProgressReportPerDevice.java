@@ -20,7 +20,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
             "Fail",
             "Cancelled"
     };
-        private static final long serialVersionUID = -7997745169511235203L;
+    private static final long serialVersionUID = -7997745169511235203L;
     public int mCommandCompleted;
     public int mNumberofRemainingCMDsInBuffer;
     public String mBluetoothAddress;
@@ -45,7 +45,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
         updateShimmerDeviceMini(shimmerDevice);
     }
 
-        public void updateProgress(BluetoothProgressReportPerCmd pRPC) {
+    public void updateProgress(BluetoothProgressReportPerCmd pRPC) {
         updateProgress(pRPC.mNumberofRemainingCMDsInBuffer, pRPC.mCommandCompleted);
     }
 
@@ -61,6 +61,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
             mProgressPercentageComplete = (int) (((double) mProgressCounter / (double) mProgressEndValue) * 100);
         }
     }
+
     public void updateShimmerDeviceMini(ShimmerDevice shimmerDevice) {
         if (shimmerDevice != null) {
             if (shimmerDevice instanceof ShimmerBluetooth) {
@@ -88,7 +89,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
     }
 
 
-        public BluetoothProgressReportPerDevice deepClone() {
+    public BluetoothProgressReportPerDevice deepClone() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -116,10 +117,8 @@ public class BluetoothProgressReportPerDevice implements Serializable {
     }
 
 
-
-
     public class ShimmerBluetoothDetailsMini implements Serializable {
-                private static final long serialVersionUID = 4289859702565448002L;
+        private static final long serialVersionUID = 4289859702565448002L;
 
         public int mSlotNumber = -1;
         public String mShimmerMacID = "";

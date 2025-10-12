@@ -102,7 +102,6 @@ public class SensorShimmer2Mag extends AbstractSensor {
     }
 
 
-
     @Override
     public void generateSensorMap() {
 
@@ -232,12 +231,10 @@ public class SensorShimmer2Mag extends AbstractSensor {
         updateCurrentCalibInUse();
     }
 
-        public void setLowPowerMag(boolean enable) {
+    public void setLowPowerMag(boolean enable) {
         mLowPowerMag = enable;
         setShimmer2rMagRateFromFreq(mShimmerDevice.getSamplingRateShimmer());
     }
-
-
 
 
     public boolean checkLowPowerMag() {
@@ -296,7 +293,6 @@ public class SensorShimmer2Mag extends AbstractSensor {
     public void updateIsUsingDefaultMagParam() {
         mIsUsingDefaultMagParam = getCurrentCalibDetailsMag().isUsingDefaultParameters();
     }
-
 
 
     public class GuiLabelConfig {

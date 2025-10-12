@@ -1,4 +1,5 @@
 package com.buccancs.data.sensor.connector.camera
+
 import android.annotation.SuppressLint
 import android.graphics.ImageFormat
 import android.hardware.camera2.CameraAccessException
@@ -41,6 +42,7 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.math.absoluteValue
+
 @Singleton
 class RgbCameraConnector @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
@@ -98,6 +100,7 @@ class RgbCameraConnector @Inject constructor(
             )
         }
     }
+
     override suspend fun applySimulation(enabled: Boolean) {
         if (enabled) {
             closeCamera()
@@ -105,6 +108,7 @@ class RgbCameraConnector @Inject constructor(
         }
         super.applySimulation(enabled)
     }
+
     override suspend fun connect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.connect()
@@ -138,6 +142,7 @@ class RgbCameraConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override suspend fun disconnect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.disconnect()
@@ -153,6 +158,7 @@ class RgbCameraConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         if (isSimulationMode) {
             return super.startStreaming(anchor)
@@ -176,6 +182,7 @@ class RgbCameraConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.stopStreaming()
@@ -188,6 +195,7 @@ class RgbCameraConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override fun streamIntervalMs(): Long = 160L
     override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
     override fun simulatedRssi(device: SensorDevice): Int? = null
@@ -231,6 +239,7 @@ class RgbCameraConnector @Inject constructor(
         )
         return listOf(rgb, preview)
     }
+
     @SuppressLint("MissingPermission")
     private suspend fun openCamera(id: String): CameraDevice {
         ensureHandlerThread()
@@ -243,6 +252,7 @@ class RgbCameraConnector @Inject constructor(
                         override fun onOpened(device: CameraDevice) {
                             continuation.resume(device)
                         }
+
                         override fun onDisconnected(device: CameraDevice) {
                             Log.w(logTag, "Camera disconnected.")
                             device.close()
@@ -257,6 +267,7 @@ class RgbCameraConnector @Inject constructor(
                                 }
                             }
                         }
+
                         override fun onError(device: CameraDevice, error: Int) {
                             Log.e(logTag, "Camera error $error.")
                             device.close()
@@ -283,6 +294,7 @@ class RgbCameraConnector @Inject constructor(
             }
         }
     }
+
     private suspend fun configureAndStartSession(device: CameraDevice, id: String, sessionId: String) {
         stopStreamingInternal()
         val handler = handler ?: throw IllegalStateException("Camera handler not initialized.")
@@ -316,6 +328,7 @@ class RgbCameraConnector @Inject constructor(
                                 continuation.resumeWithException(t)
                             }
                         }
+
                         override fun onConfigureFailed(session: CameraCaptureSession) {
                             continuation.resumeWithException(
                                 CameraAccessException(
@@ -335,6 +348,7 @@ class RgbCameraConnector @Inject constructor(
             throw t
         }
     }
+
     private fun stopStreamingInternal() {
         try {
             captureSession?.stopRepeating()
@@ -348,6 +362,7 @@ class RgbCameraConnector @Inject constructor(
         imageReader = null
         statusState.value = emptyList()
     }
+
     private fun closeCamera() {
         try {
             captureSession?.stopRepeating()
@@ -361,6 +376,7 @@ class RgbCameraConnector @Inject constructor(
         cameraDevice?.close()
         cameraDevice = null
     }
+
     private fun ensureHandlerThread() {
         if (handlerThread != null && handler != null) {
             return
@@ -369,11 +385,13 @@ class RgbCameraConnector @Inject constructor(
         handlerThread = thread
         handler = Handler(thread.looper)
     }
+
     private fun tearDownThread() {
         handlerThread?.quitSafely()
         handlerThread = null
         handler = null
     }
+
     private fun findBackCameraId(): String? {
         return try {
             cameraManager.cameraIdList.firstOrNull { id ->
@@ -386,6 +404,7 @@ class RgbCameraConnector @Inject constructor(
             null
         }
     }
+
     private fun chooseVideoSize(id: String): Size {
         return try {
             val characteristics = cameraManager.getCameraCharacteristics(id)
@@ -398,6 +417,7 @@ class RgbCameraConnector @Inject constructor(
             Size(1280, 720)
         }
     }
+
     private fun prepareRecorder(sessionId: String, size: Size): Surface {
         val recorder = MediaRecorder()
         recorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
@@ -416,6 +436,7 @@ class RgbCameraConnector @Inject constructor(
         currentSessionId = sessionId
         return recorder.surface
     }
+
     private fun releaseRecorder() {
         val recorder = mediaRecorder ?: return
         try {
@@ -432,6 +453,7 @@ class RgbCameraConnector @Inject constructor(
         videoFile = null
         currentSessionId = null
     }
+
     private fun finalizeVideoRecording() {
         val recorder = mediaRecorder ?: return
         val file = videoFile
@@ -469,6 +491,7 @@ class RgbCameraConnector @Inject constructor(
             completedSessionId = sessionId
         }
     }
+
     private fun digestFile(file: File): ByteArray {
         val digest = MessageDigest.getInstance("SHA-256")
         FileInputStream(file).use { fis ->
@@ -480,6 +503,7 @@ class RgbCameraConnector @Inject constructor(
         }
         return digest.digest()
     }
+
     override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {
         if (isSimulationMode) {
             return super.collectArtifacts(sessionId)
@@ -492,6 +516,7 @@ class RgbCameraConnector @Inject constructor(
         pendingArtifacts.clear()
         return artifacts
     }
+
     private val imageListener = ImageReader.OnImageAvailableListener { reader ->
         val image = try {
             reader.acquireLatestImage()
@@ -525,6 +550,7 @@ class RgbCameraConnector @Inject constructor(
         )
         statusState.value = listOf(rgbStatus, previewStatus)
     }
+
     companion object {
         private const val VIDEO_BIT_RATE = 8_000_000
         private const val VIDEO_FRAME_RATE = 30

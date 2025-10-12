@@ -80,7 +80,7 @@ public class EasyBLE {
         }
     }
 
-        public static EasyBLE getInstance() {
+    public static EasyBLE getInstance() {
         if (instance == null) {
             synchronized (EasyBLE.class) {
                 if (instance == null) {
@@ -150,7 +150,7 @@ public class EasyBLE {
         return isInitialized && application != null && instance != null;
     }
 
-        public boolean isBluetoothOn() {
+    public boolean isBluetoothOn() {
         return bluetoothAdapter != null && bluetoothAdapter.isEnabled();
     }
 
@@ -202,11 +202,11 @@ public class EasyBLE {
         return isInitialized();
     }
 
-        public void setLogEnabled(boolean isEnabled) {
+    public void setLogEnabled(boolean isEnabled) {
         logger.setEnabled(isEnabled);
     }
 
-        public synchronized void release() {
+    public synchronized void release() {
         if (broadcastReceiver != null) {
             application.unregisterReceiver(broadcastReceiver);
             broadcastReceiver = null;
@@ -222,28 +222,28 @@ public class EasyBLE {
         }
     }
 
-        public void destroy() {
+    public void destroy() {
         release();
         synchronized (EasyBLE.class) {
             instance = null;
         }
     }
 
-        public void registerObserver(EventObserver observer) {
+    public void registerObserver(EventObserver observer) {
         if (checkStatus()) {
             observable.registerObserver(observer);
         }
     }
 
-        public boolean isObserverRegistered(EventObserver observer) {
+    public boolean isObserverRegistered(EventObserver observer) {
         return observable.isRegistered(observer);
     }
 
-        public void unregisterObserver(EventObserver observer) {
+    public void unregisterObserver(EventObserver observer) {
         observable.unregisterObserver(observer);
     }
 
-        public void notifyObservers(MethodInfo info) {
+    public void notifyObservers(MethodInfo info) {
         if (checkStatus()) {
             observable.notifyObservers(info);
         }
@@ -271,58 +271,58 @@ public class EasyBLE {
         }
     }
 
-        public void addScanListener(ScanListener listener) {
+    public void addScanListener(ScanListener listener) {
         checkAndInstanceScanner();
         if (checkStatus() && scanner != null) {
             scanner.addScanListener(listener);
         }
     }
 
-        public void removeScanListener(ScanListener listener) {
+    public void removeScanListener(ScanListener listener) {
         if (scanner != null) {
             scanner.removeScanListener(listener);
         }
     }
 
-        public boolean isScanning() {
+    public boolean isScanning() {
         return scanner != null && scanner.isScanning();
     }
 
-        public void startScan() {
+    public void startScan() {
         checkAndInstanceScanner();
         if (checkStatus() && scanner != null) {
             scanner.startScan(application);
         }
     }
 
-        public void stopScan() {
+    public void stopScan() {
         if (checkStatus() && scanner != null) {
             scanner.stopScan(false);
         }
     }
 
-        public void stopScanQuietly() {
+    public void stopScanQuietly() {
         if (checkStatus() && scanner != null) {
             scanner.stopScan(true);
         }
     }
 
-        @Nullable
+    @Nullable
     public Connection connect(String address) {
         return connect(address, null, null);
     }
 
-        @Nullable
+    @Nullable
     public Connection connect(String address, ConnectionConfiguration configuration) {
         return connect(address, configuration, null);
     }
 
-        @Nullable
+    @Nullable
     public Connection connect(String address, EventObserver observer) {
         return connect(address, null, observer);
     }
 
-        @Nullable
+    @Nullable
     public Connection connect(String address, ConnectionConfiguration configuration,
                               EventObserver observer) {
         if (checkStatus()) {
@@ -335,22 +335,22 @@ public class EasyBLE {
         return null;
     }
 
-        @Nullable
+    @Nullable
     public Connection connect(Device device) {
         return connect(device, null, null);
     }
 
-        @Nullable
+    @Nullable
     public Connection connect(Device device, ConnectionConfiguration configuration) {
         return connect(device, configuration, null);
     }
 
-        @Nullable
+    @Nullable
     public Connection connect(Device device, EventObserver observer) {
         return connect(device, null, observer);
     }
 
-        @Nullable
+    @Nullable
     public synchronized Connection connect(final Device device, ConnectionConfiguration configuration,
                                            final EventObserver observer) {
         if (checkStatus()) {
@@ -385,12 +385,12 @@ public class EasyBLE {
         return null;
     }
 
-        @NonNull
+    @NonNull
     public Collection<Connection> getConnections() {
         return connectionMap.values();
     }
 
-        @NonNull
+    @NonNull
     public List<Connection> getOrderedConnections() {
         List<Connection> list = new ArrayList<>();
         for (String address : addressList) {
@@ -402,12 +402,12 @@ public class EasyBLE {
         return list;
     }
 
-        @Nullable
+    @Nullable
     public Connection getFirstConnection() {
         return addressList.isEmpty() ? null : connectionMap.get(addressList.get(0));
     }
 
-        @Nullable
+    @Nullable
     public Connection getLastConnection() {
         return addressList.isEmpty() ? null : connectionMap.get(addressList.get(addressList.size() - 1));
     }
@@ -422,7 +422,7 @@ public class EasyBLE {
         return address == null ? null : connectionMap.get(address);
     }
 
-        public void disconnectConnection(Device device) {
+    public void disconnectConnection(Device device) {
         if (checkStatus() && device != null) {
             Connection connection = connectionMap.get(device.getAddress());
             if (connection != null) {
@@ -431,7 +431,7 @@ public class EasyBLE {
         }
     }
 
-        public void disconnectConnection(String address) {
+    public void disconnectConnection(String address) {
         if (checkStatus() && address != null) {
             Connection connection = connectionMap.get(address);
             if (connection != null) {
@@ -440,7 +440,7 @@ public class EasyBLE {
         }
     }
 
-        public void disconnectAllConnections() {
+    public void disconnectAllConnections() {
         if (checkStatus()) {
             for (Connection connection : connectionMap.values()) {
                 connection.disconnect();
@@ -448,7 +448,7 @@ public class EasyBLE {
         }
     }
 
-        public void releaseAllConnections() {
+    public void releaseAllConnections() {
         if (checkStatus()) {
             for (Connection connection : connectionMap.values()) {
                 connection.release();
@@ -458,7 +458,7 @@ public class EasyBLE {
         }
     }
 
-        public void releaseConnection(String address) {
+    public void releaseConnection(String address) {
         if (checkStatus() && address != null) {
             addressList.remove(address);
             Connection connection = connectionMap.remove(address);
@@ -468,7 +468,7 @@ public class EasyBLE {
         }
     }
 
-        public void releaseConnection(Device device) {
+    public void releaseConnection(Device device) {
         if (checkStatus() && device != null) {
             addressList.remove(device.getAddress());
             Connection connection = connectionMap.remove(device.getAddress());
@@ -478,7 +478,7 @@ public class EasyBLE {
         }
     }
 
-        public void reconnectAll() {
+    public void reconnectAll() {
         if (checkStatus()) {
             for (Connection connection : connectionMap.values()) {
                 if (connection.getConnectionState() != ConnectionState.SERVICE_DISCOVERED) {
@@ -488,7 +488,7 @@ public class EasyBLE {
         }
     }
 
-        public void reconnect(Device device) {
+    public void reconnect(Device device) {
         if (checkStatus() && device != null) {
             Connection connection = connectionMap.get(device.getAddress());
             if (connection != null && connection.getConnectionState() != ConnectionState.SERVICE_DISCOVERED) {
@@ -497,7 +497,7 @@ public class EasyBLE {
         }
     }
 
-        public int getBondState(String address) {
+    public int getBondState(String address) {
         checkStatus();
         try {
             return bluetoothAdapter.getRemoteDevice(address).getBondState();
@@ -506,7 +506,7 @@ public class EasyBLE {
         }
     }
 
-        public boolean createBond(String address) {
+    public boolean createBond(String address) {
         checkStatus();
         try {
             BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(address);
@@ -516,7 +516,7 @@ public class EasyBLE {
         }
     }
 
-        @SuppressWarnings("all")
+    @SuppressWarnings("all")
     public void clearBondDevices(RemoveBondFilter filter) {
         checkStatus();
         if (bluetoothAdapter != null) {
@@ -532,7 +532,7 @@ public class EasyBLE {
         }
     }
 
-        @SuppressWarnings("all")
+    @SuppressWarnings("all")
     public void removeBond(String address) {
         checkStatus();
         try {

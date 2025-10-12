@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.adapter
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.topdon.module.thermal.ir.R
 import kotlinx.android.synthetic.main.item_gallery_edit_menu.view.*
+
 @Deprecated("旧的2D编辑一级菜单，已重构过了")
 class GalleryEditMenuAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var listener: ((code: Int) -> Unit)? = null
@@ -39,28 +41,35 @@ class GalleryEditMenuAdapter(val context: Context) : RecyclerView.Adapter<Recycl
             code = 3000
         ),
     )
+
     fun enPointColor(pointColor: Boolean) {
         this.pointColor = pointColor
         notifyDataSetChanged()
     }
+
     fun enPseudoColor(pseudoColor: Boolean) {
         this.pseudoColor = pseudoColor
         notifyDataSetChanged()
     }
+
     fun enPseudoColorBar(pseudoColorBar: Boolean) {
         this.pseudoColorBar = pseudoColorBar
         notifyDataSetChanged()
     }
+
     fun enSettingColorBar(settingColorBar: Boolean) {
         this.settingColorBar = settingColorBar
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ItemView(LayoutInflater.from(parent.context).inflate(R.layout.item_gallery_edit_menu, parent, false))
     }
+
     override fun getItemCount(): Int {
         return bean.size
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemView) {
             val data = bean[position]
@@ -73,18 +82,22 @@ class GalleryEditMenuAdapter(val context: Context) : RecyclerView.Adapter<Recycl
                 1000 -> {
                     iconUI(pointColor, holder.img, holder.name)
                 }
+
                 2000 -> {
                     iconUI(pseudoColor, holder.img, holder.name)
                 }
+
                 3000 -> {
                     iconUI(pseudoColorBar, holder.img, holder.name)
                 }
+
                 4000 -> {
                     iconUI(settingColorBar, holder.img, holder.name)
                 }
             }
         }
     }
+
     private fun iconUI(isActive: Boolean, img: ImageView, nameText: TextView) {
         img.isSelected = isActive
         if (isActive) {
@@ -93,15 +106,18 @@ class GalleryEditMenuAdapter(val context: Context) : RecyclerView.Adapter<Recycl
             nameText.setTextColor(ContextCompat.getColor(context, R.color.font_third_color))
         }
     }
+
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var lay: View
         var img: ImageView
         var name: TextView
+
         init {
             lay = itemView.item_edit_menu_tab_lay
             img = itemView.item_edit_menu_tab_img
             name = itemView.item_edit_menu_tab_text
         }
     }
+
     data class IconBean(val name: String, @DrawableRes val icon: Int, val code: Int)
 }

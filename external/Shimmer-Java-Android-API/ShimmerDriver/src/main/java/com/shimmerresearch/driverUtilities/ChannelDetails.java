@@ -22,14 +22,14 @@ public class ChannelDetails implements Serializable {
     public CHANNEL_DATA_ENDIAN mDefaultChannelDataEndian = CHANNEL_DATA_ENDIAN.UNKOWN;
     public String mDefaultUncalUnit = CHANNEL_UNITS.NO_UNITS;
     public String mDefaultCalUnits = CHANNEL_UNITS.NO_UNITS;
-        public CHANNEL_TYPE mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
+    public CHANNEL_TYPE mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
     public List<CHANNEL_TYPE> mListOfChannelTypes = new ArrayList<CHANNEL_TYPE>();
     public boolean mShowWhileStreaming = true;
     public boolean mStoreToDatabase = true;
     public CHANNEL_SOURCE mChannelSource = CHANNEL_SOURCE.SHIMMER;
     private String mDatabaseChannelHandle = "";
 
-        public ChannelDetails() {
+    public ChannelDetails() {
     }
 
     public ChannelDetails(String objectClusterName, String guiName, String defaultCalibratedUnits, List<CHANNEL_TYPE> listOfChannelTypes) {
@@ -96,7 +96,7 @@ public class ChannelDetails implements Serializable {
         mStoreToDatabase = storeToDatabase;
     }
 
-        public ChannelDetails(String objectClusterName,
+    public ChannelDetails(String objectClusterName,
                           String guiName,
                           String databaseChannelHandle,
                           CHANNEL_DATA_TYPE defaultChannelDataType,
@@ -135,7 +135,7 @@ public class ChannelDetails implements Serializable {
         mStoreToDatabase = storeToDatabase;
     }
 
-        public ChannelDetails(String objectClusterName,
+    public ChannelDetails(String objectClusterName,
                           String guiName,
                           String databaseChannelHandle,
                           int channelId,
@@ -220,7 +220,7 @@ public class ChannelDetails implements Serializable {
         return mStoreToDatabase;
     }
 
-        public enum CHANNEL_DATA_TYPE {
+    public enum CHANNEL_DATA_TYPE {
         UNKOWN(0, 0, false),
         UINT8(8, 1, false),
         UINT12(12, 2, false),
@@ -243,7 +243,7 @@ public class ChannelDetails implements Serializable {
         private final int numBytes;
         private final boolean isSigned;
 
-                private CHANNEL_DATA_TYPE(int numBits, int numBytes, boolean isSigned) {
+        private CHANNEL_DATA_TYPE(int numBits, int numBytes, boolean isSigned) {
             this.numBits = numBits;
             this.numBytes = numBytes;
             this.isSigned = isSigned;
@@ -296,12 +296,12 @@ public class ChannelDetails implements Serializable {
         private final String shortText;
         private final String longText;
 
-                private CHANNEL_TYPE(final String text, final String longText) {
+        private CHANNEL_TYPE(final String text, final String longText) {
             this.shortText = text;
             this.longText = longText;
         }
 
-                @Override
+        @Override
         public String toString() {
             return shortText;
         }

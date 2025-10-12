@@ -1,4 +1,3 @@
-
 package com.shimmerresearch.pcDriver;
 
 import java.io.ByteArrayInputStream;
@@ -46,14 +45,14 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
     public static final int NOTIFICATION_SHIMMER_START_STREAMING = 1;
     public static final int NOTIFICATION_SHIMMER_FULLY_INITIALIZED = 2;
     public final static int NOTIFICATION_SHIMMER_STATE_CHANGE = 3;
-        private static final long serialVersionUID = -7067087273053149229L;
+    private static final long serialVersionUID = -7067087273053149229L;
     public String message;
     StreamConnection conn = null;
     ObjectCluster objectClusterTemp = null;
     DataInputStream mIN;
     OutputStream mOUT;
 
-        public ShimmerPCBTBCove(String myName, Boolean continousSync) {
+    public ShimmerPCBTBCove(String myName, Boolean continousSync) {
         mShimmerUserAssignedName = myName;
         setContinuousSync(continousSync);
         setSetupDeviceWhileConnecting(false);
@@ -122,7 +121,7 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
         setContinuousSync(continousSync);
     }
 
-        public synchronized void connect(final String address, String empty) {
+    public synchronized void connect(final String address, String empty) {
         setIamAlive(false);
         if (conn == null) {
             mMyBluetoothAddress = address;

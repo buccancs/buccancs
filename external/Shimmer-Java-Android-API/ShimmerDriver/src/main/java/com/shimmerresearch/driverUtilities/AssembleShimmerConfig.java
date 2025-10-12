@@ -127,8 +127,7 @@ public class AssembleShimmerConfig {
                             && shimmerDevice.isDocked()
                             && !shimmerDevice.isStreaming()) {
                         listForConfiguringDocked.add(shimmerDevice.deepClone());
-                    }
-                    else if (commType == COMMUNICATION_TYPE.BLUETOOTH
+                    } else if (commType == COMMUNICATION_TYPE.BLUETOOTH
                             && (shimmerDevice.isInitialised() && !shimmerDevice.isStreaming())) {
                         listForConfiguringBT.add(shimmerDevice.deepClone());
                     }

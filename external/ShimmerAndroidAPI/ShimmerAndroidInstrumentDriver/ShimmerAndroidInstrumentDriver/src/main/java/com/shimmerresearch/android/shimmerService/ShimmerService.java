@@ -1,6 +1,3 @@
-
-
-
 package com.shimmerresearch.android.shimmerService;
 
 import android.app.Service;
@@ -89,7 +86,7 @@ public class ShimmerService extends Service {
             }
             switch (msg.what) {
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
-                                        handleMsgDataPacket(msg);
+                    handleMsgDataPacket(msg);
                     break;
                 case Shimmer.MESSAGE_TOAST:
                     Log.d("toast", msg.getData().getString(Shimmer.TOAST));
@@ -100,7 +97,7 @@ public class ShimmerService extends Service {
                     }
                     break;
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
-                                        handleMsgStateChange(msg);
+                    handleMsgStateChange(msg);
                     break;
                 case Shimmer.MESSAGE_STOP_STREAMING_COMPLETE:
                     String address = msg.getData().getString("Bluetooth Address");
@@ -255,12 +252,12 @@ public class ShimmerService extends Service {
         btManager.disconnectAllDevices();
     }
 
-        @Deprecated
+    @Deprecated
     public void toggleAllLEDS() {
         btManager.toggleAllLEDS();
     }
 
-        @Deprecated
+    @Deprecated
     public void toggleLED(String bluetoothAddress) {
         btManager.toggleLED(bluetoothAddress);
     }
@@ -269,7 +266,7 @@ public class ShimmerService extends Service {
         btManager.toggleAllLEDS();
     }
 
-        public void handleMsgDataPacket(Message msg) {
+    public void handleMsgDataPacket(Message msg) {
         if ((msg.obj instanceof ObjectCluster)) {
             ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
@@ -379,7 +376,7 @@ public class ShimmerService extends Service {
         }
     }
 
-        public void handleMsgStateChange(Message msg) {
+    public void handleMsgStateChange(Message msg) {
 
         Intent intent = new Intent("com.shimmerresearch.service.ShimmerService");
         Log.d("ShimmerGraph", "Sending");
@@ -455,7 +452,7 @@ public class ShimmerService extends Service {
         }
     }
 
-        public void handleNotificationMsg(Message msg) {
+    public void handleNotificationMsg(Message msg) {
     }
 
     public void stopStreamingAllDevices() {
@@ -466,7 +463,7 @@ public class ShimmerService extends Service {
         btManager.startStreamingAllDevices();
     }
 
-        public void setEnableLogging(boolean enableLogging, FILE_TYPE fileType) {
+    public void setEnableLogging(boolean enableLogging, FILE_TYPE fileType) {
         setEnableLogging(enableLogging);
         mLoggingFileType = fileType;
     }
@@ -492,7 +489,7 @@ public class ShimmerService extends Service {
         return mEnableLogging;
     }
 
-        public void setEnableLogging(boolean enableLogging) {
+    public void setEnableLogging(boolean enableLogging) {
         mEnableLogging = enableLogging;
         Log.d("Shimmer", "Logging :" + Boolean.toString(mEnableLogging));
     }
@@ -533,17 +530,17 @@ public class ShimmerService extends Service {
         }
     }
 
-        @Deprecated
+    @Deprecated
     public void setAllAccelRange(int accelRange) {
         btManager.setAllAccelRange(accelRange);
     }
 
-        @Deprecated
+    @Deprecated
     public void setAllGSRRange(int gsrRange) {
         btManager.setAllGSRRange(gsrRange);
     }
 
-        @Deprecated
+    @Deprecated
     public void setAllEnabledSensors(int enabledSensors) {
         btManager.setAllEnabledSensors(enabledSensors);
     }
@@ -571,24 +568,24 @@ public class ShimmerService extends Service {
         }
     }
 
-        @Deprecated
+    @Deprecated
     public void writePMux(String bluetoothAddress, int setBit) {
         btManager.writePMux(bluetoothAddress, setBit);
     }
 
-        @Deprecated
+    @Deprecated
     public void write5VReg(String bluetoothAddress, int setBit) {
         btManager.write5VReg(bluetoothAddress, setBit);
     }
 
-        @Deprecated
+    @Deprecated
     public List<String[]> getListofEnabledSensorSignals(String bluetoothAddress) {
         List<String[]> listofSensors = new ArrayList<String[]>();
         listofSensors = btManager.getListofEnabledSensorSignals(bluetoothAddress);
         return listofSensors;
     }
 
-        @Deprecated
+    @Deprecated
     public long getEnabledSensors(String bluetoothAddress) {
         long enabledSensors = btManager.getEnabledSensors(bluetoothAddress);
         return enabledSensors;
@@ -628,70 +625,70 @@ public class ShimmerService extends Service {
         }
     }
 
-        @Deprecated
+    @Deprecated
     public void writeAccelRange(String bluetoothAddress, int accelRange) {
         btManager.writeAccelRange(bluetoothAddress, accelRange);
     }
 
-        @Deprecated
+    @Deprecated
     public void writeGyroRange(String bluetoothAddress, int range) {
         btManager.writeGyroRange(bluetoothAddress, range);
     }
 
-        @Deprecated
+    @Deprecated
     public void writePressureResolution(String bluetoothAddress, int resolution) {
         btManager.writePressureResolution(bluetoothAddress, resolution);
     }
 
-        @Deprecated
+    @Deprecated
     public void writeMagRange(String bluetoothAddress, int range) {
         btManager.writeMagRange(bluetoothAddress, range);
     }
 
-        @Deprecated
+    @Deprecated
     public void writeGSRRange(String bluetoothAddress, int gsrRange) {
         btManager.writeGSRRange(bluetoothAddress, gsrRange);
     }
 
-        @Deprecated
+    @Deprecated
     public double getSamplingRate(String bluetoothAddress) {
         double SRate = -1;
         SRate = btManager.getSamplingRate(bluetoothAddress);
         return SRate;
     }
 
-        @Deprecated
+    @Deprecated
     public int getAccelRange(String bluetoothAddress) {
         return btManager.getAccelRange(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public BT_STATE getShimmerState(String bluetoothAddress) {
         BT_STATE status = BT_STATE.DISCONNECTED;
         status = btManager.getShimmerState(bluetoothAddress);
         return status;
     }
 
-        @Deprecated
+    @Deprecated
     public int getGSRRange(String bluetoothAddress) {
         return btManager.getGSRRange(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public int get5VReg(String bluetoothAddress) {
         int fiveVReg = -1;
         fiveVReg = btManager.get5VReg(bluetoothAddress);
         return fiveVReg;
     }
 
-        @Deprecated
+    @Deprecated
     public boolean isLowPowerMagEnabled(String bluetoothAddress) {
         boolean enabled = false;
         enabled = btManager.isLowPowerMagEnabled(bluetoothAddress);
         return enabled;
     }
 
-        @Deprecated
+    @Deprecated
     public int getpmux(String bluetoothAddress) {
         int pmux = -1;
         pmux = btManager.getpmux(bluetoothAddress);
@@ -702,7 +699,7 @@ public class ShimmerService extends Service {
         btManager.startStreaming(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public void startLogging(String bluetoothAddress) {
         btManager.startLogging(bluetoothAddress);
     }
@@ -732,31 +729,31 @@ public class ShimmerService extends Service {
 	}
 */
 
-        @Deprecated
+    @Deprecated
     public void stopLogging(String bluetoothAddress) {
         btManager.stopLogging(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public void startLogAndStreaming(String bluetoothAddress) {
         btManager.startLoggingAndStreaming(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public long sensorConflictCheckandCorrection(String bluetoothAddress, long enabledSensors, int sensorToCheck) {
         long newSensorBitmap = 0;
         newSensorBitmap = btManager.sensorConflictCheckandCorrection(bluetoothAddress, enabledSensors, sensorToCheck);
         return newSensorBitmap;
     }
 
-        @Deprecated
+    @Deprecated
     public List<String> getListofEnabledSensors(String bluetoothAddress) {
         List<String> listofSensors = null;
         listofSensors = btManager.getListofEnabledSensors(bluetoothAddress);
         return listofSensors;
     }
 
-        @Deprecated
+    @Deprecated
     public boolean bluetoothAddressComparator(String bluetoothAddress, String address) {
         return btManager.bluetoothAddressComparator(bluetoothAddress, address);
     }
@@ -765,7 +762,7 @@ public class ShimmerService extends Service {
         btManager.stopStreaming(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public void setBlinkLEDCMD(String bluetoothAddress) {
         btManager.setBlinkLEDCMD(bluetoothAddress);
     }
@@ -793,22 +790,22 @@ public class ShimmerService extends Service {
 	}
 */
 
-        @Deprecated
+    @Deprecated
     public void enableLowPowerMag(String bluetoothAddress, boolean enable) {
         btManager.enableLowPowerMag(bluetoothAddress, enable);
     }
 
-        @Deprecated
+    @Deprecated
     public void setBattLimitWarning(String bluetoothAddress, double limit) {
         btManager.setBattLimitWarning(bluetoothAddress, limit);
     }
 
-        @Deprecated
+    @Deprecated
     public double getBattLimitWarning(String bluetoothAddress) {
         return btManager.getBattLimitWarning(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public double getPacketReceptionRate(String bluetoothAddress) {
         double rate = btManager.getPacketReceptionRate(bluetoothAddress);
         return rate;
@@ -844,17 +841,17 @@ public class ShimmerService extends Service {
         mGraphing = setting;
     }
 
-        @Deprecated
+    @Deprecated
     public boolean DevicesConnected(String bluetoothAddress) {
         return btManager.DevicesConnected(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public boolean DeviceIsLogging(String bluetoothAddress) {
         return btManager.DeviceIsLogging(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public boolean DeviceIsStreaming(String bluetoothAddress) {
         return btManager.DeviceIsStreaming(bluetoothAddress);
     }
@@ -877,12 +874,12 @@ public class ShimmerService extends Service {
         }
     }
 
-        @Deprecated
+    @Deprecated
     public String getFWVersion(String bluetoothAddress) {
         return btManager.getFWVersion(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public int getShimmerVersion(String bluetoothAddress) {
         return btManager.getShimmerVersion(bluetoothAddress);
     }
@@ -931,7 +928,7 @@ public class ShimmerService extends Service {
         return tmp.isEXGUsingEMG16Configuration();
     }
 
-        @Deprecated
+    @Deprecated
     public void writeEXGSetting(String bluetoothAddress, int setting) {
         btManager.writeEXGSetting(bluetoothAddress, setting);
     }
@@ -946,22 +943,22 @@ public class ShimmerService extends Service {
         return date;
     }
 
-        @Deprecated
+    @Deprecated
     public boolean isUsingLogAndStreamFW(String bluetoothAddress) {
         return btManager.isUsingLogAndStreamFW(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public void readStatusLogAndStream(String bluetoothAddress) {
         btManager.readStatusLogAndStream(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public boolean isSensing(String bluetoothAddress) {
         return btManager.isSensing(bluetoothAddress);
     }
 
-        @Deprecated
+    @Deprecated
     public boolean isDocked(String bluetoothAddress) {
         return btManager.isDocked(bluetoothAddress);
     }
@@ -986,7 +983,7 @@ public class ShimmerService extends Service {
         return mHandler;
     }
 
-        public void createNewBluetoothManager() {
+    public void createNewBluetoothManager() {
 
         try {
             btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
@@ -1001,7 +998,7 @@ public class ShimmerService extends Service {
         return mPlotManager;
     }
 
-        public enum FILE_TYPE {
+    public enum FILE_TYPE {
         DAT("dat", 0),
         CSV("csv", 1);
 

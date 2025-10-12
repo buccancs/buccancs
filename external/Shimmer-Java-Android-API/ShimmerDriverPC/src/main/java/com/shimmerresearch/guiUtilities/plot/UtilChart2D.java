@@ -111,7 +111,7 @@ public class UtilChart2D {
                 strokeNew = new BasicStroke(
                         1,
                         BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1, 2}, 0);
-						                trace.setStroke(strokeNew);
+                trace.setStroke(strokeNew);
             }
         } else if (plotLineStyle == PLOT_LINE_STYLE.BAR) {
             trace.setTracePainter(new TracePainterVerticalBar(chart));
@@ -126,7 +126,7 @@ public class UtilChart2D {
         }
     }
 
-        public void setGridOn(Chart2D mChart, boolean state) {
+    public void setGridOn(Chart2D mChart, boolean state) {
         if (mChart != null) {
             mIsGridOn = state;
             try {

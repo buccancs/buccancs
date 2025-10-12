@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.graphics.ImageFormat
 import android.hardware.usb.UsbDevice
 import android.os.Handler
@@ -103,7 +104,8 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
 
     open fun initdata() {
     }
-        open fun initDataFlowMode(dataFlowMode: CommonParams.DataFlowMode) {
+
+    open fun initDataFlowMode(dataFlowMode: CommonParams.DataFlowMode) {
         when (dataFlowMode) {
             CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT -> {
                 irCameraWidth = 256
@@ -113,6 +115,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
                 imageHeight = irCameraWidth
                 temperatureSrc = ByteArray(imageWidth * imageHeight * 2)
             }
+
             CommonParams.DataFlowMode.IMAGE_OUTPUT -> {
                 irCameraWidth = 256
                 irCameraHeight = 192
@@ -121,6 +124,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
                 imageHeight = irCameraWidth
                 temperatureSrc = ByteArray(imageWidth * imageHeight * 2)
             }
+
             CommonParams.DataFlowMode.TEMP_OUTPUT -> {
                 irCameraWidth = 256
                 irCameraHeight = 192
@@ -129,6 +133,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
                 imageHeight = irCameraWidth
                 temperatureSrc = ByteArray(imageWidth * imageHeight * 2)
             }
+
             else -> {
                 irCameraWidth = 256
                 irCameraHeight = 192
@@ -145,10 +150,12 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         dualStart()
     }
+
     override fun onPause() {
         super.onPause()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     abstract fun isDualIR(): Boolean
     abstract fun setTemperatureViewType()
 
@@ -159,6 +166,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             initIrDualdata()
         }
     }
+
     private fun initIrDualdata() {
         var width = 0
         var height = 0
@@ -186,6 +194,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
         mIrHandler.removeCallbacksAndMessages(null)
         USBMonitorManager.getInstance().removeOnUSBConnectListener(this)
     }
+
     open fun initPseudocolor() {
         val am = requireContext().assets
         var `is`: InputStream? = null
@@ -217,6 +226,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             }
         }
     }
+
     open fun setFusion(fusion: DualCameraParams.FusionType) {
         dualView?.setCurrentFusionType(fusion)
         getTemperatureDualView().setCurrentFusionType(fusion)
@@ -226,6 +236,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             getTemperatureDualView().setImageSize(dualCameraWidth, dualCameraHeight, null)
         }
     }
+
     val calibrationDataSize = 192
     val SAVE_DUAL_BIN = "dual_calibration_parameters2.bin"
     open fun initDefIntegralArgsDISP_VALUE(typeLoadParameters: DualCameraParams.TypeLoadParameters) {
@@ -241,8 +252,10 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             dualView?.startPreview()
         }
     }
+
     open fun setDispViewData(dualDisp: Int) {
     }
+
     open fun restartDualCamera() {
         if (isrun) {
             USBMonitorManager.getInstance().isReStart = true
@@ -251,10 +264,12 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             dualStart()
         }
     }
+
     override fun onStop() {
         super.onStop()
         dualStop()
     }
+
     open fun dualStart() {
         if (!isDualIR()) {
             return
@@ -273,7 +288,8 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
         setTemperatureViewType()
         getTemperatureDualView().start()
     }
-        var mIrHandler: Handler = object : Handler(Looper.getMainLooper()) {
+
+    var mIrHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             Log.d(
@@ -323,6 +339,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             }
         }
     }
+
     open fun initDualCamera() {
         if (!isDualIR()) {
             return
@@ -347,6 +364,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
         dualView?.setHandler(mIrHandler)
         isrun = true
     }
+
     open fun startVLCamera(pid: Int, fps: Int, cameraWidth: Int, cameraHeight: Int) {
         if (!isDualIR()) {
             return
@@ -368,6 +386,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
                         "ConnectCallback-startVLCamera-onCameraOpened"
                     )
                 }
+
                 override fun onIRCMDCreate(ircmd: IRCMD) {
                     setUVCCameraICMD(ircmd)
                 }
@@ -391,6 +410,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
         vlUVCCamera?.registerUSB()
         vlUVCCamera?.TAG = "mjpeg"
     }
+
     open fun setUVCCameraICMD(ircmd: IRCMD) {
         this@BaseIRPlushFragment.ircmd = ircmd
         snStr = getSNStr(ircmd)
@@ -400,6 +420,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             "ConnectCallback-startVLCamera-onIRCMDCreate"
         )
     }
+
     override fun onStart() {
         super.onStart()
         if (!isrun) {
@@ -407,6 +428,7 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             configParam()
         }
     }
+
     private var isFirst = true
     private var configJob: Job? = null
     private val timeMillis = 150L
@@ -490,24 +512,28 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
             )
         }
     }
+
     override fun onAttach(device: UsbDevice?) {
         Log.d(
             TAG,
             "USBMonitorManager onAttach"
         )
     }
+
     override fun onGranted(usbDevice: UsbDevice?, granted: Boolean) {
         Log.d(
             TAG,
             "USBMonitorManager onGranted"
         )
     }
+
     override fun onDettach(device: UsbDevice?) {
         Log.d(
             TAG,
             "USBMonitorManager onDettach"
         )
     }
+
     override fun onConnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?, createNew: Boolean) {
         Log.d(
             TAG,
@@ -515,27 +541,33 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
         )
         mIrHandler.sendEmptyMessage(Const.HANDLE_CONNECT)
     }
+
     override fun onDisconnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?) {
         XLog.d(
             TAG,
             "USBMonitorManager onDisconnect"
         )
     }
+
     override fun onCancel(device: UsbDevice?) {
         Log.d(
             TAG,
             "USBMonitorManager onCancel"
         )
     }
+
     override fun onIRCMDInit(ircmd: IRCMD?) {
         setUVCCameraICMD(ircmd!!)
     }
+
     override fun onCompleteInit() {
         mIrHandler.sendEmptyMessage(Const.HIDE_LOADING)
     }
+
     override fun onSetPreviewSizeFail() {
         mIrHandler.sendEmptyMessage(Const.SHOW_RESTART_MESSAGE)
     }
+
     protected val preIrARGBData = ByteArray(256 * 192 * 4)
     protected val preIrData = ByteArray(256 * 192 * 2)
     protected val preTempData = ByteArray(256 * 192 * 2)

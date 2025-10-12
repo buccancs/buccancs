@@ -5,18 +5,18 @@ import java.util.List;
 
 public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
-        protected List<T> mValues = null;
+    protected List<T> mValues = null;
 
-        protected float mYMax = -Float.MAX_VALUE;
+    protected float mYMax = -Float.MAX_VALUE;
 
-        protected float mYMin = Float.MAX_VALUE;
+    protected float mYMin = Float.MAX_VALUE;
 
-        protected float mXMax = -Float.MAX_VALUE;
+    protected float mXMax = -Float.MAX_VALUE;
 
-        protected float mXMin = Float.MAX_VALUE;
+    protected float mXMin = Float.MAX_VALUE;
 
 
-        public DataSet(List<T> values, String label) {
+    public DataSet(List<T> values, String label) {
         super(label);
         this.mValues = values;
 
@@ -60,7 +60,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         }
     }
 
-        protected void calcMinMax(T e) {
+    protected void calcMinMax(T e) {
 
         if (e == null)
             return;
@@ -93,18 +93,18 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         return mValues.size();
     }
 
-        public List<T> getValues() {
+    public List<T> getValues() {
         return mValues;
     }
 
-        public void setValues(List<T> values) {
+    public void setValues(List<T> values) {
         mValues = values;
         notifyDataSetChanged();
     }
 
-        public abstract DataSet<T> copy();
+    public abstract DataSet<T> copy();
 
-        protected void copy(DataSet dataSet) {
+    protected void copy(DataSet dataSet) {
         super.copy(dataSet);
     }
 
@@ -118,7 +118,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         return buffer.toString();
     }
 
-        public String toSimpleString() {
+    public String toSimpleString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append("DataSet, label: " + (getLabel() == null ? "" : getLabel()) + ", entries: " + mValues.size() +
                 "\n");
@@ -343,7 +343,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
         return entries;
     }
 
-        public enum Rounding {
+    public enum Rounding {
         UP,
         DOWN,
         CLOSEST,

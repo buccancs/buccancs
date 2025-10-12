@@ -19,23 +19,23 @@ public class WriteOptions {
         useMtuAsPackageSize = builder.useMtuAsPackageSize;
     }
 
-        public int getPackageWriteDelayMillis() {
+    public int getPackageWriteDelayMillis() {
         return packageWriteDelayMillis;
     }
 
-        public int getRequestWriteDelayMillis() {
+    public int getRequestWriteDelayMillis() {
         return requestWriteDelayMillis;
     }
 
-        public int getPackageSize() {
+    public int getPackageSize() {
         return packageSize;
     }
 
-        public boolean isWaitWriteResult() {
+    public boolean isWaitWriteResult() {
         return isWaitWriteResult;
     }
 
-        public int getWriteType() {
+    public int getWriteType() {
         return writeType;
     }
 
@@ -47,29 +47,29 @@ public class WriteOptions {
         private int writeType = -1;
         private boolean useMtuAsPackageSize = false;
 
-                public Builder setPackageWriteDelayMillis(int packageWriteDelayMillis) {
+        public Builder setPackageWriteDelayMillis(int packageWriteDelayMillis) {
             this.packageWriteDelayMillis = packageWriteDelayMillis;
             return this;
         }
 
-                public Builder setRequestWriteDelayMillis(int requestWriteDelayMillis) {
+        public Builder setRequestWriteDelayMillis(int requestWriteDelayMillis) {
             this.requestWriteDelayMillis = requestWriteDelayMillis;
             return this;
         }
 
-                public Builder setPackageSize(int packageSize) {
+        public Builder setPackageSize(int packageSize) {
             if (packageSize > 0) {
                 this.packageSize = packageSize;
             }
             return this;
         }
 
-                public Builder setWaitWriteResult(boolean waitWriteResult) {
+        public Builder setWaitWriteResult(boolean waitWriteResult) {
             isWaitWriteResult = waitWriteResult;
             return this;
         }
 
-                public Builder setWriteType(int writeType) {
+        public Builder setWriteType(int writeType) {
             if (writeType == BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT ||
                     writeType == BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE ||
                     writeType == BluetoothGattCharacteristic.WRITE_TYPE_SIGNED) {
@@ -78,7 +78,7 @@ public class WriteOptions {
             return this;
         }
 
-                public Builder setMtuAsPackageSize() {
+        public Builder setMtuAsPackageSize() {
             useMtuAsPackageSize = true;
             return this;
         }

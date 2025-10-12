@@ -1,4 +1,5 @@
 package com.topdon.tc004.activity
+
 import android.text.method.LinkMovementMethod
 import androidx.core.view.isVisible
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -11,6 +12,7 @@ import com.topdon.lib.core.tools.SpanBuilder
 import com.topdon.lib.core.utils.Constants
 import com.topdon.tc004.R
 import kotlinx.android.synthetic.main.activity_connect_tips.*
+
 @Route(path = RouterConfig.IR_CONNECT_TIPS)
 class ConnectTipsActivity : BaseActivity() {
     private var isTC007 = false
@@ -46,6 +48,7 @@ class ConnectTipsActivity : BaseActivity() {
                 .navigation(this)
         }
     }
+
     override fun initData() {
     }
 }

@@ -1,4 +1,5 @@
 package com.buccancs.ui
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +42,7 @@ import com.buccancs.ui.calibration.CalibrationPanel
 import com.buccancs.ui.calibration.CalibrationUiState
 import com.buccancs.ui.calibration.CalibrationViewModel
 import java.util.*
+
 @Composable
 fun MainRoute(
     viewModel: MainViewModel = hiltViewModel(),
@@ -78,6 +80,7 @@ fun MainRoute(
         calibrationActions = calibrationActions
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
@@ -173,6 +176,7 @@ fun MainScreen(
         }
     }
 }
+
 @Composable
 private fun SessionCard(
     state: MainUiState,
@@ -309,6 +313,7 @@ private fun SessionCard(
         }
     }
 }
+
 @Composable
 private fun ErrorBanner(message: String) {
     @Composable
@@ -349,6 +354,7 @@ private fun ErrorBanner(message: String) {
         )
     }
 }
+
 @Composable
 private fun DeviceCard(
     device: DeviceUiModel,
@@ -423,6 +429,7 @@ private fun DeviceCard(
         }
     }
 }
+
 @Composable
 private fun TimeSyncStatusView(
     offsetMillis: Long,

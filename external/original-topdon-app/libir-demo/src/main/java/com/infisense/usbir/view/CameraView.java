@@ -27,7 +27,7 @@ public class CameraView extends TextureView {
         this(context, attrs, 0);
     }
 
-        public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         runnable = new Runnable() {
             @Override
@@ -48,7 +48,7 @@ public class CameraView extends TextureView {
                             if (canvas == null)
                                 continue;
 
-                                                        Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                            Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                             canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
                             Paint paint = new Paint();
@@ -73,20 +73,20 @@ public class CameraView extends TextureView {
         };
     }
 
-        public void setBitmap(Bitmap bitmap) {
+    public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 
-        public void setSyncimage(SynchronizedBitmap syncimage) {
+    public void setSyncimage(SynchronizedBitmap syncimage) {
         this.syncimage = syncimage;
     }
 
-        public void start() {
+    public void start() {
         cameraThread = new Thread(runnable);
         cameraThread.start();
     }
 
-        public void stop() {
+    public void stop() {
         cameraThread.interrupt();
         try {
             cameraThread.join();

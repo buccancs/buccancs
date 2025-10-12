@@ -6,11 +6,11 @@ import com.github.mikephil.charting.data.Entry;
 
 public interface ILineScatterCandleRadarDataSet<T extends Entry> extends IBarLineScatterCandleBubbleDataSet<T> {
 
-        boolean isVerticalHighlightIndicatorEnabled();
+    boolean isVerticalHighlightIndicatorEnabled();
 
-        boolean isHorizontalHighlightIndicatorEnabled();
+    boolean isHorizontalHighlightIndicatorEnabled();
 
-        float getHighlightLineWidth();
+    float getHighlightLineWidth();
 
-        DashPathEffect getDashPathEffectHighlight();
+    DashPathEffect getDashPathEffectHighlight();
 }

@@ -59,7 +59,7 @@ public class DualViewWithManualAlignExternalCamera extends BaseParamDualView {
         }
     };
 
-        public DualViewWithManualAlignExternalCamera(int irWidth, int irHeight, int vlWidth, int vlHeight, int dualWidth, int dualHeight,
+    public DualViewWithManualAlignExternalCamera(int irWidth, int irHeight, int vlWidth, int vlHeight, int dualWidth, int dualHeight,
                                                  SurfaceView cameraview, UVCCamera iruvc, CommonParams.DataFlowMode dataFlowMode) {
         super(irWidth, irHeight, vlWidth, vlHeight, dualWidth, dualHeight);
         this.cameraview = cameraview;
@@ -82,21 +82,21 @@ public class DualViewWithManualAlignExternalCamera extends BaseParamDualView {
 
     }
 
-        public void setHandler(Handler handler) {
+    public void setHandler(Handler handler) {
         this.handler = handler;
     }
 
-        public void startPreview() {
+    public void startPreview() {
         dualUVCCamera.setFrameCallback(iFrameCallback);
         dualUVCCamera.onStartPreview();
         firstFrame = false;
     }
 
-        public DualUVCCamera getDualUVCCamera() {
+    public DualUVCCamera getDualUVCCamera() {
         return dualUVCCamera;
     }
 
-        public void stopPreview() {
+    public void stopPreview() {
         dualUVCCamera.setFrameCallback(null);
         dualUVCCamera.onStopPreview();
     }

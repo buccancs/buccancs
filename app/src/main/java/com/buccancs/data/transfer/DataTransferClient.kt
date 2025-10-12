@@ -1,4 +1,5 @@
 package com.buccancs.data.transfer
+
 import com.buccancs.control.DataTransferRequest
 import com.buccancs.control.DataTransferServiceGrpcKt
 import com.buccancs.control.dataTransferRequest
@@ -13,6 +14,7 @@ import kotlinx.coroutines.withContext
 import java.io.FileInputStream
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class DataTransferClient @Inject constructor(
     private val channelFactory: GrpcChannelFactory,
@@ -55,6 +57,7 @@ class DataTransferClient @Inject constructor(
             UploadResult(success = false, errorMessage = ex.message ?: "Data transfer failed")
         }
     }
+
     private fun buildChunk(
         sessionId: String,
         artifact: SessionArtifact,
@@ -74,10 +77,12 @@ class DataTransferClient @Inject constructor(
         }
         this.endOfStream = endOfStream
     }
+
     data class UploadResult(
         val success: Boolean,
         val errorMessage: String? = null
     )
+
     private companion object {
         private const val DEFAULT_CHUNK_SIZE = 256 * 1024
     }

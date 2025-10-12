@@ -42,8 +42,6 @@ public class ConcurrentListTestSynchronizedVariable_AddAndAdd {
         listthreadadd t1 = new listthreadadd(this);
         listthreadadd t2 = new listthreadadd(this);
         Thread th2 = new Thread(t2);
-		
-		
 
 
         Thread th1 = new Thread(t1);

@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.dialog;
 
 import android.util.Log;
@@ -13,11 +12,11 @@ public final class DialogLog {
         super();
     }
 
-        public static void enable() {
+    public static void enable() {
         enable = true;
     }
 
-        public static void print(@NonNull Object log) {
+    public static void print(@NonNull Object log) {
         if (!enable) {
             return;
         }

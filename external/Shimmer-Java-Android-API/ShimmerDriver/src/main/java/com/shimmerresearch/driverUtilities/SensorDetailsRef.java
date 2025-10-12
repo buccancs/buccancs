@@ -7,10 +7,10 @@ import java.util.List;
 
 public class SensorDetailsRef implements Serializable {
 
-        private static final long serialVersionUID = 4567211941610864326L;
+    private static final long serialVersionUID = 4567211941610864326L;
 
-        public long mSensorBitmapIDStreaming = 0;
-        public long mSensorBitmapIDSDLogHeader = 0;
+    public long mSensorBitmapIDStreaming = 0;
+    public long mSensorBitmapIDSDLogHeader = 0;
 
 
     public String mGuiFriendlyLabel = "";
@@ -30,8 +30,7 @@ public class SensorDetailsRef implements Serializable {
     public int mNumChannels = 0;
 
 
-
-        public SensorDetailsRef(
+    public SensorDetailsRef(
             long sensorBitmapIDStreaming,
             long sensorBitmapIDSDLogHeader,
             String guiFriendlyLabel) {
@@ -42,7 +41,7 @@ public class SensorDetailsRef implements Serializable {
         }
     }
 
-        public SensorDetailsRef(
+    public SensorDetailsRef(
             long sensorBitmapIDStreaming,
             long sensorBitmapIDSDLogHeader,
             String guiFriendlyLabel,
@@ -61,7 +60,7 @@ public class SensorDetailsRef implements Serializable {
         }
     }
 
-        public SensorDetailsRef(
+    public SensorDetailsRef(
             long sensorBitmapIDStreaming,
             long sensorBitmapIDSDLogHeader,
             String guiFriendlyLabel,
@@ -82,7 +81,7 @@ public class SensorDetailsRef implements Serializable {
         mIntExpBoardPowerRequired = intExpBoardPowerRequired;
     }
 
-        public SensorDetailsRef(
+    public SensorDetailsRef(
             String guiFriendlyLabel,
             List<ShimmerVerObject> listOfCompatibleVersionInfo,
             List<String> listOfChannelsRef) {

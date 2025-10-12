@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.content.Intent
 import android.view.View
 import android.view.WindowManager
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import kotlin.collections.ArrayList
+
 @Route(path = RouterConfig.IR_THERMAL_LOG_MP_CHART)
 class IRLogMPChartActivity : BaseActivity() {
     private val viewModel: IRMonitorViewModel by viewModels()
@@ -48,6 +50,7 @@ class IRLogMPChartActivity : BaseActivity() {
             mutableListOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
         }
     }
+
     override fun initContentView() = R.layout.activity_ir_log_mp_chart
     override fun initView() {
         startTime = intent.getLongExtra(ExtraKeyConfig.TIME_MILLIS, 0)
@@ -114,6 +117,7 @@ class IRLogMPChartActivity : BaseActivity() {
                                         ToastTools.showShort(R.string.scan_ble_tip_authorize)
                                     }
                                 }
+
                                 override fun onDenied(
                                     permissions: MutableList<String>,
                                     doNotAskAgain: Boolean
@@ -145,12 +149,15 @@ class IRLogMPChartActivity : BaseActivity() {
         tv_save_path?.text = getString(R.string.temp_export_path) + ": " + FileConfig.excelDir
         viewModel.queryDetail(startTime)
     }
+
     override fun initData() {
     }
+
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

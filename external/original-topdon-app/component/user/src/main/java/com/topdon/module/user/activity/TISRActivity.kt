@@ -1,4 +1,5 @@
 package com.topdon.module.user.activity
+
 import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.topdon.lib.core.bean.event.SocketMsgEvent
@@ -27,6 +28,7 @@ class TISRActivity : BaseActivity() {
             SharedManager.is04TISR = isChecked
         }
     }
+
     override fun initData() {
         lifecycleScope.launch {
             val tisrBean = TS004Repository.getTISR()
@@ -39,6 +41,7 @@ class TISRActivity : BaseActivity() {
             }
         }
     }
+
     private fun updateTISR(state: Int) {
         lifecycleScope.launch {
             val isSuccess = TS004Repository.setTISR(state)
@@ -48,6 +51,7 @@ class TISRActivity : BaseActivity() {
             }
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onSocketMsgEvent(event: SocketMsgEvent) {
         when (SocketCmdUtil.getCmdResponse(event.text)) {

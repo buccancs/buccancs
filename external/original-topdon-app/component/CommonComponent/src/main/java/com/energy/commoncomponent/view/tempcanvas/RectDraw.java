@@ -79,7 +79,7 @@ public class RectDraw extends BaseDraw {
         Log.d(TAG, "setOperateStatus = " + mOperateStatus);
     }
 
-        public void addRect(int startX, int startY, int endX, int endY) {
+    public void addRect(int startX, int startY, int endX, int endY) {
         if (Math.abs(endX - startX) > TOUCH_TOLERANCE || Math.abs(endY - startY) > TOUCH_TOLERANCE) {
             RectView rectView = new RectView(mContext, startX, startY, endX, endY);
             int size = mRectList.size();
@@ -119,18 +119,18 @@ public class RectDraw extends BaseDraw {
         }
     }
 
-        public void removeRect(int index) {
+    public void removeRect(int index) {
         if (mRectList.size() > index) {
             mRectList.remove(index);
         }
     }
 
-        public void removeRect() {
+    public void removeRect() {
         mRectList.clear();
     }
 
 
-        public void changeTouchRectOperateStatus(float startX, float startY) {
+    public void changeTouchRectOperateStatus(float startX, float startY) {
         if (mTouchIndex < 0 || mTouchIndex >= mRectList.size()) {
             return;
         }
@@ -156,7 +156,7 @@ public class RectDraw extends BaseDraw {
         }
     }
 
-        public void changeTouchLineLocationByIndex(int touchIndex, float moveX, float moveY) {
+    public void changeTouchLineLocationByIndex(int touchIndex, float moveX, float moveY) {
         if (touchIndex < 0 || touchIndex >= mRectList.size()) {
             return;
         }
@@ -304,7 +304,7 @@ public class RectDraw extends BaseDraw {
         }
     }
 
-        public void onTempDraw(Canvas canvas, int startX, int startY, int endX, int endY) {
+    public void onTempDraw(Canvas canvas, int startX, int startY, int endX, int endY) {
         if (mTempRect == null) {
             mTempRect = new RectView(mContext, startX, startY, endX, endY);
             mTempRect.setLabel("R");
@@ -316,7 +316,7 @@ public class RectDraw extends BaseDraw {
         canvas.drawRect(mTempRect.mMovingLeft, mTempRect.mMovingTop, mTempRect.mMovingRight, mTempRect.mMovingBottom, mRectPaint);
     }
 
-        public int checkTouchRectInclude(int x, int y) {
+    public int checkTouchRectInclude(int x, int y) {
         mTouchIndex = -1;
         for (int i = 0; i < mRectList.size(); i++) {
             RectView rectView = mRectList.get(i);

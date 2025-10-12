@@ -32,7 +32,6 @@ public class SensorLSM303AH extends SensorLSM303 {
     public static final double[][] DefaultAlignmentLSM303AH = {{0, -1, 0}, {1, 0, 0}, {0, 0, -1}};
 
 
-
     public static final double[][] DefaultAlignmentMatrixWideRangeAccelShimmer3 = DefaultAlignmentLSM303AH;
     public static final double[][] DefaultOffsetVectorWideRangeAccelShimmer3 = {{0}, {0}, {0}};
     public static final double[][] DefaultSensitivityMatrixWideRangeAccel2gShimmer3 = {{1671, 0, 0}, {0, 1671, 0}, {0, 0, 1671}};
@@ -69,7 +68,6 @@ public class SensorLSM303AH extends SensorLSM303 {
 
     public static final String[] ListofLSM303AHMagRate = {"10.0Hz", "20.0Hz", "50.0Hz", "100.0Hz"};
     public static final Integer[] ListofLSM303AHMagRateConfigValues = {0, 1, 2, 3};
-
 
 
     public static final String[] ListofLSM303AHMagRange = {"+/- 49.152Ga"};
@@ -405,8 +403,6 @@ public class SensorLSM303AH extends SensorLSM303 {
     }
 
 
-
-
     @Override
     public void generateCalibMap() {
         super.generateCalibMap();
@@ -556,7 +552,6 @@ public class SensorLSM303AH extends SensorLSM303 {
                 DatabaseConfigHandle.WR_ACC_ALIGN_YX, DatabaseConfigHandle.WR_ACC_ALIGN_YY, DatabaseConfigHandle.WR_ACC_ALIGN_YZ,
                 DatabaseConfigHandle.WR_ACC_ALIGN_ZX, DatabaseConfigHandle.WR_ACC_ALIGN_ZY, DatabaseConfigHandle.WR_ACC_ALIGN_ZZ);
     }
-
 
 
 }

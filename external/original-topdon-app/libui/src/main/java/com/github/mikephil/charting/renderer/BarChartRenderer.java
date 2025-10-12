@@ -28,7 +28,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     protected BarDataProvider mChart;
 
-        protected RectF mBarRect = new RectF();
+    protected RectF mBarRect = new RectF();
 
     protected BarBuffer[] mBarBuffers;
 
@@ -475,7 +475,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
         }
     }
 
-        protected void setHighlightDrawPos(Highlight high, RectF bar) {
+    protected void setHighlightDrawPos(Highlight high, RectF bar) {
         high.setDraw(bar.centerX(), bar.top);
     }
 

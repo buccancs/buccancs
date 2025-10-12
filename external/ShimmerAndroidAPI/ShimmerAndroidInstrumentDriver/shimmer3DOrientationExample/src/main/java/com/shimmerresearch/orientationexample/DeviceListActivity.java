@@ -136,7 +136,7 @@ public class DeviceListActivity extends Activity {
         this.unregisterReceiver(mReceiver);
     }
 
-        private void doDiscovery() {
+    private void doDiscovery() {
         if (D) Log.d(TAG, "doDiscovery()");
 
         setProgressBarIndeterminateVisibility(true);

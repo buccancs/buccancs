@@ -8,7 +8,7 @@ public interface IBubbleDataSet extends IBarLineScatterCandleBubbleDataSet<Bubbl
 
     boolean isNormalizeSizeEnabled();
 
-        float getHighlightCircleWidth();
+    float getHighlightCircleWidth();
 
-        void setHighlightCircleWidth(float width);
+    void setHighlightCircleWidth(float width);
 }

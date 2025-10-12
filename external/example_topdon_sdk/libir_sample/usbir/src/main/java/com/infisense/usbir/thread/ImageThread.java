@@ -31,7 +31,7 @@ public class ImageThread extends Thread {
     private byte[] imageDst;
     private byte[] imageY8;
 
-        public ImageThread(Context context, int imageWidth, int imageHeight) {
+    public ImageThread(Context context, int imageWidth, int imageHeight) {
         Log.i(TAG, "ImageThread create->imageWidth = " + imageWidth + " imageHeight = " + imageHeight);
         this.mContext = context;
         this.imageWidth = imageWidth;
@@ -42,27 +42,27 @@ public class ImageThread extends Thread {
         imageY8 = new byte[imageWidth * imageHeight];
     }
 
-        public void setSyncimage(SynchronizedBitmap syncimage) {
+    public void setSyncimage(SynchronizedBitmap syncimage) {
         this.syncimage = syncimage;
     }
 
-        public void setImageSrc(byte[] imageSrc) {
+    public void setImageSrc(byte[] imageSrc) {
         this.imageSrc = imageSrc;
     }
 
-        public void setTemperatureSrc(byte[] temperatureSrc) {
+    public void setTemperatureSrc(byte[] temperatureSrc) {
         this.temperatureSrc = temperatureSrc;
     }
 
-        public void setRotate(boolean rotate) {
+    public void setRotate(boolean rotate) {
         this.rotate = rotate;
     }
 
-        public void setDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
+    public void setDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
         this.dataFlowMode = dataFlowMode;
     }
 
-        public void setBitmap(Bitmap bitmap) {
+    public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 
@@ -77,22 +77,22 @@ public class ImageThread extends Thread {
                             " imageSrc[100] = " + imageSrc[100]);
                     if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT ||
                             dataFlowMode == CommonParams.DataFlowMode.IMAGE_OUTPUT) {
-                                                LibIRParse.converyArrayYuv422ToARGB(imageSrc, imageHeight * imageWidth, imageARGB);
+                        LibIRParse.converyArrayYuv422ToARGB(imageSrc, imageHeight * imageWidth, imageARGB);
 
 
                     } else {
-                                                LibIRParse.convertArrayY14ToYuv422(imageSrc, imageHeight * imageWidth, imageYUV422);
+                        LibIRParse.convertArrayY14ToYuv422(imageSrc, imageHeight * imageWidth, imageYUV422);
                         LibIRParse.converyArrayYuv422ToARGB(imageYUV422, imageHeight * imageWidth, imageARGB);
                     }
 
-                                        if (biaochistatus && temperatureSrc != null) {
+                    if (biaochistatus && temperatureSrc != null) {
                         int j = 0;
                         int imageDstLength = imageWidth * imageHeight * 4;
                         float biaochiMax = 40, biaochiMin = 25;
                         for (int index = 0; index < imageDstLength; ) {
                             float temperature0 = (temperatureSrc[j] & 0xff) + (temperatureSrc[j + 1] & 0xff) * 256;
                             temperature0 = (float) (temperature0 / 64 - 273.15);
-                                                        if (temperature0 < biaochiMin) {
+                            if (temperature0 < biaochiMin) {
                                 imageARGB[index] = (byte) PseudocolorModeTable.BLUE_RGB[0];
                                 imageARGB[index + 1] = (byte) PseudocolorModeTable.BLUE_RGB[1];
                                 imageARGB[index + 2] = (byte) PseudocolorModeTable.BLUE_RGB[2];
@@ -107,7 +107,7 @@ public class ImageThread extends Thread {
                         }
                     }
 
-                                        if (rotate) {
+                    if (rotate) {
                         LibIRProcess.ImageRes_t imageRes = new LibIRProcess.ImageRes_t();
                         imageRes.height = (char) imageWidth;
                         imageRes.width = (char) imageHeight;

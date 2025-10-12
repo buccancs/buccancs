@@ -25,7 +25,7 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
 
     private static final boolean RESET_GYRO_ON_THE_FLY_CALIB_DURING_TIME_GAPS = false;
 
-        public PayloadContentsDetailsV8orAbove(VerisenseDevice verisenseDevice) {
+    public PayloadContentsDetailsV8orAbove(VerisenseDevice verisenseDevice) {
         super(verisenseDevice);
     }
 
@@ -245,7 +245,7 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
         return null;
     }
 
-        private DataBlockDetails checkAndSplitIndividualDataBlock(DataBlockDetails dataBlockDetailsOriginal, int dataBlockIndex) {
+    private DataBlockDetails checkAndSplitIndividualDataBlock(DataBlockDetails dataBlockDetailsOriginal, int dataBlockIndex) {
 
         double timestampDiffMs = dataBlockDetailsOriginal.getTimestampDiffInS() * 1000;
 
@@ -311,7 +311,7 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
         backfillDataBlockUcClockOrRwcTimestamps(true);
     }
 
-        private void backfillDataBlockUcClockOrRwcTimestamps(boolean backfilUcClock) {
+    private void backfillDataBlockUcClockOrRwcTimestamps(boolean backfilUcClock) {
         VerisenseTimeDetails payloadTimeDetails = backfilUcClock ? getTimeDetailsUcClock() : getTimeDetailsRwc();
         long payloadEndTimeMinutes = payloadTimeDetails.getEndTimeMinutes();
         long payloadEndTimeTicks = payloadTimeDetails.getEndTimeTicks();

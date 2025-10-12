@@ -64,7 +64,7 @@ public class PointDraw extends BaseDraw {
         Log.d(TAG, "setOperateStatus = " + mOperateStatus);
     }
 
-        public void addPoint(int mode, float centerX, float centerY) {
+    public void addPoint(int mode, float centerX, float centerY) {
         PointView pointView = new PointView(mContext, mode, centerX, centerY);
         int size = mPointList.size();
         if (mPointList.size() < MAX_POINT_COUNT) {
@@ -102,17 +102,17 @@ public class PointDraw extends BaseDraw {
         }
     }
 
-        public void removePoint(int index) {
+    public void removePoint(int index) {
         if (mPointList.size() > index) {
             mPointList.remove(index);
         }
     }
 
-        public void removePoint() {
+    public void removePoint() {
         mPointList.clear();
     }
 
-        @Override
+    @Override
     public void onDraw(Canvas canvas, boolean isScroll) {
         for (int i = 0; i < mPointList.size(); i++) {
             PointView pointView = mPointList.get(i);
@@ -126,7 +126,7 @@ public class PointDraw extends BaseDraw {
         }
     }
 
-        public void onTempDraw(Canvas canvas, int mode, float centerX, float centerY) {
+    public void onTempDraw(Canvas canvas, int mode, float centerX, float centerY) {
         if (mTempPoint == null) {
             mTempPoint = new PointView(mContext, mode, centerX, centerY);
             mTempPoint.setLabel("P");
@@ -194,14 +194,14 @@ public class PointDraw extends BaseDraw {
         return rectF;
     }
 
-        public void changeTouchPointLocationByIndex(int touchIndex, float centerX, float centerY) {
+    public void changeTouchPointLocationByIndex(int touchIndex, float centerX, float centerY) {
         if (touchIndex < 0 || touchIndex >= mPointList.size()) {
             return;
         }
         mPointList.get(touchIndex).changeLocation(centerX, centerY);
     }
 
-        public int checkTouchPointInclude(float rawX, float rawY) {
+    public int checkTouchPointInclude(float rawX, float rawY) {
         mTouchIndex = -1;
         for (int i = 0; i < mPointList.size(); i++) {
             PointView pointView = mPointList.get(i);

@@ -15,7 +15,7 @@ public class Usbjni {
         }
     }
 
-        public static int setUSB3803Mode(boolean isPowerOn) {
+    public static int setUSB3803Mode(boolean isPowerOn) {
         if (isPowerOn) {
             return usb3803_mode_setting(1);
         } else {
@@ -23,7 +23,7 @@ public class Usbjni {
         }
     }
 
-        public static int readUSB3803Parameter(int i) {
+    public static int readUSB3803Parameter(int i) {
         return usb3803_read_parameter(i);
     }
 

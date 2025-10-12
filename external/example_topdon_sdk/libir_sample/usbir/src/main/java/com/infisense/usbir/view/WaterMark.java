@@ -16,10 +16,10 @@ import androidx.annotation.Nullable;
 
 public class WaterMark {
     private static WaterMark sInstance;
-        private String mText;
-        private int mTextColor;
-        private float mTextSize;
-        private float mRotation;
+    private String mText;
+    private int mTextColor;
+    private float mTextSize;
+    private float mRotation;
 
     private WaterMark() {
         mText = "";
@@ -37,31 +37,31 @@ public class WaterMark {
         return sInstance;
     }
 
-        public WaterMark setText(String text) {
+    public WaterMark setText(String text) {
         mText = text;
         return sInstance;
     }
 
-        public WaterMark setTextColor(int color) {
+    public WaterMark setTextColor(int color) {
         mTextColor = color;
         return sInstance;
     }
 
-        public WaterMark setTextSize(float size) {
+    public WaterMark setTextSize(float size) {
         mTextSize = size;
         return sInstance;
     }
 
-        public WaterMark setRotation(float degrees) {
+    public WaterMark setRotation(float degrees) {
         mRotation = degrees;
         return sInstance;
     }
 
-        public void show(Activity activity) {
+    public void show(Activity activity) {
         show(activity, mText);
     }
 
-        public void show(Activity activity, String text) {
+    public void show(Activity activity, String text) {
         WatermarkDrawable drawable = new WatermarkDrawable();
         drawable.mText = text;
         drawable.mTextColor = mTextColor;
@@ -76,17 +76,17 @@ public class WaterMark {
         rootView.addView(layout);
     }
 
-        private int sp2px(float spValue) {
+    private int sp2px(float spValue) {
         float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5F);
     }
 
     private class WatermarkDrawable extends Drawable {
         private Paint mPaint;
-                private String mText;
-                private int mTextColor;
-                private float mTextSize;
-                private float mRotation;
+        private String mText;
+        private int mTextColor;
+        private float mTextSize;
+        private float mRotation;
 
         private WatermarkDrawable() {
             mPaint = new Paint();

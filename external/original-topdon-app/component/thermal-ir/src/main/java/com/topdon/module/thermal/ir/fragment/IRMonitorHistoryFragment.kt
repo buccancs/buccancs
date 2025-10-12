@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.fragment
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -33,6 +34,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.Calendar
+
 class IRMonitorHistoryFragment : Fragment() {
     private val adapter = MyAdapter(ArrayList())
     private val viewModel: IRMonitorViewModel by viewModels()
@@ -41,6 +43,7 @@ class IRMonitorHistoryFragment : Fragment() {
         EventBus.getDefault().register(this)
         return inflater.inflate(R.layout.fragment_ir_monitor_history, container)
     }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -94,18 +97,22 @@ class IRMonitorHistoryFragment : Fragment() {
             }
         }
     }
+
     override fun onResume() {
         super.onResume()
         viewModel.queryRecordList()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         EventBus.getDefault().unregister(this)
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMonitorCreate(event: MonitorCreateEvent) {
         viewModel.queryRecordList()
     }
+
     private class MyAdapter(dataList: MutableList<ThermalDao.Record>?) : BaseQuickAdapter<ThermalDao.Record,
             BaseViewHolder>(R.layout.item_monitory_history, dataList), LoadMoreModule {
         var onItemClickListener: ((position: Int) -> Unit)? = null

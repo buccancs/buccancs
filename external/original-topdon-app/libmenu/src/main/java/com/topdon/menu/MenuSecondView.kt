@@ -1,4 +1,5 @@
 package com.topdon.menu
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
@@ -27,6 +28,7 @@ import com.topdon.menu.databinding.ViewMenuSecondBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 @SuppressLint("NotifyDataSetChanged")
 class MenuSecondView : FrameLayout {
     private val menuType: MenuType
@@ -162,15 +164,18 @@ class MenuSecondView : FrameLayout {
         set(value) {
             binding.cameraMenuView.isVideoMode = value
         }
+
     fun switchToCamera() {
         binding.cameraMenuView.canSwitchMode = true
         binding.cameraMenuView.isVideoMode = false
         binding.cameraMenuView.setToNormal()
     }
+
     fun updateCameraModel() {
         binding.cameraMenuView.canSwitchMode = true
         binding.cameraMenuView.setToNormal()
     }
+
     fun refreshImg(type: GalleryRepository.DirType = GalleryRepository.DirType.LINE) {
         updateCameraModel()
         CoroutineScope(Dispatchers.IO).launch {
@@ -180,10 +185,12 @@ class MenuSecondView : FrameLayout {
             }
         }
     }
+
     fun setToRecord(isDelay: Boolean) {
         binding.cameraMenuView.canSwitchMode = false
         binding.cameraMenuView.setToRecord(isDelay)
     }
+
     fun setToCamera() {
         binding.cameraMenuView.setToRecord(false)
     }
@@ -199,6 +206,7 @@ class MenuSecondView : FrameLayout {
         set(value) {
             twoLightAdapter.twoLightType = value
         }
+
     fun setTwoLightSelected(twoLightType: TwoLightType, isSelected: Boolean) {
         twoLightAdapter.setSelected(twoLightType, isSelected)
     }
@@ -211,6 +219,7 @@ class MenuSecondView : FrameLayout {
         settingTeAdapter.setSelected(settingType, isSelected)
         settingObAdapter.setSelected(settingType, isSelected)
     }
+
     fun setSettingRotate(rotateAngle: Int) {
         settingTeAdapter.rotateAngle = rotateAngle
         settingObAdapter.rotateAngle = rotateAngle
@@ -221,6 +230,7 @@ class MenuSecondView : FrameLayout {
         set(value) {
             tempLevelAdapter.isUnitF = value
         }
+
     fun setTempLevel(code: Int) {
         tempLevelAdapter.selectCode = code
     }
@@ -232,6 +242,7 @@ class MenuSecondView : FrameLayout {
     fun setTargetSelected(targetType: TargetType, isSelected: Boolean) {
         targetAdapter.setSelected(targetType, isSelected)
     }
+
     fun setTargetMode(modeCode: Int) {
         targetAdapter.setTargetMode(modeCode)
     }
@@ -239,6 +250,7 @@ class MenuSecondView : FrameLayout {
     fun setTempPointSelect(tempPointType: TempPointType, isSelected: Boolean) {
         tempPointAdapter.setSelected(tempPointType, isSelected)
     }
+
     fun clearTempPointSelect() {
         tempPointAdapter.clearAllSelect()
     }

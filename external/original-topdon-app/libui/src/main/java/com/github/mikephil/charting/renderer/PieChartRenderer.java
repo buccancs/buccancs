@@ -36,15 +36,15 @@ public class PieChartRenderer extends DataRenderer {
 
     protected PieChart mChart;
 
-        protected Paint mHolePaint;
+    protected Paint mHolePaint;
     protected Paint mTransparentCirclePaint;
     protected Paint mValueLinePaint;
-        protected WeakReference<Bitmap> mDrawBitmap;
+    protected WeakReference<Bitmap> mDrawBitmap;
     protected Canvas mBitmapCanvas;
     protected Path mDrawCenterTextPathBuffer = new Path();
     protected RectF mDrawHighlightedRectF = new RectF();
-        private TextPaint mCenterTextPaint;
-        private Paint mEntryLabelsPaint;
+    private TextPaint mCenterTextPaint;
+    private Paint mEntryLabelsPaint;
     private StaticLayout mCenterTextLayout;
     private CharSequence mCenterTextLastValue;
     private RectF mCenterTextLastBounds = new RectF();
@@ -167,7 +167,7 @@ public class PieChartRenderer extends DataRenderer {
         return spacedRadius;
     }
 
-        protected float getSliceSpace(IPieDataSet dataSet) {
+    protected float getSliceSpace(IPieDataSet dataSet) {
 
         if (!dataSet.isAutomaticallyDisableSliceSpacingEnabled())
             return dataSet.getSliceSpace();
@@ -606,7 +606,7 @@ public class PieChartRenderer extends DataRenderer {
         c.drawText(valueText, x, y, mValuePaint);
     }
 
-        protected void drawEntryLabel(Canvas c, String label, float x, float y) {
+    protected void drawEntryLabel(Canvas c, String label, float x, float y) {
         c.drawText(label, x, y, mEntryLabelsPaint);
     }
 
@@ -617,7 +617,7 @@ public class PieChartRenderer extends DataRenderer {
         drawCenterText(c);
     }
 
-        protected void drawHole(Canvas c) {
+    protected void drawHole(Canvas c) {
 
         if (mChart.isDrawHoleEnabled() && mBitmapCanvas != null) {
 
@@ -650,7 +650,7 @@ public class PieChartRenderer extends DataRenderer {
         }
     }
 
-        protected void drawCenterText(Canvas c) {
+    protected void drawCenterText(Canvas c) {
 
         CharSequence centerText = mChart.getCenterText();
 
@@ -907,7 +907,7 @@ public class PieChartRenderer extends DataRenderer {
         MPPointF.recycleInstance(center);
     }
 
-        protected void drawRoundedSlices(Canvas c) {
+    protected void drawRoundedSlices(Canvas c) {
 
         if (!mChart.isDrawRoundedSlicesEnabled())
             return;
@@ -952,7 +952,7 @@ public class PieChartRenderer extends DataRenderer {
         MPPointF.recycleInstance(center);
     }
 
-        public void releaseBitmap() {
+    public void releaseBitmap() {
         if (mBitmapCanvas != null) {
             mBitmapCanvas.setBitmap(null);
             mBitmapCanvas = null;

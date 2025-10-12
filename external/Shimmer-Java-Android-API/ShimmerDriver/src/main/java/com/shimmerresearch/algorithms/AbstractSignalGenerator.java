@@ -10,7 +10,7 @@ public abstract class AbstractSignalGenerator extends BasicProcessWithCallBack {
     DataThread dt = null;
 
 
-        public abstract Object generateSignal();
+    public abstract Object generateSignal();
 
     public void stopGenerator() {
         if (dt != null) {

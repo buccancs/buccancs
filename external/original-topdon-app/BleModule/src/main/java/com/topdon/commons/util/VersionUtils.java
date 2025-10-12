@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 public class VersionUtils {
 
-        public static boolean compareVersions(String v1, String v2) {
+    public static boolean compareVersions(String v1, String v2) {
         if (TextUtils.equals(v1, "") || TextUtils.equals(v2, "")) {
             return false;
         }

@@ -1,4 +1,5 @@
 package com.topdon.tc001.viewmodel
+
 import androidx.lifecycle.viewModelScope
 import com.topdon.lib.core.http.repository.LmsRepository
 import com.topdon.lib.core.ktbase.BaseViewModel
@@ -24,5 +25,6 @@ class PolicyViewModel : BaseViewModel() {
             }
         }
     }
+
     data class HtmlBean(val body: String? = null, val action: Int = 0)
 }

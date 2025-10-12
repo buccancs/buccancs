@@ -1,4 +1,5 @@
 package com.topdon.house.activity
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.View
@@ -43,6 +44,7 @@ import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
 class DetectAddActivity : BaseActivity(), View.OnClickListener {
     private val viewModel: DetectViewModel by viewModels()
     private var editId: Long = 0
@@ -103,16 +105,20 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             }
         })
     }
+
     override fun initData() {
     }
+
     override fun onClick(v: View?) {
         when (v) {
             tv_detect_time -> {
                 showDetectTimeDialog()
             }
+
             iv_address_location -> {
                 getLocation()
             }
+
             iv_house_image -> {
                 ImagePickFromDialog(this)
                     .setSelectListener {
@@ -130,6 +136,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                     .show()
             }
+
             tv_house_year -> {
                 YearPicker(this, houseDetect.year).also {
                     it.setTitle(R.string.year_built)
@@ -139,6 +146,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
+
             tv_house_space_unit -> {
                 StrArrayPicker(this, resources.getStringArray(R.array.area), SharedManager.houseSpaceUnit).also {
                     it.setTitle(R.string.area)
@@ -149,6 +157,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
+
             tv_cost_unit -> {
                 StrArrayPicker(this, resources.getStringArray(R.array.currency), SharedManager.costUnit).also {
                     it.setTitle(R.string.diagnosis_unit)
@@ -159,6 +168,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
                     }
                 }.show()
             }
+
             tv_create_report -> {
                 val reportName = et_detect_name.text.toString()
                 if (reportName.isEmpty()) {
@@ -218,6 +228,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     @SuppressLint("MissingPermission")
     private fun getLocation() {
         PermissionTool.requestLocation(this) {
@@ -234,6 +245,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     private val galleryPickResult = registerForActivityResult(ActivityResultContracts.GetContent()) {
         val srcFile: File? = UriUtils.uri2File(it)
         if (srcFile != null) {
@@ -253,6 +265,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             tv_house_image_camera.isVisible = false
         }
     }
+
     private fun showExitTipsDialog() {
         TipDialog.Builder(this)
             .setMessage(R.string.diy_tip_save)
@@ -262,6 +275,7 @@ class DetectAddActivity : BaseActivity(), View.OnClickListener {
             .setCancelListener(R.string.app_cancel)
             .create().show()
     }
+
     private fun showDetectTimeDialog() {
         val picker = DatimePicker(this)
         picker.setTitle(R.string.detect_time)

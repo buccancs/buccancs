@@ -21,7 +21,7 @@ public class DataBlockDetails implements Serializable {
     public int dataBlockStartByteIndexInFile;
     public int qtySensorDataBytesInDatablock;
     public int dataPacketSize;
-        public DATA_BLOCK_SPLIT_PART splitDataBlockPart = DATA_BLOCK_SPLIT_PART.NOT_SPLIT;
+    public DATA_BLOCK_SPLIT_PART splitDataBlockPart = DATA_BLOCK_SPLIT_PART.NOT_SPLIT;
     private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
     private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
     private double samplingRate;
@@ -29,12 +29,12 @@ public class DataBlockDetails implements Serializable {
     private int sampleCount;
     private double timestampDiffInS;
 
-        private int dataBlockIndexInPayload = Integer.MIN_VALUE;
+    private int dataBlockIndexInPayload = Integer.MIN_VALUE;
     private int payloadIndex = Integer.MIN_VALUE;
 
     private ObjectCluster[] ojcArray = null;
     private boolean firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap = false;
-        private boolean firstUnsplitDataBlockAfterMiddayMidnightTransition = false;
+    private boolean firstUnsplitDataBlockAfterMiddayMidnightTransition = false;
 
     public DataBlockDetails(DATABLOCK_SENSOR_ID datablockSensorId, int payloadIndex, int dataBlockIndexInPayload, List<SENSORS> listOfSensorClassKeys,
                             int dataBlockStartByteIndexInFile, int dataBlockStartByteIndexInPayload) {
@@ -277,7 +277,7 @@ public class DataBlockDetails implements Serializable {
         return isSecondPartOfSplitDataBlock() || isFirstUnsplitDataBlockAfterMiddayMidnightTransition();
     }
 
-        public enum DATABLOCK_SENSOR_ID {
+    public enum DATABLOCK_SENSOR_ID {
         NONE,
         ADC,
         ACCEL_1,

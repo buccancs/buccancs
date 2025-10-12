@@ -1,4 +1,5 @@
 package com.topdon.tc004.activity
+
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
@@ -49,6 +50,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+
 @SuppressLint("NotifyDataSetChanged")
 @Route(path = RouterConfig.IR_DEVICE_ADD)
 class DeviceAddActivity : BaseActivity() {
@@ -145,6 +147,7 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
+
     private fun refreshStateAndTips() {
         val isBtEnable = btAdapter.isEnabled
         val isWifiEnable = wifiManager.isWifiEnabled
@@ -193,12 +196,15 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
+
     override fun initData() {
     }
+
     override fun onRestart() {
         super.onRestart()
         startBtScan()
     }
+
     override fun onStop() {
         super.onStop()
         stopBtScan()
@@ -363,6 +369,7 @@ class DeviceAddActivity : BaseActivity() {
                     TToast.shortToast(this@DeviceAddActivity, R.string.scan_ble_tip_authorize)
                 }
             }
+
             override fun onNever(isJump: Boolean) {
                 isRequesting = false
                 if (topTipHolder.state == TopTipHolder.State.BLUETOOTH_PERMISSION) {
@@ -415,11 +422,13 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
+
     private fun stopBtScan() {
         iv_scan_gif.pauseAnimation()
         timeoutEmptyJob?.cancel()
         BluetoothUtil.stopLeScan(this)
     }
+
     private fun connectWIFI(wifiName: String) {
         if (WifiUtil.getCurrentWifiSSID(this) == wifiName && WebSocketProxy.getInstance().isConnected()) {
             EventBus.getDefault().post(SocketStateEvent(true, isTS004))
@@ -467,6 +476,7 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
+
     suspend fun examineConnect() {
         delay(10 * 1000)
         if (WebSocketProxy.getInstance().isConnected()) {
@@ -489,6 +499,7 @@ class DeviceAddActivity : BaseActivity() {
         }
         dismissCameraLoading()
     }
+
     private class TopTipHolder(val textView: TextView) {
         var state = State.NONE
             set(value) {
@@ -504,6 +515,7 @@ class DeviceAddActivity : BaseActivity() {
                     }
                 }
             }
+
         enum class State {
             NONE,
             LOCATION_PERMISSION,
@@ -513,6 +525,7 @@ class DeviceAddActivity : BaseActivity() {
             WIFI_SWITCH,
         }
     }
+
     private class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
         var isTS004 = true
         val dataList: ArrayList<String> = ArrayList()
@@ -526,13 +539,16 @@ class DeviceAddActivity : BaseActivity() {
             dataList.add(newDevice)
             notifyItemInserted(dataList.size)
         }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_device_add, parent, false))
         }
+
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.itemView.iv_icon.setImageResource(if (isTS004) R.mipmap.ic_device_add_ts004 else R.mipmap.ic_device_add_tc007)
             holder.itemView.tv_name.text = dataList[position]
         }
+
         override fun getItemCount(): Int = dataList.size
         inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
@@ -545,6 +561,7 @@ class DeviceAddActivity : BaseActivity() {
             }
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         job?.cancel()

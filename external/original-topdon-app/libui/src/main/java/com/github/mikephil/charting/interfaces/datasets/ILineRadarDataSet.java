@@ -6,15 +6,15 @@ import com.github.mikephil.charting.data.Entry;
 
 public interface ILineRadarDataSet<T extends Entry> extends ILineScatterCandleRadarDataSet<T> {
 
-        int getFillColor();
+    int getFillColor();
 
-        Drawable getFillDrawable();
+    Drawable getFillDrawable();
 
-        int getFillAlpha();
+    int getFillAlpha();
 
-        float getLineWidth();
+    float getLineWidth();
 
-        boolean isDrawFilledEnabled();
+    boolean isDrawFilledEnabled();
 
-        void setDrawFilled(boolean enabled);
+    void setDrawFilled(boolean enabled);
 }

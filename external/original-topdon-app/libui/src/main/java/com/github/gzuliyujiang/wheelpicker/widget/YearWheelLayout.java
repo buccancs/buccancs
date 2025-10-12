@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.wheelpicker.widget;
 
 import android.content.Context;
@@ -148,11 +147,11 @@ public class YearWheelLayout extends BaseWheelLayout {
         dateWheelLayout.setDateMode(dateMode);
     }
 
-        public void setRange(DatimeEntity startValue, DatimeEntity endValue) {
+    public void setRange(DatimeEntity startValue, DatimeEntity endValue) {
         setRange(startValue, endValue, null);
     }
 
-        public void setRange(DatimeEntity startValue, DatimeEntity endValue, DatimeEntity defaultValue) {
+    public void setRange(DatimeEntity startValue, DatimeEntity endValue, DatimeEntity defaultValue) {
         if (startValue == null) {
             startValue = DatimeEntity.now();
         }

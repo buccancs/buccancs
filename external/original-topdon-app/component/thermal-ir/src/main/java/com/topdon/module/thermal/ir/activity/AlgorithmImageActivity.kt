@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,6 +17,7 @@ import org.opencv.imgproc.Imgproc
 import org.opencv.imgproc.Imgproc.*
 import java.io.IOException
 import java.io.InputStream
+
 class AlgorithmImageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -24,10 +24,10 @@ import com.github.mikephil.charting.utils.Utils;
 public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<? extends Entry>>>
         extends Chart<T> {
 
-        protected boolean mRotateEnabled = true;
-        protected float mMinOffset = 0.f;
-        private float mRotationAngle = 270f;
-        private float mRawRotationAngle = 270f;
+    protected boolean mRotateEnabled = true;
+    protected float mMinOffset = 0.f;
+    private float mRotationAngle = 270f;
+    private float mRawRotationAngle = 270f;
 
     public PieRadarChartBase(Context context) {
         super(context);
@@ -221,7 +221,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
                     + ", offsetRight: " + offsetRight + ", offsetBottom: " + offsetBottom);
     }
 
-        public float getAngleForPoint(float x, float y) {
+    public float getAngleForPoint(float x, float y) {
 
         MPPointF c = getCenterOffsets();
 
@@ -244,7 +244,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
         return angle;
     }
 
-        public MPPointF getPosition(MPPointF center, float dist, float angle) {
+    public MPPointF getPosition(MPPointF center, float dist, float angle) {
 
         MPPointF p = MPPointF.getInstance(0, 0);
         getPosition(center, dist, angle, p);
@@ -256,7 +256,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
         outputPoint.y = (float) (center.y + dist * Math.sin(Math.toRadians(angle)));
     }
 
-        public float distanceToCenter(float x, float y) {
+    public float distanceToCenter(float x, float y) {
 
         MPPointF c = getCenterOffsets();
 
@@ -284,38 +284,38 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
         return dist;
     }
 
-        public abstract int getIndexForAngle(float angle);
+    public abstract int getIndexForAngle(float angle);
 
-        public float getRawRotationAngle() {
+    public float getRawRotationAngle() {
         return mRawRotationAngle;
     }
 
-        public float getRotationAngle() {
+    public float getRotationAngle() {
         return mRotationAngle;
     }
 
-        public void setRotationAngle(float angle) {
+    public void setRotationAngle(float angle) {
         mRawRotationAngle = angle;
         mRotationAngle = Utils.getNormalizedAngle(mRawRotationAngle);
     }
 
-        public boolean isRotationEnabled() {
+    public boolean isRotationEnabled() {
         return mRotateEnabled;
     }
 
-        public void setRotationEnabled(boolean enabled) {
+    public void setRotationEnabled(boolean enabled) {
         mRotateEnabled = enabled;
     }
 
-        public float getMinOffset() {
+    public float getMinOffset() {
         return mMinOffset;
     }
 
-        public void setMinOffset(float minOffset) {
+    public void setMinOffset(float minOffset) {
         mMinOffset = minOffset;
     }
 
-        public float getDiameter() {
+    public float getDiameter() {
         RectF content = mViewPortHandler.getContentRect();
         content.left += getExtraLeftOffset();
         content.top += getExtraTopOffset();
@@ -324,11 +324,11 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
         return Math.min(content.width(), content.height());
     }
 
-        public abstract float getRadius();
+    public abstract float getRadius();
 
-        protected abstract float getRequiredLegendOffset();
+    protected abstract float getRequiredLegendOffset();
 
-        protected abstract float getRequiredBaseOffset();
+    protected abstract float getRequiredBaseOffset();
 
     @Override
     public float getYChartMax() {
@@ -341,7 +341,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
     }
 
 
-        @SuppressLint("NewApi")
+    @SuppressLint("NewApi")
     public void spin(int durationmillis, float fromangle, float toangle, EasingFunction easing) {
 
         setRotationAngle(fromangle);

@@ -37,7 +37,7 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
     int mServerPort = 500052;
 
 
-        public GrpcBLERadioByteCommunication(String macaddress, String serverHost, int serverPort) {
+    public GrpcBLERadioByteCommunication(String macaddress, String serverHost, int serverPort) {
         mServerHost = serverHost;
         mServerPort = serverPort;
         mMacAddress = macaddress.toUpperCase().replace(":", "");
@@ -150,7 +150,6 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
 
         };
         stub.connectShimmer(request, responseObserverState);
-
 
 
         try {

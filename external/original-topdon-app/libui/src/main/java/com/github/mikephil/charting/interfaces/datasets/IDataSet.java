@@ -16,123 +16,122 @@ import java.util.List;
 public interface IDataSet<T extends Entry> {
 
 
-        float getYMin();
+    float getYMin();
 
-        float getYMax();
+    float getYMax();
 
-        float getXMin();
+    float getXMin();
 
-        float getXMax();
+    float getXMax();
 
-        int getEntryCount();
+    int getEntryCount();
 
-        void calcMinMax();
+    void calcMinMax();
 
-        void calcMinMaxY(float fromX, float toX);
+    void calcMinMaxY(float fromX, float toX);
 
-        T getEntryForXValue(float xValue, float closestToY, DataSet.Rounding rounding);
+    T getEntryForXValue(float xValue, float closestToY, DataSet.Rounding rounding);
 
-        T getEntryForXValue(float xValue, float closestToY);
+    T getEntryForXValue(float xValue, float closestToY);
 
-        List<T> getEntriesForXValue(float xValue);
+    List<T> getEntriesForXValue(float xValue);
 
-        T getEntryForIndex(int index);
+    T getEntryForIndex(int index);
 
-        int getEntryIndex(float xValue, float closestToY, DataSet.Rounding rounding);
+    int getEntryIndex(float xValue, float closestToY, DataSet.Rounding rounding);
 
-        int getEntryIndex(T e);
-
-
-        int getIndexInEntries(int xIndex);
-
-        boolean addEntry(T e);
+    int getEntryIndex(T e);
 
 
-        void addEntryOrdered(T e);
+    int getIndexInEntries(int xIndex);
 
-        boolean removeFirst();
-
-        boolean removeLast();
-
-        boolean removeEntry(T e);
-
-        boolean removeEntryByXValue(float xValue);
-
-        boolean removeEntry(int index);
-
-        boolean contains(T entry);
-
-        void clear();
+    boolean addEntry(T e);
 
 
+    void addEntryOrdered(T e);
 
-        String getLabel();
+    boolean removeFirst();
 
-        void setLabel(String label);
+    boolean removeLast();
 
-        YAxis.AxisDependency getAxisDependency();
+    boolean removeEntry(T e);
 
-        void setAxisDependency(YAxis.AxisDependency dependency);
+    boolean removeEntryByXValue(float xValue);
 
-        List<Integer> getColors();
+    boolean removeEntry(int index);
 
-        int getColor();
+    boolean contains(T entry);
 
-        GradientColor getGradientColor();
+    void clear();
 
-        List<GradientColor> getGradientColors();
 
-        GradientColor getGradientColor(int index);
+    String getLabel();
 
-        int getColor(int index);
+    void setLabel(String label);
 
-        boolean isHighlightEnabled();
+    YAxis.AxisDependency getAxisDependency();
 
-        void setHighlightEnabled(boolean enabled);
+    void setAxisDependency(YAxis.AxisDependency dependency);
 
-        ValueFormatter getValueFormatter();
+    List<Integer> getColors();
 
-        void setValueFormatter(ValueFormatter f);
+    int getColor();
 
-        boolean needsFormatter();
+    GradientColor getGradientColor();
 
-        void setValueTextColors(List<Integer> colors);
+    List<GradientColor> getGradientColors();
 
-        int getValueTextColor();
+    GradientColor getGradientColor(int index);
 
-        void setValueTextColor(int color);
+    int getColor(int index);
 
-        int getValueTextColor(int index);
+    boolean isHighlightEnabled();
 
-        Typeface getValueTypeface();
+    void setHighlightEnabled(boolean enabled);
 
-        void setValueTypeface(Typeface tf);
+    ValueFormatter getValueFormatter();
 
-        float getValueTextSize();
+    void setValueFormatter(ValueFormatter f);
 
-        void setValueTextSize(float size);
+    boolean needsFormatter();
 
-        Legend.LegendForm getForm();
+    void setValueTextColors(List<Integer> colors);
 
-        float getFormSize();
+    int getValueTextColor();
 
-        float getFormLineWidth();
+    void setValueTextColor(int color);
 
-        DashPathEffect getFormLineDashEffect();
+    int getValueTextColor(int index);
 
-        void setDrawValues(boolean enabled);
+    Typeface getValueTypeface();
 
-        boolean isDrawValuesEnabled();
+    void setValueTypeface(Typeface tf);
 
-        void setDrawIcons(boolean enabled);
+    float getValueTextSize();
 
-        boolean isDrawIconsEnabled();
+    void setValueTextSize(float size);
 
-        MPPointF getIconsOffset();
+    Legend.LegendForm getForm();
 
-        void setIconsOffset(MPPointF offset);
+    float getFormSize();
 
-        boolean isVisible();
+    float getFormLineWidth();
 
-        void setVisible(boolean visible);
+    DashPathEffect getFormLineDashEffect();
+
+    void setDrawValues(boolean enabled);
+
+    boolean isDrawValuesEnabled();
+
+    void setDrawIcons(boolean enabled);
+
+    boolean isDrawIconsEnabled();
+
+    MPPointF getIconsOffset();
+
+    void setIconsOffset(MPPointF offset);
+
+    boolean isVisible();
+
+    void setVisible(boolean visible);
 }

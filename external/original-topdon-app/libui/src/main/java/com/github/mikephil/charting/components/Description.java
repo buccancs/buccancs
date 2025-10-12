@@ -7,11 +7,11 @@ import com.github.mikephil.charting.utils.Utils;
 
 public class Description extends ComponentBase {
 
-        private String text = "Description Label";
+    private String text = "Description Label";
 
-        private MPPointF mPosition;
+    private MPPointF mPosition;
 
-        private Paint.Align mTextAlign = Paint.Align.RIGHT;
+    private Paint.Align mTextAlign = Paint.Align.RIGHT;
 
     public Description() {
         super();
@@ -19,15 +19,15 @@ public class Description extends ComponentBase {
         mTextSize = Utils.convertDpToPixel(8f);
     }
 
-        public String getText() {
+    public String getText() {
         return text;
     }
 
-        public void setText(String text) {
+    public void setText(String text) {
         this.text = text;
     }
 
-        public void setPosition(float x, float y) {
+    public void setPosition(float x, float y) {
         if (mPosition == null) {
             mPosition = MPPointF.getInstance(x, y);
         } else {
@@ -36,15 +36,15 @@ public class Description extends ComponentBase {
         }
     }
 
-        public MPPointF getPosition() {
+    public MPPointF getPosition() {
         return mPosition;
     }
 
-        public Paint.Align getTextAlign() {
+    public Paint.Align getTextAlign() {
         return mTextAlign;
     }
 
-        public void setTextAlign(Paint.Align align) {
+    public void setTextAlign(Paint.Align align) {
         this.mTextAlign = align;
     }
 }

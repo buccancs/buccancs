@@ -20,12 +20,12 @@ public class MarkerView extends RelativeLayout implements IMarker {
     private MPPointF mOffset2 = new MPPointF();
     private WeakReference<Chart> mWeakChart;
 
-        public MarkerView(Context context, int layoutResource) {
+    public MarkerView(Context context, int layoutResource) {
         super(context);
         setupLayoutResource(layoutResource);
     }
 
-        private void setupLayoutResource(int layoutResource) {
+    private void setupLayoutResource(int layoutResource) {
 
         View inflated = LayoutInflater.from(getContext()).inflate(layoutResource, this);
 

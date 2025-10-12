@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
 
-        private float mBarWidth = 0.85f;
+    private float mBarWidth = 0.85f;
 
     public BarData() {
         super();
@@ -24,11 +24,11 @@ public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
         return mBarWidth;
     }
 
-        public void setBarWidth(float mBarWidth) {
+    public void setBarWidth(float mBarWidth) {
         this.mBarWidth = mBarWidth;
     }
 
-        public void groupBars(float fromX, float groupSpace, float barSpace) {
+    public void groupBars(float fromX, float groupSpace, float barSpace) {
 
         int setCount = mDataSets.size();
         if (setCount <= 1) {
@@ -80,7 +80,7 @@ public class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
         notifyDataChanged();
     }
 
-        public float getGroupWidth(float groupSpace, float barSpace) {
+    public float getGroupWidth(float groupSpace, float barSpace) {
         return mDataSets.size() * (mBarWidth + barSpace) + groupSpace;
     }
 }

@@ -62,7 +62,7 @@ public class DeviceControlWorker {
         }
     };
 
-        public void startWork() {
+    public void startWork() {
         Log.d(TAG, "startWork");
         if (mThread == null) {
             mThread = new Thread(mRunnable);
@@ -70,7 +70,7 @@ public class DeviceControlWorker {
         }
     }
 
-        public void stopWork() {
+    public void stopWork() {
         Log.d(TAG, "stopWork");
         if (mThread != null) {
             try {
@@ -83,7 +83,7 @@ public class DeviceControlWorker {
         }
     }
 
-        public void addTask(BaseTask task) {
+    public void addTask(BaseTask task) {
         synchronized (mEventQueue) {
             if (mEventQueue.size() < 2) {
                 Log.d(TAG, "addTask task：" + task.getClass().getSimpleName());

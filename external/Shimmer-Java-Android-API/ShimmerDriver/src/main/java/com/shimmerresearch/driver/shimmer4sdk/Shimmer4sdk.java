@@ -263,7 +263,6 @@ public class Shimmer4sdk extends ShimmerDevice {
         setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.HOST_SHIMMER_STREAMING_PROPERTIES, true);
 
 
-
     }
 
     @Override
@@ -405,13 +404,13 @@ public class Shimmer4sdk extends ShimmerDevice {
     }
 
 
-        @Override
+    @Override
     public void setCommsProtocolRadio(CommsProtocolRadio commsProtocolRadio) {
         super.setCommsProtocolRadio(commsProtocolRadio);
         initializeRadio();
     }
 
-        private void initializeRadio() {
+    private void initializeRadio() {
         setIsInitialised(false);
         if (mCommsProtocolRadio != null) {
             mCommsProtocolRadio.addRadioListener(new RadioListener() {
@@ -785,7 +784,7 @@ public class Shimmer4sdk extends ShimmerDevice {
     }
 
 
-        protected void dataHandler(ObjectCluster ojc) {
+    protected void dataHandler(ObjectCluster ojc) {
         mDeviceCallbackAdapter.dataHandler(ojc);
     }
 
@@ -795,7 +794,7 @@ public class Shimmer4sdk extends ShimmerDevice {
         mDeviceCallbackAdapter.sendCallbackPacketReceptionRateCurrent();
     }
 
-        protected void sendProgressReport(BluetoothProgressReportPerCmd pRPC) {
+    protected void sendProgressReport(BluetoothProgressReportPerCmd pRPC) {
         mDeviceCallbackAdapter.sendProgressReport(pRPC);
     }
 
@@ -829,11 +828,11 @@ public class Shimmer4sdk extends ShimmerDevice {
     }
 
 
-        public boolean isButtonStart() {
+    public boolean isButtonStart() {
         return mButtonStart;
     }
 
-        public void setButtonStart(boolean state) {
+    public void setButtonStart(boolean state) {
         mButtonStart = state;
     }
 

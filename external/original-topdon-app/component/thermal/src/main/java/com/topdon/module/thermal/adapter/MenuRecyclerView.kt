@@ -1,10 +1,12 @@
 package com.topdon.module.thermal.adapter
+
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
+
 class MenuRecyclerView : RecyclerView {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -13,6 +15,7 @@ class MenuRecyclerView : RecyclerView {
         attrs,
         defStyleAttr
     )
+
     fun initType(type: Int) {
         val span = when (type) {
             1 -> 2

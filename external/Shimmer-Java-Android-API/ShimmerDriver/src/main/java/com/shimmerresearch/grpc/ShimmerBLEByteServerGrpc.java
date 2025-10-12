@@ -243,7 +243,7 @@ public final class ShimmerBLEByteServerGrpc {
         return getSayHelloMethod;
     }
 
-        public static ShimmerBLEByteServerStub newStub(io.grpc.Channel channel) {
+    public static ShimmerBLEByteServerStub newStub(io.grpc.Channel channel) {
         io.grpc.stub.AbstractStub.StubFactory<ShimmerBLEByteServerStub> factory =
                 new io.grpc.stub.AbstractStub.StubFactory<ShimmerBLEByteServerStub>() {
                     @java.lang.Override
@@ -254,7 +254,7 @@ public final class ShimmerBLEByteServerGrpc {
         return ShimmerBLEByteServerStub.newStub(factory, channel);
     }
 
-        public static ShimmerBLEByteServerBlockingStub newBlockingStub(
+    public static ShimmerBLEByteServerBlockingStub newBlockingStub(
             io.grpc.Channel channel) {
         io.grpc.stub.AbstractStub.StubFactory<ShimmerBLEByteServerBlockingStub> factory =
                 new io.grpc.stub.AbstractStub.StubFactory<ShimmerBLEByteServerBlockingStub>() {
@@ -266,7 +266,7 @@ public final class ShimmerBLEByteServerGrpc {
         return ShimmerBLEByteServerBlockingStub.newStub(factory, channel);
     }
 
-        public static ShimmerBLEByteServerFutureStub newFutureStub(
+    public static ShimmerBLEByteServerFutureStub newFutureStub(
             io.grpc.Channel channel) {
         io.grpc.stub.AbstractStub.StubFactory<ShimmerBLEByteServerFutureStub> factory =
                 new io.grpc.stub.AbstractStub.StubFactory<ShimmerBLEByteServerFutureStub>() {
@@ -300,39 +300,39 @@ public final class ShimmerBLEByteServerGrpc {
         return result;
     }
 
-        public static abstract class ShimmerBLEByteServerImplBase implements io.grpc.BindableService {
+    public static abstract class ShimmerBLEByteServerImplBase implements io.grpc.BindableService {
 
-                public void getDataStream(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request,
+        public void getDataStream(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request,
                                   io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> responseObserver) {
             asyncUnimplementedUnaryCall(getGetDataStreamMethod(), responseObserver);
         }
 
-                public void getTestDataStream(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request,
+        public void getTestDataStream(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request,
                                       io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> responseObserver) {
             asyncUnimplementedUnaryCall(getGetTestDataStreamMethod(), responseObserver);
         }
 
-                public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> sendDataStream(
+        public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> sendDataStream(
                 io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> responseObserver) {
             return asyncUnimplementedStreamingCall(getSendDataStreamMethod(), responseObserver);
         }
 
-                public void connectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
+        public void connectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
                                    io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus> responseObserver) {
             asyncUnimplementedUnaryCall(getConnectShimmerMethod(), responseObserver);
         }
 
-                public void disconnectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
+        public void disconnectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
                                       io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> responseObserver) {
             asyncUnimplementedUnaryCall(getDisconnectShimmerMethod(), responseObserver);
         }
 
-                public void writeBytesShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes request,
+        public void writeBytesShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes request,
                                       io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> responseObserver) {
             asyncUnimplementedUnaryCall(getWriteBytesShimmerMethod(), responseObserver);
         }
 
-                public void sayHello(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
+        public void sayHello(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
                              io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> responseObserver) {
             asyncUnimplementedUnaryCall(getSayHelloMethod(), responseObserver);
         }
@@ -393,7 +393,7 @@ public final class ShimmerBLEByteServerGrpc {
         }
     }
 
-        public static final class ShimmerBLEByteServerStub extends io.grpc.stub.AbstractAsyncStub<ShimmerBLEByteServerStub> {
+    public static final class ShimmerBLEByteServerStub extends io.grpc.stub.AbstractAsyncStub<ShimmerBLEByteServerStub> {
         private ShimmerBLEByteServerStub(
                 io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
             super(channel, callOptions);
@@ -405,50 +405,50 @@ public final class ShimmerBLEByteServerGrpc {
             return new ShimmerBLEByteServerStub(channel, callOptions);
         }
 
-                public void getDataStream(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request,
+        public void getDataStream(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request,
                                   io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> responseObserver) {
             asyncServerStreamingCall(
                     getChannel().newCall(getGetDataStreamMethod(), getCallOptions()), request, responseObserver);
         }
 
-                public void getTestDataStream(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request,
+        public void getTestDataStream(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request,
                                       io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> responseObserver) {
             asyncServerStreamingCall(
                     getChannel().newCall(getGetTestDataStreamMethod(), getCallOptions()), request, responseObserver);
         }
 
-                public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> sendDataStream(
+        public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> sendDataStream(
                 io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> responseObserver) {
             return asyncClientStreamingCall(
                     getChannel().newCall(getSendDataStreamMethod(), getCallOptions()), responseObserver);
         }
 
-                public void connectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
+        public void connectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
                                    io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus> responseObserver) {
             asyncServerStreamingCall(
                     getChannel().newCall(getConnectShimmerMethod(), getCallOptions()), request, responseObserver);
         }
 
-                public void disconnectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
+        public void disconnectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
                                       io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> responseObserver) {
             asyncUnaryCall(
                     getChannel().newCall(getDisconnectShimmerMethod(), getCallOptions()), request, responseObserver);
         }
 
-                public void writeBytesShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes request,
+        public void writeBytesShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes request,
                                       io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> responseObserver) {
             asyncUnaryCall(
                     getChannel().newCall(getWriteBytesShimmerMethod(), getCallOptions()), request, responseObserver);
         }
 
-                public void sayHello(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
+        public void sayHello(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request,
                              io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> responseObserver) {
             asyncUnaryCall(
                     getChannel().newCall(getSayHelloMethod(), getCallOptions()), request, responseObserver);
         }
     }
 
-        public static final class ShimmerBLEByteServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<ShimmerBLEByteServerBlockingStub> {
+    public static final class ShimmerBLEByteServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<ShimmerBLEByteServerBlockingStub> {
         private ShimmerBLEByteServerBlockingStub(
                 io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
             super(channel, callOptions);
@@ -460,41 +460,41 @@ public final class ShimmerBLEByteServerGrpc {
             return new ShimmerBLEByteServerBlockingStub(channel, callOptions);
         }
 
-                public java.util.Iterator<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> getDataStream(
+        public java.util.Iterator<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> getDataStream(
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request) {
             return blockingServerStreamingCall(
                     getChannel(), getGetDataStreamMethod(), getCallOptions(), request);
         }
 
-                public java.util.Iterator<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> getTestDataStream(
+        public java.util.Iterator<com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray> getTestDataStream(
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest request) {
             return blockingServerStreamingCall(
                     getChannel(), getGetTestDataStreamMethod(), getCallOptions(), request);
         }
 
-                public java.util.Iterator<com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus> connectShimmer(
+        public java.util.Iterator<com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus> connectShimmer(
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request) {
             return blockingServerStreamingCall(
                     getChannel(), getConnectShimmerMethod(), getCallOptions(), request);
         }
 
-                public com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply disconnectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request) {
+        public com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply disconnectShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request) {
             return blockingUnaryCall(
                     getChannel(), getDisconnectShimmerMethod(), getCallOptions(), request);
         }
 
-                public com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply writeBytesShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes request) {
+        public com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply writeBytesShimmer(com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes request) {
             return blockingUnaryCall(
                     getChannel(), getWriteBytesShimmerMethod(), getCallOptions(), request);
         }
 
-                public com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply sayHello(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request) {
+        public com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply sayHello(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request) {
             return blockingUnaryCall(
                     getChannel(), getSayHelloMethod(), getCallOptions(), request);
         }
     }
 
-        public static final class ShimmerBLEByteServerFutureStub extends io.grpc.stub.AbstractFutureStub<ShimmerBLEByteServerFutureStub> {
+    public static final class ShimmerBLEByteServerFutureStub extends io.grpc.stub.AbstractFutureStub<ShimmerBLEByteServerFutureStub> {
         private ShimmerBLEByteServerFutureStub(
                 io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
             super(channel, callOptions);
@@ -506,19 +506,19 @@ public final class ShimmerBLEByteServerGrpc {
             return new ShimmerBLEByteServerFutureStub(channel, callOptions);
         }
 
-                public com.google.common.util.concurrent.ListenableFuture<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> disconnectShimmer(
+        public com.google.common.util.concurrent.ListenableFuture<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> disconnectShimmer(
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request) {
             return futureUnaryCall(
                     getChannel().newCall(getDisconnectShimmerMethod(), getCallOptions()), request);
         }
 
-                public com.google.common.util.concurrent.ListenableFuture<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> writeBytesShimmer(
+        public com.google.common.util.concurrent.ListenableFuture<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> writeBytesShimmer(
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes request) {
             return futureUnaryCall(
                     getChannel().newCall(getWriteBytesShimmerMethod(), getCallOptions()), request);
         }
 
-                public com.google.common.util.concurrent.ListenableFuture<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> sayHello(
+        public com.google.common.util.concurrent.ListenableFuture<com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply> sayHello(
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.Request request) {
             return futureUnaryCall(
                     getChannel().newCall(getSayHelloMethod(), getCallOptions()), request);

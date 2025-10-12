@@ -1,4 +1,5 @@
 package com.topdon.tc004.adapter
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.topdon.tc004.config.MonocularHelp
 import kotlinx.android.synthetic.main.item_menu_layout.view.item_menu_tab_img
 import kotlinx.android.synthetic.main.item_menu_layout.view.item_menu_tab_lay
 import kotlinx.android.synthetic.main.item_menu_layout.view.item_menu_tab_text
+
 class MenuSixAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var listener: ((index: Int, code: Int) -> Unit)? = null
     private var selected = -1
@@ -26,22 +28,27 @@ class MenuSixAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.V
         selected = index
         notifyDataSetChanged()
     }
+
     fun enBlack(pseudoMode: Int) {
         this.pseudoMode = pseudoMode
         notifyDataSetChanged()
     }
+
     fun enRange(rangeEnable: Boolean) {
         this.rangeEnable = rangeEnable
         notifyDataSetChanged()
     }
+
     fun enLight(lightLevel: Int) {
         this.lightLevel = lightLevel
         notifyDataSetChanged()
     }
+
     fun enPip(pipEnable: Boolean) {
         this.pipEnable = pipEnable
         notifyDataSetChanged()
     }
+
     fun enGain(gainLevel: Int) {
         this.gainLevel = gainLevel
         notifyDataSetChanged()
@@ -79,13 +86,16 @@ class MenuSixAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.V
             MonocularHelp.TYPE_SET_MORE
         ),
     )
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_menu_layout, parent, false)
         return ItemView(view)
     }
+
     override fun getItemCount(): Int {
         return sixBean.size
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemView) {
             val bean = sixBean[position]
@@ -101,18 +111,22 @@ class MenuSixAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.V
                         holder.img.setImageResource(R.drawable.ic_menu_white_hot)
                         holder.name.text = context.getString(R.string.color_p1)
                     }
+
                     MenuBean.TYPE_BLACK_HOT -> {
                         holder.img.setImageResource(R.drawable.ic_menu_black_hot)
                         holder.name.text = context.getString(R.string.color_p11)
                     }
+
                     MenuBean.TYPE_RED_HOT -> {
                         holder.img.setImageResource(R.drawable.ic_menu_red_hot)
                         holder.name.text = context.getString(R.string.color_p7)
                     }
+
                     MenuBean.TYPE_MIX -> {
                         holder.img.setImageResource(R.drawable.ic_menu_mix)
                         holder.name.text = context.getString(R.string.color_p12)
                     }
+
                     MenuBean.TYPE_BIRD -> {
                         holder.img.setImageResource(R.drawable.ic_menu_bird)
                         holder.name.text = context.getString(R.string.color_p13)
@@ -126,11 +140,13 @@ class MenuSixAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.V
                         holder.name.text =
                             context.getString(R.string.brightness_ios) + ": " + context.getString(R.string.ts004_high)
                     }
+
                     in 61..80 -> {
                         holder.img.setImageResource(R.drawable.ic_menu_light_middle)
                         holder.name.text =
                             context.getString(R.string.brightness_ios) + ": " + context.getString(R.string.ts004_middle)
                     }
+
                     in 0..60 -> {
                         holder.img.setImageResource(R.drawable.ic_menu_light_low)
                         holder.name.text =
@@ -143,12 +159,15 @@ class MenuSixAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.V
                     MenuBean.TYPE_GAIN_X1 -> {
                         holder.img.setImageResource(R.drawable.ic_menu_gain_x1)
                     }
+
                     MenuBean.TYPE_GAIN_X2 -> {
                         holder.img.setImageResource(R.drawable.ic_menu_gain_x2)
                     }
+
                     MenuBean.TYPE_GAIN_X4 -> {
                         holder.img.setImageResource(R.drawable.ic_menu_gain_x4)
                     }
+
                     MenuBean.TYPE_GAIN_X8 -> {
                         holder.img.setImageResource(R.drawable.ic_menu_gain_x8)
                     }
@@ -158,22 +177,27 @@ class MenuSixAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.V
                 MonocularHelp.TYPE_SET_RANGE -> {
                     iconUI(rangeEnable, holder.img, holder.name)
                 }
+
                 MonocularHelp.TYPE_SET_PIP -> {
                     iconUI(pipEnable, holder.img, holder.name)
                 }
+
                 else -> {
                     iconUI(bean.code == selected, holder.img, holder.name)
                 }
             }
         }
     }
+
     private fun iconUI(isActive: Boolean, img: ImageView, nameText: TextView) {
         img.isSelected = isActive
     }
+
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val lay: View = itemView.item_menu_tab_lay
         val img: ImageView = itemView.item_menu_tab_img
         val name: TextView = itemView.item_menu_tab_text
+
         init {
             if (ScreenUtil.isPortrait(context)) {
                 val with = (ScreenUtil.getScreenWidth(context) / 3)

@@ -67,7 +67,7 @@ public class SensorBattVoltage extends AbstractSensor {
 
 
     public static final Map<String, ChannelDetails> mChannelMapRef;
-        private static final long serialVersionUID = -2835431738933986391L;
+    private static final long serialVersionUID = -2835431738933986391L;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -82,7 +82,6 @@ public class SensorBattVoltage extends AbstractSensor {
     }
 
 
-
     static {
         Map<String, ChannelDetails> aMap = new LinkedHashMap<String, ChannelDetails>();
         aMap.put(ObjectClusterSensorName.BATT_PERCENTAGE, channelBattPercentage);
@@ -91,7 +90,7 @@ public class SensorBattVoltage extends AbstractSensor {
         mChannelMapRef = Collections.unmodifiableMap(aMap);
     }
 
-        protected int mSamplingDividerVBatt = 0;
+    protected int mSamplingDividerVBatt = 0;
     private ShimmerBattStatusDetails mShimmerBattStatusDetails = new ShimmerBattStatusDetails();
 
     public SensorBattVoltage(ShimmerDevice shimmerDevice) {
@@ -99,8 +98,6 @@ public class SensorBattVoltage extends AbstractSensor {
         mShimmerBattStatusDetails = shimmerDevice.mShimmerBattStatusDetails;
         initialise();
     }
-
-
 
 
     public SensorBattVoltage(ShimmerVerObject svo) {
@@ -160,7 +157,6 @@ public class SensorBattVoltage extends AbstractSensor {
 
         return objectCluster;
     }
-
 
 
     @Override
@@ -225,11 +221,11 @@ public class SensorBattVoltage extends AbstractSensor {
         return false;
     }
 
-        public int getSamplingDividerVBatt() {
+    public int getSamplingDividerVBatt() {
         return mSamplingDividerVBatt;
     }
 
-        public void setSamplingDividerVBatt(int mSamplingDividerVBatt) {
+    public void setSamplingDividerVBatt(int mSamplingDividerVBatt) {
         this.mSamplingDividerVBatt = mSamplingDividerVBatt;
     }
 

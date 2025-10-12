@@ -270,7 +270,7 @@ class ConnectionImpl implements Connection, ScanListener {
         connHandler.postDelayed(connectRunnable, 500);
     }
 
-        private void doDisconnect(boolean reconnect) {
+    private void doDisconnect(boolean reconnect) {
         clearRequestQueueAndNotify();
         connHandler.removeCallbacks(connectRunnable);
         connHandler.removeMessages(MSG_DISCOVER_SERVICES);
@@ -892,7 +892,7 @@ class ConnectionImpl implements Connection, ScanListener {
         }
     }
 
-        private void clearRequestQueueAndNotify() {
+    private void clearRequestQueueAndNotify() {
         synchronized (this) {
             for (GenericRequest request : requestQueue) {
                 handleFailedCallback(request, REQUEST_FAIL_TYPE_CONNECTION_DISCONNECTED, false);

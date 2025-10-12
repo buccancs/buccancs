@@ -1,4 +1,5 @@
 package com.buccancs.data.sensor
+
 import com.buccancs.control.SensorStreamAck
 import com.buccancs.control.SensorStreamServiceGrpcKt
 import com.buccancs.control.sensorSample
@@ -20,10 +21,12 @@ import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
+
 interface SensorStreamEmitter {
     suspend fun emit(timestampEpochMs: Long, values: Map<String, Double>)
     suspend fun close()
 }
+
 interface SensorStreamClient {
     suspend fun openStream(
         sessionId: String,
@@ -32,6 +35,7 @@ interface SensorStreamClient {
         sampleRateHz: Double
     ): SensorStreamEmitter
 }
+
 @Singleton
 class SensorStreamUploader @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
@@ -60,6 +64,7 @@ class SensorStreamUploader @Inject constructor(
         emitter.start()
         return emitter
     }
+
     private class StreamEmitterImpl(
         private val scope: CoroutineScope,
         private val stub: SensorStreamServiceGrpcKt.SensorStreamServiceCoroutineStub,
@@ -102,10 +107,12 @@ class SensorStreamUploader @Inject constructor(
                 }
             }
         }
+
         override suspend fun emit(timestampEpochMs: Long, values: Map<String, Double>) {
             if (closed.get()) return
             samples.send(QueuedSample(timestampEpochMs, values))
         }
+
         override suspend fun close() {
             if (!closed.compareAndSet(false, true)) return
             samples.close()
@@ -115,6 +122,7 @@ class SensorStreamUploader @Inject constructor(
                 throw IOException(response.errorMessage.ifBlank { "Sensor stream rejected" })
             }
         }
+
         private fun buildBatch(
             queued: List<QueuedSample>,
             session: com.buccancs.control.SessionIdentifier,
@@ -139,10 +147,12 @@ class SensorStreamUploader @Inject constructor(
                 }
             }
         }
+
         private data class QueuedSample(
             val timestamp: Long,
             val values: Map<String, Double>
         )
+
         companion object {
             private const val BATCH_CAPACITY = 64
         }

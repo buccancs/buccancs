@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.adapter
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -34,11 +35,13 @@ class ReportPreviewAdapter(private val cxt: Context, var dataList: List<HouseRep
     override fun getItemViewType(position: Int): Int {
         return position
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ItemView(
             LayoutInflater.from(parent.context).inflate(R.layout.item_report_floor, parent, false)
         )
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = dataList[position]
         holder.itemView.tv_floor_number.text = data.itemName
@@ -83,14 +86,18 @@ class ReportPreviewAdapter(private val cxt: Context, var dataList: List<HouseRep
             override fun onScrollToRightEdge() {
                 holder.itemView.view_category_mask.visibility = View.VISIBLE
             }
+
             override fun onScrollToMiddle() {
                 holder.itemView.view_category_mask.visibility = View.VISIBLE
             }
+
             override fun onScrollToLeftEdge() {
                 holder.itemView.view_category_mask.visibility = View.GONE
             }
+
             override fun onScrollStoped() {
             }
+
             override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
                 if (holder.itemView.view_category_mask.visibility == View.VISIBLE) {
                     return
@@ -99,9 +106,11 @@ class ReportPreviewAdapter(private val cxt: Context, var dataList: List<HouseRep
             }
         })
     }
+
     override fun getItemCount(): Int {
         return dataList.size
     }
+
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvFloorNo: TextView = itemView.tv_floor_number
         val rcyReportFloor: RecyclerView = itemView.rcy_report

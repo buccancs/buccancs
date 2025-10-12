@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.adapter
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.topdon.module.thermal.R
 import kotlinx.android.synthetic.main.item_menu_tab_more_view.view.*
 import kotlinx.android.synthetic.main.item_menu_tab_view.view.*
+
 class MenuTabAdapter(val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var listener: OnItemClickListener? = null
@@ -17,14 +19,17 @@ class MenuTabAdapter(val context: Context) :
     private var datas = arrayListOf<Int>()
     private var dataStrList = arrayListOf<String>()
     private var selected = -1
+
     companion object {
         private const val TYPE_ITEM = 300
         private const val TYPE_ITEM_MORE = 301
     }
+
     fun selected(index: Int) {
         selected = index
         notifyDataSetChanged()
     }
+
     private val firstMenus =
         arrayListOf(R.drawable.ic_menu_thermal1001_svg, R.drawable.ic_menu_thermal1002_svg)
     private val secondMenus =
@@ -72,6 +77,7 @@ class MenuTabAdapter(val context: Context) :
             R.drawable.ic_menu_thermal4003_svg,
             R.drawable.ic_menu_thermal4004_svg
         )
+
     fun initType(type: Int) {
         this.type = type
         datas = when (type) {
@@ -88,6 +94,7 @@ class MenuTabAdapter(val context: Context) :
         }
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_ITEM) {
             val view = LayoutInflater.from(parent.context)
@@ -99,6 +106,7 @@ class MenuTabAdapter(val context: Context) :
             ItemMoreView(view)
         }
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BaseItemView) {
             holder.img.setImageResource(datas[position])
@@ -118,9 +126,11 @@ class MenuTabAdapter(val context: Context) :
             }
         }
     }
+
     override fun getItemCount(): Int {
         return datas.size
     }
+
     override fun getItemViewType(position: Int): Int {
         return if (type == 3) {
             TYPE_ITEM_MORE
@@ -128,24 +138,29 @@ class MenuTabAdapter(val context: Context) :
             TYPE_ITEM
         }
     }
+
     open class BaseItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var lay: View
         lateinit var img: ImageView
     }
+
     inner class ItemView(itemView: View) : BaseItemView(itemView) {
         var name: TextView
+
         init {
             lay = itemView.item_menu_tab_lay
             img = itemView.item_menu_tab_img
             name = itemView.item_menu_tab_text
         }
     }
+
     inner class ItemMoreView(itemView: View) : BaseItemView(itemView) {
         init {
             lay = itemView.item_menu_tab_more_lay
             img = itemView.item_menu_tab_more_img
         }
     }
+
     interface OnItemClickListener {
         fun onClick(index: Int)
     }

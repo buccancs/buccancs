@@ -16,36 +16,36 @@ import com.topdon.thermal07.R;
 
 
 public class PowerConsumptionRankingsBatteryView extends View {
-        public static final int MAX_LEVEL = 100;
-        public static final int DEFAULT_LEVEL = 40;
+    public static final int MAX_LEVEL = 100;
+    public static final int DEFAULT_LEVEL = 40;
 
-        private int width;
-        private int height;
-        private DrawFilter drawFilter;
-        private int shellStrokeWidth;
-        private int shellCornerRadius;
-        private int shellWidth;
-        private int shellHeight;
-        private int shellHeadCornerRadius;
-        private int shellHeadWidth;
-        private int shellHeadHeight;
+    private int width;
+    private int height;
+    private DrawFilter drawFilter;
+    private int shellStrokeWidth;
+    private int shellCornerRadius;
+    private int shellWidth;
+    private int shellHeight;
+    private int shellHeadCornerRadius;
+    private int shellHeadWidth;
+    private int shellHeadHeight;
 
-        private int levelWidth;
-        private int levelMaxHeight;
-        private int levelHeight = 100;
+    private int levelWidth;
+    private int levelMaxHeight;
+    private int levelHeight = 100;
 
-        private int gap;
+    private int gap;
 
-        private Paint shellPaint;
-        private RectF shellRectF;
-        private RectF shellHeadRect;
+    private Paint shellPaint;
+    private RectF shellRectF;
+    private RectF shellHeadRect;
 
-        private Paint levelPaint;
-        private RectF levelRect;
+    private Paint levelPaint;
+    private RectF levelRect;
 
-        private int lowerPowerColor;
-        private int onlineColor;
-        private int offlineColor;
+    private int lowerPowerColor;
+    private int onlineColor;
+    private int offlineColor;
 
     public PowerConsumptionRankingsBatteryView(Context context) {
         super(context);
@@ -73,7 +73,7 @@ public class PowerConsumptionRankingsBatteryView extends View {
         levelRect = new RectF();
     }
 
-        private void initTypeArray(Context context, @Nullable AttributeSet attrs) {
+    private void initTypeArray(Context context, @Nullable AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PowerConsumptionRankingsBatteryView);
         lowerPowerColor = typedArray.getColor(R.styleable.PowerConsumptionRankingsBatteryView_batteryLowerPowerColor,
                 getResources().getColor(R.color.lowerPowerColor));
@@ -154,7 +154,7 @@ public class PowerConsumptionRankingsBatteryView extends View {
         canvas.drawRect(levelRect, levelPaint);
     }
 
-        public void setLevelHeight(int level) {
+    public void setLevelHeight(int level) {
         this.levelHeight = level;
         if (this.levelHeight < 0) {
             levelHeight = MAX_LEVEL;
@@ -164,19 +164,19 @@ public class PowerConsumptionRankingsBatteryView extends View {
         postInvalidate();
     }
 
-        public void setOnline() {
+    public void setOnline() {
         shellPaint.setColor(onlineColor);
         levelPaint.setColor(onlineColor);
         postInvalidate();
     }
 
-        public void setOffline() {
+    public void setOffline() {
         shellPaint.setColor(offlineColor);
         levelPaint.setColor(offlineColor);
         postInvalidate();
     }
 
-        public void setLowerPower() {
+    public void setLowerPower() {
         shellPaint.setColor(lowerPowerColor);
         levelPaint.setColor(lowerPowerColor);
         postInvalidate();

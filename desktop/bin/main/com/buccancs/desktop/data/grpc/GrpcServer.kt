@@ -1,4 +1,5 @@
 package com.buccancs.desktop.data.grpc
+
 import com.buccancs.control.CommandAck
 import com.buccancs.control.CommandEnvelope
 import com.buccancs.control.CommandReceipt
@@ -25,7 +26,6 @@ import com.buccancs.control.commandAck
 import com.buccancs.control.commandEnvelope
 import com.buccancs.control.commands.StartRecordingCommandPayload
 import com.buccancs.control.commands.StopRecordingCommandPayload
-import com.buccancs.control.dataTransferStatus
 import com.buccancs.control.deviceStatus
 import com.buccancs.control.previewAck
 import com.buccancs.control.registrationAck
@@ -57,6 +57,7 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
+
 class GrpcServer(
     private val port: Int,
     private val sessionRepository: SessionRepository,
@@ -84,6 +85,7 @@ class GrpcServer(
         .addService(SensorStreamServiceImpl(sessionRepository, sensorRecordingManager))
         .addService(DataTransferServiceImpl(sessionRepository))
         .build()
+
     fun start() {
         if (started.compareAndSet(false, true)) {
             server.start()
@@ -93,6 +95,7 @@ class GrpcServer(
             })
         }
     }
+
     fun stop() {
         if (started.compareAndSet(true, false)) {
             server.shutdown()
@@ -100,6 +103,7 @@ class GrpcServer(
         }
     }
 }
+
 private class CommandServiceImpl(
     private val commandRepository: CommandRepository,
     private val deviceRepository: DeviceRepository
@@ -125,6 +129,7 @@ private class CommandServiceImpl(
                 }
             }
     }
+
     override suspend fun reportCommandReceipt(request: CommandReceipt): CommandAck {
         val payload = commandRepository.findStartStopCommand(request.commandId)
         if (payload != null && request.success) {
@@ -133,10 +138,12 @@ private class CommandServiceImpl(
                     request.deviceId,
                     recording = true
                 )
+
                 is StopRecordingCommandPayload -> deviceRepository.updateRecordingState(
                     request.deviceId,
                     recording = false
                 )
+
                 else -> Unit
             }
         }
@@ -160,6 +167,7 @@ private class CommandServiceImpl(
         }
     }
 }
+
 private class OrchestrationServiceImpl(
     private val sessionRepository: SessionRepository,
     private val deviceRepository: DeviceRepository,
@@ -183,6 +191,7 @@ private class OrchestrationServiceImpl(
             sessionId = active?.id ?: ""
         }
     }
+
     override suspend fun startSession(request: com.buccancs.control.StartSessionRequest): CommandAck = try {
         val session = sessionRepository.startSession(
             sessionId = request.session.id,
@@ -208,6 +217,7 @@ private class OrchestrationServiceImpl(
             info = ex.message.orEmpty()
         }
     }
+
     override suspend fun stopSession(request: com.buccancs.control.StopSessionRequest): CommandAck = try {
         val sessionId = resolveSessionId(request.session.id)
         sessionRepository.stopSession()
@@ -229,6 +239,7 @@ private class OrchestrationServiceImpl(
             info = ex.message.orEmpty()
         }
     }
+
     override suspend fun sendSyncSignal(request: com.buccancs.control.SyncSignalRequest): CommandAck = try {
         val sessionId = resolveSessionId(request.session.id)
         val executeAt = request.scheduledEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
@@ -259,6 +270,7 @@ private class OrchestrationServiceImpl(
             info = ex.message.orEmpty()
         }
     }
+
     override suspend fun sendEventMarker(request: com.buccancs.control.EventMarkerRequest): CommandAck = try {
         val sessionId = resolveSessionId(request.session.id)
         val timestamp = request.timestampEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
@@ -290,6 +302,7 @@ private class OrchestrationServiceImpl(
             info = ex.message.orEmpty()
         }
     }
+
     override suspend fun reportStatus(request: DeviceStatus): CommandAck {
         val heartbeat = if (request.lastHeartbeatEpochMs > 0) {
             Instant.ofEpochMilli(request.lastHeartbeatEpochMs)
@@ -314,6 +327,7 @@ private class OrchestrationServiceImpl(
             info = "Status accepted"
         }
     }
+
     override fun subscribeStatus(request: StatusSubscribeRequest): Flow<DeviceStatus> = channelFlow {
         val job = launch {
             deviceRepository.observe().collectLatest { devices ->
@@ -322,6 +336,7 @@ private class OrchestrationServiceImpl(
         }
         awaitClose { job.cancel() }
     }
+
     private fun toProto(info: DeviceInfo): DeviceStatus = deviceStatus {
         deviceId = info.id
         online = info.connected
@@ -340,6 +355,7 @@ private class OrchestrationServiceImpl(
         }
         lastHeartbeatEpochMs = info.lastHeartbeat?.toEpochMilli() ?: 0L
     }
+
     private fun resolveTargets(target: com.buccancs.control.DeviceTarget): Set<String> {
         val explicit = target.deviceIdsList
             .mapNotNull { it.takeIf { id -> id.isNotBlank() } }
@@ -352,6 +368,7 @@ private class OrchestrationServiceImpl(
         }
         return explicit
     }
+
     private fun resolveSessionId(requestedId: String): String {
         if (requestedId.isNotBlank()) {
             return requestedId
@@ -360,6 +377,7 @@ private class OrchestrationServiceImpl(
             ?: throw IllegalStateException("No active session")
     }
 }
+
 private class TimeSyncServiceImpl(
     private val deviceRepository: DeviceRepository
 ) : TimeSyncServiceGrpcKt.TimeSyncServiceCoroutineImplBase() {
@@ -373,6 +391,7 @@ private class TimeSyncServiceImpl(
             serverSendEpochMs = sendTs
         }
     }
+
     override suspend fun report(request: TimeSyncReport): CommandAck {
         val offset = request.offsetMs.takeIf { it.isFinite() }
         val heartbeat = if (request.sampleEpochMs > 0) {
@@ -422,16 +441,19 @@ private class TimeSyncServiceImpl(
             info = "Sync report accepted"
         }
     }
+
     private data class TimeSyncSample(
         val timestamp: Instant,
         val offsetMs: Double,
         val roundTripMs: Double
     )
+
     private companion object {
         private const val DRIFT_ALERT_THRESHOLD_MS_PER_SEC = 0.05
         private const val ROUND_TRIP_ALERT_THRESHOLD_MS = 50.0
     }
 }
+
 private class PreviewServiceImpl(
     private val sessionRepository: SessionRepository,
     private val deviceRepository: DeviceRepository,
@@ -463,17 +485,20 @@ private class PreviewServiceImpl(
             info = "Preview stream closed"
         }
     }
+
     private suspend fun updateMetrics(frame: PreviewFrame) {
         val kind = classifyFrame(frame)
         sessionRepository.registerMetrics { metrics ->
             when (kind) {
                 FrameKind.RGB ->
                     metrics.copy(videoFrames = metrics.videoFrames + 1)
+
                 FrameKind.THERMAL ->
                     metrics.copy(thermalFrames = metrics.thermalFrames + 1)
             }
         }
     }
+
     private fun classifyFrame(frame: PreviewFrame): FrameKind {
         val cameraId = frame.cameraId.lowercase(Locale.ROOT)
         val mime = frame.mimeType.lowercase(Locale.ROOT)
@@ -483,20 +508,24 @@ private class PreviewServiceImpl(
                     mime.contains("thermal") ||
                     mime.contains("infrared") ->
                 FrameKind.THERMAL
+
             mime.startsWith("image/") ||
                     mime.startsWith("video/") ||
                     cameraId.contains("rgb") ||
                     cameraId.contains("rear") ||
                     cameraId.contains("front") ->
                 FrameKind.RGB
+
             else -> FrameKind.RGB
         }
     }
+
     private enum class FrameKind {
         RGB,
         THERMAL
     }
 }
+
 private class SensorStreamServiceImpl(
     private val sessionRepository: SessionRepository,
     private val recordingManager: SensorRecordingManager
@@ -574,12 +603,14 @@ private class SensorStreamServiceImpl(
                 .asRuntimeException()
         }
     }
+
     private data class StreamKey(
         val sessionId: String,
         val deviceId: String,
         val streamId: String
     )
 }
+
 private class DataTransferServiceImpl(
     private val sessionRepository: SessionRepository
 ) : DataTransferServiceGrpcKt.DataTransferServiceCoroutineImplBase() {
@@ -801,12 +832,14 @@ private class DataTransferServiceImpl(
             accumulators.clear()
         }
     }
+
     private fun transferKey(
         sessionId: String,
         deviceId: String,
         fileName: String,
         streamType: String?
     ): String = listOf(sessionId, deviceId, fileName, streamType.orEmpty()).joinToString("|")
+
     private data class TransferAccumulator(
         val sessionId: String,
         val deviceId: String,
@@ -819,6 +852,7 @@ private class DataTransferServiceImpl(
         val stream: ByteArrayOutputStream = ByteArrayOutputStream(),
         var bytes: Long = 0
     )
+
     private fun buildTransferStatus(
         accumulator: TransferAccumulator,
         success: Boolean,

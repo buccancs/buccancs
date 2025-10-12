@@ -190,8 +190,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
                 if ((dataFileName).isEmpty() || dataFileName.contains(BadCRC)) {
                     createBinFile(verisenseMessage, false);
-                } else
-                {
+                } else {
                     long length = new File(dataFilePath).length();
                     if (length > MaximumNumberOfBytesPerBinFile) {
                         createBinFile(verisenseMessage, false);
@@ -404,15 +403,15 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
     }
 
-        public void connect() throws ShimmerException {
+    public void connect() throws ShimmerException {
         mByteCommunication.connect();
     }
 
-        public void disconnect() throws ShimmerException {
+    public void disconnect() throws ShimmerException {
         mByteCommunication.disconnect();
     }
 
-        public void stop() {
+    public void stop() {
         mByteCommunication.stop();
     }
 
@@ -439,13 +438,13 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         mByteCommunication.writeBytes(txBuf);
     }
 
-        public StatusPayload readStatus() throws ShimmerException {
+    public StatusPayload readStatus() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.STATUS.readByte());
         waitForResponse(VERISENSE_PROPERTY.STATUS, TIMEOUT_MS.STANDARD, true);
         return latestStatusPayload;
     }
 
-        public void startStreaming() throws ShimmerException {
+    public void startStreaming() throws ShimmerException {
         if (!mState.equals(VerisenseProtocolState.Streaming)) {
             writeMessageWithPayload(VERISENSE_PROPERTY.STREAMING.writeByte(), new byte[]{STREAMING_COMMAND.STREAMING_START});
             waitForAck(VERISENSE_PROPERTY.STREAMING, TIMEOUT_MS.STANDARD, true);
@@ -454,7 +453,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         }
     }
 
-        public void stopStreaming() throws ShimmerException {
+    public void stopStreaming() throws ShimmerException {
         if (mState.equals(VerisenseProtocolState.Streaming)) {
             writeMessageWithPayload(VERISENSE_PROPERTY.STREAMING.writeByte(), new byte[]{STREAMING_COMMAND.STREAMING_STOP});
             waitForAck(VERISENSE_PROPERTY.STREAMING, TIMEOUT_MS.STANDARD, true);
@@ -480,54 +479,54 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         }
     }
 
-        public void writeTime() throws ShimmerException {
+    public void writeTime() throws ShimmerException {
         TimePayload timePayload = new TimePayload();
         timePayload.setTimeMs(System.currentTimeMillis());
         writeMessageWithPayload(VERISENSE_PROPERTY.TIME.writeByte(), timePayload.getPayloadContents());
         waitForAck(VERISENSE_PROPERTY.TIME, TIMEOUT_MS.STANDARD, true);
     }
 
-        public TimePayload readTime() throws ShimmerException {
+    public TimePayload readTime() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.TIME.readByte());
         waitForResponse(VERISENSE_PROPERTY.TIME, TIMEOUT_MS.STANDARD, true);
         return latestTimePayload;
     }
 
-        public void readLoggedData() throws ShimmerException {
+    public void readLoggedData() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.DATA.readByte());
     }
 
-        public void writeLoggedDataAck() throws ShimmerException {
+    public void writeLoggedDataAck() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.DATA.ackNextStageByte());
     }
 
-        public void writeLoggedDataNack() throws ShimmerException {
+    public void writeLoggedDataNack() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.DATA.nackByte());
     }
 
-        public void writeProductionConfig(byte[] txBuf) throws ShimmerException {
+    public void writeProductionConfig(byte[] txBuf) throws ShimmerException {
         writeMessageWithPayload(VERISENSE_PROPERTY.CONFIG_PROD.writeByte(), txBuf);
         waitForAck(VERISENSE_PROPERTY.CONFIG_PROD, TIMEOUT_MS.STANDARD, true);
     }
 
-        public ProductionConfigPayload readProductionConfig() throws ShimmerException {
+    public ProductionConfigPayload readProductionConfig() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.CONFIG_PROD.readByte());
         waitForResponse(VERISENSE_PROPERTY.CONFIG_PROD, TIMEOUT_MS.STANDARD, true);
         return latestProductionConfigPayload;
     }
 
-        public OperationalConfigPayload readOperationalConfig() throws ShimmerException {
+    public OperationalConfigPayload readOperationalConfig() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.CONFIG_OPER.readByte());
         waitForResponse(VERISENSE_PROPERTY.CONFIG_OPER, TIMEOUT_MS.STANDARD, true);
         return latestOperationalConfigPayload;
     }
 
-        public void writeAndReadOperationalConfig(byte[] operationalConfig) throws ShimmerException {
+    public void writeAndReadOperationalConfig(byte[] operationalConfig) throws ShimmerException {
         writeOperationalConfig(operationalConfig);
         readOperationalConfig();
     }
 
-        public void writeOperationalConfig(byte[] operationalConfig) throws ShimmerException {
+    public void writeOperationalConfig(byte[] operationalConfig) throws ShimmerException {
         writeMessageWithPayload(VERISENSE_PROPERTY.CONFIG_OPER.writeByte(), operationalConfig);
         waitForAck(VERISENSE_PROPERTY.CONFIG_OPER, TIMEOUT_MS.STANDARD, true);
     }
@@ -570,12 +569,12 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         waitForAck(VERISENSE_PROPERTY.FW_DEBUG, TIMEOUT_MS.STANDARD, true);
     }
 
-        public Task<VerisenseMessage> eraseDataTask() throws ShimmerException {
+    public Task<VerisenseMessage> eraseDataTask() throws ShimmerException {
         writeMessageWithPayload(VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{VERISENSE_DEBUG_MODE.ERASE_FLASH_AND_LOOKUP});
         return waitForAck(VERISENSE_PROPERTY.FW_DEBUG, TIMEOUT_MS.ERASE_FLASH_AND_LOOKUP_TABLE, false);
     }
 
-        public void writeEraseLoggedData() throws ShimmerException {
+    public void writeEraseLoggedData() throws ShimmerException {
         writeMessageWithPayload(VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{VERISENSE_DEBUG_MODE.ERASE_FLASH_AND_LOOKUP});
         waitForAck(VERISENSE_PROPERTY.FW_DEBUG, TIMEOUT_MS.ERASE_FLASH_AND_LOOKUP_TABLE, true);
     }
@@ -756,7 +755,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         return mTaskWriteBytes.getTask();
     }
 
-        public String getTrialName() {
+    public String getTrialName() {
         return trialName;
     }
 
@@ -764,19 +763,19 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         trialName = trial;
     }
 
-        public String getParticipantID() {
+    public String getParticipantID() {
         return participantID;
     }
 
-        public void setParticipantID(String participant) {
+    public void setParticipantID(String participant) {
         participantID = participant;
     }
 
-        public void setRootPathForBinFile(String rootPath) {
+    public void setRootPathForBinFile(String rootPath) {
         mRootPathForBinFile = rootPath;
     }
 
-        public String getDataFilePath() {
+    public String getDataFilePath() {
         return dataFilePath;
     }
 
@@ -784,7 +783,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         None, Disconnected, Connecting, Connected, Streaming, StreamingLoggedData, Limited, SpeedTest
     }
 
-        public class VERISENSE_EVENT_ACK_RECEIVED {
+    public class VERISENSE_EVENT_ACK_RECEIVED {
 
         public static final int VERISENSE_ERASE_FLASH_AND_LOOKUP_ACK = 0xA09;
         public static final int VERISENSE_CLEAR_PENDING_EVENTS_ACK = 0x909;

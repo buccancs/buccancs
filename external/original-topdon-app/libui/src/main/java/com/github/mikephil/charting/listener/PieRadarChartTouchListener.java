@@ -17,7 +17,7 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
 
     private MPPointF mTouchStartPoint = MPPointF.getInstance(0, 0);
 
-        private float mStartAngle = 0f;
+    private float mStartAngle = 0f;
 
     private ArrayList<AngularVelocitySample> _velocitySamples = new ArrayList<AngularVelocitySample>();
 
@@ -206,15 +206,15 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
         return velocity;
     }
 
-        public void setGestureStartAngle(float x, float y) {
+    public void setGestureStartAngle(float x, float y) {
         mStartAngle = mChart.getAngleForPoint(x, y) - mChart.getRawRotationAngle();
     }
 
-        public void updateGestureRotation(float x, float y) {
+    public void updateGestureRotation(float x, float y) {
         mChart.setRotationAngle(mChart.getAngleForPoint(x, y) - mStartAngle);
     }
 
-        public void stopDeceleration() {
+    public void stopDeceleration() {
         mDecelerationAngularVelocity = 0.f;
     }
 

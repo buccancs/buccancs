@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaScannerConnection
@@ -37,12 +38,14 @@ import kotlinx.android.synthetic.main.activity_ir_gallery_detail_04.*
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
+
 @Route(path = RouterConfig.IR_GALLERY_DETAIL_04)
 class IRGalleryDetail04Activity : BaseActivity() {
     private var isRemote = false
     private var position = 0
     private lateinit var dataList: ArrayList<GalleryBean>
     override fun initContentView() = R.layout.activity_ir_gallery_detail_04
+
     @SuppressLint("SetTextI18n")
     override fun initView() {
         isRemote = intent.getBooleanExtra("isRemote", false)
@@ -73,8 +76,10 @@ class IRGalleryDetail04Activity : BaseActivity() {
             actionDelete()
         }
     }
+
     override fun initData() {
     }
+
     @SuppressLint("SetTextI18n")
     private fun initViewPager() {
         ir_gallery_viewpager.adapter = GalleryViewPagerAdapter(this)
@@ -88,6 +93,7 @@ class IRGalleryDetail04Activity : BaseActivity() {
         })
         ir_gallery_viewpager?.setCurrentItem(position, false)
     }
+
     private fun actionInfo() {
         try {
             val data = dataList[position]
@@ -108,6 +114,7 @@ class IRGalleryDetail04Activity : BaseActivity() {
             ToastTools.showShort(R.string.status_error_load_fail)
         }
     }
+
     private fun actionShare() {
         val data = dataList[position]
         val uri = FileTools.getUri(File(FileConfig.ts004GalleryDir, data.name))
@@ -117,6 +124,7 @@ class IRGalleryDetail04Activity : BaseActivity() {
         shareIntent.type = "image/jpeg"
         startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
     }
+
     private fun actionDelete() {
         ConfirmSelectDialog(this).run {
             setTitleRes(R.string.tip_delete)
@@ -128,6 +136,7 @@ class IRGalleryDetail04Activity : BaseActivity() {
             show()
         }
     }
+
     private fun deleteFile(isDelLocal: Boolean) {
         val data = dataList[position]
         if (isRemote) {
@@ -199,6 +208,7 @@ class IRGalleryDetail04Activity : BaseActivity() {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                 return false
             }
+
             override fun onResourceReady(
                 resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean
             ): Boolean {
@@ -222,10 +232,12 @@ class IRGalleryDetail04Activity : BaseActivity() {
             }
         }).preload()
     }
+
     inner class GalleryViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int {
             return dataList.size
         }
+
         override fun createFragment(position: Int): Fragment {
             val fragment = GalleryFragment()
             val bundle = Bundle()

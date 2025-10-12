@@ -1,4 +1,5 @@
 package com.topdon.tc001.fragment
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -71,6 +72,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                         .withBoolean(ExtraKeyConfig.IS_TC007, false)
                         .navigation(requireContext())
                 }
+
                 ConnectType.TS004 -> {
                     if (WebSocketProxy.getInstance().isTS004Connect()) {
                         ARouter.getInstance().build(RouterConfig.IR_MONOCULAR).navigation(requireContext())
@@ -81,6 +83,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                             .navigation(requireContext())
                     }
                 }
+
                 ConnectType.TC007 -> {
                     ARouter.getInstance()
                         .build(RouterConfig.IR_MAIN)
@@ -131,13 +134,16 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             }
         })
     }
+
     override fun initData() {
     }
+
     override fun onResume() {
         super.onResume()
         refresh()
         adapter?.notifyDataSetChanged()
     }
+
     private fun refresh() {
         val hasAnyDevice = SharedManager.hasTcLine || SharedManager.hasTS004 || SharedManager.hasTC007
         cl_has_device.isVisible = hasAnyDevice
@@ -147,14 +153,17 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         adapter.hasConnectTC007 = WebSocketProxy.getInstance().isTC007Connect()
         adapter.notifyDataSetChanged()
     }
+
     override fun connected() {
         adapter.hasConnectLine = true
         SharedManager.hasTcLine = true
         refresh()
     }
+
     override fun disConnected() {
         adapter.hasConnectLine = false
     }
+
     override fun onSocketConnected(isTS004: Boolean) {
         if (isTS004) {
             SharedManager.hasTS004 = true
@@ -170,6 +179,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (isTS004) {
             adapter.hasConnectTS004 = false
@@ -177,6 +187,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             adapter.hasConnectTC007 = false
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             tv_connect_device, iv_add -> {
@@ -184,6 +195,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onSocketMsgEvent(event: SocketMsgEvent) {
         if (SocketCmdUtil.getCmdResponse(event.text) == WsCmdConstants.APP_EVENT_HEART_BEATS) {
@@ -197,6 +209,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     private class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
         var hasConnectLine: Boolean = false
             set(value) {
@@ -226,6 +239,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_device_connect, parent, false))
         }
+
         @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val type = holder.getConnectType(position)
@@ -266,6 +280,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                         holder.itemView.iv_image.setImageResource(R.drawable.ic_main_device_line_disconnect)
                     }
                 }
+
                 ConnectType.TS004 -> {
                     holder.itemView.tv_device_name.text = "TS004"
                     if (hasConnect) {
@@ -274,6 +289,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                         holder.itemView.iv_image.setImageResource(R.drawable.ic_main_device_ts004_disconnect)
                     }
                 }
+
                 ConnectType.TC007 -> {
                     holder.itemView.tv_device_name.text = "TC007"
                     if (hasConnect) {
@@ -287,6 +303,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
+
         override fun getItemCount(): Int {
             var result = 0
             if (SharedManager.hasTcLine) {
@@ -300,6 +317,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             }
             return result
         }
+
         inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.iv_bg.setOnClickListener {
@@ -318,11 +336,13 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                                     return@setOnLongClickListener true
                                 }
                             }
+
                             ConnectType.TS004 -> {
                                 if (WebSocketProxy.getInstance().isTS004Connect()) {
                                     return@setOnLongClickListener true
                                 }
                             }
+
                             ConnectType.TC007 -> {
                                 if (WebSocketProxy.getInstance().isTC007Connect()) {
                                     return@setOnLongClickListener true
@@ -334,6 +354,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                     true
                 }
             }
+
             fun getConnectType(position: Int): ConnectType = when (position) {
                 0 -> if (SharedManager.hasTcLine) {
                     ConnectType.LINE
@@ -342,15 +363,18 @@ class MainFragment : BaseFragment(), View.OnClickListener {
                 } else {
                     ConnectType.TC007
                 }
+
                 1 -> if (SharedManager.hasTcLine) {
                     if (SharedManager.hasTS004) ConnectType.TS004 else ConnectType.TC007
                 } else {
                     ConnectType.TC007
                 }
+
                 else -> ConnectType.TC007
             }
         }
     }
+
     enum class ConnectType {
         LINE,
         TS004,

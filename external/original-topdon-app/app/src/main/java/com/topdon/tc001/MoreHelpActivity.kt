@@ -1,4 +1,5 @@
 package com.topdon.tc001
+
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
@@ -13,6 +14,7 @@ import com.topdon.lib.core.dialog.TipDialog
 import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.utils.Constants
 import kotlinx.android.synthetic.main.activity_more_help.*
+
 @Route(path = RouterConfig.IR_MORE_HELP)
 class MoreHelpActivity : BaseActivity() {
     private var connectionType: Int = 0
@@ -22,6 +24,7 @@ class MoreHelpActivity : BaseActivity() {
         initIntent()
         wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
     }
+
     private fun initIntent() {
         connectionType = intent.getIntExtra(Constants.SETTING_CONNECTION_TYPE, 0)
         if (connectionType == Constants.SETTING_CONNECTION) {
@@ -51,11 +54,13 @@ class MoreHelpActivity : BaseActivity() {
             iv_tvSetting.text = spannable
         }
     }
+
     override fun initData() {
         iv_tvSetting.setOnClickListener {
             startWifiList()
         }
     }
+
     private fun startWifiList() {
         if (wifiManager.isWifiEnabled) {
             if (Build.VERSION.SDK_INT < 29) {

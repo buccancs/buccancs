@@ -1,4 +1,5 @@
 package com.topdon.hik.fragment
+
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.WindowManager
@@ -12,6 +13,7 @@ import com.topdon.libhik.util.HikHelper
 import com.topdon.module.thermal.ir.bean.DataBean
 import com.topdon.module.thermal.ir.repository.ConfigRepository
 import kotlinx.coroutines.launch
+
 class IRThermalHikFragment : BaseBindingFragment<FragmentIrThermalHikBinding>() {
     override fun initContentLayoutId(): Int = R.layout.fragment_ir_thermal_hik
     override fun initView(savedInstanceState: Bundle?) {
@@ -41,13 +43,16 @@ class IRThermalHikFragment : BaseBindingFragment<FragmentIrThermalHikBinding>() 
         val saveSetBean = SaveSettingBean()
         binding.hikSurfaceView.setPseudoCode(saveSetBean.pseudoColorMode)
     }
+
     override fun onResume() {
         super.onResume()
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     override fun onPause() {
         super.onPause()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     fun getBitmap(): Bitmap = binding.hikSurfaceView.getScaleBitmap()
 }

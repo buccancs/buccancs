@@ -23,11 +23,8 @@ public class MatrixMultiplicationSpeed {
         long nanotime4 = System.nanoTime() / 1000000;
         System.out.println("Apache Commons:" + (nanotime4 - nanotime3) + "ms");
         System.out.println(o.getData()[0][0] + " " + o.getData()[0][1] + " " + o.getData()[0][2]);
-		
-				
-		
 
-		
+
     }
 
 }

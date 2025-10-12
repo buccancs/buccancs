@@ -1,4 +1,5 @@
 package com.buccancs.data.orchestration
+
 import com.buccancs.domain.model.OrchestratorConfig
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -7,6 +8,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class GrpcChannelFactory @Inject constructor() {
     private val mutex = Mutex()

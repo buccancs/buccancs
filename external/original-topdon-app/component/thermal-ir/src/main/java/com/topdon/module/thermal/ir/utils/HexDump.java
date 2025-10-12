@@ -1,4 +1,3 @@
-
 package com.topdon.module.thermal.ir.utils;
 
 public class HexDump {
@@ -150,7 +149,7 @@ public class HexDump {
         return value;
     }
 
-        public static byte[] intToBytes(int value) {
+    public static byte[] intToBytes(int value) {
         byte[] src = new byte[4];
         src[3] = (byte) ((value >> 24) & 0xFF);
         src[2] = (byte) ((value >> 16) & 0xFF);
@@ -159,7 +158,7 @@ public class HexDump {
         return src;
     }
 
-        public static byte[] intToBytes2(int value) {
+    public static byte[] intToBytes2(int value) {
         byte[] src = new byte[4];
         src[0] = (byte) ((value >> 24) & 0xFF);
         src[1] = (byte) ((value >> 16) & 0xFF);

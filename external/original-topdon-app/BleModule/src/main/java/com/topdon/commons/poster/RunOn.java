@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface RunOn {
-        ThreadMode value() default ThreadMode.UNSPECIFIED;
+    ThreadMode value() default ThreadMode.UNSPECIFIED;
 }

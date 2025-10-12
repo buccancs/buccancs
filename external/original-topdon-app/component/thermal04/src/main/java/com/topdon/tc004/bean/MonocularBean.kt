@@ -1,10 +1,12 @@
 package com.topdon.tc004.bean
+
 data class MonocularBean(
     val res: Int,
     val name: String,
     val code: Int,
     var isSelect: Boolean = false,
 )
+
 class MenuBean {
     companion object {
         const val TYPE_WHITE_HOT = 1

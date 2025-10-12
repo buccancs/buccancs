@@ -1,4 +1,5 @@
 package com.buccancs.data.sensor.connector.simulated
+
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.SensorDevice
@@ -10,6 +11,7 @@ import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
+
 @Singleton
 internal class SimulatedThermalConnector @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
@@ -31,6 +33,7 @@ internal class SimulatedThermalConnector @Inject constructor(
     )
 ) {
     constructor(scope: CoroutineScope) : this(scope, SimulatedTestSupport.artifactFactory())
+
     override fun streamIntervalMs(): Long = 200L
     override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
     override fun simulatedRssi(device: SensorDevice): Int? = null

@@ -16,11 +16,11 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
     protected static final int PINCH_ZOOM = 4;
     protected static final int POST_ZOOM = 5;
     protected static final int ROTATE = 6;
-        protected ChartGesture mLastGesture = ChartGesture.NONE;
-        protected int mTouchMode = NONE;
-        protected Highlight mLastHighlighted;
-        protected GestureDetector mGestureDetector;
-        protected T mChart;
+    protected ChartGesture mLastGesture = ChartGesture.NONE;
+    protected int mTouchMode = NONE;
+    protected Highlight mLastHighlighted;
+    protected GestureDetector mGestureDetector;
+    protected T mChart;
 
     public ChartTouchListener(T chart) {
         this.mChart = chart;
@@ -28,13 +28,13 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
         mGestureDetector = new GestureDetector(chart.getContext(), this);
     }
 
-        protected static float distance(float eventX, float startX, float eventY, float startY) {
+    protected static float distance(float eventX, float startX, float eventY, float startY) {
         float dx = eventX - startX;
         float dy = eventY - startY;
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
-        public void startAction(MotionEvent me) {
+    public void startAction(MotionEvent me) {
 
         OnChartGestureListener l = mChart.getOnChartGestureListener();
 
@@ -42,7 +42,7 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
             l.onChartGestureStart(me, mLastGesture);
     }
 
-        public void endAction(MotionEvent me) {
+    public void endAction(MotionEvent me) {
 
         OnChartGestureListener l = mChart.getOnChartGestureListener();
 
@@ -50,20 +50,20 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
             l.onChartGestureEnd(me, mLastGesture);
     }
 
-        public void setLastHighlighted(Highlight high) {
+    public void setLastHighlighted(Highlight high) {
         mLastHighlighted = high;
     }
 
-        public int getTouchMode() {
+    public int getTouchMode() {
         return mTouchMode;
     }
 
-        public ChartGesture getLastGesture() {
+    public ChartGesture getLastGesture() {
         return mLastGesture;
     }
 
 
-        protected void performHighlight(Highlight h, MotionEvent e) {
+    protected void performHighlight(Highlight h, MotionEvent e) {
 
         if (h == null || h.equalTo(mLastHighlighted)) {
             mChart.highlightValue(null, true);

@@ -52,7 +52,7 @@ public class ConnectedShimmersListFragment extends ListFragment {
         }
     }
 
-        public void buildShimmersConnectedListView(final List<ShimmerDevice> deviceList, final Context context) {
+    public void buildShimmersConnectedListView(final List<ShimmerDevice> deviceList, final Context context) {
         if (isVisible()) {
             shimmerDeviceList = deviceList;
             this.context = context;

@@ -45,7 +45,7 @@ public class PieEntry extends Entry {
         this.label = label;
     }
 
-        public float getValue() {
+    public float getValue() {
         return getY();
     }
 

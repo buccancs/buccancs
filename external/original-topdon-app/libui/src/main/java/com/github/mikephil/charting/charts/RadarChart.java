@@ -19,14 +19,14 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
     protected YAxisRendererRadarChart mYAxisRenderer;
     protected XAxisRendererRadarChart mXAxisRenderer;
-        private float mWebLineWidth = 2.5f;
-        private float mInnerWebLineWidth = 1.5f;
-        private int mWebColor = Color.rgb(122, 122, 122);
-        private int mWebColorInner = Color.rgb(122, 122, 122);
-        private int mWebAlpha = 150;
-        private boolean mDrawWeb = true;
-        private int mSkipWebLineCount = 0;
-        private YAxis mYAxis;
+    private float mWebLineWidth = 2.5f;
+    private float mInnerWebLineWidth = 1.5f;
+    private int mWebColor = Color.rgb(122, 122, 122);
+    private int mWebColorInner = Color.rgb(122, 122, 122);
+    private int mWebAlpha = 150;
+    private boolean mDrawWeb = true;
+    private int mSkipWebLineCount = 0;
+    private YAxis mYAxis;
 
     public RadarChart(Context context) {
         super(context);
@@ -118,12 +118,12 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         drawMarkers(canvas);
     }
 
-        public float getFactor() {
+    public float getFactor() {
         RectF content = mViewPortHandler.getContentRect();
         return Math.min(content.width() / 2f, content.height() / 2f) / mYAxis.mAxisRange;
     }
 
-        public float getSliceAngle() {
+    public float getSliceAngle() {
         return 360f / (float) mData.getMaxEntryCountSet().getEntryCount();
     }
 
@@ -151,7 +151,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         return index;
     }
 
-        public YAxis getYAxis() {
+    public YAxis getYAxis() {
         return mYAxis;
     }
 
@@ -159,7 +159,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         return mWebLineWidth;
     }
 
-        public void setWebLineWidth(float width) {
+    public void setWebLineWidth(float width) {
         mWebLineWidth = Utils.convertDpToPixel(width);
     }
 
@@ -167,15 +167,15 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         return mInnerWebLineWidth;
     }
 
-        public void setWebLineWidthInner(float width) {
+    public void setWebLineWidthInner(float width) {
         mInnerWebLineWidth = Utils.convertDpToPixel(width);
     }
 
-        public int getWebAlpha() {
+    public int getWebAlpha() {
         return mWebAlpha;
     }
 
-        public void setWebAlpha(int alpha) {
+    public void setWebAlpha(int alpha) {
         mWebAlpha = alpha;
     }
 
@@ -183,7 +183,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         return mWebColor;
     }
 
-        public void setWebColor(int color) {
+    public void setWebColor(int color) {
         mWebColor = color;
     }
 
@@ -191,19 +191,19 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         return mWebColorInner;
     }
 
-        public void setWebColorInner(int color) {
+    public void setWebColorInner(int color) {
         mWebColorInner = color;
     }
 
-        public void setDrawWeb(boolean enabled) {
+    public void setDrawWeb(boolean enabled) {
         mDrawWeb = enabled;
     }
 
-        public int getSkipWebLineCount() {
+    public int getSkipWebLineCount() {
         return mSkipWebLineCount;
     }
 
-        public void setSkipWebLineCount(int count) {
+    public void setSkipWebLineCount(int count) {
 
         mSkipWebLineCount = Math.max(0, count);
     }
@@ -226,15 +226,15 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         return Math.min(content.width() / 2f, content.height() / 2f);
     }
 
-        public float getYChartMax() {
+    public float getYChartMax() {
         return mYAxis.mAxisMaximum;
     }
 
-        public float getYChartMin() {
+    public float getYChartMin() {
         return mYAxis.mAxisMinimum;
     }
 
-        public float getYRange() {
+    public float getYRange() {
         return mYAxis.mAxisRange;
     }
 }

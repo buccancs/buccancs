@@ -1,4 +1,5 @@
 package com.topdon.tc001
+
 import android.content.Context
 import android.content.IntentFilter
 import android.hardware.usb.UsbManager
@@ -22,6 +23,7 @@ import com.topdon.lms.sdk.LMS
 import com.topdon.lms.sdk.utils.ConstantUtil
 import com.topdon.lms.sdk.utils.LanguageUtil
 import java.util.Date
+
 object InitUtil {
     fun initLog() {
         val fileName = "logs_${TimeUtils.date2String(Date(), "yyyy-MM-dd")}.log"
@@ -47,6 +49,7 @@ object InitUtil {
             XLog.init(config, filePrinter)
         }
     }
+
     fun initLms() {
         val privacyPolicyUrl = "https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?" +
                 "softCode=${BaseApplication.instance.getSoftWareCode()}&" +
@@ -74,14 +77,17 @@ object InitUtil {
                 setAuthSecret(HttpConfig.AUTH_SECRET)
             }
     }
+
     fun initUM() {
     }
+
     fun initJPush() {
         var registrationID = ""
         if (SharedManager.getHasShowClause()) {
             XLog.w("registrationID= $registrationID")
         }
     }
+
     fun initReceiver() {
         try {
             BaseApplication.instance.unregisterReceiver(BaseApplication.usbObserver)

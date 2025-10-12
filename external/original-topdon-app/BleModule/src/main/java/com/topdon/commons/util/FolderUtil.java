@@ -14,11 +14,11 @@ public class FolderUtil {
     public static String fileName;
     public static String tdartsSn;
 
-        public static String getFileName() {
+    public static String getFileName() {
         return fileName;
     }
 
-        public static void setFileName(String mfileName) {
+    public static void setFileName(String mfileName) {
         fileName = mfileName;
     }
 
@@ -49,7 +49,7 @@ public class FolderUtil {
         }
     }
 
-        public static void initFilePath() {
+    public static void initFilePath() {
         String basePath = Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName;
         String downPath = basePath + "Download/";
         Log.e("bcf", fileName + "--下载路径初始化--" + downPath);
@@ -228,7 +228,7 @@ public class FolderUtil {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName;
     }
 
-        public static String getTDartsRootPath() {
+    public static String getTDartsRootPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + tdartsSn + "/";
     }
 
@@ -244,7 +244,7 @@ public class FolderUtil {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + mUserId + "/Immo/";
     }
 
-        public static String getRfidTopScanPath() {
+    public static String getRfidTopScanPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + tdartsSn + "/RFID/";
     }
 
@@ -334,7 +334,7 @@ public class FolderUtil {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + mUserId + "/DataLog/IMMO/";
     }
 
-        public static String getFeedbackLogPath() {
+    public static String getFeedbackLogPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + mUserId + "/FeedbackLog/";
     }
 
@@ -354,11 +354,11 @@ public class FolderUtil {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + "UserData/RFID/";
     }
 
-        public static String getSoftDownPath() {
+    public static String getSoftDownPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + "Download/";
     }
 
-        public static String getAutoVinLogPath() {
+    public static String getAutoVinLogPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + mUserId + "/autovinLog/";
     }
 

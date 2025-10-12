@@ -4,11 +4,11 @@ import java.text.DecimalFormat;
 
 public class DefaultAxisValueFormatter extends ValueFormatter {
 
-        protected DecimalFormat mFormat;
+    protected DecimalFormat mFormat;
 
-        protected int digits;
+    protected int digits;
 
-        public DefaultAxisValueFormatter(int digits) {
+    public DefaultAxisValueFormatter(int digits) {
         this.digits = digits;
 
         StringBuffer b = new StringBuffer();
@@ -26,7 +26,7 @@ public class DefaultAxisValueFormatter extends ValueFormatter {
         return mFormat.format(value);
     }
 
-        public int getDecimalDigits() {
+    public int getDecimalDigits() {
         return digits;
     }
 }

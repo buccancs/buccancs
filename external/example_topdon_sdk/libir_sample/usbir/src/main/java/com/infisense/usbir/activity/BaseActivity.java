@@ -28,7 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         init(savedInstanceState);
     }
 
-        protected abstract View getContentView();
+    protected abstract View getContentView();
 
     public abstract void initView();
 

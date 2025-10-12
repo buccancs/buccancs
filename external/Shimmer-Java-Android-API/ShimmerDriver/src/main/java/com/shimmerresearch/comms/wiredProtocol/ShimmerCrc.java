@@ -4,7 +4,7 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 
 public class ShimmerCrc {
 
-        protected static int shimmerUartCrcByte(int crc, byte b) {
+    protected static int shimmerUartCrcByte(int crc, byte b) {
         crc &= 0xFFFF;
         crc = ((crc & 0xFFFF) >>> 8) | ((crc & 0xFFFF) << 8);
         crc ^= (b & 0xFF);
@@ -15,7 +15,7 @@ public class ShimmerCrc {
         return crc;
     }
 
-        public static byte[] shimmerUartCrcCalc(byte[] msg, int len) {
+    public static byte[] shimmerUartCrcCalc(byte[] msg, int len) {
         int CRC_INIT = 0xB0CA;
         int crcCalc;
         int i;
@@ -35,7 +35,7 @@ public class ShimmerCrc {
         return crcCalcArray;
     }
 
-        public static boolean shimmerUartCrcCheck(byte[] msg) {
+    public static boolean shimmerUartCrcCheck(byte[] msg) {
         byte[] crc = shimmerUartCrcCalc(msg, msg.length - 2);
 
         if ((crc[0] == msg[msg.length - 2])

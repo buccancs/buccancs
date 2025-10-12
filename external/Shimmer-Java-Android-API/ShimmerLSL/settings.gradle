@@ -1,5 +1,3 @@
-
-
 rootProject.name = 'ShimmerLSL'
 
 include 'jna'

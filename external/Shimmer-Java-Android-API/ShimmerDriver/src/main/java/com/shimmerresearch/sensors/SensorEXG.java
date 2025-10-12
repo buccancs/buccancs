@@ -645,7 +645,7 @@ public class SensorEXG extends AbstractSensor {
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoExgRespiration,
             Arrays.asList(
                     new ConfigOptionObject(ConfigOptionDetailsSensor.VALUE_INDEXES.EXG_RESPIRATION_DETECT_PHASE.PHASE_64KHZ, ListOfExGRespirationDetectPhase64khz, ListOfExGRespirationDetectPhase64khzConfigValues)));
-        private static final long serialVersionUID = -9150699518448307506L;
+    private static final long serialVersionUID = -9150699518448307506L;
     private static List<String> listOfChannels_Chip1Ch1_24Bit = Arrays.asList(
             SensorEXG.ObjectClusterSensorName.ECG_LL_RA_24BIT,
             SensorEXG.ObjectClusterSensorName.EMG_CH1_24BIT,
@@ -818,7 +818,7 @@ public class SensorEXG extends AbstractSensor {
     private boolean mIsExg1_16bitEnabled = false;
     private boolean mIsExg2_16bitEnabled = false;
 
-        public SensorEXG(ShimmerDevice shimmerDevice) {
+    public SensorEXG(ShimmerDevice shimmerDevice) {
         super(SENSORS.EXG, shimmerDevice);
         initialise();
     }
@@ -904,7 +904,6 @@ public class SensorEXG extends AbstractSensor {
         }
         return false;
     }
-
 
 
     public static boolean isChip1Ch1Channel(String channelName) {
@@ -1189,7 +1188,6 @@ public class SensorEXG extends AbstractSensor {
         int idxEXGADS1292RChip2Config1 = 20;
 
 
-
         exgBytesGetFromConfig();
         System.arraycopy(mEXG1RegisterArray, 0, configBytes, idxEXGADS1292RChip1Config1, 10);
         if (isTwoChipExg()) {
@@ -1228,7 +1226,7 @@ public class SensorEXG extends AbstractSensor {
 
     }
 
-        public void exgBytesGetConfigFrom(EXG_CHIP_INDEX chipIndex, byte[] byteArray) {
+    public void exgBytesGetConfigFrom(EXG_CHIP_INDEX chipIndex, byte[] byteArray) {
         int index = 1;
         if (byteArray.length == 10) {
             index = 0;
@@ -1281,13 +1279,13 @@ public class SensorEXG extends AbstractSensor {
         internalCheckExgModeAndUpdateSensorMap();
     }
 
-        public void exgBytesGetFromConfig() {
+    public void exgBytesGetFromConfig() {
         mEXG1RegisterArray = mExGConfigBytesDetails.getEXG1RegisterArray();
         mEXG2RegisterArray = mExGConfigBytesDetails.getEXG2RegisterArray();
         exgBytesGetConfigFrom(mEXG1RegisterArray, mEXG2RegisterArray);
     }
 
-        public void setDefaultECGConfiguration(double shimmerSamplingRate) {
+    public void setDefaultECGConfiguration(double shimmerSamplingRate) {
 
         clearExgConfig();
         setExgChannelBitsPerMode(Configuration.Shimmer3.SENSOR_ID.HOST_ECG);
@@ -1311,7 +1309,7 @@ public class SensorEXG extends AbstractSensor {
         setDefaultExgCommon(shimmerSamplingRate);
     }
 
-        protected void setDefaultEMGConfiguration(double shimmerSamplingRate) {
+    protected void setDefaultEMGConfiguration(double shimmerSamplingRate) {
 
         clearExgConfig();
         setExgChannelBitsPerMode(Configuration.Shimmer3.SENSOR_ID.HOST_EMG);
@@ -1336,7 +1334,7 @@ public class SensorEXG extends AbstractSensor {
         setDefaultExgCommon(shimmerSamplingRate);
     }
 
-        protected void setEXGTestSignal(double shimmerSamplingRate) {
+    protected void setEXGTestSignal(double shimmerSamplingRate) {
 
         clearExgConfig();
         setExgChannelBitsPerMode(Configuration.Shimmer3.SENSOR_ID.HOST_EXG_TEST);
@@ -1354,7 +1352,7 @@ public class SensorEXG extends AbstractSensor {
         setDefaultExgCommon(shimmerSamplingRate);
     }
 
-        protected void setDefaultRespirationConfiguration(double shimmerSamplingRate) {
+    protected void setDefaultRespirationConfiguration(double shimmerSamplingRate) {
 
         clearExgConfig();
         setExgChannelBitsPerMode(Configuration.Shimmer3.SENSOR_ID.HOST_EXG_RESPIRATION);
@@ -1377,7 +1375,7 @@ public class SensorEXG extends AbstractSensor {
         setDefaultExgCommon(shimmerSamplingRate);
     }
 
-        protected void setEXGCustom(double shimmerSamplingRate) {
+    protected void setEXGCustom(double shimmerSamplingRate) {
 
         clearExgConfig();
         setExgChannelBitsPerMode(Configuration.Shimmer3.SENSOR_ID.HOST_EXG_CUSTOM);
@@ -1471,7 +1469,7 @@ public class SensorEXG extends AbstractSensor {
         exgBytesGetConfigFrom(mEXG1RegisterArray, mEXG2RegisterArray);
     }
 
-        protected void setExgPropertySingleChip(EXG_CHIP_INDEX chipIndex, ExGConfigOption option) {
+    protected void setExgPropertySingleChip(EXG_CHIP_INDEX chipIndex, ExGConfigOption option) {
         mExGConfigBytesDetails.setExgPropertySingleChip(chipIndex, option);
         if (chipIndex == EXG_CHIP_INDEX.CHIP1) {
             mEXG1RegisterArray = mExGConfigBytesDetails.getEXG1RegisterArray();
@@ -1481,7 +1479,7 @@ public class SensorEXG extends AbstractSensor {
         updateExgVariables(chipIndex);
     }
 
-        public void setExgPropertySingleChipValue(EXG_CHIP_INDEX chipIndex, String propertyName, int value) {
+    public void setExgPropertySingleChipValue(EXG_CHIP_INDEX chipIndex, String propertyName, int value) {
         mExGConfigBytesDetails.setExgPropertyValue(chipIndex, propertyName, value);
         if (chipIndex == EXG_CHIP_INDEX.CHIP1) {
             mEXG1RegisterArray = mExGConfigBytesDetails.getEXG1RegisterArray();
@@ -1607,44 +1605,44 @@ public class SensorEXG extends AbstractSensor {
         }
     }
 
-        public int getEXG1RateSetting() {
+    public int getEXG1RateSetting() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG1_DATA_RATE);
     }
 
-        public int getEXGReferenceElectrode() {
+    public int getEXGReferenceElectrode() {
         return mExGConfigBytesDetails.getEXGReferenceElectrode();
     }
 
-        protected void setEXGReferenceElectrode(int valueToSet) {
+    protected void setEXGReferenceElectrode(int valueToSet) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG6_CH2_RLD_NEG_INPUTS, ((valueToSet & 0x08) == 0x08) ? 1 : 0);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG6_CH2_RLD_POS_INPUTS, ((valueToSet & 0x04) == 0x04) ? 1 : 0);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG6_CH1_RLD_NEG_INPUTS, ((valueToSet & 0x02) == 0x02) ? 1 : 0);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG6_CH1_RLD_POS_INPUTS, ((valueToSet & 0x01) == 0x01) ? 1 : 0);
     }
 
-        public int getEXGLeadOffDetectionCurrent() {
+    public int getEXGLeadOffDetectionCurrent() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG3_LEAD_OFF_CURRENT);
     }
 
-        protected void setEXGLeadOffDetectionCurrent(int mEXGLeadOffDetectionCurrent) {
+    protected void setEXGLeadOffDetectionCurrent(int mEXGLeadOffDetectionCurrent) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG3_LEAD_OFF_CURRENT, mEXGLeadOffDetectionCurrent);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG3_LEAD_OFF_CURRENT, mEXGLeadOffDetectionCurrent);
     }
 
-        public int getEXGLeadOffComparatorTreshold() {
+    public int getEXGLeadOffComparatorTreshold() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG3_COMPARATOR_THRESHOLD);
     }
 
-        protected void setEXGLeadOffComparatorTreshold(int mEXGLeadOffComparatorTreshold) {
+    protected void setEXGLeadOffComparatorTreshold(int mEXGLeadOffComparatorTreshold) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG3_COMPARATOR_THRESHOLD, mEXGLeadOffComparatorTreshold);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG3_COMPARATOR_THRESHOLD, mEXGLeadOffComparatorTreshold);
     }
 
-        public int getEXG2RespirationDetectFreq() {
+    public int getEXG2RespirationDetectFreq() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG10_RESPIRATION_CONTROL_FREQUENCY);
     }
 
-        protected void setEXG2RespirationDetectFreq(int mEXG2RespirationDetectFreq) {
+    protected void setEXG2RespirationDetectFreq(int mEXG2RespirationDetectFreq) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG10_RESPIRATION_CONTROL_FREQUENCY, mEXG2RespirationDetectFreq);
         checkWhichExgRespPhaseValuesToUse();
 
@@ -1655,31 +1653,31 @@ public class SensorEXG extends AbstractSensor {
         }
     }
 
-        public int getEXG2RespirationDetectPhase() {
+    public int getEXG2RespirationDetectPhase() {
         return getExgPropertySingleChip(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG9_RESPIRATION_PHASE);
     }
 
-        protected void setEXG2RespirationDetectPhase(int mEXG2RespirationDetectPhase) {
+    protected void setEXG2RespirationDetectPhase(int mEXG2RespirationDetectPhase) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG9_RESPIRATION_PHASE, mEXG2RespirationDetectPhase);
     }
 
-        public byte[] getEXG1RegisterArray() {
+    public byte[] getEXG1RegisterArray() {
         return mEXG1RegisterArray;
     }
 
-        protected void setEXG1RegisterArray(byte[] EXG1RegisterArray) {
+    protected void setEXG1RegisterArray(byte[] EXG1RegisterArray) {
         setEXGRegisterArray(EXG_CHIP_INDEX.CHIP1, EXG1RegisterArray);
     }
 
-        public byte[] getEXG2RegisterArray() {
+    public byte[] getEXG2RegisterArray() {
         return mEXG2RegisterArray;
     }
 
-        protected void setEXG2RegisterArray(byte[] EXG2RegisterArray) {
+    protected void setEXG2RegisterArray(byte[] EXG2RegisterArray) {
         setEXGRegisterArray(EXG_CHIP_INDEX.CHIP2, EXG2RegisterArray);
     }
 
-        public int getExGResolution() {
+    public int getExGResolution() {
         return mExGResolution;
     }
 
@@ -1801,24 +1799,24 @@ public class SensorEXG extends AbstractSensor {
         updateExgVariables(chipIndex);
     }
 
-        protected void enableDefaultECGConfiguration(double shimmerSamplingRate) {
+    protected void enableDefaultECGConfiguration(double shimmerSamplingRate) {
         setDefaultECGConfiguration(shimmerSamplingRate);
     }
 
-        protected void enableDefaultEMGConfiguration(double shimmerSamplingRate) {
+    protected void enableDefaultEMGConfiguration(double shimmerSamplingRate) {
         setDefaultEMGConfiguration(shimmerSamplingRate);
     }
 
-        protected void enableEXGTestSignal(double shimmerSamplingRate) {
+    protected void enableEXGTestSignal(double shimmerSamplingRate) {
         setEXGTestSignal(shimmerSamplingRate);
     }
 
-        protected void setEXGRateSetting(int valueToSet) {
+    protected void setEXGRateSetting(int valueToSet) {
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG1_DATA_RATE, (int) valueToSet);
         setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP2, EXG_SETTINGS.REG1_DATA_RATE, (int) valueToSet);
     }
 
-        protected void setEXGRateSetting(EXG_CHIP_INDEX chipID, int valueToSet) {
+    protected void setEXGRateSetting(EXG_CHIP_INDEX chipID, int valueToSet) {
         if (chipID == EXG_CHIP_INDEX.CHIP1) {
             setExgPropertySingleChipValue(EXG_CHIP_INDEX.CHIP1, EXG_SETTINGS.REG1_DATA_RATE, (int) valueToSet);
         } else if (chipID == EXG_CHIP_INDEX.CHIP2) {
@@ -2000,21 +1998,21 @@ public class SensorEXG extends AbstractSensor {
         return false;
     }
 
-        public boolean isEXGUsingCustomSignalConfiguration() {
+    public boolean isEXGUsingCustomSignalConfiguration() {
         if (mIsExg1_16bitEnabled || mIsExg2_16bitEnabled || mIsExg1_24bitEnabled || mIsExg2_24bitEnabled) {
             return true;
         }
         return false;
     }
 
-        public boolean isExgRespirationDetectFreq32kHz() {
+    public boolean isExgRespirationDetectFreq32kHz() {
         if (getEXG2RespirationDetectFreq() == 0)
             return true;
         else
             return false;
     }
 
-        public int setExGRateFromFreq(double freq) {
+    public int setExGRateFromFreq(double freq) {
 
         int valueToSet = 0x00;
         if (freq <= 125) {
@@ -2333,7 +2331,7 @@ public class SensorEXG extends AbstractSensor {
         return convertEXGGainSettingToValue(getExg2CH2GainConfigValue());
     }
 
-        private int getExgGainPerChannel(String channelName) {
+    private int getExgGainPerChannel(String channelName) {
         int exgChGainValue = getExg1Ch1GainSetting();
         if (isChip1Ch2Channel(channelName)) {
             exgChGainValue = getExg1Ch2GainSetting();

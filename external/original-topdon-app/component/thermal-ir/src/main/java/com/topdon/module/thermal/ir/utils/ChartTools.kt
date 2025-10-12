@@ -1,10 +1,12 @@
 package com.topdon.module.thermal.ir.utils
+
 import android.graphics.Point
 import android.util.Log
 import com.github.mikephil.charting.charts.LineChart
 import com.topdon.lib.core.tools.UnitTools
 import kotlin.math.abs
 import kotlin.math.roundToInt
+
 object ChartTools {
     fun getLineTemps(point1: Point, point2: Point, tempArray: ByteArray, rotate: Int): List<Float> {
         val tempList: ArrayList<Float> = ArrayList()
@@ -52,6 +54,7 @@ object ChartTools {
         }
         return tempList
     }
+
     fun scale(type: Int): Long {
         return when (type) {
             1 -> 1 * 1000
@@ -61,6 +64,7 @@ object ChartTools {
             else -> 1
         }
     }
+
     fun getMinimum(type: Int): Float {
         val min = when (type) {
             1 -> 10f
@@ -71,9 +75,11 @@ object ChartTools {
         }
         return min
     }
+
     fun getMaximum(type: Int): Float {
         return getMinimum(type) * 50f
     }
+
     fun setY(chart: LineChart) {
         var maxVol = 0f
         var minVol = 0f
@@ -83,12 +89,14 @@ object ChartTools {
                 maxVol = dataSet.yMax
                 minVol = dataSet.yMin
             }
+
             2 -> {
                 val dataSet1 = chart.data.getDataSetByIndex(0)
                 val dataSet2 = chart.data.getDataSetByIndex(1)
                 maxVol = if (dataSet1.yMax > dataSet2.yMax) dataSet1.yMax else dataSet2.yMax
                 minVol = if (dataSet1.yMin < dataSet2.yMin) dataSet1.yMin else dataSet2.yMin
             }
+
             3 -> {
                 val dataSet1 = chart.data.getDataSetByIndex(0)
                 val dataSet2 = chart.data.getDataSetByIndex(1)
@@ -98,6 +106,7 @@ object ChartTools {
                 maxVol = if (dataSet3.yMax > maxVol) dataSet3.yMax else maxVol
                 minVol = if (dataSet3.yMin < minVol) dataSet3.yMin else minVol
             }
+
             else -> {
                 return
             }
@@ -116,10 +125,12 @@ object ChartTools {
         }
         Log.w("chart", "yAxis max:${chart.axisLeft.axisMaximum}, min:${chart.axisLeft.axisMinimum}")
     }
+
     fun setX(chart: LineChart, type: Int) {
         val xLen = chart.xChartMax - chart.xChartMin
         chart.xAxis.setLabelCount(getLabCount(xLen.toInt()), xLen <= 3)
     }
+
     private fun getLabCount(count: Int): Int {
         return when {
             count <= 2 -> 1
@@ -129,6 +140,7 @@ object ChartTools {
             else -> count
         }
     }
+
     fun getChartX(x: Long, startTime: Long, type: Int): Long {
         return (x - startTime) / scale(type)
     }

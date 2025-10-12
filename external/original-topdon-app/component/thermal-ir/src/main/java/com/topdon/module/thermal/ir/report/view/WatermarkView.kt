@@ -1,10 +1,12 @@
 package com.topdon.module.thermal.ir.report.view
+
 import android.content.Context
 import android.graphics.Canvas
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import com.blankj.utilcode.util.SizeUtils
+
 class WatermarkView : View {
     var watermarkText: String? = null
         set(value) {
@@ -22,6 +24,7 @@ class WatermarkView : View {
         textPaint.color = 0x082b79d8
         textPaint.textSize = SizeUtils.sp2px(80f).toFloat()
     }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         watermarkText?.let {

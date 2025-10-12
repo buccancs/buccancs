@@ -143,7 +143,7 @@ public class BluetoothManager implements EventObserver {
         return mDevice.isConnected();
     }
 
-        @Tag("onConnectionStateChanged")
+    @Tag("onConnectionStateChanged")
     @Observe
     @RunOn(ThreadMode.MAIN)
     @Override
@@ -186,7 +186,7 @@ public class BluetoothManager implements EventObserver {
         Log.e("bcf_ble", "连接超时");
     }
 
-        @Observe
+    @Observe
     @Override
     public void onNotificationChanged(@NonNull Request request, boolean isEnabled) {
         String typeTag = "";
@@ -199,7 +199,7 @@ public class BluetoothManager implements EventObserver {
         Log.d("bcf_ble", "onNotificationChanged ：" + typeTag + "：" + (isEnabled ? "开启" : "关闭"));
     }
 
-        public boolean writeBuletoothData(byte[] data) {
+    public boolean writeBuletoothData(byte[] data) {
         if (mDevice == null || !mDevice.isConnected()) {
             return false;
         }
@@ -216,7 +216,7 @@ public class BluetoothManager implements EventObserver {
         String data = StringUtils.toHex(value);
     }
 
-        @Observe
+    @Observe
     @Override
     public void onCharacteristicChanged(Device device, UUID service, UUID characteristic, byte[] value) {
         Log.e("ble_bcf_data", "接收蓝牙数据：" + StringUtils.toHex(value));

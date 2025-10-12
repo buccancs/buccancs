@@ -83,7 +83,7 @@ public class SensorBMP180 extends SensorBMPX80 {
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL),
             0x1A);
     public static final Map<String, ChannelDetails> mChannelMapRef;
-        private static final long serialVersionUID = 4559709230029277863L;
+    private static final long serialVersionUID = 4559709230029277863L;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -120,7 +120,7 @@ public class SensorBMP180 extends SensorBMPX80 {
     {
     }
 
-        public SensorBMP180(ShimmerVerObject svo) {
+    public SensorBMP180(ShimmerVerObject svo) {
         super(SENSORS.BMP180, svo);
         initialise();
     }
@@ -134,7 +134,6 @@ public class SensorBMP180 extends SensorBMPX80 {
 
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
-
 
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
@@ -352,10 +351,6 @@ public class SensorBMP180 extends SensorBMPX80 {
     }
 
 
-
-
-
-
     public double getPressTempAC1() {
         return ((CalibDetailsBmp180) mCalibDetailsBmpX80).AC1;
     }
@@ -472,8 +467,6 @@ public class SensorBMP180 extends SensorBMPX80 {
         public static final String TEMPERATURE_BMP180 = "Temperature_BMP180";
         public static final String PRESSURE_BMP180 = "Pressure_BMP180";
     }
-
-
 
 
 }

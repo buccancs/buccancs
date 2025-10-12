@@ -1,4 +1,5 @@
 package com.buccancs.desktop.data.retention
+
 import com.buccancs.desktop.domain.policy.RetentionPolicy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -6,6 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
+
 class DataRetentionManager(
     private val policy: RetentionPolicy
 ) {
@@ -22,6 +24,7 @@ class DataRetentionManager(
             actions = emptyList()
         )
     )
+
     fun state(): StateFlow<QuotaSnapshot> = quotaState.asStateFlow()
     fun registerWrite(sessionId: String, deviceId: String, deltaBytes: Long) {
         if (deltaBytes <= 0) {
@@ -49,6 +52,7 @@ class DataRetentionManager(
         }
         publish(actions, globalTotal)
     }
+
     fun registerDelete(sessionId: String, deviceId: String, bytesRemoved: Long) {
         if (bytesRemoved <= 0) {
             return
@@ -63,6 +67,7 @@ class DataRetentionManager(
         cleanup()
         publish(emptyList(), computeTotalUsage())
     }
+
     fun resetSession(sessionId: String) {
         sessionUsage.remove(sessionId)
         sessionDeviceUsage.remove(sessionId)?.forEach { (deviceId, usage) ->
@@ -71,6 +76,7 @@ class DataRetentionManager(
         cleanup()
         publish(emptyList(), computeTotalUsage())
     }
+
     fun resetDevice(deviceId: String) {
         deviceUsage.remove(deviceId)
         sessionDeviceUsage.forEach { (sessionId, perDevice) ->
@@ -82,6 +88,7 @@ class DataRetentionManager(
         cleanup()
         publish(emptyList(), computeTotalUsage())
     }
+
     private fun computeTotalUsage(): Long = sessionUsage.values.sumOf { maxOf(it.get(), 0L) }
     private fun cleanup() {
         sessionDeviceUsage.entries.removeIf { entry ->
@@ -91,6 +98,7 @@ class DataRetentionManager(
         sessionUsage.entries.removeIf { it.value.get() <= 0 }
         deviceUsage.entries.removeIf { it.value.get() <= 0 }
     }
+
     private fun publish(actions: List<QuotaAction>, totalBytes: Long) {
         val perSession = sessionUsage.mapValues { maxOf(it.value.get(), 0L) }
         val perDevice = deviceUsage.mapValues { maxOf(it.value.get(), 0L) }
@@ -105,6 +113,7 @@ class DataRetentionManager(
             actions = actions
         )
     }
+
     data class QuotaSnapshot(
         val perSessionBytes: Map<String, Long>,
         val perDeviceBytes: Map<String, Long>,
@@ -112,17 +121,20 @@ class DataRetentionManager(
         val totalBytes: Long,
         val actions: List<QuotaAction>
     )
+
     sealed interface QuotaAction {
         data class SessionCapExceeded(
             val sessionId: String,
             val usageBytes: Long,
             val limitBytes: Long
         ) : QuotaAction
+
         data class DeviceCapExceeded(
             val deviceId: String,
             val usageBytes: Long,
             val limitBytes: Long
         ) : QuotaAction
+
         data class GlobalCapExceeded(
             val usageBytes: Long,
             val limitBytes: Long

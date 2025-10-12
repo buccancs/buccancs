@@ -5,6 +5,6 @@ import com.github.mikephil.charting.components.AxisBase;
 @Deprecated
 public interface IAxisValueFormatter {
 
-        @Deprecated
+    @Deprecated
     String getFormattedValue(float value, AxisBase axis);
 }

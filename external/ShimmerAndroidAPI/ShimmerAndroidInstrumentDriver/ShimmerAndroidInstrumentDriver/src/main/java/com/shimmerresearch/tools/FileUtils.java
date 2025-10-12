@@ -113,7 +113,6 @@ public class FileUtils {
             }
 
 
-
             if (isDownloadsDocument(uri)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     final String id;
@@ -260,7 +259,7 @@ public class FileUtils {
     private String getDriveFilePath(Uri uri) {
         Uri returnUri = uri;
         Cursor returnCursor = context.getContentResolver().query(returnUri, null, null, null, null);
-                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
         int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
         returnCursor.moveToFirst();
         String name = (returnCursor.getString(nameIndex));
@@ -291,7 +290,7 @@ public class FileUtils {
         return file.getPath();
     }
 
-        private String copyFileToInternalStorage(Uri uri, String newDirName) {
+    private String copyFileToInternalStorage(Uri uri, String newDirName) {
         Uri returnUri = uri;
 
         Cursor returnCursor = context.getContentResolver().query(returnUri, new String[]{
@@ -299,7 +298,7 @@ public class FileUtils {
         }, null, null, null);
 
 
-                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
         int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
         returnCursor.moveToFirst();
         String name = (returnCursor.getString(nameIndex));

@@ -26,7 +26,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         this.refillPool();
     }
 
-        public static synchronized ObjectPool create(int withCapacity, Poolable object) {
+    public static synchronized ObjectPool create(int withCapacity, Poolable object) {
         ObjectPool result = new ObjectPool(withCapacity, object);
         result.poolId = ids;
         ids++;
@@ -34,7 +34,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         return result;
     }
 
-        public int getPoolId() {
+    public int getPoolId() {
         return poolId;
     }
 
@@ -42,7 +42,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         return replenishPercentage;
     }
 
-        public void setReplenishPercentage(float percentage) {
+    public void setReplenishPercentage(float percentage) {
         float p = percentage;
         if (p > 1) {
             p = 1;
@@ -71,7 +71,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         objectsPointer = portionOfCapacity - 1;
     }
 
-        public synchronized T get() {
+    public synchronized T get() {
 
         if (this.objectsPointer == -1 && this.replenishPercentage > 0.0f) {
             this.refillPool();
@@ -84,7 +84,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         return result;
     }
 
-        public synchronized void recycle(T object) {
+    public synchronized void recycle(T object) {
         if (object.currentOwnerId != Poolable.NO_OWNER) {
             if (object.currentOwnerId == this.poolId) {
                 throw new IllegalArgumentException("The object passed is already stored in this pool!");
@@ -103,7 +103,7 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
 
     }
 
-        public synchronized void recycle(List<T> objects) {
+    public synchronized void recycle(List<T> objects) {
         while (objects.size() + this.objectsPointer + 1 > this.desiredCapacity) {
             this.resizePool();
         }
@@ -134,11 +134,11 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
         this.objects = temp;
     }
 
-        public int getPoolCapacity() {
+    public int getPoolCapacity() {
         return this.objects.length;
     }
 
-        public int getPoolCount() {
+    public int getPoolCount() {
         return this.objectsPointer + 1;
     }
 

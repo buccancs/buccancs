@@ -18,7 +18,7 @@ import java.util.List;
 public class UnitUtils {
 
 
-        public static List<UnitDBBean> getUnitDBBeanList(int unitType) {
+    public static List<UnitDBBean> getUnitDBBeanList(int unitType) {
         try {
             String jsonStr;
             if (unitType == 0) {
@@ -40,13 +40,13 @@ public class UnitUtils {
     }
 
 
-        public static HashMap<String, UnitDBBean> getUnitDBBeanHashMap() {
+    public static HashMap<String, UnitDBBean> getUnitDBBeanHashMap() {
         String unit = (String) SPUtils.getInstance(Topdon.getApp()).get("unit", "0");
         int unitType = "0".equals(unit) ? 0 : 1;
         return getUnitDBBeanHashMap(unitType);
     }
 
-        public static HashMap<String, UnitDBBean> getUnitDBBeanHashMap(int unitType) {
+    public static HashMap<String, UnitDBBean> getUnitDBBeanHashMap(int unitType) {
         HashMap<String, UnitDBBean> hashMap = new HashMap<>();
         try {
             List<UnitDBBean> unitDBBeanList = getUnitDBBeanList(unitType);
@@ -60,14 +60,14 @@ public class UnitUtils {
     }
 
 
-        public static String[] getCalcResult(HashMap<String, UnitDBBean> hashMap, String preUnit, String numericalValue) {
+    public static String[] getCalcResult(HashMap<String, UnitDBBean> hashMap, String preUnit, String numericalValue) {
         String unit = (String) SPUtils.getInstance(Topdon.getApp()).get("unit", "0");
         int unitType = "0".equals(unit) ? 0 : 1;
         return getCalcResult(unitType, hashMap, preUnit, numericalValue);
     }
 
 
-        public static String[] getCalcResult(int unitType, HashMap<String, UnitDBBean> hashMap, String preUnit, String numericalValue) {
+    public static String[] getCalcResult(int unitType, HashMap<String, UnitDBBean> hashMap, String preUnit, String numericalValue) {
         UnitDBBean unitDBBean = null;
         try {
             if (TextUtils.isEmpty(preUnit)) {
@@ -129,13 +129,13 @@ public class UnitUtils {
 
     }
 
-        public static double getResult(double dou) {
+    public static double getResult(double dou) {
         BigDecimal bigDecimal = new BigDecimal(dou).setScale(2, RoundingMode.HALF_UP);
         return bigDecimal.doubleValue();
 
     }
 
-        public static String getDecimalFormatByDouble(double score) {
+    public static String getDecimalFormatByDouble(double score) {
         DecimalFormat decimalFormat = new DecimalFormat("0.00#");
         return decimalFormat.format(score);
     }

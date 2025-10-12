@@ -64,7 +64,7 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         return mStateCache;
     }
 
-        private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
         mScaledTouchSlop = viewConfiguration.getScaledTouchSlop();
         mScroller = new Scroller(context);
@@ -361,7 +361,7 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         }
     }
 
-        private State isShouldOpen(int scrollX) {
+    private State isShouldOpen(int scrollX) {
         if (!(mScaledTouchSlop < Math.abs(finalyDistanceX))) {
             return mStateCache;
         }

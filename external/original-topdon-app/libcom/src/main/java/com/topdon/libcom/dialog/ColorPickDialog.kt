@@ -1,4 +1,5 @@
 package com.topdon.libcom.dialog
+
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.dialog_color_pick.tv_nifty_right
 import kotlinx.android.synthetic.main.dialog_color_pick.tv_size_title
 import kotlinx.android.synthetic.main.dialog_color_pick.tv_size_value
 import kotlinx.android.synthetic.main.dialog_color_pick.view.*
+
 class ColorPickDialog(
     context: Context,
     @ColorInt private var color: Int,
@@ -82,8 +84,10 @@ class ColorPickDialog(
                     }
                     tv_size_value?.text = text
                 }
+
                 override fun onStartTrackingTouch(view: DefRangeSeekBar?, isLeft: Boolean) {
                 }
+
                 override fun onStopTrackingTouch(view: DefRangeSeekBar?, isLeft: Boolean) {
                 }
             })
@@ -100,6 +104,7 @@ class ColorPickDialog(
         rootView.rl_close.setOnClickListener(this)
         rootView.tv_save.setOnClickListener(this)
     }
+
     private fun textSizeToNifyValue(size: Int, isTC007: Boolean): Float {
         if (isTC007) {
             return when (size) {
@@ -114,6 +119,7 @@ class ColorPickDialog(
             else -> 100f
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             rootView.rl_close -> dismiss()
@@ -121,36 +127,42 @@ class ColorPickDialog(
                 dismiss()
                 onPickListener?.invoke(color, textSize)
             }
+
             rootView.view_color1 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color1.isSelected = true
                 color = 0xff0000ff.toInt()
             }
+
             rootView.view_color2 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color2.isSelected = true
                 color = 0xffff0000.toInt()
             }
+
             rootView.view_color3 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color3.isSelected = true
                 color = 0xff00ff00.toInt()
             }
+
             rootView.view_color4 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color4.isSelected = true
                 color = 0xffffff00.toInt()
             }
+
             rootView.view_color5 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
                 rootView.view_color5.isSelected = true
                 color = 0xff000000.toInt()
             }
+
             rootView.view_color6 -> {
                 unSelect6Color()
                 rootView.color_select_view.reset()
@@ -159,6 +171,7 @@ class ColorPickDialog(
             }
         }
     }
+
     private fun unSelect6Color() {
         rootView.view_color1.isSelected = false
         rootView.view_color2.isSelected = false

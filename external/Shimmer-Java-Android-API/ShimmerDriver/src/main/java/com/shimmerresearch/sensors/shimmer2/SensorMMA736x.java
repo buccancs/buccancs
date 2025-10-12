@@ -79,13 +79,10 @@ public class SensorMMA736x extends AbstractSensor {
     }
 
 
-
-
     @Override
     public void generateConfigOptionsMap() {
         addConfigOption(configOptionAccelLpm);
     }
-
 
 
     @Override
@@ -204,7 +201,6 @@ public class SensorMMA736x extends AbstractSensor {
     }
 
 
-
     public void setAccelRange(int valueToSet) {
         Integer[] arrayToCheck = ListofMMA7361AccelRangeConfigValues;
         if (getHardwareVersion() == HW_ID.SHIMMER_2) {
@@ -215,8 +211,6 @@ public class SensorMMA736x extends AbstractSensor {
             updateCurrentAccelCalibInUse();
         }
     }
-
-
 
 
     public void updateCurrentAccelCalibInUse() {

@@ -1,4 +1,5 @@
 package com.topdon.module.user.fragment
+
 import android.os.Build
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -37,6 +38,7 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.text.DecimalFormat
+
 @Route(path = RouterConfig.TC_MORE)
 class MoreFragment : BaseFragment(), View.OnClickListener {
     private var isTC007 = false
@@ -110,40 +112,50 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             tv_upgrade_point.isVisible = false
         }
     }
+
     override fun initData() {
     }
+
     override fun connected() {
         setting_item_dual.isVisible = !isTC007 && DeviceTools.isTC001PlusConnect()
     }
+
     override fun disConnected() {
         setting_item_dual.isVisible = false
     }
+
     override fun onSocketConnected(isTS004: Boolean) {
         if (!isTS004 && isTC007) {
             refresh07Connect(true)
         }
     }
+
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (!isTS004 && isTC007) {
             refresh07Connect(false)
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             setting_item_model -> {
                 ARouter.getInstance().build(RouterConfig.IR_SETTING).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .navigation(requireContext())
             }
+
             setting_item_dual -> {
                 ARouter.getInstance().build(RouterConfig.MANUAL_START).navigation(requireContext())
             }
+
             setting_item_unit -> {
                 ARouter.getInstance().build(RouterConfig.UNIT).navigation(requireContext())
             }
+
             setting_item_correction -> {
                 ARouter.getInstance().build(RouterConfig.IR_CORRECTION).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .navigation(requireContext())
             }
+
             setting_version -> {
                 val firmwareData = firmwareViewModel.firmwareDataLD.value
                 if (firmwareData != null) {
@@ -154,6 +166,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                     firmwareViewModel.queryFirmware(false)
                 }
             }
+
             setting_device_information -> {
                 if (WebSocketProxy.getInstance().isTC007Connect()) {
                     ARouter.getInstance()
@@ -162,6 +175,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                         .navigation(requireContext())
                 }
             }
+
             setting_reset -> {
                 if (WebSocketProxy.getInstance().isTC007Connect()) {
                     restoreFactory()
@@ -203,6 +217,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
         dialog.show()
     }
+
     private fun getFileSizeStr(size: Long): String = if (size < 1024) {
         "${size}B"
     } else if (size < 1024 * 1024) {
@@ -212,6 +227,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
     } else {
         DecimalFormat("#.0").format(size.toDouble() / 1024 / 1024 / 1024) + "GB"
     }
+
     private fun downloadFirmware(firmwareData: FirmwareViewModel.FirmwareData) {
         lifecycleScope.launch {
             val progressDialog = DownloadProDialog(requireContext())
@@ -228,6 +244,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     private fun installFirmware(file: File) {
         lifecycleScope.launch {
             XLog.d("TC007 固件升级 - 开始安装固件升级包")
@@ -254,6 +271,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     private fun showReInstallDialog(file: File) {
         val dialog = ConfirmSelectDialog(requireContext())
         dialog.setShowIcon(true)
@@ -265,6 +283,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
         dialog.show()
     }
+
     private fun showReDownloadDialog(firmwareData: FirmwareViewModel.FirmwareData) {
         val dialog = ConfirmSelectDialog(requireContext())
         dialog.setShowIcon(true)

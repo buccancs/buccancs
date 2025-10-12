@@ -9,19 +9,19 @@ import java.util.List;
 
 public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements IBarDataSet {
 
-        private int mStackSize = 1;
+    private int mStackSize = 1;
 
-        private int mBarShadowColor = Color.rgb(215, 215, 215);
+    private int mBarShadowColor = Color.rgb(215, 215, 215);
 
     private float mBarBorderWidth = 0.0f;
 
     private int mBarBorderColor = Color.BLACK;
 
-        private int mHighLightAlpha = 120;
+    private int mHighLightAlpha = 120;
 
-        private int mEntryCountStacks = 0;
+    private int mEntryCountStacks = 0;
 
-        private String[] mStackLabels = new String[]{
+    private String[] mStackLabels = new String[]{
             "Stack"
     };
 
@@ -54,7 +54,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
         barDataSet.mHighLightAlpha = mHighLightAlpha;
     }
 
-        private void calcEntryCountIncludingStacks(List<BarEntry> yVals) {
+    private void calcEntryCountIncludingStacks(List<BarEntry> yVals) {
 
         mEntryCountStacks = 0;
 
@@ -69,7 +69,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
         }
     }
 
-        private void calcStackSize(List<BarEntry> yVals) {
+    private void calcStackSize(List<BarEntry> yVals) {
 
         for (int i = 0; i < yVals.size(); i++) {
 
@@ -115,7 +115,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
         return mStackSize > 1 ? true : false;
     }
 
-        public int getEntryCountStacks() {
+    public int getEntryCountStacks() {
         return mEntryCountStacks;
     }
 
@@ -124,25 +124,25 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
         return mBarShadowColor;
     }
 
-        public void setBarShadowColor(int color) {
+    public void setBarShadowColor(int color) {
         mBarShadowColor = color;
     }
 
-        @Override
+    @Override
     public float getBarBorderWidth() {
         return mBarBorderWidth;
     }
 
-        public void setBarBorderWidth(float width) {
+    public void setBarBorderWidth(float width) {
         mBarBorderWidth = width;
     }
 
-        @Override
+    @Override
     public int getBarBorderColor() {
         return mBarBorderColor;
     }
 
-        public void setBarBorderColor(int color) {
+    public void setBarBorderColor(int color) {
         mBarBorderColor = color;
     }
 
@@ -151,7 +151,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
         return mHighLightAlpha;
     }
 
-        public void setHighLightAlpha(int alpha) {
+    public void setHighLightAlpha(int alpha) {
         mHighLightAlpha = alpha;
     }
 
@@ -160,7 +160,7 @@ public class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> impl
         return mStackLabels;
     }
 
-        public void setStackLabels(String[] labels) {
+    public void setStackLabels(String[] labels) {
         mStackLabels = labels;
     }
 }

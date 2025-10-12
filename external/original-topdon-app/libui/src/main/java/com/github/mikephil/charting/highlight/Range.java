@@ -10,7 +10,7 @@ public final class Range {
         this.to = to;
     }
 
-        public boolean contains(float value) {
+    public boolean contains(float value) {
 
         if (value > from && value <= to)
             return true;

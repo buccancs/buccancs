@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.app.Activity
 import android.app.ProgressDialog
 import android.graphics.ImageFormat
@@ -42,12 +43,14 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.IOException
 import java.io.InputStream
+
 class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
     View.OnClickListener {
 
     override fun initContentView(): Int {
         return R.layout.activity_manual_step2
     }
+
     private var snStr = ""
     private var mThisActivity: Activity? = null
     private var mProgressDialog: LmsLoadDialog? = null
@@ -130,8 +133,10 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
                     }
                 }
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
+
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
@@ -157,7 +162,8 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             }
         USBMonitorDualManager.getInstance().addOnUSBConnectListener(this)
     }
-        private fun initDataFlowMode(dataFlowMode: CommonParams.DataFlowMode) {
+
+    private fun initDataFlowMode(dataFlowMode: CommonParams.DataFlowMode) {
         if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
             mIrCameraWidth = Const.SENSOR_WIDTH
             mIrCameraHeight = Const.SENSOR_HEIGHT
@@ -165,12 +171,14 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             mImageHeight = mIrCameraWidth
         }
     }
-        public override fun initData() {
+
+    public override fun initData() {
         dualTextureView?.post {
             alignScaleX = dualTextureView!!.measuredWidth.toFloat() / mDualWidth.toFloat()
             alignScaleY = dualTextureView!!.measuredHeight.toFloat() / mDualHeight.toFloat()
         }
     }
+
     private fun initDualCamera() {
         mDualView = DualViewWithManualAlignExternalCamera(
             mImageWidth, mImageHeight,
@@ -186,6 +194,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         )
         mDualView!!.setHandler(mIrDualHandler)
     }
+
     private fun initPsedocolor() {
         val am = assets
         var `is`: InputStream
@@ -241,6 +250,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             e.printStackTrace()
         }
     }
+
     open fun initDefIntegralArgsDISP_VALUE(typeLoadParameters: DualCameraParams.TypeLoadParameters) {
         lifecycleScope.launch {
             val parameters = IRCmdTool.getDualBytes(USBMonitorDualManager.getInstance().ircmd)
@@ -251,11 +261,13 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             Log.e("机芯数据加载成功", "初始化完成:")
         }
     }
+
     fun onViewClicked(view: View?) {}
     override fun onStart() {
         Log.w(TAG, "onStart")
         super.onStart()
     }
+
     override fun onResume() {
         super.onResume()
         if (canOperate) {
@@ -269,27 +281,32 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         showLoadingDialog()
         dualStart()
     }
-        private fun dualStart() {
+
+    private fun dualStart() {
         userStop = false
         USBMonitorDualManager.getInstance().registerUSB()
     }
+
     override fun onAttach(device: UsbDevice) {}
     override fun onGranted(usbDevice: UsbDevice, granted: Boolean) {}
     override fun onDettach(device: UsbDevice) {}
     override fun onConnect(device: UsbDevice, ctrlBlock: USBMonitor.UsbControlBlock, createNew: Boolean) {
         mIrDualHandler.sendEmptyMessage(HANDLE_CONNECT)
     }
+
     override fun onDisconnect(device: UsbDevice, ctrlBlock: USBMonitor.UsbControlBlock) {
         if (!canOperate && !userStop) {
             EventBus.getDefault().post(ManualFinishBean())
             finish()
         }
     }
+
     override fun onCancel(device: UsbDevice) {}
     override fun onIRCMDInit(ircmd: IRCMD) {
         snStr = IRCmdTool.getSNStr(ircmd)
         seek_bar?.progress = SharedManager.getManualAngle(snStr)
     }
+
     override fun onCompleteInit() {}
     override fun onSetPreviewSizeFail() {}
     private fun showLoadingDialog() {
@@ -303,6 +320,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             }
         }
     }
+
     private fun hideLoadingDialog() {
         setButtonEnable(true)
         if (mProgressDialog != null) {
@@ -310,6 +328,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             mProgressDialog = null
         }
     }
+
     override fun onClick(v: View) {
         onViewClicked(v)
     }
@@ -329,9 +348,11 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         mDualView!!.destroyPreview()
         USBMonitorDualManager.getInstance().unregisterUSB()
     }
+
     override fun onPause() {
         super.onPause()
     }
+
     override fun onStop() {
         super.onStop()
         if (canOperate) {
@@ -340,12 +361,14 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         }
         dualStop()
     }
+
     override fun onDestroy() {
         Log.w(TAG, "onDestroy")
         super.onDestroy()
         USBMonitorDualManager.getInstance().removeOnUSBConnectListener(this)
         USBMonitorDualManager.getInstance().onRelease()
     }
+
     private fun dualStopWithAlign() {
         mDualView!!.dualUVCCamera.setAlignFinish()
         SystemClock.sleep(200)
@@ -354,6 +377,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         USBMonitorDualManager.getInstance().unregisterUSB()
         USBMonitorDualManager.getInstance().stopIrUVCCamera()
     }
+
     private fun takePhoto() {
         if (mDualView != null) {
             canOperate = true
@@ -367,6 +391,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             }, 500)
         }
     }
+
     private fun handleMove(preX: Float, preY: Float, curX: Float, curY: Float) {
         if (!canOperate) {
             return
@@ -384,6 +409,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             mDualView!!.dualUVCCamera.setAlignTranslateParameter(newSrc)
         }
     }
+
     private fun handleAngle(angle: Float) {
         if (!canOperate) {
             return
@@ -397,11 +423,13 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             mDualView!!.dualUVCCamera.setAlignRotateParameter(newSrc)
         }
     }
+
     private fun finishAlign(isSavePara: Boolean) {
         if (!canOperate) {
             return
         }
     }
+
     fun updateSaveButton() {
         if (ivTakePhoto!!.visibility == View.INVISIBLE) {
             ivTakePhoto!!.visibility = View.VISIBLE
@@ -414,9 +442,11 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             }
         }
     }
+
     fun setButtonEnable(isEnable: Boolean) {
         ivTakePhoto!!.setEnabled(isEnable)
     }
+
     private fun initListener() {
         moveImageView!!.setOnMoveListener { preX, preY, curX, curY ->
             handleMove(
@@ -427,6 +457,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             )
         }
     }
+
     private fun finishSafe(isSavePara: Boolean) {
         Thread {
             finishAlign(isSavePara)
@@ -434,6 +465,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             mIrDualHandler.sendEmptyMessage(HIDE_LOADING_FINISH)
         }.start()
     }
+
     companion object {
         private const val TAG = "ManualStep2Activity"
         const val SHOW_LOADING = 1003

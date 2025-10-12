@@ -1,4 +1,5 @@
 package com.topdon.tc001
+
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
@@ -19,13 +20,16 @@ import kotlinx.android.synthetic.main.activity_policy.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 @Route(path = RouterConfig.POLICY)
 class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
     private val mHandler = Handler(Looper.getMainLooper())
+
     companion object {
         const val KEY_THEME_TYPE = "key_theme_type"
         const val KEY_USE_TYPE = "key_use_type"
     }
+
     private var themeType = 1
     private var themeStr = ""
     private var reloadCount = 1
@@ -60,10 +64,12 @@ class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
             delayShowWebView()
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         mHandler.removeCallbacksAndMessages(null)
     }
+
     private fun delayShowWebView() {
         lifecycleScope.launch(Dispatchers.IO) {
             delay(200)
@@ -72,12 +78,14 @@ class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
             }
         }
     }
+
     override fun initData() {
         if (keyUseType == 0) {
             showCameraLoading()
             viewModel.getUrl(themeType)
         }
     }
+
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWeb(url: String) {
         policy_web.visibility = View.INVISIBLE
@@ -88,6 +96,7 @@ class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
                 view.loadUrl(url)
                 return true
             }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 Log.w("123", "onPageFinished url: $url")
@@ -97,6 +106,7 @@ class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
             }
+
             override fun onReceivedTitle(view: WebView?, title: String?) {
                 super.onReceivedTitle(view, title)
                 if (title!!.contains("404") && reloadCount > 0) {
@@ -112,31 +122,37 @@ class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
         policy_web.settings.defaultTextEncodingName = "utf-8"
         policy_web.loadDataWithBaseURL(null, url, "text/html", "utf-8", null)
     }
-        fun getHtmlData(htmlBody: String, fontColor: String, backgroundColor: String): String {
+
+    fun getHtmlData(htmlBody: String, fontColor: String, backgroundColor: String): String {
         val head = "<head>" +
                 "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
                 "<style>img{max-width: 100%; width:100%; height:auto;}video{max-width: 100%; width:100%; height:auto;}*{margin:0px;}body{font-size:16px;color: ${fontColor}; background-color: ${backgroundColor};}</style>" + "</head>"
         return "<html>$head<body>$htmlBody</body></html>"
     }
+
     override fun httpErrorTip(text: String, requestUrl: String) {
         XLog.w("声明接口异常,打开默认链接")
         loadHttp(policy_web)
         delayShowWebView()
     }
+
     fun loadHttpWhenNotInit(view: WebView) {
         reloadCount--
         when (themeType) {
             1 -> {
                 view.loadUrl("https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?softCode=${BaseApplication.instance.getSoftWareCode()}&language=1&type=21")
             }
+
             2 -> {
                 view.loadUrl("https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?softCode=${BaseApplication.instance.getSoftWareCode()}&language=1&type=22")
             }
+
             3 -> {
                 view.loadUrl("file:///android_asset/web/third_statement.html")
             }
         }
     }
+
     fun loadHttp(view: WebView) {
         reloadCount--
         when (themeType) {
@@ -147,6 +163,7 @@ class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
                     view.loadUrl("file:///android_asset/web/services_agreement_default.html")
                 }
             }
+
             2 -> {
                 if (BaseApplication.instance.isDomestic()) {
                     view.loadUrl("file:///android_asset/web/privacy_default_inside_china.html")
@@ -154,6 +171,7 @@ class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
                     view.loadUrl("file:///android_asset/web/privacy_default.html")
                 }
             }
+
             3 -> {
                 view.loadUrl("file:///android_asset/web/third_statement.html")
             }

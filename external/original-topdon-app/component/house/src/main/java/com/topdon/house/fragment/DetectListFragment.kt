@@ -1,4 +1,5 @@
 package com.topdon.house.fragment
+
 import android.content.Intent
 import android.view.View
 import androidx.core.view.isVisible
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 internal class DetectListFragment : BaseFragment(), View.OnClickListener {
     private lateinit var adapter: HouseAdapter
     private val tabViewModel: TabViewModel by activityViewModels()
@@ -50,9 +52,11 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
                         intent.putExtra(ExtraKeyConfig.DETECT_ID, adapter.dataList[position].id)
                         startActivity(intent)
                     }
+
                     1 -> {
                         viewModel.copyDetect(position, adapter.dataList[position] as HouseDetect)
                     }
+
                     2 -> {
                         TipDialog.Builder(requireContext())
                             .setTitleMessage(getString(R.string.monitor_report_delete))
@@ -117,16 +121,20 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
         }
         viewModel.queryAll()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onDetectCreate(event: HouseDetectAddEvent) {
         viewModel.queryAll()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onDetectUpdate(event: HouseDetectEditEvent) {
         viewModel.queryById(event.id)
     }
+
     override fun initData() {
     }
+
     override fun onClick(v: View?) {
         when (v) {
             tv_add -> {
@@ -134,6 +142,7 @@ internal class DetectListFragment : BaseFragment(), View.OnClickListener {
                 intent.putExtra(ExtraKeyConfig.IS_TC007, arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false)
                 startActivity(intent)
             }
+
             cl_del -> {
                 if (adapter.selectIndexList.isNotEmpty()) {
                     TipDialog.Builder(requireContext())

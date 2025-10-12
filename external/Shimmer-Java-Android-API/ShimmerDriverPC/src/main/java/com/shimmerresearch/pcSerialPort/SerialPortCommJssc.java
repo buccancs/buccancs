@@ -20,7 +20,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
 
     public String mUniqueId = "";
     public String mComPort = "";
-        public int mTxSpeed = 1;
+    public int mTxSpeed = 1;
     protected transient SerialPort mSerialPort = null;
     protected JsscByteWriter jsscByteWriter = null;
     private int mBaudToUse = SerialPort.BAUDRATE_115200;
@@ -47,7 +47,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         registerSerialPortRxEventCallback(shimmerSerialEventCallback);
     }
 
-        @Override
+    @Override
     public void connect() throws ShimmerException {
         try {
             consolePrintLn("Connecting to COM port:" + mComPort);
@@ -80,7 +80,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     }
 
 
-        @Override
+    @Override
     public void disconnect() throws ShimmerException {
         if (mSerialPort != null && mSerialPort.isOpened()) {
             try {
@@ -118,7 +118,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
 
     }
 
-        @Override
+    @Override
     public void txBytes(byte[] buf) throws ShimmerException {
         try {
             if (mTxSpeed == 0) {
@@ -135,7 +135,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         }
     }
 
-        @Override
+    @Override
     public byte[] rxBytes(int numBytes) throws ShimmerException {
         try {
             byte[] rxBuf = mSerialPort.readBytes(numBytes, mSerialPortTimeout);
@@ -217,6 +217,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     public void registerSerialPortRxEventCallback(SerialPortListener shimmerSerialEventCallback) {
         mShimmerSerialEventCallback = shimmerSerialEventCallback;
     }
+
     private void consolePrintLn(String string) {
         mUtilShimmer.consolePrintLn(mUniqueId + "\t" + string);
     }

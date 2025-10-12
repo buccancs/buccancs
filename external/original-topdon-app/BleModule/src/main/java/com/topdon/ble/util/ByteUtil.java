@@ -50,7 +50,7 @@ public class ByteUtil {
         return result;
     }
 
-        public static byte[] intToByteArray(int i) {
+    public static byte[] intToByteArray(int i) {
         byte[] result = new byte[1];
         result[0] = (byte) (i & 0xFF);
         return result;
@@ -104,7 +104,7 @@ public class ByteUtil {
         return b;
     }
 
-        public static int byteArrayToInt(byte[] bytes) {
+    public static int byteArrayToInt(byte[] bytes) {
         int value = 0;
         for (int i = 0; i < 4; i++) {
             int shift = (3 - i) * 8;

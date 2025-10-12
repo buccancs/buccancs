@@ -26,14 +26,14 @@ public class ShimmerVerObject implements Serializable {
     public String mFirmwareVersionParsed = UtilShimmer.STRING_CONSTANT_FOR_UNKNOWN;
     public String mFirmwareVersionParsedJustVersionNumber = UtilShimmer.STRING_CONSTANT_FOR_UNKNOWN;
 
-        private ExpansionBoardDetails mExpansionBoardDetails = new ExpansionBoardDetails(ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
+    private ExpansionBoardDetails mExpansionBoardDetails = new ExpansionBoardDetails(ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
 
 
     public ShimmerVerObject() {
     }
 
 
-        public ShimmerVerObject(
+    public ShimmerVerObject(
             int firmwareIdentifier,
             int firmwareVersionMajor,
             int firmwareVersionMinor,
@@ -44,7 +44,7 @@ public class ShimmerVerObject implements Serializable {
         mFirmwareVersionInternal = firmwareVersionInternal;
     }
 
-        public ShimmerVerObject(
+    public ShimmerVerObject(
             int hardwareVersion,
             int firmwareIdentifier,
             int firmwareVersionMajor,
@@ -60,7 +60,7 @@ public class ShimmerVerObject implements Serializable {
         parseShimmerVerDetails();
     }
 
-        public ShimmerVerObject(
+    public ShimmerVerObject(
             int hardwareVersion,
             int firmwareIdentifier,
             int firmwareVersionMajor,
@@ -77,7 +77,7 @@ public class ShimmerVerObject implements Serializable {
                 ShimmerVerDetails.ANY_VERSION);
     }
 
-        public ShimmerVerObject(
+    public ShimmerVerObject(
             int hardwareVersion,
             int firmwareIdentifier,
             int firmwareVersionMajor,
@@ -96,7 +96,7 @@ public class ShimmerVerObject implements Serializable {
         parseShimmerVerDetails();
     }
 
-        public ShimmerVerObject(
+    public ShimmerVerObject(
             int hardwareVersion,
             int firmwareIdentifier,
             int firmwareVersionMajor,
@@ -116,7 +116,7 @@ public class ShimmerVerObject implements Serializable {
         parseShimmerVerDetails();
     }
 
-        public ShimmerVerObject(byte[] byteArray) {
+    public ShimmerVerObject(byte[] byteArray) {
         parseVersionByteArray(byteArray);
     }
 
@@ -556,7 +556,7 @@ public class ShimmerVerObject implements Serializable {
         return false;
     }
 
-        public boolean isShimmerGenGq() {
+    public boolean isShimmerGenGq() {
         return isShimmerGenGq(getHardwareVersion(), getFirmwareIdentifier());
     }
 
@@ -567,7 +567,7 @@ public class ShimmerVerObject implements Serializable {
         return false;
     }
 
-        public boolean isShimmerGenGq(int hwVer, int fwId) {
+    public boolean isShimmerGenGq(int hwVer, int fwId) {
         if (isShimmerGenGq(hwVer)) {
             return true;
         }

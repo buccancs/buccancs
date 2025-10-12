@@ -38,7 +38,7 @@ public class RadarHighlighter extends PieRadarHighlighter<RadarChart> {
         return closest;
     }
 
-        protected List<Highlight> getHighlightsAtIndex(int index) {
+    protected List<Highlight> getHighlightsAtIndex(int index) {
 
         mHighlightBuffer.clear();
 

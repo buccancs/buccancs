@@ -7,7 +7,7 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 
 public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
 
-        private static final long serialVersionUID = 4602512529781344807L;
+    private static final long serialVersionUID = 4602512529781344807L;
     public double Bmp3QuantizedCalibData_ParT1;
     public double Bmp3QuantizedCalibData_ParT2;
     public double Bmp3QuantizedCalibData_ParT3;

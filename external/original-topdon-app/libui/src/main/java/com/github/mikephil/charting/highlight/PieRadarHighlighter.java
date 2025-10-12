@@ -10,7 +10,7 @@ public abstract class PieRadarHighlighter<T extends PieRadarChartBase> implement
 
     protected T mChart;
 
-        protected List<Highlight> mHighlightBuffer = new ArrayList<Highlight>();
+    protected List<Highlight> mHighlightBuffer = new ArrayList<Highlight>();
 
     public PieRadarHighlighter(T chart) {
         this.mChart = chart;
@@ -44,5 +44,5 @@ public abstract class PieRadarHighlighter<T extends PieRadarChartBase> implement
         }
     }
 
-        protected abstract Highlight getClosestHighlight(int index, float x, float y);
+    protected abstract Highlight getClosestHighlight(int index, float x, float y);
 }

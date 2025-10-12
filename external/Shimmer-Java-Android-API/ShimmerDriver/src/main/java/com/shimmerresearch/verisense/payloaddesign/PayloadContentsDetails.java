@@ -39,8 +39,8 @@ public abstract class PayloadContentsDetails implements Serializable {
     protected transient List<DataBlockDetails> listOfDataBlocksInOrder = new ArrayList<DataBlockDetails>();
     protected transient byte[] byteBuffer = null;
     protected Set<DATABLOCK_SENSOR_ID> setOfPayloadSensorIds = new HashSet<DATABLOCK_SENSOR_ID>();
-        private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
-        private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
+    private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
+    private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
     private long temperatureUncal = 0;
     private double temperatureCal = 0;
     private long batteryVoltageCal = -1;
@@ -131,7 +131,7 @@ public abstract class PayloadContentsDetails implements Serializable {
         return VerisenseDevice.compareFwVersions(svo, VerisenseDevice.FW_CHANGES.CCF21_010_3);
     }
 
-        public static boolean isCsvHeaderDesignAzMarkingPoint(ShimmerVerObject svo) {
+    public static boolean isCsvHeaderDesignAzMarkingPoint(ShimmerVerObject svo) {
         return !isPayloadDesignV7orAbove(svo);
     }
 
@@ -154,19 +154,19 @@ public abstract class PayloadContentsDetails implements Serializable {
 
     abstract public void parsePayloadSensorData();
 
-        public double getEndTimeRwcMs() {
+    public double getEndTimeRwcMs() {
         return timeDetailsRwc.getEndTimeMs();
     }
 
-        public String getEndTimeRwcStr() {
+    public String getEndTimeRwcStr() {
         return timeDetailsRwc.getEndTimeStr();
     }
 
-        public double getDataEndTimeRwcMs() {
+    public double getDataEndTimeRwcMs() {
         return listOfDataBlocksInOrder.get(listOfDataBlocksInOrder.size() - 1).getEndTimeRwcMs();
     }
 
-        public String getDataEndTimeRwcStr() {
+    public String getDataEndTimeRwcStr() {
         return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getDataEndTimeRwcMs());
     }
 

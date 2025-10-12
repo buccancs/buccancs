@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.fragment
+
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -32,6 +33,7 @@ class GalleryPictureFragment : BaseViewModelFragment<GalleryViewModel>() {
             override fun onClick(index: Int, path: String) {
                 previewPicture(path)
             }
+
             override fun onLongClick(index: Int, path: String) {
                 TipDialog.Builder(requireContext()).setMessage("导出图片")
                     .setPositiveListener("分享") {
@@ -41,12 +43,15 @@ class GalleryPictureFragment : BaseViewModelFragment<GalleryViewModel>() {
             }
         }
     }
+
     override fun initData() {
     }
+
     override fun onStart() {
         super.onStart()
         viewModel.getData()
     }
+
     fun share(path: String) {
         val file = File(path)
         var intent = Intent()
@@ -62,6 +67,7 @@ class GalleryPictureFragment : BaseViewModelFragment<GalleryViewModel>() {
         intent = Intent.createChooser(intent, "分享图片")
         startActivity(intent)
     }
+
     fun previewPicture(path: String) {
         val imageEngine = GlideImageEngine()
         MNImageBrowser.with(context)

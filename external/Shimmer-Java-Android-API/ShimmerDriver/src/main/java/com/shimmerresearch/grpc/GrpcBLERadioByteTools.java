@@ -91,7 +91,7 @@ public class GrpcBLERadioByteTools {
 
     }
 
-        public int getFreePort() throws Exception {
+    public int getFreePort() throws Exception {
         for (int i = 50000; i < 60000; i++) {
             try {
                 ServerSocket serverSocket = new ServerSocket(i);

@@ -1,4 +1,5 @@
 package com.topdon.tc001.popup
+
 import android.content.Context
 import android.view.Gravity
 import android.view.View
@@ -10,8 +11,10 @@ import androidx.core.view.setPadding
 import com.blankj.utilcode.util.SizeUtils
 import com.kylecorry.andromeda.core.ui.setCompoundDrawables
 import com.topdon.tc001.R
+
 class DelPopup(val context: Context) : PopupWindow() {
     var onDelListener: (() -> Unit)? = null
+
     init {
         val widthPixels = context.resources.displayMetrics.widthPixels
         val textView = TextView(context)
@@ -37,6 +40,7 @@ class DelPopup(val context: Context) : PopupWindow() {
         width = textView.measuredWidth
         height = textView.measuredHeight
     }
+
     fun show(anchor: View) {
         val locationArray = IntArray(2)
         anchor.getLocationInWindow(locationArray)

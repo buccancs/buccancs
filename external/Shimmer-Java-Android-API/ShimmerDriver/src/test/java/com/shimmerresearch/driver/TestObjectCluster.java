@@ -54,7 +54,7 @@ public abstract class TestObjectCluster {
     public static final int NUM_HASHMAP_ARRAY = 2;
 
 
-        public static final int NUM_SENSORDATA_ARRAY = 3;
+    public static final int NUM_SENSORDATA_ARRAY = 3;
     public static final int NUM_MULTIMAP = 4;
     public static final int NUM_ARRAYS = 5;
     public static final int NUM_ARRAYS_RESIZE = 6;
@@ -196,7 +196,6 @@ public abstract class TestObjectCluster {
     }
 
     public static void main(String[] args) throws InterruptedException {
-
 
 
         for (int i = 0; i < 1000; i++) {
@@ -496,7 +495,7 @@ public abstract class TestObjectCluster {
         }
     }
 
-        public static ObjectClusterTest[][] testDataStructureOptionsInsertionUpdated(boolean printToConsole) {
+    public static ObjectClusterTest[][] testDataStructureOptionsInsertionUpdated(boolean printToConsole) {
 
         long cumulativeTimings[] = new long[NUM_DATA_STRUCTURES];
         long cumulativeTimingsOverall[] = new long[NUM_DATA_STRUCTURES];

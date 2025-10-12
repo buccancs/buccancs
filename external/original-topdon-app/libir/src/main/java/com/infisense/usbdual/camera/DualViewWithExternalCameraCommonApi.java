@@ -73,7 +73,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
     private volatile boolean isOpenAmplify = false;
     private boolean saveData = false;
 
-        public DualViewWithExternalCameraCommonApi(SurfaceView cameraview, UVCCamera irUVCCamera,
+    public DualViewWithExternalCameraCommonApi(SurfaceView cameraview, UVCCamera irUVCCamera,
                                                CommonParams.DataFlowMode dataFlowMode,
                                                int irCameraWidth, int irCameraHeight, int vlCameraWidth, int vlCameraHeight,
                                                int dualCameraWidth, int dualCameraHeight,
@@ -121,7 +121,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
                 .setPreviewCameraStyle(CommonParams.PreviewCameraStyle.EXTERNAL_CAMERA)
                 .setDeviceStyle(CommonParams.DeviceStyle.ALL_IN_ONE)
                 .setUseDualGPU(false)
-                                .setMultiThreadHandleDualEnable(false)
+                .setMultiThreadHandleDualEnable(false)
                 .build();
         DualCameraParams.TypeLoadParameters rotateT = DualCameraParams.TypeLoadParameters.ROTATE_0;
         if (rotate == 0) {
@@ -159,7 +159,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         preIrARGBData = new byte[irSize * 2 * 2];
         ;
         iFrameCallback = new IFrameCallback() {
-                                    @Override
+            @Override
             public void onFrame(byte[] frame) {
                 if (frame.length == 1) {
                     if (handler != null) {
@@ -291,7 +291,7 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         isOpenAmplify = openAmplify;
     }
 
-        public void setHandler(Handler handler) {
+    public void setHandler(Handler handler) {
         this.handler = handler;
     }
 
@@ -302,18 +302,18 @@ public class DualViewWithExternalCameraCommonApi extends BaseDualView {
         auto_gain_switch_info.cur_detected_high_cnt = 0;
     }
 
-        public void startPreview() {
-                switchIrPreDataHandleEnable(true);
+    public void startPreview() {
+        switchIrPreDataHandleEnable(true);
         dualUVCCamera.setFrameCallback(iFrameCallback);
         dualUVCCamera.onStartPreview();
         firstFrame = false;
     }
 
-        public DualUVCCamera getDualUVCCamera() {
+    public DualUVCCamera getDualUVCCamera() {
         return dualUVCCamera;
     }
 
-        public void stopPreview() {
+    public void stopPreview() {
         dualUVCCamera.setFrameCallback(null);
         dualUVCCamera.onStopPreview();
         SystemClock.sleep(200);

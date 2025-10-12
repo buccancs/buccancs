@@ -350,7 +350,7 @@ public class StatusPayload extends AbstractPayload implements Serializable {
     }
 
     public class STATUS_FLAGS {
-                public static final int BIT_MASK_USB_PLUGGED_IN = (1 << 0);
+        public static final int BIT_MASK_USB_PLUGGED_IN = (1 << 0);
         public static final int BIT_MASK_RECORDING_PAUSED = (1 << 1);
         public static final int BIT_MASK_FLASH_IS_FULL = (1 << 2);
         public static final int BIT_MASK_POWER_IS_GOOD = (1 << 3);

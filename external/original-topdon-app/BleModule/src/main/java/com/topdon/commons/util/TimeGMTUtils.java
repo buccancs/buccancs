@@ -15,7 +15,7 @@ import java.util.TimeZone;
 public class TimeGMTUtils {
 
 
-        private static boolean isDaylight(TimeZone zone, String time) {
+    private static boolean isDaylight(TimeZone zone, String time) {
         try {
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -27,7 +27,7 @@ public class TimeGMTUtils {
         return false;
     }
 
-        public static String getGMTConvertTime(String time, String format) {
+    public static String getGMTConvertTime(String time, String format) {
         try {
             if (TextUtils.isEmpty(time)) {
                 return "";
@@ -50,7 +50,7 @@ public class TimeGMTUtils {
         return format.format(date);
     }
 
-        public static long getStringToDate(String dateString, String gmt, String pattern) {
+    public static long getStringToDate(String dateString, String gmt, String pattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         Date date = new Date();
         try {

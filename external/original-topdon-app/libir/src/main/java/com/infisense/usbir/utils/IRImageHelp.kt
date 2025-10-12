@@ -1,4 +1,5 @@
 package com.infisense.usbir.utils
+
 import android.graphics.Bitmap
 import android.util.Log
 import com.example.open3d.JNITool
@@ -8,10 +9,12 @@ import org.opencv.core.Mat
 import org.opencv.imgproc.Imgproc
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+
 class IRImageHelp {
 
     @Volatile
     private var colorList: IntArray? = null
+
     @Volatile
     private var places: FloatArray? = null
     private var isUseGray = true
@@ -22,6 +25,7 @@ class IRImageHelp {
     fun getColorList(): IntArray? {
         return colorList
     }
+
     fun setColorList(
         colorList: IntArray?,
         places: FloatArray?,
@@ -50,7 +54,7 @@ class IRImageHelp {
         }
     }
 
-        fun customPseudoColor(
+    fun customPseudoColor(
         imageDst: ByteArray,
         temperatureSrc: ByteArray,
         imageWidth: Int,
@@ -138,6 +142,7 @@ class IRImageHelp {
             }
         }
     }
+
     fun contourDetection(
         alarmBean: AlarmBean?, imageDst: ByteArray?, temperatureSrc: ByteArray?,
         imageWidth: Int, imageHeight: Int

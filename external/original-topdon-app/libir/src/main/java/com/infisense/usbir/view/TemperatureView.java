@@ -47,31 +47,31 @@ import java.util.List;
 public class TemperatureView extends SurfaceView implements SurfaceHolder.Callback,
         View.OnTouchListener, BaseDualView.OnFrameCallback {
 
-        public static final int REGION_MODE_RESET = -1;
-        public static final int REGION_MODE_POINT = 0;
-        public static final int REGION_MODE_LINE = 1;
-        public static final int REGION_MODE_RECTANGLE = 2;
-        public static final int REGION_MODE_CENTER = 3;
-        public static final int REGION_NODE_TREND = 4;
-        public static final int REGION_MODE_CLEAN = 5;
+    public static final int REGION_MODE_RESET = -1;
+    public static final int REGION_MODE_POINT = 0;
+    public static final int REGION_MODE_LINE = 1;
+    public static final int REGION_MODE_RECTANGLE = 2;
+    public static final int REGION_MODE_CENTER = 3;
+    public static final int REGION_NODE_TREND = 4;
+    public static final int REGION_MODE_CLEAN = 5;
     private static final String TAG = "TemperatureView";
-        private static final int TOUCH_TOLERANCE = SizeUtils.sp2px(7f);
+    private static final int TOUCH_TOLERANCE = SizeUtils.sp2px(7f);
     private final int POINT_MAX_COUNT;
     private final int LINE_MAX_COUNT;
     private final int RECTANGLE_MAX_COUNT;
     private final TempDrawHelper helper = new TempDrawHelper();
-        private final ArrayList<Point> pointList = new ArrayList<>();
-        private final ArrayList<Line> lineList = new ArrayList<>();
-        private final ArrayList<Rect> rectList = new ArrayList<>();
+    private final ArrayList<Point> pointList = new ArrayList<>();
+    private final ArrayList<Line> lineList = new ArrayList<>();
+    private final ArrayList<Rect> rectList = new ArrayList<>();
     private final ArrayList<LibIRTemp.TemperatureSampleResult> pointResultList = new ArrayList<>(3);
     private final ArrayList<LibIRTemp.TemperatureSampleResult> lineResultList = new ArrayList<>(3);
     private final ArrayList<LibIRTemp.TemperatureSampleResult> rectangleResultList = new ArrayList<>(3);
     private final Runnable runnable;
     private final Object regionLock = new Object();
-        private final boolean isShowC = SharedManager.INSTANCE.getTemperature() == 1;
+    private final boolean isShowC = SharedManager.INSTANCE.getTemperature() == 1;
     public int productType = Const.TYPE_IR;
     private int drawCount = 3;
-        @Nullable
+    @Nullable
     private LibIRTemp irtemp;
     /**
      * {@link #viewWidth} / {@link #temperatureWidth} 的比值.
@@ -81,13 +81,13 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
      * {@link #viewHeight} / {@link #temperatureHeight} 的比值.
      */
     private float yScale = 0;
-        private int viewWidth = 0;
-        private int viewHeight = 0;
-        private int temperatureWidth;
-        private int temperatureHeight;
-        @RegionMode
+    private int viewWidth = 0;
+    private int viewHeight = 0;
+    private int temperatureWidth;
+    private int temperatureHeight;
+    @RegionMode
     private int temperatureRegionMode = REGION_MODE_CLEAN;
-        private boolean isShowFull;
+    private boolean isShowFull;
     @Nullable
     private OnTrendChangeListener onTrendChangeListener = null;
     @Nullable
@@ -95,13 +95,13 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     @Nullable
     private Runnable onTrendRemoveListener = null;
     private ILiteListener iLiteListener = null;
-        private TempListener listener;
+    private TempListener listener;
     private boolean isMonitor = false;
-        private boolean isUserHighTemp = false;
-        private boolean isUserLowTemp = false;
+    private boolean isUserHighTemp = false;
+    private boolean isUserLowTemp = false;
     private SynchronizedBitmap syncimage;
     private byte[] temperature;
-        @Nullable
+    @Nullable
     private Line trendLine;
     private Bitmap regionBitmap;
     private Bitmap regionAndValueBitmap;
@@ -109,15 +109,15 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private volatile boolean runflag = false;
     private WeakReference<ITsTempListener> iTsTempListenerWeakReference;
     private boolean isShow = false;
-        private boolean isAddAction = true;
+    private boolean isAddAction = true;
     private int downX = 0;
     private int downY = 0;
     private Line movingLine;
-        private LineMoveType lineMoveType = LineMoveType.ALL;
-        private Rect movingRect;
-        private RectMoveType rectMoveType = RectMoveType.ALL;
-        private RectMoveEdge rectMoveEdge = RectMoveEdge.LEFT;
-        private RectMoveCorner rectMoveCorner = RectMoveCorner.LT;
+    private LineMoveType lineMoveType = LineMoveType.ALL;
+    private Rect movingRect;
+    private RectMoveType rectMoveType = RectMoveType.ALL;
+    private RectMoveEdge rectMoveEdge = RectMoveEdge.LEFT;
+    private RectMoveCorner rectMoveCorner = RectMoveCorner.LT;
     private DualCameraParams.FusionType mCurrentFusionType;
     private byte[] remapTempData;
     private DualUVCCamera dualUVCCamera;
@@ -344,7 +344,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         };
     }
 
-        private static boolean isLineConcat(@NonNull Line line, int x, int y) {
+    private static boolean isLineConcat(@NonNull Line line, int x, int y) {
         int tempDistance = ((line.end.y - line.start.y) * x - (line.end.x - line.start.x) * y + line.end.x * line.start.y - line.start.x * line.end.y);
         tempDistance = (int) (tempDistance / Math.sqrt(Math.pow(line.end.y - line.start.y, 2) + Math.pow(line.end.x - line.start.x, 2)));
         return Math.abs(tempDistance) < TOUCH_TOLERANCE && x > Math.min(line.start.x, line.end.x) - TOUCH_TOLERANCE && x < Math.max(line.start.x, line.end.x) + TOUCH_TOLERANCE;
@@ -395,15 +395,15 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-        public void setOnTrendChangeListener(@Nullable OnTrendChangeListener onTrendChangeListener) {
+    public void setOnTrendChangeListener(@Nullable OnTrendChangeListener onTrendChangeListener) {
         this.onTrendChangeListener = onTrendChangeListener;
     }
 
-        public void setOnTrendAddListener(@Nullable Runnable onTrendAddListener) {
+    public void setOnTrendAddListener(@Nullable Runnable onTrendAddListener) {
         this.onTrendAddListener = onTrendAddListener;
     }
 
-        public void setOnTrendRemoveListener(@Nullable Runnable onTrendRemoveListener) {
+    public void setOnTrendRemoveListener(@Nullable Runnable onTrendRemoveListener) {
         this.onTrendRemoveListener = onTrendRemoveListener;
     }
 
@@ -557,10 +557,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     }
 
 
-
-
-
-    
     public void stop() {
         runflag = false;
         isShow = getVisibility() == View.VISIBLE;
@@ -628,7 +624,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         lineList.add(line);
     }
 
-    
+
     public void addScaleRectangle(Rect r) {
         float sx = getMeasuredWidth() / (float) temperatureWidth;
         float sy = getMeasuredHeight() / (float) temperatureHeight;
@@ -656,7 +652,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     }
 
 
-    
     public Line getLine() {
         if (!lineList.isEmpty()) {
             Line line = new Line(new Point(), new Point());
@@ -1224,15 +1219,12 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         return a > b - TOUCH_TOLERANCE && a < b + TOUCH_TOLERANCE;
     }
 
-        private void drawPoint(Canvas canvas, int x, int y) {
+    private void drawPoint(Canvas canvas, int x, int y) {
         helper.drawPoint(canvas, x, y);
     }
 
 
-
-
-    
-        private void drawLine(Canvas canvas, int x1, int y1, int x2, int y2, boolean isTrend) {
+    private void drawLine(Canvas canvas, int x1, int y1, int x2, int y2, boolean isTrend) {
         int startX = (int) ((int) (x1 / xScale) * xScale);
         int startY = (int) ((int) (y1 / yScale) * yScale);
         int stopX = (int) ((int) (x2 / xScale) * xScale);
@@ -1244,7 +1236,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-        private void drawRect(Canvas canvas, float x1, float y1, float x2, float y2) {
+    private void drawRect(Canvas canvas, float x1, float y1, float x2, float y2) {
         int left = (int) ((int) (x1 / xScale) * xScale);
         int top = (int) ((int) (y1 / yScale) * yScale);
         int right = (int) ((int) (x2 / xScale) * xScale);
@@ -1252,21 +1244,21 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         helper.drawRect(canvas, left, top, right, bottom);
     }
 
-        private void drawCircle(Canvas canvas, int x, int y, boolean isMax) {
+    private void drawCircle(Canvas canvas, int x, int y, boolean isMax) {
         helper.drawCircle(canvas, x, y, isMax);
     }
 
-        private void drawDot(Canvas canvas, Point point, boolean isMax) {
+    private void drawDot(Canvas canvas, Point point, boolean isMax) {
         int x = TempDrawHelper.Companion.correct(point.x * xScale, getWidth());
         int y = TempDrawHelper.Companion.correct(point.y * yScale, getHeight());
         helper.drawCircle(canvas, x, y, isMax);
     }
 
-        private void drawTempText(Canvas canvas, String text, int x, int y) {
+    private void drawTempText(Canvas canvas, String text, int x, int y) {
         helper.drawTempText(canvas, text, getWidth(), x, y);
     }
 
-        private void drawTempText(Canvas canvas, String text, Point point) {
+    private void drawTempText(Canvas canvas, String text, Point point) {
         int x = TempDrawHelper.Companion.correct(point.x * xScale, getWidth());
         int y = TempDrawHelper.Companion.correct(point.y * yScale, getHeight());
         helper.drawTempText(canvas, text, getWidth(), x, y);
@@ -1351,7 +1343,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private @interface RegionMode {
     }
 
-        public interface OnTrendChangeListener {
+    public interface OnTrendChangeListener {
         void onChange(List<Float> temps);
     }
 

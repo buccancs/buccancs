@@ -13,17 +13,17 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public abstract class AxisRenderer extends Renderer {
 
-        protected AxisBase mAxis;
+    protected AxisBase mAxis;
 
-        protected Transformer mTrans;
+    protected Transformer mTrans;
 
-        protected Paint mGridPaint;
+    protected Paint mGridPaint;
 
-        protected Paint mAxisLabelPaint;
+    protected Paint mAxisLabelPaint;
 
-        protected Paint mAxisLinePaint;
+    protected Paint mAxisLinePaint;
 
-        protected Paint mLimitLinePaint;
+    protected Paint mLimitLinePaint;
 
     public AxisRenderer(ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis) {
         super(viewPortHandler);
@@ -51,23 +51,23 @@ public abstract class AxisRenderer extends Renderer {
         }
     }
 
-        public Paint getPaintAxisLabels() {
+    public Paint getPaintAxisLabels() {
         return mAxisLabelPaint;
     }
 
-        public Paint getPaintGrid() {
+    public Paint getPaintGrid() {
         return mGridPaint;
     }
 
-        public Paint getPaintAxisLine() {
+    public Paint getPaintAxisLine() {
         return mAxisLinePaint;
     }
 
-        public Transformer getTransformer() {
+    public Transformer getTransformer() {
         return mTrans;
     }
 
-        public void computeAxis(float min, float max, boolean inverted) {
+    public void computeAxis(float min, float max, boolean inverted) {
 
         if (mViewPortHandler != null && mViewPortHandler.contentWidth() > 10 && !mViewPortHandler.isFullyZoomedOutY()) {
 
@@ -91,7 +91,7 @@ public abstract class AxisRenderer extends Renderer {
         computeAxisValues(min, max);
     }
 
-        protected void computeAxisValues(float min, float max) {
+    protected void computeAxisValues(float min, float max) {
 
         float yMin = min;
         float yMax = max;
@@ -191,11 +191,11 @@ public abstract class AxisRenderer extends Renderer {
         }
     }
 
-        public abstract void renderAxisLabels(Canvas c);
+    public abstract void renderAxisLabels(Canvas c);
 
-        public abstract void renderGridLines(Canvas c);
+    public abstract void renderGridLines(Canvas c);
 
-        public abstract void renderAxisLine(Canvas c);
+    public abstract void renderAxisLine(Canvas c);
 
-        public abstract void renderLimitLines(Canvas c);
+    public abstract void renderLimitLines(Canvas c);
 }

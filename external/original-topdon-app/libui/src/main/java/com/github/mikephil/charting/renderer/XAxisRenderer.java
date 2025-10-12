@@ -176,7 +176,7 @@ public class XAxisRenderer extends AxisRenderer {
         }
     }
 
-        protected void drawLabels(Canvas c, float pos, MPPointF anchor) {
+    protected void drawLabels(Canvas c, float pos, MPPointF anchor) {
 
         final float labelRotationAngleDegrees = mXAxis.getLabelRotationAngle();
         boolean centeringEnabled = mXAxis.isCenterAxisLabelsEnabled();
@@ -276,7 +276,7 @@ public class XAxisRenderer extends AxisRenderer {
         return mGridClippingRect;
     }
 
-        protected void drawGridLine(Canvas c, float x, float y, Path gridLinePath) {
+    protected void drawGridLine(Canvas c, float x, float y, Path gridLinePath) {
 
         gridLinePath.moveTo(x, mViewPortHandler.contentBottom());
         gridLinePath.lineTo(x, mViewPortHandler.contentTop());
@@ -286,7 +286,7 @@ public class XAxisRenderer extends AxisRenderer {
         gridLinePath.reset();
     }
 
-        @Override
+    @Override
     public void renderLimitLines(Canvas c) {
 
         List<LimitLine> limitLines = mXAxis.getLimitLines();

@@ -21,20 +21,20 @@ public class PreUtil {
     private WeakReference<Context> mContext;
     private SharedPreferences preferences;
 
-        private PreUtil(Context context) {
+    private PreUtil(Context context) {
         this(context, SHARE_NAME);
     }
 
-        private PreUtil(Context context, String shareName) {
+    private PreUtil(Context context, String shareName) {
         mContext = new WeakReference<>(context);
         preferences = context.getSharedPreferences(shareName, Context.MODE_PRIVATE);
     }
 
-        public static PreUtil getInstance(Context context) {
+    public static PreUtil getInstance(Context context) {
         return getInstance(context, SHARE_NAME);
     }
 
-        public static PreUtil getInstance(Context context,
+    public static PreUtil getInstance(Context context,
                                       String shareName) {
         if (instance == null) {
             synchronized (PreUtil.class) {
@@ -112,7 +112,7 @@ public class PreUtil {
         }
     }
 
-        @SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
     public <T> void put(T t) {
         try {
             String methodName = "";
@@ -227,7 +227,7 @@ public class PreUtil {
         return null;
     }
 
-        public <T> Object get(Class<T> cls) {
+    public <T> Object get(Class<T> cls) {
         Object obj = null;
         String fieldName = "";
         try {

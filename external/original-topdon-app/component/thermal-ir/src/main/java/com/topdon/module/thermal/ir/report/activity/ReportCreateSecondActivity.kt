@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.activity
+
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_report_create_second.*
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 @Route(path = RouterConfig.REPORT_CREATE_SECOND)
 class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
     private var reportIRList: ArrayList<ReportIRBean> = ArrayList(0)
@@ -36,12 +38,15 @@ class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
         tv_add_image.setOnClickListener(this)
         tv_preview.setOnClickListener(this)
     }
+
     override fun initData() {
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReportCreate(event: ReportCreateEvent) {
         finish()
     }
+
     private fun refreshImg(absolutePath: String?) {
         lifecycleScope.launch {
             val drawable = GlideLoader.getDrawable(this@ReportCreateSecondActivity, absolutePath)
@@ -56,6 +61,7 @@ class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
             iv_image.setImageDrawable(drawable)
         }
     }
+
     private fun refreshData(imageTempBean: ImageTempBean?) {
         scroll_view.scrollTo(0, 0)
         report_temp_view_full.isVisible = imageTempBean?.full != null
@@ -121,6 +127,7 @@ class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
             report_temp_view_rect5.refreshData(imageTempBean?.rectList?.get(4))
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             tv_add_image -> {
@@ -141,6 +148,7 @@ class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
                     .withParcelableArrayList(ExtraKeyConfig.REPORT_IR_LIST, reportIRBeanList)
                     .navigation(this)
             }
+
             tv_preview -> {
                 val appLanguage = SharedManager.getLanguage(this)
                 val sdkVersion = "1.2.8_23050619"
@@ -161,6 +169,7 @@ class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     private fun buildReportIr(filePath: String): ReportIRBean {
         val full: ReportTempBean? = if (imageTempBean?.full != null) {
             ReportTempBean(
@@ -189,6 +198,7 @@ class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
         val rectList = buildReportTempBeanList(3)
         return ReportIRBean("", filePath, full, pointList, lienList, rectList)
     }
+
     private fun buildReportTempBeanList(type: Int): ArrayList<ReportTempBean> {
         val size = when (type) {
             1 -> imageTempBean?.pointList?.size ?: 0
@@ -207,6 +217,7 @@ class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
                         else -> report_temp_view_point5
                     }
                 }
+
                 2 -> {
                     when (i) {
                         0 -> report_temp_view_line1
@@ -216,6 +227,7 @@ class ReportCreateSecondActivity : BaseActivity(), View.OnClickListener {
                         else -> report_temp_view_line5
                     }
                 }
+
                 else -> {
                     when (i) {
                         0 -> report_temp_view_rect1

@@ -1,4 +1,5 @@
 package com.topdon.tc001.view
+
 import android.content.Context
 import android.content.res.TypedArray
 import android.text.SpannableString
@@ -21,6 +22,7 @@ class ConnectionGuideView : LinearLayout {
     private var iconShow: Boolean = false
     private lateinit var guideIcon: ImageView
     private lateinit var contentText: TextView
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         val ta: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.ConnectionGuideView)
@@ -28,8 +30,10 @@ class ConnectionGuideView : LinearLayout {
             when (ta.getIndex(i)) {
                 R.styleable.ConnectionGuideView_guide_icon -> iconRes =
                     ta.getResourceId(R.styleable.ConnectionGuideView_guide_icon, 0)
+
                 R.styleable.ConnectionGuideView_guide_text -> contentStr =
                     ta.getString(R.styleable.ConnectionGuideView_guide_text).toString()
+
                 R.styleable.ConnectionGuideView_guide_icon_show -> iconShow =
                     ta.getBoolean(R.styleable.ConnectionGuideView_guide_icon_show, false)
             }
@@ -37,11 +41,13 @@ class ConnectionGuideView : LinearLayout {
         ta.recycle()
         initView()
     }
+
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
     )
+
     private fun initView() {
         inflate(context, R.layout.ui_main_connection_guide, this)
         contentText = findViewById(R.id.tv_content)
@@ -50,19 +56,23 @@ class ConnectionGuideView : LinearLayout {
         contentText.text = contentStr
         guideIcon.visibility = if (iconShow) View.VISIBLE else View.GONE
     }
+
     fun setText(text: CharSequence?) {
         if (contentText == null || TextUtils.isEmpty(text)) return
         contentText.text = text
         contentText.movementMethod = LinkMovementMethod.getInstance()
     }
+
     fun getText(): String {
         if (contentText == null) return ""
         return contentText.text.toString()
     }
+
     fun setHighlightColor(color: Int) {
         if (contentText == null) return
         contentText.highlightColor = color
     }
+
     fun getCompoundDrawables(content: String) {
         if (contentText == null) return
         var mContent = "$content  "

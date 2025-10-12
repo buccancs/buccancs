@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -38,6 +39,7 @@ import kotlinx.android.synthetic.main.item_ir_config_config.view.*
 import kotlinx.android.synthetic.main.item_ir_config_foot.view.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 @Route(path = RouterConfig.IR_SETTING)
 class IRConfigActivity : BaseActivity(), View.OnClickListener {
     private var isTC007 = false
@@ -45,6 +47,7 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var adapter: ConfigAdapter
     override fun initContentView(): Int = R.layout.activity_ir_config
+
     @SuppressLint("SetTextI18n")
     override fun initView() {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
@@ -108,8 +111,10 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
         }
         viewModel.getConfig(isTC007)
     }
+
     override fun initData() {
     }
+
     private fun showGuideDialog(modelBean: ModelBean) {
         if (SharedManager.configGuideStep == 0) {
             iv_default_selector.isSelected = modelBean.defaultModel.use
@@ -140,6 +145,7 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
             iv_default_selector -> {
                 viewModel.checkConfig(isTC007, 0)
             }
+
             view_default_temp_bg -> {
                 IRConfigInputDialog(this, IRConfigInputDialog.Type.TEMP, isTC007)
                     .setInput(UnitTools.showUnitValue(viewModel.configLiveData.value?.defaultModel?.environment!!))
@@ -148,6 +154,7 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
                     }
                     .show()
             }
+
             view_default_dis_bg -> {
                 IRConfigInputDialog(this, IRConfigInputDialog.Type.DIS, isTC007)
                     .setInput(viewModel.configLiveData.value?.defaultModel?.distance)
@@ -156,6 +163,7 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
                     }
                     .show()
             }
+
             tv_default_em_value -> {
                 IRConfigInputDialog(this, IRConfigInputDialog.Type.EM, isTC007)
                     .setInput(viewModel.configLiveData.value?.defaultModel?.radiation)
@@ -166,6 +174,7 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     private class ConfigAdapter(val context: Context, val isTC007: Boolean) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val dataList: ArrayList<DataBean> = ArrayList()
@@ -173,15 +182,18 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
         var onDeleteListener: ((bean: DataBean) -> Unit)? = null
         var onUpdateListener: ((bean: DataBean) -> Unit)? = null
         var onAddListener: View.OnClickListener? = null
+
         @SuppressLint("NotifyDataSetChanged")
         fun refresh(newList: List<DataBean>) {
             dataList.clear()
             dataList.addAll(newList)
             notifyDataSetChanged()
         }
+
         override fun getItemViewType(position: Int): Int {
             return if (position < dataList.size) 0 else 1
         }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return if (viewType == 0) {
                 ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ir_config_config, parent, false))
@@ -189,6 +201,7 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
                 FootViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ir_config_foot, parent, false))
             }
         }
+
         @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder is ItemViewHolder) {
@@ -213,6 +226,7 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
                 holder.itemView.tv_add.setTextColor(if (dataList.size >= 10) 0x80ffffff.toInt() else 0xccffffff.toInt())
             }
         }
+
         override fun getItemCount(): Int = dataList.size + 1
 
         inner class ItemViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
@@ -270,6 +284,7 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
                 }
             }
         }
+
         inner class FootViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
             init {
                 rootView.view_add.setOnClickListener {

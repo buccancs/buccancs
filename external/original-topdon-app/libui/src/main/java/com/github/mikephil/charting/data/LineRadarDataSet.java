@@ -11,13 +11,13 @@ import java.util.List;
 
 public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandleRadarDataSet<T> implements ILineRadarDataSet<T> {
 
-        protected Drawable mFillDrawable;
-        private int mFillColor = Color.rgb(140, 234, 255);
-        private int mFillAlpha = 85;
+    protected Drawable mFillDrawable;
+    private int mFillColor = Color.rgb(140, 234, 255);
+    private int mFillAlpha = 85;
 
-        private float mLineWidth = 2.5f;
+    private float mLineWidth = 2.5f;
 
-        private boolean mDrawFilled = false;
+    private boolean mDrawFilled = false;
 
 
     public LineRadarDataSet(List<T> yVals, String label) {
@@ -29,7 +29,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
         return mFillColor;
     }
 
-        public void setFillColor(int color) {
+    public void setFillColor(int color) {
         mFillColor = color;
         mFillDrawable = null;
     }
@@ -39,7 +39,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
         return mFillDrawable;
     }
 
-        @TargetApi(18)
+    @TargetApi(18)
     public void setFillDrawable(Drawable drawable) {
         this.mFillDrawable = drawable;
     }
@@ -49,7 +49,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
         return mFillAlpha;
     }
 
-        public void setFillAlpha(int alpha) {
+    public void setFillAlpha(int alpha) {
         mFillAlpha = alpha;
     }
 
@@ -58,7 +58,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
         return mLineWidth;
     }
 
-        public void setLineWidth(float width) {
+    public void setLineWidth(float width) {
 
         if (width < 0.0f)
             width = 0.0f;

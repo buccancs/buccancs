@@ -1,4 +1,5 @@
 package com.buccancs.ui.calibration
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buccancs.domain.model.CalibrationDefaults
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class CalibrationViewModel @Inject constructor(
     private val calibrationRepository: CalibrationRepository
@@ -22,11 +24,13 @@ class CalibrationViewModel @Inject constructor(
     private val squareSizeMmInput = MutableStateFlow((CalibrationDefaults.Pattern.squareSizeMeters * 1_000.0).format(2))
     private val requiredPairsInput = MutableStateFlow(CalibrationDefaults.RequiredPairs.toString())
     private val busy = MutableStateFlow(false)
+
     init {
         viewModelScope.launch {
             calibrationRepository.loadLatestResult()
         }
     }
+
     val uiState: StateFlow<CalibrationUiState> = combine(
         calibrationRepository.sessionState,
         patternRowsInput,
@@ -54,18 +58,23 @@ class CalibrationViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = CalibrationUiState.initial()
     )
+
     fun updatePatternRows(value: String) {
         patternRowsInput.value = value.filterDigits()
     }
+
     fun updatePatternCols(value: String) {
         patternColsInput.value = value.filterDigits()
     }
+
     fun updateSquareSizeMm(value: String) {
         squareSizeMmInput.value = value.filterDecimal()
     }
+
     fun updateRequiredPairs(value: String) {
         requiredPairsInput.value = value.filterDigits()
     }
+
     fun applyPatternSettings() {
         val rows = patternRowsInput.value.toIntOrNull()?.coerceAtLeast(2) ?: return
         val cols = patternColsInput.value.toIntOrNull()?.coerceAtLeast(2) ?: return
@@ -83,36 +92,43 @@ class CalibrationViewModel @Inject constructor(
             )
         }
     }
+
     fun startSession() {
         launchGuarded {
             calibrationRepository.beginSession()
         }
     }
+
     fun clearSession() {
         launchGuarded {
             calibrationRepository.clearSession()
         }
     }
+
     fun capture() {
         launchGuarded {
             calibrationRepository.capturePair()
         }
     }
+
     fun removeCapture(id: String) {
         launchGuarded {
             calibrationRepository.removeCapture(id)
         }
     }
+
     fun computeCalibration() {
         launchGuarded {
             calibrationRepository.computeAndPersist()
         }
     }
+
     fun loadCachedResult() {
         launchGuarded {
             calibrationRepository.loadLatestResult()
         }
     }
+
     private fun launchGuarded(block: suspend () -> Unit) {
         if (busy.compareAndSet(expect = false, update = true)) {
             viewModelScope.launch {
@@ -124,6 +140,7 @@ class CalibrationViewModel @Inject constructor(
             }
         }
     }
+
     private fun MutableStateFlow<Boolean>.compareAndSet(expect: Boolean, update: Boolean): Boolean {
         return if (value == expect) {
             value = update
@@ -132,6 +149,7 @@ class CalibrationViewModel @Inject constructor(
             false
         }
     }
+
     private fun String.filterDigits(): String = filter { it.isDigit() }.take(2)
     private fun String.filterDecimal(): String {
         val filtered = filter { it.isDigit() || it == '.' }
@@ -142,9 +160,11 @@ class CalibrationViewModel @Inject constructor(
             filtered
         }
     }
+
     private fun Double.format(decimals: Int): String =
         "%.${decimals}f".format(this)
 }
+
 data class CalibrationUiState(
     val patternRowsInput: String,
     val patternColsInput: String,
@@ -176,6 +196,7 @@ data class CalibrationUiState(
         )
     }
 }
+
 data class CalibrationCaptureItem(
     val id: String,
     val capturedAt: String

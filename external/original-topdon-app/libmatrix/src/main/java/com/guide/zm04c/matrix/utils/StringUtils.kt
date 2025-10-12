@@ -1,6 +1,8 @@
 package com.guide.zm04c.matrix.utils
+
 import android.graphics.Paint
 import android.graphics.Rect
+
 class StringUtils {
     companion object {
         fun isBlank(str: String?): Boolean {
@@ -17,6 +19,7 @@ class StringUtils {
             val day = date.substring(6, 8)
             return "$year-$month-$day"
         }
+
         fun equals(a: CharSequence?, b: CharSequence?): Boolean {
             if (a === b)
                 return true
@@ -33,6 +36,7 @@ class StringUtils {
             }
             return false
         }
+
         public fun getStringSize(str: String, textSizePxVal: Float): IntArray {
             if (textSizePxVal < 0) {
                 throw IllegalArgumentException("textSizePxVal > 0 need")

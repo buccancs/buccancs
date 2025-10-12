@@ -1,4 +1,5 @@
 package com.topdon.module.user.activity
+
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.view.View
@@ -15,6 +16,7 @@ import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.user.R
 import kotlinx.android.synthetic.main.activity_device_details.*
 import kotlinx.coroutines.launch
+
 @Route(path = RouterConfig.DEVICE_INFORMATION)
 class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
     private var isTC007 = false
@@ -23,9 +25,11 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
         cl_layout_copy.setOnClickListener(this)
     }
+
     override fun initData() {
         getDeviceDetails()
     }
+
     private fun getDeviceDetails() {
         lifecycleScope.launch {
             if (isTC007) {
@@ -48,6 +52,7 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             cl_layout_copy -> {

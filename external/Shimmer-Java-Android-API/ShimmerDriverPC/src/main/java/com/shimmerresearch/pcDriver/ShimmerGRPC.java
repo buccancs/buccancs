@@ -54,7 +54,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
-        private static final long serialVersionUID = 5029128107276324956L;
+    private static final long serialVersionUID = 5029128107276324956L;
     protected transient ShimmerDeviceCallbackAdapter mDeviceCallbackAdapter = new ShimmerDeviceCallbackAdapter(this);
     String mMacAddress;
     transient ShimmerBLEByteServerGrpc.ShimmerBLEByteServerBlockingStub blockingStub;
@@ -157,7 +157,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
     public void connect(String address, String bluetoothLibrary) {
         setBluetoothRadioState(BT_STATE.CONNECTING);
         Request request = Request.newBuilder().setName(mMacAddress).build();
-
 
 
         StreamRequest sreq = StreamRequest.newBuilder().setMessage(mMacAddress).build();
@@ -487,7 +486,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
         @Override
         protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
             System.out.println(shimmerMSG.mIdentifier);
-
 
 
             int ind = shimmerMSG.mIdentifier;

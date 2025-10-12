@@ -99,7 +99,7 @@ public class SensorLIS3MDL extends AbstractSensor {
 
 
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-        private static final long serialVersionUID = 4028368641088628178L;
+    private static final long serialVersionUID = 4028368641088628178L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -132,7 +132,6 @@ public class SensorLIS3MDL extends AbstractSensor {
                 new BtCommandDetails(SET_ALT_MAG_SAMPLING_RATE_COMMAND, "SET_ALT_MAG_SAMPLING_RATE_COMMAND"));
         mBtSetCommandMap = Collections.unmodifiableMap(aMap);
     }
-
 
 
     public boolean mIsUsingDefaultAltMagParam = true;
@@ -177,8 +176,7 @@ public class SensorLIS3MDL extends AbstractSensor {
         int magRate = 0;
 
         if (isEnabled) {
-            if (powerMode == 0)
-            {
+            if (powerMode == 0) {
                 magRate = 0x08;
             } else {
                 if (freq > 560) {
@@ -526,7 +524,6 @@ public class SensorLIS3MDL extends AbstractSensor {
 
         updateCurrentMagAltCalibInUse();
     }
-
 
 
     @Override

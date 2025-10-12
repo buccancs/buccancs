@@ -27,7 +27,7 @@ import com.shimmerresearch.verisense.sensors.ISensorConfig;
 
 public abstract class AbstractSensor implements Serializable {
 
-        private static final long serialVersionUID = 3465427544416038676L;
+    private static final long serialVersionUID = 3465427544416038676L;
     protected static boolean mEnableCalibration = true;
     public SENSORS mSensorType = null;
     public TreeMap<Integer, SensorDetails> mSensorMap = new TreeMap<Integer, SensorDetails>();
@@ -169,19 +169,18 @@ public abstract class AbstractSensor implements Serializable {
         return "";
     }
 
-        public abstract void generateSensorMap();
+    public abstract void generateSensorMap();
 
 
     public abstract void generateConfigOptionsMap();
 
     public abstract void generateSensorGroupMapping();
 
-        public abstract ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimeStampMs);
+    public abstract ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimeStampMs);
 
     public abstract void checkShimmerConfigBeforeConfiguring();
 
     public abstract void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType);
-
 
 
     public abstract void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType);
@@ -192,9 +191,9 @@ public abstract class AbstractSensor implements Serializable {
 
     public abstract void setSensorSamplingRate(double samplingRateHz);
 
-        public abstract boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled);
+    public abstract boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled);
 
-        public abstract boolean checkConfigOptionValues(String stringKey);
+    public abstract boolean checkConfigOptionValues(String stringKey);
 
     @Deprecated
     public abstract Object getSettings(String componentName, COMMUNICATION_TYPE commType);
@@ -208,7 +207,7 @@ public abstract class AbstractSensor implements Serializable {
 
     public abstract void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer);
 
-        public void initialise() {
+    public void initialise() {
         if (mShimmerVerObject != null) {
             generateSensorMap();
             generateConfigOptionsMap();
@@ -401,7 +400,7 @@ public abstract class AbstractSensor implements Serializable {
         return getConfigValueUsingConfigLabel(Configuration.Shimmer3.SENSOR_ID.RESERVED_ANY_SENSOR, configLabel);
     }
 
-        public void consolePrintChannelsCal(ObjectCluster objectCluster, List<String[]> listOfChannelOCNAndType) {
+    public void consolePrintChannelsCal(ObjectCluster objectCluster, List<String[]> listOfChannelOCNAndType) {
         String textToPrint = "";
         for (String[] channelOCN : listOfChannelOCNAndType) {
             textToPrint += channelOCN[0] + "_" + channelOCN[1] + ":";
@@ -449,7 +448,7 @@ public abstract class AbstractSensor implements Serializable {
         mCalibMap = new TreeMap<Integer, TreeMap<Integer, CalibDetails>>();
     }
 
-        public boolean isSensorUsingDefaultCal(int sensorId) {
+    public boolean isSensorUsingDefaultCal(int sensorId) {
         return false;
     }
 
@@ -466,7 +465,7 @@ public abstract class AbstractSensor implements Serializable {
 //
 //
 
-//
+    //
     public void handleSpecCasesAfterSensorMapUpdateFromEnabledSensors() {
     }
 
@@ -476,6 +475,7 @@ public abstract class AbstractSensor implements Serializable {
     public int handleSpecCasesBeforeSetSensorState(int sensorId, boolean state) {
         return sensorId;
     }
+
     protected void setAllCalibSensitivityScaleFactor(CALIBRATION_SCALE_FACTOR sensitivityScaleFactor) {
         for (Integer sensorId : mCalibMap.keySet()) {
             setCalibSensitivityScaleFactor(sensorId, sensitivityScaleFactor);
@@ -525,7 +525,7 @@ public abstract class AbstractSensor implements Serializable {
         this.parseCalibDetailsKinematicFromDb(mapOfConfigPerShimmer, sensorId, range, listOfCalibHandles, "");
     }
 
-        public void parseCalibDetailsKinematicFromDb(LinkedHashMap<String, Object> mapOfConfigPerShimmer, int sensorId, int range, List<String> listOfCalibHandles, String calibTimeHandle) {
+    public void parseCalibDetailsKinematicFromDb(LinkedHashMap<String, Object> mapOfConfigPerShimmer, int sensorId, int range, List<String> listOfCalibHandles, String calibTimeHandle) {
         parseCalibDetailsKinematicFromDb(
                 mapOfConfigPerShimmer, sensorId, range, calibTimeHandle,
                 listOfCalibHandles.get(0), listOfCalibHandles.get(1), listOfCalibHandles.get(2),
@@ -535,7 +535,7 @@ public abstract class AbstractSensor implements Serializable {
                 listOfCalibHandles.get(12), listOfCalibHandles.get(13), listOfCalibHandles.get(14));
     }
 
-        public void parseCalibDetailsKinematicFromDb(
+    public void parseCalibDetailsKinematicFromDb(
             LinkedHashMap<String, Object> mapOfConfigPerShimmer, int sensorId, int range, String calibTimeHandle,
             String offsetX, String offsetY, String offsetZ,
             String gainX, String gainY, String gainZ,
@@ -619,11 +619,11 @@ public abstract class AbstractSensor implements Serializable {
 
         private final String text;
 
-                private SENSORS(final String text) {
+        private SENSORS(final String text) {
             this.text = text;
         }
 
-                @Override
+        @Override
         public String toString() {
             return text;
         }

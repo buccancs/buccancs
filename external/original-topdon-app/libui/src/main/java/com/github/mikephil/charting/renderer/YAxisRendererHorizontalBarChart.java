@@ -30,7 +30,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         mLimitLinePaint.setTextAlign(Align.LEFT);
     }
 
-        @Override
+    @Override
     public void computeAxis(float yMin, float yMax, boolean inverted) {
 
         if (mViewPortHandler.contentHeight() > 10 && !mViewPortHandler.isFullyZoomedOutX()) {
@@ -55,7 +55,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         computeAxisValues(yMin, yMax);
     }
 
-        @Override
+    @Override
     public void renderAxisLabels(Canvas c) {
 
         if (!mYAxis.isEnabled() || !mYAxis.isDrawLabelsEnabled())
@@ -116,7 +116,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         }
     }
 
-        @Override
+    @Override
     protected void drawYLabels(Canvas c, float fixedPosition, float[] positions, float offset) {
 
         mAxisLabelPaint.setTypeface(mYAxis.getTypeface());
@@ -192,7 +192,7 @@ public class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         c.restoreToCount(clipRestoreCount);
     }
 
-        @Override
+    @Override
     public void renderLimitLines(Canvas c) {
 
         List<LimitLine> limitLines = mYAxis.getLimitLines();

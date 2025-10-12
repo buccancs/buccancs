@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.graphics.Bitmap
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -6,6 +7,7 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.ktbase.BasePickImgActivity
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.fragment.IRMonitorThermalFragment
+
 @Route(path = RouterConfig.IR_IMG_PICK)
 class ImagePickIRActivity : BasePickImgActivity() {
     var irFragment: IRMonitorThermalFragment? = null
@@ -22,9 +24,11 @@ class ImagePickIRActivity : BasePickImgActivity() {
                 .commit()
         }
     }
+
     override suspend fun getPickBitmap(): Bitmap? {
         return irFragment?.getBitmap() ?: null
     }
+
     override fun initData() {
     }
 

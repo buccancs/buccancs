@@ -111,7 +111,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     private transient OperationalConfigPayload opConfig;
     private transient ProductionConfigPayload prodConfigPayload;
 
-        public VerisenseDevice() {
+    public VerisenseDevice() {
         super.setDefaultShimmerConfiguration();
 
         setUniqueId(DEVICE_TYPE.VERISENSE.getLabel());
@@ -124,7 +124,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         addCommunicationRoute(commType);
     }
 
-        public static int correctHwVersion(int hardwareVersion) {
+    public static int correctHwVersion(int hardwareVersion) {
         if (hardwareVersion == 0) {
             hardwareVersion = HW_ID.VERISENSE_DEV_BRD;
         } else if (hardwareVersion == 1) {
@@ -156,7 +156,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 svo2.getFirmwareVersionMajor(), svo2.getFirmwareVersionMinor(), svo2.getFirmwareVersionInternal());
     }
 
-        public static boolean isExtendedPayloadConfig(byte payloadConfig) {
+    public static boolean isExtendedPayloadConfig(byte payloadConfig) {
         return (payloadConfig & 0x10) == 0x10;
     }
 
@@ -471,7 +471,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-        public void initializeAlgorithmsWithDifferentRatesPerSensor() {
+    public void initializeAlgorithmsWithDifferentRatesPerSensor() {
         for (AbstractAlgorithm aa : mMapOfAlgorithmModules.values()) {
             try {
                 if (aa.isEnabled()) {
@@ -542,7 +542,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return PayloadContentsDetails.isPayloadDesignV12orAbove(getShimmerVerObject());
     }
 
-        public boolean isCsvHeaderDesignAzMarkingPoint() {
+    public boolean isCsvHeaderDesignAzMarkingPoint() {
         return PayloadContentsDetails.isCsvHeaderDesignAzMarkingPoint(getShimmerVerObject());
     }
 
@@ -1105,7 +1105,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-        public ObjectCluster buildMsgForSensorList(byte[] newPacket, COMMUNICATION_TYPE commType, List<SENSORS> listOfSensorClassKeys, double timeMsCurrentSample) {
+    public ObjectCluster buildMsgForSensorList(byte[] newPacket, COMMUNICATION_TYPE commType, List<SENSORS> listOfSensorClassKeys, double timeMsCurrentSample) {
         boolean isTimeSyncEnabled = false;
 
         ObjectCluster ojc = new ObjectCluster(mShimmerUserAssignedName, getMacId());
@@ -1428,7 +1428,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         mapOfVerisenseProtocolByteCommunication.remove(communicationType);
     }
 
-        public DataBlockDetails parseDataBlockMetaData(byte[] byteBuffer, long pcTimestampMs) throws IOException {
+    public DataBlockDetails parseDataBlockMetaData(byte[] byteBuffer, long pcTimestampMs) throws IOException {
         DataBlockDetails dataBlockDetails = parseDataBlockMetaData(byteBuffer, 0, 0, 0, 0);
 
         long endTimeTicksCurrent = dataBlockDetails.getTimeDetailsUcClock().getEndTimeTicks();
@@ -1535,7 +1535,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return rateHz;
     }
 
-        @Override
+    @Override
     public void connect() throws ShimmerException {
         try {
             this.connect(currentStreamingCommsRoute);
@@ -1547,13 +1547,13 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-        @Override
+    @Override
     public void disconnect() throws ShimmerException {
         this.disconnect(currentStreamingCommsRoute);
 
     }
 
-        public void disconnect(COMMUNICATION_TYPE commType) throws ShimmerException {
+    public void disconnect(COMMUNICATION_TYPE commType) throws ShimmerException {
         VerisenseProtocolByteCommunication verisenseProtocolByteCommunication = mapOfVerisenseProtocolByteCommunication.get(commType);
         if (verisenseProtocolByteCommunication != null) {
             verisenseProtocolByteCommunication.disconnect();
@@ -1565,7 +1565,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-        public void connect(COMMUNICATION_TYPE commType) throws ShimmerException {
+    public void connect(COMMUNICATION_TYPE commType) throws ShimmerException {
         VerisenseProtocolByteCommunication verisenseProtocolByteCommunication = mapOfVerisenseProtocolByteCommunication.get(commType);
         if (verisenseProtocolByteCommunication != null) {
             try {
@@ -1594,7 +1594,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-        @Override
+    @Override
     public void startStreaming() throws ShimmerException {
         super.startStreaming();
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).startStreaming();
@@ -1606,13 +1606,13 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-        @Override
+    @Override
     public void stopStreaming() throws ShimmerException {
         super.stopStreaming();
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).stopStreaming();
     }
 
-        public void readLoggedData() throws ShimmerException {
+    public void readLoggedData() throws ShimmerException {
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).readLoggedData();
     }
 
@@ -1626,7 +1626,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
     }
 
-        public SensorLIS2DW12 getSensorLIS2DW12() {
+    public SensorLIS2DW12 getSensorLIS2DW12() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.LIS2DW12);
         if (abstractSensor != null && abstractSensor instanceof SensorLIS2DW12) {
             return (SensorLIS2DW12) abstractSensor;
@@ -1634,7 +1634,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-        public SensorLSM6DS3 getSensorLSM6DS3() {
+    public SensorLSM6DS3 getSensorLSM6DS3() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.LSM6DS3);
         if (abstractSensor != null && abstractSensor instanceof SensorLSM6DS3) {
             return (SensorLSM6DS3) abstractSensor;
@@ -1642,7 +1642,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-        public SensorGSRVerisense getSensorGsr() {
+    public SensorGSRVerisense getSensorGsr() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.GSR);
         if (abstractSensor != null && abstractSensor instanceof SensorGSRVerisense) {
             return (SensorGSRVerisense) abstractSensor;
@@ -1650,7 +1650,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-        public SensorMAX86916 getSensorMax86916() {
+    public SensorMAX86916 getSensorMax86916() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.MAX86916);
         if (abstractSensor != null && abstractSensor instanceof SensorMAX86916) {
             return (SensorMAX86916) abstractSensor;
@@ -1658,7 +1658,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-        public SensorBattVoltageVerisense getSensorBatteryVoltage() {
+    public SensorBattVoltageVerisense getSensorBatteryVoltage() {
         AbstractSensor abstractSensor = getSensorClass(SENSORS.Battery);
         if (abstractSensor != null && abstractSensor instanceof SensorBattVoltageVerisense) {
             return (SensorBattVoltageVerisense) abstractSensor;
@@ -1666,7 +1666,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return null;
     }
 
-        public Integer[] setSensorsEnabled(int[] sensorIds) {
+    public Integer[] setSensorsEnabled(int[] sensorIds) {
         disableAllSensors();
         List<Integer> listOfEnabledSensorIds = new ArrayList<Integer>();
         for (int sensorId : sensorIds) {
@@ -1677,146 +1677,146 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return listOfEnabledSensorIds.toArray(new Integer[listOfEnabledSensorIds.size()]);
     }
 
-        public boolean setSensorEnabledStateAccel1(boolean isEnabled) {
+    public boolean setSensorEnabledStateAccel1(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.LIS2DW12_ACCEL, isEnabled);
     }
 
-        public boolean setSensorEnabledStateAccel2(boolean isEnabled) {
+    public boolean setSensorEnabledStateAccel2(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.LSM6DS3_ACCEL, isEnabled);
     }
 
-        public boolean setSensorEnabledStateGyro(boolean isEnabled) {
+    public boolean setSensorEnabledStateGyro(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.LSM6DS3_GYRO, isEnabled);
     }
 
-        public boolean setSensorEnabledStateGsr(boolean isEnabled) {
+    public boolean setSensorEnabledStateGsr(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.GSR, isEnabled);
     }
 
-        public boolean setSensorEnabledStatePpg(boolean isEnabled) {
+    public boolean setSensorEnabledStatePpg(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.MAX86916_PPG_BLUE, isEnabled);
     }
 
-        public boolean setSensorEnabledStateBatteryVoltage(boolean isEnabled) {
+    public boolean setSensorEnabledStateBatteryVoltage(boolean isEnabled) {
         return setSensorEnabledState(Verisense.SENSOR_ID.VBATT, isEnabled);
     }
 
-        @Override
+    @Override
     public boolean setBluetoothRadioState(BT_STATE state) {
         boolean isChanged = super.setBluetoothRadioState(state);
         mDeviceCallbackAdapter.setBluetoothRadioState(state, isChanged);
         return isChanged;
     }
 
-        public long getRecordingStartTimeMinutes() {
+    public long getRecordingStartTimeMinutes() {
         return recordingStartTimeMinutes;
     }
 
-        public void setRecordingStartTimeMinutes(long recordingStartTimeMinutes) {
+    public void setRecordingStartTimeMinutes(long recordingStartTimeMinutes) {
         this.recordingStartTimeMinutes = UtilShimmer.nudgeLong(recordingStartTimeMinutes, 0, (long) (Math.pow(2, 4 * 8) - 1));
     }
 
-        public long getRecordingEndTimeMinutes() {
+    public long getRecordingEndTimeMinutes() {
         return recordingEndTimeMinutes;
     }
 
-        public void setRecordingEndTimeMinutes(long recordingEndTimeMinutes) {
+    public void setRecordingEndTimeMinutes(long recordingEndTimeMinutes) {
         this.recordingEndTimeMinutes = UtilShimmer.nudgeLong(recordingEndTimeMinutes, 0, (long) (Math.pow(2, 4 * 8) - 1));
     }
 
-        public int getBleConnectionRetriesPerDay() {
+    public int getBleConnectionRetriesPerDay() {
         return bleConnectionRetriesPerDay;
     }
 
-        public void setBleConnectionRetriesPerDay(int bleConnectionTriesPerDay) {
+    public void setBleConnectionRetriesPerDay(int bleConnectionTriesPerDay) {
         this.bleConnectionRetriesPerDay = UtilShimmer.nudgeInteger(bleConnectionTriesPerDay, 0, (int) (Math.pow(2, 8) - 1));
     }
 
-        public BLE_TX_POWER getBleTxPower() {
+    public BLE_TX_POWER getBleTxPower() {
         return bleTxPower;
     }
 
-        public void setBleTxPower(BLE_TX_POWER bleTxPower) {
+    public void setBleTxPower(BLE_TX_POWER bleTxPower) {
         this.bleTxPower = bleTxPower;
     }
 
-        public PendingEventSchedule getPendingEventScheduleDataTransfer() {
+    public PendingEventSchedule getPendingEventScheduleDataTransfer() {
         return pendingEventScheduleDataTransfer;
     }
 
-        public void setPendingEventScheduleDataTransfer(PendingEventSchedule pendingEventScheduleDataTransfer) {
+    public void setPendingEventScheduleDataTransfer(PendingEventSchedule pendingEventScheduleDataTransfer) {
         this.pendingEventScheduleDataTransfer = pendingEventScheduleDataTransfer;
     }
 
-        public PendingEventSchedule getPendingEventScheduleStatusSync() {
+    public PendingEventSchedule getPendingEventScheduleStatusSync() {
         return pendingEventScheduleStatusSync;
     }
 
-        public void setPendingEventScheduleStatusSync(PendingEventSchedule pendingEventScheduleStatusSync) {
+    public void setPendingEventScheduleStatusSync(PendingEventSchedule pendingEventScheduleStatusSync) {
         this.pendingEventScheduleStatusSync = pendingEventScheduleStatusSync;
     }
 
-        public PendingEventSchedule getPendingEventScheduleRwcSync() {
+    public PendingEventSchedule getPendingEventScheduleRwcSync() {
         return pendingEventScheduleRwcSync;
     }
 
-        public void setPendingEventScheduleRwcSync(PendingEventSchedule pendingEventScheduleRwcSync) {
+    public void setPendingEventScheduleRwcSync(PendingEventSchedule pendingEventScheduleRwcSync) {
         this.pendingEventScheduleRwcSync = pendingEventScheduleRwcSync;
     }
 
-        public int getAdaptiveSchedulerInterval() {
+    public int getAdaptiveSchedulerInterval() {
         return adaptiveSchedulerInterval;
     }
 
-        public void setAdaptiveSchedulerInterval(int adaptiveSchedulerInterval) {
+    public void setAdaptiveSchedulerInterval(int adaptiveSchedulerInterval) {
         this.adaptiveSchedulerInterval = UtilShimmer.nudgeInteger(adaptiveSchedulerInterval, 0, (int) (Math.pow(2, 16) - 1));
     }
 
-        public int getAdaptiveSchedulerFailCount() {
+    public int getAdaptiveSchedulerFailCount() {
         return adaptiveSchedulerFailCount;
     }
 
-        public void setAdaptiveSchedulerFailCount(int adaptiveSchedulerFailCount) {
+    public void setAdaptiveSchedulerFailCount(int adaptiveSchedulerFailCount) {
         this.adaptiveSchedulerFailCount = UtilShimmer.nudgeInteger(adaptiveSchedulerFailCount, 0, (int) (Math.pow(2, 8) - 1));
     }
 
-        public boolean isBluetoothEnabled() {
+    public boolean isBluetoothEnabled() {
         return bluetoothEnabled;
     }
 
-        public void setBluetoothEnabled(boolean bluetoothEnabled) {
+    public void setBluetoothEnabled(boolean bluetoothEnabled) {
         this.bluetoothEnabled = bluetoothEnabled;
     }
 
-        public boolean isUsbEnabled() {
+    public boolean isUsbEnabled() {
         return usbEnabled;
     }
 
-        public void setUsbEnabled(boolean usbEnabled) {
+    public void setUsbEnabled(boolean usbEnabled) {
         this.usbEnabled = usbEnabled;
     }
 
-        public boolean isPrioritiseLongTermFlash() {
+    public boolean isPrioritiseLongTermFlash() {
         return prioritiseLongTermFlash;
     }
 
-        public void setPrioritiseLongTermFlash(boolean prioritiseLongTermFlash) {
+    public void setPrioritiseLongTermFlash(boolean prioritiseLongTermFlash) {
         this.prioritiseLongTermFlash = prioritiseLongTermFlash;
     }
 
-        public boolean isDeviceEnabled() {
+    public boolean isDeviceEnabled() {
         return deviceEnabled;
     }
 
-        public void setDeviceEnabled(boolean deviceEnabled) {
+    public void setDeviceEnabled(boolean deviceEnabled) {
         this.deviceEnabled = deviceEnabled;
     }
 
-        public boolean isRecordingEnabled() {
+    public boolean isRecordingEnabled() {
         return recordingEnabled;
     }
 
-        public void setRecordingEnabled(boolean recordingEnabled) {
+    public void setRecordingEnabled(boolean recordingEnabled) {
         this.recordingEnabled = recordingEnabled;
     }
 
@@ -1828,7 +1828,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         this.mapOfVerisenseProtocolByteCommunication = mapOfVerisenseProtocolByteCommunication;
     }
 
-        public void stopCommunicationProcess(COMMUNICATION_TYPE type) {
+    public void stopCommunicationProcess(COMMUNICATION_TYPE type) {
         mapOfVerisenseProtocolByteCommunication.get(type).stop();
     }
 
@@ -1840,44 +1840,44 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         this.passkeyMode = passkeyMode;
     }
 
-        public DATA_COMPRESSION_MODE getDataCompressionMode() {
+    public DATA_COMPRESSION_MODE getDataCompressionMode() {
         return dataCompressionMode;
     }
 
-        public void setDataCompressionMode(DATA_COMPRESSION_MODE dataCompressionMode) {
+    public void setDataCompressionMode(DATA_COMPRESSION_MODE dataCompressionMode) {
         this.dataCompressionMode = dataCompressionMode;
     }
 
-        public BATTERY_TYPE getBatteryType() {
+    public BATTERY_TYPE getBatteryType() {
         return batteryType;
     }
 
-        public void setBatteryType(BATTERY_TYPE batteryType) {
+    public void setBatteryType(BATTERY_TYPE batteryType) {
         this.batteryType = batteryType;
     }
 
-        public int getPpgRecordingDurationSeconds() {
+    public int getPpgRecordingDurationSeconds() {
         return ppgRecordingDurationSeconds;
     }
 
-        public void setPpgRecordingDurationSeconds(int ppgRecordingDurationSeconds) {
+    public void setPpgRecordingDurationSeconds(int ppgRecordingDurationSeconds) {
         this.ppgRecordingDurationSeconds = UtilShimmer.nudgeInteger(ppgRecordingDurationSeconds, 0, (int) (Math.pow(2, 16) - 1));
     }
 
-        public void setPpgContinuousRecording() {
+    public void setPpgContinuousRecording() {
         setPpgRecordingDurationSeconds(0);
         setPpgRecordingIntervalMinutes(0);
     }
 
-        public int getPpgRecordingIntervalMinutes() {
+    public int getPpgRecordingIntervalMinutes() {
         return ppgRecordingIntervalMinutes;
     }
 
-        public void setPpgRecordingIntervalMinutes(int ppgRecordingIntervalMinutes) {
+    public void setPpgRecordingIntervalMinutes(int ppgRecordingIntervalMinutes) {
         this.ppgRecordingIntervalMinutes = UtilShimmer.nudgeInteger(ppgRecordingIntervalMinutes, 0, (int) (Math.pow(2, 16) - 1));
     }
 
-        @Override
+    @Override
     public List<ISensorConfig> getSensorConfig() {
         List<ISensorConfig> listOfConfig = new ArrayList<>();
         listOfConfig.addAll(super.getSensorConfig());
@@ -1885,7 +1885,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return listOfConfig;
     }
 
-        @Override
+    @Override
     public void setSensorConfig(ISensorConfig sensorConfig) {
         if (sensorConfig instanceof BLE_TX_POWER) {
             setBleTxPower((BLE_TX_POWER) sensorConfig);
@@ -1894,33 +1894,33 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-        public COMMUNICATION_TYPE getCurrentStreamingCommsRoute() {
+    public COMMUNICATION_TYPE getCurrentStreamingCommsRoute() {
         return currentStreamingCommsRoute;
     }
 
-        public void setCurrentStreamingCommsRoute(COMMUNICATION_TYPE currentStreamingCommsRoute) {
+    public void setCurrentStreamingCommsRoute(COMMUNICATION_TYPE currentStreamingCommsRoute) {
         this.currentStreamingCommsRoute = currentStreamingCommsRoute;
     }
 
-        public String getTrialName() {
+    public String getTrialName() {
         return mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).getTrialName();
     }
 
-        @Override
+    @Override
     public void setTrialName(String trialName) {
         super.setTrialName(trialName);
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).setTrialName(trialName);
     }
 
-        public String getParticipantID() {
+    public String getParticipantID() {
         return mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).participantID;
     }
 
-        public void setParticipantID(String participant) {
+    public void setParticipantID(String participant) {
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).participantID = participant;
     }
 
-        public String getDataFilePath() {
+    public String getDataFilePath() {
         return mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).getDataFilePath();
     }
 
@@ -2075,17 +2075,17 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     }
 
     public static class FW_CHANGES {
-                public static final ShimmerVerObject CCF19_027 = new ShimmerVerObject(FW_ID.UNKNOWN, 0, 34, 1);
-                public static final ShimmerVerObject CCF19_035 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 1, 2);
-                public static final ShimmerVerObject CCF20_012_1 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 2);
-                public static final ShimmerVerObject CCF20_012_2 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 9);
-                public static final ShimmerVerObject CCF20_012_3 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 35);
-                public static final ShimmerVerObject CCF20_012_4 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 70);
-                public static final ShimmerVerObject CCF20_012_5 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 73);
-                public static final ShimmerVerObject CCF20_012_6 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 74);
-                public static final ShimmerVerObject CCF21_010_1 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 85);
-                public static final ShimmerVerObject CCF21_010_2 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 87);
-                public static final ShimmerVerObject CCF21_010_3 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 88);
+        public static final ShimmerVerObject CCF19_027 = new ShimmerVerObject(FW_ID.UNKNOWN, 0, 34, 1);
+        public static final ShimmerVerObject CCF19_035 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 1, 2);
+        public static final ShimmerVerObject CCF20_012_1 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 2);
+        public static final ShimmerVerObject CCF20_012_2 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 9);
+        public static final ShimmerVerObject CCF20_012_3 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 35);
+        public static final ShimmerVerObject CCF20_012_4 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 70);
+        public static final ShimmerVerObject CCF20_012_5 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 73);
+        public static final ShimmerVerObject CCF20_012_6 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 74);
+        public static final ShimmerVerObject CCF21_010_1 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 85);
+        public static final ShimmerVerObject CCF21_010_2 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 87);
+        public static final ShimmerVerObject CCF21_010_3 = new ShimmerVerObject(FW_ID.UNKNOWN, 1, 2, 88);
     }
 
     public static class FW_SPECIAL_VERSIONS {

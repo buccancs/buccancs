@@ -1,4 +1,5 @@
 package com.topdon.house.popup
+
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import androidx.core.view.isVisible
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.house.R
 import kotlinx.android.synthetic.main.popup_three_pick.view.*
+
 internal class ThreePickPopup(
     val context: Context,
     strIdArray: List<Int>,
@@ -38,6 +40,7 @@ internal class ThreePickPopup(
         contentView.tv_option2.setOnClickListener(this)
         contentView.tv_option3.setOnClickListener(this)
     }
+
     override fun onClick(v: View?) {
         when (v) {
             contentView.tv_option1 -> onPickListener.invoke(0)
@@ -46,6 +49,7 @@ internal class ThreePickPopup(
         }
         dismiss()
     }
+
     fun show(anchor: View, isLeft: Boolean) {
         val heightPixels = context.resources.displayMetrics.heightPixels
         val locationArray = IntArray(2)

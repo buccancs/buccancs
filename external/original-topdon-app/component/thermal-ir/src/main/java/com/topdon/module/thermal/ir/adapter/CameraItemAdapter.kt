@@ -1,10 +1,12 @@
 package com.topdon.module.thermal.ir.adapter
+
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.topdon.lib.core.bean.CameraItemBean
 import com.topdon.lib.ui.listener.SingleClickListener
 import com.topdon.lib.ui.widget.CountDownView
 import com.topdon.module.thermal.ir.R
+
 class CameraItemAdapter(
     data: MutableList<CameraItemBean>? = null
 ) : BaseQuickAdapter<CameraItemBean, BaseViewHolder>(R.layout.item_camera, data) {
@@ -32,24 +34,28 @@ class CameraItemAdapter(
                     countDownView.setCountdownTime(item.time)
                 }
             }
+
             CameraItemBean.TYPE_ZDKM -> {
                 holder.setImageResource(
                     R.id.img, if (item.isSel) R.drawable.svg_camera_auto_select_yes
                     else R.drawable.svg_camera_auto_select_not
                 )
             }
+
             CameraItemBean.TYPE_SDKM -> {
                 holder.setImageResource(
                     R.id.img, if (item.isSel) R.drawable.svg_camera_shutter_select_yes
                     else R.drawable.svg_camera_shutter_select_not
                 )
             }
+
             CameraItemBean.TYPE_AUDIO -> {
                 holder.setImageResource(
                     R.id.img, if (item.isSel) R.drawable.svg_camera_audio_select_yes
                     else R.drawable.svg_camera_audio_select_not
                 )
             }
+
             else -> {
                 holder.setImageResource(R.id.img, R.drawable.svg_camera_setting)
             }

@@ -41,7 +41,7 @@ public class ShimmerStreamingProperties extends AbstractSensor {
         super(sensorType, shimmerDevice);
     }
 
-        public static ObjectCluster calculateRssiChannels(ObjectCluster objectCluster, double rssi, int txPower) {
+    public static ObjectCluster calculateRssiChannels(ObjectCluster objectCluster, double rssi, int txPower) {
         if (Double.isNaN(rssi)) {
             rssi = -100.0;
         }

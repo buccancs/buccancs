@@ -1,4 +1,5 @@
 package com.buccancs.data.calibration
+
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -13,6 +14,7 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.random.Random
+
 @Singleton
 class SimulatedDualCameraController @Inject constructor() : DualCameraController {
     override val rgbInfo: CameraStreamInfo = CameraStreamInfo(
@@ -66,15 +68,19 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
             )
         )
     }
+
     private fun randomRotation(extraJitter: Float = 0.05f): Float {
         val base = (random.nextFloat() - 0.5f) * 0.35f
         val jitter = (random.nextFloat() - 0.5f) * extraJitter
         return (base + jitter) * PI.toFloat()
     }
+
     private fun randomOffset(scale: Float = 0.18f): Float =
         (random.nextFloat() - 0.5f) * 2f * scale
+
     private fun randomScale(base: Float, jitter: Float): Float =
         base + (random.nextFloat() - 0.5f) * jitter
+
     private fun renderPattern(
         width: Int,
         height: Int,
@@ -121,6 +127,7 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
         addStructuredNoise(canvas, width, height, foreground)
         return bitmap
     }
+
     private fun addVignetting(
         canvas: Canvas,
         width: Int,
@@ -143,6 +150,7 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
             canvas.drawCircle(centerX, centerY, radius, paint)
         }
     }
+
     private fun addStructuredNoise(canvas: Canvas, width: Int, height: Int, foreground: Int) {
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.FILL
@@ -156,6 +164,7 @@ class SimulatedDualCameraController @Inject constructor() : DualCameraController
             canvas.drawCircle(cx, cy, radius, paint)
         }
     }
+
     private fun blendColors(base: Int, overlay: Int, alpha: Float): Int {
         val inv = 1f - alpha
         val r = (Color.red(base) * inv + Color.red(overlay) * alpha).toInt().coerceIn(0, 255)

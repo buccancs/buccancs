@@ -1,8 +1,10 @@
 package com.buccancs.data.time
+
 internal data class SyncSample(
     val offsetMs: Double,
     val roundTripMs: Double
 )
+
 internal fun computeSyncSample(
     sendEpochMs: Long,
     receiveEpochMs: Long,

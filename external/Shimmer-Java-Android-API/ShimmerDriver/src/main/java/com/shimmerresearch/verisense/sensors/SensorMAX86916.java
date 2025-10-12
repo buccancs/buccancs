@@ -124,18 +124,17 @@ public class SensorMAX86916 extends SensorMAX86XXX {
     protected int ppgLedAmplitudeBlueConfigValue = 0;
     protected int ppgLedAmplitudeRangeGreen = 0;
     protected int ppgLedAmplitudeRangeBlue = 0;
-        protected int ppgDefaultCurrentAllLedsMilliamps = 40;
-        protected int ppgMaxCurrentRedIrLedsMilliamps = MAX_LED_CURRENT_MILLIAMPS;
-        protected int ppgMaxCurrentGreenBlueLedsMilliamps = MAX_LED_CURRENT_MILLIAMPS;
-        protected int ppgAutoGainControlTargetPercentOfRange = 30;
-        protected int ppgProximityDetectionCurrentIrLedMilliamps = 10;
+    protected int ppgDefaultCurrentAllLedsMilliamps = 40;
+    protected int ppgMaxCurrentRedIrLedsMilliamps = MAX_LED_CURRENT_MILLIAMPS;
+    protected int ppgMaxCurrentGreenBlueLedsMilliamps = MAX_LED_CURRENT_MILLIAMPS;
+    protected int ppgAutoGainControlTargetPercentOfRange = 30;
+    protected int ppgProximityDetectionCurrentIrLedMilliamps = 10;
     protected int ppgDac1CrossTalk = 0;
     protected int ppgDac2CrossTalk = 0;
     protected int ppgDac3CrossTalk = 0;
     protected int ppgDac4CrossTalk = 0;
     protected PROX_DETECTION_MODE proximityDetectionMode = PROX_DETECTION_MODE.AUTO_GAIN_ON_PROX_DETECTION_ON_DRIVER;
     private MAX86916_SAMPLE_RATE sampleRate = MAX86916_SAMPLE_RATE.SR_50_0_HZ;
-
 
 
     public SensorMAX86916(VerisenseDevice verisenseDevice) {

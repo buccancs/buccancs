@@ -304,15 +304,15 @@ public class MsgDock {
     public String mBSLComPort = "";
     public String mUARTComPort = "";
     public String mDockID = "";
-        public String mMacID = "";
+    public String mMacID = "";
     public DEVICE_STATE mDockState = DEVICE_STATE.STATE_NONE;
 
-        public int mFwImageTotalSize = 0;
+    public int mFwImageTotalSize = 0;
     public int mFwImageWriteProgress = 0;
     public float mFwImageWriteSpeed = 0;
     public String mMessage = "";
     public double mValue;
-        public String mFwImageWriteCurrentAction = "";
+    public String mFwImageWriteCurrentAction = "";
 
     public int mSessionId;
 
@@ -320,32 +320,31 @@ public class MsgDock {
     public int mErrorCodeLowLevel;
     public int mErrorCodeLowBsl;
 
-        public String mExceptionMsg;
+    public String mExceptionMsg;
 
-        public StackTraceElement[] mExceptionStackTrace;
+    public StackTraceElement[] mExceptionStackTrace;
 
-        public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
+    public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
 
 
     public byte[] mSlotMap = new byte[]{};
 
     public DockJobDetails mCurrentJobDetails;
 
-        public int mConnectionType = 0;
+    public int mConnectionType = 0;
     public int mIndicatorLEDsBitmap = 0;
 
 
-
-        public MsgDock(int msgID) {
+    public MsgDock(int msgID) {
         mMsgID = msgID;
     }
 
-        public MsgDock(int msgID, int currentOperation) {
+    public MsgDock(int msgID, int currentOperation) {
         mMsgID = msgID;
         mCurrentOperation = currentOperation;
     }
 
-        public MsgDock(int msgIdentifier, String iD) {
+    public MsgDock(int msgIdentifier, String iD) {
         mMsgID = msgIdentifier;
         mUniqueID = iD;
         String[] subString = iD.split("\\.");
@@ -357,14 +356,14 @@ public class MsgDock {
         }
     }
 
-        public MsgDock(String dockID, int msgIdentifier) {
+    public MsgDock(String dockID, int msgIdentifier) {
         mMsgID = msgIdentifier;
         mDockID = dockID;
         mUniqueID = dockID;
         mSlotNumber = -1;
     }
 
-        public MsgDock(int msgID, String dockID, int slotIdentifier) {
+    public MsgDock(int msgID, String dockID, int slotIdentifier) {
         mMsgID = msgID;
         mSlotNumber = slotIdentifier;
         mDockID = dockID;
@@ -372,7 +371,7 @@ public class MsgDock {
     }
 
 
-        public MsgDock(int msgID, String dockID, DockJobDetails currentJobDetails) {
+    public MsgDock(int msgID, String dockID, DockJobDetails currentJobDetails) {
         mMsgID = msgID;
         mDockID = dockID;
 

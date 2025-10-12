@@ -1,4 +1,3 @@
-
 package com.shimmerresearch.ShimmerCapture;
 
 import info.monitorenter.gui.chart.Chart2D;
@@ -224,11 +223,11 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
     private JSpinner spinnerNumberOfBeatsToAveECG;
 
 
-        public ShimmerCapture() {
+    public ShimmerCapture() {
         initialize();
     }
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -258,7 +257,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         });
     }
 
-        private void initialize() {
+    private void initialize() {
         setWaitForData(mShimmer);
         frame = new JFrame("Shimmer Capture");
         frame.setBounds(100, 100, 720, 592);
@@ -954,7 +953,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
 
     }
 
-        private void configuration() {
+    private void configuration() {
 
         configFrame.setVisible(true);
         List<String> enabledSensors = mShimmer.getListofEnabledSensors();
@@ -1320,7 +1319,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         }
     }
 
-        private void configurationDone() {
+    private void configurationDone() {
         String samplingRate = (String) comboBoxSamplingRate.getSelectedItem();
         samplingRate = samplingRate.substring(0, samplingRate.length() - 2);
         double SamplingRate = Double.parseDouble(samplingRate);
@@ -1397,7 +1396,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         enableSensors();
     }
 
-        private void enableSensors() {
+    private void enableSensors() {
         chart.removeAllTraces();
         for (int count = 0; count < maxTraces; count++) {
             traces[count] = new Trace2DLtd(300);
@@ -1500,7 +1499,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         mReturnEnabledSensors = 0;
     }
 
-        public void setupListOfEnabledSensors() {
+    public void setupListOfEnabledSensors() {
         enabledSensorSignals = mShimmer.getListofEnabledChannelSignals();
         numberOfSignals = enabledSensorSignals.length;
         for (int count = 0; count < maxTraces; count++) {
@@ -1538,7 +1537,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         }
     }
 
-        private String[] selectSignalsToView() {
+    private String[] selectSignalsToView() {
         List<String> listofSignals = new ArrayList<String>();
         String[] selectedSignals;
         for (int count = 0; count < numberOfSignals; count++) {
@@ -1854,7 +1853,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
     }
 
 
-        private void exgConfigurationDone() {
+    private void exgConfigurationDone() {
 
         int[] chip = new int[3];
         chip[0] = 1;
@@ -1907,7 +1906,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         exgFrame.setVisible(false);
     }
 
-        private void onDisconnect() {
+    private void onDisconnect() {
         firstExgConfiguration = true;
         firstConfiguration = true;
         comboBoxGainChip1Channel1.removeAllItems();

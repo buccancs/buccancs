@@ -104,7 +104,7 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     public int lengthRadioConfig = 7;
 
 
-        public ConfigByteLayoutShimmerGq802154(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal) {
+    public ConfigByteLayoutShimmerGq802154(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal) {
         mShimmerVerObject = new ShimmerVerObject(firmwareIdentifier, firmwareVersionMajor, firmwareVersionMinor, firmwareVersionInternal);
 
         mInfoMemSize = calculateConfigByteLength();
@@ -128,7 +128,6 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     }
 
     public int calculateConfigByteLength(ShimmerVerObject shimmerVersionObject) {
-
 
 
         return 384;

@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.fragment
+
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.topdon.module.thermal.ir.popup.OptionPickPopup
 import com.topdon.module.thermal.ir.viewmodel.IRGalleryTabViewModel
 import kotlinx.android.synthetic.main.fragment_gallery_tab.*
 import org.greenrobot.eventbus.EventBus
+
 class IRGalleryTabFragment : BaseFragment() {
     private var hasBackIcon = false
     private var canSwitchDir = true
@@ -104,8 +106,10 @@ class IRGalleryTabFragment : BaseFragment() {
             }
         }
     }
+
     override fun initData() {
     }
+
     private inner class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         override fun getItemCount() = 2
         override fun createFragment(position: Int): Fragment {

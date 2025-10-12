@@ -1,4 +1,5 @@
 package com.infisense.usbir.tools
+
 import androidx.annotation.ColorInt
 import com.elvishew.xlog.XLog
 import com.infisense.usbir.tools.bean.SelectIndexBean
@@ -6,6 +7,7 @@ import com.topdon.lib.core.tools.NumberTools
 import com.topdon.lib.core.utils.ByteUtils.bytesToInt
 import com.topdon.lib.core.utils.ByteUtils.descBytes
 import java.util.concurrent.LinkedBlockingQueue
+
 object ImageTools {
     fun readFrame(imageBytes: ByteArray, tempBytes: ByteArray, max: Float = 40f, min: Float = 20f) {
         if (max < min) {
@@ -14,6 +16,7 @@ object ImageTools {
         val selectBean = getTempIndex(tempBytes, max, min)
         bitmapFromRgbaGrey(bytes = imageBytes, bean = selectBean)
     }
+
     fun readFrame(
         imageBytes: ByteArray,
         tempBytes: ByteArray,
@@ -33,6 +36,7 @@ object ImageTools {
             minColor = minColor
         )
     }
+
     private fun bitmapFromRgba(
         bytes: ByteArray,
         bean: SelectIndexBean,
@@ -76,6 +80,7 @@ object ImageTools {
             }
         }
     }
+
     private fun bitmapFromRgbaGrey(bytes: ByteArray, bean: SelectIndexBean) {
         val len = bytes.size / 4
         val selectIndex = bean.maxIndex.plus(bean.minIndex)
@@ -120,12 +125,14 @@ object ImageTools {
         val minIndex: IntArray = minList.toIntArray()
         return SelectIndexBean(maxIndex, minIndex)
     }
+
     private fun readTempValue(bytes: ByteArray): Float {
         val data: ByteArray = bytes.descBytes()
         val scale = 16
         val tempInt = data.bytesToInt() / 4
         return (tempInt.toDouble() / scale.toDouble() - 273.15).toFloat()
     }
+
     fun dualReadFrame(
         imageBytes: ByteArray,
         tempBytes: ByteArray,
@@ -139,6 +146,7 @@ object ImageTools {
         }
         dualReplaceColor(imageBytes, tempBytes, max, min, maxColor, minColor)
     }
+
     @JvmStatic
     private fun dualReplaceColor(
         imageBytes: ByteArray,

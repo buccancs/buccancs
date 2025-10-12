@@ -51,7 +51,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         initScreenW_H();
     }
 
-        protected void initScreenW_H() {
+    protected void initScreenW_H() {
         screenHeight = ScreenUtil.getScreenHeight(getContext()) - 40;
         screenWidth = ScreenUtil.getScreenWidth(getContext());
     }
@@ -79,7 +79,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         return false;
     }
 
-        protected void delDrag(View v, MotionEvent event, int action) {
+    protected void delDrag(View v, MotionEvent event, int action) {
         switch (action) {
             case MotionEvent.ACTION_MOVE:
                 int dx = (int) event.getRawX() - lastX;
@@ -129,7 +129,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-        private void center(View v, int dx, int dy) {
+    private void center(View v, int dx, int dy) {
         int left = v.getLeft() + dx;
         int top = v.getTop() + dy;
         int right = v.getRight() + dx;
@@ -153,7 +153,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         v.layout(left, top, right, bottom);
     }
 
-        private void top(View v, int dy) {
+    private void top(View v, int dy) {
         oriTop += dy;
         if (oriTop < -offset) {
             oriTop = -offset;
@@ -163,7 +163,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-        private void bottom(View v, int dy) {
+    private void bottom(View v, int dy) {
         oriBottom += dy;
         if (oriBottom > screenHeight + offset) {
             oriBottom = screenHeight + offset;
@@ -173,7 +173,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-        private void right(View v, int dx) {
+    private void right(View v, int dx) {
         oriRight += dx;
         if (oriRight > screenWidth + offset) {
             oriRight = screenWidth + offset;
@@ -183,7 +183,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-        private void left(View v, int dx) {
+    private void left(View v, int dx) {
         oriLeft += dx;
         if (oriLeft < -offset) {
             oriLeft = -offset;
@@ -193,7 +193,7 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         }
     }
 
-        protected int getDirection(View v, int x, int y) {
+    protected int getDirection(View v, int x, int y) {
         int left = v.getLeft();
         int right = v.getRight();
         int bottom = v.getBottom();
@@ -225,11 +225,11 @@ public class DragScaleView extends FrameLayout implements View.OnTouchListener {
         return CENTER;
     }
 
-        public int getCutWidth() {
+    public int getCutWidth() {
         return getWidth() - 2 * offset;
     }
 
-        public int getCutHeight() {
+    public int getCutHeight() {
         return getHeight() - 2 * offset;
     }
 }

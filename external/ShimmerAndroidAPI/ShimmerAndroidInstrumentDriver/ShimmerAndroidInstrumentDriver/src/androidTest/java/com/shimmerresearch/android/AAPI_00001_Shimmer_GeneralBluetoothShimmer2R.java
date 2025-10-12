@@ -121,8 +121,7 @@ public class AAPI_00001_Shimmer_GeneralBluetoothShimmer2R {
                 shimmer.startStreaming();
                 Thread.sleep(DELAY_DURATION_MS);
                 assertTrue(shimmer.isStreaming());
-            }
-            else {
+            } else {
                 shimmer.stopStreaming();
                 Thread.sleep(DELAY_DURATION_MS);
                 assertFalse(shimmer.isStreaming());

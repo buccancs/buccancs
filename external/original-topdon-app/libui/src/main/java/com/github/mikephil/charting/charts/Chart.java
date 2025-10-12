@@ -60,65 +60,65 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         implements ChartInterface {
 
     public static final String LOG_TAG = "MPAndroidChart";
-        public static final int PAINT_GRID_BACKGROUND = 4;
-        public static final int PAINT_INFO = 7;
-        public static final int PAINT_DESCRIPTION = 11;
-        public static final int PAINT_HOLE = 13;
-        public static final int PAINT_CENTER_TEXT = 14;
-        public static final int PAINT_LEGEND_LABEL = 18;
-        protected boolean mLogEnabled = false;
-        protected T mData = null;
-        protected boolean mHighLightPerTapEnabled = true;
-        protected DefaultValueFormatter mDefaultValueFormatter = new DefaultValueFormatter(0);
-        protected Paint mDescPaint;
-        protected Paint mInfoPaint;
-        protected XAxis mXAxis;
-        protected boolean mTouchEnabled = true;
-        protected Description mDescription;
-        protected Legend mLegend;
-        protected OnChartValueSelectedListener mSelectionListener;
+    public static final int PAINT_GRID_BACKGROUND = 4;
+    public static final int PAINT_INFO = 7;
+    public static final int PAINT_DESCRIPTION = 11;
+    public static final int PAINT_HOLE = 13;
+    public static final int PAINT_CENTER_TEXT = 14;
+    public static final int PAINT_LEGEND_LABEL = 18;
+    protected boolean mLogEnabled = false;
+    protected T mData = null;
+    protected boolean mHighLightPerTapEnabled = true;
+    protected DefaultValueFormatter mDefaultValueFormatter = new DefaultValueFormatter(0);
+    protected Paint mDescPaint;
+    protected Paint mInfoPaint;
+    protected XAxis mXAxis;
+    protected boolean mTouchEnabled = true;
+    protected Description mDescription;
+    protected Legend mLegend;
+    protected OnChartValueSelectedListener mSelectionListener;
     protected ChartTouchListener mChartTouchListener;
     protected LegendRenderer mLegendRenderer;
-        protected DataRenderer mRenderer;
+    protected DataRenderer mRenderer;
     protected IHighlighter mHighlighter;
-        protected ViewPortHandler mViewPortHandler = new ViewPortHandler();
-        protected ChartAnimator mAnimator;
-        protected Highlight[] mIndicesToHighlight;
-        protected float mMaxHighlightDistance = 0f;
-        protected boolean mDrawMarkers = true;
+    protected ViewPortHandler mViewPortHandler = new ViewPortHandler();
+    protected ChartAnimator mAnimator;
+    protected Highlight[] mIndicesToHighlight;
+    protected float mMaxHighlightDistance = 0f;
+    protected boolean mDrawMarkers = true;
     //
     //
     //
-        protected IMarker mMarker;
-        protected ArrayList<Runnable> mJobs = new ArrayList<Runnable>();
-        private boolean mDragDecelerationEnabled = true;
-        private float mDragDecelerationFrictionCoef = 0.9f;
-        private String mNoDataText = "No chart data available.";
-        private OnChartGestureListener mGestureListener;
-        private float mExtraTopOffset = 0.f,
+    protected IMarker mMarker;
+    protected ArrayList<Runnable> mJobs = new ArrayList<Runnable>();
+    private boolean mDragDecelerationEnabled = true;
+    private float mDragDecelerationFrictionCoef = 0.9f;
+    private String mNoDataText = "No chart data available.";
+    private OnChartGestureListener mGestureListener;
+    private float mExtraTopOffset = 0.f,
             mExtraRightOffset = 0.f,
             mExtraBottomOffset = 0.f,
             mExtraLeftOffset = 0.f;
-        private boolean mOffsetsCalculated = false;
-        private boolean mUnbind = false;
+    private boolean mOffsetsCalculated = false;
+    private boolean mUnbind = false;
 
-        public Chart(Context context) {
+    public Chart(Context context) {
         super(context);
         init();
     }
 
-        public Chart(Context context, AttributeSet attrs) {
+    public Chart(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
 
-        public Chart(Context context, AttributeSet attrs, int defStyle) {
+    public Chart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
-        protected void init() {
+    protected void init() {
 
         setWillNotDraw(false);
 
@@ -151,7 +151,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             Log.i("", "Chart.init()");
     }
 
-        public void clear() {
+    public void clear() {
         mData = null;
         mOffsetsCalculated = false;
         mIndicesToHighlight = null;
@@ -159,12 +159,12 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         invalidate();
     }
 
-        public void clearValues() {
+    public void clearValues() {
         mData.clearValues();
         invalidate();
     }
 
-        public boolean isEmpty() {
+    public boolean isEmpty() {
 
         if (mData == null)
             return true;
@@ -177,13 +177,13 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
     }
 
-        public abstract void notifyDataSetChanged();
+    public abstract void notifyDataSetChanged();
 
-        protected abstract void calculateOffsets();
+    protected abstract void calculateOffsets();
 
-        protected abstract void calcMinMax();
+    protected abstract void calcMinMax();
 
-        protected void setupDefaultFormatter(float min, float max) {
+    protected void setupDefaultFormatter(float min, float max) {
 
         float reference = 0f;
 
@@ -221,7 +221,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
     }
 
-        protected void drawDescription(Canvas c) {
+    protected void drawDescription(Canvas c) {
 
         if (mDescription != null && mDescription.isEnabled()) {
 
@@ -251,29 +251,29 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return mMaxHighlightDistance;
     }
 
-        public void setMaxHighlightDistance(float distDp) {
+    public void setMaxHighlightDistance(float distDp) {
         mMaxHighlightDistance = Utils.convertDpToPixel(distDp);
     }
 
-        public Highlight[] getHighlighted() {
+    public Highlight[] getHighlighted() {
         return mIndicesToHighlight;
     }
 
-        public boolean isHighlightPerTapEnabled() {
+    public boolean isHighlightPerTapEnabled() {
         return mHighLightPerTapEnabled;
     }
 
-        public void setHighlightPerTapEnabled(boolean enabled) {
+    public void setHighlightPerTapEnabled(boolean enabled) {
         mHighLightPerTapEnabled = enabled;
     }
 
-        public boolean valuesToHighlight() {
+    public boolean valuesToHighlight() {
         return mIndicesToHighlight == null || mIndicesToHighlight.length <= 0
                 || mIndicesToHighlight[0] == null ? false
                 : true;
     }
 
-        protected void setLastHighlighted(Highlight[] highs) {
+    protected void setLastHighlighted(Highlight[] highs) {
 
         if (highs == null || highs.length <= 0 || highs[0] == null) {
             mChartTouchListener.setLastHighlighted(null);
@@ -282,7 +282,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
     }
 
-        public void highlightValues(Highlight[] highs) {
+    public void highlightValues(Highlight[] highs) {
 
         mIndicesToHighlight = highs;
 
@@ -292,19 +292,19 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
 
-        public void highlightValue(float x, int dataSetIndex) {
+    public void highlightValue(float x, int dataSetIndex) {
         highlightValue(x, dataSetIndex, true);
     }
 
-        public void highlightValue(float x, float y, int dataSetIndex) {
+    public void highlightValue(float x, float y, int dataSetIndex) {
         highlightValue(x, y, dataSetIndex, true);
     }
 
-        public void highlightValue(float x, int dataSetIndex, boolean callListener) {
+    public void highlightValue(float x, int dataSetIndex, boolean callListener) {
         highlightValue(x, Float.NaN, dataSetIndex, callListener);
     }
 
-        public void highlightValue(float x, float y, int dataSetIndex, boolean callListener) {
+    public void highlightValue(float x, float y, int dataSetIndex, boolean callListener) {
 
         if (dataSetIndex < 0 || dataSetIndex >= mData.getDataSetCount()) {
             highlightValue(null, callListener);
@@ -314,11 +314,11 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
 
-        public void highlightValue(Highlight highlight) {
+    public void highlightValue(Highlight highlight) {
         highlightValue(highlight, false);
     }
 
-        public void highlightValue(Highlight high, boolean callListener) {
+    public void highlightValue(Highlight high, boolean callListener) {
 
         Entry e = null;
 
@@ -355,7 +355,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         invalidate();
     }
 
-        public Highlight getHighlightByTouchPoint(float x, float y) {
+    public Highlight getHighlightByTouchPoint(float x, float y) {
 
         if (mData == null) {
             Log.e(LOG_TAG, "Can't select by touch. No data set.");
@@ -364,16 +364,16 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             return getHighlighter().getHighlight(x, y);
     }
 
-        public ChartTouchListener getOnTouchListener() {
+    public ChartTouchListener getOnTouchListener() {
         return mChartTouchListener;
     }
 
-        public void setOnTouchListener(ChartTouchListener l) {
+    public void setOnTouchListener(ChartTouchListener l) {
         this.mChartTouchListener = l;
     }
 
 
-        protected void drawMarkers(Canvas canvas) {
+    protected void drawMarkers(Canvas canvas) {
 
         if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
             return;
@@ -405,29 +405,28 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
     }
 
-        protected float[] getMarkerPosition(Highlight high) {
+    protected float[] getMarkerPosition(Highlight high) {
         return new float[]{high.getDrawX(), high.getDrawY()};
     }
 
-        public ChartAnimator getAnimator() {
+    public ChartAnimator getAnimator() {
         return mAnimator;
     }
 
-        public boolean isDragDecelerationEnabled() {
+    public boolean isDragDecelerationEnabled() {
         return mDragDecelerationEnabled;
     }
 
 
-
-        public void setDragDecelerationEnabled(boolean enabled) {
+    public void setDragDecelerationEnabled(boolean enabled) {
         mDragDecelerationEnabled = enabled;
     }
 
-        public float getDragDecelerationFrictionCoef() {
+    public float getDragDecelerationFrictionCoef() {
         return mDragDecelerationFrictionCoef;
     }
 
-        public void setDragDecelerationFrictionCoef(float newValue) {
+    public void setDragDecelerationFrictionCoef(float newValue) {
 
         if (newValue < 0.f)
             newValue = 0.f;
@@ -439,67 +438,67 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     }
 
 
-        @RequiresApi(11)
+    @RequiresApi(11)
     public void animateXY(int durationMillisX, int durationMillisY, EasingFunction easingX,
                           EasingFunction easingY) {
         mAnimator.animateXY(durationMillisX, durationMillisY, easingX, easingY);
     }
 
-        @RequiresApi(11)
+    @RequiresApi(11)
     public void animateXY(int durationMillisX, int durationMillisY, EasingFunction easing) {
         mAnimator.animateXY(durationMillisX, durationMillisY, easing);
     }
 
-        @RequiresApi(11)
+    @RequiresApi(11)
     public void animateX(int durationMillis, EasingFunction easing) {
         mAnimator.animateX(durationMillis, easing);
     }
 
-        @RequiresApi(11)
+    @RequiresApi(11)
     public void animateY(int durationMillis, EasingFunction easing) {
         mAnimator.animateY(durationMillis, easing);
     }
 
-        @RequiresApi(11)
+    @RequiresApi(11)
     public void animateX(int durationMillis) {
         mAnimator.animateX(durationMillis);
     }
 
-        @RequiresApi(11)
+    @RequiresApi(11)
     public void animateY(int durationMillis) {
         mAnimator.animateY(durationMillis);
     }
 
-        @RequiresApi(11)
+    @RequiresApi(11)
     public void animateXY(int durationMillisX, int durationMillisY) {
         mAnimator.animateXY(durationMillisX, durationMillisY);
     }
 
-        public XAxis getXAxis() {
+    public XAxis getXAxis() {
         return mXAxis;
     }
 
-        public ValueFormatter getDefaultValueFormatter() {
+    public ValueFormatter getDefaultValueFormatter() {
         return mDefaultValueFormatter;
     }
 
-        public void setOnChartValueSelectedListener(OnChartValueSelectedListener l) {
+    public void setOnChartValueSelectedListener(OnChartValueSelectedListener l) {
         this.mSelectionListener = l;
     }
 
-        public OnChartGestureListener getOnChartGestureListener() {
+    public OnChartGestureListener getOnChartGestureListener() {
         return mGestureListener;
     }
 
-        public void setOnChartGestureListener(OnChartGestureListener l) {
+    public void setOnChartGestureListener(OnChartGestureListener l) {
         this.mGestureListener = l;
     }
 
-        public float getYMax() {
+    public float getYMax() {
         return mData.getYMax();
     }
 
-        public float getYMin() {
+    public float getYMin() {
         return mData.getYMin();
     }
 
@@ -518,83 +517,83 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return mXAxis.mAxisRange;
     }
 
-        public MPPointF getCenter() {
+    public MPPointF getCenter() {
         return MPPointF.getInstance(getWidth() / 2f, getHeight() / 2f);
     }
 
-        @Override
+    @Override
     public MPPointF getCenterOffsets() {
         return mViewPortHandler.getContentCenter();
     }
 
-        public void setExtraOffsets(float left, float top, float right, float bottom) {
+    public void setExtraOffsets(float left, float top, float right, float bottom) {
         setExtraLeftOffset(left);
         setExtraTopOffset(top);
         setExtraRightOffset(right);
         setExtraBottomOffset(bottom);
     }
 
-        public float getExtraTopOffset() {
+    public float getExtraTopOffset() {
         return mExtraTopOffset;
     }
 
-        public void setExtraTopOffset(float offset) {
+    public void setExtraTopOffset(float offset) {
         mExtraTopOffset = Utils.convertDpToPixel(offset);
     }
 
-        public float getExtraRightOffset() {
+    public float getExtraRightOffset() {
         return mExtraRightOffset;
     }
 
-        public void setExtraRightOffset(float offset) {
+    public void setExtraRightOffset(float offset) {
         mExtraRightOffset = Utils.convertDpToPixel(offset);
     }
 
-        public float getExtraBottomOffset() {
+    public float getExtraBottomOffset() {
         return mExtraBottomOffset;
     }
 
-        public void setExtraBottomOffset(float offset) {
+    public void setExtraBottomOffset(float offset) {
         mExtraBottomOffset = Utils.convertDpToPixel(offset);
     }
 
-        public float getExtraLeftOffset() {
+    public float getExtraLeftOffset() {
         return mExtraLeftOffset;
     }
 
-        public void setExtraLeftOffset(float offset) {
+    public void setExtraLeftOffset(float offset) {
         mExtraLeftOffset = Utils.convertDpToPixel(offset);
     }
 
-        public boolean isLogEnabled() {
+    public boolean isLogEnabled() {
         return mLogEnabled;
     }
 
-        public void setLogEnabled(boolean enabled) {
+    public void setLogEnabled(boolean enabled) {
         mLogEnabled = enabled;
     }
 
-        public void setNoDataText(String text) {
+    public void setNoDataText(String text) {
         mNoDataText = text;
     }
 
-        public void setNoDataTextColor(int color) {
+    public void setNoDataTextColor(int color) {
         mInfoPaint.setColor(color);
     }
 
-        public void setNoDataTextTypeface(Typeface tf) {
+    public void setNoDataTextTypeface(Typeface tf) {
         mInfoPaint.setTypeface(tf);
     }
 
-        public void setTouchEnabled(boolean enabled) {
+    public void setTouchEnabled(boolean enabled) {
         this.mTouchEnabled = enabled;
     }
 
-        public IMarker getMarker() {
+    public IMarker getMarker() {
         return mMarker;
     }
 
-        public void setMarker(IMarker marker) {
+    public void setMarker(IMarker marker) {
         mMarker = marker;
     }
 
@@ -608,40 +607,40 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         setMarker(v);
     }
 
-        public Description getDescription() {
+    public Description getDescription() {
         return mDescription;
     }
 
-        public void setDescription(Description desc) {
+    public void setDescription(Description desc) {
         this.mDescription = desc;
     }
 
-        public Legend getLegend() {
+    public Legend getLegend() {
         return mLegend;
     }
 
-        public LegendRenderer getLegendRenderer() {
+    public LegendRenderer getLegendRenderer() {
         return mLegendRenderer;
     }
 
-        @Override
+    @Override
     public RectF getContentRect() {
         return mViewPortHandler.getContentRect();
     }
 
-        public void disableScroll() {
+    public void disableScroll() {
         ViewParent parent = getParent();
         if (parent != null)
             parent.requestDisallowInterceptTouchEvent(true);
     }
 
-        public void enableScroll() {
+    public void enableScroll() {
         ViewParent parent = getParent();
         if (parent != null)
             parent.requestDisallowInterceptTouchEvent(false);
     }
 
-        public void setPaint(Paint p, int which) {
+    public void setPaint(Paint p, int which) {
 
         switch (which) {
             case PAINT_INFO:
@@ -653,7 +652,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
     }
 
-        public Paint getPaint(int which) {
+    public Paint getPaint(int which) {
         switch (which) {
             case PAINT_INFO:
                 return mInfoPaint;
@@ -674,19 +673,19 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         setDrawMarkers(enabled);
     }
 
-        public boolean isDrawMarkersEnabled() {
+    public boolean isDrawMarkersEnabled() {
         return mDrawMarkers;
     }
 
-        public void setDrawMarkers(boolean enabled) {
+    public void setDrawMarkers(boolean enabled) {
         mDrawMarkers = enabled;
     }
 
-        public T getData() {
+    public T getData() {
         return mData;
     }
 
-        public void setData(T data) {
+    public void setData(T data) {
 
         mData = data;
         mOffsetsCalculated = false;
@@ -708,15 +707,15 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             Log.i(LOG_TAG, "Data is set.");
     }
 
-        public ViewPortHandler getViewPortHandler() {
+    public ViewPortHandler getViewPortHandler() {
         return mViewPortHandler;
     }
 
-        public DataRenderer getRenderer() {
+    public DataRenderer getRenderer() {
         return mRenderer;
     }
 
-        public void setRenderer(DataRenderer renderer) {
+    public void setRenderer(DataRenderer renderer) {
 
         if (renderer != null)
             mRenderer = renderer;
@@ -726,16 +725,16 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return mHighlighter;
     }
 
-        public void setHighlighter(ChartHighlighter highlighter) {
+    public void setHighlighter(ChartHighlighter highlighter) {
         mHighlighter = highlighter;
     }
 
-        @Override
+    @Override
     public MPPointF getCenterOfView() {
         return getCenter();
     }
 
-        public Bitmap getChartBitmap() {
+    public Bitmap getChartBitmap() {
         Bitmap returnedBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(returnedBitmap);
         Drawable bgDrawable = getBackground();
@@ -747,7 +746,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return returnedBitmap;
     }
 
-        public boolean saveToPath(String title, String pathOnSD) {
+    public boolean saveToPath(String title, String pathOnSD) {
 
 
         Bitmap b = getChartBitmap();
@@ -758,7 +757,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
                     + pathOnSD + "/" + title
                     + ".png");
 
-                        b.compress(CompressFormat.PNG, 40, stream);
+            b.compress(CompressFormat.PNG, 40, stream);
 
             stream.close();
         } catch (Exception e) {
@@ -769,7 +768,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return true;
     }
 
-        public boolean saveToGallery(String fileName, String subFolderPath, String fileDescription, CompressFormat
+    public boolean saveToGallery(String fileName, String subFolderPath, String fileDescription, CompressFormat
             format, int quality) {
         if (quality < 0 || quality > 100)
             quality = 50;
@@ -837,11 +836,11 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return getContext().getContentResolver().insert(Images.Media.EXTERNAL_CONTENT_URI, values) != null;
     }
 
-        public boolean saveToGallery(String fileName, int quality) {
+    public boolean saveToGallery(String fileName, int quality) {
         return saveToGallery(fileName, "", "MPAndroidChart-Library Save", CompressFormat.PNG, quality);
     }
 
-        public boolean saveToGallery(String fileName) {
+    public boolean saveToGallery(String fileName) {
         return saveToGallery(fileName, "", "MPAndroidChart-Library Save", CompressFormat.PNG, 40);
     }
 
@@ -853,7 +852,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         mJobs.clear();
     }
 
-        public void addViewportJob(Runnable job) {
+    public void addViewportJob(Runnable job) {
 
         if (mViewPortHandler.hasChartDimens()) {
             post(job);
@@ -862,7 +861,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
     }
 
-        public ArrayList<Runnable> getJobs() {
+    public ArrayList<Runnable> getJobs() {
         return mJobs;
     }
 
@@ -912,7 +911,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
-        public void setHardwareAccelerationEnabled(boolean enabled) {
+    public void setHardwareAccelerationEnabled(boolean enabled) {
 
         if (enabled)
             setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -929,7 +928,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             unbindDrawables(this);
     }
 
-        private void unbindDrawables(View view) {
+    private void unbindDrawables(View view) {
 
         if (view.getBackground() != null) {
             view.getBackground().setCallback(null);
@@ -942,7 +941,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
     }
 
-        public void setUnbindEnabled(boolean enabled) {
+    public void setUnbindEnabled(boolean enabled) {
         this.mUnbind = enabled;
     }
 }

@@ -1,4 +1,5 @@
 package com.topdon.house.viewmodel
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,7 @@ import com.topdon.lib.core.db.entity.HouseReport
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+
 class ReportViewModel(application: Application) : AndroidViewModel(application) {
     val reportListLD = MutableLiveData<List<HouseReport>>()
     fun queryAll() {

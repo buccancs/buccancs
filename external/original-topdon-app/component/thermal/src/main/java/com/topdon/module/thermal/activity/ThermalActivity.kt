@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.activity
+
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.topdon.module.thermal.adapter.MenuTabAdapter
 import com.topdon.module.thermal.fragment.event.ThermalActionEvent
 import kotlinx.android.synthetic.main.activity_thermal.*
 import org.greenrobot.eventbus.EventBus
+
 @Route(path = RouterConfig.THERMAL_MAIN)
 class ThermalActivity : BaseActivity() {
     private val menuAdapter by lazy { MenuTabAdapter(this) }
@@ -29,8 +31,10 @@ class ThermalActivity : BaseActivity() {
             }
         })
     }
+
     override fun initData() {
     }
+
     private fun initRecycler() {
         thermal_recycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         thermal_recycler.adapter = menuAdapter
@@ -43,6 +47,7 @@ class ThermalActivity : BaseActivity() {
             }
         }
     }
+
     fun showRecycler(select: Int) {
         thermal_recycler.initType(select)
         if (select == 5) {

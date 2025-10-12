@@ -103,13 +103,13 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
     private UtilShimmer utilShimmer = new UtilShimmer(this.getClass().getSimpleName(), true);
 
-        public BasicPlotManagerPC() {
+    public BasicPlotManagerPC() {
         mMapofXAxisGeneratedValue.clear();
         initializeAxesForTimeBig();
     }
 
 
-        public BasicPlotManagerPC(List<String[]> propertiestoPlot, int limit, Chart2D chart) throws Exception {
+    public BasicPlotManagerPC(List<String[]> propertiestoPlot, int limit, Chart2D chart) throws Exception {
         mXAxisLimit = limit;
         mChart = chart;
         mChart.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -124,16 +124,16 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
     }
 
-        public ITrace2D addSignal(String[] signal, Chart2D chart) throws Exception {
+    public ITrace2D addSignal(String[] signal, Chart2D chart) throws Exception {
         return this.addSignal(signal, chart, mXAxisLimit);
     }
 
 
-        public ITrace2D addSignalAsBarPlot(String[] signal, Chart2D chart, int windowSize) throws Exception {
+    public ITrace2D addSignalAsBarPlot(String[] signal, Chart2D chart, int windowSize) throws Exception {
         return this.addSignalAsBarPlot(signal, chart, mXAxisLimit, windowSize);
     }
 
-        public ITrace2D addSignal(String[] signal, Chart2D chart, boolean usePaintIndividualPointsOnly) throws Exception {
+    public ITrace2D addSignal(String[] signal, Chart2D chart, boolean usePaintIndividualPointsOnly) throws Exception {
         ITrace2D trace = this.addSignal(signal, chart);
 
         if (usePaintIndividualPointsOnly) {
@@ -143,7 +143,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return trace;
     }
 
-        public ITrace2D addSignalAsBarPlot(String[] signal, Chart2D chart, int plotMaxSize, int windowSize) throws Exception {
+    public ITrace2D addSignalAsBarPlot(String[] signal, Chart2D chart, int plotMaxSize, int windowSize) throws Exception {
         ITrace2D trace;
         if (!checkIfPropertyExist(signal)) {
             trace = addBarTrace(chart, plotMaxSize);
@@ -159,7 +159,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return trace;
     }
 
-        public ITrace2D addSignal(String[] signal, Chart2D chart, int plotMaxSize) throws Exception {
+    public ITrace2D addSignal(String[] signal, Chart2D chart, int plotMaxSize) throws Exception {
         ITrace2D trace;
         if (!checkIfPropertyExist(signal)) {
 
@@ -185,7 +185,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return trace;
     }
 
-        public ITrace2D addSignalUsingRightYAxis(String[] signal, Chart2D chart, int plotMaxSize, String title, int minRange, int maxRange) throws Exception {
+    public ITrace2D addSignalUsingRightYAxis(String[] signal, Chart2D chart, int plotMaxSize, String title, int minRange, int maxRange) throws Exception {
         ITrace2D trace;
         if (!checkIfPropertyExist(signal)) {
             yAxisRight = createRightYAxis(chart);
@@ -265,7 +265,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return trace;
     }
 
-        private ITrace2D addSignalToExistingChartInternal(String[] signal, int plotMaxSize, Color color) throws Exception {
+    private ITrace2D addSignalToExistingChartInternal(String[] signal, int plotMaxSize, Color color) throws Exception {
         if (!checkIfPropertyExist(signal)) {
             ITrace2D trace = new Trace2DLtd(plotMaxSize);
             mChart.addTrace(trace);
@@ -301,7 +301,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
     }
 
 
-        public void removeAllSignals() {
+    public void removeAllSignals() {
         mCurrentXValue = 0;
         super.removeAllSignals();
         if (mChart != null) {
@@ -319,7 +319,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         mMapOfLastDataPoints.clear();
     }
 
-        private void removeSignalInternal(String[] signal) {
+    private void removeSignalInternal(String[] signal) {
         synchronized (mListofPropertiestoPlot) {
             Iterator<String[]> entries = mListofPropertiestoPlot.iterator();
             int i = 0;
@@ -352,7 +352,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         mMapOfLastDataPoints.remove(traceName);
     }
 
-        public void removeSignal(String[] signal) {
+    public void removeSignal(String[] signal) {
         synchronized (mListofPropertiestoPlot) {
             for (int i = 0; i < mListofPropertiestoPlot.size(); i++) {
                 String[] prop = mListofPropertiestoPlot.get(i);
@@ -421,7 +421,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         setXAxisRange(mCurrentXValue - (mXAxisTimeDuration * 1000), mCurrentXValue);
     }
 
-        public void setXAxisRangeBasedOnXDurationSubtractSingleSamplingRate(double samplingRate) {
+    public void setXAxisRangeBasedOnXDurationSubtractSingleSamplingRate(double samplingRate) {
         double minTime = mCurrentXValue - (mXAxisTimeDuration * 1000);
         double samplingDurationInMs = (1 / samplingRate) * 1000;
         minTime = minTime + samplingDurationInMs;
@@ -458,11 +458,11 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         yAxisLeft.setRangePolicy(new RangePolicyFixedViewport(new Range(miny, maxy)));
     }
 
-        public int getXAxisLimit() {
+    public int getXAxisLimit() {
         return mXAxisLimit;
     }
 
-        public void setXAxisLimit(int xAxisLimit) {
+    public void setXAxisLimit(int xAxisLimit) {
         this.mXAxisLimit = xAxisLimit;
     }
 
@@ -752,7 +752,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 strokeNew = new BasicStroke(
                         1,
                         BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1, 2}, 0);
-						                trace.setStroke(strokeNew);
+                trace.setStroke(strokeNew);
             }
         } else if (selectedLineStyle == PLOT_LINE_STYLE.BAR) {
             trace.setTracePainter(new TracePainterVerticalBar(mChart));
@@ -761,7 +761,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-        public void setYAxisScale(boolean isLeftYAxis, SCALE_SETTING scaleSetting, Object yAxisMin, Object yAxisMax) {
+    public void setYAxisScale(boolean isLeftYAxis, SCALE_SETTING scaleSetting, Object yAxisMin, Object yAxisMax) {
         double yMin = 0;
         double yMax = 0;
         if (!mListofTraces.isEmpty()) {
@@ -1019,7 +1019,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-        public void toggleLegendLabelsPainted() {
+    public void toggleLegendLabelsPainted() {
         if (mChart != null) {
             setLegendLabelsPainted(!mIsLegendLabelsPainted);
         }
@@ -1035,7 +1035,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         mChart.setPaintLabels(mIsLegendLabelsPainted);
     }
 
-        public void toggleScaleLabelsPainted() {
+    public void toggleScaleLabelsPainted() {
         if (mChart != null) {
             setScaleLabelsPainted(!mIsScaleLabelsPainted);
         }
@@ -1122,7 +1122,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-        public void toggleGrid() {
+    public void toggleGrid() {
         if (mChart != null) {
             setGridOn(!mIsGridOn);
         }
@@ -1137,7 +1137,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         return mIsGridOn;
     }
 
-        public void setGridOn(boolean state) {
+    public void setGridOn(boolean state) {
         if (mChart != null) {
             mIsGridOn = state;
             try {
@@ -1368,8 +1368,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             throw new Exception("Signal data is NaN: (" + traceName + ")");
         } else if (Double.isInfinite(yData)) {
             throw new Exception("Signal data is Infinite: (" + traceName + ")");
-        }
-        else if (yData == 0.0) {
+        } else if (yData == 0.0) {
             yData = 0.000001;
         }
 
@@ -1515,7 +1514,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-        public void filterDataAndPlot(ObjectCluster ojc) throws Exception {
+    public void filterDataAndPlot(ObjectCluster ojc) throws Exception {
         if (!mIsPlotPaused) {
             String shimmerName = ojc.getShimmerName();
 
@@ -1648,7 +1647,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-        public boolean addDummyPointToFillTraceIfRequired(ITrace2D currentTrace, double xData) {
+    public boolean addDummyPointToFillTraceIfRequired(ITrace2D currentTrace, double xData) {
         return false;
     }
 
@@ -1772,7 +1771,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-        public BufferedImage getSnapShot() {
+    public BufferedImage getSnapShot() {
 
         synchronized (this) {
             Color savedColour = mChart.getBackground();
@@ -1811,7 +1810,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         mChart = chart;
     }
 
-        protected void filterOldDataOutOfTrace() {
+    protected void filterOldDataOutOfTrace() {
         for (ITrace2D trace : mListofTraces) {
             Iterator itr = trace.iterator();
             boolean reset = false;
@@ -1832,17 +1831,17 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         }
     }
 
-        public void setXAxisDuration(double duration) {
+    public void setXAxisDuration(double duration) {
         mXAxisTimeDuration = duration;
     }
 
-        public enum SCALE_SETTING {
+    public enum SCALE_SETTING {
         AUTO,
         FIXED,
         CUSTOM
     }
 
-        public class calculateFftTimerTask extends TimerTask {
+    public class calculateFftTimerTask extends TimerTask {
 
         @Override
         public void run() {
@@ -1869,7 +1868,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                             }
                         }
                     }
-
 
 
                     fftCalculateDetails.clearBuffers();

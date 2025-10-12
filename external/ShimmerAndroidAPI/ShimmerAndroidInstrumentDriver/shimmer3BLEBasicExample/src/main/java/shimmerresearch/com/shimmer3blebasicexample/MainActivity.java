@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected Handler mHandler;
     Shimmer3BLEAndroid shimmer1;
     String macAddress = "E8:EB:1B:97:67:FC";
-        Handler handler = new Handler() {
+    Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CONNECT_SHIMMER) {
             if (resultCode == Activity.RESULT_OK) {
@@ -253,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
             System.out.println(shimmerMSG.mIdentifier);
-
 
 
             int ind = shimmerMSG.mIdentifier;

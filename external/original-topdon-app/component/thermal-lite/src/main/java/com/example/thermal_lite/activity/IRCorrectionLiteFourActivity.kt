@@ -1,4 +1,5 @@
 package com.example.thermal_lite.activity
+
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
+
 @Route(path = RouterConfig.IR_CORRECTION_FOUR_LITE)
 class IRCorrectionLiteFourActivity : BaseActivity() {
     val time = 60
@@ -62,8 +64,10 @@ class IRCorrectionLiteFourActivity : BaseActivity() {
                             }
                         }
                     }
+
                     override fun onLastTime(num: Int) {
                     }
+
                     override fun onLastTimeFinish(num: Int) {
                         try {
                             if (!result) {
@@ -87,8 +91,10 @@ class IRCorrectionLiteFourActivity : BaseActivity() {
             time_down_view.downSecond(time, false)
         }, 2000)
     }
+
     override fun initView() {
     }
+
     override fun onBackPressed() {
         TipDialog.Builder(this)
             .setTitleMessage(getString(R.string.app_tip))
@@ -100,19 +106,23 @@ class IRCorrectionLiteFourActivity : BaseActivity() {
             }
             .create().show()
     }
+
     override fun disConnected() {
         super.disConnected()
         time_down_view.cancel()
         EventBus.getDefault().post(CorrectionFinishEvent())
         finish()
     }
+
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().post(CorrectionFinishEvent())
         finish()
     }
+
     override fun initData() {
     }
+
     override fun onDestroy() {
         super.onDestroy()
         time_down_view.cancel()

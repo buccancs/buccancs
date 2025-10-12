@@ -32,20 +32,20 @@ public class LineChartRenderer extends LineRadarRenderer {
 
     protected LineDataProvider mChart;
 
-        protected Paint mCirclePaintInner;
+    protected Paint mCirclePaintInner;
 
-        protected WeakReference<Bitmap> mDrawBitmap;
+    protected WeakReference<Bitmap> mDrawBitmap;
 
-        protected Canvas mBitmapCanvas;
+    protected Canvas mBitmapCanvas;
 
-        protected Bitmap.Config mBitmapConfig = Bitmap.Config.ARGB_8888;
+    protected Bitmap.Config mBitmapConfig = Bitmap.Config.ARGB_8888;
 
     protected Path cubicPath = new Path();
     protected Path cubicFillPath = new Path();
     protected Path mGenerateFilledPathBuffer = new Path();
     private float[] mLineBuffer = new float[4];
-        private HashMap<IDataSet, DataSetImageCache> mImageCaches = new HashMap<>();
-        private float[] mCirclesBuffer = new float[2];
+    private HashMap<IDataSet, DataSetImageCache> mImageCaches = new HashMap<>();
+    private float[] mCirclesBuffer = new float[2];
 
     public LineChartRenderer(LineDataProvider chart, ChartAnimator animator,
                              ViewPortHandler viewPortHandler) {
@@ -266,7 +266,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         }
     }
 
-        protected void drawLinear(Canvas c, ILineDataSet dataSet) {
+    protected void drawLinear(Canvas c, ILineDataSet dataSet) {
 
         int entryCount = dataSet.getEntryCount();
 
@@ -392,7 +392,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         mRenderPaint.setPathEffect(null);
     }
 
-        protected void drawLinearFill(Canvas c, ILineDataSet dataSet, Transformer trans, XBounds bounds) {
+    protected void drawLinearFill(Canvas c, ILineDataSet dataSet, Transformer trans, XBounds bounds) {
 
         final Path filled = mGenerateFilledPathBuffer;
 
@@ -430,7 +430,7 @@ public class LineChartRenderer extends LineRadarRenderer {
 
     }
 
-        private void generateFilledPath(final ILineDataSet dataSet, final int startIndex, final int endIndex, final Path outputPath) {
+    private void generateFilledPath(final ILineDataSet dataSet, final int startIndex, final int endIndex, final Path outputPath) {
 
         final float fillMin = dataSet.getFillFormatter().getFillLinePosition(dataSet, mChart);
         final float phaseY = mAnimator.getPhaseY();
@@ -649,16 +649,16 @@ public class LineChartRenderer extends LineRadarRenderer {
         }
     }
 
-        public Bitmap.Config getBitmapConfig() {
+    public Bitmap.Config getBitmapConfig() {
         return mBitmapConfig;
     }
 
-        public void setBitmapConfig(Bitmap.Config config) {
+    public void setBitmapConfig(Bitmap.Config config) {
         mBitmapConfig = config;
         releaseBitmap();
     }
 
-        public void releaseBitmap() {
+    public void releaseBitmap() {
         if (mBitmapCanvas != null) {
             mBitmapCanvas.setBitmap(null);
             mBitmapCanvas = null;
@@ -679,7 +679,7 @@ public class LineChartRenderer extends LineRadarRenderer {
 
         private Bitmap[] circleBitmaps;
 
-                protected boolean init(ILineDataSet set) {
+        protected boolean init(ILineDataSet set) {
 
             int size = set.getCircleColorCount();
             boolean changeRequired = false;
@@ -695,7 +695,7 @@ public class LineChartRenderer extends LineRadarRenderer {
             return changeRequired;
         }
 
-                protected void fill(ILineDataSet set, boolean drawCircleHole, boolean drawTransparentCircleHole) {
+        protected void fill(ILineDataSet set, boolean drawCircleHole, boolean drawTransparentCircleHole) {
 
             int colorCount = set.getCircleColorCount();
             float circleRadius = set.getCircleRadius();
@@ -745,7 +745,7 @@ public class LineChartRenderer extends LineRadarRenderer {
             }
         }
 
-                protected Bitmap getBitmap(int index) {
+        protected Bitmap getBitmap(int index) {
             return circleBitmaps[index % circleBitmaps.length];
         }
     }

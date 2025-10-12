@@ -1,9 +1,11 @@
 package com.infisense.usbir.tools
+
 import android.util.Log
 import androidx.annotation.ColorInt
 import com.elvishew.xlog.XLog
 import com.topdon.lib.core.utils.ByteUtils.bytesToInt
 import com.topdon.lib.core.utils.ByteUtils.descBytes
+
 object BitmapTools {
 
     private fun readTempValue(bytes: ByteArray): Float {
@@ -12,6 +14,7 @@ object BitmapTools {
         val tempInt = data.bytesToInt() / 4
         return (tempInt.toDouble() / scale.toDouble() - 273.15).toFloat()
     }
+
     fun replaceBitmapColor(
         imageBytes: ByteArray,
         tempBytes: ByteArray,

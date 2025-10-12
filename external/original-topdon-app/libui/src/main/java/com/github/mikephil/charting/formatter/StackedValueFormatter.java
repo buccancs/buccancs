@@ -6,13 +6,13 @@ import java.text.DecimalFormat;
 
 public class StackedValueFormatter extends ValueFormatter {
 
-        private boolean mDrawWholeStack;
+    private boolean mDrawWholeStack;
 
-        private String mSuffix;
+    private String mSuffix;
 
     private DecimalFormat mFormat;
 
-        public StackedValueFormatter(boolean drawWholeStack, String suffix, int decimals) {
+    public StackedValueFormatter(boolean drawWholeStack, String suffix, int decimals) {
         this.mDrawWholeStack = drawWholeStack;
         this.mSuffix = suffix;
 

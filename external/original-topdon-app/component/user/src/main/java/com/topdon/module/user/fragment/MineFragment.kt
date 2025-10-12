@@ -1,4 +1,5 @@
 package com.topdon.module.user.fragment
+
 import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -56,6 +57,7 @@ import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 class MineFragment : BaseFragment(), View.OnClickListener {
     private var isNeedRefreshLogin = false
     override fun initContentView(): Int = R.layout.fragment_mine
@@ -84,16 +86,20 @@ class MineFragment : BaseFragment(), View.OnClickListener {
             }
         })
     }
+
     override fun initData() {
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun updatePDF(event: PDFEvent) {
         isNeedRefreshLogin = true
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onWinterClick(event: WinterClickEvent) {
         view_winter_point.isVisible = false
     }
+
     override fun onResume() {
         super.onResume()
         changeLoginStyle()
@@ -111,6 +117,7 @@ class MineFragment : BaseFragment(), View.OnClickListener {
             ToastTools.showShort(R.string.tip_save_success)
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             iv_winter -> {
@@ -128,6 +135,7 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                     .withString(ExtraKeyConfig.URL, url)
                     .navigation(requireContext())
             }
+
             setting_user_lay, setting_user_img_night -> {
                 if (UserInfoManager.getInstance().isLogin()) {
                     isNeedRefreshLogin = true
@@ -136,19 +144,23 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                     loginAction()
                 }
             }
+
             setting_user_text -> {
                 if (!LMS.getInstance().isLogin) {
                     loginAction()
                 }
             }
+
             setting_electronic_manual -> {
                 ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL)
                     .withInt(Constants.SETTING_TYPE, Constants.SETTING_BOOK).navigation(requireContext())
             }
+
             setting_faq -> {
                 ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL)
                     .withInt(Constants.SETTING_TYPE, Constants.SETTING_FAQ).navigation(requireContext())
             }
+
             setting_feedback -> {
                 if (LMS.getInstance().isLogin) {
                     val devSn = SharedManager.getDeviceSn()
@@ -166,18 +178,23 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                     loginAction()
                 }
             }
+
             setting_item_unit -> {
                 ARouter.getInstance().build(RouterConfig.UNIT).navigation(requireContext())
             }
+
             setting_item_version -> {
                 ARouter.getInstance().build(RouterConfig.VERSION).navigation(requireContext())
             }
+
             setting_item_language -> {
                 languagePickResult.launch(Intent(requireContext(), LanguageActivity::class.java))
             }
+
             setting_item_clear -> {
                 clearCache()
             }
+
             drag_customer_view -> {
                 val sn = SharedManager.getDeviceSn()
                 if (!TextUtils.isEmpty(sn)) {
@@ -188,11 +205,13 @@ class MineFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
     private fun loginAction() {
         isNeedRefreshLogin = true
         val bgBitmap = BitmapFactory.decodeResource(resources, R.mipmap.bg_login)
         LMS.getInstance().activityLogin(null, null, false, null, bgBitmap)
     }
+
     private fun checkLoginResult() {
         if (LMS.getInstance().isLogin) {
             LMS.getInstance().getUserInfo { userinfo: CommonBean ->
@@ -218,6 +237,7 @@ class MineFragment : BaseFragment(), View.OnClickListener {
             setting_user_img_night.setImageResource(R.mipmap.ic_default_user_head)
         }
     }
+
     private fun changeLoginStyle() {
         if (LMS.getInstance().isLogin) {
             val layoutParams = ConstraintLayout.LayoutParams(0, ConstraintLayout.LayoutParams.WRAP_CONTENT)
@@ -272,6 +292,7 @@ class MineFragment : BaseFragment(), View.OnClickListener {
             setting_user_img_night.setImageResource(R.mipmap.ic_default_user_head)
         }
     }
+
     private fun clearCache() {
         lifecycleScope.launch {
             showLoadingDialog()

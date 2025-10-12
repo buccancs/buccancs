@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.view
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.InputFilter.LengthFilter
@@ -13,6 +14,7 @@ import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.report.bean.ImageTempBean
 import kotlinx.android.synthetic.main.item_report_ir_input.view.*
 import kotlinx.android.synthetic.main.view_report_ir_input.view.*
+
 class ReportIRInputView : LinearLayout {
     companion object {
         private const val TYPE_FULL = 0
@@ -20,8 +22,10 @@ class ReportIRInputView : LinearLayout {
         private const val TYPE_LINE = 2
         private const val TYPE_RECT = 3
     }
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+
     @SuppressLint("SetTextI18n")
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         inflate(context, R.layout.view_report_ir_input, this)
@@ -48,6 +52,7 @@ class ReportIRInputView : LinearLayout {
                     context.getString(R.string.chart_temperature_low) + " (${UnitTools.showUnit()})"
                 cl_explain.tv_item_name.text = context.getString(R.string.album_report_comment)
             }
+
             TYPE_POINT -> {
                 tv_title.text = context.getString(R.string.thermal_point) + "(P)"
                 cl_min.isVisible = false
@@ -56,6 +61,7 @@ class ReportIRInputView : LinearLayout {
                     "P${index + 1} " + context.getString(R.string.chart_temperature) + " (${UnitTools.showUnit()})"
                 cl_explain.tv_item_name.text = "P${index + 1} " + context.getString(R.string.album_report_comment)
             }
+
             TYPE_LINE -> {
                 tv_title.text = context.getString(R.string.thermal_line) + "(L)"
                 cl_min.isVisible = true
@@ -68,6 +74,7 @@ class ReportIRInputView : LinearLayout {
                     "L${index + 1} " + context.getString(R.string.album_report_mean_temperature) + " (${UnitTools.showUnit()})"
                 cl_explain.tv_item_name.text = "L${index + 1} " + context.getString(R.string.album_report_comment)
             }
+
             TYPE_RECT -> {
                 tv_title.text = context.getString(R.string.thermal_rect) + "(R)"
                 cl_min.isVisible = true
@@ -82,6 +89,7 @@ class ReportIRInputView : LinearLayout {
             }
         }
     }
+
     fun isSwitchMaxCheck() = cl_max.switch_item.isChecked
     fun isSwitchMinCheck() = cl_min.switch_item.isChecked
     fun isSwitchAverageCheck() = cl_average.switch_item.isChecked
@@ -102,6 +110,7 @@ class ReportIRInputView : LinearLayout {
         }
         cl_explain.et_item.setText("")
     }
+
     private fun setSwitchListener(switchCompat: SwitchCompat, editText: EditText) {
         switchCompat.setOnCheckedChangeListener { _, isChecked ->
             editText.isVisible = isChecked

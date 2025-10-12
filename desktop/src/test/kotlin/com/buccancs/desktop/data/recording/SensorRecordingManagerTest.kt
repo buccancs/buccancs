@@ -1,4 +1,5 @@
 package com.buccancs.desktop.data.recording
+
 import com.buccancs.control.sensorSample
 import com.buccancs.control.sensorSampleBatch
 import com.buccancs.control.sensorSampleValue
@@ -18,11 +19,13 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+
 class SensorRecordingManagerTest {
     @TempDir
     lateinit var tempDir: Path
     private lateinit var sessionRepository: SessionRepository
     private lateinit var recordingManager: SensorRecordingManager
+
     @BeforeTest
     fun setUp() {
         val sessionsRoot = tempDir.resolve("sessions")
@@ -41,10 +44,12 @@ class SensorRecordingManagerTest {
         )
         recordingManager = SensorRecordingManager(sessionRepository)
     }
+
     @AfterTest
     fun tearDown() {
         tempDir.toFile().deleteRecursively()
     }
+
     @Test
     fun `append writes csv and updates metadata`() = runBlocking {
         val sessionId = "session-test"

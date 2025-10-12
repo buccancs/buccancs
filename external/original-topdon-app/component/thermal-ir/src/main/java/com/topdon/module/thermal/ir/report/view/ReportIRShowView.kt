@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.view
+
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -12,6 +13,7 @@ import com.topdon.module.thermal.ir.report.bean.ReportIRBean
 import com.topdon.module.thermal.ir.report.bean.ReportTempBean
 import kotlinx.android.synthetic.main.item_report_ir_show.view.*
 import kotlinx.android.synthetic.main.view_report_ir_show.view.*
+
 class ReportIRShowView : LinearLayout {
     companion object {
         private const val TYPE_FULL = 0
@@ -41,6 +43,7 @@ class ReportIRShowView : LinearLayout {
         initTitleText(cl_rect4, TYPE_RECT, 3)
         initTitleText(cl_rect5, TYPE_RECT, 4)
     }
+
     private fun initTitleText(itemRoot: View, type: Int, index: Int) {
         itemRoot.tv_title.isVisible = index == 0
         itemRoot.tv_title.text = when (type) {
@@ -61,6 +64,7 @@ class ReportIRShowView : LinearLayout {
             else -> "R${index + 1} " + context.getString(R.string.album_report_comment)
         }
     }
+
     fun getPrintViewList(): ArrayList<View> {
         val result = ArrayList<View>()
         result.add(cl_image)
@@ -82,6 +86,7 @@ class ReportIRShowView : LinearLayout {
         getItemChild(cl_rect5, result)
         return result
     }
+
     private fun getItemChild(itemRoot: View, resultList: ArrayList<View>) {
         if (itemRoot.isVisible) {
             if (itemRoot.cl_range.isVisible) {
@@ -95,6 +100,7 @@ class ReportIRShowView : LinearLayout {
             }
         }
     }
+
     fun setImageDrawable(drawable: Drawable?) {
         val isLand = (drawable?.intrinsicWidth ?: 0) > (drawable?.intrinsicHeight ?: 0)
         val width = (ScreenUtil.getScreenWidth(context) * (if (isLand) 234 else 175) / 375f).toInt()
@@ -105,6 +111,7 @@ class ReportIRShowView : LinearLayout {
         iv_image.layoutParams = layoutParams
         iv_image.setImageDrawable(drawable)
     }
+
     fun refreshData(isFirst: Boolean, isLast: Boolean, reportIRBean: ReportIRBean) {
         tv_head.isVisible = isFirst
         view_not_head.isVisible = !isFirst
@@ -188,6 +195,7 @@ class ReportIRShowView : LinearLayout {
         }
         hideLastLine(isLast, cl_full, reportIRBean.full_graph_data, TYPE_FULL)
     }
+
     private fun hideLastLine(isLast: Boolean, itemRoot: View, tempBean: ReportTempBean?, type: Int) {
         if (tempBean == null) {
             return
@@ -214,6 +222,7 @@ class ReportIRShowView : LinearLayout {
             itemRoot.cl_range.setBackgroundResource(R.drawable.layer_report_ir_show_bottom_bg)
         }
     }
+
     private fun refreshItem(itemRoot: View, tempBean: ReportTempBean?, type: Int, index: Int) {
         if (tempBean == null) {
             itemRoot.isVisible = false

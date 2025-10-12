@@ -12,11 +12,11 @@ public class GradDes3DOrientation {
     double q0Initial, q1Initial, q2Initial, q3Initial;
     double q0, q1, q2, q3;
 
-        public GradDes3DOrientation(double samplingPeriod) {
+    public GradDes3DOrientation(double samplingPeriod) {
         this(BETA, samplingPeriod, Q0_INITIAL_DEFAULT, Q1_INITIAL_DEFAULT, Q2_INITIAL_DEFAULT, Q3_INITIAL_DEFAULT);
     }
 
-        public GradDes3DOrientation(double beta, double samplingPeriod, double q0, double q1, double q2, double q3) {
+    public GradDes3DOrientation(double beta, double samplingPeriod, double q0, double q1, double q2, double q3) {
         setSamplingPeriod(samplingPeriod);
         setInitialConditions(beta, q0, q1, q2, q3);
     }
@@ -41,7 +41,7 @@ public class GradDes3DOrientation {
         setInitialConditions(mBeta, q0Initial, q1Initial, q2Initial, q3Initial);
     }
 
-        public Orientation3DObject update(double ax, double ay, double az, double gx, double gy, double gz, double mx, double my, double mz) {
+    public Orientation3DObject update(double ax, double ay, double az, double gx, double gy, double gz, double mx, double my, double mz) {
         double recipNorm;
         double s0, s1, s2, s3;
         double qDot1, qDot2, qDot3, qDot4;
@@ -166,7 +166,7 @@ public class GradDes3DOrientation {
         return q3;
     }
 
-        public Orientation3DObject update(double ax, double ay, double az, double gx, double gy, double gz) {
+    public Orientation3DObject update(double ax, double ay, double az, double gx, double gy, double gz) {
         double recipNorm;
         double s0, s1, s2, s3;
         double qDot1, qDot2, qDot3, qDot4;

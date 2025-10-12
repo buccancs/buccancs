@@ -1,4 +1,5 @@
 package com.topdon.libhik.util
+
 import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.annotation.IntRange
@@ -17,6 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Arrays
+
 object HikHelper {
     private var userId: Int = JavaInterface.USB_INVALID_USER_ID
     private var callbackId: Int = JavaInterface.USB_INVALID_CHANNEL
@@ -31,14 +33,17 @@ object HikHelper {
                     startStream()
                 }
             }
+
             override fun onStop(owner: LifecycleOwner) {
                 stopStream()
             }
+
             override fun onDestroy(owner: LifecycleOwner) {
                 release()
             }
         })
     }
+
     fun bind(fragment: Fragment) {
         init(fragment.requireContext())
         fragment.lifecycle.addObserver(object : DefaultLifecycleObserver {
@@ -47,14 +52,17 @@ object HikHelper {
                     startStream()
                 }
             }
+
             override fun onStop(owner: LifecycleOwner) {
                 stopStream()
             }
+
             override fun onDestroy(owner: LifecycleOwner) {
                 release()
             }
         })
     }
+
     private var hasInit = false
     fun init(context: Context): Boolean {
         if (userId != JavaInterface.USB_INVALID_USER_ID) {
@@ -70,6 +78,7 @@ object HikHelper {
         userId = HikCmdUtil.login(context)
         return userId != JavaInterface.USB_INVALID_USER_ID
     }
+
     @Volatile
     private var wantCheckTimeout = false
     suspend fun startStream() {
@@ -88,6 +97,7 @@ object HikHelper {
             onReadyListener?.invoke()
         }
     }
+
     fun stopStream() {
         if (callbackId != JavaInterface.USB_INVALID_CHANNEL) {
             timeoutJob?.cancel()
@@ -96,6 +106,7 @@ object HikHelper {
             wantCheckTimeout = false
         }
     }
+
     fun release() {
         if (userId != JavaInterface.USB_INVALID_USER_ID) {
             JavaInterface.getInstance().USB_Logout(userId)
@@ -109,12 +120,15 @@ object HikHelper {
         streamCallBack.onFrameListener = null
         onTimeoutListener = null
     }
+
     fun setFrameListener(listener: ((ByteArray, ByteArray) -> Unit)) {
         streamCallBack.onFrameListener = listener
     }
+
     fun setTempListener(listener: ((ByteArray) -> Unit)) {
         streamCallBack.onTempListener = listener
     }
+
     var onTimeoutListener: (() -> Unit)? = null
     var onReadyListener: (() -> Unit)? = null
     fun copyFrameData(): ByteArray = streamCallBack.copyFrameArray()
@@ -122,10 +136,13 @@ object HikHelper {
     private class MyFStreamCallBack : FStreamCallBack {
         private val yuvArray = ByteArray(256 * 192 * 2)
         private val tempArray = ByteArray(256 * 192 * 2)
+
         @Volatile
         var onTempListener: ((ByteArray) -> Unit)? = null
+
         @Volatile
         var onFrameListener: ((ByteArray, ByteArray) -> Unit)? = null
+
         @Volatile
         var beforeFrameTime: Long = 0
         fun copyFrameArray(): ByteArray = synchronized(this) {
@@ -134,6 +151,7 @@ object HikHelper {
             System.arraycopy(tempArray, 0, frameArray, yuvArray.size, tempArray.size)
             frameArray
         }
+
         override fun invoke(handle: Int, frameInfo: USB_FRAME_INFO) {
             beforeFrameTime = System.currentTimeMillis()
             if (frameInfo.dwBufSize != 4640 + 256 * 192 * 4) {
@@ -155,33 +173,43 @@ object HikHelper {
             onFrameListener?.invoke(yuvArray, tempArray)
         }
     }
+
     suspend fun initConfig() = withContext(Dispatchers.IO) {
         HikCmdUtil.initConfig(userId)
     }
+
     suspend fun shutter() = withContext(Dispatchers.IO) {
         HikCmdUtil.shutter(userId)
     }
+
     suspend fun setAutoShutter(isAutoShutter: Boolean) = withContext(Dispatchers.IO) {
         HikCmdUtil.setAutoShutter(userId, isAutoShutter)
     }
+
     suspend fun setContrast(value: Int) = withContext(Dispatchers.IO) {
         HikCmdUtil.setContrast(userId, value)
     }
+
     suspend fun setEnhanceLevel(value: Int) = withContext(Dispatchers.IO) {
         HikCmdUtil.setEnhanceLevel(userId, value)
     }
+
     suspend fun setMirror(rotateAngle: Int, isMirror: Boolean) = withContext(Dispatchers.IO) {
         HikCmdUtil.setMirror(userId, rotateAngle, isMirror)
     }
+
     suspend fun setEmissivity(emissivity: Int) = withContext(Dispatchers.IO) {
         HikCmdUtil.setEmissivity(userId, emissivity)
     }
+
     suspend fun setDistance(distance: Int) = withContext(Dispatchers.IO) {
         HikCmdUtil.setDistance(userId, distance)
     }
+
     suspend fun setTemperatureMode(@IntRange(-1, 1) mode: Int) = withContext(Dispatchers.IO) {
         HikCmdUtil.setTemperatureMode(userId, mode)
     }
+
     suspend fun startCorrect() = withContext(Dispatchers.IO) {
         HikCmdUtil.startCorrect(userId)
     }

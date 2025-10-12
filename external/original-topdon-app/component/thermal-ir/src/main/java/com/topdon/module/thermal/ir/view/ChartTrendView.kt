@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view
+
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
@@ -13,6 +14,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.topdon.lib.core.tools.UnitTools
 import com.topdon.module.thermal.ir.R
+
 class ChartTrendView : LineChart {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -83,6 +85,7 @@ class ChartTrendView : LineChart {
         leftAxis.axisMaximum = 50f
         data = LineData()
     }
+
     fun setToEmpty() {
         axisLeft.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String = ""
@@ -90,6 +93,7 @@ class ChartTrendView : LineChart {
         data = LineData()
         invalidate()
     }
+
     fun refresh(tempList: List<Float>) {
         if (tempList.isEmpty()) {
             setToEmpty()

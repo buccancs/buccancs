@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.wheelpicker.entity;
 
 import androidx.annotation.NonNull;

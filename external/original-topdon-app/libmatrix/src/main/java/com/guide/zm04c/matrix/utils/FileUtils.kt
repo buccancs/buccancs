@@ -1,4 +1,5 @@
 package com.guide.zm04c.matrix.utils
+
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
@@ -41,6 +42,7 @@ class FileUtils {
             }
             return if (!flag) false else dirFile.delete()
         }
+
         fun deleteFile(path: String): Boolean {
             if (StringUtils.isBlank(path)) {
                 return true
@@ -72,6 +74,7 @@ class FileUtils {
             randomFile.write(data);
             randomFile.close();
         }
+
         fun saveFile(data: ByteArray, filePath: String, isAppend: Boolean) {
             var outputFile: FileOutputStream? = null
             var inputStream: ByteArrayInputStream? = null
@@ -91,9 +94,11 @@ class FileUtils {
                 inputStream?.close()
             }
         }
+
         fun saveFile(data: ShortArray, filePath: String, isAppend: Boolean) {
             saveFile(BaseDataTypeConvertUtils.convertShortArr2LittleEndianByteArr(data), filePath, isAppend)
         }
+
         fun saveBitmap2JpegFile(bmp: Bitmap, filePath: String): Boolean {
             val format = CompressFormat.JPEG
             val quality = 100
@@ -118,6 +123,7 @@ class FileUtils {
             }
             return false
         }
+
         fun rotateBitmap(srcBitmap: Bitmap, rotateDegree: Float): Bitmap? {
             var dstBitmap: Bitmap? = null
             val matrix = Matrix()
@@ -125,6 +131,7 @@ class FileUtils {
             dstBitmap = Bitmap.createBitmap(srcBitmap, 0, 0, srcBitmap.width, srcBitmap.height, matrix, true)
             return dstBitmap
         }
+
         private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
             val height = options.outHeight
             val width = options.outWidth
@@ -138,6 +145,7 @@ class FileUtils {
             }
             return inSampleSize
         }
+
         fun getBitmapFromPath(imagePath: String, width: Int, height: Int): Bitmap? {
             val file = File(imagePath)
             var bitmap: Bitmap? = null
@@ -191,6 +199,7 @@ class FileUtils {
             }
             return bitmap
         }
+
         fun readFile2ByteArr(filePath: String, fileNotFoundErrAction: () -> Unit, ioErrAction: () -> Unit): ByteArray? {
             var fis: FileInputStream? = null
             val inFile = File(filePath)
@@ -239,6 +248,7 @@ class FileUtils {
             }
             return byteArr
         }
+
         fun getFileSize(path: String): Long {
             if (StringUtils.isBlank(path)) {
                 return -1

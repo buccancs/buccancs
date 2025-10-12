@@ -71,7 +71,7 @@ public class IRUVCDual {
     private CommonParams.PseudoColorType pseudocolorMode;
     private Handler handler;
 
-        public IRUVCDual(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
+    public IRUVCDual(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
                      ConnectCallback connectCallback) {
         this.cameraWidth = cameraWidth;
         this.cameraHeight = cameraHeight;
@@ -146,7 +146,7 @@ public class IRUVCDual {
         int close_frame_cnt = 10 * 15;//触发防灼烧之后，经过该阈值的帧数之后会解除防灼烧(假设出图速度为15帧每秒，则10 * 15大概为10秒)
     }
 
-        public IRUVCDual(int cameraWidth, int cameraHeight, Context context, int pid, int fps,
+    public IRUVCDual(int cameraWidth, int cameraHeight, Context context, int pid, int fps,
                      ConnectCallback connectCallback, IFrameCallback iFrameCallback) {
         this.mPid = pid;
         this.mFps = fps;
@@ -160,7 +160,7 @@ public class IRUVCDual {
             @Override
             public void onAttach(UsbDevice device) {
                 Log.w(TAG, "USBMonitor-onAttach mPid = " + pid + " getProductId = " + device.getProductId());
-                                if (device.getProductId() != mPid) {
+                if (device.getProductId() != mPid) {
                     return;
                 }
                 if (uvcCamera == null || !uvcCamera.getOpenStatus()) {
@@ -233,7 +233,7 @@ public class IRUVCDual {
             @Override
             public void onAttach(UsbDevice device) {
                 Log.w(TAG, "USBMonitor-onAttach mPid = " + pid + " getProductId = " + device.getProductId());
-                                if (device.getProductId() != mPid) {
+                if (device.getProductId() != mPid) {
                     return;
                 }
                 if (uvcCamera == null || !uvcCamera.getOpenStatus()) {
@@ -292,7 +292,7 @@ public class IRUVCDual {
         });
     }
 
-        public IRUVCDual(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage, int pid,
+    public IRUVCDual(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage, int pid,
                      ConnectCallback connectCallback, boolean isUseIRISP) {
         this.mPid = pid;
         this.cameraWidth = cameraWidth;
@@ -403,7 +403,7 @@ public class IRUVCDual {
         this.temperature = temperature;
     }
 
-        public void initUVCCamera(int cameraWidth, int cameraHeight) {
+    public void initUVCCamera(int cameraWidth, int cameraHeight) {
         Log.i(TAG, "initUVCCamera->cameraWidth = " + cameraWidth + " cameraHeight = " + cameraHeight);
         ConcreateUVCBuilder concreateUVCBuilder = new ConcreateUVCBuilder();
         uvcCamera = concreateUVCBuilder
@@ -411,22 +411,22 @@ public class IRUVCDual {
                 .build();
     }
 
-        public UVCCamera getUvcCamera() {
+    public UVCCamera getUvcCamera() {
         return uvcCamera;
     }
 
-        public IRCMD getIrcmd() {
+    public IRCMD getIrcmd() {
         return ircmd;
     }
 
-        public void registerUSB() {
+    public void registerUSB() {
         Log.i(TAG, "registerUSB");
         if (mUSBMonitor != null) {
             mUSBMonitor.register();
         }
     }
 
-        public void unregisterUSB() {
+    public void unregisterUSB() {
         Log.i(TAG, "unregisterUSB");
         if (mUSBMonitor != null) {
             mUSBMonitor.destroy();
@@ -442,7 +442,7 @@ public class IRUVCDual {
         return mUSBMonitor.getDeviceList(deviceFilters);
     }
 
-        public boolean requestPermission(int index) {
+    public boolean requestPermission(int index) {
         Log.i(TAG, "requestPermission");
         List<UsbDevice> devList = getUsbDeviceList();
         if (devList == null || devList.size() == 0) {
@@ -460,7 +460,7 @@ public class IRUVCDual {
         return false;
     }
 
-        public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock) {
+    public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock) {
         Log.i(TAG, "openUVCCamera");
         if (ctrlBlock.getProductId() == 0x3901) {
             if (syncimage != null) {
@@ -473,7 +473,7 @@ public class IRUVCDual {
         uvcCamera.openUVCCamera(ctrlBlock);
     }
 
-        public void startPreview() {
+    public void startPreview() {
         Log.w(TAG, "startPreview mPid = " + mPid + " isUseIRISP = " + isUseIRISP);
         uvcCamera.setOpenStatus(true);
         if (iFrameCallback != null) {
@@ -490,7 +490,7 @@ public class IRUVCDual {
         }
     }
 
-        private List<CameraSize> getAllSupportedSize() {
+    private List<CameraSize> getAllSupportedSize() {
         List<CameraSize> previewList = new ArrayList<>();
         if (uvcCamera != null) {
             previewList = uvcCamera.getSupportedSizeList();
@@ -501,7 +501,7 @@ public class IRUVCDual {
         return previewList;
     }
 
-        public void initIRCMD(List<CameraSize> previewList) {
+    public void initIRCMD(List<CameraSize> previewList) {
         for (CameraSize size : previewList) {
         }
         if (uvcCamera != null) {
@@ -517,7 +517,7 @@ public class IRUVCDual {
         }
     }
 
-        private int setPreviewSize(int cameraWidth, int cameraHeight) {
+    private int setPreviewSize(int cameraWidth, int cameraHeight) {
         if (uvcCamera != null) {
             Log.d(TAG, "setUSBPreviewSize mPid = " + mPid + " cameraWidth = " + cameraWidth +
                     " cameraHeight = " + cameraHeight);
@@ -547,19 +547,19 @@ public class IRUVCDual {
         this.mConnectCallback = mConnectCallback;
     }
 
-        private void handleUSBConnect(USBMonitor.UsbControlBlock ctrlBlock) {
+    private void handleUSBConnect(USBMonitor.UsbControlBlock ctrlBlock) {
         Log.d(TAG, "handleUSBConnect mPid = " + mPid);
         openUVCCamera(ctrlBlock);
         List<CameraSize> previewList = getAllSupportedSize();
         if (mPid == 0x5830 || mPid == 0x5840) {
             initIRCMD(previewList);
-                        uvcCamera.setDefaultBandwidth(1.0f);
+            uvcCamera.setDefaultBandwidth(1.0f);
             uvcCamera.setDefaultPreviewMinFps(1);
             uvcCamera.setDefaultPreviewMaxFps(mFps);
         } else {
             Log.d(TAG, "startVLCamera handleUSBConnect mPid = " + mPid + " setDefaultPreviewMode");
-                        uvcCamera.setDefaultPreviewMode(CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG);
-                        uvcCamera.setDefaultBandwidth(0.6f);
+            uvcCamera.setDefaultPreviewMode(CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG);
+            uvcCamera.setDefaultBandwidth(0.6f);
             uvcCamera.setDefaultPreviewMinFps(1);
             uvcCamera.setDefaultPreviewMaxFps(mFps);
         }

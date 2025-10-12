@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
@@ -8,6 +9,7 @@ import com.energy.iruvc.utils.Line
 import com.infisense.usbir.utils.TempDrawHelper.Companion.correct
 import com.infisense.usbir.view.ITsTempListener
 import java.lang.ref.WeakReference
+
 class TemperatureEditView : TemperatureBaseView {
     override var mode: Mode
         get() = super.mode
@@ -32,6 +34,7 @@ class TemperatureEditView : TemperatureBaseView {
         var lineTemps = arrayListOf<LibIRTemp.TemperatureSampleResult>()
         var rectangleTemps = arrayListOf<LibIRTemp.TemperatureSampleResult>()
     }
+
     var tempListData = TemperatureList()
     private var irtemp: LibIRTemp = LibIRTemp()
     private var irTempData: ByteArray = byteArrayOf()
@@ -46,6 +49,7 @@ class TemperatureEditView : TemperatureBaseView {
     fun setITsTempListener(listener: ITsTempListener) {
         iTsTempListenerWeakReference = WeakReference(listener)
     }
+
     private fun getTSTemp(temp: Float): Float = iTsTempListenerWeakReference?.get()?.tempCorrectByTs(temp) ?: temp
 
     constructor(context: Context) : this(context, null)
@@ -73,11 +77,13 @@ class TemperatureEditView : TemperatureBaseView {
         super.setImageSize(imageWidth, imageHeight)
         irtemp = LibIRTemp(imageWidth, imageHeight)
     }
+
     fun setData(bytes: ByteArray) {
         irTempData = bytes
         irtemp.setTempData(irTempData)
         fullInfo = irtemp.getTemperatureOfRect(Rect(0, 0, imageWidth, imageHeight))
     }
+
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         for (i in pointList.indices) {
@@ -113,6 +119,7 @@ class TemperatureEditView : TemperatureBaseView {
             drawTempText(canvas, centerX, centerY, getTSTemp(centerResult.maxTemperature))
         }
     }
+
     private fun drawOnePoint(canvas: Canvas, point: Point, index: Int): LibIRTemp.TemperatureSampleResult? {
         val result = try {
             irtemp.getTemperatureOfPoint(Point((point.x / xScale).toInt(), (point.y / yScale).toInt()))
@@ -127,6 +134,7 @@ class TemperatureEditView : TemperatureBaseView {
         }
         return result
     }
+
     private fun drawOneLine(canvas: Canvas, line: Line, index: Int): LibIRTemp.TemperatureSampleResult? {
         drawLine(canvas, line)
         val tempStartX: Int = (line.start.x / xScale).toInt()
@@ -154,6 +162,7 @@ class TemperatureEditView : TemperatureBaseView {
         }
         return result
     }
+
     private fun drawOneRect(canvas: Canvas, rect: Rect, index: Int): LibIRTemp.TemperatureSampleResult? {
         drawRect(canvas, rect)
         val left = (rect.left / xScale).toInt()

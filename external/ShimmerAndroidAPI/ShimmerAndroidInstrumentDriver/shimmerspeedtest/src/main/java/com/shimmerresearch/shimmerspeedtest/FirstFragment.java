@@ -38,7 +38,7 @@ public class FirstFragment extends Fragment {
     Shimmer shimmer;
     TextView tv;
     long time = System.currentTimeMillis();
-        Handler mHandler = new Handler() {
+    Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {

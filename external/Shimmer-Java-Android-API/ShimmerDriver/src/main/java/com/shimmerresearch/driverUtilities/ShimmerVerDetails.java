@@ -10,7 +10,7 @@ public class ShimmerVerDetails implements Serializable {
     public static final int ANY_VERSION = -1;
     public static final Map<Integer, String> mMapOfShimmerRevisions;
     public static final Map<Integer, String> mMapOfShimmerHardware;
-        private static final long serialVersionUID = -7940733886215010795L;
+    private static final long serialVersionUID = -7940733886215010795L;
 
     static {
         Map<Integer, String> aMap = new TreeMap<Integer, String>();
@@ -153,7 +153,7 @@ public class ShimmerVerDetails implements Serializable {
     }
 
     public static final class FW_ID {
-                public static final int UNKNOWN = -1;
+        public static final int UNKNOWN = -1;
         public static final int BOILER_PLATE = 0;
         public static final int BTSTREAM = 1;
         public static final int SDLOG = 2;

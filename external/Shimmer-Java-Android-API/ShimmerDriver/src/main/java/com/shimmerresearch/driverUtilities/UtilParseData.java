@@ -7,7 +7,7 @@ public class UtilParseData {
 
     public static boolean mIsDebugEnabled = false;
 
-        public static long parseData(byte[] data, CHANNEL_DATA_TYPE dataType, CHANNEL_DATA_ENDIAN dataEndian) {
+    public static long parseData(byte[] data, CHANNEL_DATA_TYPE dataType, CHANNEL_DATA_ENDIAN dataEndian) {
         long formattedData = 0;
 
         if (dataType == CHANNEL_DATA_TYPE.UNKOWN) {
@@ -56,7 +56,6 @@ public class UtilParseData {
         }
 
 
-
         consolePrintLnDebugging("Parsing result:\t" + formattedData);
 
         return formattedData;
@@ -68,7 +67,7 @@ public class UtilParseData {
         }
     }
 
-        @Deprecated
+    @Deprecated
     public static long[] parseData(byte[] data, String[] dataType) {
         int iData = 0;
         long[] formattedData = new long[dataType.length];
@@ -187,7 +186,7 @@ public class UtilParseData {
         return formattedData;
     }
 
-        @Deprecated
+    @Deprecated
     public static int[] formatDataPacketReverse(byte[] data, String[] dataType) {
         int iData = 0;
         int[] formattedData = new int[dataType.length];
@@ -215,7 +214,7 @@ public class UtilParseData {
         return formattedData;
     }
 
-        public static void reverse(byte[] array) {
+    public static void reverse(byte[] array) {
         if (array == null) {
             return;
         }

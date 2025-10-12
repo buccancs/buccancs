@@ -96,12 +96,7 @@ public class SensorBridgeAmp extends AbstractSensor {
             LABEL_SENSOR_TILE.BRIDGE_AMPLIFIER_SUPP,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.HOST_SKIN_TEMPERATURE_PROBE),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBrAmp);
-        private static final long serialVersionUID = 3440151728338729991L;
-
-
-
-
-
+    private static final long serialVersionUID = 3440151728338729991L;
 
 
     public static ChannelDetails channelBridgeAmpHigh = new ChannelDetails(
@@ -144,8 +139,6 @@ public class SensorBridgeAmp extends AbstractSensor {
     }
 
 
-
-
     static {
         Map<String, ChannelDetails> aChannelMap = new LinkedHashMap<String, ChannelDetails>();
 
@@ -158,7 +151,7 @@ public class SensorBridgeAmp extends AbstractSensor {
     }
 
 
-        public SensorBridgeAmp(ShimmerVerObject svo) {
+    public SensorBridgeAmp(ShimmerVerObject svo) {
         super(SENSORS.Bridge_Amplifier, svo);
         initialise();
     }
@@ -172,7 +165,7 @@ public class SensorBridgeAmp extends AbstractSensor {
         return calData;
     }
 
-        public static double calibratePhillipsSkinTemperatureData(double uncalibratedData) {
+    public static double calibratePhillipsSkinTemperatureData(double uncalibratedData) {
         double x = (200.0 * uncalibratedData) / ((10.1) * 3000 - uncalibratedData);
         double y = -27.42 * Math.log(x) + 56.502;
         return y;
@@ -219,7 +212,6 @@ public class SensorBridgeAmp extends AbstractSensor {
     public void checkShimmerConfigBeforeConfiguring() {
 
     }
-
 
 
     @Override

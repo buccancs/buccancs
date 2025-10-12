@@ -35,17 +35,17 @@ public class MyGLSurfaceView implements Renderer {
     Context context;
     private Cube cube;
     private float rtri;
-        private float rquad;
+    private float rquad;
     private float ax = 0;
     private float ay = 0;
     private float az = 0;
 
-        public MyGLSurfaceView(Context context) {
+    public MyGLSurfaceView(Context context) {
         this.context = context;
         cube = new Cube(context);
     }
 
-        public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glClearColor(0, 0, 0, 0);
         gl.glClearDepthf(1.0f);
@@ -58,7 +58,7 @@ public class MyGLSurfaceView implements Renderer {
         gl.glEnable(GL10.GL_ALPHA);
     }
 
-        public void onDrawFrame(GL10 gl) {
+    public void onDrawFrame(GL10 gl) {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
@@ -68,7 +68,7 @@ public class MyGLSurfaceView implements Renderer {
 
     }
 
-        public void onSurfaceChanged(GL10 gl, int width, int height) {
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
         if (height == 0) {
             height = 1;
         }

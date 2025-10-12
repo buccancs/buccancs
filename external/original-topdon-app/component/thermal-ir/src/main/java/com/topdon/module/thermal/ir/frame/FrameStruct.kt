@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.frame
+
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.lib.core.bean.AlarmBean
@@ -7,6 +8,7 @@ import com.topdon.lib.core.common.ProductType.PRODUCT_NAME_TC007
 import com.topdon.lib.core.utils.ByteUtils
 import com.topdon.lib.core.utils.ByteUtils.toBytes
 import com.topdon.pseudo.bean.CustomPseudoBean
+
 class FrameStruct() {
     companion object {
         private const val SIZE = 1024
@@ -73,6 +75,7 @@ class FrameStruct() {
             return resultArray
         }
     }
+
     var len = 0
     var name: String = ""
     var ver: String = ""
@@ -142,5 +145,6 @@ class FrameStruct() {
         radiation = java.nio.ByteBuffer.wrap(radiationBytes).float
         isAmplify = data[672].toInt() == 1
     }
+
     fun isTC007(): Boolean = name == PRODUCT_NAME_TC007
 }

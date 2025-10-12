@@ -1,4 +1,5 @@
 package com.buccancs.ui
+
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -39,6 +40,7 @@ import kotlinx.datetime.Instant
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
+
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val sensorRepository: SensorRepository,
@@ -115,6 +117,7 @@ class MainViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = MainUiState.initial()
     )
+
     init {
         viewModelScope.launch {
             timeSyncRepository.start()
@@ -149,37 +152,45 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
     fun onSessionIdChanged(value: String) {
         sessionId.value = value
     }
+
     fun toggleSimulation() {
         viewModelScope.launch {
             val next = !sensorRepository.simulationEnabled.value
             sensorRepository.setSimulationEnabled(next)
         }
     }
+
     fun connectDevice(id: DeviceId) {
         viewModelScope.launch {
             sensorRepository.connect(id)
         }
     }
+
     fun disconnectDevice(id: DeviceId) {
         viewModelScope.launch {
             sensorRepository.disconnect(id)
         }
     }
+
     fun onOrchestratorHostChanged(value: String) {
         hostInput.value = value.trim()
         configMessage.value = null
     }
+
     fun onOrchestratorPortChanged(value: String) {
         portInput.value = value.trim()
         configMessage.value = null
     }
+
     fun onOrchestratorUseTlsChanged(enabled: Boolean) {
         useTlsInput.value = enabled
         configMessage.value = null
     }
+
     fun applyOrchestratorConfig() {
         viewModelScope.launch {
             val host = hostInput.value.trim()
@@ -208,9 +219,11 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
     fun clearConfigMessage() {
         configMessage.value = null
     }
+
     fun startRecording() {
         viewModelScope.launch {
             if (busy.getAndSet(true)) return@launch
@@ -225,6 +238,7 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
     fun stopRecording() {
         viewModelScope.launch {
             if (busy.getAndSet(true)) return@launch
@@ -238,6 +252,7 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
     private fun handleRemoteCommand(payload: DeviceCommandPayload) {
         when (payload) {
             is StartRecordingCommandPayload -> handleStartRecordingCommand(payload)
@@ -245,6 +260,7 @@ class MainViewModel @Inject constructor(
             else -> Unit
         }
     }
+
     private fun handleStartRecordingCommand(payload: StartRecordingCommandPayload) {
         viewModelScope.launch {
             Log.i(TAG, "Start recording command ${payload.commandId} for session ${payload.sessionId}")
@@ -272,6 +288,7 @@ class MainViewModel @Inject constructor(
             acknowledgeCommand(payload.commandId, success, message)
         }
     }
+
     private fun handleStopRecordingCommand(payload: StopRecordingCommandPayload) {
         viewModelScope.launch {
             Log.i(TAG, "Stop recording command ${payload.commandId} for session ${payload.sessionId}")
@@ -295,6 +312,7 @@ class MainViewModel @Inject constructor(
             acknowledgeCommand(payload.commandId, success, message)
         }
     }
+
     private suspend fun acknowledgeCommand(commandId: String, success: Boolean, message: String?) {
         runCatching {
             commandCoordinator.acknowledge(commandId, success, message)
@@ -302,6 +320,7 @@ class MainViewModel @Inject constructor(
             Log.w(TAG, "Unable to acknowledge command $commandId: ${ex.message}", ex)
         }
     }
+
     private fun SensorDevice.toUiModel(streams: List<SensorStreamStatus>): DeviceUiModel {
         val connected = connectionStatus is ConnectionStatus.Connected
         val connectionLabel = connectionStatus.label()
@@ -320,6 +339,7 @@ class MainViewModel @Inject constructor(
             streams = activeStreams
         )
     }
+
     private fun SensorDeviceType.label(): String = when (this) {
         SensorDeviceType.SHIMMER_GSR -> "Shimmer3 GSR"
         SensorDeviceType.ANDROID_RGB_CAMERA -> "Android RGB Camera"
@@ -328,6 +348,7 @@ class MainViewModel @Inject constructor(
         SensorDeviceType.AUDIO_MICROPHONE -> "Microphone"
         SensorDeviceType.UNKNOWN -> "Unknown Device"
     }
+
     private fun SensorStreamStatus.toUiModel(): StreamUiModel {
         val rate = when {
             sampleRateHz != null -> "${sampleRateHz.roundToInt()} Hz"
@@ -345,6 +366,7 @@ class MainViewModel @Inject constructor(
             isSimulated = isSimulated
         )
     }
+
     private fun SensorStreamType.label(): String = when (this) {
         SensorStreamType.GSR -> "GSR"
         SensorStreamType.RGB_VIDEO -> "RGB Video"
@@ -352,11 +374,13 @@ class MainViewModel @Inject constructor(
         SensorStreamType.AUDIO -> "Audio"
         SensorStreamType.PREVIEW -> "Preview"
     }
+
     private fun ConnectionStatus.label(): String = when (this) {
         ConnectionStatus.Disconnected -> "Disconnected"
         ConnectionStatus.Connecting -> "Connecting"
         is ConnectionStatus.Connected -> "Connected"
     }
+
     private fun DeviceEvent.toUiModel(): DeviceEventUiModel = DeviceEventUiModel(
         id = id,
         label = label,
@@ -364,6 +388,7 @@ class MainViewModel @Inject constructor(
         scheduledAt = scheduledAt.toString(),
         receivedAt = receivedAt.toString()
     )
+
     private fun describeCommand(payload: DeviceCommandPayload): String {
         val whenText = Instant.fromEpochMilliseconds(payload.executeEpochMs).toString()
         return when (payload) {
@@ -375,6 +400,7 @@ class MainViewModel @Inject constructor(
             else -> "Command ${payload.commandId} @ $whenText"
         }
     }
+
     private fun deriveConnectionLabel(status: TimeSyncStatus): String {
         val now = Clock.System.now().toEpochMilliseconds()
         val ageMs = now - status.lastSync.toEpochMilliseconds()
@@ -384,6 +410,7 @@ class MainViewModel @Inject constructor(
             else -> "Offline"
         }
     }
+
     private fun inputsDirty(reference: OrchestratorConfig): Boolean {
         val port = portInput.value.toIntOrNull()
         return hostInput.value != reference.host ||
@@ -391,15 +418,18 @@ class MainViewModel @Inject constructor(
                 port != reference.port ||
                 useTlsInput.value != reference.useTls
     }
+
     private fun generateSessionId(): String {
         val now = Clock.System.now()
         return "session-${now.epochSeconds}"
     }
+
     private fun <T> MutableStateFlow<T>.getAndSet(value: T): T {
         val current = this.value
         this.value = value
         return current
     }
+
     private companion object {
         private const val TAG = "MainViewModel"
         private const val CONNECTED_THRESHOLD_MS = 5_000L
@@ -408,6 +438,7 @@ class MainViewModel @Inject constructor(
         private const val EVENT_LOG_LIMIT = 10
     }
 }
+
 data class MainUiState(
     val sessionIdInput: String,
     val simulationEnabled: Boolean,
@@ -432,6 +463,7 @@ data class MainUiState(
 ) {
     val isRecording: Boolean
         get() = recordingLifecycle == RecordingLifecycleState.Recording
+
     companion object {
         fun initial(): MainUiState = MainUiState(
             sessionIdInput = "session-${Clock.System.now().epochSeconds}",
@@ -462,6 +494,7 @@ data class MainUiState(
         )
     }
 }
+
 data class DeviceUiModel(
     val id: DeviceId,
     val title: String,
@@ -473,6 +506,7 @@ data class DeviceUiModel(
     val capabilityLabels: List<String>,
     val streams: List<StreamUiModel>
 )
+
 data class StreamUiModel(
     val deviceId: DeviceId,
     val typeLabel: String,
@@ -480,6 +514,7 @@ data class StreamUiModel(
     val lastSampleTimestamp: String,
     val isSimulated: Boolean
 )
+
 data class DeviceEventUiModel(
     val id: String,
     val label: String,

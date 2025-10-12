@@ -5,7 +5,7 @@ import java.util.UUID;
 public class Shimmer3RAndroidRadioByteCommunication extends VerisenseBleAndroidRadioByteCommunication {
 
 
-        public Shimmer3RAndroidRadioByteCommunication(String mac) {
+    public Shimmer3RAndroidRadioByteCommunication(String mac) {
         super(mac);
         TxID = "65333333-A115-11E2-9E9A-0800200CA102";
         RxID = "65333333-A115-11E2-9E9A-0800200CA101";

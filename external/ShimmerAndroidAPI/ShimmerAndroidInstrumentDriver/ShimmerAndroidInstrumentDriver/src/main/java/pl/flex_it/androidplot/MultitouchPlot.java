@@ -82,8 +82,7 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener {
                 mode = ONE_FINGER_DRAG;
                 break;
 
-            case MotionEvent.ACTION_POINTER_DOWN:
-            {
+            case MotionEvent.ACTION_POINTER_DOWN: {
                 distBetweenFingers = distance(motionEvent);
                 if (distBetweenFingers > 5f || distBetweenFingers < -5f)
                     mode = TWO_FINGERS_DRAG;

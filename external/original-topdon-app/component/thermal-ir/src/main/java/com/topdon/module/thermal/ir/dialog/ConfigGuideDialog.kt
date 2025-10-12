@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.dialog
+
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.dialog_config_guide.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 class ConfigGuideDialog(context: Context, val isTC007: Boolean, val dataBean: DataBean) :
     Dialog(context, R.style.TransparentDialog) {
     @SuppressLint("SetTextI18n")
@@ -65,6 +67,7 @@ class ConfigGuideDialog(context: Context, val isTC007: Boolean, val dataBean: Da
             SharedManager.configGuideStep = 0
         }
     }
+
     fun blurBg(rootView: View) {
         CoroutineScope(Dispatchers.IO).launch {
             try {

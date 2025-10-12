@@ -1,8 +1,10 @@
 package com.topdon.libhik.bean
+
 import android.graphics.Point
 import com.topdon.libhik.util.ByteArrayUtil.toFloat
 import com.topdon.libhik.util.ByteArrayUtil.toInt
 import com.topdon.libhik.util.ByteArrayUtil.toStr
+
 data class TempRule(
     val enable: Boolean,
     val regionId: Int,
@@ -39,6 +41,7 @@ data class TempRule(
         pointCount = byteArray.toInt(index + 108),
         pointList = byteArray.toPointList(index + 112, byteArray.toInt(index + 108)),
     )
+
     companion object {
         private fun ByteArray.toPointList(index: Int, count: Int): ArrayList<Point> = try {
             val resultList: ArrayList<Point> = ArrayList(count)
@@ -52,6 +55,7 @@ data class TempRule(
             ArrayList(0)
         }
     }
+
     override fun toString(): String = "规则$regionId ${if (enable) "开启" else "关闭"} " +
             "距离:$distance cm，类型$regionType，" +
             "发射率:$emissivity，名称:$regionName，" +

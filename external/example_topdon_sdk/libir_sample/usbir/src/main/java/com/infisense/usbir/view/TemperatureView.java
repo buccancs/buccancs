@@ -80,13 +80,13 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private Paint redPaint;
     private int actionMode;
     private float startX, startY, endX, endY;
-        private ArrayList<Point> points = new ArrayList<Point>();
+    private ArrayList<Point> points = new ArrayList<Point>();
     private Point movingPoint;
-        private ArrayList<Line> lines = new ArrayList<Line>();
+    private ArrayList<Line> lines = new ArrayList<Line>();
     private Line movingLine;
     private int lineMoveType;
     private int lineMovePoint;
-        private ArrayList<Rect> rectangles = new ArrayList<Rect>();
+    private ArrayList<Rect> rectangles = new ArrayList<Rect>();
     private Rect movingRectangle;
     private int rectangleMoveType;
     private int rectangleMoveEdge;
@@ -362,7 +362,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         this.temperature = temperature;
     }
 
-        public void setUseIRISP(boolean useIRISP) {
+    public void setUseIRISP(boolean useIRISP) {
         isUseIRISP = useIRISP;
         if (isUseIRISP) {
             if (irtemp != null) {

@@ -18,28 +18,28 @@ public class Entry extends BaseEntry implements Parcelable {
             return new Entry[size];
         }
     };
-        private float x = 0f;
+    private float x = 0f;
 
     public Entry() {
 
     }
 
-        public Entry(float x, float y) {
+    public Entry(float x, float y) {
         super(y);
         this.x = x;
     }
 
-        public Entry(float x, float y, Object data) {
+    public Entry(float x, float y, Object data) {
         super(y, data);
         this.x = x;
     }
 
-        public Entry(float x, float y, Drawable icon) {
+    public Entry(float x, float y, Drawable icon) {
         super(y, icon);
         this.x = x;
     }
 
-        public Entry(float x, float y, Drawable icon, Object data) {
+    public Entry(float x, float y, Drawable icon, Object data) {
         super(y, icon, data);
         this.x = x;
     }
@@ -52,20 +52,20 @@ public class Entry extends BaseEntry implements Parcelable {
         }
     }
 
-        public float getX() {
+    public float getX() {
         return x;
     }
 
-        public void setX(float x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-        public Entry copy() {
+    public Entry copy() {
         Entry e = new Entry(x, getY(), getData());
         return e;
     }
 
-        public boolean equalTo(Entry e) {
+    public boolean equalTo(Entry e) {
 
         if (e == null)
             return false;
@@ -82,7 +82,7 @@ public class Entry extends BaseEntry implements Parcelable {
         return true;
     }
 
-        @Override
+    @Override
     public String toString() {
         return "Entry, x: " + x + " y: " + getY();
     }

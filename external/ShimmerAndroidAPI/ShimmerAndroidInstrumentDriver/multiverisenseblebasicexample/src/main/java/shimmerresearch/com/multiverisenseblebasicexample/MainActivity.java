@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     boolean isSpeedTestSensor1 = false;
     boolean isSpeedTestSensor2 = false;
     boolean isSpeedTestSensor3 = false;
-        Handler mHandler = new Handler() {
+    Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -532,7 +532,7 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {

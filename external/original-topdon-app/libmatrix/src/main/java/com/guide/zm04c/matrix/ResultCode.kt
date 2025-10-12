@@ -1,4 +1,5 @@
 package com.guide.zm04c.matrix
+
 object ResultCode {
     val TAG = "mobilelibrary"
     val READY_CONNECT_DEVICE = 1

@@ -203,7 +203,7 @@ public class XAxisRendererHorizontalBarChart extends XAxisRenderer {
         }
     }
 
-        @Override
+    @Override
     public void renderLimitLines(Canvas c) {
 
         List<LimitLine> limitLines = mXAxis.getLimitLines();

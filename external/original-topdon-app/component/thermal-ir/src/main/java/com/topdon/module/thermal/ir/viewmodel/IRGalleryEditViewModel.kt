@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.viewmodel
+
 import androidx.lifecycle.viewModelScope
 import com.elvishew.xlog.XLog
 import com.topdon.lib.core.ktbase.BaseViewModel
@@ -30,6 +31,7 @@ class IRGalleryEditViewModel : BaseViewModel() {
             resultLiveData.postValue(FrameBean(headDataBytes, frameDataBytes))
         }
     }
+
     fun getTailData(bytes: ByteArray) {
     }
 

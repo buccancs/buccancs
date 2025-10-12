@@ -1,4 +1,5 @@
 package com.buccancs.desktop.data.repository
+
 import com.buccancs.desktop.data.encryption.EncryptionKeyProvider
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.retention.DataRetentionManager
@@ -19,11 +20,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+
 class SessionRepositoryTest {
     @TempDir
     lateinit var tempDir: Path
     private lateinit var sessionRepository: SessionRepository
     private lateinit var json: Json
+
     @BeforeTest
     fun setUp() {
         val sessionsRoot = tempDir.resolve("sessions")
@@ -44,10 +47,12 @@ class SessionRepositoryTest {
             ignoreUnknownKeys = true
         }
     }
+
     @AfterTest
     fun tearDown() {
         tempDir.toFile().deleteRecursively()
     }
+
     @Test
     fun `start session creates metadata artifacts`() = runBlocking {
         val session = sessionRepository.startSession(
@@ -70,6 +75,7 @@ class SessionRepositoryTest {
         assertNotNull(metadata.startedAtEpochMs, "Expected session start timestamp to be recorded")
         assertEquals(null, metadata.stoppedAtEpochMs, "Stop timestamp should not be set while active")
     }
+
     @Test
     fun `stop session finalises metadata`() = runBlocking {
         val sessionId = "session-bravo"
@@ -94,6 +100,7 @@ class SessionRepositoryTest {
             )
         }
     }
+
     @Test
     fun `cannot start multiple active sessions`() = runBlocking {
         sessionRepository.startSession(sessionId = "session-charlie")
@@ -102,6 +109,7 @@ class SessionRepositoryTest {
         }
         assertTrue(exception.message.orEmpty().contains("already active"))
     }
+
     @Test
     fun `cannot reuse existing session identifier`() = runBlocking {
         val sessionId = "session-echo"

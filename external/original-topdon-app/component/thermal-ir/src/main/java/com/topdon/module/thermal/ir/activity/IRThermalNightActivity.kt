@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -152,6 +153,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
     private var isTs001TempMode = true
     protected var curChooseTabPos = 1
     private var curTargetStyle = 1
+
     @Volatile
     private var isTempShowDialog = false
     private var storageRequestType = 0
@@ -227,6 +229,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             cameraView.isOpenAmplify = isOpenAmplify
         }
     }
+
     @SuppressLint("SetTextI18n")
     override fun initView() {
         title_view.setLeftClickListener {
@@ -409,6 +412,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         }
         startUSB(isRestart = false, false)
     }
+
     private fun switchTs001Mode(isToTemp: Boolean) {
         if (isToTemp == isTs001TempMode) {
             return
@@ -593,6 +597,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         }
         dialog.show()
     }
+
     private fun updateCompass() {
         if (curChooseTabPos == 1) {
             compassView.visibility = View.GONE
@@ -604,11 +609,13 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
         }
     }
+
     private fun initCompass() {
         sensorService = SensorService(this)
         hasCompass = sensorService.hasCompass()
         compass = sensorService.getCompass()
     }
+
     var isTouchSeekBar = false
     private val pseudoSetResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -622,6 +629,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
             }
         }
+
     private fun updateImageAndSeekbarColorList(customPseudoBean: CustomPseudoBean?) {
         customPseudoBean?.let {
             temperature_seekbar.setColorList(customPseudoBean.getColorList()?.reversedArray())
@@ -655,6 +663,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             this.customPseudoBean = it
         }
     }
+
     private fun addTemperatureListener() {
         temperature_iv_lock.setOnClickListener {
             if (temperature_iv_lock.visibility != View.VISIBLE) {
@@ -700,9 +709,11 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                     )
                 }
             }
+
             override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
                 isTouchSeekBar = true
             }
+
             override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
                 isTouchSeekBar = false
             }
@@ -715,6 +726,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         imageThread?.setLimit(editMaxValue, editMinValue, upColor, downColor)
         temperature_seekbar.setRangeAndPro(editMinValue, editMaxValue, realLeftValue, realRightValue)
     }
+
     private fun updateTemperatureSeekBar(isEnabled: Boolean) {
         temperature_seekbar.isEnabled = isEnabled
         temperature_seekbar.drawIndPath(isEnabled)
@@ -731,6 +743,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             temperature_seekbar.invalidate()
         }
     }
+
     private fun initOrientationEventListener() {
         orientationEventListener =
             object : OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
@@ -769,6 +782,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
             }
     }
+
     private fun updateRotateAngle(rotateAngle: Int) {
         imageThread?.setLimit(
             editMaxValue,
@@ -790,6 +804,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             thermal_recycler_night.setSettingRotate(rotateAngle)
         }
     }
+
     open fun setRotate(rotateInt: Int) {
         imageThread?.setRotate(rotateInt)
         iruvc?.setRotate(rotateInt)
@@ -823,15 +838,18 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             cl_seek_bar.updateBitmap()
         }
     }
+
     override fun initData() {
         initDataIR()
         AlarmHelp.getInstance(this).updateData(alarmBean)
         updateCompass()
     }
+
     override fun onStart() {
         super.onStart()
         irStart()
     }
+
     open fun irStart() {
         if (!isrun) {
             syncimage.valid = true
@@ -845,6 +863,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             initIRConfig()
         }
     }
+
     override fun onResume() {
         super.onResume()
         emissivityConfig = ConfigRepository.readConfig(false)
@@ -869,10 +888,12 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         orientationEventListener.disable()
     }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         startOrientation()
     }
+
     private fun startOrientation() {
         orientationEventListener.enable()
         mOrientation = if (Settings.System.getInt(contentResolver, Settings.System.ACCELEROMETER_ROTATION) == 0) {
@@ -882,6 +903,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         }
         Log.w("测试自动旋转: ", "mOrientation: $mOrientation")
     }
+
     private fun initRecycler() {
         thermal_recycler_night.onCameraClickListener = {
             setCamera(it)
@@ -953,12 +975,14 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                     temperatureView.visibility = View.VISIBLE
                     temperatureView.setUserHighTemp(isSelected)
                 }
+
                 TempPointType.LOW -> {
                     SaveSettingUtil.isOpenLowPoint = isSelected
                     temperatureView.temperatureRegionMode = REGION_MODE_RESET
                     temperatureView.visibility = View.VISIBLE
                     temperatureView.setUserLowTemp(isSelected)
                 }
+
                 TempPointType.DELETE -> {
                     temperatureView.setUserHighTemp(false)
                     temperatureView.setUserLowTemp(false)
@@ -971,6 +995,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
         }
     }
+
     private fun setTemperatureMode(tempMode: Int, isShowLoading: Boolean) {
         when (tempMode) {
             CameraItemBean.TYPE_TMP_ZD -> autoConfig()
@@ -978,6 +1003,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             CameraItemBean.TYPE_TMP_H -> switchTempGain(false, isShowLoading)
         }
     }
+
     private fun switchTempGain(isLow: Boolean, isShowLoading: Boolean) {
         if ((gainSelChar == 1 && isLow) || (gainSelChar == 0 && !isLow)) {
             return
@@ -1002,11 +1028,13 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             setTsBin()
         }
     }
+
     private fun switchTempSource(isTempSource: Int) {
         aiConfig = isTempSource
         SaveSettingUtil.aiTraceType = aiConfig
         imageThread?.typeAi = isTempSource
     }
+
     private fun showTempRecyclerNight(isObserveMode: Boolean, position: Int) {
         if (isObserveMode) {
             when (position) {
@@ -1022,6 +1050,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                         dialog.show()
                     }
                 }
+
                 3 -> {
                     isOpenTarget = true
                     SaveSettingUtil.isOpenTarget = isOpenTarget
@@ -1040,6 +1069,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                         dialog.show(supportFragmentManager, "")
                     }
                 }
+
                 4 -> {
                     if (SharedManager.isTipCoordinate) {
                         val dialog = TipObserveDialog.Builder(this)
@@ -1060,6 +1090,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         }
         thermal_recycler_night.selectPosition(if (isObserveMode) position + 10 else position)
     }
+
     private var cameraDelaySecond: Int = SaveSettingUtil.delayCaptureSecond
     private fun setCamera(actionCode: Int) {
         when (actionCode) {
@@ -1080,8 +1111,10 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                             override fun onTime(num: Int) {
                                 updateDelayView()
                             }
+
                             override fun onLastTime(num: Int) {
                             }
+
                             override fun onLastTimeFinish(num: Int) {
                                 if (thermal_recycler_night.isVideoMode) {
                                     updateVideoDelayView()
@@ -1095,6 +1128,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                     time_down_view.downSecond(cameraDelaySecond)
                 }
             }
+
             1 -> {
                 lifecycleScope.launch {
                     if (isVideo) {
@@ -1109,19 +1143,23 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                         .navigation()
                 }
             }
+
             2 -> {
                 settingCamera()
             }
+
             3 -> {
                 autoJob?.cancel()
                 SaveSettingUtil.isVideoMode = false
             }
+
             4 -> {
                 autoJob?.cancel()
                 SaveSettingUtil.isVideoMode = true
             }
         }
     }
+
     private fun updateVideoDelayView() {
         try {
             if (time_down_view.isRunning) {
@@ -1133,6 +1171,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             Log.e("线程", e.message.toString())
         }
     }
+
     private fun updateDelayView() {
         try {
             if (time_down_view.isRunning) {
@@ -1148,6 +1187,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             Log.e("线程", e.message.toString())
         }
     }
+
     private fun setTemp(fenceType: FenceType, isSelected: Boolean) {
         temperatureView.isEnabled = true
         when (fenceType) {
@@ -1156,21 +1196,25 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 temperatureView.temperatureRegionMode = REGION_MODE_POINT
                 showCross(true)
             }
+
             FenceType.LINE -> {
                 temperatureView.visibility = View.VISIBLE
                 temperatureView.temperatureRegionMode = REGION_MODE_LINE
                 showCross(true)
             }
+
             FenceType.RECT -> {
                 temperatureView.visibility = View.VISIBLE
                 temperatureView.temperatureRegionMode = REGION_MODE_RECTANGLE
                 showCross(true)
             }
+
             FenceType.FULL -> {
                 temperatureView.visibility = View.VISIBLE
                 temperatureView.isShowFull = isSelected
                 showCross(true)
             }
+
             FenceType.TREND -> {
                 if (SharedManager.isNeedShowTrendTips) {
                     NotTipsSelectDialog(this)
@@ -1189,6 +1233,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
                 showCross(true)
             }
+
             FenceType.DEL -> {
                 hasClickTrendDel = true
                 temperatureView.clear()
@@ -1201,11 +1246,13 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
         }
     }
+
     private fun showCross(boolean: Boolean) {
         if (cameraView != null) {
             cameraView.setShowCross(boolean)
         }
     }
+
     open fun setPColor(code: Int) {
         pseudoColorMode = code
         temperature_seekbar.setPseudocode(pseudoColorMode)
@@ -1233,12 +1280,14 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         tempAlarmSetDialog?.alarmBean = alarmBean
         tempAlarmSetDialog?.show()
     }
+
     open fun setTwoLight(twoLightType: TwoLightType, isSelected: Boolean) {
         popupWindow?.dismiss()
         when (twoLightType) {
             TwoLightType.P_IN_P -> {
                 cameraPreviewConfig(true)
             }
+
             TwoLightType.BLEND_EXTENT -> {
                 if (!isOpenPreview && isSelected) {
                     cameraPreviewConfig(false)
@@ -1247,6 +1296,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                     showBlendExtentPopup()
                 }
             }
+
             else -> {
             }
         }
@@ -1261,24 +1311,29 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 cl_seek_bar.isVisible = saveSetBean.isOpenPseudoBar
                 thermal_recycler_night.setSettingSelected(SettingType.PSEUDO_BAR, saveSetBean.isOpenPseudoBar)
             }
+
             SettingType.CONTRAST -> {
                 if (!isSelected) {
                     showContrastPopup()
                 }
             }
+
             SettingType.DETAIL -> {
                 if (!isSelected) {
                     showSharpnessPopup()
                 }
             }
+
             SettingType.ALARM -> {
                 showTempAlarmSetDialog()
             }
+
             SettingType.ROTATE -> {
                 saveSetBean.rotateAngle = if (saveSetBean.rotateAngle == 0) 270 else (saveSetBean.rotateAngle - 90)
                 updateRotateAngle(saveSetBean.rotateAngle)
                 zoomView.del(true)
             }
+
             SettingType.FONT -> {
                 val colorPickDialog = ColorPickDialog(this, saveSetBean.tempTextColor, saveSetBean.tempTextSize)
                 colorPickDialog.onPickListener = { it: Int, textSize: Int ->
@@ -1290,11 +1345,13 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
                 colorPickDialog.show()
             }
+
             SettingType.MIRROR -> {
                 saveSetBean.isOpenMirror = !saveSetBean.isOpenMirror
                 thermal_recycler_night.setSettingSelected(SettingType.MIRROR, saveSetBean.isOpenMirror)
                 ircmd?.setMirror(saveSetBean.isOpenMirror)
             }
+
             SettingType.COMPASS -> {
                 saveSetBean.isOpenCompass = !saveSetBean.isOpenCompass
                 thermal_recycler_night.setSettingSelected(SettingType.COMPASS, saveSetBean.isOpenCompass)
@@ -1305,10 +1362,12 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                     stopCompass()
                 }
             }
+
             SettingType.WATERMARK -> {
             }
         }
     }
+
     private fun setAiState(it: Int) {
         aiConfig = it
         SaveSettingUtil.aiTraceType = it
@@ -1316,17 +1375,21 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             ObserveBean.TYPE_NONE -> {
                 switchTempSource(ObserveBean.TYPE_NONE)
             }
+
             ObserveBean.TYPE_DYN_R -> {
                 switchTempSource(ObserveBean.TYPE_DYN_R)
             }
+
             ObserveBean.TYPE_TMP_H_S -> {
                 switchTempSource(ObserveBean.TYPE_TMP_H_S)
             }
+
             ObserveBean.TYPE_TMP_L_S -> {
                 switchTempSource(ObserveBean.TYPE_TMP_L_S)
             }
         }
     }
+
     private fun setTarget(targetType: TargetType) {
         when (targetType) {
             TargetType.MODE -> {
@@ -1337,6 +1400,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                     showTargetModePopup()
                 }
             }
+
             TargetType.STYLE -> {
                 if (curTargetStyle == 2 && popupWindow?.isShowing == true) {
                     popupWindow?.dismiss()
@@ -1345,10 +1409,12 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                     showTargetStylePopup()
                 }
             }
+
             TargetType.COLOR -> {
                 popupWindow?.dismiss()
                 showTargetColorDialog()
             }
+
             TargetType.DELETE -> {
                 popupWindow?.dismiss()
                 isOpenTarget = false
@@ -1359,12 +1425,14 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 thermal_recycler_night.setTargetSelected(TargetType.DELETE, true)
                 zoomView.del(false)
             }
+
             TargetType.HELP -> {
                 popupWindow?.dismiss()
                 showTargetHelpDialog()
             }
         }
     }
+
     private var targetMeasureMode: Int = SaveSettingUtil.targetMeasureMode
     private var targetStyle: Int = SaveSettingUtil.targetType
     private var targetColorType: Int = SaveSettingUtil.targetColorType
@@ -1408,6 +1476,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         popupWindow?.showAsDropDown(thermal_lay, 0, getPopupWindowY(contentHeight), Gravity.NO_GRAVITY)
         curTargetStyle = 1
     }
+
     private fun showTargetStylePopup() {
         zoomView.visibility = View.VISIBLE
         zoomView?.updateSelectBitmap(targetMeasureMode, targetStyle, targetColorType, thermal_lay)
@@ -1448,6 +1517,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         )
         curTargetStyle = 2
     }
+
     private fun showTargetColorDialog() {
         TipTargetColorDialog.Builder(this)
             .setTargetColor(targetColorType)
@@ -1462,6 +1532,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
             .create().show()
     }
+
     private fun showTargetHelpDialog() {
         thermal_recycler_night.setTargetSelected(TargetType.HELP, true)
         val dialog = TipGuideDialog.newInstance()
@@ -1470,6 +1541,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         }
         dialog.show(supportFragmentManager, "")
     }
+
     private var cameraAlpha = SaveSettingUtil.twoLightAlpha
     private fun showBlendExtentPopup() {
         val seekBarPopup = SeekBarPopup(this, true)
@@ -1486,6 +1558,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         seekBarPopup.show(thermal_lay, !saveSetBean.isRotatePortrait())
         popupWindow = seekBarPopup
     }
+
     protected var bitmap: Bitmap? = null
     private var imageThread: ImageThreadTC? = null
     private var iruvc: IRUVCTC? = null
@@ -1501,6 +1574,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
     private var temperaturerun = false
     private var tempinfo: Long = 0
     private var isTS001 = false
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun irEvent(event: IRMsgEvent) {
         if (event.code == MsgCode.RESTART_USB) {
@@ -1546,6 +1620,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         cl_seek_bar.requestLayout()
         cl_seek_bar.updateBitmap()
     }
+
     private fun setViewLay(isPortrait: Boolean) {
         val params = thermal_lay.layoutParams as ConstraintLayout.LayoutParams
         if (isPortrait) {
@@ -1580,6 +1655,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
             });
     }
+
     open fun startISP() {
         try {
             imageThread = ImageThreadTC(this@IRThermalNightActivity, imageWidth, imageHeight)
@@ -1606,10 +1682,12 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             Log.e("图像线程重复启动", e.message.toString())
         }
     }
+
     override fun onRestart() {
         super.onRestart()
         isOnRestart = true
     }
+
     open fun startUSB(isRestart: Boolean, isBadFrames: Boolean) {
         isOnRestart = true
         if (!isBadFrames) {
@@ -1621,6 +1699,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 override fun onCameraOpened(uvcCamera: UVCCamera) {
                     XLog.w("设置onCameraOpened:${uvcCamera}}")
                 }
+
                 override fun onIRCMDCreate(ircmd: IRCMD) {
                     this@IRThermalNightActivity.ircmd = ircmd
                     isConfigWait = false
@@ -1631,9 +1710,11 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 override fun onConnect() {}
                 override fun onDisconnect() {
                 }
+
                 override fun onDettach() {
                     finish()
                 }
+
                 override fun onCancel() {
                     finish()
                 }
@@ -1664,6 +1745,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         }
         iruvc?.registerUSB()
     }
+
     private var nuc_table_low = ShortArray(8192)
     private var gainStatus = CommonParams.GainStatus.HIGH_GAIN
 
@@ -1755,6 +1837,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         )
         return newTemp
     }
+
     protected fun initIRConfig() {
         cl_seek_bar.isVisible = curChooseTabPos == 1 && saveSetBean.isOpenPseudoBar
         thermal_recycler_night.setSettingSelected(SettingType.PSEUDO_BAR, saveSetBean.isOpenPseudoBar)
@@ -1774,6 +1857,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         irStop()
         super.onStop()
     }
+
     open fun irStop() {
         try {
             configJob?.cancel()
@@ -1800,6 +1884,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         } catch (_: Exception) {
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         AlarmHelp.getInstance(application).onDestroy(SaveSettingUtil.isSaveSetting)
@@ -1821,6 +1906,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             Log.e(TAG, "imageThread.join(): catch an interrupted exception")
         }
     }
+
     private fun closeCustomPseudo() {
         setCustomPseudoColorList(null, null, true, 0f, 0f)
         temperature_seekbar.setColorList(null)
@@ -1829,6 +1915,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         tv_temp_content.visibility = View.GONE
         temperature_iv_input.setImageResource(R.drawable.ic_color_edit)
     }
+
     open fun setCustomPseudoColorList(
         colorList: IntArray?,
         places: FloatArray?,
@@ -1838,6 +1925,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
     ) {
         imageThread?.setColorList(colorList, places, isUseGray, customMaxTemp, customMinTemp)
     }
+
     private fun updateCustomPseudo() {
         temperature_seekbar.setColorList(customPseudoBean.getColorList()?.reversedArray())
         temperature_seekbar.setPlaces(customPseudoBean.getPlaceList())
@@ -1852,6 +1940,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         thermal_recycler_night.setPseudoColor(-1)
         temperature_iv_input.setImageResource(R.drawable.ir_model)
     }
+
     private val permissionList by lazy {
         if (this.applicationInfo.targetSdkVersion >= 34) {
             mutableListOf(
@@ -1866,6 +1955,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             mutableListOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
         }
     }
+
     private fun countDownCoroutines(
         total: Int,
         timeDelay: Long,
@@ -1885,11 +1975,13 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             .onEach { onTick.invoke(it) }
             .launchIn(scope)
     }
+
     @SuppressLint("CheckResult")
     private fun centerCamera() {
         storageRequestType = 0
         checkStoragePermission()
     }
+
     private var showCameraSetting = false
     private val cameraItemBeanList by lazy {
         mutableListOf(
@@ -1937,6 +2029,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                                     .navigation(this)
                                 return@listener
                             }
+
                             CameraItemBean.TYPE_DELAY -> {
                                 if (time_down_view.isRunning) {
                                     return@listener
@@ -1947,9 +2040,11 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                                     CameraItemBean.DELAY_TIME_0 -> {
                                         ToastUtils.showShort(R.string.off_photography)
                                     }
+
                                     CameraItemBean.DELAY_TIME_3 -> {
                                         ToastUtils.showShort(R.string.seconds_dalay_3)
                                     }
+
                                     CameraItemBean.DELAY_TIME_6 -> {
                                         ToastUtils.showShort(R.string.seconds_dalay_6)
                                     }
@@ -1957,6 +2052,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                                 cameraDelaySecond = cameraItemAdapter!!.data[position].time
                                 SaveSettingUtil.delayCaptureSecond = cameraDelaySecond
                             }
+
                             CameraItemBean.TYPE_AUDIO -> {
                                 if (!cameraItemAdapter!!.data[position].isSel) {
                                     storageRequestType = 1
@@ -1971,6 +2067,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                                 }
                                 return@listener
                             }
+
                             CameraItemBean.TYPE_SDKM -> {
                                 lifecycleScope.launch {
                                     cameraItemAdapter!!.data[position].isSel = true
@@ -1987,6 +2084,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                                 ToastUtils.showShort(R.string.app_Manual_Shutter)
                                 return@listener
                             }
+
                             CameraItemBean.TYPE_ZDKM -> {
                                 isAutoShutter = !isAutoShutter
                                 SaveSettingUtil.isAutoShutter = isAutoShutter
@@ -2015,6 +2113,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             ViewStubUtils.showViewStub(view_stub_camera, false, null)
         }
     }
+
     open fun getCameraViewBitmap(): Bitmap {
         if (isOpenAmplify) {
             return imageThread?.getBaseBitmap(saveSetBean.rotateAngle)
@@ -2023,6 +2122,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             return cameraView.getScaledBitmap()
         }
     }
+
     private fun camera() {
         lifecycleScope.launch(Dispatchers.Default) {
             launch(Dispatchers.Main) {
@@ -2139,6 +2239,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
         }
     }
+
     open fun getProductName(): String {
         return if (isTS001) {
             PRODUCT_NAME_TS
@@ -2161,6 +2262,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             carView = lay_car_detect_prompt
         )
     }
+
     private fun video() {
         if (!isVideo) {
             initVideoRecordFFmpeg()
@@ -2233,11 +2335,13 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         }
         pop_time_lay.visibility = View.VISIBLE
     }
+
     protected fun videoTimeClose() {
         flow?.cancel()
         flow = null
         pop_time_lay.visibility = View.GONE
     }
+
     private var zoomConfig = 1
     private fun showContrastPopup() {
         thermal_recycler_night.setSettingSelected(SettingType.CONTRAST, true)
@@ -2286,6 +2390,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         seekBarPopup.show(thermal_lay, !saveSetBean.isRotatePortrait())
         popupWindow = seekBarPopup
     }
+
     open fun autoConfig() {
         lifecycleScope.launch(Dispatchers.IO) {
             iruvc?.let {
@@ -2371,12 +2476,15 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             XLog.w("设置TPD_PROP DISTANCE2:${disChar}, EMS:${emsChar}}")
         }
     }
+
     private fun setTpdParams(params: CommonParams.PropTPDParams, value: String) {
         ircmd?.setPropTPDParams(params, CommonParams.PropTPDParamsValue.NumberType(value))
     }
+
     private fun setImageParams(params: CommonParams.PropImageParams, value: String) {
         ircmd?.setPropImageParams(params, CommonParams.PropImageParamsValue.NumberType(value))
     }
+
     private var upValue = -273f
     private var downValue = -273f
     private var upColor = 0
@@ -2400,6 +2508,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
             .create().show()
     }
+
     private var isOpenPreview = false
     private fun cameraPreviewConfig(needShowTip: Boolean) {
         if (!CheckDoubleClick.isFastDoubleClick()) {
@@ -2414,27 +2523,33 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
         }
     }
+
     override fun disConnected() {
         super.disConnected()
         finish()
     }
+
     override fun onBackPressed() {
         setResult(200)
         finish()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun iruvctc(event: PreviewComplete) {
         dealY16ModePreviewComplete()
     }
+
     private fun dealY16ModePreviewComplete() {
         iruvc?.setFrameReady(true)
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun cameraEvent(event: DeviceCameraEvent) {
         when (event.action) {
             100 -> {
                 showCameraLoading()
             }
+
             101 -> {
                 lifecycleScope.launch {
                     delay(500)
@@ -2474,6 +2589,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
         }
     }
+
     override fun tempCorrectByTs(temp: Float): Float {
         var tmp = temp
         try {
@@ -2483,17 +2599,21 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         }
         return tmp
     }
+
     private fun startCompass() {
         compass.start(this::onCompassUpdate)
     }
+
     private fun stopCompass() {
         compass.stop(this::onCompassUpdate)
     }
+
     private fun onCompassUpdate(): Boolean {
         val azimuthTxt = formatDegrees(compass.bearing.value, replace360 = true)
         compassView.setCurAzimuth(azimuthTxt.first.toInt())
         return true
     }
+
     private fun formatDegrees(
         degrees: Float,
         decimalPlaces: Int = 0,
@@ -2503,6 +2623,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
         val finalFormatted = if (replace360) formatted.replace("360", "0") else formatted
         return Pair(formatted.toFloat(), finalFormatted.toFloat())
     }
+
     private fun checkCameraPermission(needShowTip: Boolean) {
         if (!XXPermissions.isGranted(
                 this,
@@ -2524,6 +2645,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             initCameraPermission(needShowTip)
         }
     }
+
     private fun initCameraPermission(needShowTip: Boolean) {
         XXPermissions.with(this@IRThermalNightActivity)
             .permission(Permission.CAMERA)
@@ -2557,6 +2679,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                         XLog.e("画中画" + e.message)
                     }
                 }
+
                 override fun onDenied(
                     permissions: MutableList<String>,
                     doNotAskAgain: Boolean
@@ -2581,6 +2704,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
             })
     }
+
     private fun checkStoragePermission() {
         if (!XXPermissions.isGranted(this, permissionList)) {
             if (BaseApplication.instance.isDomestic()) {
@@ -2610,6 +2734,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             }
         }
     }
+
     private fun initAudioPermission() {
         XXPermissions.with(this@IRThermalNightActivity)
             .permission(
@@ -2635,6 +2760,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                         Log.e("录音启动失败", "" + e.message)
                     }
                 }
+
                 override fun onDenied(
                     permissions: MutableList<String>,
                     doNotAskAgain: Boolean
@@ -2658,6 +2784,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
             })
     }
+
     private fun initStoragePermission() {
         XXPermissions.with(this)
             .permission(
@@ -2698,6 +2825,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
+
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
                         if (BaseApplication.instance.isDomestic()) {
@@ -2718,6 +2846,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
             })
     }
+
     private fun setCarDetectPrompt() {
         var carDetectInfo = SharedManager.getCarDetectInfo()
         var tvDetectPrompt = view_car_detect.findViewById<TextView>(R.id.tv_detect_prompt)

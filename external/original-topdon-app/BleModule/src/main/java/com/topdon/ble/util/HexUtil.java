@@ -38,7 +38,7 @@ public class HexUtil {
         return sb.toString();
     }
 
-        public static byte[] toByteArray(String hexStr) {
+    public static byte[] toByteArray(String hexStr) {
         String s = hexStr.replaceAll("", "");
         if (s.length() % 2 != 0) {
             s = "0" + s;
@@ -95,7 +95,7 @@ public class HexUtil {
         return ret;
     }
 
-        public static byte[] hexToByte(String hex) {
+    public static byte[] hexToByte(String hex) {
         int m = 0, n = 0;
         int byteLen = hex.length() / 2;
         byte[] ret = new byte[byteLen];

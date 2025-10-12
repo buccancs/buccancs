@@ -1,8 +1,10 @@
 package com.topdon.menu.adapter
+
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.topdon.menu.R
+
 @SuppressLint("NotifyDataSetChanged")
 internal class TempSourceAdapter : BaseMenuAdapter() {
     var selectCode: Int = -1
@@ -19,6 +21,7 @@ internal class TempSourceAdapter : BaseMenuAdapter() {
         Data(R.string.main_tab_second_high_temperature_source, R.drawable.selector_menu2_source_2_high, 1),
         Data(R.string.main_tab_second_low_temperature_source, R.drawable.selector_menu2_source_3_low, 2),
     )
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: Data = dataArray[position]
         holder.binding.ivIcon.setImageResource(data.drawableId)
@@ -30,6 +33,7 @@ internal class TempSourceAdapter : BaseMenuAdapter() {
             onTempSourceListener?.invoke(selectCode)
         }
     }
+
     override fun getItemCount(): Int = dataArray.size
     data class Data(@StringRes val stringId: Int, @DrawableRes val drawableId: Int, val code: Int)
 }

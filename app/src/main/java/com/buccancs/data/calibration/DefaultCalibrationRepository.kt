@@ -1,4 +1,5 @@
 package com.buccancs.data.calibration
+
 import android.graphics.BitmapFactory
 import androidx.annotation.VisibleForTesting
 import com.buccancs.di.ApplicationScope
@@ -36,44 +37,8 @@ import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.Double
-import kotlin.DoubleArray
-import kotlin.IllegalStateException
-import kotlin.Int
-import kotlin.String
-import kotlin.also
-import kotlin.collections.ArrayList
-import kotlin.collections.List
-import kotlin.collections.emptyList
-import kotlin.collections.filterNot
-import kotlin.collections.find
-import kotlin.collections.first
-import kotlin.collections.forEach
-import kotlin.collections.indices
-import kotlin.collections.listOf
-import kotlin.collections.maxOrNull
-import kotlin.collections.minus
-import kotlin.collections.mutableListOf
-import kotlin.collections.plus
-import kotlin.collections.plusAssign
-import kotlin.collections.toList
-import kotlin.collections.toTypedArray
-import kotlin.compareTo
-import kotlin.getOrThrow
-import kotlin.let
 import kotlin.math.pow
-import kotlin.minus
-import kotlin.onFailure
-import kotlin.or
-import kotlin.require
-import kotlin.runCatching
-import kotlin.sequences.minus
-import kotlin.synchronized
-import kotlin.text.format
-import kotlin.text.get
-import kotlin.text.indices
-import kotlin.text.take
-import kotlin.text.toInt
+
 @Singleton
 class DefaultCalibrationRepository @Inject constructor(
     private val controller: DualCameraController,
@@ -87,6 +52,7 @@ class DefaultCalibrationRepository @Inject constructor(
     private var captureCounter = 0
     override val sessionState: StateFlow<CalibrationSessionState>
         get() = _state.asStateFlow()
+
     override suspend fun configure(pattern: CalibrationPatternConfig, requiredPairs: Int) {
         require(requiredPairs >= 3) { "requiredPairs must be at least 3" }
         stateMutex.withLock {
@@ -98,6 +64,7 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         }
     }
+
     override suspend fun beginSession() {
         stateMutex.withLock {
             if (_state.value.active) return
@@ -117,6 +84,7 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         }
     }
+
     override suspend fun capturePair(): CalibrationCapture {
         val currentSession = sessionId ?: throw IllegalStateException("Calibration session not started")
         val pattern = _state.value.pattern
@@ -151,6 +119,7 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         return capture
     }
+
     override suspend fun removeCapture(id: String) {
         val currentSession = sessionId ?: return
         stateMutex.withLock {
@@ -166,6 +135,7 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         storage.createSessionDirectory(currentSession)
     }
+
     override suspend fun computeAndPersist(): CalibrationResult = calculationMutex.withLock {
         val currentSession = sessionId ?: throw IllegalStateException("Calibration session not started")
         val captures = _state.value.captures
@@ -207,6 +177,7 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         return result
     }
+
     override suspend fun loadLatestResult(): CalibrationResult? = storage.loadLatestResult().also { result ->
         if (result != null) {
             stateMutex.withLock {
@@ -214,6 +185,7 @@ class DefaultCalibrationRepository @Inject constructor(
             }
         }
     }
+
     override suspend fun clearSession() {
         val previousSession = sessionId
         sessionId = null
@@ -225,6 +197,7 @@ class DefaultCalibrationRepository @Inject constructor(
             previousSession?.let { storage.deleteSessionDirectory(it) }
         }
     }
+
     private suspend fun performCalibration(
         pattern: CalibrationPatternConfig,
         captures: List<CalibrationCapture>
@@ -299,6 +272,7 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         )
     }
+
     private fun loadGrayMat(path: String): Mat {
         val bitmap = BitmapFactory.decodeFile(path) ?: throw IllegalStateException("Unable to load image $path")
         val mat = Mat()
@@ -309,6 +283,7 @@ class DefaultCalibrationRepository @Inject constructor(
         bitmap.recycle()
         return gray
     }
+
     private fun refineCorners(image: Mat, corners: MatOfPoint2f) {
         Imgproc.cornerSubPix(
             image,
@@ -322,6 +297,7 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         )
     }
+
     private data class SingleCalibration(
         val rms: Double,
         val cameraMatrix: Mat,
@@ -363,11 +339,13 @@ class DefaultCalibrationRepository @Inject constructor(
             )
         }
     }
+
     private data class StereoCalibration(
         val rms: Double,
         val rotationMatrixValues: List<Double>,
         val translationValues: List<Double>
     )
+
     private fun calibrateSingleCamera(
         objectPoints: List<Mat>,
         imagePoints: List<Mat>,
@@ -398,6 +376,7 @@ class DefaultCalibrationRepository @Inject constructor(
             imageSize = imageSize
         )
     }
+
     private fun performStereoCalibration(
         objectPoints: List<Mat>,
         rgbPoints: List<Mat>,
@@ -448,6 +427,7 @@ class DefaultCalibrationRepository @Inject constructor(
             translationValues = translationValues
         )
     }
+
     private fun computeAveragePerViewErrors(
         objectPoints: List<Mat>,
         rgbPoints: List<Mat>,
@@ -478,6 +458,7 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         return errors
     }
+
     private fun computeReprojectionError(
         objectPoints: Mat,
         imagePoints: Mat,
@@ -500,6 +481,7 @@ class DefaultCalibrationRepository @Inject constructor(
         projected.release()
         return kotlin.math.sqrt(errorSum / projectedArray.size)
     }
+
     private fun createObjectPoints(pattern: CalibrationPatternConfig): MatOfPoint3f {
         val points = ArrayList<Point3>(pattern.rows * pattern.cols)
         for (row in 0 until pattern.rows) {
@@ -513,6 +495,7 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         return MatOfPoint3f(*points.toTypedArray())
     }
+
     private fun ensureOpenCvLoaded() {
         if (OPEN_CV_READY.get()) return
         synchronized(OPEN_CV_READY) {
@@ -524,10 +507,12 @@ class DefaultCalibrationRepository @Inject constructor(
             OPEN_CV_READY.set(true)
         }
     }
+
     private fun createSessionId(): String {
         val timestamp = Clock.System.now().toEpochMilliseconds()
         return "cal-${timestamp}-${UUID.randomUUID().toString().take(8)}"
     }
+
     private fun initialState(): CalibrationSessionState = CalibrationSessionState(
         active = false,
         pattern = CalibrationDefaults.Pattern,
@@ -538,9 +523,11 @@ class DefaultCalibrationRepository @Inject constructor(
         infoMessage = null,
         errorMessage = null
     )
+
     companion object {
         private val OPEN_CV_READY = AtomicBoolean(false)
     }
+
     @VisibleForTesting
     internal fun resetForTesting() {
         sessionId = null

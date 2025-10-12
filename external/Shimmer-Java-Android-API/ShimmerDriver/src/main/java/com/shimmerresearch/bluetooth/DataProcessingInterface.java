@@ -6,9 +6,9 @@ import com.shimmerresearch.driver.ShimmerDevice;
 public interface DataProcessingInterface {
 
 
-        public void initializeProcessData(int samplingRate);
+    public void initializeProcessData(int samplingRate);
 
-        public ObjectCluster processData(ObjectCluster ojc);
+    public ObjectCluster processData(ObjectCluster ojc);
 
 
     public void updateMapOfAlgorithmModules();

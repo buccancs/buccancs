@@ -213,27 +213,27 @@ public class SensorLSM6DS3 extends AbstractSensor {
             DEFAULT_OFFSET_VECTOR_LSM6DS3);
     public CalibDetailsKinematic mCurrentCalibDetailsAccel = calibDetailsAccel2g;
     public CalibDetailsKinematic mCurrentCalibDetailsGyro = calibDetailsGyro250dps;
-        protected LSM6DS3_RATE rate = LSM6DS3_RATE.RATE_52_HZ;
-        protected boolean timerPedoFifodEnable = false;
-        protected boolean timerPedoFifodDrdy = false;
+    protected LSM6DS3_RATE rate = LSM6DS3_RATE.RATE_52_HZ;
+    protected boolean timerPedoFifodEnable = false;
+    protected boolean timerPedoFifodDrdy = false;
 
 
-        protected FIFO_DECIMATION_GYRO decimationFifoGyro = FIFO_DECIMATION_GYRO.SENSOR_NOT_IN_FIFO;
-        protected FIFO_DECIMATION_ACCEL decimationFifoAccel = FIFO_DECIMATION_ACCEL.SENSOR_NOT_IN_FIFO;
-        protected FIFO_MODE fifoMode = FIFO_MODE.CONTINUOUS_MODE;
-        protected LSM6DS3_ACCEL_RANGE rangeAccel = LSM6DS3_ACCEL_RANGE.RANGE_4G;
-        protected ACCEL_ANTI_ALIASING_BANDWIDTH_FILTER accelAntiAliasingBandwidthFilter = ACCEL_ANTI_ALIASING_BANDWIDTH_FILTER.AT_400HZ;
-        protected LSM6DS3_GYRO_RANGE rangeGyro = LSM6DS3_GYRO_RANGE.RANGE_500DPS;
-        protected boolean gyroFullScaleAt12dps = false;
-        protected boolean gyroHighPerFormanceModeDisable = true;
-        protected boolean gyroDigitalHighPassFilterEnable = false;
-        protected HIGH_PASS_FILTER_CUT_OFF_FREQ_GYRO gyroHighPassFilterCutOffFreq = HIGH_PASS_FILTER_CUT_OFF_FREQ_GYRO.AT_0_0081_HZ;
-        protected boolean gyroDigitalHighPassFilterReset = false;
-        protected boolean roundingStatus = false;
-        protected boolean accelLowPassFilterLpf2Selection = false;
-        protected HIGH_PASS_FILTER_CUT_OFF_FREQ_ACCEL accelHighPassFilterCutOffFreq = HIGH_PASS_FILTER_CUT_OFF_FREQ_ACCEL.SLOPE;
-        protected boolean accelHighPassOrSlopeFilterSelectionEnable = false;
-        protected boolean lowPassFilterOn6D = false;
+    protected FIFO_DECIMATION_GYRO decimationFifoGyro = FIFO_DECIMATION_GYRO.SENSOR_NOT_IN_FIFO;
+    protected FIFO_DECIMATION_ACCEL decimationFifoAccel = FIFO_DECIMATION_ACCEL.SENSOR_NOT_IN_FIFO;
+    protected FIFO_MODE fifoMode = FIFO_MODE.CONTINUOUS_MODE;
+    protected LSM6DS3_ACCEL_RANGE rangeAccel = LSM6DS3_ACCEL_RANGE.RANGE_4G;
+    protected ACCEL_ANTI_ALIASING_BANDWIDTH_FILTER accelAntiAliasingBandwidthFilter = ACCEL_ANTI_ALIASING_BANDWIDTH_FILTER.AT_400HZ;
+    protected LSM6DS3_GYRO_RANGE rangeGyro = LSM6DS3_GYRO_RANGE.RANGE_500DPS;
+    protected boolean gyroFullScaleAt12dps = false;
+    protected boolean gyroHighPerFormanceModeDisable = true;
+    protected boolean gyroDigitalHighPassFilterEnable = false;
+    protected HIGH_PASS_FILTER_CUT_OFF_FREQ_GYRO gyroHighPassFilterCutOffFreq = HIGH_PASS_FILTER_CUT_OFF_FREQ_GYRO.AT_0_0081_HZ;
+    protected boolean gyroDigitalHighPassFilterReset = false;
+    protected boolean roundingStatus = false;
+    protected boolean accelLowPassFilterLpf2Selection = false;
+    protected HIGH_PASS_FILTER_CUT_OFF_FREQ_ACCEL accelHighPassFilterCutOffFreq = HIGH_PASS_FILTER_CUT_OFF_FREQ_ACCEL.SLOPE;
+    protected boolean accelHighPassOrSlopeFilterSelectionEnable = false;
+    protected boolean lowPassFilterOn6D = false;
     private int fifoSizeInChip = DEFAULT_FIFO_BYTE_SIZE_IN_CHIP / 2;
 
     public SensorLSM6DS3(ShimmerDevice shimmerDevice) {
@@ -324,7 +324,6 @@ public class SensorLSM6DS3 extends AbstractSensor {
     public void checkShimmerConfigBeforeConfiguring() {
 
     }
-
 
 
     @Override
@@ -447,7 +446,7 @@ public class SensorLSM6DS3 extends AbstractSensor {
         return getFifoSizeInChip() * 2;
     }
 
-        public int calculateMaxPayloadsInFifo(int memAvailable) {
+    public int calculateMaxPayloadsInFifo(int memAvailable) {
         int maxFifosInPayload = DEFAULT_MAX_FIFOS_IN_PAYLOAD;
         if (mShimmerDevice instanceof VerisenseDevice) {
             maxFifosInPayload = (int) Math.floor(memAvailable / (AsmBinaryFileConstants.ACCEL_SPI_BUS_HEADER_BYTES + getFifoByteSizeInChip()));
@@ -927,7 +926,7 @@ public class SensorLSM6DS3 extends AbstractSensor {
         setFifoSizeInChip(calculateFifoThreshold());
     }
 
-        public int calculateFifoThreshold() {
+    public int calculateFifoThreshold() {
         if (!isEitherLsm6ds3ChannelEnabled()) {
             return 0;
         }

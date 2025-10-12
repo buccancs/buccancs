@@ -60,7 +60,7 @@ public class SensorSystemTimeStamp extends AbstractSensor {
             CHANNEL_UNITS.MILLISECONDS,
             Arrays.asList(CHANNEL_TYPE.CAL), false, false);
     public static final Map<String, ChannelDetails> mChannelMapRef;
-        private static final long serialVersionUID = 8974371709657275355L;
+    private static final long serialVersionUID = 8974371709657275355L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -215,7 +215,6 @@ public class SensorSystemTimeStamp extends AbstractSensor {
         public static final String SYSTEM_TIMESTAMP_DIFFERENCE = "System_Timestamp_Difference";
         public static final String SYSTEM_TIMESTAMP_PLOT_ZEROED = "System_Timestamp_Plot_Zeroed";
     }
-
 
 
 }

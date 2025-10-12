@@ -131,15 +131,13 @@ public class SensorSTC3100 extends AbstractSensor {
             true,
             false);
     public static final Map<String, ChannelDetails> mChannelMapRef;
-        private static final long serialVersionUID = 9001303055918168581L;
+    private static final long serialVersionUID = 9001303055918168581L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
         aMap.put(Configuration.Shimmer3.SENSOR_ID.SHIMMER_STC3100, SensorSTC3100.sensorSTC3100Ref);
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
-
-
 
 
     static {
@@ -251,8 +249,7 @@ public class SensorSTC3100 extends AbstractSensor {
                 } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.STC_TIME_REMAINING)) {
                     objectCluster.addCalData(channelDetails, calData, objectCluster.getIndexKeeper() - 1);
                 }
-            }
-            else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.DERIVED_STC_CHARGE)) {
+            } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.DERIVED_STC_CHARGE)) {
                 calculateBattInitialCharge();
                 objectCluster.addCalData(channelDetails, mBattInitialCharge);
                 objectCluster.incrementIndexKeeper();

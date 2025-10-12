@@ -5,7 +5,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 
 public interface OnChartValueSelectedListener {
 
-        void onValueSelected(Entry e, Highlight h);
+    void onValueSelected(Entry e, Highlight h);
 
-        void onNothingSelected();
+    void onNothingSelected();
 }

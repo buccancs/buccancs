@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.adapter
+
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.topdon.lib.core.tools.TimeTool
 import com.topdon.module.thermal.R
 import kotlinx.android.synthetic.main.item_gallery.view.*
 import kotlinx.android.synthetic.main.item_log.view.*
+
 class MonitorLogAdapter(val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var listener: OnItemClickListener? = null
@@ -19,11 +21,13 @@ class MonitorLogAdapter(val context: Context) :
             field = value
             notifyDataSetChanged()
         }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_log, parent, false)
         return ItemView(view)
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemView) {
             val data = datas[position]
@@ -38,9 +42,11 @@ class MonitorLogAdapter(val context: Context) :
             })
         }
     }
+
     override fun getItemCount(): Int {
         return datas.size
     }
+
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val lay = itemView.item_log_lay
         val indexText = itemView.item_log_index_text

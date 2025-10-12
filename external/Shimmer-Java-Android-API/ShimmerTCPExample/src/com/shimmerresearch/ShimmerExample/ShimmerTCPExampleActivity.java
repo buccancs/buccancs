@@ -1,5 +1,3 @@
-
-
 package com.shimmerresearch.ShimmerExample;
 
 import android.os.Handler;

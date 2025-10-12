@@ -1,6 +1,8 @@
 package com.topdon.module.thermal.ir.video.media
+
 import android.graphics.Bitmap
 import android.media.MediaCodecInfo.CodecCapabilities.*
+
 object EncodeYuvTools {
     fun getNV12(
         inputWidth: Int,
@@ -18,24 +20,28 @@ object EncodeYuvTools {
                 inputWidth,
                 inputHeight
             )
+
             COLOR_FormatYUV420Planar -> encodeYUV420P(
                 yuv,
                 argb,
                 inputWidth,
                 inputHeight
             )
+
             COLOR_FormatYUV420PackedSemiPlanar -> encodeYUV420PSP(
                 yuv,
                 argb,
                 inputWidth,
                 inputHeight
             )
+
             COLOR_FormatYUV420PackedPlanar -> encodeYUV420PP(
                 yuv,
                 argb,
                 inputWidth,
                 inputHeight
             )
+
             else -> encodeYUV420SP(
                 yuv,
                 argb,
@@ -45,6 +51,7 @@ object EncodeYuvTools {
         }
         return yuv
     }
+
     private fun encodeYUV420SP(yuv420sp: ByteArray, argb: IntArray, width: Int, height: Int) {
         val frameSize = width * height
         var yIndex = 0
@@ -67,6 +74,7 @@ object EncodeYuvTools {
             }
         }
     }
+
     private fun encodeYUV420P(yuv420sp: ByteArray, argb: IntArray, width: Int, height: Int) {
         val frameSize = width * height
         var yIndex = 0
@@ -90,6 +98,7 @@ object EncodeYuvTools {
             }
         }
     }
+
     private fun encodeYUV420PSP(yuv420sp: ByteArray, argb: IntArray, width: Int, height: Int) {
         var yIndex = 0
         var index = 0
@@ -113,6 +122,7 @@ object EncodeYuvTools {
             }
         }
     }
+
     private fun encodeYUV420PP(yuv420sp: ByteArray, argb: IntArray, width: Int, height: Int) {
         var yIndex = 0
         var vIndex = yuv420sp.size / 2

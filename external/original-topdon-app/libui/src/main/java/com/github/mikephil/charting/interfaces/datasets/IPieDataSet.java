@@ -5,29 +5,29 @@ import com.github.mikephil.charting.data.PieEntry;
 
 public interface IPieDataSet extends IDataSet<PieEntry> {
 
-        float getSliceSpace();
+    float getSliceSpace();
 
-        boolean isAutomaticallyDisableSliceSpacingEnabled();
+    boolean isAutomaticallyDisableSliceSpacingEnabled();
 
-        float getSelectionShift();
+    float getSelectionShift();
 
     PieDataSet.ValuePosition getXValuePosition();
 
     PieDataSet.ValuePosition getYValuePosition();
 
-        boolean isUsingSliceColorAsValueLineColor();
+    boolean isUsingSliceColorAsValueLineColor();
 
-        int getValueLineColor();
+    int getValueLineColor();
 
-        float getValueLineWidth();
+    float getValueLineWidth();
 
-        float getValueLinePart1OffsetPercentage();
+    float getValueLinePart1OffsetPercentage();
 
-        float getValueLinePart1Length();
+    float getValueLinePart1Length();
 
-        float getValueLinePart2Length();
+    float getValueLinePart2Length();
 
-        boolean isValueLineVariableLength();
+    boolean isValueLineVariableLength();
 
 }
 

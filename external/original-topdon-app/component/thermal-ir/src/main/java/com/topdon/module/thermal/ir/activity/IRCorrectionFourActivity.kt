@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -14,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
+
 @Route(path = RouterConfig.IR_CORRECTION_FOUR)
 class IRCorrectionFourActivity : BaseActivity() {
     val time = 60
@@ -54,8 +56,10 @@ class IRCorrectionFourActivity : BaseActivity() {
                             }
                         }
                     }
+
                     override fun onLastTime(num: Int) {
                     }
+
                     override fun onLastTimeFinish(num: Int) {
                         try {
                             if (!this@IRCorrectionFourActivity.isFinishing) {
@@ -75,8 +79,10 @@ class IRCorrectionFourActivity : BaseActivity() {
             time_down_view.downSecond(time, false)
         }, 2000)
     }
+
     override fun initView() {
     }
+
     override fun onBackPressed() {
         TipDialog.Builder(this)
             .setTitleMessage(getString(R.string.app_tip))
@@ -88,19 +94,23 @@ class IRCorrectionFourActivity : BaseActivity() {
             }
             .create().show()
     }
+
     override fun disConnected() {
         super.disConnected()
         time_down_view.cancel()
         EventBus.getDefault().post(CorrectionFinishEvent())
         finish()
     }
+
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().post(CorrectionFinishEvent())
         finish()
     }
+
     override fun initData() {
     }
+
     override fun onDestroy() {
         super.onDestroy()
         time_down_view.cancel()

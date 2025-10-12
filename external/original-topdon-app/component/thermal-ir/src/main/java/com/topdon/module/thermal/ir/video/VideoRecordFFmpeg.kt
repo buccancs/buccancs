@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.video
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ActivityManager

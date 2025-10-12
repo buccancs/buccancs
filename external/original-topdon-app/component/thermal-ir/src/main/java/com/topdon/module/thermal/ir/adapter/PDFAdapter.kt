@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.adapter
+
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
@@ -6,9 +7,11 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.topdon.lib.core.tools.GlideLoader
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.report.bean.ReportData
+
 class PDFAdapter : BaseQuickAdapter<ReportData.Records?, BaseViewHolder>, LoadMoreModule {
     constructor(layoutResId: Int) : super(layoutResId) {}
     constructor(layoutResId: Int, data: MutableList<ReportData.Records?>?) : super(layoutResId, data) {}
+
     var delListener: ((item: ReportData.Records, position: Int) -> Unit)? = null
     var jumpDetailListener: ((item: ReportData.Records, position: Int) -> Unit)? = null
 
@@ -37,6 +40,7 @@ class PDFAdapter : BaseQuickAdapter<ReportData.Records?, BaseViewHolder>, LoadMo
             }
         }
     }
+
     override fun setNewInstance(list: MutableList<ReportData.Records?>?) {
         list?.let {
             updateTime(it)
@@ -50,6 +54,7 @@ class PDFAdapter : BaseQuickAdapter<ReportData.Records?, BaseViewHolder>, LoadMo
         notifyItemRangeInserted(this.data.size - newData.size + headerLayoutCount, newData.size)
         compatibilityDataSizeChanged(newData.size)
     }
+
     private fun updateTime(dataList: MutableList<ReportData.Records?>) {
         for (i in 0 until dataList.size) {
             dataList[i]?.isShowTitleTime = false

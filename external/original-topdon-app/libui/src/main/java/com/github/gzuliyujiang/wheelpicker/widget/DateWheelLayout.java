@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.wheelpicker.widget;
 
 import android.content.Context;
@@ -232,11 +231,11 @@ public class DateWheelLayout extends BaseWheelLayout {
         }
     }
 
-        public void setRange(DateEntity startValue, DateEntity endValue) {
+    public void setRange(DateEntity startValue, DateEntity endValue) {
         setRange(startValue, endValue, null);
     }
 
-        public void setRange(DateEntity startValue, DateEntity endValue, DateEntity defaultValue) {
+    public void setRange(DateEntity startValue, DateEntity endValue, DateEntity defaultValue) {
         if (startValue == null) {
             startValue = DateEntity.today();
         }
@@ -375,16 +374,13 @@ public class DateWheelLayout extends BaseWheelLayout {
         if (startValue.getYear() == endValue.getYear()) {
             min = Math.min(startValue.getMonth(), endValue.getMonth());
             max = Math.max(startValue.getMonth(), endValue.getMonth());
-        }
-        else if (year == startValue.getYear()) {
+        } else if (year == startValue.getYear()) {
             min = startValue.getMonth();
             max = 12;
-        }
-        else if (year == endValue.getYear()) {
+        } else if (year == endValue.getYear()) {
             min = 1;
             max = endValue.getMonth();
-        }
-        else {
+        } else {
             min = 1;
             max = 12;
         }
@@ -405,12 +401,10 @@ public class DateWheelLayout extends BaseWheelLayout {
                 && year == endValue.getYear() && month == endValue.getMonth()) {
             min = startValue.getDay();
             max = endValue.getDay();
-        }
-        else if (year == startValue.getYear() && month == startValue.getMonth()) {
+        } else if (year == startValue.getYear() && month == startValue.getMonth()) {
             min = startValue.getDay();
             max = getTotalDaysInMonth(year, month);
-        }
-        else if (year == endValue.getYear() && month == endValue.getMonth()) {
+        } else if (year == endValue.getYear() && month == endValue.getMonth()) {
             min = 1;
             max = endValue.getDay();
         } else {
@@ -427,7 +421,7 @@ public class DateWheelLayout extends BaseWheelLayout {
         dayWheelView.setDefaultValue(selectedDay);
     }
 
-        private int getTotalDaysInMonth(int year, int month) {
+    private int getTotalDaysInMonth(int year, int month) {
         switch (month) {
             case 1:
             case 3:

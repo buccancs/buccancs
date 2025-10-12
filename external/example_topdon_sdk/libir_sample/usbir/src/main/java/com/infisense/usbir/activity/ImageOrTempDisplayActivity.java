@@ -82,6 +82,36 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         binding.ParamY16ModeType.setAdapter(adapter);
         binding.ParamY16ModeType.setOnItemSelectedListener(this);
         binding.ParamY16ModeType.setSelection(0);
+    }
+
+    private void initDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
+        if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
+            cameraWidth = 256;
+            cameraHeight = 384;
+            tempHeight = 192;
+            binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.red));
+            binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.black));
+            binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.black));
+        } else if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_OUTPUT) {
+            cameraWidth = 256;
+            cameraHeight = 192;
+            tempHeight = 0;
+            binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.black));
+            binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.red));
+            binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.black));
+        } else {
+            cameraWidth = 256;
+            cameraHeight = 192;
+            tempHeight = 0;
+            binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.black));
+            binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.black));
+            binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.red));
+        }
+        imageWidth = cameraHeight - tempHeight;
+        imageHeight = cameraWidth;
+
+        imageSrc = new byte[imageWidth * imageHeight * 2];
+        temperatureSrc = new byte[imageWidth * imageHeight * 2];
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -109,37 +139,7 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         }
     };
 
-        private void initDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
-        if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
-                        cameraWidth = 256;
-            cameraHeight = 384;
-            tempHeight = 192;
-            binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.red));
-            binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.black));
-            binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.black));
-        } else if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_OUTPUT) {
-                        cameraWidth = 256;
-            cameraHeight = 192;
-            tempHeight = 0;
-            binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.black));
-            binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.red));
-            binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.black));
-        } else {
-                        cameraWidth = 256;
-            cameraHeight = 192;
-            tempHeight = 0;
-            binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.black));
-            binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.black));
-            binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.red));
-        }
-        imageWidth = cameraHeight - tempHeight;
-        imageHeight = cameraWidth;
-
-        imageSrc = new byte[imageWidth * imageHeight * 2];
-        temperatureSrc = new byte[imageWidth * imageHeight * 2];
-    }
-
-        private void initdata() {
+    private void initdata() {
         int screenWidth = ScreenUtils.getScreenWidth(this);
         fullScreenlayoutParams = new RelativeLayout.LayoutParams(screenWidth,
                 imageHeight * screenWidth / imageWidth);
@@ -150,7 +150,7 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         binding.cameraView.setLayoutParams(fullScreenlayoutParams);
     }
 
-        private void startISP() {
+    private void startISP() {
         imageThread = new ImageThread(ImageOrTempDisplayActivity.this, imageWidth, imageHeight);
         imageThread.setDataFlowMode(defaultDataFlowMode);
         imageThread.setSyncimage(syncimage);
@@ -160,14 +160,14 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         imageThread.start();
     }
 
-        private void initProgressDialog() {
+    private void initProgressDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(R.layout.layout_loading);
         builder.setCancelable(true);
         progressDialog = builder.create();
     }
 
-        private void startUSB(boolean isReStart) {
+    private void startUSB(boolean isReStart) {
         if (progressDialog == null) {
             initProgressDialog();
         }
@@ -224,7 +224,7 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         iruvc.registerUSB();
     }
 
-        private void restartusbcamera() {
+    private void restartusbcamera() {
         if (iruvc != null) {
             iruvc.unregisterUSB();
             iruvc.stopPreview();
@@ -235,7 +235,7 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         startUSB(true);
     }
 
-        private void getDataFlowModeByPosition(int position) {
+    private void getDataFlowModeByPosition(int position) {
         if (position == 0) {
             defaultDataFlowMode = CommonParams.DataFlowMode.TEMP_OUTPUT;
         } else if (position == 1) {
@@ -271,11 +271,11 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         } else {
             if (view.getId() == R.id.btnImageTemp) {
-                                defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
+                defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
             } else if (view.getId() == R.id.btnImage) {
-                                defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_OUTPUT;
+                defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_OUTPUT;
             } else if (view.getId() == R.id.btnY16ModeSet) {
-                                int position = binding.ParamY16ModeType.getSelectedItemPosition();
+                int position = binding.ParamY16ModeType.getSelectedItemPosition();
                 Log.i(TAG, "position = " + position);
                 getDataFlowModeByPosition(position);
             }

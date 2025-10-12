@@ -85,7 +85,6 @@ public abstract class AbstractSensorConfigDialog {
                 String[] cs = cods.getGuiValues();
 
 
-
                 createLabel(key);
 
                 if (cs != null) {
@@ -118,7 +117,7 @@ public abstract class AbstractSensorConfigDialog {
         bluetoothManager.configureShimmer(cloneDevice);
     }
 
-        public void setSensorKeysFilter(List<String> filterKeys, boolean enableFilter) {
+    public void setSensorKeysFilter(List<String> filterKeys, boolean enableFilter) {
         mEnableFilter = enableFilter;
         keysToFilter = filterKeys;
     }

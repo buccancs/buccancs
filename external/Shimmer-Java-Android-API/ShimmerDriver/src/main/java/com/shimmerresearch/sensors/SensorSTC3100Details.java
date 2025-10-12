@@ -12,11 +12,11 @@ public class SensorSTC3100Details implements Serializable {
 
     private static double R_SENSE = 33;
 
-        public double mBattCharge = 0;
-        public double mBattCounter = 0;
-        public double mBattCurrent = 0;
-        public double mBattVoltage = 0;
-        public double mBattTemperature = 0;
+    public double mBattCharge = 0;
+    public double mBattCounter = 0;
+    public double mBattCurrent = 0;
+    public double mBattVoltage = 0;
+    public double mBattTemperature = 0;
 
     private byte[] mRegBytes = new byte[]{};
 

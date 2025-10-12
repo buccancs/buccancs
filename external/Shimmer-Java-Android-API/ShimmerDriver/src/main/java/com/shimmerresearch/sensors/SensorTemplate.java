@@ -15,27 +15,15 @@ public class SensorTemplate extends AbstractSensor {
     private static final long serialVersionUID = -1313629173441403991L;
 
 
-
-
-
-
-
-
-
-
-
-
-
     public SensorTemplate(ShimmerVerObject svo) {
         super(SENSORS.TEMPLATE, svo);
-                initialise();
+        initialise();
     }
 
 
-
-        @Override
+    @Override
     public void generateSensorMap() {
-            }
+    }
 
     @Override
     public void generateConfigOptionsMap() {
@@ -141,7 +129,7 @@ public class SensorTemplate extends AbstractSensor {
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
         if (mSensorMap.containsKey(sensorId)) {
-                        return true;
+            return true;
         }
         return false;
     }
@@ -176,8 +164,6 @@ public class SensorTemplate extends AbstractSensor {
     }
 
 
-
-
     @Override
     public boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType) {
         return false;
@@ -188,10 +174,6 @@ public class SensorTemplate extends AbstractSensor {
     public void checkShimmerConfigBeforeConfiguring() {
 
     }
-
-
-
-
 
 
 }

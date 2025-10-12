@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.dialog;
 
 import android.app.Activity;
@@ -74,7 +73,7 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
         }
     }
 
-        @Deprecated
+    @Deprecated
     @CallSuper
     protected void onInit(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         DialogLog.print("dialog onInit");
@@ -105,7 +104,7 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
     @NonNull
     protected abstract View createContentView();
 
-        @SuppressWarnings("DeprecatedIsStillUsed")
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     @CallSuper
     protected void initView(View contentView) {
@@ -268,13 +267,13 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
         DialogLog.print("dialog detached from window");
     }
 
-        @CallSuper
+    @CallSuper
     @Override
     public void onShow(DialogInterface dialog) {
         DialogLog.print("dialog onShow");
     }
 
-        @CallSuper
+    @CallSuper
     @Override
     public void onDismiss(DialogInterface dialog) {
         DialogLog.print("dialog onDismiss");

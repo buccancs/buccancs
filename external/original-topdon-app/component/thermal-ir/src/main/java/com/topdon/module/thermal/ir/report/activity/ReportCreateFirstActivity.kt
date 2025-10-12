@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.activity
+
 import android.annotation.SuppressLint
 import android.location.Address
 import android.location.Geocoder
@@ -48,6 +49,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
+
 @Route(path = RouterConfig.REPORT_CREATE_FIRST)
 class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
     private var isTC007 = false
@@ -58,6 +60,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
         Permission.ACCESS_FINE_LOCATION,
         Permission.ACCESS_COARSE_LOCATION
     )
+
     @SuppressLint("SetTextI18n")
     override fun initView() {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
@@ -117,6 +120,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
         img_location.setOnClickListener(this)
         readConfig()
     }
+
     @SuppressLint("SetTextI18n")
     private fun readConfig() {
         var environment = 30f
@@ -130,17 +134,21 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
         et_test_distance.setText(NumberTools.to02(distance) + "m")
         tip_seek_emissivity.progress = (radiation * 100).toInt()
     }
+
     override fun initData() {
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReportCreate(event: ReportCreateEvent) {
         finish()
     }
+
     override fun onClick(v: View?) {
         when (v) {
             tv_report_date -> {
                 selectTime()
             }
+
             tv_preview -> {
                 val reportInfoBean = buildReportInfo()
                 val reportConditionBean = buildReportCondition()
@@ -149,6 +157,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
                     .withParcelable(ExtraKeyConfig.REPORT_CONDITION, reportConditionBean)
                     .navigation(this)
             }
+
             tv_next -> {
                 val reportInfoBean = buildReportInfo()
                 val reportConditionBean = buildReportCondition()
@@ -164,11 +173,13 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
                     .withParcelable(ExtraKeyConfig.REPORT_CONDITION, reportConditionBean)
                     .navigation(this)
             }
+
             img_location -> {
                 checkLocationPermission()
             }
         }
     }
+
     @SuppressLint("MissingPermission")
     private fun getLocation(): String? {
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
@@ -190,6 +201,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
             getAddress(location)
         }
     }
+
     private fun getAddress(location: Location?): String {
         var result: List<Address?>? = null
         try {
@@ -221,6 +233,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
         }
         return str
     }
+
     private fun getNullString(str: String?): String {
         return if (str.isNullOrEmpty()) {
             ""
@@ -228,6 +241,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
             str
         }
     }
+
     private fun buildReportInfo(): ReportInfoBean = ReportInfoBean(
         et_report_name.text.toString(),
         et_report_author.text.toString(),
@@ -239,6 +253,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
         et_report_watermark.text.toString(),
         if (switch_report_watermark.isChecked && et_report_watermark.text.isNotEmpty()) 1 else 0
     )
+
     private fun buildReportCondition(): ReportConditionBean {
         val temperature = try {
             "${et_ambient_temperature.text.toString().toFloat()}${UnitTools.showUnit()}"
@@ -290,6 +305,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
         }
         picker.show()
     }
+
     private fun checkLocationPermission() {
         if (!XXPermissions.isGranted(this, permissionList)) {
             if (BaseApplication.instance.isDomestic()) {
@@ -307,6 +323,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
             initLocationPermission()
         }
     }
+
     private fun initLocationPermission() {
         XXPermissions.with(this@ReportCreateFirstActivity)
             .permission(
@@ -335,6 +352,7 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
                         ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                     }
                 }
+
                 override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                     if (never) {
                         if (BaseApplication.instance.isDomestic()) {

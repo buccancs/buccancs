@@ -78,15 +78,15 @@ public class USBMonitorManager {
         isReStart = reStart;
     }
 
-        public void init(int pid, boolean isUseIRISP, CommonParams.DataFlowMode defaultDataFlowMode) {
+    public void init(int pid, boolean isUseIRISP, CommonParams.DataFlowMode defaultDataFlowMode) {
         this.mPid = pid;
         this.isUseIRISP = isUseIRISP;
         this.mDefaultDataFlowMode = defaultDataFlowMode;
         if (defaultDataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
-                        cameraWidth = 256;
+            cameraWidth = 256;
             cameraHeight = 384;
         } else {
-                        cameraWidth = 256;
+            cameraWidth = 256;
             cameraHeight = 192;
         }
         if (mUSBMonitor == null) {
@@ -96,7 +96,7 @@ public class USBMonitorManager {
                         public void onAttach(UsbDevice device) {
                             Log.w(TAG, "USBMonitorManager-onAttach-getProductId = " + device.getProductId());
                             Log.w(TAG, "USBMonitorManager-onAttach-mPid = " + mPid);
-                                                        if (device.getProductId() != mPid) {
+                            if (device.getProductId() != mPid) {
                                 return;
                             }
                             mUSBMonitor.requestPermission(device);
@@ -178,21 +178,21 @@ public class USBMonitorManager {
         mUvcCamera = concreateUVCBuilder
                 .setUVCType(UVCType.USB_UVC)
                 .build();
-                mUvcCamera.setDefaultBandwidth(1f);
+        mUvcCamera.setDefaultBandwidth(1f);
     }
 
-        public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock) {
+    public void openUVCCamera(USBMonitor.UsbControlBlock ctrlBlock) {
         if (mUvcCamera == null) {
             initUVCCamera();
         }
         mUvcCamera.openUVCCamera(ctrlBlock);
     }
 
-        public UVCCamera getUvcCamera() {
+    public UVCCamera getUvcCamera() {
         return mUvcCamera;
     }
 
-        public IRCMD getIrcmd() {
+    public IRCMD getIrcmd() {
         return mIrcmd;
     }
 
@@ -217,7 +217,7 @@ public class USBMonitorManager {
         }
     }
 
-        private List<CameraSize> getAllSupportedSize() {
+    private List<CameraSize> getAllSupportedSize() {
         Log.w(TAG, "getSupportedSize = " + mUvcCamera.getSupportedSize());
         List<CameraSize> previewList = new ArrayList<>();
         if (mUvcCamera != null) {
@@ -229,7 +229,7 @@ public class USBMonitorManager {
         return previewList;
     }
 
-        public void initIRCMD(List<CameraSize> previewList) {
+    public void initIRCMD(List<CameraSize> previewList) {
         for (CameraSize size : previewList) {
             Log.i(TAG, "SupportedSize : " + size.width + " * " + size.height);
         }
@@ -245,7 +245,7 @@ public class USBMonitorManager {
         }
     }
 
-        private int setPreviewSize(int cameraWidth, int cameraHeight) {
+    private int setPreviewSize(int cameraWidth, int cameraHeight) {
         int result = -1;
         try {
             if (mUvcCamera != null) {
@@ -259,7 +259,7 @@ public class USBMonitorManager {
         return result;
     }
 
-        private void startPreview() {
+    private void startPreview() {
         Log.d(TAG, "startPreview");
 
         if (mUvcCamera == null) {

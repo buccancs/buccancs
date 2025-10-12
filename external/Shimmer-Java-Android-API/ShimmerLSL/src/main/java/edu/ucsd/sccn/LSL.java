@@ -10,13 +10,13 @@ import java.io.IOException;
 
 public class LSL {
 
-        public static final double IRREGULAR_RATE = 0.0;
+    public static final double IRREGULAR_RATE = 0.0;
 
-        public static final double DEDUCED_TIMESTAMP = -1.0;
+    public static final double DEDUCED_TIMESTAMP = -1.0;
 
-        public static final double FOREVER = 32000000.0;
+    public static final double FOREVER = 32000000.0;
 
-        public static final int NO_PREFERENCE = 0;
+    public static final int NO_PREFERENCE = 0;
     private static dll inst;
 
     static {
@@ -41,11 +41,11 @@ public class LSL {
         }
     }
 
-        public static int protocol_version() {
+    public static int protocol_version() {
         return inst.lsl_protocol_version();
     }
 
-        public static int library_version() {
+    public static int library_version() {
         return inst.lsl_library_version();
     }
 
@@ -53,11 +53,11 @@ public class LSL {
         return inst.lsl_library_info();
     }
 
-        public static double local_clock() {
+    public static double local_clock() {
         return inst.lsl_local_clock();
     }
 
-        public static StreamInfo[] resolve_streams(double wait_time) {
+    public static StreamInfo[] resolve_streams(double wait_time) {
         Pointer[] buf = new Pointer[1024];
         int num = inst.lsl_resolve_all(buf, buf.length, wait_time);
         StreamInfo[] res = new StreamInfo[num];
@@ -67,14 +67,12 @@ public class LSL {
     }
 
 
-
     public static StreamInfo[] resolve_streams() {
         return resolve_streams(1.0);
     }
 
 
-
-        public static StreamInfo[] resolve_stream(String prop, String value, int minimum, double timeout) {
+    public static StreamInfo[] resolve_stream(String prop, String value, int minimum, double timeout) {
         Pointer[] buf = new Pointer[1024];
         int num = inst.lsl_resolve_byprop(buf, buf.length, prop, value, minimum, timeout);
         StreamInfo[] res = new StreamInfo[num];
@@ -82,7 +80,6 @@ public class LSL {
             res[k] = new StreamInfo(buf[k]);
         return res;
     }
-
 
 
     public static StreamInfo[] resolve_stream(String prop, String value, int minimum) {
@@ -93,7 +90,7 @@ public class LSL {
         return resolve_stream(prop, value, 1, FOREVER);
     }
 
-        public static StreamInfo[] resolve_stream(String pred, int minimum, double timeout) {
+    public static StreamInfo[] resolve_stream(String pred, int minimum, double timeout) {
         Pointer[] buf = new Pointer[1024];
         int num = inst.lsl_resolve_bypred(buf, buf.length, pred, minimum, timeout);
         StreamInfo[] res = new StreamInfo[num];
@@ -110,7 +107,7 @@ public class LSL {
         return resolve_stream(pred, 1, FOREVER);
     }
 
-        static void check_error(int[] ec) throws Exception {
+    static void check_error(int[] ec) throws Exception {
         if (ec[0] < 0)
             switch (ec[0]) {
                 case -1:
@@ -126,7 +123,7 @@ public class LSL {
             }
     }
 
-        public interface dll extends Library {
+    public interface dll extends Library {
         int lsl_protocol_version();
 
         int lsl_library_version();
@@ -432,10 +429,10 @@ public class LSL {
 
     }
 
-        public static class StreamInfo {
+    public static class StreamInfo {
         private Pointer obj;
 
-                public StreamInfo(String name, String type, int channel_count, double nominal_srate, int channel_format, String source_id) {
+        public StreamInfo(String name, String type, int channel_count, double nominal_srate, int channel_format, String source_id) {
             obj = inst.lsl_create_streaminfo(name, type, channel_count, nominal_srate, channel_format, source_id);
         }
 
@@ -460,77 +457,74 @@ public class LSL {
         }
 
 
-
-                public void destroy() {
+        public void destroy() {
             inst.lsl_destroy_streaminfo(obj);
         }
 
-                public String name() {
+        public String name() {
             return inst.lsl_get_name(obj);
         }
 
-                public String type() {
+        public String type() {
             return inst.lsl_get_type(obj);
         }
 
-                public int channel_count() {
+        public int channel_count() {
             return inst.lsl_get_channel_count(obj);
         }
 
-                public double nominal_srate() {
+        public double nominal_srate() {
             return inst.lsl_get_nominal_srate(obj);
         }
 
-                public int channel_format() {
+        public int channel_format() {
             return inst.lsl_get_channel_format(obj);
         }
 
 
-
-                public String source_id() {
+        public String source_id() {
             return inst.lsl_get_source_id(obj);
         }
 
-                public int version() {
+        public int version() {
             return inst.lsl_get_version(obj);
         }
 
-                public double created_at() {
+        public double created_at() {
             return inst.lsl_get_created_at(obj);
         }
 
-                public String uid() {
+        public String uid() {
             return inst.lsl_get_uid(obj);
         }
 
-                public String session_id() {
+        public String session_id() {
             return inst.lsl_get_session_id(obj);
         }
 
 
-                public String hostname() {
+        public String hostname() {
             return inst.lsl_get_hostname(obj);
         }
 
-                public XMLElement desc() {
+        public XMLElement desc() {
             return new XMLElement(inst.lsl_get_desc(obj));
         }
 
-                public String as_xml() {
+        public String as_xml() {
             return inst.lsl_get_xml(obj);
         }
 
-                public Pointer handle() {
+        public Pointer handle() {
             return obj;
         }
     }
 
 
-
-        public static class StreamOutlet {
+    public static class StreamOutlet {
         private Pointer obj;
 
-                public StreamOutlet(StreamInfo info, int chunk_size, int max_buffered) throws IOException {
+        public StreamOutlet(StreamInfo info, int chunk_size, int max_buffered) throws IOException {
             obj = inst.lsl_create_outlet(info.handle(), chunk_size, max_buffered);
             throw new IOException("Unable to open LSL outlet.");
         }
@@ -546,12 +540,11 @@ public class LSL {
         }
 
 
-
-                public void close() {
+        public void close() {
             inst.lsl_destroy_outlet(obj);
         }
 
-                public void push_sample(float[] data, double timestamp, boolean pushthrough) {
+        public void push_sample(float[] data, double timestamp, boolean pushthrough) {
             inst.lsl_push_sample_ftp(obj, data, timestamp, pushthrough ? 1 : 0);
         }
 
@@ -620,12 +613,11 @@ public class LSL {
         }
 
 
-
         public void push_sample(String[] data) {
             inst.lsl_push_sample_str(obj, data);
         }
 
-                public void push_chunk(float[] data, double timestamp, boolean pushthrough) {
+        public void push_chunk(float[] data, double timestamp, boolean pushthrough) {
             inst.lsl_push_chunk_ftp(obj, data, data.length, timestamp, pushthrough ? 1 : 0);
         }
 
@@ -697,7 +689,7 @@ public class LSL {
             inst.lsl_push_chunk_str(obj, data, data.length);
         }
 
-                public void push_chunk(float[] data, double[] timestamps, boolean pushthrough) {
+        public void push_chunk(float[] data, double[] timestamps, boolean pushthrough) {
             inst.lsl_push_chunk_ftnp(obj, data, data.length, timestamps, pushthrough ? 1 : 0);
         }
 
@@ -742,30 +734,28 @@ public class LSL {
         }
 
 
-
         public void push_chunk(String[] data, double[] timestamps) {
             inst.lsl_push_chunk_strtn(obj, data, data.length, timestamps);
         }
 
-                public boolean have_consumers() {
+        public boolean have_consumers() {
             return inst.lsl_have_consumers(obj) > 0;
         }
 
-                public boolean wait_for_consumers(double timeout) {
+        public boolean wait_for_consumers(double timeout) {
             return inst.lsl_wait_for_consumers(obj, timeout) > 0;
         }
 
-                public StreamInfo info() {
+        public StreamInfo info() {
             return new StreamInfo(inst.lsl_get_info(obj));
         }
     }
 
 
-
-        public static class StreamInlet {
+    public static class StreamInlet {
         private Pointer obj;
 
-                public StreamInlet(StreamInfo info, int max_buflen, int max_chunklen, boolean recover) throws IOException {
+        public StreamInlet(StreamInfo info, int max_buflen, int max_chunklen, boolean recover) throws IOException {
             obj = inst.lsl_create_inlet(info.handle(), max_buflen, max_chunklen, recover ? 1 : 0);
             if (obj == null) throw new IOException("Unable to open LSL inlet.");
         }
@@ -785,11 +775,11 @@ public class LSL {
             if (obj == null) throw new IOException("Unable to open LSL inlet.");
         }
 
-                public void close() {
+        public void close() {
             inst.lsl_destroy_inlet(obj);
         }
 
-                public StreamInfo info(double timeout) throws Exception {
+        public StreamInfo info(double timeout) throws Exception {
             int[] ec = {0};
             Pointer res = inst.lsl_get_fullinfo(obj, timeout, ec);
             check_error(ec);
@@ -800,7 +790,7 @@ public class LSL {
             return info(FOREVER);
         }
 
-                public void open_stream(double timeout) throws Exception {
+        public void open_stream(double timeout) throws Exception {
             int[] ec = {0};
             inst.lsl_open_stream(obj, timeout, ec);
             check_error(ec);
@@ -810,11 +800,11 @@ public class LSL {
             open_stream(FOREVER);
         }
 
-                public void close_stream() {
+        public void close_stream() {
             inst.lsl_close_stream(obj);
         }
 
-                public double time_correction(double timeout) throws Exception {
+        public double time_correction(double timeout) throws Exception {
             int[] ec = {0};
             double res = inst.lsl_time_correction(obj, timeout, ec);
             check_error(ec);
@@ -826,7 +816,7 @@ public class LSL {
             return time_correction(FOREVER);
         }
 
-                public double pull_sample(float[] sample, double timeout) throws Exception {
+        public double pull_sample(float[] sample, double timeout) throws Exception {
             int[] ec = {0};
             double res = inst.lsl_pull_sample_f(obj, sample, sample.length, timeout, ec);
             check_error(ec);
@@ -889,12 +879,11 @@ public class LSL {
         }
 
 
-
         public double pull_sample(String[] sample) throws Exception {
             return pull_sample(sample, FOREVER);
         }
 
-                public int pull_chunk(float[] data_buffer, double[] timestamp_buffer, double timeout) throws Exception {
+        public int pull_chunk(float[] data_buffer, double[] timestamp_buffer, double timeout) throws Exception {
             int[] ec = {0};
             long res = inst.lsl_pull_chunk_f(obj, data_buffer, timestamp_buffer, data_buffer.length, timestamp_buffer.length, timeout, ec);
             check_error(ec);
@@ -960,18 +949,17 @@ public class LSL {
             return pull_chunk(data_buffer, timestamp_buffer, 0.0);
         }
 
-                public int samples_available() {
+        public int samples_available() {
             return (int) inst.lsl_samples_available(obj);
         }
 
-                public boolean was_clock_reset() {
+        public boolean was_clock_reset() {
             return (int) inst.lsl_was_clock_reset(obj) != 0;
         }
     }
 
 
-
-        public static class XMLElement {
+    public static class XMLElement {
         private Pointer obj;
 
 
@@ -979,119 +967,115 @@ public class LSL {
             obj = handle;
         }
 
-                public XMLElement first_child() {
+        public XMLElement first_child() {
             return new XMLElement(inst.lsl_first_child(obj));
         }
 
-                public XMLElement last_child() {
+        public XMLElement last_child() {
             return new XMLElement(inst.lsl_last_child(obj));
         }
 
-                public XMLElement next_sibling() {
+        public XMLElement next_sibling() {
             return new XMLElement(inst.lsl_next_sibling(obj));
         }
 
-                public XMLElement previous_sibling() {
+        public XMLElement previous_sibling() {
             return new XMLElement(inst.lsl_previous_sibling(obj));
         }
 
 
-
-                public XMLElement parent() {
+        public XMLElement parent() {
             return new XMLElement(inst.lsl_parent(obj));
         }
 
-                public XMLElement child(String name) {
+        public XMLElement child(String name) {
             return new XMLElement(inst.lsl_child(obj, name));
         }
 
-                public XMLElement next_sibling(String name) {
+        public XMLElement next_sibling(String name) {
             return new XMLElement(inst.lsl_next_sibling_n(obj, name));
         }
 
 
-
-                public XMLElement previous_sibling(String name) {
+        public XMLElement previous_sibling(String name) {
             return new XMLElement(inst.lsl_previous_sibling_n(obj, name));
         }
 
-                public boolean empty() {
+        public boolean empty() {
             return inst.lsl_empty(obj) != 0;
         }
 
-                public boolean is_text() {
+        public boolean is_text() {
             return inst.lsl_is_text(obj) != 0;
         }
 
-                public String name() {
+        public String name() {
             return (inst.lsl_name(obj));
         }
 
-                public String value() {
+        public String value() {
             return (inst.lsl_value(obj));
         }
 
-                public String child_value() {
+        public String child_value() {
             return (inst.lsl_child_value(obj));
         }
 
 
-
-                public String child_value(String name) {
+        public String child_value(String name) {
             return (inst.lsl_child_value_n(obj, name));
         }
 
-                public XMLElement append_child_value(String name, String value) {
+        public XMLElement append_child_value(String name, String value) {
             return new XMLElement(inst.lsl_append_child_value(obj, name, value));
         }
 
-                public XMLElement prepend_child_value(String name, String value) {
+        public XMLElement prepend_child_value(String name, String value) {
             return new XMLElement(inst.lsl_prepend_child_value(obj, name, value));
         }
 
-                public boolean set_child_value(String name, String value) {
+        public boolean set_child_value(String name, String value) {
             return inst.lsl_set_child_value(obj, name, value) != 0;
         }
 
-                public boolean set_name(String rhs) {
+        public boolean set_name(String rhs) {
             return inst.lsl_set_name(obj, rhs) != 0;
         }
 
-                public boolean set_value(String rhs) {
+        public boolean set_value(String rhs) {
             return inst.lsl_set_value(obj, rhs) != 0;
         }
 
-                public XMLElement append_child(String name) {
+        public XMLElement append_child(String name) {
             return new XMLElement(inst.lsl_append_child(obj, name));
         }
 
-                public XMLElement prepend_child(String name) {
+        public XMLElement prepend_child(String name) {
             return new XMLElement(inst.lsl_prepend_child(obj, name));
         }
 
-                public XMLElement append_copy(XMLElement e) {
+        public XMLElement append_copy(XMLElement e) {
             return new XMLElement(inst.lsl_append_copy(obj, e.obj));
         }
 
-                public XMLElement prepend_copy(XMLElement e) {
+        public XMLElement prepend_copy(XMLElement e) {
             return new XMLElement(inst.lsl_prepend_copy(obj, e.obj));
         }
 
-                public void remove_child(String name) {
+        public void remove_child(String name) {
             inst.lsl_remove_child_n(obj, name);
         }
 
-                public void remove_child(XMLElement e) {
+        public void remove_child(XMLElement e) {
             inst.lsl_remove_child(obj, e.obj);
         }
     }
 
 
-
-        public static class ContinuousResolver {
+    public static class ContinuousResolver {
         private Pointer obj;
 
-                public ContinuousResolver(double forget_after) {
+        public ContinuousResolver(double forget_after) {
             obj = inst.lsl_create_continuous_resolver(forget_after);
         }
 
@@ -1099,7 +1083,7 @@ public class LSL {
             obj = inst.lsl_create_continuous_resolver(5.0);
         }
 
-                public ContinuousResolver(String prop, String value, double forget_after) {
+        public ContinuousResolver(String prop, String value, double forget_after) {
             obj = inst.lsl_create_continuous_resolver_byprop(prop, value, forget_after);
         }
 
@@ -1107,7 +1091,7 @@ public class LSL {
             obj = inst.lsl_create_continuous_resolver_byprop(prop, value, 5.0);
         }
 
-                public ContinuousResolver(String pred, double forget_after) {
+        public ContinuousResolver(String pred, double forget_after) {
             obj = inst.lsl_create_continuous_resolver_bypred(pred, forget_after);
         }
 
@@ -1115,11 +1099,11 @@ public class LSL {
             obj = inst.lsl_create_continuous_resolver_bypred(pred, 5.0);
         }
 
-                void close() {
+        void close() {
             inst.lsl_destroy_continuous_resolver(obj);
         }
 
-                public StreamInfo[] results() {
+        public StreamInfo[] results() {
             Pointer[] buf = new Pointer[1024];
             int num = inst.lsl_resolver_results(obj, buf, buf.length);
             StreamInfo[] res = new StreamInfo[num];
@@ -1129,43 +1113,55 @@ public class LSL {
         }
     }
 
-        public static class TimeoutException extends Exception {
+    public static class TimeoutException extends Exception {
         public TimeoutException(String message) {
             super(message);
         }
     }
 
-        public static class LostException extends Exception {
+    public static class LostException extends Exception {
         public LostException(String message) {
             super(message);
         }
     }
 
-        public static class ArgumentException extends Exception {
+    public static class ArgumentException extends Exception {
         public ArgumentException(String message) {
             super(message);
         }
     }
 
-        public static class InternalException extends Exception {
+    public static class InternalException extends Exception {
         public InternalException(String message) {
             super(message);
         }
     }
 
-        public class ChannelFormat {
+    public class ChannelFormat {
         public static final int float32 = 1;
-                public static final int double64 = 2;
-                public static final int string = 3;
-                public static final int int32 = 4;
-                public static final int int16 = 5;
-                public static final int int8 = 6;
-                public static final int int64 = 7;
-                public static final int undefined = 0;      }
+        public static final int double64 = 2;
+        public static final int string = 3;
+        public static final int int32 = 4;
+        public static final int int16 = 5;
+        public static final int int8 = 6;
+        public static final int int64 = 7;
+        public static final int undefined = 0;
+    }
 
-        public class ProcessingOptions {
-        public static final int proc_none = 0;                            public static final int proc_clocksync = 1;                        public static final int proc_dejitter = 2;                                public static final int proc_monotonize = 4;            public static final int proc_threadsafe = 8;            public static final int proc_ALL = 1 | 2 | 4 | 8;            }
+    public class ProcessingOptions {
+        public static final int proc_none = 0;
+        public static final int proc_clocksync = 1;
+        public static final int proc_dejitter = 2;
+        public static final int proc_monotonize = 4;
+        public static final int proc_threadsafe = 8;
+        public static final int proc_ALL = 1 | 2 | 4 | 8;
+    }
 
-        public class ErrorCode {
-        public static final int no_error = 0;                   public static final int timeout_error = -1;             public static final int lost_error = -2;                public static final int argument_error = -3;            public static final int internal_error = -4;         }
+    public class ErrorCode {
+        public static final int no_error = 0;
+        public static final int timeout_error = -1;
+        public static final int lost_error = -2;
+        public static final int argument_error = -3;
+        public static final int internal_error = -4;
+    }
 }

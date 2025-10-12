@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.wheelview.widget;
 
 import android.content.Context;
@@ -30,7 +29,7 @@ public class NumberWheelView extends WheelView {
         return data;
     }
 
-        @Deprecated
+    @Deprecated
     @Override
     public void setData(List<?> data) {
         if (isInEditMode()) {

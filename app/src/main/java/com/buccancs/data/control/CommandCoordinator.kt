@@ -1,4 +1,5 @@
 package com.buccancs.data.control
+
 import android.util.Log
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
@@ -21,6 +22,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class CommandCoordinator @Inject constructor(
     private val commandClient: CommandClient,
@@ -32,6 +34,7 @@ class CommandCoordinator @Inject constructor(
     private val _syncSignals = MutableSharedFlow<SyncSignalCommandPayload>(extraBufferCapacity = 32)
     val syncSignals: SharedFlow<SyncSignalCommandPayload> = _syncSignals.asSharedFlow()
     val commands: SharedFlow<DeviceCommandPayload> = commandClient.commands
+
     init {
         scope.launch {
             commandClient.commands.collect { payload ->
@@ -45,9 +48,11 @@ class CommandCoordinator @Inject constructor(
             }
         }
     }
+
     suspend fun acknowledge(commandId: String, success: Boolean, message: String?) {
         commandClient.reportReceipt(commandId, success, message)
     }
+
     private fun handleSync(payload: SyncSignalCommandPayload) {
         scope.launch {
             delayForExecution(payload.executeEpochMs)
@@ -64,6 +69,7 @@ class CommandCoordinator @Inject constructor(
             Log.i(TAG, "Sync command ${payload.commandId} executed")
         }
     }
+
     private fun handleEventMarker(payload: EventMarkerCommandPayload) {
         scope.launch {
             delayForExecution(payload.executeEpochMs)
@@ -79,6 +85,7 @@ class CommandCoordinator @Inject constructor(
             Log.i(TAG, "Event marker ${payload.markerId} acknowledged")
         }
     }
+
     private fun handleStimulus(payload: StimulusCommandPayload) {
         scope.launch {
             delayForExecution(payload.executeEpochMs)
@@ -94,6 +101,7 @@ class CommandCoordinator @Inject constructor(
             Log.i(TAG, "Stimulus ${payload.stimulusId} (${payload.action}) recorded")
         }
     }
+
     private fun handleGeneric(payload: DeviceCommandPayload) {
         scope.launch {
             delayForExecution(payload.executeEpochMs)
@@ -109,16 +117,19 @@ class CommandCoordinator @Inject constructor(
             Log.i(TAG, "Command ${payload.commandId} executed")
         }
     }
+
     private suspend fun delayForExecution(executeEpochMs: Long) {
         val delayMs = executeEpochMs - System.currentTimeMillis()
         if (delayMs > 0) {
             delay(delayMs)
         }
     }
+
     private suspend fun recordEvent(event: DeviceEvent) {
         runCatching { deviceEventRepository.record(event) }
             .onFailure { ex -> Log.w(TAG, "Unable to record event ${event.id}: ${ex.message}", ex) }
     }
+
     private companion object {
         private const val TAG = "CommandCoordinator"
     }

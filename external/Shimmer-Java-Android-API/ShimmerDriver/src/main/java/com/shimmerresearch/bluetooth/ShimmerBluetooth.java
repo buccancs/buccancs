@@ -1,4 +1,3 @@
-
 package com.shimmerresearch.bluetooth;
 
 import java.io.ByteArrayOutputStream;
@@ -362,7 +361,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         addFixedShimmerConfig(Shimmer3.GuiLabelConfig.SHIMMER_USER_ASSIGNED_NAME, userAssignedName);
     }
 
-        public ShimmerBluetooth(String userAssignedName, double samplingRate, int enabledSensors, int accelRange, int gsrRange, int magRange) {
+    public ShimmerBluetooth(String userAssignedName, double samplingRate, int enabledSensors, int accelRange, int gsrRange, int magRange) {
         this();
 
         setShimmerUserAssignedName(userAssignedName);
@@ -409,11 +408,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public static void setDefaultBtCrcModeToUseIfFwSupported(BT_CRC_MODE btCommsCrcMode) {
+    public static void setDefaultBtCrcModeToUseIfFwSupported(BT_CRC_MODE btCommsCrcMode) {
         DEFAULT_BT_CRC_MODE_IF_SUPPORTED = btCommsCrcMode;
     }
 
-        public static BT_CRC_MODE getDefaultBtCrcModeIfFwSupported() {
+    public static BT_CRC_MODE getDefaultBtCrcModeIfFwSupported() {
         return DEFAULT_BT_CRC_MODE_IF_SUPPORTED;
     }
 
@@ -459,7 +458,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
     protected abstract byte[] readBytes(int numberofBytes);
 
-        protected abstract byte readByte();
+    protected abstract byte readByte();
 
     protected abstract void dockedStateChange();
 
@@ -477,9 +476,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
             processDataPacket(bufferTemp);
             clearSingleDataPacketFromBuffers(bufferTemp, getPacketSizeWithCrc() + 1);
-        }
-
-        else if (bufferTemp[0] == DATA_PACKET
+        } else if (bufferTemp[0] == DATA_PACKET
                 && bufferTemp[getPacketSizeWithCrc() + 1] == ACK_COMMAND_PROCESSED) {
             if (mByteArrayOutputStream.size() > getPacketSizeWithCrc() + 2) {
 
@@ -497,9 +494,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
                         setInstructionStackLock(false);
                     }
                     printLogDataForDebugging("Ack Received for Command: \t\t\t" + btCommandToString(mCurrentCommand));
-                }
-
-                else if (isSupportedInStreamCmds() && bufferTemp[getPacketSizeWithCrc() + 2] == INSTREAM_CMD_RESPONSE) {
+                } else if (isSupportedInStreamCmds() && bufferTemp[getPacketSizeWithCrc() + 2] == INSTREAM_CMD_RESPONSE) {
                     printLogDataForDebugging("COMMAND TXed and ACK RECEIVED IN STREAM");
                     printLogDataForDebugging("INS CMD RESP");
 
@@ -527,8 +522,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
                 discardFirstBufferByte();
             }
 
-        }
-        else {
+        } else {
             printLogDataForDebugging("Packet syncing problem:\tExpected: " + (getPacketSizeWithCrc() + 2) + "bytes. Buffer contains " + mByteArrayOutputStream.size() + "bytes"
                     + "\nBuffer = " + UtilShimmer.bytesToHexStringWithSpacesFormatted(mByteArrayOutputStream.toByteArray()));
             discardFirstBufferByte();
@@ -588,7 +582,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        protected void processInstreamResponse(boolean shouldClearCrcFromBuffer) {
+    protected void processInstreamResponse(boolean shouldClearCrcFromBuffer) {
         boolean responseWasParsed = true;
 
         byte[] inStreamResponseCommandBuffer = readBytes(1, INSTREAM_CMD_RESPONSE);
@@ -665,7 +659,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         startTimerCheckIfAlive();
     }
 
-        private void buildAndSendMsg(byte[] packet, COMMUNICATION_TYPE fwType, boolean timeSync, long pcTimeStamp) {
+    private void buildAndSendMsg(byte[] packet, COMMUNICATION_TYPE fwType, boolean timeSync, long pcTimeStamp) {
         ObjectCluster objectCluster = null;
         try {
             objectCluster = buildMsg(packet, fwType, timeSync, pcTimeStamp);
@@ -677,7 +671,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         dataHandler(objectCluster);
     }
 
-        protected void clearSerialBuffer() {
+    protected void clearSerialBuffer() {
         if (!InShimmerTest) {
             startTimerCheckForSerialPortClear();
 
@@ -705,7 +699,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void processDataPacket(byte[] bufferTemp) {
+    public void processDataPacket(byte[] bufferTemp) {
         byte[] newPacket = new byte[getPacketSize()];
         System.arraycopy(bufferTemp, 1, newPacket, 0, getPacketSize());
 
@@ -727,7 +721,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        protected void clearSingleDataPacketFromBuffers(byte[] bufferTemp, int packetSize) {
+    protected void clearSingleDataPacketFromBuffers(byte[] bufferTemp, int packetSize) {
         mByteArrayOutputStream.reset();
         mByteArrayOutputStream.write(bufferTemp[packetSize]);
         if (mEnablePCTimeStamps) {
@@ -735,18 +729,18 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
                 try {
                     mListofPCTimeStamps.remove(0);
                 } catch (Exception e) {
-                                        consolePrintException(e.getMessage(), e.getStackTrace());
+                    consolePrintException(e.getMessage(), e.getStackTrace());
                 }
             }
         }
     }
 
-        protected void clearBuffers() {
+    protected void clearBuffers() {
         mByteArrayOutputStream.reset();
         mListofPCTimeStamps.clear();
     }
 
-        protected void discardFirstBufferByte() {
+    protected void discardFirstBufferByte() {
         byte[] bTemp = mByteArrayOutputStream.toByteArray();
         mByteArrayOutputStream.reset();
         mByteArrayOutputStream.write(bTemp, 1, bTemp.length - 1);
@@ -757,7 +751,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     }
 
 
-        private void processResponseCommand(byte responseCommand) {
+    private void processResponseCommand(byte responseCommand) {
         boolean responseWasParsed = true;
 
         if (responseCommand == INQUIRY_RESPONSE) {
@@ -1202,7 +1196,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        protected void processAckFromSetCommand(byte currentCommand) {
+    protected void processAckFromSetCommand(byte currentCommand) {
         if (getListofInstructions().size() > 0) {
             if (getListofInstructions().get(0) != null) {
 
@@ -1437,7 +1431,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        private void delayForBtResponse(long millis) {
+    private void delayForBtResponse(long millis) {
         if (mUseLegacyDelayToDelayForResponse)
             threadSleep(millis);
     }
@@ -1450,7 +1444,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         return mUseLegacyDelayToDelayForResponse;
     }
 
-        private void processAccelCalReadBytes() {
+    private void processAccelCalReadBytes() {
         delayForBtResponse(100);
         byte[] bufferCalibrationParameters = readBytes(21, ACCEL_CALIBRATION_RESPONSE);
         if (bufferCalibrationParameters != null) {
@@ -1458,7 +1452,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        private void processGyroCalReadBytes() {
+    private void processGyroCalReadBytes() {
         delayForBtResponse(100);
         byte[] bufferCalibrationParameters = readBytes(21, GYRO_CALIBRATION_RESPONSE);
         if (bufferCalibrationParameters != null) {
@@ -1466,7 +1460,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        private void processMagCalReadBytes() {
+    private void processMagCalReadBytes() {
         delayForBtResponse(100);
         byte[] bufferCalibrationParameters = readBytes(21, MAG_CALIBRATION_RESPONSE);
         if (bufferCalibrationParameters != null) {
@@ -1474,7 +1468,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        private void processLsm303dlhcAccelCalReadBytes() {
+    private void processLsm303dlhcAccelCalReadBytes() {
         delayForBtResponse(100);
         byte[] bufferCalibrationParameters = readBytes(21, LSM303DLHC_ACCEL_CALIBRATION_RESPONSE);
         if (bufferCalibrationParameters != null) {
@@ -1482,7 +1476,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        private void processShimmer2EcgCalReadBytes() {
+    private void processShimmer2EcgCalReadBytes() {
         delayForBtResponse(100);
         byte[] bufferCalibrationParameters = readBytes(8, ECG_CALIBRATION_RESPONSE);
         if (bufferCalibrationParameters != null) {
@@ -1493,7 +1487,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        private void processShimmer2EmgCalReadBytes() {
+    private void processShimmer2EmgCalReadBytes() {
         delayForBtResponse(100);
         byte[] bufferCalibrationParameters = readBytes(4, EMG_CALIBRATION_RESPONSE);
         if (bufferCalibrationParameters != null) {
@@ -1512,7 +1506,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         return response;
     }
 
-        protected void parseStatusByte(byte[] statusByte) {
+    protected void parseStatusByte(byte[] statusByte) {
         Boolean savedDockedState = isDocked();
 
         setIsDocked(((statusByte[0] & (0x01 << 0)) > 0) ? true : false);
@@ -1587,8 +1581,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     }
 
 
-
-
     protected void initialize() {
         clearShimmerVersionObjectAndCreateSensorMaps();
         resetCurrentCrcMode();
@@ -1619,7 +1611,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        private void initializeShimmer2R() {
+    private void initializeShimmer2R() {
         if (mSendProgressReport) {
             operationPrepare();
             setBluetoothRadioState(BT_STATE.CONNECTING);
@@ -1775,12 +1767,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     }
 
 
-
     public void setSendProgressReport(boolean state) {
         mSendProgressReport = state;
     }
 
-        @Override
+    @Override
     public void operationPrepare() {
         stopAllTimers();
 
@@ -1790,19 +1781,19 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         mOperationUnderway = true;
     }
 
-        public void operationWaitForFinish() {
+    public void operationWaitForFinish() {
         setInstructionStackLock(false);
         while (getListofInstructions().size() > 0) ;
     }
 
-        @Override
+    @Override
     public void operationStart(BT_STATE btState) {
         startOperation(btState, getListofInstructions().size());
         setInstructionStackLock(false);
     }
 
-        public void operationFinished() {
-		        mOperationUnderway = false;
+    public void operationFinished() {
+        mOperationUnderway = false;
     }
 
 
@@ -1870,15 +1861,13 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     }
 
 
-        @Override
+    @Override
     public void stopStreamingAndLogging() {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             writeInstruction(STOP_SDBT_COMMAND);
             stopTimerReadStatus();
         }
     }
-
-
 
 
     public void stopAllTimers() {
@@ -2079,7 +2068,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         writeInstruction(GET_VBATT_COMMAND);
     }
 
-        public void readExpansionBoardByBytes(int numBytes, int offset) {
+    public void readExpansionBoardByBytes(int numBytes, int offset) {
         if (getFirmwareVersionCode() >= 5) {
             if (numBytes + offset <= 256) {
                 numBytesToReadFromExpBoard = numBytes;
@@ -2087,8 +2076,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             }
         }
     }
-
-
 
 
     public void readExpansionBoardID() {
@@ -2105,7 +2092,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void readStatusLogAndStream() {
+    public void readStatusLogAndStream() {
         if (isSupportedInStreamCmds()) {
             writeInstruction(GET_STATUS_COMMAND);
             consolePrintLn("GET_STATUS_COMMAND Instruction added to the list");
@@ -2119,7 +2106,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeGyroSamplingRate(int rate) {
+    public void writeGyroSamplingRate(int rate) {
         if (isShimmerGen3or3R()) {
             mTempIntValue = rate;
             writeInstruction(new byte[]{SET_MPU9150_SAMPLING_RATE_COMMAND, (byte) rate});
@@ -2170,7 +2157,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         inquiry();
     }
 
-        public void writePressureResolution(int setting) {
+    public void writePressureResolution(int setting) {
         if (getHardwareVersion() == HW_ID.SHIMMER_3) {
             writeInstruction(new byte[]{SET_BMP180_PRES_RESOLUTION_COMMAND, (byte) setting});
         }
@@ -2182,11 +2169,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writePMux(int setBit) {
+    public void writePMux(int setBit) {
         writeInstruction(new byte[]{SET_PMUX_COMMAND, (byte) setBit});
     }
 
-        public void writeInternalExpPower(int setBit) {
+    public void writeInternalExpPower(int setBit) {
         if ((getHardwareVersion() == HW_ID.SHIMMER_3R) || (getHardwareVersion() == HW_ID.SHIMMER_3 && getFirmwareVersionCode() >= 2)) {
             writeInstruction(new byte[]{SET_INTERNAL_EXP_POWER_ENABLE_COMMAND, (byte) setBit});
         } else {
@@ -2195,8 +2182,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     }
 
 
-
-        public void writeFiveVoltReg(int setBit) {
+    public void writeFiveVoltReg(int setBit) {
         writeInstruction(new byte[]{SET_5V_REGULATOR_COMMAND, (byte) setBit});
     }
 
@@ -2207,7 +2193,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeMagSamplingRate(int rate) {
+    public void writeMagSamplingRate(int rate) {
         if (isThisVerCompatibleWith(HW_ID.SHIMMER_2R, FW_ID.BOILER_PLATE, 0, 1, 0)) {
         } else {
             mTempIntValue = rate;
@@ -2215,33 +2201,33 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void readAccelSamplingRate() {
+    public void readAccelSamplingRate() {
         if (isShimmerGen3or3R()) {
             writeInstruction(GET_ACCEL_SAMPLING_RATE_COMMAND);
         }
     }
 
-        public void writeAccelSamplingRate(int rate) {
+    public void writeAccelSamplingRate(int rate) {
         if (isShimmerGen3or3R()) {
             mTempIntValue = rate;
             writeInstruction(new byte[]{SET_ACCEL_SAMPLING_RATE_COMMAND, (byte) rate});
         }
     }
 
-    	/*public void writeConfigGyroTempVref(int setBit) {
-    	while(getInstructionStatus()==false) {};
-			if(setBit==1) {
-				mTempByteValue=(byte) (mConfigByte0|32);
-			}
-			else if(setBit==0) {
-				mTempByteValue=(byte)(mConfigByte0 & 223);
-			}
-			mCurrentCommand=SET_GYRO_TEMP_VREF_COMMAND;
-			write(new byte[]{SET_GYRO_TEMP_VREF_COMMAND,(byte) setBit});
-			mWaitForAck=true;
-			mTransactionCompleted=false;
-			responseTimer(ACK_TIMER_DURATION);
-	}*/
+    /*public void writeConfigGyroTempVref(int setBit) {
+    while(getInstructionStatus()==false) {};
+        if(setBit==1) {
+            mTempByteValue=(byte) (mConfigByte0|32);
+        }
+        else if(setBit==0) {
+            mTempByteValue=(byte)(mConfigByte0 & 223);
+        }
+        mCurrentCommand=SET_GYRO_TEMP_VREF_COMMAND;
+        write(new byte[]{SET_GYRO_TEMP_VREF_COMMAND,(byte) setBit});
+        mWaitForAck=true;
+        mTransactionCompleted=false;
+        responseTimer(ACK_TIMER_DURATION);
+}*/
     public void readAccelRange() {
         writeInstruction(GET_ACCEL_SENSITIVITY_COMMAND);
     }
@@ -2304,7 +2290,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     }
 
 
-
     public void addTestStringListener(StringListener stringTestListener) {
         mStringTestListener = stringTestListener;
     }
@@ -2313,18 +2298,18 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         mTestByteListener = listener;
     }
 
-        public void writeAccelRange(int range) {
+    public void writeAccelRange(int range) {
         writeInstruction(new byte[]{SET_ACCEL_SENSITIVITY_COMMAND, (byte) range});
         setAccelRange((int) range);
     }
 
-        public void readDerivedChannelBytes() {
+    public void readDerivedChannelBytes() {
         if (getFirmwareVersionCode() >= 6) {
             writeInstruction(GET_DERIVED_CHANNEL_BYTES);
         }
     }
 
-        public void writeDerivedChannelBytes(byte[] channel) {
+    public void writeDerivedChannelBytes(byte[] channel) {
         if (getFirmwareVersionCode() >= 6) {
             if (mShimmerVerObject.isSupportedEightByteDerivedSensors()) {
                 writeInstruction(new byte[]{SET_DERIVED_CHANNEL_BYTES, channel[0], channel[1], channel[2],
@@ -2335,7 +2320,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeDerivedChannels(long channels) {
+    public void writeDerivedChannels(long channels) {
         if (getFirmwareVersionCode() >= 6) {
             if (mShimmerVerObject.isSupportedEightByteDerivedSensors()) {
                 byte[] channel = new byte[8];
@@ -2364,7 +2349,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeTrial() {
+    public void writeTrial() {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             byte[] trial_config_byte = combineTrialConfig();
             byte[] tosend = new byte[4];
@@ -2413,7 +2398,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             trialConfig += +(((isShowErrorLedsRtc() ? 1 : 0) & 0x01) << 4);
         }
 
-    	        byte[] ret = new byte[2];
+        byte[] ret = new byte[2];
         ret[0] = (byte) (trialConfig & 0xff);
         ret[1] = (byte) ((trialConfig >> 8) & 0xff);
         return ret;
@@ -2425,7 +2410,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeConfigTime(String time) {
+    public void writeConfigTime(String time) {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             byte[] toSendTime = time.getBytes();
             byte[] toSend = new byte[2 + toSendTime.length];
@@ -2436,7 +2421,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeConfigTime(long time) {
+    public void writeConfigTime(long time) {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             String timeString = Long.toString(time);
             byte[] toSendTime = timeString.getBytes();
@@ -2454,13 +2439,13 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeShimmerName() {
+    public void writeShimmerName() {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             writeShimmerUserAssignedName(getShimmerUserAssignedName());
         }
     }
 
-        public void writeShimmerUserAssignedName(String name) {
+    public void writeShimmerUserAssignedName(String name) {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             byte[] toSendName = name.getBytes();
             byte[] toSend = new byte[2 + toSendName.length];
@@ -2477,7 +2462,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeCenter(String center) {
+    public void writeCenter(String center) {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             byte[] toSendCenter = center.getBytes();
             byte[] toSend = new byte[2 + toSendCenter.length];
@@ -2494,7 +2479,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeExperimentName(String name) {
+    public void writeExperimentName(String name) {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             byte[] toSendName = name.getBytes();
             byte[] toSend = new byte[2 + toSendName.length];
@@ -2511,7 +2496,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeRealTimeClock() {
+    public void writeRealTimeClock() {
         if (getFirmwareIdentifier() == FW_ID.LOGANDSTREAM) {
             byte[] bytearraycommand = new byte[9];
             bytearraycommand[0] = SET_RWC_COMMAND;
@@ -2523,7 +2508,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         writeInstruction(GET_MPU9150_GYRO_RANGE_COMMAND);
     }
 
-        public void writeGyroRange(int range) {
+    public void writeGyroRange(int range) {
         if (isShimmerGen3or3R()) {
             writeInstruction(new byte[]{SET_MPU9150_GYRO_RANGE_COMMAND, (byte) range});
             setGyroRange((int) range);
@@ -2534,7 +2519,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         writeInstruction(GET_SAMPLING_RATE_COMMAND);
     }
 
-        protected void dummyReadSamplingRate() {
+    protected void dummyReadSamplingRate() {
         mDummyRead = true;
         mDummyReadStarted = false;
 
@@ -2543,7 +2528,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeShimmerAndSensorsSamplingRate(double rate) {
+    public void writeShimmerAndSensorsSamplingRate(double rate) {
         if (mIsInitialised || isSetupDeviceWhileConnecting()) {
             setShimmerAndSensorsSamplingRate(rate);
             if (getHardwareVersion() == HW_ID.SHIMMER_2 || getHardwareVersion() == HW_ID.SHIMMER_2R) {
@@ -2596,20 +2581,20 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void readEXGConfigurations() {
+    public void readEXGConfigurations() {
         if ((getFirmwareVersionInternal() >= 8 && getFirmwareVersionCode() == 2) || getFirmwareVersionCode() > 2) {
             readEXGConfigurations(EXG_CHIP_INDEX.CHIP1);
             readEXGConfigurations(EXG_CHIP_INDEX.CHIP2);
         }
     }
 
-        public void readEXGConfigurations(EXG_CHIP_INDEX chipID) {
+    public void readEXGConfigurations(EXG_CHIP_INDEX chipID) {
         if ((getFirmwareVersionInternal() >= 8 && getFirmwareVersionCode() == 2) || getFirmwareVersionCode() > 2) {
             writeInstruction(new byte[]{GET_EXG_REGS_COMMAND, (byte) (chipID.ordinal()), 0, 10});
         }
     }
 
-        public void writeEXGLeadOffComparatorTreshold(int treshold) {
+    public void writeEXGLeadOffComparatorTreshold(int treshold) {
         if (getFirmwareVersionCode() > 2) {
             if (treshold >= 0 && treshold <= 7) {
                 setEXGLeadOffComparatorTreshold(treshold);
@@ -2618,7 +2603,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeEXGLeadOffDetectionCurrent(int leadOffCurrent) {
+    public void writeEXGLeadOffDetectionCurrent(int leadOffCurrent) {
         if (getFirmwareVersionCode() > 2) {
             if (leadOffCurrent >= 0 && leadOffCurrent <= 3) {
                 setEXGLeadOffDetectionCurrent(leadOffCurrent);
@@ -2627,7 +2612,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeEXGLeadOffDetectionMode(int detectionMode) {
+    public void writeEXGLeadOffDetectionMode(int detectionMode) {
 
         if (getFirmwareVersionCode() > 2) {
             if (detectionMode >= 0 && detectionMode <= 2) {
@@ -2637,7 +2622,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeEXGReferenceElectrode(int referenceElectrode) {
+    public void writeEXGReferenceElectrode(int referenceElectrode) {
         if (getFirmwareVersionCode() > 2) {
             if (referenceElectrode >= 0 && referenceElectrode <= 15) {
                 setEXGReferenceElectrode(referenceElectrode);
@@ -2646,7 +2631,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeEXGRateSetting(int rateSetting) {
+    public void writeEXGRateSetting(int rateSetting) {
         if ((getFirmwareVersionInternal() >= 8 && getFirmwareVersionCode() == 2) || getFirmwareVersionCode() > 2) {
             if (rateSetting >= 0 && rateSetting <= 4) {
                 setEXGRateSetting(rateSetting);
@@ -2655,7 +2640,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeEXGRateSetting(EXG_CHIP_INDEX chipID, int rateSetting) {
+    public void writeEXGRateSetting(EXG_CHIP_INDEX chipID, int rateSetting) {
         if ((getFirmwareVersionInternal() >= 8 && getFirmwareVersionCode() == 2) || getFirmwareVersionCode() > 2) {
             if (rateSetting >= 0 && rateSetting <= 4) {
                 setEXGRateSetting(chipID, rateSetting);
@@ -2668,7 +2653,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeEXGGainSetting(int gainSetting) {
+    public void writeEXGGainSetting(int gainSetting) {
         if ((getFirmwareVersionInternal() >= 8 && getFirmwareVersionCode() == 2) || getFirmwareVersionCode() > 2) {
             if (gainSetting >= 0 && gainSetting <= 6) {
                 setExGGainSetting(gainSetting);
@@ -2677,7 +2662,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeEXGGainSetting(EXG_CHIP_INDEX chipID, int channel, int gainSetting) {
+    public void writeEXGGainSetting(EXG_CHIP_INDEX chipID, int channel, int gainSetting) {
         if ((getFirmwareVersionInternal() >= 8 && getFirmwareVersionCode() == 2) || getFirmwareVersionCode() > 2) {
             if (gainSetting >= 0 && gainSetting <= 6) {
                 setExGGainSetting(chipID, channel, gainSetting);
@@ -2697,7 +2682,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeEXGConfiguration(byte[] reg, EXG_CHIP_INDEX chipID) {
+    public void writeEXGConfiguration(byte[] reg, EXG_CHIP_INDEX chipID) {
         if ((getFirmwareVersionInternal() >= 8 && getFirmwareVersionCode() == 2) || getFirmwareVersionCode() > 2) {
             writeInstruction(new byte[]{SET_EXG_REGS_COMMAND, (byte) (chipID.ordinal()), 0, 10, reg[0], reg[1], reg[2], reg[3], reg[4], reg[5], reg[6], reg[7], reg[8], reg[9]});
         }
@@ -2707,7 +2692,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         writeInstruction(GET_GSR_RANGE_COMMAND);
     }
 
-        public void writeGSRRange(int range) {
+    public void writeGSRRange(int range) {
         if (isShimmerGen3or3R()) {
             if (getFirmwareVersionCode() != 1 || getFirmwareVersionInternal() > 4) {
                 writeInstruction(new byte[]{SET_GSR_RANGE_COMMAND, (byte) range});
@@ -2721,17 +2706,17 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         writeInstruction(GET_MAG_GAIN_COMMAND);
     }
 
-        public void writeMagRange(int range) {
+    public void writeMagRange(int range) {
         if (isThisVerCompatibleWith(HW_ID.SHIMMER_2R, FW_ID.BOILER_PLATE, 0, 1, 0)) {
         } else {
             writeInstruction(new byte[]{SET_MAG_GAIN_COMMAND, (byte) range});
         }
     }
 
-        public void readCalibrationParameters(String sensor) {
+    public void readCalibrationParameters(String sensor) {
         if (!mIsInitialised) {
             if (getFirmwareVersionCode() == 1 && getFirmwareVersionInternal() == 0 && getHardwareVersion() != HW_ID.SHIMMER_3) {
-				            }
+            }
         }
         if (sensor.equals("Accelerometer")) {
             writeInstruction(GET_ACCEL_CALIBRATION_COMMAND);
@@ -2828,7 +2813,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         writeBaudRate(mBluetoothBaudRate);
     }
 
-        public void writeBaudRate(int value) {
+    public void writeBaudRate(int value) {
         if (getFirmwareVersionCode() >= 5) {
             if (value >= 0 && value <= 10) {
                 mBluetoothBaudRate = value;
@@ -2843,7 +2828,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         writeInstruction(GET_CONFIG_BYTE0_COMMAND);
     }
 
-        public void writeConfigByte0(byte configByte0) {
+    public void writeConfigByte0(byte configByte0) {
         writeInstruction(new byte[]{SET_CONFIG_BYTE0_COMMAND, (byte) configByte0});
     }
 
@@ -2851,7 +2836,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         writeInstruction(GET_BUFFER_SIZE_COMMAND);
     }
 
-        public void writeBufferSize(int size) {
+    public void writeBufferSize(int size) {
         writeInstruction(new byte[]{SET_BUFFER_SIZE_COMMAND, (byte) size});
     }
 
@@ -3031,7 +3016,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void writeMemCommand(int command, int address, byte[] infoMemBytes) {
+    public void writeMemCommand(int command, int address, byte[] infoMemBytes) {
         if (this.getFirmwareVersionCode() >= 6) {
             byte[] memLengthToWrite = new byte[]{(byte) infoMemBytes.length};
             byte[] memAddressToWrite = ByteBuffer.allocate(2).putShort((short) (address & 0xFFFF)).array();
@@ -3047,7 +3032,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public boolean getInstructionStatus() {
+    public boolean getInstructionStatus() {
         boolean instructionStatus = false;
         if (mTransactionCompleted) {
             instructionStatus = true;
@@ -3076,11 +3061,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         return mLowBattLimit;
     }
 
-        public void setBattLimitWarning(double limit) {
+    public void setBattLimitWarning(double limit) {
         mLowBattLimit = limit;
     }
 
-        public int getEXG1CH1GainValue() {
+    public int getEXG1CH1GainValue() {
 
         int gain = -1;
         while (!getListofInstructions().isEmpty()) ;
@@ -3091,7 +3076,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         return gain;
     }
 
-        public int getEXG1CH2GainValue() {
+    public int getEXG1CH2GainValue() {
 
         int gain = -1;
         while (!getListofInstructions().isEmpty()) ;
@@ -3102,7 +3087,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         return gain;
     }
 
-        public int getEXG2CH1GainValue() {
+    public int getEXG2CH1GainValue() {
 
         int gain = -1;
         while (!getListofInstructions().isEmpty()) ;
@@ -3114,10 +3099,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     }
 
 
-
-
-
-        public int getEXG2CH2GainValue() {
+    public int getEXG2CH2GainValue() {
 
         int gain = -1;
         while (!getListofInstructions().isEmpty()) ;
@@ -3138,11 +3120,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         mContinousSync = continousSync;
     }
 
-        public void enable3DOrientation(boolean enable) {
+    public void enable3DOrientation(boolean enable) {
         set3DOrientation(enable);
     }
 
-        public void enableLowPowerAccel(boolean enable) {
+    public void enableLowPowerAccel(boolean enable) {
         enableHighResolutionMode(!enable);
         writeAccelSamplingRate(getLSM303DigitalAccelRate());
     }
@@ -3166,17 +3148,17 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void enableLowPowerGyro(boolean enable) {
+    public void enableLowPowerGyro(boolean enable) {
         setLowPowerGyro(enable);
         writeGyroSamplingRate(getMPU9X50GyroAccelRate());
     }
 
-        public void enableLowPowerMag(boolean enable) {
+    public void enableLowPowerMag(boolean enable) {
         setLowPowerMag(enable);
         writeMagSamplingRate(getMagRate());
     }
 
-        public void enableDefaultECGConfiguration() {
+    public void enableDefaultECGConfiguration() {
         if (getHardwareVersion() == 3) {
             setDefaultECGConfiguration(getSamplingRateShimmer());
             writeEXGConfiguration();
@@ -3184,19 +3166,14 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     }
 
 
-
-
-
-
-
-        public void enableDefaultEMGConfiguration() {
+    public void enableDefaultEMGConfiguration() {
         if (getHardwareVersion() == 3) {
             setDefaultEMGConfiguration(getSamplingRateShimmer());
             writeEXGConfiguration();
         }
     }
 
-        public void enableEXGTestSignal() {
+    public void enableEXGTestSignal() {
         if (getHardwareVersion() == 3) {
             setEXGTestSignal(getSamplingRateShimmer());
             writeEXGConfiguration();
@@ -3206,9 +3183,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     public boolean disableBtCommsCrc() {
         return writeBtCommsCrcMode(BT_CRC_MODE.OFF);
     }
-
-
-
 
 
     public boolean enableBtCommsOneByteCrc() {
@@ -3227,11 +3201,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         return false;
     }
 
-        public BT_CRC_MODE getCurrentBtCommsCrcMode() {
+    public BT_CRC_MODE getCurrentBtCommsCrcMode() {
         return mBtCommsCrcModeCurrent;
     }
 
-        public void setCurrentBtCommsCrcMode(BT_CRC_MODE btCommsCrcMode) {
+    public void setCurrentBtCommsCrcMode(BT_CRC_MODE btCommsCrcMode) {
         mBtCommsCrcModeCurrent = btCommsCrcMode;
     }
 
@@ -3239,7 +3213,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         setCurrentBtCommsCrcMode(BT_CRC_MODE.OFF);
     }
 
-        public boolean isBtCrcModeSupported() {
+    public boolean isBtCrcModeSupported() {
         return getFirmwareVersionCode() >= 8;
     }
 
@@ -3262,11 +3236,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public void inquiry() {
+    public void inquiry() {
         writeInstruction(INQUIRY_COMMAND);
     }
 
-        public long sensorConflictCheckandCorrection(long enabledSensors, long sensorToCheck) {
+    public long sensorConflictCheckandCorrection(long enabledSensors, long sensorToCheck) {
 
         if (getHardwareVersion() == HW_ID.SHIMMER_2R || getHardwareVersion() == HW_ID.SHIMMER_2) {
             if ((sensorToCheck & SENSOR_GYRO) > 0 || (sensorToCheck & SENSOR_MAG) > 0) {
@@ -3645,7 +3619,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         return pass;
     }
 
-        private long generateSensorBitmapForHardwareControl(long enabledSensors) {
+    private long generateSensorBitmapForHardwareControl(long enabledSensors) {
         long hardwareSensorBitmap = 0;
 
         if (getHardwareVersion() == HW_ID.SHIMMER_2R || getHardwareVersion() == HW_ID.SHIMMER_2) {
@@ -3766,7 +3740,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         mCheckIfConnectionisAlive = set;
     }
 
-        protected synchronized List<byte[]> getListofInstructions() {
+    protected synchronized List<byte[]> getListofInstructions() {
         synchronized (mListofInstructions) {
             return mListofInstructions;
         }
@@ -3783,8 +3757,6 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             getListofInstructions().removeAll(Collections.singleton(null));
         }
     }
-
-
 
 
     private synchronized void checkAndRemoveFirstInstructionIfNull() {
@@ -3839,16 +3811,16 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public boolean isInstructionStackLock() {
+    public boolean isInstructionStackLock() {
         return mInstructionStackLock;
     }
 
-        protected void setInstructionStackLock(boolean state) {
+    protected void setInstructionStackLock(boolean state) {
         this.mInstructionStackLock = state;
     }
 
 
-        public byte[] generateConfigBytesForWritingToShimmer() {
+    public byte[] generateConfigBytesForWritingToShimmer() {
         super.setConfigFileCreationFlag(true);
         return super.configBytesGenerate(true);
     }
@@ -3875,11 +3847,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         this.mUseInfoMemConfigMethod = useInfoMemConfigMethod;
     }
 
-        public boolean isSetupDeviceWhileConnecting() {
+    public boolean isSetupDeviceWhileConnecting() {
         return mSetupDeviceWhileConnecting;
     }
 
-        public void setSetupDeviceWhileConnecting(boolean state) {
+    public void setSetupDeviceWhileConnecting(boolean state) {
         this.mSetupDeviceWhileConnecting = state;
     }
 
@@ -3895,12 +3867,12 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
     ;
 
-        public boolean isThisVerCompatibleWith(int hardwareVersion, int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal) {
+    public boolean isThisVerCompatibleWith(int hardwareVersion, int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal) {
         return UtilShimmer.compareVersions(getHardwareVersion(), getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(),
                 hardwareVersion, firmwareIdentifier, firmwareVersionMajor, firmwareVersionMinor, firmwareVersionInternal);
     }
 
-        public void enablePCTimeStamps(boolean enable) {
+    public void enablePCTimeStamps(boolean enable) {
         mEnablePCTimeStamps = enable;
     }
 
@@ -3973,11 +3945,11 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
         private final String text;
 
-                private BT_STATE(final String text) {
+        private BT_STATE(final String text) {
             this.text = text;
         }
 
-                @Override
+        @Override
         public String toString() {
             return text;
         }
@@ -4162,7 +4134,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             }
         }
 
-                private void processNotStreamingWaitForAck() {
+        private void processNotStreamingWaitForAck() {
 			/*
 			if (Math.random()>0.9 && mIsInitialised==true){
 				if(bytesAvailableToBeRead()
@@ -4227,9 +4199,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
                             mTransactionCompleted = true;
                             setInstructionStackLock(false);
-                        }
-
-                        else if (isKnownGetCommand(mCurrentCommand)) {
+                        } else if (isKnownGetCommand(mCurrentCommand)) {
                             processSpecialGetCmdsAfterAck(mCurrentCommand);
                             mWaitForResponse = true;
                             removeInstruction(0);
@@ -4240,7 +4210,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             }
         }
 
-                private void processNotStreamingWaitForResp() {
+        private void processNotStreamingWaitForResp() {
             if (bytesAvailableToBeRead()) {
                 byteBuffer = readBytes(1);
                 if (byteBuffer != null) {
@@ -4266,7 +4236,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             }
         }
 
-                private void processBytesAvailableAndInstreamSupported() {
+        private void processBytesAvailableAndInstreamSupported() {
             if (isSupportedInStreamCmds()
                     && !mWaitForAck
                     && !mWaitForResponse
@@ -4292,7 +4262,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
     }
 
-        class checkForAckOrRespTask extends TimerTask {
+    class checkForAckOrRespTask extends TimerTask {
 
         @Override
         public void run() {
@@ -4380,7 +4350,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        public class readStatusTask extends TimerTask {
+    public class readStatusTask extends TimerTask {
 
         @Override
         public void run() {
@@ -4392,7 +4362,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
 
     }
 
-        private class checkIfAliveTask extends TimerTask {
+    private class checkIfAliveTask extends TimerTask {
 
         @Override
         public void run() {
@@ -4429,7 +4399,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        private class readBattStatusTask extends TimerTask {
+    private class readBattStatusTask extends TimerTask {
         @Override
         public void run() {
             consolePrintLn("Read Batt Task");
@@ -4448,7 +4418,7 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         }
     }
 
-        class checkForSerialPortClear extends TimerTask {
+    class checkForSerialPortClear extends TimerTask {
         @Override
         public void run() {
             System.out.println("Timeout while trying to clear buffer");

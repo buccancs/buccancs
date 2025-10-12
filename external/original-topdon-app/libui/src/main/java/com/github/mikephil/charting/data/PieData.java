@@ -16,17 +16,17 @@ public class PieData extends ChartData<IPieDataSet> {
         super(dataSet);
     }
 
-        public IPieDataSet getDataSet() {
+    public IPieDataSet getDataSet() {
         return mDataSets.get(0);
     }
 
-        public void setDataSet(IPieDataSet dataSet) {
+    public void setDataSet(IPieDataSet dataSet) {
         mDataSets.clear();
         mDataSets.add(dataSet);
         notifyDataChanged();
     }
 
-        @Override
+    @Override
     public IPieDataSet getDataSetByIndex(int index) {
         return index == 0 ? getDataSet() : null;
     }
@@ -42,7 +42,7 @@ public class PieData extends ChartData<IPieDataSet> {
         return getDataSet().getEntryForIndex((int) highlight.getX());
     }
 
-        public float getYValueSum() {
+    public float getYValueSum() {
 
         float sum = 0;
 

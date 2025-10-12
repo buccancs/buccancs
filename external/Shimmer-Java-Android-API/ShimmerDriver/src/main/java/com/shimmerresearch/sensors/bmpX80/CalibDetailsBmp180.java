@@ -5,7 +5,7 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 
 public class CalibDetailsBmp180 extends CalibDetailsBmpX80 {
 
-        private static final long serialVersionUID = 6119627638201576905L;
+    private static final long serialVersionUID = 6119627638201576905L;
 
     public double AC1 = 408;
     public double AC2 = -72;
@@ -18,7 +18,6 @@ public class CalibDetailsBmp180 extends CalibDetailsBmpX80 {
     public double MB = -32767;
     public double MC = -8711;
     public double MD = 2868;
-
 
 
     @Override

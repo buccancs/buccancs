@@ -4,15 +4,15 @@ import java.text.DecimalFormat;
 
 public class DefaultValueFormatter extends ValueFormatter {
 
-        protected DecimalFormat mFormat;
+    protected DecimalFormat mFormat;
 
     protected int mDecimalDigits;
 
-        public DefaultValueFormatter(int digits) {
+    public DefaultValueFormatter(int digits) {
         setup(digits);
     }
 
-        public void setup(int digits) {
+    public void setup(int digits) {
 
         this.mDecimalDigits = digits;
 
@@ -33,7 +33,7 @@ public class DefaultValueFormatter extends ValueFormatter {
         return mFormat.format(value);
     }
 
-        public int getDecimalDigits() {
+    public int getDecimalDigits() {
         return mDecimalDigits;
     }
 }

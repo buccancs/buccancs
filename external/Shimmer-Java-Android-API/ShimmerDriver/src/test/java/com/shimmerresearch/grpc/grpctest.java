@@ -188,7 +188,6 @@ public class grpctest {
                 Request request = Request.newBuilder().setName("E8EB1B713E36").build();
 
 
-
                 ShimmerBLEByteServerGrpc.ShimmerBLEByteServerStub stub = ShimmerBLEByteServerGrpc.newStub(channel);
 
                 StreamObserver<StateStatus> responseObserverState = new StreamObserver<StateStatus>() {
@@ -235,7 +234,6 @@ public class grpctest {
             public void actionPerformed(ActionEvent e) {
 
                 Request request = Request.newBuilder().setName("e7452c6d6f14").build();
-
 
 
                 ShimmerBLEByteServerGrpc.ShimmerBLEByteServerStub stub = ShimmerBLEByteServerGrpc.newStub(channel);

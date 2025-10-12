@@ -757,7 +757,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
         return false;
     }
 
-        @Override
+    @Override
     public void onShimmerDeviceSelected(String macAddress, String deviceName, Boolean selected) {
         if (selected) {
             Toast.makeText(this, "Selected Device: " + deviceName + "\n" + macAddress, Toast.LENGTH_SHORT).show();

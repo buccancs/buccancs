@@ -1,5 +1,3 @@
-
-
 package com.shimmerresearch.driver;
 
 import com.shimmerresearch.bluetooth.BluetoothProgressReportPerDevice;
@@ -16,28 +14,28 @@ public class CallbackObject {
     public Object mMyObject;
 
 
-        public CallbackObject(int ind, String myBlueAdd, String comPort) {
+    public CallbackObject(int ind, String myBlueAdd, String comPort) {
         mIndicator = ind;
         mBluetoothAddress = myBlueAdd;
         mComPort = comPort;
     }
 
 
-        public CallbackObject(int ind, BT_STATE state, String myBlueAdd, String comPort) {
+    public CallbackObject(int ind, BT_STATE state, String myBlueAdd, String comPort) {
         mIndicator = ind;
         mState = state;
         mBluetoothAddress = myBlueAdd;
         mComPort = comPort;
     }
 
-        public CallbackObject(int ind, String myBlueAdd, String comPort, double packetReceptionRate) {
+    public CallbackObject(int ind, String myBlueAdd, String comPort, double packetReceptionRate) {
         mIndicator = ind;
         mBluetoothAddress = myBlueAdd;
         mComPort = comPort;
         this.mPacketReceptionRate = packetReceptionRate;
     }
 
-        public CallbackObject(BT_STATE state, String myBlueAdd, String comPort, BluetoothProgressReportPerDevice progressReportPerDevice) {
+    public CallbackObject(BT_STATE state, String myBlueAdd, String comPort, BluetoothProgressReportPerDevice progressReportPerDevice) {
         mState = state;
         mBluetoothAddress = myBlueAdd;
         mComPort = comPort;

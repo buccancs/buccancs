@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.view.View
@@ -66,8 +67,10 @@ class IRVideoGSYActivity : BaseActivity() {
         iv_download.setImageResource(if (isRemote) R.drawable.selector_download else R.drawable.ic_toolbar_info_svg)
         previewVideo(isRemote, data.path)
     }
+
     override fun initData() {
     }
+
     private fun previewVideo(isRemote: Boolean, path: String) {
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
         val url = if (isRemote) {
@@ -84,6 +87,7 @@ class IRVideoGSYActivity : BaseActivity() {
         gsy_play.backButton.visibility = View.GONE
         gsy_play.fullscreenButton.visibility = View.GONE
     }
+
     private fun actionDownload(isToShare: Boolean) {
         if (data.hasDownload) {
             if (isToShare) {
@@ -111,6 +115,7 @@ class IRVideoGSYActivity : BaseActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
     }
+
     private fun actionInfo() {
         val sizeStr = FileTools.getFileSize(data.path)
         val str = StringBuilder()
@@ -124,6 +129,7 @@ class IRVideoGSYActivity : BaseActivity() {
             .setCanceled(true)
             .create().show()
     }
+
     private fun actionShare() {
         val uri = FileTools.getUri(File(data.path))
         val shareIntent = Intent()
@@ -132,6 +138,7 @@ class IRVideoGSYActivity : BaseActivity() {
         shareIntent.type = "video/*"
         startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
     }
+
     private fun showDeleteDialog() {
         ConfirmSelectDialog(this).run {
             setTitleRes(R.string.tip_delete)
@@ -143,6 +150,7 @@ class IRVideoGSYActivity : BaseActivity() {
             show()
         }
     }
+
     private fun deleteFile(isDelLocal: Boolean) {
         if (isRemote) {
             lifecycleScope.launch {
@@ -174,14 +182,17 @@ class IRVideoGSYActivity : BaseActivity() {
             finish()
         }
     }
+
     override fun onResume() {
         getCurPlay().onVideoResume(false)
         super.onResume()
     }
+
     override fun onPause() {
         getCurPlay().onVideoPause()
         super.onPause()
     }
+
     private fun getCurPlay(): GSYVideoPlayer {
         return if (gsy_play.fullWindowPlayer != null) {
             gsy_play.fullWindowPlayer

@@ -10,16 +10,16 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 public class ShimmerException extends ExecutionException {
 
     private static final long serialVersionUID = -8040452709544630044L;
-        public static HashMap<Integer, String> mMapOfErrorCodes = new HashMap<Integer, String>();
+    public static HashMap<Integer, String> mMapOfErrorCodes = new HashMap<Integer, String>();
     public int mErrorCode;
     public int mErrorCodeLowLevel;
     public String mComPort;
     public String mClassName;
     public String mUniqueID;
-        public String mMessage = "";
-        public String mExceptionMsg = "";
-        public StackTraceElement[] mExceptionStackTrace;
-        public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
+    public String mMessage = "";
+    public String mExceptionMsg = "";
+    public StackTraceElement[] mExceptionStackTrace;
+    public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
 
     public ShimmerException() {
         mExceptionStackTrace = UtilShimmer.getCurrentStackTrace();
@@ -44,7 +44,7 @@ public class ShimmerException extends ExecutionException {
         mExceptionStackTrace = UtilShimmer.getCurrentStackTrace();
     }
 
-        public ShimmerException(int errorCode, String message) {
+    public ShimmerException(int errorCode, String message) {
         mErrorCode = errorCode;
         mMessage = message;
         mExceptionStackTrace = UtilShimmer.getCurrentStackTrace();

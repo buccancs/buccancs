@@ -1,11 +1,11 @@
 package com.energy.commoncomponent.view.tempcanvas;
 
 public enum TempInfoMode {
-        POINT,
+    POINT,
 
-        LINE,
+    LINE,
 
-        RECTANGLE,
+    RECTANGLE,
 
-        CIRCLE,
+    CIRCLE,
 }

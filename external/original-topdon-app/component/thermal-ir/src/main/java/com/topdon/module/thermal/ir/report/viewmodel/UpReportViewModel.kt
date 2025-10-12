@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.viewmodel
+
 import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.TimeUtils
@@ -19,6 +20,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.CountDownLatch
+
 class UpReportViewModel : BaseViewModel() {
     val commonBeanLD = SingleLiveEvent<CommonBean>()
     val exceptionLD = SingleLiveEvent<Exception?>()
@@ -28,6 +30,7 @@ class UpReportViewModel : BaseViewModel() {
             uploadJSON(isTC007, reportBean)
         }
     }
+
     private suspend fun uploadImages(reportBean: ReportBean?) {
         withContext(Dispatchers.IO) {
             val irList = reportBean?.infrared_data
@@ -56,6 +59,7 @@ class UpReportViewModel : BaseViewModel() {
             }
         }
     }
+
     private suspend fun uploadJSON(isTC007: Boolean, reportBean: ReportBean?) {
         withContext(Dispatchers.IO) {
             val url = UrlConstant.BASE_URL + "api/v1/outProduce/testReport/addTestReport"
@@ -69,6 +73,7 @@ class UpReportViewModel : BaseViewModel() {
                 override fun onResponse(response: String?) {
                     commonBeanLD.postValue(ResponseBean.convertCommonBean(response, null))
                 }
+
                 override fun onFail(exception: Exception?) {
                     exceptionLD.postValue(exception)
                 }

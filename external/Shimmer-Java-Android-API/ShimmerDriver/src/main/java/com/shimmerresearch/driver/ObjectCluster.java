@@ -31,7 +31,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
     public static final int CAL_INDEX = CHANNEL_TYPE.CAL.ordinal();
     public static final int UNCAL_INDEX = CHANNEL_TYPE.CAL.ordinal();
     private static final long serialVersionUID = -7601464501144773539L;
-        public static OBJECTCLUSTER_TYPE[] mOCTypesEnabled = new OBJECTCLUSTER_TYPE[]{
+    public static OBJECTCLUSTER_TYPE[] mOCTypesEnabled = new OBJECTCLUSTER_TYPE[]{
             null,
             OBJECTCLUSTER_TYPE.FORMAT_CLUSTER,
             null,
@@ -42,7 +42,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
     public byte[] mRawData;
     public double[] mUncalData;
     public double[] mCalData;
-        @Deprecated
+    @Deprecated
     public String[] mSensorNames;
     public String[] mUnitCal;
     public String[] mUnitUncal;
@@ -50,17 +50,17 @@ final public class ObjectCluster implements Cloneable, Serializable {
     public SensorDataArray sensorDataArray;
     public double mSystemTimeStamp = 0;
     public double mLSLTimeStamp = 0;
-        public boolean mIsShimmerObjectCluster = true;
+    public boolean mIsShimmerObjectCluster = true;
     public boolean useList = false;
     public int mPacketIdValue = 0;
-        public BT_STATE mState;
+    public BT_STATE mState;
     public int mIndexCal = 0;
     public int mIndexUncal = 0;
     public boolean mEnableArraysDataStructure = false;
-        private List<String> listOfChannelNames = new ArrayList<String>();
+    private List<String> listOfChannelNames = new ArrayList<String>();
     private String mMyName;
     private String mBluetoothAddress;
-        private Builder mObjectClusterBuilder;
+    private Builder mObjectClusterBuilder;
     private int indexKeeper = 0;
     private byte[] mSystemTimeStampBytes = new byte[8];
     private double mTimeStampMilliSecs;
@@ -97,7 +97,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
         mMyName = ojc2.getName();
     }
 
-        public static FormatCluster returnFormatCluster(Collection<FormatCluster> collectionFormatCluster, String format) {
+    public static FormatCluster returnFormatCluster(Collection<FormatCluster> collectionFormatCluster, String format) {
         FormatCluster returnFormatCluster = null;
 
         Iterator<FormatCluster> iFormatCluster = collectionFormatCluster.iterator();
@@ -120,11 +120,11 @@ final public class ObjectCluster implements Cloneable, Serializable {
         return listofSignals;
     }
 
-        public static OBJECTCLUSTER_TYPE[] getOCTypesEnabled() {
+    public static OBJECTCLUSTER_TYPE[] getOCTypesEnabled() {
         return mOCTypesEnabled;
     }
 
-        public static void setOCTypesEnabled(List<OBJECTCLUSTER_TYPE> listOfOCTypesEnabled) {
+    public static void setOCTypesEnabled(List<OBJECTCLUSTER_TYPE> listOfOCTypesEnabled) {
         ObjectCluster.mOCTypesEnabled = new OBJECTCLUSTER_TYPE[OBJECTCLUSTER_TYPE.values().length];
         for (OBJECTCLUSTER_TYPE ocType : listOfOCTypesEnabled) {
             ObjectCluster.mOCTypesEnabled[ocType.ordinal()] = ocType;
@@ -179,7 +179,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
         return getFormatClusterValue(channelDetails.mObjectClusterName, channelType.toString());
     }
 
-        public double getFormatClusterValue(String channelName, String format) {
+    public double getFormatClusterValue(String channelName, String format) {
         if (mEnableArraysDataStructure) {
             int index = getIndexForChannelName(channelName);
             if (index == -1) {
@@ -213,13 +213,13 @@ final public class ObjectCluster implements Cloneable, Serializable {
         return null;
     }
 
-        public void removePropertyFormat(String propertyname, String formatname) {
+    public void removePropertyFormat(String propertyname, String formatname) {
         Collection<FormatCluster> colFormats = mPropertyCluster.get(propertyname);
         FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(colFormats, formatname));
         mPropertyCluster.remove(propertyname, formatCluster);
     }
 
-        public byte[] serialize() {
+    public byte[] serialize() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -405,8 +405,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
             } else if (channelType == CHANNEL_TYPE.UNCAL) {
                 mUncalData[index] = data;
                 mUnitUncal[index] = units;
-            }
-            else if (channelType == CHANNEL_TYPE.DERIVED) {
+            } else if (channelType == CHANNEL_TYPE.DERIVED) {
                 mCalData[index] = data;
                 mUnitCal[index] = units;
                 mUncalData[index] = data;
@@ -579,7 +578,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
         }
     }
 
-        public int getIndexForChannelName(String channelName) {
+    public int getIndexForChannelName(String channelName) {
         if (mEnableArraysDataStructure) {
             for (int i = 0; i < sensorDataArray.mSensorNames.length; i++) {
                 if (sensorDataArray.mSensorNames[i] != null) {

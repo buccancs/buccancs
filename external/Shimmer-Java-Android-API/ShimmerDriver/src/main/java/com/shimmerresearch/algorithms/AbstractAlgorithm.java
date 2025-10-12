@@ -25,14 +25,14 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 public abstract class AbstractAlgorithm extends BasicProcessWithCallBack implements Serializable {
 
     public static final double mVersion = 1.0;
-        private static final long serialVersionUID = 1L;
-        public String mAlgorithmName;
+    private static final long serialVersionUID = 1L;
+    public String mAlgorithmName;
 
     ;
     @Deprecated
     public String mAlgorithmGroupingName;
     public AlgorithmDetails mAlgorithmDetails;
-        public List<ShimmerVerObject> mListOfCompatibleSVO = new ArrayList<ShimmerVerObject>();
+    public List<ShimmerVerObject> mListOfCompatibleSVO = new ArrayList<ShimmerVerObject>();
     public List<String> mOutputChannels;
 
     public FILTERING_OPTION mFilteringOptions = FILTERING_OPTION.NONE;
@@ -40,13 +40,13 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     public ALGORITHM_RESULT_TYPE mAlgorithmResultType = ALGORITHM_RESULT_TYPE.ALGORITHM_RESULT_TYPE_SINGLE_OBJECT_CLUSTER;
 
     public ALGORITHM_INPUT_TYPE mAlgorithmInputType = ALGORITHM_INPUT_TYPE.ALGORITHM_INPUT_TYPE_SINGLE_OBJECT_CLUSTER;
-        public HashMap<String, ConfigOptionDetails> mConfigOptionsMap = new HashMap<String, ConfigOptionDetails>();
+    public HashMap<String, ConfigOptionDetails> mConfigOptionsMap = new HashMap<String, ConfigOptionDetails>();
     public HashMap<String, AlgorithmDetails> mAlgorithmChannelsMap = new HashMap<String, AlgorithmDetails>();
     public TreeMap<Integer, SensorGroupingDetails> mMapOfAlgorithmGrouping = new TreeMap<Integer, SensorGroupingDetails>();
-        public List<COMMUNICATION_TYPE> mListOfCommunicationTypesSupported = Arrays.asList(COMMUNICATION_TYPE.values());
+    public List<COMMUNICATION_TYPE> mListOfCommunicationTypesSupported = Arrays.asList(COMMUNICATION_TYPE.values());
     protected String mTrialName;
     @Deprecated
-        protected String[] mSignalName = new String[1];
+    protected String[] mSignalName = new String[1];
     @Deprecated
     protected String[] mSignalFormat = new String[1];
     protected String mTimeStampName = "";
@@ -57,11 +57,11 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     protected double mShimmerSamplingRate = 128.0;
     protected ShimmerDevice mShimmerDevice = null;
     protected UtilShimmer mUtilShimmer = new UtilShimmer(this.getClass().getSimpleName(), true);
-        @Deprecated
+    @Deprecated
     protected String[] mSignalOutputNameArray;
-        @Deprecated
+    @Deprecated
     protected String[] mSignalOutputFormatArray;
-        @Deprecated
+    @Deprecated
     protected String[] mSignalOutputUnitArray;
 
     public AbstractAlgorithm() {
@@ -83,17 +83,17 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
     public abstract void setMinSamplingRateForAlgorithm();
 
-        public abstract void setSupportedVerInfo();
+    public abstract void setSupportedVerInfo();
 
-        public abstract void generateConfigOptionsMap();
+    public abstract void generateConfigOptionsMap();
 
     public abstract void generateAlgorithmGroupingMap();
 
     public abstract void initialize() throws Exception;
 
-        public abstract void resetAlgorithm() throws Exception;
+    public abstract void resetAlgorithm() throws Exception;
 
-        public abstract void resetAlgorithmBuffers();
+    public abstract void resetAlgorithmBuffers();
 
     public abstract Object getSettings(String componentName);
 
@@ -101,13 +101,13 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
     public abstract Object getDefaultSettings(String componentName);
 
-        public abstract AlgorithmResultObject processDataRealTime(ObjectCluster ojc) throws Exception;
+    public abstract AlgorithmResultObject processDataRealTime(ObjectCluster ojc) throws Exception;
 
-        public abstract AlgorithmResultObject processDataPostCapture(Object object) throws Exception;
+    public abstract AlgorithmResultObject processDataPostCapture(Object object) throws Exception;
 
-        public abstract String printBatchMetrics();
+    public abstract String printBatchMetrics();
 
-        public abstract void eventDataReceived(ShimmerMsg shimmerMSG);
+    public abstract void eventDataReceived(ShimmerMsg shimmerMSG);
 
     public abstract LinkedHashMap<String, Object> generateConfigMap();
 
@@ -227,40 +227,40 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         }
     }
 
-        public void algorithmMapUpdateFromEnabledSensorsVars(long derivedSensorBitmapID) {
+    public void algorithmMapUpdateFromEnabledSensorsVars(long derivedSensorBitmapID) {
         if (mAlgorithmDetails != null) {
             boolean state = (mAlgorithmDetails.mDerivedSensorBitmapID & derivedSensorBitmapID) > 0 ? true : false;
             setIsEnabled(state);
         }
     }
 
-        public long getDerivedSensorBitmapID() {
+    public long getDerivedSensorBitmapID() {
         if (mAlgorithmDetails != null && isEnabled()) {
             return mAlgorithmDetails.mDerivedSensorBitmapID;
         }
         return 0;
     }
 
-        @Deprecated
+    @Deprecated
     public String[] getSignalOutputNameArray() {
         return mSignalOutputNameArray;
     }
 
-        @Deprecated
+    @Deprecated
     public String[] getSignalOutputFormatArray() {
         return mSignalOutputFormatArray;
     }
 
-        @Deprecated
+    @Deprecated
     public String[] getSignalOutputUnitArray() {
         return mSignalOutputUnitArray;
     }
 
-        public List<ChannelDetails> getChannelDetails() {
+    public List<ChannelDetails> getChannelDetails() {
         return getChannelDetails(false);
     }
 
-        public List<ChannelDetails> getChannelDetails(boolean showDisabledChannels) {
+    public List<ChannelDetails> getChannelDetails(boolean showDisabledChannels) {
         if (mAlgorithmDetails != null) {
             return mAlgorithmDetails.getChannelDetails();
         }
@@ -268,7 +268,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     }
 
 
-        public Integer getNumberOfEnabledChannels() {
+    public Integer getNumberOfEnabledChannels() {
         List<ChannelDetails> listOfChannels = getChannelDetails(false);
         if (listOfChannels != null) {
             return listOfChannels.size();
@@ -277,7 +277,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     }
 
 
-        public List<String> getOutputChannelList() {
+    public List<String> getOutputChannelList() {
         return mOutputChannels;
     }
 
@@ -301,7 +301,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         return mConfigOptionsMap.get(key).mGuiValues;
     }
 
-        public void sendProcessingResultMsg(AlgorithmResultObject aro) {
+    public void sendProcessingResultMsg(AlgorithmResultObject aro) {
         sendCallBackMsg(MsgDock.MSG_ID_SOURCE_ALGORITHM, aro);
     }
 
@@ -413,7 +413,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         }
     }
 
-        public void loadAlgorithmVariables(AbstractAlgorithm abstractAlgorithmSource) {
+    public void loadAlgorithmVariables(AbstractAlgorithm abstractAlgorithmSource) {
 
     }
 
@@ -429,7 +429,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
         private final String text;
 
-                private ALGORITHM_TYPE(final String text) {
+        private ALGORITHM_TYPE(final String text) {
             this.text = text;
         }
 
@@ -445,7 +445,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
         private final String text;
 
-                private ALGORITHM_RESULT_TYPE(final String text) {
+        private ALGORITHM_RESULT_TYPE(final String text) {
             this.text = text;
         }
 
@@ -461,7 +461,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
         private final String text;
 
-                private ALGORITHM_INPUT_TYPE(final String text) {
+        private ALGORITHM_INPUT_TYPE(final String text) {
             this.text = text;
         }
 

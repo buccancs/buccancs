@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view.compass
+
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
@@ -11,6 +12,7 @@ import com.kylecorry.andromeda.sense.magnetometer.Magnetometer
 import com.kylecorry.andromeda.sense.orientation.GeomagneticRotationSensor
 import com.kylecorry.andromeda.sense.orientation.RotationSensor
 import com.kylecorry.sol.math.filters.MovingAverageFilter
+
 class CompassProvider(private val context: Context) {
 
     fun get(): ICompass {
@@ -28,12 +30,15 @@ class CompassProvider(private val context: Context) {
             CompassSource.RotationVector -> {
                 RotationSensor(context, useTrueNorth, SensorService.MOTION_SENSOR_DELAY)
             }
+
             CompassSource.GeomagneticRotationVector -> {
                 GeomagneticRotationSensor(context, useTrueNorth, SensorService.MOTION_SENSOR_DELAY)
             }
+
             CompassSource.CustomMagnetometer -> {
                 GravityCompensatedCompass(context, useTrueNorth, SensorService.MOTION_SENSOR_DELAY)
             }
+
             CompassSource.Orientation -> {
                 LegacyCompass(context, useTrueNorth, SensorService.MOTION_SENSOR_DELAY)
             }
@@ -46,6 +51,7 @@ class CompassProvider(private val context: Context) {
             Magnetometer(context, SensorManager.SENSOR_DELAY_NORMAL)
         )
     }
+
     companion object {
         fun getAvailableSources(context: Context): List<CompassSource> {
             val sources = mutableListOf<CompassSource>()

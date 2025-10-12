@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.video
+
 import android.graphics.Bitmap
 import com.topdon.lib.core.utils.BitmapUtils
 import com.infisense.usbir.view.CameraView

@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.view
+
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -9,25 +10,30 @@ import com.blankj.utilcode.util.SizeUtils
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.databinding.ViewTrendBinding
 import kotlin.math.min
+
 class TrendView : FrameLayout {
     fun expand() {
         binding.clOpen.isVisible = true
         binding.llClose.isVisible = false
     }
+
     fun close() {
         binding.clOpen.isVisible = false
         binding.llClose.isVisible = true
     }
+
     fun refreshChart(tempList: List<Float>) {
         if (isVisible && binding.clOpen.isVisible) {
             binding.viewChartTrend.refresh(tempList)
         }
     }
+
     fun setToEmpty() {
         binding.viewChartTrend.setToEmpty()
     }
 
     private lateinit var binding: ViewTrendBinding
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
@@ -51,12 +57,14 @@ class TrendView : FrameLayout {
             }
         }
     }
+
     override fun setVisibility(visibility: Int) {
         super.setVisibility(visibility)
         if (visibility == View.GONE) {
             binding.viewChartTrend.setToEmpty()
         }
     }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)

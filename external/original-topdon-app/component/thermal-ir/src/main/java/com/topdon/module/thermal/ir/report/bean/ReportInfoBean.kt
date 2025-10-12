@@ -1,7 +1,9 @@
 package com.topdon.module.thermal.ir.report.bean
+
 import android.os.Parcelable
 import com.topdon.lib.core.utils.CommUtils
 import kotlinx.android.parcel.Parcelize
+
 @Parcelize
 data class ReportInfoBean(
     val report_name: String?,

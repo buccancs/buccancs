@@ -20,7 +20,7 @@ public class ShimmerBattStatusDetails implements Serializable {
     public ShimmerBattStatusDetails() {
     }
 
-        public ShimmerBattStatusDetails(byte[] rxBuf) {
+    public ShimmerBattStatusDetails(byte[] rxBuf) {
         if (rxBuf.length >= 3) {
             int battAdcValue = (((rxBuf[1] & 0xFF) << 8) + (rxBuf[0] & 0xFF));
             int chargingStatus = rxBuf[2] & 0xFF;
@@ -28,7 +28,7 @@ public class ShimmerBattStatusDetails implements Serializable {
         }
     }
 
-        public ShimmerBattStatusDetails(int battAdcValue, int chargingStatus) {
+    public ShimmerBattStatusDetails(int battAdcValue, int chargingStatus) {
         update(battAdcValue, chargingStatus);
     }
 
@@ -108,9 +108,9 @@ public class ShimmerBattStatusDetails implements Serializable {
                 100.0);
         for (Double d : listOfPreferredThresholdsForLedChange) {
             System.out.println("ADC val: " + ShimmerBattStatusDetails.battPercentageToAdc(d)
-                            + "\tVoltage: " + ShimmerBattStatusDetails.battPercentageToBattVoltage(d)
-                            + "\tPercent: " + d
-                            + "\tADC buffer: " + (ShimmerBattStatusDetails.battPercentageToAdc(d) - 25) + "-to-" + (ShimmerBattStatusDetails.battPercentageToAdc(d) + 25)
+                    + "\tVoltage: " + ShimmerBattStatusDetails.battPercentageToBattVoltage(d)
+                    + "\tPercent: " + d
+                    + "\tADC buffer: " + (ShimmerBattStatusDetails.battPercentageToAdc(d) - 25) + "-to-" + (ShimmerBattStatusDetails.battPercentageToAdc(d) + 25)
             );
         }
 
@@ -175,8 +175,7 @@ public class ShimmerBattStatusDetails implements Serializable {
         if (mChargingStatus == CHARGING_STATUS.CHARGING) {
             if (mBattVoltage < 3.0) {
                 mChargingStatusParsed += " (Preconditioning)";
-            }
-            else {
+            } else {
                 mChargingStatusParsed += "...";
             }
 

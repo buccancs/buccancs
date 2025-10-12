@@ -8,17 +8,17 @@ import com.github.mikephil.charting.utils.MPPointF;
 
 public interface ChartInterface {
 
-        float getXChartMin();
+    float getXChartMin();
 
-        float getXChartMax();
+    float getXChartMax();
 
     float getXRange();
 
-        float getYChartMin();
+    float getYChartMin();
 
-        float getYChartMax();
+    float getYChartMax();
 
-        float getMaxHighlightDistance();
+    float getMaxHighlightDistance();
 
     int getWidth();
 

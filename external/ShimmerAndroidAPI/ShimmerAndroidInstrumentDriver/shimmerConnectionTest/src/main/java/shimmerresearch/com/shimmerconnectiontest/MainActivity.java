@@ -145,7 +145,7 @@ public class MainActivity extends Activity {
         }
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
@@ -213,7 +213,9 @@ public class MainActivity extends Activity {
 
             }
         }
-    }        Handler mHandler = new Handler() {
+    }
+
+    Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -256,7 +258,7 @@ public class MainActivity extends Activity {
                     }
                     break;
                 case Shimmer.MESSAGE_TOAST:
-                                        Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show();
                     break;
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
                     ShimmerBluetooth.BT_STATE state = null;
@@ -340,8 +342,6 @@ public class MainActivity extends Activity {
             super.handleMessage(msg);
         }
     };
-
-
 
 
 }

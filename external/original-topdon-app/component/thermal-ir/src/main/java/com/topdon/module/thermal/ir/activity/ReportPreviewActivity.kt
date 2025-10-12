@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -34,6 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import kotlin.math.abs
+
 @Route(path = RouterConfig.REPORT_PREVIEW)
 class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
     private val detectViewModel: DetectViewModel by viewModels()
@@ -82,16 +84,19 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
             detectViewModel.queryById(intent.getLongExtra(ExtraKeyConfig.LONG_ID, 0))
         }
     }
+
     override fun initData() {
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setAvatorChange()
     }
+
     private fun setAvatorChange() {
         lay_appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val percent = abs(verticalOffset * 1.0f) / appBarLayout.totalScrollRange
             lay_toolbar.setBackgroundColor(changeAlpha(getColor(R.color.color_23202E), percent))
         }
     }
+
     private fun changeAlpha(color: Int, fraction: Float): Int {
         val red = Color.red(color)
         val green = Color.green(color)
@@ -99,21 +104,25 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
         val alpha = (Color.alpha(color) * fraction).toInt()
         return Color.argb(alpha, red, green, blue)
     }
+
     override fun onClick(v: View?) {
         when (v) {
             toolbar_back_img -> {
                 finish()
             }
+
             rly_inspector_signature -> {
                 var intent = Intent(this, SignInputActivity::class.java)
                 intent.putExtra(ExtraKeyConfig.IS_PICK_INSPECTOR, true)
                 startActivityForResult(intent, 1000)
             }
+
             rly_house_owner_signature -> {
                 var intent = Intent(this, SignInputActivity::class.java)
                 intent.putExtra(ExtraKeyConfig.IS_PICK_INSPECTOR, false)
                 startActivityForResult(intent, 1001)
             }
+
             tv_save -> {
                 if (isReport) {
                     lifecycleScope.launch {
@@ -155,6 +164,7 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
@@ -166,6 +176,7 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
                     houseReport.inspectorWhitePath = whitePath
                     houseReport.inspectorBlackPath = blackPath
                 }
+
                 1001 -> {
                     Glide.with(this).load(whitePath).into(iv_house_owner_signature)
                     houseReport.houseOwnerWhitePath = whitePath
@@ -174,6 +185,7 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     private fun convertDataModel(houseReport: HouseReport): HouseRepPreviewBean {
         var houseRepPreviewBean = HouseRepPreviewBean()
         houseRepPreviewBean.housePhoto = houseReport.imagePath
@@ -246,6 +258,7 @@ class ReportPreviewActivity : BaseActivity(), View.OnClickListener {
         houseRepPreviewBean.houseOwnerWhitePath = houseReport.houseOwnerWhitePath
         return houseRepPreviewBean
     }
+
     private fun setAdapter() {
         mPreviewBean?.let {
             Glide.with(this).load(it.housePhoto).into(iv_header_bg)

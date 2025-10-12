@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.activity
+
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.util.Log
@@ -51,6 +52,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.math.BigDecimal
 import java.math.RoundingMode
+
 @Route(path = RouterConfig.IR_MONITOR_CHART)
 class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
     protected var defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT
@@ -82,10 +84,12 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
 
         initDataIR()
     }
+
     override fun finish() {
         super.finish()
         EventBus.getDefault().post(MonitorSaveEvent())
     }
+
     private var showTask: Job? = null
     override fun initData() {
         if (showTask != null && showTask!!.isActive) {
@@ -130,6 +134,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
             }
         }
     }
+
     override fun onStart() {
         super.onStart()
         isStop = false
@@ -154,15 +159,18 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
             }, 1500)
         }
     }
+
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         mp_chart_view.highlightValue(null)
     }
+
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     private var isStop = false
     override fun onStop() {
         super.onStop()
@@ -177,6 +185,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
         cameraView.stop()
         isrun = false
     }
+
     override fun onDestroy() {
         super.onDestroy()
         recordJob?.cancel()
@@ -186,10 +195,12 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
             Log.e(TAG, "imageThread.join(): catch an interrupted exception")
         }
     }
+
     override fun disConnected() {
         super.disConnected()
         finish()
     }
+
     private var isRecord = false
     private var timeMillis = 1000L
     private var canUpdate = false
@@ -248,12 +259,14 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
     private val syncimage = SynchronizedBitmap()
     private var isrun = false
     private var pseudoColorMode = 0
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun irEvent(event: IRMsgEvent) {
         if (event.code == MsgCode.RESTART_USB) {
             restartUsbCamera()
         }
     }
+
     private var rotateAngle = 270
     private fun initDataIR() {
         imageWidth = cameraHeight - tempHeight
@@ -282,12 +295,14 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
     fun iruvctc(event: PreviewComplete) {
         dealY16ModePreviewComplete()
     }
+
     private fun dealY16ModePreviewComplete() {
         dismissLoadingDialog()
         isConfigWait = false
         iruvc!!.setFrameReady(true)
         addTempLine()
     }
+
     private fun startISP() {
         try {
             imageThread = ImageThreadTC(this@IRMonitorChartActivity, imageWidth, imageHeight)
@@ -309,6 +324,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
             defaultDataFlowMode, object : ConnectCallback {
                 override fun onCameraOpened(uvcCamera: UVCCamera) {
                 }
+
                 override fun onIRCMDCreate(ircmd: IRCMD) {
                     Log.i(
                         TAG,
@@ -339,6 +355,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
                 override fun onDettach() {
                     finish()
                 }
+
                 override fun onCancel() {
                     finish()
                 }
@@ -350,13 +367,14 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
         iruvc!!.registerUSB()
     }
 
-        private fun restartUsbCamera() {
+    private fun restartUsbCamera() {
         if (iruvc != null) {
             iruvc!!.stopPreview()
             iruvc!!.unregisterUSB()
         }
         startUSB(true)
     }
+
     private var isConfigWait = false
     private fun configParam() {
         lifecycleScope.launch {
@@ -431,6 +449,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
             )
         }
     }
+
     private fun addTempLine() {
         temperatureView.visibility = View.VISIBLE
         when (selectBean.type) {
@@ -438,6 +457,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
                 temperatureView.addScalePoint(selectBean.startPosition)
                 temperatureView.temperatureRegionMode = REGION_MODE_POINT
             }
+
             2 -> {
                 temperatureView.addScaleLine(
                     Line(
@@ -447,6 +467,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
                 )
                 temperatureView.temperatureRegionMode = REGION_MODE_LINE
             }
+
             3 -> {
                 temperatureView.addScaleRectangle(
                     Rect(
@@ -461,6 +482,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
         }
         temperatureView.drawLine()
     }
+
     private fun setViewLay() {
         thermal_lay.post {
             val params = thermal_lay.layoutParams
@@ -478,6 +500,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
             thermal_lay.layoutParams = params
         }
     }
+
     override fun tempCorrectByTs(temp: Float?): Float {
         var tmp = temp
         try {
@@ -533,6 +556,7 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
             100 -> {
                 showCameraLoading()
             }
+
             101 -> {
                 dismissCameraLoading()
                 addTempLine()

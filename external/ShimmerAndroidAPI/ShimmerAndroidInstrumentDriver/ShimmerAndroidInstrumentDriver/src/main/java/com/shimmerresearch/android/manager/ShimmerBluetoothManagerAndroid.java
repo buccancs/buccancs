@@ -111,7 +111,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
         super.connectShimmerThroughBTAddress(bluetoothAddress);
     }
 
-        public void enablePairingOnConnect(boolean enable) {
+    public void enablePairingOnConnect(boolean enable) {
         AllowAutoPairing = enable;
     }
 
@@ -290,7 +290,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
 
     }
 
-        public boolean isDevicePaired(String bluetoothAddress) {
+    public boolean isDevicePaired(String bluetoothAddress) {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         for (BluetoothDevice device : pairedDevices) {
             if (device.getAddress().equals(bluetoothAddress)) {
@@ -521,7 +521,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
         }
     }
 
-        public void toggleAllLEDS() {
+    public void toggleAllLEDS() {
 
         HashMap<String, Object> mMultiShimmer = new HashMap<String, Object>(7);
         mMultiShimmer = getHashMapOfShimmersConnected();

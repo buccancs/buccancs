@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.fragment
+
 import android.content.Intent
 import androidx.core.view.isVisible
 import com.alibaba.android.arouter.launcher.ARouter
@@ -11,6 +12,7 @@ import com.topdon.lib.core.tools.ToastTools
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.activity.IRMonitorActivity
 import kotlinx.android.synthetic.main.fragment_ir_monitor_capture.*
+
 class IRMonitorCaptureFragment : BaseFragment() {
     private var isTC007 = false
     override fun initContentView(): Int = R.layout.fragment_ir_monitor_capture
@@ -40,33 +42,40 @@ class IRMonitorCaptureFragment : BaseFragment() {
         }
         refreshUI(if (isTC007) WebSocketProxy.getInstance().isTC007Connect() else DeviceTools.isConnect())
     }
+
     override fun onResume() {
         super.onResume()
         refreshUI(if (isTC007) WebSocketProxy.getInstance().isTC007Connect() else DeviceTools.isConnect())
     }
+
     override fun initData() {
     }
+
     private fun refreshUI(isConnect: Boolean) {
         animation_view.isVisible = !isConnect
         iv_icon.isVisible = isConnect
         view_start.isVisible = isConnect
         tv_start.isVisible = isConnect
     }
+
     override fun connected() {
         if (!isTC007) {
             refreshUI(true)
         }
     }
+
     override fun disConnected() {
         if (!isTC007) {
             refreshUI(false)
         }
     }
+
     override fun onSocketConnected(isTS004: Boolean) {
         if (isTC007 && !isTS004) {
             refreshUI(true)
         }
     }
+
     override fun onSocketDisConnected(isTS004: Boolean) {
         if (isTC007 && !isTS004) {
             refreshUI(false)

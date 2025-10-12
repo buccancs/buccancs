@@ -18,10 +18,10 @@ import java.lang.reflect.Method;
 
 public class ScreenUtils {
     private ScreenUtils() {
-                throw new UnsupportedOperationException("cannot be instantiated");
+        throw new UnsupportedOperationException("cannot be instantiated");
     }
 
-        public static int getScreenWidth(Context context) {
+    public static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -29,7 +29,7 @@ public class ScreenUtils {
         return outMetrics.widthPixels;
     }
 
-        public static int getScreenHeight(Context context) {
+    public static int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -37,7 +37,7 @@ public class ScreenUtils {
         return outMetrics.heightPixels;
     }
 
-        public static int getStatusHeight(Context context) {
+    public static int getStatusHeight(Context context) {
 
         int statusHeight = -1;
         try {
@@ -52,7 +52,7 @@ public class ScreenUtils {
         return statusHeight;
     }
 
-        public static Bitmap snapShotWithStatusBar(Activity activity) {
+    public static Bitmap snapShotWithStatusBar(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -66,11 +66,11 @@ public class ScreenUtils {
 
     }
 
-        public static int getScreenDensityDpi(Context context) {
+    public static int getScreenDensityDpi(Context context) {
         return context.getResources().getDisplayMetrics().densityDpi;
     }
 
-        public static Bitmap snapShotWithoutStatusBar(Activity activity) {
+    public static Bitmap snapShotWithoutStatusBar(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -89,7 +89,7 @@ public class ScreenUtils {
 
     }
 
-        public static int getBottomStatusHeight(Context context) {
+    public static int getBottomStatusHeight(Context context) {
         int totalHeight = getDpi(context);
 
         int contentHeight = getScreenHeight(context);
@@ -116,7 +116,7 @@ public class ScreenUtils {
         return dpi;
     }
 
-        public static int dp2px(float dpValue) {
+    public static int dp2px(float dpValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
@@ -126,12 +126,12 @@ public class ScreenUtils {
         return (int) (spValue * fontScale + 0.5f);
     }
 
-        public static float getScreenDendity(Context context) {
+    public static float getScreenDendity(Context context) {
         return context.getResources().getDisplayMetrics().density;
     }
 
-        public static Dialog showNormalDialog(Context context, String info, PopupWindow.OnDismissListener dismissListener) {
-                final AlertDialog.Builder normalDialog =
+    public static Dialog showNormalDialog(Context context, String info, PopupWindow.OnDismissListener dismissListener) {
+        final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
         normalDialog.setTitle("Info");
         normalDialog.setMessage(info);

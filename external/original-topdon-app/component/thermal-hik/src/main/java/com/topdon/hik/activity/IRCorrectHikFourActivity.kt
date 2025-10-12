@@ -1,4 +1,5 @@
 package com.topdon.hik.activity
+
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
@@ -13,6 +14,7 @@ import com.topdon.module.thermal.ir.event.CorrectionFinishEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+
 class IRCorrectHikFourActivity : BaseBindingActivity<ActivityIrCorrectHikFourBinding>() {
     companion object {
         private const val COUNT_DOWN_SECOND = 60
@@ -63,25 +65,30 @@ class IRCorrectHikFourActivity : BaseBindingActivity<ActivityIrCorrectHikFourBin
             binding.timeDownView.downSecond(COUNT_DOWN_SECOND, false)
         }
     }
+
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     override fun onPause() {
         super.onPause()
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
     override fun onStop() {
         super.onStop()
         binding.timeDownView.cancel()
         EventBus.getDefault().post(CorrectionFinishEvent())
         finish()
     }
+
     override fun disConnected() {
         binding.timeDownView.cancel()
         EventBus.getDefault().post(CorrectionFinishEvent())
         finish()
     }
+
     private fun startCorrect() {
         lifecycleScope.launch {
             HikHelper.setTemperatureMode(1)
@@ -90,6 +97,7 @@ class IRCorrectHikFourActivity : BaseBindingActivity<ActivityIrCorrectHikFourBin
             HikHelper.setAutoShutter(SaveSettingUtil.isAutoShutter)
         }
     }
+
     private fun showExitTipsDialog() {
         TipDialog.Builder(this)
             .setTitleMessage(getString(R.string.app_tip))

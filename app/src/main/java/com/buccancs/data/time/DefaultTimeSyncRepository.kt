@@ -1,4 +1,5 @@
 package com.buccancs.data.time
+
 import android.util.Log
 import com.buccancs.control.TimeSyncServiceGrpcKt
 import com.buccancs.control.timeSyncPing
@@ -28,6 +29,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.abs
 import kotlin.math.roundToLong
+
 @Singleton
 class DefaultTimeSyncRepository @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
@@ -53,6 +55,7 @@ class DefaultTimeSyncRepository @Inject constructor(
             }
         }
     }
+
     override suspend fun forceSync(): TimeSyncStatus = withContext(dispatcher) {
         val config = configRepository.config.first()
         runCatching { performSync(config) }
@@ -62,6 +65,7 @@ class DefaultTimeSyncRepository @Inject constructor(
             }
         status.value
     }
+
     private suspend fun performSync(config: OrchestratorConfig) {
         val channel = channelFactory.channel(config)
         val stub = TimeSyncServiceGrpcKt.TimeSyncServiceCoroutineStub(channel)
@@ -118,6 +122,7 @@ class DefaultTimeSyncRepository @Inject constructor(
             driftEstimateMillis = abs(driftEstimate)
         )
     }
+
     private fun handleFailure(error: Throwable) {
         Log.w(TAG, "Time sync failed: ${error.message}", error)
         val previous = _status.value
@@ -126,6 +131,7 @@ class DefaultTimeSyncRepository @Inject constructor(
             roundTripMillis = Long.MAX_VALUE
         )
     }
+
     private fun nowEpochMillis(): Long = System.currentTimeMillis()
     private fun initialStatus(): TimeSyncStatus = TimeSyncStatus(
         offsetMillis = 0,
@@ -133,10 +139,12 @@ class DefaultTimeSyncRepository @Inject constructor(
         lastSync = Clock.System.now(),
         driftEstimateMillis = 0.0
     )
+
     private data class SyncObservation(
         val timestamp: Instant,
         val offsetMs: Double
     )
+
     private companion object {
         private const val TAG = "TimeSyncRepository"
         private const val SYNC_INTERVAL_MS = 5_000L

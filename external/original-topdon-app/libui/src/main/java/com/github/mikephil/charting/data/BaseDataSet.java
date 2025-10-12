@@ -19,29 +19,29 @@ import java.util.List;
 
 public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
-        protected List<Integer> mColors = null;
+    protected List<Integer> mColors = null;
 
     protected GradientColor mGradientColor = null;
 
     protected List<GradientColor> mGradientColors = null;
 
-        protected List<Integer> mValueColors = null;
-        protected YAxis.AxisDependency mAxisDependency = YAxis.AxisDependency.LEFT;
-        protected boolean mHighlightEnabled = true;
-        protected transient ValueFormatter mValueFormatter;
-        protected Typeface mValueTypeface;
-        protected boolean mDrawValues = true;
-        protected boolean mDrawIcons = true;
-        protected MPPointF mIconsOffset = new MPPointF();
-        protected float mValueTextSize = 17f;
-        protected boolean mVisible = true;
-        private String mLabel = "DataSet";
+    protected List<Integer> mValueColors = null;
+    protected YAxis.AxisDependency mAxisDependency = YAxis.AxisDependency.LEFT;
+    protected boolean mHighlightEnabled = true;
+    protected transient ValueFormatter mValueFormatter;
+    protected Typeface mValueTypeface;
+    protected boolean mDrawValues = true;
+    protected boolean mDrawIcons = true;
+    protected MPPointF mIconsOffset = new MPPointF();
+    protected float mValueTextSize = 17f;
+    protected boolean mVisible = true;
+    private String mLabel = "DataSet";
     private Legend.LegendForm mForm = Legend.LegendForm.DEFAULT;
     private float mFormSize = Float.NaN;
     private float mFormLineWidth = Float.NaN;
     private DashPathEffect mFormLineDashEffect = null;
 
-        public BaseDataSet() {
+    public BaseDataSet() {
         mColors = new ArrayList<Integer>();
         mValueColors = new ArrayList<Integer>();
 
@@ -49,15 +49,14 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         mValueColors.add(Color.BLACK);
     }
 
-        public BaseDataSet(String label) {
+    public BaseDataSet(String label) {
         this();
         this.mLabel = label;
     }
 
-        public void notifyDataSetChanged() {
+    public void notifyDataSetChanged() {
         calcMinMax();
     }
-
 
 
     @Override
@@ -65,11 +64,11 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mColors;
     }
 
-        public void setColors(List<Integer> colors) {
+    public void setColors(List<Integer> colors) {
         this.mColors = colors;
     }
 
-        public void setColors(int... colors) {
+    public void setColors(int... colors) {
         this.mColors = ColorTemplate.createColors(colors);
     }
 
@@ -82,7 +81,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mColors.get(0);
     }
 
-        public void setColor(int color) {
+    public void setColor(int color) {
         resetColors();
         mColors.add(color);
     }
@@ -103,7 +102,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mGradientColors;
     }
 
-        public void setGradientColors(List<GradientColor> gradientColors) {
+    public void setGradientColors(List<GradientColor> gradientColors) {
         this.mGradientColors = gradientColors;
     }
 
@@ -112,7 +111,7 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mGradientColors.get(index % mGradientColors.size());
     }
 
-        public void setColors(int[] colors, Context c) {
+    public void setColors(int[] colors, Context c) {
 
         if (mColors == null) {
             mColors = new ArrayList<>();
@@ -125,28 +124,28 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         }
     }
 
-        public void addColor(int color) {
+    public void addColor(int color) {
         if (mColors == null)
             mColors = new ArrayList<Integer>();
         mColors.add(color);
     }
 
-        public void setGradientColor(int startColor, int endColor) {
+    public void setGradientColor(int startColor, int endColor) {
         mGradientColor = new GradientColor(startColor, endColor);
     }
 
-        public void setColor(int color, int alpha) {
+    public void setColor(int color, int alpha) {
         setColor(Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color)));
     }
 
-        public void setColors(int[] colors, int alpha) {
+    public void setColors(int[] colors, int alpha) {
         resetColors();
         for (int color : colors) {
             addColor(Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color)));
         }
     }
 
-        public void resetColors() {
+    public void resetColors() {
         if (mColors == null) {
             mColors = new ArrayList<Integer>();
         }
@@ -323,7 +322,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     public void setAxisDependency(YAxis.AxisDependency dependency) {
         mAxisDependency = dependency;
     }
-
 
 
     @Override

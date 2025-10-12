@@ -20,22 +20,22 @@ import java.util.List;
 
 public class PieChart extends PieRadarChartBase<PieData> {
 
-        protected float mTransparentCircleRadiusPercent = 55f;
+    protected float mTransparentCircleRadiusPercent = 55f;
     protected float mMaxAngle = 360f;
-        private RectF mCircleBox = new RectF();
-        private boolean mDrawEntryLabels = true;
-        private float[] mDrawAngles = new float[1];
-        private float[] mAbsoluteAngles = new float[1];
-        private boolean mDrawHole = true;
-        private boolean mDrawSlicesUnderHole = false;
-        private boolean mUsePercentValues = false;
-        private boolean mDrawRoundedSlices = false;
-        private CharSequence mCenterText = "";
+    private RectF mCircleBox = new RectF();
+    private boolean mDrawEntryLabels = true;
+    private float[] mDrawAngles = new float[1];
+    private float[] mAbsoluteAngles = new float[1];
+    private boolean mDrawHole = true;
+    private boolean mDrawSlicesUnderHole = false;
+    private boolean mUsePercentValues = false;
+    private boolean mDrawRoundedSlices = false;
+    private CharSequence mCenterText = "";
     private MPPointF mCenterTextOffset = MPPointF.getInstance(0, 0);
-        private float mHoleRadiusPercent = 50f;
-        private boolean mDrawCenterText = true;
+    private float mHoleRadiusPercent = 50f;
+    private boolean mDrawCenterText = true;
     private float mCenterTextRadiusPercent = 100.f;
-        private float mMinAngleForSlices = 0f;
+    private float mMinAngleForSlices = 0f;
 
     public PieChart(Context context) {
         super(context);
@@ -140,7 +140,7 @@ public class PieChart extends PieRadarChartBase<PieData> {
         return new float[]{x, y};
     }
 
-        private void calcAngles() {
+    private void calcAngles() {
 
         int entryCount = mData.getEntryCount();
 
@@ -215,7 +215,7 @@ public class PieChart extends PieRadarChartBase<PieData> {
         }
     }
 
-        public boolean needsHighlight(int index) {
+    public boolean needsHighlight(int index) {
 
         if (!valuesToHighlight())
             return false;
@@ -228,15 +228,15 @@ public class PieChart extends PieRadarChartBase<PieData> {
         return false;
     }
 
-        private float calcAngle(float value) {
+    private float calcAngle(float value) {
         return calcAngle(value, mData.getYValueSum());
     }
 
-        private float calcAngle(float value, float yValueSum) {
+    private float calcAngle(float value, float yValueSum) {
         return value / yValueSum * mMaxAngle;
     }
 
-        @Deprecated
+    @Deprecated
     @Override
     public XAxis getXAxis() {
         throw new RuntimeException("PieChart has no XAxis");
@@ -255,7 +255,7 @@ public class PieChart extends PieRadarChartBase<PieData> {
         return -1;
     }
 
-        public int getDataSetIndexForIndex(int xIndex) {
+    public int getDataSetIndexForIndex(int xIndex) {
 
         List<IPieDataSet> dataSets = mData.getDataSets();
 
@@ -267,50 +267,50 @@ public class PieChart extends PieRadarChartBase<PieData> {
         return -1;
     }
 
-        public float[] getDrawAngles() {
+    public float[] getDrawAngles() {
         return mDrawAngles;
     }
 
-        public float[] getAbsoluteAngles() {
+    public float[] getAbsoluteAngles() {
         return mAbsoluteAngles;
     }
 
-        public void setHoleColor(int color) {
+    public void setHoleColor(int color) {
         ((PieChartRenderer) mRenderer).getPaintHole().setColor(color);
     }
 
-        public void setDrawSlicesUnderHole(boolean enable) {
+    public void setDrawSlicesUnderHole(boolean enable) {
         mDrawSlicesUnderHole = enable;
     }
 
-        public boolean isDrawSlicesUnderHoleEnabled() {
+    public boolean isDrawSlicesUnderHoleEnabled() {
         return mDrawSlicesUnderHole;
     }
 
-        public boolean isDrawHoleEnabled() {
+    public boolean isDrawHoleEnabled() {
         return mDrawHole;
     }
 
-        public void setDrawHoleEnabled(boolean enabled) {
+    public void setDrawHoleEnabled(boolean enabled) {
         this.mDrawHole = enabled;
     }
 
-        public CharSequence getCenterText() {
+    public CharSequence getCenterText() {
         return mCenterText;
     }
 
-        public void setCenterText(CharSequence text) {
+    public void setCenterText(CharSequence text) {
         if (text == null)
             mCenterText = "";
         else
             mCenterText = text;
     }
 
-        public void setDrawCenterText(boolean enabled) {
+    public void setDrawCenterText(boolean enabled) {
         this.mDrawCenterText = enabled;
     }
 
-        public boolean isDrawCenterTextEnabled() {
+    public boolean isDrawCenterTextEnabled() {
         return mDrawCenterText;
     }
 
@@ -332,49 +332,49 @@ public class PieChart extends PieRadarChartBase<PieData> {
             return Math.min(mCircleBox.width() / 2f, mCircleBox.height() / 2f);
     }
 
-        public RectF getCircleBox() {
+    public RectF getCircleBox() {
         return mCircleBox;
     }
 
-        public MPPointF getCenterCircleBox() {
+    public MPPointF getCenterCircleBox() {
         return MPPointF.getInstance(mCircleBox.centerX(), mCircleBox.centerY());
     }
 
-        public void setCenterTextTypeface(Typeface t) {
+    public void setCenterTextTypeface(Typeface t) {
         ((PieChartRenderer) mRenderer).getPaintCenterText().setTypeface(t);
     }
 
-        public void setCenterTextSize(float sizeDp) {
+    public void setCenterTextSize(float sizeDp) {
         ((PieChartRenderer) mRenderer).getPaintCenterText().setTextSize(
                 Utils.convertDpToPixel(sizeDp));
     }
 
-        public void setCenterTextSizePixels(float sizePixels) {
+    public void setCenterTextSizePixels(float sizePixels) {
         ((PieChartRenderer) mRenderer).getPaintCenterText().setTextSize(sizePixels);
     }
 
-        public void setCenterTextOffset(float x, float y) {
+    public void setCenterTextOffset(float x, float y) {
         mCenterTextOffset.x = Utils.convertDpToPixel(x);
         mCenterTextOffset.y = Utils.convertDpToPixel(y);
     }
 
-        public MPPointF getCenterTextOffset() {
+    public MPPointF getCenterTextOffset() {
         return MPPointF.getInstance(mCenterTextOffset.x, mCenterTextOffset.y);
     }
 
-        public void setCenterTextColor(int color) {
+    public void setCenterTextColor(int color) {
         ((PieChartRenderer) mRenderer).getPaintCenterText().setColor(color);
     }
 
-        public float getHoleRadius() {
+    public float getHoleRadius() {
         return mHoleRadiusPercent;
     }
 
-        public void setHoleRadius(final float percent) {
+    public void setHoleRadius(final float percent) {
         mHoleRadiusPercent = percent;
     }
 
-        public void setTransparentCircleColor(int color) {
+    public void setTransparentCircleColor(int color) {
 
         Paint p = ((PieChartRenderer) mRenderer).getPaintTransparentCircle();
         int alpha = p.getAlpha();
@@ -386,60 +386,60 @@ public class PieChart extends PieRadarChartBase<PieData> {
         return mTransparentCircleRadiusPercent;
     }
 
-        public void setTransparentCircleRadius(final float percent) {
+    public void setTransparentCircleRadius(final float percent) {
         mTransparentCircleRadiusPercent = percent;
     }
 
-        public void setTransparentCircleAlpha(int alpha) {
+    public void setTransparentCircleAlpha(int alpha) {
         ((PieChartRenderer) mRenderer).getPaintTransparentCircle().setAlpha(alpha);
     }
 
-        @Deprecated
+    @Deprecated
     public void setDrawSliceText(boolean enabled) {
         mDrawEntryLabels = enabled;
     }
 
-        public void setDrawEntryLabels(boolean enabled) {
+    public void setDrawEntryLabels(boolean enabled) {
         mDrawEntryLabels = enabled;
     }
 
-        public boolean isDrawEntryLabelsEnabled() {
+    public boolean isDrawEntryLabelsEnabled() {
         return mDrawEntryLabels;
     }
 
-        public void setEntryLabelColor(int color) {
+    public void setEntryLabelColor(int color) {
         ((PieChartRenderer) mRenderer).getPaintEntryLabels().setColor(color);
     }
 
-        public void setEntryLabelTypeface(Typeface tf) {
+    public void setEntryLabelTypeface(Typeface tf) {
         ((PieChartRenderer) mRenderer).getPaintEntryLabels().setTypeface(tf);
     }
 
-        public void setEntryLabelTextSize(float size) {
+    public void setEntryLabelTextSize(float size) {
         ((PieChartRenderer) mRenderer).getPaintEntryLabels().setTextSize(Utils.convertDpToPixel(size));
     }
 
-        public void setDrawRoundedSlices(boolean enabled) {
+    public void setDrawRoundedSlices(boolean enabled) {
         mDrawRoundedSlices = enabled;
     }
 
-        public boolean isDrawRoundedSlicesEnabled() {
+    public boolean isDrawRoundedSlicesEnabled() {
         return mDrawRoundedSlices;
     }
 
-        public void setUsePercentValues(boolean enabled) {
+    public void setUsePercentValues(boolean enabled) {
         mUsePercentValues = enabled;
     }
 
-        public boolean isUsePercentValuesEnabled() {
+    public boolean isUsePercentValuesEnabled() {
         return mUsePercentValues;
     }
 
-        public float getCenterTextRadiusPercent() {
+    public float getCenterTextRadiusPercent() {
         return mCenterTextRadiusPercent;
     }
 
-        public void setCenterTextRadiusPercent(float percent) {
+    public void setCenterTextRadiusPercent(float percent) {
         mCenterTextRadiusPercent = percent;
     }
 
@@ -447,7 +447,7 @@ public class PieChart extends PieRadarChartBase<PieData> {
         return mMaxAngle;
     }
 
-        public void setMaxAngle(float maxangle) {
+    public void setMaxAngle(float maxangle) {
 
         if (maxangle > 360)
             maxangle = 360f;
@@ -458,11 +458,11 @@ public class PieChart extends PieRadarChartBase<PieData> {
         this.mMaxAngle = maxangle;
     }
 
-        public float getMinAngleForSlices() {
+    public float getMinAngleForSlices() {
         return mMinAngleForSlices;
     }
 
-        public void setMinAngleForSlices(float minAngle) {
+    public void setMinAngleForSlices(float minAngle) {
 
         if (minAngle > (mMaxAngle / 2f))
             minAngle = mMaxAngle / 2f;

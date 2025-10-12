@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.video
+
 import android.annotation.SuppressLint
 import android.media.AudioFormat
 import android.media.AudioRecord
@@ -13,9 +14,11 @@ class AudioRecordHelp private constructor() {
     private var audioRecord: AudioRecord? = null
     private var audioRecordRunnable: AudioRecordRunnable? = null
     private var audioThread: Thread? = null
+
     @Volatile
     private var recordingAudio = false
     private var startTime: Long = 0
+
     @Volatile
     var runAudioThread = true
     var audioData: ShortBuffer? = null
@@ -26,9 +29,11 @@ class AudioRecordHelp private constructor() {
     )
     var type: Int = 0
     private var startRecordTime: Long = 0L
+
     object AudioUtilHolder {
         val INSTANCE = AudioRecordHelp()
     }
+
     @SuppressLint("MissingPermission")
     fun startRecording(recorder: FFmpegFrameRecorder, startRecordTime: Long) {
         this.startRecordTime = startRecordTime
@@ -53,8 +58,10 @@ class AudioRecordHelp private constructor() {
         audioThread = Thread(audioRecordRunnable)
         runAudioThread = true
     }
+
     internal inner class AudioRecordRunnable(recorder: FFmpegFrameRecorder) : Runnable {
         private val recorder: WeakReference<FFmpegFrameRecorder> = WeakReference(recorder)
+
         @SuppressLint("MissingPermission")
         override fun run() {
             if (audioRecord == null) {
@@ -92,9 +99,11 @@ class AudioRecordHelp private constructor() {
             }
         }
     }
+
     public fun updateAudioRecordingState(boolean: Boolean) {
         recordingAudio = boolean
     }
+
     fun stopAudioRecording() {
         type = 2
         if (!runAudioThread) {
@@ -113,11 +122,13 @@ class AudioRecordHelp private constructor() {
         audioThread = null
         recordingAudio = false
     }
+
     fun stopRecording() {
         if (!runAudioThread) {
             return
         }
     }
+
     companion object {
         private val LOG_TAG = AudioRecordHelp::class.java.name
         fun getInstance(): AudioRecordHelp {

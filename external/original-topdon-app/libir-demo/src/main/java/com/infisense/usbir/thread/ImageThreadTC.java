@@ -25,7 +25,7 @@ public class ImageThreadTC extends Thread {
     private byte[] imageARGB;
     private byte[] imageDst;
 
-        public ImageThreadTC(int imageWidth, int imageHeight) {
+    public ImageThreadTC(int imageWidth, int imageHeight) {
         Log.i(TAG, "ImageThread create->imageWidth = " + imageWidth + " imageHeight = " + imageHeight);
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -34,27 +34,27 @@ public class ImageThreadTC extends Thread {
         imageDst = new byte[imageWidth * imageHeight * 4];
     }
 
-        public void setSyncimage(SynchronizedBitmap syncimage) {
+    public void setSyncimage(SynchronizedBitmap syncimage) {
         this.syncimage = syncimage;
     }
 
-        public void setImagesrc(byte[] imagesrc) {
+    public void setImagesrc(byte[] imagesrc) {
         this.imagesrc = imagesrc;
     }
 
-        public void setRotate(int rotate) {
+    public void setRotate(int rotate) {
         this.rotate = rotate;
     }
 
-        public void setDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
+    public void setDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
         this.dataFlowMode = dataFlowMode;
     }
 
-        public void setPseudocolorMode(CommonParams.PseudoColorType pseudocolorMode) {
+    public void setPseudocolorMode(CommonParams.PseudoColorType pseudocolorMode) {
         this.pseudocolorMode = pseudocolorMode;
     }
 
-        public void setBitmap(Bitmap bitmap) {
+    public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 

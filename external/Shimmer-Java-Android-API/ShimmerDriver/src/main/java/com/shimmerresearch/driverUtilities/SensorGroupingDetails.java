@@ -9,7 +9,7 @@ import com.shimmerresearch.algorithms.AlgorithmDetails;
 
 public class SensorGroupingDetails implements Serializable {
 
-        private static final long serialVersionUID = 4373658361698230203L;
+    private static final long serialVersionUID = 4373658361698230203L;
 
     public String mGroupName = "";
     public List<Integer> mListOfSensorIdsAssociated = new ArrayList<Integer>();
@@ -21,19 +21,18 @@ public class SensorGroupingDetails implements Serializable {
 
     public boolean mIsPermanentGroup = false;
 
-        public SensorGroupingDetails(String groupName,
+    public SensorGroupingDetails(String groupName,
                                  List<Integer> listOfSensorIdsAssociated) {
         mGroupName = groupName;
         mListOfSensorIdsAssociated = listOfSensorIdsAssociated;
     }
 
-        public SensorGroupingDetails(String groupName,
+    public SensorGroupingDetails(String groupName,
                                  List<Integer> listOfSensorIdsAssociated,
                                  List<ShimmerVerObject> listOfCompatibleVersionInfo) {
         this(groupName, listOfSensorIdsAssociated);
         mListOfCompatibleVersionInfo = listOfCompatibleVersionInfo;
     }
-
 
 
     public SensorGroupingDetails(String groupName,

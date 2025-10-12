@@ -115,6 +115,6 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
 
     }
 
-        protected void setDialogTheme(AlertDialog ad) {
+    protected void setDialogTheme(AlertDialog ad) {
     }
 }

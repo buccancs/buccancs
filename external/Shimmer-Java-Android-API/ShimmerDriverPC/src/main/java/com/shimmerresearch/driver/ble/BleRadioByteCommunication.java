@@ -27,32 +27,32 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
     TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     TaskCompletionSource<String> mTaskDisconnect = new TaskCompletionSource<>();
 
-        public BleRadioByteCommunication(String uuid, String exePath, ByteCommunicationListener listener) {
+    public BleRadioByteCommunication(String uuid, String exePath, ByteCommunicationListener listener) {
         this.uuid = uuid;
         this.executablePath = exePath;
         mByteCommunicationListener = listener;
         InitializeProcess();
     }
 
-        public BleRadioByteCommunication(String uuid, String exePath) {
+    public BleRadioByteCommunication(String uuid, String exePath) {
         this.uuid = uuid;
         this.executablePath = exePath;
         InitializeProcess();
     }
 
-        public BleRadioByteCommunication(BluetoothDeviceDetails btDevDetails, String exePath) {
+    public BleRadioByteCommunication(BluetoothDeviceDetails btDevDetails, String exePath) {
         this.uuid = convertMacIDtoUUID(btDevDetails.mShimmerMacId);
         this.executablePath = exePath;
         InitializeProcess();
     }
 
-        public String convertMacIDtoUUID(String MacID) {
+    public String convertMacIDtoUUID(String MacID) {
         String uuid = "00000000-0000-0000-0000-";
         uuid = String.join("", uuid, MacID.replace(":", ""));
         return uuid;
     }
 
-        public void DestroyProcess() {
+    public void DestroyProcess() {
         if (p != null) {
             WriteDataToProcess("Stop");
             p.destroyForcibly();
@@ -60,7 +60,7 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
         }
     }
 
-        public void WriteDataToProcess(String s) {
+    public void WriteDataToProcess(String s) {
 
         try {
             writer.write(s, 0, s.length());
@@ -146,7 +146,7 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
         Example.start();
     }
 
-        @Override
+    @Override
     public void connect() throws ShimmerException {
         WriteDataToProcess("Connect");
         mTaskConnect = new TaskCompletionSource<>();
@@ -163,7 +163,7 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
         }
     }
 
-        @Override
+    @Override
     public void disconnect() throws ShimmerException {
         WriteDataToProcess("Disconnect");
         mTaskDisconnect = new TaskCompletionSource<>();
@@ -180,18 +180,18 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
         }
     }
 
-        @Override
+    @Override
     public void writeBytes(byte[] bytes) {
         String bytesstring = Hex.encodeHexString(bytes);
         WriteDataToProcess("Write" + bytesstring);
     }
 
-        @Override
+    @Override
     public void stop() {
         DestroyProcess();
     }
 
-        @Override
+    @Override
     public String getUuid() {
         return this.uuid;
     }

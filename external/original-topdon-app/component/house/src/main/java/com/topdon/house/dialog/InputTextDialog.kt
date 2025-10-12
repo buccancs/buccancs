@@ -1,4 +1,5 @@
 package com.topdon.house.dialog
+
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -9,6 +10,7 @@ import com.topdon.house.R
 import com.topdon.lib.core.utils.ScreenUtil
 import com.topdon.lms.sdk.weiget.TToast
 import kotlinx.android.synthetic.main.dialog_input_text.view.*
+
 class InputTextDialog(
     context: Context,
     private val inputText: String,
@@ -34,11 +36,13 @@ class InputTextDialog(
             it.attributes = layoutParams
         }
     }
+
     override fun onClick(v: View?) {
         when (v) {
             contentView.tv_cancel -> {
                 dismiss()
             }
+
             contentView.tv_confirm -> {
                 if (contentView.et_input.text.isEmpty()) {
                     TToast.shortToast(context, R.string.album_report_input_name_tips)

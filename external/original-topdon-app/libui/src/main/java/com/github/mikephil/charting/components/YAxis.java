@@ -7,20 +7,20 @@ import com.github.mikephil.charting.utils.Utils;
 
 public class YAxis extends AxisBase {
 
-        protected boolean mInverted = false;
-        protected boolean mDrawZeroLine = false;
-        protected int mZeroLineColor = Color.GRAY;
-        protected float mZeroLineWidth = 1f;
-        protected float mSpacePercentTop = 10f;
-        protected float mSpacePercentBottom = 10f;
-        protected float mMinWidth = 0.f;
-        protected float mMaxWidth = Float.POSITIVE_INFINITY;
-        private boolean mDrawBottomYLabelEntry = true;
-        private boolean mDrawTopYLabelEntry = true;
-        private boolean mUseAutoScaleRestrictionMin = false;
-        private boolean mUseAutoScaleRestrictionMax = false;
-        private YAxisLabelPosition mPosition = YAxisLabelPosition.OUTSIDE_CHART;
-        private AxisDependency mAxisDependency;
+    protected boolean mInverted = false;
+    protected boolean mDrawZeroLine = false;
+    protected int mZeroLineColor = Color.GRAY;
+    protected float mZeroLineWidth = 1f;
+    protected float mSpacePercentTop = 10f;
+    protected float mSpacePercentBottom = 10f;
+    protected float mMinWidth = 0.f;
+    protected float mMaxWidth = Float.POSITIVE_INFINITY;
+    private boolean mDrawBottomYLabelEntry = true;
+    private boolean mDrawTopYLabelEntry = true;
+    private boolean mUseAutoScaleRestrictionMin = false;
+    private boolean mUseAutoScaleRestrictionMax = false;
+    private YAxisLabelPosition mPosition = YAxisLabelPosition.OUTSIDE_CHART;
+    private AxisDependency mAxisDependency;
 
     public YAxis() {
         super();
@@ -39,51 +39,51 @@ public class YAxis extends AxisBase {
         return mAxisDependency;
     }
 
-        public float getMinWidth() {
+    public float getMinWidth() {
         return mMinWidth;
     }
 
-        public void setMinWidth(float minWidth) {
+    public void setMinWidth(float minWidth) {
         mMinWidth = minWidth;
     }
 
-        public float getMaxWidth() {
+    public float getMaxWidth() {
         return mMaxWidth;
     }
 
-        public void setMaxWidth(float maxWidth) {
+    public void setMaxWidth(float maxWidth) {
         mMaxWidth = maxWidth;
     }
 
-        public YAxisLabelPosition getLabelPosition() {
+    public YAxisLabelPosition getLabelPosition() {
         return mPosition;
     }
 
-        public void setPosition(YAxisLabelPosition pos) {
+    public void setPosition(YAxisLabelPosition pos) {
         mPosition = pos;
     }
 
-        public boolean isDrawTopYLabelEntryEnabled() {
+    public boolean isDrawTopYLabelEntryEnabled() {
         return mDrawTopYLabelEntry;
     }
 
-        public boolean isDrawBottomYLabelEntryEnabled() {
+    public boolean isDrawBottomYLabelEntryEnabled() {
         return mDrawBottomYLabelEntry;
     }
 
-        public void setDrawTopYLabelEntry(boolean enabled) {
+    public void setDrawTopYLabelEntry(boolean enabled) {
         mDrawTopYLabelEntry = enabled;
     }
 
-        public boolean isInverted() {
+    public boolean isInverted() {
         return mInverted;
     }
 
-        public void setInverted(boolean enabled) {
+    public void setInverted(boolean enabled) {
         mInverted = enabled;
     }
 
-        @Deprecated
+    @Deprecated
     public void setStartAtZero(boolean startAtZero) {
         if (startAtZero)
             setAxisMinimum(0f);
@@ -91,19 +91,19 @@ public class YAxis extends AxisBase {
             resetAxisMinimum();
     }
 
-        public float getSpaceTop() {
+    public float getSpaceTop() {
         return mSpacePercentTop;
     }
 
-        public void setSpaceTop(float percent) {
+    public void setSpaceTop(float percent) {
         mSpacePercentTop = percent;
     }
 
-        public float getSpaceBottom() {
+    public float getSpaceBottom() {
         return mSpacePercentBottom;
     }
 
-        public void setSpaceBottom(float percent) {
+    public void setSpaceBottom(float percent) {
         mSpacePercentBottom = percent;
     }
 
@@ -111,7 +111,7 @@ public class YAxis extends AxisBase {
         return mDrawZeroLine;
     }
 
-        public void setDrawZeroLine(boolean mDrawZeroLine) {
+    public void setDrawZeroLine(boolean mDrawZeroLine) {
         this.mDrawZeroLine = mDrawZeroLine;
     }
 
@@ -119,7 +119,7 @@ public class YAxis extends AxisBase {
         return mZeroLineColor;
     }
 
-        public void setZeroLineColor(int color) {
+    public void setZeroLineColor(int color) {
         mZeroLineColor = color;
     }
 
@@ -127,11 +127,11 @@ public class YAxis extends AxisBase {
         return mZeroLineWidth;
     }
 
-        public void setZeroLineWidth(float width) {
+    public void setZeroLineWidth(float width) {
         this.mZeroLineWidth = Utils.convertDpToPixel(width);
     }
 
-        public float getRequiredWidthSpace(Paint p) {
+    public float getRequiredWidthSpace(Paint p) {
 
         p.setTextSize(mTextSize);
 
@@ -152,7 +152,7 @@ public class YAxis extends AxisBase {
         return width;
     }
 
-        public float getRequiredHeightSpace(Paint p) {
+    public float getRequiredHeightSpace(Paint p) {
 
         p.setTextSize(mTextSize);
 
@@ -160,7 +160,7 @@ public class YAxis extends AxisBase {
         return (float) Utils.calcTextHeight(p, label) + getYOffset() * 2f;
     }
 
-        public boolean needsOffset() {
+    public boolean needsOffset() {
         if (isEnabled() && isDrawLabelsEnabled() && getLabelPosition() == YAxisLabelPosition
                 .OUTSIDE_CHART)
             return true;
@@ -168,22 +168,22 @@ public class YAxis extends AxisBase {
             return false;
     }
 
-        @Deprecated
+    @Deprecated
     public boolean isUseAutoScaleMinRestriction() {
         return mUseAutoScaleRestrictionMin;
     }
 
-        @Deprecated
+    @Deprecated
     public void setUseAutoScaleMinRestriction(boolean isEnabled) {
         mUseAutoScaleRestrictionMin = isEnabled;
     }
 
-        @Deprecated
+    @Deprecated
     public boolean isUseAutoScaleMaxRestriction() {
         return mUseAutoScaleRestrictionMax;
     }
 
-        @Deprecated
+    @Deprecated
     public void setUseAutoScaleMaxRestriction(boolean isEnabled) {
         mUseAutoScaleRestrictionMax = isEnabled;
     }
@@ -209,12 +209,12 @@ public class YAxis extends AxisBase {
         this.mAxisRange = Math.abs(this.mAxisMinimum - this.mAxisMaximum);
     }
 
-        public enum YAxisLabelPosition {
+    public enum YAxisLabelPosition {
         OUTSIDE_CHART, INSIDE_CHART
     }
 
 
-        public enum AxisDependency {
+    public enum AxisDependency {
         LEFT, RIGHT
     }
 }

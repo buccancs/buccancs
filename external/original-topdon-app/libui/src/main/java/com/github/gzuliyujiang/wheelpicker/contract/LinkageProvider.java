@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.wheelpicker.contract;
 
 import androidx.annotation.NonNull;
@@ -8,23 +7,23 @@ import java.util.List;
 public interface LinkageProvider {
     int INDEX_NO_FOUND = -1;
 
-        boolean firstLevelVisible();
+    boolean firstLevelVisible();
 
-        boolean thirdLevelVisible();
+    boolean thirdLevelVisible();
 
-        @NonNull
+    @NonNull
     List<?> provideFirstData();
 
-        @NonNull
+    @NonNull
     List<?> linkageSecondData(int firstIndex);
 
-        @NonNull
+    @NonNull
     List<?> linkageThirdData(int firstIndex, int secondIndex);
 
-        int findFirstIndex(Object firstValue);
+    int findFirstIndex(Object firstValue);
 
-        int findSecondIndex(int firstIndex, Object secondValue);
+    int findSecondIndex(int firstIndex, Object secondValue);
 
-        int findThirdIndex(int firstIndex, int secondIndex, Object thirdValue);
+    int findThirdIndex(int firstIndex, int secondIndex, Object thirdValue);
 
 }

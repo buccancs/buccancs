@@ -1,6 +1,8 @@
 package com.topdon.module.thermal.ir.utils
+
 import com.energy.iruvc.utils.DualCameraParams
 import com.topdon.lib.core.common.SaveSettingUtil
+
 object DualParamsUtil {
 
     fun wifiFusionTypeToParams(fusionType: Int): Int {
@@ -25,6 +27,7 @@ object DualParamsUtil {
             else -> DualCameraParams.FusionType.LPYFusion
         }
     }
+
     fun paramsToFusionType(fusionTypeP: DualCameraParams.FusionType): Int {
         return when (fusionTypeP) {
             DualCameraParams.FusionType.VLOnly -> SaveSettingUtil.FusionTypeVLOnly

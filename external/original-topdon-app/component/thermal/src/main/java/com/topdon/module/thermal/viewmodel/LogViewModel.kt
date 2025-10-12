@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.viewmodel
+
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import com.topdon.lib.core.ktbase.BaseViewModel
 import com.topdon.lib.core.tools.TimeTool
 import kotlinx.coroutines.*
 import java.util.*
+
 class LogViewModel : BaseViewModel() {
     val resultLiveData = MutableLiveData<ChartList>()
     private var queryJob: Job? = null
@@ -39,6 +41,7 @@ class LogViewModel : BaseViewModel() {
                         ) as ArrayList<ThermalEntity>
                     Log.w("123", "data size: ${dataList.size}")
                 }
+
                 2 -> {
                     endTime = Date().time
                     startTime = endTime - 7200 * 60 * 1000L
@@ -49,6 +52,7 @@ class LogViewModel : BaseViewModel() {
                             endTime
                         ) as ArrayList<ThermalEntity>
                 }
+
                 3 -> {
                     endTime = Date().time
                     startTime = endTime - 7200 * 60 * 60 * 1000L
@@ -59,6 +63,7 @@ class LogViewModel : BaseViewModel() {
                             endTime
                         ) as ArrayList<ThermalEntity>
                 }
+
                 else -> {
                     dataList = AppDatabase.getInstance().thermalDao()
                         .getAllThermalByDate(SharedManager.getUserId()) as ArrayList<ThermalEntity>
@@ -73,6 +78,7 @@ class LogViewModel : BaseViewModel() {
             resultLiveData.postValue(ChartList(dataList = dataList))
         }
     }
+
     suspend fun queryLogThermals(
         selectTimeType: Int,
         endLogTime: Long = System.currentTimeMillis(),
@@ -114,6 +120,7 @@ class LogViewModel : BaseViewModel() {
                     Log.w("chart", "电压数据:${bean.dataList.size}")
                     Log.w("chart", "电压数据max vol:${bean.maxVol},min vol:${bean.minVol}")
                 }
+
                 2 -> {
                     val resultList = AppDatabase.getInstance().thermalMinDao()
                         .queryByTime(
@@ -148,6 +155,7 @@ class LogViewModel : BaseViewModel() {
                     Log.w("chart", "电压数据:${bean.dataList.size}")
                     Log.w("chart", "电压数据max vol:${bean.maxVol},min vol:${bean.minVol}")
                 }
+
                 3 -> {
                     val resultList = AppDatabase.getInstance().thermalHourDao()
                         .queryByTime(
@@ -182,6 +190,7 @@ class LogViewModel : BaseViewModel() {
                     Log.w("chart", "电压数据:${bean.dataList.size}")
                     Log.w("chart", "电压数据max vol:${bean.maxVol},min vol:${bean.minVol}")
                 }
+
                 4 -> {
                     val resultList = AppDatabase.getInstance().thermalDayDao()
                         .queryByTime(
@@ -226,6 +235,7 @@ class LogViewModel : BaseViewModel() {
             resultLiveData.postValue(bean)
         }
     }
+
     suspend fun queryLogVolsByStartTime(
         type: Int = 3,
         selectTimeType: Int,
@@ -273,6 +283,7 @@ class LogViewModel : BaseViewModel() {
                             )
                         Log.w("chart", "电压数据:${bean.dataList.size}")
                     }
+
                     2 -> {
                         val resultList = AppDatabase.getInstance().thermalMinDao()
                             .queryByTime(
@@ -307,6 +318,7 @@ class LogViewModel : BaseViewModel() {
                             )
                         Log.w("chart", "电压数据:${bean.dataList.size}")
                     }
+
                     3 -> {
                         val resultList = AppDatabase.getInstance().thermalHourDao()
                             .queryByTime(
@@ -341,6 +353,7 @@ class LogViewModel : BaseViewModel() {
                             )
                         Log.w("chart", "电压数据:${bean.dataList.size}")
                     }
+
                     4 -> {
                         val resultList = AppDatabase.getInstance().thermalDayDao()
                             .queryByTime(
@@ -423,6 +436,7 @@ class LogViewModel : BaseViewModel() {
         }
         return newData
     }
+
     private fun addData(
         data: List<ThermalEntity>,
         newData: ArrayList<ThermalEntity>,
@@ -443,6 +457,7 @@ class LogViewModel : BaseViewModel() {
         tempVolEntity.thermalMin = tempMin / (endIndex - startIndex + 1)
         newData.add(tempVolEntity)
     }
+
     @Volatile
     private var syncRun = false
     private suspend fun syncVol(selectTimeType: Int) {
@@ -519,6 +534,7 @@ class LogViewModel : BaseViewModel() {
                 AppDatabase.getInstance().thermalMinDao()
                     .deleteRepeatVol(userId)
             }
+
             3 -> {
                 val hourTime = TimeTool.timeToMinute(System.currentTimeMillis(), 3)
                 val hourVolLatestList =
@@ -572,6 +588,7 @@ class LogViewModel : BaseViewModel() {
                 AppDatabase.getInstance().thermalHourDao().insert(bean)
                 AppDatabase.getInstance().thermalHourDao().deleteRepeatVol(userId)
             }
+
             4 -> {
                 val todayStartTime =
                     TimeTool.timeToMinute(System.currentTimeMillis(), 4)
@@ -630,6 +647,7 @@ class LogViewModel : BaseViewModel() {
         syncRun = false
         Log.w("chart", "syncVol end")
     }
+
     data class ChartList(
         var dataList: ArrayList<ThermalEntity> = arrayListOf(),
         var maxVol: Float = 0f,

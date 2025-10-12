@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.report.view
+
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -9,12 +10,14 @@ import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.report.bean.ReportConditionBean
 import com.topdon.module.thermal.ir.report.bean.ReportInfoBean
 import kotlinx.android.synthetic.main.view_report_info.view.*
+
 class ReportInfoView : LinearLayout {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         LayoutInflater.from(context).inflate(R.layout.view_report_info, this, true)
     }
+
     fun refreshInfo(reportInfoBean: ReportInfoBean?) {
         tv_report_name.text = reportInfoBean?.report_name
         tv_report_author.isVisible = reportInfoBean?.is_report_author == 1
@@ -24,6 +27,7 @@ class ReportInfoView : LinearLayout {
         tv_report_date.isVisible = reportInfoBean?.is_report_date == 1
         tv_report_date.text = reportInfoBean?.report_date
     }
+
     fun refreshCondition(conditionBean: ReportConditionBean?) {
         cl_report_condition.isVisible = conditionBean?.is_ambient_humidity == 1
                 || conditionBean?.is_ambient_temperature == 1
@@ -43,6 +47,7 @@ class ReportInfoView : LinearLayout {
         group_emissivity.isVisible = conditionBean?.is_emissivity == 1
         tv_emissivity.text = conditionBean?.emissivity
     }
+
     fun getPrintViewList(): ArrayList<View> {
         val result = ArrayList<View>()
         result.add(cl_top)

@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.utils
+
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
@@ -7,6 +8,7 @@ import com.blankj.utilcode.util.*
 import com.elvishew.xlog.XLog
 import com.topdon.lib.core.tools.FileTools
 import java.io.File
+
 object WriteTools {
     fun delete(file: File): Int {
         val uri: Uri = FileTools.getUri(file)
@@ -19,6 +21,7 @@ object WriteTools {
         XLog.w("删除结果文件: $result")
         return result
     }
+
     private fun queryId(uri: Uri): Long {
         val fileName = uri.path!!.substring(uri.path!!.lastIndexOf("/") + 1)
         var result = 0L

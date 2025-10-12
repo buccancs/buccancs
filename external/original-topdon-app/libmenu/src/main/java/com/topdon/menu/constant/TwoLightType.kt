@@ -1,4 +1,5 @@
 package com.topdon.menu.constant
+
 enum class TwoLightType {
     TWO_LIGHT_1,
     TWO_LIGHT_2,

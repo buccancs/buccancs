@@ -56,7 +56,7 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/ShimmerEngineering/Shimmer-Java-Android-API")
             credentials {
-                                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }
         }

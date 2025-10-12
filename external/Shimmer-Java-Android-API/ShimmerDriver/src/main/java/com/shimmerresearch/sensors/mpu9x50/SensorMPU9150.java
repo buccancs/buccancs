@@ -541,16 +541,15 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         mOldCalRangeMap = Collections.unmodifiableMap(aMap);
     }
 
-        public SensorMPU9150() {
+    public SensorMPU9150() {
         super(SENSORS.MPU9X50);
         initialise();
     }
 
-        public SensorMPU9150(ShimmerDevice shimmerDevice) {
+    public SensorMPU9150(ShimmerDevice shimmerDevice) {
         super(SENSORS.MPU9X50, shimmerDevice);
         initialise();
     }
-
 
 
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {

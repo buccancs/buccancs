@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider> implements IHighlighter {
 
-        protected BarHighlighter barHighlighter;
+    protected BarHighlighter barHighlighter;
 
     public CombinedHighlighter(CombinedDataProvider chart, BarDataProvider barChart) {
         super(chart);

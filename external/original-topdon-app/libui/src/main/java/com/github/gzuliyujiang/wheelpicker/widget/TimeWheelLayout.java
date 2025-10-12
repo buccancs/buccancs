@@ -1,4 +1,3 @@
-
 package com.github.gzuliyujiang.wheelpicker.widget;
 
 import android.content.Context;
@@ -248,11 +247,11 @@ public class TimeWheelLayout extends BaseWheelLayout {
                 || timeMode == TimeMode.HOUR_12_HAS_SECOND;
     }
 
-        public void setRange(TimeEntity startValue, TimeEntity endValue) {
+    public void setRange(TimeEntity startValue, TimeEntity endValue) {
         setRange(startValue, endValue, null);
     }
 
-        public void setRange(TimeEntity startValue, TimeEntity endValue, TimeEntity defaultValue) {
+    public void setRange(TimeEntity startValue, TimeEntity endValue, TimeEntity defaultValue) {
         if (startValue == null) {
             startValue = TimeEntity.target(isHour12Mode() ? 1 : 0, 0, 0);
         }
@@ -430,12 +429,10 @@ public class TimeWheelLayout extends BaseWheelLayout {
         if (hour == startValue.getHour() && hour == endValue.getHour()) {
             min = startValue.getMinute();
             max = endValue.getMinute();
-        }
-        else if (hour == startValue.getHour()) {
+        } else if (hour == startValue.getHour()) {
             min = startValue.getMinute();
             max = 59;
-        }
-        else if (hour == endValue.getHour()) {
+        } else if (hour == endValue.getHour()) {
             min = 0;
             max = endValue.getMinute();
         } else {

@@ -1,6 +1,8 @@
 package com.topdon.libhik.bean
+
 import com.topdon.libhik.util.ByteArrayUtil.toFloat
 import com.topdon.libhik.util.ByteArrayUtil.toInt
+
 data class FrameHead(
     val tempWidth: Int,
     val tempHeight: Int,
@@ -41,6 +43,7 @@ data class FrameHead(
         totalCount = byteArray[207].toInt() and 0xff,
         tempRuleList = byteArray.toRuleList(216),
     )
+
     companion object {
         private fun ByteArray.toRuleList(index: Int): ArrayList<TempRule> = try {
             val resultList: ArrayList<TempRule> = ArrayList(21)
@@ -54,6 +57,7 @@ data class FrameHead(
             ArrayList(0)
         }
     }
+
     override fun toString(): String = "尺寸:${tempWidth}x$tempHeight, ${yuvWidth}x$yuvHeight，" +
             "全屏最低温:($minX,$minY) ${minTemp}°C，全屏最高温:($maxX,$maxY) ${maxTemp}°C " +
             "平均温:${aveTemp}°C，${if (isNormalTest) "普通" else "专家"}测温，" +

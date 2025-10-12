@@ -119,7 +119,7 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         return mCandleData;
     }
 
-        public List<BarLineScatterCandleBubbleData> getAllData() {
+    public List<BarLineScatterCandleBubbleData> getAllData() {
 
         List<BarLineScatterCandleBubbleData> data = new ArrayList<BarLineScatterCandleBubbleData>();
         if (mLineData != null)
@@ -156,7 +156,7 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         calcMinMax();
     }
 
-        @Override
+    @Override
     public Entry getEntryForHighlight(Highlight highlight) {
 
         if (highlight.getDataIndex() >= getAllData().size())
@@ -178,7 +178,7 @@ public class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatter
         return null;
     }
 
-        public IBarLineScatterCandleBubbleDataSet<? extends Entry> getDataSetByHighlight(Highlight highlight) {
+    public IBarLineScatterCandleBubbleDataSet<? extends Entry> getDataSetByHighlight(Highlight highlight) {
         if (highlight.getDataIndex() >= getAllData().size())
             return null;
 

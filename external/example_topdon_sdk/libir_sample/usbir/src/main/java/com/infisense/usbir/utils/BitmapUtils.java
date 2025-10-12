@@ -56,7 +56,7 @@ public class BitmapUtils {
         return returnBm;
     }
 
-        public static byte[] bitmapToBytes(Bitmap bitmap, int quality) {
+    public static byte[] bitmapToBytes(Bitmap bitmap, int quality) {
         if (bitmap == null) {
             return null;
         }
@@ -72,7 +72,7 @@ public class BitmapUtils {
         }
     }
 
-        public static boolean saveBitmap(Bitmap bitmap, File file, File path) {
+    public static boolean saveBitmap(Bitmap bitmap, File file, File path) {
         boolean success = false;
         byte[] bytes = bitmapToBytes(bitmap, 100);
         OutputStream out = null;
@@ -98,7 +98,7 @@ public class BitmapUtils {
         return success;
     }
 
-        public static Bitmap imageZoom(Bitmap bitmap, double width) {
+    public static Bitmap imageZoom(Bitmap bitmap, double width) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         byte[] b = baos.toByteArray();
@@ -107,7 +107,7 @@ public class BitmapUtils {
                 width * newBitmap.getHeight() / newBitmap.getWidth());
     }
 
-        public static Bitmap scaleWithWH(Bitmap bitmap, double w, double h) {
+    public static Bitmap scaleWithWH(Bitmap bitmap, double w, double h) {
         if (w == 0 || h == 0 || bitmap == null) {
             return bitmap;
         } else {
@@ -124,7 +124,7 @@ public class BitmapUtils {
         }
     }
 
-        public static boolean saveFile(String file, Bitmap bmp) {
+    public static boolean saveFile(String file, Bitmap bmp) {
         if (TextUtils.isEmpty(file) || bmp == null) return false;
 
         File f = new File(file);
@@ -148,7 +148,7 @@ public class BitmapUtils {
         return true;
     }
 
-        public static File saveBmp2Gallery(Context context, String fileSavePath, Bitmap bmp, String picName) {
+    public static File saveBmp2Gallery(Context context, String fileSavePath, Bitmap bmp, String picName) {
         File galleryPath = new File(fileSavePath);
         if (!galleryPath.exists()) {
             galleryPath.mkdir();
@@ -187,7 +187,7 @@ public class BitmapUtils {
         return file;
     }
 
-        public static Bitmap mergeBitmap(Bitmap backBitmap, Bitmap frontBitmap, int leftFront, int topFront) {
+    public static Bitmap mergeBitmap(Bitmap backBitmap, Bitmap frontBitmap, int leftFront, int topFront) {
         if (backBitmap == null || backBitmap.isRecycled()
                 || frontBitmap == null || frontBitmap.isRecycled()) {
             return null;
@@ -199,7 +199,7 @@ public class BitmapUtils {
         return bitmap;
     }
 
-        public static void savaRawFile(byte[] bytes, byte[] bytes2) {
+    public static void savaRawFile(byte[] bytes, byte[] bytes2) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -218,7 +218,7 @@ public class BitmapUtils {
         }
     }
 
-        public static void savaIRFile(byte[] bytes) {
+    public static void savaIRFile(byte[] bytes) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -236,7 +236,7 @@ public class BitmapUtils {
         }
     }
 
-        public static void savaTempFile(byte[] bytes) {
+    public static void savaTempFile(byte[] bytes) {
         try {
             File path = new File("/sdcard");
             if (!path.exists() && path.isDirectory()) {
@@ -254,7 +254,7 @@ public class BitmapUtils {
         }
     }
 
-        public static boolean isFileExists(Context context, final File file) {
+    public static boolean isFileExists(Context context, final File file) {
         if (file == null) return false;
         if (file.exists()) {
             return true;
@@ -262,7 +262,7 @@ public class BitmapUtils {
         return isFileExists(context, file.getAbsolutePath());
     }
 
-        public static boolean isFileExists(Context context, final String filePath) {
+    public static boolean isFileExists(Context context, final String filePath) {
         File file = new File(filePath);
         if (file == null) return false;
         if (file.exists()) {
@@ -271,7 +271,7 @@ public class BitmapUtils {
         return isFileExistsApi29(context, filePath);
     }
 
-        private static boolean isFileExistsApi29(Context context, String filePath) {
+    private static boolean isFileExistsApi29(Context context, String filePath) {
         if (Build.VERSION.SDK_INT >= 29) {
             try {
                 Uri uri = Uri.parse(filePath);
@@ -290,7 +290,7 @@ public class BitmapUtils {
         return false;
     }
 
-        private static byte[] toByteArray(short[] src) {
+    private static byte[] toByteArray(short[] src) {
         int count = src.length;
         byte[] dest = new byte[count << 1];
         for (int i = 0; i < count; i++) {
@@ -300,7 +300,7 @@ public class BitmapUtils {
         return dest;
     }
 
-        public static short[] toShortArray(byte[] src) {
+    public static short[] toShortArray(byte[] src) {
         int count = src.length >> 1;
         short[] dest = new short[count];
         for (int i = 0; i < count; i++) {
@@ -309,7 +309,7 @@ public class BitmapUtils {
         return dest;
     }
 
-        public static void saveShortFile(String fileDir, short[] bytes, String fileTitle) {
+    public static void saveShortFile(String fileDir, short[] bytes, String fileTitle) {
         createOrExistsDir(fileDir);
         try {
             File file = new File(fileDir, fileTitle + ".bin");
@@ -323,7 +323,7 @@ public class BitmapUtils {
         }
     }
 
-        private static void createOrExistsDir(File file) {
+    private static void createOrExistsDir(File file) {
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -333,7 +333,7 @@ public class BitmapUtils {
         }
     }
 
-        private static void createOrExistsDir(String fileDir) {
+    private static void createOrExistsDir(String fileDir) {
         File file = new File(fileDir);
         if (!file.exists() && !file.isDirectory()) {
             file.mkdir();
@@ -341,7 +341,7 @@ public class BitmapUtils {
         }
     }
 
-        public static byte[] readFile2BytesByStream(Context context, final File file) {
+    public static byte[] readFile2BytesByStream(Context context, final File file) {
         if (!isFileExists(context, file)) return null;
         try {
             ByteArrayOutputStream os = null;

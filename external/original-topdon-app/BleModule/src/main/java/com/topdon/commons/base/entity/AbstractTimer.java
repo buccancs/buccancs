@@ -16,9 +16,9 @@ public abstract class AbstractTimer {
         this.callbackOnMainThread = callbackOnMainThread;
     }
 
-        public abstract void onTick();
+    public abstract void onTick();
 
-        public synchronized final void start(long delay, long period) {
+    public synchronized final void start(long delay, long period) {
         if (timer == null) {
             timer = new Timer();
             timer.schedule(new TimerTask() {

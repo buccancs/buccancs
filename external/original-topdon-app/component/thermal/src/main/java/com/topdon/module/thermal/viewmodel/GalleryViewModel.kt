@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.viewmodel
+
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.Utils
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
+
 class GalleryViewModel : BaseViewModel() {
     val galleryLiveData = SingleLiveEvent<ArrayList<String>>()
     fun getData() {
@@ -24,6 +26,7 @@ class GalleryViewModel : BaseViewModel() {
             }
         }
     }
+
     fun getVideoData() {
         viewModelScope.launch {
             getVideoList().collect { it ->
@@ -35,6 +38,7 @@ class GalleryViewModel : BaseViewModel() {
             }
         }
     }
+
     private fun getGalleryList(): Flow<ArrayList<String>> {
         val flow = flow {
             val path = Utils.getApp()

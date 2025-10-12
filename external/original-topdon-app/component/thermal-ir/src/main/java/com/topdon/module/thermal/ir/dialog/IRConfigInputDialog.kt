@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.ir.dialog
+
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -12,6 +13,7 @@ import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.R
 import kotlinx.android.synthetic.main.dialog_ir_config_input.*
 import java.lang.NumberFormatException
+
 class IRConfigInputDialog(context: Context, val type: Type, val isTC007: Boolean) :
     Dialog(context, R.style.TextInputDialog) {
     private var value: Float? = null
@@ -20,6 +22,7 @@ class IRConfigInputDialog(context: Context, val type: Type, val isTC007: Boolean
         this.value = value
         return this
     }
+
     fun setConfirmListener(l: (value: Float) -> Unit): IRConfigInputDialog {
         this.onConfirmListener = l
         return this
@@ -42,11 +45,13 @@ class IRConfigInputDialog(context: Context, val type: Type, val isTC007: Boolean
                 tv_unit.text = UnitTools.showUnit()
                 tv_unit.isVisible = true
             }
+
             Type.DIS -> {
                 tv_title.text = "${context.getString(R.string.thermal_config_distance)} (0.2~${if (isTC007) 4 else 5}m)"
                 tv_unit.text = "m"
                 tv_unit.isVisible = true
             }
+
             Type.EM -> {
                 tv_title.text =
                     "${context.getString(R.string.thermal_config_radiation)} (${if (isTC007) "0.1" else "0.01"}~1.00)"
@@ -84,6 +89,7 @@ class IRConfigInputDialog(context: Context, val type: Type, val isTC007: Boolean
             it.attributes = layoutParams
         }
     }
+
     enum class Type {
         TEMP,
         DIS,

@@ -143,6 +143,4 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
 //		 
 
 
-
-
 }

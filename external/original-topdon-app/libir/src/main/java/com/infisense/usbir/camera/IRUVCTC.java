@@ -40,7 +40,7 @@ public class IRUVCTC {
     private final ConnectCallback mConnectCallback;
     private final int imageOrTempDataLength = 256 * 192 * 2;
     private final SynchronizedBitmap syncimage;
-        private final LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
+    private final LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
     private final LibIRProcess.GainSwitchParam_t gain_switch_param = new LibIRProcess.GainSwitchParam_t();
     private final CommonParams.GainStatus gainStatus = CommonParams.GainStatus.HIGH_GAIN;
     private final byte[] temperatureTemp = new byte[imageOrTempDataLength];
@@ -61,7 +61,7 @@ public class IRUVCTC {
     private IFrameCallBackListener iFrameCallBackListener;
     private IFrameReadListener iFrameReadListener;
 
-        public IRUVCTC(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
+    public IRUVCTC(int cameraWidth, int cameraHeight, Context context, SynchronizedBitmap syncimage,
                    CommonParams.DataFlowMode dataFlowMode,
                    ConnectCallback connectCallback, USBMonitorCallback usbMonitorCallback) {
         this.syncimage = syncimage;
@@ -190,8 +190,8 @@ public class IRUVCTC {
                         System.arraycopy(frame, 0, imageEditTemp, 0, length);
                     }
                     if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
-                                                System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
-                                                if (length >= imageOrTempDataLength * 2) {
+                        System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
+                        if (length >= imageOrTempDataLength * 2) {
 
                             if (rotateInt == 270) {
                                 System.arraycopy(frame, imageOrTempDataLength, temperatureTemp, 0,
@@ -245,7 +245,7 @@ public class IRUVCTC {
                             }
                         }
                     } else {
-                                                System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
+                        System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
                     }
                     if (iFrameCallBackListener != null) {
                         iFrameCallBackListener.updateData();
@@ -292,15 +292,15 @@ public class IRUVCTC {
         isRestart = restart;
     }
 
-        private void initUVCCamera() {
+    private void initUVCCamera() {
         Log.i(TAG, "uvcCamera create");
         uvcCamera = new ConcreateUVCBuilder()
                 .setUVCType(UVCType.USB_UVC)
                 .build();
-                uvcCamera.setDefaultBandwidth(0.5F);
+        uvcCamera.setDefaultBandwidth(0.5F);
     }
 
-        private void initIRCMD() {
+    private void initIRCMD() {
         if (uvcCamera != null) {
             ircmd = new ConcreteIRCMDBuilder()
                     .setIrcmdType(IRCMDType.USB_IR_256_384)
@@ -316,13 +316,13 @@ public class IRUVCTC {
         }
     }
 
-        public void registerUSB() {
+    public void registerUSB() {
         if (mUSBMonitor != null) {
             mUSBMonitor.register();
         }
     }
 
-        public void unregisterUSB() {
+    public void unregisterUSB() {
         if (mUSBMonitor != null) {
             mUSBMonitor.unregister();
         }
@@ -345,7 +345,7 @@ public class IRUVCTC {
         }
     }
 
-        private List<CameraSize> getAllSupportedSize() {
+    private List<CameraSize> getAllSupportedSize() {
         List<CameraSize> previewList = new ArrayList<>();
         if (uvcCamera != null) {
             Log.w(TAG, "getSupportedSize = " + uvcCamera.getSupportedSize());
@@ -358,14 +358,14 @@ public class IRUVCTC {
         return previewList;
     }
 
-        private boolean isIRpid(int devpid) {
+    private boolean isIRpid(int devpid) {
         for (int x : pids) {
             if (x == devpid) return true;
         }
         return false;
     }
 
-        private void startPreview() {
+    private void startPreview() {
         if (ircmd == null) {
             return;
         }
@@ -376,7 +376,7 @@ public class IRUVCTC {
 
         if (CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT == defaultDataFlowMode ||
                 CommonParams.DataFlowMode.IMAGE_OUTPUT == defaultDataFlowMode) {
-                        Log.i(TAG, "defaultDataFlowMode = IMAGE_AND_TEMP_OUTPUT or IMAGE_OUTPUT");
+            Log.i(TAG, "defaultDataFlowMode = IMAGE_AND_TEMP_OUTPUT or IMAGE_OUTPUT");
             setFrameReady(false);
             if (isRestart) {
                 if (ircmd.stopPreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0) == 0) {
@@ -406,7 +406,7 @@ public class IRUVCTC {
                             CommonParams.StartPreviewMode.VOC_DVP_MODE, defaultDataFlowMode) == 0) {
                         Log.i(TAG, "startPreview complete 中间出图 restart");
                         try {
-                                                        Thread.sleep(1500);
+                            Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -423,7 +423,7 @@ public class IRUVCTC {
                     Log.e(TAG, "stopPreview error 中间出图 restart");
                 }
             } else {
-                                boolean isTempReplacedWithTNREnabled = ircmd.isTempReplacedWithTNREnabled(DeviceType.P2);
+                boolean isTempReplacedWithTNREnabled = ircmd.isTempReplacedWithTNREnabled(DeviceType.P2);
                 Log.i(TAG,
                         "defaultDataFlowMode = others isTempReplacedWithTNREnabled = " + isTempReplacedWithTNREnabled);
                 if (isTempReplacedWithTNREnabled) {
@@ -436,7 +436,7 @@ public class IRUVCTC {
                                 CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) == 0) {
                             Log.i(TAG, "startPreview complete 红外+TNR");
                             try {
-                                                                Thread.sleep(1500);
+                                Thread.sleep(1500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -461,7 +461,7 @@ public class IRUVCTC {
                                 CommonParams.StartPreviewMode.VOC_DVP_MODE, defaultDataFlowMode) == 0) {
                             Log.i(TAG, "startPreview complete 单TNR");
                             try {
-                                                                Thread.sleep(1500);
+                                Thread.sleep(1500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -482,7 +482,7 @@ public class IRUVCTC {
         }
     }
 
-        public void stopPreview() {
+    public void stopPreview() {
         Log.i(TAG, "stopPreview");
         if (uvcCamera != null) {
             if (uvcCamera.getOpenStatus()) {
@@ -504,7 +504,7 @@ public class IRUVCTC {
         }
     }
 
-        private void handleStartPreviewComplete() {
+    private void handleStartPreviewComplete() {
         new Thread(() -> EventBus.getDefault().post(new PreviewComplete())).start();
     }
 

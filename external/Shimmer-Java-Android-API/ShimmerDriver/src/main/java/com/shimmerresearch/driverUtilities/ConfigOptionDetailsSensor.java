@@ -9,7 +9,7 @@ import com.shimmerresearch.driverUtilities.ConfigOptionDetails.GUI_COMPONENT_TYP
 
 public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Serializable {
 
-        private static final long serialVersionUID = -8894717489924237791L;
+    private static final long serialVersionUID = -8894717489924237791L;
     private String[] mGuiValuesAlt1;
     private Integer[] mConfigValuesAlt1;
     private String[] mGuiValuesAlt2;
@@ -25,28 +25,28 @@ public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Se
     private int mIndexValuesToUse = 0;
     private COMMUNICATION_TYPE mCommunicationType;
 
-        public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, GUI_COMPONENT_TYPE guiComponentType) {
+    public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, GUI_COMPONENT_TYPE guiComponentType) {
         super(guiFriendlyName, dbHandle, guiComponentType);
     }
 
-        public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, GUI_COMPONENT_TYPE guiComponentType, List<ShimmerVerObject> compatibleVersionInfo) {
+    public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, GUI_COMPONENT_TYPE guiComponentType, List<ShimmerVerObject> compatibleVersionInfo) {
         super(guiFriendlyName, dbHandle, guiComponentType, compatibleVersionInfo);
     }
 
-        public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, String[] guiValues, Integer[] configValues, GUI_COMPONENT_TYPE guiComponentType) {
+    public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, String[] guiValues, Integer[] configValues, GUI_COMPONENT_TYPE guiComponentType) {
         super(guiFriendlyName, dbHandle, guiValues, configValues, guiComponentType);
     }
 
-        public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, String[] guiValues, Integer[] configValues, GUI_COMPONENT_TYPE guiComponentType, List<ShimmerVerObject> compatibleVersionInfo) {
+    public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, String[] guiValues, Integer[] configValues, GUI_COMPONENT_TYPE guiComponentType, List<ShimmerVerObject> compatibleVersionInfo) {
         super(guiFriendlyName, dbHandle, guiValues, configValues, guiComponentType, compatibleVersionInfo);
     }
 
-        public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, String[] guiValues, Integer[] configValues, GUI_COMPONENT_TYPE guiComponentType, COMMUNICATION_TYPE commType) {
+    public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, String[] guiValues, Integer[] configValues, GUI_COMPONENT_TYPE guiComponentType, COMMUNICATION_TYPE commType) {
         super(guiFriendlyName, dbHandle, guiValues, configValues, guiComponentType);
         mCommunicationType = commType;
     }
 
-        public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, String[] guiValues, Integer[] configValues, GUI_COMPONENT_TYPE guiComponentType, List<ShimmerVerObject> compatibleVersionInfo, COMMUNICATION_TYPE commType) {
+    public ConfigOptionDetailsSensor(String guiFriendlyName, String dbHandle, String[] guiValues, Integer[] configValues, GUI_COMPONENT_TYPE guiComponentType, List<ShimmerVerObject> compatibleVersionInfo, COMMUNICATION_TYPE commType) {
         super(guiFriendlyName, dbHandle, guiValues, configValues, guiComponentType, compatibleVersionInfo);
         setmCommunicationType(commType);
     }
@@ -63,7 +63,7 @@ public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Se
         }
     }
 
-        @Override
+    @Override
     public String[] getGuiValues() {
         if (mIndexValuesToUse == 1) {
             return mGuiValuesAlt1;
@@ -82,7 +82,7 @@ public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Se
         }
     }
 
-        @Override
+    @Override
     public Integer[] getConfigValues() {
         if (mIndexValuesToUse == 1) {
             return mConfigValuesAlt1;
@@ -101,11 +101,11 @@ public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Se
         }
     }
 
-        public void setIndexOfValuesToUse(int index) {
+    public void setIndexOfValuesToUse(int index) {
         this.mIndexValuesToUse = index;
     }
 
-        public void setGuiValues(int index, String[] guiValues) {
+    public void setGuiValues(int index, String[] guiValues) {
         if (index == 0) {
             this.mGuiValues = guiValues;
         } else if (index == 1) {
@@ -123,7 +123,7 @@ public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Se
         }
     }
 
-        public void setConfigValues(int index, Integer[] configValues) {
+    public void setConfigValues(int index, Integer[] configValues) {
         if (index == 0) {
             this.mConfigValues = configValues;
         } else if (index == 1) {
@@ -172,7 +172,7 @@ public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Se
             public static final int PHASE_64KHZ = 1;
         }
 
-                public static final class EXG_REFERENCE_ELECTRODE {
+        public static final class EXG_REFERENCE_ELECTRODE {
             public static final int ECG = 0;
             public static final int EMG = 1;
             public static final int RESP = 2;

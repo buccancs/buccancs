@@ -46,7 +46,7 @@ public class IniUtil {
         }
     }
 
-        public static String getVehicleName(String path) {
+    public static String getVehicleName(String path) {
         File file = new File(path + "/Diag.ini");
         if (!file.exists()) {
             return "INI_LOST";
@@ -55,7 +55,7 @@ public class IniUtil {
     }
 
 
-        private static String readFileInfo(String path) {
+    private static String readFileInfo(String path) {
         String name = "";
         File file = new File(path);
         if (file.isDirectory()) {
@@ -130,7 +130,7 @@ public class IniUtil {
     }
 
 
-        public static HashMap<String, String> getMaintenance(String path, String name) {
+    public static HashMap<String, String> getMaintenance(String path, String name) {
         HashMap<String, String> hashMap = new HashMap<>();
         File file = new File(path + "/Diag.ini");
         if (!file.exists()) {
@@ -283,7 +283,7 @@ public class IniUtil {
     }
 
 
-        public static HashMap<String, String> getIniSysTem(String path, String name) {
+    public static HashMap<String, String> getIniSysTem(String path, String name) {
         HashMap<String, String> hashMap = new HashMap<>();
         File file = new File(path + "/Diag.ini");
         if (!file.exists()) {

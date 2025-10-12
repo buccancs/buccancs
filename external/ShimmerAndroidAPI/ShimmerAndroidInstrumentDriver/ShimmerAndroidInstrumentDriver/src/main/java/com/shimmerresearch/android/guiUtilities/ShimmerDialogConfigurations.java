@@ -56,7 +56,7 @@ public class ShimmerDialogConfigurations {
     static protected List<String[]> mAdditionalSignalsList = null;
     static protected List<String[]> mFilteredSignalsList = null;
 
-        @Deprecated
+    @Deprecated
     public static void buildShimmerSensorEnableDetails(final ShimmerDevice shimmerDevice, final Context context) {
 
         final List<Integer> mSelectedItems = new ArrayList();
@@ -131,7 +131,7 @@ public class ShimmerDialogConfigurations {
         ad.show();
     }
 
-        public static void buildShimmerSensorEnableDetails(final ShimmerDevice shimmerDevice, final Context context,
+    public static void buildShimmerSensorEnableDetails(final ShimmerDevice shimmerDevice, final Context context,
                                                        final ShimmerBluetoothManagerAndroid bluetoothManager) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -226,7 +226,7 @@ public class ShimmerDialogConfigurations {
         }
     }
 
-        public static void buildShimmerConfigOptions(final ShimmerDevice shimmerDevice, final Context context,
+    public static void buildShimmerConfigOptions(final ShimmerDevice shimmerDevice, final Context context,
                                                  final ShimmerBluetoothManagerAndroid bluetoothManager) {
         final Map<String, ConfigOptionDetailsSensor> configOptionsMap = shimmerDevice.getConfigOptionsMap();
         final ShimmerDevice shimmerDeviceClone = shimmerDevice.deepClone();
@@ -256,7 +256,7 @@ public class ShimmerDialogConfigurations {
         builder.create().show();
     }
 
-        @Deprecated
+    @Deprecated
     public static void buildConfigOptionDetailsSensor(final String key, Map<String, ConfigOptionDetailsSensor> configOptionsMap, final Context context, final ShimmerDevice shimmerDevice, final ShimmerDevice shimmerDeviceClone) {
         final ConfigOptionDetailsSensor cods = configOptionsMap.get(key);
         final CharSequence[] cs = cods.getGuiValues();
@@ -327,7 +327,7 @@ public class ShimmerDialogConfigurations {
         }
     }
 
-        public static void buildConfigOptionDetailsSensor(final String key, Map<String, ConfigOptionDetailsSensor> configOptionsMap,
+    public static void buildConfigOptionDetailsSensor(final String key, Map<String, ConfigOptionDetailsSensor> configOptionsMap,
                                                       final Context context, final ShimmerDevice shimmerDevice,
                                                       final ShimmerDevice shimmerDeviceClone,
                                                       final ShimmerBluetoothManagerAndroid bluetoothManager) {
@@ -525,7 +525,7 @@ public class ShimmerDialogConfigurations {
         showSelectSensorPlot(context, shimmerService, bluetoothAddress, dynamicPlot);
     }
 
-        public static void showSelectSensorPlot(Context context, final ShimmerService shimmerService, final String bluetoothAddress, final XYPlot dynamicPlot) {
+    public static void showSelectSensorPlot(Context context, final ShimmerService shimmerService, final String bluetoothAddress, final XYPlot dynamicPlot) {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(com.shimmerresearch.androidinstrumentdriver.R.layout.dialog_sensor_view);
         final Button buttonSetPlotSignalFilter = (Button) dialog.findViewById(com.shimmerresearch.androidinstrumentdriver.R.id.ButtonFilterPlotSignal);
@@ -714,7 +714,7 @@ public class ShimmerDialogConfigurations {
 
     }
 
-        public static String joinStrings(String[] a) {
+    public static String joinStrings(String[] a) {
         String js = "";
         for (int i = 0; i < a.length; i++) {
             if (i == 0) {
@@ -740,7 +740,7 @@ public class ShimmerDialogConfigurations {
 
     }
 
-        public void buildShimmersConnectedList(final List<ShimmerDevice> deviceList, final Context context,
+    public void buildShimmersConnectedList(final List<ShimmerDevice> deviceList, final Context context,
                                            final ShimmerBluetoothManagerAndroid bluetoothManager) {
         CharSequence[] nameList = new CharSequence[deviceList.size()];
         CharSequence[] macList = new CharSequence[deviceList.size()];
@@ -772,7 +772,7 @@ public class ShimmerDialogConfigurations {
         builder.create().show();
     }
 
-        public void buildSensorOrConfigOptions(final ShimmerDevice shimmerDevice, final Context context,
+    public void buildSensorOrConfigOptions(final ShimmerDevice shimmerDevice, final Context context,
                                            final ShimmerBluetoothManagerAndroid bluetoothManager) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         CharSequence[] items = new CharSequence[2];
@@ -899,10 +899,10 @@ public class ShimmerDialogConfigurations {
 
     }
 
-        public void setADBuilderTheme(Context context, AlertDialog.Builder builder, String title) {
+    public void setADBuilderTheme(Context context, AlertDialog.Builder builder, String title) {
     }
 
-        public void setDialogAndButtonsTheme(Context context, AlertDialog dialog, Button positiveButton, Button negativeButton) {
+    public void setDialogAndButtonsTheme(Context context, AlertDialog dialog, Button positiveButton, Button negativeButton) {
     }
 
 

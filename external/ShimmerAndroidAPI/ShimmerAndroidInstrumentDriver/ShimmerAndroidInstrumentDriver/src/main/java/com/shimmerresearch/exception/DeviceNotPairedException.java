@@ -1,7 +1,6 @@
 package com.shimmerresearch.exception;
 
 
-
 public class DeviceNotPairedException extends RuntimeException {
 
     String btAddress;

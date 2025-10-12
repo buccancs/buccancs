@@ -5,7 +5,7 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 
 public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
 
-        private static final long serialVersionUID = 3020209119724202014L;
+    private static final long serialVersionUID = 3020209119724202014L;
     public double dig_T1 = DEFAULT_COMPENSATION_VALUES.DIG_T1;
     public double dig_T2 = DEFAULT_COMPENSATION_VALUES.DIG_T2;
     public double dig_T3 = DEFAULT_COMPENSATION_VALUES.DIG_T3;
@@ -86,7 +86,7 @@ public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
         this.dig_P9 = P9;
     }
 
-        @Override
+    @Override
     public double[] calibratePressureSensorData(double UP, double UT) {
         double adc_T = UT;
         double adc_P = UP;

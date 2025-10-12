@@ -24,7 +24,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static CrashHandler crashHandler = new CrashHandler();
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     private Context mContext;
-        private File logFile;
+    private File logFile;
 
     private CrashHandler() {
 
@@ -98,11 +98,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         return true;
     }
 
-        private void upLoadErrorFileToServer(File errorFile) {
+    private void upLoadErrorFileToServer(File errorFile) {
 
     }
 
-        private File collectInfoToSDCard(PrintWriter pw, Throwable ex)
+    private File collectInfoToSDCard(PrintWriter pw, Throwable ex)
             throws PackageManager.NameNotFoundException {
 
         PackageManager pm = mContext.getPackageManager();
@@ -115,7 +115,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         pw.print("versionName : ");
         pw.println(pi.versionName);
         try {
-                        Field[] Fields = Build.class.getDeclaredFields();
+            Field[] Fields = Build.class.getDeclaredFields();
             for (Field field : Fields) {
                 field.setAccessible(true);
                 pw.print(field.getName() + " : ");

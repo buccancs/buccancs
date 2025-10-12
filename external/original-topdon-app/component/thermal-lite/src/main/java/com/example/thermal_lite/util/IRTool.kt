@@ -1,4 +1,5 @@
 package com.example.thermal_lite.util
+
 import android.util.Log
 import com.elvishew.xlog.XLog
 import com.energy.ac020library.bean.CommonParams
@@ -9,6 +10,7 @@ import com.example.thermal_lite.camera.CameraPreviewManager
 import com.example.thermal_lite.camera.DeviceIrcmdControlManager
 import com.topdon.lib.core.bean.CameraItemBean
 import kotlinx.coroutines.delay
+
 object IRTool {
     const val TAG: String = "IRTool"
 
@@ -24,6 +26,7 @@ object IRTool {
             "basicAutoFFCStatusSet=$basicAutoFFCStatusSet"
         )
     }
+
     fun setOneShutter() {
         val basicFFCUpdate = DeviceIrcmdControlManager.getInstance().ircmdEngine?.basicFFCUpdate()
         Log.d(
@@ -31,6 +34,7 @@ object IRTool {
             "basicFFCUpdate=$basicFFCUpdate"
         )
     }
+
     fun basicGainSet(gainType: Int) {
         if (gainType == CameraItemBean.TYPE_TMP_ZD) {
             CameraPreviewManager.getInstance().setAutoSwitchGainEnable(true)
@@ -46,6 +50,7 @@ object IRTool {
             Log.d(TAG, "basicGainSet=$basicGainSet--$gainType")
         }
     }
+
     fun basicGlobalContrastLevelSet(levelValue: Int) {
         val basicGlobalContrastLevelSetResult = DeviceIrcmdControlManager.getInstance().ircmdEngine
             ?.basicGlobalContrastLevelSet(levelValue)
@@ -54,8 +59,10 @@ object IRTool {
             "basicGlobalContrastLevelSet=$basicGlobalContrastLevelSetResult"
         )
     }
+
     fun basicImageDetailEnhanceLevelSet(levelValue: Int) {
     }
+
     fun basicMirrorAndFlipStatusSet(openMirror: Boolean) {
         val basicMirrorAndFlipStatusSet = DeviceIrcmdControlManager.getInstance().ircmdEngine
             ?.basicMirrorAndFlipStatusSet(
@@ -64,6 +71,7 @@ object IRTool {
             )
         Log.d(TAG, "basicGlobalContrastLevelSet=$basicMirrorAndFlipStatusSet")
     }
+
     fun onceAuto(): Boolean {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.basicRestoreDefaultData(CommonParams.DeviceRestoreTypeType.BASIC_RESTROE_RMCOVER_DATA)
@@ -100,10 +108,12 @@ object IRTool {
                 else CommonParams.BasicEnableStatus.BASIC_DISABLE
             )
     }
+
     fun advEnvCorrectEMSSet(value: Int) {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             .advEnvCorrectEMSSet(value);
     }
+
     fun advEnvCorrectTUSet(value: Int) {
         DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
             ?.advEnvCorrectTUSet(value);
@@ -136,6 +146,7 @@ object IRTool {
             return newTemp
         }
     }
+
     fun setMode() {
     }
 

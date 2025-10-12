@@ -1,10 +1,12 @@
 package com.topdon.pseudo.bean
+
 import android.os.Parcelable
 import com.google.gson.Gson
 import com.topdon.lib.core.common.SharedManager
 import com.topdon.pseudo.constant.ColorRecommend
 import kotlinx.android.parcel.Parcelize
 import java.nio.ByteBuffer
+
 @Parcelize
 data class CustomPseudoBean(
     var selectIndex: Int = 0,
@@ -30,6 +32,7 @@ data class CustomPseudoBean(
                 CustomPseudoBean()
             }
         }
+
         fun toCustomPseudoBean(byteArray: ByteArray): CustomPseudoBean {
             val buffer: ByteBuffer = ByteBuffer.wrap(byteArray)
             var colors: IntArray? = null
@@ -88,6 +91,7 @@ data class CustomPseudoBean(
             )
         }
     }
+
     fun saveToShared(isTC007: Boolean = false) {
         if (isTC007) {
             SharedManager.saveTC007CustomPseudo(Gson().toJson(this))
@@ -95,6 +99,7 @@ data class CustomPseudoBean(
             SharedManager.saveCustomPseudo(Gson().toJson(this))
         }
     }
+
     fun getColorList(isTC007: Boolean = false): IntArray? {
         if (!isUseCustomPseudo) {
             return null
@@ -114,6 +119,7 @@ data class CustomPseudoBean(
             ColorRecommend.getColorByIndex(isTC007, customRecommendIndex)
         }
     }
+
     fun getPlaceList(): FloatArray? {
         if (!isUseCustomPseudo) {
             return null
@@ -124,24 +130,28 @@ data class CustomPseudoBean(
             null
         }
     }
+
     fun getCustomColors(): IntArray {
         if (colors == null) {
             colors = intArrayOf(customMinColor, customMiddleColor, customMaxColor)
         }
         return colors!!
     }
+
     fun getCustomZAltitudes(): IntArray {
         if (zAltitudes == null) {
             zAltitudes = intArrayOf(0, 0, 0)
         }
         return zAltitudes!!
     }
+
     fun getCustomPlaces(): FloatArray {
         if (places == null) {
             places = floatArrayOf(0f, 0.5f, 1f)
         }
         return places!!
     }
+
     fun toByteArray(): ByteArray {
         val buffer: ByteBuffer = ByteBuffer.allocate(92)
         val colors: IntArray = getCustomColors()

@@ -52,7 +52,7 @@ public class UtilShimmer implements Serializable {
     public static final String CROSS_MARK_STRING = "  x"; //unicode for cross wasn't working on all PCs " " + UNICODE_CROSS_MARK;
     public static final String STRING_CONSTANT_FOR_BUTTON_EVENT = "EVENT BUTTON PRESSED: ";
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-        private static final long serialVersionUID = -3892204042703820796L;
+    private static final long serialVersionUID = -3892204042703820796L;
     public String mParentClassName = "UpdateCheck";
     public Boolean mDebugMode = true;
     public Boolean mVerboseMode = true;
@@ -105,15 +105,15 @@ public class UtilShimmer implements Serializable {
         return timeString;
     }
 
-        public static String convertMilliSecondsToHrMinSecLocal(long milliSeconds) {
+    public static String convertMilliSecondsToHrMinSecLocal(long milliSeconds) {
         return convertMilliSecondsToFormat(milliSeconds, "HH:mm:ss", false);
     }
 
-        public static String convertMilliSecondsToHrMinSecMilliSecLocal(long milliSeconds) {
+    public static String convertMilliSecondsToHrMinSecMilliSecLocal(long milliSeconds) {
         return convertMilliSecondsToFormat(milliSeconds, "HH:mm:ss.SSS", false);
     }
 
-        public static String convertMilliSecondsToFormat(long milliSeconds, String format, boolean setTimezoneUtc) {
+    public static String convertMilliSecondsToFormat(long milliSeconds, String format, boolean setTimezoneUtc) {
         DateFormat dfLocal = new SimpleDateFormat(format);
         if (setTimezoneUtc) {
             dfLocal.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -346,7 +346,7 @@ public class UtilShimmer implements Serializable {
         return returnVal;
     }
 
-        public static boolean compareVersions(int thisHwIdent, int thisFwIdent, int thisMajor, int thisMinor, int thisInternal,
+    public static boolean compareVersions(int thisHwIdent, int thisFwIdent, int thisMajor, int thisMinor, int thisInternal,
                                           int compHwIdent, int compFwIdent, int compMajor, int compMinor, int compInternal) {
 
         if (compHwIdent != ShimmerVerDetails.ANY_VERSION) {
@@ -378,7 +378,7 @@ public class UtilShimmer implements Serializable {
         return compareVersions(thisFwIdent, thisMajor, thisMinor, thisInternal, compFwIdent, compMajor, compMinor, compInternal);
     }
 
-        public static boolean compareVersions(int thisFwIdent, int thisMajor, int thisMinor, int thisInternal,
+    public static boolean compareVersions(int thisFwIdent, int thisMajor, int thisMinor, int thisInternal,
                                           int compFwIdent, int compMajor, int compMinor, int compInternal) {
 
         if (compFwIdent != ShimmerVerDetails.ANY_VERSION) {
@@ -389,7 +389,7 @@ public class UtilShimmer implements Serializable {
         return compareVersions(thisMajor, thisMinor, thisInternal, compMajor, compMinor, compInternal);
     }
 
-        public static boolean doesFirstBytesMatch(byte[] byteArray, byte[] targetValue) {
+    public static boolean doesFirstBytesMatch(byte[] byteArray, byte[] targetValue) {
         if (byteArray.length >= targetValue.length) {
             for (int i = 0; i < targetValue.length; i++) {
                 if (byteArray[i] != targetValue[i]) {
@@ -401,7 +401,7 @@ public class UtilShimmer implements Serializable {
         return false;
     }
 
-        public static boolean compareVersions(int thisMajor, int thisMinor, int thisInternal,
+    public static boolean compareVersions(int thisMajor, int thisMinor, int thisInternal,
                                           int compMajor, int compMinor, int compInternal) {
 
         if ((thisMajor > compMajor)
@@ -412,7 +412,7 @@ public class UtilShimmer implements Serializable {
         return false;
     }
 
-        public static boolean compareVersions(String thisMajor, String thisMinor, String thisInternal,
+    public static boolean compareVersions(String thisMajor, String thisMinor, String thisInternal,
                                           String compMajor, String compMinor, String compInternal) {
         try {
             return compareVersions(Integer.parseInt(thisMajor), Integer.parseInt(thisMinor), Integer.parseInt(thisInternal),
@@ -498,7 +498,7 @@ public class UtilShimmer implements Serializable {
         return 0;
     }
 
-        public static String getCurrentDateAndTimeFormatted() {
+    public static String getCurrentDateAndTimeFormatted() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
         Calendar cal = Calendar.getInstance();
         String formattedDateAndTime = dateFormat.format(cal.getTime());
@@ -506,11 +506,11 @@ public class UtilShimmer implements Serializable {
         return formattedDateAndTime;
     }
 
-        public static int getCurrentLocalTimezoneOffsetMillis() {
+    public static int getCurrentLocalTimezoneOffsetMillis() {
         return ZoneId.systemDefault().getRules().getOffset(Instant.now()).getTotalSeconds() * 1000;
     }
 
-        public static int getLocalTimezoneOffsetMillisForSpecificDate(long unixTimeMillis) {
+    public static int getLocalTimezoneOffsetMillisForSpecificDate(long unixTimeMillis) {
         Instant instant = Instant.ofEpochMilli(unixTimeMillis);
         return ZoneId.systemDefault().getRules().getOffset(instant).getTotalSeconds() * 1000;
     }
@@ -549,31 +549,31 @@ public class UtilShimmer implements Serializable {
         return false;
     }
 
-        public static byte[] convertMilliSecondsToShimmerRtcDataBytesLSB(long milliseconds) {
+    public static byte[] convertMilliSecondsToShimmerRtcDataBytesLSB(long milliseconds) {
         byte[] rtcTimeArray = convertMilliSecondsToShimmerRtcDataBytesMSB(milliseconds);
         ArrayUtils.reverse(rtcTimeArray);
         return rtcTimeArray;
     }
 
-        public static byte[] convertMilliSecondsToShimmerRtcDataBytesMSB(long milliseconds) {
+    public static byte[] convertMilliSecondsToShimmerRtcDataBytesMSB(long milliseconds) {
         long milisecondTicks = (long) (((double) milliseconds) * 32.768);
         byte[] rtcTimeArray = ByteBuffer.allocate(8).putLong(milisecondTicks).array();
         return rtcTimeArray;
     }
 
-        public static long convertShimmerRtcDataBytesToMilliSecondsLSB(byte[] rtcTimeArray) {
+    public static long convertShimmerRtcDataBytesToMilliSecondsLSB(byte[] rtcTimeArray) {
         byte[] reversedArray = ArrayUtils.addAll(rtcTimeArray, null);
         ArrayUtils.reverse(reversedArray);
         return convertShimmerRtcDataBytesToMilliSecondsMSB(reversedArray);
     }
 
-        public static long convertShimmerRtcDataBytesToMilliSecondsMSB(byte[] rtcTimeArray) {
+    public static long convertShimmerRtcDataBytesToMilliSecondsMSB(byte[] rtcTimeArray) {
         long timeWrapped = ByteBuffer.wrap(rtcTimeArray).getLong();
         long milisecondTicks = (long) ((((double) timeWrapped) / 32.768));
         return milisecondTicks;
     }
 
-        public static String joinStrings(String[] a) {
+    public static String joinStrings(String[] a) {
         String js = "";
         for (int i = 0; i < a.length; i++) {
             if (i == 0) {
@@ -882,7 +882,7 @@ public class UtilShimmer implements Serializable {
         return formatted;
     }
 
-        public static double calculateDistanceFromRssi(long rssi, double txPower) {
+    public static double calculateDistanceFromRssi(long rssi, double txPower) {
         return Math.pow(10d, (txPower - rssi) / (10.0 * 2.0));
     }
 
@@ -992,11 +992,11 @@ public class UtilShimmer implements Serializable {
         return r.nextInt(high - low) + low;
     }
 
-        public static int getBitSetBinaryValue(long value, int bitIndex) {
+    public static int getBitSetBinaryValue(long value, int bitIndex) {
         return (isBitSet(value, bitIndex)) ? 1 : 0;
     }
 
-        public static boolean isBitSet(long value, int bitIndex) {
+    public static boolean isBitSet(long value, int bitIndex) {
         return (value & (1L << bitIndex)) != 0;
     }
 

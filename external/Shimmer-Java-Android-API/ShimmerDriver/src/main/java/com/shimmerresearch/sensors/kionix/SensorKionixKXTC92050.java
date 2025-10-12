@@ -118,7 +118,6 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
     }
 
 
-
     @Override
     public void generateSensorMap() {
         super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
@@ -168,7 +167,6 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
 
         updateCurrentAccelLnCalibInUse();
     }
-
 
 
     public static class DatabaseChannelHandles {

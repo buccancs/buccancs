@@ -8,9 +8,9 @@ import com.github.mikephil.charting.formatter.IFillFormatter;
 
 public interface ILineDataSet extends ILineRadarDataSet<Entry> {
 
-        LineDataSet.Mode getMode();
+    LineDataSet.Mode getMode();
 
-        float getCubicIntensity();
+    float getCubicIntensity();
 
     @Deprecated
     boolean isDrawCubicEnabled();
@@ -18,23 +18,23 @@ public interface ILineDataSet extends ILineRadarDataSet<Entry> {
     @Deprecated
     boolean isDrawSteppedEnabled();
 
-        float getCircleRadius();
+    float getCircleRadius();
 
-        float getCircleHoleRadius();
+    float getCircleHoleRadius();
 
-        int getCircleColor(int index);
+    int getCircleColor(int index);
 
-        int getCircleColorCount();
+    int getCircleColorCount();
 
-        boolean isDrawCirclesEnabled();
+    boolean isDrawCirclesEnabled();
 
-        int getCircleHoleColor();
+    int getCircleHoleColor();
 
-        boolean isDrawCircleHoleEnabled();
+    boolean isDrawCircleHoleEnabled();
 
-        DashPathEffect getDashPathEffect();
+    DashPathEffect getDashPathEffect();
 
-        boolean isDashedLineEnabled();
+    boolean isDashedLineEnabled();
 
-        IFillFormatter getFillFormatter();
+    IFillFormatter getFillFormatter();
 }

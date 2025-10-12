@@ -8,31 +8,31 @@ import com.github.mikephil.charting.highlight.Range;
 @SuppressLint("ParcelCreator")
 public class BarEntry extends Entry {
 
-        private float[] mYVals;
+    private float[] mYVals;
 
-        private Range[] mRanges;
+    private Range[] mRanges;
 
-        private float mNegativeSum;
+    private float mNegativeSum;
 
-        private float mPositiveSum;
+    private float mPositiveSum;
 
-        public BarEntry(float x, float y) {
+    public BarEntry(float x, float y) {
         super(x, y);
     }
 
-        public BarEntry(float x, float y, Object data) {
+    public BarEntry(float x, float y, Object data) {
         super(x, y, data);
     }
 
-        public BarEntry(float x, float y, Drawable icon) {
+    public BarEntry(float x, float y, Drawable icon) {
         super(x, y, icon);
     }
 
-        public BarEntry(float x, float y, Drawable icon, Object data) {
+    public BarEntry(float x, float y, Drawable icon, Object data) {
         super(x, y, icon, data);
     }
 
-        public BarEntry(float x, float[] vals) {
+    public BarEntry(float x, float[] vals) {
         super(x, calcSum(vals));
 
         this.mYVals = vals;
@@ -40,7 +40,7 @@ public class BarEntry extends Entry {
         calcRanges();
     }
 
-        public BarEntry(float x, float[] vals, Object data) {
+    public BarEntry(float x, float[] vals, Object data) {
         super(x, calcSum(vals), data);
 
         this.mYVals = vals;
@@ -48,7 +48,7 @@ public class BarEntry extends Entry {
         calcRanges();
     }
 
-        public BarEntry(float x, float[] vals, Drawable icon) {
+    public BarEntry(float x, float[] vals, Drawable icon) {
         super(x, calcSum(vals), icon);
 
         this.mYVals = vals;
@@ -56,7 +56,7 @@ public class BarEntry extends Entry {
         calcRanges();
     }
 
-        public BarEntry(float x, float[] vals, Drawable icon, Object data) {
+    public BarEntry(float x, float[] vals, Drawable icon, Object data) {
         super(x, calcSum(vals), icon, data);
 
         this.mYVals = vals;
@@ -64,7 +64,7 @@ public class BarEntry extends Entry {
         calcRanges();
     }
 
-        private static float calcSum(float[] vals) {
+    private static float calcSum(float[] vals) {
 
         if (vals == null)
             return 0f;
@@ -77,38 +77,38 @@ public class BarEntry extends Entry {
         return sum;
     }
 
-        public BarEntry copy() {
+    public BarEntry copy() {
 
         BarEntry copied = new BarEntry(getX(), getY(), getData());
         copied.setVals(mYVals);
         return copied;
     }
 
-        public float[] getYVals() {
+    public float[] getYVals() {
         return mYVals;
     }
 
-        public void setVals(float[] vals) {
+    public void setVals(float[] vals) {
         setY(calcSum(vals));
         mYVals = vals;
         calcPosNegSum();
         calcRanges();
     }
 
-        @Override
+    @Override
     public float getY() {
         return super.getY();
     }
 
-        public Range[] getRanges() {
+    public Range[] getRanges() {
         return mRanges;
     }
 
-        public boolean isStacked() {
+    public boolean isStacked() {
         return mYVals != null;
     }
 
-        @Deprecated
+    @Deprecated
     public float getBelowSum(int stackIndex) {
         return getSumBelow(stackIndex);
     }
@@ -129,11 +129,11 @@ public class BarEntry extends Entry {
         return remainder;
     }
 
-        public float getPositiveSum() {
+    public float getPositiveSum() {
         return mPositiveSum;
     }
 
-        public float getNegativeSum() {
+    public float getNegativeSum() {
         return mNegativeSum;
     }
 

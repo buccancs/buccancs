@@ -7,6 +7,6 @@ import androidx.annotation.Nullable;
 
 
 public interface DeviceCreator {
-        @Nullable
+    @Nullable
     Device create(BluetoothDevice device, ScanResult scanResult);
 }

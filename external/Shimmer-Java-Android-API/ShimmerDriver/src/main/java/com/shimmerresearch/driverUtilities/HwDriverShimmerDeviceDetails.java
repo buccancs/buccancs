@@ -29,7 +29,7 @@ public class HwDriverShimmerDeviceDetails {
     public String mShimmerDrivePath = "";
     public int mNumberOfSlots = 1;
     public HIDDeviceInfo mHidDeviceInfo = null;
-        public String mFtdiSerialID = "";
+    public String mFtdiSerialID = "";
     public SPAN_VERSION mSpanVersion = SPAN_VERSION.UNKNOWN;
 
     public HwDriverShimmerDeviceDetails() {
@@ -226,11 +226,11 @@ public class HwDriverShimmerDeviceDetails {
         }
 
         public static final class SERIAL_PORT {
-                        public static final String[] FTDI_FT2232H = new String[]{
+            public static final String[] FTDI_FT2232H = new String[]{
                     "VID_0403&PID_6010&MI",
             };
 
-                        public static final String[] FTDI_FT4232H = new String[]{
+            public static final String[] FTDI_FT4232H = new String[]{
                     "VID_0403&PID_6011&MI",
             };
 

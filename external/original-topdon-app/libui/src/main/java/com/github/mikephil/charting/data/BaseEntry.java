@@ -4,11 +4,11 @@ import android.graphics.drawable.Drawable;
 
 public abstract class BaseEntry {
 
-        private float y = 0f;
+    private float y = 0f;
 
-        private Object mData = null;
+    private Object mData = null;
 
-        private Drawable mIcon = null;
+    private Drawable mIcon = null;
 
     public BaseEntry() {
 
@@ -34,27 +34,27 @@ public abstract class BaseEntry {
         this.mData = data;
     }
 
-        public float getY() {
+    public float getY() {
         return y;
     }
 
-        public void setY(float y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-        public Drawable getIcon() {
+    public Drawable getIcon() {
         return mIcon;
     }
 
-        public void setIcon(Drawable icon) {
+    public void setIcon(Drawable icon) {
         this.mIcon = icon;
     }
 
-        public Object getData() {
+    public Object getData() {
         return mData;
     }
 
-        public void setData(Object data) {
+    public void setData(Object data) {
         this.mData = data;
     }
 }

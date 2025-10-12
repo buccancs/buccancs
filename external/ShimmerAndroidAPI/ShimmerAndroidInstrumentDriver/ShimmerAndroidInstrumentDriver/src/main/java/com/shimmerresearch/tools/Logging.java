@@ -1,5 +1,3 @@
-
-
 package com.shimmerresearch.tools;
 
 import java.io.BufferedWriter;
@@ -37,7 +35,7 @@ public class Logging {
     Context mContext = null;
 
     @Deprecated
-        public Logging(String myName) {
+    public Logging(String myName) {
         mFileName = myName;
         File root = Environment.getExternalStorageDirectory();
         Log.d("AbsolutePath", root.getAbsolutePath());
@@ -54,7 +52,7 @@ public class Logging {
     }
 
     @Deprecated
-        public Logging(String myName, String delimiter, String folderName) {
+    public Logging(String myName, String delimiter, String folderName) {
         mFileName = myName;
         mDelimiter = delimiter;
         File root = new File(Environment.getExternalStorageDirectory() + "/" + folderName);
@@ -65,7 +63,7 @@ public class Logging {
     }
 
     @Deprecated
-        public Logging(String myName, String delimiter, String folderName, ShimmerService.FILE_TYPE fileType) {
+    public Logging(String myName, String delimiter, String folderName, ShimmerService.FILE_TYPE fileType) {
         mFileName = myName;
         mDelimiter = delimiter;
         File root;
@@ -106,7 +104,7 @@ public class Logging {
     }
 
 
-        public void logData(ObjectCluster objectCluster) {
+    public void logData(ObjectCluster objectCluster) {
         ObjectCluster objectClusterLog = objectCluster;
 
         try {

@@ -1,4 +1,5 @@
 package com.topdon.module.thermal.activity
+
 import android.Manifest
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ class GalleryActivity : BaseActivity() {
             mutableListOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
         }
     }
+
     override fun initContentView() = R.layout.activity_gallery
     override fun initView() {
         setTitleText(getString(R.string.gallery))
@@ -40,22 +42,28 @@ class GalleryActivity : BaseActivity() {
             .subscribe {
             }
     }
+
     override fun initData() {
     }
+
     inner class ViewAdapter : FragmentPagerAdapter {
         private var titles: Array<String> = arrayOf()
+
         constructor (context: Context, fm: FragmentManager) : super(
             fm,
             BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
         ) {
             titles = arrayOf("图片", "视频")
         }
+
         override fun getCount(): Int {
             return titles.size
         }
+
         override fun getPageTitle(position: Int): CharSequence? {
             return titles[position]
         }
+
         override fun getItem(position: Int): Fragment {
             return when (position) {
                 0 -> GalleryPictureFragment()

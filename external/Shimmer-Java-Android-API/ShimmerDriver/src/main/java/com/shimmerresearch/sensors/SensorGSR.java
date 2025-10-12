@@ -123,10 +123,10 @@ public class SensorGSR extends AbstractSensor {
             ObjectClusterSensorName.GSR_ADC_VALUE,
             CHANNEL_UNITS.MILLIVOLTS,
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
-        public static final Map<String, ChannelDetails> mChannelMapRef;
+    public static final Map<String, ChannelDetails> mChannelMapRef;
     public static final Map<String, ChannelDetails> mChannelMapRefGq;
     private static final long serialVersionUID = 1773291747371088953L;
-        public static boolean isShimmer3and4UsingShimmer2rVal = true;
+    public static boolean isShimmer3and4UsingShimmer2rVal = true;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -180,7 +180,7 @@ public class SensorGSR extends AbstractSensor {
         channelGsrMicroSiemens.mChannelSource = CHANNEL_SOURCE.API;
     }
 
-        public SensorGSR(ShimmerVerObject svo) {
+    public SensorGSR(ShimmerVerObject svo) {
         super(SENSORS.GSR, svo);
         initialise();
 
@@ -197,7 +197,7 @@ public class SensorGSR extends AbstractSensor {
 
     public static double nudgeGsrResistance(double gsrResistanceKOhms, int gsrRangeSetting, double[][] gsrResistanceKohmsMinMax) {
         if (gsrRangeSetting == 4) {
-                        return Math.max(gsrResistanceKohmsMinMax[0][0], gsrResistanceKOhms);
+            return Math.max(gsrResistanceKohmsMinMax[0][0], gsrResistanceKOhms);
         } else {
             double[] minMax = gsrResistanceKohmsMinMax[gsrRangeSetting];
             return UtilShimmer.nudgeDouble(gsrResistanceKOhms, minMax[0], minMax[1]);
@@ -221,16 +221,14 @@ public class SensorGSR extends AbstractSensor {
     }
 
 
-
-
-        public static double calibrateGsrDataToKOhmsUsingAmplifierEq(double gsrUncalibratedData, int range, MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties, double[] gsrRefResistorsKohms) {
+    public static double calibrateGsrDataToKOhmsUsingAmplifierEq(double gsrUncalibratedData, int range, MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties, double[] gsrRefResistorsKohms) {
         double rFeedback = gsrRefResistorsKohms[range];
         double volts = SensorADC.calibrateAdcChannelToVolts(gsrUncalibratedData, microcontrollerAdcProperties);
         double rSource = rFeedback / ((volts / 0.5) - 1.0);
         return rSource;
     }
 
-        public static int uncalibrateGsrDataTokOhmsUsingAmplifierEq(double gsrkOhms, MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties, double[] gsrRefResistorsKohms, double[][] gsrResistanceKohmsMinMax) {
+    public static int uncalibrateGsrDataTokOhmsUsingAmplifierEq(double gsrkOhms, MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties, double[] gsrRefResistorsKohms, double[][] gsrResistanceKohmsMinMax) {
         int range = 0;
         for (int i = 0; i < gsrResistanceKohmsMinMax.length; i++) {
             double[] minMax = gsrResistanceKohmsMinMax[i];
@@ -587,8 +585,6 @@ public class SensorGSR extends AbstractSensor {
     public class LABEL_SENSOR_TILE {
         public static final String GSR = "GSR+";
     }
-
-
 
 
 }

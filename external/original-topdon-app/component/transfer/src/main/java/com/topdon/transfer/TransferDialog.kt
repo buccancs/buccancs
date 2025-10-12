@@ -1,4 +1,5 @@
 package com.topdon.transfer
+
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.topdon.lib.core.utils.ScreenUtil
 import kotlinx.android.synthetic.main.dialog_transfer.view.*
+
 class TransferDialog(context: Context) : Dialog(context, R.style.InfoDialog) {
     var max: Int
         get() = contentView.seek_bar.max

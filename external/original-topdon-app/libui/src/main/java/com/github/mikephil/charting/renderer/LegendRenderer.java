@@ -25,11 +25,11 @@ import java.util.List;
 
 public class LegendRenderer extends Renderer {
 
-        protected Paint mLegendLabelPaint;
+    protected Paint mLegendLabelPaint;
 
-        protected Paint mLegendFormPaint;
+    protected Paint mLegendFormPaint;
 
-        protected Legend mLegend;
+    protected Legend mLegend;
     protected List<LegendEntry> computedEntries = new ArrayList<>(16);
     protected Paint.FontMetrics legendFontMetrics = new Paint.FontMetrics();
     private Path mLineFormPath = new Path();
@@ -48,15 +48,15 @@ public class LegendRenderer extends Renderer {
         mLegendFormPaint.setStyle(Paint.Style.FILL);
     }
 
-        public Paint getLabelPaint() {
+    public Paint getLabelPaint() {
         return mLegendLabelPaint;
     }
 
-        public Paint getFormPaint() {
+    public Paint getFormPaint() {
         return mLegendFormPaint;
     }
 
-        public void computeLegend(ChartData<?> data) {
+    public void computeLegend(ChartData<?> data) {
 
         if (!mLegend.isLegendCustom()) {
 
@@ -428,7 +428,7 @@ public class LegendRenderer extends Renderer {
         }
     }
 
-        protected void drawForm(
+    protected void drawForm(
             Canvas c,
             float x, float y,
             LegendEntry entry,
@@ -494,7 +494,7 @@ public class LegendRenderer extends Renderer {
         c.restoreToCount(restoreCount);
     }
 
-        protected void drawLabel(Canvas c, float x, float y, String label) {
+    protected void drawLabel(Canvas c, float x, float y, String label) {
         c.drawText(label, x, y, mLegendLabelPaint);
     }
 }

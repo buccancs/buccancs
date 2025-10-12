@@ -1,6 +1,8 @@
 package com.guide.zm04c.matrix
+
 import android.util.Log
 import kotlin.experimental.and
+
 class UsbBuffer {
     private val TAG = "UsbBuffer"
     private var mRingBuffer: RingBuffer
@@ -8,15 +10,18 @@ class UsbBuffer {
     private var mark1 = 0
     private var mPacketSize = 0
     private var mPakagebuffer: ByteArray
+
     constructor(frameSize: Int, headSize: Int, count: Int) {
         mFrameSize = frameSize
         mPacketSize = headSize
         mRingBuffer = RingBuffer(mFrameSize * count)
         mPakagebuffer = ByteArray(mPacketSize)
     }
+
     fun setFrameMark(mark1: Int) {
         this.mark1 = mark1
     }
+
     fun write(buffer: ByteArray?, offset: Int, length: Int) {
         if (mRingBuffer != null) {
             mRingBuffer.write(buffer, offset, length)
@@ -40,6 +45,7 @@ class UsbBuffer {
         }
         return false
     }
+
     private fun isValidFrameInt(frame: ByteArray): Int {
         var i = 0
         while (i < frame.size - 1) {
@@ -50,6 +56,7 @@ class UsbBuffer {
         }
         return -1
     }
+
     fun readFrame(frame: ByteArray): Boolean {
         if (mRingBuffer == null) {
             return false
@@ -93,5 +100,6 @@ class UsbBuffer {
         }
         return false
     }
+
     private val lock = Object()
 }

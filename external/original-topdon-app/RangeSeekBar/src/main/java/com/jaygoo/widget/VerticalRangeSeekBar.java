@@ -196,7 +196,7 @@ public class VerticalRangeSeekBar extends DefRangeSeekBar {
         }
     }
 
-        public VerticalSeekBar getLeftSeekBar() {
+    public VerticalSeekBar getLeftSeekBar() {
         return (VerticalSeekBar) leftSB;
     }
 
@@ -208,7 +208,7 @@ public class VerticalRangeSeekBar extends DefRangeSeekBar {
         return orientation;
     }
 
-        public void setOrientation(@DirectionDef int orientation) {
+    public void setOrientation(@DirectionDef int orientation) {
         this.orientation = orientation;
     }
 
@@ -216,16 +216,16 @@ public class VerticalRangeSeekBar extends DefRangeSeekBar {
         return tickMarkDirection;
     }
 
-        public void setTickMarkDirection(@TextDirectionDef int tickMarkDirection) {
+    public void setTickMarkDirection(@TextDirectionDef int tickMarkDirection) {
         this.tickMarkDirection = tickMarkDirection;
     }
 
-        @IntDef({TEXT_DIRECTION_VERTICAL, TEXT_DIRECTION_HORIZONTAL})
+    @IntDef({TEXT_DIRECTION_VERTICAL, TEXT_DIRECTION_HORIZONTAL})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TextDirectionDef {
     }
 
-        @IntDef({DIRECTION_LEFT, DIRECTION_RIGHT})
+    @IntDef({DIRECTION_LEFT, DIRECTION_RIGHT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface DirectionDef {
     }
