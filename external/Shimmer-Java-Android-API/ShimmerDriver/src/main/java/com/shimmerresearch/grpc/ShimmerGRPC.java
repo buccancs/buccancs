@@ -5502,7 +5502,7 @@ public final class ShimmerGRPC {
                                 e).setUnfinishedMessage(this);
                     } finally {
                         if (((mutable_bitField0_ & 0x00000001) != 0)) {
-                            dataArray_.makeImmutable(); // C
+                            dataArray_.makeImmutable();
                         }
                         this.unknownFields = unknownFields.build();
                         makeExtensionsImmutable();

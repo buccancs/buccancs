@@ -13,7 +13,7 @@ public abstract class AbstractCommsProtocol {
     public boolean mFirstTime = false;
     public boolean mIamAlive = false;
     protected ProtocolListener mProtocolListener;
-    protected InterfaceSerialPortHal mCommsInterface; //every radio protocol requires radio control
+    protected InterfaceSerialPortHal mCommsInterface;
     protected int mPacketSize = 0;
     protected int mNumOfMemSetCmds;
     protected byte[] mMemBuffer = new byte[]{};

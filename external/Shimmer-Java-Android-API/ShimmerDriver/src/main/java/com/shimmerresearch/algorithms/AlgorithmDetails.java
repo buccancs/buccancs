@@ -28,7 +28,7 @@ public class AlgorithmDetails implements Serializable {
 
     public List<Integer> mListOfRequiredSensors = new ArrayList<Integer>();
     public List<String> mListOfAssociatedSensorChannels = new ArrayList<String>();
-    @Deprecated //TODO replace with compatible versions list
+    @Deprecated
     public List<Integer> mListOfCompatableExpBoards = new ArrayList<Integer>();
 
     public SENSOR_CHECK_METHOD mSensorCheckMethod = SENSOR_CHECK_METHOD.ALL;

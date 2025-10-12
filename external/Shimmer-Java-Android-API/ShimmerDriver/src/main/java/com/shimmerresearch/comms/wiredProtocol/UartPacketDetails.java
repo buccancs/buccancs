@@ -20,10 +20,10 @@ import java.lang.reflect.*;
 public class UartPacketDetails {
 
     public static final int PACKET_OVERHEAD_RESPONSE_DATA = 5;            // Header + CMD + LENGTH + COMP + PROP 	------------- (+ CRC MSB + CRC LSB) -> CRC already included in length
-    public static final int PACKET_OVERHEAD_RESPONSE_OTHER = 4;            // Header + CMD	+ CRC MSB + CRC LSB
+    public static final int PACKET_OVERHEAD_RESPONSE_OTHER = 4;
     public static final Map<String, UartComponentPropertyDetails> mMapOfUartDeviceTest;
     public static final List<UartComponentPropertyDetails> mListOfUartCommandsConfig;
-    public static String PACKET_HEADER = "$"; // 0x24
+    public static String PACKET_HEADER = "$";
     public static ShimmerVerObject svoGqBle = new ShimmerVerObject(HW_ID.SHIMMER_GQ_BLE, FW_ID.GQ_BLE, 0, 0, 5, ShimmerVerDetails.ANY_VERSION);
     public static ShimmerVerObject svoGq802154NR = new ShimmerVerObject(HW_ID.SHIMMER_GQ_802154_NR, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
     public static ShimmerVerObject svoGq802154LR = new ShimmerVerObject(HW_ID.SHIMMER_GQ_802154_LR, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
@@ -116,10 +116,10 @@ public class UartPacketDetails {
         DATA_RESPONSE((byte) 0x02),
         READ((byte) 0x03),
 
-        BAD_CMD_RESPONSE((byte) 0xfc),    //252
-        BAD_ARG_RESPONSE((byte) 0xfd),    //253
-        BAD_CRC_RESPONSE((byte) 0xfe),    //254
-        ACK_RESPONSE((byte) 0xff);    //255
+        BAD_CMD_RESPONSE((byte) 0xfc),
+        BAD_ARG_RESPONSE((byte) 0xfd),
+        BAD_CRC_RESPONSE((byte) 0xfe),
+        ACK_RESPONSE((byte) 0xff);
 
         private final byte command;
 
@@ -134,7 +134,7 @@ public class UartPacketDetails {
 
         public static enum UART_COMPONENT {
         MAIN_PROCESSOR((byte) 0x01),
-        BAT((byte) 0x02), // this is treated as a sensor
+        BAT((byte) 0x02),
         DAUGHTER_CARD((byte) 0x03),
         PPG((byte) 0x04),
         GSR((byte) 0x05),

@@ -373,30 +373,30 @@ public class SensorLIS2DW12 extends AbstractSensor {
 
     @Override
     public void setSensorSamplingRate(double samplingRateHz) {
-        int accelRate = 0; // Power down
+        int accelRate = 0;
 
         int accelMode = getAccelModeConfigValue();
 
         if (samplingRateHz == 0) {
             accelRate = 0;
-        } else if (samplingRateHz <= 1.6 && accelMode == 0) { // LP mode
-            accelRate = 1; // 1.6Hz
+        } else if (samplingRateHz <= 1.6 && accelMode == 0) {
+            accelRate = 1;
         } else if (samplingRateHz <= 12.5) {
-            accelRate = 2; // 12.5Hz
+            accelRate = 2;
         } else if (samplingRateHz <= 25) {
-            accelRate = 3; // 25Hz
+            accelRate = 3;
         } else if (samplingRateHz <= 50) {
-            accelRate = 4; // 50Hz
+            accelRate = 4;
         } else if (samplingRateHz <= 100) {
-            accelRate = 5; // 100Hz
-        } else if (samplingRateHz <= 200 || accelMode == 0) { // LP mode cut-off
-            accelRate = 6; // 200Hz
-        } else if (samplingRateHz <= 400) { //HP mode
-            accelRate = 7; // 400Hz
-        } else if (samplingRateHz <= 800) { //HP mode
-            accelRate = 8; // 800Hz
-        } else { //if (freq<=1600){ //HP mode
-            accelRate = 9; // 1600Hz
+            accelRate = 5;
+        } else if (samplingRateHz <= 200 || accelMode == 0) {
+            accelRate = 6;
+        } else if (samplingRateHz <= 400) {
+            accelRate = 7;
+        } else if (samplingRateHz <= 800) {
+            accelRate = 8;
+        } else { //if (freq<=1600){
+            accelRate = 9;
         }
         setAccelRateConfigValue(accelRate);
     }

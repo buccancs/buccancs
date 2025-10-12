@@ -11,7 +11,7 @@ import javelin.javelin;
 
 public class Shimmer3BLEJavelinTest {
     public static Shimmer3BLEJavelinTest s_t;
-    static byte[] l_bytes = {0x3F};//hwid
+    static byte[] l_bytes = {0x3F};
     static byte[] t_bytes = {0x06};
     static String l_device = "BluetoothLE#BluetoothLE8c:b8:7e:0b:48:2e-e8:eb:1b:93:68:dd";
     static String l_name = "";
@@ -62,7 +62,7 @@ public class Shimmer3BLEJavelinTest {
 
     public static void startStreaming() {
         Thread thread = new Thread(new MyRunnable());
-        thread.start(); // Start the thread
+        thread.start();
     }
 
     public static void stopStreaming() {

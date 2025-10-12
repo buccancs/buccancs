@@ -31,8 +31,8 @@ public class SensorKionixKXTC92050 extends SensorKionixAccel {
     public static final double[][] OffsetVectorLowNoiseAccelShimmer3 = {{2253}, {2253}, {2253}};
     public static final double[][] SensitivityMatrixLowNoiseAccel2gShimmer3 = {{92, 0, 0}, {0, 92, 0}, {0, 0, 92}};
     public static final SensorDetailsRef sensorKionixKXTC92050 = new SensorDetailsRef(
-            0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL,
-            0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL,
+            0x80,
+            0x80,
             GuiLabelSensors.ACCEL_LN,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoKionixKXTC92050,
             null,

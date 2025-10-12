@@ -39,7 +39,7 @@ import javax.swing.JLabel;
 
 public class SendData extends BasicProcessWithCallBack {
 
-    static final String[] btComports = {"COM10", "COM8"}; // Bluetooth COM ports
+    static final String[] btComports = {"COM10", "COM8"};
     static final int NUM_DEVICES = btComports.length;
     static final BasicShimmerBluetoothManagerPc btManager = new BasicShimmerBluetoothManagerPc();
     static final double SAMPLE_RATE = 51.2;
@@ -47,7 +47,7 @@ public class SendData extends BasicProcessWithCallBack {
             "Accel_LN_X", "Accel_LN_Y", "Accel_LN_Z",
             "Gyro_X", "Gyro_Y", "Gyro_Z",
             "Mag_X", "Mag_Y", "Mag_Z"};
-    static List<StreamOutlet> outlets = new ArrayList<>(); // LSL stream outlets
+    static List<StreamOutlet> outlets = new ArrayList<>();
     static List<String> shimmerNames = new ArrayList<>();
     static boolean streamingState = false;
     static TreeMap<Integer, SensorGroupingDetails> compatibleSensorGroupMap;
@@ -152,7 +152,7 @@ public class SendData extends BasicProcessWithCallBack {
 
         for (ShimmerDevice cloneShimmer : listOfShimmerClones) {
 
-            ShimmerDevice originalShimmerDevice = btManager.getShimmerDeviceBtConnected(cloneShimmer.getComPort()); //changed from getmacid to getcomport
+            ShimmerDevice originalShimmerDevice = btManager.getShimmerDeviceBtConnected(cloneShimmer.getComPort());
             if (originalShimmerDevice != null) {
                 try {
                     originalShimmerDevice.configureFromClone(cloneShimmer);

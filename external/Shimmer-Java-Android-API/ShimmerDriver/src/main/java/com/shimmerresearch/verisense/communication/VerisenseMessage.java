@@ -13,7 +13,7 @@ import com.shimmerresearch.verisense.payloaddesign.AsmBinaryFileConstants.BYTE_C
 
 public class VerisenseMessage implements Serializable {
 
-    public final int mPacketMaxSize = 32767; // Considering we are using int16 to get the length the maximum value is 7F FF which is 32767
+    public final int mPacketMaxSize = 32767;
     public byte[] payloadBytes;
     public int mExpectedLengthBytes;
     public int mCurrentLengthBytes;
@@ -282,7 +282,7 @@ public class VerisenseMessage implements Serializable {
         public static final byte ERASE_PRODUCTION_CONFIG = 0x08;
         public static final byte CLEAR_PENDING_EVENTS = 0x09;
         public static final byte ERASE_FLASH_AND_LOOKUP = 0x0A;
-        public static final byte TRANSFER_LOOP = 0x0B; // Internal FW testing only
+        public static final byte TRANSFER_LOOP = 0x0B;
         public static final byte MAX86XXX_LED_TEST = 0x0E;
         public static final byte CHECK_PAYLOADS_FOR_CRC_ERRORS = 0x0F;
         public static final byte EVENT_LOG = 0x10;

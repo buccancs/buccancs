@@ -64,8 +64,8 @@ public class SensorLIS2MDL extends AbstractSensor {
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS2MDL);
     public static final SensorDetailsRef sensorLIS2MDLMag = new SensorDetailsRef(
-            0x20, //== Configuration.Shimmer3.SensorBitmap.SENSOR_MAG will be: SensorBitmap.SENSOR_MAG,
-            0x20, //== Configuration.Shimmer3.SensorBitmap.SENSOR_MAG will be: SensorBitmap.SENSOR_MAG,
+            0x20,
+            0x20,
             GuiLabelSensors.MAG,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS2MDL,
             Arrays.asList(GuiLabelConfig.LIS2MDL_MAG_RANGE,
@@ -342,7 +342,7 @@ public class SensorLIS2MDL extends AbstractSensor {
 
 
     public boolean checkLowPowerMag() {
-        setLowPowerMag((getLIS2MDLMagRate() == 0) ? true : false); // 10Hz
+        setLowPowerMag((getLIS2MDLMagRate() == 0) ? true : false);
         return isLowPowerMagEnabled();
     }
 
@@ -364,21 +364,21 @@ public class SensorLIS2MDL extends AbstractSensor {
     }
 
     public int getMagRateFromFreqForSensor(boolean isEnabled, double freq, int powerMode) {
-        int magRate = 0; // 10Hz
+        int magRate = 0;
 
         if (isEnabled) {
-            if (powerMode == 0) // low power mode enabled
+            if (powerMode == 0)
             {
-                magRate = 0; // 10Hz
+                magRate = 0;
             } else {
                 if (freq <= 10.0) {
-                    magRate = 0; // 10Hz
+                    magRate = 0;
                 } else if (freq <= 20.0) {
-                    magRate = 1; // 20Hz
+                    magRate = 1;
                 } else if (freq <= 50.0) {
-                    magRate = 2; // 50Hz
+                    magRate = 2;
                 } else {
-                    magRate = 3; // 100Hz
+                    magRate = 3;
                 }
             }
         }
@@ -469,7 +469,7 @@ public class SensorLIS2MDL extends AbstractSensor {
 
             int magRate = (configBytes[configByteLayoutCast.idxConfigSetupByte2] >> configByteLayoutCast.bitShiftLSM303DLHCMagSamplingRate) & configByteLayoutCast.maskLSM303DLHCMagSamplingRate;
             setLIS2MDLMagRate(magRate);
-            checkLowPowerMag(); // check rate to determine if Sensor is in LPM mode
+            checkLowPowerMag();
 
             if (shimmerDevice.isConnected()) {
                 getCurrentCalibDetailsMag().mCalibReadSource = CALIB_READ_SOURCE.INFOMEM;

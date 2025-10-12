@@ -24,8 +24,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
     public final static String TEST_ENDING = "TEST END *************************************//";
     public final static byte[] TEST_ACK = new byte[]{36, -1, -39, -78};
-    public final static int TIMEOUT_IN_SHIMMER_TEST = 60; //assumes test will complete in 60 seconds;
-    protected final static int SERIAL_PORT_TIMEOUT = 500; // was 2000
+    public final static int TIMEOUT_IN_SHIMMER_TEST = 60;
+    protected final static int SERIAL_PORT_TIMEOUT = 500;
     public InterfaceSerialPortHal mSerialPortInterface;
     public String mUniqueId = "";
     public String mComPort = "";
@@ -361,10 +361,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
         return txBufPostCrc;
     }
-
-//
-//
-//
 //
 //
 
@@ -660,9 +656,6 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
             }
         }
     }
-
-
-//
 //
 
 

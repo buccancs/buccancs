@@ -37,7 +37,7 @@ public abstract class SensorBMPX80 extends AbstractSensor {
         if (mShimmerVerObject.isShimmerGen3() || mShimmerVerObject.isShimmerGen3R() || mShimmerVerObject.isShimmerGen4()) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             try {
-                outputStream.write(5); // write the number of different calibration parameters
+                outputStream.write(5);
 
                 outputStream.write(mCalibDetailsBmpX80.getPressureRawCoefficients().length);
                 outputStream.write(mCalibDetailsBmpX80.getPressureRawCoefficients());

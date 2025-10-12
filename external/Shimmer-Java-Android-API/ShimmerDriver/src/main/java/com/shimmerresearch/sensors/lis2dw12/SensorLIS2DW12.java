@@ -53,8 +53,8 @@ public class SensorLIS2DW12 extends AbstractSensor {
     public static final double[][] DefaultSensitivityMatrixWideRangeAccel8gShimmer3R = {{418, 0, 0}, {0, 418, 0}, {0, 0, 418}};
     public static final double[][] DefaultSensitivityMatrixWideRangeAccel16gShimmer3R = {{209, 0, 0}, {0, 209, 0}, {0, 0, 209}};
     public static final SensorDetailsRef sensorLIS2DW12Accel = new SensorDetailsRef(
-            0x10 << 8, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
-            0x10 << 8, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
+            0x10 << 8,
+            0x10 << 8,
             GuiLabelSensors.ACCEL_WR,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS2DW12,
             Arrays.asList(GuiLabelConfig.LIS2DW12_ACCEL_RANGE,
@@ -135,7 +135,7 @@ public class SensorLIS2DW12 extends AbstractSensor {
     public static final SensorGroupingDetails sensorGroupLpmAccel = new SensorGroupingDetails(
             LABEL_SENSOR_TILE.WIDE_RANGE_ACCEL,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_LIS2DW12_ACCEL_WR),
-            CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS2DW12); // To Be Changed
+            CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS2DW12);
         private static final long serialVersionUID = 5066903487855750207L;
 
     static {
@@ -222,28 +222,28 @@ public class SensorLIS2DW12 extends AbstractSensor {
     }
 
     public static int getAccelRateFromFreq(boolean isEnabled, double freq, boolean isLowPowerMode) {
-        int accelRate = 0; // Power down
+        int accelRate = 0;
 
         if (isEnabled) {
             if (isLowPowerMode) {
-                accelRate = 1; // 1.6Hz
+                accelRate = 1;
             } else {
                 if (freq <= 12.5) {
-                    accelRate = 1; // 12.5Hz
+                    accelRate = 1;
                 } else if (freq <= 25) {
-                    accelRate = 3; // 25Hz
+                    accelRate = 3;
                 } else if (freq <= 50) {
-                    accelRate = 4; // 50Hz
+                    accelRate = 4;
                 } else if (freq <= 100) {
-                    accelRate = 5; // 100Hz
+                    accelRate = 5;
                 } else if (freq <= 200) {
-                    accelRate = 6; // 200Hz
+                    accelRate = 6;
                 } else if (freq <= 400) {
-                    accelRate = 7; // 400Hz
+                    accelRate = 7;
                 } else if (freq <= 800) {
-                    accelRate = 8; // 800Hz
+                    accelRate = 8;
                 } else {
-                    accelRate = 9; // 1600Hz
+                    accelRate = 9;
                 }
             }
         }

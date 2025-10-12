@@ -234,8 +234,6 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
         mDeviceCallbackAdapter.sendCallbackPacketReceptionRateCurrent();
 
     }
-
-//
 //
 
 }

@@ -156,7 +156,7 @@ public class SpeedTestProtocol {
                         }
                     }
                     long testSignalCurrentTime = System.currentTimeMillis();
-                    long duration = (long) ((testSignalCurrentTime - TestSignalTSStart) / 1000.0); //make it seconds
+                    long duration = (long) ((testSignalCurrentTime - TestSignalTSStart) / 1000.0);
                     if (duration != 0) {
                         String result = "Effective Throughput (bytes per second): " + (TestSignalTotalEffectiveNumberOfBytes / duration) + ", Number of Bytes Dropped: " + NumberofBytesDropped + ", Numbers Skipped: " + NumberofNumbersSkipped + ", (Duration S): " + duration + "";
                         System.out.println(result);

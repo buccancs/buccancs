@@ -207,11 +207,9 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
                             Log.w("123", "两条曲线")
                             data.forEach {
                                 val x = (it.createTime - startTime).toFloat()
-                                //max
                                 val entity = Entry(x, it.thermalMax)
                                 entity.data = it
                                 maxDataSet.addEntry(entity)
-                                //min
                                 val entityMin = Entry(x, it.thermalMin)
                                 entityMin.data = it
                                 minDataSet.addEntry(entityMin)
@@ -231,11 +229,9 @@ class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
                             }
                             data.forEach {
                                 val x = (it.createTime - startTime).toFloat()
-                                //max
                                 val entityMax = Entry(x, it.thermalMax)
                                 entityMax.data = it
                                 maxTempDataSet.addEntry(entityMax)
-                                //min
                                 val entity = Entry(x, it.thermalMin)
                                 entity.data = it
                                 centerTempDataSet.addEntry(entity)

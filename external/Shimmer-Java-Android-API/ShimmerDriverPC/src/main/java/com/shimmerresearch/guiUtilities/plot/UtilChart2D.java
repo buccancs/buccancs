@@ -24,7 +24,6 @@ public class UtilChart2D {
     public boolean mIsGridOn = false;
 
     public static ITrace2D createTraceAndAddToChart(Chart2D chart, int plotMaxSize, PLOT_LINE_STYLE plotLineStyle) {
-//
 
         ITrace2D trace = createTraceAndSetStyle(chart, plotMaxSize, plotLineStyle);
         chart.addTrace(trace);

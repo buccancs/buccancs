@@ -59,7 +59,7 @@ public class Shimmer4sdk extends ShimmerDevice {
 
     public BluetoothProgressReportPerDevice progressReportPerDevice;
 
-    @Deprecated //assume always true?
+    @Deprecated
     protected boolean mSendProgressReport = true;
 
     protected boolean mButtonStart = true;
@@ -67,7 +67,7 @@ public class Shimmer4sdk extends ShimmerDevice {
     protected boolean mShowRtcErrorLeds = true;
     protected boolean mConfigFileCreationFlag = true;
     protected boolean mCalibFileCreationFlag = false;
-    protected int mBluetoothBaudRate = 9; //460800
+    protected int mBluetoothBaudRate = 9;
     protected transient ShimmerDeviceCallbackAdapter mDeviceCallbackAdapter = new ShimmerDeviceCallbackAdapter(this);
     private boolean isOverrideShowRwcErrorLeds = true;
     private transient ShimmerDeviceCommsProtocolAdaptor mShimmerDeviceCommsProtocolAdaptor = new ShimmerDeviceCommsProtocolAdaptor(this);
@@ -305,10 +305,10 @@ public class Shimmer4sdk extends ShimmerDevice {
         checkIfInternalExpBrdPowerIsNeeded();
         mConfigBytes[infoMemLayout.idxConfigSetupByte3] |= (byte) ((mInternalExpPower & infoMemLayout.maskEXPPowerEnable) << infoMemLayout.bitShiftEXPPowerEnable);
 
-        if ((infoMemLayout.idxDerivedSensors0 > 0) && (infoMemLayout.idxDerivedSensors1 > 0)) { // Check if compatible
+        if ((infoMemLayout.idxDerivedSensors0 > 0) && (infoMemLayout.idxDerivedSensors1 > 0)) {
             mConfigBytes[infoMemLayout.idxDerivedSensors0] = (byte) ((mDerivedSensors >> infoMemLayout.byteShiftDerivedSensors0) & infoMemLayout.maskDerivedChannelsByte);
             mConfigBytes[infoMemLayout.idxDerivedSensors1] = (byte) ((mDerivedSensors >> infoMemLayout.byteShiftDerivedSensors1) & infoMemLayout.maskDerivedChannelsByte);
-            if (infoMemLayout.idxDerivedSensors2 > 0) { // Check if compatible
+            if (infoMemLayout.idxDerivedSensors2 > 0) {
                 mConfigBytes[infoMemLayout.idxDerivedSensors2] = (byte) ((mDerivedSensors >> infoMemLayout.byteShiftDerivedSensors2) & infoMemLayout.maskDerivedChannelsByte);
             }
 
@@ -413,7 +413,7 @@ public class Shimmer4sdk extends ShimmerDevice {
 
         private void initializeRadio() {
         setIsInitialised(false);
-        if (mCommsProtocolRadio != null) { // the radio instance should be declared on a higher level and not in this class
+        if (mCommsProtocolRadio != null) {
             mCommsProtocolRadio.addRadioListener(new RadioListener() {
 
                 @Override
@@ -428,7 +428,6 @@ public class Shimmer4sdk extends ShimmerDevice {
                     } catch (ShimmerException e) {
                         e.printStackTrace();
                     }
-//					
                 }
 
                 @Override
@@ -639,7 +638,6 @@ public class Shimmer4sdk extends ShimmerDevice {
                 if (!mIsStreaming && !isSDLogging() && isConnected() && mBluetoothRadioState != BT_STATE.CONNECTED) {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                 }
-//
 
             }
         }
@@ -667,7 +665,6 @@ public class Shimmer4sdk extends ShimmerDevice {
             mCommsProtocolRadio.readPressureCalibrationCoefficients();
         }
 //
-//
 
 
         if ((isThisVerCompatibleWith(HW_ID.SHIMMER_3, FW_ID.LOGANDSTREAM, 0, 5, 2))
@@ -687,8 +684,8 @@ public class Shimmer4sdk extends ShimmerDevice {
             mCommsProtocolRadio.mRadioProtocol.setInstructionStackLock(false);
         }
 
-        mCommsProtocolRadio.startTimerReadStatus();    // if shimmer is using LogAndStream FW, read its status periodically
-        mCommsProtocolRadio.startTimerReadBattStatus(); // if shimmer is using LogAndStream FW, read its status periodically
+        mCommsProtocolRadio.startTimerReadStatus();
+        mCommsProtocolRadio.startTimerReadBattStatus();
         mCommsProtocolRadio.startTimerCheckIfAlive();
     }
 
@@ -702,7 +699,7 @@ public class Shimmer4sdk extends ShimmerDevice {
         mDeviceCallbackAdapter.isNowStreaming();
     }
 
-    @Deprecated //TODO remove below? old approach?
+    @Deprecated
     public void setSetting(long sensorID, String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
         ActionSetting actionSetting = getSensorClass(sensorID).setSettings(componentName, valueToSet, commType);
         if (actionSetting.mCommType == COMMUNICATION_TYPE.BLUETOOTH) {

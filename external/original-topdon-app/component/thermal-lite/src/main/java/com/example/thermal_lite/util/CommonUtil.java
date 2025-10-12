@@ -16,7 +16,6 @@ public class CommonUtil {
 
     public static byte[] getAssetData(Context mContext, String assetTauName) {
         byte[] tau_data = null;
-        //
         AssetManager am = mContext.getAssets();
         InputStream is = null;
         try {

@@ -23,8 +23,6 @@ public class testParsing {
             byteArray = UtilShimmer.convertLongToByteArray(i);
             long parsedChannelData2 = UtilParseData.parseData(byteArray, CHANNEL_DATA_TYPE.UINT64, CHANNEL_DATA_ENDIAN.MSB);
 
-//
-
 
             System.out.println(parsedChannelData1 + "\t" + parsedChannelData2);// + "\t" + parsedChannelData3 + "\t" + parsedChannelData4);
             System.out.println("");

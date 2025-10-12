@@ -89,7 +89,7 @@ public class DeviceConfigFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 final int editTextGroupPosition = groupPosition;
-                if (v.findViewById(R.id.expandedListItem) != null) { //The item that was clicked is a checkbox
+                if (v.findViewById(R.id.expandedListItem) != null) {
                     CheckedTextView checkedTextView = (CheckedTextView) v.findViewById(R.id.expandedListItem);
                     if (checkedTextView.isChecked()) {
                         checkedTextView.setChecked(false);
@@ -105,7 +105,7 @@ public class DeviceConfigFragment extends Fragment {
                     shimmerDeviceClone.setConfigValueUsingConfigLabel(keySetting, cods.mConfigValues[childPosition]);
 
                     expandListAdapter.replaceCurrentSetting(keySetting, newSetting);
-                    expandListAdapter.notifyDataSetChanged();   //Tells the list to redraw itself with the new information
+                    expandListAdapter.notifyDataSetChanged();
 
                 }
                 return false;

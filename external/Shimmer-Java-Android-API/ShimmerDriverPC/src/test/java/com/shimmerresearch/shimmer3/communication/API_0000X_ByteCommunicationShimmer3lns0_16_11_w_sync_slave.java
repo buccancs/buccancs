@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING) // Test methods will be run in alphabetical order
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class API_0000X_ByteCommunicationShimmer3lns0_16_11_w_sync_slave extends BasicProcessWithCallBack {
     ShimmerPC mDevice;
     TaskCompletionSource<Boolean> mWaitTask;
@@ -46,7 +46,7 @@ public class API_0000X_ByteCommunicationShimmer3lns0_16_11_w_sync_slave extends 
 
         mWaitTask = new TaskCompletionSource<>();
         try {
-            boolean result = mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);//Just to give time to connect to finish
+            boolean result = mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -5,8 +5,8 @@ import java.util.List;
 
 public abstract class AbstractSerialPortHal implements InterfaceSerialPortHal {
 
-    public static int SERIAL_PORT_TIMEOUT_500 = 500; // was 2000
-    public static int SERIAL_PORT_TIMEOUT_2000 = 2000; // was 2000
+    public static int SERIAL_PORT_TIMEOUT_500 = 500;
+    public static int SERIAL_PORT_TIMEOUT_2000 = 2000;
     public int mSerialPortTimeout = SERIAL_PORT_TIMEOUT_500;
     private String mConnectionHandle = "";
 

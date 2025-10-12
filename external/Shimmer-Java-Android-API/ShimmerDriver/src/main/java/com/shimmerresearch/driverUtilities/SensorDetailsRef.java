@@ -14,11 +14,11 @@ public class SensorDetailsRef implements Serializable {
 
 
     public String mGuiFriendlyLabel = "";
-    public List<Integer> mListOfSensorIdsRequired = null; //needs to be null by default
-    public List<Integer> mListOfSensorIdsConflicting = null; //needs to be null by default
+    public List<Integer> mListOfSensorIdsRequired = null;
+    public List<Integer> mListOfSensorIdsConflicting = null;
     public boolean mIntExpBoardPowerRequired = false;
-    public List<String> mListOfConfigOptionKeysAssociated = null; //needs to be null by default
-    public List<ShimmerVerObject> mListOfCompatibleVersionInfo = null; //needs to be null by default
+    public List<String> mListOfConfigOptionKeysAssociated = null;
+    public List<ShimmerVerObject> mListOfCompatibleVersionInfo = null;
 
     public List<String> mListOfChannelsRef = new ArrayList<String>();
 

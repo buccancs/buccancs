@@ -59,7 +59,7 @@ public class ShimmerDialogConfigurations {
         @Deprecated
     public static void buildShimmerSensorEnableDetails(final ShimmerDevice shimmerDevice, final Context context) {
 
-        final List<Integer> mSelectedItems = new ArrayList();  // Where we track the selected items
+        final List<Integer> mSelectedItems = new ArrayList();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         Map<Integer, SensorDetails> sensorMap = shimmerDevice.getSensorMap();
         int count = 0;
@@ -546,7 +546,7 @@ public class ShimmerDialogConfigurations {
 
         if (mAdditionalSignalsList != null && mAdditionalSignalsList.size() > 0) {
             for (String[] addSignal : mAdditionalSignalsList) {
-                listOfChannels.add(addSignal);      //Add the custom channel to the list of channels
+                listOfChannels.add(addSignal);
             }
         }
 
@@ -584,7 +584,7 @@ public class ShimmerDialogConfigurations {
             }
         }
 
-        final List<String[]> listOfChannelsFinal = listOfChannels;   //Final list so inner methods can access it
+        final List<String[]> listOfChannelsFinal = listOfChannels;
 
         buttonDone.setOnClickListener(new View.OnClickListener() {
             @Override

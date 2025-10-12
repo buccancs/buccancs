@@ -271,8 +271,8 @@ public class PayloadContentsDetailsV1_7 extends PayloadContentsDetails {
 
         Double expectedTsDiff = calculateMaxPayloadDataSizeInMs();
 
-        tsDiffLimits[0] = expectedTsDiff * 0.9; // 90%
-        tsDiffLimits[1] = expectedTsDiff * 1.1; // 110%
+        tsDiffLimits[0] = expectedTsDiff * 0.9;
+        tsDiffLimits[1] = expectedTsDiff * 1.1;
         return tsDiffLimits;
     }
 

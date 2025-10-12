@@ -763,27 +763,27 @@ public class SensorEXG extends AbstractSensor {
     protected byte[] mEXG2RegisterArray = new byte[10];
     protected int mExGResolution = 1;
     @Deprecated
-    protected int mEXG1RateSetting; //setting not value
+    protected int mEXG1RateSetting;
     @Deprecated
-    protected int mEXG1CH1GainSetting; // this is the setting not to be confused with the actual value
+    protected int mEXG1CH1GainSetting;
     @Deprecated
-    protected int mEXG1CH1GainValue; // this is the value
+    protected int mEXG1CH1GainValue;
     @Deprecated
-    protected int mEXG1CH2GainSetting; // this is the setting not to be confused with the actual value
+    protected int mEXG1CH2GainSetting;
     @Deprecated
-    protected int mEXG1CH2GainValue; // this is the value
+    protected int mEXG1CH2GainValue;
     @Deprecated
-    protected int mEXG2RateSetting; //setting not value
+    protected int mEXG2RateSetting;
     @Deprecated
-    protected int mEXG2CH1GainSetting; // this is the setting not to be confused with the actual value
+    protected int mEXG2CH1GainSetting;
     @Deprecated
-    protected int mEXG2CH1GainValue; // this is the value
+    protected int mEXG2CH1GainValue;
     @Deprecated
-    protected int mEXG2CH2PowerDown;//Not used in ShimmerBluetooth
+    protected int mEXG2CH2PowerDown;
     @Deprecated
-    protected int mEXG2CH2GainSetting; // this is the setting not to be confused with the actual value
+    protected int mEXG2CH2GainSetting;
     @Deprecated
-    protected int mEXG2CH2GainValue; // this is the value
+    protected int mEXG2CH2GainValue;
     @Deprecated
     protected int mEXGReferenceElectrode = -1;
     @Deprecated
@@ -807,11 +807,11 @@ public class SensorEXG extends AbstractSensor {
     @Deprecated
     protected int mEXGLeadOffComparatorTreshold;
     @Deprecated
-    protected int mEXG2RespirationDetectState;//Not used in ShimmerBluetooth
+    protected int mEXG2RespirationDetectState;
     @Deprecated
-    protected int mEXG2RespirationDetectFreq;//Not used in ShimmerBluetooth
+    protected int mEXG2RespirationDetectFreq;
     @Deprecated
-    protected int mEXG2RespirationDetectPhase;//Not used in ShimmerBluetooth
+    protected int mEXG2RespirationDetectPhase;
     private boolean mIsExg1_24bitEnabled = false;
     private boolean mIsExg2_24bitEnabled = false;
 
@@ -879,7 +879,7 @@ public class SensorEXG extends AbstractSensor {
         } else if (setting == 6) {
             return 12;
         } else {
-            return -1; // -1 means invalid value
+            return -1;
         }
     }
 
@@ -973,8 +973,6 @@ public class SensorEXG extends AbstractSensor {
                         }
                     }
                     sensorDetails.mListOfChannels = listOfRefChannels;
-
-//
 
                 }
             }
@@ -1094,22 +1092,6 @@ public class SensorEXG extends AbstractSensor {
                     new String[]{ObjectClusterSensorName.EXG_TEST_CHIP2_CH2_24BIT, CHANNEL_TYPE.CAL.toString()}
             ));
         }
-
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1203,12 +1185,12 @@ public class SensorEXG extends AbstractSensor {
     public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
         mShimmerVerObject = shimmerDevice.mShimmerVerObject;
 
-        int idxEXGADS1292RChip1Config1 = 10;// exg bytes
+        int idxEXGADS1292RChip1Config1 = 10;
         int idxEXGADS1292RChip2Config1 = 20;
 
 
 
-        exgBytesGetFromConfig(); //update mEXG1Register and mEXG2Register
+        exgBytesGetFromConfig();
         System.arraycopy(mEXG1RegisterArray, 0, configBytes, idxEXGADS1292RChip1Config1, 10);
         if (isTwoChipExg()) {
             System.arraycopy(mEXG2RegisterArray, 0, configBytes, idxEXGADS1292RChip2Config1, 10);
@@ -1218,7 +1200,7 @@ public class SensorEXG extends AbstractSensor {
     @Override
     public void configBytesParse(ShimmerDevice shimmerDevice, byte[] configBytes, COMMUNICATION_TYPE commType) {
 
-        int idxEXGADS1292RChip1Config1 = 10;// exg bytes
+        int idxEXGADS1292RChip1Config1 = 10;
         int idxEXGADS1292RChip2Config1 = 20;
 
         System.arraycopy(configBytes, idxEXGADS1292RChip1Config1, mEXG1RegisterArray, 0, 10);
@@ -1238,8 +1220,6 @@ public class SensorEXG extends AbstractSensor {
 
     @Override
     public void checkShimmerConfigBeforeConfiguring() {
-//
-//
 //
 
         if (!SensorEXG.checkIsAnyExgChannelEnabled(mSensorMap)) {
@@ -1267,7 +1247,7 @@ public class SensorEXG extends AbstractSensor {
             mEXG1LeadOffCurrentMode = mEXG1RegisterArray[2] & 1;
             mEXG1Comparators = mEXG1RegisterArray[1] & 0x40;
             mEXGRLDSense = mEXG1RegisterArray[5] & 0x10;
-            mEXG1LeadOffSenseSelection = mEXG1RegisterArray[6] & 0x0f; //2P1N1P
+            mEXG1LeadOffSenseSelection = mEXG1RegisterArray[6] & 0x0f;
 
             mExGConfigBytesDetails.updateFromRegisterArray(EXG_CHIP_INDEX.CHIP1, mEXG1RegisterArray);
         } else if (chipIndex == EXG_CHIP_INDEX.CHIP2) {
@@ -1280,7 +1260,7 @@ public class SensorEXG extends AbstractSensor {
             mEXG2CH2GainValue = convertEXGGainSettingToValue(mEXG2CH2GainSetting);
             mEXG2LeadOffCurrentMode = mEXG2RegisterArray[2] & 1;
             mEXG2Comparators = mEXG2RegisterArray[1] & 0x40;
-            mEXG2LeadOffSenseSelection = mEXG2RegisterArray[6] & 0x0f; //2P
+            mEXG2LeadOffSenseSelection = mEXG2RegisterArray[6] & 0x0f;
 
             mEXG2RespirationDetectState = (mEXG2RegisterArray[8] >> 6) & 0x03;
             mEXG2RespirationDetectPhase = (mEXG2RegisterArray[8] >> 2) & 0x0F;
@@ -1706,7 +1686,7 @@ public class SensorEXG extends AbstractSensor {
     protected void setExGResolution(int i) {
         mExGResolution = i;
 
-        if (i == 0) { // 16-bit
+        if (i == 0) {
 			/*if ((mEnabledSensors & SENSOR_EXG1_16BIT)>0){
 				mEnabledSensors=mEnabledSensors^SENSOR_EXG1_16BIT;
 			}
@@ -1715,7 +1695,6 @@ public class SensorEXG extends AbstractSensor {
 			}
 			mEnabledSensors = SENSOR_EXG1_16BIT|SENSOR_EXG2_16BIT;
 			*/
-            //
 
             if (mIsExg1_24bitEnabled) {
                 mIsExg1_24bitEnabled = false;
@@ -1725,7 +1704,7 @@ public class SensorEXG extends AbstractSensor {
                 mIsExg2_24bitEnabled = false;
                 mIsExg2_16bitEnabled = true;
             }
-        } else if (i == 1) { // 24-bit
+        } else if (i == 1) {
 			/*if ((mEnabledSensors & SENSOR_EXG1_24BIT)>0){
 				mEnabledSensors=mEnabledSensors^SENSOR_EXG1_24BIT;
 			}
@@ -1859,16 +1838,16 @@ public class SensorEXG extends AbstractSensor {
                 || isExgPropertyEnabled(EXG_CHIP_INDEX.CHIP2, EXG_SETTING_OPTIONS.REG7.LEAD_OFF_DETECT_POS_INPUTS_CH1.ON)
         ) {
             if (isExgPropertyEnabled(EXG_CHIP_INDEX.CHIP1, EXG_SETTING_OPTIONS.REG3.LEAD_OFF_FREQUENCY.DC)) {
-                return 1;//DC Current
+                return 1;
             } else if (isExgPropertyEnabled(EXG_CHIP_INDEX.CHIP1, EXG_SETTING_OPTIONS.REG3.LEAD_OFF_FREQUENCY.AC)) {
-                return 2;//AC Current
+                return 2;
             }
         }
-        return 0;//Off
+        return 0;
     }
 
     public void setEXGLeadOffCurrentMode(int mode) {
-        if (mode == 0) {//Off
+        if (mode == 0) {
             setExgPropertyBothChips(EXG_SETTING_OPTIONS.REG3.LEAD_OFF_FREQUENCY.DC);
             setExgPropertyBothChips(EXG_SETTING_OPTIONS.REG2.LEAD_OFF_COMPARATORS.OFF);
             setExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTING_OPTIONS.REG6.RLD_LEAD_OFF_SENSE_FUNCTION.OFF);
@@ -1879,7 +1858,7 @@ public class SensorEXG extends AbstractSensor {
             if (isEXGUsingDefaultEMGConfiguration()) {
                 setExgPropertySingleChip(EXG_CHIP_INDEX.CHIP2, EXG_SETTING_OPTIONS.REG5.CH2_POWER_DOWN.POWER_DOWN);
             }
-        } else if (mode == 1) {//DC Current
+        } else if (mode == 1) {
             setExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTING_OPTIONS.REG3.LEAD_OFF_FREQUENCY.DC);
             setExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTING_OPTIONS.REG2.LEAD_OFF_COMPARATORS.ON);
             setExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTING_OPTIONS.REG6.RLD_LEAD_OFF_SENSE_FUNCTION.ON);
@@ -1915,7 +1894,7 @@ public class SensorEXG extends AbstractSensor {
             if (isEXGUsingDefaultEMGConfiguration()) {
                 setExgPropertySingleChip(EXG_CHIP_INDEX.CHIP2, EXG_SETTING_OPTIONS.REG5.CH2_POWER_DOWN.NORMAL_OPERATION);
             }
-        } else if (mode == 2) {//AC Current
+        } else if (mode == 2) {
             setExgPropertyBothChips(EXG_SETTING_OPTIONS.REG3.LEAD_OFF_FREQUENCY.AC);
             setExgPropertyBothChips(EXG_SETTING_OPTIONS.REG2.LEAD_OFF_COMPARATORS.ON);
             setExgPropertySingleChip(EXG_CHIP_INDEX.CHIP1, EXG_SETTING_OPTIONS.REG6.RLD_LEAD_OFF_SENSE_FUNCTION.ON);
@@ -2037,23 +2016,23 @@ public class SensorEXG extends AbstractSensor {
 
         public int setExGRateFromFreq(double freq) {
 
-        int valueToSet = 0x00; // 125Hz
+        int valueToSet = 0x00;
         if (freq <= 125) {
-            valueToSet = 0x00; // 125Hz
+            valueToSet = 0x00;
         } else if (freq <= 250) {
-            valueToSet = 0x01; // 250Hz
+            valueToSet = 0x01;
         } else if (freq <= 500) {
-            valueToSet = 0x02; // 500Hz
+            valueToSet = 0x02;
         } else if (freq <= 1000) {
-            valueToSet = 0x03; // 1000Hz
+            valueToSet = 0x03;
         } else if (freq <= 2000) {
-            valueToSet = 0x04; // 2000Hz
+            valueToSet = 0x04;
         } else if (freq <= 4000) {
-            valueToSet = 0x05; // 4000Hz
+            valueToSet = 0x05;
         } else if (freq <= 8000) {
-            valueToSet = 0x06; // 8000Hz
+            valueToSet = 0x06;
         } else {
-            valueToSet = 0x02; // 500Hz
+            valueToSet = 0x02;
         }
         setEXGRateSetting(valueToSet);
         return mEXG1RateSetting;
@@ -2065,7 +2044,7 @@ public class SensorEXG extends AbstractSensor {
             if (mShimmerVerObject.isShimmerGenGq()) {
                 sensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_ECG).setIsEnabled(isEXGUsingDefaultECGGqConfiguration());
             } else if ((mShimmerVerObject.isShimmerGen3() || mShimmerVerObject.isShimmerGen4())) {
-                if (isEXGUsingDefaultRespirationConfiguration()) { // Do Respiration check first
+                if (isEXGUsingDefaultRespirationConfiguration()) {
                     sensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_ECG).setIsEnabled(false);
                     sensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_EMG).setIsEnabled(false);
                     sensorMap.get(Configuration.Shimmer3.SENSOR_ID.HOST_EXG_TEST).setIsEnabled(false);
@@ -2151,7 +2130,7 @@ public class SensorEXG extends AbstractSensor {
             ConfigOptionDetails configOptions = mConfigOptionsMap.get(stringKey);
             if (configOptions != null) {
                 int nonStandardIndex = -1;
-                if (isEXGUsingDefaultRespirationConfiguration()) { // Do Respiration check first
+                if (isEXGUsingDefaultRespirationConfiguration()) {
                     nonStandardIndex = ConfigOptionDetailsSensor.VALUE_INDEXES.EXG_REFERENCE_ELECTRODE.RESP;
                 } else if (isEXGUsingDefaultECGConfiguration() || isEXGUsingDefaultECGGqConfiguration()) {
                     nonStandardIndex = ConfigOptionDetailsSensor.VALUE_INDEXES.EXG_REFERENCE_ELECTRODE.ECG;
@@ -2425,13 +2404,13 @@ public class SensorEXG extends AbstractSensor {
         public static String ECG_LA_RA_24BIT = "ECG_LA-RA_24BIT";
         public static String ECG_LA_RL_24BIT = "ECG_LA-RL_24BIT";
         public static String ECG_LL_RA_24BIT = "ECG_LL-RA_24BIT";
-        public static String ECG_LL_LA_24BIT = "ECG_LL-LA_24BIT"; //derived
+        public static String ECG_LL_LA_24BIT = "ECG_LL-LA_24BIT";
         public static String ECG_RESP_24BIT = "ECG_RESP_24BIT";
         public static String ECG_VX_RL_24BIT = "ECG_Vx-RL_24BIT";
         public static String ECG_LA_RA_16BIT = "ECG_LA-RA_16BIT";
         public static String ECG_LA_RL_16BIT = "ECG_LA-RL_16BIT";
         public static String ECG_LL_RA_16BIT = "ECG_LL-RA_16BIT";
-        public static String ECG_LL_LA_16BIT = "ECG_LL-LA_16BIT"; //derived
+        public static String ECG_LL_LA_16BIT = "ECG_LL-LA_16BIT";
         public static String ECG_RESP_16BIT = "ECG_RESP_16BIT";
         public static String ECG_VX_RL_16BIT = "ECG_Vx-RL_16BIT";
         public static String EXG_TEST_CHIP1_CH1_24BIT = "Test_CHIP1_CH1_24BIT";

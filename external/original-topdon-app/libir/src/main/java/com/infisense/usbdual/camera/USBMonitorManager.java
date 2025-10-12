@@ -44,7 +44,7 @@ public class USBMonitorManager {
     private short[] kt_low = new short[1201];
     private short[] bt_high = new short[1201];
     private short[] bt_low = new short[1201];
-    private boolean isGetNucFromFlash; // 是否从机芯Flash中读取的nuc数据，会影响到测温修正的资源释放
+    private boolean isGetNucFromFlash;
     private CommonParams.GainStatus gainStatus = CommonParams.GainStatus.HIGH_GAIN;
     private int[] curVtemp = new int[1];
     private List<OnUSBConnectListener> mOnUSBConnectListeners = new ArrayList<>();
@@ -83,11 +83,11 @@ public class USBMonitorManager {
         this.isUseIRISP = isUseIRISP;
         this.mDefaultDataFlowMode = defaultDataFlowMode;
         if (defaultDataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
-                        cameraWidth = 256; // 传感器的原始宽度
-            cameraHeight = 384; // 传感器的原始高度
+                        cameraWidth = 256;
+            cameraHeight = 384;
         } else {
-                        cameraWidth = 256;// 传感器的原始宽度
-            cameraHeight = 192;// 传感器的原始高度
+                        cameraWidth = 256;
+            cameraHeight = 192;
         }
         if (mUSBMonitor == null) {
             mUSBMonitor = new USBMonitor(Utils.getApp(),
@@ -213,7 +213,6 @@ public class USBMonitorManager {
         }
         int result = setPreviewSize(cameraWidth, cameraHeight);
         if (result == 0) {
-            //
             startPreview();
         }
     }

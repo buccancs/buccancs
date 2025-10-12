@@ -1459,7 +1459,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                 }
                 irFile?.let {
                     gwData = IXUtil.parserInfFile(it, dcFile!!)
-                    // Convert byte[] to 2D array
                     val irData = OpencvTools.convertSingleByteToDoubleByte(gwData!!.irData)
                     val tempData = OpencvTools.convertCelsiusToOriginalBytes(gwData!!.temp)
                     System.arraycopy(irData, 0, imageEditBytes, 0, irData.size)

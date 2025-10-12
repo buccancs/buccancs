@@ -32,7 +32,7 @@ public class Logging {
     String mFileName = "";
     BufferedWriter writer = null;
     File outputFile;
-    String mDelimiter = ","; //default is comma
+    String mDelimiter = ",";
     DocumentFile mNewFile = null;
     Context mContext = null;
 
@@ -59,7 +59,7 @@ public class Logging {
         mDelimiter = delimiter;
         File root = new File(Environment.getExternalStorageDirectory() + "/" + folderName);
         if (!root.exists()) {
-            if (root.mkdir()) ; //directory is created;
+            if (root.mkdir()) ;
         }
         outputFile = new File(root, mFileName + "." + ShimmerService.FILE_TYPE.DAT.getName());
     }
@@ -72,12 +72,12 @@ public class Logging {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS + "/" + folderName);
         } else {
-            root = new File(Environment.getExternalStorageDirectory() + "/" + folderName); //android 13 no longer allows this
+            root = new File(Environment.getExternalStorageDirectory() + "/" + folderName);
         }
 
         if (!root.exists()) {
             if (root.mkdir()) {
-                System.out.println();//directory is created;
+                System.out.println();
             } else {
 
             }
@@ -144,7 +144,7 @@ public class Logging {
                     writer.write(objectClusterLog.getShimmerName());
                     writer.write(mDelimiter);
                 }
-                writer.newLine(); // notepad recognized new lines as \r\n
+                writer.newLine();
 
                 for (int k = 0; k < mSensorNames.length; k++) {
                     writer.write(mSensorNames[k]);
@@ -181,7 +181,7 @@ public class Logging {
 
             for (int r = 0; r < mSensorNames.length; r++) {
                 Collection<FormatCluster> dataFormats = objectClusterLog.getCollectionOfFormatClusters(mSensorNames[r]);
-                FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);  // retrieve the calibrated data
+                FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);
                 writer.write(Double.toString(formatCluster.mData));
                 writer.write(mDelimiter);
             }

@@ -13,15 +13,14 @@ class PdfActivity : BaseActivity() {
     override fun initContentView() = R.layout.activity_pdf
     override fun initView() {
         pdf_view.fromAsset(if (intent.getBooleanExtra("isTS001", false)) "TC001.pdf" else "TS004.pdf")
-            .enableSwipe(true) // allows to block changing pages using swipe
+            .enableSwipe(true)
             .swipeHorizontal(false)
             .enableDoubletap(true)
             .defaultPage(0)
-            .enableAnnotationRendering(false) // render annotations (such as comments, colors or forms)
+            .enableAnnotationRendering(false)
             .password(null)
             .scrollHandle(null)
-            .enableAntialiasing(true) // improve rendering a little bit on low-res screens
-            // spacing between pages in dp. To define spacing color, set view background
+            .enableAntialiasing(true)
             .spacing(0)
             .load()
     }

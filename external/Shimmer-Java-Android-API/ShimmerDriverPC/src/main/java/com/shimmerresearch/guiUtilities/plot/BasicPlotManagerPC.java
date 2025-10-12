@@ -112,7 +112,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         public BasicPlotManagerPC(List<String[]> propertiestoPlot, int limit, Chart2D chart) throws Exception {
         mXAxisLimit = limit;
         mChart = chart;
-        mChart.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // Dec 2016: RM put this in as the default cursor for jchart2d is cross-hair
+        mChart.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         mChart.getAxisY().setFormatter(new LabelFormatterNumber());
 
         if (propertiestoPlot != null) {
@@ -366,7 +366,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 if (found) {
                     String traceName = joinChannelStringArray(signal);
                     mMapofDefaultXAxisSizes.remove(traceName);
-                    mListofTraces.get(i).removeAllPoints(); // added this line for ConsensysGQ as we keep hold the trace for the single HR and GSR plot
+                    mListofTraces.get(i).removeAllPoints();
 
                     removeSignalCommon(traceName);
 
@@ -509,9 +509,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
         if (mEnablePCTS && mChart != null) {
             xAxis = mChart.getAxisX();
             xAxis.setFormatter(xAxisLblFormatter);
-
-//
-//
 //
 
         }
@@ -709,9 +706,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             }
         }
     }
-
-//
-//
 //
 
     public void setTraceLineStyle(String traceName, PLOT_LINE_STYLE plotLineStyle) {
@@ -790,14 +784,14 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 }
             } else if (scaleSetting == SCALE_SETTING.CUSTOM) {
 
-                if (yAxisMin != null && yAxisMax == null) {  // y-axis min only
+                if (yAxisMin != null && yAxisMax == null) {
                     yMin = (double) yAxisMin;
                     if (yMin < 0) {
                         setYAxisMinMax(isLeftYAxis, yMin, -yMin);
                     } else {
                         setYAxisMinMax(isLeftYAxis, yMin, yMin * 2);
                     }
-                } else if (yAxisMin == null && yAxisMax != null) {  // y-axis max only
+                } else if (yAxisMin == null && yAxisMax != null) {
                     yMax = (double) yAxisMax;
                     if (yMax > 0) {
                         setYAxisMinMax(isLeftYAxis, -yMax, yMax);
@@ -805,7 +799,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                         setYAxisMinMax(isLeftYAxis, (-yMax * yMax), yMax);
                     }
 
-                } else if (yAxisMin != null && yAxisMax != null) {  // y-axis both
+                } else if (yAxisMin != null && yAxisMax != null) {
                     yMin = (double) yAxisMin;
                     yMax = (double) yAxisMax;
 
@@ -1190,7 +1184,6 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
     }
 
     public void setAxisColor(int[] newColor) {
-//
     }
 
     public boolean changeChannelType(String[] oldName, String[] newName) {
@@ -1478,7 +1471,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
     protected String getHRvalue(FormatCluster f) {
         DecimalFormat dc = new DecimalFormat("0");
-        String formattedText = " " + dc.format(f.mData) + " ";  // Padding String so that single ECGtoValue wont overflow on gui
+        String formattedText = " " + dc.format(f.mData) + " ";
         return formattedText;
     }
 
@@ -1552,7 +1545,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                     if (isEventMarkerData(shimmerName, props[0])) {
                         if (xData > mCurrentXValue) {
                             eventMarker = true;
-                        } else { // skip any data which is in the past, as there are multiple shimmer devices, this is possible
+                        } else {
                             FormatCluster f = ObjectCluster.returnFormatCluster(ojc.getCollectionOfFormatClusters(props[1]), props[2]);
                             if (f == null) {
                                 indexOfTrace++;
@@ -1568,8 +1561,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                                 continue;
                             }
 
-                            if (yData != -1) { //marker detected
-                                xData = mCurrentXValue; //ensure the timestamp doesnt go back in time
+                            if (yData != -1) {
+                                xData = mCurrentXValue;
                                 eventMarker = true;
                             } else {
                                 eventMarker = false;
@@ -1731,7 +1724,7 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
 
     public void setXAisType(CHANNEL_AXES xAxisType) {
         mXAisType = xAxisType;
-        initializeAxes(1000);//Any value
+        initializeAxes(1000);
     }
 
     public boolean isXAxisValue() {

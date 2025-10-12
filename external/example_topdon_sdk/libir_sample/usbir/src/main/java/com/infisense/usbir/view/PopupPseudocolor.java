@@ -29,7 +29,7 @@ public class PopupPseudocolor {
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setOnDismissListener(dismissListener);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000)); // 解决 7.0 手机，点击外部不消失
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         recyclerView = view.findViewById(R.id.recycler_view);
         view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 

@@ -75,7 +75,6 @@ public class DualViewWithManualAlignExternalCamera extends BaseParamDualView {
                 .setUseDualGPU(false)
                 .setMultiThreadHandleDualEnable(false)
                 .build();
-        //
         mSurfaceNativeWindow = new SurfaceNativeWindow();
         dualUVCCamera.addIrUVCCamera(iruvc);
         fusionLength = mDualWidth * mDualHeight * 4;

@@ -45,10 +45,8 @@ object Deps {
     const val nifty_effect = "io.github.litao0621:nifty-slider-effect:1.4.6"
     const val lms2 = "com.topdon.lms.sdk3:lms_international:3.90.009.0"
     const val lms3 = "com.topdon.lms.sdk3:lms_china:3.90.076"
-    //javacv
     const val javacv = "org.bytedeco:javacv:1.5.8"
     const val javacpp = "org.bytedeco:javacpp:1.5.8"
-    //so
     const val ffmpeg_android_arm64 = "org.bytedeco:ffmpeg:5.0-1.5.7:android-arm64"
     const val ffmpeg_android_arm = "org.bytedeco:ffmpeg:5.0-1.5.7:android-arm"
     const val ffmpeg_android_x86_64 = "org.bytedeco:ffmpeg:5.0-1.5.7:android-x86_64"

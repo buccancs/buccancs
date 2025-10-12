@@ -68,7 +68,7 @@ public class UtilParseData {
         }
     }
 
-        @Deprecated // Moving to constant data type declarations rather then declaring strings in multiple classes
+        @Deprecated
     public static long[] parseData(byte[] data, String[] dataType) {
         int iData = 0;
         long[] formattedData = new long[dataType.length];
@@ -90,7 +90,7 @@ public class UtilParseData {
                 iData = iData + 2;
             } else if (dataType[i] == "i12>") {
                 formattedData[i] = calculatetwoscomplement((int) ((int) (data[iData] & 0xFF) + ((int) (data[iData + 1] & 0xFF) << 8)), 16);
-                formattedData[i] = formattedData[i] >> 4; // shift right by 4 bits
+                formattedData[i] = formattedData[i] >> 4;
                 iData = iData + 2;
             } else if (dataType[i] == "u16") {
                 formattedData[i] = (int) ((int) (data[iData] & 0xFF) + ((int) (data[iData + 1] & 0xFF) << 8));
@@ -187,7 +187,7 @@ public class UtilParseData {
         return formattedData;
     }
 
-        @Deprecated // Moving to constant data type declarations rather then declaring strings in multiple classes
+        @Deprecated
     public static int[] formatDataPacketReverse(byte[] data, String[] dataType) {
         int iData = 0;
         int[] formattedData = new int[dataType.length];

@@ -25,7 +25,7 @@ public class ParserStreamedDataToCSV {
     private boolean isFileHeaderWritten;
     private boolean isLimitingDecimalPlaces = false;
 
-    private DecimalFormat decimalFormat = new DecimalFormat("#.00"); //round to two decimal places
+    private DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
     private String filePath;
     private String fileName;

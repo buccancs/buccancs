@@ -22,11 +22,11 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int idxSensors0 = 3;
     public int idxSensors1 = 4;
     public int idxSensors2 = 5;
-    public int idxConfigSetupByte0 = 6; //sensors setting bytes
+    public int idxConfigSetupByte0 = 6;
     public int idxConfigSetupByte1 = 7;
     public int idxConfigSetupByte2 = 8;
     public int idxConfigSetupByte3 = 9;
-    public int idxEXGADS1292RChip1Config1 = 10;// exg bytes, not implemented yet
+    public int idxEXGADS1292RChip1Config1 = 10;
     public int idxEXGADS1292RChip1Config2 = 11;
     public int idxEXGADS1292RChip1LOff = 12;
     public int idxEXGADS1292RChip1Ch1Set = 13;
@@ -50,7 +50,7 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int idxAnalogAccelCalibration = 31;
     public int idxMPU9150GyroCalibration = 52;
     public int idxLSM303DLHCMagCalibration = 73;
-    public int idxLSM303DLHCAccelCalibration = 94; //94->114
+    public int idxLSM303DLHCAccelCalibration = 94;
     public int idxADXL371AltAccelCalibration = 256;
     public int idxLIS3MDLAltMagCalibration = 285;
 
@@ -69,25 +69,25 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int idxSensors3 = 128 + 2;
     public int idxSensors4 = 128 + 3;
     public int idxConfigSetupByte6 = 128 + 4;
-    public int idxMPLAccelCalibration = 128 + 5; //+21
-    public int idxMPLMagCalibration = 128 + 26; //+21
-    public int idxMPLGyroCalibration = 128 + 47; //+12
-    public int idxSDShimmerName = 128 + 59;   // +12 bytes
-    public int idxSDEXPIDName = 128 + 71;   // +12 bytes
-    public int idxSDConfigTime0 = 128 + 83;   // +4 bytes
+    public int idxMPLAccelCalibration = 128 + 5;
+    public int idxMPLMagCalibration = 128 + 26;
+    public int idxMPLGyroCalibration = 128 + 47;
+    public int idxSDShimmerName = 128 + 59;
+    public int idxSDEXPIDName = 128 + 71;
+    public int idxSDConfigTime0 = 128 + 83;
     public int idxSDConfigTime1 = 128 + 84;
     public int idxSDConfigTime2 = 128 + 85;
     public int idxSDConfigTime3 = 128 + 86;
-    public int idxSDMyTrialID = 128 + 87;   // 1 byte
-    public int idxSDNumOfShimmers = 128 + 88;   // 1 byte
+    public int idxSDMyTrialID = 128 + 87;
+    public int idxSDNumOfShimmers = 128 + 88;
     public int idxSDExperimentConfig0 = 128 + 89;
     public int idxSDExperimentConfig1 = 128 + 90;
     public int idxSDBTInterval = 128 + 91;
-    public int idxEstimatedExpLengthMsb = 128 + 92; // 2bytes
+    public int idxEstimatedExpLengthMsb = 128 + 92;
     public int idxEstimatedExpLengthLsb = 128 + 93;
-    public int idxMaxExpLengthMsb = 128 + 94; // 2bytes
+    public int idxMaxExpLengthMsb = 128 + 94;
     public int idxMaxExpLengthLsb = 128 + 95;
-    public int idxMacAddress = 128 + 96; // 6bytes
+    public int idxMacAddress = 128 + 96;
     public int idxSDConfigDelayFlag = 128 + 102;
     public int idxBtFactoryReset = 0;
 
@@ -110,8 +110,8 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int bitShiftLSM303DLHCAccelLPM = 1;
     public int maskLSM303DLHCAccelLPM = 0x01;
 
-    public int bitShiftLSM303DLHCAccelHRM = 0; // HIGH_RESOLUTION_MODE
-    public int maskLSM303DLHCAccelHRM = 0x01; // HIGH_RESOLUTION_MODE
+    public int bitShiftLSM303DLHCAccelHRM = 0;
+    public int maskLSM303DLHCAccelHRM = 0x01;
 
     public int bitShiftBMP390PressureResolution = 0;
     public int maskBMP390PressureResolution = 0x01;
@@ -159,7 +159,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int maskDerivedChannelPpg_ADC12ADC13 = 0x000004;
     public int maskDerivedChannelPpg1_ADC12ADC13 = 0x000008;
     public int maskDerivedChannelPpg2_ADC1ADC14 = 0x000010;
-//	
 
 
     public int idxEXGADS1292RConfig1 = 0;
@@ -172,8 +171,6 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int idxEXGADS1292RLOffStat = 7;
     public int idxEXGADS1292RResp1 = 8;
     public int idxEXGADS1292RResp2 = 9;
-
-//	
 //
 
     public int maskBaudRate = 0xFF;
@@ -225,10 +222,10 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
     public int maskDisableBluetooth = 0x01;
 
     public int bitShiftShowErrorLedsRwc = 4;
-    public int maskShowErrorLedsRwc = 0; // Only applicable for certain FW
+    public int maskShowErrorLedsRwc = 0;
 
     public int bitShiftShowErrorLedsSd = 0;
-    public int maskShowErrorLedsSd = 0; // Only applicable for certain FW
+    public int maskShowErrorLedsSd = 0;
 
     public int bitShiftTimeSyncWhenLogging = 2;
     public int maskTimeSyncWhenLogging = 0x01;

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); // MAC address
+                String deviceHardwareAddress = device.getAddress();
             }
         }
     };
@@ -315,12 +315,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.e(LOG_TAG, "Couldn't create ShimmerBluetoothManagerAndroid. Error: " + e);
                     }
                 }
-                btManager.disconnectAllDevices();   //Disconnect all devices first
+                btManager.disconnectAllDevices();
                 shimmerDevice = null;
                 showBtTypeConnectionOption();
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
-                btManager.connectShimmerThroughBTAddress(macAdd, deviceName, preferredBtType);   //Connect to the selected device
+                btManager.connectShimmerThroughBTAddress(macAdd, deviceName, preferredBtType);
                 shimmerBtAdd = macAdd;
             }
 

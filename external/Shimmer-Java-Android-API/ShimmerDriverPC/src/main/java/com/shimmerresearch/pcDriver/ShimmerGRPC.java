@@ -356,7 +356,6 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
                 if (!mIsStreaming && !isSDLogging() && isConnected() && mBluetoothRadioState != BT_STATE.CONNECTED) {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                 }
-                //
 
                 CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_STATE_CHANGE, mBluetoothRadioState, getMacId(), getComPort());
                 sendCallBackMsg(MSG_IDENTIFIER_STATE_CHANGE, callBackObject);
@@ -529,13 +528,13 @@ public class ShimmerGRPC extends ShimmerBluetooth implements Serializable {
                 ObjectCluster objc = (ObjectCluster) shimmerMSG.mB;
 
                 Collection<FormatCluster> adcFormats = objc.getCollectionOfFormatClusters(SensorKionixAccel.ObjectClusterSensorName.ACCEL_LN_X);
-                formatx = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                formatx = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, CHANNEL_TYPE.CAL.toString()));
 
                 adcFormats = objc.getCollectionOfFormatClusters(SensorKionixAccel.ObjectClusterSensorName.ACCEL_LN_Y);
-                formaty = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                formaty = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, CHANNEL_TYPE.CAL.toString()));
 
                 adcFormats = objc.getCollectionOfFormatClusters(SensorKionixAccel.ObjectClusterSensorName.ACCEL_LN_Z);
-                formatz = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                formatz = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, CHANNEL_TYPE.CAL.toString()));
 
                 if (formatx != null) {
                     System.out.println("X:" + formatx.mData + " Y:" + formaty.mData + " Z:" + formatz.mData);

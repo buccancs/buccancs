@@ -16,7 +16,7 @@ import com.shimmerresearch.verisense.VerisenseDevice;
 
 public abstract class SensorMAX86XXX extends AbstractSensor {
 
-    public static final int MAX_SAMPLES_PER_FIFO = 17;//32;
+    public static final int MAX_SAMPLES_PER_FIFO = 17;
     public static final int MAX_FIFOS_IN_PAYLOAD_1_CHANNEL = 641;
     public static final int MAX_FIFOS_IN_PAYLOAD_2_CHANNELS = 320;
     public static final int MAX_FIFOS_IN_PAYLOAD_3_CHANNELS = 213;

@@ -15,7 +15,7 @@ import com.shimmerresearch.guiUtilities.AbstractPlotManager;
 
 public class FftCalculateDetails {
 
-    public double mSamplingRate = 1024; //Double.NaN;
+    public double mSamplingRate = 1024;
     private String[] mTraceName = null;
     private String mShimmerName = null;
     private int mDivider = 2;
@@ -112,7 +112,7 @@ public class FftCalculateDetails {
             return fft;
         }
 
-        return new double[]{}; //Fail if not enough data points etc.
+        return new double[]{};
     }
 
     private double[] rectifyFFT(double[] signal) {
@@ -194,7 +194,7 @@ public class FftCalculateDetails {
         sumProductFreqPsd = 0;
         sumPsdAmplitude = 0;
 
-        for (int index = 0; index < numElements; index++) { //is divided by divider right? instead of just fft - half?
+        for (int index = 0; index < numElements; index++) {
 
             setPSDFrequency(index, multiplier);
             setPSDAmplitude(fft, index);
@@ -225,7 +225,7 @@ public class FftCalculateDetails {
         if (mSamplingRate == Double.NaN) {
             psdFrequenciesAndAmplitudes[0][index] = index;
         } else {
-            psdFrequenciesAndAmplitudes[0][index] = index * multiplier; //problem i = 0;
+            psdFrequenciesAndAmplitudes[0][index] = index * multiplier;
         }
     }
 

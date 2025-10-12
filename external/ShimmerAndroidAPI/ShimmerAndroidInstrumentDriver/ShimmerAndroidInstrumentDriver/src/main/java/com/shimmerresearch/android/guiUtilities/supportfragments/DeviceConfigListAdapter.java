@@ -45,7 +45,7 @@ public class DeviceConfigListAdapter extends BaseExpandableListAdapter {
         cloneDevice = shimmerDeviceClone;
         shimmerDevice = device;
 
-        for (String key : list) {    //TODO: Place this in DeviceConfigFragment
+        for (String key : list) {
             ConfigOptionDetailsSensor cods = configOptionsMap.get(key);
 
             if (cods != null) {
@@ -101,7 +101,7 @@ public class DeviceConfigListAdapter extends BaseExpandableListAdapter {
         final String expandedListText = (String) getChild(groupPosition, childPosition);
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (expandedListText.contains("TEXTFIELD")) {    //The config option can be any value, needs a TextField
+        if (expandedListText.contains("TEXTFIELD")) {
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.list_item_textfield, null);
             } else {

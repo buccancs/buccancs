@@ -32,12 +32,12 @@ public class YearPicker extends ModalDialog {
         defaultEntity.setDate(DateEntity.target(year == null ? nowYear : year, 1, 1));
         wheelLayout.setRange(startTimeEntity, DatimeEntity.now(), defaultEntity);
 
-        wheelLayout.setCurtainEnabled(true);//选中栏是否有背景颜色
-        wheelLayout.setCurtainColor(ContextCompat.getColor(getContext(), R.color.wheel_select_bg));       //选中栏背景颜色
-        wheelLayout.setSelectedTextColor(ContextCompat.getColor(getContext(), R.color.wheel_select_text));//选中文字颜色
-        wheelLayout.setTextColor(ContextCompat.getColor(getContext(), R.color.wheel_unselect_text));      //未选中文字颜色
+        wheelLayout.setCurtainEnabled(true);
+        wheelLayout.setCurtainColor(ContextCompat.getColor(getContext(), R.color.wheel_select_bg));
+        wheelLayout.setSelectedTextColor(ContextCompat.getColor(getContext(), R.color.wheel_select_text));
+        wheelLayout.setTextColor(ContextCompat.getColor(getContext(), R.color.wheel_unselect_text));
 
-        wheelLayout.setResetWhenLinkage(false, false);//他娘的不知道什么鬼，连个注释都没有
+        wheelLayout.setResetWhenLinkage(false, false);
 
     }
 

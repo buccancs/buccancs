@@ -93,11 +93,6 @@ public class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
         return (value > ranges[length].to) ? length : 0;
     }
-
-//
-//
-//
-//
 //
 //
 //

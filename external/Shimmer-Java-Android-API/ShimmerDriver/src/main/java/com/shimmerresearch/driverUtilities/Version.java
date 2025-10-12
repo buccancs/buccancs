@@ -36,7 +36,7 @@ public class Version {
                 e.printStackTrace();
             }
         }
-        return null; // Return null if the format is invalid
+        return null;
     }
 
     public String getVersion() {

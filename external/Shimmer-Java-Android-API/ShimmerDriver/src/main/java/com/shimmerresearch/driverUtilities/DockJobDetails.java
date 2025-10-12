@@ -148,7 +148,7 @@ public class DockJobDetails extends AbstractErrorCodes {
         GET_INDICATOR_LEDS_STATE,
         ACCESS_SD_CARD,
 
-        DOCK_BOOT,//Only used during Base FW write
+        DOCK_BOOT,
         DOCK_RESET_VIA_FW,
         DOCK_RESET_VIA_BSL,
 

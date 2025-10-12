@@ -119,7 +119,7 @@ public class SignalsToPlotDialog {
                                 plotManager.addSignal(mList.get(i), chart);
                                 String[] xAxis = new String[3];
                                 if (mUseGeneratedXAxis) {
-                                    xAxis[0] = shimmerName + "genX"; //force the plot to generate its own x axis value
+                                    xAxis[0] = shimmerName + "genX";
                                 } else {
                                     xAxis[0] = shimmerName;
                                 }

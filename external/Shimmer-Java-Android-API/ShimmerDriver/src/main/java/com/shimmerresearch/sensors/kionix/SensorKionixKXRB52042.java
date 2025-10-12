@@ -32,8 +32,8 @@ public class SensorKionixKXRB52042 extends SensorKionixAccel {
     public static final double[][] SensitivityMatrixLowNoiseAccel2gShimmer3 = {{83, 0, 0}, {0, 83, 0}, {0, 0, 83}};
     public static final Map<String, OldCalDetails> mOldCalRangeMap;
     public static final SensorDetailsRef sensorKionixKXRB52042 = new SensorDetailsRef(
-            0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL,
-            0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL,
+            0x80,
+            0x80,
             GuiLabelSensors.ACCEL_LN,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoKionixKXRB52042,
             null,

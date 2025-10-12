@@ -15,7 +15,7 @@ public class VerisenseBLEJavelinTest {
     static final String TXUUID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
     public static VerisenseBLEJavelinTest s_t;
     static protected byte[] DisconnectRequest = new byte[]{0x2B, 0x00, 0x00};
-    static byte[] l_bytes = {0x3F};//hwid
+    static byte[] l_bytes = {0x3F};
     static byte[] t_bytes = {0x06};
     static String l_device = "BluetoothLE#BluetoothLE8c:b8:7e:0b:48:2e-e7:45:2c:6d:6f:14";
     static String l_name = "";
@@ -62,7 +62,7 @@ public class VerisenseBLEJavelinTest {
 
     public static void startStreaming() {
         Thread thread = new Thread(new MyRunnable());
-        thread.start(); // Start the thread
+        thread.start();
     }
 
     public static void stopStreaming() {

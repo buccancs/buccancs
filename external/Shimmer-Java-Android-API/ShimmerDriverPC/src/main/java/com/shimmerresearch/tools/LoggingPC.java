@@ -23,7 +23,7 @@ public class LoggingPC {
     String mFileName = "";
     BufferedWriter writer = null;
     File outputFile;
-    String mDelimiter = ","; //default is comma
+    String mDelimiter = ",";
 
         public LoggingPC(String fileName) {
 
@@ -98,7 +98,7 @@ public class LoggingPC {
                     writer.write(objectClusterLog.getShimmerName());
                     writer.write(mDelimiter);
                 }
-                writer.newLine(); // notepad recognized new lines as \r\n
+                writer.newLine();
 
                 for (int k = 0; k < mSensorNames.length; k++) {
                     writer.write(mSensorNames[k]);
@@ -135,7 +135,7 @@ public class LoggingPC {
 
             for (int r = 0; r < mSensorNames.length; r++) {
                 Collection<FormatCluster> dataFormats = objectClusterLog.getCollectionOfFormatClusters(mSensorNames[r]);
-                FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);  // retrieve the calibrated data
+                FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);
                 writer.write(Double.toString(formatCluster.mData));
                 writer.write(mDelimiter);
             }
@@ -187,7 +187,7 @@ public class LoggingPC {
                     writer.write(objectClusterLog.getShimmerName());
                     writer.write(mDelimiter);
                 }
-                writer.newLine(); // notepad recognized new lines as \r\n
+                writer.newLine();
 
                 for (int k = 0; k < mSensorNames.length; k++) {
                     writer.write(mSensorNames[k]);
@@ -224,7 +224,7 @@ public class LoggingPC {
 
             for (int r = 0; r < mSensorNames.length; r++) {
                 Collection<FormatCluster> dataFormats = objectClusterLog.getCollectionOfFormatClusters(mSensorNames[r]);
-                FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);  // retrieve the calibrated data
+                FormatCluster formatCluster = (FormatCluster) returnFormatCluster(dataFormats, mSensorFormats[r], mSensorUnits[r]);
 
                 if (mSensorNames[r] == "EXG1 CH1" && mSensorFormats[r] == "CAL") {
                     writer.write(Double.toString(exg1_24bit[0]));

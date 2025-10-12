@@ -7,7 +7,7 @@ public abstract class BaseDraw {
         protected final static int MIN_SIZE_PIX_COUNT = 20;
     protected Context mContext;
     protected int mScreenDegree = 0;
-    protected int mTouchIndex = -1;//手势按住已绘制的，进行拖拽
+    protected int mTouchIndex = -1;
     protected int mViewWidth;
     protected int mViewHeight;
 

@@ -3,11 +3,8 @@ package com.energy.commoncomponent.bean;
 public enum RotateDegree {
 
     DEGREE_0(0),
-    //
     DEGREE_90(1),
-    //
     DEGREE_180(2),
-    //
     DEGREE_270(3);
 
     private final int value;

@@ -72,7 +72,7 @@ public class SensorTemplate extends AbstractSensor {
             /**
              *  Get the uncalibrated data from the ObjectCluster if calibration is needed. Example - SensorKionixKXRB52042:
              *
-             * 		//Uncalibrated Accelerometer data
+             *
              *		if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_X)){
              *		unCalibratedAccelData[0] = ((FormatCluster)ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
              *        }
@@ -89,10 +89,10 @@ public class SensorTemplate extends AbstractSensor {
 
         /**
          *  Perform calibration and add the calibrated data to the ObjectCluster. Example - SensorKionixKXRB52042:
-         *  //Calibration
+         *
          *	double[] calibratedAccelData = UtilCalibration.calibrateInertialSensorData(unCalibratedAccelData, mAlignmentMatrixAnalogAccel, mSensitivityMatrixAnalogAccel, mOffsetVectorAnalogAccel);
          *
-         *	//Add calibrated data to Object cluster
+         *
          *	for (ChannelDetails channelDetails:sensorDetails.mListOfChannels){
          *		if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_X)){
          *			objectCluster.addCalData(channelDetails, calibratedAccelData[0]);

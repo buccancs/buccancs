@@ -35,7 +35,6 @@ public class CameraView extends TextureView {
                 Canvas canvas = null;
                 while (!cameraThread.isInterrupted()) {
                     synchronized (syncimage.viewLock) {
-                        //
                         if (syncimage.valid == false) {
                             try {
                                 syncimage.viewLock.wait();
@@ -44,7 +43,6 @@ public class CameraView extends TextureView {
                                 Log.e(TAG, "lock.wait(): catch an interrupted exception");
                             }
                         }
-                        //
                         if (syncimage.valid == true) {
                             canvas = lockCanvas();
                             if (canvas == null)
@@ -53,18 +51,17 @@ public class CameraView extends TextureView {
                                                         Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                             canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
-                            Paint paint = new Paint();  //画笔
-                            paint.setStrokeWidth(2);  //设置线宽。单位为像素
-                            paint.setAntiAlias(true); //抗锯齿
-                            paint.setDither(true);    //防抖动
-                            paint.setColor(Color.WHITE);  //画笔颜色
+                            Paint paint = new Paint();
+                            paint.setStrokeWidth(2);
+                            paint.setAntiAlias(true);
+                            paint.setDither(true);
+                            paint.setColor(Color.WHITE);
 
                             int cross_len = 20;
                             canvas.drawLine(getWidth() / 2 - cross_len, getHeight() / 2,
                                     getWidth() / 2 + cross_len, getHeight() / 2, paint);
                             canvas.drawLine(getWidth() / 2, getHeight() / 2 - cross_len,
                                     getWidth() / 2, getHeight() / 2 + cross_len, paint);
-                            //
                             unlockCanvasAndPost(canvas);
                             syncimage.valid = false;
                         }

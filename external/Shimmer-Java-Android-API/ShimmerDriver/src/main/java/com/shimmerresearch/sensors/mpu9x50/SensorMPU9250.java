@@ -310,18 +310,18 @@ public class SensorMPU9250 extends SensorMPU9X50 {
         public static final String GYRO_X = "MPU9250_GYRO_X";
         public static final String GYRO_Y = "MPU9250_GYRO_Y";
         public static final String GYRO_Z = "MPU9250_GYRO_Z";
-        public static final String ALTERNATIVE_ACC_X = "MPU9250_ACC_X"; // not available but supported in FW
-        public static final String ALTERNATIVE_ACC_Y = "MPU9250_ACC_Y"; // not available but supported in FW
-        public static final String ALTERNATIVE_ACC_Z = "MPU9250_ACC_Z"; // not available but supported in FW
-        public static final String ALTERNATIVE_MAG_X = "MPU9250_MAG_X"; // not available but supported in FW
-        public static final String ALTERNATIVE_MAG_Y = "MPU9250_MAG_Y"; // not available but supported in FW
-        public static final String ALTERNATIVE_MAG_Z = "MPU9250_MAG_Z"; // not available but supported in FW
+        public static final String ALTERNATIVE_ACC_X = "MPU9250_ACC_X";
+        public static final String ALTERNATIVE_ACC_Y = "MPU9250_ACC_Y";
+        public static final String ALTERNATIVE_ACC_Z = "MPU9250_ACC_Z";
+        public static final String ALTERNATIVE_MAG_X = "MPU9250_MAG_X";
+        public static final String ALTERNATIVE_MAG_Y = "MPU9250_MAG_Y";
+        public static final String ALTERNATIVE_MAG_Z = "MPU9250_MAG_Z";
     }
 
     public static final class DatabaseConfigHandle {
         public static final String MPU_QUAT_6DOF = "MPU9250_MPL_Quat_6DOF";
         public static final String MPU_EULER_6DOF = "MPU9250_MPL_Euler_6DOF";
-        public static final String MPU_HEADING_ENABLE = "MPU9250_MPL_Heading"; // not available but supported in FW //channel
+        public static final String MPU_HEADING_ENABLE = "MPU9250_MPL_Heading"; // not available but supported in FW
 
         public static final String GYRO_RATE = "MPU9250_Gyro_Rate";
         public static final String GYRO_RANGE = "MPU9250_Gyro_Range";

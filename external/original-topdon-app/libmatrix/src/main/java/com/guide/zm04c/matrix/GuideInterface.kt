@@ -20,11 +20,11 @@ class GuideInterface {
     private val IR_WIDTH = 256
     private val IR_HEIGHT = 192
     private val HEAD_SIZE = 64
-    private val IR_SIZE = IR_WIDTH * IR_HEIGHT //49152
+    private val IR_SIZE = IR_WIDTH * IR_HEIGHT
     private val YUV_SIZE = IR_SIZE * 2
     private val PARAM_SIZE = 512
     private val TEMP_MATRIX_SIZE = IR_SIZE * 4
-    private val FRAME_SIZE = HEAD_SIZE + YUV_SIZE + PARAM_SIZE + TEMP_MATRIX_SIZE //295488
+    private val FRAME_SIZE = HEAD_SIZE + YUV_SIZE + PARAM_SIZE + TEMP_MATRIX_SIZE
     private val MAX_BULK_TRANSFER_SIZE = 16384
     private var mGuideUsbManager: GuideUsbManager? = null
     private var mUsbBuffer: UsbBuffer? = null
@@ -72,7 +72,7 @@ class GuideInterface {
         mUsbBufferReadThread = Thread {
             d(TAG, "read thread start")
             while (mReadThreadFlag) {
-                val ret = mUsbBuffer!!.readFrame(mFrame) //mFrame len: 295488
+                val ret = mUsbBuffer!!.readFrame(mFrame)
                 if (ret) {
                     System.arraycopy(mFrame, HEAD_SIZE, mYuv, 0, mYuv.size)
                     synchronized(mLock) {
@@ -228,8 +228,6 @@ class GuideInterface {
         val PARAM_INDEX_CONTRAST = 164
         return getParam(PARAM_INDEX_CONTRAST * 2, 2, 1).toInt()
     }
-
-    //    int count = 0;
     fun yuv2Bitmap(bitmap: Bitmap?, yuv: ByteArray?) {
         if (mNativeGuideCore == null) {
             return

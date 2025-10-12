@@ -97,6 +97,6 @@ class SensorRecordingManagerTest {
         assertTrue(Files.exists(csv), "Expected CSV file at $csv")
         val content = Files.readAllLines(csv)
         assertTrue(content.first().startsWith("# stream_id"))
-        assertEquals(4, content.size) // header + metadata + two samples
+        assertEquals(4, content.size)
     }
 }

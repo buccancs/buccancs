@@ -91,7 +91,7 @@ public class ECGToHRExample extends BasicProcessWithCallBack {
             ObjectCluster objc = (ObjectCluster) shimmerMSG.mB;
 
             Collection<FormatCluster> adcFormats = objc.getCollectionOfFormatClusters(Shimmer3.ObjectClusterSensorName.ECG_LA_RA_24BIT);
-            FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, "CAL")); // retrieve the calibrated data
+            FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, "CAL"));
             double dataArrayECG = format.mData;
 
             Collection<FormatCluster> formatTS = objc.getCollectionOfFormatClusters(Shimmer3.ObjectClusterSensorName.TIMESTAMP);

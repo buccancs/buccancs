@@ -32,8 +32,6 @@ import com.infisense.usbir.utils.USBMonitorCallback;
 
 public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnClickListener,
         AdapterView.OnItemSelectedListener {
-
-    //
     public static final int RESTART_USB = 1000;
     public static final int START_PREVIEW_COMPLETE = 1001;
     public static final int IRCMD_INIT_FAIL = 1002;
@@ -50,11 +48,11 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     private CommonParams.DataFlowMode defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
     private boolean isUseIRISP = false;
     private boolean isUseGPU = false;
-    private int cameraWidth; // 传感器的原始宽度
-    private int cameraHeight;// 传感器的原始高度
-    private int tempHeight; // 温度数据高度
-    private int imageWidth; // 经过旋转后的图像宽度
-    private int imageHeight; // 经过旋转后的图像高度
+    private int cameraWidth;
+    private int cameraHeight;
+    private int tempHeight;
+    private int imageWidth;
+    private int imageHeight;
     private byte[] imageSrc;
     private byte[] temperatureSrc;
     private SynchronizedBitmap syncimage = new SynchronizedBitmap();
@@ -80,7 +78,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     protected void init(Bundle savedInstanceState) {
         initDataFlowMode(defaultDataFlowMode);
         initdata();
-        //
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_custom, y16ModePreviewSrcType);
         binding.ParamY16ModeType.setAdapter(adapter);
         binding.ParamY16ModeType.setOnItemSelectedListener(this);
@@ -114,26 +111,23 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
 
         private void initDataFlowMode(CommonParams.DataFlowMode dataFlowMode) {
         if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
-                        cameraWidth = 256; // 传感器的原始宽度
-            cameraHeight = 384; // 传感器的原始高度
+                        cameraWidth = 256;
+            cameraHeight = 384;
             tempHeight = 192;
-            //
             binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.red));
             binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.black));
             binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.black));
         } else if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_OUTPUT) {
-                        cameraWidth = 256;// 传感器的原始宽度
-            cameraHeight = 192;// 传感器的原始高度
+                        cameraWidth = 256;
+            cameraHeight = 192;
             tempHeight = 0;
-            //
             binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.black));
             binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.red));
             binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.black));
         } else {
-                        cameraWidth = 256;// 传感器的原始宽度
-            cameraHeight = 192;// 传感器的原始高度
+                        cameraWidth = 256;
+            cameraHeight = 192;
             tempHeight = 0;
-            //
             binding.btnImageTemp.setTextColor(ContextCompat.getColor(this, R.color.black));
             binding.btnImage.setTextColor(ContextCompat.getColor(this, R.color.black));
             binding.btnY16ModeSet.setTextColor(ContextCompat.getColor(this, R.color.red));
@@ -150,7 +144,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         fullScreenlayoutParams = new RelativeLayout.LayoutParams(screenWidth,
                 imageHeight * screenWidth / imageWidth);
         fullScreenlayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        //
         bitmap = Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888);
         binding.cameraView.setSyncimage(syncimage);
         binding.cameraView.setBitmap(bitmap);
@@ -179,7 +172,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             initProgressDialog();
         }
         progressDialog.show();
-        //
         iruvc = new IRUVC(cameraWidth, cameraHeight, ImageOrTempDisplayActivity.this, syncimage,
                 defaultDataFlowMode, isUseIRISP, isUseGPU, new ConnectCallback() {
 
@@ -289,7 +281,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
             initDataFlowMode(defaultDataFlowMode);
             imageThread.setDataFlowMode(defaultDataFlowMode);
-            //
             restartusbcamera();
             startISP();
         }

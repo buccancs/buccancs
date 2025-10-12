@@ -165,7 +165,7 @@ public class MainActivity extends Activity {
                     switch (state) {
                         case CONNECTED:
                             if (bw != null && !firstTimeWrite) {
-                                try {   //Stop CSV writing
+                                try {
                                     bw.flush();
                                     bw.close();
                                     firstTimeWrite = true;
@@ -260,7 +260,7 @@ public class MainActivity extends Activity {
 
     public void startStreaming(View v) {
         ShimmerBluetooth shimmer = (ShimmerBluetooth) btManager.getShimmer(bluetoothAdd);
-        if (shimmer != null) {   //this is null if Shimmer device is not connected
+        if (shimmer != null) {
             setupCSV();
             shimmer.enablePCTimeStamps(false);
             shimmer.stopAllTimers();
@@ -300,7 +300,7 @@ public class MainActivity extends Activity {
                 if (deviceName.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3R.toString())) {
                     showBtTypeConnectionOption();
                 }
-                btManager.connectShimmerThroughBTAddress(bluetoothAdd, deviceName, preferredBtType); //Connect to the selected device
+                btManager.connectShimmerThroughBTAddress(bluetoothAdd, deviceName, preferredBtType);
             }
 
         }

@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 btManager.disconnectAllDevices();
 
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                btManager.connectShimmerThroughBTAddress(macAdd);   //Connect to the selected device
+                btManager.connectShimmerThroughBTAddress(macAdd);
                 shimmerBtAdd = macAdd;
             }
 

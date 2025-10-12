@@ -221,7 +221,7 @@ public class PlotFragment extends Fragment {
         dynamicPlot = (XYPlot) getView().findViewById(R.id.dynamicPlot);
 
         dynamicPlot.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
-        lineAndPointFormatter1 = new LineAndPointFormatter(Color.rgb(51, 153, 255), null, null); // line color, point color, fill color
+        lineAndPointFormatter1 = new LineAndPointFormatter(Color.rgb(51, 153, 255), null, null);
         LPFpaint = lineAndPointFormatter1.getLinePaint();
         LPFpaint.setStrokeWidth(3);
         lineAndPointFormatter1.setLinePaint(LPFpaint);
@@ -247,11 +247,11 @@ public class PlotFragment extends Fragment {
         dynamicPlot.setTicksPerRangeLabel(3);
         dynamicPlot.disableAllMarkup();
         Paint gridLinePaint = new Paint();
-        gridLinePaint.setColor(Color.parseColor("#969696")); // black
+        gridLinePaint.setColor(Color.parseColor("#969696"));
         Paint transparentLinePaint = new Paint();
         transparentLinePaint.setColor(Color.TRANSPARENT);
-        dynamicPlot.setRangeBoundaries(-15, 15, BoundaryMode.AUTO); // freeze the range boundary:
-        dynamicPlot.setDomainBoundaries(0, X_AXIS_LENGTH, BoundaryMode.FIXED); // freeze the domain boundary:
+        dynamicPlot.setRangeBoundaries(-15, 15, BoundaryMode.AUTO);
+        dynamicPlot.setDomainBoundaries(0, X_AXIS_LENGTH, BoundaryMode.FIXED);
         dynamicPlot.setBorderStyle(Plot.BorderStyle.NONE, null, null);
         dynamicPlot.getBackgroundPaint().setColor(Color.TRANSPARENT);
         dynamicPlot.setBackgroundColor(Color.TRANSPARENT);

@@ -58,10 +58,6 @@ public class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider> 
 
         return mHighlightBuffer;
     }
-
-//
-//
-//
 //
 //
 //

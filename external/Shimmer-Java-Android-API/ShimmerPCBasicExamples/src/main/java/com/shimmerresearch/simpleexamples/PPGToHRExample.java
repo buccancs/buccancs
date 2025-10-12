@@ -108,7 +108,7 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
             ObjectCluster objc = (ObjectCluster) shimmerMSG.mB;
 
             Collection<FormatCluster> adcFormats = objc.getCollectionOfFormatClusters(SensorPPG.ObjectClusterSensorName.PPG_A13);
-            FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+            FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, CHANNEL_TYPE.CAL.toString()));
 
             if (format != null) {
                 dataArrayPPG = format.mData;
@@ -139,9 +139,6 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
 
 
     }
-
-//		 
-//		 
 //
 //		 
 

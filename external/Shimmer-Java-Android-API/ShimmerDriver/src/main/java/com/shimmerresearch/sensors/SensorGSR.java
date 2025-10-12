@@ -29,16 +29,16 @@ import com.shimmerresearch.driver.ShimmerDevice;
 public class SensorGSR extends AbstractSensor {
 
     public static final double[] SHIMMER3_GSR_REF_RESISTORS_KOHMS = new double[]{
-            40.2,        //Range 0
-            287.0,        //Range 1
-            1000.0,    //Range 2
-            3300.0};    //Range 3
+            40.2,
+            287.0,
+            1000.0,
+            3300.0};
 
     public static final double[][] SHIMMER3_GSR_RESISTANCE_MIN_MAX_KOHMS = new double[][]{
-            {8.0, 63.0},        //Range 0
-            {63.0, 220.0},        //Range 1
-            {220.0, 680.0},    //Range 2
-            {680.0, 4700.0}};    //Range 3
+            {8.0, 63.0},
+            {63.0, 220.0},
+            {220.0, 680.0},
+            {680.0, 4700.0}};
     public static final int GSR_UNCAL_LIMIT_RANGE3 = 683;
     public static final byte SET_GSR_RANGE_COMMAND = (byte) 0x21;
     public static final byte GSR_RANGE_RESPONSE = (byte) 0x22;
@@ -161,7 +161,7 @@ public class SensorGSR extends AbstractSensor {
         mChannelMapRefGq = Collections.unmodifiableMap(aMap);
     }
 
-    public int mGSRRange = 4;                    // 4 = Auto
+    public int mGSRRange = 4;
     private MICROCONTROLLER_ADC_PROPERTIES microcontrollerAdcProperties = null;
 
     private double[] currentGsrRefResistorsKohms = SHIMMER3_GSR_REF_RESISTORS_KOHMS;
@@ -208,7 +208,7 @@ public class SensorGSR extends AbstractSensor {
     public static double calibrateGsrDataToResistance(double gsrUncalibratedData, double p1, double p2) {
 
         double gsrCalibratedDatauS = calibrateGsrDataToSiemens(gsrUncalibratedData, p1, p2);
-        double gsrCalibratedData = (1 / (gsrCalibratedDatauS) * 1000); //kohms
+        double gsrCalibratedData = (1 / (gsrCalibratedDatauS) * 1000);
 
         return gsrCalibratedData;
     }
@@ -216,7 +216,7 @@ public class SensorGSR extends AbstractSensor {
     @Deprecated
     public static double calibrateGsrDataToSiemens(double gsrUncalibratedData, double p1, double p2) {
         double gsrUncalibratedDataLcl = (double) ((int) gsrUncalibratedData & 4095);
-        double gsrCalibratedData = (((p1 * gsrUncalibratedDataLcl) + p2)); //microsiemens
+        double gsrCalibratedData = (((p1 * gsrUncalibratedDataLcl) + p2));
         return gsrCalibratedData;
     }
 
@@ -257,7 +257,7 @@ public class SensorGSR extends AbstractSensor {
             if (svo.isShimmerGen2() || SensorGSR.isShimmer3and4UsingShimmer2rVal) {
                 p1 = 0.0373;
                 p2 = -24.9915;
-            } else { //Values have been reverted to 2r values
+            } else {
                 p1 = 0.0363;
                 p2 = -24.8617;
             }
@@ -364,7 +364,6 @@ public class SensorGSR extends AbstractSensor {
                 gsrResistanceKOhms = SensorGSR.calibrateGsrDataToKOhmsUsingAmplifierEq(gsrAdcValueUnCal, currentGSRRange, microcontrollerAdcProperties, currentGsrRefResistorsKohms);
                 gsrResistanceKOhms = SensorGSR.nudgeGsrResistance(gsrResistanceKOhms, getGSRRange(), currentGsrResistanceKohmsMinMax);
                 gsrConductanceUSiemens = SensorGSR.convertkOhmToUSiemens(gsrResistanceKOhms);
-//
 
                 double calData = 0.0;
                 if (channelDetails.mDefaultCalUnits.equals(Configuration.CHANNEL_UNITS.KOHMS)) {

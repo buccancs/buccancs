@@ -96,7 +96,7 @@ public class WaterMark {
         public void draw(@NonNull Canvas canvas) {
             int width = getBounds().right;
             int height = getBounds().bottom;
-            int diagonal = (int) Math.sqrt(width * width + height * height); // 对角线的长度
+            int diagonal = (int) Math.sqrt(width * width + height * height);
 
             mPaint.setColor(mTextColor);
             mPaint.setTextSize(sp2px(mTextSize));
@@ -109,7 +109,7 @@ public class WaterMark {
             int index = 0;
             float fromX;
             for (int positionY = diagonal / 10; positionY <= diagonal; positionY += diagonal / 10) {
-                fromX = -width + (index++ % 2) * textWidth; // 上下两行的X轴起始点不一样，错开显示
+                fromX = -width + (index++ % 2) * textWidth;
                 for (float positionX = fromX; positionX < width; positionX += textWidth * 2) {
                     canvas.drawText(mText, positionX, positionY, mPaint);
                 }

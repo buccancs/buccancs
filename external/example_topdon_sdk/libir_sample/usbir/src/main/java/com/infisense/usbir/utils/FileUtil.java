@@ -93,7 +93,6 @@ public class FileUtil {
             if (!path.exists() && path.isDirectory()) {
                 path.mkdirs();
             }
-            //
             File file = new File(fileSaveDir, fileTitle);
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
@@ -108,7 +107,6 @@ public class FileUtil {
 
             String fileSaveDir = MyApplication.getInstance().DEVICE_DATA_SAVE_DIR;
             createOrExistsDir(fileSaveDir);
-            //
             File file = new File(fileSaveDir, fileTitle);
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(toByteArray(bytes));
@@ -413,7 +411,6 @@ public class FileUtil {
             if (file.exists()) {
                 file.delete();
             }
-            //
             if (!file.createNewFile()) {
                 Log.e(TAG, "创建文件 " + srcFileName + " 失败");
                 return;
@@ -581,7 +578,7 @@ public class FileUtil {
                 file.createNewFile();
             }
             byte[] contentInBytes = str.getBytes();
-            stream.write(contentInBytes); // 写入
+            stream.write(contentInBytes);
             stream.flush();
             stream.close();
         } catch (IOException e) {

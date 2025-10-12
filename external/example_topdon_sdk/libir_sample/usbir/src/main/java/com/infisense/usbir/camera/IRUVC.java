@@ -45,18 +45,16 @@ public class IRUVC {
     private UVCCamera uvcCamera;
     private IRCMD ircmd;
     private int[] curVtemp = new int[1];
-    //
     private USBMonitor mUSBMonitor;
-    private ConnectCallback mConnectCallback; // usb连接回调
+    private ConnectCallback mConnectCallback;
     private byte[] imageSrc;
     private byte[] temperatureSrc;
-    private int imageOrTempDataLength = 256 * 192 * 2; // 红外或温度的数据长度
+    private int imageOrTempDataLength = 256 * 192 * 2;
     private SynchronizedBitmap syncimage;
         private LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
     private LibIRProcess.GainSwitchParam_t gain_switch_param = new LibIRProcess.GainSwitchParam_t();
     private int count = 0;
     private long timeStart = 0;
-    //
     private Handler mHandler;
     private boolean rotate = false;
     private boolean isUseIRISP;
@@ -66,7 +64,7 @@ public class IRUVC {
     private CommonParams.GainMode gainMode = CommonParams.GainMode.GAIN_MODE_HIGH_LOW;
     private short[] nuc_table_high = new short[8192];
     private short[] nuc_table_low = new short[8192];
-    private boolean isReadNuc = true; // 是否读取nuc信息，首次读取nuc信息，后续存储到文件中下次直接传入不用重新读取
+    private boolean isReadNuc = true;
     //
     private byte[] priv_high = new byte[1201];
     private byte[] priv_low = new byte[1201];
@@ -75,7 +73,6 @@ public class IRUVC {
     private short[] bt_high = new short[1201];
     private short[] bt_low = new short[1201];
     private byte[] temperatureTemp = new byte[imageOrTempDataLength];
-    //
     private CMDDataCallback cmdDataCallback;
     private boolean isTempReplacedWithTNREnabled;
     private USBMonitorCallback usbMonitorCallback;
@@ -91,12 +88,10 @@ public class IRUVC {
         this.isUseGPU = isUseGPU;
         this.mConnectCallback = connectCallback;
         this.defaultDataFlowMode = dataFlowMode;
-        //
         LibIRProcess.ImageRes_t imageRes = new LibIRProcess.ImageRes_t();
         imageRes.height = (char) (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT ? cameraHeight / 2
                 : cameraHeight);
         imageRes.width = (char) cameraWidth;
-        //
         initUVCCamera();
         mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
 
@@ -135,7 +130,6 @@ public class IRUVC {
                         } else {
                             setPreviewSize(cameraWidth, cameraHeight);
                         }
-                        //
                         startPreview();
                         if (usbMonitorCallback != null) {
                             usbMonitorCallback.onConnect();
@@ -170,15 +164,15 @@ public class IRUVC {
                 }
             }
         });
-        gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
-        gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
-        gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
-        gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);//用于low -> high gain,低增益向高增益切换的触发温度
+        gain_switch_param.above_pixel_prop = 0.1f;
+        gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4);
+        gain_switch_param.below_pixel_prop = 0.95f;
+        gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);
         auto_gain_switch_info.switch_frame_cnt = 5 * 15; //连续满足触发条件帧数超过该阈值会触发自动增益切换(假设出图速度为15帧每秒，则5 * 15大概为5秒)
         auto_gain_switch_info.waiting_frame_cnt = 7 * 15;//触发自动增益切换之后，会间隔该阈值的帧数不进行增益切换监测(假设出图速度为15帧每秒，则7 * 15大概为7秒)
-        int low_gain_over_temp_data = (int) ((550 + 273.15) * 16 * 4); //低增益下触发防灼烧的温度
-        int high_gain_over_temp_data = (int) ((150 + 273.15) * 16 * 4); //高增益下触发防灼烧的温度
-        float pixel_above_prop = 0.02f;//设备像素总面积的百分比
+        int low_gain_over_temp_data = (int) ((550 + 273.15) * 16 * 4);
+        int high_gain_over_temp_data = (int) ((150 + 273.15) * 16 * 4);
+        float pixel_above_prop = 0.02f;
         int switch_frame_cnt = 7 * 15;//连续满足触发条件超过该阈值会触发防灼烧(假设出图速度为15帧每秒，则7 * 15大概为7秒)
         int close_frame_cnt = 10 * 15;//触发防灼烧之后，经过该阈值的帧数之后会解除防灼烧(假设出图速度为15帧每秒，则10 * 15大概为10秒)
         iFrameCallback = new IFrameCallback() {
@@ -200,12 +194,10 @@ public class IRUVC {
                             " fps=" + String.format(Locale.US, "%.1f", MyApplication.getInstance().FPS) +
                             " dataFlowMode = " + dataFlowMode + " rotate = " + rotate + " isUseIRISP = " + isUseIRISP);
                 }
-                //
                 if (syncimage == null) {
                     return;
                 }
                 syncimage.start = true;
-                //
                 synchronized (syncimage.dataLock) {
                     int length = frame.length - 1;
                     if (frame[length] == 1) {
@@ -398,7 +390,6 @@ public class IRUVC {
         Log.i(TAG, "startPreview isRestart : " + isRestart + " defaultDataFlowMode : " + defaultDataFlowMode);
         uvcCamera.setOpenStatus(true);
         uvcCamera.setFrameCallback(iFrameCallback);
-        //
         uvcCamera.onStartPreview();
 
         if (CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT == defaultDataFlowMode ||

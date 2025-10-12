@@ -74,7 +74,7 @@ public class ShimmerBluetoothDialog extends Activity {
             intent.putExtra(EXTRA_DEVICE_NAME, devicename);
 
             Toast.makeText(getApplicationContext(), "Device Selected " + "-> " + address, Toast.LENGTH_SHORT).show();
-            setResult(Activity.RESULT_OK, intent);              // Set result and finish this Activity
+            setResult(Activity.RESULT_OK, intent);
 
             finish();
         }

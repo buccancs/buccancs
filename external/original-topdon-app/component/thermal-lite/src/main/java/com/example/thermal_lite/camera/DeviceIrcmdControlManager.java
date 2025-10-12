@@ -22,7 +22,6 @@ public class DeviceIrcmdControlManager {
     private IrcmdEngine mIrcmdEngine;
     private boolean mSendFPGACommand = false;
     private boolean mSendISPCommand = false;
-    //
     private String ispParamPath;
 
     private DeviceIrcmdControlManager() {
@@ -171,9 +170,6 @@ public class DeviceIrcmdControlManager {
                             }
                         }
                     }
-
-//
-//
 //
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -390,7 +390,6 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
                 if (!mIsStreaming && !isSDLogging() && isConnected()) {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                 }
-//
 
                 CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_STATE_CHANGE, mBluetoothRadioState, getBluetoothAddress(), mUniqueID);
                 sendCallBackMsg(MSG_IDENTIFIER_STATE_CHANGE, callBackObject);

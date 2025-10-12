@@ -180,7 +180,7 @@ public class SensorECGToHRFw extends AbstractSensor implements Serializable {
     }
 
     public static class DatabaseChannelHandles {
-        public static final String ECG_TO_HR_FW = "ECGToHR";//ObjectClusterSensorName.ECG_TO_HR_FW_GQ;
+        public static final String ECG_TO_HR_FW = "ECGToHR";
     }
 
 

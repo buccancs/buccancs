@@ -256,11 +256,11 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
                     break;
                 }
 
-                scrollBy((int) (distanceX), 0);//滑动使用scrollBy
+                scrollBy((int) (distanceX), 0);
                 if (getScrollX() < 0) {
                     if (!mCanRightSwipe || mLeftView == null) {
                         scrollTo(0, 0);
-                    } else {//左滑
+                    } else {
                         if (getScrollX() < mLeftView.getLeft()) {
 
                             scrollTo(mLeftView.getLeft(), 0);
@@ -446,10 +446,10 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
     }
 
     public void switchState() {
-        if (mViewCache == this) {//当前是展开的就关上
+        if (mViewCache == this) {
             handlerSwipeMenu(State.CLOSE);
-        } else {//当前是关着的就展开
-            if (mViewCache != null) {//先把别的关了
+        } else {
+            if (mViewCache != null) {
                 mViewCache.handlerSwipeMenu(State.CLOSE);
             }
             handlerSwipeMenu(State.RIGHTOPEN);

@@ -52,11 +52,11 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     public static int REGION_MODE_CENTER = 3;
     public static int REGION_MODE_CLEAN = 4;
     private final String TAG = "TemperatureView";
-    private final int LINE_STROKE_WIDTH = SizeUtils.dp2px(1f);//点,线,面画笔大小
-    private final int DOT_STROKE_WIDTH = SizeUtils.dp2px(1f);//圆点线宽
-    private final int DOT_RADIUS = SizeUtils.dp2px(3f);//圆点半径
-    private final int POINT_SIZE = SizeUtils.sp2px(8f);//十字架
-    private final int TEXT_SIZE = SizeUtils.sp2px(12f);//文本大小
+    private final int LINE_STROKE_WIDTH = SizeUtils.dp2px(1f);
+    private final int DOT_STROKE_WIDTH = SizeUtils.dp2px(1f);
+    private final int DOT_RADIUS = SizeUtils.dp2px(3f);
+    private final int POINT_SIZE = SizeUtils.sp2px(8f);
+    private final int TEXT_SIZE = SizeUtils.sp2px(12f);
     private final int TOUCH_TOLERANCE = SizeUtils.sp2px(8f);
     private final int POINT_MAX_COUNT = 3;
     private final int LINE_MAX_COUNT = 3;
@@ -72,10 +72,10 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private float minTemperature;
     private float maxTemperature;
     private String RectMinTemp, RectMaxTemp;
-    private float xscale = 0;//图像缩放比例
+    private float xscale = 0;
     private float yscale = 0;
-    private int viewWidth = 0;//控件宽度
-    private int viewHeight = 0;//控件高度
+    private int viewWidth = 0;
+    private int viewHeight = 0;
     private Bitmap regionBitmap;
     private Bitmap regionAndValueBitmap;
     private Object regionLock = new Object();
@@ -334,7 +334,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                         }
                         for (int index = 0; index < points.size(); index++) {
                             Point tempPoint = points.get(index);
-                            int x = (int) (tempPoint.x / xscale);//精度丢失,处理方式:在onTouch绘制的十字标做同样丢失,保证显示点校对
+                            int x = (int) (tempPoint.x / xscale);
                             int y = (int) (tempPoint.y / yscale);
                             if (x < imageWidth && x > 0 && y < imageHeight && y > 0) {
                                 temperatureSampleResult = irtemp.getTemperatureOfPoint(new Point(x, y));
@@ -365,7 +365,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                     getHolder().unlockCanvasAndPost(surfaceViewCanvas);
                 }
 
-                SystemClock.sleep(1000);//设置刷新间隔
+                SystemClock.sleep(1000);
             }
             Log.d(TAG, "temperatureThread exit");
         };
@@ -534,7 +534,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                     drawRectangle(surfaceViewCanvas, linePaint, rectangle.left, rectangle.top, rectangle.right, rectangle.bottom);
                     getHolder().unlockCanvasAndPost(surfaceViewCanvas);
                 }
-                return true;            //must
+                return true;
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 endX = event.getX();
                 endY = event.getY();
@@ -1103,7 +1103,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
 
 
     private void drawPoint(Canvas canvas, Paint paint, float x1, float y1) {
-        float x = (int) (x1 / xscale) * xscale;//模拟drawDot入参x1转换方式
+        float x = (int) (x1 / xscale) * xscale;
         float y = (int) (y1 / yscale) * yscale;
         float[] points = new float[]{
                 x - POINT_SIZE, y, x - DOT_RADIUS, y,

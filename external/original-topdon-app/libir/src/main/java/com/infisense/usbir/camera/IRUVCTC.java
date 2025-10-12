@@ -36,10 +36,9 @@ import java.util.List;
 public class IRUVCTC {
     private static final String TAG = "IRUVC_DATA";
     private final IFrameCallback iFrameCallback;
-    //
     private final USBMonitor mUSBMonitor;
-    private final ConnectCallback mConnectCallback; // usb连接回调
-    private final int imageOrTempDataLength = 256 * 192 * 2; // 红外或温度的数据长度
+    private final ConnectCallback mConnectCallback;
+    private final int imageOrTempDataLength = 256 * 192 * 2;
     private final SynchronizedBitmap syncimage;
         private final LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProcess.AutoGainSwitchInfo_t();
     private final LibIRProcess.GainSwitchParam_t gain_switch_param = new LibIRProcess.GainSwitchParam_t();
@@ -69,8 +68,6 @@ public class IRUVCTC {
         this.mConnectCallback = connectCallback;
         this.defaultDataFlowMode = dataFlowMode;
         isFirstFrame = true;
-
-        //
         initUVCCamera();
         mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
 
@@ -155,15 +152,15 @@ public class IRUVCTC {
                 }
             }
         });
-        gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
-        gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
-        gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
-        gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);//用于low -> high gain,低增益向高增益切换的触发温度
+        gain_switch_param.above_pixel_prop = 0.1f;
+        gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4);
+        gain_switch_param.below_pixel_prop = 0.95f;
+        gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);
         auto_gain_switch_info.switch_frame_cnt = 5 * 15; //连续满足触发条件帧数超过该阈值会触发自动增益切换(假设出图速度为15帧每秒，则5 * 15大概为5秒)
         auto_gain_switch_info.waiting_frame_cnt = 7 * 15;//触发自动增益切换之后，会间隔该阈值的帧数不进行增益切换监测(假设出图速度为15帧每秒，则7 * 15大概为7秒)
-        int low_gain_over_temp_data = (int) ((550 + 273.15) * 16 * 4); //低增益下触发防灼烧的温度
-        int high_gain_over_temp_data = (int) ((150 + 273.15) * 16 * 4); //高增益下触发防灼烧的温度
-        float pixel_above_prop = 0.02f;//设备像素总面积的百分比
+        int low_gain_over_temp_data = (int) ((550 + 273.15) * 16 * 4);
+        int high_gain_over_temp_data = (int) ((150 + 273.15) * 16 * 4);
+        float pixel_above_prop = 0.02f;
         int switch_frame_cnt = 7 * 15;//连续满足触发条件超过该阈值会触发防灼烧(假设出图速度为15帧每秒，则7 * 15大概为7秒)
         int close_frame_cnt = 10 * 15;//触发防灼烧之后，经过该阈值的帧数之后会解除防灼烧(假设出图速度为15帧每秒，则10 * 15大概为10秒)
 
@@ -183,7 +180,6 @@ public class IRUVCTC {
                     return;
                 }
                 syncimage.start = true;
-                //
                 synchronized (syncimage.dataLock) {
                     int length = frame.length - 1;
                     if (frame[length] == 1) {
@@ -193,7 +189,6 @@ public class IRUVCTC {
                     if (imageEditTemp != null && imageEditTemp.length >= length) {
                         System.arraycopy(frame, 0, imageEditTemp, 0, length);
                     }
-//
                     if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
                                                 System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
                                                 if (length >= imageOrTempDataLength * 2) {

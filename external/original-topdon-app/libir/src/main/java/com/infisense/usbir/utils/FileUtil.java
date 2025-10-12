@@ -100,7 +100,6 @@ public class FileUtil {
         try {
             String fileSaveDir = getTableDirPath();
             createOrExistsDir(fileSaveDir);
-            //
             File file = new File(fileSaveDir, fileTitle);
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(toByteArray(bytes));
@@ -405,7 +404,6 @@ public class FileUtil {
             if (file.exists()) {
                 file.delete();
             }
-            //
             if (!file.createNewFile()) {
                 Log.e(TAG, "创建文件 " + srcFileName + " 失败");
                 return;
@@ -579,7 +577,7 @@ public class FileUtil {
                 file.createNewFile();
             }
             byte[] contentInBytes = str.getBytes();
-            stream.write(contentInBytes); // 写入
+            stream.write(contentInBytes);
             stream.flush();
             stream.close();
         } catch (IOException e) {
@@ -617,7 +615,7 @@ public class FileUtil {
         public static void float2Byte(float num, byte[] numbyte) {
         int fbit = Float.floatToIntBits(num);
         for (int i = 0; i < 4; i++) {
-            numbyte[i] = (byte) (fbit >> (i * 8)); //little-endian
+            numbyte[i] = (byte) (fbit >> (i * 8));
             Log.i(TAG, "numbyte[=" + i + "]=" + numbyte[i]);
         }
     }

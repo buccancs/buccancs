@@ -112,7 +112,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     public TemperatureView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         setZOrderOnTop(true);
-        //
         getHolder().addCallback(this);
         setOnTouchListener(this);
 
@@ -259,8 +258,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                             canvas.rotate(0, maxTemTextX, maxTemTextY);
                             canvas.drawText(maxTem, 0, maxTem.length(), maxTemTextX, maxTemTextY, redPaint);
                             drawDot(canvas, redPaint, maxTemTextX, maxTemTextY);
-
-                            //
                             for (int index = 0; index < rectangles.size(); index++) {
                                 Rect tempRectangle = rectangles.get(index);
                                 int left = (int) (tempRectangle.left / xscale);
@@ -480,7 +477,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                     drawRectangle(surfaceViewCanvas, greenPaint, rectangle.left, rectangle.top, rectangle.right, rectangle.bottom);
                     getHolder().unlockCanvasAndPost(surfaceViewCanvas);
                 }
-                return true;            //must
+                return true;
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 endX = event.getX();
                 endY = event.getY();

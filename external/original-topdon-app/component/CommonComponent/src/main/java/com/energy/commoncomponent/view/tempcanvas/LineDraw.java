@@ -25,7 +25,7 @@ public class LineDraw extends BaseDraw {
     private static final String TAG = "BaseTemperatureView LineDraw";
     private static final int MAX_LINE_COUNT = 3;
     private final int STROKE_WIDTH = 8;
-    private final int TEXT_SIZE = 14; // 文字大小
+    private final int TEXT_SIZE = 14;
     private final int TOUCH_TOLERANCE = 48;
     private LinkedList<LineView> mLineList;
     private Paint mLinePaint;
@@ -35,7 +35,7 @@ public class LineDraw extends BaseDraw {
     private Paint mTextPaint;
     private int mBgStrokeColor = Color.parseColor("#99000000");
     private int mBgColor = Color.parseColor("#CC1A1A1A");
-    private LineView mTempLine;//临时绘制的line，比如手势移动过程中
+    private LineView mTempLine;
 
     private int mOperateStatus = -1;
 
@@ -340,9 +340,9 @@ public class LineDraw extends BaseDraw {
     }
 
     public static class LineView extends BaseView {
-        private static final float TOUCH_EXTRA = 10;//额外的触摸范围
-        private Point mStartPoint; //起点
-        private Point mEndPoint; //终点
+        private static final float TOUCH_EXTRA = 10;
+        private Point mStartPoint;
+        private Point mEndPoint;
         private Bitmap mHighPointBitmap;
         private Bitmap mLowPointBitmap;
         private Point mHighTempPoint;

@@ -93,8 +93,8 @@ public class SensorLSM303AH extends SensorLSM303 {
             SensorLSM303AH.DatabaseConfigHandle.WR_ACC_LPM,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX);
     public static final SensorDetailsRef sensorLSM303AHAccel = new SensorDetailsRef(
-            0x10 << 8, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
-            0x10 << 8, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
+            0x10 << 8,
+            0x10 << 8,
             GuiLabelSensors.ACCEL_WR,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLSM303AH,
             Arrays.asList(GuiLabelConfig.LSM303_ACCEL_RANGE,
@@ -103,8 +103,8 @@ public class SensorLSM303AH extends SensorLSM303 {
                     ObjectClusterSensorName.ACCEL_WR_Y,
                     ObjectClusterSensorName.ACCEL_WR_Z));
     public static final SensorDetailsRef sensorLSM303AHMag = new SensorDetailsRef(
-            0x20, //== Configuration.Shimmer3.SensorBitmap.SENSOR_MAG will be: SensorBitmap.SENSOR_MAG,
-            0x20, //== Configuration.Shimmer3.SensorBitmap.SENSOR_MAG will be: SensorBitmap.SENSOR_MAG,
+            0x20,
+            0x20,
             GuiLabelSensors.MAG,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLSM303AH,
             Arrays.asList(GuiLabelConfig.LSM303_MAG_RANGE,
@@ -234,48 +234,48 @@ public class SensorLSM303AH extends SensorLSM303 {
     }
 
     public static int getAccelRateFromFreq(boolean isEnabled, double freq, boolean isLowPowerMode) {
-        int accelRate = 0; // Power down
+        int accelRate = 0;
 
         if (isEnabled) {
             if (isLowPowerMode) {
                 if (freq < 1.0) {
-                    accelRate = 8; // 1Hz
+                    accelRate = 8;
                 } else if (freq < 12.5) {
-                    accelRate = 9; // 12.5Hz
+                    accelRate = 9;
                 } else if (freq < 25) {
-                    accelRate = 10; // 25Hz
+                    accelRate = 10;
                 } else if (freq < 50) {
-                    accelRate = 11; // 50Hz
+                    accelRate = 11;
                 } else if (freq < 100) {
-                    accelRate = 12; // 100Hz
+                    accelRate = 12;
                 } else if (freq < 200) {
-                    accelRate = 13; // 200Hz
+                    accelRate = 13;
                 } else if (freq < 400) {
-                    accelRate = 14; // 400Hz
+                    accelRate = 14;
                 } else {
-                    accelRate = 15; // 800Hz
+                    accelRate = 15;
                 }
             } else {
                 if (freq < 12.5) {
-                    accelRate = 1; // 12.5Hz
+                    accelRate = 1;
                 } else if (freq < 25) {
-                    accelRate = 2; // 25Hz
+                    accelRate = 2;
                 } else if (freq < 50) {
-                    accelRate = 3; // 50Hz
+                    accelRate = 3;
                 } else if (freq < 100) {
-                    accelRate = 4; // 100Hz
+                    accelRate = 4;
                 } else if (freq < 200) {
-                    accelRate = 5; // 200Hz
+                    accelRate = 5;
                 } else if (freq < 400) {
-                    accelRate = 6; // 400Hz
+                    accelRate = 6;
                 } else if (freq < 800) {
-                    accelRate = 7; // 800Hz
+                    accelRate = 7;
                 } else if (freq < 1600) {
-                    accelRate = 8; // 1600Hz
+                    accelRate = 8;
                 } else if (freq < 3200) {
-                    accelRate = 9; // 3200Hz
+                    accelRate = 9;
                 } else {
-                    accelRate = 10; // 6400Hz
+                    accelRate = 10;
                 }
             }
         }
@@ -457,7 +457,7 @@ public class SensorLSM303AH extends SensorLSM303 {
 
     @Override
     public boolean checkLowPowerMag() {
-        setLowPowerMag((getLSM303MagRate() == 0) ? true : false); // ==10Hz
+        setLowPowerMag((getLSM303MagRate() == 0) ? true : false);
         return isLowPowerMagEnabled();
     }
 
@@ -472,17 +472,17 @@ public class SensorLSM303AH extends SensorLSM303 {
 
     @Override
     public int getMagRateFromFreqForSensor(boolean isEnabled, double freq, boolean isLowPowerMode) {
-        int magRate = 0; // 10Hz
+        int magRate = 0;
 
         if (isEnabled) {
             if (freq < 10.0) {
-                magRate = 0; // 10Hz
+                magRate = 0;
             } else if (freq < 20.0 || isLowPowerMode) {
-                magRate = 1; // 20Hz
+                magRate = 1;
             } else if (freq < 50.0) {
-                magRate = 2; // 50Hz
+                magRate = 2;
             } else {
-                magRate = 3; // 100Hz
+                magRate = 3;
             }
         }
         return magRate;

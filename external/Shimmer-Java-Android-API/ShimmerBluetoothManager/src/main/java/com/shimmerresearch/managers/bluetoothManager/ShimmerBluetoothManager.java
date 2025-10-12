@@ -263,7 +263,6 @@ public abstract class ShimmerBluetoothManager {
 
         if (shimmerDevice != null) {
 //
-//				
             shimmerDevice.operationPrepare();
 
             shimmerDevice.setDefaultShimmerConfiguration();
@@ -672,7 +671,7 @@ public abstract class ShimmerBluetoothManager {
 
         String comPort;
         String bluetoothAddress;
-        String bluetoothModuleDeviceName; //This is not the Shimmer user assigned name
+        String bluetoothModuleDeviceName;
         ShimmerVerObject shimmerVerObject;
         ExpansionBoardDetails expansionBoardDetails;
         DEVICE_TYPE deviceTypeDetected = DEVICE_TYPE.UNKOWN;

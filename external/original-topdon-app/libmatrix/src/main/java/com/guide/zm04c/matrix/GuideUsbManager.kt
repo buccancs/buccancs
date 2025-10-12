@@ -97,7 +97,6 @@ class GuideUsbManager {
             } else {
                 for (int i = 0; i < count; i++) {
                     UsbInterface usbInterface = mUsbDevice.getInterface(i);
-                    // 根据手上的设备做一些判断，其实这些信息都可以在枚举到设备时打印出来
                     if (usbInterface.getEndpointCount() == 2 && usbInterface.getAlternateSetting() == 1) {
                         mUsbInterface = usbInterface;
                         mConnectCode = ResultCode.SUCC_FIND_DEVICE_INTERFACE;

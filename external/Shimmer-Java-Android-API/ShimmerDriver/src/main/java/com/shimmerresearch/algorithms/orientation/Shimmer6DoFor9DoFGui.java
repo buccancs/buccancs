@@ -61,6 +61,4 @@ public class Shimmer6DoFor9DoFGui {
     public boolean isBothAccelsAvailable() {
         return this.isBothAccelsAvailable;
     }
-
-//
 };

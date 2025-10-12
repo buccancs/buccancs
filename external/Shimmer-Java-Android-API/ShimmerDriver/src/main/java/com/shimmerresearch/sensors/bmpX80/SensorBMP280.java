@@ -52,8 +52,6 @@ public class SensorBMP280 extends SensorBMPX80 {
             Arrays.asList(ObjectClusterSensorName.TEMPERATURE_BMP280,
                     ObjectClusterSensorName.PRESSURE_BMP280));
     public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
-
-//
 //
     public static final SensorGroupingDetails sensorGroupBmp280 = new SensorGroupingDetails(
             LABEL_SENSOR_TILE.PRESSURE_TEMPERATURE,

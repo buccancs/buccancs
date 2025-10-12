@@ -92,7 +92,7 @@ public class CalibDetailsBmp180 extends CalibDetailsBmpX80 {
         double B4 = AC4 * (X3 + 32768) / 32768;
         double B7 = (UP - B3) * (50000 >> mRangeValue);
         double p = 0;
-        if (B7 < 2147483648L) { //0x80000000
+        if (B7 < 2147483648L) {
             p = (B7 * 2) / B4;
         } else {
             p = (B7 / B4) * 2;

@@ -46,7 +46,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
     private val viewModel: LogViewModel by viewModels()
     private val timeAdapter: SettingTimeAdapter by lazy { SettingTimeAdapter(this) }
     private val adapter: SettingCheckAdapter by lazy { SettingCheckAdapter(this) }
-    //    var MONITOR_ACTION = STATS_START
     private var selectDuration = 1
     private var selectType = 1
     private var selectIndex: ArrayList<Int> = arrayListOf()
@@ -133,7 +132,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
     val defaultCount = 20
     val startIndex = 0f
     var pointIndex = startIndex - defaultCount
-    ///////////
     var mIsIrVideoStart = false
     private var mGuideInterface: GuideInterface? = null
     var rotateType = 3
@@ -221,8 +219,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
             Log.w("123", "停止记录, 数据量:$time")
         }
     }
-
-    //MPChart
     private fun initChart() {
         chart.clear()
         chart.setOnChartValueSelectedListener(this)

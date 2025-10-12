@@ -29,7 +29,7 @@ import com.shimmerresearch.sensors.mpu9x50.SensorMPU9X50;
 public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
 
     public static final AlgorithmDetails algoGyroOnTheFlyCal = new AlgorithmDetails(
-            Arrays.asList(//Configuration.Shimmer2.SENSOR_ID.GYRO,
+            Arrays.asList(
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_MPU9X50_GYRO,
                     Configuration.Shimmer3.SENSOR_ID.SHIMMER_LSM6DSV_GYRO),
             CHANNEL_UNITS.NO_UNITS,

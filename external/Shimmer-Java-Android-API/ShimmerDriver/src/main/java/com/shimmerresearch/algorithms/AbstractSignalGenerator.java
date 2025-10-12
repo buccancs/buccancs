@@ -5,7 +5,7 @@ import com.shimmerresearch.driver.BasicProcessWithCallBack;
 import com.shimmerresearch.driver.ShimmerMsg;
 
 public abstract class AbstractSignalGenerator extends BasicProcessWithCallBack {
-    public int sleepDurationInNano = 976562; //nano seconds
+    public int sleepDurationInNano = 976562;
     public int sleepDurationInMilli = 0;
     DataThread dt = null;
 

@@ -57,7 +57,7 @@ public class SensorVerisenseClock extends AbstractSensor {
     private SystemTimestampPlot systemTimestampPlot = new SystemTimestampPlot();
 
     {
-        sensorVerisenseClock.mIsApiSensor = true; // Even though TIMESTAMP channel is an API channel, there is no enabledSensor bit for it
+        sensorVerisenseClock.mIsApiSensor = true;
     }
 
     public SensorVerisenseClock(VerisenseDevice verisenseDevice) {
@@ -91,8 +91,6 @@ public class SensorVerisenseClock extends AbstractSensor {
 
 
         channelMapRef.put(SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP, getChannelDetailsForFwVerVersion(mShimmerDevice));
-
-//
 //
 
 

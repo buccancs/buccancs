@@ -30,9 +30,9 @@ public abstract class SensorLSM303 extends AbstractSensor {
             UtilShimmer.UNICODE_PLUS_MINUS + " 16g"};
     private static final long serialVersionUID = -4885535001690922548L;
     public boolean mIsUsingDefaultWRAccelParam = true;
-    public CalibDetailsKinematic mCurrentCalibDetailsAccelWr = null;//calibDetailsAccelWr2g;
+    public CalibDetailsKinematic mCurrentCalibDetailsAccelWr = null;
     public boolean mIsUsingDefaultMagParam = true;
-    public CalibDetailsKinematic mCurrentCalibDetailsMag = null;//calibDetailsMag1p3;
+    public CalibDetailsKinematic mCurrentCalibDetailsMag = null;
     protected int mSensorIdAccel = -1;
     protected int mSensorIdMag = -1;
     protected int mAccelRange = 0;
@@ -233,7 +233,7 @@ public abstract class SensorLSM303 extends AbstractSensor {
 
             setLSM303MagRange((configBytes[configByteLayoutCast.idxConfigSetupByte2] >> configByteLayoutCast.bitShiftLSM303DLHCMagRange) & configByteLayoutCast.maskLSM303DLHCMagRange);
             setLSM303MagRate((configBytes[configByteLayoutCast.idxConfigSetupByte2] >> configByteLayoutCast.bitShiftLSM303DLHCMagSamplingRate) & configByteLayoutCast.maskLSM303DLHCMagSamplingRate);
-            checkLowPowerMag(); // check rate to determine if Sensor is in LPM mode
+            checkLowPowerMag();
 
             if (shimmerDevice.isConnected()) {
                 getCurrentCalibDetailsMag().mCalibReadSource = CALIB_READ_SOURCE.INFOMEM;

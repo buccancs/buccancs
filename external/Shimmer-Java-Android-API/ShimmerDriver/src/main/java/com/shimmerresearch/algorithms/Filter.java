@@ -86,7 +86,7 @@ public class Filter implements Serializable {
                 nTaps--;
             }
 
-            if (LoHi == LOW_PASS || LoHi == HIGH_PASS) // High pass or Low pass filter
+            if (LoHi == LOW_PASS || LoHi == HIGH_PASS)
             {
                 this.samplingRate = samplingRate;
                 this.cornerFrequency = cornerFrequency;
@@ -112,9 +112,9 @@ public class Filter implements Serializable {
                 coefficients = new double[coefficientHighPass.length];
                 for (int i = 0; i < coefficientHighPass.length; i++) {
                     if (LoHi == BAND_PASS)
-                        coefficients[i] = -(coefficientHighPass[i] + coefficientLowPass[i]); //sum of HPF and LPF for bandstop filter, spectral inversion for bandpass filter
+                        coefficients[i] = -(coefficientHighPass[i] + coefficientLowPass[i]);
                     else
-                        coefficients[i] = coefficientHighPass[i] + coefficientLowPass[i]; //sum of HPF and LPF for bandstop filter
+                        coefficients[i] = coefficientHighPass[i] + coefficientLowPass[i];
                 }
 
                 if (LoHi == BAND_PASS) {
@@ -136,10 +136,10 @@ public class Filter implements Serializable {
             int nSamples = 1;
             int bufferSize = this.nTaps;
             if (bufferedX == null) {
-                bufferedX = new double[bufferSize + nSamples]; // buffers are initiliazed to 0 by default
-                Arrays.fill(bufferedX, data); // fill the buffer X with the first data
+                bufferedX = new double[bufferSize + nSamples];
+                Arrays.fill(bufferedX, data);
             } else {
-                System.arraycopy(bufferedX, 1, bufferedX, 0, bufferedX.length - 1); //all the elements in the buffer are shifted one position to the left
+                System.arraycopy(bufferedX, 1, bufferedX, 0, bufferedX.length - 1);
                 bufferedX[bufferedX.length - 1] = data;
             }
 

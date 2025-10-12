@@ -18,7 +18,7 @@ public class IFrameData {
         if (fusionData == null) {
             fusionData = new byte[FUSION_LEN];
         }
-        System.arraycopy(frame, 0, fusionData, 0, fusionData.length);   //融合图像数据，ARGB
+        System.arraycopy(frame, 0, fusionData, 0, fusionData.length);
         return fusionData;
     }
 
@@ -26,7 +26,7 @@ public class IFrameData {
         if (irData == null) {
             irData = new byte[ORIGINAL_LEN];
         }
-        System.arraycopy(frame, FUSION_LEN, irData, 0, irData.length); //原始红外数据，YUV-Y16
+        System.arraycopy(frame, FUSION_LEN, irData, 0, irData.length);
         return irData;
     }
 
@@ -34,7 +34,7 @@ public class IFrameData {
         if (norTempData == null) {
             norTempData = new byte[ORIGINAL_LEN];
         }
-        System.arraycopy(frame, FUSION_LEN + ORIGINAL_LEN, norTempData, 0, norTempData.length); //原始温度数据，YUV-Y16
+        System.arraycopy(frame, FUSION_LEN + ORIGINAL_LEN, norTempData, 0, norTempData.length);
         return norTempData;
     }
 
@@ -42,7 +42,7 @@ public class IFrameData {
         if (remapTempData == null) {
             remapTempData = new byte[REMAP_TEMP_LEN];
         }
-        System.arraycopy(frame, FUSION_LEN + ORIGINAL_LEN + ORIGINAL_LEN, remapTempData, 0, remapTempData.length); //缩放温度数据，YUV-422
+        System.arraycopy(frame, FUSION_LEN + ORIGINAL_LEN + ORIGINAL_LEN, remapTempData, 0, remapTempData.length);
         return remapTempData;
     }
 }

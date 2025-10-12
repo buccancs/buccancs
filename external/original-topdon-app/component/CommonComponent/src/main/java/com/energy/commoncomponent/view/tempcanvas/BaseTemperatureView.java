@@ -37,8 +37,8 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
     protected int mViewHeight;
         protected int mTempWidth;
     protected int mTempHeight;
-    protected float xScale = 0;//实际渲染与原始图像宽高比
-    protected float yScale = 0;//实际渲染与原始图像宽高比
+    protected float xScale = 0;
+    protected float yScale = 0;
     private Context mContext;
     private SurfaceHolder mSurfaceHolder;
     private TempThread mTempThread;
@@ -47,14 +47,14 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
     private GestureDetector mGestureDetector;
     private DrawModel mDrawModel = DrawModel.NONE;
     private Object mCanvasLock = new Object();
-    private float mFirstX;//手指按下x坐标，相对父布局
-    private float mFirstY;//手指按下y坐标，相对父布局
-    private float mCurX;//当前手指x坐标，相对父布局
-    private float mCurY;//当前手指y坐标，相对父布局
-    private float mRawX;//当前手指x坐标，相对屏幕
-    private float mRawY;//当前手指y坐标，相对屏幕
-    private float mDistanceX;//当前手指距离上个点滑动的x轴距离
-    private float mDistanceY;//当前手指距离上个点滑动的y轴距离
+    private float mFirstX;
+    private float mFirstY;
+    private float mCurX;
+    private float mCurY;
+    private float mRawX;
+    private float mRawY;
+    private float mDistanceX;
+    private float mDistanceY;
         private int mTextWidth = 110;
     private TextPaint mTextPaint;
 
@@ -73,7 +73,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
 
 
         public void start() {
-        mDrawThread = new DrawThread();//创建一个绘图线程
+        mDrawThread = new DrawThread();
         mDrawThread.start();
     }
 
@@ -397,7 +397,7 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mGestureDetector.onTouchEvent(event); //通知手势识别方法
+        mGestureDetector.onTouchEvent(event);
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
 

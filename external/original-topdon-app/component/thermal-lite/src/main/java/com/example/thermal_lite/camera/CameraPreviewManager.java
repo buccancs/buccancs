@@ -218,7 +218,6 @@ public class CameraPreviewManager {
                         default:
                             break;
                     }
-//
                     mFinalImageWidth = 0;
                     mFinalImageHeight = 0;
 
@@ -276,7 +275,6 @@ public class CameraPreviewManager {
                 mIrData = new byte[mIrLength];
                 mInfoLength = mPreviewWidth * mInfoDataHeight * 2;
                 mInfoData = new byte[mInfoLength];
-                //
                 mIrARGBLength = mPreviewWidth * mPreviewHeight * 2 * 2;
                 mIrARGBData = new byte[mIrARGBLength];
                 mIrYuvData = new byte[mIrLength / 2];
@@ -354,10 +352,10 @@ public class CameraPreviewManager {
         mAutoGainImageRes.width = 256;
         mAutoGainImageRes.height = 192;
 
-        mGainSwitchParam.above_pixel_prop = 0.1f;    //用于high -> low gain,图像像素总面积的百分比
-        mGainSwitchParam.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度,130为摄氏度
-        mGainSwitchParam.below_pixel_prop = 0.95f;   //用于low -> high gain,图像像素总面积的百分比
-        mGainSwitchParam.below_temp_data = (int) ((150 + 273.15) * 16 * 4);//用于low -> high gain,低增益向高增益切换的触发温度，150为摄氏度
+        mGainSwitchParam.above_pixel_prop = 0.1f;
+        mGainSwitchParam.above_temp_data = (int) ((130 + 273.15) * 16 * 4);
+        mGainSwitchParam.below_pixel_prop = 0.95f;
+        mGainSwitchParam.below_temp_data = (int) ((150 + 273.15) * 16 * 4);
         mAutoGainSwitchInfo.switch_frame_cnt = 5 * 15; //连续满足触发条件帧数超过该阈值会触发自动增益切换(假设出图帧率为每秒15帧，则5 * 15大概为5秒)
         mAutoGainSwitchInfo.waiting_frame_cnt = 7 * 15;//触发自动增益切换之后，会间隔该阈值的帧数不进行增益切换监测(假设出图帧率为每秒15帧，则7 * 15大概为7秒)
 

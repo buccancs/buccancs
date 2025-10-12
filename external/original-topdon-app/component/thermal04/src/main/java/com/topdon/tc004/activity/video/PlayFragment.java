@@ -67,7 +67,7 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     public static final int FILL_WINDOW = 4;
     protected static final String TAG = "PlayFragment";
     protected String mUrl;
-    protected int mType;// 0或1表示TCP，2表示UDP
+    protected int mType;
     protected int sendOption;
     protected EasyPlayerClient mStreamRender;
     protected ResultReceiver mResultReceiver;
@@ -77,9 +77,9 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     protected TextureView mSurfaceView;
     protected ImageView cover;
     private int mRatioType = ASPECT_RATIO_INSIDE;
-    private ResultReceiver mRR;// ResultReceiver是一个用来接收其他进程回调结果的通用接口
+    private ResultReceiver mRR;
     private ImageView mRenderCover;
-    private ImageView mTakePictureThumb;// 显示抓拍的图片
+    private ImageView mTakePictureThumb;
     private final Runnable mAnimationHiddenTakePictureThumbTask = new Runnable() {
         @Override
         public void run() {
@@ -154,7 +154,7 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
             mRR = getArguments().getParcelable(ARG_PARAM3);
             boolean isTC007 = getArguments().getBoolean(P_TC007);
             if (!isTC007) {
-                setRetainInstance(true); // 保留Fragment实例不随Activity重新创建而销毁
+                setRetainInstance(true);
             }
         }
     }
@@ -534,20 +534,20 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
 
                 switch (mRatioType) {
                     case ASPECT_RATIO_INSIDE: {
-                        if (ratioView - ratio < 0) {    // 屏幕比视频的宽高比更小.表示视频是过于宽屏了.
+                        if (ratioView - ratio < 0) {
                             mSurfaceView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                             mSurfaceView.getLayoutParams().height = (int) (getView().getWidth() / ratio + 0.5f);
-                        } else {                        // 视频是竖屏了.
+                        } else {
                             mSurfaceView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                             mSurfaceView.getLayoutParams().width = (int) (getView().getHeight() * ratio + 0.5f);
                         }
                     }
                     break;
                     case ASPECT_RATIO_CENTER_CROPS: {
-                        if (ratioView - ratio < 0) {    // 屏幕比视频的宽高比更小.表示视频是过于宽屏了.
+                        if (ratioView - ratio < 0) {
                             mSurfaceView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                             mSurfaceView.getLayoutParams().width = (int) (getView().getHeight() * ratio + 0.5f);
-                        } else {                        // 视频是竖屏了.
+                        } else {
                             mSurfaceView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                             mSurfaceView.getLayoutParams().height = (int) (getView().getWidth() / ratio + 0.5f);
                         }

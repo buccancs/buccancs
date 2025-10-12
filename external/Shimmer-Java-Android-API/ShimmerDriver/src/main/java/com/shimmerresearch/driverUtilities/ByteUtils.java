@@ -17,7 +17,7 @@ public class ByteUtils {
     public static long bytesToLong(byte[] bytes) {
         ByteBuffer buffer = ByteBuffer.allocate(longSize);
         buffer.put(bytes, 0, bytes.length);
-        buffer.flip();//need flip 
+        buffer.flip();
         return buffer.getLong();
     }
 
@@ -50,7 +50,7 @@ public class ByteUtils {
 
     public static byte[] removeFirstByte(byte[] array) {
         if (array == null || array.length <= 1) {
-            return new byte[0]; // Return an empty array if the original array has length 0 or 1
+            return new byte[0];
         }
 
         byte[] result = new byte[array.length - 1];
@@ -60,7 +60,7 @@ public class ByteUtils {
 
     public static byte[] removeFirstBytes(byte[] array, int lengthToRemove) {
         if (array == null || array.length <= lengthToRemove) {
-            return new byte[0]; // Return an empty array if the original array has length 0 or 1
+            return new byte[0];
         }
 
         byte[] result = new byte[array.length - lengthToRemove];

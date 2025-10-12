@@ -37,7 +37,7 @@ public class ShimmerSetupExample extends BasicProcessWithCallBack {
         if (ind == ShimmerPC.MSG_IDENTIFIER_STATE_CHANGE) {
             CallbackObject callbackObject = (CallbackObject) object;
 
-            if (callbackObject.mState == BT_STATE.CONNECTING) {    //Never called
+            if (callbackObject.mState == BT_STATE.CONNECTING) {
 
             } else if (callbackObject.mState == BT_STATE.CONNECTED) {
                 System.out.println("CONNECTED");

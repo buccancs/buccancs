@@ -28,7 +28,7 @@ public class CameraView extends TextureView {
         private Paint paint;
     private int cross_len = 20;
         private Paint greenPaint;
-    private boolean drawLine = true;//是否画中心十字架
+    private boolean drawLine = true;
     private int irWidth = 192;
     private int irHeight = 256;
 
@@ -45,13 +45,12 @@ public class CameraView extends TextureView {
 
         public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        //
-        paint = new Paint();  //画笔
+        paint = new Paint();
         paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-        paint.setStrokeWidth(2);  //设置线宽。单位为像素
-        paint.setAntiAlias(true); //抗锯齿
-        paint.setDither(true);    //防抖动
-        paint.setColor(Color.WHITE);  //画笔颜色
+        paint.setStrokeWidth(2);
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setColor(Color.WHITE);
         //
         greenPaint = new Paint();
         greenPaint.setStrokeWidth(6);
@@ -62,7 +61,6 @@ public class CameraView extends TextureView {
             public void run() {
                 while (!cameraThread.isInterrupted()) {
                     synchronized (syncimage.viewLock) {
-                        //
                         if (syncimage.valid == false) {
                             try {
                                 syncimage.viewLock.wait();
@@ -71,16 +69,15 @@ public class CameraView extends TextureView {
                                 Log.e(TAG, "lock.wait(): catch an interrupted exception");
                             }
                         }
-                        //
                         if (syncimage.valid == true) {
                             canvas = lockCanvas();
                             if (canvas == null) {
                                 continue;
                             }
-                            paint.setStrokeWidth(2);  //设置线宽。单位为像素
-                            paint.setAntiAlias(true); //抗锯齿
-                            paint.setDither(true);    //防抖动
-                            paint.setColor(Color.WHITE);  //画笔颜色
+                            paint.setStrokeWidth(2);
+                            paint.setAntiAlias(true);
+                            paint.setDither(true);
+                            paint.setColor(Color.WHITE);
                                                         Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                             canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
@@ -90,7 +87,6 @@ public class CameraView extends TextureView {
                                 canvas.drawLine(getWidth() / 2, getHeight() / 2 - cross_len,
                                         getWidth() / 2, getHeight() / 2 + cross_len, paint);
                             }
-                            //
                             unlockCanvasAndPost(canvas);
                             syncimage.valid = false;
                         }

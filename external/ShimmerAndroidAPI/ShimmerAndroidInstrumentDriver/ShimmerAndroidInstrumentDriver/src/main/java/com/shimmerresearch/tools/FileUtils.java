@@ -45,7 +45,6 @@ public class FileUtils {
 
         Log.d(TAG, "MEDIA EXTSD TYPE: " + type);
         Log.d(TAG, "Relative path: " + relativePath);
-        //
         if ("primary".equalsIgnoreCase(type)) {
             fullPath = Environment.getExternalStorageDirectory() + relativePath;
             if (fileExists(fullPath)) {
@@ -59,8 +58,6 @@ public class FileUtils {
                 return fullPath;
             }
         }
-
-        //
         fullPath = System.getenv("SECONDARY_STORAGE") + relativePath;
         if (fileExists(fullPath)) {
             return fullPath;
@@ -385,6 +382,6 @@ public class FileUtils {
     }
 
     public enum UriType {
-        FILE, FOLDER; // These are the constants of the enum
+        FILE, FOLDER;
     }
 }

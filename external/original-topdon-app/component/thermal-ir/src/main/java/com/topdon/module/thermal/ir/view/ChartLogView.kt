@@ -41,7 +41,6 @@ class ChartLogView : LineChart {
     private val textColor by lazy { ContextCompat.getColor(context, R.color.chart_text) }
     private val axisChartColors by lazy { ContextCompat.getColor(context, R.color.chart_axis) }
     private val axisLine by lazy { ContextCompat.getColor(context, R.color.circle_white) }
-    //MPChart
     private fun initChart() {
         synchronized(this) {
             this.setTouchEnabled(true)
@@ -151,11 +150,9 @@ class ChartLogView : LineChart {
                                     type = type
                                 ).toFloat()
 //                                Log.w("123", "x: $x")
-                                //max
                                 val entity = Entry(x, it.thermalMax)
                                 entity.data = it
                                 maxDataSet.addEntry(entity)
-                                //min
                                 val entityMin = Entry(x, it.thermalMin)
                                 entityMin.data = it
                                 minDataSet.addEntry(entityMin)
@@ -182,11 +179,9 @@ class ChartLogView : LineChart {
                                     startTime = startTime,
                                     type = type
                                 ).toFloat()
-                                //max
                                 val entityMax = Entry(x, it.thermalMax)
                                 entityMax.data = it
                                 maxTempDataSet.addEntry(entityMax)
-                                //min
                                 val entity = Entry(x, it.thermalMin)
                                 entity.data = it
                                 centerTempDataSet.addEntry(entity)

@@ -75,9 +75,9 @@ public abstract class OrientationModule extends AbstractAlgorithm {
         gyroValues = new Vector3d();
 
         for (String associatedChannel : mAlgorithmDetails.mListOfAssociatedSensorChannels) {
-            Collection<FormatCluster> dataFormatsSignal = object.getCollectionOfFormatClusters(associatedChannel);  // first retrieve all the possible formats for the current sensor device
+            Collection<FormatCluster> dataFormatsSignal = object.getCollectionOfFormatClusters(associatedChannel);
             if (dataFormatsSignal != null) {
-                FormatCluster formatClusterSignal = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormatsSignal, mAlgorithmDetails.mChannelType.toString())); // retrieve the calibrated data
+                FormatCluster formatClusterSignal = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormatsSignal, mAlgorithmDetails.mChannelType.toString()));
                 if (formatClusterSignal != null) {
                     double value = formatClusterSignal.mData;
                     if (!Double.isNaN(value)) {

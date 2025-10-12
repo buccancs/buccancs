@@ -53,9 +53,9 @@ public class ShimmerVerDetails implements Serializable {
         aMap.put(HW_ID_SR_CODES.UNKNOWN, "Unknown");
 
         aMap.put(HW_ID_SR_CODES.EXP_BRD_BR_AMP, "Bridge Amplifier+");
-        aMap.put(HW_ID_SR_CODES.SPAN, "Span");//not used
+        aMap.put(HW_ID_SR_CODES.SPAN, "Span");
         aMap.put(HW_ID_SR_CODES.EXP_BRD_GSR, "GSR+");
-        aMap.put(HW_ID_SR_CODES.SHIMMER3, "IMU");//not used
+        aMap.put(HW_ID_SR_CODES.SHIMMER3, "IMU");
         aMap.put(HW_ID_SR_CODES.EXP_BRD_PROTO3_MINI, "PROTO3 Mini");
         aMap.put(HW_ID_SR_CODES.EXP_BRD_EXG, "ECG/EMG");
         aMap.put(HW_ID_SR_CODES.EXP_BRD_PROTO3_DELUXE, "PROTO3 Deluxe");
@@ -91,12 +91,12 @@ public class ShimmerVerDetails implements Serializable {
         public static final int SWEATCH = 4;
         public static final int SHIMMER_GQ_BLE = 5;
         public static final int SPAN = 7;
-        public static final int SHIMMER_2R_GQ = 9; // Used for testing GQ
+        public static final int SHIMMER_2R_GQ = 9;
         public static final int SHIMMER_3R = 10;
 
 
-        public static final int SHIMMER_GQ_802154_LR = HW_ID_SR_CODES.SHIMMER_GQ_802154_LR; // Long Range
-        public static final int SHIMMER_GQ_802154_NR = HW_ID_SR_CODES.SHIMMER_GQ_802154_NR; // Normal Range
+        public static final int SHIMMER_GQ_802154_LR = HW_ID_SR_CODES.SHIMMER_GQ_802154_LR;
+        public static final int SHIMMER_GQ_802154_NR = HW_ID_SR_CODES.SHIMMER_GQ_802154_NR;
         public static final int SHIMMER_4_SDK = HW_ID_SR_CODES.SHIMMER_4_SDK;
         public static final int SHIMMER_ECG_MD = HW_ID_SR_CODES.SHIMMER_ECG_MD;
 
@@ -121,7 +121,7 @@ public class ShimmerVerDetails implements Serializable {
     }
 
     public static final class HW_ID_SR_CODES {
-        public static final int LOG_FILE = -2; //MN: here for testing
+        public static final int LOG_FILE = -2;
         public static final int UNKNOWN = -1;
         public static final int NONE = 255;
 

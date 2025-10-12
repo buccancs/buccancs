@@ -108,8 +108,8 @@ public class SensorLSM6DSV extends AbstractSensor {
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLSM6DSV);
     public static final SensorDetailsRef sensorLSM6DSVAccelRef = new SensorDetailsRef(
-            0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL, 	// To Be Changed
             0x80, //== Configuration.Shimmer3.SensorBitmap.SENSOR_A_ACCEL will be: SensorBitmap.SENSOR_A_ACCEL,
+            0x80,
             GuiLabelSensors.ACCEL_LN,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLSM6DSV,
             Arrays.asList(GuiLabelConfig.LSM6DSV_ACCEL_RANGE),
@@ -343,7 +343,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         int gyroRate = 0;
 
         if (isEnabled) {
-            if (isLowPowerMode)    //low power mode enabled
+            if (isLowPowerMode)
             {
                 gyroRate = 1;
             } else {
@@ -475,7 +475,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         if (ArrayUtils.contains(ListofLSM6DSVGyroRangeConfigValues, i)) {
 
             if (checkIfAnyMplChannelEnabled()) {
-                i = 3; // 2000dps
+                i = 3;
             }
 
             mGyroRange = i;
@@ -745,7 +745,7 @@ public class SensorLSM6DSV extends AbstractSensor {
 
 
             setLSM6DSVGyroAccelRate((configBytes[configByteLayoutCast.idxConfigSetupByte1] >> configByteLayoutCast.bitShiftMPU9150AccelGyroSamplingRate) & configByteLayoutCast.maskMPU9150AccelGyroSamplingRate);
-            checkLowPowerGyro(); // check rate to determine if Sensor is in LPM mode
+            checkLowPowerGyro();
 
             int lsbGyroRange = (configBytes[configByteLayoutCast.idxConfigSetupByte2] >> configByteLayoutCast.bitShiftMPU9150GyroRange) & configByteLayoutCast.maskMPU9150GyroRange;
             int msbGyroRange = (configBytes[configByteLayoutCast.idxConfigSetupByte4] >> configByteLayoutCast.bitShiftLSM6DSVGyroRangeMSB) & configByteLayoutCast.maskLSM6DSVGyroRangeMSB;
@@ -778,7 +778,7 @@ public class SensorLSM6DSV extends AbstractSensor {
                 setLSM6DSVAccelRange((int) valueToSet);
                 break;
             case (SensorLSM6DSV.GuiLabelConfig.LSM6DSV_GYRO_RATE):
-                double bufDouble = 4.0; // Minimum = 4Hz
+                double bufDouble = 4.0;
                 if ((String.valueOf(valueToSet)).isEmpty()) {
                     bufDouble = 4.0;
                 } else {
@@ -790,7 +790,7 @@ public class SensorLSM6DSV extends AbstractSensor {
                 }
                 setLSM6DSVGyroAccelRateFromFreq(bufDouble);
 
-                returnValue = Double.toString((double) Math.round(getLSM6DSVGyroAccelRateInHz() * 100) / 100); // round sampling rate to two decimal places
+                returnValue = Double.toString((double) Math.round(getLSM6DSVGyroAccelRateInHz() * 100) / 100);
                 break;
             case (GuiLabelConfigCommon.RANGE):
                 if (sensorId == mSensorIdGyro) {

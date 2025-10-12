@@ -136,7 +136,7 @@ public class GradDes3DOrientation {
         q1 += qDot2 * mSamplingPeriod;
         q2 += qDot3 * mSamplingPeriod;
         q3 += qDot4 * mSamplingPeriod;
-        recipNorm = 1.0 / Math.sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);    // normalise quaternion
+        recipNorm = 1.0 / Math.sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
 
         q0 *= recipNorm;
         q1 *= recipNorm;
@@ -207,7 +207,7 @@ public class GradDes3DOrientation {
             s2 = 4.0f * q0q0 * q2 + _2q0 * ax + _4q2 * q3q3 - _2q3 * ay - _4q2 + _8q2 * q1q1 + _8q2 * q2q2 + _4q2 * az;
             s3 = 4.0f * q1q1 * q3 - _2q1 * ax + 4.0f * q2q2 * q3 - _2q2 * ay;
 
-            recipNorm = 1.0 / Math.sqrt(s1 * s1 + s2 * s2 + s3 * s3 + s0 * s0);    // normalise
+            recipNorm = 1.0 / Math.sqrt(s1 * s1 + s2 * s2 + s3 * s3 + s0 * s0);
             if (isFinite(recipNorm) && recipNorm > 0.0) {
                 s0 *= recipNorm;
                 s1 *= recipNorm;
@@ -226,7 +226,7 @@ public class GradDes3DOrientation {
         q1 += qDot2 * mSamplingPeriod;
         q2 += qDot3 * mSamplingPeriod;
         q3 += qDot4 * mSamplingPeriod;
-        recipNorm = 1.0 / Math.sqrt(q1 * q1 + q2 * q2 + q3 * q3 + q0 * q0);    // normalise quaternion
+        recipNorm = 1.0 / Math.sqrt(q1 * q1 + q2 * q2 + q3 * q3 + q0 * q0);
 
         q0 *= recipNorm;
         q1 *= recipNorm;

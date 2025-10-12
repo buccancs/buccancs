@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 public class GrpcBLERadioByteTools {
 
     String mExeName = "ShimmerBLEGrpc.exe";
-    String mExePath = "C:\\Github\\Shimmer-C-API\\ShimmerAPI\\ShimmerBLEGrpc\\bin\\Debug\\" + mExeName; // Replace with the path to your .exe file
+    String mExePath = "C:\\Github\\Shimmer-C-API\\ShimmerAPI\\ShimmerBLEGrpc\\bin\\Debug\\" + mExeName;
     private Process runningProcess;
 
     public GrpcBLERadioByteTools() {
@@ -95,8 +95,8 @@ public class GrpcBLERadioByteTools {
         for (int i = 50000; i < 60000; i++) {
             try {
                 ServerSocket serverSocket = new ServerSocket(i);
-                serverSocket.close(); // Close the socket if it was successfully created.
-                return i; // Port is available.
+                serverSocket.close();
+                return i;
             } catch (IOException e) {
                 System.out.println("Port in use: " + i);
             }
@@ -135,7 +135,7 @@ public class GrpcBLERadioByteTools {
         command.add(mExePath);
         command.add(Integer.toString(port));
         ProcessBuilder processBuilder = new ProcessBuilder(command);
-        processBuilder.redirectErrorStream(true); // Redirect standard error to the input stream
+        processBuilder.redirectErrorStream(true);
         runningProcess = processBuilder.start();
         Thread processThread = new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(runningProcess.getInputStream()))) {

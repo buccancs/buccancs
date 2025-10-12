@@ -54,33 +54,33 @@ public class MyGLSurfaceView implements Renderer {
         gl.glDisable(GL10.GL_DITHER);
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
         gl.glEnable(GL10.GL_CULL_FACE);
-        gl.glEnable(GL10.GL_TEXTURE_2D);            //Enable Texture Mapping ( NEW )
+        gl.glEnable(GL10.GL_TEXTURE_2D);
         gl.glEnable(GL10.GL_ALPHA);
     }
 
         public void onDrawFrame(GL10 gl) {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-        gl.glLoadIdentity();                    //Reset The Current Modelview Matrix
+        gl.glLoadIdentity();
 
-        gl.glTranslatef(0.0f, 0.0f, -10.0f);    //Move down 1.0 Unit And Into The Screen 6.0
-        gl.glRotatef(rquad, ax, ay, az);    //Rotate The Square On The X axis ( NEW )
-        cube.draw(gl);                        //Draw the square
+        gl.glTranslatef(0.0f, 0.0f, -10.0f);
+        gl.glRotatef(rquad, ax, ay, az);
+        cube.draw(gl);
 
     }
 
         public void onSurfaceChanged(GL10 gl, int width, int height) {
-        if (height == 0) {                        //Prevent A Divide By Zero By
-            height = 1;                        //Making Height Equal One
+        if (height == 0) {
+            height = 1;
         }
 
-        gl.glViewport(0, 0, width, height);    //Reset The Current Viewport
-        gl.glMatrixMode(GL10.GL_PROJECTION);    //Select The Projection Matrix
-        gl.glLoadIdentity();                    //Reset The Projection Matrix
+        gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL10.GL_PROJECTION);
+        gl.glLoadIdentity();
 
         GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 0.1f, 100.0f);
 
-        gl.glMatrixMode(GL10.GL_MODELVIEW);    //Select The Modelview Matrix
-        gl.glLoadIdentity();                    //Reset The Modelview Matrix
+        gl.glMatrixMode(GL10.GL_MODELVIEW);
+        gl.glLoadIdentity();
     }
 
     public void setAngleAxis(float angle, float x, float y, float z) {

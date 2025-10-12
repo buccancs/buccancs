@@ -9,7 +9,7 @@ public class TempResultBean {
     private float averageTemperature;
     private long order;
 
-    private int position; //相对应点线框list的position
+    private int position;
 
     private TempInfoMode tempInfoMode;
     private float ambientTemp;

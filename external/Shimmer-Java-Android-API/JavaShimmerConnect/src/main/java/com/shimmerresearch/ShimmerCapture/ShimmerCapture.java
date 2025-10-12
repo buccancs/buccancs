@@ -336,7 +336,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 if ((Integer) spinnerNumberOfBeatsToAve.getValue() <= 0) {
                     spinnerNumberOfBeatsToAve.setValue(1);
                 }
-                heartRateCalculation = new PPGtoHRAlgorithm(mShimmer.getSamplingRateShimmer(), (Integer) spinnerNumberOfBeatsToAve.getValue(), 10); //10 second training period
+                heartRateCalculation = new PPGtoHRAlgorithm(mShimmer.getSamplingRateShimmer(), (Integer) spinnerNumberOfBeatsToAve.getValue(), 10);
                 heartRateCalculationECG = new ECGtoHRAdaptive(mShimmer.getSamplingRateShimmer());
 
                 try {
@@ -805,13 +805,6 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         btnCancelWriteFile = new JButton("Choose New File");
         btnCancelWriteFile.setBounds(10, 70, 130, 25);
         fileExistsWindow.getContentPane().add(btnCancelWriteFile);
-
-
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1270,7 +1263,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 }
             });
 
-        } else { //Shimmer 2
+        } else {
             chckbx5VReg.setEnabled(true);
             chckbxVoltageMon.setEnabled(true);
             chckbxLowPowerAcc.setEnabled(false);
@@ -1339,7 +1332,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
             mShimmer.enable3DOrientation(false);
         }
 
-        double threshold = 1.2; //Default value.
+        double threshold = 1.2;
         int bufferSize = 100;
         if (chckbxOnTheFlyGyroCal.isSelected()) {
             mShimmer.enableOnTheFlyGyroCal(true, bufferSize, threshold);
@@ -1386,7 +1379,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
             } else {
                 calculateHeartRate = false;
             }
-        } else { //Shimmer 2
+        } else {
             if (chckbx5VReg.isSelected()) {
                 mShimmer.writeFiveVoltReg(1);
             } else {
@@ -1470,7 +1463,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
             if (listOfSensorsShimmer3[18].isSelected()) {
                 mReturnEnabledSensors = mReturnEnabledSensors | ShimmerPC.SENSOR_BRIDGE_AMP;
             }
-        } else { //Shimmer 2
+        } else {
             if (listOfSensorsShimmer2[0].isSelected()) {
                 mReturnEnabledSensors = mReturnEnabledSensors | ShimmerPC.SENSOR_ACCEL;
             }
@@ -1519,7 +1512,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         }
         chckbxHeartRate.setVisible(false);
         frame.getContentPane().remove(chckbxHeartRate);
-        if (numberOfSignals > maxTraces) {    //12 is max number of traces
+        if (numberOfSignals > maxTraces) {
             numberOfSignals = maxTraces;
         }
         int yLocationForHeartRate = 0;
@@ -1906,7 +1899,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         }
 
         try {
-            Thread.sleep(500);    // Wait to ensure that we dont missed any bytes which need to be cleared
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -1947,7 +1940,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
         if (ind == ShimmerPC.MSG_IDENTIFIER_STATE_CHANGE) {
             CallbackObject callbackObject = (CallbackObject) object;
 
-            if (callbackObject.mState == BT_STATE.CONNECTING) {    //Never called
+            if (callbackObject.mState == BT_STATE.CONNECTING) {
                 textFieldState.setText("Shimmer Connecting");
             } else if (callbackObject.mState == BT_STATE.CONNECTED) {
                 textFieldState.setText("Shimmer Connected");
@@ -1985,7 +1978,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
                 menuItemExgSettings.setEnabled(false);
                 btnStopStreaming.setEnabled(true);
                 btnStartStreaming.setEnabled(false);
-            } else {    //Ready for Streaming
+            } else {
                 setupListOfEnabledSensors();
                 btnStartStreaming.setEnabled(true);
             }
@@ -2182,7 +2175,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
 
                 if (calculateHeartRate && chckbxEnablePPGtoHR.isSelected()) {
                     Collection<FormatCluster> adcFormats = objc.getCollectionOfFormatClusters(Shimmer3.ObjectClusterSensorName.INT_EXP_ADC_A13);
-                    FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, "CAL")); // retrieve the calibrated data
+                    FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, "CAL"));
                     dataArrayPPG = format.mData;
                     try {
                         dataArrayPPG = lpf.filterData(dataArrayPPG);
@@ -2206,7 +2199,7 @@ public class ShimmerCapture extends BasicProcessWithCallBack {
 
                 if (calculateHeartRate && chckbxEnableECGtoHR.isSelected()) {
                     Collection<FormatCluster> adcFormats = objc.getCollectionOfFormatClusters(Shimmer3.ObjectClusterSensorName.ECG_LA_RA_24BIT);
-                    FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, "CAL")); // retrieve the calibrated data
+                    FormatCluster format = ((FormatCluster) ObjectCluster.returnFormatCluster(adcFormats, "CAL"));
                     dataArrayECG = format.mData;
                     try {
                         format.mData = dataArrayECG;

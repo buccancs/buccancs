@@ -31,7 +31,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         public static final int DELAY_BETWEEN_CONFIG_BYTE_WRITES = 100;
         public static final int DELAY_AFTER_CONFIG_BYTE_WRITE = 500;
     public static final int TIMER_READ_STATUS_PERIOD = 5000;
-    public static final int TIMER_READ_BATT_STATUS_PERIOD = 60000; // Batt status is updated every 1min
+    public static final int TIMER_READ_BATT_STATUS_PERIOD = 60000;
     public static final int TIMER_CHECK_ALIVE_PERIOD = 2000;
     public static final int TIMER_CONNECTING_TIMEOUT = 20000;
     private final static int NUMBER_OF_TX_RETRIES_LIMIT = 0;
@@ -44,24 +44,24 @@ public class LiteProtocol extends AbstractCommsProtocol {
     public String mMyBluetoothAddress = "";
     public String mConnectionHandle = "";
     public boolean mIsSensing = false;
-    public boolean mIsSDLogging = false;                                            // This is used to monitor whether the device is in sd log mode
-    public boolean mIsStreaming = false;                                            // This is used to monitor whether the device is in streaming mode
+    public boolean mIsSDLogging = false;
+    public boolean mIsStreaming = false;
     public boolean mIsInitialised = false;
     public boolean mIsDocked = false;
     public boolean mHaveAttemptedToReadConfig = false;
     protected List<byte[]> mListofInstructions = new ArrayList<byte[]>();
     protected int mCurrentCommand;
     transient protected IOThread mIOThread;
-    protected boolean mWaitForAck = false;                                          // This indicates whether the device is waiting for an acknowledge packet from the Shimmer Device
-    protected boolean mWaitForResponse = false;                                    // This indicates whether the device is waiting for a response packet from the Shimmer Device
+    protected boolean mWaitForAck = false;
+    protected boolean mWaitForResponse = false;
     protected boolean mTransactionCompleted = true;                                    // Variable is used to ensure a command has finished execution prior to executing the next command (see initialize())
     protected boolean mDummy = false;
     protected Stack<Byte> byteStack = new Stack<Byte>();
     protected boolean mOperationUnderway = false;
-    transient protected Timer mTimerCheckForAckOrResp;                                // Timer variable used when waiting for an ack or response packet
+    transient protected Timer mTimerCheckForAckOrResp;
     transient protected Timer mTimerCheckAlive;
     transient protected Timer mTimerReadStatus;
-    transient protected Timer mTimerReadBattStatus;                                //
+    transient protected Timer mTimerReadBattStatus;
     protected String mDirectoryName;
     protected int numBytesToReadFromExpBoard = 0;
     transient ByteArrayOutputStream mByteArrayOutputStream = new ByteArrayOutputStream();
@@ -152,7 +152,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         stopTimerCheckForAckOrResp();
         setInstructionStackLock(false);
 
-        dummyreadSamplingRate(); // it actually acts to clear the write buffer
+        dummyreadSamplingRate();
         readShimmerVersionNew();
     }
 
@@ -188,7 +188,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
         try {
             if (responseCommand == InstructionsResponse.INQUIRY_RESPONSE_VALUE) {
-                delayForBtResponse(500); // Wait to ensure the packet has been fully received
+                delayForBtResponse(500);
                 List<Byte> buffer = new ArrayList<Byte>();
 				/*
 				if (Math.random()>0.5 && mIsInitialised==true){
@@ -205,8 +205,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
 				}
 				*/
 
-                int lengthSettings = 8;// get Sampling rate, accel range, config setup byte0, num chans and buffer size
-                int lengthChannels = 6;// read each channel type for the num channels
+                int lengthSettings = 8;
+                int lengthChannels = 6;
                 if (mShimmerVerObject.isShimmerGen2()) {
                     lengthSettings = 5;
                     lengthChannels = 3;
@@ -242,7 +242,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 }
 
             } else if (responseCommand == InstructionsResponse.FW_VERSION_RESPONSE_VALUE) {
-                delayForBtResponse(200); // Wait to ensure the packet has been fully received
+                delayForBtResponse(200);
                 rxBuf = readBytes(6);
                 int firmwareIdentifier = (int) ((rxBuf[1] & 0xFF) << 8) + (int) (rxBuf[0] & 0xFF);
                 int firmwareVersionMajor = (int) ((rxBuf[3] & 0xFF) << 8) + (int) (rxBuf[2] & 0xFF);
@@ -250,7 +250,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 int firmwareVersionInternal = (int) (rxBuf[5] & 0xFF);
 
                 ShimmerVerObject shimmerVerObject = new ShimmerVerObject(getHardwareVersion(), firmwareIdentifier, firmwareVersionMajor, firmwareVersionMinor, firmwareVersionInternal);
-                this.mShimmerVerObject = shimmerVerObject; // store a local copy
+                this.mShimmerVerObject = shimmerVerObject;
 
                 printLogDataForDebugging("FW Version Response Received. FW Code: " + shimmerVerObject.getFirmwareVersionCode());
                 printLogDataForDebugging("FW Version Response Received: " + shimmerVerObject.getFirmwareVersionParsed());
@@ -268,14 +268,12 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 eventResponseReceived(responseCommand, bufferConfigByte0);
             }
 //
-//
-//
             else if (responseCommand == InstructionsResponse.GET_SHIMMER_VERSION_RESPONSE_VALUE) {
-                delayForBtResponse(100); // Wait to ensure the packet has been fully received
+                delayForBtResponse(100);
                 byte[] bufferShimmerVersion = new byte[1];
                 bufferShimmerVersion = readBytes(1);
 
-                setHardwareVersion((int) bufferShimmerVersion[0]); //Save a local copy
+                setHardwareVersion((int) bufferShimmerVersion[0]);
                 eventResponseReceived(responseCommand, (int) bufferShimmerVersion[0]);
 
 
@@ -283,7 +281,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
                 readFWVersion();
             }
-//
             else if (responseCommand == InstructionsResponse.BLINK_LED_RESPONSE_VALUE) {
                 byte[] byteled = readBytes(1);
                 eventResponseReceived(responseCommand, (int) ((byte) (byteled[0] & 0xFF)));
@@ -292,9 +289,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 int bufferSize = byteled[0] & 0xFF;
                 eventResponseReceived(responseCommand, bufferSize);
             }
-//
             else if (responseCommand == InstructionsResponse.BMP180_CALIBRATION_COEFFICIENTS_RESPONSE_VALUE) {
-                delayForBtResponse(100); // Wait to ensure the packet has been fully received
+                delayForBtResponse(100);
                 byte[] pressureResoRes = new byte[22];
                 pressureResoRes = readBytes(22);
                 byte[] mPressureCalRawParams = new byte[23];
@@ -654,7 +650,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         private void discardFirstBufferByte() {
         byte[] bTemp = mByteArrayOutputStream.toByteArray();
         mByteArrayOutputStream.reset();
-        mByteArrayOutputStream.write(bTemp, 1, bTemp.length - 1); //this will throw the first byte away
+        mByteArrayOutputStream.write(bTemp, 1, bTemp.length - 1);
         mListofPCTimeStamps.remove(0);
         printLogDataForDebugging("Throw Byte" + UtilShimmer.byteToHexStringFormatted(bTemp[0]));
     }
@@ -793,13 +789,13 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
     @Override
     public void readFWVersion() {
-        mDummy = false;//false
+        mDummy = false;
         writeInstruction(InstructionsGet.GET_FW_VERSION_COMMAND_VALUE);
     }
 
     @Override
     public void readShimmerVersionNew() {
-        mDummy = false;//false
+        mDummy = false;
 
         writeInstruction(InstructionsGet.GET_SHIMMER_VERSION_COMMAND_NEW_VALUE);
     }
@@ -859,16 +855,16 @@ public class LiteProtocol extends AbstractCommsProtocol {
     }
 
     @Override
-    public void readCalibrationDump() { //This starts off the read process, request the first block = 128 bytes
+    public void readCalibrationDump() {
         if (this.getFirmwareVersionCode() >= 7) {
-            readMem(InstructionsGet.GET_CALIB_DUMP_COMMAND_VALUE, 0, 128, MAX_CALIB_DUMP_MAX); //some max number
+            readMem(InstructionsGet.GET_CALIB_DUMP_COMMAND_VALUE, 0, 128, MAX_CALIB_DUMP_MAX);
         }
     }
 
     @Override
     public void readCalibrationDump(int address, int size) {
         if (this.getFirmwareVersionCode() >= 7) {
-            readMem(InstructionsGet.GET_CALIB_DUMP_COMMAND_VALUE, address, size, MAX_CALIB_DUMP_MAX); //some max number
+            readMem(InstructionsGet.GET_CALIB_DUMP_COMMAND_VALUE, address, size, MAX_CALIB_DUMP_MAX);
         }
     }
 
@@ -900,12 +896,12 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
     @Override
     protected void readInfoMem(int address, int size) {
-        readMem(InstructionsGet.GET_INFOMEM_COMMAND_VALUE, address, size, 512); //some max number
+        readMem(InstructionsGet.GET_INFOMEM_COMMAND_VALUE, address, size, 512);
     }
 
     @Override
     public void writeInfoMem(int startAddress, byte[] buf) {
-        writeMem(InstructionsSet.SET_INFOMEM_COMMAND_VALUE, startAddress, buf, 512); //some max number
+        writeMem(InstructionsSet.SET_INFOMEM_COMMAND_VALUE, startAddress, buf, 512);
         writeUpdateConfigMemory();
     }
 
@@ -950,14 +946,14 @@ public class LiteProtocol extends AbstractCommsProtocol {
         stopAllTimers();
 
         getListofInstructions().clear();
-        while (getListofInstructions().size() > 0) ; //TODO add timeout
+        while (getListofInstructions().size() > 0) ;
         setInstructionStackLock(true);
         mOperationUnderway = true;
     }
 
         public void operationWaitForFinish() {
         setInstructionStackLock(false);
-        while (getListofInstructions().size() > 0) ; //TODO add timeout
+        while (getListofInstructions().size() > 0) ;
     }
 
 
@@ -998,12 +994,10 @@ public class LiteProtocol extends AbstractCommsProtocol {
             readRealTimeClock();
         }
 
-        stopTimerReadStatus(); // if shimmer is using LogAndStream FW, stop reading its status perdiocally
+        stopTimerReadStatus();
 
         mProtocolListener.initialiseStreamingCallback();
         System.out.println("initialiseStreamingCallback:\tRETURNED");
-
-//
     }
 
     @Override
@@ -1121,7 +1115,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
         if ((currentCommand & 0xFF) == InstructionsGet.GET_FW_VERSION_COMMAND_VALUE) {
             mFirstTime = false;
-//
 //
         } else if ((currentCommand & 0xFF) == InstructionsGet.GET_SAMPLING_RATE_COMMAND_VALUE && !isInitialised()) {
             mFirstTime = false;
@@ -1247,7 +1240,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
     @Override
     public void readStatusLogAndStream() {
         if ((getShimmerVersion() == HW_ID.SHIMMER_3 && getFirmwareIdentifier() == FW_ID.LOGANDSTREAM)
-                || (getShimmerVersion() == HW_ID.SHIMMER_4_SDK && getFirmwareIdentifier() == FW_ID.SHIMMER4_SDK_STOCK)) { // check if Shimmer is using LogAndStream firmware
+                || (getShimmerVersion() == HW_ID.SHIMMER_4_SDK && getFirmwareIdentifier() == FW_ID.SHIMMER4_SDK_STOCK)) {
             writeInstruction(InstructionsGet.GET_STATUS_COMMAND_VALUE);
             printLogDataForDebugging("Instruction added to th e list");
         }
@@ -1262,7 +1255,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
     public void inquiry() {
         writeInstruction(InstructionsGet.INQUIRY_COMMAND_VALUE);
     }
-
 //
 //
 //
@@ -1273,18 +1265,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//				
-//				
 //
 //
 
@@ -1308,8 +1288,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
      */
     @Override
     public void writeEnabledSensors(long enabledSensors) {
-
-//
 
         byte secondByte = (byte) ((enabledSensors & 0xFF00) >> 8);
         byte firstByte = (byte) (enabledSensors & 0xFF);
@@ -1550,7 +1528,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 printLogDataForDebugging("readbyte null");
             }
 
-            if (mByteArrayOutputStream.size() >= mPacketSize + 2) { // +2 because there are two acks
+            if (mByteArrayOutputStream.size() >= mPacketSize + 2) {
                 processPacket();
             }
         }
@@ -1574,7 +1552,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                         clearSingleDataPacketFromBuffers(bufferTemp, mPacketSize + 2);
 
                         if (isKnownSetCommand(mCurrentCommand)) {
-                            stopTimerCheckForAckOrResp(); //cancel the ack timer
+                            stopTimerCheckForAckOrResp();
                             mWaitForAck = false;
 
                             processAckFromSetCommandAndInstructions(((int) mCurrentCommand) & 0xFF);
@@ -1593,7 +1571,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                         printLogDataForDebugging("COMMAND TXed and ACK RECEIVED IN STREAM");
                         printLogDataForDebugging("INS CMD RESP");
 
-                        stopTimerCheckForAckOrResp(); //cancel the ack timer
+                        stopTimerCheckForAckOrResp();
                         mWaitForResponse = false;
                         mWaitForAck = false;
 
@@ -1614,13 +1592,13 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 }
                 if (mByteArrayOutputStream.size() > mPacketSize + 2) {
                     printLogDataForDebugging("Unknown packet error (check with JC):\tExpected: " + (mPacketSize + 2) + "bytes but buffer contains " + mByteArrayOutputStream.size() + "bytes");
-                    discardFirstBufferByte(); //throw the first byte away
+                    discardFirstBufferByte();
                 }
 
             }
             else {
                 printLogDataForDebugging("Packet syncing problem, could not lock on to data steam. \nExpected: " + (mPacketSize + 2) + "bytes. Buffer contains " + mByteArrayOutputStream.size() + "bytes\n" + UtilShimmer.bytesToHexStringWithSpacesFormatted(mByteArrayOutputStream.toByteArray()));
-                discardFirstBufferByte(); //throw the first byte away
+                discardFirstBufferByte();
             }
         }
 
@@ -1647,13 +1625,13 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 mIamAlive = true;
 
                 if (mCurrentCommand == InstructionsSet.STOP_STREAMING_COMMAND_VALUE
-                        || mCurrentCommand == InstructionsSet.STOP_SDBT_COMMAND_VALUE) { //due to not receiving the ack from stop streaming command we will skip looking for it.
+                        || mCurrentCommand == InstructionsSet.STOP_SDBT_COMMAND_VALUE) {
                     stopTimerCheckForAckOrResp();
                     setIsStreaming(false);
                     mTransactionCompleted = true;
                     mWaitForAck = false;
 
-                    delayForBtResponse(200); // Wait to ensure the packet has been fully received
+                    delayForBtResponse(200);
                     byteStack.clear();
 
                     clearSerialBuffer();
@@ -1666,8 +1644,6 @@ public class LiteProtocol extends AbstractCommsProtocol {
                     }
                     setInstructionStackLock(false);
                 }
-//
-//
 //
 
                 if (byteBuffer != null) {
@@ -1684,7 +1660,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                         }
 
                         if (isKnownSetCommand(mCurrentCommand)) {
-                            stopTimerCheckForAckOrResp(); //cancel the ack timer
+                            stopTimerCheckForAckOrResp();
 
                             if (!mUseShimmerBluetoothApproach) {
                             }
@@ -1710,7 +1686,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 clearSerialBuffer();
 
 
-                stopTimerCheckForAckOrResp(); //cancel the ack timer
+                stopTimerCheckForAckOrResp();
                 mWaitForResponse = false;
                 mTransactionCompleted = true;
                 setInstructionStackLock(false);
@@ -1726,7 +1702,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
                         processResponseCommand(((int) responseCommand) & 0xFF);
                     } else {
                     }
-                    stopTimerCheckForAckOrResp(); //cancel the ack timer
+                    stopTimerCheckForAckOrResp();
                     mWaitForResponse = false;
                     mTransactionCompleted = true;
                     setInstructionStackLock(false);
@@ -1782,15 +1758,15 @@ public class LiteProtocol extends AbstractCommsProtocol {
             }
             if (mWaitForResponse) {
                 printLogDataForDebugging("Response not received");
-                sendStatusMSGtoUI("Response not received, please reset Shimmer Device." + mMyBluetoothAddress); //Android?
+                sendStatusMSGtoUI("Response not received, please reset Shimmer Device." + mMyBluetoothAddress);
             }
 
             processCheckForAckOrRespPerCmd(mCurrentCommand);
 
             if (isStreaming()) {
-                stopTimerCheckForAckOrResp(); //Terminate the timer thread
+                stopTimerCheckForAckOrResp();
                 mWaitForAck = false;
-                mTransactionCompleted = true; //should be false, so the driver will know that the command has to be executed again, this is not supported at the moment
+                mTransactionCompleted = true;
                 setInstructionStackLock(false);
                 getListofInstructions().clear();
             } else if (storedFirstTime == 0) {
@@ -1799,18 +1775,18 @@ public class LiteProtocol extends AbstractCommsProtocol {
                     if (bytesAvailableToBeRead()) {
                         readBytes(availableBytes());
                     }
-                    stopTimerCheckForAckOrResp(); //Terminate the timer thread
+                    stopTimerCheckForAckOrResp();
                     printLogDataForDebugging("RETRY TX COUNT: " + Integer.toString(mNumberofTXRetriesCount));
                     if (mNumberofTXRetriesCount >= NUMBER_OF_TX_RETRIES_LIMIT
                             && mCurrentCommand != InstructionsGet.GET_SHIMMER_VERSION_COMMAND_NEW_VALUE
                             && !isInitialised()) {
-                        killConnection("Reached number of TX retries = " + NUMBER_OF_TX_RETRIES_LIMIT); //If command fail exit device
+                        killConnection("Reached number of TX retries = " + NUMBER_OF_TX_RETRIES_LIMIT);
                     } else if (mNumberofTXRetriesCount >= NUMBER_OF_TX_RETRIES_LIMIT && isInitialised()) {
-                        killConnection("Reached number of TX retries = " + NUMBER_OF_TX_RETRIES_LIMIT); //If command fail exit device
+                        killConnection("Reached number of TX retries = " + NUMBER_OF_TX_RETRIES_LIMIT);
                     } else {
                         mWaitForAck = false;
                         mWaitForResponse = false;
-                        mTransactionCompleted = true; //should be false, so the driver will know that the command has to be executed again, this is not supported at the moment
+                        mTransactionCompleted = true;
                         setInstructionStackLock(false);
                         startTimerCheckForAckOrResp(ACK_TIMER_DURATION + 3);
                     }
@@ -1820,9 +1796,9 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
                 mNumberofTXRetriesCount++;
             }
-        } //End Run
+        }
 
-    } //End TimerTask
+    }
 
         public class readStatusTask extends TimerTask {
 
@@ -1867,19 +1843,19 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 }
 
                 if (mCountDeadConnection > 5) {
-                    killConnection("Keep Alive timer dead connection count > 5"); //If command fail exit device
+                    killConnection("Keep Alive timer dead connection count > 5");
                 }
             }
-        } //End Run
-    } //End TimerTask
+        }
+    }
 
         private class readBattStatusTask extends TimerTask {
         @Override
         public void run() {
             printLogDataForDebugging("Read Batt Task");
             readBattery();
-        } //End Run
-    } //End TimerTask
+        }
+    }
 
 
 

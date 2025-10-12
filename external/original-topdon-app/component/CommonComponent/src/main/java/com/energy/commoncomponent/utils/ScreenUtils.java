@@ -127,7 +127,7 @@ public class ScreenUtils {
     }
 
         public static float getScreenDendity(Context context) {
-        return context.getResources().getDisplayMetrics().density;//3
+        return context.getResources().getDisplayMetrics().density;
     }
 
         public static Dialog showNormalDialog(Context context, String info, PopupWindow.OnDismissListener dismissListener) {

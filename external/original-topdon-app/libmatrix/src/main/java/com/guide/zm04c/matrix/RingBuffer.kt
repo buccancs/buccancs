@@ -23,7 +23,6 @@ class RingBuffer {
         synchronized(this) {
             head = (mReadPositon + mUnReadLength) % byteArray.size
             toEnd = byteArray.size - head
-            // if the request exceeds the free space, write as much as possible
             toWrite = Math.min(length, byteArray.size - mUnReadLength)
         }
         if (toWrite > 0) {
@@ -42,7 +41,6 @@ class RingBuffer {
         var toRead: Int
         synchronized(this) {
             toEnd = byteArray.size - mReadPositon
-            // if the request exceeds the available data, read as much as is available
             toRead = Math.min(length, mUnReadLength)
         }
         if (toRead > toEnd) {

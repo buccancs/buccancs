@@ -97,7 +97,6 @@ public class UtilCalibration {
         g = data[2][0];
         h = data[2][1];
         i = data[2][2];
-        //
         double deter = a * e * i + b * f * g + c * d * h - c * e * g - b * d * i - a * f * h;
         double[][] answer = new double[3][3];
         answer[0][0] = (1 / deter) * (e * i - f * h);
@@ -126,8 +125,8 @@ public class UtilCalibration {
             throw new IllegalArgumentException(" Matrix did not match");
         }
         double[][] resultant = new double[aRows][bColumns];
-        for (int i = 0; i < aRows; i++) { // aRow
-            for (int k = 0; k < aColumns; k++) { // aColumn
+        for (int i = 0; i < aRows; i++) {
+            for (int k = 0; k < aColumns; k++) {
 
                 resultant[i][k] = a[i][k] - b[i][k];
 
@@ -152,9 +151,9 @@ public class UtilCalibration {
 
         double[][] resultant = new double[aRows][bColumns];
 
-        for (int i = 0; i < aRows; i++) { // aRow
-            for (int j = 0; j < bColumns; j++) { // bColumn
-                for (int k = 0; k < aColumns; k++) { // aColumn
+        for (int i = 0; i < aRows; i++) {
+            for (int j = 0; j < bColumns; j++) {
+                for (int k = 0; k < aColumns; k++) {
                     resultant[i][j] += a[i][k] * b[k][j];
                 }
             }

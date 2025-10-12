@@ -10,21 +10,21 @@ public class ShimmerSDCardDetails implements Serializable {
     public static final long DRIVE_SPACE_USED_CHANGE_TIMEOUT_MS = 30000;
     private static final long serialVersionUID = -3210542276033436303L;
     public long mDriveUsedSpaceLastTimeChanged = 0;
-    protected long mDriveTotalSpaceBytes = 0; //total disk space in bytes.
+    protected long mDriveTotalSpaceBytes = 0;
     protected long mDriveUsableSpaceBytes = 0;
     protected long mDriveFreeSpaceBytes = 0; //unallocated / free disk space in bytes.
     protected long mDriveUsedSpaceBytes = 0;
     protected boolean mFirstSdAccess = true;
     protected boolean mIsSDPresent = true;
     protected boolean mIsSDError = false;
-    protected boolean mIsSDLogging = false;                                            // This is used to monitor whether the device is in sd log mode
+    protected boolean mIsSDLogging = false;
 
     public ShimmerSDCardDetails() {
 
     }
 
     public ShimmerSDCardDetails(File drivePath) {
-        setDriveUsedSpaceTotal(drivePath.getTotalSpace()); //total disk space in bytes.
+        setDriveUsedSpaceTotal(drivePath.getTotalSpace());
         mDriveUsableSpaceBytes = drivePath.getUsableSpace(); ///unallocated / free disk space in bytes.
         mDriveFreeSpaceBytes = drivePath.getFreeSpace(); //unallocated / free disk space in bytes.
         updateDriveUsedSpace();

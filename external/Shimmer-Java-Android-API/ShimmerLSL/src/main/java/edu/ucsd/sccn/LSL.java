@@ -1089,7 +1089,7 @@ public class LSL {
 
 
         public static class ContinuousResolver {
-        private Pointer obj; // the underlying native handle
+        private Pointer obj;
 
                 public ContinuousResolver(double forget_after) {
             obj = inst.lsl_create_continuous_resolver(forget_after);

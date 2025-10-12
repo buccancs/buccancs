@@ -29,8 +29,8 @@ public class ShimmerCrc {
         }
 
         byte[] crcCalcArray = new byte[2];
-        crcCalcArray[0] = (byte) (crcCalc & 0xFF);  // CRC LSB
-        crcCalcArray[1] = (byte) ((crcCalc >> 8) & 0xFF); // CRC MSB
+        crcCalcArray[0] = (byte) (crcCalc & 0xFF);
+        crcCalcArray[1] = (byte) ((crcCalc >> 8) & 0xFF);
 
         return crcCalcArray;
     }

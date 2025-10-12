@@ -133,7 +133,7 @@ public class ShimmerVerObject implements Serializable {
                 return entry.getKey();
             }
         }
-        return HW_ID.UNKNOWN; // Return null if no match is found
+        return HW_ID.UNKNOWN;
     }
 
     public static boolean isSupportedMpl(ShimmerVerObject svo, int hwVer, int fwId) {

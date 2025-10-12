@@ -16,7 +16,7 @@ public class ShimmerException extends ExecutionException {
     public String mComPort;
     public String mClassName;
     public String mUniqueID;
-        public String mMessage = ""; // Currently used for SD copy fail messages
+        public String mMessage = "";
         public String mExceptionMsg = "";
         public StackTraceElement[] mExceptionStackTrace;
         public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;

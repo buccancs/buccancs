@@ -46,7 +46,6 @@ class ChartMonitorView : LineChart, OnChartGestureListener {
     private val textColor by lazy { ContextCompat.getColor(context, R.color.chart_text) }
     private val axisChartColors by lazy { ContextCompat.getColor(context, R.color.chart_axis) }
     private val axisLine by lazy { ContextCompat.getColor(context, R.color.circle_white) }
-    //MPChart
     private fun initChart() {
         synchronized(this) {
             this.setTouchEnabled(true)

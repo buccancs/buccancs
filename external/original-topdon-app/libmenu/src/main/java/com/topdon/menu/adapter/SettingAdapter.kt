@@ -84,9 +84,6 @@ internal class SettingAdapter(menuType: MenuType = MenuType.SINGLE_LIGHT, isObse
         }
         holder.binding.tvText.isSelected = data.isSelected
         holder.binding.clRoot.setOnClickListener {
-            //            data.isSelected = !data.isSelected
-//            holder.binding.ivIcon.isSelected = data.isSelected
-//            holder.binding.tvText.isSelected = data.isSelected
             onSettingListener?.invoke(data.settingType, data.isSelected)
         }
     }

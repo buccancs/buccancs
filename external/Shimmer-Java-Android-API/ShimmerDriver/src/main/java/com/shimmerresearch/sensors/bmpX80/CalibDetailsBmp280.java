@@ -113,23 +113,23 @@ public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
 
         double[] caldata = new double[2];
         caldata[0] = p;
-        caldata[1] = T;///10; // TODO divided by 10 in BMP180, needed here?
+        caldata[1] = T;///10;
         return caldata;
     }
 
     private static final class DEFAULT_COMPENSATION_VALUES {
-        public static double DIG_T1 = 27504;        // unsigned short
-        public static double DIG_T2 = 26435;        // signed short
-        public static double DIG_T3 = -1000;        // signed short
-        public static double DIG_P1 = 36477;        // unsigned short
-        public static double DIG_P2 = -10685;        // signed short
-        public static double DIG_P3 = 3024;            // signed short
-        public static double DIG_P4 = 2855;            // signed short
-        public static double DIG_P5 = 140;            // signed short
-        public static double DIG_P6 = -7;            // signed short
-        public static double DIG_P7 = 15500;        // signed short
-        public static double DIG_P8 = -14600;        // signed short
-        public static double DIG_P9 = 6000;            // signed short
+        public static double DIG_T1 = 27504;
+        public static double DIG_T2 = 26435;
+        public static double DIG_T3 = -1000;
+        public static double DIG_P1 = 36477;
+        public static double DIG_P2 = -10685;
+        public static double DIG_P3 = 3024;
+        public static double DIG_P4 = 2855;
+        public static double DIG_P5 = 140;
+        public static double DIG_P6 = -7;
+        public static double DIG_P7 = 15500;
+        public static double DIG_P8 = -14600;
+        public static double DIG_P9 = 6000;
     }
 
 }

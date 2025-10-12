@@ -31,7 +31,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
     }
 
 
-    @Test    //test Shimmer 2R connection
+    @Test
     public void testAConnect() {
         if (shimmer.isConnected()) {
             assert (true);
@@ -41,7 +41,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
     }
 
 
-    @Test    //get hardware version of Shimmer 2R
+    @Test
     public void testBGetHW() {
         if (shimmer.getHardwareVersion() == HW_ID.SHIMMER_2R) {
             assert (true);
@@ -51,7 +51,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
     }
 
 
-    @Test    //get firmware version of Shimmer 2R
+    @Test
     public void testCGetFW() {
         if (shimmer.getFirmwareIdentifier() == FW_ID.BTSTREAM) {
             assert (true);
@@ -61,7 +61,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
     }
 
 
-    @Test    //write and read sampling rate of the hardware
+    @Test
     public void testDWriteReadSamplingRate() throws Exception {
         double samplingrate;
         shimmer.readSamplingRate();
@@ -85,7 +85,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
     }
 
 
-    @Test    //test Shimmer 2R start streaming
+    @Test
     public void testEStartStreaming() throws Exception {
         shimmer.startStreaming();
         Thread.sleep(DELAY_DURATION_MS);
@@ -96,7 +96,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
         }
     }
 
-    @Test    //test Shimmer 2R stop streaming
+    @Test
     public void testFStopStreaming() throws Exception {
         shimmer.stopStreaming();
         Thread.sleep(DELAY_DURATION_MS);
@@ -108,7 +108,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
     }
 
 
-    @Test    //test for multiple start and stop streaming
+    @Test
     public void testGMultipleStartStopStreaming() throws Exception {
         for (double i = 1; i < 8; i++) {
 
@@ -134,7 +134,7 @@ public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {
     }
 
 
-    @Test    //test Shimmer 2R disconnection
+    @Test
     public void testHDisconnect() {
         try {
             shimmer.disconnect();

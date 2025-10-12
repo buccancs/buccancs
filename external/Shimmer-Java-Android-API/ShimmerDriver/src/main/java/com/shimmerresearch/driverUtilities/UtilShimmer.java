@@ -396,9 +396,9 @@ public class UtilShimmer implements Serializable {
                     return false;
                 }
             }
-            return true; // All bytes match
+            return true;
         }
-        return false; // The array is too short to contain the target value
+        return false;
     }
 
         public static boolean compareVersions(int thisMajor, int thisMinor, int thisInternal,
@@ -407,9 +407,9 @@ public class UtilShimmer implements Serializable {
         if ((thisMajor > compMajor)
                 || (thisMajor == compMajor && thisMinor > compMinor)
                 || (thisMajor == compMajor && thisMinor == compMinor && thisInternal >= compInternal)) {
-            return true; // if FW ID is the same and version is greater or equal
+            return true;
         }
-        return false; // if less or not the same FW ID
+        return false;
     }
 
         public static boolean compareVersions(String thisMajor, String thisMinor, String thisInternal,
@@ -426,7 +426,7 @@ public class UtilShimmer implements Serializable {
 
     public static String convertDuration(int duration) {
 
-        double totalSecs = duration / 1000; //convert from miliseconds to seconds
+        double totalSecs = duration / 1000;
         int hours = (int) (totalSecs / 3600);
         int minutes = (int) ((totalSecs % 3600) / 60);
         int seconds = (int) (totalSecs % 60);
@@ -551,25 +551,25 @@ public class UtilShimmer implements Serializable {
 
         public static byte[] convertMilliSecondsToShimmerRtcDataBytesLSB(long milliseconds) {
         byte[] rtcTimeArray = convertMilliSecondsToShimmerRtcDataBytesMSB(milliseconds);
-        ArrayUtils.reverse(rtcTimeArray); // Big-endian by default
+        ArrayUtils.reverse(rtcTimeArray);
         return rtcTimeArray;
     }
 
         public static byte[] convertMilliSecondsToShimmerRtcDataBytesMSB(long milliseconds) {
-        long milisecondTicks = (long) (((double) milliseconds) * 32.768); // Convert miliseconds to clock ticks
+        long milisecondTicks = (long) (((double) milliseconds) * 32.768);
         byte[] rtcTimeArray = ByteBuffer.allocate(8).putLong(milisecondTicks).array();
         return rtcTimeArray;
     }
 
         public static long convertShimmerRtcDataBytesToMilliSecondsLSB(byte[] rtcTimeArray) {
-        byte[] reversedArray = ArrayUtils.addAll(rtcTimeArray, null); //Create a clone
-        ArrayUtils.reverse(reversedArray); // Big-endian by default
+        byte[] reversedArray = ArrayUtils.addAll(rtcTimeArray, null);
+        ArrayUtils.reverse(reversedArray);
         return convertShimmerRtcDataBytesToMilliSecondsMSB(reversedArray);
     }
 
         public static long convertShimmerRtcDataBytesToMilliSecondsMSB(byte[] rtcTimeArray) {
         long timeWrapped = ByteBuffer.wrap(rtcTimeArray).getLong();
-        long milisecondTicks = (long) ((((double) timeWrapped) / 32.768));  // Convert clock ticks to milliseconds
+        long milisecondTicks = (long) ((((double) timeWrapped) / 32.768));
         return milisecondTicks;
     }
 
@@ -865,7 +865,7 @@ public class UtilShimmer implements Serializable {
     public static String formatDoubleToNdecimalPlaces(double doubleToFormat, int n) {
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) { //number of digits to right hand side of decimal point
+        for (int i = 0; i < n; i++) {
             sb.append("0");
         }
 
@@ -874,9 +874,9 @@ public class UtilShimmer implements Serializable {
 
         int index = formatted.indexOf(".");
 
-        if (index == 0) { // left pad with zero if required e.g .34 -> 0.34
+        if (index == 0) {
             formatted = "0" + formatted;
-        } else if (formatted.charAt(index - 1) == '-') { // left pad with zero if required e.g -.34 -> -0.34
+        } else if (formatted.charAt(index - 1) == '-') {
             formatted = new StringBuilder(formatted).insert(1, "0").toString();
         }
         return formatted;
@@ -1053,8 +1053,6 @@ public class UtilShimmer implements Serializable {
                 + ":" + String.format("%02d", rightNow.get(Calendar.SECOND))
                 + ":" + String.format("%03d", rightNow.get(Calendar.MILLISECOND)) + "]";
         return (rightNowString + " " + mParentClassName + ": ");
-
-//
 //
     }
 
@@ -1159,7 +1157,5 @@ public class UtilShimmer implements Serializable {
 
         public static final int[] colourLightRed = new int[]{255, 0, 0};
     }
-
-//
 
 }

@@ -177,10 +177,6 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setCurrentSensitivityMatrix(UtilShimmer.deepCopyDoubleMatrix(mDefaultCalibration.mSensitivityMatrix), true);
         setCurrentAlignmentMatrix(UtilShimmer.deepCopyDoubleMatrix(mDefaultCalibration.mAlignmentMatrix), true);
     }
-
-//
-//
-//
 //
 //
     public boolean isCurrentValuesSet() {
@@ -196,7 +192,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
 
         public boolean isSensitivityWithinRangeOfDefault() {
         boolean isValid = true;
-        double validScalingFactor = 0.75; // +-75% = Aribitrary value
+        double validScalingFactor = 0.75;
 
         double[][] defaultSensitivityMatrix = getDefaultSensitivityMatrix();
         double[][] currentSensitivityMatrix = getValidSensitivityMatrix();
@@ -559,21 +555,21 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
     }
 
     public class CALIB_KINEMATIC_PARAM {
-        public static final String OFFSET_B0 = "b0"; //called x elsewhere?
-        public static final String OFFSET_B1 = "b1"; //called y elsewhere?
-        public static final String OFFSET_B2 = "b2"; //called z elsewhere?
-        public static final String SENSITIVITY_K0 = "k0"; //called x elsewhere?
-        public static final String SENSITIVITY_K1 = "k1"; //called y elsewhere?
-        public static final String SENSITIVITY_K2 = "k2"; //called z elsewhere?
-        public static final String ALIGNMENT_R00 = "r00"; //called XX elsewhere?
-        public static final String ALIGNMENT_R01 = "r01"; //called XY elsewhere?
-        public static final String ALIGNMENT_R02 = "r02"; //called XZ elsewhere?
-        public static final String ALIGNMENT_R10 = "r10"; //called YX elsewhere?
-        public static final String ALIGNMENT_R11 = "r11"; //called YY elsewhere?
-        public static final String ALIGNMENT_R12 = "r12"; //called YZ elsewhere?
-        public static final String ALIGNMENT_R20 = "r20"; //called ZX elsewhere?
-        public static final String ALIGNMENT_R21 = "r21"; //called ZY elsewhere?
-        public static final String ALIGNMENT_R22 = "r22"; //called ZZ elsewhere?
+        public static final String OFFSET_B0 = "b0";
+        public static final String OFFSET_B1 = "b1";
+        public static final String OFFSET_B2 = "b2";
+        public static final String SENSITIVITY_K0 = "k0";
+        public static final String SENSITIVITY_K1 = "k1";
+        public static final String SENSITIVITY_K2 = "k2";
+        public static final String ALIGNMENT_R00 = "r00";
+        public static final String ALIGNMENT_R01 = "r01";
+        public static final String ALIGNMENT_R02 = "r02";
+        public static final String ALIGNMENT_R10 = "r10";
+        public static final String ALIGNMENT_R11 = "r11";
+        public static final String ALIGNMENT_R12 = "r12";
+        public static final String ALIGNMENT_R20 = "r20";
+        public static final String ALIGNMENT_R21 = "r21";
+        public static final String ALIGNMENT_R22 = "r22";
     }
 
 }

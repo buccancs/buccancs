@@ -21,7 +21,7 @@ public class ChannelDetails implements Serializable {
     public CHANNEL_DATA_TYPE mDefaultChannelDataType = CHANNEL_DATA_TYPE.UNKOWN;
     public CHANNEL_DATA_ENDIAN mDefaultChannelDataEndian = CHANNEL_DATA_ENDIAN.UNKOWN;
     public String mDefaultUncalUnit = CHANNEL_UNITS.NO_UNITS;
-    public String mDefaultCalUnits = CHANNEL_UNITS.NO_UNITS; //deprecate this?
+    public String mDefaultCalUnits = CHANNEL_UNITS.NO_UNITS;
         public CHANNEL_TYPE mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
     public List<CHANNEL_TYPE> mListOfChannelTypes = new ArrayList<CHANNEL_TYPE>();
     public boolean mShowWhileStreaming = true;

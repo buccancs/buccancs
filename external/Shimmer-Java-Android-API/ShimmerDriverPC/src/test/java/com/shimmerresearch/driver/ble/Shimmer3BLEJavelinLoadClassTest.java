@@ -9,7 +9,7 @@ import java.net.URLClassLoader;
 
 public class Shimmer3BLEJavelinLoadClassTest {
     public static Shimmer3BLEJavelinLoadClassTest s_t;
-    static byte[] l_bytes = {0x3F};//hwid
+    static byte[] l_bytes = {0x3F};
     static byte[] t_bytes = {0x06};
     static String l_device = "BluetoothLE#BluetoothLE8c:b8:7e:0b:48:2e-e8:eb:1b:93:68:dd";
     static String l_name = "";
@@ -79,7 +79,7 @@ public class Shimmer3BLEJavelinLoadClassTest {
         try {
 
 
-            String dllPath = "libs/javelin.dll"; // Replace with the actual relative path
+            String dllPath = "libs/javelin.dll";
 
 
 

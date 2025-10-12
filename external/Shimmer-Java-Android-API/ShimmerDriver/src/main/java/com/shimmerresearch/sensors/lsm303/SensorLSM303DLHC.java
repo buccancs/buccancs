@@ -91,7 +91,7 @@ public class SensorLSM303DLHC extends SensorLSM303 {
     public static final Integer[] ListofLSM303AccelRangeConfigValues = {0, 1, 2, 3};
     public static final String[] ListofLSM303DLHCAccelRateHr = {"Power-down", "1.0Hz", "10.0Hz", "25.0Hz", "50.0Hz", "100.0Hz", "200.0Hz", "400.0Hz", "1344.0Hz"};
     public static final Integer[] ListofLSM303DLHCAccelRateHrConfigValues = {0, 1, 2, 3, 4, 5, 6, 7, 9};
-    public static final String[] ListofLSM303DLHCAccelRateLpm = {"Power-down", "1.0Hz", "10.0Hz", "25.0Hz", "50.0Hz", "100.0Hz", "200.0Hz", "400.0Hz", "1620.0Hz", "5376.0Hz"}; // 1620Hz and 5376Hz are only available in low-power mode
+    public static final String[] ListofLSM303DLHCAccelRateLpm = {"Power-down", "1.0Hz", "10.0Hz", "25.0Hz", "50.0Hz", "100.0Hz", "200.0Hz", "400.0Hz", "1620.0Hz", "5376.0Hz"};
     public static final Integer[] ListofLSM303DLHCAccelRateLpmConfigValues = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     public static final ConfigOptionDetailsSensor configOptionAccelRange = new ConfigOptionDetailsSensor(
             SensorLSM303.GuiLabelConfig.LSM303_ACCEL_RANGE,
@@ -139,8 +139,8 @@ public class SensorLSM303DLHC extends SensorLSM303 {
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.CHECKBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
     public static final SensorDetailsRef sensorLSM303DLHCAccel = new SensorDetailsRef(
-            0x10 << 8, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
-            0x10 << 8, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
+            0x10 << 8,
+            0x10 << 8,
             GuiLabelSensors.ACCEL_WR,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW,
             Arrays.asList(GuiLabelConfig.LSM303_ACCEL_RANGE,
@@ -149,8 +149,8 @@ public class SensorLSM303DLHC extends SensorLSM303 {
                     ObjectClusterSensorName.ACCEL_WR_Y,
                     ObjectClusterSensorName.ACCEL_WR_Z));
     public static final SensorDetailsRef sensorLSM303DLHCMag = new SensorDetailsRef(
-            0x20, //== Configuration.Shimmer3.SensorBitmap.SENSOR_MAG will be: SensorBitmap.SENSOR_MAG,
-            0x20, //== Configuration.Shimmer3.SensorBitmap.SENSOR_MAG will be: SensorBitmap.SENSOR_MAG,
+            0x20,
+            0x20,
             GuiLabelSensors.MAG,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW,
             Arrays.asList(GuiLabelConfig.LSM303_MAG_RANGE,
@@ -363,50 +363,50 @@ public class SensorLSM303DLHC extends SensorLSM303 {
 
 
         public static int getAccelRateFromFreq(boolean isEnabled, double freq, boolean isLowPowerMode) {
-        int accelRate = 0; // Power down
+        int accelRate = 0;
 
         if (isEnabled) {
             if (freq <= 1) {
-                accelRate = 1; // 1Hz
+                accelRate = 1;
             } else if (freq <= 10 || isLowPowerMode) { // 'Low-power mode' max is 10 - Shimmer defined
-                accelRate = 2; // 10Hz
+                accelRate = 2;
             } else if (freq <= 25) {
-                accelRate = 3; // 25Hz
+                accelRate = 3;
             } else if (freq <= 50) {
-                accelRate = 4; // 50Hz
+                accelRate = 4;
             } else if (freq <= 100) {
-                accelRate = 5; // 100Hz
+                accelRate = 5;
             } else if (freq <= 200) {
-                accelRate = 6; // 200Hz
+                accelRate = 6;
             } else if (freq <= 400) {
-                accelRate = 7; // 400Hz
+                accelRate = 7;
             } else {
-                accelRate = 9; // 1344Hz
+                accelRate = 9;
             }
         }
         return accelRate;
     }
 
     public static int getMagRateFromFreq(boolean isEnabled, double freq, boolean isLowPowerMode) {
-        int magRate = 0; // 0.75Hz
+        int magRate = 0;
 
         if (isEnabled) {
             if (freq <= 0.75) {
-                magRate = 0; // 0.75Hz
+                magRate = 0;
             } else if (freq <= 1) {
-                magRate = 1; // 1.5Hz
+                magRate = 1;
             } else if (freq <= 3) {
-                magRate = 2; // 3Hz
+                magRate = 2;
             } else if (freq <= 7.5) {
-                magRate = 3; // 7.5Hz
+                magRate = 3;
             } else if (freq <= 15 || isLowPowerMode) { // 'Low-power mode' max is 15 - Shimmer defined
-                magRate = 4; // 15Hz
+                magRate = 4;
             } else if (freq <= 30) {
-                magRate = 5; // 30Hz
+                magRate = 5;
             } else if (freq <= 75) {
-                magRate = 6; // 75Hz
+                magRate = 6;
             } else {
-                magRate = 7; // 220Hz
+                magRate = 7;
             }
         }
         return magRate;
@@ -455,10 +455,6 @@ public class SensorLSM303DLHC extends SensorLSM303 {
     public ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType) {
         ActionSetting actionsetting = new ActionSetting(commType);
 
-
-//
-
-//
 //
 
         return actionsetting;
@@ -591,7 +587,7 @@ public class SensorLSM303DLHC extends SensorLSM303 {
 
     @Override
     public boolean checkLowPowerMag() {
-        setLowPowerMag((getLSM303MagRate() <= 4) ? true : false); // <=15Hz
+        setLowPowerMag((getLSM303MagRate() <= 4) ? true : false);
         return isLowPowerMagEnabled();
     }
 

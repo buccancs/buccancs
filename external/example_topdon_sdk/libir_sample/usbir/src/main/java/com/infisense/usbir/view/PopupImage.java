@@ -47,12 +47,10 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         this.mContext = context;
         this.onRotateListener = onRotateListener;
         imageBinding = LayoutImageBinding.inflate(LayoutInflater.from(context));
-        //
         TNRArrayAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, TNRArray);
         SNRArrayAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, SNRArray);
         DDEArrayAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, DDEArray);
         AGCArrayAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, AGCArray);
-        //
         imageBinding.TNR.setAdapter(TNRArrayAdapter);
         imageBinding.SNR.setAdapter(SNRArrayAdapter);
         imageBinding.DDE.setAdapter(DDEArrayAdapter);
@@ -112,7 +110,7 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
                     case R.id.setagc: {
                         String MAXGAINStr = imageBinding.MAXGAIN.getText().toString().trim();
                         if (MAXGAINStr.length() != 0) {
-                            ircmd.getDeviceInfo(CommonParams.DeviceInfoType.DEV_INFO_PROJECT_INFO, PROJECT_INFO); //ok
+                            ircmd.getDeviceInfo(CommonParams.DeviceInfoType.DEV_INFO_PROJECT_INFO, PROJECT_INFO);
                             ircmd.setPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_MAX_GAIN,
                                     new CommonParams.PropImageParamsValue.NumberType(MAXGAINStr));
                         }
@@ -170,7 +168,7 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setOnDismissListener(dismissListener);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000)); // 解决 7.0 手机，点击外部不消失
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         imageBinding.getRoot().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -364,27 +362,22 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
 
         private void getImageParam() {
         int[] mode = new int[1];
-        //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_TNR, mode);
         imageBinding.TNR.setOnItemSelectedListener(null);
         imageBinding.TNR.setSelection(mode[0], true);
         imageBinding.TNR.setOnItemSelectedListener(this);
-        //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_SNR, mode);
         imageBinding.SNR.setOnItemSelectedListener(null);
         imageBinding.SNR.setSelection(mode[0], true);
         imageBinding.SNR.setOnItemSelectedListener(this);
-        //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_DDE, mode);
         imageBinding.DDE.setOnItemSelectedListener(null);
         imageBinding.DDE.setSelection(mode[0], true);
         imageBinding.DDE.setOnItemSelectedListener(this);
-        //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_MODE_AGC, mode);
         imageBinding.AGC.setOnItemSelectedListener(null);
         imageBinding.AGC.setSelection(mode[0], true);
         imageBinding.AGC.setOnItemSelectedListener(this);
-        //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_MAX_GAIN, mode);
         imageBinding.MAXGAIN.setText(mode[0] + "");
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_BOS, mode);
@@ -393,7 +386,6 @@ public class PopupImage implements CompoundButton.OnCheckedChangeListener, Adapt
         imageBinding.CONTRAST.setText(mode[0] + "");
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_LEVEL_BRIGHTNESS, mode);
         imageBinding.BRIGHTNESS.setText(mode[0] + "");
-        //
         ircmd.getPropImageParams(CommonParams.PropImageParams.IMAGE_PROP_ONOFF_AGC, mode);
         imageBinding.ONOFFAGC.setOnCheckedChangeListener(null);
         imageBinding.ONOFFAGC.setChecked(mode[0] == 1);

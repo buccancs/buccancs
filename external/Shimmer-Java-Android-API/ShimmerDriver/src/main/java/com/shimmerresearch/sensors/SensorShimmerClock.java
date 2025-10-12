@@ -132,13 +132,13 @@ public class SensorShimmerClock extends AbstractSensor {
 
     protected double mCurrentTimeStampCycle = 0;
     protected long mInitialTimeStampTicksSd = 0;
-    @Deprecated //not needed any more
+    @Deprecated
     protected double mLastReceivedCalibratedTimeStamp = -1;
     protected boolean mStreamingStartTimeSaved = false;
     protected double mStreamingStartTimeMilliSecs;
-    protected int mTimeStampTicksMaxValue = 16777216; // or 65536
+    protected int mTimeStampTicksMaxValue = 16777216;
     protected boolean mFirstTime = true;
-    protected long mRTCOffset = 0; //this is in ticks
+    protected long mRTCOffset = 0;
     double mFirstTsOffsetFromInitialTsTicks = 0;
     double mSystemTimeStamp = 0;
     double mPreviousTimeStamp = 0;
@@ -152,7 +152,7 @@ public class SensorShimmerClock extends AbstractSensor {
     private double mFirstSystemTimestampPlot = -1;
 
     {
-        sensorShimmerClock.mIsApiSensor = true; // Even though TIMESTAMP channel is an API channel, there is no enabledSensor bit for it
+        sensorShimmerClock.mIsApiSensor = true;
     }
 
     {
@@ -266,7 +266,7 @@ public class SensorShimmerClock extends AbstractSensor {
                         }
 
                         double timestampUnwrappedTicks = unwrapTimeStamp(shimmerTimestampTicks);
-                        double timestampUnwrappedMilliSecs = timestampUnwrappedTicks / mShimmerDevice.getRtcClockFreq() * 1000;   // to convert into mS
+                        double timestampUnwrappedMilliSecs = timestampUnwrappedTicks / mShimmerDevice.getRtcClockFreq() * 1000;
 
                         double timestampCalToSave = timestampUnwrappedMilliSecs;
                         double timestampUnCalToSave = shimmerTimestampTicks;
@@ -280,12 +280,12 @@ public class SensorShimmerClock extends AbstractSensor {
                             if (mShimmerDevice.isLegacySdLog()) {
                                 timestampUnCalToSave = shimmerTimestampTicks;
                             } else {
-                                timestampUnwrappedWithOffsetTicks -= mFirstTsOffsetFromInitialTsTicks; //deduct this so it will start from 0
+                                timestampUnwrappedWithOffsetTicks -= mFirstTsOffsetFromInitialTsTicks;
                                 timestampUnCalToSave = timestampUnwrappedWithOffsetTicks;
                             }
 
                             if (mEnableCalibration) {
-                                double timestampUnwrappedWithOffsetMilliSecs = timestampUnwrappedWithOffsetTicks / mShimmerDevice.getRtcClockFreq() * 1000;   // to convert into mS
+                                double timestampUnwrappedWithOffsetMilliSecs = timestampUnwrappedWithOffsetTicks / mShimmerDevice.getRtcClockFreq() * 1000;
                                 timestampCalToSave = timestampUnwrappedWithOffsetMilliSecs;
                             }
                         } else if (commType == COMMUNICATION_TYPE.BLUETOOTH) {
@@ -334,8 +334,6 @@ public class SensorShimmerClock extends AbstractSensor {
                                     }
                                     objectCluster.addData(channelRealTimeClock, (double) rtctimestamp, rtctimestampcal);
                                     objectCluster.incrementIndexKeeper();
-
-//
 //
                                 }
                             }
@@ -351,7 +349,7 @@ public class SensorShimmerClock extends AbstractSensor {
                                 double newOffset = 0.0;
 
                                 if (((OFFSET_LENGTH == 9) && (newOffset != 1152921504606846975L))
-                                        || (newOffset != 4294967295L)) { //this is 4 bytes
+                                        || (newOffset != 4294967295L)) {
                                     offsetValue = (double) newOffset;
                                 }
                                 objectCluster.addData(channelShimmerClockOffset, offsetValue, Double.NaN);
@@ -541,7 +539,7 @@ public class SensorShimmerClock extends AbstractSensor {
     private void calculateTrialPacketLoss(double timestampUnwrappedMilliSecs) {
         if (!mStreamingStartTimeSaved) {
             mStreamingStartTimeSaved = true;
-            mStreamingStartTimeMilliSecs = timestampUnwrappedMilliSecs;   // to convert into mS
+            mStreamingStartTimeMilliSecs = timestampUnwrappedMilliSecs;
         }
 
         if (mStreamingStartTimeMilliSecs > 0) {

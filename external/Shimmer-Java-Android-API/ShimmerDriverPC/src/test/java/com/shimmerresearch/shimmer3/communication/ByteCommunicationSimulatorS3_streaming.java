@@ -36,7 +36,7 @@ public class ByteCommunicationSimulatorS3_streaming extends ByteCommunicationSim
 		}
 		*/
 
-        int intervalMs = 100; // replace with desired interval in milliseconds
+        int intervalMs = 100;
         Thread streamingThread = new Thread(() -> {
             try {
                 Thread.sleep(200);

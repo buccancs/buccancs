@@ -65,8 +65,8 @@ public class SensorLIS3MDL extends AbstractSensor {
             ListofLIS3MDLAltMagRate, ListofLIS3MDLAltMagRateConfigValues,
             ConfigOptionDetailsSensor.GUI_COMPONENT_TYPE.COMBOBOX,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS3MDL);
-    public static final SensorDetailsRef sensorLIS3MDLAltMag = new SensorDetailsRef(0x200000, // ==
-            0x200000, // == Configuration.Shimmer3.SensorBitmap.SENSOR_MAG will be:
+    public static final SensorDetailsRef sensorLIS3MDLAltMag = new SensorDetailsRef(0x200000,
+            0x200000,
             GuiLabelSensors.MAG_ALT, CompatibilityInfoForMaps.listOfCompatibleVersionInfoLIS3MDL,
             Arrays.asList(GuiLabelConfig.LIS3MDL_ALT_MAG_RANGE, GuiLabelConfig.LIS3MDL_ALT_MAG_RATE),
             Arrays.asList(ObjectClusterSensorName.MAG_ALT_X, ObjectClusterSensorName.MAG_ALT_Y,
@@ -174,10 +174,10 @@ public class SensorLIS3MDL extends AbstractSensor {
     }
 
     public static int getMagRateFromFreq(boolean isEnabled, double freq, int powerMode) {
-        int magRate = 0; // 0.625Hz
+        int magRate = 0;
 
         if (isEnabled) {
-            if (powerMode == 0) // low power mode enabled
+            if (powerMode == 0)
             {
                 magRate = 0x08;
             } else {
@@ -566,7 +566,7 @@ public class SensorLIS3MDL extends AbstractSensor {
     }
 
     public boolean checkLowPowerMag() {
-        setLowPowerMag((getLIS3MDLAltMagRate() == 0x08) ? true : false); // 10Hz
+        setLowPowerMag((getLIS3MDLAltMagRate() == 0x08) ? true : false);
         return isLowPowerMagEnabled();
     }
 
@@ -695,7 +695,7 @@ public class SensorLIS3MDL extends AbstractSensor {
                     (configBytes[configByteLayoutCast.idxConfigSetupByte5] >> configByteLayoutCast.bitShiftLIS3MDLAltMagSamplingRate)
                             & configByteLayoutCast.maskLIS3MDLAltMagSamplingRate);
 
-            checkLowPowerMag(); // check rate to determine if Sensor is in LPM mode
+            checkLowPowerMag();
 
             if (shimmerDevice.isConnected()) {
                 getCurrentCalibDetailsMagAlt().mCalibReadSource = CALIB_READ_SOURCE.INFOMEM;
@@ -728,7 +728,7 @@ public class SensorLIS3MDL extends AbstractSensor {
                 break;
             case (GuiLabelConfig.LIS3MDL_ALT_MAG_UP):
                 setUltraHighPowerMag((boolean) valueToSet);
-                break;//LIS2MDL_MAG_RANGE
+                break;
             case (GuiLabelConfig.LIS3MDL_ALT_MAG_RANGE):
                 setLIS3MDLAltMagRange((int) valueToSet);
                 break;

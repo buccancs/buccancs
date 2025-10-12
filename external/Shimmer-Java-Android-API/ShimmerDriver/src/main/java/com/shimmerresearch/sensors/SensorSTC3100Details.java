@@ -10,7 +10,7 @@ public class SensorSTC3100Details implements Serializable {
 
     private static final long serialVersionUID = 3566114309466948096L;
 
-    private static double R_SENSE = 33; // mOhms
+    private static double R_SENSE = 33;
 
         public double mBattCharge = 0;
         public double mBattCounter = 0;

@@ -59,7 +59,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
                     SerialPort.STOPBITS_1,
                     SerialPort.PARITY_NONE,
                     setRtsOnConnect,
-                    setDtrOnConnect));//Set params.
+                    setDtrOnConnect));
             consolePrintLn("Port Status : " + Boolean.toString(mSerialPort.isOpened()));
             mSerialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
             eventDeviceConnected();
@@ -121,7 +121,7 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         @Override
     public void txBytes(byte[] buf) throws ShimmerException {
         try {
-            if (mTxSpeed == 0) { // normal speed
+            if (mTxSpeed == 0) {
                 for (int i = 0; i < buf.length; i++) {
                     jsscByteWriter.write(buf[i], mSerialPortTimeout);
                 }
@@ -166,11 +166,11 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     public void startSerialPortReader() throws ShimmerException {
 
         if (!mIsSerialPortReaderStarted) {
-            int mask = SerialPort.MASK_RXCHAR;//Prepare mask
+            int mask = SerialPort.MASK_RXCHAR;
             mShimmerUartListener = new ShimmerUartListener(mUniqueId);
             try {
-                mSerialPort.setEventsMask(mask);//Set mask
-                mSerialPort.addEventListener(mShimmerUartListener);//Add SerialPortEventListener
+                mSerialPort.setEventsMask(mask);
+                mSerialPort.addEventListener(mShimmerUartListener);
                 mIsSerialPortReaderStarted = true;
             } catch (SerialPortException e) {
                 mIsSerialPortReaderStarted = false;
@@ -217,8 +217,6 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     public void registerSerialPortRxEventCallback(SerialPortListener shimmerSerialEventCallback) {
         mShimmerSerialEventCallback = shimmerSerialEventCallback;
     }
-
-//
     private void consolePrintLn(String string) {
         mUtilShimmer.consolePrintLn(mUniqueId + "\t" + string);
     }
@@ -294,7 +292,6 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     }
 
     public class ShimmerUartListener implements SerialPortEventListener {
-//
         String mUniqueId = "";
         boolean mIsParserBusy = false;
 
@@ -304,9 +301,9 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
 
         @Override
         public void serialEvent(SerialPortEvent event) {
-            if (event.isRXCHAR()) {//If data is available
+            if (event.isRXCHAR()) {
                 int eventLength = event.getEventValue();
-                if (!mIsParserBusy && eventLength > 0) { // was 0 but at least 3 gives a little filter
+                if (!mIsParserBusy && eventLength > 0) {
                     mIsParserBusy = true;
                     serialPortRxEvent(eventLength);
 

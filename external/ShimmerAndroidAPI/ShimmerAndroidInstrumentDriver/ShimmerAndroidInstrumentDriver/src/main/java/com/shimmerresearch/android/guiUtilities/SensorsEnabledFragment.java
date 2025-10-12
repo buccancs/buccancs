@@ -90,7 +90,7 @@ public class SensorsEnabledFragment extends ListFragment {
             }
         }
 
-        final List<Integer> mSelectedItems = new ArrayList();  // Where we track the selected items
+        final List<Integer> mSelectedItems = new ArrayList();
         Map<Integer, SensorDetails> sensorMap = shimmerDeviceClone.getSensorMap();
         int count = 0;
         for (SensorDetails sd : sensorMap.values()) {
@@ -120,7 +120,7 @@ public class SensorsEnabledFragment extends ListFragment {
         final ListView listView = getListView();
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 
-        if (listView.getFooterViewsCount() == 0) {   //Only add the button if there is no existing button
+        if (listView.getFooterViewsCount() == 0) {
             Button button = new Button(activityContext);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

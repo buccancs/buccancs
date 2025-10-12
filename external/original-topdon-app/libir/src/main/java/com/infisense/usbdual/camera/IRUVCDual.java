@@ -58,7 +58,7 @@ public class IRUVCDual {
     private CommonParams.GainMode gainMode = CommonParams.GainMode.GAIN_MODE_HIGH_LOW;
     private short[] nuc_table_high = new short[8192];
     private short[] nuc_table_low = new short[8192];
-    private boolean isGetNucFromFlash; // 是否从机芯Flash中读取的nuc数据，会影响到测温修正的资源释放
+    private boolean isGetNucFromFlash;
     //
     private byte[] priv_high = new byte[1201];
     private byte[] priv_low = new byte[1201];
@@ -133,15 +133,15 @@ public class IRUVCDual {
                 Const.isDeviceConnected = false;
             }
         });
-        gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
-        gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
-        gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
-        gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);//用于low -> high gain,低增益向高增益切换的触发温度
+        gain_switch_param.above_pixel_prop = 0.1f;
+        gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4);
+        gain_switch_param.below_pixel_prop = 0.95f;
+        gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);
         auto_gain_switch_info.switch_frame_cnt = 5 * 15; //连续满足触发条件帧数超过该阈值会触发自动增益切换(假设出图速度为15帧每秒，则5 * 15大概为5秒)
         auto_gain_switch_info.waiting_frame_cnt = 7 * 15;//触发自动增益切换之后，会间隔该阈值的帧数不进行增益切换监测(假设出图速度为15帧每秒，则7 * 15大概为7秒)
-        int low_gain_over_temp_data = (int) ((550 + 273.15) * 16 * 4); //低增益下触发防灼烧的温度
-        int high_gain_over_temp_data = (int) ((100 + 273.15) * 16 * 4); //高增益下触发防灼烧的温度
-        float pixel_above_prop = 0.02f;//设备像素总面积的百分比
+        int low_gain_over_temp_data = (int) ((550 + 273.15) * 16 * 4);
+        int high_gain_over_temp_data = (int) ((100 + 273.15) * 16 * 4);
+        float pixel_above_prop = 0.02f;
         int switch_frame_cnt = 7 * 15;//连续满足触发条件超过该阈值会触发防灼烧(假设出图速度为15帧每秒，则7 * 15大概为7秒)
         int close_frame_cnt = 10 * 15;//触发防灼烧之后，经过该阈值的帧数之后会解除防灼烧(假设出图速度为15帧每秒，则10 * 15大概为10秒)
     }
@@ -155,9 +155,7 @@ public class IRUVCDual {
         this.mContext = context;
         this.mConnectCallback = connectCallback;
         this.iFrameCallback = iFrameCallback;
-        //
         initUVCCamera(cameraWidth, cameraHeight);
-        //
         mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
             @Override
             public void onAttach(UsbDevice device) {
@@ -230,9 +228,7 @@ public class IRUVCDual {
         this.mContext = context;
         this.syncimage = syncimage;
         this.mConnectCallback = connectCallback;
-        //
         initUVCCamera(cameraWidth, cameraHeight);
-        //
         mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
             @Override
             public void onAttach(UsbDevice device) {
@@ -305,9 +301,7 @@ public class IRUVCDual {
         this.syncimage = syncimage;
         this.isUseIRISP = isUseIRISP;
         this.mConnectCallback = connectCallback;
-        //
         initUVCCamera(cameraWidth, cameraHeight);
-        //
         mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
 
             @Override
@@ -482,7 +476,6 @@ public class IRUVCDual {
         public void startPreview() {
         Log.w(TAG, "startPreview mPid = " + mPid + " isUseIRISP = " + isUseIRISP);
         uvcCamera.setOpenStatus(true);
-        //
         if (iFrameCallback != null) {
             uvcCamera.setFrameCallback(iFrameCallback);
         }
@@ -517,7 +510,6 @@ public class IRUVCDual {
                     .setIrcmdType(IRCMDType.USB_IR_256_384)
                     .setIdCamera(uvcCamera.getNativePtr())
                     .build();
-            //
             if (mConnectCallback != null) {
                 Log.d(TAG, "onIRCMDCreate");
                 mConnectCallback.onIRCMDCreate(ircmd);
@@ -561,20 +553,19 @@ public class IRUVCDual {
         List<CameraSize> previewList = getAllSupportedSize();
         if (mPid == 0x5830 || mPid == 0x5840) {
             initIRCMD(previewList);
-                        uvcCamera.setDefaultBandwidth(1.0f);       //调整带宽
+                        uvcCamera.setDefaultBandwidth(1.0f);
             uvcCamera.setDefaultPreviewMinFps(1);
             uvcCamera.setDefaultPreviewMaxFps(mFps);
         } else {
             Log.d(TAG, "startVLCamera handleUSBConnect mPid = " + mPid + " setDefaultPreviewMode");
                         uvcCamera.setDefaultPreviewMode(CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG);
-                        uvcCamera.setDefaultBandwidth(0.6f);       //调整带宽
+                        uvcCamera.setDefaultBandwidth(0.6f);
             uvcCamera.setDefaultPreviewMinFps(1);
             uvcCamera.setDefaultPreviewMaxFps(mFps);
         }
 
         int result = setPreviewSize(cameraWidth, cameraHeight);
         if (result == 0) {
-            //
             Log.d(TAG, "handleUSBConnect setPreviewSize success = ");
             startPreview();
         } else {

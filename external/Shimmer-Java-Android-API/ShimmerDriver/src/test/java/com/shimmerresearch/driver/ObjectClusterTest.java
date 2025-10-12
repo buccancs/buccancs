@@ -41,7 +41,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
     public SensorData[] mSensorDataArray = new SensorData[50];
     public int mSensorDataArrayIndex = 0;
 
-    public int dataStructureSelector = 1;    //1 = ArrayList, 2 = HashMap, 3 = HashMapArray, 4 = Arrays, 5 = Multimap
+    public int dataStructureSelector = 1;
     public Multimap<String, FormatCluster> mPropertyCluster = HashMultimap.create();
     public byte[] mRawData;
     public double[] mUncalData = new double[50];
@@ -50,7 +50,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
     public String[] mSensorNames;
     public String[] mUnitCal = new String[50];
     public String[] mUnitUncal = new String[50];
-    public String[] mSensorNamesCal = new String[50];    //JOS: would 2D arrays be better here?
+    public String[] mSensorNamesCal = new String[50];
     public String[] mSensorNamesUncal = new String[50];
     public String[] mSensorNamesCalResize;
     public String[] mUnitCalResize;
@@ -204,7 +204,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
 
         public void removePropertyFormat(String propertyname, String formatname) {
         Collection<FormatCluster> colFormats = mPropertyCluster.get(propertyname);
-        FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(colFormats, formatname)); // retrieve format;
+        FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(colFormats, formatname));
         mPropertyCluster.remove(propertyname, formatCluster);
     }
 
@@ -485,7 +485,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
 
     public void addDataToNewArrays(String channelName, String channelType, String units, double data) {
         if (channelType.equals(CHANNEL_TYPE.CAL.toString())) {
-            sensorDataArray.mSensorNames[sensorDataArray.mCalArraysIndex] = channelName;    //TODO JOS: This will need to be updated according to updated SensorDataArray for production ObjectCluster class
+            sensorDataArray.mSensorNames[sensorDataArray.mCalArraysIndex] = channelName;
             sensorDataArray.mCalUnits[sensorDataArray.mCalArraysIndex] = units;
             sensorDataArray.mCalData[sensorDataArray.mCalArraysIndex] = data;
             sensorDataArray.mIsUsingDefaultCalibrationParams[sensorDataArray.mCalArraysIndex] = false;

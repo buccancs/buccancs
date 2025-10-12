@@ -33,20 +33,20 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     public String mAlgorithmGroupingName;
     public AlgorithmDetails mAlgorithmDetails;
         public List<ShimmerVerObject> mListOfCompatibleSVO = new ArrayList<ShimmerVerObject>();
-    public List<String> mOutputChannels; // list of all output channels - can be used for extracting specific metrics after processing
+    public List<String> mOutputChannels;
 
     public FILTERING_OPTION mFilteringOptions = FILTERING_OPTION.NONE;
     public ALGORITHM_TYPE mAlgorithmType = ALGORITHM_TYPE.ALGORITHM_TYPE_CONTINUOUS;
     public ALGORITHM_RESULT_TYPE mAlgorithmResultType = ALGORITHM_RESULT_TYPE.ALGORITHM_RESULT_TYPE_SINGLE_OBJECT_CLUSTER;
 
     public ALGORITHM_INPUT_TYPE mAlgorithmInputType = ALGORITHM_INPUT_TYPE.ALGORITHM_INPUT_TYPE_SINGLE_OBJECT_CLUSTER;
-        public HashMap<String, ConfigOptionDetails> mConfigOptionsMap = new HashMap<String, ConfigOptionDetails>();//Define the gui to be generated
-    public HashMap<String, AlgorithmDetails> mAlgorithmChannelsMap = new HashMap<String, AlgorithmDetails>();//Defines algorithm requirements
+        public HashMap<String, ConfigOptionDetails> mConfigOptionsMap = new HashMap<String, ConfigOptionDetails>();
+    public HashMap<String, AlgorithmDetails> mAlgorithmChannelsMap = new HashMap<String, AlgorithmDetails>();
     public TreeMap<Integer, SensorGroupingDetails> mMapOfAlgorithmGrouping = new TreeMap<Integer, SensorGroupingDetails>();
         public List<COMMUNICATION_TYPE> mListOfCommunicationTypesSupported = Arrays.asList(COMMUNICATION_TYPE.values());
     protected String mTrialName;
     @Deprecated
-        protected String[] mSignalName = new String[1]; // an array because you might use multiple signals for an algorithm, note for now only single signal supported but this should be fwd compatible
+        protected String[] mSignalName = new String[1];
     @Deprecated
     protected String[] mSignalFormat = new String[1];
     protected String mTimeStampName = "";

@@ -64,7 +64,7 @@ public class StatusPayload extends AbstractPayload implements Serializable {
 
         long statusTimestampMinutes = parseByteArrayAtIndex(payloadContents, 6, CHANNEL_DATA_TYPE.UINT32);
         long statusTimestampTicks = 0;
-        if (payloadContents.length > 34) { // supported fw for ASM-1329
+        if (payloadContents.length > 34) {
             statusTimestampTicks = parseByteArrayAtIndex(payloadContents, 34, CHANNEL_DATA_TYPE.UINT24);
         }
         verisenseStatusTimestampMs = SensorVerisenseClock.convertRtcMinutesAndTicksToMs(statusTimestampMinutes, statusTimestampTicks);
@@ -76,7 +76,7 @@ public class StatusPayload extends AbstractPayload implements Serializable {
         long lastSuccessfulDataTransferTicks = 0;
         long lastFailedDataTransferMinutes = parseByteArrayAtIndex(payloadContents, 17, CHANNEL_DATA_TYPE.UINT32);
         long lastFailedDataTransferTicks = 0;
-        if (payloadContents.length > 34) { // supported fw for ASM-1329
+        if (payloadContents.length > 34) {
             lastSuccessfulDataTransferTicks = parseByteArrayAtIndex(payloadContents, 37, CHANNEL_DATA_TYPE.UINT24);
             lastFailedDataTransferTicks = parseByteArrayAtIndex(payloadContents, 40, CHANNEL_DATA_TYPE.UINT24);
         }
@@ -108,13 +108,13 @@ public class StatusPayload extends AbstractPayload implements Serializable {
             calculateStorageOther();
         }
 
-        if (payloadContents.length <= 24) { // old fw, no VBattFallCounter bytes
-            batteryVoltageFallCounter = -1; // set to null because 0 can be a valid value
+        if (payloadContents.length <= 24) {
+            batteryVoltageFallCounter = -1;
         } else {
             batteryVoltageFallCounter = parseByteArrayAtIndex(payloadContents, 24, CHANNEL_DATA_TYPE.UINT16);
         }
 
-        if (payloadContents.length > 26) { // new fw support StatusFlags bytes
+        if (payloadContents.length > 26) {
             statusFlags = parseByteArrayAtIndex(payloadContents, 26, CHANNEL_DATA_TYPE.UINT64);
 
             byte[] statusFlagBytes = new byte[8];
@@ -125,7 +125,7 @@ public class StatusPayload extends AbstractPayload implements Serializable {
             parseStatusFlagBytes(statusFlags);
         }
 
-        if (payloadContents.length > 34) { // supported fw for ASM-1329
+        if (payloadContents.length > 34) {
             long nextSyncAttemptTimestampMinutes = parseByteArrayAtIndex(payloadContents, 43, CHANNEL_DATA_TYPE.UINT32);
             nextSyncAttemptTimestampMs = nextSyncAttemptTimestampMinutes == MAX_FOUR_BTE_UNSIGNED_VALUE ? -1 : SensorVerisenseClock.convertRtcMinutesAndTicksToMs(nextSyncAttemptTimestampMinutes, 0);
         }
@@ -314,9 +314,9 @@ public class StatusPayload extends AbstractPayload implements Serializable {
 
     public void updateStorageCapacitykBBasedOnHw(int hwVerMajor, int hwVerMinor, int hwVerInternal) {
         if (hwVerMajor == HW_ID.VERISENSE_PULSE_PLUS && hwVerMinor == 8) {
-            storageCapacitykB = 128 * 1024; // LTF is 128MB
+            storageCapacitykB = 128 * 1024;
         } else {
-            storageCapacitykB = 512 * 1024; // LTF is 512MB
+            storageCapacitykB = 512 * 1024;
         }
     }
 

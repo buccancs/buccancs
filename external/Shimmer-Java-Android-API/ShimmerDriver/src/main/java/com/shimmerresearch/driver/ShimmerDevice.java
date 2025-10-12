@@ -85,8 +85,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     public static final String STRING_CONSTANT_SD_ERROR = "SD Error";
     public static final double IRREGULAR_SAMPLING_RATE = 0.0;
     public static final String INVALID_TRIAL_NAME_CHAR = "[^A-Za-z0-9._]";
-    public static final double DEFAULT_RECEPTION_RATE = 0.0;//100.0;
-    public final static int EVENT_MARKER_DEFAULT = -1; // using -1 as the default event marker value as as a value of 0 was hanging the plots and the software
+    public static final double DEFAULT_RECEPTION_RATE = 0.0;
+    public final static int EVENT_MARKER_DEFAULT = -1;
     public static final int RECONNECT_ATTEMPTS_MAX = 3;
     protected static final int MAX_CALIB_DUMP_MAX = 4096;
     private static final long serialVersionUID = 5087199076353402591L;
@@ -101,9 +101,9 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
         public String mUniqueID = "";
     public List<COMMUNICATION_TYPE> mListOfAvailableCommunicationTypes = new ArrayList<COMMUNICATION_TYPE>();
         public String mMacIdFromUart = DEFAULT_MAC_ID;
-    public String mShimmerUserAssignedName = "";//DEFAULT_SHIMMER_NAME; // This stores the user assigned name
+    public String mShimmerUserAssignedName = "";//DEFAULT_SHIMMER_NAME;
     public String mAlternativeName = "";
-    public HashMap<COMMUNICATION_TYPE, Double> mMapOfSamplingRatesShimmer = new HashMap<COMMUNICATION_TYPE, Double>(); // 51.2Hz is the default sampling rate
+    public HashMap<COMMUNICATION_TYPE, Double> mMapOfSamplingRatesShimmer = new HashMap<COMMUNICATION_TYPE, Double>();
     public String mDockID = DEFAULT_DOCKID;
     public DEVICE_TYPE mDockType = DEVICE_TYPE.UNKOWN;
     public int mSlotNumber = DEFAULT_SLOTNUMBER;
@@ -151,20 +151,20 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     protected Map<String, ConfigOptionDetails> mConfigOptionsMapAlgorithms = new HashMap<String, ConfigOptionDetails>();
     protected boolean mIsConnected = false;
     protected boolean mIsSensing = false;
-    protected boolean mIsStreaming = false;                                            // This is used to monitor whether the device is in streaming mode
+    protected boolean mIsStreaming = false;
     protected boolean mIsInitialised = false;
     protected boolean mHaveAttemptedToReadConfig = false;
-    protected ConfigByteLayout mConfigByteLayout;// = new InfoMemLayoutShimmer3(); //default
+    protected ConfigByteLayout mConfigByteLayout;// = new InfoMemLayoutShimmer3();
     protected byte[] mConfigBytes = ConfigByteLayout.createConfigByteArrayEmpty(512);
         protected byte[] mInfoMemBytesOriginal = ConfigByteLayout.createConfigByteArrayEmpty(512);
     protected String mTrialName = "";
-    protected long mConfigTime; //this is in milliseconds, utc
+    protected long mConfigTime;
     protected long mEventMarkersCodeLast = 0;
     protected boolean mEventMarkersIsPulse = false;
-    protected long mEnabledSensors = (long) 0;                                                // This stores the enabled sensors
+    protected long mEnabledSensors = (long) 0;
     protected long mDerivedSensors = (long) 0;
     protected String mComPort = "";
-    protected int mInternalExpPower = -1;                                                    // This shows whether the internal exp power is enabled.
+    protected int mInternalExpPower = -1;
     protected DataProcessingInterface mDataProcessing;
     protected FIXED_SHIMMER_CONFIG_MODE mFixedShimmerConfigMode = FIXED_SHIMMER_CONFIG_MODE.NONE;
     protected LinkedHashMap<String, Object> mFixedShimmerConfigMap = null;
@@ -176,7 +176,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     private boolean mIsUsbPluggedIn = false;
     private double mPacketReceptionRateCurrent = DEFAULT_RECEPTION_RATE;
     private double mPacketReceptionRateOverall = DEFAULT_RECEPTION_RATE;
-    private long mPacketLossCountPerTrial = 0;        //Used by ShimmerBluetooth
+    private long mPacketLossCountPerTrial = 0;
     private boolean mUpdateOnlyWhenStateChanges = false;
 
     {
@@ -221,7 +221,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
         int expBrdRevSpecial = ebd.getExpansionBoardRevSpecial();
 
         if (svo.getHardwareVersion() == HW_ID.SHIMMER_3 && (
-                (expBrdId == HW_ID_SR_CODES.SHIMMER_ECG_MD && expBrdRev == 3 && expBrdRevSpecial == 1)            // == SR59-3-1
+                (expBrdId == HW_ID_SR_CODES.SHIMMER_ECG_MD && expBrdRev == 3 && expBrdRevSpecial == 1)
         )) {
             return true;
         } else {
@@ -392,8 +392,6 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
             if (configOptionsMapPerSensor != null && configOptionsMapPerSensor.keySet().size() > 0) {
                 loadCompatibleConfigOptionGroupEntries(configOptionsMapPerSensor);
 
-//
-
             }
         }
     }
@@ -500,7 +498,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     public void setEventUntrigger(long eventCode) {
         mEventMarkers = mEventMarkers - eventCode;
         if (mEventMarkers == 0) {
-            mEventMarkers = EVENT_MARKER_DEFAULT; // using -1 as the default event marker value as as a value of 0 was hanging the plots and the software
+            mEventMarkers = EVENT_MARKER_DEFAULT;
         }
     }
 
@@ -1141,7 +1139,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
             for (SensorDetails sensor : parserMapPerComm.values()) {
                 int length = sensor.getExpectedPacketByteArray(commType);
                 byte[] sensorByteArray = new byte[length];
-                if (length != 0) { //if length 0 means there are no channels to be processed
+                if (length != 0) {
                     if ((index + sensorByteArray.length) <= newPacket.length) {
                         System.arraycopy(newPacket, index, sensorByteArray, 0, sensorByteArray.length);
                     } else {
@@ -1205,8 +1203,6 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     }
 
         public void interpretDataPacketFormat() {
-//
-//
 //
 //
     }
@@ -1567,8 +1563,6 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
         }
         return returnValue;
     }
-
-//
 
     public void setAlgorithmSettings(String configLabel, Object valueToSet) {
         setAlgorithmSettings(null, configLabel, valueToSet);
@@ -2427,8 +2421,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
             }
 
             List<AbstractAlgorithm> listOfEnabledAlgosForGroup = getListOfEnabledAlgorithmModulesPerGroup(groupName);
-            if ((listOfEnabledAlgosForGroup.size() == 0)                //no algos in group enabled, so set defaults for off
-                    || (state && listOfEnabledAlgosForGroup.size() == 1)) {    // this is the first algo to be enabled in this group, set the default for on for the group
+            if ((listOfEnabledAlgosForGroup.size() == 0)
+                    || (state && listOfEnabledAlgosForGroup.size() == 1)) {
                 setDefaultSettingsForAlgorithmGroup(groupName);
             }
 
@@ -2472,7 +2466,7 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
         for (SensorGroupingDetails sGD : mMapOfAlgorithmGrouping.values()) {
             for (AlgorithmDetails algorithmDetails : sGD.mListOfAlgorithmDetails) {
                 AbstractAlgorithm abstractAlgorithm = mMapOfAlgorithmModules.get(algorithmDetails.mAlgorithmName);
-                if (abstractAlgorithm != null && abstractAlgorithm.isEnabled()) { // run check to see if accompanying sensors
+                if (abstractAlgorithm != null && abstractAlgorithm.isEnabled()) {
                     innerLoop:
                     for (Integer sensor : abstractAlgorithm.mAlgorithmDetails.mListOfRequiredSensors) {
                         if (isECGAlgoEnabled(abstractAlgorithm)) {

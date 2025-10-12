@@ -182,7 +182,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
         public double getFormatClusterValue(String channelName, String format) {
         if (mEnableArraysDataStructure) {
             int index = getIndexForChannelName(channelName);
-            if (index == -1) {    //Index was not found
+            if (index == -1) {
                 return Double.NaN;
             } else {
                 if (format.equals(CHANNEL_TYPE.CAL.toString())) {
@@ -215,7 +215,7 @@ final public class ObjectCluster implements Cloneable, Serializable {
 
         public void removePropertyFormat(String propertyname, String formatname) {
         Collection<FormatCluster> colFormats = mPropertyCluster.get(propertyname);
-        FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(colFormats, formatname)); // retrieve format;
+        FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(colFormats, formatname));
         mPropertyCluster.remove(propertyname, formatCluster);
     }
 
@@ -413,11 +413,6 @@ final public class ObjectCluster implements Cloneable, Serializable {
                 mUnitUncal[index] = units;
             }
             mSensorNames[index] = objectClusterName;
-
-
-
-
-//
 //
 
         }

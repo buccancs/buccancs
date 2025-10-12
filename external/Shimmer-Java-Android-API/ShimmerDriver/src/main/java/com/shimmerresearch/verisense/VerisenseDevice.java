@@ -771,7 +771,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     sb.append(generateCalcSamplingRateConfigStr(sensorClassKey, sensorMAX86XXX.getSamplingRateFreq(), calculatedSamplingRate));
                 }
 
-                sb.append("Pulse Width = ");                // E.g. 50 us
+                sb.append("Pulse Width = ");
                 int ppgPulseWidthConfigValue = sensorMAX86XXX.getPpgPulseWidthConfigValue();
                 String ppgPulseWidth = SensorMAX86XXX.CONFIG_OPTION_PPG_PULSE_WIDTH.getConfigStringFromConfigValue(ppgPulseWidthConfigValue);
                 ppgPulseWidth = ppgPulseWidth.replaceAll(CHANNEL_UNITS.MICROSECONDS, (" " + CHANNEL_UNITS.MICROSECONDS));
@@ -1122,7 +1122,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     if (sensor.isEnabled()) {
                         int length = sensor.getExpectedPacketByteArray(commType);
                         byte[] sensorByteArray = new byte[length];
-                        if (length != 0) { //if length 0 means there are no channels to be processed
+                        if (length != 0) {
                             if ((index + sensorByteArray.length) <= newPacket.length) {
                                 System.arraycopy(newPacket, index, sensorByteArray, 0, sensorByteArray.length);
                             } else {

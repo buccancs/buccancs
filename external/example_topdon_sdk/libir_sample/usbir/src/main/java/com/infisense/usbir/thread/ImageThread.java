@@ -23,9 +23,8 @@ public class ImageThread extends Thread {
     private int imageHeight;
     private byte[] imageSrc;
     private byte[] temperatureSrc;
-    private boolean rotate; // 屏幕旋转
+    private boolean rotate;
     private boolean biaochistatus = false;
-    //
     private CommonParams.DataFlowMode dataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
     private byte[] imageYUV422;
     private byte[] imageARGB;
@@ -89,7 +88,7 @@ public class ImageThread extends Thread {
                                         if (biaochistatus && temperatureSrc != null) {
                         int j = 0;
                         int imageDstLength = imageWidth * imageHeight * 4;
-                        float biaochiMax = 40, biaochiMin = 25; // 温度阈值设定
+                        float biaochiMax = 40, biaochiMin = 25;
                         for (int index = 0; index < imageDstLength; ) {
                             float temperature0 = (temperatureSrc[j] & 0xff) + (temperatureSrc[j + 1] & 0xff) * 256;
                             temperature0 = (float) (temperature0 / 64 - 273.15);

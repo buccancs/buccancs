@@ -70,13 +70,13 @@ public class Orientation3DObject {
         double s = Math.sin(angle);
         double c = Math.cos(angle);
         double t = 1 - c;
-        if ((x * y * t + z * s) > 0.998) { // north pole singularity detected
+        if ((x * y * t + z * s) > 0.998) {
             yaw = 2 * Math.atan2(x * Math.sin(angle / 2), Math.cos(angle / 2));
             pitch = Math.PI / 2;
             roll = 0;
             return;
         }
-        if ((x * y * t + z * s) < -0.998) { // south pole singularity detected
+        if ((x * y * t + z * s) < -0.998) {
             yaw = -2 * Math.atan2(x * Math.sin(angle / 2), Math.cos(angle / 2));
             pitch = -Math.PI / 2;
             roll = 0;
@@ -93,9 +93,6 @@ public class Orientation3DObject {
         yaw = Math.atan2(2 * (q0 * q3 + q1 * q2), 1 - 2 * (Math.pow(q2, 2) + Math.pow(q3, 2))) * 180 / Math.PI;
     }
 
-//
-
-//
 //
 //
 

@@ -77,12 +77,12 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener {
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN: //start gesture
+            case MotionEvent.ACTION_DOWN:
                 firstFinger = new PointF(motionEvent.getX(), motionEvent.getY());
                 mode = ONE_FINGER_DRAG;
                 break;
 
-            case MotionEvent.ACTION_POINTER_DOWN: //second finger
+            case MotionEvent.ACTION_POINTER_DOWN:
             {
                 distBetweenFingers = distance(motionEvent);
                 if (distBetweenFingers > 5f || distBetweenFingers < -5f)
@@ -90,7 +90,7 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener {
                 break;
             }
 
-            case MotionEvent.ACTION_POINTER_UP: //end zoom
+            case MotionEvent.ACTION_POINTER_UP:
 
                 mode = ONE_FINGER_DRAG;
 
@@ -113,7 +113,7 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener {
 
                     final float oldDist = distBetweenFingers;
                     final float newDist = distance(motionEvent);
-                    if (oldDist > 0 && newDist < 0 || oldDist < 0 && newDist > 0) //sign change! Fingers have crossed ;-)
+                    if (oldDist > 0 && newDist < 0 || oldDist < 0 && newDist > 0)
                         break;
 
                     distBetweenFingers = newDist;
@@ -159,7 +159,7 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener {
     }
 
     private void zoom(float scale) {
-        if (Float.isInfinite(scale) || Float.isNaN(scale) || (scale > -0.001 && scale < 0.001)) //sanity check
+        if (Float.isInfinite(scale) || Float.isNaN(scale) || (scale > -0.001 && scale < 0.001))
             return;
 
         float calculatedMinX = getCalculatedMinX().floatValue();

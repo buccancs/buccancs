@@ -223,7 +223,7 @@ public class Configuration {
         Shimmer2.ObjectClusterSensorName.EULER_9DOF_YAW = "Euler_9DOF_YAW";
         Shimmer2.ObjectClusterSensorName.EULER_9DOF_PITCH = "Euler_9DOF_PITCH";
         Shimmer2.ObjectClusterSensorName.EULER_9DOF_ROLL = "Euler_9DOF_Roll";
-        Shimmer2.ObjectClusterSensorName.HEART_RATE = "Heart_Rate"; //for the heart rate strap now no longer sold
+        Shimmer2.ObjectClusterSensorName.HEART_RATE = "Heart_Rate";
         Shimmer2.ObjectClusterSensorName.AXIS_ANGLE_6DOF_A = "Axis Angle A 6DOF";
         Shimmer2.ObjectClusterSensorName.AXIS_ANGLE_6DOF_X = "Axis Angle X 6DOF";
         Shimmer2.ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y = "Axis Angle Y 6DOF";
@@ -242,7 +242,7 @@ public class Configuration {
         DOCK,
         BLUETOOTH,
         IEEE802154,
-        SD, // Bin file
+        SD,
         HID,
         USB,
         CLASS, //this is to read the value of the class for clones etc. e.g. if you do a getsettings(accelRange,CLASS) and getsettings(accelRange,Bluetooth), the results are different. One returns the value in the object while the other should generate a read command to be sent to the shimmer device
@@ -302,7 +302,7 @@ public class Configuration {
         public static final String MAG_CAL_UNIT = LOCAL_FLUX;
 
 
-        public static final String LOCAL = "local"; //used for axis-angle and madgewick quaternions    //XXX-RS-LSM-SensorClass?
+        public static final String LOCAL = "local"; //used for axis-angle and madgewick quaternions
         public static final String PERCENT = "%";
 
         public static final String PIXEL = "px";
@@ -431,7 +431,7 @@ public class Configuration {
             public static String EULER_9DOF_YAW = "Euler_9DOF_YAW";
             public static String EULER_9DOF_PITCH = "Euler_9DOF_PITCH";
             public static String EULER_9DOF_ROLL = "Euler_9DOF_Roll";
-            public static String HEART_RATE = "Heart_Rate"; //for the heart rate strap now no longer sold
+            public static String HEART_RATE = "Heart_Rate";
             public static String AXIS_ANGLE_6DOF_A = "Axis_Angle_A";
             public static String AXIS_ANGLE_6DOF_X = "Axis_Angle_X";
             public static String AXIS_ANGLE_6DOF_Y = "Axis_Angle_Y";
@@ -692,10 +692,10 @@ public class Configuration {
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.BRIDGE_AMPLIFIER_SUPP.ordinal(), SensorBridgeAmp.sensorGroupBrAmpTemperature);
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.ADXL377_ACCEL_200G.ordinal(), new SensorGroupingDetails(
                     Configuration.Shimmer3.LABEL_SENSOR_TILE.ADXL377_ACCEL_200G.getTileText(),
-                    Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A12, //X-axis
-                            Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A13, //Y-axis
-                            Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A14), //Z-axis
-                    CompatibilityInfoForMaps.listOfCompatibleVersionInfoAdxl377Accel200G)); //unused but accessible
+                    Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A12,
+                            Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A13,
+                            Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A14),
+                    CompatibilityInfoForMaps.listOfCompatibleVersionInfoAdxl377Accel200G));
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.INTERNAL_EXPANSION_ADC.ordinal(), SensorADC.sensorGroupInternalExpansionADCs);
 
 
@@ -767,10 +767,10 @@ public class Configuration {
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.BRIDGE_AMPLIFIER_SUPP.ordinal(), SensorBridgeAmp.sensorGroupBrAmpTemperature);
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.ADXL377_ACCEL_200G.ordinal(), new SensorGroupingDetails(
                     Configuration.Shimmer3.LABEL_SENSOR_TILE.ADXL377_ACCEL_200G.getTileText(),
-                    Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A12, //X-axis
-                            Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A13, //Y-axis
-                            Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A14), //Z-axis
-                    CompatibilityInfoForMaps.listOfCompatibleVersionInfoAdxl377Accel200G)); //unused but accessible
+                    Arrays.asList(Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A12,
+                            Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A13,
+                            Configuration.Shimmer3.SENSOR_ID.SHIMMER_INT_EXP_ADC_A14),
+                    CompatibilityInfoForMaps.listOfCompatibleVersionInfoAdxl377Accel200G));
             aMap.put(Configuration.Shimmer3.LABEL_SENSOR_TILE.INTERNAL_EXPANSION_ADC.ordinal(), SensorADC.sensorGroupInternalExpansionADCs);
 
 
@@ -1140,7 +1140,7 @@ public class Configuration {
         }
 
         public static class DatabaseChannelHandles {
-                        public static final String FILTERED = "_Filtered"; // to create the name of the filtered signals
+                        public static final String FILTERED = "_Filtered";
 
             public static final String ECG_TO_HR = "ECGToHR";
             public static final String PPG_TO_HR = "PPGToHR";
@@ -1215,13 +1215,13 @@ public class Configuration {
             public static String ECG_LA_RA_24BIT = SensorEXG.ObjectClusterSensorName.ECG_LA_RA_24BIT;
             public static String ECG_LA_RL_24BIT = SensorEXG.ObjectClusterSensorName.ECG_LA_RL_24BIT;
             public static String ECG_LL_RA_24BIT = SensorEXG.ObjectClusterSensorName.ECG_LL_RA_24BIT;
-            public static String ECG_LL_LA_24BIT = SensorEXG.ObjectClusterSensorName.ECG_LL_LA_24BIT; //derived
+            public static String ECG_LL_LA_24BIT = SensorEXG.ObjectClusterSensorName.ECG_LL_LA_24BIT;
             public static String ECG_RESP_24BIT = SensorEXG.ObjectClusterSensorName.ECG_RESP_24BIT;
             public static String ECG_VX_RL_24BIT = SensorEXG.ObjectClusterSensorName.ECG_VX_RL_24BIT;
             public static String ECG_LA_RA_16BIT = SensorEXG.ObjectClusterSensorName.ECG_LA_RA_16BIT;
             public static String ECG_LA_RL_16BIT = SensorEXG.ObjectClusterSensorName.ECG_LA_RL_16BIT;
             public static String ECG_LL_RA_16BIT = SensorEXG.ObjectClusterSensorName.ECG_LL_RA_16BIT;
-            public static String ECG_LL_LA_16BIT = SensorEXG.ObjectClusterSensorName.ECG_LL_LA_16BIT; //derived
+            public static String ECG_LL_LA_16BIT = SensorEXG.ObjectClusterSensorName.ECG_LL_LA_16BIT;
             public static String ECG_RESP_16BIT = SensorEXG.ObjectClusterSensorName.ECG_RESP_16BIT;
             public static String ECG_VX_RL_16BIT = SensorEXG.ObjectClusterSensorName.ECG_VX_RL_16BIT;
             public static String EXG_TEST_CHIP1_CH1_24BIT = SensorEXG.ObjectClusterSensorName.EXG_TEST_CHIP1_CH1_24BIT;
@@ -1318,13 +1318,13 @@ public class Configuration {
         }
 
         public static class NEW_IMU_EXP_REV {
-            public static final int GSR_UNIFIED = 3;        // >= SR48-3-0
+            public static final int GSR_UNIFIED = 3;
             public static final int EXG_UNIFIED = 3;        // >= SR47-3-0 (SR48-2 was skipped)
             public static final int BRIDGE_AMP = 3;            // >= SR49-3-0 (SR49-2 was skipped)
-            public static final int IMU = 6;                // >= SR31-6-0
-            public static final int ANY_EXP_BRD_WITH_SPECIAL_REV = 171;    // == SRx-x-171 -> any expansion board attached to a new IMU base board
-            public static final int PROTO3_DELUXE = 3;        // Future unified board
-            public static final int PROTO3_MINI = 3;        // Future unified board
+            public static final int IMU = 6;
+            public static final int ANY_EXP_BRD_WITH_SPECIAL_REV = 171;
+            public static final int PROTO3_DELUXE = 3;
+            public static final int PROTO3_MINI = 3;
         }
 
         public static class CompatibilityInfoForMaps {
@@ -1360,7 +1360,7 @@ public class Configuration {
             private static final ShimmerVerObject svoNoIntExpBoardSdLog = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 8, 0, HW_ID_SR_CODES.NONE);
             private static final ShimmerVerObject svoSdLog = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 8, 0, ShimmerVerDetails.ANY_VERSION);
             private static final ShimmerVerObject svoSdLogMpl = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 10, 1, ShimmerVerDetails.ANY_VERSION);
-            public static final List<ShimmerVerObject> listOfCompatibleVersionInfoMPLSensors = Arrays.asList(svoSdLogMpl);//,baseShimmer4); //TODO Shimmer4 temp here
+            public static final List<ShimmerVerObject> listOfCompatibleVersionInfoMPLSensors = Arrays.asList(svoSdLogMpl);//,baseShimmer4);
             private static final ShimmerVerObject svoBtStream = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.BTSTREAM, 0, 5, 0, ShimmerVerDetails.ANY_VERSION);
             private static final ShimmerVerObject svoLogAndStream = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.LOGANDSTREAM, 0, 3, 3, ShimmerVerDetails.ANY_VERSION);
             private static final ShimmerVerObject svoNewImuSdLog = new ShimmerVerObject(HW_ID.SHIMMER_3, FW_ID.SDLOG, 0, 15, 1, HW_ID_SR_CODES.SHIMMER3, NEW_IMU_EXP_REV.IMU);
@@ -1609,16 +1609,16 @@ public class Configuration {
         }
 
         public class Channel {
-            public static final int XAAccel = 0x00;//XXX-RS-AA-SensorClass?
-            public static final int YAAccel = 0x01;//XXX-RS-AA-SensorClass?
-            public static final int ZAAccel = 0x02;//XXX-RS-AA-SensorClass?
+            public static final int XAAccel = 0x00;
+            public static final int YAAccel = 0x01;
+            public static final int ZAAccel = 0x02;
             public static final int VBatt = 0x03;
-            public static final int XDAccel = 0x04;//XXX-RS-LSM-SensorClass?
-            public static final int YDAccel = 0x05;//XXX-RS-LSM-SensorClass?
-            public static final int ZDAccel = 0x06;//XXX-RS-LSM-SensorClass?
-            public static final int XMag = 0x07;//XXX-RS-LSM-SensorClass?
-            public static final int YMag = 0x08;//XXX-RS-LSM-SensorClass?
-            public static final int ZMag = 0x09;//XXX-RS-LSM-SensorClass?
+            public static final int XDAccel = 0x04;
+            public static final int YDAccel = 0x05;
+            public static final int ZDAccel = 0x06;
+            public static final int XMag = 0x07;
+            public static final int YMag = 0x08;
+            public static final int ZMag = 0x09;
             public static final int XGyro = 0x0A;
             public static final int YGyro = 0x0B;
             public static final int ZGyro = 0x0C;
@@ -1636,10 +1636,10 @@ public class Configuration {
             public static final int IntAdc10 = 0x11;
             public static final int IntAdc15 = 0x12;
             public static final int IntAdc16 = 0x13;
-            public static final int XAlterAccel = 0x14; //Alternative Accelerometer
+            public static final int XAlterAccel = 0x14;
             public static final int YAlterAccel = 0x15;
             public static final int ZAlterAccel = 0x16;
-            public static final int XAlterMag = 0x17; //Alternative Magnetometer
+            public static final int XAlterMag = 0x17;
             public static final int YAlterMag = 0x18;
             public static final int ZAlterMag = 0x19;
             public static final int Temperature = 0x1A;
@@ -1660,16 +1660,16 @@ public class Configuration {
         }
 
         public class SensorBitmap {
-            public static final int SENSOR_A_ACCEL = 0x80;//XXX-RS-AA-SensorClass?
+            public static final int SENSOR_A_ACCEL = 0x80;
             public static final int SENSOR_GYRO = 0x40;
-            public static final int SENSOR_MAG = 0x20; //XXX-RS-LSM-SensorClass?
+            public static final int SENSOR_MAG = 0x20;
             public static final int SENSOR_EXG1_24BIT = 0x10;
             public static final int SENSOR_EXG2_24BIT = 0x08;
             public static final int SENSOR_GSR = 0x04;
             public static final int SENSOR_EXT_A7 = 0x02;
             public static final int SENSOR_EXT_A6 = 0x01;
             public static final int SENSOR_VBATT = 0x2000;
-            public static final int SENSOR_D_ACCEL = 0x1000; //XXX-RS-LSM-SensorClass?
+            public static final int SENSOR_D_ACCEL = 0x1000;
             public static final int SENSOR_EXT_A15 = 0x0800;
             public static final int SENSOR_INT_A1 = 0x0400;
             public static final int SENSOR_INT_A12 = 0x0200;
@@ -1690,7 +1690,7 @@ public class Configuration {
             public static final int HOST_SYSTEM_TIMESTAMP = -101;
 
 
-            public static final int SHIMMER_TIMESTAMP = -200;//1;
+            public static final int SHIMMER_TIMESTAMP = -200;
                         public static final int SHIMMER_ANALOG_ACCEL = 2;
             public static final int SHIMMER_VBATT = 3;
 
@@ -1699,20 +1699,20 @@ public class Configuration {
             public static final int SHIMMER_EXT_EXP_ADC_A15 = 6;
 
             public static final int SHIMMER_INT_EXP_ADC_A12 = 7;
-            public static final int HOST_PPG_A12 = 8; //GSR Board
-            public static final int HOST_PPG1_A12 = 9; //Proto3 Deluxe Board
+            public static final int HOST_PPG_A12 = 8;
+            public static final int HOST_PPG1_A12 = 9;
             public static final int SHIMMER_INT_EXP_ADC_A13 = 10;
-            public static final int HOST_PPG_A13 = 11; //GSR Board
-            public static final int HOST_PPG1_A13 = 12; //Proto3 Deluxe Board
+            public static final int HOST_PPG_A13 = 11;
+            public static final int HOST_PPG1_A13 = 12;
             public static final int SHIMMER_INT_EXP_ADC_A14 = 13;
-            public static final int HOST_PPG2_A14 = 14; //Proto3 Deluxe Board
+            public static final int HOST_PPG2_A14 = 14;
 
             public static final int SHIMMER_BRIDGE_AMP = 15;
             public static final int SHIMMER_RESISTANCE_AMP = 16;
 
             public static final int SHIMMER_INT_EXP_ADC_A1 = 17;
-            public static final int HOST_PPG2_A1 = 18; //Proto3 Deluxe Board
-            public static final int SHIMMER_GSR = 19;// Based on ADC1
+            public static final int HOST_PPG2_A1 = 18;
+            public static final int SHIMMER_GSR = 19;
 
             public static final int SHIMMER_MPU9X50_GYRO = 30;
                         public static final int SHIMMER_LSM303_ACCEL = 31;
@@ -1720,7 +1720,7 @@ public class Configuration {
                         public static final int SHIMMER_MPU9X50_ACCEL = 33;
                         public static final int SHIMMER_MPU9X50_MAG = 34;
             public static final int SHIMMER_MPU9X50_TEMP = 35;
-            public static final int SHIMMER_BMPX80_PRESSURE = 36;    //BMP180 and BMP280
+            public static final int SHIMMER_BMPX80_PRESSURE = 36;
 
                         public static final int SHIMMER_LSM6DSV_ACCEL_LN = 37;
             public static final int SHIMMER_LSM6DSV_GYRO = 38;
@@ -1851,15 +1851,12 @@ public class Configuration {
             public static final String ENABLE_ERROR_LEDS_SD = "SD Error LEDs";
             public static final String LOW_POWER_AUTOSTOP = "Low-power Autostop";
 
-            public static final String KINEMATIC_LPM = "Kinematic Sensors Low-Power Mode";//XXX-RS-LSM-SensorClass? What about HighResolutionMode?!
+            public static final String KINEMATIC_LPM = "Kinematic Sensors Low-Power Mode";
             public static final String CALIBRATION_ALL = AbstractSensor.GuiLabelConfigCommon.CALIBRATION_ALL;
             public static final String CALIBRATION_PER_SENSOR = AbstractSensor.GuiLabelConfigCommon.CALIBRATION_PER_SENSOR;
         }
 
         public class GuiLabelSensors {
-
-
-//
             public static final String BRIDGE_AMPLIFIER = SensorBridgeAmp.GuiLabelSensors.BRIDGE_AMPLIFIER;
             public static final String RESISTANCE_AMP = SensorBridgeAmp.GuiLabelSensors.RESISTANCE_AMP;
             public static final String SKIN_TEMP_PROBE = SensorBridgeAmp.GuiLabelSensors.SKIN_TEMP_PROBE;
@@ -1884,10 +1881,10 @@ public class Configuration {
 
             public static final String MPL_HEADING = SensorMPU9X50.GuiLabelSensors.MPL_HEADING;
             public static final String MPL_TEMPERATURE = SensorMPU9X50.GuiLabelSensors.MPL_TEMPERATURE;
-            public static final String MPL_PEDOM_CNT = SensorMPU9X50.GuiLabelSensors.MPL_PEDOM_CNT; // not currently supported
-            public static final String MPL_PEDOM_TIME = SensorMPU9X50.GuiLabelSensors.MPL_PEDOM_TIME; // not currently supported
-            public static final String MPL_TAPDIRANDTAPCNT = SensorMPU9X50.GuiLabelSensors.MPL_TAPDIRANDTAPCNT; //"TapDirAndTapCnt"; // not currently supported
-            public static final String MPL_MOTIONANDORIENT = SensorMPU9X50.GuiLabelSensors.MPL_MOTIONANDORIENT; //"MotionAndOrient"; // not currently supported
+            public static final String MPL_PEDOM_CNT = SensorMPU9X50.GuiLabelSensors.MPL_PEDOM_CNT;
+            public static final String MPL_PEDOM_TIME = SensorMPU9X50.GuiLabelSensors.MPL_PEDOM_TIME;
+            public static final String MPL_TAPDIRANDTAPCNT = SensorMPU9X50.GuiLabelSensors.MPL_TAPDIRANDTAPCNT; //"TapDirAndTapCnt";
+            public static final String MPL_MOTIONANDORIENT = SensorMPU9X50.GuiLabelSensors.MPL_MOTIONANDORIENT; //"MotionAndOrient";
 
             public static final String ECG_TO_HR = "ECG To HR";
             public static final String PPG_TO_HR = "PPG To HR";
@@ -1895,7 +1892,7 @@ public class Configuration {
             public static final String ORIENTATION_3D_6DOF = "3D Orientation (6DOF)";
             public static final String ORIENTATION_3D_9DOF = "3D Orientation (9DOF)";
             public static final String EULER_ANGLES_6DOF = "Euler Angles (6DOF)";
-            public static final String EULER_ANGLES_9DOF = "Euler Angles (9DOF)";   // needed in both MPU and Algorithm???
+            public static final String EULER_ANGLES_9DOF = "Euler Angles (9DOF)";
 
             public static final String ADXL377_ACCEL_200G = "200g Accel";
 
@@ -1938,20 +1935,20 @@ public class Configuration {
 
 
             aMap.put(Configuration.ShimmerGqBle.SENSOR_ID.VBATT, new SensorDetailsRef(0, 0, Configuration.ShimmerGqBle.GuiLabelSensors.BATTERY));
-            aMap.put(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL, new SensorDetailsRef(0, 0, Configuration.ShimmerGqBle.GuiLabelSensors.ACCEL_WR)); //XXX-RS-LSM-SensorClass?
+            aMap.put(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL, new SensorDetailsRef(0, 0, Configuration.ShimmerGqBle.GuiLabelSensors.ACCEL_WR));
             aMap.put(Configuration.ShimmerGqBle.SENSOR_ID.GSR, new SensorDetailsRef(0, 0, Configuration.ShimmerGqBle.GuiLabelSensors.GSR));
             aMap.put(Configuration.ShimmerGqBle.SENSOR_ID.BEACON, new SensorDetailsRef(0, 0, Configuration.ShimmerGqBle.GuiLabelSensors.BEACON));
             aMap.put(Configuration.ShimmerGqBle.SENSOR_ID.PPG, new SensorDetailsRef(0, 0, Configuration.ShimmerGqBle.GuiLabelSensors.PPG));
 
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.VBATT).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
-            aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;  //XXX-RS-LSM-SensorClass?
+            aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.GSR).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.BEACON).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.PPG).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
 
             aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.VBATT).mListOfConfigOptionKeysAssociated = Arrays.asList(
                     Configuration.ShimmerGqBle.GuiLabelConfig.SAMPLING_RATE_DIVIDER_VBATT);
-            aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL).mListOfConfigOptionKeysAssociated = Arrays.asList(  //XXX-RS-LSM-SensorClass?
+            aMap.get(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL).mListOfConfigOptionKeysAssociated = Arrays.asList(
                     Configuration.ShimmerGqBle.GuiLabelConfig.LSM303DLHC_ACCEL_RANGE,
                     Configuration.ShimmerGqBle.GuiLabelConfig.LSM303DLHC_ACCEL_RATE,
                     Configuration.ShimmerGqBle.GuiLabelConfig.LSM303DLHC_ACCEL_LPM,
@@ -1972,7 +1969,7 @@ public class Configuration {
             aMap.put(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BATTERY_MONITORING.ordinal(), new SensorGroupingDetails(
                     Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BATTERY_MONITORING.getTileText(),
                     Arrays.asList(Configuration.ShimmerGqBle.SENSOR_ID.VBATT)));
-            aMap.put(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.WIDE_RANGE_ACCEL.ordinal(), new SensorGroupingDetails(   //XXX-RS-LSM-SensorClass?
+            aMap.put(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.WIDE_RANGE_ACCEL.ordinal(), new SensorGroupingDetails(
                     Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.WIDE_RANGE_ACCEL.getTileText(),
                     Arrays.asList(Configuration.ShimmerGqBle.SENSOR_ID.LSM303DLHC_ACCEL)));
             aMap.put(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.GSR.ordinal(), new SensorGroupingDetails(
@@ -1986,7 +1983,7 @@ public class Configuration {
             aMap.get(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BATTERY_MONITORING).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
             ;
             aMap.get(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.WIDE_RANGE_ACCEL).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
-            ;   //XXX-RS-LSM-SensorClass?
+            ;
             aMap.get(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.GSR).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
             ;
             aMap.get(Configuration.ShimmerGqBle.LABEL_SENSOR_TILE.BEACON).mListOfCompatibleVersionInfo = Configuration.ShimmerGqBle.CompatibilityInfoForMaps.listOfCompatibleVersionInfoGq;
@@ -2097,9 +2094,9 @@ public class Configuration {
 
         public enum LABEL_SENSOR_TILE {
             GYRO(Configuration.ShimmerGqBle.GuiLabelSensors.GYRO),
-            MAG(Configuration.ShimmerGqBle.GuiLabelSensors.MAG), //XXX-RS-LSM-SensorClass?
+            MAG(Configuration.ShimmerGqBle.GuiLabelSensors.MAG),
             BATTERY_MONITORING(Configuration.ShimmerGqBle.GuiLabelSensors.BATTERY),
-            WIDE_RANGE_ACCEL(Configuration.ShimmerGqBle.GuiLabelSensors.ACCEL_WR),  //XXX-RS-LSM-SensorClass?
+            WIDE_RANGE_ACCEL(Configuration.ShimmerGqBle.GuiLabelSensors.ACCEL_WR),
             GSR("GSR+"),
             BEACON(Configuration.ShimmerGqBle.GuiLabelSensors.BEACON);
 
@@ -2120,11 +2117,11 @@ public class Configuration {
         }
 
         public class SENSOR_ID {
-            public static final int MPU9150_ACCEL = 17; // SensorMPU9X50.SENSOR_ID.MPU9150_ACCEL;
-            public static final int MPU9150_GYRO = 1; // SensorMPU9X50.SENSOR_ID.MPU9150_GYRO;
-            public static final int MPU9150_MAG = 18; // SensorMPU9X50.SENSOR_ID.MPU9150_MAG;
+            public static final int MPU9150_ACCEL = 17;
+            public static final int MPU9150_GYRO = 1;
+            public static final int MPU9150_MAG = 18;
             public static final int VBATT = 10;
-            public static final int LSM303DLHC_ACCEL = 11;  //XXX-RS-LSM-SensorClass?
+            public static final int LSM303DLHC_ACCEL = 11;
             public static final int PPG = 107;
             public static final int GSR = 5;
             public static final int BEACON = 108;
@@ -2147,7 +2144,7 @@ public class Configuration {
             public static final String SAMPLING_RATE_DIVIDER_VBATT = SensorBattVoltage.GuiLabelConfig.SAMPLING_RATE_DIVIDER_VBATT; //"VBATT Divider";
             public static final String SAMPLING_RATE_DIVIDER_GSR = SensorGSR.GuiLabelConfig.SAMPLING_RATE_DIVIDER_GSR; //"GSR Divider";
             public static final String SAMPLING_RATE_DIVIDER_PPG = SensorPPG.GuiLabelConfig.SAMPLING_RATE_DIVIDER_PPG; //"PPG Divider";
-            public static final String SAMPLING_RATE_DIVIDER_LSM303DLHC_ACCEL = "LSM303DLHC Divider"; //XXX-RS-LSM-SensorClass?
+            public static final String SAMPLING_RATE_DIVIDER_LSM303DLHC_ACCEL = "LSM303DLHC Divider";
             public static final String LSM303DLHC_ACCEL_RATE = SensorLSM303.GuiLabelConfig.LSM303_ACCEL_RATE;
             public static final String LSM303DLHC_ACCEL_RANGE = SensorLSM303.GuiLabelConfig.LSM303_ACCEL_RANGE;
             public static final String GSR_RANGE = SensorGSR.GuiLabelConfig.GSR_RANGE; // "GSR Range";

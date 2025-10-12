@@ -15,7 +15,6 @@ object ResultCode {
     val ERROR_CONNECT_DEVICE_FAILD = -104
     val ERROR_FIND_ENDPOINT_FAILD = -105
     val ERROR_USE_NOT_AGRREN_PERMISSIONS = -106
-    //usbisvalid
     val ERROR_USE_USB_ISVALID = -107
     val ERROE_USB_SEND_CMD_FAILD = -108
 }

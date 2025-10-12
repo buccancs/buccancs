@@ -224,8 +224,6 @@ public class ImageColorTools {
         double srcValue = 0.1f;
         long time = System.currentTimeMillis();
 //
-//
-//
         Log.e("执行耗时：", System.currentTimeMillis() - time + "//");
         Bitmap outputBitmap = Bitmap.createBitmap(imageMat.cols(), imageMat.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(imageMat, outputBitmap, true);

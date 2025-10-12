@@ -43,8 +43,8 @@ public class SensorADXL371 extends AbstractSensor {
     public static final double[][] DefaultOffsetVectorHighGAccelShimmer3R = {{10}, {10}, {10}};
     public static final double[][] DefaultSensitivityMatrixHighGAccelShimmer3R = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
     public static final SensorDetailsRef sensorADXL371Accel = new SensorDetailsRef(
-            0x400000, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
-            0x400000, //== Configuration.Shimmer3.SensorBitmap.SENSOR_D_ACCEL will be: SensorBitmap.SENSOR_D_ACCEL
+            0x400000,
+            0x400000,
             GuiLabelSensors.ACCEL_HIGHG,
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoADXL371,
             Arrays.asList(GuiLabelConfig.ADXL371_ACCEL_RANGE,
@@ -172,17 +172,17 @@ public class SensorADXL371 extends AbstractSensor {
     }
 
     public static int getAccelRateFromFreq(boolean isEnabled, double freq) {
-        int accelRate = 0; // Power down
+        int accelRate = 0;
 
         if (isEnabled) {
             if (freq <= 320) {
-                accelRate = 0; // 320Hz
+                accelRate = 0;
             } else if (freq <= 640) {
-                accelRate = 1; // 640Hz
+                accelRate = 1;
             } else if (freq <= 1280) {
-                accelRate = 2; // 1280Hz
+                accelRate = 2;
             } else if (freq <= 2560) {
-                accelRate = 3; // 2560Hz
+                accelRate = 3;
             }
         }
         return accelRate;

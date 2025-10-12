@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING) // Test methods will be run in alphabetical order
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class API_0000X_ByteCommunicationShimmer3lns0_16_11 extends BasicProcessWithCallBack {
     ShimmerPC mDevice;
     TaskCompletionSource<Boolean> mWaitTask;

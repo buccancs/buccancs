@@ -22,10 +22,10 @@ class TCPServer {
 
 
             while (true) {
-                int length = dIn.readInt();                    // read length of incoming message
+                int length = dIn.readInt();
                 if (length > 0) {
                     byte[] message = new byte[length];
-                    dIn.readFully(message, 0, message.length); // read the message
+                    dIn.readFully(message, 0, message.length);
                     ByteArrayInputStream bais = new ByteArrayInputStream(message);
                     ObjectInputStream ois = new ObjectInputStream(bais);
                     ObjectCluster rxojc = (ObjectCluster) ois.readObject();

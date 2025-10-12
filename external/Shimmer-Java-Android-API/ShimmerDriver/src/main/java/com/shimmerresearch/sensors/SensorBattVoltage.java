@@ -81,8 +81,6 @@ public class SensorBattVoltage extends AbstractSensor {
         mSensorMapRef = Collections.unmodifiableMap(aMap);
     }
 
-//
-
 
 
     static {

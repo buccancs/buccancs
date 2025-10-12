@@ -87,7 +87,7 @@ public class ShimmerService extends Service {
             for (Handler handler : mHandlerList) {
                 handler.obtainMessage(msg.what, msg.arg1, msg.arg2, msg.obj).sendToTarget();
             }
-            switch (msg.what) { // handlers have a what identifier which is used to identify the type of msg
+            switch (msg.what) {
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
                                         handleMsgDataPacket(msg);
                     break;
@@ -238,7 +238,7 @@ public class ShimmerService extends Service {
         if (isVerisense) {
             btManager.connectVerisenseDevice(new BluetoothDeviceDetails("", bluetoothAddress, deviceName));
         } else {
-            btManager.connectShimmerThroughBTAddress(bluetoothAddress, deviceName, preferredBtType);   //Connect to the selected device
+            btManager.connectShimmerThroughBTAddress(bluetoothAddress, deviceName, preferredBtType);
         }
 
 
@@ -270,12 +270,12 @@ public class ShimmerService extends Service {
     }
 
         public void handleMsgDataPacket(Message msg) {
-        if ((msg.obj instanceof ObjectCluster)) {    // within each msg an object can be include, objectclusters are used to represent the data structure of the shimmer device
+        if ((msg.obj instanceof ObjectCluster)) {
             ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
             if (mPPGtoHREnabled) {
-                Collection<FormatCluster> dataFormats = objectCluster.getCollectionOfFormatClusters(mPPGtoHRSignalName);  // first retrieve all the possible formats for the current sensor device
-                FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                Collection<FormatCluster> dataFormats = objectCluster.getCollectionOfFormatClusters(mPPGtoHRSignalName);
+                FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString()));
                 if (formatCluster != null) {
                     double ppgdata = formatCluster.mData;
 
@@ -285,8 +285,8 @@ public class ShimmerService extends Service {
                         e.printStackTrace();
                     }
 
-                    dataFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);  // first retrieve all the possible formats for the current sensor device
-                    formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                    dataFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
+                    formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString()));
 
                     double calts = formatCluster.mData;
 
@@ -298,8 +298,8 @@ public class ShimmerService extends Service {
             }
 
             if (mECGtoHREnabled) {
-                Collection<FormatCluster> dataFormats = objectCluster.getCollectionOfFormatClusters(mECGtoHRSignalName);  // first retrieve all the possible formats for the current sensor device
-                FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                Collection<FormatCluster> dataFormats = objectCluster.getCollectionOfFormatClusters(mECGtoHRSignalName);
+                FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString()));
                 if (formatCluster != null) {
                     double ecgdata = formatCluster.mData;
 
@@ -310,8 +310,8 @@ public class ShimmerService extends Service {
                         e.printStackTrace();
                     }
 
-                    dataFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);  // first retrieve all the possible formats for the current sensor device
-                    formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                    dataFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP);
+                    formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormats, CHANNEL_TYPE.CAL.toString()));
 
                     double calts = formatCluster.mData;
 
@@ -323,12 +323,12 @@ public class ShimmerService extends Service {
 
 
             if (mConvertGSRtoSiemens) {
-                Collection<FormatCluster> dataFormatsGSR = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.GSR_RESISTANCE);  // first retrieve all the possible formats for the current sensor device
-                FormatCluster formatClusterGSR = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormatsGSR, CHANNEL_TYPE.CAL.toString())); // retrieve the calibrated data
+                Collection<FormatCluster> dataFormatsGSR = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.GSR_RESISTANCE);
+                FormatCluster formatClusterGSR = ((FormatCluster) ObjectCluster.returnFormatCluster(dataFormatsGSR, CHANNEL_TYPE.CAL.toString()));
                 if (formatClusterGSR != null) {
-                    double gsrdata = formatClusterGSR.mData * 1000; //in ohms
+                    double gsrdata = formatClusterGSR.mData * 1000;
                     double conductance = 1 / gsrdata;
-                    conductance = conductance * 1000000; //convert to microSiemens
+                    conductance = conductance * 1000000;
                     objectCluster.addData(Configuration.Shimmer3.ObjectClusterSensorName.GSR_CONDUCTANCE, CHANNEL_TYPE.CAL, "microSiemens", conductance);
                 }
             }
@@ -386,7 +386,7 @@ public class ShimmerService extends Service {
         if (mHandlerGraph != null) {
             mHandlerGraph.obtainMessage(msg.what, msg.arg1, -1, msg.obj).sendToTarget();
         }
-        if (msg.arg1 == Shimmer.MSG_STATE_STOP_STREAMING) { //deprecated shimmer
+        if (msg.arg1 == Shimmer.MSG_STATE_STOP_STREAMING) {
             closeAndRemoveFile(((ObjectCluster) msg.obj).getMacAddress());
         } else {
             BT_STATE state = null;

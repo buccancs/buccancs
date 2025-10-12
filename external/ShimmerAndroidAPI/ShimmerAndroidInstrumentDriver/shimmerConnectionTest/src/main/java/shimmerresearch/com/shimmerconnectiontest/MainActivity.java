@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 
     private final static String LOG_TAG = "ShimmerConnectionTest";
     ShimmerBluetoothManagerAndroid btManager;
-    HashMap<Integer, Integer> ResultMap = new HashMap<>(); //-1,0,1 , unknown, fail, pass
+    HashMap<Integer, Integer> ResultMap = new HashMap<>();
     private EditText editTextShimmerStatus;
     private EditText editTextInterval;
     private EditText editTextSuccessCount;

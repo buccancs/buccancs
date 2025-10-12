@@ -27,11 +27,11 @@ public class PointDraw extends BaseDraw {
     private static final String TAG = "BaseTemperatureView PointDraw";
     private static final int MAX_POINT_COUNT = 3;
     private final int STROKE_WIDTH = 8;
-    private final int TEXT_SIZE = 14; // 文字大小
-    private int TEXT_POINT_MARGIN; // 数字和点之间的距离
+    private final int TEXT_SIZE = 14;
+    private int TEXT_POINT_MARGIN;
     private int LABEL_POINT_MARGIN;
     private LinkedList<PointView> mPointList;
-    private PointView mTempPoint;//临时绘制的point，比如手势移动过程中
+    private PointView mTempPoint;
     private Paint mTextPaint;
     private Paint mBgPaint;
     private Paint.FontMetrics mFontMetrics;
@@ -220,13 +220,13 @@ public class PointDraw extends BaseDraw {
 
     public static class PointView extends BaseView {
 
-        private static final float TOUCH_EXTRA = 20;//额外的触摸范围
+        private static final float TOUCH_EXTRA = 20;
 
-        private int mMode;//1:blue 2:green 3:red
-        private float mCenterX;//相对父布局
+        private int mMode;
+        private float mCenterX;
         private float mCenterY;
 
-        private Rect mInRect; //范围
+        private Rect mInRect;
         private Bitmap mPointBitmap;
         private Point mTempPoint;
 

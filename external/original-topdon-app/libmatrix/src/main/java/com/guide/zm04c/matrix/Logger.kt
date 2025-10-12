@@ -83,7 +83,7 @@ object Logger {
         if (!dirsFile.exists()) {
             dirsFile.mkdirs()
         }
-        val file = File(dirsFile.toString(), needWriteFiel + MYLOGFILEName) // MYLOG_PATH_SDCARD_DIR
+        val file = File(dirsFile.toString(), needWriteFiel + MYLOGFILEName)
         if (!file.exists()) {
             try {
                 file.createNewFile()

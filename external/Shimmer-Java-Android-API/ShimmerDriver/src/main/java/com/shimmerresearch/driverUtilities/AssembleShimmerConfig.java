@@ -92,9 +92,9 @@ public class AssembleShimmerConfig {
             AssembleShimmerConfig.correctShimmerNameDuplicates(listOfShimmersToConfigureClone);
 
             long configTime = System.currentTimeMillis() / 1000;
-            int index = 1; // first id is one
+            int index = 1;
             for (ShimmerDevice shimmerDevice : listOfShimmersToConfigureClone) {
-                shimmerDevice.setConfigTime(configTime); // Set Shimmer configuration time
+                shimmerDevice.setConfigTime(configTime);
                 shimmerDevice.checkShimmerConfigBeforeConfiguring();
                 if (isBasic) {
                     shimmerDevice.disableAllAlgorithms();
@@ -102,15 +102,15 @@ public class AssembleShimmerConfig {
 
                 if (shimmerDevice instanceof ShimmerBluetooth) {
                     ShimmerBluetooth shimmerPcmss = (ShimmerBluetooth) shimmerDevice;
-                    shimmerPcmss.setExperimentId(index); // set experiment id
-                    shimmerPcmss.setExperimentNumberOfShimmers(listOfShimmersToConfigureClone.size()); // set num Shimmers in experiment
+                    shimmerPcmss.setExperimentId(index);
+                    shimmerPcmss.setExperimentNumberOfShimmers(listOfShimmersToConfigureClone.size());
 
 
                     shimmerPcmss.setIsOverrideShowErrorLedsRtc(overrideShowErrorLedsRtc);
                     shimmerPcmss.setIsOverrideShowErrorLedsSd(overrideShowErrorLedsSd);
 
                     if (commType == COMMUNICATION_TYPE.DOCK) {
-                        shimmerPcmss.setBluetoothBaudRate(9); // Set the MSP-to-RN42 baud rate to be 460800
+                        shimmerPcmss.setBluetoothBaudRate(9);
                     }
 
                     shimmerPcmss.setConfigFileCreationFlag(true);

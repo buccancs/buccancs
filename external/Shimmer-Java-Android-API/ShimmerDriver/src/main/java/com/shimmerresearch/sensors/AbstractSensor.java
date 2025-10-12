@@ -196,10 +196,10 @@ public abstract class AbstractSensor implements Serializable {
 
         public abstract boolean checkConfigOptionValues(String stringKey);
 
-    @Deprecated //TODO remove below? old approach?
+    @Deprecated
     public abstract Object getSettings(String componentName, COMMUNICATION_TYPE commType);
 
-    @Deprecated //TODO remove below? old approach?
+    @Deprecated
     public abstract ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType);
 
     public abstract boolean processResponse(int responseCommand, Object parsedResponse, COMMUNICATION_TYPE commType);
@@ -380,7 +380,7 @@ public abstract class AbstractSensor implements Serializable {
         if (mShimmerDevice != null) {
             return mShimmerDevice.getSamplingRateShimmer();
         }
-        return 128.0;//Double.NaN;
+        return 128.0;
     }
 
     public int getHardwareVersion() {
@@ -462,11 +462,6 @@ public abstract class AbstractSensor implements Serializable {
     public boolean handleSpecCasesBeforeSensorMapUpdatePerSensor(ShimmerDevice shimmerDevice, Integer sensorId) {
         return false;
     }
-
-//
-//
-//
-//
 //
 //
 //
@@ -481,8 +476,6 @@ public abstract class AbstractSensor implements Serializable {
     public int handleSpecCasesBeforeSetSensorState(int sensorId, boolean state) {
         return sensorId;
     }
-
-//
     protected void setAllCalibSensitivityScaleFactor(CALIBRATION_SCALE_FACTOR sensitivityScaleFactor) {
         for (Integer sensorId : mCalibMap.keySet()) {
             setCalibSensitivityScaleFactor(sensorId, sensitivityScaleFactor);
@@ -619,7 +612,7 @@ public abstract class AbstractSensor implements Serializable {
         MAX86916("MAX86916"),
         BIOZ("MAX30001"),
         ADXL371("ADXL371"),
-        LIS3MDL("LIS3MDL"), //to be changed
+        LIS3MDL("LIS3MDL"),
         LIS2MDL("LIS2MDL"),
         LSM6DSV("LSM6DSV"),
         BMP390("BMP390");

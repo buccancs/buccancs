@@ -64,7 +64,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//
 
         }
     }

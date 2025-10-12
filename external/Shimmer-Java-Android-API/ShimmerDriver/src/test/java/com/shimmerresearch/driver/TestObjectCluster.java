@@ -40,16 +40,6 @@ import com.shimmerresearch.driver.FormatCluster;
 import com.shimmerresearch.sensors.SensorShimmerClock;
 
 public abstract class TestObjectCluster {
-
-
-//
-//
-//
-//
-//
-//
-//
-//		
 //
 //
 //
@@ -329,7 +319,7 @@ public abstract class TestObjectCluster {
         for (ObjectClusterTest objc : objcArray) {
             for (int numDataStructures = 1; numDataStructures < 6; numDataStructures++) {
 
-                if (numDataStructures == 1) {    //ArrayList
+                if (numDataStructures == 1) {
 
                     long startArrayList = System.nanoTime();
                     int count = 0;
@@ -341,7 +331,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Option 1 ordered retrieval time: " + (endArrayList - startArrayList));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endArrayList - startArrayList);
 
-                } else if (numDataStructures == 2) {    //Nested HashMap
+                } else if (numDataStructures == 2) {
 
                     long startNestedHashMap = System.nanoTime();
                     int count = 0;
@@ -356,7 +346,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Option 2 ordered retrieval time: " + (endNestedHashMap - startNestedHashMap));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endNestedHashMap - startNestedHashMap);
 
-                } else if (numDataStructures == 3) {    //HashMap with Array
+                } else if (numDataStructures == 3) {
 
                     long startHashMapArray = System.nanoTime();
                     int count = 0;
@@ -369,7 +359,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Option 3 ordered retrieval time: " + (endHashMapArray - startHashMapArray));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endHashMapArray - startHashMapArray);
 
-                } else if (numDataStructures == 4) {    //Arrays
+                } else if (numDataStructures == 4) {
 
                     long startArrays = System.nanoTime();
                     int count = 0;
@@ -384,7 +374,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Option 4 ordered retrieval time: " + (endArrays - startArrays));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endArrays - startArrays);
 
-                } else if (numDataStructures == 5) {    //MultiMap
+                } else if (numDataStructures == 5) {
 
                     long startMultimap = System.nanoTime();
                     int count = 0;
@@ -426,7 +416,7 @@ public abstract class TestObjectCluster {
         for (ObjectClusterTest objc : objcArray) {
             for (int numDataStructures = 1; numDataStructures < 6; numDataStructures++) {
 
-                if (numDataStructures == 1) {    //ArrayList
+                if (numDataStructures == 1) {
 
                     long startArrayList = System.nanoTime();
                     for (int j = 0; j < 50; j++) {
@@ -437,7 +427,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Option 1 random retrieval time: " + (endArrayList - startArrayList));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endArrayList - startArrayList);
 
-                } else if (numDataStructures == 2) {    //Nested HashMap
+                } else if (numDataStructures == 2) {
 
                     long startNestedHashMap = System.nanoTime();
                     for (int j = 0; j < 50; j++) {
@@ -449,7 +439,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Option 2 random retrieval time: " + (endNestedHashMap - startNestedHashMap));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endNestedHashMap - startNestedHashMap);
 
-                } else if (numDataStructures == 3) {    //HashMap with Array
+                } else if (numDataStructures == 3) {
 
                     long startHashMapArray = System.nanoTime();
                     for (int j = 0; j < 50; j++) {
@@ -462,7 +452,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Option 3 random retrieval time: " + (endHashMapArray - startHashMapArray));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endHashMapArray - startHashMapArray);
 
-                } else if (numDataStructures == 4) {    //Arrays
+                } else if (numDataStructures == 4) {
 
                     long startArrays = System.nanoTime();
                     for (int j = 0; j < 50; j++) {
@@ -474,7 +464,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Option 4 random retrieval time: " + (endArrays - startArrays));
                     cumulativeTimings[numDataStructures] = cumulativeTimings[numDataStructures] + (endArrays - startArrays);
 
-                } else if (numDataStructures == 5) {    //MultiMap
+                } else if (numDataStructures == 5) {
 
                     long startMultimap = System.nanoTime();
                     for (int j = 0; j < 50; j++) {
@@ -573,7 +563,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Data Structure Type " + i + " avg insertion time of 30 channels: " + cumulativeTimings[i] / 30 + "ns");
                 }
                 cumulativeTimingsOverall[i] = cumulativeTimingsOverall[i] + cumulativeTimings[i];
-                cumulativeTimings[i] = 0;    //Reset back to 0
+                cumulativeTimings[i] = 0;
             }
 
             if (printToConsole) {
@@ -600,7 +590,7 @@ public abstract class TestObjectCluster {
             System.err.println("----------------------- Comparison of averages over 30 ObjectClusters against Multimap baseline -----------------------\n");
             long baseline = cumulativeTimingsOverall[4];
             for (int a = 0; a < cumulativeTimingsOverall.length; a++) {
-                if (a != 4) {    //4 is the multimap, the baseline
+                if (a != 4) {
                     double improvement = 1 / ((cumulativeTimingsOverall[a] * 1.0f) / baseline);
                     System.err.println("Improvement of data structure " + a + " vs Multimap baseline: " + improvement + "x" + "\t\t" + DATA_STRUCTURE_NAMES[a]);
                 } else {
@@ -617,14 +607,14 @@ public abstract class TestObjectCluster {
 
     public static void testArrayResizing(ObjectClusterTest obj) {
 
-        if (obj.mCalDataResize == null) {    //if arrays not inialized, then initialize them
+        if (obj.mCalDataResize == null) {
             obj.mCalDataResize = new double[1];
             obj.mSensorNamesCalResize = new String[1];
             obj.mUnitCalResize = new String[1];
         }
 
         int currentLength = obj.mCalDataResize.length;
-        if (obj.calArrayIndexResize == (currentLength - 1)) {    //If the index is already at the end of the array, resize the array to make it bigger
+        if (obj.calArrayIndexResize == (currentLength - 1)) {
             String[] tempNamesArray = new String[currentLength + 5];
             String[] tempUnitArray = new String[currentLength + 5];
             double[] tempDataArray = new double[currentLength + 5];
@@ -643,7 +633,7 @@ public abstract class TestObjectCluster {
     public static void testDataStructureOptionsOrderedRetrievalUpdated(ObjectClusterTest[][] objcArray, boolean printToConsole) {
         long cumulativeTimings[] = new long[NUM_DATA_STRUCTURES];
         long cumulativeTimingsOverall[] = new long[NUM_DATA_STRUCTURES];
-        double[] dataArray = new double[50];    //purpose of this array is to store the data retrieved from the ObjectClusters
+        double[] dataArray = new double[50];
 
         for (int i = 0; i < objcArray.length; i++) {
 
@@ -706,7 +696,7 @@ public abstract class TestObjectCluster {
                 } else if (i == 5) {
                     startRetrieval = System.nanoTime();
                     int count = 0;
-                    for (int numOfData = 0; numOfData < objc.calArrayIndex; numOfData++) {    //Testing by reading only up to index
+                    for (int numOfData = 0; numOfData < objc.calArrayIndex; numOfData++) {
                         double data = objc.mCalData[numOfData];
                         dataArray[count] = data;
                         String channelName = objc.mSensorNamesCal[numOfData];
@@ -743,7 +733,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Data Structure Type " + i + " avg insertion time of 30 channels: " + cumulativeTimings[i] / 30 + "ns");
                 }
                 cumulativeTimingsOverall[i] = cumulativeTimingsOverall[i] + cumulativeTimings[i];
-                cumulativeTimings[i] = 0;    //Reset back to 0
+                cumulativeTimings[i] = 0;
             }
 
             if (printToConsole) {
@@ -769,7 +759,7 @@ public abstract class TestObjectCluster {
             System.err.println("----------------------- Comparison of averages over 30 ObjectClusters against Multimap baseline -----------------------\n");
             long baseline = cumulativeTimingsOverall[4];
             for (int a = 0; a < cumulativeTimingsOverall.length; a++) {
-                if (a != 4) {    //4 is the multimap, the baseline
+                if (a != 4) {
                     double improvement = 1 / ((cumulativeTimingsOverall[a] * 1.0f) / baseline);
                     System.err.println("Improvement of data structure " + a + " vs Multimap baseline: " + improvement + "x" + "\t\t" + DATA_STRUCTURE_NAMES[a]);
                 } else {
@@ -839,7 +829,7 @@ public abstract class TestObjectCluster {
                     }
                     endRetrieval = System.nanoTime();
                 } else if (i == 5) {
-                    String channelName = "";    //Testing retrieving data from all the arrays
+                    String channelName = "";
                     String units = "";
                     startRetrieval = System.nanoTime();
                     for (int k = 0; k < 60; k++) {
@@ -870,7 +860,7 @@ public abstract class TestObjectCluster {
                     System.out.println("Data Structure Type " + i + " avg random retrieval time of 30 channels retrieved 60 times: " + cumulativeTimings[i] / 30 + "ns");
                 }
                 cumulativeTimingsOverall[i] = cumulativeTimingsOverall[i] + cumulativeTimings[i];
-                cumulativeTimings[i] = 0;    //Reset back to 0
+                cumulativeTimings[i] = 0;
             }
 
             if (printToConsole) {
@@ -897,7 +887,7 @@ public abstract class TestObjectCluster {
             System.err.println("----------------------- Comparison of averages over 30 ObjectClusters against Multimap baseline -----------------------\n");
             long baseline = cumulativeTimingsOverall[4];
             for (int a = 0; a < cumulativeTimingsOverall.length; a++) {
-                if (a != 4) {    //4 is the multimap, the baseline
+                if (a != 4) {
                     double improvement = 1 / ((cumulativeTimingsOverall[a] * 1.0f) / baseline);
                     System.err.println("Improvement of data structure " + a + " vs Multimap baseline: " + improvement + "x" + "\t\t" + DATA_STRUCTURE_NAMES[a]);
                 } else {

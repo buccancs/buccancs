@@ -15,7 +15,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
     public boolean isGetBmp280CalibrationCoefficientsCommand = false;
     public boolean isGetPressureCalibrationCoefficientsCommand = false;
     public boolean mIsNewBMPSupported;
-    BlockingQueue<Byte> mBuffer = new ArrayBlockingQueue<>(1000); // Fixed size 1000
+    BlockingQueue<Byte> mBuffer = new ArrayBlockingQueue<>(1000);
 
     public ByteCommunicationSimulatorS3(String address) {
     }
@@ -46,7 +46,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
 
     protected void txInfoMem(byte[] buffer) {
 
-        if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00) //0x8E 0x80 0x00 0x00
+        if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00)
         {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
@@ -56,7 +56,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
                 mBuffer.add(b);
             }
             mBuffer.add((byte) 0x8c);
-        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00) //0x8E 0x80 0x80 0x00
+        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00)
         {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
@@ -67,7 +67,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
             }
 
             mBuffer.add((byte) 0x32);
-        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01) //[0x8E 0x80 0x00 0x01]
+        } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01)
         {
             mBuffer.add((byte) 0xff);
             mBuffer.add((byte) 0x8D);
@@ -128,7 +128,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
                 result[i] = mBuffer.take();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            } // Blocks if the buffer is empty
+            }
         }
 
         return result;
@@ -210,7 +210,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
             }
             mBuffer.add((byte) 0x79);
         } else if (buffer[0] == ShimmerObject.GET_CALIB_DUMP_COMMAND) {
-            if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00) //[0x9A 0x80 0x00 0x00]
+            if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x00)
             {
                 mBuffer.add((byte) 0xff);
                 mBuffer.add((byte) 0x99);
@@ -219,7 +219,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
                     mBuffer.add(b);
                 }
                 mBuffer.add((byte) 0xB5);
-            } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00) //[0x9A 0x80 0x80 0x00]
+            } else if (buffer[1] == (byte) 0x80 && buffer[2] == (byte) 0x80 && buffer[3] == (byte) 0x00)
             {
                 mBuffer.add((byte) 0xff);
                 mBuffer.add((byte) 0x99);
@@ -228,7 +228,7 @@ public class ByteCommunicationSimulatorS3 implements ByteCommunication {
                     mBuffer.add(b);
                 }
                 mBuffer.add((byte) 0xFA);
-            } else if (buffer[1] == (byte) 0x54 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01) //[0x9A 0x54 0x00 0x01]
+            } else if (buffer[1] == (byte) 0x54 && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0x01)
             {
                 mBuffer.add((byte) 0xff);
                 mBuffer.add((byte) 0x99);

@@ -151,7 +151,7 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
                 MyRunnable.stringKeyMap.put(javelinID, mByteCommunicationListener);
             } else {
                 Thread thread = new Thread(new MyRunnable(javelinID, mByteCommunicationListener));
-                thread.start(); // Start the thread
+                thread.start();
             }
             try {
                 Thread.sleep(300);

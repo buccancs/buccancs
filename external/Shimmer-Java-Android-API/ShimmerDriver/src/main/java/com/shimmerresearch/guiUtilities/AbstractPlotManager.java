@@ -12,7 +12,7 @@ import com.shimmerresearch.driverUtilities.UtilShimmer.SHIMMER_DEFAULT_COLOURS;
 public abstract class AbstractPlotManager {
 
     public static List<int[]> mListofTraceColorsDefault = Collections.synchronizedList(new ArrayList<int[]>());
-    public List<String[]> mListofPropertiestoPlot = Collections.synchronizedList(new ArrayList<String[]>()); //this is used to identify he signals coming into the filter
+    public List<String[]> mListofPropertiestoPlot = Collections.synchronizedList(new ArrayList<String[]>());
     public List<int[]> mListOfTraceColorsCurrentlyUsed = Collections.synchronizedList(new ArrayList<int[]>());
     public PLOT_LINE_STYLE mDefaultLineStyle = PLOT_LINE_STYLE.CONTINUOUS;
         protected HashMap<String, String[]> mMapofXAxis = new HashMap<String, String[]>();

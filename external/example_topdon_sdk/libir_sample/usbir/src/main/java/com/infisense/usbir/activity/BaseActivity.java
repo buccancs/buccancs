@@ -15,7 +15,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //
         setContentView(getContentView());
         if (!getResources().getBoolean(R.bool.isReleaseVersion)) {
             try {
@@ -25,7 +24,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        //
         initView();
         init(savedInstanceState);
     }

@@ -125,8 +125,8 @@ public class HwDriverShimmerDeviceDetails {
 
     public enum SPAN_VERSION {
         UNKNOWN,
-        SPAN_SR1_3_1, // 115200 baud
-        SPAN_SR1_3_0, // 230400 baud
+        SPAN_SR1_3_1,
+        SPAN_SR1_3_0,
         VIRTUAL;
 
         public boolean isSupported() {
@@ -170,15 +170,15 @@ public class HwDriverShimmerDeviceDetails {
 
         public static final String[] DISK_DRIVE = new String[]{
                 "Shimmer",
-                "Generic" // Some docks went out unprogrammed?
+                "Generic"
         };
         public static final String[] PORTABLE_DEVICE = new String[]{
                 "Shimmer",
-                "Generic" // Some docks went out unprogrammed?
+                "Generic"
         };
         public static final String[] STORAGE_VOL = new String[]{
                 "shimmer",
-                "Generic" // Some docks went out unprogrammed?
+                "Generic"
         };
         public static final String[] COMP_DEV_DOCK = new String[]{
                 "VID_0403&PID_6010",
@@ -200,11 +200,11 @@ public class HwDriverShimmerDeviceDetails {
 
         public static final class MASS_STORAGE_DEVICE {
             public static final String[] HARDWARE_ID = new String[]{
-                    "VID_0424&PID_4050", // Docks and Bases
+                    "VID_0424&PID_4050",
             };
             public static final String[] BUS_DESCRIPTION = new String[]{
                     "SHIMMER",
-                    "Ultra Fast Media Reader"  // Some docks went out unprogrammed?
+                    "Ultra Fast Media Reader"
             };
         }
 
@@ -271,10 +271,10 @@ public class HwDriverShimmerDeviceDetails {
 
             public static final class TOSHIBA_DRIVER {
                 public static final String[] ENUM_NAME = new String[]{
-                        "BLUETOOTH", // Enumerator name
+                        "BLUETOOTH",
                 };
                 public static final String[] MANUFACTURER = new String[]{
-                        "TOSHIBA", // Manufacturer name
+                        "TOSHIBA",
                 };
             }
         }

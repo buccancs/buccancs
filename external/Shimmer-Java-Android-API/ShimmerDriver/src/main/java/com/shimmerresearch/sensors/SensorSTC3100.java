@@ -30,10 +30,10 @@ import com.shimmerresearch.sensors.SensorBattVoltage.ObjectClusterSensorName;
 
 public class SensorSTC3100 extends AbstractSensor {
 
-    public static final double BATT_CHARGE_CAPACITY = 0.45;        //Ah
+    public static final double BATT_CHARGE_CAPACITY = 0.45;
     public static final double BATT_MAX_VOLTAGE = 4.167;
     public static final SensorDetailsRef sensorSTC3100Ref = new SensorDetailsRef(
-            0x01 << 16, // CHECK FOR CORRECT VALUE
+            0x01 << 16,
             0x01 << 16,
             GuiLabelSensors.STC3100,
             null,
@@ -157,19 +157,19 @@ public class SensorSTC3100 extends AbstractSensor {
         mChannelMapRef = Collections.unmodifiableMap(aMap);
     }
 
-    public double mBattInitialCharge = 0;            //mAh
-    @Deprecated // No longer a streaming channel
-    public double mBattCurrentVoltage = 0;           //mV
-    @Deprecated // No longer a streaming channel
-    public double mBattCurrent = 0;                  //mA
+    public double mBattInitialCharge = 0;
+    @Deprecated
+    public double mBattCurrentVoltage = 0;
+    @Deprecated
+    public double mBattCurrent = 0;
 
 
-    @Deprecated // No longer a streaming channel
-    public double mBattTemperature = 0;                // degrees C
-    @Deprecated // No longer a streaming channel
-    public double mBattCurrentCharge = 0;            //mAh
+    @Deprecated
+    public double mBattTemperature = 0;
+    @Deprecated
+    public double mBattCurrentCharge = 0;
     public double mBattPercentage = 0;
-    public double mBattTimeRemaining = 0;             //mins
+    public double mBattTimeRemaining = 0;
     public String mBattPercentageParsed = "";
     private SensorSTC3100Details mStc3100Details = new SensorSTC3100Details();
 

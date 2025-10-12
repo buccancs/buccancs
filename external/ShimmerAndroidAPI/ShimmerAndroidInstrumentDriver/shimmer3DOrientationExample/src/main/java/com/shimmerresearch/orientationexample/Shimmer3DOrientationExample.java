@@ -61,36 +61,36 @@ public class Shimmer3DOrientationExample extends Activity {
     private Shimmer mShimmerDevice1 = null;
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            switch (msg.what) { // handlers have a what identifier which is used to identify the type of msg
+            switch (msg.what) {
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
-                    if ((msg.obj instanceof ObjectCluster)) {    // within each msg an object can be include, objectclusters are used to represent the data structure of the shimmer device
+                    if ((msg.obj instanceof ObjectCluster)) {
                         ObjectCluster objectCluster = (ObjectCluster) msg.obj;
-                        Collection<FormatCluster> accelXFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_9DOF_A);  // first retrieve all the possible formats for the current sensor device
+                        Collection<FormatCluster> accelXFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_9DOF_A);
 
                         float angle = 0, x = 0, y = 0, z = 0;
                         if (accelXFormats != null) {
-                            FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(accelXFormats, "CAL")); // retrieve the calibrated data
+                            FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(accelXFormats, "CAL"));
                             if (formatCluster != null) {
                                 angle = (float) formatCluster.mData;
                             }
                         }
-                        Collection<FormatCluster> accelYFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_9DOF_X);  // first retrieve all the possible formats for the current sensor device
+                        Collection<FormatCluster> accelYFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_9DOF_X);
                         if (accelYFormats != null) {
-                            FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(accelYFormats, "CAL")); // retrieve the calibrated data
+                            FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(accelYFormats, "CAL"));
                             if (formatCluster != null) {
                                 x = (float) formatCluster.mData;
                             }
                         }
-                        Collection<FormatCluster> accelZFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_9DOF_Y);  // first retrieve all the possible formats for the current sensor device
+                        Collection<FormatCluster> accelZFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_9DOF_Y);
                         if (accelZFormats != null) {
-                            FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(accelZFormats, "CAL")); // retrieve the calibrated data
+                            FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(accelZFormats, "CAL"));
                             if (formatCluster != null) {
                                 y = (float) formatCluster.mData;
                             }
                         }
-                        Collection<FormatCluster> aaFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_9DOF_Z);  // first retrieve all the possible formats for the current sensor device
+                        Collection<FormatCluster> aaFormats = objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.AXIS_ANGLE_9DOF_Z);
                         if (aaFormats != null) {
-                            FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(aaFormats, "CAL")); // retrieve the calibrated data
+                            FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(aaFormats, "CAL"));
                             if (formatCluster != null) {
                                 z = (float) formatCluster.mData;
                                 AxisAngle4d aa = new AxisAngle4d(x, y, z, angle);

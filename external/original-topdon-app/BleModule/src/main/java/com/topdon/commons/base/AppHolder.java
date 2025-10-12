@@ -177,7 +177,7 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
 
         public void finish(String className, String... classNames) {
         List<RunningActivity> list = new ArrayList<>(runningActivities);
-        Collections.reverse(list);//倒序，后开的先finish
+        Collections.reverse(list);
         for (RunningActivity runningActivity : list) {
             Activity activity = runningActivity.weakActivity.get();
             if (activity != null) {
@@ -191,7 +191,7 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
 
         public void finishAllWithout(@Nullable String className, String... classNames) {
         List<RunningActivity> list = new ArrayList<>(runningActivities);
-        Collections.reverse(list);//倒序，后开的先finish
+        Collections.reverse(list);
         for (RunningActivity runningActivity : list) {
             Activity activity = runningActivity.weakActivity.get();
             if (activity != null) {
@@ -209,7 +209,7 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
 
         public void backTo(String className) {
         List<RunningActivity> list = new ArrayList<>(runningActivities);
-        Collections.reverse(list);//倒序，后开的先finish
+        Collections.reverse(list);
         for (RunningActivity runningActivity : list) {
             Activity activity = runningActivity.weakActivity.get();
             if (activity != null) {
@@ -250,7 +250,7 @@ public class AppHolder implements Application.ActivityLifecycleCallbacks {
         public void completeExit() {
         isCompleteExit = true;
         List<RunningActivity> list = new ArrayList<>(runningActivities);
-        Collections.reverse(list);//倒序，后开的先finish
+        Collections.reverse(list);
         for (RunningActivity runningActivity : list) {
             Activity activity = runningActivity.weakActivity.get();
             if (activity != null) {

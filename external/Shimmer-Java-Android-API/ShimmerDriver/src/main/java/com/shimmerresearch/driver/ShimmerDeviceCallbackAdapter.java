@@ -40,8 +40,6 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
             } else {
                 mShimmerDevice.setIsStreaming(false);
             }
-
-//
         } else if ((connectionState == BT_STATE.DISCONNECTED)
                 || (connectionState == BT_STATE.CONNECTION_LOST)
                 || (connectionState == BT_STATE.CONNECTION_FAILED)) {

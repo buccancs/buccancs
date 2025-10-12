@@ -43,7 +43,6 @@ public class IRUVCTC {
     private UVCCamera uvcCamera;
     private IRCMD ircmd;
     private int[] curVtemp = new int[1];
-    //
     private USBMonitor mUSBMonitor;
     private int cameraWidth;
     private int cameraHeight;
@@ -58,7 +57,6 @@ public class IRUVCTC {
     private int count = 0;
     private long timestart = 0;
     private double fps = 0;
-    //
     private Handler mHandler;
     private int rotate = 0;
     private boolean isUseIRISP;
@@ -67,7 +65,6 @@ public class IRUVCTC {
     private CommonParams.GainMode gainMode = CommonParams.GainMode.GAIN_MODE_HIGH;
     private short[] nuc_table_high = new short[8192];
     private short[] nuc_table_low = new short[8192];
-    //
     private byte[] priv_high = new byte[1201];
     private byte[] priv_low = new byte[1201];
     private short[] kt_high = new short[1201];
@@ -82,7 +79,6 @@ public class IRUVCTC {
         this.mContext = context;
         this.syncimage = syncimage;
         this.isUseIRISP = isUseIRISP;
-        //
         init(cameraWidth, cameraHeight);
         mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
 
@@ -127,15 +123,15 @@ public class IRUVCTC {
                 Log.w(TAG, "onCancel");
             }
         });
-        gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
-        gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
-        gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
-        gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);//用于low -> high gain,低增益向高增益切换的触发温度
+        gain_switch_param.above_pixel_prop = 0.1f;
+        gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4);
+        gain_switch_param.below_pixel_prop = 0.95f;
+        gain_switch_param.below_temp_data = (int) ((110 + 273.15) * 16 * 4);
         auto_gain_switch_info.switch_frame_cnt = 5 * 15; //连续满足触发条件帧数超过该阈值会触发自动增益切换(假设出图速度为15帧每秒，则5 * 15大概为5秒)
         auto_gain_switch_info.waiting_frame_cnt = 7 * 15;//触发自动增益切换之后，会间隔该阈值的帧数不进行增益切换监测(假设出图速度为15帧每秒，则7 * 15大概为7秒)
         int low_gain_over_temp_data = (int) ((550 + 273.15) * 16 * 4); //低增益下触发防灼烧的温度(高温测试550°C)
         int high_gain_over_temp_data = (int) ((100 + 273.15) * 16 * 4); //高增益下触发防灼烧的温度(低温测试100°C)
-        float pixel_above_prop = 0.02f;//设备像素总面积的百分比
+        float pixel_above_prop = 0.02f;
         int switch_frame_cnt = 7 * 15;//连续满足触发条件超过该阈值会触发防灼烧(假设出图速度为15帧每秒，则7 * 15大概为7秒)
         int close_frame_cnt = 10 * 15;//触发防灼烧之后，经过该阈值的帧数之后会解除防灼烧(假设出图速度为15帧每秒，则10 * 15大概为10秒)
         iFrameCallback = frame -> {
@@ -306,7 +302,6 @@ public class IRUVCTC {
             if (isUseIRISP) {
                 initIRISP();
             } else {
-                //
                 uvcCamera.onStartPreview();
             }
         }
@@ -337,8 +332,6 @@ public class IRUVCTC {
 
 
         uvcCamera.setGainStatus(gainStatus);
-
-        //
         uvcCamera.onStartPreview();
     }
 
@@ -356,7 +349,6 @@ public class IRUVCTC {
 
         public void getIRISPfParamData() {
         boolean isUseSaveData = false;
-        //
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -458,8 +450,6 @@ public class IRUVCTC {
                         e.printStackTrace();
                     }
                 }
-
-                //
                 if (uvcCamera != null) {
                     uvcCamera.setTempCorrectParams(priv_high, priv_low, kt_high, kt_low, bt_high, bt_low, nuc_table_high, nuc_table_low);
                 }

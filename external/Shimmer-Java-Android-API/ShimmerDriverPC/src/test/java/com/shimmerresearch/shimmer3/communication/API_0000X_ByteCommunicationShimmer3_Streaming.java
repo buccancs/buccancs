@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING) // Test methods will be run in alphabetical order
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class API_0000X_ByteCommunicationShimmer3_Streaming extends BasicProcessWithCallBack {
     ShimmerPC mDevice;
     TaskCompletionSource<Boolean> mCalibrationTask;
@@ -66,7 +66,7 @@ public class API_0000X_ByteCommunicationShimmer3_Streaming extends BasicProcessW
         }
         try {
             mStreamingTask.getTask().waitForCompletion(2, TimeUnit.SECONDS);
-            if (mListOJC.size() != 1) {//only one is expected because only the first packet is followed  which meets ShimmerBluetooth.processPacket requirements
+            if (mListOJC.size() != 1) {
                 assert (false);
             }
         } catch (InterruptedException e) {

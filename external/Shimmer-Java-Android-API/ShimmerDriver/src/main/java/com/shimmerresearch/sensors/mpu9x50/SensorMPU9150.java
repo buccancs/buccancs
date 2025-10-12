@@ -555,13 +555,11 @@ public class SensorMPU9150 extends SensorMPU9X50 {
 
     public static String parseFromDBColumnToGUIChannel(String databaseChannelHandle) {
 //
-//
 
         return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, databaseChannelHandle);
     }
 
     public static String parseFromGUIChannelsToDBColumn(String objectClusterName) {
-//
 //
 
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
@@ -619,7 +617,6 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         }
 
         if (mShimmerVerObject.isSupportedMpl()) {
-//
         }
 
         super.updateSensorGroupingMap();
@@ -739,19 +736,19 @@ public class SensorMPU9150 extends SensorMPU9X50 {
 
     public static class DatabaseChannelHandles {
 
-        public static final String MPU_HEADING = "MPU9150_MPL_Heading"; // not available but supported in FW
+        public static final String MPU_HEADING = "MPU9150_MPL_Heading";
         public static final String MPU_TEMP = "MPU9150_Temperature";
 
         public static final String GYRO_X = "MPU9150_GYRO_X";
         public static final String GYRO_Y = "MPU9150_GYRO_Y";
         public static final String GYRO_Z = "MPU9150_GYRO_Z";
 
-        public static final String ALTERNATIVE_ACC_X = "MPU9150_ACC_X"; // not available but supported in FW
-        public static final String ALTERNATIVE_ACC_Y = "MPU9150_ACC_Y"; // not available but supported in FW
-        public static final String ALTERNATIVE_ACC_Z = "MPU9150_ACC_Z"; // not available but supported in FW
-        public static final String ALTERNATIVE_MAG_X = "MPU9150_MAG_X"; // not available but supported in FW
-        public static final String ALTERNATIVE_MAG_Y = "MPU9150_MAG_Y"; // not available but supported in FW
-        public static final String ALTERNATIVE_MAG_Z = "MPU9150_MAG_Z"; // not available but supported in FW
+        public static final String ALTERNATIVE_ACC_X = "MPU9150_ACC_X";
+        public static final String ALTERNATIVE_ACC_Y = "MPU9150_ACC_Y";
+        public static final String ALTERNATIVE_ACC_Z = "MPU9150_ACC_Z";
+        public static final String ALTERNATIVE_MAG_X = "MPU9150_MAG_X";
+        public static final String ALTERNATIVE_MAG_Y = "MPU9150_MAG_Y";
+        public static final String ALTERNATIVE_MAG_Z = "MPU9150_MAG_Z";
 
         public static final String MPU_QUAT_6DOF_W = "MPU9150_MPL_QUAT_6DOF_W";
         public static final String MPU_QUAT_6DOF_X = "MPU9150_MPL_QUAT_6DOF_X";
@@ -761,20 +758,20 @@ public class SensorMPU9150 extends SensorMPU9X50 {
         public static final String MPU_QUAT_9DOF_X = "MPU9150_MPL_QUAT_9DOF_X";
         public static final String MPU_QUAT_9DOF_Y = "MPU9150_MPL_QUAT_9DOF_Y";
         public static final String MPU_QUAT_9DOF_Z = "MPU9150_MPL_QUAT_9DOF_Z";
-        public static final String MPU_EULER_6DOF_X = "MPU9150_MPL_EULER_6DOF_X"; // not available but supported in FW
-        public static final String MPU_EULER_6DOF_Y = "MPU9150_MPL_EULER_6DOF_Y"; // not available but supported in FW
-        public static final String MPU_EULER_6DOF_Z = "MPU9150_MPL_EULER_6DOF_Z"; // not available but supported in FW
-        public static final String MPU_EULER_9DOF_X = "MPU9150_MPL_EULER_9DOF_X"; // not available but supported in FW
-        public static final String MPU_EULER_9DOF_Y = "MPU9150_MPL_EULER_9DOF_Y"; // not available but supported in FW
-        public static final String MPU_EULER_9DOF_Z = "MPU9150_MPL_EULER_9DOF_Z"; // not available but supported in FW
-        public static final String PEDOMETER_CNT = "MPU9150_MPL_PEDOM_CNT"; // not available but supported in FW
-        public static final String PEDOMETER_TIME = "MPU9150_MPL_PEDOM_TIME"; // not available but supported in FW
-        public static final String TAP_DIR_AND_CNT = "MPU9150_MPL_TAP"; // not available but supported in FW
-        public static final String TAP_DIR = "MPU9150_MPL_TAP_DIR"; // not available but supported in FW
-        public static final String TAP_CNT = "MPU9150_MPL_TAP_CNT"; // not available but supported in FW
-        public static final String MOTION_AND_ORIENT = "MPU9150_MPL_MOTION_AND_ORIENT"; // not available but supported in FW
-        public static final String MOTION = "MPU9150_MPL_MOTION"; // not available but supported in FW
-        public static final String ORIENT = "MPU9150_MPL_ORIENT"; // not available but supported in FW
+        public static final String MPU_EULER_6DOF_X = "MPU9150_MPL_EULER_6DOF_X";
+        public static final String MPU_EULER_6DOF_Y = "MPU9150_MPL_EULER_6DOF_Y";
+        public static final String MPU_EULER_6DOF_Z = "MPU9150_MPL_EULER_6DOF_Z";
+        public static final String MPU_EULER_9DOF_X = "MPU9150_MPL_EULER_9DOF_X";
+        public static final String MPU_EULER_9DOF_Y = "MPU9150_MPL_EULER_9DOF_Y";
+        public static final String MPU_EULER_9DOF_Z = "MPU9150_MPL_EULER_9DOF_Z";
+        public static final String PEDOMETER_CNT = "MPU9150_MPL_PEDOM_CNT";
+        public static final String PEDOMETER_TIME = "MPU9150_MPL_PEDOM_TIME";
+        public static final String TAP_DIR_AND_CNT = "MPU9150_MPL_TAP";
+        public static final String TAP_DIR = "MPU9150_MPL_TAP_DIR";
+        public static final String TAP_CNT = "MPU9150_MPL_TAP_CNT";
+        public static final String MOTION_AND_ORIENT = "MPU9150_MPL_MOTION_AND_ORIENT";
+        public static final String MOTION = "MPU9150_MPL_MOTION";
+        public static final String ORIENT = "MPU9150_MPL_ORIENT";
 
         public static final String MPU_MPL_GYRO_X = "MPU9150_MPL_GYRO_X_CAL";
         public static final String MPU_MPL_GYRO_Y = "MPU9150_MPL_GYRO_Y_CAL";
@@ -796,7 +793,7 @@ public class SensorMPU9150 extends SensorMPU9X50 {
 
         public static final String MPU_QUAT_6DOF = "MPU9150_MPL_Quat_6DOF";
         public static final String MPU_EULER_6DOF = "MPU9150_MPL_Euler_6DOF";
-        public static final String MPU_HEADING_ENABLE = "MPU9150_MPL_Heading"; // not available but supported in FW //channel
+        public static final String MPU_HEADING_ENABLE = "MPU9150_MPL_Heading"; // not available but supported in FW
 
         public static final String MPU_PEDOMETER = "MPU9150_MPL_Pedometer";
         public static final String MPU_TAP = "MPU9150_MPL_Tap";

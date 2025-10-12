@@ -8,7 +8,7 @@ public class SerialPortTest {
     public static void main(String[] args) {
 
         SerialPort SerialPort = new SerialPort("COM46");
-        int packetSize = 23; //LN Accel + EXG TEST SIGNAL Using L&S0.11
+        int packetSize = 23;
 
 
         try {

@@ -376,7 +376,7 @@ public class UtilVerisenseDriver implements Serializable {
 
                 if (UtilVerisenseDriver.isLineCsvHeaderSeparator(line)) {
                     if (includeDefaultChannelNamesAndUnits) {
-                        z = y + 2; //+2 for channel names and units lines
+                        z = y + 2;
                     } else {
                         break;
                     }
@@ -694,7 +694,7 @@ public class UtilVerisenseDriver implements Serializable {
     public static String formatDoubleToNdecimalPlaces(double doubleToFormat, int n) {
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) { //number of digits to right hand side of decimal point
+        for (int i = 0; i < n; i++) {
             sb.append("0");
         }
 

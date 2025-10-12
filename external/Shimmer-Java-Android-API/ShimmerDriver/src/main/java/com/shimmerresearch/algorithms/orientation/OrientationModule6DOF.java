@@ -21,111 +21,111 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 public class OrientationModule6DOF extends OrientationModule {
 
     public static final ChannelDetails channel_Euler_Yaw_6DOF_LN = new ChannelDetails(
-            ObjectClusterSensorName.EULER_6DOF_YAW_LN, //ObjectClusterName
-            ObjectClusterSensorName.EULER_6DOF_YAW_LN, //GUI friendly text to display
-            ObjectClusterSensorName.EULER_6DOF_YAW_LN, //database name
+            ObjectClusterSensorName.EULER_6DOF_YAW_LN,
+            ObjectClusterSensorName.EULER_6DOF_YAW_LN,
+            ObjectClusterSensorName.EULER_6DOF_YAW_LN,
             CHANNEL_UNITS.DEGREES,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channel_Euler_Pitch_6DOF_LN = new ChannelDetails(
-            ObjectClusterSensorName.EULER_6DOF_PITCH_LN, //ObjectClusterName
-            ObjectClusterSensorName.EULER_6DOF_PITCH_LN, //GUI friendly text to display
-            ObjectClusterSensorName.EULER_6DOF_PITCH_LN, //database name
+            ObjectClusterSensorName.EULER_6DOF_PITCH_LN,
+            ObjectClusterSensorName.EULER_6DOF_PITCH_LN,
+            ObjectClusterSensorName.EULER_6DOF_PITCH_LN,
             CHANNEL_UNITS.DEGREES,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channel_Euler_Roll_6DOF_LN = new ChannelDetails(
-            ObjectClusterSensorName.EULER_6DOF_ROLL_LN, //ObjectClusterName
-            ObjectClusterSensorName.EULER_6DOF_ROLL_LN, //GUI friendly text to display
-            ObjectClusterSensorName.EULER_6DOF_ROLL_LN, //database name
+            ObjectClusterSensorName.EULER_6DOF_ROLL_LN,
+            ObjectClusterSensorName.EULER_6DOF_ROLL_LN,
+            ObjectClusterSensorName.EULER_6DOF_ROLL_LN,
             CHANNEL_UNITS.DEGREES,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelAngleA_6DOF_LN = new ChannelDetails(
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_LN, //ObjectClusterName
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_LN, //GUI friendly text to display
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_LN, //database name
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_LN,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_LN,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_LN,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelAngleX_6DOF_LN = new ChannelDetails(
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_LN, //ObjectClusterName
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_LN, //GUI friendly text to display
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_LN, //database name
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_LN,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_LN,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_LN,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelAngleY_6DOF_LN = new ChannelDetails(
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_LN, //ObjectClusterName
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_LN, //GUI friendly text to display
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_LN, //database name
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_LN,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_LN,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_LN,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelAngleZ_6DOF_LN = new ChannelDetails(
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_LN, //ObjectClusterName
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_LN, //GUI friendly text to display
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_LN, //database name
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_LN,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_LN,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_LN,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelQuatW_6DOF_LN = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_W_LN,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_W_LN,
-            ObjectClusterSensorName.QUAT_MADGE_6DOF_W_LN, //database name
+            ObjectClusterSensorName.QUAT_MADGE_6DOF_W_LN,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelQuatX_6DOF_LN = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_X_LN,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_X_LN,
-            ObjectClusterSensorName.QUAT_MADGE_6DOF_X_LN, //database name
+            ObjectClusterSensorName.QUAT_MADGE_6DOF_X_LN,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelQuatY_6DOF_LN = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_Y_LN,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_Y_LN,
-            ObjectClusterSensorName.QUAT_MADGE_6DOF_Y_LN, //database name
+            ObjectClusterSensorName.QUAT_MADGE_6DOF_Y_LN,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelQuatZ_6DOF_LN = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_Z_LN,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_Z_LN,
-            ObjectClusterSensorName.QUAT_MADGE_6DOF_Z_LN, //database name
+            ObjectClusterSensorName.QUAT_MADGE_6DOF_Z_LN,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channel_Euler_Yaw_6DOF_WR = new ChannelDetails(
-            ObjectClusterSensorName.EULER_6DOF_YAW_WR, //ObjectClusterName
-            ObjectClusterSensorName.EULER_6DOF_YAW_WR, //GUI friendly text to display
-            ObjectClusterSensorName.EULER_6DOF_YAW_WR, //database name
+            ObjectClusterSensorName.EULER_6DOF_YAW_WR,
+            ObjectClusterSensorName.EULER_6DOF_YAW_WR,
+            ObjectClusterSensorName.EULER_6DOF_YAW_WR,
             CHANNEL_UNITS.DEGREES,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channel_Euler_Pitch_6DOF_WR = new ChannelDetails(
-            ObjectClusterSensorName.EULER_6DOF_PITCH_WR, //ObjectClusterName
-            ObjectClusterSensorName.EULER_6DOF_PITCH_WR, //GUI friendly text to display
-            ObjectClusterSensorName.EULER_6DOF_PITCH_WR, //database name
+            ObjectClusterSensorName.EULER_6DOF_PITCH_WR,
+            ObjectClusterSensorName.EULER_6DOF_PITCH_WR,
+            ObjectClusterSensorName.EULER_6DOF_PITCH_WR,
             CHANNEL_UNITS.DEGREES,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channel_Euler_Roll_6DOF_WR = new ChannelDetails(
-            ObjectClusterSensorName.EULER_6DOF_ROLL_WR, //ObjectClusterName
-            ObjectClusterSensorName.EULER_6DOF_ROLL_WR, //GUI friendly text to display
-            ObjectClusterSensorName.EULER_6DOF_ROLL_WR, //database name
+            ObjectClusterSensorName.EULER_6DOF_ROLL_WR,
+            ObjectClusterSensorName.EULER_6DOF_ROLL_WR,
+            ObjectClusterSensorName.EULER_6DOF_ROLL_WR,
             CHANNEL_UNITS.DEGREES,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelAngleA_6DOF_WR = new ChannelDetails(
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_WR, //ObjectClusterName
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_WR, //GUI friendly text to display
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_WR, //database name
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_WR,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_WR,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_A_WR,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelAngleX_6DOF_WR = new ChannelDetails(
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_WR, //ObjectClusterName
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_WR, //GUI friendly text to display
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_WR, //database name
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_WR,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_WR,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_X_WR,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelAngleY_6DOF_WR = new ChannelDetails(
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_WR, //ObjectClusterName
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_WR, //GUI friendly text to display
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_WR, //database name
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_WR,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_WR,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Y_WR,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelAngleZ_6DOF_WR = new ChannelDetails(
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_WR, //ObjectClusterName
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_WR, //GUI friendly text to display
-            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_WR, //database name
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_WR,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_WR,
+            ObjectClusterSensorName.AXIS_ANGLE_6DOF_Z_WR,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
 
@@ -133,25 +133,25 @@ public class OrientationModule6DOF extends OrientationModule {
     public static final ChannelDetails channelQuatW_6DOF_WR = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_W_WR,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_W_WR,
-            ObjectClusterSensorName.QUAT_MADGE_6DOF_W_WR, //database name
+            ObjectClusterSensorName.QUAT_MADGE_6DOF_W_WR,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelQuatX_6DOF_WR = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_X_WR,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_X_WR,
-            ObjectClusterSensorName.QUAT_MADGE_6DOF_X_WR, //database name
+            ObjectClusterSensorName.QUAT_MADGE_6DOF_X_WR,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelQuatY_6DOF_WR = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_Y_WR,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_Y_WR,
-            ObjectClusterSensorName.QUAT_MADGE_6DOF_Y_WR, //database name
+            ObjectClusterSensorName.QUAT_MADGE_6DOF_Y_WR,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final ChannelDetails channelQuatZ_6DOF_WR = new ChannelDetails(
             ObjectClusterSensorName.QUAT_MADGE_6DOF_Z_WR,
             ObjectClusterSensorName.QUAT_MADGE_6DOF_Z_WR,
-            ObjectClusterSensorName.QUAT_MADGE_6DOF_Z_WR, //database name
+            ObjectClusterSensorName.QUAT_MADGE_6DOF_Z_WR,
             CHANNEL_UNITS.NO_UNITS,
             Arrays.asList(CHANNEL_TYPE.CAL));
     public static final Map<String, AlgorithmDetails> mAlgorithmMapRef;
@@ -250,8 +250,6 @@ public class OrientationModule6DOF extends OrientationModule {
     public void setFilteringOption() {
 
     }
-
-//
 
 
     @Override

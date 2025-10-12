@@ -61,8 +61,6 @@ public class BluetoothProgressReportPerDevice implements Serializable {
             mProgressPercentageComplete = (int) (((double) mProgressCounter / (double) mProgressEndValue) * 100);
         }
     }
-
-//
     public void updateShimmerDeviceMini(ShimmerDevice shimmerDevice) {
         if (shimmerDevice != null) {
             if (shimmerDevice instanceof ShimmerBluetooth) {
@@ -82,8 +80,6 @@ public class BluetoothProgressReportPerDevice implements Serializable {
         }
 
     }
-
-//
 //
 
     public void finishOperation() {

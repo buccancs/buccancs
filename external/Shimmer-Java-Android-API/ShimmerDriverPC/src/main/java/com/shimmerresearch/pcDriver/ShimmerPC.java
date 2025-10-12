@@ -91,7 +91,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
      * @param exg1                Sets the register of EXG chip 1
      * @param exg2                Setes the register of EXG chip 2
      */
-    @Deprecated //no longer allowed to enable low power
+    @Deprecated
     public ShimmerPC(String userAssignedName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, boolean continousSync, boolean enableLowPowerAccel, boolean enableLowPowerGyro, boolean enableLowPowerMag, int gyroRange, int magRange, byte[] exg1, byte[] exg2, int orientation) {
         super(userAssignedName, samplingRate, null, accelRange, gsrRange, gyroRange, magRange);
         setContinuousSync(continousSync);
@@ -105,7 +105,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         addFixedShimmerConfig(SensorLSM303.GuiLabelConfig.LSM303_ACCEL_LPM, enableLowPowerAccel);
 
         addFixedShimmerConfig(SensorMPU9X50.GuiLabelConfig.MPU9X50_GYRO_LPM, enableLowPowerGyro);
-//
         addFixedShimmerConfig(SensorEXG.GuiLabelConfig.EXG_BYTES, Arrays.asList(exg1, exg2));
 
     }
@@ -137,7 +136,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
      * @param countiousSync     A boolean value defining whether received packets should be checked continuously for the correct start and end of packet.
      * @param magGain           Set mag gain
      */
-    @Deprecated //because continousSync does nothing
+    @Deprecated
     public ShimmerPC(String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, boolean continousSync, int magGain, int orientation) {
         super(myName, samplingRate, setEnabledSensors, accelRange, gsrRange, magGain);
 
@@ -209,7 +208,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                     setComPort(address);
                     if (!mTesting) {
                         mByteCommunication = new ByteCommunicationJSSC(address);
-                    } else { // do nothingit should already be set
+                    } else {
 
                     }
 
@@ -356,9 +355,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     protected void isReadyForStreaming() {
         mDeviceCallbackAdapter.isReadyForStreaming();
         restartTimersIfNull();
-
-//
-//
 //
     }
 
@@ -486,9 +482,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         boolean isChanged = super.setBluetoothRadioState(state);
         mDeviceCallbackAdapter.setBluetoothRadioState(state, isChanged);
         return isChanged;
-
-//
-//
 //
     }
 
@@ -502,17 +495,12 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     @Override
     public void startOperation(BT_STATE currentOperation, int totalNumOfCmds) {
         mDeviceCallbackAdapter.startOperation(currentOperation, totalNumOfCmds);
-
-//
 //
     }
 
     @Override
     public void finishOperation(BT_STATE state) {
         mDeviceCallbackAdapter.finishOperation(state);
-
-//
-//
 //
     }
 
@@ -525,8 +513,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     @Override
     protected void isNowStreaming() {
         mDeviceCallbackAdapter.isNowStreaming();
-
-//
 //
     }
 
@@ -553,7 +539,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                 if (!mIsStreaming && !isSDLogging() && isConnected() && mBluetoothRadioState != BT_STATE.CONNECTED) {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                 }
-//
 
                 CallbackObject callBackObject = new CallbackObject(NOTIFICATION_SHIMMER_STATE_CHANGE, mBluetoothRadioState, getMacId(), getComPort());
                 sendCallBackMsg(MSG_IDENTIFIER_STATE_CHANGE, callBackObject);
@@ -569,9 +554,6 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     @Override
     protected void sendProgressReport(BluetoothProgressReportPerCmd pRPC) {
         mDeviceCallbackAdapter.sendProgressReport(pRPC);
-
-//
-//
 //
     }
 

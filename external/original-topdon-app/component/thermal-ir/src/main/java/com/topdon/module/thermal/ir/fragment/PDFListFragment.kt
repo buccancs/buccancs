@@ -139,7 +139,7 @@ class PDFListFragment : BaseViewModelFragment<PdfViewModel>() {
                             params.addBodyParameter(
                                 "modelId",
                                 if (isTC007) 1783 else 950
-                            ) //TC001-950, TC002-951, TC003-952 TC007-1783
+                            )
                             params.addBodyParameter("testReportIds", arrayOf(item.testReportId))
                             params.addBodyParameter("status", 1)
                             params.addBodyParameter("languageId", LanguageUtil.getLanguageId(Utils.getApp()))

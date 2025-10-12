@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                     case DISCONNECTED:
                         isNumberOfConnectedDevicesChanged();
                         Toast.makeText(getApplicationContext(), "Device disconnected: " + shimmerName + " " + macAddress, Toast.LENGTH_SHORT).show();
-                        connectedShimmersListFragment.buildShimmersConnectedListView(mService.getListOfConnectedDevices(), getApplicationContext()); //to be safe lets rebuild this
+                        connectedShimmersListFragment.buildShimmersConnectedListView(mService.getListOfConnectedDevices(), getApplicationContext());
                         break;
                 }
             } else if (msg.what == Shimmer.MSG_IDENTIFIER_SYNC_PROGRESS) {
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
         mSectionsPagerAdapter1 = new SectionsPagerAdapter1(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter1);
-        mViewPager.setOffscreenPageLimit(5);    //Ensure none of the fragments has their view destroyed when off-screen
+        mViewPager.setOffscreenPageLimit(5);
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         dialog = new ShimmerDialogConfigurations();
     }
@@ -437,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                 final ProgressDialog progress = new ProgressDialog(this);
                 progress.setTitle("Erasing data");
                 progress.setMessage("Please wait for the operation to complete...");
-                progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                progress.setCancelable(false);
                 progress.show();
                 new Thread() {
                     public void run() {
@@ -683,7 +683,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                     */
             }
         }
-        if (requestCode == 1) { //The system Bluetooth enable dialog has returned a result
+        if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 Intent intent = new Intent(this, ShimmerService.class);
                 startService(intent);
@@ -698,14 +698,14 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
             } else {
                 Toast.makeText(this, "Unknown Error! Your device may not support Bluetooth!", Toast.LENGTH_LONG).show();
             }
-        } else if (requestCode == 2) { //The devices paired list has returned a result
+        } else if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 String deviceName = data.getStringExtra(EXTRA_DEVICE_NAME);
                 if (deviceName.contains(VerisenseDevice.VERISENSE_PREFIX)) {
 
                 } else {
-                    if (appReleaseType.equals(APP_RELEASE_TYPE.PUBLIC)) { //only Shimmer 3R has BT connection type popup
+                    if (appReleaseType.equals(APP_RELEASE_TYPE.PUBLIC)) {
                         if (deviceName.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3R.toString())) {
                             showBtTypeConnectionOption();
                         } else {
@@ -715,7 +715,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                         showBtTypeConnectionOption();
                     }
                 }
-                mService.connectShimmer(macAdd, deviceName, preferredBtType, this);    //Connect to the selected device, and set context to show progress dialog when pairing
+                mService.connectShimmer(macAdd, deviceName, preferredBtType, this);
 
 
             }
@@ -765,7 +765,7 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
             selectedDeviceName = deviceName;
 
             ShimmerDevice device = mService.getShimmer(selectedDeviceAddress);
-            if (device instanceof Shimmer3BLEAndroid) { //Due to BLE using the main thread the timer needs to be stopped otherwise no response will be received due to the main thread executing the following code below to generate the fragments
+            if (device instanceof Shimmer3BLEAndroid) {
                 ((ShimmerBluetooth) device).stopTimerReadStatus();
             }
             /*
@@ -815,8 +815,8 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                     }
                 });
             }
-            if (device instanceof Shimmer3BLEAndroid) { //Due to BLE using the main thread the timer needs to be stopped otherwise no response will be received due to the main thread executing the following code below to generate the fragments
-                ((ShimmerBluetooth) device).startTimerReadStatus(); // restart the timer
+            if (device instanceof Shimmer3BLEAndroid) {
+                ((ShimmerBluetooth) device).startTimerReadStatus();
             }
 
         } else {

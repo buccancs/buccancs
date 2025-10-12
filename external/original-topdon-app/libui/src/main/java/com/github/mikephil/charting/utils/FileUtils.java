@@ -55,10 +55,6 @@ public class FileUtils {
         }
 
         return entries;
-
-        //
-        //
-        //
         //
         //
         //
@@ -107,10 +103,6 @@ public class FileUtils {
         }
 
         return entries;
-
-        //
-        //
-        //
         //
         //
         //
@@ -176,10 +168,6 @@ public class FileUtils {
         }
 
         return entries;
-
-        //
-        //
-        //
         //
         //
         //

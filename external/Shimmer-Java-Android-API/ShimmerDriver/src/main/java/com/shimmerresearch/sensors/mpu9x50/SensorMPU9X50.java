@@ -261,7 +261,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
     protected int mSensorIdMag = -1;
     protected int mSensorIdGyro = -1;
     protected boolean mLowPowerGyro = false;
-    protected int mMPU9X50AccelRange = 0;                                            // This stores the current MPU9150 Accel Range. 0 = 2g, 1 = 4g, 2 = 8g, 4 = 16g
+    protected int mMPU9X50AccelRange = 0;
     protected int mMPU9X50GyroAccelRate = 0;
     protected int mMPU9X50DMP = 0;
     protected int mMPU9X50LPF = 0;
@@ -285,9 +285,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
     protected double[][] OffsetVectorMPLMag = {{0}, {0}, {0}};
     protected double[][] AlignmentMatrixMPLGyro = {{-1, 0, 0}, {0, 1, 0}, {0, 0, -1}};
     protected double[][] SensitivityMatrixMPLGyro = {{1631, 0, 0}, {0, 1631, 0}, {0, 0, 1631}};
-
-
-//
 
 
     protected double[][] OffsetVectorMPLGyro = {{0}, {0}, {0}};
@@ -620,7 +617,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
             ConfigByteLayoutShimmer3 configByteLayoutCast = (ConfigByteLayoutShimmer3) configByteLayout;
 
             setMPU9X50GyroAccelRate((configBytes[configByteLayoutCast.idxConfigSetupByte1] >> configByteLayoutCast.bitShiftMPU9150AccelGyroSamplingRate) & configByteLayoutCast.maskMPU9150AccelGyroSamplingRate);
-            checkLowPowerGyro(); // check rate to determine if Sensor is in LPM mode
+            checkLowPowerGyro();
 
             setGyroRange((configBytes[configByteLayoutCast.idxConfigSetupByte2] >> configByteLayoutCast.bitShiftMPU9150GyroRange) & configByteLayoutCast.maskMPU9150GyroRange);
 
@@ -712,7 +709,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
                 setMPU9X50MagSamplingRate((int) valueToSet);
                 break;
             case (SensorMPU9X50.GuiLabelConfig.MPU9X50_GYRO_RATE):
-                double bufDouble = 4.0; // Minimum = 4Hz
+                double bufDouble = 4.0;
                 if (((String) valueToSet).isEmpty()) {
                     bufDouble = 4.0;
                 } else {
@@ -725,7 +722,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
                 }
                 setMPU9150GyroAccelRateFromFreq(bufDouble);
 
-                returnValue = Double.toString((double) Math.round(getMPU9X50GyroAccelRateInHz() * 100) / 100); // round sampling rate to two decimal places
+                returnValue = Double.toString((double) Math.round(getMPU9X50GyroAccelRateInHz() * 100) / 100);
 
                 break;
             case (SensorMPU9X50.GuiLabelConfig.MPU9X50_GYRO_RATE_HZ):
@@ -788,7 +785,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
                 break;
 
             case (GuiLabelConfig.MPU9X50_GYRO_RATE):
-                returnValue = Double.toString((double) Math.round(getMPU9X50GyroAccelRateInHz() * 100) / 100); // round sampling rate to two decimal places
+                returnValue = Double.toString((double) Math.round(getMPU9X50GyroAccelRateInHz() * 100) / 100);
                 break;
             case (GuiLabelConfig.MPU9X50_GYRO_RATE_HZ):
                 returnValue = getMPU9X50GyroAccelRateInHz();
@@ -828,8 +825,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         ActionSetting actionSetting = new ActionSetting(commType);
         switch (componentName) {
             case (GuiLabelConfig.MPU9X50_ACCEL_RANGE):
-//
-//
 //
                 break;
         }
@@ -925,38 +920,38 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
 
         if (setFreq) {
             if (freq <= 10) {
-                mMPU9X50MagSamplingRate = 0; // 10Hz
+                mMPU9X50MagSamplingRate = 0;
             } else if (freq <= 20) {
-                mMPU9X50MagSamplingRate = 1; // 20Hz
+                mMPU9X50MagSamplingRate = 1;
             } else if (freq <= 40) {
-                mMPU9X50MagSamplingRate = 2; // 40Hz
+                mMPU9X50MagSamplingRate = 2;
             } else if (freq <= 50) {
-                mMPU9X50MagSamplingRate = 3; // 50Hz
+                mMPU9X50MagSamplingRate = 3;
             } else {
-                mMPU9X50MagSamplingRate = 4; // 100Hz
+                mMPU9X50MagSamplingRate = 4;
             }
         } else {
-            mMPU9X50MagSamplingRate = 0; // 10 Hz
+            mMPU9X50MagSamplingRate = 0;
         }
         return mMPU9X50MagSamplingRate;
     }
 
         public int setMPU9150MplRateFromFreq(double freq) {
         if (!checkIfAnyMplChannelEnabled()) {
-            mMPU9X50MPLSamplingRate = 0; // 10 Hz
+            mMPU9X50MPLSamplingRate = 0;
             return mMPU9X50MPLSamplingRate;
         }
 
         if (freq <= 10) {
-            mMPU9X50MPLSamplingRate = 0; // 10Hz
+            mMPU9X50MPLSamplingRate = 0;
         } else if (freq <= 20) {
-            mMPU9X50MPLSamplingRate = 1; // 20Hz
+            mMPU9X50MPLSamplingRate = 1;
         } else if (freq <= 40) {
-            mMPU9X50MPLSamplingRate = 2; // 40Hz
+            mMPU9X50MPLSamplingRate = 2;
         } else if (freq <= 50) {
-            mMPU9X50MPLSamplingRate = 3; // 50Hz
+            mMPU9X50MPLSamplingRate = 3;
         } else {
-            mMPU9X50MPLSamplingRate = 4; // 100Hz
+            mMPU9X50MPLSamplingRate = 4;
         }
         return mMPU9X50MPLSamplingRate;
     }
@@ -973,7 +968,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
 
             setGyroRange(1);
         } else {
-            setGyroRange(3); // 2000dps
+            setGyroRange(3);
         }
     }
 
@@ -990,18 +985,18 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
             }
 
             if (!isSensorEnabled) {
-                mMPU9X50AccelRange = 0; //=2g
+                mMPU9X50AccelRange = 0;
             }
         } else {
-            mMPU9X50AccelRange = 0; //=2g
+            mMPU9X50AccelRange = 0;
         }
     }
 
     public void setDefaultMpu9150MplSensorConfig(boolean isSensorEnabled) {
         mMPU9X50DMP = isSensorEnabled ? 1 : 0;
         mMPLEnable = isSensorEnabled ? 1 : 0;
-        mMPU9X50LPF = isSensorEnabled ? 1 : 0; // 1 = 188Hz
-        mMPU9X50MotCalCfg = isSensorEnabled ? 1 : 0; // 1= Fast Calibration
+        mMPU9X50LPF = isSensorEnabled ? 1 : 0;
+        mMPU9X50MotCalCfg = isSensorEnabled ? 1 : 0;
         mMPLGyroCalTC = isSensorEnabled ? 1 : 0;
         mMPLVectCompCal = isSensorEnabled ? 1 : 0;
         mMPLMagDistCal = isSensorEnabled ? 1 : 0;
@@ -1009,8 +1004,8 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
 
         if (isSensorEnabled) {
 
-            setGyroRange(3); // 2000dps
-            mMPU9X50AccelRange = 0; // 2g
+            setGyroRange(3);
+            mMPU9X50AccelRange = 0;
 
             setLowPowerGyro(false);
         } else {
@@ -1074,7 +1069,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         public void setMPU9X50AccelRange(int i) {
         if (ArrayUtils.contains(SensorMPU9X50.ListofMPU9X50GyroRangeConfigValues, i)) {
             if (checkIfAnyMplChannelEnabled()) {
-                i = 0; // 2g
+                i = 0;
             }
             mMPU9X50AccelRange = i;
         }
@@ -1142,7 +1137,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         if (ArrayUtils.contains(ListofMPU9X50GyroRangeConfigValues, i)) {
 
             if (checkIfAnyMplChannelEnabled()) {
-                i = 3; // 2000dps
+                i = 3;
             }
 
             mGyroRange = i;
@@ -1495,10 +1490,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
             return super.calcMaxSamplingRate();
         }
     }
-
-//
-//
-//
 //
 //
 //
@@ -1569,8 +1560,6 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         public static String ORIENT = "Orient";
     }
 
-//
-
     public class GuiLabelConfig {
         public static final String MPU9X50_GYRO_RANGE = "Gyro Range";
         public static final String MPU9X50_GYRO_RATE = "Gyro Sampling Rate";
@@ -1616,15 +1605,15 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
 
         public static final String MPL_HEADING = "MPU Heading";
         public static final String MPL_TEMPERATURE = "MPU Temp";
-        public static final String MPL_PEDOMETER = "MPL_Pedometer";        // not currently supported
-        public static final String MPL_PEDOM_CNT = "MPL_Pedom_cnt";        // not currently supported
-        public static final String MPL_PEDOM_TIME = "MPL_Pedom_Time";        // not currently supported
-        public static final String MPL_TAPDIRANDTAPCNT = "TapDirAndTapCnt"; // not currently supported
-        public static final String MPL_TAPDIR = "TapDir";                   // not currently supported
-        public static final String MPL_TAPCNT = "TapCnt";                    // not currently supported
-        public static final String MPL_MOTIONANDORIENT = "MotionAndOrient"; // not currently supported
-        public static final String MPL_MOTION = "Motion"; // not currently supported
-        public static final String MPL_ORIENT = "Orient"; // not currently supported
+        public static final String MPL_PEDOMETER = "MPL_Pedometer";
+        public static final String MPL_PEDOM_CNT = "MPL_Pedom_cnt";
+        public static final String MPL_PEDOM_TIME = "MPL_Pedom_Time";
+        public static final String MPL_TAPDIRANDTAPCNT = "TapDirAndTapCnt";
+        public static final String MPL_TAPDIR = "TapDir";
+        public static final String MPL_TAPCNT = "TapCnt";
+        public static final String MPL_MOTIONANDORIENT = "MotionAndOrient";
+        public static final String MPL_MOTION = "Motion";
+        public static final String MPL_ORIENT = "Orient";
     }
 
     public class LABEL_SENSOR_TILE {

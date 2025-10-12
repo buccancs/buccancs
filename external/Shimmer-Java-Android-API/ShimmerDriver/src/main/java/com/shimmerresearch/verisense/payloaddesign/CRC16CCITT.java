@@ -6,7 +6,7 @@ import java.nio.ByteOrder;
 
 public class CRC16CCITT {
 
-    public int initialValue = 0xFFFF;    // initial value
+    public int initialValue = 0xFFFF;
     public int polynomial = 0x1021;        // 0001 0000 0010 0001  (0, 5, 12)
 
     public byte[] computeCrc(byte[] bytes, int length, ByteOrder byteOrder) {
@@ -27,7 +27,7 @@ public class CRC16CCITT {
     }
 
     public int computeCrc(byte[] bytes, int length) {
-        int crc = initialValue;          // initial value
+        int crc = initialValue;
 
         for (int x = 0; x < length; x++) {
             byte b = bytes[x];

@@ -165,7 +165,6 @@ public class SensorBridgeAmp extends AbstractSensor {
 
     public static double processBAAdcChannel(ChannelDetails channelDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pcTimestampMs,
                                              double offset, double vRefP, double gain) {
-//
 
 
         double unCalData = ((FormatCluster) ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString())).mData;
@@ -339,13 +338,13 @@ public class SensorBridgeAmp extends AbstractSensor {
         public static final String SKIN_TEMPERATURE_PROBE = "Skin_Temperature";
     }
 
-    public class SDLogHeaderDerivedSensors {                  // Check this
+    public class SDLogHeaderDerivedSensors {
         public final static int BRIDGE_AMP = 1 << 15;
         public final static int RES_AMP = 1 << 0;
         public final static int SKIN_TEMP = 1 << 1;
     }
 
-    public class BTStreamDerivedSensors {                     // Check this
+    public class BTStreamDerivedSensors {
         public final static int BRIDGE_AMP = 1 << 15;
         public final static int RES_AMP = 1 << 0;
         public final static int SKIN_TEMP = 1 << 1;

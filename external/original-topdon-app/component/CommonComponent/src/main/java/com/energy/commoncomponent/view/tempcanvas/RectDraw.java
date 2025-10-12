@@ -34,7 +34,7 @@ public class RectDraw extends BaseDraw {
     private static final int MAX_RECT_COUNT = 3;
     private final static int PIXCOUNT = 8;
     private final int STROKE_WIDTH = 8;
-    private final int TEXT_SIZE = 14; // 文字大小
+    private final int TEXT_SIZE = 14;
     private final int TOUCH_TOLERANCE = 48;
     private LinkedList<RectView> mRectList;
     private Paint mRectPaint;
@@ -396,7 +396,7 @@ public class RectDraw extends BaseDraw {
     }
 
     public static class RectView extends BaseView {
-        private static final float TOUCH_EXTRA = 10;//额外的触摸范围
+        private static final float TOUCH_EXTRA = 10;
         private Rect mRect;
         private Bitmap mHighPointBitmap;
         private Bitmap mLowPointBitmap;

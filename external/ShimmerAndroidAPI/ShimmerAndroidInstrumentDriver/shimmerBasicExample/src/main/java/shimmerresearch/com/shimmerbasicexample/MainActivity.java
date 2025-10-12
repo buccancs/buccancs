@@ -231,7 +231,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             if (resultCode == Activity.RESULT_OK) {
                 String macAdd = data.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 shimmer = new Shimmer(mHandler, MainActivity.this);
-                shimmer.connect(macAdd, "default");                  //Connect to the selected device
+                shimmer.connect(macAdd, "default");
             }
 
         }

@@ -34,7 +34,7 @@ public class ShimmerBattStatusDetails implements Serializable {
 
     public static double adcValToBattVoltage(int adcVal) {
         double calibratedData = SensorADC.calibrateU12AdcValueToMillivolts(adcVal, 0.0, 3.0, 1.0);
-        double battVoltage = ((calibratedData * 1.988)) / 1000; // 1.988 is due to components on the Shimmmer, 1000 is to convert to volts
+        double battVoltage = ((calibratedData * 1.988)) / 1000;
         return battVoltage;
     }
 
@@ -67,9 +67,9 @@ public class ShimmerBattStatusDetails implements Serializable {
     public static BATTERY_LEVEL estimateBatteryLevel(double percentageBattery) {
         if (percentageBattery <= 0.0) {
             return BATTERY_LEVEL.UNKNOWN;
-        } else if (percentageBattery < 33) { // 50 on PanelSetup, 25 on LiveData, firmware is below
+        } else if (percentageBattery < 33) {
             return BATTERY_LEVEL.LOW;
-        } else if (percentageBattery < 66) { //Software was set to 75, now 65 to match firmware
+        } else if (percentageBattery < 66) {
             return BATTERY_LEVEL.MEDIUM;
         } else {
             return BATTERY_LEVEL.HIGH;
@@ -84,10 +84,10 @@ public class ShimmerBattStatusDetails implements Serializable {
         System.out.println(">>>--------------------------------->");
         List<Integer> listOfSdLogThresholdsForLedChange = Arrays.asList(
                 2400, //Below 2400 = LOW batt LED (RED)
-                2450, //Buffer for transitioning from LOW to MEDIUM
+                2450,
                 2600, //Above 2600 = HIGH batt LED (GREEN)
-                2650, //Buffer for transitioning from MEDIUM to HIGH
-                2670); //Not used in firmware, just high to trigger HIGH
+                2650,
+                2670);
 
         for (Integer i : listOfSdLogThresholdsForLedChange) {
             shimmerBattStatusDetails.update(i, 0);
@@ -173,7 +173,7 @@ public class ShimmerBattStatusDetails implements Serializable {
     public String getChargingStatusParsed() {
         String mChargingStatusParsed = mChargingStatus.toString();
         if (mChargingStatus == CHARGING_STATUS.CHARGING) {
-            if (mBattVoltage < 3.0) {// from lm3658 datasheet
+            if (mBattVoltage < 3.0) {
                 mChargingStatusParsed += " (Preconditioning)";
             }
             else {
@@ -210,7 +210,7 @@ public class ShimmerBattStatusDetails implements Serializable {
     }
 
     public String getEstimatedChargePercentageParsed() {
-        if ((mChargingStatusRaw & 0xFF) != CHARGING_STATUS_BYTE.BAD_BATTERY) {// 0xC0 = Bad battery
+        if ((mChargingStatusRaw & 0xFF) != CHARGING_STATUS_BYTE.BAD_BATTERY) {
             if (mEstimatedChargePercentage == -1.0) {
                 return null;
             } else {

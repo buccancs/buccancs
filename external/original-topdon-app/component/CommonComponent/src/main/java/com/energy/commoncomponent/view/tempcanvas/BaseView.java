@@ -5,11 +5,11 @@ import android.graphics.Matrix;
 
 public abstract class BaseView {
     protected String mId;
-    protected String mLabel; //标记内容
-    protected String mNote; //备注
-    protected double mMaxTemp;//最大温度
-    protected double mMinTemp;//最大温度
-    protected double mAvgTemp;//最小温度
+    protected String mLabel;
+    protected String mNote;
+    protected double mMaxTemp;
+    protected double mMinTemp;
+    protected double mAvgTemp;
     protected int mPointSize = 0;
 
     public String getId() {

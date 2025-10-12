@@ -78,8 +78,6 @@ public class SensorMMA736x extends AbstractSensor {
 
     }
 
-//
-
 
 
 

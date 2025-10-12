@@ -16,11 +16,11 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     public int idxSensors0 = 3;
     public int idxSensors1 = 4;
     public int idxSensors2 = 5;
-    public int idxConfigSetupByte0 = 6; //sensors setting bytes
+    public int idxConfigSetupByte0 = 6;
     public int idxConfigSetupByte1 = 7;
     public int idxConfigSetupByte2 = 8;
     public int idxConfigSetupByte3 = 9;
-    public int idxEXGADS1292RChip1Config1 = 10;// exg bytes
+    public int idxEXGADS1292RChip1Config1 = 10;
     public int idxEXGADS1292RChip1Config2 = 11;
     public int idxEXGADS1292RChip1LOff = 12;
     public int idxEXGADS1292RChip1Ch1Set = 13;
@@ -41,14 +41,14 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     public int idxDerivedSensors6 = 0;
     public int idxDerivedSensors7 = 0;
 
-    public int idxSDShimmerName = 128 + 59;   // +12 bytes
-    public int idxSDEXPIDName = 128 + 71;   // +12 bytes
-    public int idxSDConfigTime0 = 128 + 83;   // +4 bytes
+    public int idxSDShimmerName = 128 + 59;
+    public int idxSDEXPIDName = 128 + 71;
+    public int idxSDConfigTime0 = 128 + 83;
     public int idxSDConfigTime1 = 128 + 84;
     public int idxSDConfigTime2 = 128 + 85;
     public int idxSDConfigTime3 = 128 + 86;
     public int idxSDExperimentConfig0 = 128 + 89;
-    public int idxMacAddress = 128 + 96; // 6bytes
+    public int idxMacAddress = 128 + 96;
 
     public int maskShimmerSamplingRate = 0xFF;
     public int maskBufferSize = 0xFF;
@@ -94,12 +94,12 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     public int maskExg1_16bitFlag = 0x10 << (2 * 8);
     public int maskExg2_16bitFlag = 0x08 << (2 * 8);
 
-    public int idxSrRadioChannel = 128 + 128 + 0; // 1bytes
-    public int idxSrRadioGroupId = 128 + 128 + 1; // 2bytes
-    public int idxSrRadioMyAddress = 128 + 128 + 3; // 2bytes
-    public int idxSrRadioResponseWindow = 128 + 128 + 5; // 2bytes
+    public int idxSrRadioChannel = 128 + 128 + 0;
+    public int idxSrRadioGroupId = 128 + 128 + 1;
+    public int idxSrRadioMyAddress = 128 + 128 + 3;
+    public int idxSrRadioResponseWindow = 128 + 128 + 5;
 
-    public int idxSrRadioConfigStart = idxSrRadioChannel; //
+    public int idxSrRadioConfigStart = idxSrRadioChannel;
 
     public int lengthRadioConfig = 7;
 

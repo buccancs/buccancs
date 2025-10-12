@@ -133,17 +133,17 @@ public class MsgDock {
     public final static int MSG_ID_CLEARSKY_ALG_FINISHED = 431;
     public final static int MSG_ID_CLEARSKY_ALG_FAILED = 432;
 
-    public final static int MSG_ID_APPLY_ZSCORE_RESULT_AGGREGATOR_PROCESSING = 500; //progress 0 - 100%
+    public final static int MSG_ID_APPLY_ZSCORE_RESULT_AGGREGATOR_PROCESSING = 500;
     public final static int MSG_ID_APPLY_ZSCORE_RESULT_AGGREGATOR_SUCCESS = 501;
     public final static int MSG_ID_APPLY_ZSCORE_RESULT_AGGREGATOR_FAILURE = 502;
 
-    public final static int MSG_ID_PROCESS_ZSCORE_UPDATE = 510; //progress 0 - 100%
+    public final static int MSG_ID_PROCESS_ZSCORE_UPDATE = 510;
     public final static int MSG_ID_PROCESS_ZSCORE_SUCCESS = 511;
     public final static int MSG_ID_PROCESS_ZSCORE_FAILURE = 512;
     public final static int MSG_ID_PROCESS_ZSCORE_CANCELLED = 513;
     public final static int MSG_ID_PROCESS_ZSCORE_DELETE_TEMP_DATA = 514;
 
-    public final static int MSG_ID_PROCESS_PEAKS_UPDATE = 520; //progress 0 - 100%
+    public final static int MSG_ID_PROCESS_PEAKS_UPDATE = 520;
     public final static int MSG_ID_PROCESS_PEAKS_SUCCESS = 521;
     public final static int MSG_ID_PROCESS_PEAKS_FAILURE = 522;
     public final static int MSG_ID_PROCESS_PEAKS_CANCELLED = 523;
@@ -297,9 +297,9 @@ public class MsgDock {
     }
 
     public Object mObject;
-    public int mMsgID = -1; //identifies what type of dock this is 0 for basic 1 for advance
+    public int mMsgID = -1;
     public int mCurrentOperation = -1;
-    public int mSlotNumber = -1; //only applicable for the smart dock
+    public int mSlotNumber = -1;
     public String mUniqueID = "";
     public String mBSLComPort = "";
     public String mUARTComPort = "";

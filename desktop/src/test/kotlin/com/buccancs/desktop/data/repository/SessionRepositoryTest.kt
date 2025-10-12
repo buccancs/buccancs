@@ -74,7 +74,6 @@ class SessionRepositoryTest {
     fun `stop session finalises metadata`() = runBlocking {
         val sessionId = "session-bravo"
         sessionRepository.startSession(sessionId = sessionId)
-        // Allow measurable duration
         delay(5)
         val session = sessionRepository.stopSession()
         assertNotNull(session, "Expected session to be returned on stop")

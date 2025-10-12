@@ -188,9 +188,9 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                     return;
                 }
 
-                if ((dataFileName).isEmpty() || dataFileName.contains(BadCRC)) { //if the previous file name has a bad crc, create a new file, this has passed the crc check to reach here
+                if ((dataFileName).isEmpty() || dataFileName.contains(BadCRC)) {
                     createBinFile(verisenseMessage, false);
-                } else // if there is an existing file check the file size
+                } else
                 {
                     long length = new File(dataFilePath).length();
                     if (length > MaximumNumberOfBytesPerBinFile) {

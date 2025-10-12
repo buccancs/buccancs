@@ -28,10 +28,10 @@ import com.shimmerresearch.verisense.sensors.SensorBattVoltageVerisense.ADC_SAMP
 public class SensorGSRVerisense extends SensorGSR {
 
     public static final double[] VERISENSE_PULSE_PLUS_GSR_REF_RESISTORS_KOHMS = new double[]{
-            21.0,        //Range 0
-            150.0,        //Range 1
-            562.0,        //Range 2
-            1740.0};    //Range 3
+            21.0,
+            150.0,
+            562.0,
+            1740.0};
     public static final int VERISENSE_PULSE_PLUS_GSR_UNCAL_LIMIT_RANGE3 = 1134;
     public static final SensorDetailsRef SENSOR_GSR_VERISENSE = new SensorDetailsRef(
             (long) Verisense.SensorBitmap.GSR,

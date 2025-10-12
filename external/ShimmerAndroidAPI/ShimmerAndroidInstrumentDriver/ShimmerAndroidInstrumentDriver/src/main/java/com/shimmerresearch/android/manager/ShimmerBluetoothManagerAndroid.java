@@ -138,7 +138,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
                     final ProgressDialog progress = new ProgressDialog(context);
                     progress.setTitle("Pairing Device");
                     progress.setMessage("Trying to pair device...");
-                    progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                    progress.setCancelable(false);
                     progress.show();
                     mProgressDialog = progress;
                 } else {
@@ -421,7 +421,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
     protected Shimmer4sdk createNewShimmer4(ShimmerRadioInitializer shimmerRadioInitializer, String bluetoothAddress) {
         shimmerRadioInitializer.useLegacyDelayBeforeBtRead(true);
         ShimmerSerialPortAndroid serialPortComm = (ShimmerSerialPortAndroid) shimmerRadioInitializer.getSerialCommPort();
-        Shimmer4sdk shimmer4 = createNewShimmer4("", bluetoothAddress); //first parameter is com port, but we do not know it in android
+        Shimmer4sdk shimmer4 = createNewShimmer4("", bluetoothAddress);
         if (serialPortComm != null) {
             CommsProtocolRadio commsProtocolRadio = new CommsProtocolRadio(serialPortComm, new LiteProtocol(bluetoothAddress));
             shimmer4.setCommsProtocolRadio(commsProtocolRadio);

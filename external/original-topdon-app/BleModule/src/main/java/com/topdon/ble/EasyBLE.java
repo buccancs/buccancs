@@ -550,10 +550,10 @@ public class EasyBLE {
             String action = intent.getAction();
             if (action != null) {
                 switch (action) {
-                    case BluetoothAdapter.ACTION_STATE_CHANGED: //蓝牙开关状态变化
+                    case BluetoothAdapter.ACTION_STATE_CHANGED:
                         if (bluetoothAdapter != null) {
                             observable.notifyObservers(MethodInfoGenerator.onBluetoothAdapterStateChanged(bluetoothAdapter.getState()));
-                            if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_OFF) { //蓝牙关闭
+                            if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_OFF) {
                                 logger.log(Log.DEBUG, Logger.TYPE_GENERAL, "蓝牙关闭了");
                                 if (scanner != null) {
                                     scanner.onBluetoothOff();
@@ -594,10 +594,10 @@ public class EasyBLE {
                         break;
                 }
             }
-            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) { //蓝牙开关状态变化
+            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
                 if (bluetoothAdapter != null) {
                     observable.notifyObservers(MethodInfoGenerator.onBluetoothAdapterStateChanged(bluetoothAdapter.getState()));
-                    if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_OFF) { //蓝牙关闭
+                    if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_OFF) {
                         logger.log(Log.DEBUG, Logger.TYPE_GENERAL, "蓝牙关闭了");
                         if (scanner != null) {
                             scanner.onBluetoothOff();

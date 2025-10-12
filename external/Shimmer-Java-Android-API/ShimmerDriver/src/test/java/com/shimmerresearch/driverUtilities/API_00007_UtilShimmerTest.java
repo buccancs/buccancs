@@ -32,7 +32,7 @@ public class API_00007_UtilShimmerTest {
     public void testConvertLongToHexString() {
         assertEquals("0000000000000000", UtilShimmer.convertLongToHexString(0L));
         assertEquals("0000000000000001", UtilShimmer.convertLongToHexString(1L));
-        assertEquals("00000000ffffffff".toUpperCase(), UtilShimmer.convertLongToHexString(4294967295L)); // max unsigned int
+        assertEquals("00000000ffffffff".toUpperCase(), UtilShimmer.convertLongToHexString(4294967295L));
         assertEquals("7fffffffffffffff".toUpperCase(), UtilShimmer.convertLongToHexString(Long.MAX_VALUE));
         assertEquals("8000000000000000", UtilShimmer.convertLongToHexString(Long.MIN_VALUE));
         assertEquals("00000000075bcd15".toUpperCase(), UtilShimmer.convertLongToHexString(123456789L));

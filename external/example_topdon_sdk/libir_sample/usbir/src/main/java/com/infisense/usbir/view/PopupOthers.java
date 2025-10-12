@@ -49,8 +49,8 @@ import java.io.InputStream;
 public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheckedChangeListener,
         AdapterView.OnItemSelectedListener {
 
-    public static final String COLOR_RGB_DATA_INT = "color_rgb_data_int.txt"; // RGB数据
-    public static final String COLOR_YUV_DATA_INT = "color_yuv_data_int.txt"; // YUV数据
+    public static final String COLOR_RGB_DATA_INT = "color_rgb_data_int.txt";
+    public static final String COLOR_YUV_DATA_INT = "color_yuv_data_int.txt";
     private static final String TAG = "PopupOthers";
     private static final String COLOR_DATA = "color_data.bin";
     private static final String[] tpdtype = {"TPD_PROP_DISTANCE", "TPD_PROP_TU", "TPD_PROP_TA", "TPD_PROP_EMS",
@@ -61,7 +61,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
             "DEF_CFG_USER_CFG"};
     private static final String[] spnProductTypeArray = {"TINY1B", "TINY1C", "TINY1BE", "MINI256", "MINI384",
             "MINI640", "P2"};
-    //
     private final int MESSAGE_CODE_READ_NUC_SUCCESS = 1000;
     private final int MESSAGE_CODE_RESTORE_CONFIG_SUCCESS = 1001;
     private IRCMD ircmd;
@@ -72,8 +71,8 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     private CommonParams.GainMode gainMode = CommonParams.GainMode.GAIN_MODE_HIGH_LOW;
     private byte[] tau_data_H;
     private byte[] tau_data_L;
-    private long tempinfo = 0; // 用于测温修正的temp_cal_info
-    private boolean isGetNucFromFlash; // 是否从机芯Flash中读取的nuc数据，会影响到测温修正的资源释放
+    private long tempinfo = 0;
+    private boolean isGetNucFromFlash;
     private short[] nuc_table_high = new short[8192];
     private short[] nuc_table_low = new short[8192];
     private int[] param = new int[9];
@@ -82,7 +81,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
     private CommonParams.ProductType productType = CommonParams.ProductType.P2;
     private ArrayAdapter<String> spnProductTypeAdapter;
         private boolean deviceConnected = true;
-    private String md5PNSNKey; //根据模组的SN信息作为模组信息保存的key参数
+    private String md5PNSNKey;
     private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -117,36 +116,31 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         othersBinding = LayoutOthersBinding.inflate(LayoutInflater.from(context));
         spnProductTypeAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, spnProductTypeArray);
         othersBinding.spnProductType.setAdapter(spnProductTypeAdapter);
-        //
         popupWindow = new PopupWindow(othersBinding.getRoot());
         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setOnDismissListener(dismissListener);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000)); // 解决 7.0 手机，点击外部不消失
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         othersBinding.getRoot().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        //
         othersBinding.btnTempCorrection1.setOnClickListener(this);
         othersBinding.btnTempCorrection2.setOnClickListener(this);
         othersBinding.btnTempCorrection3.setOnClickListener(this);
         othersBinding.btnShutSubmit.setOnClickListener(this);
         othersBinding.btnTpdSubmit.setOnClickListener(this);
         othersBinding.btnFPS.setOnClickListener(this);
-        //
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, tpdtype);
         othersBinding.ParamSel.setAdapter(adapter);
         othersBinding.ParamSel.setOnItemSelectedListener(this);
-        //
         saveConfigAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, saveConfigArray);
         othersBinding.saveConfig.setAdapter(saveConfigAdapter);
         othersBinding.saveConfig.setOnItemSelectedListener(this);
         restoreConfigAdapter = new ArrayAdapter<String>(context, R.layout.spinner_custom, restoreConfigArray);
         othersBinding.restoreConfig.setAdapter(restoreConfigAdapter);
         othersBinding.restoreConfig.setOnItemSelectedListener(this);
-        //
         othersBinding.btnColorPseudocolor.setOnClickListener(this);
         othersBinding.btnPseudocolorConvert.setOnClickListener(this);
 
@@ -162,9 +156,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
             ircmd.getCurrentVTemperature(currentVTemperature);
             othersBinding.tvDTEMP.setText(mContext.getResources().getString(R.string.currentVTemp) + currentVTemperature[0]);
             othersBinding.etFPS.setSelection(othersBinding.etFPS.getText().length());
-            //
         }
-        //
 
         othersBinding.ParamSel.setSelection(0);
         othersBinding.saveConfig.setSelection(0);
@@ -185,11 +177,9 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 progressDialog.show();
                 boolean isUseAssetsData = false;
                 Log.i(TAG, "isUseSaveData = " + isUseAssetsData + " deviceConnected = " + deviceConnected);
-                //
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        //
                         if (deviceConnected) {
                             AssetManager am = mContext.getAssets();
                             InputStream is = null;
@@ -213,7 +203,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                         MyApplication.getInstance().DEVICE_DATA_SAVE_DIR + File.separator;
                                 md5PNSNKey = FileUtil.getMD5Key(new String(SN));
                                 SharedPreferencesUtil.saveData(mContext, "md5PNSNKey", md5PNSNKey);
-                                //
                                 String nucHighFileName = md5PNSNKey + "_nuc_table_high.bin";
                                 String nucLowFileName = md5PNSNKey + "_nuc_table_low.bin";
                                 if (isUseAssetsData || !md5PNSNKey.isEmpty() && FileUtil.isFileExists(mContext,
@@ -232,7 +221,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                         }
                                         Log.d(TAG, "read nuc_table_high file lenth " + lenthNuc);
                                         nuc_table_high = FileUtil.toShortArray(nuc_table_high_byte);
-                                        //
                                         is = am.open("nuc_table_high.bin");
                                         lenthNuc = is.available();
                                         byte nuc_table_low_byte[] = new byte[lenthNuc];
@@ -245,7 +233,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                         byte[] nuc_table_high_byte = FileUtil.readFile2BytesByStream(mContext,
                                                 new File(deviceSNUnCodePath + nucHighFileName));
                                         nuc_table_high = FileUtil.toShortArray(nuc_table_high_byte);
-                                        //
                                         byte[] nuc_table_low_byte = FileUtil.readFile2BytesByStream(mContext,
                                                 new File(deviceSNUnCodePath + nucLowFileName));
                                         nuc_table_low = FileUtil.toShortArray(nuc_table_low_byte);
@@ -311,7 +298,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             byte[] nuc_table_high_byte = FileUtil.readFile2BytesByStream(mContext,
                                     new File(deviceSNUnCodePath + nucHighFileName));
                             nuc_table_high = FileUtil.toShortArray(nuc_table_high_byte);
-                            //
                             byte[] nuc_table_low_byte = FileUtil.readFile2BytesByStream(mContext,
                                     new File(deviceSNUnCodePath + nucLowFileName));
                             nuc_table_low = FileUtil.toShortArray(nuc_table_low_byte);
@@ -331,8 +317,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                     orgEMS, orgTAU, orgTA, orgTU);
 
                         }
-
-                        //
                         Message message = new Message();
                         message.what = MESSAGE_CODE_READ_NUC_SUCCESS;
                         mHandler.sendMessage(message);
@@ -426,7 +410,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnTpdSubmit: {
-                //
                 String value = othersBinding.data.getText().toString().trim();
                 if (value.length() != 0) {
                     param[othersBinding.ParamSel.getSelectedItemPosition()] = (char) Integer.parseInt(value);
@@ -471,19 +454,16 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                             break;
                         }
                         case 6: {
-                            //
                             ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_P0,
                                     new CommonParams.PropTPDParamsValue.NumberType(value));
                             break;
                         }
                         case 7: {
-                            //
                             ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_P1,
                                     new CommonParams.PropTPDParamsValue.NumberType(value));
                             break;
                         }
                         case 8: {
-                            //
                             ircmd.setPropTPDParams(CommonParams.PropTPDParams.TPD_PROP_P2,
                                     new CommonParams.PropTPDParamsValue.NumberType(value));
                             break;
@@ -503,7 +483,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 int[][] color6 = new int[][]{{255}, {255, 255, 196}};
                 byte[] pseudoDataByte = CommonUtils.generatePseudocolorData(color1, color2, color3, color4, color5,
                         color6);
-                //
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     if (!Environment.isExternalStorageManager()) {
                         Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
@@ -523,7 +502,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 break;
             }
             case R.id.btnPseudocolorConvert: {
-                byte[] pseudoDataByte = new byte[768]; // 伪彩数据,长度固定
+                byte[] pseudoDataByte = new byte[768];
                 String path = FileUtil.getSaveFilePath(mContext);
                                 File file = new File(path + COLOR_DATA);
                 if (file.exists()) {
@@ -532,7 +511,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                     Toast.makeText(mContext, "文件不存在", Toast.LENGTH_SHORT).show();
                 }
 
-                int index0 = 740, index1 = 750; // 用以检验数据的索引位置
+                int index0 = 740, index1 = 750;
                 Log.i(TAG,
                         "pseudoDataByte.lenth = " + pseudoDataByte.length + " " + pseudoDataByte[index0] + " " + pseudoDataByte[index1]);
                 int[][] pseudoRGBDataInt = CommonUtils.convertRGBPseudocolorData(pseudoDataByte);
@@ -541,11 +520,11 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 int[][] pseudoYUVDataInt = CommonUtils.convertYUVPseudocolorData(pseudoDataByte);
                 Log.i(TAG,
                         "pseudoYUVDataInt.lenth = " + pseudoYUVDataInt.length + " " + pseudoYUVDataInt[index0 / 3][index0 % 3] + " " + pseudoYUVDataInt[index1 / 3][index1 % 3]);
-                String pseudoRGBDataIntStr = JSON.toJSON(pseudoRGBDataInt).toString(); // fastjson方式转换
+                String pseudoRGBDataIntStr = JSON.toJSON(pseudoRGBDataInt).toString();
                 Log.d(TAG, "pseudoRGBDataIntStr : " + pseudoRGBDataIntStr);
                 FileUtil.saveStringToFile(pseudoRGBDataIntStr, path + COLOR_RGB_DATA_INT);
                 Log.d(TAG, "pseudoRGB file path : " + path + COLOR_RGB_DATA_INT);
-                String pseudoYUVDataIntStr = JSON.toJSON(pseudoYUVDataInt).toString(); // fastjson方式转换
+                String pseudoYUVDataIntStr = JSON.toJSON(pseudoYUVDataInt).toString();
                 Log.d(TAG, "pseudoYUVDataIntStr : " + pseudoYUVDataIntStr);
                 FileUtil.saveStringToFile(pseudoYUVDataIntStr, path + COLOR_YUV_DATA_INT);
                 Log.d(TAG, "pseudoYUV file path : " + path + COLOR_YUV_DATA_INT);
@@ -660,7 +639,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                 default:
                                     break;
                             }
-                            //
                             Message message = new Message();
                             message.what = MESSAGE_CODE_RESTORE_CONFIG_SUCCESS;
                             message.obj = result;
@@ -720,7 +698,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         othersBinding.automode.setOnCheckedChangeListener(null);
         othersBinding.automode.setChecked(mode[0] == 1);
         othersBinding.automode.setOnCheckedChangeListener(this);
-        //
         ircmd.getPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_MIN_INTERVAL, mode);
         othersBinding.min.setText(mode[0] + "");
         ircmd.getPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_MAX_INTERVAL, mode);
@@ -744,7 +721,6 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
         othersBinding.protectSwitch.setOnCheckedChangeListener(null);
         othersBinding.protectSwitch.setChecked(mode[0] == 1);
         othersBinding.protectSwitch.setOnCheckedChangeListener(this);
-        //
         int i = 0;
         int[] value = new int[1];
         for (; i < 9; i++) {

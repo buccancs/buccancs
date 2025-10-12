@@ -22,7 +22,7 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
     public int mPacketSize;
     public transient List<RadioListener> mRadioListenerList = new ArrayList<RadioListener>();
-    public transient AbstractCommsProtocol mRadioProtocol = null; //pass the radio controls to the protocol, lite protocol can be replaced by any protocol
+    public transient AbstractCommsProtocol mRadioProtocol = null;
         public InterfaceSerialPortHal mRadioHal;
 
     public CommsProtocolRadio(InterfaceSerialPortHal radioHal, AbstractCommsProtocol radioProtocol) {
@@ -223,9 +223,6 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
         mRadioProtocol.stopTimerReadBattStatus();
     }
 
-//
-
-//
 //
 //
     @Override

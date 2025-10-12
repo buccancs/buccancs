@@ -47,7 +47,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING) // Test methods will be run in alphabetical order
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBack {
     ShimmerPC mDevice;
     TaskCompletionSource<Boolean> mWaitTask;
@@ -87,7 +87,7 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
 
         mWaitTask = new TaskCompletionSource<>();
         try {
-            mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);//Just to give time to connect to finish
+            mWaitTask.getTask().waitForCompletion(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -150,7 +150,7 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
 
         try {
             mDevice.mSensorBMPX80.parseCalParamByteArray(mByteCommunicationSimulatorS3R.getPressureResoTest(), CALIB_READ_SOURCE.INFOMEM);
-            long[] dataPacket = UtilParseData.parseData(mByteCommunicationSimulatorS3R.getTestDataPacket(), mByteCommunicationSimulatorS3R.getTestDataType());    //uncalib
+            long[] dataPacket = UtilParseData.parseData(mByteCommunicationSimulatorS3R.getTestDataPacket(), mByteCommunicationSimulatorS3R.getTestDataType());
             double UT = (double) dataPacket[7];
             double UP = (double) dataPacket[8];
 
@@ -158,11 +158,11 @@ public class API_0000X_ByteCommunicationShimmer3R extends BasicProcessWithCallBa
             double pressure = bmp390caldata[0];
             double temperature = bmp390caldata[1];
 
-            if (Math.round(pressure * 10000d) / 10000d != 100912.8176) {    //4d.p. accuracy
+            if (Math.round(pressure * 10000d) / 10000d != 100912.8176) {
                 assert (false);
             }
 
-            if (Math.round(temperature * 10000d) / 10000d != 23.2659) {        //4d.p. accuracy
+            if (Math.round(temperature * 10000d) / 10000d != 23.2659) {
                 assert (false);
             }
         } catch (IndexOutOfBoundsException e) {

@@ -154,7 +154,6 @@ class VideoRecordFFmpeg(
 //            return pixels?.duplicate() as ByteBuffer?
 //        }
 //    }
-//
 //    fun setBitmap(bitmap: Bitmap) {
 //        synchronized(lock) {
 //            if (pixels == null || pixels?.capacity() != bitmap.byteCount) {

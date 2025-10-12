@@ -9,7 +9,6 @@ open class BaseThermalFragment : BaseFragment() {
     val REQUEST_CODE_FROM_UPGRADE = 1001
     val SRC_WIDTH = 192
     val SRC_HEIGHT = 256
-    //0-9
     var paletteIndex = 0
     var irSurfaceViewLayoutParams: ConstraintLayout.LayoutParams? = null
     var displayViewLayoutParams: FrameLayout.LayoutParams? = null

@@ -1674,10 +1674,10 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             ircmd?.getDeviceInfo(
                 CommonParams.DeviceInfoType.DEV_INFO_FW_BUILD_VERSION_INFO,
                 fwBuildVersionInfoBytes
-            ) //ok
+            )
             val arm = String(fwBuildVersionInfoBytes.copyOfRange(0, 8))
-            it.getDeviceInfo(CommonParams.DeviceInfoType.DEV_INFO_GET_SN, getSnBytes) //ok
-            val snStr = String(getSnBytes) //sn
+            it.getDeviceInfo(CommonParams.DeviceInfoType.DEV_INFO_GET_SN, getSnBytes)
+            val snStr = String(getSnBytes)
             val infoBuilder = StringBuilder()
             infoBuilder.append("Firmware version: ").append(arm).append("<br>")
             infoBuilder.append("SN: ").append(snStr).append("<br>")
@@ -2298,7 +2298,6 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                 }
 //                else {
 //                    switchAutoGain(false)
-//                    R.string.auto_close
 //                }
             }
         }
@@ -2457,7 +2456,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                     fwBuildVersionInfoBytes
                 )
                 ircmd?.getDeviceInfo(CommonParams.DeviceInfoType.DEV_INFO_GET_SN, getSnBytes)
-                val snStr = String(getSnBytes) //sn
+                val snStr = String(getSnBytes)
                 val arm = String(fwBuildVersionInfoBytes.copyOfRange(0, 8))
                 SharedManager.setDeviceSn(snStr)
                 SharedManager.setDeviceVersion(arm)

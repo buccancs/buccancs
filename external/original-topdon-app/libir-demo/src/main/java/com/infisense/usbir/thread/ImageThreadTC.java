@@ -19,9 +19,7 @@ public class ImageThreadTC extends Thread {
     private int imageHeight;
     private byte[] imagesrc;
     private int rotate = 0;
-    //
     private CommonParams.PseudoColorType pseudocolorMode = CommonParams.PseudoColorType.PSEUDO_WHITE_HOT;
-    //
     private CommonParams.DataFlowMode dataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
     private byte[] imageYUV422;
     private byte[] imageARGB;

@@ -172,7 +172,7 @@ public class HexDump {
         int fbit = Float.floatToIntBits(num);
 
         for (int i = 0; i < 4; i++) {
-            numbyte[i] = (byte) (fbit >> (i * 8)); //little-endian
+            numbyte[i] = (byte) (fbit >> (i * 8));
         }
     }
 }

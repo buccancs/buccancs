@@ -36,9 +36,9 @@ public class ShimmerTCPExampleActivity extends Activity {
     private Shimmer mShimmerDevice1 = null;
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            switch (msg.what) { // handlers have a what identifier which is used to identify the type of msg
+            switch (msg.what) {
                 case Shimmer.MESSAGE_READ:
-                    if ((msg.obj instanceof ObjectCluster)) {    // within each msg an object can be include, objectclusters are used to represent the data structure of the shimmer device
+                    if ((msg.obj instanceof ObjectCluster)) {
                         ObjectCluster objectCluster = (ObjectCluster) msg.obj;
                         byte[] dataojc = objectCluster.serialize();
                         if (dOut != null) {
@@ -137,7 +137,7 @@ public class ShimmerTCPExampleActivity extends Activity {
 
     class responseTask extends TimerTask {
         public void run() {
-            shimmerTimer(5); //Disconnect in 30 seconds
+            shimmerTimer(5);
         }
     }
 }
