@@ -4,7 +4,6 @@ plugins {
 
 android {
     namespace 'shimmerresearch.com.multiverisenseblebasicexample'
-    //buildToolsVersion '23.0.1'
     compileSdkVersion 34
 
     defaultConfig {

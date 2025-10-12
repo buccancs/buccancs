@@ -6,20 +6,11 @@
 
 #include "libyuv/rotate.h"  // For enum RotationMode.
 
-// TODO(fbarchard): This set of functions should exactly match convert.h
-// TODO(fbarchard): Add tests. Create random content of right size and convert
-// with C vs Opt and or to I420 and compare.
-// TODO(fbarchard): Some of these functions lack parameter setting.
-
 #ifdef __cplusplus
 namespace libyuv {
 extern "C" {
 #endif
-
-// Alias.
 #define ARGBToARGB ARGBCopy
-
-// Copy ARGB to ARGB.
 LIBYUV_API
 int ARGBCopy(const uint8_t* src_argb,
              int src_stride_argb,

@@ -29,11 +29,8 @@ android {
         nj1000pro {
 
         }
-        //AD900
         ultradiag {
         }
-        //ArtiDiag900 ArtiDiag900Lite
-        //ArtiDiag900 ArtiDiag900Lite 打包时需要修改DiagnoseModule和BluetoothModule 中的进程名称 进程名：com.topdon.diagnose.adliteservice  Constants.mAppVersion  此字段也需要修改
         artidiag900lite {
         }
 

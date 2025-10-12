@@ -207,7 +207,6 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
                 var tempHigh = 0f
                 var tempLow = 0f
                 lifecycleScope.launch {
-//                    showLoading()
                     withContext(Dispatchers.IO) {
                         val file = File(irPath)
                         if (!file.exists()) {
@@ -227,7 +226,6 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
                         tempHigh = frameTool.getSrcTemp().maxTemperature
                         tempLow = frameTool.getSrcTemp().minTemperature
                     }
-//                    dismissLoading()
                     ARouter.getInstance().build(RouterConfig.IR_GALLERY_3D).withString(ExtraKeyConfig.IR_PATH, irPath)
                         .withFloat(ExtraKeyConfig.TEMP_HIGH, tempHigh).withFloat(ExtraKeyConfig.TEMP_LOW, tempLow)
                         .navigation(this@IRGalleryDetail01Activity)

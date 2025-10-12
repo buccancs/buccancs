@@ -30,7 +30,6 @@ class GalleryVideoFragment : BaseViewModelFragment<GalleryViewModel>() {
             override fun onLongClick(index: Int, path: String) {
                 TipDialog.Builder(requireContext()).setMessage("导出图片")
                     .setPositiveListener("分享") {
-//                            share(path)
                     }
                     .create().show()
             }

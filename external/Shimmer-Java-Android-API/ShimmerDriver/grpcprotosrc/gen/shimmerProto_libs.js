@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 
 
 goog.provide('proto.shimmerGRPC.HelloReply');

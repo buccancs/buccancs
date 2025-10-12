@@ -149,22 +149,6 @@ class VideoRecordFFmpeg(
     private val pixArray = ByteArray(width * height * 4)
     private val bufferRef: AtomicReference<ByteBuffer> =
         AtomicReference(ByteBuffer.allocate(pixArray.size))
-
-    //    fun readByteBuffer(): ByteBuffer? {
-//        synchronized(lock) {
-//            return pixels?.duplicate() as ByteBuffer?
-//        }
-//    }
-//    fun setBitmap(bitmap: Bitmap) {
-//        synchronized(lock) {
-//            if (pixels == null || pixels?.capacity() != bitmap.byteCount) {
-//                pixels = ByteBuffer.allocate(bitmap.byteCount)
-//            }
-//            pixels?.position(0)
-//            bitmap.copyPixelsToBuffer(pixels)
-//            bitmap.recycle()
-//        }
-//    }
     private fun readByteBuffer(): ByteBuffer? {
         return bufferRef.get()?.duplicate()
     }
@@ -451,7 +435,6 @@ class VideoRecordFFmpeg(
                                 it.dispose()
                             }
                         }
-//                        AudioRecordHelp.getInstance().stopAudioRecording()
                     }
                     bitmapExecutor.shutdown()
                     recordExecutor.shutdown()
@@ -531,7 +514,6 @@ class VideoRecordFFmpeg(
         if (thermalPseudoBarView?.visibility == VISIBLE) {
             try {
                 thermalPseudoBarView?.viewBitmap?.let {
-//                    Log.w("图像对象处理耗时-彩条大小",it.byteCount.toString())
                     cameraViewBitmap = BitmapUtils.mergeBitmap(
                         cameraViewBitmap,
                         it,

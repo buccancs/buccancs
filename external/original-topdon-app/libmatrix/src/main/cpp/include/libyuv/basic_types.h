@@ -20,7 +20,6 @@ typedef signed char int8_t;
 #else
 #include <stdint.h>  // for uintptr_t and C99 types
 #endif               // defined(_MSC_VER) && (_MSC_VER < 1600)
-// Types are deprecated.  Enable this macro for legacy types.
 #ifdef LIBYUV_LEGACY_TYPES
 typedef uint64_t uint64;
 typedef int64_t int64;
@@ -50,8 +49,6 @@ typedef int8_t int8;
 #define LIBYUV_API
 #endif  // __GNUC__
 #endif  // LIBYUV_API
-
-// TODO(fbarchard): Remove bool macros.
 #define LIBYUV_BOOL int
 #define LIBYUV_FALSE 0
 #define LIBYUV_TRUE 1

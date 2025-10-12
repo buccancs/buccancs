@@ -1,25 +1,14 @@
-//import "C:/Users/Lim/git/Shimmer-Java-Android-API/ShimmerDriver/grpcprotosrc/src/LiteProtocolInstructionSet.proto";
 
 syntax = "proto3";
-//import "src/LiteProtocolInstructionSet.proto";
-
-//import "google/protobuf/descriptor.proto";
 
 option csharp_namespace = "com.shimmerresearch.grpc";
 option java_package = "com.shimmerresearch.grpc";
 option java_outer_classname = "ShimmerGRPC";
 
 package shimmerGRPC;
-
-// The greeter service definition.
 service ShimmerServer {
-  // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply) {}
-
-  //Client asking for data
   rpc GetDataStream(StreamRequest) returns (stream ObjectCluster2) {}
-
-  //Client sending data
   rpc SendDataStream(stream ObjectCluster2) returns (HelloReply){}
 
   rpc SendFileStream(stream FileByteTransfer) returns (HelloReply){}
@@ -33,9 +22,6 @@ service ShimmerServer {
   rpc StopStreaming(ShimmerRequest) returns (CommandStatus){}
 
   rpc CloseApplication(ShimmerRequest) returns (CommandStatus){}
-
-
-  //ConsensysApi related
   rpc SetWorkspaceDirectory(StringMsg) returns (OperationRequest){}
 
   rpc GetWorkspaceDirectory(StringMsg) returns (StringMsg){}
@@ -59,16 +45,11 @@ service ShimmerServer {
   rpc DockAccessSlotWithSdCard(StringArrayMsg) returns (OperationRequest){}
 
   rpc DockRestoreAutoTasks(StringArrayMsg) returns (OperationRequest){}
-
-  //Shimmer device emulation software related
   rpc GetInfoSpans(StringMsg) returns (InfoSpans){}
 
   rpc GetInfoAllShimmers(StringMsg) returns (ShimmersInfo){}
 
   rpc GetEmulatedDevices(StringMsg) returns (EmulatedDevices){}
-
-
-  //Noldus client related
   rpc GetPairedBtShimmers(StringMsg) returns (BluetoothDevicesDetails) {}
 
   rpc GetDeviceStateStream(StreamRequest) returns (stream DeviceState) {}
@@ -83,13 +64,9 @@ message FileByteTransfer {
 message CommandStatus {
   string status = 1;
 }
-
-// The request message containing the user's name.
 message HelloRequest {
   string name = 1;
 }
-
-// The response message containing the greetings
 message HelloReply {
   string message = 1;
 }
@@ -129,9 +106,6 @@ message ObjectCluster2 {
   int64 systemTime = 5;
   double calibratedTimeStamp = 6;
 }
-
-
-//ConsensysApi related
 message StringMsg {
   string message = 1;
 }
@@ -185,8 +159,6 @@ message ShimmersInfo {
 
     int64 configTime = 19;
     string configTimeParsed = 20;
-
-    //Applicable for GQ devices
     Ieee802154Info ieee802154Info = 21;
   }
   map<string, ShimmerInfo> shimmerMap = 3;

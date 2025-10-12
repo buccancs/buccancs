@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 
 var jspb = require('google-protobuf');
 var goog = jspb;

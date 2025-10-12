@@ -1,7 +1,5 @@
-//JC: use gradlew install and then comment out install and use gradlew bintray
 
 apply plugin: 'com.android.library'
-//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
 android {
@@ -13,7 +11,6 @@ android {
     }
 
     defaultConfig {
-        // Enabling multidex support.
         multiDexEnabled true
         minSdkVersion 14
         targetSdkVersion 33
@@ -30,9 +27,7 @@ android {
         main {
             res.srcDirs =
                     [
-                            //GUI Utilities Fragments Layouts
                             'src/main/res/layouts/fragments',
-                            //General layouts
                             'src/main/res/layouts/general',
                             'src/main/res/layouts',
                             'src/main/res'
@@ -92,7 +87,6 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/ShimmerEngineering/ShimmerAndroidAPI")
             credentials {
-                //Create github.properties in root project folder file with gpra.usr=GITHUB_USER_ID  & gpra.key=PERSONAL_ACCESS_TOKEN
                 username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }

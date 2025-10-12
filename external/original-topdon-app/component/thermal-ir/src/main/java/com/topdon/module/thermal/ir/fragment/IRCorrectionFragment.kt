@@ -317,11 +317,8 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
 
     suspend fun autoStart() {
         withContext(Dispatchers.IO) {
-            //            ToastUtils.showShort("任务开始")
             CalibrationTools.autoShutter(irCmd = ircmd, false)
             XLog.w("锅盖矫正：" + "锅盖标定开始")
-            //            CalibrationTools.shutter(irCmd = ircmd, syncImage = syncimage)
-//            XLog.w("锅盖矫正："+"手动打快门命令")
             delay(2000)
             XLog.w("锅盖矫正：" + "关闭锅盖校正")
             CalibrationTools.stsSwitch(irCmd = ircmd, false)
@@ -332,8 +329,6 @@ class IRCorrectionFragment : BaseFragment(), ITsTempListener {
             CalibrationTools.stsSwitch(irCmd = ircmd, true)
             delay(20000)
             XLog.w("锅盖矫正：" + "20000")
-            //            CalibrationTools.shutter(irCmd = ircmd, syncImage = syncimage)
-//            XLog.w("锅盖矫正："+"手动打快门命令")
             delay(2000)
             CalibrationTools.stsSwitch(irCmd = ircmd, false)
             XLog.w("锅盖矫正：" + "关闭锅盖校正")

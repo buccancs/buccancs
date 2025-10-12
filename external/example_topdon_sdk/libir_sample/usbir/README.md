@@ -12,11 +12,7 @@ USB协议P2,tiny1C,tinyBE,mini256 SDK对应demo，主要用于SDK功能和接口
 用户可以设置自己的过滤白名单)，如果在白名单中，则进行权限申请。
 
 ```java
-// 注意：USBMonitor的所有回调函数都是运行在线程中的
 mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
-
-    // called by checking usb device
-    // do request device permission
     @Override
     public void onAttach(UsbDevice device) {
         Log.w(TAG, "onAttach");
@@ -24,9 +20,6 @@ mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
             mUSBMonitor.requestPermission(device);
         }
     }
-
-    // called by connect to usb camera
-    // do open camera,start previewing
     @Override
     public void onConnect(final UsbDevice device, USBMonitor.UsbControlBlock ctrlBlock, boolean createNew) {
         Log.w(TAG, "onConnect");
@@ -35,16 +28,10 @@ mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
             startPreview();
         }
     }
-
-    // called by disconnect to usb camera
-    // do nothing
     @Override
     public void onDisconnect(UsbDevice device, USBMonitor.UsbControlBlock ctrlBlock) {
         Log.w(TAG, "onDisconnect");
     }
-
-    // called by taking out usb device
-    // do close camera
     @Override
     public void onDettach(UsbDevice device) {
         Log.w(TAG, "onDettach");
@@ -67,7 +54,6 @@ mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
 
 ```java
 ...
-// uvc开启
 uvcCamera.openUVCCamera(ctrlBlock, DEFAULT_PREVIEW_MIN_FPS, DEFAULT_PREVIEW_MAX_FPS);
 ...
 
@@ -78,7 +64,6 @@ uvcCamera = concreateUVCBuilder
         .setOutputWidth(cameraWidth)
         .setOutputHeight(cameraHeight)
         .build();
-// IRCMD init
 ConcreteIRCMDBuilder concreteIRCMDBuilder = new ConcreteIRCMDBuilder();
 ircmd = concreteIRCMDBuilder
         .setIrcmdType(IRCMDType.xxx)
@@ -107,7 +92,6 @@ uvcCamera.onStartPreview();
 iFrameCallback = new IFrameCallback() {
     @Override
     public void onFrame(byte[] frame) {
-    	// 处理红外和温度数据
     	...
     	}
     }
@@ -119,7 +103,6 @@ iFrameCallback = new IFrameCallback() {
 
 ```java
 ...
-// yuv422格式转为ARGB格式
 if (pseudocolorMode != null) {
     LibIRProcess.convertYuyvMapToARGBPseudocolor(imagesrc, (long) imageHeight * imageWidth, pseudocolorMode, imageARGB);
 } else {
@@ -182,8 +165,6 @@ canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
 ```java
 ...
-
-// 用来关联温度数据和TemperatureView,方便后面的点线框测温
 irtemp.setTempData(temperature);
 
 ...
@@ -334,7 +315,6 @@ android {
     ...
     defaultConfig {
         ...
-        // 生成包含指定平台的so库的apk
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
         }
@@ -566,8 +546,6 @@ private LibIRProcess.AutoGainSwitchInfo_t auto_gain_switch_info = new LibIRProce
 private LibIRProcess.GainSwitchParam_t gain_switch_param = new LibIRProcess.GainSwitchParam_t();
 
 ...
-
-// 自动增益切换参数auto gain switch parameter
 gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
 gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
 gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
@@ -576,8 +554,6 @@ auto_gain_switch_info.switch_frame_cnt = 5 * 15; //连续满足触发条件帧�
 auto_gain_switch_info.waiting_frame_cnt = 7 * 15;//触发自动增益切换之后，会间隔该阈值的帧数不进行增益切换监测(假设出图速度为15帧每秒，则7 * 15大概为7秒)
 
 ...
-
-// 自动增益切换，不生效的话请您的设备是否支持自动增益切换
 if (auto_gain_switch) {
     ircmd.autoGainSwitch(temperatureSrc, imageRes, auto_gain_switch_info,
             gain_switch_param, new IRCMD.AutoGainSwitchCallback() {
@@ -639,8 +615,6 @@ private LibIRTemp irtemp;
     
 irtemp = new LibIRTemp(imageWidth, imageHeight);  
 ...
-    
-// 用来关联温度数据
 irtemp.setTempData(temperature);
 ...
 ```
@@ -697,7 +671,6 @@ public int getPointTemperatureInfo(int pixelPointX, int pixelPointY, int[] tempe
 在`SurfaceView`的构造函数中添加如下代码：
 
 ```java
-// 注意这个方法尽早执行(可以在构造方法里面执行)
 setZOrderOnTop(true);
 ```
 
@@ -721,9 +694,7 @@ setZOrderOnTop(true);
    Message message = new Message();
           message.what = MESSAGE_WHAT_ALBUM_UPDATE;
           message.obj = MediaPath;
-          //照片已经直接刷新相册，视频根据是否是三星手机处理
           if (MediaPath.endsWith(".mp4") || MediaPath.endsWith(".MP4")) {
-              //三星手机延时刷新系统文件夹
               if (Util.isSamsung()) {
                   mHandler.sendMessageDelayed(message, 1000);
               } else {
@@ -736,15 +707,11 @@ setZOrderOnTop(true);
 - 对三星手机使用多种刷新方式
 
   ```java
-    // 刷新相册 方式1 
      MediaScannerConnection.scanFile(Utils.getApp(), new String[]{path}, null, null);
-      //三星手机特殊处理
       if (Util.isSamsung()) {
-         //三星Note8生效 方式2 
          ContentValues values = new ContentValues();
          values.put(MediaStore.Video.Media.DATA, path);
                       getContext().getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
-        //方式3 
        Intent intent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
                       intent.setData(Uri.fromFile(new File(path)));
                       getActivity().sendBroadcast(intent);

@@ -126,8 +126,6 @@
     SW(val1_m, pdst_sd_m + 4);                               \
   })
 #endif  // (__mips_isa_rev >= 6)
-
-// TODO(fbarchard): Consider removing __VAR_ARGS versions.
 #define LD_B(RTYPE, psrc) *((RTYPE*)(psrc)) #define LD_UB(...) LD_B(const v16u8, __VA_ARGS__)
 
 #define ST_B(RTYPE, in, pdst) *((RTYPE*)(pdst)) = (in) #define ST_UB(...) ST_B(v16u8, __VA_ARGS__)
@@ -168,8 +166,6 @@
     ST_H(RTYPE, in1, (pdst) + stride);       \
   }
 #define ST_UH2(...) ST_H2(v8u16, __VA_ARGS__)
-
-// TODO(fbarchard): Consider using __msa_vshf_b and __msa_ilvr_b directly.
 #define VSHF_B2(RTYPE, in0, in1, in2, in3, mask0, mask1, out0, out1)  \
   {                                                                   \
     out0 = (RTYPE)__msa_vshf_b((v16i8)mask0, (v16i8)in1, (v16i8)in0); \

@@ -179,7 +179,6 @@ class IRGalleryEditActivity : BaseActivity(), View.OnClickListener, ITsTempListe
                 struct.customPseudoBean.minTemp = tempCorrect(tempResult.minTemperature)
                 edit_recycler_second.setPseudoColor(pseudocodeMode)
             }
-//        adapter.enPseudoColorBar(struct.isShowPseudoBar)
             edit_recycler_second.setSettingSelected(
                 SettingType.ALARM,
                 struct.alarmBean.isHighOpen || struct.alarmBean.isLowOpen

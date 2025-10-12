@@ -1,4 +1,3 @@
-// source: src/ShimmerGrpcAndOJC.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -6,7 +5,6 @@
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
  */
-// GENERATED CODE -- DO NOT EDIT!
 
 var jspb = require('google-protobuf');
 var goog = jspb;

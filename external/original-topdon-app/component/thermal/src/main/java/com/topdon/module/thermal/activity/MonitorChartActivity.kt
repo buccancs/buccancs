@@ -446,7 +446,6 @@ class MonitorChartActivity : BaseActivity(), View.OnClickListener, OnChartValueS
     private fun queryLog(action: Int) {
         startMonitor = false
         lifecycleScope.launch(Dispatchers.IO) {
-//            dataList = arrayListOf()
             viewModel.queryLogThermals(selectTimeType = selectTimeType, action = action)
         }
     }

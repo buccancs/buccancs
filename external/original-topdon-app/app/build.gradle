@@ -26,7 +26,6 @@ android {
         multiDexEnabled true
         ndk {
             abiFilters "arm64-v8a"
-//            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
 
         buildConfigField "String", "VERSION_DATE", "\"$dayStr\""
@@ -85,14 +84,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     packagingOptions {
-        //解决第三方so依赖冲突 merge（合并）  pickFirst（选取第一个）
-        //如果合并不能解决问题就选择其中一个
         merge 'META-INF/LICENSE-notice.md'
         merge 'META-INF/LICENSE.md'
         merge 'META-INF/proguard/androidx-annotations.pro'
         merge 'META-INF/proguard/coroutines.pro'
-//        merge 'lib/arm64-v8a/libc++_shared.so'
-//        merge 'lib/armeabi-v7a/libc++_shared.so'
         pickFirst 'lib/x86/libc++_shared.so'
         pickFirst 'lib/x86_64/libc++_shared.so'
         pickFirst 'lib/arm64-v8a/libc++_shared.so'
@@ -157,13 +152,10 @@ android {
             buildConfigField("String", "SOFT_CODE", "\"${rootProject.ext.softCode.topInfrared10}\"")
             buildConfigField("String", "APP_KEY", "\"${rootProject.ext.appKey.topInfrared10}\"")
             buildConfigField("String", "APP_SECRET", "\"${rootProject.ext.appSecret.topInfrared10}\"")
-//            versionCode rootProject.ext.android.versionCode + getYearStr().toInteger() * 10000
             manifestPlaceholders = [
                     app_name: "IRCamera",
             ]
         }
-
-        //国内版
         insideChina {
             dimension 'app'
             buildConfigField "int", "ENV_TYPE", "1"
@@ -174,7 +166,6 @@ android {
                     app_name: "热视界",
             ]
         }
-        //国内版 Android 10
         prodTopdonInsideChina {
             dimension 'app'
             targetSdk 27
@@ -234,8 +225,6 @@ def versionApk(variant, defaultConfig) {
         outputFileName = appName
     }
 }
-
-//复制apk
 def copyApk(type, flavor) {
     copy {
         from "build/outputs/apk/${flavor}/${type}"
@@ -250,8 +239,6 @@ def copyApk(type, flavor) {
         }
     }
 }
-
-//复制aab
 def copyAab(type) {
     copy {
         from "build/outputs/bundle/${type}"
@@ -368,8 +355,6 @@ dependencies {
     devImplementation files('libs/umeng-common-9.4.4+000.jar')//谷歌定制版
     prodImplementation files('libs/umeng-common-9.4.4+000.jar')//谷歌定制版
     prodTopdonImplementation files('libs/umeng-common-9.4.4+000.jar')//谷歌定制版
-
-    //国内版需要添加的
     insideChinaImplementation 'com.umeng.umsdk:common:9.6.7'
     insideChinaImplementation 'com.umeng.umsdk:asms:1.8.0'
 }

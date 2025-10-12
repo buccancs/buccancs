@@ -9,8 +9,6 @@
 namespace libyuv {
 extern "C" {
 #endif
-
-// Rotate ARGB frame
 LIBYUV_API
 int ARGBRotate(const uint8_t* src_argb,
                int src_stride_argb,

@@ -51,7 +51,6 @@ dependencies {
     implementation project(path: ':ShimmerAndroidInstrumentDriver')
 
     androidTestImplementation 'androidx.annotation:annotation:1.7.1'
-    //compile(group: 'com.shimmersensing', name: 'ShimmerAndroidInstrumentDriver', version: '3.0.71Beta', ext: 'aar')
 
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

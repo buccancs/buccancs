@@ -10,7 +10,6 @@ message LiteProtocolInstructionSet {
   extend google.protobuf.EnumValueOptions {
     int32 response_size = 50003;
   }
-  //response_size = -1, this means that the 1st rx byte is the length of the payload
   enum InstructionsSet {
     DATA_PACKET = 0x00 ;
     SET_SAMPLING_RATE_COMMAND = 0x05;

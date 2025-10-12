@@ -432,7 +432,6 @@ class IRThermal07Activity : BaseWifiActivity() {
                         setDefLimit()
                         updateImageAndSeekbarColorList(customPseudoBean)
                     }.setCancelListener(com.topdon.module.thermal.ir.R.string.app_no) {
-//                        thermal_recycler_night.setPseudoColor(pseudoColorMode)
                     }
                     .create().show()
             } else {

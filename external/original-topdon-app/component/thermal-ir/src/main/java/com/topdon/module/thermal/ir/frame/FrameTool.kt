@@ -26,8 +26,6 @@ class FrameTool {
     private var maxLimit = -273f
     private var minLimit = -273f
     private var irImageHelp = IRImageHelp()
-
-    //    private val scrBitmap = Bitmap.createBitmap(192, 256, Bitmap.Config.ARGB_8888)
     private val supImageData = ByteArray(imageWidth * imageHeight * 4 * 4)
     private var dstArgbBytes: ByteArray? = null
 

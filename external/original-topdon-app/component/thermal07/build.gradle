@@ -71,7 +71,5 @@ dependencies {
     implementation project(':component:thermal04')
 
     kapt Deps.arouter_compiler
-
-    //艾睿手持设备API接口SDK
     api(name: 'jetified-tas_api-1.0.4.0', ext: 'aar')
 }

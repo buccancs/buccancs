@@ -140,9 +140,6 @@ class AlgorithmImageActivity : AppCompatActivity() {
             val baseImage = Mat()
             applyColorMap(baseMat, baseImage, 15)
             Imgproc.cvtColor(baseImage, baseImage, Imgproc.COLOR_BGR2RGBA)
-//            val tmp = Mat(192, 256, CvType.CV_8UC4)
-//            tmp.put(0,0,ImageColorTools.matToByteArrayBy4(baseImage))
-//            Imgproc.cvtColor(tmp,tmp, COLOR_RGBA2GRAY)
             val startTime = System.currentTimeMillis()
             val matByteArray = JNITool.diff2firstFrameU4(
                 ImageColorTools.matToByteArrayBy4(baseImage),

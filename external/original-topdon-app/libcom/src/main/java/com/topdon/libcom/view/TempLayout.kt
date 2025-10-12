@@ -39,7 +39,6 @@ class TempLayout : LinearLayout {
             BreatheInterpolator()
         alphaAnimator?.addUpdateListener {
             animatorAlpha = it.getAnimatedValue("alpha") as Float
-//            Log.w("透明值进度","$animatorAlpha")
         }
         alphaAnimator?.repeatCount = ValueAnimator.INFINITE
     }

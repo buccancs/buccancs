@@ -37,8 +37,6 @@ import kotlinx.coroutines.launch
 class LogMPChartActivity : BaseActivity(), OnChartValueSelectedListener {
     private val viewModel: LogViewModel by viewModels()
     private val adapter: SettingTimeAdapter by lazy { SettingTimeAdapter(this) }
-
-    //    private var dataList: ArrayList<ThermalEntity> = arrayListOf()
     private lateinit var chart: LineChart
     private var selectType = 1
     override fun initContentView() = R.layout.activity_log_mp_chart

@@ -49,7 +49,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     androidTestImplementation 'androidx.annotation:annotation:1.7.1'
-    //compile(group: 'com.shimmersensing', name: 'ShimmerAndroidInstrumentDriver', version: '3.0.71Beta', ext: 'aar')
     implementation project(':ShimmerAndroidInstrumentDriver')
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     testImplementation 'junit:junit:4.12'

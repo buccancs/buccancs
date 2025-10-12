@@ -1,8 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
-
-// Original file comments:
-// import "C:/Users/Lim/git/Shimmer-Java-Android-API/ShimmerDriver/grpcprotosrc/src/LiteProtocolInstructionSet.proto";
-//
 'use strict';
 var grpc = require('grpc');
 var src_ShimmerGrpcAndOJC_pb = require('../src/ShimmerGrpcAndOJC_pb.js');
@@ -160,11 +155,7 @@ function serialize_shimmerGRPC_StringMsg(arg) {
 function deserialize_shimmerGRPC_StringMsg(buffer_arg) {
     return src_ShimmerGrpcAndOJC_pb.StringMsg.deserializeBinary(new Uint8Array(buffer_arg));
 }
-
-
-// The greeter service definition.
 var ShimmerServerService = exports.ShimmerServerService = {
-    // Sends a greeting
     sayHello: {
         path: '/shimmerGRPC.ShimmerServer/SayHello',
         requestStream: false,
@@ -176,7 +167,6 @@ var ShimmerServerService = exports.ShimmerServerService = {
         responseSerialize: serialize_shimmerGRPC_HelloReply,
         responseDeserialize: deserialize_shimmerGRPC_HelloReply,
     },
-    // Client asking for data
     getDataStream: {
         path: '/shimmerGRPC.ShimmerServer/GetDataStream',
         requestStream: false,
@@ -188,7 +178,6 @@ var ShimmerServerService = exports.ShimmerServerService = {
         responseSerialize: serialize_shimmerGRPC_ObjectCluster2,
         responseDeserialize: deserialize_shimmerGRPC_ObjectCluster2,
     },
-    // Client sending data
     sendDataStream: {
         path: '/shimmerGRPC.ShimmerServer/SendDataStream',
         requestStream: true,
@@ -266,7 +255,6 @@ var ShimmerServerService = exports.ShimmerServerService = {
         responseSerialize: serialize_shimmerGRPC_CommandStatus,
         responseDeserialize: deserialize_shimmerGRPC_CommandStatus,
     },
-    // ConsensysApi related
     setWorkspaceDirectory: {
         path: '/shimmerGRPC.ShimmerServer/SetWorkspaceDirectory',
         requestStream: false,
@@ -399,7 +387,6 @@ var ShimmerServerService = exports.ShimmerServerService = {
         responseSerialize: serialize_shimmerGRPC_OperationRequest,
         responseDeserialize: deserialize_shimmerGRPC_OperationRequest,
     },
-    // Shimmer device emulation software related
     getInfoSpans: {
         path: '/shimmerGRPC.ShimmerServer/GetInfoSpans',
         requestStream: false,

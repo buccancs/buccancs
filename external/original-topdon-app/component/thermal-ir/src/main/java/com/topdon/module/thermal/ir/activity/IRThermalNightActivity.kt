@@ -2140,10 +2140,6 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                             ImageUtils.saveImageToApp(it)
                         }
                     }
-//                    if ((curChooseTabPos == 1 && temperatureView.temperatureRegionMode != REGION_MODE_CLEAN) ||
-//                        (curChooseTabPos == 2 && temperatureView.isUserHighTemp && temperatureView.isUserLowTemp)) {
-//                        cameraViewBitmap = BitmapUtils.mergeBitmap(cameraViewBitmap, temperatureView.regionAndValueBitmap, 0, 0)
-//                    }
                     val isShowPseudoBar = cl_seek_bar.visibility == VISIBLE
                     if (isShowPseudoBar) {
                         val seekBarBitmap = cl_seek_bar.drawToBitmap()
@@ -2401,9 +2397,6 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                         ToastTools.showShort(R.string.auto_open)
                     }
                 }
-//                else {
-//                    switchAutoGain(false)
-//                }
             }
         }
         dismissCameraLoading()
@@ -2419,7 +2412,6 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
     private val timeMillis = 150L
     protected fun configParam() {
         configJob = lifecycleScope.launch {
-//            showLoading()
             while (isConfigWait && isActive) {
                 delay(200)
             }
@@ -2429,7 +2421,6 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
             val emsChar = (config.radiation * 128).toInt()
             XLog.w("设置TPD_PROP DISTANCE:${disChar}, EMS:${emsChar}}")
             delay(timeMillis)
-            /// Emissivity property. unit:1/128, range:1-128(0.01-1)
             ircmd?.setPropTPDParams(
                 CommonParams.PropTPDParams.TPD_PROP_EMS,
                 CommonParams.PropTPDParamsValue.NumberType(emsChar.toString())

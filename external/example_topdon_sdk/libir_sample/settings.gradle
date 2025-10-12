@@ -4,7 +4,6 @@ pluginManagement {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        // 因为Gradle的Maven仓库在国外, 因此需要使用阿里云的镜像地址
         maven { url 'https://maven.aliyun.com/repository/public' }
     }
 }
@@ -15,7 +14,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        // 因为Gradle的Maven仓库在国外, 因此需要使用阿里云的镜像地址
         maven { url 'https://maven.aliyun.com/repository/public' }
     }
 }

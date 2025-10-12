@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     namespace 'com.shimmerresearch.shimmer3dexample'
-//    compileSdkVersion 23
     compileSdkVersion 34
 
     defaultConfig {
