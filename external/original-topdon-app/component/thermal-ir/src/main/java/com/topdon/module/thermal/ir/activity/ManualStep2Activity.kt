@@ -249,7 +249,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             var lenth = `is`.available()
             mPseudoColors[0] = ByteArray(lenth + 1)
             if (`is`.read(mPseudoColors[0]) != lenth) {
-                Log.d(Companion.TAG, "read file fail ")
+                Log.d(TAG, "read file fail ")
             }
             mPseudoColors[0]!![lenth] = 0
             mDualView!!.dualUVCCamera.loadPseudocolor(
@@ -260,7 +260,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             lenth = `is`.available()
             mPseudoColors[1] = ByteArray(lenth + 1)
             if (`is`.read(mPseudoColors[1]) != lenth) {
-                Log.d(Companion.TAG, "read file fail ")
+                Log.d(TAG, "read file fail ")
             }
             mPseudoColors[1]!![lenth] = 1
             mDualView!!.dualUVCCamera.loadPseudocolor(
@@ -271,7 +271,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             lenth = `is`.available()
             mPseudoColors[2] = ByteArray(lenth + 1)
             if (`is`.read(mPseudoColors[2]) != lenth) {
-                Log.d(Companion.TAG, "read file fail ")
+                Log.d(TAG, "read file fail ")
             }
             mPseudoColors[2]!![lenth] = 2
             mDualView!!.dualUVCCamera.loadPseudocolor(
@@ -282,7 +282,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
             lenth = `is`.available()
             mPseudoColors[3] = ByteArray(lenth + 1)
             if (`is`.read(mPseudoColors[3]) != lenth) {
-                Log.d(Companion.TAG, "read file fail ")
+                Log.d(TAG, "read file fail ")
             }
             mPseudoColors[3]!![lenth] = 3
             mDualView!!.dualUVCCamera.loadPseudocolor(
@@ -447,7 +447,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         if (!canOperate) {
             return
         }
-        Log.d(Companion.TAG, "prex :$preX prey : $preY curx : $curX cury : $curY")
+        Log.d(TAG, "prex :$preX prey : $preY curx : $curX cury : $curY")
         if (mDualView != null) {
             updateSaveButton()
             val newSrc = ByteArray(8)
@@ -465,7 +465,7 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
         if (!canOperate) {
             return
         }
-        Log.d(Companion.TAG, "angle :$angle")
+        Log.d(TAG, "angle :$angle")
         if (mDualView != null) {
             val newSrc = ByteArray(4)
             val xSrc = ByteArray(4)
