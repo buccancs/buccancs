@@ -8,45 +8,15 @@ import com.sun.jna.Pointer;
 import java.io.IOException;
 
 
-/**
- * Java API for the lab streaming layer.
- * <p>
- * The lab streaming layer provides a set of functions to make instrument data accessible
- * in real time within a lab network. From there, streams can be picked up by recording programs,
- * viewing programs or custom experiment applications that access data streams in real time.
- * <p>
- * The API covers two areas:
- * - The "push API" allows to create stream outlets and to push data (regular or irregular measurement
- * time series, event data, coded audio/video frames, etc.) into them.
- * - The "pull API" allows to create stream inlets and read time-synched experiment data from them
- * (for recording, viewing or experiment control).
- */
 public class LSL {
 
-    /**
-     * Constant to indicate that a stream has variable sampling rate.
-     */
-    public static final double IRREGULAR_RATE = 0.0;
+        public static final double IRREGULAR_RATE = 0.0;
 
-    /**
-     * Constant to indicate that a sample has the next successive time stamp.
-     * This is an optional optimization to transmit less data per sample.
-     * The stamp is then deduced from the preceding one according to the stream's sampling rate
-     * (in the case of an irregular rate, the same time stamp as before will is assumed).
-     */
-    public static final double DEDUCED_TIMESTAMP = -1.0;
+        public static final double DEDUCED_TIMESTAMP = -1.0;
 
-    /**
-     * A very large time duration (> 1 year) for timeout values.
-     * Note that significantly larger numbers can cause the timeout to be invalid on some operating systems (e.g., 32-bit UNIX).
-     */
-    public static final double FOREVER = 32000000.0;
+        public static final double FOREVER = 32000000.0;
 
-    /**
-     * Constant to indicate that there is no preference about how a data stream shall be chunked for transmission.
-     * (can be used for the chunking paramters in the inlet or the outlet).
-     */
-    public static final int NO_PREFERENCE = 0;
+        public static final int NO_PREFERENCE = 0;
     private static dll inst;
 
     static {
@@ -72,23 +42,11 @@ public class LSL {
         }
     }
 
-    /**
-     * Protocol version.
-     * The major version is protocol_version() / 100;
-     * The minor version is protocol_version() % 100;
-     * Clients with different minor versions are protocol-compatible with each other
-     * while clients with different major versions will refuse to work together.
-     */
-    public static int protocol_version() {
+        public static int protocol_version() {
         return inst.lsl_protocol_version();
     }
 
-    /**
-     * Version of the liblsl library.
-     * The major version is library_version() / 100;
-     * The minor version is library_version() % 100;
-     */
-    public static int library_version() {
+        public static int library_version() {
         return inst.lsl_library_version();
     }
 
@@ -96,33 +54,11 @@ public class LSL {
         return inst.lsl_library_info();
     }
 
-    /**
-     * Obtain a local system time stamp in seconds. The resolution is better than a millisecond.
-     * This reading can be used to assign time stamps to samples as they are being acquired.
-     * If the "age" of a sample is known at a particular time (e.g., from USB transmission
-     * delays), it can be used as an offset to local_clock() to obtain a better estimate of
-     * when a sample was actually captured. See stream_outlet::push_sample() for a use case.
-     */
-    public static double local_clock() {
+        public static double local_clock() {
         return inst.lsl_local_clock();
     }
 
-    /**
-     * Resolve all streams on the network.
-     * This function returns all currently available streams from any outlet on the network.
-     * The network is usually the subnet specified at the local router, but may also include
-     * a multicast group of machines (given that the network supports it), or list of hostnames.
-     * These details may optionally be customized by the experimenter in a configuration file
-     * (see Network Connectivity in the LSL wiki).
-     * This is the default mechanism used by the browsing programs and the recording program.
-     *
-     * @param wait_time The waiting time for the operation, in seconds, to search for streams.
-     *                  Warning: If this is too short (less than 0.5s) only a subset (or none) of the
-     *                  outlets that are present on the network may be returned.
-     * @return An array of stream info objects (excluding their desc field), any of which can
-     * subsequently be used to open an inlet. The full info can be retrieve from the inlet.
-     */
-    public static StreamInfo[] resolve_streams(double wait_time) {
+        public static StreamInfo[] resolve_streams(double wait_time) {
         Pointer[] buf = new Pointer[1024];
         int num = inst.lsl_resolve_all(buf, buf.length, wait_time);
         StreamInfo[] res = new StreamInfo[num];
@@ -145,19 +81,7 @@ public class LSL {
     // ==== Stream Outlet ====
     // =======================
 
-    /**
-     * Resolve all streams with a specific value for a given property.
-     * If the goal is to resolve a specific stream, this method is preferred over resolving all streams and then selecting the desired one.
-     *
-     * @param prop    The stream_info property that should have a specific value (e.g., "name", "type", "source_id", or "desc/manufaturer").
-     * @param value   The String value that the property should have (e.g., "EEG" as the type property).
-     * @param minimum Optionally return at least this number of streams.
-     * @param timeout Optionally a timeout of the operation, in seconds (default: no timeout).
-     *                If the timeout expires, less than the desired number of streams (possibly none) will be returned.
-     * @return An array of matching stream info objects (excluding their meta-data), any of
-     * which can subsequently be used to open an inlet.
-     */
-    public static StreamInfo[] resolve_stream(String prop, String value, int minimum, double timeout) {
+        public static StreamInfo[] resolve_stream(String prop, String value, int minimum, double timeout) {
         Pointer[] buf = new Pointer[1024];
         int num = inst.lsl_resolve_byprop(buf, buf.length, prop, value, minimum, timeout);
         StreamInfo[] res = new StreamInfo[num];
@@ -179,19 +103,7 @@ public class LSL {
         return resolve_stream(prop, value, 1, FOREVER);
     }
 
-    /**
-     * Resolve all streams that match a given predicate.
-     * Advanced query that allows to impose more conditions on the retrieved streams; the given String is an XPath 1.0
-     * predicate for the <info> node (omitting the surrounding []'s), see also http://en.wikipedia.org/w/index.php?title=XPath_1.0&oldid=474981951.
-     *
-     * @param pred    The predicate String, e.g. "name='BioSemi'" or "type='EEG' and starts-with(name,'BioSemi') and count(info/desc/channel)=32"
-     * @param minimum Return at least this number of streams.
-     * @param timeout Optionally a timeout of the operation, in seconds (default: no timeout).
-     *                If the timeout expires, less than the desired number of streams (possibly none) will be returned.
-     * @return An array of matching stream info objects (excluding their meta-data), any of
-     * which can subsequently be used to open an inlet.
-     */
-    public static StreamInfo[] resolve_stream(String pred, int minimum, double timeout) {
+        public static StreamInfo[] resolve_stream(String pred, int minimum, double timeout) {
         Pointer[] buf = new Pointer[1024];
         int num = inst.lsl_resolve_bypred(buf, buf.length, pred, minimum, timeout);
         StreamInfo[] res = new StreamInfo[num];
@@ -208,10 +120,7 @@ public class LSL {
         return resolve_stream(pred, 1, FOREVER);
     }
 
-    /**
-     * Check an error condition and throw an exception if appropriate.
-     */
-    static void check_error(int[] ec) throws Exception {
+        static void check_error(int[] ec) throws Exception {
         if (ec[0] < 0)
             switch (ec[0]) {
                 case -1:
@@ -227,10 +136,7 @@ public class LSL {
             }
     }
 
-    /**
-     * Internal: C library interface.
-     */
-    public interface dll extends Library {
+        public interface dll extends Library {
         int lsl_protocol_version();
 
         int lsl_library_version();
@@ -536,40 +442,10 @@ public class LSL {
 
     }
 
-    /**
-     * The stream_info object stores the declaration of a data stream.
-     * Represents the following information:
-     * a) stream data format (#channels, channel format)
-     * b) core information (stream name, content type, sampling rate)
-     * c) optional meta-data about the stream content (channel labels, measurement units, etc.)
-     * <p>
-     * Whenever a program wants to provide a new stream on the lab network it will typically first
-     * create a stream_info to describe its properties and then construct a stream_outlet with it to create
-     * the stream on the network. Recipients who discover the outlet can query the stream_info; it is also
-     * written to disk when recording the stream (playing a similar role as a file header).
-     */
-    public static class StreamInfo {
+        public static class StreamInfo {
         private Pointer obj;
 
-        /**
-         * Construct a new stream_info object.
-         * Core stream information is specified here. Any remaining meta-data can be added later.
-         *
-         * @param name           Name of the stream. Describes the device (or product series) that this stream makes available
-         *                       (for use by programs, experimenters or data analysts). Cannot be empty.
-         * @param type           Content type of the stream. Please see https://github.com/sccn/xdf/wiki/Meta-Data (or web search for:
-         *                       XDF meta-data) for pre-defined content-type names, but you can also make up your own.
-         *                       The content type is the preferred way to find streams (as opposed to searching by name).
-         * @param channel_count  Number of channels per sample. This stays constant for the lifetime of the stream.
-         * @param nominal_srate  The sampling rate (in Hz) as advertised by the data source, if regular (otherwise set to IRREGULAR_RATE).
-         * @param channel_format Format/type of each channel. If your channels have different formats, consider supplying
-         *                       multiple streams or use the largest type that can hold them all (such as cf_double64).
-         * @param source_id      Unique identifier of the device or source of the data, if available (such as the serial number).
-         *                       This is critical for system robustness since it allows recipients to recover from failure even after the
-         *                       serving app, device or computer crashes (just by finding a stream with the same source id on the network again).
-         *                       Therefore, it is highly recommended to always try to provide whatever information can uniquely identify the data source itself.
-         */
-        public StreamInfo(String name, String type, int channel_count, double nominal_srate, int channel_format, String source_id) {
+                public StreamInfo(String name, String type, int channel_count, double nominal_srate, int channel_format, String source_id) {
             obj = inst.lsl_create_streaminfo(name, type, channel_count, nominal_srate, channel_format, source_id);
         }
 
@@ -599,69 +475,27 @@ public class LSL {
         // ========================
         // (these fields are assigned at construction)
 
-        /**
-         * Destroy a previously created StreamInfo object.
-         */
-        public void destroy() {
+                public void destroy() {
             inst.lsl_destroy_streaminfo(obj);
         }
 
-        /**
-         * Name of the stream. This is a human-readable name. For streams
-         * offered by device modules, it refers to the type of device or product
-         * series that is generating the data of the stream. If the source is an
-         * application, the name may be a more generic or specific identifier.
-         * Multiple streams with the same name can coexist, though potentially
-         * at the cost of ambiguity (for the recording app or experimenter).
-         */
-        public String name() {
+                public String name() {
             return inst.lsl_get_name(obj);
         }
 
-        /**
-         * Content type of the stream. The content type is a short string such
-         * as "EEG", "Gaze" which describes the content carried by the channel
-         * (if known). If a stream contains mixed content this value need not be
-         * assigned but may instead be stored in the description of channel
-         * types. To be useful to applications and automated processing systems
-         * using the recommended content types is preferred. See Table of
-         * Content types usually follow those pre-defined in
-         * https://github.com/sccn/xdf/wiki/Meta-Data (or web search for:
-         * XDF meta-data).
-         */
-        public String type() {
+                public String type() {
             return inst.lsl_get_type(obj);
         }
 
-        /**
-         * Number of channels of the stream. A stream has at least one channel;
-         * the channel count stays constant for all samples.
-         */
-        public int channel_count() {
+                public int channel_count() {
             return inst.lsl_get_channel_count(obj);
         }
 
-        /**
-         * Sampling rate of the stream, according to the source (in Hz). If a
-         * stream is irregularly sampled, this should be set to IRREGULAR_RATE.
-         * <p>
-         * Note that no data will be lost even if this sampling rate is
-         * incorrect or if a device has temporary hiccups, since all samples
-         * will be recorded anyway (except for those dropped by the device
-         * itself). However, when the recording is imported into an application,
-         * a good importer may correct such errors more accurately if the
-         * advertised sampling rate was close to the specs of the device.
-         */
-        public double nominal_srate() {
+                public double nominal_srate() {
             return inst.lsl_get_nominal_srate(obj);
         }
 
-        /**
-         * Channel format of the stream. All channels in a stream have the same
-         * format. However, a device might offer multiple time-synched streams
-         * each with its own format.
-         */
-        public int channel_format() {
+                public int channel_format() {
             return inst.lsl_get_channel_format(obj);
         }
 
@@ -671,52 +505,23 @@ public class LSL {
         // ======================================
         // (these fields are implicitly assigned once bound to an outlet/inlet)
 
-        /**
-         * Unique identifier of the stream's source, if available. The unique
-         * source (or device) identifier is an optional piece of information
-         * that, if available, allows that endpoints (such as the recording
-         * program) can re-acquire a stream automatically once it is back
-         * online.
-         */
-        public String source_id() {
+                public String source_id() {
             return inst.lsl_get_source_id(obj);
         }
 
-        /**
-         * Protocol version used to deliver the stream.
-         */
-        public int version() {
+                public int version() {
             return inst.lsl_get_version(obj);
         }
 
-        /**
-         * Creation time stamp of the stream. This is the time stamp when the
-         * stream was first created (as determined via local_clock() on the
-         * providing machine).
-         */
-        public double created_at() {
+                public double created_at() {
             return inst.lsl_get_created_at(obj);
         }
 
-        /**
-         * Unique ID of the stream outlet instance (once assigned). This is a
-         * unique identifier of the stream outlet, and is guaranteed to be
-         * different across multiple instantiations of the same outlet (e.g.,
-         * after a re-start).
-         */
-        public String uid() {
+                public String uid() {
             return inst.lsl_get_uid(obj);
         }
 
-        /**
-         * Session ID for the given stream. The session id is an optional
-         * human-assigned identifier of the recording session. While it is
-         * rarely used, it can be used to prevent concurrent recording
-         * activitites on the same sub-network (e.g., in multiple experiment
-         * areas) from seeing each other's streams (assigned via a configuration
-         * file by the experimenter, see Network Connectivity in the LSL wiki).
-         */
-        public String session_id() {
+                public String session_id() {
             return inst.lsl_get_session_id(obj);
         }
 
@@ -724,44 +529,19 @@ public class LSL {
         // === Data Description ===
         // ========================
 
-        /**
-         * Hostname of the providing machine.
-         */
-        public String hostname() {
+                public String hostname() {
             return inst.lsl_get_hostname(obj);
         }
 
-        /**
-         * Extended description of the stream.
-         * It is highly recommended that at least the channel labels are described here.
-         * See code examples on the LSL wiki. Other information, such as amplifier settings,
-         * measurement units if deviating from defaults, setup information, subject information, etc.,
-         * can be specified here, as well. Meta-data recommendations follow the XDF file format project
-         * (github.com/sccn/xdf/wiki/Meta-Data or web search for: XDF meta-data).
-         * <p>
-         * Important: if you use a stream content type for which meta-data recommendations exist, please
-         * try to lay out your meta-data in agreement with these recommendations for compatibility with other applications.
-         */
-        public XMLElement desc() {
+                public XMLElement desc() {
             return new XMLElement(inst.lsl_get_desc(obj));
         }
 
-        /**
-         * Retrieve the entire stream_info in XML format.
-         * This yields an XML document (in string form) whose top-level element is <info>. The info element contains
-         * one element for each field of the stream_info class, including:
-         * a) the core elements <name>, <type>, <channel_count>, <nominal_srate>, <channel_format>, <source_id>
-         * b) the misc elements <version>, <created_at>, <uid>, <session_id>, <v4address>, <v4data_port>, <v4service_port>, <v6address>, <v6data_port>, <v6service_port>
-         * c) the extended description element <desc> with user-defined sub-elements.
-         */
-        public String as_xml() {
+                public String as_xml() {
             return inst.lsl_get_xml(obj);
         }
 
-        /**
-         * Get access to the underlying native handle.
-         */
-        public Pointer handle() {
+                public Pointer handle() {
             return obj;
         }
     }
@@ -771,23 +551,10 @@ public class LSL {
     // ==== Stream Inlet ====
     // ======================
 
-    /**
-     * A stream outlet.
-     * Outlets are used to make streaming data (and the meta-data) available on the lab network.
-     */
-    public static class StreamOutlet {
+        public static class StreamOutlet {
         private Pointer obj;
 
-        /**
-         * Establish a new stream outlet. This makes the stream discoverable.
-         *
-         * @param info         The stream information to use for creating this stream. Stays constant over the lifetime of the outlet.
-         * @param chunk_size   Optionally the desired chunk granularity (in samples) for transmission. If unspecified,
-         *                     each push operation yields one chunk. Inlets can override this setting.
-         * @param max_buffered Optionally the maximum amount of data to buffer (in seconds if there is a nominal
-         *                     sampling rate, otherwise x100 in samples). The default is 6 minutes of data.
-         */
-        public StreamOutlet(StreamInfo info, int chunk_size, int max_buffered) throws IOException {
+                public StreamOutlet(StreamInfo info, int chunk_size, int max_buffered) throws IOException {
             obj = inst.lsl_create_outlet(info.handle(), chunk_size, max_buffered);
             throw new IOException("Unable to open LSL outlet.");
         }
@@ -807,24 +574,11 @@ public class LSL {
         // === Pushing a sample into the outlet ===
         // ========================================
 
-        /**
-         * Close the outlet.
-         * The stream will no longer be discoverable after closure and all paired inlets will stop delivering data.
-         */
-        public void close() {
+                public void close() {
             inst.lsl_destroy_outlet(obj);
         }
 
-        /**
-         * Push an array of values as a sample into the outlet.
-         * Each entry in the vector corresponds to one channel.
-         *
-         * @param data        An array of values to push (one for each channel).
-         * @param timestamp   Optionally the capture time of the sample, in agreement with local_clock(); if omitted, the current time is used.
-         * @param pushthrough Optionally whether to push the sample through to the receivers instead of buffering it with subsequent samples.
-         *                    Note that the chunk_size, if specified at outlet construction, takes precedence over the pushthrough flag.
-         */
-        public void push_sample(float[] data, double timestamp, boolean pushthrough) {
+                public void push_sample(float[] data, double timestamp, boolean pushthrough) {
             inst.lsl_push_sample_ftp(obj, data, timestamp, pushthrough ? 1 : 0);
         }
 
@@ -901,16 +655,7 @@ public class LSL {
             inst.lsl_push_sample_str(obj, data);
         }
 
-        /**
-         * Push a chunk of multiplexed samples into the outlet. Single timestamp provided.
-         *
-         * @param data        A rectangular array of values for multiple samples.
-         * @param timestamp   Optionally the capture time of the most recent sample, in agreement with local_clock(); if omitted, the current time is used.
-         *                    The time stamps of other samples are automatically derived based on the sampling rate of the stream.
-         * @param pushthrough Optionally whether to push the chunk through to the receivers instead of buffering it with subsequent samples.
-         *                    Note that the chunk_size, if specified at outlet construction, takes precedence over the pushthrough flag.
-         */
-        public void push_chunk(float[] data, double timestamp, boolean pushthrough) {
+                public void push_chunk(float[] data, double timestamp, boolean pushthrough) {
             inst.lsl_push_chunk_ftp(obj, data, data.length, timestamp, pushthrough ? 1 : 0);
         }
 
@@ -982,15 +727,7 @@ public class LSL {
             inst.lsl_push_chunk_str(obj, data, data.length);
         }
 
-        /**
-         * Push a chunk of multiplexed samples into the outlet. One timestamp per sample is provided.
-         *
-         * @param data        A rectangular array of values for multiple samples.
-         * @param timestamps  An array of timestamp values holding time stamps for each sample in the data buffer.
-         * @param pushthrough Optionally whether to push the chunk through to the receivers instead of buffering it with subsequent samples.
-         *                    Note that the chunk_size, if specified at outlet construction, takes precedence over the pushthrough flag.
-         */
-        public void push_chunk(float[] data, double[] timestamps, boolean pushthrough) {
+                public void push_chunk(float[] data, double[] timestamps, boolean pushthrough) {
             inst.lsl_push_chunk_ftnp(obj, data, data.length, timestamps, pushthrough ? 1 : 0);
         }
 
@@ -1043,28 +780,15 @@ public class LSL {
             inst.lsl_push_chunk_strtn(obj, data, data.length, timestamps);
         }
 
-        /**
-         * Check whether consumers are currently registered.
-         * While it does not hurt, there is technically no reason to push samples if there is no consumer.
-         */
-        public boolean have_consumers() {
+                public boolean have_consumers() {
             return inst.lsl_have_consumers(obj) > 0;
         }
 
-        /**
-         * Wait until some consumer shows up (without wasting resources).
-         *
-         * @return True if the wait was successful, false if the timeout expired.
-         */
-        public boolean wait_for_consumers(double timeout) {
+                public boolean wait_for_consumers(double timeout) {
             return inst.lsl_wait_for_consumers(obj, timeout) > 0;
         }
 
-        /**
-         * Retrieve the stream info provided by this outlet.
-         * This is what was used to create the stream (and also has the Additional Network Information fields assigned).
-         */
-        public StreamInfo info() {
+                public StreamInfo info() {
             return new StreamInfo(inst.lsl_get_info(obj));
         }
     }
@@ -1074,35 +798,10 @@ public class LSL {
     // ==== XML Element ====
     // =====================
 
-    /**
-     * A stream inlet.
-     * Inlets are used to receive streaming data (and meta-data) from the lab network.
-     */
-    public static class StreamInlet {
+        public static class StreamInlet {
         private Pointer obj;
 
-        /**
-         * Construct a new stream inlet from a resolved stream info.
-         *
-         * @param info         A resolved stream info object (as coming from one of the resolver functions).
-         *                     Note: the stream_inlet may also be constructed with a fully-specified stream_info,
-         *                     if the desired channel format and count is already known up-front, but this is
-         *                     strongly discouraged and should only ever be done if there is no time to resolve the
-         *                     stream up-front (e.g., due to limitations in the client program).
-         * @param max_buflen   Optionally the maximum amount of data to buffer (in seconds if there is a nominal
-         *                     sampling rate, otherwise x100 in samples). Recording applications want to use a fairly
-         *                     large buffer size here, while real-time applications would only buffer as much as
-         *                     they need to perform their next calculation.
-         * @param max_chunklen Optionally the maximum size, in samples, at which chunks are transmitted
-         *                     (the default corresponds to the chunk sizes used by the sender).
-         *                     Recording applications can use a generous size here (leaving it to the network how
-         *                     to pack things), while real-time applications may want a finer (perhaps 1-sample) granularity.
-         *                     If left unspecified (=0), the sender determines the chunk granularity.
-         * @param recover      Try to silently recover lost streams that are recoverable (=those that that have a source_id set).
-         *                     In all other cases (recover is false or the stream is not recoverable) functions may throw a
-         *                     LostException if the stream's source is lost (e.g., due to an app or computer crash).
-         */
-        public StreamInlet(StreamInfo info, int max_buflen, int max_chunklen, boolean recover) throws IOException {
+                public StreamInlet(StreamInfo info, int max_buflen, int max_chunklen, boolean recover) throws IOException {
             obj = inst.lsl_create_inlet(info.handle(), max_buflen, max_chunklen, recover ? 1 : 0);
             if (obj == null) throw new IOException("Unable to open LSL inlet.");
         }
@@ -1122,21 +821,11 @@ public class LSL {
             if (obj == null) throw new IOException("Unable to open LSL inlet.");
         }
 
-        /**
-         * Disconnect and close the inlet.
-         */
-        public void close() {
+                public void close() {
             inst.lsl_destroy_inlet(obj);
         }
 
-        /**
-         * Retrieve the complete information of the given stream, including the extended description.
-         * Can be invoked at any time of the stream's lifetime.
-         *
-         * @param timeout Timeout of the operation (default: no timeout).
-         * @throws TimeoutException (if the timeout expires), or LostException (if the stream source has been lost).
-         */
-        public StreamInfo info(double timeout) throws Exception {
+                public StreamInfo info(double timeout) throws Exception {
             int[] ec = {0};
             Pointer res = inst.lsl_get_fullinfo(obj, timeout, ec);
             check_error(ec);
@@ -1147,16 +836,7 @@ public class LSL {
             return info(FOREVER);
         }
 
-        /**
-         * Subscribe to the data stream.
-         * All samples pushed in at the other end from this moment onwards will be queued and
-         * eventually be delivered in response to pull_sample() or pull_chunk() calls.
-         * Pulling a sample without some preceding open_stream is permitted (the stream will then be opened implicitly).
-         *
-         * @param timeout Optional timeout of the operation (default: no timeout).
-         * @throws TimeoutException (if the timeout expires), or LostException (if the stream source has been lost).
-         */
-        public void open_stream(double timeout) throws Exception {
+                public void open_stream(double timeout) throws Exception {
             int[] ec = {0};
             inst.lsl_open_stream(obj, timeout, ec);
             check_error(ec);
@@ -1166,30 +846,11 @@ public class LSL {
             open_stream(FOREVER);
         }
 
-        /**
-         * Drop the current data stream.
-         * All samples that are still buffered or in flight will be dropped and transmission
-         * and buffering of data for this inlet will be stopped. If an application stops being
-         * interested in data from a source (temporarily or not) but keeps the outlet alive,
-         * it should call close_stream() to not waste unnecessary system and network
-         * resources.
-         */
-        public void close_stream() {
+                public void close_stream() {
             inst.lsl_close_stream(obj);
         }
 
-        /**
-         * Retrieve an estimated time correction offset for the given stream.
-         * The first call to this function takes several milliseconds until a reliable first estimate is obtained.
-         * Subsequent calls are instantaneous (and rely on periodic background updates).
-         * The precision of these estimates should be below 1 ms (empirically within +/-0.2 ms).
-         *
-         * @return The time correction estimate. This is the number that needs to be added to a time stamp
-         * that was remotely generated via lsl_local_clock() to map it into the local clock domain of this machine.
-         * @throws TimeoutException (if the timeout expires), or LostException (if the stream source has been lost).
-         * @timeout Timeout to acquire the first time-correction estimate (default: no timeout).
-         */
-        public double time_correction(double timeout) throws Exception {
+                public double time_correction(double timeout) throws Exception {
             int[] ec = {0};
             double res = inst.lsl_time_correction(obj, timeout, ec);
             check_error(ec);
@@ -1204,17 +865,7 @@ public class LSL {
             return time_correction(FOREVER);
         }
 
-        /**
-         * Pull a sample from the inlet and read it into an array of values.
-         * Handles type checking & conversion.
-         *
-         * @param sample  An array to hold the resulting values.
-         * @param timeout The timeout for this operation, if any. Use 0.0 to make the function non-blocking.
-         * @return The capture time of the sample on the remote machine, or 0.0 if no new sample was available.
-         * To remap this time stamp to the local clock, add the value returned by .time_correction() to it.
-         * @throws LostException (if the stream source has been lost).
-         */
-        public double pull_sample(float[] sample, double timeout) throws Exception {
+                public double pull_sample(float[] sample, double timeout) throws Exception {
             int[] ec = {0};
             double res = inst.lsl_pull_sample_f(obj, sample, sample.length, timeout, ec);
             check_error(ec);
@@ -1285,18 +936,7 @@ public class LSL {
             return pull_sample(sample, FOREVER);
         }
 
-        /**
-         * Pull a chunk of data from the inlet.
-         *
-         * @param data_buffer      A pre-allocated buffer where the channel data shall be stored.
-         * @param timestamp_buffer A pre-allocated buffer where time stamps shall be stored.
-         * @param timeout          Optionally the timeout for this operation, if any. When the timeout expires, the function
-         *                         may return before the entire buffer is filled. The default value of 0.0 will retrieve only
-         *                         data available for immediate pickup.
-         * @return samples_written Number of samples written to the data and timestamp buffers.
-         * @throws LostException (if the stream source has been lost).
-         */
-        public int pull_chunk(float[] data_buffer, double[] timestamp_buffer, double timeout) throws Exception {
+                public int pull_chunk(float[] data_buffer, double[] timestamp_buffer, double timeout) throws Exception {
             int[] ec = {0};
             long res = inst.lsl_pull_chunk_f(obj, data_buffer, timestamp_buffer, data_buffer.length, timestamp_buffer.length, timeout, ec);
             check_error(ec);
@@ -1362,24 +1002,11 @@ public class LSL {
             return pull_chunk(data_buffer, timestamp_buffer, 0.0);
         }
 
-        /**
-         * Query whether samples are currently available for immediate pickup.
-         * Note that it is not a good idea to use samples_available() to determine whether
-         * a pull_*() call would block: to be sure, set the pull timeout to 0.0 or an acceptably
-         * low value. If the underlying implementation supports it, the value will be the number of
-         * samples available (otherwise it will be 1 or 0).
-         */
-        public int samples_available() {
+                public int samples_available() {
             return (int) inst.lsl_samples_available(obj);
         }
 
-        /**
-         * Query whether the clock was potentially reset since the last call to was_clock_reset().
-         * This is a rarely-used function that is only useful to applications that combine multiple time_correction
-         * values to estimate precise clock drift; it allows to tolerate cases where the source machine was
-         * hot-swapped or restarted in between two measurements.
-         */
-        public boolean was_clock_reset() {
+                public boolean was_clock_reset() {
             return (int) inst.lsl_was_clock_reset(obj) != 0;
         }
     }
@@ -1389,13 +1016,7 @@ public class LSL {
     // === Continuous Resolver ===
     // ===========================
 
-    /**
-     * A lightweight XML element tree; models the .desc() field of stream_info.
-     * Has a name and can have multiple named children or have text content as value; attributes are omitted.
-     * Insider note: The interface is modeled after a subset of pugixml's node type and is compatible with it.
-     * See also http://pugixml.googlecode.com/svn/tags/latest/docs/manual/access.html for additional documentation.
-     */
-    public static class XMLElement {
+        public static class XMLElement {
         private Pointer obj;
 
         // === Tree Navigation ===
@@ -1595,23 +1216,8 @@ public class LSL {
                 public static final int undefined = 0;      }
 
         public class ProcessingOptions {
-        public static final int proc_none = 0;            /* No automatic post-processing; return the ground-truth time stamps for manual post-processing */
-        /* (this is the default behavior of the inlet). */
-        public static final int proc_clocksync = 1;        /* Perform automatic clock synchronization; equivalent to manually adding the time_correction() value */
-        /* to the received time stamps. */
-        public static final int proc_dejitter = 2;        /* Remove jitter from time stamps. This will apply a smoothing algorithm to the received time stamps; */
-        /* the smoothing needs to see a minimum number of samples (30-120 seconds worst-case) until the remaining */
-        /* jitter is consistently below 1ms. */
-        public static final int proc_monotonize = 4;    /* Force the time-stamps to be monotonically ascending (only makes sense if timestamps are dejittered). */
-        public static final int proc_threadsafe = 8;    /* Post-processing is thread-safe (same inlet can be read from by multiple threads); uses somewhat more CPU. */
-        public static final int proc_ALL = 1 | 2 | 4 | 8;        /* The combination of all possible post-processing options. */
-    }
+        public static final int proc_none = 0;                            public static final int proc_clocksync = 1;                        public static final int proc_dejitter = 2;                                public static final int proc_monotonize = 4;            public static final int proc_threadsafe = 8;            public static final int proc_ALL = 1 | 2 | 4 | 8;            }
 
         public class ErrorCode {
-        public static final int no_error = 0;           /* No error occurred */
-        public static final int timeout_error = -1;     /* The operation failed due to a timeout. */
-        public static final int lost_error = -2;        /* The stream has been lost. */
-        public static final int argument_error = -3;    /* An argument was incorrectly specified (e.g., wrong format or wrong length). */
-        public static final int internal_error = -4;     /* Some other internal error has happened. */
-    }
+        public static final int no_error = 0;                   public static final int timeout_error = -1;             public static final int lost_error = -2;                public static final int argument_error = -3;            public static final int internal_error = -4;         }
 }

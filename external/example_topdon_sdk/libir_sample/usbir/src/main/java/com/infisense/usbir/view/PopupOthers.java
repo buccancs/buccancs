@@ -219,12 +219,7 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                 Log.i(TAG, "tau_data_H[" + 1000 + "]=" + tau_data_H[1000] +
                                         " tau_data_L[" + 1000 + "]=" + tau_data_L[1000]);
 
-                                /*
-                                 * readNucTableFromFlash为耗时操作，影响用户体验
-                                 * 这里的优化逻辑为：以SN码为唯一标识，首次读取nuc table信息后存储起来，
-                                 * 下次进来之后判断是否存在nuc table文件，存在则直接使用；否则则重新读取并存储
-                                 */
-                                byte[] SN = new byte[16];
+                                                                byte[] SN = new byte[16];
                                 ircmd.getDeviceInfo(CommonParams.DeviceInfoType.DEV_INFO_GET_SN, SN);
                                 String deviceSNUnCodePath =
                                         MyApplication.getInstance().DEVICE_DATA_SAVE_DIR + File.separator;

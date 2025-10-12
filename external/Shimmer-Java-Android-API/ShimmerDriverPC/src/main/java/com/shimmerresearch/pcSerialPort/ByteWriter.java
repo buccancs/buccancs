@@ -3,14 +3,6 @@ package com.shimmerresearch.pcSerialPort;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-/**
- * ByteWriter : an interface for a generic byte writing (I wanted to be able to switch from JSSC to any other framework)
- *
- * @author Bastien Aracil
- * <p>
- * https://stackoverflow.com/questions/20034470/jssc-serial-connection-set-write-timeout/37076508#37076508
- *
- */
 public interface ByteWriter {
 
     void write(byte[] bytes) throws IOException;

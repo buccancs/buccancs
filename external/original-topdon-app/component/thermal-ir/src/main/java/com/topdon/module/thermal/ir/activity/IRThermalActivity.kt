@@ -321,9 +321,7 @@
 //
 //
 //
-//    /**
-//     */
-//    fun setDefLimit(){
+//    //    fun setDefLimit(){
 //        editMaxValue = Float.MAX_VALUE
 //        editMinValue = Float.MIN_VALUE
 //        CameraLiveDateUtil.getInstance().saveEditMaxMinValue(editMaxValue,editMinValue)
@@ -551,9 +549,7 @@
 //        }
 //    }
 //
-//    /**
-//     */
-//    fun updateDelayView(){
+//    //    fun updateDelayView(){
 //        try {
 //            if (time_down_view.isRunning){
 //                lifecycleScope.launch(Dispatchers.Main) {
@@ -623,9 +619,7 @@
 //    private fun setPColor(code: Int) {
 //        pseudocolorMode = code
 //        temperature_seekbar.setPseudocode(pseudocolorMode)
-//        /**
-//         */
-////        ircmd!!.setPseudoColor(PreviewPathChannel.PREVIEW_PATH0, PseudocodeUtils.changePseudocodeModeByOld(pseudocolorMode))
+//        ////        ircmd!!.setPseudoColor(PreviewPathChannel.PREVIEW_PATH0, PseudocodeUtils.changePseudocodeModeByOld(pseudocolorMode))
 //        CameraLiveDateUtil.getInstance().savePseudoColorMode(pseudocolorMode)
 //        thermal_recycler.setPseudoColor(code)
 //    }
@@ -845,9 +839,7 @@
 //        }
 //    }
 //
-//    /**
-//     */
-//    fun setCameraDataListener(){
+//    //    fun setCameraDataListener(){
 //        CameraLiveDateUtil.getInstance().cameraIRConfigLiveDate.observe(this, Observer { cameraIt ->
 //            videoRecord?.updateAudioState(cameraSBean.openAudioRecord)
 //            cameraSBean = cameraIt
@@ -856,9 +848,7 @@
 //
 //
 //
-//    /**
-//     */
-//    private fun initDataIR() {
+//    //    private fun initDataIR() {
 //        imageWidth = cameraHeight - tempHeight
 //        imageHeight = cameraWidth
 //        if (ScreenUtils.isPortrait()) {
@@ -897,9 +887,7 @@
 //        }
 //    }
 //
-//    /**
-//     */
-//    private fun setViewLay(isPortrait: Boolean) {
+//    //    private fun setViewLay(isPortrait: Boolean) {
 //        thermal_lay.post {
 //            val params = thermal_lay.layoutParams
 //            if (ScreenUtils.isPortrait()) {
@@ -930,9 +918,7 @@
 //        }
 //    }
 //
-//    /**
-//     */
-//    private fun startISP() {
+//    //    private fun startISP() {
 //        try {
 //            imageThread = ImageThreadTC(this@IRThermalActivity, imageWidth, imageHeight)
 //            imageThread?.setDataFlowMode(defaultDataFlowMode)
@@ -961,9 +947,7 @@
 //    private var isCMDDataComplete = false
 //
 //
-//    /**
-//     */
-//    private fun startUSB(isRestart: Boolean) {
+//    //    private fun startUSB(isRestart: Boolean) {
 //        showCameraLoading()
 //        //
 //        iruvc = IRUVCTC(cameraWidth, cameraHeight, this@IRThermalActivity, syncimage,
@@ -1120,11 +1104,7 @@
 //
 //
 //
-//    /**
-//     *
-//     * @param params_array
-//     */
-//    fun tempCorrect(temp: Float,
+//    //    fun tempCorrect(temp: Float,
 //                    gainStatus : GainStatus,tempinfo : Long) : Float {
 //
 //        val configRepository = ConfigRepository()
@@ -1164,10 +1144,7 @@
 //        updateRotateAngle(rotateAngle)
 //    }
 //
-//    /**
-//     * @param rotate 0, 90, 180, 270
-//     */
-//    private fun setRotate(rotateInt: Int) {
+//    //    private fun setRotate(rotateInt: Int) {
 //        val  rotate: Boolean = true
 //        if (imageThread != null) {
 //            imageThread?.setRotate(rotateInt)
@@ -1237,9 +1214,7 @@
 //        }
 //    }
 //
-//    /**
-//     */
-//    private fun initIRConfig(){
+//    //    private fun initIRConfig(){
 //        if (CameraLiveDateUtil.getInstance().getCameraSBeanData().irSettingBean.openColorBar){
 //            cl_seek_bar.visibility = View.VISIBLE
 //        }else{
@@ -1332,14 +1307,9 @@
 //     ${CommonUtils.getSNInfo(DeviceType.P2, "YMN32091XD032200001")}
 //     """.trimIndent()
 //        )
-//        /**
-//         */
-//        val oemWriteInfo =
+//        //        val oemWriteInfo =
 //            "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
-//        /**
-//         *
-//         */
-//        val oemInfo = ByteArray(oemWriteInfo.length)
+//        //        val oemInfo = ByteArray(oemWriteInfo.length)
 //        ircmd?.oemRead(oemInfo)
 ////        Log.i(TAG, "oemRead:" + String(oemInfo))
 //        val CHIP_FW_INFO = ByteArray(8)
@@ -1417,9 +1387,7 @@
 //        startUSB(false)
 //        temperatureView.start()
 //    }
-//    /**
-//     */
-//    private fun restartUSBCamera() {
+//    //    private fun restartUSBCamera() {
 //        if (isUseIRISP) {
 //            dealStop()
 //            SystemClock.sleep(500)

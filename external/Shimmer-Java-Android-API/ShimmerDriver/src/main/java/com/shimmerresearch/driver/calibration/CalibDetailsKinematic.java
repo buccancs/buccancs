@@ -11,19 +11,9 @@ import com.shimmerresearch.driverUtilities.UtilParseData;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 
-/**
- * Class that holds the calibration parameters for a particular range in a
- * Kinematic sensor
- *
- * @author Mark Nolan
- *
- */
 public class CalibDetailsKinematic extends CalibDetails implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -3556098650349506733L;
+        private static final long serialVersionUID = -3556098650349506733L;
     public CalibArraysKinematic mCurrentCalibration = new CalibArraysKinematic();
     public CalibArraysKinematic mDefaultCalibration = new CalibArraysKinematic();
     //	//TODO: improve below, needed here?
@@ -87,12 +77,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setSensitivityScaleFactor(sensitivityScaleFactor);
     }
 
-    /**
-     * NOT CURRENTLY USED and could cause problems unless used for a specific purpose as the defaults param etc. will not be set
-     *
-     * @param bufferCalibrationParameters
-     */
-    public CalibDetailsKinematic(byte[] bufferCalibrationParameters) {
+        public CalibDetailsKinematic(byte[] bufferCalibrationParameters) {
         parseCalParamByteArray(bufferCalibrationParameters, CALIB_READ_SOURCE.UNKNOWN);
     }
 
@@ -197,14 +182,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         setCurrentAlignmentMatrix(UtilShimmer.deepCopyDoubleMatrix(mDefaultCalibration.mAlignmentMatrix), true);
     }
 
-    /**
-     * Method to perform a basic sanity check on the sensitivity of the IMUs, implemented
-     * as there were instances when the sensitivity of the gyroscope was -0.01 or 0.65 for example
-     *
-     * @return boolean: true if the sensitivity is outside of the percentage range of the default sensitivity
-     * where the percentage is defined by validScaling factor
-     */
-//	public boolean isSensitivityWithinRangeOfDefault(){
+    //	public boolean isSensitivityWithinRangeOfDefault(){
 //		boolean isValid = true; 
 //		int validScalingFactor = 5;
 //		
@@ -241,14 +219,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         return false;
     }
 
-    /**
-     * Method to perform a basic sanity check on the sensitivity of the IMUs, implemented
-     * as there were instances when the sensitivity of the gyroscope was -0.01 or 0.65 for example
-     *
-     * @return boolean: true if the sensitivity is outside of the percentage range of the default sensitivity
-     * where the percentage is defined by validScaling factor
-     */
-    public boolean isSensitivityWithinRangeOfDefault() {
+        public boolean isSensitivityWithinRangeOfDefault() {
         boolean isValid = true;
         double validScalingFactor = 0.75; // +-75% = Aribitrary value
 
@@ -469,14 +440,7 @@ public class CalibDetailsKinematic extends CalibDetails implements Serializable 
         return (currentMatrixMultipliedInverseAMSM != null ? currentMatrixMultipliedInverseAMSM : getDefaultMatrixMultipliedInverseAMSM());
     }
 
-    /**
-     * For example used by Gyro on the fly calibration
-     *
-     * @param mean
-     * @param mean2
-     * @param mean3
-     */
-    //TODO no nudging implemented here
+        //TODO no nudging implemented here
     public void updateCurrentOffsetVector(double XXvalue, double YYvalue, double ZZvalue) {
         mCurrentCalibration.updateOffsetVector(XXvalue, YYvalue, ZZvalue);
     }

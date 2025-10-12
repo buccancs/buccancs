@@ -13,10 +13,6 @@ import com.shimmerresearch.exceptions.ShimmerException;
 import com.shimmerresearch.exceptions.ShimmerException.ExceptionLevel;
 
 
-/**
- * @author JC, Mark Nolan
- *
- */
 public class MsgDock {
 
     //callback msg options
@@ -337,24 +333,15 @@ public class MsgDock {
     public String mBSLComPort = "";
     public String mUARTComPort = "";
     public String mDockID = "";
-    /**
-     * currently just used as a fall back when undocking Shimmers
-     */
-    public String mMacID = "";
+        public String mMacID = "";
     public DEVICE_STATE mDockState = DEVICE_STATE.STATE_NONE;
 
-    /**
-     * Used for BSL progress reporting and lists SmartDock UART responses
-     */
-    public int mFwImageTotalSize = 0;
+        public int mFwImageTotalSize = 0;
     public int mFwImageWriteProgress = 0;
     public float mFwImageWriteSpeed = 0;
     public String mMessage = "";
     public double mValue;
-    /**
-     * Just used for Shimmer4 BSL programming as each stage takes longer no needs more GUI feedback
-     */
-    public String mFwImageWriteCurrentAction = "";
+        public String mFwImageWriteCurrentAction = "";
 
     public int mSessionId;
 
@@ -362,32 +349,18 @@ public class MsgDock {
     public int mErrorCodeLowLevel;
     public int mErrorCodeLowBsl;
 
-    /**
-     * Contains the error message as copied from a caught exception.
-     */
-    public String mExceptionMsg;
+        public String mExceptionMsg;
 
-    /**
-     * Contains the stracktrace as copied from a caught exception.
-     */
-    public StackTraceElement[] mExceptionStackTrace;
+        public StackTraceElement[] mExceptionStackTrace;
 
-    /**
-     * Indicates whether the Exception is critical to the operation underway.
-     */
-    public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
+        public ExceptionLevel mExceptionLevel = ExceptionLevel.HIGH;
 
 
     public byte[] mSlotMap = new byte[]{};
 
     public DockJobDetails mCurrentJobDetails;
 
-    /**
-     * SmartDockActiveSlotDetails
-     *
-     * @see SmartDockActiveSlotDetails
-     */
-    public int mConnectionType = 0;
+        public int mConnectionType = 0;
     public int mIndicatorLEDsBitmap = 0;
 
 //	public DockException mDockException;
@@ -395,32 +368,16 @@ public class MsgDock {
 //	public MsgDock(){
 //	}
 
-    /**
-     * Used exclusively by the DockManager/ImportManager class for messages associated with no specific slot or dock
-     *
-     * @param msgID
-     */
-    public MsgDock(int msgID) {
+        public MsgDock(int msgID) {
         mMsgID = msgID;
     }
 
-    /**
-     * Used exclusively by the DockManager class for messages associated with an operations progress
-     *
-     * @param msgID
-     */
-    public MsgDock(int msgID, int currentOperation) {
+        public MsgDock(int msgID, int currentOperation) {
         mMsgID = msgID;
         mCurrentOperation = currentOperation;
     }
 
-    /**
-     * Used by MspBsl with uniqueID, SmartDockUartListener with dockID
-     *
-     * @param msgIdentifier
-     * @param uniqueID
-     */
-    public MsgDock(int msgIdentifier, String iD) {
+        public MsgDock(int msgIdentifier, String iD) {
         mMsgID = msgIdentifier;
         mUniqueID = iD;
         String[] subString = iD.split("\\.");
@@ -432,13 +389,7 @@ public class MsgDock {
         }
     }
 
-    /**
-     * Used by SmartDock for BSL operations
-     *
-     * @param msgIdentifier
-     * @param uniqueID
-     */
-    public MsgDock(String dockID, int msgIdentifier) {
+        public MsgDock(String dockID, int msgIdentifier) {
         mMsgID = msgIdentifier;
         mDockID = dockID;
         mUniqueID = dockID;
@@ -446,14 +397,7 @@ public class MsgDock {
 //		mUniqueID = mDockID + "." + String.format("%02d",mSlotNumber);
     }
 
-    /**
-     * Used by BasicDock, SmartDock, SmartDockUart and SmartDockUartListener
-     *
-     * @param msgID
-     * @param dockID
-     * @param slotIdentifier
-     */
-    public MsgDock(int msgID, String dockID, int slotIdentifier) {
+        public MsgDock(int msgID, String dockID, int slotIdentifier) {
         mMsgID = msgID;
         mSlotNumber = slotIdentifier;
         mDockID = dockID;
@@ -461,14 +405,7 @@ public class MsgDock {
     }
 
 
-    /**
-     * Used by SmartDock for specific SmartDock operation requests
-     *
-     * @param msgID
-     * @param dockID
-     * @param slotIdentifier
-     */
-    public MsgDock(int msgID, String dockID, DockJobDetails currentJobDetails) {
+        public MsgDock(int msgID, String dockID, DockJobDetails currentJobDetails) {
         mMsgID = msgID;
         mDockID = dockID;
 //		mSlotNumber = -1;

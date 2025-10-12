@@ -12,12 +12,6 @@ import org.junit.runners.MethodSorters;
 import static org.junit.Assert.*;
 
 
-/**
- * This are general bluetooth test for a Shimmer2R device, you will need to update the bluetooth address in order to run the test
- *
- * @author Mas Azalya & Jong Chern
- * @version 001
- */
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 

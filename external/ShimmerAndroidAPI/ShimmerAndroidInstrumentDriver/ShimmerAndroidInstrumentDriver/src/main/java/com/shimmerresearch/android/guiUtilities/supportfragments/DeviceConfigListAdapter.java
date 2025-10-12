@@ -26,9 +26,6 @@ import java.util.Map;
 
 import static android.view.KeyEvent.KEYCODE_ENTER;
 
-/**
- * Created by Jos on 25/5/2017.
- */
 
 public class DeviceConfigListAdapter extends BaseExpandableListAdapter {
 

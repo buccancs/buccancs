@@ -33,14 +33,6 @@ import com.shimmerresearch.verisense.communication.payloads.OperationalConfigPay
 import com.shimmerresearch.verisense.payloaddesign.AsmBinaryFileConstants;
 import com.shimmerresearch.verisense.payloaddesign.AsmBinaryFileConstants.PAYLOAD_CONFIG_BYTE_INDEX;
 
-/**
- * Sensor chip containing a an accelerometer and a gyroscope.
- * <p>
- * This sensor is typically refereed to as Accel2/Gyro in the Verisense hardware.
- *
- * @author Mark Nolan
- *
- */
 public class SensorLSM6DS3 extends AbstractSensor {
 
     public static final String ACCEL_ID = "Accel2";
@@ -225,87 +217,29 @@ public class SensorLSM6DS3 extends AbstractSensor {
             DEFAULT_OFFSET_VECTOR_LSM6DS3);
     public CalibDetailsKinematic mCurrentCalibDetailsAccel = calibDetailsAccel2g;
     public CalibDetailsKinematic mCurrentCalibDetailsGyro = calibDetailsGyro250dps;
-    /**
-     * using the same rate setting for the gyro, accel and fifo
-     */
-    protected LSM6DS3_RATE rate = LSM6DS3_RATE.RATE_52_HZ;
-    /**
-     * 0 Disable/1 Enable step counter and timestamp data as 4th FIFO dataset
-     */
-    protected boolean timerPedoFifodEnable = false;
-    /**
-     * 0 = Enable write in FIFO based on XL/Gyro data-ready
-     * 1 = Disable write in FIFO at every step detected by step counter
-     */
-    protected boolean timerPedoFifodDrdy = false;
+        protected LSM6DS3_RATE rate = LSM6DS3_RATE.RATE_52_HZ;
+        protected boolean timerPedoFifodEnable = false;
+        protected boolean timerPedoFifodDrdy = false;
 
     // --------------- Configuration options end ----------------
 
     // ----------------- Calibration Start -----------------------
-    /**
-     * Gyro FIFO Decimation Settings
-     */
-    protected FIFO_DECIMATION_GYRO decimationFifoGyro = FIFO_DECIMATION_GYRO.SENSOR_NOT_IN_FIFO;
-    /**
-     * Accel FIFO Decimation Settings
-     */
-    protected FIFO_DECIMATION_ACCEL decimationFifoAccel = FIFO_DECIMATION_ACCEL.SENSOR_NOT_IN_FIFO;
-    /**
-     * FIFO Mode Selection
-     */
-    protected FIFO_MODE fifoMode = FIFO_MODE.CONTINUOUS_MODE;
-    /**
-     * Accel Full scale Selection
-     */
-    protected LSM6DS3_ACCEL_RANGE rangeAccel = LSM6DS3_ACCEL_RANGE.RANGE_4G;
-    /**
-     * Anti- aliasing Filter bandwidth selection
-     */
-    protected ACCEL_ANTI_ALIASING_BANDWIDTH_FILTER accelAntiAliasingBandwidthFilter = ACCEL_ANTI_ALIASING_BANDWIDTH_FILTER.AT_400HZ;
-    /**
-     * Gyro full scale selection
-     */
-    protected LSM6DS3_GYRO_RANGE rangeGyro = LSM6DS3_GYRO_RANGE.RANGE_500DPS;
-    /**
-     * Gyro full scale at 12 dps
-     */
-    protected boolean gyroFullScaleAt12dps = false;
-    /**
-     * Gyro High Performance Operating Mode (0 = Enabled, 1 = Disabled)
-     */
-    protected boolean gyroHighPerFormanceModeDisable = true;
-    /**
-     * Gyro Digital High Pass Filter Enable
-     */
-    protected boolean gyroDigitalHighPassFilterEnable = false;
-    /**
-     * Gyro High Pass Filter Cut off Frequency Selection
-     */
-    protected HIGH_PASS_FILTER_CUT_OFF_FREQ_GYRO gyroHighPassFilterCutOffFreq = HIGH_PASS_FILTER_CUT_OFF_FREQ_GYRO.AT_0_0081_HZ;
-    /**
-     * Gyro Digital HP Filter reset
-     */
-    protected boolean gyroDigitalHighPassFilterReset = false;
-    /**
-     * Source register rounding function
-     */
-    protected boolean roundingStatus = false;
-    /**
-     * Low Pass Filter LPF2 selection (Figure 7  in LSM6DS3US datasheet)
-     */
-    protected boolean accelLowPassFilterLpf2Selection = false;
-    /**
-     * Slope filter and High pass filter configuration and cut off Settings (Table 68 in LSM6DS3US datasheet)
-     */
-    protected HIGH_PASS_FILTER_CUT_OFF_FREQ_ACCEL accelHighPassFilterCutOffFreq = HIGH_PASS_FILTER_CUT_OFF_FREQ_ACCEL.SLOPE;
-    /**
-     * Accel2 Slope filter and High pass filter Selection (Figure 7  in LSM6DS3US datasheet)
-     */
-    protected boolean accelHighPassOrSlopeFilterSelectionEnable = false;
-    /**
-     * Low Pass Filter on 6D function Selection
-     */
-    protected boolean lowPassFilterOn6D = false;
+        protected FIFO_DECIMATION_GYRO decimationFifoGyro = FIFO_DECIMATION_GYRO.SENSOR_NOT_IN_FIFO;
+        protected FIFO_DECIMATION_ACCEL decimationFifoAccel = FIFO_DECIMATION_ACCEL.SENSOR_NOT_IN_FIFO;
+        protected FIFO_MODE fifoMode = FIFO_MODE.CONTINUOUS_MODE;
+        protected LSM6DS3_ACCEL_RANGE rangeAccel = LSM6DS3_ACCEL_RANGE.RANGE_4G;
+        protected ACCEL_ANTI_ALIASING_BANDWIDTH_FILTER accelAntiAliasingBandwidthFilter = ACCEL_ANTI_ALIASING_BANDWIDTH_FILTER.AT_400HZ;
+        protected LSM6DS3_GYRO_RANGE rangeGyro = LSM6DS3_GYRO_RANGE.RANGE_500DPS;
+        protected boolean gyroFullScaleAt12dps = false;
+        protected boolean gyroHighPerFormanceModeDisable = true;
+        protected boolean gyroDigitalHighPassFilterEnable = false;
+        protected HIGH_PASS_FILTER_CUT_OFF_FREQ_GYRO gyroHighPassFilterCutOffFreq = HIGH_PASS_FILTER_CUT_OFF_FREQ_GYRO.AT_0_0081_HZ;
+        protected boolean gyroDigitalHighPassFilterReset = false;
+        protected boolean roundingStatus = false;
+        protected boolean accelLowPassFilterLpf2Selection = false;
+        protected HIGH_PASS_FILTER_CUT_OFF_FREQ_ACCEL accelHighPassFilterCutOffFreq = HIGH_PASS_FILTER_CUT_OFF_FREQ_ACCEL.SLOPE;
+        protected boolean accelHighPassOrSlopeFilterSelectionEnable = false;
+        protected boolean lowPassFilterOn6D = false;
     private int fifoSizeInChip = DEFAULT_FIFO_BYTE_SIZE_IN_CHIP / 2;
 
     public SensorLSM6DS3(ShimmerDevice shimmerDevice) {
@@ -538,13 +472,7 @@ public class SensorLSM6DS3 extends AbstractSensor {
         return getFifoSizeInChip() * 2;
     }
 
-    /**
-     * NOTE: Only appropriate for Gen 1 to 7 of the Payload Design
-     *
-     * @param memAvailable
-     * @return
-     */
-    public int calculateMaxPayloadsInFifo(int memAvailable) {
+        public int calculateMaxPayloadsInFifo(int memAvailable) {
         int maxFifosInPayload = DEFAULT_MAX_FIFOS_IN_PAYLOAD;
         if (mShimmerDevice instanceof VerisenseDevice) {
             maxFifosInPayload = (int) Math.floor(memAvailable / (AsmBinaryFileConstants.ACCEL_SPI_BUS_HEADER_BYTES + getFifoByteSizeInChip()));

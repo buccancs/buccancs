@@ -5,14 +5,10 @@ import android.preference.PreferenceManager;
 
 public class SPUtil {
 
-    /* ============================ 使用FFmpeg进行视频解码 ============================ */
-    private static final String KEY_SW_CODEC = "use-sw-codec";
-    /* ============================ 开启视频的同时进行录像 ============================ */
-    private static final String KEY_AUTO_RECORD = "auto_record";
-    /* ============================ 开启视频的同时进行录像 ============================ */
-    private static final String KEY_UDP_MODE = "USE_UDP_MODE";
-    /* ============================ 自动播放音频 ============================ */
-    private static final String KEY_AUTO_AUDIO = "auto_audio";
+        private static final String KEY_SW_CODEC = "use-sw-codec";
+        private static final String KEY_AUTO_RECORD = "auto_record";
+        private static final String KEY_UDP_MODE = "USE_UDP_MODE";
+        private static final String KEY_AUTO_AUDIO = "auto_audio";
 
     public static boolean getswCodec(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)

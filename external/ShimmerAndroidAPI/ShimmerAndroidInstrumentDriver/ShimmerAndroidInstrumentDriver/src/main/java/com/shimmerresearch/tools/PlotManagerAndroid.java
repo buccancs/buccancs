@@ -1,7 +1,3 @@
-/* Rev 0.2
- * Changes since 0.1
- * - Added removeSignalFromDevice function
- */
 
 package com.shimmerresearch.tools;
 
@@ -29,68 +25,31 @@ public class PlotManagerAndroid extends AbstractPlotManager {
     int mXAxisLimit = 500;
     boolean mClearGraphatLimit = false;
 
-    /**
-     * Constructor
-     *
-     */
-    public PlotManagerAndroid() {
+        public PlotManagerAndroid() {
 
     }
 
-    /**
-     * Constructor
-     *
-     * @param clearGraphatLimit Clears the graph once the X Axis limit is reached for the series
-     */
-    public PlotManagerAndroid(boolean clearGraphatLimit) {
+        public PlotManagerAndroid(boolean clearGraphatLimit) {
         mClearGraphatLimit = clearGraphatLimit;
     }
 
-    /**
-     * Constructor
-     *
-     * @param limit Sets the X axis limit for the series
-     */
-    public PlotManagerAndroid(int limit) {
+        public PlotManagerAndroid(int limit) {
         mXAxisLimit = limit;
     }
 
-    /**
-     * Constructor
-     *
-     * @param limit             Sets the X axis limit for the series
-     * @param clearGraphatLimit Clears the graph once the X Axis limit is reached for the series
-     */
-    public PlotManagerAndroid(int limit, boolean clearGraphatLimit) {
+        public PlotManagerAndroid(int limit, boolean clearGraphatLimit) {
         mClearGraphatLimit = clearGraphatLimit;
         mXAxisLimit = limit;
     }
 
-    /**
-     * Constructor
-     *
-     * @param propertiestoPlot Sets the properties to plot. Each individual array within this List should be in the format: DeviceName-Property-Format-Unit
-     * @param limit            Sets the X axis limit for the series
-     * @param chart            the XYPlot in main UI thread so the series can be added
-     * @throws Exception if the list of signals have duplicates
-     */
-    public PlotManagerAndroid(List<String[]> propertiestoPlot, int limit, XYPlot chart) throws Exception {
+        public PlotManagerAndroid(List<String[]> propertiestoPlot, int limit, XYPlot chart) throws Exception {
         mXAxisLimit = limit;
         for (int i = 0; i < propertiestoPlot.size(); i++) {
             addSignal(propertiestoPlot.get(i), chart);
         }
     }
 
-    /**
-     * Constructor
-     *
-     * @param propertiestoPlot  Sets the properties to plot. Each individual array within this List should be in the format: DeviceName-Property-Format-Unit
-     * @param limit             Sets the X axis limit for the series
-     * @param chart             the XYPlot in main UI thread so the series can be added
-     * @param clearGraphatLimit Clears the graph once the X Axis limit is reached for the series
-     * @throws Exception if the list of signals have duplicates
-     */
-    public PlotManagerAndroid(List<String[]> propertiestoPlot, int limit, XYPlot chart, boolean clearGraphatLimit) throws Exception {
+        public PlotManagerAndroid(List<String[]> propertiestoPlot, int limit, XYPlot chart, boolean clearGraphatLimit) throws Exception {
         mXAxisLimit = limit;
         mClearGraphatLimit = clearGraphatLimit;
         for (int i = 0; i < propertiestoPlot.size(); i++) {
@@ -98,33 +57,14 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         }
     }
 
-    /**
-     * Constructor
-     *
-     * @param propertiestoPlot Sets the properties to plot. Each individual array within this List should be in the format: DeviceName-Property-Format-Unit
-     * @param listofColors     List of colors to use for the plots
-     * @param limit            Sets the X axis limit for the series
-     * @param chart            the XYPlot in main UI thread so the series can be added
-     * @throws Exception if the list of signals have duplicates
-     */
-    public PlotManagerAndroid(List<String[]> propertiestoPlot, List<int[]> listofColors, int limit, XYPlot chart) throws Exception {
+        public PlotManagerAndroid(List<String[]> propertiestoPlot, List<int[]> listofColors, int limit, XYPlot chart) throws Exception {
         mXAxisLimit = limit;
         for (int i = 0; i < propertiestoPlot.size(); i++) {
             addSignal(propertiestoPlot.get(i), chart, listofColors.get(i));
         }
     }
 
-    /**
-     * Constructor
-     *
-     * @param propertiestoPlot  Sets the properties to plot. Each individual array within this List should be in the format: DeviceName-Property-Format-Unit
-     * @param listofColors      List of colors to use for the plots
-     * @param limit             Sets the X axis limit for the series
-     * @param chart             the XYPlot in main UI thread so the series can be added
-     * @param clearGraphatLimit Clears the graph once the X Axis limit is reached for the series
-     * @throws Exception if the list of signals have duplicates
-     */
-    public PlotManagerAndroid(List<String[]> propertiestoPlot, List<int[]> listofColors, int limit, XYPlot chart, boolean clearGraphatLimit) throws Exception {
+        public PlotManagerAndroid(List<String[]> propertiestoPlot, List<int[]> listofColors, int limit, XYPlot chart, boolean clearGraphatLimit) throws Exception {
         mXAxisLimit = limit;
         mClearGraphatLimit = clearGraphatLimit;
         for (int i = 0; i < propertiestoPlot.size(); i++) {
@@ -145,12 +85,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
 
     }
 
-    /**
-     * This is important where in cases an activity is closed and recreated. The new chart can be updated here.
-     *
-     * @param chart the chart to be updated
-     */
-    public void updateDynamicPlot(XYPlot chart) {
+        public void updateDynamicPlot(XYPlot chart) {
         mDynamicPlot = chart;
         for (int i = 0; i < mListofSeries.size(); i++) {
             int[] colorrgbaray = mListOfTraceColorsCurrentlyUsed.get(i);
@@ -160,14 +95,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         }
     }
 
-    /**
-     * Adds a signal to the plot manager. Note that the signal array should be equivalent to the standard Shimmer format DeviceName->Property->Format->Unit (e.g. the four columns of the csv file)
-     *
-     * @param signal This array should be in the standard Shimmer format DeviceName-Property-Format-Unit (i.e. the four columns of the CSV file)
-     * @param chart
-     * @throws Exception if the signal already exist
-     */
-    public void addSignal(String[] signal, XYPlot chart) throws Exception {
+        public void addSignal(String[] signal, XYPlot chart) throws Exception {
         if (!checkIfPropertyExist(signal)) {
             //Add the series first, cause the filter might find the signal before the series is added
             int index = mListofSeries.size();
@@ -195,14 +123,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
     }
 
 
-    /**
-     * Adds a signal to the plot manager. Note that the signal array should be equivalent to the standard Shimmer format DeviceName->Property->Format->Unit (e.g. the four columns of the csv file)
-     *
-     * @param signal This array should be in the standard Shimmer format DeviceName->Property->Format->Unit (i.e. the four columns of the CSV file)
-     * @param chart
-     * @throws Exception if the signal already exist
-     */
-    public void addSignal(String[] signal, XYPlot chart, int[] color) throws Exception {
+        public void addSignal(String[] signal, XYPlot chart, int[] color) throws Exception {
         if (!checkIfPropertyExist(signal)) {
             //Add the series first, cause the filter might find the signal before the series is added
 
@@ -229,11 +150,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         }
     }
 
-    /**
-     * Removes all signals
-     *
-     */
-    public void removeAllSignals() {
+        public void removeAllSignals() {
         super.removeAllSignals();
         if (mDynamicPlot != null) {
             mDynamicPlot.clear();
@@ -242,12 +159,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
     }
 
 
-    /**
-     * Removes a signal
-     *
-     * @param signal
-     */
-    public void removeSignal(String[] signal) {
+        public void removeSignal(String[] signal) {
         for (int i = 0; i < mListofPropertiestoPlot.size(); i++) {
             String[] prop = mListofPropertiestoPlot.get(i);
             boolean found = true;
@@ -294,13 +206,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
 
     }
 
-    /**
-     * This plots the data of the specified signals
-     *
-     * @param ojc ObjectCluster holding the data
-     * @throws Exception When signal is not found
-     */
-    public void filterDataAndPlot(ObjectCluster ojc) throws Exception {
+        public void filterDataAndPlot(ObjectCluster ojc) throws Exception {
         // TODO Auto-generated method stub
 
         for (int i = 0; i < mListofPropertiestoPlot.size(); i++) {
@@ -320,12 +226,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         }
     }
 
-    /**
-     * Change the text size of the signal labels in the legend widget on the XYPlot
-     *
-     * @param textSize
-     */
-    public void setLegendTextSize(float textSize) {
+        public void setLegendTextSize(float textSize) {
         mDynamicPlot.getLegendWidget().getTextPaint().setTextSize(textSize);
     }
 
@@ -337,16 +238,7 @@ public class PlotManagerAndroid extends AbstractPlotManager {
         mDynamicPlot.getLegendWidget().setHeight(height);
     }
 
-    /**
-     * Sets the icon size(s) inside the XYPlot legend widget.
-     * By default, this is the signal colour icon
-     *
-     * @param height
-     * @param heightLayoutType
-     * @param width
-     * @param widthLayoutType
-     */
-    public void setLegendIconSize(float height, SizeLayoutType heightLayoutType, float width, SizeLayoutType widthLayoutType) {
+        public void setLegendIconSize(float height, SizeLayoutType heightLayoutType, float width, SizeLayoutType widthLayoutType) {
         mDynamicPlot.getLegendWidget().setIconSizeMetrics(new SizeMetrics(height, heightLayoutType, width, widthLayoutType));
     }
 

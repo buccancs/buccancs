@@ -9,13 +9,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_ENDIAN;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 
-/**
- * Holds Channel details for parsing. Experimental feature not used currently
- * in standard Shimmer operations.
- *
- * @author Mark Nolan
- *
- */
 public class ChannelDetails implements Serializable {
 
     private static final long serialVersionUID = -2662151922286820989L;
@@ -42,21 +35,14 @@ public class ChannelDetails implements Serializable {
     public CHANNEL_DATA_ENDIAN mDefaultChannelDataEndian = CHANNEL_DATA_ENDIAN.UNKOWN;
     public String mDefaultUncalUnit = CHANNEL_UNITS.NO_UNITS;
     public String mDefaultCalUnits = CHANNEL_UNITS.NO_UNITS; //deprecate this?
-    /**
-     * each channel if originates from a packetbytearray/sensorbytearray should have this variable defined, null indicates this channel is created within the API
-     */
-    public CHANNEL_TYPE mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
+        public CHANNEL_TYPE mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
     public List<CHANNEL_TYPE> mListOfChannelTypes = new ArrayList<CHANNEL_TYPE>();
     public boolean mShowWhileStreaming = true;
     public boolean mStoreToDatabase = true;
     public CHANNEL_SOURCE mChannelSource = CHANNEL_SOURCE.SHIMMER;
     private String mDatabaseChannelHandle = "";
 
-    /**
-     * Empty constructor not used in standard Shimmer operations (GQ BLE related).
-     *
-     */
-    public ChannelDetails() {
+        public ChannelDetails() {
         // TODO Auto-generated constructor stub
     }
 
@@ -126,16 +112,7 @@ public class ChannelDetails implements Serializable {
         mStoreToDatabase = storeToDatabase;
     }
 
-    /**
-     * Holds Channel details for parsing. Experimental feature not used
-     * currently in standard Shimmer operations.
-     *
-     * @param guiName                the String name to assign to the channel
-     * @param defaultChannelDataType the ChannelDataType of the channel
-     * @param defaultNumBytes        the number of bytes the channel takes up in a data packet
-     * @param channelDataEndian      the endianness of the byte order in a data packet
-     */
-    public ChannelDetails(String objectClusterName,
+        public ChannelDetails(String objectClusterName,
                           String guiName,
                           String databaseChannelHandle,
                           CHANNEL_DATA_TYPE defaultChannelDataType,
@@ -174,16 +151,7 @@ public class ChannelDetails implements Serializable {
         mStoreToDatabase = storeToDatabase;
     }
 
-    /**
-     * Holds Channel details for parsing. Experimental feature not used
-     * currently in standard Shimmer operations.
-     *
-     * @param guiName           the String name to assign to the channel
-     * @param channelDataType   the ChannelDataType of the channel
-     * @param defaultNumBytes   the number of bytes the channel takes up in a data packet
-     * @param channelDataEndian the endianness of the byte order in a data packet
-     */
-    public ChannelDetails(String objectClusterName,
+        public ChannelDetails(String objectClusterName,
                           String guiName,
                           String databaseChannelHandle,
                           int channelId,
@@ -271,8 +239,7 @@ public class ChannelDetails implements Serializable {
         return mStoreToDatabase;
     }
 
-    /* Channels are Right bit justified unless otherwise stated */
-    public enum CHANNEL_DATA_TYPE {
+        public enum CHANNEL_DATA_TYPE {
         UNKOWN(0, 0, false),
         UINT8(8, 1, false),
         UINT12(12, 2, false),
@@ -360,10 +327,7 @@ public class ChannelDetails implements Serializable {
             this.longText = longText;
         }
 
-        /* (non-Javadoc)
-         * @see java.lang.Enum#toString()
-         */
-        @Override
+                @Override
         public String toString() {
             return shortText;
         }

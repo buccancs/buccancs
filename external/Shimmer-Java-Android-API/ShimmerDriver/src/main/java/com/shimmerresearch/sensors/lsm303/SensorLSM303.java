@@ -46,20 +46,12 @@ public abstract class SensorLSM303 extends AbstractSensor {
     protected int mLSM303DigitalAccelRate = 0;
     // ----------   Mag start ---------------
     protected int mLSM303MagRate = 4;
-    /**
-     * Just used to create a software limit to the sampling rate for the Mag
-     * (set at 15Hz for LSM303DLHC and 20Hz for LSM303AHTR). This is a legacy
-     * variable that doesn't need to be used.
-     */
-    protected boolean mLowPowerMag = false;
+        protected boolean mLowPowerMag = false;
     protected int mMagRange = 0;
 
     // ----------   Wide-range accel end ---------------
 
-    /**
-     * This constructor is just used for accessing calibration
-     */
-    public SensorLSM303() {
+        public SensorLSM303() {
         super(SENSORS.LSM303);
     }
 
@@ -376,11 +368,7 @@ public abstract class SensorLSM303 extends AbstractSensor {
 //		    	if(!isLSM303DigitalAccelLPM()) {
 //		        	if(configValue==8) {
 //		        		//TODO:
-//		        		/*RS (20/5/2016): Why returning a different value?
-//		        		 * In the Set-method the compatibility-check for Accel Rates supported for Low Power Mode is made.
-//		        		 * In this get-method the it should just read/get the value, not manipulating it.
-//		        		 * */
-//		        		configValue = 9;
+//		        		//		        		configValue = 9;
 //		        	}
 //		    	}
                 returnValue = configValue;
@@ -447,10 +435,7 @@ public abstract class SensorLSM303 extends AbstractSensor {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.shimmerresearch.sensors.AbstractSensor#isSensorUsingDefaultCal(int)
-     */
-    @Override
+        @Override
     public boolean isSensorUsingDefaultCal(int sensorId) {
         if (sensorId == mSensorIdAccel) {
             return isUsingDefaultWRAccelParam();
@@ -505,28 +490,14 @@ public abstract class SensorLSM303 extends AbstractSensor {
 
     //--------- Sensor specific methods start --------------
 
-    /**
-     * Computes next higher available sensor sampling rate setting based on
-     * passed in "freq" variable and dependent on whether low-power mode is set.
-     *
-     * @param freq
-     * @return int the rate configuration setting for the respective sensor
-     */
-    public int setLSM303AccelRateFromFreq(double freq) {
+        public int setLSM303AccelRateFromFreq(double freq) {
         boolean isEnabled = isSensorEnabled(mSensorIdAccel);
 //		System.out.println("Setting Sampling Rate: " + freq + "\tmLowPowerAccelWR:" + mLowPowerAccelWR);
         setLSM303DigitalAccelRateInternal(getAccelRateFromFreqForSensor(isEnabled, freq, mLowPowerAccelWR));
         return mLSM303DigitalAccelRate;
     }
 
-    /**
-     * Computes next higher available sensor sampling rate setting based on
-     * passed in "freq" variable and dependent on whether low-power mode is set.
-     *
-     * @param freq
-     * @return int the rate configuration setting for the respective sensor
-     */
-    public int setLSM303MagRateFromFreq(double freq) {
+        public int setLSM303MagRateFromFreq(double freq) {
         boolean isEnabled = isSensorEnabled(mSensorIdMag);
         mLSM303MagRate = getMagRateFromFreqForSensor(isEnabled, freq, isLowPowerMagEnabled());
         return mLSM303MagRate;
@@ -631,20 +602,7 @@ public abstract class SensorLSM303 extends AbstractSensor {
         return isLSM303DigitalAccelHRM();
     }
 
-    /**
-     * XXX
-     * RS (17/05/2016): Two questions with regards to the information below the questions:
-     * <p>
-     * What additional lower power mode is used?
-     * Why would the '2g' range not be support by this low power mode -> where is this mentioned in the datasheet?
-     * <p>
-     * This enables the low power accel option. When not enabled the sampling
-     * rate of the accel is set to the closest value to the actual sampling rate
-     * that it can achieve. In low power mode it defaults to 10Hz. Also and
-     * additional low power mode is used for the LSM303DLHC. This command will
-     * only supports the following Accel range +4g, +8g , +16g
-     */
-    public void setHighResAccelWR(boolean enable) {
+        public void setHighResAccelWR(boolean enable) {
         mHighResAccelWR = enable;
     }
 

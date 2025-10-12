@@ -24,13 +24,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_ENDIAN;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 
-/**
- * This is the newer (post-July 2017) low-noise accelerometer used in the
- * Shimmer3 (i.e. Kionix KXTC9-2050)
- *
- * @author Mark Nolan
- *
- */
 public class SensorKionixKXTC92050 extends SensorKionixAccel {
 
     public static final double[][] AlignmentMatrixLowNoiseAccelShimmer3 = {{0, -1, 0}, {-1, 0, 0}, {0, 0, -1}};

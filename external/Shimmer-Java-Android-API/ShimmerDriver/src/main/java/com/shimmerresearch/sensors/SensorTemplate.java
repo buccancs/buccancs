@@ -10,139 +10,48 @@ import com.shimmerresearch.driverUtilities.ChannelDetails;
 import com.shimmerresearch.driverUtilities.SensorDetails;
 import com.shimmerresearch.driverUtilities.ShimmerVerObject;
 
-/**
- * <b>SensorTemplate</b> is a template for adding classes for new sensors.
- * A Sensor Class needs to extend AbstractSensor, hence all abstract methods need to be implemented.
- * Put the variables and methods in the pre-defined environments:
- * <br />
- * <li>Sensor specific variables<br />
- * <li>Bluetooth commands<br />
- * <li>Configuration options<br />
- * <li>Sensor info<br />
- * <li>Channel info<br />
- * <li>Constructor<br />
- * <li>Abstract methods<br />
- * <li>Sensor specific methods<br />
- * <li>Optional methods to override in Sensor Class<br />
- * <p>
- * <p>
- * The environments are further specified below with examples/explanation below/on the right-hand side of the specifications.
- *
- * @author Ruud Stolk
- */
 public class SensorTemplate extends AbstractSensor {
 
     private static final long serialVersionUID = -1313629173441403991L;
 
     //--------- Sensor specific variables start --------------
-    /**
-     * 	initialise boolean variables   					-> e.g. mLowPowerAccelWR = false;
-     * 	initialise other variables       					-> e.g. mMagRange = 1;
-     * 	calibration matrices           					-> alignment, sensitivity, offset matrices for each range for each (sub)sensor
-     * 	class GuiLabelConfig           					-> class containing GUI configuration labels
-     * 	class GuiLabelSensors		   					-> class containing GUI sensor labels
-     *  class LABEL_SENSOR_TILE      					-> class containing GUI sensor tile labels
-     * 	class DatabaseChannelHandles   					-> class containing Database handles
-     * 	class ObjectClusterSensorName  					-> class containing ObjectClusterSensorName (channel name)
-     *
-     * What TODO with this in ShimmerObject? In Sensor Class?:
-     * 	- SensorBitMap (for ID/Fw -> What does this mean?)
-     * 	- SDLogHeader
-     *  - SDLogHeaderDerivedSensors
-     *  - BTStreamDerivedSensors
-     *  - BTStream
-     *
-     */
-    //--------- Sensor specific variables end --------------
+        //--------- Sensor specific variables end --------------
 
 
     //--------- Bluetooth commands start --------------
-    /**
-     *  Bluetooth commands related to the sensor 		-> public static final byte SET_ACCEL_SENSITIVITY_COMMAND    		= (byte) 0x09;
-     *													-> public static final byte ACCEL_SENSITIVITY_RESPONSE       		= (byte) 0x0A;
-     *													-> public static final byte GET_ACCEL_SENSITIVITY_COMMAND    		= (byte) 0x0B;
-     *  mBtGetCommandMap - LinkedHashmap<K,V>  			-> with for get command:  K=command's byte value, V=BtCommandDetails
-     *  mBtSetCommandMap - LinkedHashmap<K,V>  			-> with for set command:  K=command's byte value, V=BtCommandDetails
-     */
-    //--------- Bluetooth commands end --------------
+        //--------- Bluetooth commands end --------------
 
 
     //--------- Configuration options start --------------
-    /**
-     * 	String[] - Lists with configuration options		-> see SensorLSM303.java for an example
-     * 	Integer[] - Lists with configuration options	-> see SensorLSM303.java for an example
-     * 	SensorConfigOptionDetails 						-> SensorConfigOptionDetails for each configuration option; see SensorLSM303.java for an example
-     */
-    //--------- Configuration options end --------------
+        //--------- Configuration options end --------------
 
 
     //--------- Sensor info start --------------
-    /**
-     * 	SensorDetailsRef 								-> SensorDetailsRef for each (sub)sensor; see SensorLSM303.java for an example
-     *  mSensorMapRef - LinkedHashmap<K,V>   			-> with for each (sub)sensor:  K=SensorId, V=SensorDetailsRef
-     */
-    //--------- Sensor info end --------------
+        //--------- Sensor info end --------------
 
 
     //--------- Channel info start --------------
-    /**
-     *	ChannelDetails 									-> ChannelDetails for each channel of each (sub)sensor.
-     *	mChannelMapRef - LinkedHashmap<K,V>				-> with for each channel:  K=ObjectClusterSensorName, V=ChannelDetails.
-     */
-    //--------- Channel info end --------------
+        //--------- Channel info end --------------
 
 
     //--------- Constructors for this class start --------------
 
-    /**
-     * One or more constructors of the sensor class in here.
-     */
 
     public SensorTemplate(ShimmerVerObject svo) {
         super(SENSORS.TEMPLATE, svo);
-        /**initialise() Must be called after the constructor*/
-        initialise();
+                initialise();
     }
     //--------- Constructors for this class end --------------
 
 
     //--------- Abstract methods implemented start --------------
 
-    /**
-     * public abstract void generateSensorMap(ShimmerVerObject svo);
-     * public abstract void generateConfigOptionsMap(ShimmerVerObject svo);
-     * public abstract void generateSensorGroupMapping(ShimmerVerObject svo);
-     * public abstract ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] sensorByteArray, COMMUNICATION_TYPE commType, ObjectCluster objectCluster);
-     * public abstract void infoMemByteArrayGenerate(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes);
-     * public abstract void infoMemByteArrayParse(ShimmerDevice shimmerDevice, byte[] mInfoMemBytes);
-     * public abstract Object setConfigValueUsingConfigLabel(String componentName, Object valueToSet);
-     * public abstract Object getConfigValueUsingConfigLabel(String componentName);
-     * public abstract void setSensorSamplingRate();
-     * public abstract boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled);
-     * public abstract boolean checkConfigOptionValues(String stringKey);
-     * public abstract Object getSettings(String componentName, COMMUNICATION_TYPE commType);
-     * public abstract ActionSetting setSettings(String componentName, Object valueToSet, COMMUNICATION_TYPE commType);
-     */
-    @Override
+        @Override
     public void generateSensorMap() {
-        /**
-         *  call one of the two methods:
-         *
-         *  1) super.createLocalSensorMap(mSensorMapRef, mChannelMapRef);
-         *  	- SensorDetails.processData() is called.
-         *  2) super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
-         *		- SensorDetails.processData() is overwritten by AbstractSensor.processDataCustom().
-         */
-    }
+            }
 
     @Override
     public void generateConfigOptionsMap() {
-        /**
-         *  put all the Config Options on mConfigOptionsMap:
-         *
-         *  	mConfigOptionsMap.put(GuiLabelConfig.LSM303DLHC_ACCEL_RANGE, configOptionAccelRange);
-         *
-         */
 
     }
 
@@ -251,11 +160,7 @@ public class SensorTemplate extends AbstractSensor {
     @Override
     public boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled) {
         if (mSensorMap.containsKey(sensorId)) {
-            /** Set defaults for particular sensor here if applicable.
-             *  Original means that if the sensor has just been enabled, leave the resolution the way it is.
-             *  However, if it is disabled, reset the resolution to default
-             */
-            return true;
+                        return true;
         }
         return false;
     }

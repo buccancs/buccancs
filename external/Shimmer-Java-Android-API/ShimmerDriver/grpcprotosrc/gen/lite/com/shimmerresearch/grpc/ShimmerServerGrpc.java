@@ -15,11 +15,6 @@ import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 
-/**
- * <pre>
- * The greeter service definition.
- * </pre>
- */
 @javax.annotation.Generated(
         value = "by gRPC proto compiler (version 1.0.0-pre1)",
         comments = "Source: src/ShimmerGrpcAndOJC.proto")
@@ -71,25 +66,16 @@ public class ShimmerServerGrpc {
     private ShimmerServerGrpc() {
     }
 
-    /**
-     * Creates a new async stub that supports all call types for the service
-     */
-    public static ShimmerServerStub newStub(io.grpc.Channel channel) {
+        public static ShimmerServerStub newStub(io.grpc.Channel channel) {
         return new ShimmerServerStub(channel);
     }
 
-    /**
-     * Creates a new blocking-style stub that supports unary and streaming output calls on the service
-     */
-    public static ShimmerServerBlockingStub newBlockingStub(
+        public static ShimmerServerBlockingStub newBlockingStub(
             io.grpc.Channel channel) {
         return new ShimmerServerBlockingStub(channel);
     }
 
-    /**
-     * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
-     */
-    public static ShimmerServerFutureStub newFutureStub(
+        public static ShimmerServerFutureStub newFutureStub(
             io.grpc.Channel channel) {
         return new ShimmerServerFutureStub(channel);
     }
@@ -102,47 +88,24 @@ public class ShimmerServerGrpc {
                 METHOD_SEND_FILE_STREAM);
     }
 
-    /**
-     * <pre>
-     * The greeter service definition.
-     * </pre>
-     */
-    public static abstract class ShimmerServerImplBase implements io.grpc.BindableService {
+        public static abstract class ShimmerServerImplBase implements io.grpc.BindableService {
 
-        /**
-         * <pre>
-         * Sends a greeting
-         * </pre>
-         */
-        public void sayHello(com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest request,
+                public void sayHello(com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest request,
                              io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> responseObserver) {
             asyncUnimplementedUnaryCall(METHOD_SAY_HELLO, responseObserver);
         }
 
-        /**
-         * <pre>
-         * Client asking for data
-         * </pre>
-         */
-        public void getDataStream(com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest request,
+                public void getDataStream(com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest request,
                                   io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2> responseObserver) {
             asyncUnimplementedUnaryCall(METHOD_GET_DATA_STREAM, responseObserver);
         }
 
-        /**
-         * <pre>
-         * Client sending data
-         * </pre>
-         */
-        public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2> sendDataStream(
+                public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2> sendDataStream(
                 io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> responseObserver) {
             return asyncUnimplementedStreamingCall(METHOD_SEND_DATA_STREAM, responseObserver);
         }
 
-        /**
-         *
-         */
-        public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.File> sendFileStream(
+                public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.File> sendFileStream(
                 io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> responseObserver) {
             return asyncUnimplementedStreamingCall(METHOD_SEND_FILE_STREAM, responseObserver);
         }
@@ -182,12 +145,7 @@ public class ShimmerServerGrpc {
         }
     }
 
-    /**
-     * <pre>
-     * The greeter service definition.
-     * </pre>
-     */
-    public static final class ShimmerServerStub extends io.grpc.stub.AbstractStub<ShimmerServerStub> {
+        public static final class ShimmerServerStub extends io.grpc.stub.AbstractStub<ShimmerServerStub> {
         private ShimmerServerStub(io.grpc.Channel channel) {
             super(channel);
         }
@@ -203,55 +161,32 @@ public class ShimmerServerGrpc {
             return new ShimmerServerStub(channel, callOptions);
         }
 
-        /**
-         * <pre>
-         * Sends a greeting
-         * </pre>
-         */
-        public void sayHello(com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest request,
+                public void sayHello(com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest request,
                              io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> responseObserver) {
             asyncUnaryCall(
                     getChannel().newCall(METHOD_SAY_HELLO, getCallOptions()), request, responseObserver);
         }
 
-        /**
-         * <pre>
-         * Client asking for data
-         * </pre>
-         */
-        public void getDataStream(com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest request,
+                public void getDataStream(com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest request,
                                   io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2> responseObserver) {
             asyncServerStreamingCall(
                     getChannel().newCall(METHOD_GET_DATA_STREAM, getCallOptions()), request, responseObserver);
         }
 
-        /**
-         * <pre>
-         * Client sending data
-         * </pre>
-         */
-        public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2> sendDataStream(
+                public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2> sendDataStream(
                 io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> responseObserver) {
             return asyncClientStreamingCall(
                     getChannel().newCall(METHOD_SEND_DATA_STREAM, getCallOptions()), responseObserver);
         }
 
-        /**
-         *
-         */
-        public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.File> sendFileStream(
+                public io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.File> sendFileStream(
                 io.grpc.stub.StreamObserver<com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> responseObserver) {
             return asyncClientStreamingCall(
                     getChannel().newCall(METHOD_SEND_FILE_STREAM, getCallOptions()), responseObserver);
         }
     }
 
-    /**
-     * <pre>
-     * The greeter service definition.
-     * </pre>
-     */
-    public static final class ShimmerServerBlockingStub extends io.grpc.stub.AbstractStub<ShimmerServerBlockingStub> {
+        public static final class ShimmerServerBlockingStub extends io.grpc.stub.AbstractStub<ShimmerServerBlockingStub> {
         private ShimmerServerBlockingStub(io.grpc.Channel channel) {
             super(channel);
         }
@@ -267,34 +202,19 @@ public class ShimmerServerGrpc {
             return new ShimmerServerBlockingStub(channel, callOptions);
         }
 
-        /**
-         * <pre>
-         * Sends a greeting
-         * </pre>
-         */
-        public com.shimmerresearch.grpc.ShimmerGRPC.HelloReply sayHello(com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest request) {
+                public com.shimmerresearch.grpc.ShimmerGRPC.HelloReply sayHello(com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest request) {
             return blockingUnaryCall(
                     getChannel(), METHOD_SAY_HELLO, getCallOptions(), request);
         }
 
-        /**
-         * <pre>
-         * Client asking for data
-         * </pre>
-         */
-        public java.util.Iterator<com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2> getDataStream(
+                public java.util.Iterator<com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2> getDataStream(
                 com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest request) {
             return blockingServerStreamingCall(
                     getChannel(), METHOD_GET_DATA_STREAM, getCallOptions(), request);
         }
     }
 
-    /**
-     * <pre>
-     * The greeter service definition.
-     * </pre>
-     */
-    public static final class ShimmerServerFutureStub extends io.grpc.stub.AbstractStub<ShimmerServerFutureStub> {
+        public static final class ShimmerServerFutureStub extends io.grpc.stub.AbstractStub<ShimmerServerFutureStub> {
         private ShimmerServerFutureStub(io.grpc.Channel channel) {
             super(channel);
         }
@@ -310,12 +230,7 @@ public class ShimmerServerGrpc {
             return new ShimmerServerFutureStub(channel, callOptions);
         }
 
-        /**
-         * <pre>
-         * Sends a greeting
-         * </pre>
-         */
-        public com.google.common.util.concurrent.ListenableFuture<com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> sayHello(
+                public com.google.common.util.concurrent.ListenableFuture<com.shimmerresearch.grpc.ShimmerGRPC.HelloReply> sayHello(
                 com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest request) {
             return futureUnaryCall(
                     getChannel().newCall(METHOD_SAY_HELLO, getCallOptions()), request);

@@ -30,14 +30,6 @@ import com.infisense.usbir.utils.ScreenUtils;
 import com.infisense.usbir.utils.USBMonitorCallback;
 
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2022.2.28 16:47
- * @UpdateUser:
- * @UpdateDate:     2022.2.28 16:47
- * @UpdateRemark:
- */
 public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnClickListener,
         AdapterView.OnItemSelectedListener {
 

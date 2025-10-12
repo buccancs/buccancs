@@ -13,14 +13,6 @@ import com.infisense.usbir.utils.PseudocolorModeTable;
 
 import java.nio.ByteBuffer;
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2022.2.24 11:06
- * @UpdateUser:
- * @UpdateDate:     2022.2.24 11:06
- * @UpdateRemark:
- */
 public class ImageThread extends Thread {
 
     private String TAG = "ImageThread";

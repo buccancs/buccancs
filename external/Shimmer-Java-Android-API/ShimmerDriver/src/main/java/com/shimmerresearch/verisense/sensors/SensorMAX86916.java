@@ -126,32 +126,11 @@ public class SensorMAX86916 extends SensorMAX86XXX {
     protected int ppgLedAmplitudeBlueConfigValue = 0;
     protected int ppgLedAmplitudeRangeGreen = 0;
     protected int ppgLedAmplitudeRangeBlue = 0;
-    /**
-     * Default LED pulse amplitude in mA
-     */
-    protected int ppgDefaultCurrentAllLedsMilliamps = 40;
-    /**
-     * Maximum LED Pulse Amplitude for Red and IR LEDs. If this value is lower than
-     * the default PA value set in byte 61 - 'PPG_MA_DEFAULT', this value will be
-     * used as the default. Units are in mA
-     */
-    protected int ppgMaxCurrentRedIrLedsMilliamps = MAX_LED_CURRENT_MILLIAMPS;
-    /**
-     * Maximum LED Pulse Amplitude for Green and Blue LEDs. If this value is lower
-     * than the default PA value set in byte 61 - 'PPG_MA_DEFAULT', this value will
-     * be used as the default. Units are in mA
-     */
-    protected int ppgMaxCurrentGreenBlueLedsMilliamps = MAX_LED_CURRENT_MILLIAMPS;
-    /**
-     * Used by the auto-gain driver to set the target average offset of the PPG
-     * channels within the ADC range. Values of 30% and 70% are given as examples in
-     * the Maxim driver code. Units are %.
-     */
-    protected int ppgAutoGainControlTargetPercentOfRange = 30;
-    /**
-     * LED pilot (i.e., the IR channel) Pulse Amplitude while in proximity detection mode. Units are in mA.
-     */
-    protected int ppgProximityDetectionCurrentIrLedMilliamps = 10;
+        protected int ppgDefaultCurrentAllLedsMilliamps = 40;
+        protected int ppgMaxCurrentRedIrLedsMilliamps = MAX_LED_CURRENT_MILLIAMPS;
+        protected int ppgMaxCurrentGreenBlueLedsMilliamps = MAX_LED_CURRENT_MILLIAMPS;
+        protected int ppgAutoGainControlTargetPercentOfRange = 30;
+        protected int ppgProximityDetectionCurrentIrLedMilliamps = 10;
     protected int ppgDac1CrossTalk = 0;
     protected int ppgDac2CrossTalk = 0;
     protected int ppgDac3CrossTalk = 0;

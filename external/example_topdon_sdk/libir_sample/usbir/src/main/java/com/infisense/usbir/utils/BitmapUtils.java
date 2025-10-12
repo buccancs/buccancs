@@ -28,14 +28,6 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2022.4.18 14:11
- * @UpdateUser:
- * @UpdateDate:     2022.4.18 14:11
- * @UpdateRemark:
- */
 public class BitmapUtils {
 
     private static int sBufferSize = 524288;

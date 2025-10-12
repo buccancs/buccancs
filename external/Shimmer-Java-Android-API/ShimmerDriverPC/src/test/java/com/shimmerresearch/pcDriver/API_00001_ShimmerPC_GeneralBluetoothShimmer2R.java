@@ -11,10 +11,6 @@ import com.shimmerresearch.driverUtilities.ShimmerVerDetails.FW_ID;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 import com.shimmerresearch.exceptions.ShimmerException;
 
-/*
- * This test class is to test Shimmer 2R connectivity, version, sampling rate,
- * and check its start and stop streaming functionality.
- */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class API_00001_ShimmerPC_GeneralBluetoothShimmer2R {

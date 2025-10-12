@@ -216,10 +216,7 @@ public class SensorLSM6DSV extends AbstractSensor {
     public static final byte GET_LSM6DSV_SAMPLING_RATE_COMMAND = (byte) 0x4E;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-    /**
-     *
-     */
-    private static final long serialVersionUID = -1336807717590498430L;
+        private static final long serialVersionUID = -1336807717590498430L;
     //--------- Configuration options end --------------
 
     static {
@@ -451,13 +448,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         return mCurrentCalibDetailsAccelLn;
     }
 
-    /**
-     * Converts the Analog Accel calibration variables from Shimmer Object
-     * into a byte array for sending to the Shimmer.
-     *
-     * @return the bytes array containing the Analog Accel Calibration
-     */
-    public byte[] generateCalParamByteArrayAccelLn() {
+        public byte[] generateCalParamByteArrayAccelLn() {
         return getCurrentCalibDetailsAccelLn().generateCalParamByteArray();
     }
 
@@ -551,14 +542,7 @@ public class SensorLSM6DSV extends AbstractSensor {
         return false;
     }
 
-    /**
-     * Computes next higher available sensor sampling rate setting based on
-     * passed in "freq" variable and dependent on whether low-power mode is set.
-     *
-     * @param freq
-     * @return int the rate configuration setting for the respective sensor
-     */
-    public int setLSM6DSVGyroAccelRateFromFreq(double freq) {
+        public int setLSM6DSVGyroAccelRateFromFreq(double freq) {
         boolean isEnabled = false;
         if (isSensorEnabled(mSensorIdGyro) || isSensorEnabled(mSensorIdAccelLN)) {
             isEnabled = true;
@@ -571,28 +555,14 @@ public class SensorLSM6DSV extends AbstractSensor {
         return SensorLSM6DSV.getGyroRateFromFreq(isEnabled, freq, isLowPowerMode);
     }
 
-    /**
-     * This enables the low-power gyro option. When not enabled the sampling
-     * rate of the gyro is set to the closest supported value to the actual
-     * sampling rate that it can achieve.
-     *
-     * @param enable
-     */
-    public void setLowPowerGyro(boolean enable) {
+        public void setLowPowerGyro(boolean enable) {
         mLowPowerGyro = enable;
         if (mShimmerDevice != null) {
             setLSM6DSVGyroAccelRateFromFreq(getSamplingRateShimmer());
         }
     }
 
-    /**
-     * Checks to see if the MPU9150 gyro is in low power mode. As determined by
-     * the sensor's sampling rate being set to the lowest possible value and not
-     * related to any specific configuration bytes sent to the Shimmer/MPU9150.
-     *
-     * @return boolean, true if low-power mode enabled
-     */
-    public boolean checkLowPowerGyro() {
+        public boolean checkLowPowerGyro() {
         if (mLSM6DSVGyroAccelRate == 1) {
             mLowPowerGyro = true;
         } else {

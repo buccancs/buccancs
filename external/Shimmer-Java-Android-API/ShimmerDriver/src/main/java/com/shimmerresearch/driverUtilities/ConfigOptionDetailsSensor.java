@@ -7,19 +7,9 @@ import com.shimmerresearch.driver.Configuration;
 import com.shimmerresearch.driver.Configuration.COMMUNICATION_TYPE;
 import com.shimmerresearch.driverUtilities.ConfigOptionDetails.GUI_COMPONENT_TYPE;
 
-/**
- * Used in Consensys to hold Shimmer configuration GUI information for each
- * configuration option to allow for dynamic GUI creation based on compatible
- * HW&FW version checking.
- *
- * @author Mark Nolan
- */
 public class ConfigOptionDetailsSensor extends ConfigOptionDetails implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -8894717489924237791L;
+        private static final long serialVersionUID = -8894717489924237791L;
     //TODO improve code below as a list or Map (implemented in the early days of Consensys)
     private String[] mGuiValuesAlt1;
     private Integer[] mConfigValuesAlt1;

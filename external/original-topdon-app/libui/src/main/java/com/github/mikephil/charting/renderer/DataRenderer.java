@@ -13,37 +13,19 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-/**
- * Superclass of all render classes for the different data types (line, bar, ...).
- *
- * @author Philipp Jahoda
- */
 public abstract class DataRenderer extends Renderer {
 
-    /**
-     * the animator object used to perform animations on the chart data
-     */
-    protected ChartAnimator mAnimator;
+        protected ChartAnimator mAnimator;
 
-    /**
-     * main paint object used for rendering
-     */
-    protected Paint mRenderPaint;
+        protected Paint mRenderPaint;
 
-    /**
-     * paint used for highlighting values
-     */
-    protected Paint mHighlightPaint;
+        protected Paint mHighlightPaint;
 
     protected Paint mHighlightDotPaint;
 
     protected Paint mDrawPaint;
 
-    /**
-     * paint object for drawing values (text representing values of chart
-     * entries)
-     */
-    protected Paint mValuePaint;
+        protected Paint mValuePaint;
 
     public DataRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(viewPortHandler);

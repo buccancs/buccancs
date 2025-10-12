@@ -16,42 +16,7 @@ import com.shimmerresearch.exceptions.ShimmerException;
 
 
 //Core radio functions to be implemented by native radio libs , jssc, android .. etc.
-/*
-protected abstract boolean bytesAvailableToBeRead();
-protected abstract int availableBytes();
-protected abstract void writeBytes(byte[] data);
-protected abstract void stop();
-protected abstract void connectionLost();
-protected abstract byte[] readBytes(int numberofBytes);
-protected abstract byte readByte();
 
-protected abstract void sendProgressReport(ProgressReportPerCmd pr);
-
-protected abstract void isReadyForStreaming();
-protected abstract void isNowStreaming();
-protected abstract void hasStopStreaming();
-protected abstract void sendStatusMsgPacketLossDetected();
-protected abstract void inquiryDone();
-
-protected abstract void sendStatusMSGtoUI(String msg);
-protected abstract void printLogDataForDebugging(String msg);
-
-protected abstract void setState(BT_STATE state);
-protected abstract void startOperation(BT_STATE currentOperation);
-protected abstract void finishOperation(BT_STATE currentOperation);
-protected abstract void startOperation(BT_STATE currentOperation, int totalNumOfCmds);
-protected abstract void logAndStreamStatusChanged();
-protected abstract void batteryStatusChanged();
-
-protected abstract void dockedStateChange();
-
-public abstract void actionSettingResolver(ActionSetting ac);
-*/
-
-/**
- * @author JC Lim, Mark Nolan
- *
- */
 public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
     private static final long serialVersionUID = -5368287098255841194L;
@@ -59,10 +24,7 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
     public int mPacketSize;
     public transient List<RadioListener> mRadioListenerList = new ArrayList<RadioListener>();
     public transient AbstractCommsProtocol mRadioProtocol = null; //pass the radio controls to the protocol, lite protocol can be replaced by any protocol
-    /**
-     * Hardware abstraction layer
-     */
-    public InterfaceSerialPortHal mRadioHal;
+        public InterfaceSerialPortHal mRadioHal;
 
     public CommsProtocolRadio(InterfaceSerialPortHal radioHal, AbstractCommsProtocol radioProtocol) {
         if (radioHal != null) {

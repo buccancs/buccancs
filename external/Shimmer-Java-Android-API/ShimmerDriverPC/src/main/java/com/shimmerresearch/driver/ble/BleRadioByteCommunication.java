@@ -14,9 +14,6 @@ import com.shimmerresearch.verisense.communication.ByteCommunicationListener;
 
 import bolts.TaskCompletionSource;
 
-/**
- * Each instance of this class represents a BLE radio that is used to communicate with a verisense device
- */
 public class BleRadioByteCommunication extends AbstractByteCommunication {
 
     Process p;
@@ -30,62 +27,33 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
     TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     TaskCompletionSource<String> mTaskDisconnect = new TaskCompletionSource<>();
 
-    /**
-     * Initialize a BLE radio with a radio listener
-     *
-     * @param uuid     e.g. 00000000-0000-0000-0000-D02B463DA2BB
-     * @param exePath  path to the C# BLE console application
-     * @param listener listen to the events
-     * @see ByteCommunicationListener
-     */
-    public BleRadioByteCommunication(String uuid, String exePath, ByteCommunicationListener listener) {
+        public BleRadioByteCommunication(String uuid, String exePath, ByteCommunicationListener listener) {
         this.uuid = uuid;
         this.executablePath = exePath;
         mByteCommunicationListener = listener;
         InitializeProcess();
     }
 
-    /**
-     * Initialize a BLE radio
-     *
-     * @param uuid    e.g. 00000000-0000-0000-0000-D02B463DA2BB
-     * @param exePath path to the C# BLE console application
-     */
-    public BleRadioByteCommunication(String uuid, String exePath) {
+        public BleRadioByteCommunication(String uuid, String exePath) {
         this.uuid = uuid;
         this.executablePath = exePath;
         InitializeProcess();
     }
 
-    /**
-     * Initialize a BLE radio
-     *
-     * @param btDevDetails
-     * @param exePath      path to the C# BLE console application
-     */
-    public BleRadioByteCommunication(BluetoothDeviceDetails btDevDetails, String exePath) {
+        public BleRadioByteCommunication(BluetoothDeviceDetails btDevDetails, String exePath) {
         this.uuid = convertMacIDtoUUID(btDevDetails.mShimmerMacId);
         this.executablePath = exePath;
         InitializeProcess();
     }
 
-    /**
-     * Convert mac address to uuid
-     *
-     * @param MacID e.g. d0:2b:46:3d:a2:bb
-     * @return e.g. 00000000-0000-0000-0000-D02B463DA2BB
-     */
-    public String convertMacIDtoUUID(String MacID) {
+        public String convertMacIDtoUUID(String MacID) {
         //00000000-0000-0000-0000-e7452c6d6f14
         String uuid = "00000000-0000-0000-0000-";
         uuid = String.join("", uuid, MacID.replace(":", ""));
         return uuid;
     }
 
-    /**
-     * Terminate the process
-     */
-    public void DestroyProcess() {
+        public void DestroyProcess() {
         if (p != null) {
             WriteDataToProcess("Stop");
             p.destroyForcibly();
@@ -93,12 +61,7 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
         }
     }
 
-    /**
-     * Write characteristic to the Verisense device
-     *
-     * @param s commands to be passed to the C# BLE console application e.g. Connect, Disconnect, Write110000
-     */
-    public void WriteDataToProcess(String s) {
+        public void WriteDataToProcess(String s) {
 
         try {
             writer.write(s, 0, s.length());
@@ -187,10 +150,7 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
         Example.start();
     }
 
-    /**
-     * Connect to the Verisense device
-     */
-    @Override
+        @Override
     public void connect() throws ShimmerException {
         WriteDataToProcess("Connect");
         mTaskConnect = new TaskCompletionSource<>();
@@ -208,10 +168,7 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
         }
     }
 
-    /**
-     * Disconnect from the Verisense device
-     */
-    @Override
+        @Override
     public void disconnect() throws ShimmerException {
         WriteDataToProcess("Disconnect");
         mTaskDisconnect = new TaskCompletionSource<>();
@@ -229,29 +186,18 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
         }
     }
 
-    /**
-     * Write characteristic to the device
-     *
-     * @param bytes byte array to be written
-     */
-    @Override
+        @Override
     public void writeBytes(byte[] bytes) {
         String bytesstring = Hex.encodeHexString(bytes);
         WriteDataToProcess("Write" + bytesstring);
     }
 
-    /**
-     * Terminate the process
-     */
-    @Override
+        @Override
     public void stop() {
         DestroyProcess();
     }
 
-    /**
-     * @return uuid e.g. 00000000-0000-0000-0000-D02B463DA2BB
-     */
-    @Override
+        @Override
     public String getUuid() {
         // TODO Auto-generated method stub
         return this.uuid;

@@ -5,22 +5,13 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Holds Shimmer Hardware and Firmware version details.
- *
- * @author Mark Nolan
- *
- */
 public class ShimmerVerDetails implements Serializable {
 
     public static final int ANY_VERSION = -1;
     //WARNING! The name can't change because the database relies on it.
     public static final Map<Integer, String> mMapOfShimmerRevisions;
     public static final Map<Integer, String> mMapOfShimmerHardware;
-    /**
-     *
-     */
-    private static final long serialVersionUID = -7940733886215010795L;
+        private static final long serialVersionUID = -7940733886215010795L;
 
     static {
         Map<Integer, String> aMap = new TreeMap<Integer, String>();

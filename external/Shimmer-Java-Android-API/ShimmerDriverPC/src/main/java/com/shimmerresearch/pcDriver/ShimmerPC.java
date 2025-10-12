@@ -1,59 +1,3 @@
-/*Rev1.7
- *
- *
- *
- * Copyright (c) 2010, Shimmer Research, Ltd.
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
-
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Jong Chern Lim
- * @date   November, 2013
- *
- * Changes since 1.6
- * - cancel timers for log and stream upon disconnect
- *
- * Changes since 1.5
- * - updates to constructors
- *
- * Changes since 1.4.3
- * - remove responsetimer to ShimmerBluetooth
- *
- * Changes since 1.4.2
- * - included call to isreadyforstreaming
- * - new object for callback method (msg_identifier 1 and 2 only)
- * - only runs connect() if mSerialPort==null
- * - added packet reception rate callback
- *
- * Changes since 1.4
- * - updated states, and comments
- *
-
- */
 
 package com.shimmerresearch.pcDriver;
 
@@ -94,10 +38,7 @@ import jssc.SerialPortTimeoutException;
 
 public class ShimmerPC extends ShimmerBluetooth implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -5927054314345918072L;
+        private static final long serialVersionUID = -5927054314345918072L;
     public static boolean CONSOLE_PRINT_TX_RX_BYTES = false;
     //	double mLastSavedCalibratedTimeStamp = -1;
     public BluetoothProgressReportPerDevice progressReportPerDevice;
@@ -118,25 +59,13 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         super();
     }
 
-    /**
-     * Constructor. Prepares a new Bluetooth session. Upon Connection the configuration of the device is read back and used. No device setup is done. To setup device see other Constructors.
-     * This constructor was created as a simple constructor for use with MATLAB.
-     *
-     * @param comPort The COM port of the Shimmer Device
-     */
-    public ShimmerPC(String comPort) {
+        public ShimmerPC(String comPort) {
         this();
         setComPort(comPort);
         setSamplingRateShimmer(128);
     }
 
-    /**
-     * Constructor. Prepares a new Bluetooth session. Upon Connection the configuration of the device is read back and used. No device setup is done. To setup device see other Constructors.
-     *
-     * @param myName        To allow the user to set a unique identifier for each Shimmer device
-     * @param countiousSync A boolean value defining whether received packets should be checked continuously for the correct start and end of packet.
-     */
-    @Deprecated
+        @Deprecated
     public ShimmerPC(String myName, Boolean continousSync) {
         this();
         setShimmerUserAssignedName(myName);
@@ -145,15 +74,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         setSamplingRateShimmer(128);
     }
 
-    /**
-     * Constructor. Prepares a new Bluetooth session. Upon Connection the configuration of the device is read back and used. No device setup is done. To setup device see other Constructors.
-     *
-     * @param comPort            The COM port of the Shimmer Device
-     * @param myBluetoothAddress
-     * @param myName             To allow the user to set a unique identifier for each Shimmer device
-     * @param countiousSync      A boolean value defining whether received packets should be checked continuously for the correct start and end of packet.
-     */
-    public ShimmerPC(String comPort, String myBluetoothAddress, String myName, Boolean continousSync) {
+        public ShimmerPC(String comPort, String myBluetoothAddress, String myName, Boolean continousSync) {
         this(myName, continousSync);
         setComPort(comPort);
         mMyBluetoothAddress = myBluetoothAddress;
@@ -290,10 +211,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
 
     // Javadoc comment follows
 
-    /**
-     * @deprecated The Shimmer constructor should only have one Shimmer2R constructor
-     */
-    @Deprecated
+        @Deprecated
     public ShimmerPC(String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, boolean continousSync) {
         this(myName, continousSync);
 
@@ -316,25 +234,13 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     }
 
 
-    /**
-     * Replaces ShimmerDocked
-     *
-     * @param dockId
-     * @param slotNumber
-     */
-    public ShimmerPC(String dockId, int slotNumber, COMMUNICATION_TYPE communicationType) {
+        public ShimmerPC(String dockId, int slotNumber, COMMUNICATION_TYPE communicationType) {
         setDockInfo(dockId, slotNumber);
         addCommunicationRoute(communicationType);
         setSamplingRateShimmer(128);
     }
 
-    /**
-     * Replaces ShimmerDocked
-     *
-     * @param dockId
-     * @param slotNumber
-     */
-    public ShimmerPC(String dockId, int slotNumber, String macId, COMMUNICATION_TYPE communicationType) {
+        public ShimmerPC(String dockId, int slotNumber, String macId, COMMUNICATION_TYPE communicationType) {
         this(dockId, slotNumber, communicationType);
         setMacIdFromUart(macId);
     }
@@ -346,13 +252,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
         mByteCommunication = radio;
     }
 
-    /**
-     * Connect to device specified by address
-     *
-     * @param address The comport of the device e.g. COM32, note device will have to be paired first
-     * @param empty   This is for forward compatibility, in the event a choice of library is offered, any string value can be entered now ~ does nothing
-     */
-    @Override
+        @Override
     public synchronized void connect(final String address, String unusedVariable) {
 
         Thread thread = new Thread() {
@@ -374,13 +274,7 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                     }
 
                     try {
-						/*
-						consolePrintLn("Connecting to Shimmer on " + address);
-						consolePrintLn("Port open: " + mSerialPort.openPort());
-						consolePrintLn("Params set: " + mSerialPort.setParams(115200, 8, 1, 0));
-						consolePrintLn("Port Status : " + Boolean.toString(mSerialPort.isOpened()));
-						*/
-                        consolePrintLn("Connecting to Shimmer on " + address);
+						                        consolePrintLn("Connecting to Shimmer on " + address);
                         mByteCommunication.openPort();
                         consolePrintLn("Port Status : " + Boolean.toString(mByteCommunication.isOpened()));
                         if (mIOThread != null) {

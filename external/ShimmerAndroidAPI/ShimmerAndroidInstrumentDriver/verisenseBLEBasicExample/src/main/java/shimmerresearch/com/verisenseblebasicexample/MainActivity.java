@@ -44,10 +44,7 @@ public class MainActivity extends Activity {
     //AndroidBleRadioByteCommunication radio1 = new AndroidBleRadioByteCommunication("C9:61:17:53:74:02");
     VerisenseProtocolByteCommunication protocol1 = new VerisenseProtocolByteCommunication(radio1);
     VerisenseDeviceAndroid device1;
-    /**
-     * Messages from the Shimmer device including sensor data are received here
-     */
-    Handler mHandler = new Handler() {
+        Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -266,14 +263,7 @@ public class MainActivity extends Activity {
 
     }
 
-    /**
-     * Get the result from the paired devices dialog
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CONNECT_SHIMMER) {
             if (resultCode == Activity.RESULT_OK) {

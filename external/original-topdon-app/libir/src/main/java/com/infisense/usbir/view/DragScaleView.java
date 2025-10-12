@@ -1,9 +1,5 @@
 package com.infisense.usbir.view;
 
-/**
- * @author: CaiSongL
- * @date: 2023/10/24 20:08
- */
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,11 +11,6 @@ import android.widget.FrameLayout;
 
 import com.topdon.lib.core.utils.ScreenUtil;
 
-/**
- * @author Cj
- * @see <a href="http://www.cnblogs.com/a284628487/">...</a>
- *
- */
 public class DragScaleView extends FrameLayout implements View.OnTouchListener {
     private static final int TOP = 0x15;
     private static final int LEFT = 0x16;

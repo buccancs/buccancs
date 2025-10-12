@@ -28,15 +28,8 @@ import com.shimmerresearch.sensors.SensorSTC3100Details;
 
 public class LiteProtocol extends AbstractCommsProtocol {
 
-    /**
-     * LogAndStream will try to recreate the SD config. file for each block of
-     * InfoMem that is written - need to give it time to do so.
-     */
-    public static final int DELAY_BETWEEN_CONFIG_BYTE_WRITES = 100;
-    /**
-     * Delay to allow LogAndStream to create SD config. file and reinitialise
-     */
-    public static final int DELAY_AFTER_CONFIG_BYTE_WRITE = 500;
+        public static final int DELAY_BETWEEN_CONFIG_BYTE_WRITES = 100;
+        public static final int DELAY_AFTER_CONFIG_BYTE_WRITE = 500;
     //startregion --------- TIMERS ---------
     public static final int TIMER_READ_STATUS_PERIOD = 5000;
     public static final int TIMER_READ_BATT_STATUS_PERIOD = 60000; // Batt status is updated every 1min
@@ -97,24 +90,14 @@ public class LiteProtocol extends AbstractCommsProtocol {
     private boolean mUseLegacyDelayToDelayForResponse = false;
     private int mTempChipID;
 
-    /**
-     * Constructor
-     *
-     * @param connectionHandle
-     */
-    public LiteProtocol(String connectionHandle) {
+        public LiteProtocol(String connectionHandle) {
         super();
         mConnectionHandle = connectionHandle;
         mUtilShimmer.setParentClassName(getClass().getSimpleName() + "-" + mConnectionHandle);
     }
 
 
-    /**
-     * Constructor
-     *
-     * @param commsInterface
-     */
-    public LiteProtocol(InterfaceSerialPortHal commsInterface) {
+        public LiteProtocol(InterfaceSerialPortHal commsInterface) {
         super(commsInterface);
     }
 
@@ -127,10 +110,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         getListofInstructions().add(instruction);
     }
 
-    /**
-     * @return the mFirmwareIdentifier
-     */
-    public int getFirmwareIdentifier() {
+        public int getFirmwareIdentifier() {
         if (mShimmerVerObject != null) {
             return mShimmerVerObject.getFirmwareIdentifier();
         }
@@ -143,35 +123,20 @@ public class LiteProtocol extends AbstractCommsProtocol {
         return mHardwareVersion;
     }
 
-    /**
-     * @return the mInstructionStackLock
-     */
-    public boolean isInstructionStackLock() {
+        public boolean isInstructionStackLock() {
         return mInstructionStackLock;
     }
 
-    /**
-     * @param state the mInstructionStackLock to set
-     */
-    @Override
+        @Override
     public void setInstructionStackLock(boolean state) {
         this.mInstructionStackLock = state;
     }
 
-    /**
-     * @return the mListofInstructions
-     */
-    public List<byte[]> getListofInstructions() {
+        public List<byte[]> getListofInstructions() {
         return mListofInstructions;
     }
 
-    /**
-     * this is to clear the buffer
-     *
-     * @throws ShimmerException
-     *
-     */
-    private void clearSerialBuffer() throws ShimmerException {
+        private void clearSerialBuffer() throws ShimmerException {
 		/* JC: not working well on android
 		if(bytesAvailableToBeRead()){
 			byte[] buffer = readBytes(availableBytes());
@@ -234,10 +199,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * @param responseCommand
-     */
-    protected void processResponseCommand(int responseCommand) {
+        protected void processResponseCommand(int responseCommand) {
         byte[] length = null;
         byte[] rxBuf = null;
 
@@ -882,12 +844,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         mUtilShimmer.consolePrintLn(msg);
     }
 
-    /**
-     * Due to the nature of the Bluetooth SPP stack a delay has been added to
-     * ensure the buffer is filled before it is read
-     *
-     */
-    private void delayForBtResponse(long millis) {
+        private void delayForBtResponse(long millis) {
         if (mUseLegacyDelayToDelayForResponse)
             threadSleep(millis);
     }
@@ -977,11 +934,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * Gets pc time and writes the 8 byte value to shimmer device
-     *
-     */
-    public void writeRealTimeClock() {
+        public void writeRealTimeClock() {
         if ((getHardwareVersion() == HW_ID.SHIMMER_3 && getFirmwareIdentifier() == FW_ID.LOGANDSTREAM)
                 || (getHardwareVersion() == HW_ID.SHIMMER_4_SDK && getFirmwareIdentifier() == FW_ID.SHIMMER4_SDK_STOCK)) {
             //Just fill empty bytes here for RTC, set them just before writing to Shimmer
@@ -991,18 +944,12 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     *
-     */
-    private void clearBuffers() {
+        private void clearBuffers() {
         mByteArrayOutputStream.reset();
         mListofPCTimeStamps.clear();
     }
 
-    /**
-     *
-     */
-    private void discardFirstBufferByte() {
+        private void discardFirstBufferByte() {
         byte[] bTemp = mByteArrayOutputStream.toByteArray();
         mByteArrayOutputStream.reset();
         mByteArrayOutputStream.write(bTemp, 1, bTemp.length - 1); //this will throw the first byte away
@@ -1010,10 +957,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         printLogDataForDebugging("Throw Byte" + UtilShimmer.byteToHexStringFormatted(bTemp[0]));
     }
 
-    /**
-     * @param bufferTemp
-     */
-    private void processDataPacket(byte[] bufferTemp) {
+        private void processDataPacket(byte[] bufferTemp) {
         //Create newPacket buffer
         byte[] newPacket = new byte[mPacketSize];
         //Skip the first byte as it is the identifier DATA_PACKET
@@ -1023,15 +967,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         eventNewPacket(newPacket, pcTimestamp);
     }
 
-    /**
-     * Clear the parsed packet from the mByteArrayOutputStream, NOTE the
-     * last two bytes(seq number of next packet) are added back on after the
-     * reset
-     *
-     * @param bufferTemp
-     * @param packetSize
-     */
-    private void clearSingleDataPacketFromBuffers(byte[] bufferTemp, int packetSize) {
+        private void clearSingleDataPacketFromBuffers(byte[] bufferTemp, int packetSize) {
         mByteArrayOutputStream.reset();
         mByteArrayOutputStream.write(bufferTemp[packetSize]);
 //		printLogDataForDebugging(Integer.toString(bufferTemp[mPacketSize+2]));
@@ -1040,10 +976,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * process responses to in-stream response
-     */
-    private void processInstreamResponse() {
+        private void processInstreamResponse() {
         try {
             byte[] inStreamResponseCommandArray = readBytes(1);
             processInstreamResponse(inStreamResponseCommandArray);
@@ -1136,18 +1069,12 @@ public class LiteProtocol extends AbstractCommsProtocol {
         writeInstruction(InstructionsGet.GET_SAMPLING_RATE_COMMAND_VALUE);
     }
 
-    /**
-     * The reason for this is because sometimes the 1st response is not received by the phone
-     */
-    protected void dummyreadSamplingRate() {
+        protected void dummyreadSamplingRate() {
         mDummy = true;
         writeInstruction(InstructionsGet.GET_SAMPLING_RATE_COMMAND_VALUE);
     }
 
-    /**
-     * @param rate Defines the sampling rate to be set (e.g.51.2 sets the sampling rate to 51.2Hz). User should refer to the document Sampling Rate Table to see all possible values.
-     */
-//	public void writeShimmerAndSensorsSamplingRate(int samplingByteValue) {
+    //	public void writeShimmerAndSensorsSamplingRate(int samplingByteValue) {
     public void writeShimmerAndSensorsSamplingRate(byte[] samplingRateBytes) {
 //		if(mIsInitialised) {
 //			if(mShimmerVerObject.isShimmerGen2()){
@@ -1216,14 +1143,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * writeBaudRate(value) sets the baud rate on the Shimmer.
-     *
-     * @param value numeric value defining the desired Baud rate. Valid rate settings are 0 (115200 default),
-     *              1 (1200), 2 (2400), 3 (4800), 4 (9600) 5 (19200),
-     *              6 (38400), 7 (57600), 8 (230400), 9 (460800) and 10 (921600)
-     */
-    public void writeBaudRate(int value) {
+        public void writeBaudRate(int value) {
         if (getFirmwareVersionCode() >= 5) {
             if (value >= 0 && value <= 10) {
                 writeInstruction(new byte[]{InstructionsSet.SET_BAUD_RATE_COMMAND_VALUE, (byte) value});
@@ -1258,12 +1178,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         writeInstruction(InstructionsGet.GET_CONFIG_BYTE0_COMMAND_VALUE);
     }
 
-    /**
-     * writeConfigByte0(configByte0) sets the config byte0 value on the Shimmer to the value of the input configByte0.
-     *
-     * @param configByte0 is an unsigned 8 bit value defining the desired config byte 0 value.
-     */
-    public void writeConfigByte0(byte[] configByte0) {
+        public void writeConfigByte0(byte[] configByte0) {
         writePacket(InstructionsSet.SET_CONFIG_BYTE0_COMMAND_VALUE, configByte0);
         readConfigByte0();
     }
@@ -1272,12 +1187,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         writeInstruction(InstructionsGet.GET_BUFFER_SIZE_COMMAND_VALUE);
     }
 
-    /**
-     * writeAccelRange(range) sets the Accelerometer range on the Shimmer to the value of the input range. When setting/changing the accel range, please ensure you have the correct calibration parameters. Note that the Shimmer device can only carry one set of accel calibration parameters at a single time.
-     *
-     * @param range is a numeric value defining the desired accelerometer range. Valid range setting values for the Shimmer 2 are 0 (+/- 1.5g), 1 (+/- 2g), 2 (+/- 4g) and 3 (+/- 6g). Valid range setting values for the Shimmer 2r are 0 (+/- 1.5g) and 3 (+/- 6g).
-     */
-    public void writeBufferSize(int size) {
+        public void writeBufferSize(int size) {
         writeInstruction(new byte[]{InstructionsSet.SET_BUFFER_SIZE_COMMAND_VALUE, (byte) size});
     }
 
@@ -1356,14 +1266,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * Could be used by InfoMem or Expansion board memory
-     *
-     * @param command
-     * @param address
-     * @param infoMemBytes
-     */
-    public void writeMemCommand(int command, int address, byte[] infoMemBytes) {
+        public void writeMemCommand(int command, int address, byte[] infoMemBytes) {
 //		if(this.getFirmwareVersionCode()>=6){
         byte[] memLengthToWrite = new byte[]{(byte) infoMemBytes.length};
         byte[] memAddressToWrite = ByteBuffer.allocate(2).putShort((short) (address & 0xFFFF)).array();
@@ -1382,10 +1285,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
 //		}
     }
 
-    /**
-     *
-     */
-    @Override
+        @Override
     public void operationPrepare() {
         stopAllTimers();
 
@@ -1400,10 +1300,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         mOperationUnderway = true;
     }
 
-    /**
-     *
-     */
-    public void operationWaitForFinish() {
+        public void operationWaitForFinish() {
         // unlock the instruction stack
         setInstructionStackLock(false);
         // wait for instruction stack to clear
@@ -1412,10 +1309,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
     //region --------- OPERATIONS ---------
 
-    /**
-     * @param btState
-     */
-    @Override
+        @Override
     public void operationStart(BT_STATE btState) {
 //		mOperationUnderway = true;
         startOperation(btState, getListofInstructions().size());
@@ -1423,16 +1317,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
         setInstructionStackLock(false);
     }
 
-    /**
-     *
-     */
-    public void operationFinished() {
-		/*
-		startTimerCheckIfAlive();
-		startTimerReadStatus();
-		startTimerReadBattStatus();
-		*/
-        mOperationUnderway = false;
+        public void operationFinished() {
+		        mOperationUnderway = false;
     }
 
     //region  --------- START/STOP STREAMING FUNCTIONS ---------
@@ -1519,11 +1405,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * Only applicable for logandstream
-     *
-     */
-    @Override
+        @Override
     public void stopStreamingAndLogging() {
         // if shimmer is using LogAndStream FW, stop reading its status periodically
         if ((getShimmerVersion() == HW_ID.SHIMMER_3 && getFirmwareIdentifier() == FW_ID.LOGANDSTREAM)
@@ -1535,10 +1417,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * Set battery status (STC3100 chip) auto-transmission Period (in sec)
-     */
-    @Override
+        @Override
     public void writeBattStatusPeriod(int periodInSec) {
         if (getShimmerVersion() == HW_ID.SHIMMER_4_SDK) {
             byte[] buf = new byte[2];
@@ -1548,10 +1427,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * Get battery status (STC3100 chip) auto-transmission Period (in sec)
-     */
-    @Override
+        @Override
     public void readBattStatusPeriod() {
         if (getShimmerVersion() == HW_ID.SHIMMER_4_SDK) {
             writeInstruction(InstructionsGet.GET_I2C_BATT_STATUS_COMMAND_VALUE);
@@ -1629,11 +1505,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
 //			eventAckReceived(mCurrentCommand);
 //				setShimmerVersionInfoAndCreateSensorMap(new ShimmerVerObject(HW_ID.SHIMMER_2R, FW_ID.BOILER_PLATE, 0, 1, 0));
 //
-////				/*Message msg = mHandler.obtainMessage(MESSAGE_TOAST);
-////      	        Bundle bundle = new Bundle();
-////      	        bundle.putString(TOAST, "Firmware Version: " +mFirmwareVersionParsed);
-////      	        msg.setData(bundle);*/
-////				if(!mDummy){
+////				////				if(!mDummy){
 ////					//mHandler.sendMessage(msg);
 ////                }
 //
@@ -1807,10 +1679,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
 //		}
 //	}
 //
-//	/** Handles command response timeout
-//	 *
-//	 */
-//	class checkForAckOrRespTask extends TimerTask {
+//	//	class checkForAckOrRespTask extends TimerTask {
 //		
 //		@Override
 //		public void run() {
@@ -1994,29 +1863,18 @@ public class LiteProtocol extends AbstractCommsProtocol {
         return mConnectionHandle;
     }
 
-    /**
-     * @param docked the mDocked to set
-     */
-    public void setIsDocked(boolean docked) {
+        public void setIsDocked(boolean docked) {
         mIsDocked = docked;
         if (mProtocolListener != null) {
             mProtocolListener.eventSetIsDocked(mIsDocked);
         }
     }
 
-    /**
-     * @return the mDocked
-     */
-    public boolean isDocked() {
+        public boolean isDocked() {
         return mIsDocked;
     }
 
-    /**
-     * Returns true if device is streaming (Bluetooth)
-     *
-     * @return
-     */
-    public boolean isStreaming() {
+        public boolean isStreaming() {
         return mIsStreaming;
     }
 
@@ -2027,12 +1885,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * Only used for LogAndStream
-     *
-     * @return
-     */
-    public boolean isSensing() {
+        public boolean isSensing() {
         return (mIsSensing || mIsSDLogging || mIsStreaming);
     }
 
@@ -2064,34 +1917,22 @@ public class LiteProtocol extends AbstractCommsProtocol {
         }
     }
 
-    /**
-     * @param isInitialized the mSuccessfullyInitialized to set
-     */
-    public void setIsInitialised(boolean isInitialized) {
+        public void setIsInitialised(boolean isInitialized) {
         mIsInitialised = isInitialized;
         if (mProtocolListener != null) {
             mProtocolListener.eventSetIsInitialised(mIsInitialised);
         }
     }
 
-    /**
-     * @return the mIsInitialized
-     */
-    public boolean isInitialised() {
+        public boolean isInitialised() {
         return mIsInitialised;
     }
 
-    /**
-     * @return the mHaveAttemptedToRead
-     */
-    public boolean isHaveAttemptedToRead() {
+        public boolean isHaveAttemptedToRead() {
         return mHaveAttemptedToReadConfig;
     }
 
-    /**
-     * @param haveAttemptedToRead the mHaveAttemptedToRead to set
-     */
-    public void setHaveAttemptedToRead(boolean haveAttemptedToRead) {
+        public void setHaveAttemptedToRead(boolean haveAttemptedToRead) {
         mHaveAttemptedToReadConfig = haveAttemptedToRead;
         if (mProtocolListener != null) {
             mProtocolListener.eventSetHaveAttemptedToRead(mHaveAttemptedToReadConfig);
@@ -2346,10 +2187,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
             }
         }
 
-        /**
-         * Process ACK from a GET or SET command while not streaming
-         */
-        private void processNotStreamingWaitForAck() throws ShimmerException {
+                private void processNotStreamingWaitForAck() throws ShimmerException {
             //JC TEST:: IMPORTANT TO REMOVE // This is to simulate packet loss
 			/*
 			if (Math.random()>0.9 && mIsInitialised==true){
@@ -2458,10 +2296,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
             }
         }
 
-        /**
-         * Process RESPONSE while not streaming
-         */
-        private void processNotStreamingWaitForResp() throws ShimmerException {
+                private void processNotStreamingWaitForResp() throws ShimmerException {
             //Discard first read
             if (mFirstTime) {
 //				printLogDataForDebugging("First Time read");
@@ -2515,10 +2350,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
             }
         }
 
-        /**
-         * Process LogAndStream INSTREAM_CMD_RESPONSE while not streaming
-         */
-        private void processBytesAvailableAndInstreamSupported() throws ShimmerException {
+                private void processBytesAvailableAndInstreamSupported() throws ShimmerException {
             if (((getHardwareVersion() == HW_ID.SHIMMER_3 && getFirmwareIdentifier() == FW_ID.LOGANDSTREAM)
                     || (getHardwareVersion() == HW_ID.SHIMMER_4_SDK && getFirmwareIdentifier() == FW_ID.SHIMMER4_SDK_STOCK))
                     && !mWaitForAck
@@ -2554,11 +2386,7 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
     }
 
-    /**
-     * Handles command response timeout
-     *
-     */
-    class checkForAckOrRespTask extends TimerTask {
+        class checkForAckOrRespTask extends TimerTask {
 
         @Override
         public void run() {

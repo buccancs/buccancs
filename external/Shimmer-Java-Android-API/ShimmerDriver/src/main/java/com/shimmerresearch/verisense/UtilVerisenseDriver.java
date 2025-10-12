@@ -54,13 +54,7 @@ public class UtilVerisenseDriver implements Serializable {
     // 40 x '-'
     public static final String CSV_HEADER_SEPARATOR = "----------------------------------------";
     public static final String CSV_HEADER_SEPARATOR_LEGACY = "--------------------------------------------------,,\"";
-    /*
-     * The number of header lines used to be fixed but now, with support for
-     * multiple sensors being enabled, the number of lines can vary. For a long time
-     * the line qty was 12 lines and we used to add 5 to allow for future expansion.
-     * There is now an additional line for each additional enabled sensor.
-     */
-    public static final int CSV_HEADER_LINES_SEARCH_LIMIT = 12 + 5;
+        public static final int CSV_HEADER_LINES_SEARCH_LIMIT = 12 + 5;
     public static final String FILE_FILTER_69 = "69";
     public static final String FILE_FILTER_70 = "70";
     public static final String FILE_FILTER_PREFIX_69 = File.separator + FILE_FILTER_69;
@@ -74,14 +68,7 @@ public class UtilVerisenseDriver implements Serializable {
     //TODO duplication with above?
     private static DateFormat dfForFileNameUtc = new SimpleDateFormat(DATE_FORMAT_FILENAME);
 
-    /**
-     * Expects path like: "verisense-unit-test-data/0001/Participant001/Verisense-18092601B10B/BinaryFiles/190219_144252_00000.bin"
-     * Returns: "verisense-unit-test-data/0001/Participant001/Verisense-18092601B10B"
-     *
-     * @param binaryFilePath
-     * @return
-     */
-    public static String binaryFileDirToDeviceLevelDir(String binaryFilePath) {
+        public static String binaryFileDirToDeviceLevelDir(String binaryFilePath) {
         File file = new File(binaryFilePath);
         File parentFile = file.getParentFile();
         String parent = parentFile.getParent();
@@ -105,22 +92,12 @@ public class UtilVerisenseDriver implements Serializable {
         return String.format("%05d", startPayloadIndex);
     }
 
-    /**
-     * @param timestampMs1
-     * @param timestampMs2
-     * @return true if one timestampMs1 is before/after mid-day while timestampMs2 is after/before mid-day (i.e., a transition is present)
-     */
-    public static boolean isTransitionMidDayOrMidnight(double timestampMs1, double timestampMs2) {
+        public static boolean isTransitionMidDayOrMidnight(double timestampMs1, double timestampMs2) {
         return (UtilVerisenseDriver.isTransistionMidday(timestampMs1, timestampMs2)
                 || UtilVerisenseDriver.isTransistionMidnight(timestampMs1, timestampMs2));
     }
 
-    /**
-     * @param timestampMs1
-     * @param timestampMs2
-     * @return true if timestampMs1 <12:00pm and timestampMs2 is >=12:00pm
-     */
-    public static boolean isTransistionMidday(double timestampMs1, double timestampMs2) {
+        public static boolean isTransistionMidday(double timestampMs1, double timestampMs2) {
         if (UtilVerisenseDriver.isTsBeforeMidday((long) timestampMs1)
                 && UtilVerisenseDriver.isTsAfterMidday((long) timestampMs2)) {
             return true;
@@ -128,12 +105,7 @@ public class UtilVerisenseDriver implements Serializable {
         return false;
     }
 
-    /**
-     * @param timestampMs1
-     * @param timestampMs2
-     * @return True if timestampMs1 >12:00pm and timestampMs2 is <=12:00pm
-     */
-    public static boolean isTransistionMidnight(double timestampMs1, double timestampMs2) {
+        public static boolean isTransistionMidnight(double timestampMs1, double timestampMs2) {
         if (UtilVerisenseDriver.isTsAfterMidday((long) timestampMs1)
                 && UtilVerisenseDriver.isTsBeforeMidday((long) timestampMs2)) {
             return true;
@@ -243,13 +215,7 @@ public class UtilVerisenseDriver implements Serializable {
         return Instant.now().atZone(TIME_ZONE_ID).toLocalDate();
     }
 
-    /**
-     * In the form "yyyy/MM/dd HH:mm:ss:SSS"
-     *
-     * @param timeString
-     * @return
-     */
-    public static long fromTimeStringToMilliseconds(String timeString, String format) {
+        public static long fromTimeStringToMilliseconds(String timeString, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         dateFormat.setTimeZone(UtilVerisenseDriver.TIME_ZONE);
 
@@ -311,14 +277,7 @@ public class UtilVerisenseDriver implements Serializable {
         }
     }
 
-    /**
-     * Converts from milliseconds in Unix time
-     *
-     * @param milliSeconds
-     * @param format
-     * @return
-     */
-    //TODO move this to UtilShimmer and merge with existing method
+        //TODO move this to UtilShimmer and merge with existing method
     public static String convertMilliSecondsToFormat(long milliSeconds, String format, String timezone) {
         DateFormat dfLocal = new SimpleDateFormat(format);
         dfLocal.setTimeZone(TimeZone.getTimeZone(timezone));
@@ -450,23 +409,11 @@ public class UtilVerisenseDriver implements Serializable {
         return true;
     }
 
-    /**
-     * @param fileArray      -> input file array to filter
-     * @param fileNamePrefix -> prefix of files to keep. If NULL, this parameter is not used.
-     * @param fileNameSuffix -> suffix (including file extension) of files to keep. If NULL, this parameter is not used.
-     * @return filtered array
-     */
-    public static File[] filterFileArrayForAnyFileNamePrefixAndSuffixAndSort(File[] fileArray, String fileNamePrefix, String fileNameSuffix, boolean sortAscending) {
+        public static File[] filterFileArrayForAnyFileNamePrefixAndSuffixAndSort(File[] fileArray, String fileNamePrefix, String fileNameSuffix, boolean sortAscending) {
         return filterFileArrayForAnyFileNamePrefixAndAnySuffixAndSort(fileArray, fileNamePrefix, new String[]{fileNameSuffix}, sortAscending);
     }
 
-    /**
-     * @param fileArray      -> input file array to filter
-     * @param fileNamePrefix -> prefix of files to keep. If NULL, this parameter is not used.
-     * @param fileNameSuffix -> suffix (including file extension) of files to keep. If NULL, this parameter is not used.
-     * @return filtered array
-     */
-    public static File[] filterFileArrayForAnyFileNamePrefixAndAnySuffixAndSort(File[] fileArray, String fileNamePrefix, String[] fileNameSuffix, boolean sortAscending) {
+        public static File[] filterFileArrayForAnyFileNamePrefixAndAnySuffixAndSort(File[] fileArray, String fileNamePrefix, String[] fileNameSuffix, boolean sortAscending) {
         List<File> listOfFiles = new ArrayList<File>();
 
         for (File file : fileArray) {
@@ -492,13 +439,7 @@ public class UtilVerisenseDriver implements Serializable {
         return fileArrayFilt;
     }
 
-    /**
-     * @param fileArray      -> input file array to filter
-     * @param nameContains   -> substrings of files names to keep. If NULL, this parameter is not used.
-     * @param fileNameSuffix -> suffix (including file extension) of files to keep. If NULL, this parameter is not used.
-     * @return a new fileArray[] containing matches with nameContains, pathContains and fileSuffice
-     */
-    public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String nameContains, String fileNameSuffix) {
+        public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String nameContains, String fileNameSuffix) {
         String[][] newArray = null;
         if (nameContains != null && !nameContains.isEmpty()) {
             newArray = new String[][]{{nameContains}};
@@ -506,43 +447,15 @@ public class UtilVerisenseDriver implements Serializable {
         return filterFileArrayForAllAndRemoveDuplicates(fileArray, newArray, null, fileNameSuffix);
     }
 
-    /**
-     * This method is particularly used when searching for a matching strings in a set. All strings within any of the 1D arrays must be contained within the name or path.
-     *
-     * @param fileArray      -> input file array to filter
-     * @param nameContains   -> substrings of files names to keep. If NULL, this parameter is not used.
-     * @param pathContains   -> substrings of paths to keep. If NULL, this parameter is not used.
-     * @param fileNameSuffix -> suffix (including file extension) of files to keep. If NULL, this parameter is not used.
-     * @return a new fileArray[] containing matches with nameContains, pathContains and fileSuffice
-     */
-    public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String fileNameSuffix) {
+        public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String fileNameSuffix) {
         return filterFileArrayForAllAndRemoveDuplicates(fileArray, nameContains, pathContains, (fileNameSuffix == null ? null : (new String[]{fileNameSuffix})));
     }
 
-    /**
-     * This method is particularly used when searching for a matching strings in a set. All strings within any of the 1D arrays must be contained within the name or path.
-     *
-     * @param fileArray          -> input file array to filter
-     * @param nameContains       -> substrings of files names to keep. If NULL, this parameter is not used.
-     * @param pathContains       -> substrings of paths to keep. If NULL, this parameter is not used.
-     * @param fileNameSuffixes[] -> suffixes (including file extension) of files to keep. If NULL, this parameter is not used.
-     * @return a new fileArray[] containing matches with nameContains, pathContains and fileNameSuffixes
-     */
-    public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String[] fileNameSuffixes) {
+        public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String[] fileNameSuffixes) {
         return filterFileArrayForAllAndRemoveDuplicates(fileArray, nameContains, pathContains, fileNameSuffixes, null);
     }
 
-    /**
-     * This method is particularly used when searching for a matching strings in a set. All strings within any of the 1D arrays must be contained within the name or path.
-     *
-     * @param fileArray          -> input file array to filter
-     * @param nameContains       -> substrings of files names to keep. If NULL, this parameter is not used.
-     * @param pathContains       -> substrings of paths to keep. If NULL, this parameter is not used.
-     * @param fileNameSuffixes[] -> suffixes (including file extension) of files to keep. If NULL, this parameter is not used.
-     * @param String[]           fileNamePrefixes -> prefixes of filenames to keep. If NULL, this parameter is not used.
-     * @return a new fileArray[] containing matches with nameContains, pathContains, fileNameSuffixes and fileNamePrefixes
-     */
-    public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String[] fileNameSuffixes, String[] fileNamePrefixes) {
+        public static File[] filterFileArrayForAllAndRemoveDuplicates(File[] fileArray, String[][] nameContains, String[][] pathContains, String[] fileNameSuffixes, String[] fileNamePrefixes) {
         List<File> listOfFiles = new ArrayList<File>();
         fileLoop:
         for (File file : fileArray) {
@@ -593,26 +506,14 @@ public class UtilVerisenseDriver implements Serializable {
         return selectedFileArray;
     }
 
-    /**
-     * @param fileArray on which to filter out "69" & "70" filename prefixes, and duplicate files
-     * @return filtered array
-     */
-    public static File[] filterOutOfFileArrayDuplicatesAnd69And70Files(File[] fileArray) {
+        public static File[] filterOutOfFileArrayDuplicatesAnd69And70Files(File[] fileArray) {
         //1) Filter out duplicates
         File[] files = filterOutOfFileArray(fileArray, new String[]{FILE_FILTER_DUPLICATE}, null);
         //2) Filter out filenames which start with "69" or "70"
         return filterFilenamePrefixesOutOfFileArray(files, new String[]{FILE_FILTER_69, FILE_FILTER_70});
     }
 
-    /**
-     * Remove any files with path or naming containing contents of nameContains[] or pathContains[]
-     *
-     * @param fileArray    -> input file array to filter
-     * @param nameContains -> substrings of file names to remove
-     * @param pathContains -> substrings of paths to remove
-     * @return a new fileArray[] containing files that do no not match nameContains or pathContains
-     */
-    public static File[] filterOutOfFileArray(File[] fileArray, String[] nameContains, String[] pathContains) {
+        public static File[] filterOutOfFileArray(File[] fileArray, String[] nameContains, String[] pathContains) {
         List<File> listOfFiles = new ArrayList<File>();
         fileLoop:
         for (File file : fileArray) {
@@ -633,14 +534,7 @@ public class UtilVerisenseDriver implements Serializable {
         return selectedFileArray;
     }
 
-    /**
-     * Remove any files with names that start with prefixContains
-     *
-     * @param fileArray      -> input file array to filter
-     * @param prefixContains -> substrings of file name prefixes to remove
-     * @return a new fileArray[] containing files that do no not match prefixContains
-     */
-    public static File[] filterFilenamePrefixesOutOfFileArray(File[] fileArray, String[] prefixContains) {
+        public static File[] filterFilenamePrefixesOutOfFileArray(File[] fileArray, String[] prefixContains) {
         List<File> listOfFiles = new ArrayList<File>();
 
         fileLoop:
@@ -837,14 +731,7 @@ public class UtilVerisenseDriver implements Serializable {
         return formatted;
     }
 
-    /**
-     * TODO Be better to move this to a util class specific for csv file reading
-     * Retrieves a value from a String (header line in Verisense CSV file) using a prefix and a termination char (;) to isolate the value to return
-     * e.g. if dataLine = "Data end time: Local = 2021/05/28 14:58:25.391; Unix ms + Local time zone offset = 1622213905391.088; Time since boot ms = 59851.135"
-     * and preceedingStr = "Unix ms + Local time zone offset ="
-     * the @return "1622213905391.088"
-     */
-    public static String pickoutParameterFromLine(String dataLine, String preceedingStr) {
+        public static String pickoutParameterFromLine(String dataLine, String preceedingStr) {
         String returnStr = "";
         int indexOfPreceedingStr = dataLine.indexOf(preceedingStr);
         if (indexOfPreceedingStr >= 0) {
@@ -857,32 +744,15 @@ public class UtilVerisenseDriver implements Serializable {
         return returnStr;
     }
 
-    /**
-     * get the date and time in the file name
-     *
-     * @return e.g. if file name is '190923_090308_Payload_Metadata_01044.csv' -> this method returns '190923_090308'
-     */
-    public static String getDateTimeStrInFileName(File file) {
+        public static String getDateTimeStrInFileName(File file) {
         return file.getName().substring(0, 13);
     }
 
-    /**
-     * Dashboard emulator participants (for Demos) are 4 characters long and titled P001-P0XX
-     *
-     * @param participantId
-     * @return
-     */
-    public static boolean isDashboardEmulatorParticipant(String participantId) {
+        public static boolean isDashboardEmulatorParticipant(String participantId) {
         return participantId.matches("P[0-9]{3}");
     }
 
-    /**
-     * Dashboard emulator sensors (for Demos) are 4 characters long and titled S001-S0XX
-     *
-     * @param sensorId
-     * @return
-     */
-    public static boolean isDashboardEmulatorSensor(String sensorId) {
+        public static boolean isDashboardEmulatorSensor(String sensorId) {
         return sensorId.matches("S[0-9]{3}");
     }
 

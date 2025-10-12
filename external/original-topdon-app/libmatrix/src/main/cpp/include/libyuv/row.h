@@ -1,12 +1,3 @@
-/*
- *  Copyright 2011 The LibYuv Project Authors. All rights reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree. An additional intellectual property rights grant can be found
- *  in the file PATENTS. All contributing project authors may
- *  be found in the AUTHORS file in the root of the source tree.
- */
 
 #ifndef INCLUDE_LIBYUV_ROW_H_
 #define INCLUDE_LIBYUV_ROW_H_
@@ -672,9 +663,7 @@ extern const struct YuvConstants SIMD_ALIGNED(kYvuH709Constants);  // BT.709
 #define IS_ALIGNED(p, a) (!((uintptr_t)(p) & ((a)-1)))
 
 #define align_buffer_64(var, size)                                           \
-  uint8_t* var##_mem = (uint8_t*)(malloc((size) + 63));         /* NOLINT */ \
-  uint8_t* var = (uint8_t*)(((intptr_t)(var##_mem) + 63) & ~63) /* NOLINT */
-
+  uint8_t* var##_mem = (uint8_t*)(malloc((size) + 63));
 #define free_aligned_buffer_64(var) \
   free(var##_mem);                  \
   var = 0
@@ -721,8 +710,7 @@ extern const struct YuvConstants SIMD_ALIGNED(kYvuH709Constants);  // BT.709
 
 #define IACA_UD_BYTES __asm__ __volatile__("\n\t .byte 0x0F, 0x0B");
 
-#else /* Visual C */
-#define IACA_UD_BYTES \
+#else #define IACA_UD_BYTES \
   { __asm _emit 0x0F __asm _emit 0x0B }
 
 #define IACA_SSC_MARK(x) \
@@ -1687,8 +1675,7 @@ void MergeRGBRow_Any_MMI(const uint8_t* src_r,
 void MergeUVRow_16_C(const uint16_t* src_u,
                      const uint16_t* src_v,
                      uint16_t* dst_uv,
-                     int scale, /* 64 for 10 bit */
-                     int width);
+                     int scale,                      int width);
 void MergeUVRow_16_AVX2(const uint16_t* src_u,
                         const uint16_t* src_v,
                         uint16_t* dst_uv,

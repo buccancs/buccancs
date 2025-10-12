@@ -6,10 +6,7 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 
 public class CalibArraysKinematic implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -6799425106976911611L;
+        private static final long serialVersionUID = -6799425106976911611L;
     public double[][] mOffsetVector = null;
     public double[][] mSensitivityMatrix = null;
     public double[][] mAlignmentMatrix = null;

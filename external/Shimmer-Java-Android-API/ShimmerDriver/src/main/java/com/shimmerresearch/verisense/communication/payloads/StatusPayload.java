@@ -14,10 +14,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 import com.shimmerresearch.driverUtilities.UtilParseData;
 
-/**
- * @author Mark Nolan
- *
- */
 public class StatusPayload extends AbstractPayload implements Serializable {
 
     public static final double MAX_FOUR_BTE_UNSIGNED_VALUE = Math.pow(2, 32) - 1;
@@ -379,8 +375,7 @@ public class StatusPayload extends AbstractPayload implements Serializable {
     }
 
     public class STATUS_FLAGS {
-        /* Byte 0 */
-        public static final int BIT_MASK_USB_PLUGGED_IN = (1 << 0);
+                public static final int BIT_MASK_USB_PLUGGED_IN = (1 << 0);
         public static final int BIT_MASK_RECORDING_PAUSED = (1 << 1);
         public static final int BIT_MASK_FLASH_IS_FULL = (1 << 2);
         public static final int BIT_MASK_POWER_IS_GOOD = (1 << 3);

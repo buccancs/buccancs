@@ -16,15 +16,9 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_SOURCE;
 
 public class SensorDetails implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1545530433767674139L;
+        private static final long serialVersionUID = 1545530433767674139L;
 
-    /**
-     * by default load in communication types for Bluetooth and SD
-     */
-    public Map<COMMUNICATION_TYPE, Boolean> mapOfIsEnabledPerCommsType = new ConcurrentHashMap<COMMUNICATION_TYPE, Boolean>();
+        public Map<COMMUNICATION_TYPE, Boolean> mapOfIsEnabledPerCommsType = new ConcurrentHashMap<COMMUNICATION_TYPE, Boolean>();
     public long mDerivedSensorBitmapID = 0;
     //	public boolean mIsEnabled = false;
     public SensorDetailsRef mSensorDetailsRef;
@@ -46,15 +40,7 @@ public class SensorDetails implements Serializable {
         mSensorDetailsRef = sensorDetailsRef;
     }
 
-    /**
-     * To process data originating from the Shimmer device
-     *
-     * @param channelByteArray The byte array packet, or byte array sd log
-     * @param commType         The communication type
-     * @param object           The packet/objectCluster to append the data to
-     * @return
-     */
-    public static ObjectCluster processShimmerChannelData(byte[] channelByteArray, ChannelDetails channelDetails, ObjectCluster objectCluster) {
+        public static ObjectCluster processShimmerChannelData(byte[] channelByteArray, ChannelDetails channelDetails, ObjectCluster objectCluster) {
         long parsedChannelData = UtilParseData.parseData(channelByteArray, channelDetails.mDefaultChannelDataType, channelDetails.mDefaultChannelDataEndian);
         objectCluster.addData(channelDetails.mObjectClusterName, channelDetails.mChannelFormatDerivedFromShimmerDataPacket, channelDetails.mDefaultUncalUnit, (double) parsedChannelData);
         return objectCluster;
@@ -162,13 +148,7 @@ public class SensorDetails implements Serializable {
     }
 
 
-    /**
-     * This cycles through the channels finding which are enabled and summing up the number of bytes
-     *
-     * @param commType
-     * @return
-     */
-    public int getExpectedPacketByteArray(COMMUNICATION_TYPE commType) {
+        public int getExpectedPacketByteArray(COMMUNICATION_TYPE commType) {
         int count = 0;
         if (isEnabled(commType)) {
             for (ChannelDetails channelDetails : mListOfChannels) {

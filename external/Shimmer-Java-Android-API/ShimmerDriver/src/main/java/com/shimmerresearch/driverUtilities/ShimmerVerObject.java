@@ -11,13 +11,6 @@ import com.shimmerresearch.driverUtilities.ShimmerVerDetails.FW_LABEL;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID_SR_CODES;
 
-/**
- * Holds HW, FW and expansion board infomation. Used for docked Shimmers current
- * info and also for the purposes of compatible version checking.
- *
- * @author Mark Nolan
- *
- */
 public class ShimmerVerObject implements Serializable {
 
     private static final long serialVersionUID = -1966526754185423783L;
@@ -33,12 +26,7 @@ public class ShimmerVerObject implements Serializable {
     public String mFirmwareVersionParsed = UtilShimmer.STRING_CONSTANT_FOR_UNKNOWN;
     public String mFirmwareVersionParsedJustVersionNumber = UtilShimmer.STRING_CONSTANT_FOR_UNKNOWN;
 
-    /**
-     * only used for driver version checking. If a current Shimmers expansion
-     * board info is needed, refer to the ExpansionBoardDetails declared in the
-     * ShimmerDevice instance
-     */
-    private ExpansionBoardDetails mExpansionBoardDetails = new ExpansionBoardDetails(ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
+        private ExpansionBoardDetails mExpansionBoardDetails = new ExpansionBoardDetails(ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION, ShimmerVerDetails.ANY_VERSION);
 
     //TODO handle SPAN_VERSION for SPANs? It is obtained from the PlatformHwManager
     //public SPAN_VERSION hardwareVersion = SPAN_VERSION.UNKNOWN;
@@ -51,15 +39,7 @@ public class ShimmerVerObject implements Serializable {
 //		mHardwareVersion = hardwareVersion;
 //	}
 
-    /**
-     * Not enough to parseShimmerVerDetails
-     *
-     * @param firmwareIdentifier
-     * @param firmwareVersionMajor
-     * @param firmwareVersionMinor
-     * @param firmwareVersionInternal
-     */
-    public ShimmerVerObject(
+        public ShimmerVerObject(
             int firmwareIdentifier,
             int firmwareVersionMajor,
             int firmwareVersionMinor,
@@ -70,17 +50,7 @@ public class ShimmerVerObject implements Serializable {
         mFirmwareVersionInternal = firmwareVersionInternal;
     }
 
-    /**
-     * Used specifically when finding the current information from a docked
-     * Shimmer through the dock's UART communication channel.
-     *
-     * @param hardwareVersion
-     * @param firmwareIdentifier
-     * @param firmwareVersionMajor
-     * @param firmwareVersionMinor
-     * @param firmwareVersionInternal
-     */
-    public ShimmerVerObject(
+        public ShimmerVerObject(
             int hardwareVersion,
             int firmwareIdentifier,
             int firmwareVersionMajor,
@@ -96,17 +66,7 @@ public class ShimmerVerObject implements Serializable {
         parseShimmerVerDetails();
     }
 
-    /**
-     * Used specifically for compatible version checking
-     *
-     * @param hardwareVersion
-     * @param firmwareIdentifier
-     * @param firmwareVersionMajor
-     * @param firmwareVersionMinor
-     * @param firmwareVersionInternal
-     * @param shimmerExpansionBoardId
-     */
-    public ShimmerVerObject(
+        public ShimmerVerObject(
             int hardwareVersion,
             int firmwareIdentifier,
             int firmwareVersionMajor,
@@ -123,17 +83,7 @@ public class ShimmerVerObject implements Serializable {
                 ShimmerVerDetails.ANY_VERSION);
     }
 
-    /**
-     * Used specifically for compatible version checking
-     *
-     * @param hardwareVersion
-     * @param firmwareIdentifier
-     * @param firmwareVersionMajor
-     * @param firmwareVersionMinor
-     * @param firmwareVersionInternal
-     * @param shimmerExpansionBoardId
-     */
-    public ShimmerVerObject(
+        public ShimmerVerObject(
             int hardwareVersion,
             int firmwareIdentifier,
             int firmwareVersionMajor,
@@ -152,17 +102,7 @@ public class ShimmerVerObject implements Serializable {
         parseShimmerVerDetails();
     }
 
-    /**
-     * Used specifically for compatible version checking
-     *
-     * @param hardwareVersion
-     * @param firmwareIdentifier
-     * @param firmwareVersionMajor
-     * @param firmwareVersionMinor
-     * @param firmwareVersionInternal
-     * @param shimmerExpansionBoardId
-     */
-    public ShimmerVerObject(
+        public ShimmerVerObject(
             int hardwareVersion,
             int firmwareIdentifier,
             int firmwareVersionMajor,
@@ -182,14 +122,7 @@ public class ShimmerVerObject implements Serializable {
         parseShimmerVerDetails();
     }
 
-    /**
-     * Empty constructor used when finding the current information from a docked
-     * Shimmer/SPAN through the dock's UART communication channel.
-     *
-     * @param byteArray
-     *
-     */
-    public ShimmerVerObject(byte[] byteArray) {
+        public ShimmerVerObject(byte[] byteArray) {
         parseVersionByteArray(byteArray);
     }
 

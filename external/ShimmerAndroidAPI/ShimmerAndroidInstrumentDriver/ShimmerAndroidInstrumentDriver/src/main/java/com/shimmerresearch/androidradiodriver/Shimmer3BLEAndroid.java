@@ -77,24 +77,12 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     transient TaskCompletionSource<String> mTaskConnect = new TaskCompletionSource<>();
     transient TaskCompletionSource<String> mTaskMTU = new TaskCompletionSource<>();
 
-    /**
-     * Initialize a ble radio
-     *
-     * @param mac mac address of the Shimmer3 BLE device e.g. d0:2b:46:3d:a2:bb
-     */
-    public Shimmer3BLEAndroid(String mac) {
+        public Shimmer3BLEAndroid(String mac) {
         mMac = mac;
         mHandler = null;
     }
 
-    /**
-     * Only support Shimmer3 and Shimmer3R
-     *
-     * @param hardwareID e.g. ShimmerVerDetails.HW_ID.SHIMMER_3R or ShimmerVerDetails.HW_ID.SHIMMER_3
-     * @param mac
-     * @param handler
-     */
-    public Shimmer3BLEAndroid(int hardwareID, String mac, Handler handler) {
+        public Shimmer3BLEAndroid(int hardwareID, String mac, Handler handler) {
         if (hardwareID == ShimmerVerDetails.HW_ID.SHIMMER_3R) {
             sid = UUID.fromString(ServiceID_Shimmer3R);
             txid = UUID.fromString(TxID_Shimmer3R);
@@ -115,10 +103,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         }
     }
 
-    /**
-     * Connect to the Shimmer3 BLE device
-     */
-    @Override
+        @Override
     public void connect(String s, String s1) {
         mTaskConnect = new TaskCompletionSource<>();
         BleManager.getInstance().connect(mMac, new BleGattCallback() {
@@ -233,13 +218,7 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
         }
     }
 
-    /**
-     * Start notify for characteristics changed
-     *
-     * @param bleDevice      BLE device
-     * @param characteristic
-     */
-    public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
+        public void newConnectedBLEDevice(final BleDevice bleDevice, final BluetoothGattCharacteristic characteristic) {
         int count = 1;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             BleManager.getInstance().notify(

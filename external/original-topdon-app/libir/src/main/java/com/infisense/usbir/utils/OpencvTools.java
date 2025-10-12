@@ -100,13 +100,7 @@ public class OpencvTools {
     }
 
 
-    /**
-     * 效果更好的超分，但是此函数耗时过长，应用于拍照
-     *
-     * @param inBitmap
-     * @return
-     */
-    public static Bitmap supImageFour(Bitmap inBitmap) {
+        public static Bitmap supImageFour(Bitmap inBitmap) {
         long startTime = System.currentTimeMillis();
         ByteBuffer rawData = ByteBuffer.wrap(SupRUtils.INSTANCE.bitmapToByteArray(inBitmap));
         ByteBuffer dataIn = ByteBuffer.allocateDirect(rawData.array().length);

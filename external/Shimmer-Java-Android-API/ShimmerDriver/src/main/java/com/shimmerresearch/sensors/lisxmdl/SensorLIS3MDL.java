@@ -115,10 +115,7 @@ public class SensorLIS3MDL extends AbstractSensor {
 
     // --------- Configuration options start --------------
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4028368641088628178L;
+        private static final long serialVersionUID = 4028368641088628178L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();

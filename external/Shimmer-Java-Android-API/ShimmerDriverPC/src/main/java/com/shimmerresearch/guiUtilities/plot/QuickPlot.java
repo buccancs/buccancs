@@ -15,12 +15,6 @@ import info.monitorenter.gui.chart.ZoomableChart;
 import info.monitorenter.gui.chart.rangepolicies.RangePolicyFixedViewport;
 import info.monitorenter.util.Range;
 
-/**
- * JFame to provide a quick way to plot data in a double array
- *
- * @author Mark Nolan
- *
- */
 public class QuickPlot {
 
     public static final int INVALID_CHANNEL_INDEX = -1;
@@ -32,15 +26,7 @@ public class QuickPlot {
         createFrame(plotName);
     }
 
-    /**
-     * Plots y-axis data against the data index for the x-axis
-     *
-     * @param plotName
-     * @param data
-     * @param signalNames
-     * @param signalColors
-     */
-    public QuickPlot(String plotName, double[][] data, String[] signalNames, Color[] signalColors) {
+        public QuickPlot(String plotName, double[][] data, String[] signalNames, Color[] signalColors) {
         this(plotName);
         createTracesAndAddData(data, signalNames, signalColors, INVALID_CHANNEL_INDEX);
         chartSetupCommon();

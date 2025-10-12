@@ -38,13 +38,6 @@ import java.util.List;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 
-/**
- * AppVersionUtil
- * APP版本检测工具类
- *
- * @author chuanfeng.bi
- * @date 2022/2/10 19:48
- */
 public class AppVersionUtil {
     private Context mContext;
     private DownloadCompleteReceiver completeReceiver; // 声明一个下载完成的广播接收器
@@ -102,21 +95,11 @@ public class AppVersionUtil {
         });
     }
 
-    /**
-     * 获取处理过的本地版本code
-     *
-     * @return float
-     */
-    private float getDealVersionCode() {
+        private float getDealVersionCode() {
         return AppUtil.getVersionCode(mContext) / 10;
     }
 
-    /**
-     * 弹出新版本信息提示框
-     *
-     * @param bean 版本更新实体类
-     */
-    private void showNewVersionDialog(AppInfoBean bean) {
+        private void showNewVersionDialog(AppInfoBean bean) {
         String information = "";
         if (bean.softConfigOtherTypeVOList != null) {
             for (AppInfoBean.UpdateDescription updateDescription : bean.softConfigOtherTypeVOList) {

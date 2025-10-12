@@ -8,11 +8,6 @@ import java.util.TreeMap;
 
 import com.shimmerresearch.driver.ShimmerDevice;
 
-/**
- *
- * @author Mark Nolan
- *
- */
 public class SpanJobDetails extends AbstractErrorCodes {
 
     public final static int ERROR_CODES_ID = 8;

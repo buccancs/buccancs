@@ -17,40 +17,20 @@ import com.shimmerresearch.driverUtilities.SensorGroupingDetails;
 import com.shimmerresearch.driverUtilities.ShimmerVerObject;
 import com.shimmerresearch.exceptions.ShimmerException;
 
-/**
- * @author Mark Nolan
- *
- */
 public class ShimmerShell extends ShimmerDevice {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3505947289367382624L;
+        private static final long serialVersionUID = 3505947289367382624L;
 
     public ShimmerShell() {
         setFirstDockRead();
     }
 
-    /**
-     * Initialisation via dock
-     *
-     * @param dockId
-     * @param slotNumber
-     */
-    public ShimmerShell(String dockId, int slotNumber) {
+        public ShimmerShell(String dockId, int slotNumber) {
         this();
         setDockInfo(dockId, slotNumber);
     }
 
-    /**
-     * Initialisation via dock
-     *
-     * @param dockId
-     * @param slotNumber
-     * @param connectionType
-     */
-    public ShimmerShell(String dockId, int slotNumber, COMMUNICATION_TYPE connectionType) {
+        public ShimmerShell(String dockId, int slotNumber, COMMUNICATION_TYPE connectionType) {
         this(dockId, slotNumber);
         addCommunicationRoute(connectionType);
     }

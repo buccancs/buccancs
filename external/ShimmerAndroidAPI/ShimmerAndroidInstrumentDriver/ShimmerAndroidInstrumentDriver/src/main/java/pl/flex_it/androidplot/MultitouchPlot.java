@@ -14,17 +14,6 @@ import com.androidplot.xy.XYSeriesFormatter;
 import com.androidplot.xy.XYSeriesRenderer;
 
 
-/**
- *
- * This example is based on:
- * - multitouch example, by David Buezas (david.buezas at gmail.com) and Michael
- * from http://androidplot.com/wiki/A_Simple_XYPlot_with_multi-touch_zooming_and_scrolling
- * - AndroidPlot quickstart example http://androidplot.com/wiki/Quickstart
- * No license was given with this samples, but I assume that use it for free on BSD-like license ;-)
- *
- * @author Marcin Lepicki (marcin.lepicki at flex-it.pl)
- *
- */
 public class MultitouchPlot extends XYPlot implements OnTouchListener {
 
     // Definition of the touch states

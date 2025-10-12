@@ -41,12 +41,6 @@ public class ConcurrentListTestNoSynchronized_AddAndAdd {
         listthreadadd t2 = new listthreadadd(this);
         Thread th2 = new Thread(t2);
 		
-		/*listthreadremove rt1 = new listthreadremove(this);
-		Thread th2 = new Thread(rt1);
-		*/
-		/*listthreadclear ct1 = new listthreadclear(this);
-		Thread th2 = new Thread(ct1);
-		*/
 
         Thread th1 = new Thread(t1);
 

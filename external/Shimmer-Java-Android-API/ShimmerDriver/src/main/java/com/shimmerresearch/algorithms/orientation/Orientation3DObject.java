@@ -6,10 +6,7 @@ public class Orientation3DObject {
     private double quaternionW, quaternionX, quaternionY, quaternionZ;
     private double rho;
     private double theta, angleX, angleY, angleZ;
-    /**
-     * (Yaw, Pitch, Roll) == (Heading, Attitude, Bank) == (Azimuth, elevation, tilt)
-     */
-    private double yaw, pitch, roll;
+        private double yaw, pitch, roll;
 
     public Orientation3DObject(double q1, double q2, double q3, double q4) {
         this.quaternionW = q1;

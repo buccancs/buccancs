@@ -10,12 +10,6 @@ import java.io.Serializable;
 import com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE;
 import com.shimmerresearch.driver.ShimmerDevice;
 
-/**
- * Hold progress details per device for Bluetooth activity.
- *
- * @author mnolan
- *
- */
 //TODO add proper comments
 //TODO remove unnecessary code carried over from dock progress details
 public class BluetoothProgressReportPerDevice implements Serializable {
@@ -28,10 +22,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
             "Fail",
             "Cancelled"
     };
-    /**
-     *
-     */
-    private static final long serialVersionUID = -7997745169511235203L;
+        private static final long serialVersionUID = -7997745169511235203L;
     public int mCommandCompleted;
     public int mNumberofRemainingCMDsInBuffer;
     public String mBluetoothAddress;
@@ -58,13 +49,7 @@ public class BluetoothProgressReportPerDevice implements Serializable {
         updateShimmerDeviceMini(shimmerDevice);
     }
 
-    /**
-     * Used to calculated the percentage progress based on the pre-set
-     * mOperationEndValue and the passed in ProgressReportPerCmd.
-     *
-     * @param pRPC the ProgressReportPerCmd
-     */
-    public void updateProgress(BluetoothProgressReportPerCmd pRPC) {
+        public void updateProgress(BluetoothProgressReportPerCmd pRPC) {
         updateProgress(pRPC.mNumberofRemainingCMDsInBuffer, pRPC.mCommandCompleted);
     }
 

@@ -12,6 +12,8 @@ import com.buccancs.desktop.domain.model.DeviceConnectionEvent
 import com.buccancs.desktop.domain.model.DeviceInfo
 import com.buccancs.desktop.domain.model.FileTransferProgress
 import com.buccancs.desktop.domain.model.FileTransferState
+import com.buccancs.desktop.domain.model.Session
+import com.buccancs.desktop.domain.model.StoredSession
 import com.buccancs.desktop.domain.model.SessionStatus
 import com.buccancs.desktop.ui.state.AppUiState
 import com.buccancs.desktop.ui.state.ControlPanelState
@@ -78,23 +80,35 @@ class AppViewModel(
                 transferState.value = progress
             }
         }
-        val snapshotFlow = combine(
+        val baseSnapshotFlow = combine(
             sessionRepository.activeSession,
             deviceRepository.observe(),
             retentionManager.state(),
             previewRepository.observe(),
-            sessionRepository.activeEvents(),
+            sessionRepository.activeEvents()
+        ) { session, devices, retention, previews, events ->
+            PartialSnapshot(
+                session = session,
+                devices = devices,
+                retention = retention,
+                previews = previews,
+                events = events
+            )
+        }
+
+        val snapshotFlow = combine(
+            baseSnapshotFlow,
             sessionRepository.storedSessions(),
             transferState,
             alerts,
             controlState
-        ) { session, devices, retention, previews, events, archives, transfers, alertList, control ->
+        ) { base, archives, transfers, alertList, control ->
             UiSnapshot(
-                session = session,
-                devices = devices,
-                retention = retention,
-                previews = previews.values,
-                events = events,
+                session = base.session,
+                devices = base.devices,
+                retention = base.retention,
+                previews = base.previews.values,
+                events = base.events,
                 archives = archives,
                 transfers = transfers,
                 alerts = alertList,

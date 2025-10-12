@@ -88,11 +88,9 @@
 //    public static int REGION_MODE_LINE = 2;
 //    public static int REGION_MODE_RECTANGLE = 3;
 //    public static int REGION_MODE_CENTER = 4;
-//    /* point */
-//    private ArrayList<Point> points = new ArrayList<Point>();
+//    //    private ArrayList<Point> points = new ArrayList<Point>();
 //    private Point movingPoint;
-//    /* line */
-//    private ArrayList<Line> lines = new ArrayList<Line>();
+//    //    private ArrayList<Line> lines = new ArrayList<Line>();
 //    private Line movingLine;
 //    private int lineMoveType;
 //    private static final int LINE_MOVE_ENTIRE = 0;
@@ -101,8 +99,7 @@
 //    private static final int LINE_START = 0;
 //    private static final int LINE_END = 1;
 //
-//    /* rectangle */
-//    private ArrayList<Rect> rectangles = new ArrayList<Rect>();
+//    //    private ArrayList<Rect> rectangles = new ArrayList<Rect>();
 //
 //    private Rect movingRectangle;
 //    private int rectangleMoveType;

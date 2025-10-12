@@ -49,10 +49,6 @@ import com.shimmerresearch.verisense.sensors.SensorMAX86XXX.MAX86XXX_ADC_RESOLUT
 import com.shimmerresearch.verisense.sensors.SensorMAX86XXX.MAX86XXX_PULSE_WIDTH;
 import com.shimmerresearch.verisense.sensors.SensorMAX86XXX.MAX86XXX_SAMPLE_AVG;
 
-/**
- * @author Mark Nolan
- *
- */
 public class OperationalConfigPayload extends AbstractPayload implements Serializable {
 
     public static final byte[] DEFAULT_OP_CONFIG_BYTES_FW_1_02_70 = new byte[]{0x5A, 0x00, 0x00, 0x00, 0x00, 0x00,

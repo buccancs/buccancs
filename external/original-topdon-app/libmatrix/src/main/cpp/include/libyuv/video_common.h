@@ -1,12 +1,3 @@
-/*
- *  Copyright 2011 The LibYuv Project Authors. All rights reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree. An additional intellectual property rights grant can be found
- *  in the file PATENTS. All contributing project authors may
- *  be found in the AUTHORS file in the root of the source tree.
- */
 
 // Common definitions for video, including fourcc and VideoFormat.
 
@@ -30,13 +21,10 @@ extern "C" {
 #ifdef __cplusplus
 #define FOURCC(a, b, c, d)                                        \
   ((static_cast<uint32_t>(a)) | (static_cast<uint32_t>(b) << 8) | \
-   (static_cast<uint32_t>(c) << 16) | /* NOLINT */                \
-   (static_cast<uint32_t>(d) << 24))  /* NOLINT */
-#else
+   (static_cast<uint32_t>(c) << 16) | #else
 #define FOURCC(a, b, c, d)                                     \
   (((uint32_t)(a)) | ((uint32_t)(b) << 8) |       /* NOLINT */ \
-   ((uint32_t)(c) << 16) | ((uint32_t)(d) << 24)) /* NOLINT */
-#endif
+   ((uint32_t)(c) << 16) | ((uint32_t)(d) << 24)) #endif
 
 // Some pages discussing FourCC codes:
 //   http://www.fourcc.org/yuv.php

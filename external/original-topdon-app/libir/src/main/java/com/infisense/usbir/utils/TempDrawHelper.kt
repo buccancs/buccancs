@@ -48,8 +48,7 @@ class TempDrawHelper {
         textPaint.color = Color.WHITE
     }
 
-    /* ******************************************** Draw ******************************************** */
-    fun drawPoint(canvas: Canvas, x: Int, y: Int) {
+        fun drawPoint(canvas: Canvas, x: Int, y: Int) {
         val left: Float = x - POINT_SIZE / 2f
         val top: Float = y - POINT_SIZE / 2f
         val right: Float = x + POINT_SIZE / 2f

@@ -1,40 +1,3 @@
-/*Rev 0.2
- *
- *  Copyright (c) 2010, Shimmer Research, Ltd.
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
-
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Jong Chern Lim
- *
- * Changes since 0.1
- * - Added method to get outputFile
- *
- */
 
 
 package com.shimmerresearch.tools;
@@ -74,10 +37,7 @@ public class Logging {
     Context mContext = null;
 
     @Deprecated
-    /**
-     * @param myName is the file name which will be used
-     */
-    public Logging(String myName) {
+        public Logging(String myName) {
         mFileName = myName;
         File root = Environment.getExternalStorageDirectory();
         Log.d("AbsolutePath", root.getAbsolutePath());
@@ -94,13 +54,7 @@ public class Logging {
     }
 
     @Deprecated
-    /**
-     * Constructor with default file output type (.dat)
-     * @param myName
-     * @param delimiter
-     * @param folderName will create a new folder if it does not exist
-     */
-    public Logging(String myName, String delimiter, String folderName) {
+        public Logging(String myName, String delimiter, String folderName) {
         mFileName = myName;
         mDelimiter = delimiter;
         File root = new File(Environment.getExternalStorageDirectory() + "/" + folderName);
@@ -111,14 +65,7 @@ public class Logging {
     }
 
     @Deprecated
-    /**
-     * Constructor to select output file type
-     * @param myName
-     * @param delimiter
-     * @param folderName will create a new folder if it does not exist
-     * @param fileType File output type. Currently supports .dat or .csv
-     */
-    public Logging(String myName, String delimiter, String folderName, ShimmerService.FILE_TYPE fileType) {
+        public Logging(String myName, String delimiter, String folderName, ShimmerService.FILE_TYPE fileType) {
         mFileName = myName;
         mDelimiter = delimiter;
         File root;
@@ -159,12 +106,7 @@ public class Logging {
     }
 
 
-    /**
-     * This function takes an object cluster and logs all the data within it. User should note that the function will write over prior files with the same name.
-     *
-     * @param objectCluster data which will be written into the file
-     */
-    public void logData(ObjectCluster objectCluster) {
+        public void logData(ObjectCluster objectCluster) {
         ObjectCluster objectClusterLog = objectCluster;
 
         try {

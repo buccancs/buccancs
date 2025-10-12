@@ -40,16 +40,7 @@ import com.shimmerresearch.driver.ShimmerObject;
 import com.shimmerresearch.exceptions.ShimmerException;
 import com.shimmerresearch.shimmer3dexample.R;
 
-/**
- * The initial Android Activity, setting and initiating
- * the OpenGL ES Renderer Class @see Lesson04.java
- *
- * @author Savas Ziplies (nea/INsanityDesign)
- */
 
-/*
- * 3D Cube generation taken from above
- */
 
 public class Shimmer3DOrientationExample extends Activity {
 
@@ -66,10 +57,7 @@ public class Shimmer3DOrientationExample extends Activity {
     Matrix3d invm3d = new Matrix3d();
     Matrix3d fm3d = new Matrix3d();
     Matrix3d m3d = new Matrix3d();
-    /**
-     * The OpenGL View
-     */
-    private GLSurfaceView glSurface;
+        private GLSurfaceView glSurface;
     private Shimmer mShimmerDevice1 = null;
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -140,11 +128,7 @@ public class Shimmer3DOrientationExample extends Activity {
                                 e.printStackTrace();
                             }
                             break;
-	                    /* case INITIALISED:
-
-
-	                         break;*/
-                        case CONNECTING:
+	                                            case CONNECTING:
                             Log.d("ConnectionStatus", "Connecting");
                             break;
                         case STREAMING:

@@ -172,10 +172,6 @@ bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(imageDst));
 在`CameraView.java`中，线程中对图像进行放大到适应屏幕，然后使用Canvas绘制：
 
 ```java
-/**
- * 图片缩放，这里简单的使用getWidth()作为宽，getHeight()作为高，可能会出现画面拉伸情况，
- * 实际使用的时候请参考设备的宽高按照设备的图像尺寸做等比例缩放
- */
 Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
 canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
@@ -319,11 +315,6 @@ this.mUsbManager.requestPermission(device, this.mPermissionIntent);
 继续追踪
 
 ```java
-/**
-...
-Permission for USB devices of class UsbConstants.USB_CLASS_VIDEO for clients that target SDK Build.VERSION_CODES.P and above can be granted only if they have additionally the Manifest.permission.CAMERA permission.
-...
-**/
 public void requestPermission(UsbDevice device, PendingIntent pi) 
 ```
 
@@ -401,16 +392,7 @@ public void onFrame(byte[] frame)
 
 				...
                     
-                /**
-                 * 图像+温度
-                 */
-                /**
-                 * copy红外数据到image数组中
-                 * 出图的frame数组中前半部分是红外数据，后半部分是温度数据，
-                 * 例如256*384分辨率的设备，前面的256*192是红外数据，后面的256*192是温度数据，
-                 * 其中的数据是旋转90度的，需要旋转回来。
-                 */
-                System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
+                                                System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
                 System.arraycopy(frame, imageOrTempDataLength, temperatureSrc, 0, imageOrTempDataLength);
 ```
 

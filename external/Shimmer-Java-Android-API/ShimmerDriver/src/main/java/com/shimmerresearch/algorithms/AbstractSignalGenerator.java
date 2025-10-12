@@ -10,12 +10,7 @@ public abstract class AbstractSignalGenerator extends BasicProcessWithCallBack {
     DataThread dt = null;
 
 
-    /**
-     * This method is called periodically by the data thread
-     *
-     * @return
-     */
-    public abstract Object generateSignal();
+        public abstract Object generateSignal();
 
     public void stopGenerator() {
         if (dt != null) {

@@ -137,9 +137,6 @@ public class SensorBMP390 extends SensorBMPX80 {
         mChannelMapRef = Collections.unmodifiableMap(aMap);
     }
 
-    /**
-     * Calibration handled on chip for Shimmer4 - might change in the future
-     */
 
     private CalibDetailsBmp390 mCalibDetailsBmp390Lcl;
 
@@ -179,9 +176,6 @@ public class SensorBMP390 extends SensorBMPX80 {
         return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, objectClusterName);
     }
 
-    /**
-     *
-     */
 
     @Override
     public void setPressureResolution(int i) {

@@ -8,17 +8,6 @@ import com.shimmerresearch.driverUtilities.ShimmerVerObject;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.FW_ID;
 
-/**
- * Hold the ShimmerGq's microcontroller information memory layout. This region of
- * the the microcontrollers RAM can be used to configure all properties of the
- * Shimmer when configured through a docking station using Consensys. Variables
- * stored in this class are based on firmware header files for mapping which
- * bits in each information memory byte represents various configurable settings
- * on the Shimmer.
- *
- * @author Mark Nolan
- *
- */
 public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements Serializable {
 
     private static final long serialVersionUID = -5729543049033754281L;
@@ -121,20 +110,7 @@ public class ConfigByteLayoutShimmerGq802154 extends ConfigByteLayout implements
     public int lengthRadioConfig = 7;
 
 
-    /**
-     * Hold the Shimmer3's microcontroller information memory layout. This
-     * region of the the microcontrollers RAM can be used to configure all
-     * properties of the Shimmer when configured through a docking station using
-     * Consensys. Variables stored in this class are based on firmware header
-     * files for mapping which bits in each information memory byte represents
-     * various configurable settings on the Shimmer.
-     *
-     * @param firmwareIdentifier
-     * @param firmwareVersionMajor
-     * @param firmwareVersionMinor
-     * @param firmwareVersionInternal
-     */
-    public ConfigByteLayoutShimmerGq802154(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal) {
+        public ConfigByteLayoutShimmerGq802154(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal) {
         mShimmerVerObject = new ShimmerVerObject(firmwareIdentifier, firmwareVersionMajor, firmwareVersionMinor, firmwareVersionInternal);
 
         mInfoMemSize = calculateConfigByteLength();

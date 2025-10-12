@@ -37,12 +37,6 @@ import com.shimmerresearch.sensors.AbstractSensor.GuiLabelConfigCommon;
 import com.shimmerresearch.sensors.AbstractSensor.SENSORS;
 
 
-/**
- * Parent Sensor Class for the Kionix analog/low-noise accelerometers
- *
- * @author Ruud Stolk
- * @author Mark Nolan
- */
 public abstract class SensorKionixAccel extends AbstractSensor {
 
     public static final int LN_ACCEL_RANGE_VALUE = 0;
@@ -56,10 +50,7 @@ public abstract class SensorKionixAccel extends AbstractSensor {
     public static final byte GET_ACCEL_CALIBRATION_COMMAND = (byte) 0x13;
     public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
     public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
-    /**
-     *
-     */
-    private static final long serialVersionUID = -5027305280613145453L;
+        private static final long serialVersionUID = -5027305280613145453L;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -77,10 +68,7 @@ public abstract class SensorKionixAccel extends AbstractSensor {
     public CalibDetailsKinematic mCurrentCalibDetailsAccelLn = null;
     public boolean mIsUsingDefaultLNAccelParam = true;
 
-    /**
-     * Just used for accessing calibration
-     */
-    public SensorKionixAccel(SENSORS sensor) {
+        public SensorKionixAccel(SENSORS sensor) {
         super(sensor);
     }
 
@@ -331,10 +319,7 @@ public abstract class SensorKionixAccel extends AbstractSensor {
         return getCurrentCalibDetailsAccelLn().generateCalParamByteArray();
     }
 
-    /* (non-Javadoc)
-     * @see com.shimmerresearch.sensors.AbstractSensor#isSensorUsingDefaultCal(int)
-     */
-    @Override
+        @Override
     public boolean isSensorUsingDefaultCal(int sensorId) {
         if (sensorId == Configuration.Shimmer3.SENSOR_ID.SHIMMER_ANALOG_ACCEL) {
             return isUsingDefaultLNAccelParam();

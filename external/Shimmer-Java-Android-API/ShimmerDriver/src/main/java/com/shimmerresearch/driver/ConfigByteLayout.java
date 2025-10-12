@@ -8,17 +8,6 @@ import com.shimmerresearch.driverUtilities.ShimmerVerDetails.FW_ID;
 import com.shimmerresearch.driverUtilities.ShimmerVerObject;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 
-/**
- * Hold the Shimmer microcontrollers information memory layout. This region of
- * the the microcontrollers RAM can be used to configure all properties of the
- * Shimmer when configured through a docking station using Consensys. Variables
- * stored in this class are based on firmware header files for mapping which
- * bits in each information memory byte represents various configurable settings
- * on the Shimmer.
- *
- * @author Mark Nolan
- *
- */
 public abstract class ConfigByteLayout implements Serializable {
 
     private static final long serialVersionUID = -5729543049033754281L;
@@ -38,14 +27,7 @@ public abstract class ConfigByteLayout implements Serializable {
     protected int mInfoMemSize = 512;
 //	public final static int MSP430_5XX_PROGRAM_START_ADDRESS = 0x00FFFE;
 
-    /**
-     * Creates an empty byte array for the purposes of generating the
-     * configuration bytes to write to the Shimmer.
-     *
-     * @param size the size of the byte array to create.
-     * @return byte array
-     */
-    public static byte[] createConfigByteArrayEmpty(int size) {
+        public static byte[] createConfigByteArrayEmpty(int size) {
         byte[] newArray = new byte[size];
         for (int i = 0; i < size; i++) {
             newArray[i] = (byte) 0x00;
@@ -53,14 +35,7 @@ public abstract class ConfigByteLayout implements Serializable {
         return newArray;
     }
 
-    /**
-     * Creates an empty byte array for the purposes of generating the
-     * configuration bytes to write to the Shimmer (default all bytes = 0xFF).
-     *
-     * @param size the size of the byte array to create.
-     * @return byte array
-     */
-    public static byte[] createConfigByteArrayDefaultMemoryValues(int size) {
+        public static byte[] createConfigByteArrayDefaultMemoryValues(int size) {
         byte[] newArray = new byte[size];
         for (int i = 0; i < size; i++) {
             newArray[i] = (byte) 0xFF;
@@ -85,13 +60,7 @@ public abstract class ConfigByteLayout implements Serializable {
         return calculateConfigByteLength(mShimmerVerObject);
     }
 
-    /**
-     * Creates an empty byte array for the purposes of generating the
-     * configuration bytes to write to the Shimmer (default all bytes = 0xFF).
-     *
-     * @return byte array
-     */
-    public byte[] createConfigByteArrayEmpty() {
+        public byte[] createConfigByteArrayEmpty() {
         return createConfigByteArrayEmpty(calculateConfigByteLength());
     }
 

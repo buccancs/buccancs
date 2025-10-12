@@ -18,10 +18,7 @@ public class AlgorithmDetails implements Serializable {
 
     private static final long serialVersionUID = -8249918413235100868L;
 
-    /**
-     * AKA mObjectClusterName
-     */
-    public String mAlgorithmName = "";
+        public String mAlgorithmName = "";
     public String mGuiFriendlyName = "";
     public String mDatabaseChannelHandle = "";
     public List<ChannelDetails> mListOfChannelDetails = new ArrayList<ChannelDetails>();
@@ -38,23 +35,14 @@ public class AlgorithmDetails implements Serializable {
     //TODO implement below - first stop -> activity module for determining if any accel is enabled
     public SENSOR_CHECK_METHOD mSensorCheckMethod = SENSOR_CHECK_METHOD.ALL;
 
-    /**
-     * @param listOfRequiredSensors
-     * @param units
-     */
-    public AlgorithmDetails(List<Integer> listOfRequiredSensors, String units) {
+        public AlgorithmDetails(List<Integer> listOfRequiredSensors, String units) {
         if (listOfRequiredSensors != null) {
             mListOfRequiredSensors = listOfRequiredSensors;
         }
         mUnits = units;
     }
 
-    /**
-     * @param listOfRequiredSensors
-     * @param units
-     * @param sensorCheckMethod
-     */
-    public AlgorithmDetails(
+        public AlgorithmDetails(
             List<Integer> listOfRequiredSensors,
             String units,
             SENSOR_CHECK_METHOD sensorCheckMethod) {
@@ -64,16 +52,7 @@ public class AlgorithmDetails implements Serializable {
 
     //TODO this constructor is only used in the example -> remove?
 
-    /**
-     * @param objectClusterName
-     * @param guiFriendlyName
-     * @param listOfAssociatedSensorChannels
-     * @param groupName
-     * @param listOfDerivedSensorBitmapId
-     * @param listOfRequiredSensors
-     * @param units
-     */
-    public AlgorithmDetails(
+        public AlgorithmDetails(
             String objectClusterName,
             String guiFriendlyName,
             List<String> listOfAssociatedSensorChannels,
@@ -104,16 +83,7 @@ public class AlgorithmDetails implements Serializable {
         mListOfChannelDetails.add(generateChannelDetails());
     }
 
-    /**
-     * @param objectClusterName
-     * @param guiFriendlyName
-     * @param listOfAssociatedSensorChannels
-     * @param derivedSensorBitmapId
-     * @param listOfRequiredSensors
-     * @param units
-     * @param listOfAlgortihmChannels
-     */
-    public AlgorithmDetails(
+        public AlgorithmDetails(
             String objectClusterName,
             String guiFriendlyName,
             List<String> listOfAssociatedSensorChannels,
@@ -145,18 +115,7 @@ public class AlgorithmDetails implements Serializable {
         mListOfChannelDetails = listOfAlgortihmChannels;
     }
 
-    /**
-     * Just used in PPGtoHR
-     *
-     * @param objectClusterName
-     * @param guiFriendlyName
-     * @param listOfAssociatedSensorChannels
-     * @param derivedSensorBitmapId
-     * @param listOfCompatibleExpBoards
-     * @param listOfRequiredSensors
-     * @param units
-     */
-    public AlgorithmDetails(
+        public AlgorithmDetails(
             String objectClusterName,
             String guiFriendlyName,
             List<String> listOfAssociatedSensorChannels,

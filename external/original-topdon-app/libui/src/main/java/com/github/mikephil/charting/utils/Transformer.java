@@ -14,23 +14,11 @@ import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 
 import java.util.List;
 
-/**
- * Transformer class that contains all matrices and is responsible for
- * transforming values into pixels on the screen and backwards.
- *
- * @author Philipp Jahoda
- */
 public class Transformer {
 
-    /**
-     * matrix to map the values to the screen pixels
-     */
-    protected Matrix mMatrixValueToPx = new Matrix();
+        protected Matrix mMatrixValueToPx = new Matrix();
 
-    /**
-     * matrix for handling the different offsets of the chart
-     */
-    protected Matrix mMatrixOffset = new Matrix();
+        protected Matrix mMatrixOffset = new Matrix();
 
     protected ViewPortHandler mViewPortHandler;
     protected float[] valuePointsForGenerateTransformedValuesScatter = new float[1];
@@ -38,10 +26,7 @@ public class Transformer {
     protected float[] valuePointsForGenerateTransformedValuesLine = new float[1];
     protected float[] valuePointsForGenerateTransformedValuesCandle = new float[1];
     protected Matrix mPixelToValueMatrixBuffer = new Matrix();
-    /**
-     * buffer for performance
-     */
-    float[] ptsBuffer = new float[2];
+        float[] ptsBuffer = new float[2];
     private Matrix mMBuffer1 = new Matrix();
     private Matrix mMBuffer2 = new Matrix();
 
@@ -49,16 +34,7 @@ public class Transformer {
         this.mViewPortHandler = viewPortHandler;
     }
 
-    /**
-     * Prepares the matrix that transforms values to pixels. Calculates the
-     * scale factors from the charts size and offsets.
-     *
-     * @param xChartMin
-     * @param deltaX
-     * @param deltaY
-     * @param yChartMin
-     */
-    public void prepareMatrixValuePx(float xChartMin, float deltaX, float deltaY, float yChartMin) {
+        public void prepareMatrixValuePx(float xChartMin, float deltaX, float deltaY, float yChartMin) {
 
         float scaleX = (float) ((mViewPortHandler.contentWidth()) / deltaX);
         float scaleY = (float) ((mViewPortHandler.contentHeight()) / deltaY);
@@ -76,12 +52,7 @@ public class Transformer {
         mMatrixValueToPx.postScale(scaleX, -scaleY);
     }
 
-    /**
-     * Prepares the matrix that contains all offsets.
-     *
-     * @param inverted
-     */
-    public void prepareMatrixOffset(boolean inverted) {
+        public void prepareMatrixOffset(boolean inverted) {
 
         mMatrixOffset.reset();
 
@@ -97,14 +68,7 @@ public class Transformer {
         }
     }
 
-    /**
-     * Transforms an List of Entry into a float array containing the x and
-     * y values transformed with all matrices for the SCATTERCHART.
-     *
-     * @param data
-     * @return
-     */
-    public float[] generateTransformedValuesScatter(IScatterDataSet data, float phaseX,
+        public float[] generateTransformedValuesScatter(IScatterDataSet data, float phaseX,
                                                     float phaseY, int from, int to) {
 
         final int count = (int) ((to - from) * phaseX + 1) * 2;
@@ -132,14 +96,7 @@ public class Transformer {
         return valuePoints;
     }
 
-    /**
-     * Transforms an List of Entry into a float array containing the x and
-     * y values transformed with all matrices for the BUBBLECHART.
-     *
-     * @param data
-     * @return
-     */
-    public float[] generateTransformedValuesBubble(IBubbleDataSet data, float phaseY, int from, int to) {
+        public float[] generateTransformedValuesBubble(IBubbleDataSet data, float phaseY, int from, int to) {
 
         final int count = (to - from + 1) * 2; // (int) Math.ceil((to - from) * phaseX) * 2;
 
@@ -166,14 +123,7 @@ public class Transformer {
         return valuePoints;
     }
 
-    /**
-     * Transforms an List of Entry into a float array containing the x and
-     * y values transformed with all matrices for the LINECHART.
-     *
-     * @param data
-     * @return
-     */
-    public float[] generateTransformedValuesLine(ILineDataSet data,
+        public float[] generateTransformedValuesLine(ILineDataSet data,
                                                  float phaseX, float phaseY,
                                                  int min, int max) {
         //TODO java.lang.NegativeArraySizeException: -434

@@ -7,14 +7,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * TimedOutByteWriting : the class to perform the writing timeout.
- *
- * @author Bastien Aracil
- * <p>
- * https://stackoverflow.com/questions/20034470/jssc-serial-connection-set-write-timeout/37076508#37076508
- *
- */
 class TimedOutByteWriting {
 
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(r -> {

@@ -50,12 +50,7 @@ public class EnableLowPowerModeDialog {
 
     }
 
-    /**
-     * Call this to initialize and display the dialog.
-     *
-     * @wbp.parser.entryPoint
-     */
-    public void showDialog() {
+        public void showDialog() {
         createFrame();
         createWriteButton();
         initialize();

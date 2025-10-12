@@ -21,13 +21,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_ENDIAN;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 
-/**
- * Sensor class for the Bridge Amplifier which includes the BridgeAm High & Low
- * channels, the Philips skin temperature probe and the resistance amplifier
- *
- * @author Ronan McCormack
- * @author Mark Nolan
- */
 public class SensorBridgeAmp extends AbstractSensor {
 
     //--------- Sensor info start --------------
@@ -117,10 +110,7 @@ public class SensorBridgeAmp extends AbstractSensor {
             LABEL_SENSOR_TILE.BRIDGE_AMPLIFIER_SUPP,
             Arrays.asList(Configuration.Shimmer3.SENSOR_ID.HOST_SKIN_TEMPERATURE_PROBE),
             CompatibilityInfoForMaps.listOfCompatibleVersionInfoBrAmp);
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3440151728338729991L;
+        private static final long serialVersionUID = 3440151728338729991L;
 
     //--------- Sensor specific variables End --------------
 
@@ -193,12 +183,7 @@ public class SensorBridgeAmp extends AbstractSensor {
     }
 
 
-    /**
-     * Constructor for this Sensor
-     *
-     * @param svo
-     */
-    public SensorBridgeAmp(ShimmerVerObject svo) {
+        public SensorBridgeAmp(ShimmerVerObject svo) {
         super(SENSORS.Bridge_Amplifier, svo);
         initialise();
     }
@@ -219,17 +204,7 @@ public class SensorBridgeAmp extends AbstractSensor {
         return calData;
     }
 
-    /**
-     * SEE Bridge Amplifer+ User Manual for Details
-     * <p>
-     * y = -27.42ln(x) + 56.502
-     * where y = temperature in degC
-     * where x = (200*Vo)/((10.1)Pv-Vo)
-     * where Pv = 3000mV
-     * where Vo = Uncalibrated output of the resistance amplifier channel
-     *
-     */
-    public static double calibratePhillipsSkinTemperatureData(double uncalibratedData) {
+        public static double calibratePhillipsSkinTemperatureData(double uncalibratedData) {
         double x = (200.0 * uncalibratedData) / ((10.1) * 3000 - uncalibratedData);
         double y = -27.42 * Math.log(x) + 56.502;
         return y;

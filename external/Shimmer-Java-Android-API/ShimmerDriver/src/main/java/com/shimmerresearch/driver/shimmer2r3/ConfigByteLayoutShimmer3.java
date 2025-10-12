@@ -11,23 +11,9 @@ import com.shimmerresearch.driverUtilities.ShimmerVerDetails.FW_ID;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 import com.shimmerresearch.driverUtilities.ShimmerVerObject;
 
-/**
- * Hold the Shimmer3's microcontroller information memory layout. This region of
- * the the microcontrollers RAM can be used to configure all properties of the
- * Shimmer when configured through a docking station using Consensys. Variables
- * stored in this class are based on firmware header files for mapping which
- * bits in each information memory byte represents various configurable settings
- * on the Shimmer.
- *
- * @author Mark Nolan
- *
- */
 public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -5729543049033754281L;
+        private static final long serialVersionUID = -5729543049033754281L;
 
     public int maxNumOfExperimentNodes = 21;
 
@@ -307,21 +293,7 @@ public class ConfigByteLayoutShimmer3 extends ConfigByteLayout implements Serial
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * Hold the Shimmer3's microcontroller information memory layout. This
-     * region of the the microcontrollers RAM can be used to configure all
-     * properties of the Shimmer when configured through a docking station using
-     * Consensys. Variables stored in this class are based on firmware header
-     * files for mapping which bits in each information memory byte represents
-     * various configurable settings on the Shimmer.
-     *
-     * @param firmwareIdentifier
-     * @param firmwareVersionMajor
-     * @param firmwareVersionMinor
-     * @param firmwareVersionInternal
-     * @param hardwareVersion
-     */
-    public ConfigByteLayoutShimmer3(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal, int hardwareVersion) {
+        public ConfigByteLayoutShimmer3(int firmwareIdentifier, int firmwareVersionMajor, int firmwareVersionMinor, int firmwareVersionInternal, int hardwareVersion) {
         mShimmerVerObject = new ShimmerVerObject(hardwareVersion, firmwareIdentifier, firmwareVersionMajor, firmwareVersionMinor, firmwareVersionInternal);
 
         mInfoMemSize = calculateConfigByteLength();

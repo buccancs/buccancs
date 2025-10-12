@@ -7,21 +7,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-/**
- *
- * @author Ashish Lal
- */
 
-/**
- * HOW TO USE_(Compression)
- * String stringToCompress = "My String to Compress";
- * byte[] bytesCompressed = compressor.compress(stringToCompress);
- * <p>
- * Decompression
- * String stringDecompressed = compressor.decompressToString(bytesCompressed);
- * <p>
- * https://gist.github.com/ashmeh6/eaf7dafb1045587514b9d20e44621b5a
- */
 public class Compressor {
 
     public Compressor() {

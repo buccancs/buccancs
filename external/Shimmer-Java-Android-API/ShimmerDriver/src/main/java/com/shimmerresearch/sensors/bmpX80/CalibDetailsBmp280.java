@@ -3,21 +3,9 @@ package com.shimmerresearch.sensors.bmpX80;
 import com.shimmerresearch.driverUtilities.UtilParseData;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 
-/**
- * BMP280 Calibration details based on information from sensor datasheet
- * https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMP280-DS001-18.pdf
- * and sample parsing code from
- * https://github.com/ControlEverythingCommunity/BMP280/blob/master/Java/BMP280.java
- *
- * @author Mark Nolan
- *
- */
 public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3020209119724202014L;
+        private static final long serialVersionUID = 3020209119724202014L;
     public double dig_T1 = DEFAULT_COMPENSATION_VALUES.DIG_T1;
     public double dig_T2 = DEFAULT_COMPENSATION_VALUES.DIG_T2;
     public double dig_T3 = DEFAULT_COMPENSATION_VALUES.DIG_T3;
@@ -99,10 +87,7 @@ public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
         this.dig_P9 = P9;
     }
 
-    /* (non-Javadoc)
-     * @see com.shimmerresearch.sensors.bmpX80.CalibDetailsBmpX80#calibratePressureSensorData(double, double)
-     */
-    @Override
+        @Override
     public double[] calibratePressureSensorData(double UP, double UT) {
         double adc_T = UT;
         double adc_P = UP;

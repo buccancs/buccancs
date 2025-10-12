@@ -146,12 +146,7 @@ public class UtilChart2D {
 //						strokeOld.getLineWidth(),
 //						DEFAULT_LINE_THICKNESS,
                         BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1, 2}, 0);
-						/*new BasicStroke(stroke.getLineWidth(),
-								BasicStroke.CAP_ROUND,
-								BasicStroke.JOIN_ROUND,
-								3.0f, dash1, 0.0f);
-								*/
-                trace.setStroke(strokeNew);
+						                trace.setStroke(strokeNew);
             }
         } else if (plotLineStyle == PLOT_LINE_STYLE.BAR) {
             trace.setTracePainter(new TracePainterVerticalBar(chart));

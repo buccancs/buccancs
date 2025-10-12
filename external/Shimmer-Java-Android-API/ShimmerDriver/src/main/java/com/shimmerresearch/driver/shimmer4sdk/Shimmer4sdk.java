@@ -467,20 +467,14 @@ public class Shimmer4sdk extends ShimmerDevice {
 
     // ----------------- BT LiteProtocolInstructionSet Start ------------------
 
-    /**
-     * @param commsRadio
-     */
-    @Override
+        @Override
 //	public void setRadio(AbstractSerialPortHal commsProtocolRadio) {
     public void setCommsProtocolRadio(CommsProtocolRadio commsProtocolRadio) {
         super.setCommsProtocolRadio(commsProtocolRadio);
         initializeRadio();
     }
 
-    /**
-     *
-     */
-    private void initializeRadio() {
+        private void initializeRadio() {
         setIsInitialised(false);
         if (mCommsProtocolRadio != null) { // the radio instance should be declared on a higher level and not in this class
             mCommsProtocolRadio.addRadioListener(new RadioListener() {
@@ -1006,10 +1000,7 @@ public class Shimmer4sdk extends ShimmerDevice {
 
     // ----------------- BT LiteProtocolInstructionSet End ------------------
 
-    /**
-     * @param ojc
-     */
-    protected void dataHandler(ObjectCluster ojc) {
+        protected void dataHandler(ObjectCluster ojc) {
         mDeviceCallbackAdapter.dataHandler(ojc);
     }
 
@@ -1019,10 +1010,7 @@ public class Shimmer4sdk extends ShimmerDevice {
         mDeviceCallbackAdapter.sendCallbackPacketReceptionRateCurrent();
     }
 
-    /**
-     * @param pRPC
-     */
-    protected void sendProgressReport(BluetoothProgressReportPerCmd pRPC) {
+        protected void sendProgressReport(BluetoothProgressReportPerCmd pRPC) {
         mDeviceCallbackAdapter.sendProgressReport(pRPC);
     }
 
@@ -1071,17 +1059,11 @@ public class Shimmer4sdk extends ShimmerDevice {
     }
 
 
-    /**
-     * @return the mButtonStart
-     */
-    public boolean isButtonStart() {
+        public boolean isButtonStart() {
         return mButtonStart;
     }
 
-    /**
-     * @param state the mButtonStart state to set
-     */
-    public void setButtonStart(boolean state) {
+        public void setButtonStart(boolean state) {
         mButtonStart = state;
     }
 

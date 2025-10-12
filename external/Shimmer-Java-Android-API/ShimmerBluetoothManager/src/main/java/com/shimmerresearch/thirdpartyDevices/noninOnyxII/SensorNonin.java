@@ -66,10 +66,7 @@ public class SensorNonin extends AbstractSensor {
             false,
             false);
     public static final Map<String, ChannelDetails> mChannelMapRef;
-    /**
-     *
-     */
-    private static final long serialVersionUID = 5484199933550381154L;
+        private static final long serialVersionUID = 5484199933550381154L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();

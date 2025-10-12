@@ -153,8 +153,7 @@ abstract class TemperatureBaseView : View {
         yScale = measuredHeight.toFloat() / imageHeight
     }
 
-    /* ******************************************** Draw ******************************************** */
-    protected fun drawPoint(canvas: Canvas, point: Point) {
+        protected fun drawPoint(canvas: Canvas, point: Point) {
         helper.drawPoint(canvas, point.x, point.y)
     }
     protected fun drawLine(canvas: Canvas, line: Line) {

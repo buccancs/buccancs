@@ -53,9 +53,6 @@ import com.topdon.lib.ui.widget.LiteSurfaceView;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-/**
- * Created by fengjibo on 2023/3/17.
- */
 public class CameraPreviewManager {
 
     private static CameraPreviewManager mInstance;
@@ -166,17 +163,7 @@ public class CameraPreviewManager {
 
         mSurfaceNativeWindow = new SurfaceNativeWindow();
         mIIrFrameCallback = new IIrFrameCallback() {
-            /**
-             * 数据流回调
-             * 根据设置的出图格式setFrameOutputFormat，处理数据流数据
-             * @param frame 数据源
-             * YUYV_IMAGE_OUTPUT(0)：图像 YUYV；分辨率 256*192； 每帧数据大小（字节）256*192*2=98304
-             * NV12_IMAGE_OUTPUT(1)：图像 NV12；分辨率 256*192； 每帧数据大小（字节）256*192*1.5=73782
-             * NV12_AND_TEMP_OUTPUT(2)：图像 NV12+信息行+温度Y16；分辨率 256*386； 每帧数据大小（字节）256*192*1.5+256*2*2+256*192*2=173110
-             * YUYV_AND_TEMP_OUTPUT(0)：图像 YUYV+信息行+温度Y16；分辨率 256*386； 每帧数据大小（字节）256*192*2+256*2*2+256*192*2=197632
-             * @param length 数据总长度
-             */
-            @Override
+                        @Override
             public void onFrame(byte[] frame, int length) {
                 try {
                     if (mFramePause) {
@@ -263,10 +250,7 @@ public class CameraPreviewManager {
                                             PseudocodeUtils.INSTANCE.changePseudocodeModeByOld(1), mIrARGBData);
                                 }
                                 irImageHelp.customPseudoColor(mIrARGBData, mTempData, mPreviewWidth, mPreviewHeight);
-                                /*
-                                 * 等温尺处理,展示伪彩的温度范围内信息
-                                 */
-                                irImageHelp.setPseudoColorMaxMin(mIrARGBData, mTempData, max, min, mPreviewWidth, mPreviewHeight);
+                                                                irImageHelp.setPseudoColorMaxMin(mIrARGBData, mTempData, max, min, mPreviewWidth, mPreviewHeight);
                                 mIrARGBData = irImageHelp.contourDetection(alarmBean,
                                         mIrARGBData, mTempData, mPreviewWidth, mPreviewHeight);
                             }

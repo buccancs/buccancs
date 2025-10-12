@@ -1,47 +1,3 @@
-/**
- * 10th March 2014
- * =======
- * /* Rev 0.2
- * <p>
- * Copyright (c) 2010, Shimmer Research, Ltd.
- * All rights reserved
- * <p>
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- * <p>
- * * Redistributions of source code must retain the above copyright
- * notice, this list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above
- * copyright notice, this list of conditions and the following
- * disclaimer in the documentation and/or other materials provided
- * with the distribution.
- * * Neither the name of Shimmer Research, Ltd. nor the names of its
- * contributors may be used to endorse or promote products derived
- * from this software without specific prior written permission.
- * <p>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Cathy Swanton
- * @date March, 2014
- * <p>
- * <p>
- * Changes since 0.1
- * >>>>>>> refs/remotes/origin/master
- * - moved JFileChooser to UI
- * - added fileName to method input arguments
- * - removed static variables
- */
 
 package com.shimmerresearch.tools;
 
@@ -69,10 +25,7 @@ public class LoggingPC {
     File outputFile;
     String mDelimiter = ","; //default is comma
 
-    /**
-     * @param myName is the file name which will be used (e.g. data.csv),csv extension added if filename is added if non is found
-     */
-    public LoggingPC(String fileName) {
+        public LoggingPC(String fileName) {
 
         mFileName = fileName;
         if (mFileName.contains(".csv")) {
@@ -108,12 +61,7 @@ public class LoggingPC {
     }
 
 
-    /**
-     * This function takes an object cluster and logs all the data within it. User should note that the function will write over prior files with the same name.
-     *
-     * @param objectClusterLog data which will be written into the file
-     */
-    public void logData(ObjectCluster objectCluster) {
+        public void logData(ObjectCluster objectCluster) {
         ObjectCluster objectClusterLog = objectCluster;
         try {
 
@@ -208,12 +156,7 @@ public class LoggingPC {
         }
     }
 
-    /**
-     * This function takes an object cluster and logs all the data within it. User should note that the function will write over prior files with the same name.
-     *
-     * @param objectClusterLog data which will be written into the file
-     */
-    public void logFilteredData(ObjectCluster objectCluster, double[] exg1_24bit, double[] exg2_24bit, double[] exg1_16bit, double[] exg2_16bit) {
+        public void logFilteredData(ObjectCluster objectCluster, double[] exg1_24bit, double[] exg2_24bit, double[] exg1_16bit, double[] exg2_16bit) {
         ObjectCluster objectClusterLog = objectCluster;
         try {
 

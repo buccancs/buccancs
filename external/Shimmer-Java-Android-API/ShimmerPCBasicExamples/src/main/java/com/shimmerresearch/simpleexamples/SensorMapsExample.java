@@ -93,12 +93,7 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
         //s.setWaitForData(shimmer);
     }
 
-    /**
-     * Initialize the contents of the frame
-     *
-     * @wbp.parser.entryPoint
-     */
-    public void initialize() {
+        public void initialize() {
         frame = new JFrame("Shimmer SensorMaps Example");
         frame.setBounds(100, 100, 1200, 591);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

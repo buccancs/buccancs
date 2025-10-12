@@ -48,12 +48,7 @@ public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
 
     }
 
-    /**
-     * Call this to initialize and display the dialog.
-     *
-     * @wbp.parser.entryPoint
-     */
-    public void showDialog() {
+        public void showDialog() {
         //Filter out the sensors we don't want before initializing the dialog:
         List<Integer> sensorKeysToFilter = new ArrayList<Integer>();
         sensorKeysToFilter.add(Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY);

@@ -23,14 +23,6 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.List;
 
-/**
- * Utilities class that has some helper methods. Needs to be initialized by
- * calling Utils.init(...) before usage. Inside the Chart.init() method, this is
- * done, if the Utils are used before that, Utils.init(...) needs to be called
- * manually.
- *
- * @author Philipp Jahoda
- */
 public abstract class Utils {
 
     public final static double DEG2RAD = (Math.PI / 180.0);
@@ -39,11 +31,7 @@ public abstract class Utils {
     public final static double DOUBLE_EPSILON = Double.longBitsToDouble(1);
     @SuppressWarnings("unused")
     public final static float FLOAT_EPSILON = Float.intBitsToFloat(1);
-    /**
-     * Math.pow(...) is very expensive, so avoid calling it and create it
-     * yourself.
-     */
-    private static final int POW_10[] = {
+        private static final int POW_10[] = {
             1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
     };
     private static DisplayMetrics mMetrics;
@@ -57,12 +45,7 @@ public abstract class Utils {
     private static Rect mDrawTextRectBuffer = new Rect();
     private static Paint.FontMetrics mFontMetricsBuffer = new Paint.FontMetrics();
 
-    /**
-     * initialize method, called inside the Chart.init() method.
-     *
-     * @param context
-     */
-    @SuppressWarnings("deprecation")
+        @SuppressWarnings("deprecation")
     public static void init(Context context) {
 
         if (context == null) {
@@ -84,13 +67,7 @@ public abstract class Utils {
         }
     }
 
-    /**
-     * initialize method, called inside the Chart.init() method. backwards
-     * compatibility - to not break existing code
-     *
-     * @param res
-     */
-    @Deprecated
+        @Deprecated
     public static void init(Resources res) {
 
         mMetrics = res.getDisplayMetrics();
@@ -101,16 +78,7 @@ public abstract class Utils {
         mMaximumFlingVelocity = ViewConfiguration.getMaximumFlingVelocity();
     }
 
-    /**
-     * This method converts dp unit to equivalent pixels, depending on device
-     * density. NEEDS UTILS TO BE INITIALIZED BEFORE USAGE.
-     *
-     * @param dp A value in dp (density independent pixels) unit. Which we need
-     *           to convert into pixels
-     * @return A float value to represent px equivalent to dp depending on
-     * device density
-     */
-    public static float convertDpToPixel(float dp) {
+        public static float convertDpToPixel(float dp) {
 
         if (mMetrics == null) {
 
@@ -124,14 +92,7 @@ public abstract class Utils {
         return dp * mMetrics.density;
     }
 
-    /**
-     * This method converts device specific pixels to density independent
-     * pixels. NEEDS UTILS TO BE INITIALIZED BEFORE USAGE.
-     *
-     * @param px A value in px (pixels) unit. Which we need to convert into db
-     * @return A float value to represent dp equivalent to px value
-     */
-    public static float convertPixelsToDp(float px) {
+        public static float convertPixelsToDp(float px) {
 
         if (mMetrics == null) {
 
@@ -145,27 +106,11 @@ public abstract class Utils {
         return px / mMetrics.density;
     }
 
-    /**
-     * calculates the approximate width of a text, depending on a demo text
-     * avoid repeated calls (e.g. inside drawing methods)
-     *
-     * @param paint
-     * @param demoText
-     * @return
-     */
-    public static int calcTextWidth(Paint paint, String demoText) {
+        public static int calcTextWidth(Paint paint, String demoText) {
         return (int) paint.measureText(demoText);
     }
 
-    /**
-     * calculates the approximate height of a text, depending on a demo text
-     * avoid repeated calls (e.g. inside drawing methods)
-     *
-     * @param paint
-     * @param demoText
-     * @return
-     */
-    public static int calcTextHeight(Paint paint, String demoText) {
+        public static int calcTextHeight(Paint paint, String demoText) {
 
         Rect r = mCalcTextHeightRect;
         r.set(0, 0, 0, 0);
@@ -191,31 +136,14 @@ public abstract class Utils {
         return fontMetrics.ascent - fontMetrics.top + fontMetrics.bottom;
     }
 
-    /**
-     * Returns a recyclable FSize instance.
-     * calculates the approximate size of a text, depending on a demo text
-     * avoid repeated calls (e.g. inside drawing methods)
-     *
-     * @param paint
-     * @param demoText
-     * @return A Recyclable FSize instance
-     */
-    public static FSize calcTextSize(Paint paint, String demoText) {
+        public static FSize calcTextSize(Paint paint, String demoText) {
 
         FSize result = FSize.getInstance(0, 0);
         calcTextSize(paint, demoText, result);
         return result;
     }
 
-    /**
-     * calculates the approximate size of a text, depending on a demo text
-     * avoid repeated calls (e.g. inside drawing methods)
-     *
-     * @param paint
-     * @param demoText
-     * @param outputFSize An output variable, modified by the function.
-     */
-    public static void calcTextSize(Paint paint, String demoText, FSize outputFSize) {
+        public static void calcTextSize(Paint paint, String demoText, FSize outputFSize) {
 
         Rect r = mCalcTextSizeRect;
         r.set(0, 0, 0, 0);
@@ -234,31 +162,11 @@ public abstract class Utils {
         return mDefaultValueFormatter;
     }
 
-    /**
-     * Formats the given number to the given number of decimals, and returns the
-     * number as a string, maximum 35 characters. If thousands are separated, the separating
-     * character is a dot (".").
-     *
-     * @param number
-     * @param digitCount
-     * @param separateThousands set this to true to separate thousands values
-     * @return
-     */
-    public static String formatNumber(float number, int digitCount, boolean separateThousands) {
+        public static String formatNumber(float number, int digitCount, boolean separateThousands) {
         return formatNumber(number, digitCount, separateThousands, '.');
     }
 
-    /**
-     * Formats the given number to the given number of decimals, and returns the
-     * number as a string, maximum 35 characters.
-     *
-     * @param number
-     * @param digitCount
-     * @param separateThousands set this to true to separate thousands values
-     * @param separateChar      a caracter to be paced between the "thousands"
-     * @return
-     */
-    public static String formatNumber(float number, int digitCount, boolean separateThousands,
+        public static String formatNumber(float number, int digitCount, boolean separateThousands,
                                       char separateChar) {
 
         char[] out = new char[35];
@@ -338,13 +246,7 @@ public abstract class Utils {
         return String.valueOf(out, start, out.length - start);
     }
 
-    /**
-     * rounds the given number to the next significant number
-     *
-     * @param number
-     * @return
-     */
-    public static float roundToNextSignificant(double number) {
+        public static float roundToNextSignificant(double number) {
         if (Double.isInfinite(number) ||
                 Double.isNaN(number) ||
                 number == 0.0)
@@ -357,14 +259,7 @@ public abstract class Utils {
         return shifted / magnitude;
     }
 
-    /**
-     * Returns the appropriate number of decimals to be used for the provided
-     * number.
-     *
-     * @param number
-     * @return
-     */
-    public static int getDecimals(float number) {
+        public static int getDecimals(float number) {
 
         float i = roundToNextSignificant(number);
 
@@ -374,13 +269,7 @@ public abstract class Utils {
         return (int) Math.ceil(-Math.log10(i)) + 2;
     }
 
-    /**
-     * Converts the provided Integer List to an int array.
-     *
-     * @param integers
-     * @return
-     */
-    public static int[] convertIntegers(List<Integer> integers) {
+        public static int[] convertIntegers(List<Integer> integers) {
 
         int[] ret = new int[integers.size()];
 
@@ -396,13 +285,7 @@ public abstract class Utils {
         }
     }
 
-    /**
-     * Converts the provided String List to a String array.
-     *
-     * @param strings
-     * @return
-     */
-    public static String[] convertStrings(List<String> strings) {
+        public static String[] convertStrings(List<String> strings) {
 
         String[] ret = new String[strings.size()];
 
@@ -420,14 +303,7 @@ public abstract class Utils {
         }
     }
 
-    /**
-     * Replacement for the Math.nextUp(...) method that is only available in
-     * HONEYCOMB and higher. Dat's some seeeeek sheeet.
-     *
-     * @param d
-     * @return
-     */
-    public static double nextUp(double d) {
+        public static double nextUp(double d) {
         if (d == Double.POSITIVE_INFINITY)
             return d;
         else {

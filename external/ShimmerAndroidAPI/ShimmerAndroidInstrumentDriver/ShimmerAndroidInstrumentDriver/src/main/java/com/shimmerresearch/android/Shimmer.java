@@ -1,134 +1,4 @@
 //Rev_1.7
-/*
- * Copyright (c) 2010 - 2014, Shimmer Research, Ltd.
- * All rights reserved
-
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
-
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Jong Chern Lim, Ruaidhri Molloy
- * @date   October, 2013
- *
- * Changes since 1.6
- * - cancel timers for log and stream upon disconnect
- *
- * Changes since 1.5.1
- * - move response time out to ShimmerBluetooth
- *
- * Changes since 1.5 (12 May 2014, RM first revision)
- * - Addition of Strain Gauge for Shimmer3
- *
- *  Changes since beta 1.4
- *  - updated lowbattindicator for Shimmer2r
- *
- *  Changes since beta 1.3.1 (17 Oct 2013)
- *  - added get method for mPressureResolution
- *  - updated the smart accel mode, which was over complicating things, right now there are two modes, smart accel mode will include 'Accelerometer X'. 'Accelerometer X' is picked based on which accelerometer meets the defined range and has the lowest noise. For backward compatibility users are advised to use Smart Mode. Normal_Mode will not add 'Accelerometer X'.
- *  - fixed boolean indicator for gyro on the fly method
- *  - fixed getListofEnabledSensors method
- *  - fixed decimalformat which was returning commas for decimal points for certain regions/locale
- *  - fixed a bug when using max number of sensors on Shimmer3
- *  - updated initialize2r method which was not reading the magrange
- *  - fixed a bug with the pressure sensor calibration parameters
- *  - rename NORMAL_MODE to ACCEL_NORMAL_MODE
- *  - added support for Shimmer3 GSR
- *  - minor fix to ACCEL_NORMAL_MODE
- *  - added rawdata and systemtimestamp to objectcluster
- *  - add option to disable the calibration of data, see function enableCalibration()
- *  - removed mgetdatainstructions, not used for anything
- *  - added support for saving and retrieving rawcalibrationparams, should only be used after connected to a device
- *  - updated various variables to protected so it can be inherited
- *  - switch logfile id to mClassName from "Shimmer"
- *  - fixed initialize Shimmer3, maggain and gyrorange being set wrongly
- *  - Shimmer3 GSR support
- *  - Updated the structure to allow future addons (.eg. ShimmerFile , ShimmerBTLE, Shimmer802_15_4) which will all inherit ShimmerObject, also will allow exporting the code to non andoid use, users will just have to remove Shimmer.java which has the Android related code
- *  - Support for internal exp power (Shimmer3) added
- *
- *  Changes since beta 1.2 (14 Oct 2013)
- *  - added support read data for Shimmer3 pressure sensor
- *  - added support to set pressure resolution
- *
- *  Changes since beta 1.1.3 (10 Oct 2013)
- *  - updated to work with Boilerplate and to fix a bug with version control as there is BTStream 0.1.0 and Boilerplate 0.1.0
- *  - minor change to comments
- *  - fixed twos complement function
- *
- *  Changes since beta 1.1.2 (1 Oct 2013)
- *  - mag gain command implemented for Shimmer2
- *
- *  Changes since beta 1.1.1 (17 July 2013)
- *  -
- *  - added support for dual accelerometer mode for Shimmer 3
- *  - updated wide range accel from i12> to i16 and updated default calibration values
- *
- *  Changes since beta 1.0.2 (17 July 2013)
- *  - started integration with Shimmer 3, major changes include the use of i16* now. This indicates array of bytes where MSB is on the far left/smallest index number of the array.
- *  - minor fix to the stop streaming command, causing it to block the inputstream, and not being able to clear the bytes from minstream
- *  - added default calibration parameters for Shimmer 3
- *  - added functionality for internal and external adc
- *  - added new constructor to support setup device on connect (Shimmer 3)
- *
- * Changes since beta 1.0.1 (20 June 2013)
- * - Fix the no response bug, through the use of the function dummyreadSamplingRate()
- * - Updates to allow operation with Boilerplate
- * - add get functions for lower power mag and gyro cal on the fly
- *
- * Changes since beta 1.0 (21 May 2013)
- * - Added support for on the fly gyro offset calibration
- * - Added quartenions
- * - Convert to an instruction stack format, no longer supports Boilerplate
- *
- * Changes since beta 0.9 (1 January 2013)
- *
- * - Packet Reception Rate is now provided, whenever a packet loss detected a message is sent via handler, see MESSAGE_PACKET_LOSS_DETECTED
- * - Changed Accel cal parameters
- * - Added default cal parameters for the other accel ranges, if default accel range is being used, changing the accel range will change the defaults automatically as well
- * - Revised the GSR calibration method, now uses a linear fit
- * - Batt Voltage Monitoring
- * - Sensor Conflict checks, have to wire the handler in order to see the msgs
- * - Bug fix, timer wasnt triggering when waiting for response which was not received, causing the driver to get stuck in a loop
- * - Added retrieve all,ecg & emg calibration parameters, only works with Boilerplate >= 1.0
- * - Rearranged the data reception section, to accommodate for in streaming ack detection
- * - Added uncalibrated heart rate, which is a pulse now, with the value being the time difference between the last pulse and the current one
- * - Updated the name of the formats, units and property names, so as to stay consistent with the rest of the instrument drivers
- * - Low Battery Voltage warning at 3.4V where LED turns yellow
- * - Added Packet Reception Rate monitoring
- * - Added MESSAGE_NOT_SYNC for MSS support
- * - Updated the initialization process, if a connection fails during the initialization process, disconnect is done immediately
- * - Update Toggle LED
- * - Switched to the use of createInsecureRfcommSocketToServiceRecord
- * - ECG and EMG units have a * (mVolts*) as an indicator when default parameters are used
- * - SR 30 support
- * - Orientation
- * - Support for low and high power Mag (high power == high sampling rate Mag)
- * - Support for different mag range
- * - Updated the execution model when transmitting commands, now uses a thread, and will improve Main UI thread latency
-
- * */
 
 package com.shimmerresearch.android;
 
@@ -184,11 +54,7 @@ import it.gerdavax.easybluetooth.RemoteDevice;
 //import java.io.FileOutputStream;
 
 public class Shimmer extends ShimmerBluetooth {
-    /**
-     *
-     * @deprecated This MSG are now in ShimmerBluetooth, the values have been changed to match those in ShimmerBluetooth
-     */
-    @Deprecated
+        @Deprecated
     public static final int MESSAGE_STATE_CHANGE = 0; //changed to 0 to match Shimmer Bluetooth, this messages should no longer be used but kept for backward compatibility
     // Message types sent from the Shimmer Handler
     @Deprecated
@@ -240,12 +106,7 @@ public class Shimmer extends ShimmerBluetooth {
         setUseInfoMemConfigMethod(true);
     }
 
-    /**
-     * This constructor is for applications that only require one Handler.
-     *
-     * @param handler add handler to receive msgs from the shimmer class
-     */
-    public Shimmer(Handler handler, Context context) {
+        public Shimmer(Handler handler, Context context) {
         super();
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mBluetoothRadioState = BT_STATE.DISCONNECTED;
@@ -256,13 +117,7 @@ public class Shimmer extends ShimmerBluetooth {
         mContext = context;
     }
 
-    /**
-     * This constructor is for applications requiring more than one Handler so as to receive the msg
-     * in multiple threads.
-     *
-     * @param handlerList this is an ArrayList containing multiple Handlers
-     */
-    public Shimmer(ArrayList<Handler> handlerList, Context context) {
+        public Shimmer(ArrayList<Handler> handlerList, Context context) {
         super();
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mBluetoothRadioState = BT_STATE.DISCONNECTED;
@@ -272,12 +127,7 @@ public class Shimmer extends ShimmerBluetooth {
         mContext = context;
     }
 
-    /**
-     *
-     * @deprecated Do not use this method!
-     * myName will not be set as the shimmer user assigned name
-     */
-    @Deprecated
+        @Deprecated
     public Shimmer(Handler handler, String myName, Boolean continousSync) {
         super();
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -289,12 +139,7 @@ public class Shimmer extends ShimmerBluetooth {
         mUseProcessingThread = true;
     }
 
-    /**
-     *
-     * @deprecated Do not use this method!
-     * myName will not be set as the shimmer user assigned name
-     */
-    @Deprecated
+        @Deprecated
     public Shimmer(Context context, Handler handler, String myName, Boolean continousSync) {
         super();
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -453,21 +298,7 @@ public class Shimmer extends ShimmerBluetooth {
     }
 
 
-    /**
-     * Shimmer 3 Constructor
-     *
-     * @param userAssignedName
-     * @param samplingRate
-     * @param accelRange
-     * @param gsrRange
-     * @param sensorIdsToEnable
-     * @param gyroRange
-     * @param magRange
-     * @param orientation
-     * @param pressureResolution
-     * @param context
-     */
-    public Shimmer(Handler handler, String userAssignedName, double samplingRate, int accelRange, int gsrRange, Integer[] sensorIdsToEnable, int gyroRange, int magRange, int orientation, int pressureResolution, Context context) {
+        public Shimmer(Handler handler, String userAssignedName, double samplingRate, int accelRange, int gsrRange, Integer[] sensorIdsToEnable, int gyroRange, int magRange, int orientation, int pressureResolution, Context context) {
         super(userAssignedName, samplingRate, sensorIdsToEnable, accelRange, gsrRange, gyroRange, magRange, pressureResolution);
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mBluetoothRadioState = BT_STATE.DISCONNECTED;
@@ -477,18 +308,7 @@ public class Shimmer extends ShimmerBluetooth {
         mContext = context;
     }
 
-    /**
-     * Shimmer2R Constructor
-     *
-     * @param myName
-     * @param samplingRate
-     * @param accelRange
-     * @param gsrRange
-     * @param setEnabledSensors
-     * @param magGain
-     * @param orientation
-     */
-    public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, Context context) {
+        public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, Context context) {
         super(myName, samplingRate, setEnabledSensors, accelRange, gsrRange, magGain);
         setupOrientation(orientation, samplingRate);
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -500,22 +320,7 @@ public class Shimmer extends ShimmerBluetooth {
     }
 
 
-    /**
-     * Shimmer 3 Constructor with option to enable/disable calibration
-     *
-     * @param handler
-     * @param userAssignedName
-     * @param samplingRate
-     * @param accelRange
-     * @param gsrRange
-     * @param sensorIdsToEnable
-     * @param gyroRange
-     * @param magRange
-     * @param orientation
-     * @param pressureResolution
-     * @param enableCalibration
-     */
-    public Shimmer(Handler handler, String userAssignedName, double samplingRate, int accelRange, int gsrRange, Integer[] sensorIdsToEnable, int gyroRange, int magRange, int orientation, int pressureResolution, boolean enableCalibration, Context context) {
+        public Shimmer(Handler handler, String userAssignedName, double samplingRate, int accelRange, int gsrRange, Integer[] sensorIdsToEnable, int gyroRange, int magRange, int orientation, int pressureResolution, boolean enableCalibration, Context context) {
         super(userAssignedName, samplingRate, sensorIdsToEnable, accelRange, gsrRange, gyroRange, magRange, pressureResolution);
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mBluetoothRadioState = BT_STATE.DISCONNECTED;
@@ -527,20 +332,7 @@ public class Shimmer extends ShimmerBluetooth {
     }
 
 
-    /**
-     * Shimmer 2R Constructor with option to enable/disable calibration
-     *
-     * @param handler
-     * @param myName
-     * @param samplingRate
-     * @param accelRange
-     * @param gsrRange
-     * @param setEnabledSensors
-     * @param magGain
-     * @param orientation
-     * @param enableCalibration
-     */
-    public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, boolean enableCalibration, Context context) {
+        public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, boolean enableCalibration, Context context) {
         super(myName, samplingRate, setEnabledSensors, accelRange, gsrRange, magGain);
         setupOrientation(orientation, samplingRate);
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -578,13 +370,7 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-    /**
-     * Start the ConnectThread to initiate a connection to a remote device. The purpose of having two libraries is because some Stock firmware do not implement the full Bluetooth Stack. In such cases use 'gerdavax'. If problems persist consider installing an aftermarket firmware, with a mature Bluetooth stack.
-     *
-     * @param address          Bluetooth Address of Device to connect too
-     * @param bluetoothLibrary Supported libraries are 'default' and 'gerdavax'
-     */
-    public synchronized void connect(final String address, String bluetoothLibrary) {
+        public synchronized void connect(final String address, String bluetoothLibrary) {
         registerDisconnectListener();
         mIamAlive = false;
         getListofInstructions().clear();
@@ -649,12 +435,7 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-    /**
-     * Start the ConnectedThread to begin managing a Bluetooth connection
-     *
-     * @param socket The BluetoothSocket on which the connection was made
-     */
-    public synchronized void connected(BluetoothSocket socket) {
+        public synchronized void connected(BluetoothSocket socket) {
         System.out.println("initialize process 2) connected and start initialize");
         // Cancel the thread that completed the connection
         if (mConnectThread != null) {
@@ -687,27 +468,18 @@ public class Shimmer extends ShimmerBluetooth {
         initialize();
     }
 
-    /**
-     * Set the current state of the chat connection
-     * @param state  An integer defining the current connection state
-     */
-	/*protected synchronized void setState(int state) {
+    	/*protected synchronized void setState(int state) {
 		mState = state;
 		// Give the new state to the Handler so the UI Activity can update
 		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
 	}*/
 
-    /**
-     * Return the current connection state. */
-	/*public synchronized int getShimmerState() {
+    	/*public synchronized int getShimmerState() {
 		return mState;
 	}
 */
 
-    /**
-     * Stop all threads
-     */
-    public void stop() {
+        public void stop() {
         if (mTimerReadStatus != null) {
             mTimerReadStatus.cancel();
             mTimerReadStatus.purge();
@@ -882,10 +654,7 @@ public class Shimmer extends ShimmerBluetooth {
         return null;
     }
 
-    /**
-     * process responses to in-stream response
-     */
-    @Override
+        @Override
     protected void processInstreamResponse(boolean shouldClearCrcFromBuffer) {
 
         if (!mBluetoothRadioState.equals(BT_STATE.STREAMING)) { //every other start besides streaming
@@ -1008,11 +777,7 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-    /**
-     * this is to clear the buffer
-     *
-     */
-    @Override
+        @Override
     protected void clearSerialBuffer() {
         startTimerCheckForSerialPortClear();
         byte[] buffer = new byte[0];
@@ -1036,13 +801,7 @@ public class Shimmer extends ShimmerBluetooth {
         stopTimerCheckForSerialPortClear();
     }
 
-    /**
-     * Write to the ConnectedThread in an unsynchronized manner
-     *
-     * @param out The bytes to write
-     * @see ConnectedThread write(byte[])
-     */
-    public void write(byte[] out) {
+        public void write(byte[] out) {
 		/*
 		// Create temporary object
 		ConnectedThread r;
@@ -1058,10 +817,7 @@ public class Shimmer extends ShimmerBluetooth {
         mConnectedThread.write(out);
     }
 
-    /**
-     * Indicate that the connection attempt failed and notify the UI Activity.
-     */
-    private void connectionFailed() {
+        private void connectionFailed() {
         setBluetoothRadioState(BT_STATE.DISCONNECTED);
         mIsInitialised = false;
         // Send a failure message back to the Activity
@@ -1074,10 +830,7 @@ public class Shimmer extends ShimmerBluetooth {
 //		mHandler.sendMessage(msg);
     }
 
-    /**
-     * Indicate that the connection was lost and notify the UI Activity.
-     */
-    protected void connectionLost() {
+        protected void connectionLost() {
         if (mIOThread != null) {
             mIOThread.stop = true;
             mIOThread = null;
@@ -1179,12 +932,7 @@ public class Shimmer extends ShimmerBluetooth {
         return mIsStreaming;
     }
 
-    /**
-     * This returns the variable mTransactionCompleted which indicates whether the Shimmer device is in the midst of a command transaction. True when no transaction is taking place. This is deprecated since the update to a thread model for executing commands
-     *
-     * @return mTransactionCompleted
-     */
-    public boolean getInstructionStatus() {
+        public boolean getInstructionStatus() {
         boolean instructionStatus = false;
         if (mTransactionCompleted == true) {
             instructionStatus = true;
@@ -1231,10 +979,7 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-    /*
-     * Set and Get Methods
-     * */
-//	public void setContinuousSync(boolean continousSync){
+    //	public void setContinuousSync(boolean continousSync){
 //		mContinousSync=continousSync;
 //	}
 
@@ -1390,23 +1135,7 @@ public class Shimmer extends ShimmerBluetooth {
 
 
 
-		/*
-		int docked, sensing;
-
-		if(isDocked())
-			docked=1;
-		else
-			docked=0;
-
-		if(isSensing())
-			sensing=1;
-		else
-			sensing=0;
-
-		mHandler.obtainMessage(Shimmer.MESSAGE_LOG_AND_STREAM_STATUS_CHANGED, docked, sensing).sendToTarget();
-		Log.d(mClassName,"Shimmer " + mMyBluetoothAddress +" Status has changed. Docked: "+docked+" Sensing: "+sensing);
-		*/
-    }
+		    }
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
@@ -1645,12 +1374,7 @@ public class Shimmer extends ShimmerBluetooth {
         mHandlerList.add(handler);
     }
 
-    /**
-     * If true, Handlers associated with this device will receive continuous status updates
-     *
-     * @param status
-     */
-    public void setContinuousStateUpdates(boolean status) {
+        public void setContinuousStateUpdates(boolean status) {
 
         mContinuousStateUpdates = status;
 
@@ -1661,12 +1385,7 @@ public class Shimmer extends ShimmerBluetooth {
         //sendMsgToHandlerListTarget(ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE, obj);
     }
 
-    /**
-     * This thread runs while attempting to make an outgoing connection
-     * with a device. It runs straight through; the connection either
-     * succeeds or fails.
-     */
-    private class ConnectThread extends Thread {
+        private class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
 
@@ -1799,10 +1518,7 @@ public class Shimmer extends ShimmerBluetooth {
             }
         }
 
-        /**
-         * Will cancel an in-progress connection, and close the socket
-         */
-        @SuppressWarnings("unused")
+                @SuppressWarnings("unused")
         public void cancel() {
             try {
                 if (mSocket != null) mSocket.close();

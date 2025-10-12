@@ -50,11 +50,7 @@ public class CameraJpegView extends TextureView {
                                 continue;
 
                             //p2
-                            /*Matrix matrix = new Matrix();
-                            matrix.setRotate(90);
-                            Bitmap newBM = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
-                            */
-                            Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                                                        Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                             canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 
                             Paint paint = new Paint();  //画笔

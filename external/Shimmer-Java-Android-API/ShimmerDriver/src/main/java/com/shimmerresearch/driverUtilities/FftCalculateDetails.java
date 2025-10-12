@@ -12,13 +12,6 @@ import com.shimmerresearch.driver.ObjectCluster;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 import com.shimmerresearch.guiUtilities.AbstractPlotManager;
 
-/**
- * References
- * <p>
- * [1] Angkoon Phinyomark, Pornchai Phukpattaranont, Chusak Limsakul (2012) �Feature Reduction and Selection for EMG Signal Classification� Elsevier, Expert Systems with Applications 39, P7420�7431
- * [2] http://luscinia.sourceforge.net/page26/page35/page35.html
- *
- */
 
 public class FftCalculateDetails {
 
@@ -207,12 +200,7 @@ public class FftCalculateDetails {
         return new double[][]{};
     }
 
-    /**
-     * PSD, Mean Freq, Median Freq
-     * <p>
-     * Mean Frequency of a spectrum = sum of the product of the spectrogram intensity (in dB) and the frequency, divided by the total sum of spectrogram intensity.
-     */
-    public void calculatePSDAndGenerateArray(double[] fft) {
+        public void calculatePSDAndGenerateArray(double[] fft) {
 
         int numElements = fft.length / mDivider;
         double multiplier = mSamplingRate / fft.length;

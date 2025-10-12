@@ -31,11 +31,6 @@ import com.shimmerresearch.sensors.ActionSetting;
 import com.shimmerresearch.sensors.AbstractSensor.SENSORS;
 import com.shimmerresearch.sensors.bmpX80.SensorBMP180.DatabaseConfigHandle;
 
-/**
- * @author Ronan McCormack
- * @author Mark Nolan
- *
- */
 //TODO update compatibility maps
 public class SensorBMP280 extends SensorBMPX80 {
 
@@ -110,10 +105,7 @@ public class SensorBMP280 extends SensorBMPX80 {
             Arrays.asList(CHANNEL_TYPE.CAL, CHANNEL_TYPE.UNCAL));
     //--------- Configuration options end --------------
     public static final Map<String, ChannelDetails> mChannelMapRef;
-    /**
-     *
-     */
-    private static final long serialVersionUID = 5173164657730440965L;
+        private static final long serialVersionUID = 5173164657730440965L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -130,10 +122,7 @@ public class SensorBMP280 extends SensorBMPX80 {
 
     //--------- Sensor info end --------------
 
-    /**
-     * Calibration handled on chip for Shimmer4 - might change in the future
-     */
-
+    
     private CalibDetailsBmp280 mCalibDetailsBmp280Lcl;
 
     {

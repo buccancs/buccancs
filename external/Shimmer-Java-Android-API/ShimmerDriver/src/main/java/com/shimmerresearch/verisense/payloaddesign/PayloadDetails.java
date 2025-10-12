@@ -15,23 +15,12 @@ public class PayloadDetails {
 
     public int payloadIndex;
     public int payloadWhiteSpace;
-    /**
-     * Includes payload index bytes, payload length bytes and payload config bytes
-     **/
-    public int payloadHeaderLength;
+        public int payloadHeaderLength;
     public int crcOriginal;
     public int payloadLengthBytesValue;
     public byte[] payloadConfig = null;
     public byte[] payloadWithoutCrc = null;
-    /**
-     * Structure is [sensor data, end time bytes (minutes and ticks), battery
-     * voltage and temperature].
-     * <p>
-     * Support is being maintained in the file parser for this section of the
-     * payload ("termed the RAM block") to be compressed by the FW such that the
-     * file parser will need to decompress it before parsing each of it's fields.
-     */
-    public byte[] ramBlockDataBytes;
+        public byte[] ramBlockDataBytes;
     public PayloadContentsDetails payloadContentsDetails = null;
     private CRC16CCITT CRC16CCITT = new CRC16CCITT();
 
@@ -132,13 +121,7 @@ public class PayloadDetails {
         return ramBlockDataLength;
     }
 
-    /**
-     * @param inputStream
-     * @param count
-     * @return
-     * @throws IOException
-     */
-    private int readBytesFromStream(InputStream inputStream, int count) throws IOException {
+        private int readBytesFromStream(InputStream inputStream, int count) throws IOException {
         byte[] lengthBuffer = new byte[count];
         readBytesFromStream(inputStream, lengthBuffer);
 //		consolePrintDebugLn("Length Bytes" + UtilShimmer.bytesToHexStringWithSpacesFormatted(lengthBuffer));
@@ -175,16 +158,7 @@ public class PayloadDetails {
         );
     }
 
-    /**
-     * @param ramBlockDataBytes
-     * @param payloadIndex
-     * @param ramBlockLength
-     * @param verisenseDevice
-     * @param binFileByteIndex
-     * @return
-     * @throws IOException
-     */
-    public PayloadContentsDetails parsePayloadContentsHeaderFooter(byte[] ramBlockDataBytes,
+        public PayloadContentsDetails parsePayloadContentsHeaderFooter(byte[] ramBlockDataBytes,
                                                                    int payloadIndex,
                                                                    VerisenseDevice verisenseDevice, int binFileByteIndex) throws IOException {
 

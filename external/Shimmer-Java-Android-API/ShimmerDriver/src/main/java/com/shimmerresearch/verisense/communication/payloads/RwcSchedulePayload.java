@@ -3,10 +3,6 @@ package com.shimmerresearch.verisense.communication.payloads;
 import com.shimmerresearch.verisense.UtilVerisenseDriver;
 import com.shimmerresearch.verisense.payloaddesign.VerisenseTimeDetails;
 
-/**
- * @author Mark Nolan
- *
- */
 public class RwcSchedulePayload extends AbstractPayload {
 
     public double currentTimeMs;

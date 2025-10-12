@@ -43,13 +43,7 @@ public class ByteCommunicationJSSC implements ByteCommunication {
 
     @Override
     public boolean openPort() throws SerialPortException {
-		/*
-		consolePrintLn("Connecting to Shimmer on " + address);
-		consolePrintLn("Port open: " + mSerialPort.openPort());
-		consolePrintLn("Params set: " + mSerialPort.setParams(115200, 8, 1, 0));
-		consolePrintLn("Port Status : " + Boolean.toString(mSerialPort.isOpened()));
-		*/
-        mSerialPort.openPort();
+		        mSerialPort.openPort();
         mSerialPort.setParams(115200, 8, 1, 0);
         return mSerialPort.isOpened();
     }

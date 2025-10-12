@@ -13,12 +13,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 
-/**
- * Code copied from UtilShimmerSoftware
- *
- * @author Mark Nolan
- *
- */
 public class ConsoleDiverter {
 
     public static final String PATH_SEP = System.getProperty("file.separator");

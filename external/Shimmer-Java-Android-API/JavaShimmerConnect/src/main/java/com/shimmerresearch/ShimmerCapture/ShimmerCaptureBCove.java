@@ -1,39 +1,3 @@
-/* Rev 0.1
- *
- * Copyright (c) 2014, Shimmer Research, Ltd.
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
-
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Cathy Swanton , Jong Chern Lim, Ruaidhri Molloy
- * @date   May, 2014
- *
- * Purpose of this example is to demonstrate some of the functionality of LogandStream firmware and not a fully completed application
- */
 
 package com.shimmerresearch.ShimmerCapture;
 
@@ -264,17 +228,11 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
     private JSpinner spinnerNumberOfBeatsToAveECG;
 
 
-    /**
-     * Create the application.
-     */
-    public ShimmerCaptureBCove() {
+        public ShimmerCaptureBCove() {
         initialize();
     }
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
+        public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -305,10 +263,7 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
         });
     }
 
-    /**
-     * Initialize the contents of the frame.
-     */
-    private void initialize() {
+        private void initialize() {
         setWaitForData(mShimmer);
         frame = new JFrame("Shimmer Capture");
         frame.setBounds(100, 100, 720, 592);
@@ -1052,10 +1007,7 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
 
     }
 
-    /**
-     * Setting up configuration panel.
-     */
-    private void configuration() {
+        private void configuration() {
 
         configFrame.setVisible(true);
         List<String> enabledSensors = mShimmer.getListofEnabledSensors();
@@ -1415,10 +1367,7 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
         }
     }
 
-    /**
-     * Applying configuration changes
-     */
-    private void configurationDone() {
+        private void configurationDone() {
         String samplingRate = (String) comboBoxSamplingRate.getSelectedItem();
         samplingRate = samplingRate.substring(0, samplingRate.length() - 2);
         double SamplingRate = Double.parseDouble(samplingRate);
@@ -1488,10 +1437,7 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
         enableSensors();
     }
 
-    /**
-     * Enabling selected sensors
-     */
-    private void enableSensors() {
+        private void enableSensors() {
         chart.removeAllTraces();
         for (int count = 0; count < maxTraces; count++) {
             traces[count] = new Trace2DLtd(300);
@@ -1594,10 +1540,7 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
         mReturnEnabledSensors = 0;
     }
 
-    /**
-     * Setting up check boxes of enabled sensor signals on main panel
-     */
-    public void setupListOfEnabledSensors() {
+        public void setupListOfEnabledSensors() {
         enabledSensorSignals = mShimmer.getListofEnabledChannelSignals();
         numberOfSignals = enabledSensorSignals.length;
         for (int count = 0; count < maxTraces; count++) {
@@ -1635,12 +1578,7 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
         }
     }
 
-    /**
-     * Detecting which signals are chosen to show on the graph
-     *
-     * @return a list of chosen sensor signals
-     */
-    private String[] selectSignalsToView() {
+        private String[] selectSignalsToView() {
         List<String> listofSignals = new ArrayList<String>();
         String[] selectedSignals;
         for (int count = 0; count < numberOfSignals; count++) {
@@ -1962,10 +1900,7 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
     }
 
 
-    /**
-     * Applying EXG Configuration Changes and filter parameters
-     */
-    private void exgConfigurationDone() {
+        private void exgConfigurationDone() {
 
         int[] chip = new int[3];
         chip[0] = 1;
@@ -2019,10 +1954,7 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
         exgFrame.setVisible(false);
     }
 
-    /**
-     * Removing data
-     */
-    private void onDisconnect() {
+        private void onDisconnect() {
         firstExgConfiguration = true;
         firstConfiguration = true;
         comboBoxGainChip1Channel1.removeAllItems();

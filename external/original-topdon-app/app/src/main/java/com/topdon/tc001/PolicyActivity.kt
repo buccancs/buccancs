@@ -112,15 +112,7 @@ class PolicyActivity : BaseViewModelActivity<PolicyViewModel>() {
         policy_web.settings.defaultTextEncodingName = "utf-8"
         policy_web.loadDataWithBaseURL(null, url, "text/html", "utf-8", null)
     }
-    /**
-     * 处理富文本
-     *
-     * @param bodyHTML body
-     * @param fontColor 需要改变的字体颜色
-     * @param backgroundColor 修改字体颜色
-     * @return String
-     */
-    fun getHtmlData(htmlBody: String, fontColor: String, backgroundColor: String): String {
+        fun getHtmlData(htmlBody: String, fontColor: String, backgroundColor: String): String {
         val head = "<head>" +
                 "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
                 "<style>img{max-width: 100%; width:100%; height:auto;}video{max-width: 100%; width:100%; height:auto;}*{margin:0px;}body{font-size:16px;color: ${fontColor}; background-color: ${backgroundColor};}</style>" + "</head>"

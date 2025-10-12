@@ -33,10 +33,6 @@ import com.shimmerresearch.driver.FormatCluster;
 import com.shimmerresearch.driver.ShimmerDevice;
 
 
-/**
- * @author Ronan McCormack
- * @author Mark Nolan
- */
 public abstract class SensorMPU9X50 extends AbstractSensor implements Serializable {
 
     //Shimmer3
@@ -228,10 +224,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
     //	------------ Keep in Configuration? ------------
 //	public class SENSOR_ID{
     public static final Map<Integer, SensorDetailsRef> mSensorMapRefCommon;
-    /**
-     *
-     */
-    private static final long serialVersionUID = -1137540822708521997L;
+        private static final long serialVersionUID = -1137540822708521997L;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -342,10 +335,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
     protected double[][] OffsetVectorMPLGyro = {{0}, {0}, {0}};
     //--------- Sensor specific variables start --------------
     private boolean debugGyroRate = false;
-    /**
-     * This stores the current Gyro Range, it is a value between 0 and 3; 0 = +/- 250dps,1 = 500dps, 2 = 1000dps, 3 = 2000dps
-     */
-    private int mGyroRange = 1;
+        private int mGyroRange = 1;
     private CalibDetailsKinematic calibDetailsMplAccel = new CalibDetailsKinematic(
             0,
             "0",
@@ -1039,14 +1029,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return false;
     }
 
-    /**
-     * Computes next higher available sensor sampling rate setting based on
-     * passed in "freq" variable and dependent on whether low-power mode is set.
-     *
-     * @param freq
-     * @return int the rate configuration setting for the respective sensor
-     */
-    public int setMPU9150GyroAccelRateFromFreq(double freq) {
+        public int setMPU9150GyroAccelRateFromFreq(double freq) {
         if (debugGyroRate && mShimmerDevice != null) {
             System.out.println("Gyro Rate change from freq:\t" + mShimmerDevice.getMacId() + "\t" + freq);
         }
@@ -1087,14 +1070,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return getMPU9X50GyroAccelRate();
     }
 
-    /**
-     * Computes next higher available sensor sampling rate setting based on
-     * passed in "freq" variable and dependent on whether low-power mode is set.
-     *
-     * @param freq
-     * @return int the rate configuration setting for the respective sensor
-     */
-    public int setMPU9150MagRateFromFreq(double freq) {
+        public int setMPU9150MagRateFromFreq(double freq) {
         boolean setFreq = false;
         // Check if channel is enabled
         if (checkIfAnyMplChannelEnabled()) {
@@ -1121,14 +1097,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return mMPU9X50MagSamplingRate;
     }
 
-    /**
-     * Computes next higher available sensor sampling rate setting based on
-     * passed in "freq" variable and dependent on whether low-power mode is set.
-     *
-     * @param freq
-     * @return int the rate configuration setting for the respective sensor
-     */
-    public int setMPU9150MplRateFromFreq(double freq) {
+        public int setMPU9150MplRateFromFreq(double freq) {
         // Check if channel is enabled
         if (!checkIfAnyMplChannelEnabled()) {
             mMPU9X50MPLSamplingRate = 0; // 10 Hz
@@ -1272,10 +1241,7 @@ public abstract class SensorMPU9X50 extends AbstractSensor implements Serializab
         return false;
     }
 
-    /**
-     * @return the mMPU9X50AccelRange
-     */
-    public int getMPU9X50AccelRange() {
+        public int getMPU9X50AccelRange() {
         return mMPU9X50AccelRange;
     }
 

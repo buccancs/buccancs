@@ -91,16 +91,13 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private Paint minPaint;
     private int actionMode;
     private float startX, startY, endX, endY;
-    /* point */
-    private ArrayList<Point> points = new ArrayList<Point>();
+        private ArrayList<Point> points = new ArrayList<Point>();
     private Point movingPoint;
-    /* line */
-    private ArrayList<Line> lines = new ArrayList<Line>();
+        private ArrayList<Line> lines = new ArrayList<Line>();
     private Line movingLine;
     private int lineMoveType;
     private int lineMovePoint;
-    /* rectangle */
-    private ArrayList<Rect> rectangles = new ArrayList<Rect>();
+        private ArrayList<Rect> rectangles = new ArrayList<Rect>();
     private Rect movingRectangle;
     private int rectangleMoveType;
     private int rectangleMoveEdge;

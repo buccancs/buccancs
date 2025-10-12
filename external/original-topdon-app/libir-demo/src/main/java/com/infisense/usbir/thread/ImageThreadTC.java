@@ -11,14 +11,6 @@ import com.infisense.iruvc.utils.SynchronizedBitmap;
 
 import java.nio.ByteBuffer;
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2022.2.24 11:06
- * @UpdateUser:
- * @UpdateDate:     2022.2.24 11:06
- * @UpdateRemark:
- */
 public class ImageThreadTC extends Thread {
     private String TAG = "ImageThread";
     private Bitmap bitmap;

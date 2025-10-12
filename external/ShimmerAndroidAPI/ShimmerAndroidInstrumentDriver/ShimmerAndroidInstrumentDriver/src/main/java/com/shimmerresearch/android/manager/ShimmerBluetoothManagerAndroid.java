@@ -55,9 +55,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
-/**
- * Created by ASaez on 10-Aug-16.
- */
 
 public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
     static final String VERISENSE_NAME_NO_PAIRING_REQUIRED = "Verisense-00";
@@ -116,12 +113,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
         super.connectShimmerThroughBTAddress(bluetoothAddress);
     }
 
-    /**
-     * When true, will attempt to pair the device if the device is not paired. User will have to manually key in the pairing key.
-     *
-     * @param enable
-     */
-    public void enablePairingOnConnect(boolean enable) {
+        public void enablePairingOnConnect(boolean enable) {
         AllowAutoPairing = enable;
     }
 
@@ -311,13 +303,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
 
     }
 
-    /**
-     * Using the specified bluetooth address in the form of XX:XX:XX:XX:XX:XX check if the device is currently paired to the android device
-     *
-     * @param bluetoothAddress
-     * @return true if the device is paired
-     */
-    public boolean isDevicePaired(String bluetoothAddress) {
+        public boolean isDevicePaired(String bluetoothAddress) {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         for (BluetoothDevice device : pairedDevices) {
             if (device.getAddress().equals(bluetoothAddress)) {
@@ -552,10 +538,7 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
         }
     }
 
-    /*
-       ------------------- Methods from ShimmerService below -------------------
-     */
-    public void toggleAllLEDS() {
+        public void toggleAllLEDS() {
 
         HashMap<String, Object> mMultiShimmer = new HashMap<String, Object>(7);
         mMultiShimmer = getHashMapOfShimmersConnected();

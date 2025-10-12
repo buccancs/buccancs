@@ -5,19 +5,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * Holds all information related individual sensor channels for dynamic GUI and
- * configuration purposes. Normally instantiate as Static.
- *
- * @author Mark Nolan
- *
- */
 public class SensorDetailsRef implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4567211941610864326L;
+        private static final long serialVersionUID = 4567211941610864326L;
 
     //TODO no real need to have an ID for streaming and a different one for sd header -> remove one
         public long mSensorBitmapIDStreaming = 0;

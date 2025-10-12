@@ -49,9 +49,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Created by Lim on 16/06/2016.
- */
 
 public class ShimmerDialogConfigurations {
 
@@ -60,13 +57,7 @@ public class ShimmerDialogConfigurations {
     static protected List<String[]> mAdditionalSignalsList = null;
     static protected List<String[]> mFilteredSignalsList = null;
 
-    /**
-     * This method is retained for compatibility with older applications that do not utilize ShimmerBLuetoothManagerAndroid
-     *
-     * @param shimmerDevice
-     * @param context
-     */
-    @Deprecated
+        @Deprecated
     public static void buildShimmerSensorEnableDetails(final ShimmerDevice shimmerDevice, final Context context) {
 
         final List<Integer> mSelectedItems = new ArrayList();  // Where we track the selected items
@@ -150,14 +141,7 @@ public class ShimmerDialogConfigurations {
         ad.show();
     }
 
-    /**
-     * Displays a dialog with a list of sensors supported by the Shimmer which can be enabled/disabled
-     *
-     * @param shimmerDevice
-     * @param context
-     * @param bluetoothManager
-     */
-    public static void buildShimmerSensorEnableDetails(final ShimmerDevice shimmerDevice, final Context context,
+        public static void buildShimmerSensorEnableDetails(final ShimmerDevice shimmerDevice, final Context context,
                                                        final ShimmerBluetoothManagerAndroid bluetoothManager) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -255,14 +239,7 @@ public class ShimmerDialogConfigurations {
         }
     }
 
-    /**
-     * Displays a dialog with a list of Shimmer device configuration options
-     *
-     * @param shimmerDevice
-     * @param context
-     * @param bluetoothManager
-     */
-    public static void buildShimmerConfigOptions(final ShimmerDevice shimmerDevice, final Context context,
+        public static void buildShimmerConfigOptions(final ShimmerDevice shimmerDevice, final Context context,
                                                  final ShimmerBluetoothManagerAndroid bluetoothManager) {
         final Map<String, ConfigOptionDetailsSensor> configOptionsMap = shimmerDevice.getConfigOptionsMap();
         final ShimmerDevice shimmerDeviceClone = shimmerDevice.deepClone();
@@ -295,16 +272,7 @@ public class ShimmerDialogConfigurations {
         builder.create().show();
     }
 
-    /**
-     * This method is retained for compatibility with older applications that do not utilize the ShimmerBluetoothManagerAndroid
-     *
-     * @param key
-     * @param configOptionsMap
-     * @param context
-     * @param shimmerDevice
-     * @param shimmerDeviceClone
-     */
-    @Deprecated
+        @Deprecated
     public static void buildConfigOptionDetailsSensor(final String key, Map<String, ConfigOptionDetailsSensor> configOptionsMap, final Context context, final ShimmerDevice shimmerDevice, final ShimmerDevice shimmerDeviceClone) {
         final ConfigOptionDetailsSensor cods = configOptionsMap.get(key);
         final CharSequence[] cs = cods.getGuiValues();
@@ -382,17 +350,7 @@ public class ShimmerDialogConfigurations {
         }
     }
 
-    /**
-     * Displays a dialog with a list of Shimmer sensor configuration options
-     *
-     * @param key
-     * @param configOptionsMap
-     * @param context
-     * @param shimmerDevice
-     * @param shimmerDeviceClone
-     * @param bluetoothManager
-     */
-    public static void buildConfigOptionDetailsSensor(final String key, Map<String, ConfigOptionDetailsSensor> configOptionsMap,
+        public static void buildConfigOptionDetailsSensor(final String key, Map<String, ConfigOptionDetailsSensor> configOptionsMap,
                                                       final Context context, final ShimmerDevice shimmerDevice,
                                                       final ShimmerDevice shimmerDeviceClone,
                                                       final ShimmerBluetoothManagerAndroid bluetoothManager) {
@@ -605,15 +563,7 @@ public class ShimmerDialogConfigurations {
         showSelectSensorPlot(context, shimmerService, bluetoothAddress, dynamicPlot);
     }
 
-    /**
-     * Call this to display the select signals to plot dialog
-     *
-     * @param context
-     * @param shimmerService
-     * @param bluetoothAddress
-     * @param dynamicPlot
-     */
-    public static void showSelectSensorPlot(Context context, final ShimmerService shimmerService, final String bluetoothAddress, final XYPlot dynamicPlot) {
+        public static void showSelectSensorPlot(Context context, final ShimmerService shimmerService, final String bluetoothAddress, final XYPlot dynamicPlot) {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(com.shimmerresearch.androidinstrumentdriver.R.layout.dialog_sensor_view);
         final Button buttonSetPlotSignalFilter = (Button) dialog.findViewById(com.shimmerresearch.androidinstrumentdriver.R.id.ButtonFilterPlotSignal);

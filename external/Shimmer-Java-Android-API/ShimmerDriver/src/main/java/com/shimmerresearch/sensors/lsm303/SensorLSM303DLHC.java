@@ -37,18 +37,6 @@ import com.shimmerresearch.sensors.AbstractSensor;
 import com.shimmerresearch.sensors.ActionSetting;
 import com.shimmerresearch.sensors.lsm303.SensorLSM303.ObjectClusterSensorName;
 
-/**
- * Sensor class for the LSM303DLHC combined Accelerometer and Magnetometer
- * (commonly referred to as the wide-range accel in Shimmer literature)
- * <p>
- * Accelerometer: If HR=1 -> 12-bit reading (left-justified) per axis, LSB.
- * Accelerometer: If HR=0 -> 10-bit reading (left-justified) per axis, LSB.
- * Magnetometer: one 12-bit reading (right-justified) per axis, MSB.
- *
- * @author Ruud Stolk
- * @author Mark Nolan
- *
- */
 public class SensorLSM303DLHC extends SensorLSM303 {
 
     public static final Map<String, OldCalDetails> mOldCalRangeMap;
@@ -394,10 +382,7 @@ public class SensorLSM303DLHC extends SensorLSM303 {
             DefaultOffsetVectorMagShimmer3);
     //--------- Channel info end --------------
 
-    /**
-     * This constructor is just used for accessing calibration
-     */
-    public SensorLSM303DLHC() {
+        public SensorLSM303DLHC() {
         super();
         initialise();
     }
@@ -409,11 +394,7 @@ public class SensorLSM303DLHC extends SensorLSM303 {
 
     //--------- Constructors for this class start --------------
 
-    /**
-     * Unused: 8 = 1.620kHz (only low-power mode), 9 = 1.344kHz (normal-mode) / 5.376kHz (low-power mode)
-     *
-     */
-    public static int getAccelRateFromFreq(boolean isEnabled, double freq, boolean isLowPowerMode) {
+        public static int getAccelRateFromFreq(boolean isEnabled, double freq, boolean isLowPowerMode) {
         int accelRate = 0; // Power down
 
         if (isEnabled) {
@@ -622,11 +603,7 @@ public class SensorLSM303DLHC extends SensorLSM303 {
 //
 //
 //			//TODO Above: Do LPM for Accel and Mag as is done in ShimmerObject. Below: Should these settings to be included in here as well?
-//			/*
-//			case(GuiLabelConfig.LSM303DLHC_ACCEL_DEFAULT_CALIB):
-//			case(GuiLabelConfig.LSM303DLHC_MAG_DEFAULT_CALIB):
-//			*/
-//		}
+//			//		}
 
         return actionsetting;
 

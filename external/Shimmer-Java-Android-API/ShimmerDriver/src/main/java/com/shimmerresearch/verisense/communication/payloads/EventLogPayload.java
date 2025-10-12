@@ -7,10 +7,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 import com.shimmerresearch.verisense.UtilVerisenseDriver;
 import com.shimmerresearch.verisense.payloaddesign.VerisenseTimeDetails;
 
-/**
- * @author Mark Nolan
- *
- */
 public class EventLogPayload extends AbstractPayload {
 
     public final String NO_EVENTS_LOGGED_TXT = "No events logged.";
@@ -28,8 +24,7 @@ public class EventLogPayload extends AbstractPayload {
                 int event = payloadContents[i + 7] & 0xFF;
 
                 if (event == LOG_EVENT.NONE.ordinal()) {
-                    /* Skip */
-                } else if (event == LOG_EVENT.BATTERY_VOLTAGE.ordinal()) {
+                                    } else if (event == LOG_EVENT.BATTERY_VOLTAGE.ordinal()) {
                     long batteryVoltage = parseByteArrayAtIndex(payloadContents, i, CHANNEL_DATA_TYPE.UINT24);
                     listOfEventLogEntries.add(new EventLogEntry(event, batteryVoltage));
                 } else {

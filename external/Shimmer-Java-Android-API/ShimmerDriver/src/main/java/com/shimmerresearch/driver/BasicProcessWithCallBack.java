@@ -33,12 +33,7 @@ public abstract class BasicProcessWithCallBack {
         mWaitForData = new WaitForData(b);
     }
 
-    /**
-     * This is a seperate thread running on the callback msgs from lower layer
-     *
-     * @param shimmerMSG
-     */
-    protected abstract void processMsgFromCallback(ShimmerMsg shimmerMSG);
+        protected abstract void processMsgFromCallback(ShimmerMsg shimmerMSG);
 
     public void queueMethod(ShimmerMsg smsg) {
         try {
@@ -72,12 +67,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-    /**
-     * This is used by the msg producer to remove the child consumer from its list of threads
-     *
-     * @param b is the msg consumer
-     */
-    public void removeConsumer(BasicProcessWithCallBack b) {
+        public void removeConsumer(BasicProcessWithCallBack b) {
         synchronized (mListOfConsumers) {
             Iterator<Callable> entries = mListOfConsumers.iterator();
             while (entries.hasNext()) {
@@ -97,11 +87,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-    /**
-     * This stops the consumer thread, and removes all callbacks from producers
-     *
-     */
-    public void stopConsumerThread() {
+        public void stopConsumerThread() {
         if (mGUIConsumerThread != null) {
             mGUIConsumerThread.stop = true;
             ShimmerMsg smsg = new ShimmerMsg(0, new EndThread());
@@ -114,12 +100,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-    /**
-     * This allows the class to receive msgs from the class passed in as an argument
-     *
-     * @param b the msg producer
-     */
-    public void setWaitForData(BasicProcessWithCallBack b) {
+        public void setWaitForData(BasicProcessWithCallBack b) {
         startConsumerThreadIfNull();
         mListOfMsgProducers.add(b);
         if (mWaitForData != null) {
@@ -135,12 +116,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-    /**
-     * This removes a producer
-     *
-     * @param b b is the producer
-     */
-    public void removeSetWaitForData(BasicProcessWithCallBack b) {
+        public void removeSetWaitForData(BasicProcessWithCallBack b) {
 
 //		consolePrintLn(this.getClass().getSimpleName() + " -> Trying to remove -> " + b.hashCode());
 
@@ -204,11 +180,7 @@ public abstract class BasicProcessWithCallBack {
         }
     }
 
-    /**
-     * Removes all producers registered with this class
-     *
-     */
-    public void removeSetWaitForDataAll() {
+        public void removeSetWaitForDataAll() {
 
         for (BasicProcessWithCallBack bpwc : mListOfMsgProducers) {
             bpwc.removeConsumer(this);
@@ -223,9 +195,6 @@ public abstract class BasicProcessWithCallBack {
 
     ;
 
-    /**
-     * TODO needs work to include all cases in "setWaitForData"
-     */
 
     public void setWaitForDataWithSingleInstanceCheck(BasicProcessWithCallBack b) {
         startConsumerThreadIfNull();

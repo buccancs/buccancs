@@ -25,23 +25,14 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 public abstract class AbstractAlgorithm extends BasicProcessWithCallBack implements Serializable {
 
     public static final double mVersion = 1.0;
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    /**
-     * AKA ObjectClusterName
-     */
-    public String mAlgorithmName;
+        private static final long serialVersionUID = 1L;
+        public String mAlgorithmName;
 
     ;
     @Deprecated
     public String mAlgorithmGroupingName;
     public AlgorithmDetails mAlgorithmDetails;
-    /**
-     * this is to specify what fw version/hardware should be allowed to use the algorithm
-     */
-    public List<ShimmerVerObject> mListOfCompatibleSVO = new ArrayList<ShimmerVerObject>();
+        public List<ShimmerVerObject> mListOfCompatibleSVO = new ArrayList<ShimmerVerObject>();
     //	public List<ChannelDetails> mListofChannelDetails;
     public List<String> mOutputChannels; // list of all output channels - can be used for extracting specific metrics after processing
 
@@ -52,26 +43,13 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
     //This are the core variables every algorithm should have
     public ALGORITHM_INPUT_TYPE mAlgorithmInputType = ALGORITHM_INPUT_TYPE.ALGORITHM_INPUT_TYPE_SINGLE_OBJECT_CLUSTER;
-    /**
-     * The mConfigOptionsMap is used to generate the GUI and provide specific
-     * algorithm settings to users, take note that for combo box there is an
-     * extra string array of values which need to be declared as options for the
-     * comobobox
-     */
-    public HashMap<String, ConfigOptionDetails> mConfigOptionsMap = new HashMap<String, ConfigOptionDetails>();//Define the gui to be generated
+        public HashMap<String, ConfigOptionDetails> mConfigOptionsMap = new HashMap<String, ConfigOptionDetails>();//Define the gui to be generated
     public HashMap<String, AlgorithmDetails> mAlgorithmChannelsMap = new HashMap<String, AlgorithmDetails>();//Defines algorithm requirements
     public TreeMap<Integer, SensorGroupingDetails> mMapOfAlgorithmGrouping = new TreeMap<Integer, SensorGroupingDetails>();
-    /**
-     * This is a quick approach (rather then having a map with isEnabled per
-     * commType as done in AbstractSensor and ShimmerDevice) to handle the fact
-     * that some algorithms only support certain COMM Types (e.g., Activity or
-     * Gait support SD data but not real-time BT)
-     */
-    public List<COMMUNICATION_TYPE> mListOfCommunicationTypesSupported = Arrays.asList(COMMUNICATION_TYPE.values());
+        public List<COMMUNICATION_TYPE> mListOfCommunicationTypesSupported = Arrays.asList(COMMUNICATION_TYPE.values());
     protected String mTrialName;
     @Deprecated
-    /** this is the objectClusterName of the Signal that the algorithm is calculated on */
-    protected String[] mSignalName = new String[1]; // an array because you might use multiple signals for an algorithm, note for now only single signal supported but this should be fwd compatible
+        protected String[] mSignalName = new String[1]; // an array because you might use multiple signals for an algorithm, note for now only single signal supported but this should be fwd compatible
     @Deprecated
     protected String[] mSignalFormat = new String[1];
     protected String mTimeStampName = "";
@@ -82,20 +60,11 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
     protected double mShimmerSamplingRate = 128.0;
     protected ShimmerDevice mShimmerDevice = null;
     protected UtilShimmer mUtilShimmer = new UtilShimmer(this.getClass().getSimpleName(), true);
-    /**
-     * @deprecated This method is to be replaced by the channeldetails object, see mListofChannelDetails
-     */
-    @Deprecated
+        @Deprecated
     protected String[] mSignalOutputNameArray;
-    /**
-     * @deprecated This method is to be replaced by the channeldetails object, see mListofChannelDetails
-     */
-    @Deprecated
+        @Deprecated
     protected String[] mSignalOutputFormatArray;
-    /**
-     * @deprecated This method is to be replaced by the channeldetails object, see mListofChannelDetails
-     */
-    @Deprecated
+        @Deprecated
     protected String[] mSignalOutputUnitArray;
 
     public AbstractAlgorithm() {
@@ -118,32 +87,17 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
     public abstract void setMinSamplingRateForAlgorithm();
 
-    /**
-     * This Identifies what version (firmware/hardware) specific algorithm settings should be limited to which is declared in mConfigMap.
-     */
-    public abstract void setSupportedVerInfo();
+        public abstract void setSupportedVerInfo();
 
-    /**
-     * The mConfigOptionsMap is used to generate the GUI and provide specific
-     * algorithm settings to users, take note that for combo box there is an
-     * extra string array of values which need to be declared as options for the
-     * comobobox
-     */
-    public abstract void generateConfigOptionsMap();
+        public abstract void generateConfigOptionsMap();
 
     public abstract void generateAlgorithmGroupingMap();
 
     public abstract void initialize() throws Exception;
 
-    /**
-     * Can be used to reset all variables within an algorithm - not needed in most cases
-     */
-    public abstract void resetAlgorithm() throws Exception;
+        public abstract void resetAlgorithm() throws Exception;
 
-    /**
-     * Used to reset all filters/buffers on which an algorithm is based - i.e. if a device is streaming, stopped and then streams again.
-     */
-    public abstract void resetAlgorithmBuffers();
+        public abstract void resetAlgorithmBuffers();
 
     public abstract Object getSettings(String componentName);
 
@@ -152,32 +106,13 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
     public abstract Object getDefaultSettings(String componentName);
 
-    /**
-     * Takes in a single data object and processes the data, the standard way of using this is through the use of ObjectCluster. NOTE: The processing time should never be longer than the Shimmer sampling period, as the method will hold up the thread calling it
-     *
-     * @param object
-     * @return
-     * @throws Exception
-     */
-    public abstract AlgorithmResultObject processDataRealTime(ObjectCluster ojc) throws Exception;
+        public abstract AlgorithmResultObject processDataRealTime(ObjectCluster ojc) throws Exception;
 
-    /**
-     * currently just used by Gait and Balance. MN: not sure if this is actually needed
-     */
-    public abstract AlgorithmResultObject processDataPostCapture(Object object) throws Exception;
+        public abstract AlgorithmResultObject processDataPostCapture(Object object) throws Exception;
 
-    /**
-     * currently just used by Gait and Balance.
-     */
-    public abstract String printBatchMetrics();
+        public abstract String printBatchMetrics();
 
-    /**
-     * For event driven algorithm implementation. Event Driven Algorithm is best to be used for algorithms whose processing duration is longer than the Shimmer's sampling rate. It can also be used for algorithms which do not require real time results.
-     * Once processing is done use sendProcessingResultMsg method to send your results back as an event to be handled.
-     *
-     * @param shimmerMSG
-     */
-    public abstract void eventDataReceived(ShimmerMsg shimmerMSG);
+        public abstract void eventDataReceived(ShimmerMsg shimmerMSG);
 
     public abstract LinkedHashMap<String, Object> generateConfigMap();
 
@@ -304,87 +239,51 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         }
     }
 
-    /**
-     * Override if needed for special cases (e.g., OrientationModule, ECGAdaptiveModule etc.
-     */
-    public void algorithmMapUpdateFromEnabledSensorsVars(long derivedSensorBitmapID) {
+        public void algorithmMapUpdateFromEnabledSensorsVars(long derivedSensorBitmapID) {
         if (mAlgorithmDetails != null) {
             boolean state = (mAlgorithmDetails.mDerivedSensorBitmapID & derivedSensorBitmapID) > 0 ? true : false;
             setIsEnabled(state);
         }
     }
 
-    /**
-     * Override if needed for special cases (e.g., OrientationModule, ECGAdaptiveModule etc.
-     */
-    public long getDerivedSensorBitmapID() {
+        public long getDerivedSensorBitmapID() {
         if (mAlgorithmDetails != null && isEnabled()) {
             return mAlgorithmDetails.mDerivedSensorBitmapID;
         }
         return 0;
     }
 
-    /**
-     * @deprecated This method is to be replaced by the channeldetails object, see getChannelDetails method
-     */
-    @Deprecated
+        @Deprecated
     public String[] getSignalOutputNameArray() {
         // TODO Auto-generated method stub
         return mSignalOutputNameArray;
     }
 
-    /**
-     * @deprecated This method is to be replaced by the channeldetails object, see getChannelDetails method
-     */
-    @Deprecated
+        @Deprecated
     public String[] getSignalOutputFormatArray() {
         // TODO Auto-generated method stub
         return mSignalOutputFormatArray;
     }
 
-    /**
-     * @deprecated This method is to be replaced by the channeldetails object, see getChannelDetails method
-     */
-    @Deprecated
+        @Deprecated
     public String[] getSignalOutputUnitArray() {
         // TODO Auto-generated method stub
         return mSignalOutputUnitArray;
     }
 
-    /**
-     * Returns a list of channel details from enabled channels.
-     *
-     * @return
-     */
-    public List<ChannelDetails> getChannelDetails() {
+        public List<ChannelDetails> getChannelDetails() {
         return getChannelDetails(false);
     }
 
-    /**
-     * Generally returns a list of channel details from enabled channels. Can be
-     * overridden in Algorithm classes depending on whether extra channels are
-     * enabled by config options within the algorithm.
-     *
-     * @param showDisabledChannels
-     * @return
-     */
-    public List<ChannelDetails> getChannelDetails(boolean showDisabledChannels) {
+        public List<ChannelDetails> getChannelDetails(boolean showDisabledChannels) {
         if (mAlgorithmDetails != null) {
             return mAlgorithmDetails.getChannelDetails();
         }
         return null;
     }
 
-    /** This returns a String array of the output signal name, the sequence of the format array MUST MATCH the array returned by the method returnSignalOutputFormatArray
-     * @return
-     */
 
-    /**
-     * returns enabled channels
-     *
-     * @return
-     */
-    public Integer getNumberOfEnabledChannels() {
+        public Integer getNumberOfEnabledChannels() {
         List<ChannelDetails> listOfChannels = getChannelDetails(false);
         if (listOfChannels != null) {
             return listOfChannels.size();
@@ -392,14 +291,8 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         return 0;
     }
 
-    /** This returns a String array of the output signal format, the sequence of the format array MUST MATCH the array returned by the method returnSignalOutputNameArray
-     * @return
-     */
 
-    /**
-     * @return the mOutputChannels
-     */
-    public List<String> getOutputChannelList() {
+        public List<String> getOutputChannelList() {
         return mOutputChannels;
     }
 
@@ -423,12 +316,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         return mConfigOptionsMap.get(key).mGuiValues;
     }
 
-    /**
-     * To be used when the algorithm is requires a seperate thread for data processing
-     *
-     * @param ojc
-     */
-    public void sendProcessingResultMsg(AlgorithmResultObject aro) {
+        public void sendProcessingResultMsg(AlgorithmResultObject aro) {
         sendCallBackMsg(MsgDock.MSG_ID_SOURCE_ALGORITHM, aro);
     }
 
@@ -546,10 +434,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         }
     }
 
-    /**
-     * Needs to be overridden in extending algorithm modules
-     */
-    public void loadAlgorithmVariables(AbstractAlgorithm abstractAlgorithmSource) {
+        public void loadAlgorithmVariables(AbstractAlgorithm abstractAlgorithmSource) {
         // TODO Auto-generated method stub
 
     }
@@ -566,10 +451,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
         private final String text;
 
-        /**
-         * @param text
-         */
-        private ALGORITHM_TYPE(final String text) {
+                private ALGORITHM_TYPE(final String text) {
             this.text = text;
         }
 
@@ -585,10 +467,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
         private final String text;
 
-        /**
-         * @param text
-         */
-        private ALGORITHM_RESULT_TYPE(final String text) {
+                private ALGORITHM_RESULT_TYPE(final String text) {
             this.text = text;
         }
 
@@ -604,10 +483,7 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
 
         private final String text;
 
-        /**
-         * @param text
-         */
-        private ALGORITHM_INPUT_TYPE(final String text) {
+                private ALGORITHM_INPUT_TYPE(final String text) {
             this.text = text;
         }
 

@@ -173,10 +173,7 @@ public class IRUVCTC {
                 }
             }
         });
-        /*
-         * 同时打开防灼烧和自动增益切换后，如果想修改防灼烧和自动增益切换的触发优先级，可以通过修改下面的触发参数实现
-         */
-        // 自动增益切换参数auto gain switch parameter
+                // 自动增益切换参数auto gain switch parameter
         gain_switch_param.above_pixel_prop = 0.1f;    //用于high -> low gain,设备像素总面积的百分比
         gain_switch_param.above_temp_data = (int) ((130 + 273.15) * 16 * 4); //用于high -> low gain,高增益向低增益切换的触发温度
         gain_switch_param.below_pixel_prop = 0.95f;   //用于low -> high gain,设备像素总面积的百分比
@@ -232,19 +229,8 @@ public class IRUVCTC {
 //
 //                    }
                     if (dataFlowMode == CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) {
-                        /*
-                         * 图像+温度
-                         * copy红外数据到image数组中
-                         * 出图的frame数组中前半部分是红外数据，后半部分是温度数据，
-                         * 例如256*384分辨率的设备，前面的256*192是红外数据，后面的256*192是温度数据，
-                         * 其中的数据是旋转90度的，需要旋转回来,红外旋转的逻辑放在后面ImageThread中处理。
-                         */
-                        System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
-                        /*
-                         * 处理温度数据
-                         * 在部分的出图中，如果不需要温度数据，则不返回，需要区分对待
-                         */
-                        if (length >= imageOrTempDataLength * 2) {
+                                                System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
+                                                if (length >= imageOrTempDataLength * 2) {
 
                             if (rotateInt == 270) {
                                 // 270
@@ -305,12 +291,7 @@ public class IRUVCTC {
                             }
                         }
                     } else {
-                        /*
-                         * 单红外数据
-                         * copy红外数据到image数组中
-                         * 其中的数据是旋转90度的，需要旋转回来,红外旋转的逻辑放在后面ImageThread中处理。
-                         */
-                        System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
+                                                System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
                     }
                     if (iFrameCallBackListener != null) {
                         iFrameCallBackListener.updateData();
@@ -445,11 +426,7 @@ public class IRUVCTC {
 
         if (CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT == defaultDataFlowMode ||
                 CommonParams.DataFlowMode.IMAGE_OUTPUT == defaultDataFlowMode) {
-            /*
-             * 红外+温度或单红外出图
-             * YUV422格式数据
-             */
-            Log.i(TAG, "defaultDataFlowMode = IMAGE_AND_TEMP_OUTPUT or IMAGE_OUTPUT");
+                        Log.i(TAG, "defaultDataFlowMode = IMAGE_AND_TEMP_OUTPUT or IMAGE_OUTPUT");
             // YUV出图流程
             setFrameReady(false);
             if (isRestart) {
@@ -472,10 +449,7 @@ public class IRUVCTC {
                 handleStartPreviewComplete();
             }
         } else {
-            /*
-             * 中间出图
-             */
-            // Y16出图流程(例如TNR出图，使用ISP算法)
+                        // Y16出图流程(例如TNR出图，使用ISP算法)
             setFrameReady(false);
             if (isRestart) {
                 if (ircmd.stopPreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0) == 0) {
@@ -486,11 +460,7 @@ public class IRUVCTC {
                             CommonParams.StartPreviewMode.VOC_DVP_MODE, defaultDataFlowMode) == 0) {
                         Log.i(TAG, "startPreview complete 中间出图 restart");
                         try {
-                            /*
-                             * 对于部分设备，如5840芯片的模组，两个命令之间需要延时以防止中间出图命令失效导致的黑热白热翻转情况
-                             * 需要根据自己模组的实际情况判断是否添加该延时
-                             */
-                            Thread.sleep(1500);
+                                                        Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -507,18 +477,11 @@ public class IRUVCTC {
                     Log.e(TAG, "stopPreview error 中间出图 restart");
                 }
             } else {
-                /*
-                 * 使用ISP算法
-                 * 红外+TNR出图,只能为25Hz
-                 */
-                boolean isTempReplacedWithTNREnabled = ircmd.isTempReplacedWithTNREnabled(DeviceType.P2);
+                                boolean isTempReplacedWithTNREnabled = ircmd.isTempReplacedWithTNREnabled(DeviceType.P2);
                 Log.i(TAG,
                         "defaultDataFlowMode = others isTempReplacedWithTNREnabled = " + isTempReplacedWithTNREnabled);
                 if (isTempReplacedWithTNREnabled) {
-                    /*
-                     * 支持 红外+TNR 方式出图
-                     */
-                    // 对于P2模组来说，直接发送startY16ModePreview命令可以直接出图
+                                        // 对于P2模组来说，直接发送startY16ModePreview命令可以直接出图
 //                    if (ircmd.startY16ModePreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0,
 //                            FileUtil.getY16SrcTypeByDataFlowMode(defaultDataFlowMode)) == 0) {
 //                        handleStartPreviewComplete();
@@ -535,11 +498,7 @@ public class IRUVCTC {
                                 CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT) == 0) {
                             Log.i(TAG, "startPreview complete 红外+TNR");
                             try {
-                                /*
-                                 * 对于部分设备，如5840芯片的模组，两个命令之间需要延时以防止中间出图命令失效导致的黑热白热翻转情况
-                                 * 需要根据自己模组的实际情况判断是否添加该延时
-                                 */
-                                Thread.sleep(1500);
+                                                                Thread.sleep(1500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -556,12 +515,7 @@ public class IRUVCTC {
                         Log.e(TAG, "stopPreview error 红外+TNR");
                     }
                 } else {
-                    /*
-                     * 单TNR 出图
-                     * 默认上电之后出YUV图像，如果默认模式为Y16中间出图，进入之后需要走先断电再上电，再中间出图的流程
-                     * 如果没有断电，且之前的模式为Y16模式，则重新进入仍为Y16模式，不需要执行该流程
-                     */
-                    // 调用 startY16ModePreview 中间出图方法之后，输出的数据格式为y16
+                                        // 调用 startY16ModePreview 中间出图方法之后，输出的数据格式为y16
                     if (ircmd.stopPreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0) == 0) {
                         Log.i(TAG, "stopPreview complete 单TNR");
                         if (ircmd.startPreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0,
@@ -570,11 +524,7 @@ public class IRUVCTC {
                                 CommonParams.StartPreviewMode.VOC_DVP_MODE, defaultDataFlowMode) == 0) {
                             Log.i(TAG, "startPreview complete 单TNR");
                             try {
-                                /*
-                                 * 对于部分设备，如5840芯片的模组，两个命令之间需要延时以防止中间出图命令失效导致的黑热白热翻转情况
-                                 * 需要根据自己模组的实际情况判断是否添加该延时
-                                 */
-                                Thread.sleep(1500);
+                                                                Thread.sleep(1500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }

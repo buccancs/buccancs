@@ -432,24 +432,15 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
     }
 
-    /**
-     * To initialize a BLE connection with the verisense device
-     */
-    public void connect() throws ShimmerException {
+        public void connect() throws ShimmerException {
         mByteCommunication.connect();
     }
 
-    /**
-     * Disconnect from the verisense device
-     */
-    public void disconnect() throws ShimmerException {
+        public void disconnect() throws ShimmerException {
         mByteCommunication.disconnect();
     }
 
-    /**
-     * Terminate the C# BLE console application
-     */
-    public void stop() {
+        public void stop() {
         mByteCommunication.stop();
     }
 
@@ -476,23 +467,13 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         mByteCommunication.writeBytes(txBuf);
     }
 
-    /**
-     * Send a read status command
-     *
-     * @return status payload
-     */
-    public StatusPayload readStatus() throws ShimmerException {
+        public StatusPayload readStatus() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.STATUS.readByte());
         waitForResponse(VERISENSE_PROPERTY.STATUS, TIMEOUT_MS.STANDARD, true);
         return latestStatusPayload;
     }
 
-    /**
-     * Send a start streaming command
-     *
-     * @throws ShimmerException if the device is already streaming
-     */
-    public void startStreaming() throws ShimmerException {
+        public void startStreaming() throws ShimmerException {
         if (!mState.equals(VerisenseProtocolState.Streaming)) {
             writeMessageWithPayload(VERISENSE_PROPERTY.STREAMING.writeByte(), new byte[]{STREAMING_COMMAND.STREAMING_START});
             waitForAck(VERISENSE_PROPERTY.STREAMING, TIMEOUT_MS.STANDARD, true);
@@ -501,12 +482,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         }
     }
 
-    /**
-     * Send a stop streaming command
-     *
-     * @throws ShimmerException if the device is not already streaming
-     */
-    public void stopStreaming() throws ShimmerException {
+        public void stopStreaming() throws ShimmerException {
         if (mState.equals(VerisenseProtocolState.Streaming)) {
             writeMessageWithPayload(VERISENSE_PROPERTY.STREAMING.writeByte(), new byte[]{STREAMING_COMMAND.STREAMING_STOP});
             waitForAck(VERISENSE_PROPERTY.STREAMING, TIMEOUT_MS.STANDARD, true);
@@ -532,96 +508,54 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         }
     }
 
-    /**
-     * Send a write time command to synchronize the real-world clock
-     */
-    public void writeTime() throws ShimmerException {
+        public void writeTime() throws ShimmerException {
         TimePayload timePayload = new TimePayload();
         timePayload.setTimeMs(System.currentTimeMillis());
         writeMessageWithPayload(VERISENSE_PROPERTY.TIME.writeByte(), timePayload.getPayloadContents());
         waitForAck(VERISENSE_PROPERTY.TIME, TIMEOUT_MS.STANDARD, true);
     }
 
-    /**
-     * Read the current time from the ASM sensor
-     *
-     * @return time payload
-     */
-    public TimePayload readTime() throws ShimmerException {
+        public TimePayload readTime() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.TIME.readByte());
         waitForResponse(VERISENSE_PROPERTY.TIME, TIMEOUT_MS.STANDARD, true);
         return latestTimePayload;
     }
 
-    /**
-     * Start data sync
-     */
-    public void readLoggedData() throws ShimmerException {
+        public void readLoggedData() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.DATA.readByte());
     }
 
-    /**
-     * Send an acknowledgement that the last transfer was successful and to proceed to the next transfer.
-     */
-    public void writeLoggedDataAck() throws ShimmerException {
+        public void writeLoggedDataAck() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.DATA.ackNextStageByte());
     }
 
-    /**
-     * Send an acknowledgement when the packet received does not pass the CRC validity check
-     */
-    public void writeLoggedDataNack() throws ShimmerException {
+        public void writeLoggedDataNack() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.DATA.nackByte());
     }
 
-    /**
-     * Send a write production configuration command
-     *
-     * @param txBuf the production configuration to be written
-     */
-    public void writeProductionConfig(byte[] txBuf) throws ShimmerException {
+        public void writeProductionConfig(byte[] txBuf) throws ShimmerException {
         writeMessageWithPayload(VERISENSE_PROPERTY.CONFIG_PROD.writeByte(), txBuf);
         waitForAck(VERISENSE_PROPERTY.CONFIG_PROD, TIMEOUT_MS.STANDARD, true);
     }
 
-    /**
-     * Send a read production configuration command
-     *
-     * @return production config payload
-     */
-    public ProductionConfigPayload readProductionConfig() throws ShimmerException {
+        public ProductionConfigPayload readProductionConfig() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.CONFIG_PROD.readByte());
         waitForResponse(VERISENSE_PROPERTY.CONFIG_PROD, TIMEOUT_MS.STANDARD, true);
         return latestProductionConfigPayload;
     }
 
-    /**
-     * send a read operational configuration command
-     *
-     * @return operational config payload
-     */
-    public OperationalConfigPayload readOperationalConfig() throws ShimmerException {
+        public OperationalConfigPayload readOperationalConfig() throws ShimmerException {
         writeMessageWithoutPayload(VERISENSE_PROPERTY.CONFIG_OPER.readByte());
         waitForResponse(VERISENSE_PROPERTY.CONFIG_OPER, TIMEOUT_MS.STANDARD, true);
         return latestOperationalConfigPayload;
     }
 
-    /**
-     * Write and read the operation configuration. The read can be used to verify what was written.
-     *
-     * @param operationalConfig operational config payload
-     */
-    public void writeAndReadOperationalConfig(byte[] operationalConfig) throws ShimmerException {
+        public void writeAndReadOperationalConfig(byte[] operationalConfig) throws ShimmerException {
         writeOperationalConfig(operationalConfig);
         readOperationalConfig();
     }
 
-    /**
-     * send a write operational configuration command
-     *
-     * @param txBuf the operational configuration to be written
-     */
-    public void writeOperationalConfig(byte[] operationalConfig) throws ShimmerException {
+        public void writeOperationalConfig(byte[] operationalConfig) throws ShimmerException {
         writeMessageWithPayload(VERISENSE_PROPERTY.CONFIG_OPER.writeByte(), operationalConfig);
         waitForAck(VERISENSE_PROPERTY.CONFIG_OPER, TIMEOUT_MS.STANDARD, true);
     }
@@ -664,20 +598,12 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         waitForAck(VERISENSE_PROPERTY.FW_DEBUG, TIMEOUT_MS.STANDARD, true);
     }
 
-    /**
-     * Erase the logged data
-     *
-     * @return the current task
-     */
-    public Task<VerisenseMessage> eraseDataTask() throws ShimmerException {
+        public Task<VerisenseMessage> eraseDataTask() throws ShimmerException {
         writeMessageWithPayload(VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{VERISENSE_DEBUG_MODE.ERASE_FLASH_AND_LOOKUP});
         return waitForAck(VERISENSE_PROPERTY.FW_DEBUG, TIMEOUT_MS.ERASE_FLASH_AND_LOOKUP_TABLE, false);
     }
 
-    /**
-     * Erase the logged data
-     */
-    public void writeEraseLoggedData() throws ShimmerException {
+        public void writeEraseLoggedData() throws ShimmerException {
         writeMessageWithPayload(VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{VERISENSE_DEBUG_MODE.ERASE_FLASH_AND_LOOKUP});
         waitForAck(VERISENSE_PROPERTY.FW_DEBUG, TIMEOUT_MS.ERASE_FLASH_AND_LOOKUP_TABLE, true);
     }
@@ -864,10 +790,7 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         return mTaskWriteBytes.getTask();
     }
 
-    /**
-     * For more advance API/App which associate sensors to participants
-     */
-    public String getTrialName() {
+        public String getTrialName() {
         return trialName;
     }
 
@@ -875,31 +798,19 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         trialName = trial;
     }
 
-    /**
-     * For more advance API/App which associate sensors to participants
-     */
-    public String getParticipantID() {
+        public String getParticipantID() {
         return participantID;
     }
 
-    /**
-     * For more advance API/App which associate sensors to participants
-     */
-    public void setParticipantID(String participant) {
+        public void setParticipantID(String participant) {
         participantID = participant;
     }
 
-    /**
-     * For more advance API/App which associate sensors to participants
-     */
-    public void setRootPathForBinFile(String rootPath) {
+        public void setRootPathForBinFile(String rootPath) {
         mRootPathForBinFile = rootPath;
     }
 
-    /**
-     * @return The binary file path
-     */
-    public String getDataFilePath() {
+        public String getDataFilePath() {
         return dataFilePath;
     }
 

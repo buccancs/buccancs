@@ -28,14 +28,6 @@ import com.shimmerresearch.sensors.SensorBattVoltage.LABEL_SENSOR_TILE;
 import com.shimmerresearch.sensors.SensorBattVoltage.GuiLabelSensors;
 import com.shimmerresearch.sensors.SensorBattVoltage.ObjectClusterSensorName;
 
-/**
- * Sensor class for the STC3100 which monitors the critical parameters of a single cell Li-Ion Battery,
- * voltage,temperature and current.
- *
- * @author Ronan McCormack
- * @author Mark Nolan
- *
- */
 //TODO switch over to using (SensorSTC3100Details mStc3100Details) rather then the individual variables declared and parsed in this class 
 public class SensorSTC3100 extends AbstractSensor {
 
@@ -142,8 +134,7 @@ public class SensorSTC3100 extends AbstractSensor {
             true,
             false);
     public static final Map<String, ChannelDetails> mChannelMapRef;
-    /****/
-    private static final long serialVersionUID = 9001303055918168581L;
+        private static final long serialVersionUID = 9001303055918168581L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();

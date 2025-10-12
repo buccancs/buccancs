@@ -6,14 +6,6 @@ import jssc.SerialPortException;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-/**
- * JsscByteWriter : an implementation of ByteWriter for Jssc
- *
- * @author Bastien Aracil
- * <p>
- * https://stackoverflow.com/questions/20034470/jssc-serial-connection-set-write-timeout/37076508#37076508
- *
- */
 public class JsscByteWriter implements ByteWriter {
 
     private final SerialPort serialPort;

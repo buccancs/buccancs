@@ -26,14 +26,6 @@ import org.opencv.imgproc.Imgproc;
 import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2022.2.24 11:06
- * @UpdateUser:
- * @UpdateDate:     2022.2.24 11:06
- * @UpdateRemark:
- */
 public class ImageThreadTC extends Thread {
 
 
@@ -167,11 +159,7 @@ public class ImageThreadTC extends Thread {
                     } else {
                         LibIRProcess.convertYuyvMapToARGBPseudocolor(imageSrc, imageHeight * imageWidth, PseudocodeUtils.INSTANCE.changePseudocodeModeByOld(pseudocolorMode), imageARGB);
                     }
-                    /*
-                     * 经过转换之后的红外数据
-                     * 其中的数据是旋转90度的，需要旋转回来,红外旋转的逻辑放在这里处理。
-                     */
-                    if (rotateInt == 270) {
+                                        if (rotateInt == 270) {
                         LibIRProcess.ImageRes_t imageRes = new LibIRProcess.ImageRes_t();
                         imageRes.height = (char) imageWidth;
                         imageRes.width = (char) imageHeight;
@@ -193,10 +181,7 @@ public class ImageThreadTC extends Thread {
                         imageDst = imageARGB;
                     }
                     irImageHelp.customPseudoColor(imageDst, temperatureSrc, imageWidth, imageHeight);
-                    /*
-                     * 等温尺处理,展示伪彩的温度范围内信息
-                     */
-                    irImageHelp.setPseudoColorMaxMin(imageDst, temperatureSrc, max, min, imageWidth, imageHeight);
+                                        irImageHelp.setPseudoColorMaxMin(imageDst, temperatureSrc, max, min, imageWidth, imageHeight);
                 }
                 imageDst = irImageHelp.contourDetection(alarmBean,
                         imageDst, temperatureSrc,

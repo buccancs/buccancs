@@ -69,12 +69,7 @@ public class SensorsEnabledFragment extends ListFragment {
         super.onDetach();
     }
 
-    /**
-     * Displays a default message when the fragment is first displayed
-     *
-     * @param savedInstanceState
-     */
-    @Override
+        @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String[] values = new String[]{"No device selected, sensors unavailable"};
@@ -83,13 +78,7 @@ public class SensorsEnabledFragment extends ListFragment {
         setListAdapter(adapter);
     }
 
-    /**
-     * Call this method to display the sensors from the selected Shimmer Device
-     *
-     * @param shimmerDevice
-     * @param activityContext
-     */
-    public void buildSensorsList(final ShimmerDevice shimmerDevice, final Context activityContext,
+        public void buildSensorsList(final ShimmerDevice shimmerDevice, final Context activityContext,
                                  final ShimmerBluetoothManagerAndroid bluetoothManager) {
 
         originalShimmerDevice = shimmerDevice;

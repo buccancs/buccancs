@@ -27,11 +27,7 @@ class GuideUsbManager {
         val VENDOR_ID = 0x4206
         val PRODUCT_ID = 0x3702
     }
-    /*
-        public static final int VENDOR_ID = 0x0525;
-        public static final int PRODUCT_ID = 0xa4a0;
-    */
-    private var mConnectCode: Int = ResultCode.READY_CONNECT_DEVICE
+        private var mConnectCode: Int = ResultCode.READY_CONNECT_DEVICE
     private val TAG = "guidecore"
     private var mNativeGuideCore: NativeGuideCore? = null
     constructor(context: Context?, nativeGuideCore: NativeGuideCore?) {

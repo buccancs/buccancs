@@ -9,13 +9,6 @@ import com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE;
 import com.shimmerresearch.exceptions.ShimmerException;
 import com.shimmerresearch.verisense.communication.SyncProgressDetails;
 
-/**
- * Still in development. Trying to figure out the best way to share common code
- * between certain devices that support this connection approach.
- *
- * @author Mark Nolan
- *
- */
 public class ShimmerDeviceCallbackAdapter implements Serializable {
 
     //TODO needs testing/development - when true, sometimes the first reception value is isn't being sent to the GUI

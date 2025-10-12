@@ -12,21 +12,12 @@ import com.shimmerresearch.driverUtilities.UtilShimmer.SHIMMER_DEFAULT_COLOURS;
 public abstract class AbstractPlotManager {
 
     public static List<int[]> mListofTraceColorsDefault = Collections.synchronizedList(new ArrayList<int[]>());
-    /**
-     * keeps a list of signals to plot
-     */
-    //public List<String[]> mListofPropertiestoPlot = new ArrayList<String[]>(); //this is used to identify he signals coming into the filter
+        //public List<String[]> mListofPropertiestoPlot = new ArrayList<String[]>(); //this is used to identify he signals coming into the filter
     public List<String[]> mListofPropertiestoPlot = Collections.synchronizedList(new ArrayList<String[]>()); //this is used to identify he signals coming into the filter
     public List<int[]> mListOfTraceColorsCurrentlyUsed = Collections.synchronizedList(new ArrayList<int[]>());
     public PLOT_LINE_STYLE mDefaultLineStyle = PLOT_LINE_STYLE.CONTINUOUS;
-    /**
-     * TODO do this based on x-axis data per Signal rather then Shimmer in the keySet
-     */
-    protected HashMap<String, String[]> mMapofXAxis = new HashMap<String, String[]>();
-    /**
-     * TODO do this based on x-axis data per Signal rather then Shimmer in the keySet
-     */
-    protected HashMap<String, Double> mMapofXAxisGeneratedValue = new HashMap<String, Double>();
+        protected HashMap<String, String[]> mMapofXAxis = new HashMap<String, String[]>();
+        protected HashMap<String, Double> mMapofXAxisGeneratedValue = new HashMap<String, Double>();
 
     {
         mListofTraceColorsDefault.add(SHIMMER_DEFAULT_COLOURS.colourShimmerOrange);

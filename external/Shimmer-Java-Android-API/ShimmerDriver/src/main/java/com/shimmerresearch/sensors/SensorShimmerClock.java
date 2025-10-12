@@ -639,14 +639,7 @@ public class SensorShimmerClock extends AbstractSensor {
 
     }
 
-    /**
-     * Unwraps the timestamp based on the current recording (i.e., per file for
-     * SD recordings not taking into account the initial file start time)
-     *
-     * @param timeStampTicks
-     * @return
-     */
-    protected double unwrapTimeStamp(double timeStampTicks) {
+        protected double unwrapTimeStamp(double timeStampTicks) {
         //first convert to continuous time stamp
         double timestampUnwrappedTicks = calculateTimeStampUnwrapped(timeStampTicks);
 

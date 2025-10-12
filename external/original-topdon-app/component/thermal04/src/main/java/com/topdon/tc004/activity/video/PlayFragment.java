@@ -108,7 +108,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         return newInstance(url, transportMode, sendOption, rr, false);
     }
 
-    /* ======================== life cycle ======================== */
 
     public static PlayFragment newInstance(String url, int transportMode, int sendOption, ResultReceiver rr, boolean isTs007) {
         PlayFragment fragment = new PlayFragment();
@@ -320,7 +319,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         super.onDestroyView();
     }
 
-    /* ======================== private method ======================== */
 
     @Override
     public void onDestroy() {
@@ -622,7 +620,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
             mRR.send(resultCode, resultData);
     }
 
-    /* ======================== SurfaceTextureListener ======================== */
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {

@@ -22,12 +22,6 @@ import com.shimmerresearch.verisense.sensors.SensorLSM6DS3;
 import com.shimmerresearch.verisense.sensors.SensorMAX86916;
 import com.shimmerresearch.verisense.sensors.SensorMAX86XXX;
 
-/**
- * Tests Verisense config byte parsing and generation
- *
- * @author Mark Nolan
- *
- */
 @FixMethodOrder
 public class API_00004_VerisenseConfigByteParsingAndGeneration {
 

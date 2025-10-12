@@ -16,18 +16,9 @@ import android.widget.PopupWindow;
 
 import java.lang.reflect.Method;
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2022.9.8 10:25
- * @UpdateUser:
- * @UpdateDate:     2022.9.8 10:25
- * @UpdateRemark:
- */
 public class ScreenUtils {
     private ScreenUtils() {
-        /* cannot be instantiated */
-        throw new UnsupportedOperationException("cannot be instantiated");
+                throw new UnsupportedOperationException("cannot be instantiated");
     }
 
         public static int getScreenWidth(Context context) {
@@ -141,12 +132,7 @@ public class ScreenUtils {
     }
 
         public static Dialog showNormalDialog(Context context, String info, PopupWindow.OnDismissListener dismissListener) {
-        /* @setIcon 设置对话框图标
-         * @setTitle 设置对话框标题
-         * @setMessage 设置对话框消息提示
-         * setXXX方法返回Dialog对象，因此可以链式设置属性
-         */
-        final AlertDialog.Builder normalDialog =
+                final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
         normalDialog.setTitle("Info");
         normalDialog.setMessage(info);

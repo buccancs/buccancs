@@ -56,11 +56,7 @@ public class MainActivity extends AppCompatActivity {
     boolean isSpeedTestSensor1 = false;
     boolean isSpeedTestSensor2 = false;
     boolean isSpeedTestSensor3 = false;
-    /**
-     * Sensor 1
-     * Messages from the Shimmer device including sensor data are received here
-     */
-    Handler mHandler = new Handler() {
+        Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {

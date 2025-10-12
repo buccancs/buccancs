@@ -13,10 +13,6 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_SOURCE;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 
-/**
- * @author Mark Nolan
- *
- */
 //TODO add further support for this class
 public class ShimmerStreamingProperties extends AbstractSensor {
 
@@ -49,13 +45,7 @@ public class ShimmerStreamingProperties extends AbstractSensor {
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @param objectCluster
-     * @param rssi
-     * @param txPower
-     * @return
-     */
-    public static ObjectCluster calculateRssiChannels(ObjectCluster objectCluster, double rssi, int txPower) {
+        public static ObjectCluster calculateRssiChannels(ObjectCluster objectCluster, double rssi, int txPower) {
         if (Double.isNaN(rssi)) {
             rssi = -100.0;
         }

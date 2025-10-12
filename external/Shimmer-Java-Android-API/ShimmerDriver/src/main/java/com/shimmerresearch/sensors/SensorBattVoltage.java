@@ -27,11 +27,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 
 
-/**
- * @author Ronan McCormack
- * @author Mark Nolan
- *
- */
 public class SensorBattVoltage extends AbstractSensor {
 
     // The battery voltage is divided by half before entering the Microcontroller's ADC.  The value is not quite equal to 2 due to the components used in the circuit.
@@ -79,10 +74,7 @@ public class SensorBattVoltage extends AbstractSensor {
 
     //--------- Bluetooth commands start ------------------
     public static final Map<String, ChannelDetails> mChannelMapRef;
-    /**
-     *
-     */
-    private static final long serialVersionUID = -2835431738933986391L;
+        private static final long serialVersionUID = -2835431738933986391L;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -114,10 +106,7 @@ public class SensorBattVoltage extends AbstractSensor {
         mChannelMapRef = Collections.unmodifiableMap(aMap);
     }
 
-    /**
-     * GQ BLE
-     */
-    protected int mSamplingDividerVBatt = 0;
+        protected int mSamplingDividerVBatt = 0;
     private ShimmerBattStatusDetails mShimmerBattStatusDetails = new ShimmerBattStatusDetails();
 
     //--------- Constructors for this class start --------------

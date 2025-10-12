@@ -2,10 +2,6 @@ package com.shimmerresearch.verisense.communication.payloads;
 
 import com.shimmerresearch.verisense.communication.VerisenseMessage.VERISENSE_PROPERTY;
 
-/**
- * @author Mark Nolan
- *
- */
 public class PendingEventsPayload extends AbstractPayload {
 
     public boolean pendingEventStatus = false;

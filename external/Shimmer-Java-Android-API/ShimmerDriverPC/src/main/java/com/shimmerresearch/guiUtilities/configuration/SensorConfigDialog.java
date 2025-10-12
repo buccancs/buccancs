@@ -46,14 +46,7 @@ public class SensorConfigDialog extends AbstractSensorConfigDialog {
         super(shimmerDevice, bluetoothManager);
     }
 
-    /**
-     * Initializes the variables and sets the list of sensor keys to be filtered out and ignored.
-     *
-     * @param shimmerDevice
-     * @param bluetoothManager
-     * @param filterKeys
-     */
-    public SensorConfigDialog(ShimmerPC shimmerDevice, BasicShimmerBluetoothManagerPc bluetoothManager, List<String> filterKeys) {
+        public SensorConfigDialog(ShimmerPC shimmerDevice, BasicShimmerBluetoothManagerPc bluetoothManager, List<String> filterKeys) {
         super(shimmerDevice, bluetoothManager);
         setSensorKeysFilter(filterKeys, true);
     }

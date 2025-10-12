@@ -44,10 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected Handler mHandler;
     Shimmer3BLEAndroid shimmer1;
     String macAddress = "E8:EB:1B:97:67:FC";
-    /**
-     * Messages from the Shimmer device including sensor data are received here
-     */
-    Handler handler = new Handler() {
+        Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -230,14 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Get the result from the paired devices dialog
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CONNECT_SHIMMER) {
             if (resultCode == Activity.RESULT_OK) {

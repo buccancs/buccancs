@@ -7,14 +7,7 @@ public class UtilParseData {
 
     public static boolean mIsDebugEnabled = false;
 
-    /**
-     * Converts the raw packet byte values, into the corresponding calibrated and uncalibrated sensor values, the Instruction String determines the output
-     *
-     * @param newPacket    a byte array containing the current received packet
-     * @param Instructions an array string containing the commands to execute. It is currently not fully supported
-     * @return
-     */
-    public static long parseData(byte[] data, CHANNEL_DATA_TYPE dataType, CHANNEL_DATA_ENDIAN dataEndian) {
+        public static long parseData(byte[] data, CHANNEL_DATA_TYPE dataType, CHANNEL_DATA_ENDIAN dataEndian) {
         long formattedData = 0;
 
         if (dataType == CHANNEL_DATA_TYPE.UNKOWN) {
@@ -99,14 +92,7 @@ public class UtilParseData {
         }
     }
 
-    /**
-     * Converts the raw packet byte values, into the corresponding calibrated and uncalibrated sensor values, the Instruction String determines the output
-     *
-     * @param newPacket    a byte array containing the current received packet
-     * @param Instructions an array string containing the commands to execute. It is currently not fully supported
-     * @return
-     */
-    @Deprecated // Moving to constant data type declarations rather then declaring strings in multiple classes
+        @Deprecated // Moving to constant data type declarations rather then declaring strings in multiple classes
     public static long[] parseData(byte[] data, String[] dataType) {
         int iData = 0;
         long[] formattedData = new long[dataType.length];

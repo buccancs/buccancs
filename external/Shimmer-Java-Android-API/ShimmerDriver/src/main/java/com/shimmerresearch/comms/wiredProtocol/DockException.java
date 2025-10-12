@@ -3,37 +3,17 @@ package com.shimmerresearch.comms.wiredProtocol;
 import com.google.common.base.Strings;
 import com.shimmerresearch.exceptions.ShimmerException;
 
-/**
- * @author Mark Nolan
- *
- */
 public class DockException extends ShimmerException {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -7922798090312830525L;
+        private static final long serialVersionUID = -7922798090312830525L;
     public int mSlotNumber;
     public String mDockID = "";
 
-    /**
-     * Currently used by DeviceInfo - plan to change
-     *
-     * @param message
-     */
-    public DockException(String message) {
+        public DockException(String message) {
         super(message);
     }
 
-    /**
-     * Used by BasicDock and SmartDock classes
-     *
-     * @param dockID
-     * @param slotNumber
-     * @param errorType
-     * @param lowLevelErrorCode
-     */
-    public DockException(String dockID, int slotNumber, int errorType, int lowLevelErrorCode) {
+        public DockException(String dockID, int slotNumber, int errorType, int lowLevelErrorCode) {
         mDockID = dockID;
         mSlotNumber = slotNumber;
         mUniqueID = mDockID + "." + String.format("%02d", mSlotNumber);
@@ -41,15 +21,7 @@ public class DockException extends ShimmerException {
         mErrorCodeLowLevel = lowLevelErrorCode;
     }
 
-    /**
-     * Used by BasicDock and SmartDock classes when Exception Level is needed
-     *
-     * @param dockID
-     * @param slotNumber
-     * @param errorType
-     * @param lowLevelErrorCode
-     */
-    public DockException(String dockID, int slotNumber, int errorType, int lowLevelErrorCode, ExceptionLevel exceptionLevel) {
+        public DockException(String dockID, int slotNumber, int errorType, int lowLevelErrorCode, ExceptionLevel exceptionLevel) {
         mDockID = dockID;
         mSlotNumber = slotNumber;
         mUniqueID = mDockID + "." + String.format("%02d", mSlotNumber);
@@ -58,15 +30,7 @@ public class DockException extends ShimmerException {
         mExceptionLevel = exceptionLevel;
     }
 
-    /**
-     * Used by MspBsl
-     *
-     * @param comPort
-     * @param errorCode
-     * @param errorCodeLowLevel
-     * @param uniqueID
-     */
-    public DockException(String comPort, int errorCode, int errorCodeLowLevel, String uniqueID) {
+        public DockException(String comPort, int errorCode, int errorCodeLowLevel, String uniqueID) {
         if (!Strings.isNullOrEmpty(uniqueID)) {
             mUniqueID = uniqueID;
             String[] subString = uniqueID.split("\\.");
@@ -82,30 +46,13 @@ public class DockException extends ShimmerException {
         mErrorCodeLowLevel = errorCodeLowLevel;
     }
 
-    /**
-     * Used by MspBsl
-     *
-     * @param comPort
-     * @param errorCode
-     * @param errorCodeLowLevel
-     * @param uniqueID
-     */
-    public DockException(String comPort, int errorCode, int errorCodeLowLevel, String uniqueID, String exceptionMsg, StackTraceElement[] exceptionStackTrace) {
+        public DockException(String comPort, int errorCode, int errorCodeLowLevel, String uniqueID, String exceptionMsg, StackTraceElement[] exceptionStackTrace) {
         this(comPort, errorCode, errorCodeLowLevel, uniqueID);
         mExceptionMsg = exceptionMsg;
         mExceptionStackTrace = exceptionStackTrace;
     }
 
-    /**
-     * Used by SmartDockUart and ShimmerUart. If coming from ShimmerUart, need
-     * to set mSlotNumber and mUniqueID in next layer up where it is called from.
-     *
-     * @param dockID
-     * @param comPort
-     * @param errorType
-     * @param lowLevelErrorCode
-     */
-    public DockException(String dockID, String comPort, int errorType, int lowLevelErrorCode) {
+        public DockException(String dockID, String comPort, int errorType, int lowLevelErrorCode) {
         super(dockID, comPort, errorType, lowLevelErrorCode);
         mDockID = dockID;
         mSlotNumber = -1;

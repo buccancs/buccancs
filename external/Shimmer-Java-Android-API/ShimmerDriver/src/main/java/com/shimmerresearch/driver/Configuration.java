@@ -1,48 +1,3 @@
-/*Rev 2.6
- *
- *
- *  Copyright (c) 2010, Shimmer Research, Ltd.
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
-
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Jong Chern Lim, Ruaidhri Molloy, Mark Nolan
- * @date   May, 2014
- *
- * The purpose of this code is to maintain the configurations of BTSTREAM
- *
- *
- * Changes since 2.5 (RM first revision)
- * - Addition of Strain Gauge for Shimmer3
- *
- * Changes since 2.2
- * - Changed list of compatible sensors to public
- *
- */
 
 package com.shimmerresearch.driver;
 
@@ -99,16 +54,6 @@ import com.shimmerresearch.verisense.sensors.SensorBattVoltageVerisense;
 import com.shimmerresearch.verisense.sensors.SensorGSRVerisense;
 import com.shimmerresearch.verisense.sensors.SensorMAX86916;
 
-/**
- * The purpose of this code is to maintain the configurations constants for a
- * Shimmer Device
- *
- * @author Jong Chern Lim,
- * @author Ruaidhri Molloy
- * @author Mark Nolan
- * @author Alex Saez
- *
- */
 public class Configuration {
 
     public static final double ACCELERATION_DUE_TO_GRAVITY = 9.81;
@@ -1201,11 +1146,7 @@ public class Configuration {
             mConfigOptionsMapRef3r = Collections.unmodifiableMap(aMap);
         }
 
-        /**
-         * GUI Sensor Tiles
-         * Order of Enum is the order in which they will be generated in the GUI
-         */
-        public enum LABEL_SENSOR_TILE {
+                public enum LABEL_SENSOR_TILE {
             STREAMING_PROPERTIES(SensorShimmerClock.LABEL_SENSOR_TILE.STREAMING_PROPERTIES),
             LOW_NOISE_ACCEL(SensorKionixAccel.LABEL_SENSOR_TILE.LOW_NOISE_ACCEL),
             LOW_NOISE_ACCEL_3R(SensorLSM6DSV.LABEL_SENSOR_TILE.LOW_NOISE_ACCEL),
@@ -1278,10 +1219,7 @@ public class Configuration {
 
         //DATABASE NAMES
         public static class DatabaseChannelHandles {
-            /**
-             * Calibrated Data Table = Raw Data Table + some processed signals
-             **/
-            public static final String FILTERED = "_Filtered"; // to create the name of the filtered signals
+                        public static final String FILTERED = "_Filtered"; // to create the name of the filtered signals
 
             //TODO: refer to ECG/PPG Algorithm Modules instead
             public static final String ECG_TO_HR = "ECGToHR";
@@ -1881,12 +1819,7 @@ public class Configuration {
             public static final int SENSOR_ALT_MAG = 0X200000;
         }
 
-        /**
-         * Some of these sensors are listed in order of how they appear in the
-         * data packets. The firmware also uses the IMU IDs as Sensor IDs in the
-         * IMU/BMP calibration bytes.
-         */
-        public class SENSOR_ID {
+                public class SENSOR_ID {
             public static final int RESERVED_ANY_SENSOR = -1;
 
             public static final int HOST_SHIMMER_STREAMING_PROPERTIES = -100;
@@ -1897,10 +1830,7 @@ public class Configuration {
 
             //Analog channels begin
             public static final int SHIMMER_TIMESTAMP = -200;//1;
-            /**
-             * Shimmer3 Low-noise analog accelerometer
-             */
-            public static final int SHIMMER_ANALOG_ACCEL = 2;
+                        public static final int SHIMMER_ANALOG_ACCEL = 2;
             public static final int SHIMMER_VBATT = 3;
 
             public static final int SHIMMER_EXT_EXP_ADC_A7 = 4;
@@ -1926,26 +1856,14 @@ public class Configuration {
 
             //Digital channels begin
             public static final int SHIMMER_MPU9X50_GYRO = 30;
-            /**
-             * Shimmer3 Wide-range digital accelerometer
-             */
-            public static final int SHIMMER_LSM303_ACCEL = 31;
+                        public static final int SHIMMER_LSM303_ACCEL = 31;
             public static final int SHIMMER_LSM303_MAG = 32;
-            /**
-             * Shimmer3 Alternative accelerometer
-             */
-            public static final int SHIMMER_MPU9X50_ACCEL = 33;
-            /**
-             * Shimmer3 Alternative magnetometer
-             */
-            public static final int SHIMMER_MPU9X50_MAG = 34;
+                        public static final int SHIMMER_MPU9X50_ACCEL = 33;
+                        public static final int SHIMMER_MPU9X50_MAG = 34;
             public static final int SHIMMER_MPU9X50_TEMP = 35;
             public static final int SHIMMER_BMPX80_PRESSURE = 36;    //BMP180 and BMP280
 
-            /**
-             * Shimmer3r Wide-Range Accelerometer
-             **/
-            public static final int SHIMMER_LSM6DSV_ACCEL_LN = 37;
+                        public static final int SHIMMER_LSM6DSV_ACCEL_LN = 37;
             public static final int SHIMMER_LSM6DSV_GYRO = 38;
             public static final int SHIMMER_LIS2DW12_ACCEL_WR = 39;
             public static final int SHIMMER_ADXL371_ACCEL_HIGHG = 40;
@@ -2017,15 +1935,7 @@ public class Configuration {
             public static final int HOST_CPU_USAGE = 1004;
         }
 
-        /**
-         * The bit mask must not change for each algorithm as this is what is
-         * stored in the Shimmer's infomem and the SD file configuration header.
-         * <p>
-         * 3 bytes for derived channels were introduced in LogAndStream v0.3.15 and SDLog v0.8.69.
-         * 5 bytes in GQ firmware.
-         * 8 bytes in LogAndStream v0.7.1 and SDLog v0.13.1 onwards
-         */
-        public class DerivedSensorsBitMask {
+                public class DerivedSensorsBitMask {
             // -------------- Derived Channels Byte 0 -------------------
             public final static int RES_AMP = 1 << 0; // (0*8 + 0);
             public final static int SKIN_TEMP = 1 << 1; // (0*8 + 1);
@@ -2088,10 +1998,7 @@ public class Configuration {
         public class GuiLabelConfig {
             public static final String SHIMMER_USER_ASSIGNED_NAME = "Shimmer Name";
             public static final String TRIAL_NAME = "Trial Name";
-            /**
-             * Algorithm models and sensor classes also rely on this
-             */
-            public static final String SHIMMER_SAMPLING_RATE = "Sampling Rate";
+                        public static final String SHIMMER_SAMPLING_RATE = "Sampling Rate";
             public static final String SHIMMER_AND_SENSORS_SAMPLING_RATE = "Shimmer and Sensors Sampling Rate";
             public static final String BUFFER_SIZE = "Buffer Size";
             public static final String CONFIG_TIME = "Config Time";

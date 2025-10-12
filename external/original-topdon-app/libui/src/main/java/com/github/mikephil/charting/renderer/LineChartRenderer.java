@@ -32,40 +32,20 @@ public class LineChartRenderer extends LineRadarRenderer {
 
     protected LineDataProvider mChart;
 
-    /**
-     * paint for the inner circle of the value indicators
-     */
-    protected Paint mCirclePaintInner;
+        protected Paint mCirclePaintInner;
 
-    /**
-     * Bitmap object used for drawing the paths (otherwise they are too long if
-     * rendered directly on the canvas)
-     */
-    protected WeakReference<Bitmap> mDrawBitmap;
+        protected WeakReference<Bitmap> mDrawBitmap;
 
-    /**
-     * on this canvas, the paths are rendered, it is initialized with the
-     * pathBitmap
-     */
-    protected Canvas mBitmapCanvas;
+        protected Canvas mBitmapCanvas;
 
-    /**
-     * the bitmap configuration to be used
-     */
-    protected Bitmap.Config mBitmapConfig = Bitmap.Config.ARGB_8888;
+        protected Bitmap.Config mBitmapConfig = Bitmap.Config.ARGB_8888;
 
     protected Path cubicPath = new Path();
     protected Path cubicFillPath = new Path();
     protected Path mGenerateFilledPathBuffer = new Path();
     private float[] mLineBuffer = new float[4];
-    /**
-     * cache for the circle bitmaps of all datasets
-     */
-    private HashMap<IDataSet, DataSetImageCache> mImageCaches = new HashMap<>();
-    /**
-     * buffer for drawing the circles
-     */
-    private float[] mCirclesBuffer = new float[2];
+        private HashMap<IDataSet, DataSetImageCache> mImageCaches = new HashMap<>();
+        private float[] mCirclesBuffer = new float[2];
 
     public LineChartRenderer(LineDataProvider chart, ChartAnimator animator,
                              ViewPortHandler viewPortHandler) {

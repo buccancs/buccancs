@@ -58,12 +58,7 @@ public class Cube {
     };
 
         private byte indices[] = {
-            /*
-             * Example:
-             * Face made of the vertices lower back left (lbl),
-             * lfl, lfr, lbl, lfr, lbr
-             */
-            0, 4, 5, 0, 5, 1,
+                        0, 4, 5, 0, 5, 1,
             //and so on...
             1, 5, 6, 1, 6, 2,
             2, 6, 7, 2, 7, 3,

@@ -24,11 +24,6 @@ import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_ENDIAN;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 
-/**
- * @author Ronan McCormack
- * @author Mark Nolan
- *
- */
 
 public class SensorPPG extends AbstractSensor {
 
@@ -550,10 +545,7 @@ public class SensorPPG extends AbstractSensor {
     protected int mPpgAdcSelectionGsrBoard = 0;
     protected int mPpg1AdcSelectionProto3DeluxeBoard = 0;
     protected int mPpg2AdcSelectionProto3DeluxeBoard = 0;
-    /**
-     * GQ BLE
-     */
-    protected int mSamplingDividerPpg = 0;
+        protected int mSamplingDividerPpg = 0;
 
     {
         sensorPpgDummy.mIsDummySensor = true;
@@ -614,12 +606,7 @@ public class SensorPPG extends AbstractSensor {
         sensorPpg2Dummy.mIsDummySensor = true;
     }
 
-    /**
-     * Constructor for this Sensor
-     *
-     * @param svo
-     */
-//	public SensorPPG(ShimmerVerObject svo) {
+    //	public SensorPPG(ShimmerVerObject svo) {
 //		super(svo);
 //		setSensorName(SENSORS.PPG.toString());
 //	}
@@ -628,13 +615,7 @@ public class SensorPPG extends AbstractSensor {
         initialise();
     }
 
-    /**
-     * Hack method put in to return list of conflicting sensors for PPG A12 as the setting the list value
-     * outside of the constructor was not working (talk to MN)
-     *
-     * @return listOfConflictingSensorsForPPG_A12
-     */
-    //TODO Talk to MN about replacing
+        //TODO Talk to MN about replacing
     public static final List<Integer> getListSensorPpgHostPPG_A12() {
         List<Integer> listOfKeysConflicting = new ArrayList<Integer>();
         listOfKeysConflicting.addAll(FixedConflictingSensorIdsList);
@@ -647,13 +628,7 @@ public class SensorPPG extends AbstractSensor {
 
     // PPG - Using Proto3 Deluxe TRRS Socket 1
 
-    /**
-     * Hack method put in to return list of conflicting sensors for PPG A13as the setting the list value
-     * outside of the constructor was not working (talk to MN)
-     *
-     * @return listOfConflictingSensorsForPPG_A13
-     */
-    //TODO Talk to MN about replacing
+        //TODO Talk to MN about replacing
     public static final List<Integer> getListSensorPpgHostPPG_A13() {
         List<Integer> listOfKeysConflicting = new ArrayList<Integer>();
         listOfKeysConflicting.addAll(FixedConflictingSensorIdsList);

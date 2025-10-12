@@ -18,14 +18,6 @@ import com.infisense.usbir.bean.PseudocolorBean;
 
 import java.util.ArrayList;
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2021.12.10 10:20
- * @UpdateUser:
- * @UpdateDate:     2021.12.10 10:20
- * @UpdateRemark:
- */
 public class PseudocolorAdapter extends RecyclerView.Adapter<PseudocolorAdapter.ViewHolder> {
 
     private Context context;

@@ -7,10 +7,6 @@ import java.util.Map.Entry;
 
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 
-/**
- * @author Mark Nolan
- *
- */
 public class MemoryLookupTablePayload extends AbstractPayload {
 
     List<MemoryBankDetails> listOfMemoryBankDetails = new ArrayList<MemoryBankDetails>();

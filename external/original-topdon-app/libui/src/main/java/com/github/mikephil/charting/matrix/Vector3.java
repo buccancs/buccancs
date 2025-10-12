@@ -1,8 +1,5 @@
 package com.github.mikephil.charting.matrix;
 
-/**
- * Simple 3D vector class. Handles basic vector math for 3D vectors.
- */
 public final class Vector3 {
     public static final Vector3 ZERO = new Vector3(0, 0, 0);
     public static final Vector3 UNIT_X = new Vector3(1, 0, 0);

@@ -37,14 +37,7 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
     int mServerPort = 500052;
 
 
-    /**
-     * Note that the server has to be started prior. See GrpcBLERadioByteTools
-     *
-     * @param macaddress the Shimmer3 BLE MAC address you want to connect to
-     * @param serverHost the GRPC server to be used for BLE communications
-     * @param serverPort the GRPC port to be used for BLE communications
-     */
-    public GrpcBLERadioByteCommunication(String macaddress, String serverHost, int serverPort) {
+        public GrpcBLERadioByteCommunication(String macaddress, String serverHost, int serverPort) {
         mServerHost = serverHost;
         mServerPort = serverPort;
         mMacAddress = macaddress.toUpperCase().replace(":", "");

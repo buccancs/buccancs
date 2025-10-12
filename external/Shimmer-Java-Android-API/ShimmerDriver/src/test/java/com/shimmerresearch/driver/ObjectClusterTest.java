@@ -1,44 +1,3 @@
-/*Rev 0.3
- *
- *  Copyright (c) 2010, Shimmer Research, Ltd.
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
-
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Jong Chern Lim
- * @date   October, 2013
- *
- * Changes since 0.2
- * - SDLog support
- *
- * Changes since 0.1
- * - Added method to remove a format
- *
- */
 package com.shimmerresearch.driver;
 
 import java.io.ByteArrayInputStream;
@@ -93,12 +52,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
     public byte[] mRawData;
     public double[] mUncalData = new double[50];
     public double[] mCalData = new double[50];
-    /**
-     * The SensorNames array is an older approach and has been largely replaced
-     * by the mPropertyCluster. Suggest using getChannelNamesByInsertionOrder()
-     * or getChannelNamesFromKeySet() instead.
-     */
-    @Deprecated
+        @Deprecated
     public String[] mSensorNames;
     public String[] mUnitCal = new String[50];
     public String[] mUnitUncal = new String[50];
@@ -122,19 +76,10 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
     public int calArrayIndexResize = 0;
     public int uncalArrayIndex = 0;
     SensorDataArray sensorDataArray = new SensorDataArray(50);
-    /**
-     * Some times it is necessary to get a list of Channels from the
-     * mPropertyCluster in order of insertion which is not possible with the
-     * Multimap approach. This separate list was created to keep a record
-     * of the order of insertion.
-     */
-    private List<String> listOfChannelNames = new ArrayList<String>();
+        private List<String> listOfChannelNames = new ArrayList<String>();
     private String mMyName;
     private String mBluetoothAddress;
-    /**
-     * mObjectClusterBuilder needs to be uninitialized to avoid crash when connecting on Android
-     */
-    private Builder mObjectClusterBuilder;
+        private Builder mObjectClusterBuilder;
     private int indexKeeper = 0;
     private double mTimeStampMilliSecs;
 
@@ -169,14 +114,7 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
         mMyName = ojc2.getName();
     }
 
-    /**
-     * Takes in a collection of Format Clusters and returns the Format Cluster specified by the string format
-     *
-     * @param collectionFormatCluster
-     * @param format
-     * @return FormatCluster
-     */
-    public static FormatCluster returnFormatCluster(Collection<FormatCluster> collectionFormatCluster, String format) {
+        public static FormatCluster returnFormatCluster(Collection<FormatCluster> collectionFormatCluster, String format) {
         FormatCluster returnFormatCluster = null;
 
         Iterator<FormatCluster> iFormatCluster = collectionFormatCluster.iterator();
@@ -199,17 +137,11 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
         return listofSignals;
     }
 
-    /**
-     * @return the mListOfOCTypesEnabled
-     */
-    public static List<OBJECTCLUSTER_TYPE> getListOfOCTypesEnabled() {
+        public static List<OBJECTCLUSTER_TYPE> getListOfOCTypesEnabled() {
         return mListOfOCTypesEnabled;
     }
 
-    /**
-     * @param listOfOCTypesEnabled the mListOfOCTypesEnabled to set
-     */
-    public static void setListOfOCTypesEnabled(List<OBJECTCLUSTER_TYPE> listOfOCTypesEnabled) {
+        public static void setListOfOCTypesEnabled(List<OBJECTCLUSTER_TYPE> listOfOCTypesEnabled) {
         ObjectClusterTest.mListOfOCTypesEnabled = listOfOCTypesEnabled;
     }
 
@@ -284,26 +216,14 @@ final public class ObjectClusterTest implements Cloneable, Serializable {
         return null;
     }
 
-    /**
-     * Users should note that a property has to be removed before it is replaced
-     *
-     * @param propertyname Property name you want to delete
-     * @param formatname   Format you want to delete
-     */
-    public void removePropertyFormat(String propertyname, String formatname) {
+        public void removePropertyFormat(String propertyname, String formatname) {
         Collection<FormatCluster> colFormats = mPropertyCluster.get(propertyname);
         // first retrieve all the possible formats for the current sensor device
         FormatCluster formatCluster = ((FormatCluster) ObjectCluster.returnFormatCluster(colFormats, formatname)); // retrieve format;
         mPropertyCluster.remove(propertyname, formatCluster);
     }
 
-    /**
-     * Serializes the object cluster into an array of bytes
-     *
-     * @return byte[] an array of bytes
-     * @see java.io.Serializable
-     */
-    public byte[] serialize() {
+        public byte[] serialize() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);

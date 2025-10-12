@@ -13,9 +13,6 @@ import com.example.thermal_lite.camera.task.StopPreviewTask;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by fengjibo on 2024/5/17.
- */
 public class DeviceControlManager implements IDeviceConnectListener {
 
     private static final String TAG = "DualDeviceControlManager";
@@ -34,43 +31,26 @@ public class DeviceControlManager implements IDeviceConnectListener {
         return mInstance;
     }
 
-    /**
-     * 初始化
-     */
-    public void init() {
+        public void init() {
         mDeviceControlWorker = new DeviceControlWorker();
         mDeviceControlWorker.setDeviceControlCallback(this);
         mDeviceControlWorker.startWork();
         mIDeviceConnectListeners = new HashMap<>();
     }
 
-    /**
-     * 注册设备状态回调，可在activity或fragment中注册，用于UI的改变
-     *
-     * @param key                    唯一标识
-     * @param iDeviceConnectListener
-     */
-    public void addDeviceConnectListener(String key, IDeviceConnectListener iDeviceConnectListener) {
+        public void addDeviceConnectListener(String key, IDeviceConnectListener iDeviceConnectListener) {
         if (mIDeviceConnectListeners != null) {
             mIDeviceConnectListeners.put(key, iDeviceConnectListener);
         }
     }
 
-    /**
-     * 取消注册设备状态回调
-     *
-     * @param key
-     */
-    public void removeDeviceConnectListener(String key) {
+        public void removeDeviceConnectListener(String key) {
         if (mIDeviceConnectListeners != null) {
             mIDeviceConnectListeners.remove(key);
         }
     }
 
-    /**
-     * 回收资源
-     */
-    public void release() {
+        public void release() {
         if (mDeviceControlWorker != null) {
             mDeviceControlWorker.release();
             mDeviceControlWorker = null;
@@ -81,42 +61,28 @@ public class DeviceControlManager implements IDeviceConnectListener {
         }
     }
 
-    /**
-     * 双光数据流出图
-     *
-     * @param ctrlBlock
-     */
-    public void handleStartPreview(USBMonitor.UsbControlBlock ctrlBlock) {
+        public void handleStartPreview(USBMonitor.UsbControlBlock ctrlBlock) {
         if (mDeviceControlWorker != null) {
             Log.d(TAG, "handleStartPreview");
             mDeviceControlWorker.addTask(new StartPreviewTask(ctrlBlock, mDeviceControlWorker.getDeviceState()));
         }
     }
 
-    /**
-     * 双光数据流停图
-     */
-    public void handleStopPreview() {
+        public void handleStopPreview() {
         if (mDeviceControlWorker != null) {
             Log.d(TAG, "handleStopPreview");
             mDeviceControlWorker.addTask(new StopPreviewTask(mDeviceControlWorker.getDeviceState()));
         }
     }
 
-    /**
-     * 双光数据流暂停
-     */
-    public void handlePauseDualPreview() {
+        public void handlePauseDualPreview() {
         if (mDeviceControlWorker != null) {
             Log.d(TAG, "handlePausePreview");
             mDeviceControlWorker.addTask(new PausePreviewTask(mDeviceControlWorker.getDeviceState()));
         }
     }
 
-    /**
-     * 双光数据流恢复
-     */
-    public void handleResumeDualPreview() {
+        public void handleResumeDualPreview() {
         if (mDeviceControlWorker != null) {
             Log.d(TAG, "handleResumePreview");
             mDeviceControlWorker.addTask(new ResumePreviewTask(mDeviceControlWorker.getDeviceState()));

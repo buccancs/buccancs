@@ -44,82 +44,34 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2022.7.19 17:20
- * @UpdateUser:
- * @UpdateDate:     2022.7.19 17:20
- * @UpdateRemark:
- */
 public class TemperatureView extends SurfaceView implements SurfaceHolder.Callback,
         View.OnTouchListener, BaseDualView.OnFrameCallback {
 
-    /**
-     * 温度区域模式 - 高低温点重置.
-     */
-    public static final int REGION_MODE_RESET = -1;
-    /**
-     * 温度区域模式 - 点.
-     */
-    public static final int REGION_MODE_POINT = 0;
-    /**
-     * 温度区域模式 - 线.
-     */
-    public static final int REGION_MODE_LINE = 1;
-    /**
-     * 温度区域模式 - 面.
-     */
-    public static final int REGION_MODE_RECTANGLE = 2;
-    /**
-     * 温度区域模式 - 全图.
-     */
-    public static final int REGION_MODE_CENTER = 3;
-    /**
-     * 温度区域模式 - 趋势图，也就是只一条线.
-     */
-    public static final int REGION_NODE_TREND = 4;
-    /**
-     * 温度区域模式 - 清除.
-     */
-    public static final int REGION_MODE_CLEAN = 5;
+        public static final int REGION_MODE_RESET = -1;
+        public static final int REGION_MODE_POINT = 0;
+        public static final int REGION_MODE_LINE = 1;
+        public static final int REGION_MODE_RECTANGLE = 2;
+        public static final int REGION_MODE_CENTER = 3;
+        public static final int REGION_NODE_TREND = 4;
+        public static final int REGION_MODE_CLEAN = 5;
     private static final String TAG = "TemperatureView";
-    /**
-     * 选中操作灵敏度，当 Touch Down 坐标与点线面坐标偏差在该值范围内，视为选中，单位 px.<br>
-     * 删除操作灵敏度，当 Touch UP 与 Touch Down 坐标偏差在该值范围内，视为删除，单位 px.
-     */
-    private static final int TOUCH_TOLERANCE = SizeUtils.sp2px(7f);
+        private static final int TOUCH_TOLERANCE = SizeUtils.sp2px(7f);
     private final int POINT_MAX_COUNT;
     private final int LINE_MAX_COUNT;
     private final int RECTANGLE_MAX_COUNT;
     private final TempDrawHelper helper = new TempDrawHelper();
-    /**
-     * 以 View 尺寸为坐标系，当前已添加的点列表，坐标为修正过后的坐标.
-     */
-    private final ArrayList<Point> pointList = new ArrayList<>();
-    /**
-     * 以 View 尺寸为坐标系，当前已添加的点列表，坐标为修正过后的坐标.
-     */
-    private final ArrayList<Line> lineList = new ArrayList<>();
-    /**
-     * 当前绘制的面列表，坐标采用 view 的宽高坐标.
-     */
-    private final ArrayList<Rect> rectList = new ArrayList<>();
+        private final ArrayList<Point> pointList = new ArrayList<>();
+        private final ArrayList<Line> lineList = new ArrayList<>();
+        private final ArrayList<Rect> rectList = new ArrayList<>();
     private final ArrayList<LibIRTemp.TemperatureSampleResult> pointResultList = new ArrayList<>(3);
     private final ArrayList<LibIRTemp.TemperatureSampleResult> lineResultList = new ArrayList<>(3);
     private final ArrayList<LibIRTemp.TemperatureSampleResult> rectangleResultList = new ArrayList<>(3);
     private final Runnable runnable;
     private final Object regionLock = new Object();
-    /**
-     * true-使用摄氏度 flase-使用华氏度
-     */
-    private final boolean isShowC = SharedManager.INSTANCE.getTemperature() == 1;
+        private final boolean isShowC = SharedManager.INSTANCE.getTemperature() == 1;
     public int productType = Const.TYPE_IR;
     private int drawCount = 3;
-    /**
-     * 对温度数据的解析和处理，以及温度的二次修正等计算.
-     */
-    @Nullable
+        @Nullable
     private LibIRTemp irtemp;
     /**
      * {@link #viewWidth} / {@link #temperatureWidth} 的比值.
@@ -129,31 +81,13 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
      * {@link #viewHeight} / {@link #temperatureHeight} 的比值.
      */
     private float yScale = 0;
-    /**
-     * 当前 View 去除 padding 后剩余的可用宽度，单位 px.
-     */
-    private int viewWidth = 0;
-    /**
-     * 当前 View 去除 padding 后剩余的可用高度，单位 px.
-     */
-    private int viewHeight = 0;
-    /**
-     * 温度数据宽度，单位 px.
-     */
-    private int temperatureWidth;
-    /**
-     * 温度数据高度，单位 px.
-     */
-    private int temperatureHeight;
-    /**
-     * 温度区域模式，由 REGION_MODE_** 定义，默认清除.
-     */
-    @RegionMode
+        private int viewWidth = 0;
+        private int viewHeight = 0;
+        private int temperatureWidth;
+        private int temperatureHeight;
+        @RegionMode
     private int temperatureRegionMode = REGION_MODE_CLEAN;
-    /**
-     * 当前是否显示了全图.
-     */
-    private boolean isShowFull;
+        private boolean isShowFull;
     @Nullable
     private OnTrendChangeListener onTrendChangeListener = null;
     @Nullable
@@ -161,25 +95,13 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     @Nullable
     private Runnable onTrendRemoveListener = null;
     private ILiteListener iLiteListener = null;
-    /**
-     * 单位摄氏度
-     */
-    private TempListener listener;
+        private TempListener listener;
     private boolean isMonitor = false;//如果是温度监控，则进行实时校验点线面的比例
-    /**
-     * 观测模式时高温点是否开启
-     */
-    private boolean isUserHighTemp = false;
-    /**
-     * 观测模式时低温点是否开启
-     */
-    private boolean isUserLowTemp = false;
+        private boolean isUserHighTemp = false;
+        private boolean isUserLowTemp = false;
     private SynchronizedBitmap syncimage;
     private byte[] temperature;
-    /**
-     * 以 View 尺寸为坐标系，当前已添加的趋势图对应直线，坐标为修正过后的坐标，null 表示未绘制.
-     */
-    @Nullable
+        @Nullable
     private Line trendLine;
     private Bitmap regionBitmap;
     private Bitmap regionAndValueBitmap;
@@ -187,32 +109,15 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private volatile boolean runflag = false;
     private WeakReference<ITsTempListener> iTsTempListenerWeakReference;
     private boolean isShow = false;
-    /**
-     * 是否为添加 点线面 模式。<br>
-     * true-添加一个新点线面 false-移动一个已有点线面
-     */
-    private boolean isAddAction = true;
+        private boolean isAddAction = true;
     private int downX = 0;
     private int downY = 0;
     private Line movingLine;
-    /**
-     * 线移动方式：整体移动、仅变更头、仅变更尾。
-     */
-    private LineMoveType lineMoveType = LineMoveType.ALL;
-    /* **************************************** 面 **************************************** */
-    private Rect movingRect;
-    /**
-     * 面移动方式：点击面内部-整体移动、点击面4条边-边移动、点击面4个角-角移动。
-     */
-    private RectMoveType rectMoveType = RectMoveType.ALL;
-    /**
-     * 仅边移动模式时，移动的是哪条边.
-     */
-    private RectMoveEdge rectMoveEdge = RectMoveEdge.LEFT;
-    /**
-     * 仅角移动模式时，移动的是哪个角.
-     */
-    private RectMoveCorner rectMoveCorner = RectMoveCorner.LT;
+        private LineMoveType lineMoveType = LineMoveType.ALL;
+        private Rect movingRect;
+        private RectMoveType rectMoveType = RectMoveType.ALL;
+        private RectMoveEdge rectMoveEdge = RectMoveEdge.LEFT;
+        private RectMoveCorner rectMoveCorner = RectMoveCorner.LT;
     private DualCameraParams.FusionType mCurrentFusionType;
     private byte[] remapTempData;
     private DualUVCCamera dualUVCCamera;
@@ -449,10 +354,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         };
     }
 
-    /**
-     * 指定坐标 (x, y) 是否视为指定 Line 的选中.
-     */
-    private static boolean isLineConcat(@NonNull Line line, int x, int y) {
+        private static boolean isLineConcat(@NonNull Line line, int x, int y) {
         int tempDistance = ((line.end.y - line.start.y) * x - (line.end.x - line.start.x) * y + line.end.x * line.start.y - line.start.x * line.end.y);
         tempDistance = (int) (tempDistance / Math.sqrt(Math.pow(line.end.y - line.start.y, 2) + Math.pow(line.end.x - line.start.x, 2)));
         return Math.abs(tempDistance) < TOUCH_TOLERANCE && x > Math.min(line.start.x, line.end.x) - TOUCH_TOLERANCE && x < Math.max(line.start.x, line.end.x) + TOUCH_TOLERANCE;
@@ -503,24 +405,15 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-    /**
-     * 设置趋势图温度变化时监听，注意，回调不在主线程！！
-     */
-    public void setOnTrendChangeListener(@Nullable OnTrendChangeListener onTrendChangeListener) {
+        public void setOnTrendChangeListener(@Nullable OnTrendChangeListener onTrendChangeListener) {
         this.onTrendChangeListener = onTrendChangeListener;
     }
 
-    /**
-     * 设置趋势图添加事件监听，放心，回调在主线程.
-     */
-    public void setOnTrendAddListener(@Nullable Runnable onTrendAddListener) {
+        public void setOnTrendAddListener(@Nullable Runnable onTrendAddListener) {
         this.onTrendAddListener = onTrendAddListener;
     }
 
-    /**
-     * 设置趋势图移除事件监听，放心，回调在主线程.
-     */
-    public void setOnTrendRemoveListener(@Nullable Runnable onTrendRemoveListener) {
+        public void setOnTrendRemoveListener(@Nullable Runnable onTrendRemoveListener) {
         this.onTrendRemoveListener = onTrendRemoveListener;
     }
 
@@ -677,8 +570,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
 
 
 
-    /* **************************************** Touch **************************************** */
-
+    
     public void stop() {
         runflag = false;
         isShow = getVisibility() == View.VISIBLE;
@@ -746,8 +638,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         lineList.add(line);
     }
 
-    /* **************************************** 点 **************************************** */
-
+    
     public void addScaleRectangle(Rect r) {
         float sx = getMeasuredWidth() / (float) temperatureWidth;
         float sy = getMeasuredHeight() / (float) temperatureHeight;
@@ -775,8 +666,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     }
 
 
-    /* **************************************** 线 **************************************** */
-
+    
     public Line getLine() {
         if (!lineList.isEmpty()) {
             Line line = new Line(new Point(), new Point());
@@ -1354,8 +1244,7 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
 
 
 
-    /* **************************************** Draw **************************************** */
-
+    
         private void drawLine(Canvas canvas, int x1, int y1, int x2, int y2, boolean isTrend) {
         // 由于线段与实心点的的绘制是分开的，线段使用当前 View 坐标，而实心点使用温度(192x256)坐标转换为 View 坐标
         // 故而这里需要把当前的坐标，尽量贴近温度坐标的整数倍，否则会出现实心圆偏离直线太远的情况

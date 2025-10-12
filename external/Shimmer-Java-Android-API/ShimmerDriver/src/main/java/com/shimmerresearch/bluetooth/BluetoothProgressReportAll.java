@@ -16,12 +16,6 @@ import com.shimmerresearch.driver.ShimmerDevice;
 import com.shimmerresearch.driver.ShimmerObject;
 import com.shimmerresearch.driver.shimmer4sdk.Shimmer4sdk;
 
-/**
- * Hold all progress details for Bluetooth activity.
- *
- * @author mnolan
- *
- */
 //TODO add proper comments
 //TODO remove unnecessary code carried over from dock progress details
 public class BluetoothProgressReportAll implements Serializable {

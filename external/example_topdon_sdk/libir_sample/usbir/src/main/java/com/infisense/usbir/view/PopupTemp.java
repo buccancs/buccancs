@@ -14,14 +14,6 @@ import com.infisense.usbir.R;
 import com.infisense.usbir.adapter.TempAdapter;
 
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2021.12.9 13:34
- * @UpdateUser:
- * @UpdateDate:     2021.12.9 13:34
- * @UpdateRemark:
- */
 public class PopupTemp {
 
     private Context mContext;

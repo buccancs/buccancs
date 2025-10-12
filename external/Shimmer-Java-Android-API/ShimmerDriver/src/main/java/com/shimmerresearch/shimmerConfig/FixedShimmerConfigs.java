@@ -14,11 +14,6 @@ import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID_SR_CODES;
 import com.shimmerresearch.sensors.SensorEXG;
 import com.shimmerresearch.sensors.lsm303.SensorLSM303;
 
-/**
- * This class is used for setting up the same hardware with default configurations but for different applications.
- *
- * @author Mark Nolan
- */
 public class FixedShimmerConfigs {
 
     public static boolean setFixedConfigWhenConnecting(ShimmerDevice shimmerDevice, FIXED_SHIMMER_CONFIG_MODE fixedConfig, LinkedHashMap<String, Object> fixedConfigMap) {

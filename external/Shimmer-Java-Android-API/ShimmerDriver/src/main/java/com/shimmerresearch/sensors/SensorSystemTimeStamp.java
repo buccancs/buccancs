@@ -23,15 +23,6 @@ import com.shimmerresearch.sensors.SensorShimmerClock.GuiLabelSensors;
 
 //TODO I've only started on this class. I need to extract any old code from ShimmerClock and put it in here
 
-/**
- * This class is currently only able to be used for devices that don't sent a
- * timestamp per packet. ShimmerClock has the code needed to handle offsets in
- * the clock value between multiple units - the code of which needs to be moved
- * here.
- *
- * @author Mark Nolan
- *
- */
 public class SensorSystemTimeStamp extends AbstractSensor {
 
     //--------- Sensor info start --------------
@@ -78,10 +69,7 @@ public class SensorSystemTimeStamp extends AbstractSensor {
             Arrays.asList(CHANNEL_TYPE.CAL), false, false);
     public static final Map<String, ChannelDetails> mChannelMapRef;
     //--------- Sensor info end --------------
-    /**
-     *
-     */
-    private static final long serialVersionUID = 8974371709657275355L;
+        private static final long serialVersionUID = 8974371709657275355L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();

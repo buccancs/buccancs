@@ -14,10 +14,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-/**
- * Created by fengjibo on 2023/3/29.
- * 设备控制类，应于APP同一生命周期
- */
 public class DeviceIrcmdControlManager {
 
     private static final String TAG = "DeviceIrcmdControlManager";
@@ -42,11 +38,7 @@ public class DeviceIrcmdControlManager {
         return mInstance;
     }
 
-    /**
-     * 大端模式转换
-     * 将int数值转换为占四个字节的byte数组，本方法适用于(高位在前，低位在后)的顺序。  和bytesToInt2（）配套使用
-     */
-    public static byte[] intToBytes2(int value) {
+        public static byte[] intToBytes2(int value) {
         byte[] src = new byte[4];
         src[0] = (byte) ((value >> 24) & 0xFF);
         src[1] = (byte) ((value >> 16) & 0xFF);
@@ -64,27 +56,13 @@ public class DeviceIrcmdControlManager {
         return src;
     }
 
-    /**
-     * 大端模式转换
-     * byte数组中取int数值，本方法适用于(低位在后，高位在前)的顺序。和intToBytes2（）配套使用
-     */
-    public static int bytesToInt2(byte[] src, int offset) {
+        public static int bytesToInt2(byte[] src, int offset) {
         int value =
                 (((src[offset] & 0xFF) << 24) | ((src[offset + 1] & 0xFF) << 16) | ((src[offset + 2] & 0xFF) << 8) | (src[offset + 3] & 0xFF));
         return value;
     }
 
-    /**
-     * 获取isp读取到的值
-     *
-     * @param name
-     * @param ispParamReadByteArray
-     * @param byteWidth
-     * @param begin
-     * @param end
-     * @return
-     */
-    public static String getReadValue(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end) {
+        public static String getReadValue(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end) {
         // 读取出来的一个int，共四个字节的值
         StringBuilder ispParamReadByteArrStr = new StringBuilder();
         // 00000111 00000000 00000000 00000000
@@ -103,18 +81,7 @@ public class DeviceIrcmdControlManager {
         return String.valueOf(Long.parseLong(orgValue, 2));
     }
 
-    /**
-     * int类型的byte数组，转为二进制字符串，然后根据传入的值做替换，最终输出拼装好的值
-     *
-     * @param name
-     * @param ispParamReadByteArray
-     * @param byteWidth
-     * @param begin
-     * @param end
-     * @param valueArray
-     * @return
-     */
-    public static long byteArrToBinStr(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end,
+        public static long byteArrToBinStr(String name, byte[] ispParamReadByteArray, int byteWidth, int begin, int end,
                                        byte[] valueArray) {
         // 读取出来的一个int，共四个字节的值
         StringBuilder ispParamReadByteArrStr = new StringBuilder();
@@ -170,10 +137,7 @@ public class DeviceIrcmdControlManager {
         mSendFPGACommand = sendFPGACommand;
     }
 
-    /**
-     * 发送fpga算法参数指令
-     */
-    public void sendFPGAParam() {
+        public void sendFPGAParam() {
         if (!mSendFPGACommand) {
             return;
         }

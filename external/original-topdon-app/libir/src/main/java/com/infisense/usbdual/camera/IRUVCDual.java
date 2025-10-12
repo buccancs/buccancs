@@ -28,14 +28,6 @@ import com.infisense.usbir.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * @Description:
- * @Author:         brilliantzhao
- * @CreateDate:     2022.3.28 14:48
- * @UpdateUser:
- * @UpdateDate:     2022.3.28 14:48
- * @UpdateRemark:
- */
 public class IRUVCDual {
     private final Context mContext;
     public String TAG = "IRUVC";

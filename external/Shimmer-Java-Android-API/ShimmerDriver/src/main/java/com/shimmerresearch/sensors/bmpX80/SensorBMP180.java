@@ -32,11 +32,6 @@ import com.shimmerresearch.sensors.AbstractSensor;
 import com.shimmerresearch.sensors.ActionSetting;
 import com.shimmerresearch.sensors.bmpX80.SensorBMP280.DatabaseConfigHandle;
 
-/**
- * @author Ronan McCormack
- * @author Mark Nolan
- *
- */
 public class SensorBMP180 extends SensorBMPX80 {
 
     //--------- Bluetooth commands start --------------
@@ -97,10 +92,7 @@ public class SensorBMP180 extends SensorBMPX80 {
     public static final Map<String, ChannelDetails> mChannelMapRef;
 //			CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
     //--------- Configuration options end --------------
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4559709230029277863L;
+        private static final long serialVersionUID = 4559709230029277863L;
 
     static {
         Map<Byte, BtCommandDetails> aMap = new LinkedHashMap<Byte, BtCommandDetails>();
@@ -147,12 +139,7 @@ public class SensorBMP180 extends SensorBMPX80 {
 //		channelBmp180Temp.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.UNCAL;
     }
 
-    /**
-     * Constructor for this Sensor
-     *
-     * @param svo
-     */
-    public SensorBMP180(ShimmerVerObject svo) {
+        public SensorBMP180(ShimmerVerObject svo) {
         super(SENSORS.BMP180, svo);
         initialise();
     }

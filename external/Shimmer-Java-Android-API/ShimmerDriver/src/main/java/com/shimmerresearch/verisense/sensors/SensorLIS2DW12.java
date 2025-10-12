@@ -33,14 +33,6 @@ import com.shimmerresearch.verisense.VerisenseDevice;
 import com.shimmerresearch.verisense.communication.payloads.OperationalConfigPayload.OP_CONFIG_BYTE_INDEX;
 import com.shimmerresearch.verisense.payloaddesign.AsmBinaryFileConstants.PAYLOAD_CONFIG_BYTE_INDEX;
 
-/**
- * Sensor chip that contains an accelerometer.
- * <p>
- * This sensor is typically refereed to as Accel1 in the Verisense hardware.
- *
- * @author Mark Nolan
- *
- */
 public class SensorLIS2DW12 extends AbstractSensor {
 
     public static final int FIFO_SIZE_IN_CHIP = 192;

@@ -38,10 +38,6 @@ import com.shimmerresearch.verisense.sensors.SensorLIS2DW12;
 import com.shimmerresearch.verisense.sensors.SensorBattVoltageVerisense.ADC_SAMPLING_RATES;
 import com.shimmerresearch.verisense.sensors.SensorLIS2DW12.LIS2DW12_ACCEL_RATE;
 
-/**
- * @author Mark Nolan
- *
- */
 public class API_00003_VerisenseProtocolByteCommunicationTest {
 
     @Test

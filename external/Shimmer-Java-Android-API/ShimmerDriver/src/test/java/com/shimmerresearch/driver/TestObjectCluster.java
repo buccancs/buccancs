@@ -139,18 +139,7 @@ public abstract class TestObjectCluster {
     public static final int NUM_HASHMAP_ARRAY = 2;
 
 
-    /*				objc.dataStructureSelector = 1;	//ArrayList
-    objc.addDataToMap(String.valueOf(i), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, 1.0);
-    objc.dataStructureSelector = 2;	//Nested HashMap
-    objc.addDataToMap(String.valueOf(i), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, 2.0);
-    objc.dataStructureSelector = 3;	//HashMap with Array
-    objc.addDataToMap(String.valueOf(i), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, 3.0);
-    objc.dataStructureSelector = 4;	//Arrays
-    objc.addDataToMap(String.valueOf(i), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, 4.0);
-    objc.dataStructureSelector = 5;	//Multimap
-    objc.addDataToMap(String.valueOf(i), CHANNEL_TYPE.CAL.toString(), CHANNEL_UNITS.NO_UNITS, 5.0);
-*/
-    public static final int NUM_SENSORDATA_ARRAY = 3;
+        public static final int NUM_SENSORDATA_ARRAY = 3;
     public static final int NUM_MULTIMAP = 4;
     public static final int NUM_ARRAYS = 5;
     public static final int NUM_ARRAYS_RESIZE = 6;
@@ -629,12 +618,7 @@ public abstract class TestObjectCluster {
         }
     }
 
-    /**
-     * Now updated to test 30 channels, and with separate ObjectClusters for each data structure option
-     * Also testing array resizing time
-     *
-     */
-    public static ObjectClusterTest[][] testDataStructureOptionsInsertionUpdated(boolean printToConsole) {
+        public static ObjectClusterTest[][] testDataStructureOptionsInsertionUpdated(boolean printToConsole) {
 
         long cumulativeTimings[] = new long[NUM_DATA_STRUCTURES];
         long cumulativeTimingsOverall[] = new long[NUM_DATA_STRUCTURES];

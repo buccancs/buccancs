@@ -21,8 +21,7 @@ import java.lang.reflect.Method;
 public class ScreenUtils {
 
     private ScreenUtils() {
-        /* cannot be instantiated */
-        throw new UnsupportedOperationException("cannot be instantiated");
+                throw new UnsupportedOperationException("cannot be instantiated");
     }
 
         public static int getScreenWidth(Context context) {

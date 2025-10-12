@@ -5,10 +5,6 @@ import java.util.List;
 
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_DATA_TYPE;
 
-/**
- * @author Mark Nolan
- *
- */
 public class RecordBufferDetailsPayload extends AbstractPayload {
 
     private static int NUM_MEMORY_BANKS = 2;

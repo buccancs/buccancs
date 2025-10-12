@@ -34,14 +34,7 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
     }
 
 
-    /**
-     * Initialize a BLE radio with a radio listener
-     *
-     * @param macaddress e.g. e8:eb:1b:93:68:dd
-     * @param listener   listen to the events
-     * @see ByteCommunicationListener
-     */
-    public JavelinBLERadioByteCommunication(String macaddress) {
+        public JavelinBLERadioByteCommunication(String macaddress) {
         //if (!Initialized) {
         InitializeProcess();
         //}
@@ -60,14 +53,7 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
     }
 
 
-    /**
-     * Initialize a BLE radio with a radio listener
-     *
-     * @param macaddress e.g. e8:eb:1b:93:68:dd
-     * @param listener   listen to the events
-     * @see ByteCommunicationListener
-     */
-    public JavelinBLERadioByteCommunication(BluetoothDeviceDetails bdd) {
+        public JavelinBLERadioByteCommunication(BluetoothDeviceDetails bdd) {
         if (!Initialized) {
             InitializeProcess();
         }
@@ -123,11 +109,7 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
             Thread.sleep(1000);
             ble.disconnect();
             //BTHLE\Dev_daa619f04ad7
-			/*
-		JavelinBLERadioByteCommunication ble2 = new JavelinBLERadioByteCommunication("da:a6:19:f0:4a:d7",null);
-		ble2.connect();
-			 */
-        } catch (ShimmerException e) {
+			        } catch (ShimmerException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -243,13 +225,7 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
 			System.out.print(" "+l_byte);
 		}
 		 */
-		/*
-		javelin.unWatchBLECharacteristicChanges(javelinID, ServiceUUID, RXUUID);
-		javelin.unWatchBLECharacteristicChanges(javelinID, ServiceUUID, TXUUID);
-		javelin.clearBLECharacteristicChanges(javelinID, ServiceUUID, RXUUID);
-		javelin.clearBLECharacteristicChanges(javelinID, ServiceUUID, TXUUID);
-		*/
-        //mByteCommunicationListener.eventDisconnected();
+		        //mByteCommunicationListener.eventDisconnected();
 
     }
 

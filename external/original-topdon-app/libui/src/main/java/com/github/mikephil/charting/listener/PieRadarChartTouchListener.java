@@ -13,19 +13,11 @@ import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
 
-/**
- * Touchlistener for the PieChart.
- *
- * @author Philipp Jahoda
- */
 public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChartBase<?>> {
 
     private MPPointF mTouchStartPoint = MPPointF.getInstance(0, 0);
 
-    /**
-     * the angle where the dragging started
-     */
-    private float mStartAngle = 0f;
+        private float mStartAngle = 0f;
 
     private ArrayList<AngularVelocitySample> _velocitySamples = new ArrayList<AngularVelocitySample>();
 

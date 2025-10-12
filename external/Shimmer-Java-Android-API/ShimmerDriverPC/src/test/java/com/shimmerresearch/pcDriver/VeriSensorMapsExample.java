@@ -70,12 +70,7 @@ public class VeriSensorMapsExample extends BasicProcessWithCallBack {
         //s.setWaitForData(shimmer);
     }
 
-    /**
-     * Initialize the contents of the frame
-     *
-     * @wbp.parser.entryPoint
-     */
-    public void initialize() {
+        public void initialize() {
         btManager.setPathToVeriBLEApp("bleconsoleapp\\BLEConsoleApp1.exe");
         frame = new JFrame("Shimmer SensorMaps Example");
         frame.setBounds(100, 100, 662, 591);

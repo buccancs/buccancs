@@ -1,42 +1,3 @@
-/*Rev0.1
- * This implementation is based of ShimmerPCBT. Purpose is to demonstrate the use of the BlueCove Bluetooth library. BlueCove http://bluecove.org/
- * The blueooth address of the device should be specified as follows btspp://000666669686:1 , where 000666669686 is the Bluetooth address
- * Note that BlueCove has other useful Bluetooth functions such as Bluetooth Scanning
- * Also note that using BlueCove on linux will require downloading additional libraries bluecove-gpl and bluecove (need to replace the snapshot library) from their site http://sourceforge.net/projects/bluecove/files/BlueCove/2.1.0/
- * Note that the Linux library is licensed under a GPL license
- *
- * Copyright (c) 2010, Shimmer Research, Ltd.
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Jong Chern Lim
- * @date   November, 2013
- *
- */
 
 package com.shimmerresearch.pcDriver;
 
@@ -85,10 +46,7 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
     public static final int NOTIFICATION_SHIMMER_START_STREAMING = 1;
     public static final int NOTIFICATION_SHIMMER_FULLY_INITIALIZED = 2;
     public final static int NOTIFICATION_SHIMMER_STATE_CHANGE = 3;
-    /**
-     *
-     */
-    private static final long serialVersionUID = -7067087273053149229L;
+        private static final long serialVersionUID = -7067087273053149229L;
     public String message;
     // Used by the constructor when the user intends to write new settings to the Shimmer device after connection
     StreamConnection conn = null;
@@ -97,15 +55,7 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
     DataInputStream mIN;
     OutputStream mOUT;
 
-    /**
-     * Constructor. Prepares a new Bluetooth session.
-     *
-     * @param context       The UI Activity Context
-     * @param handler       A Handler to send messages back to the UI Activity
-     * @param myname        To allow the user to set a unique identifier for each Shimmer device
-     * @param countiousSync A boolean value defining whether received packets should be checked continuously for the correct start and end of packet.
-     */
-    public ShimmerPCBTBCove(String myName, Boolean continousSync) {
+        public ShimmerPCBTBCove(String myName, Boolean continousSync) {
         mShimmerUserAssignedName = myName;
         setContinuousSync(continousSync);
         setSetupDeviceWhileConnecting(false);
@@ -174,13 +124,7 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
         setContinuousSync(continousSync);
     }
 
-    /**
-     * Connect to device specified by address
-     *
-     * @param address The Bluetooth address format is btspp://000666669686:1 , where 000666669686 is the Bluetooth address
-     * @param empty   This is for forward compatibility, in the event a choice of library is offered, any string value can be entered now ~ does nothing
-     */
-    public synchronized void connect(final String address, String empty) {
+        public synchronized void connect(final String address, String empty) {
         setIamAlive(false);
         if (conn == null) {
             mMyBluetoothAddress = address;

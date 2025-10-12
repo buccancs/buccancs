@@ -51,10 +51,7 @@ public class SensorECGToHRFw extends AbstractSensor implements Serializable {
     //--------- Configuration options start --------------
     //--------- Configuration options end --------------
     public static final Map<String, ChannelDetails> mChannelMapRef;
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4160314338085066414L;
+        private static final long serialVersionUID = 4160314338085066414L;
 
     static {
         Map<Integer, SensorDetailsRef> aMap = new LinkedHashMap<Integer, SensorDetailsRef>();
@@ -75,12 +72,7 @@ public class SensorECGToHRFw extends AbstractSensor implements Serializable {
         channelEcgToHrFw.mChannelFormatDerivedFromShimmerDataPacket = CHANNEL_TYPE.CAL;
     }
 
-    /**
-     * Constructor for this Sensor
-     *
-     * @param svo
-     */
-    public SensorECGToHRFw(ShimmerVerObject svo) {
+        public SensorECGToHRFw(ShimmerVerObject svo) {
         super(SENSORS.ECG_TO_HR, svo);
         initialise();
     }

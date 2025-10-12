@@ -8,13 +8,6 @@ import java.util.List;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID_SR_CODES;
 
-/**
- * Holds the Shimmer's Expansion board information as read from the memory chip
- * on the Shimmers expansion board.
- *
- * @author Mark Nolan
- *
- */
 public class ExpansionBoardDetails implements Serializable {
 
     public static final List<Integer> LIST_OF_UNITS_WITH_EXP_BRDS = Arrays.asList(
@@ -24,22 +17,10 @@ public class ExpansionBoardDetails implements Serializable {
             HW_ID.SHIMMER_ECG_MD,
             HW_ID.SHIMMER_4_SDK
     );
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1104467341565122266L;
-    /**
-     * Stores the SR number for a specific Shimmer version
-     */
-    public int mExpansionBoardId = HW_ID_SR_CODES.UNKNOWN;
-    /**
-     * Stores the revision of the board
-     */
-    public int mExpansionBoardRev = HW_ID_SR_CODES.UNKNOWN;
-    /**
-     * Stores the special revision number - for custom modifications to standard Shimmers
-     */
-    public int mExpansionBoardRevSpecial = HW_ID_SR_CODES.UNKNOWN;
+        private static final long serialVersionUID = 1104467341565122266L;
+        public int mExpansionBoardId = HW_ID_SR_CODES.UNKNOWN;
+        public int mExpansionBoardRev = HW_ID_SR_CODES.UNKNOWN;
+        public int mExpansionBoardRevSpecial = HW_ID_SR_CODES.UNKNOWN;
     public byte[] mExpBoardArray = new byte[]{};
 
     public ExpansionBoardDetails(

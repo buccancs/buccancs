@@ -1,38 +1,5 @@
 //v0.2 -  8 January 2013
 
-/*
- * Copyright (c) 2010, Shimmer Research, Ltd.
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
-
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Jong Chern Lim
- * @date   October, 2013
- */
 
 //Future updates needed
 //- the handler should be converted to static
@@ -126,8 +93,7 @@ public class ShimmerService extends Service {
             }
             switch (msg.what) { // handlers have a what identifier which is used to identify the type of msg
                 case ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET:
-                    /*	---------- Handle the data packet message ----------	*/
-                    handleMsgDataPacket(msg);
+                                        handleMsgDataPacket(msg);
                     break;
                 case Shimmer.MESSAGE_TOAST:
                     Log.d("toast", msg.getData().getString(Shimmer.TOAST));
@@ -138,8 +104,7 @@ public class ShimmerService extends Service {
                     }
                     break;
                 case ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE:
-                    /*	---------- Handle the state change message ----------	*/
-                    handleMsgStateChange(msg);
+                                        handleMsgStateChange(msg);
                     break;
                 case Shimmer.MESSAGE_STOP_STREAMING_COMPLETE:
                     String address = msg.getData().getString("Bluetooth Address");
@@ -298,22 +263,12 @@ public class ShimmerService extends Service {
         btManager.disconnectAllDevices();
     }
 
-    /**
-     * We recommend using ShimmerBluetoothManagerAndroid when configuring the Shimmer LEDs.
-     * This method is kept for backwards compatibility with existing apps.
-     */
-    @Deprecated
+        @Deprecated
     public void toggleAllLEDS() {
         btManager.toggleAllLEDS();
     }
 
-    /**
-     * We recommend using ShimmerBluetoothManagerAndroid when configuring the Shimmer LEDs.
-     * This method is kept for backwards compatibility with existing apps.
-     *
-     * @param bluetoothAddress
-     */
-    @Deprecated
+        @Deprecated
     public void toggleLED(String bluetoothAddress) {
         btManager.toggleLED(bluetoothAddress);
     }
@@ -323,13 +278,7 @@ public class ShimmerService extends Service {
         btManager.toggleAllLEDS();
     }
 
-    /**
-     * Handles the data packet message received by the Handler
-     * Override this method to change how the message is handled
-     *
-     * @param msg
-     */
-    public void handleMsgDataPacket(Message msg) {
+        public void handleMsgDataPacket(Message msg) {
         if ((msg.obj instanceof ObjectCluster)) {    // within each msg an object can be include, objectclusters are used to represent the data structure of the shimmer device
             ObjectCluster objectCluster = (ObjectCluster) msg.obj;
 
@@ -451,13 +400,7 @@ public class ShimmerService extends Service {
         }
     }
 
-    /**
-     * Handles the state change message received by the Handler
-     * Override this method to change how the message is handled
-     *
-     * @param msg
-     */
-    public void handleMsgStateChange(Message msg) {
+        public void handleMsgStateChange(Message msg) {
 
         Intent intent = new Intent("com.shimmerresearch.service.ShimmerService");
         Log.d("ShimmerGraph", "Sending");
@@ -533,14 +476,7 @@ public class ShimmerService extends Service {
         }
     }
 
-    /**
-     * Handles the notification message received by the Handler
-     * Note: Shimmer FULLY_INITIALIZED messages are received here
-     * Override this method to change how the message is handled
-     *
-     * @param msg
-     */
-    public void handleNotificationMsg(Message msg) {
+        public void handleNotificationMsg(Message msg) {
         //Handle message here
     }
 
@@ -552,13 +488,7 @@ public class ShimmerService extends Service {
         btManager.startStreamingAllDevices();
     }
 
-    /**
-     * Enable or disable logging to file with selection of file output type
-     *
-     * @param enableLogging
-     * @param fileType      File output type
-     */
-    public void setEnableLogging(boolean enableLogging, FILE_TYPE fileType) {
+        public void setEnableLogging(boolean enableLogging, FILE_TYPE fileType) {
         setEnableLogging(enableLogging);
         mLoggingFileType = fileType;
     }
@@ -584,12 +514,7 @@ public class ShimmerService extends Service {
         return mEnableLogging;
     }
 
-    /**
-     * Enable or disable logging to file
-     *
-     * @param enableLogging
-     */
-    public void setEnableLogging(boolean enableLogging) {
+        public void setEnableLogging(boolean enableLogging) {
         mEnableLogging = enableLogging;
         Log.d("Shimmer", "Logging :" + Boolean.toString(mEnableLogging));
     }
@@ -633,34 +558,19 @@ public class ShimmerService extends Service {
         }
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps.
-     *
-     * @param accelRange
-     */
-    @Deprecated
+        @Deprecated
     public void setAllAccelRange(int accelRange) {
         //TODO: Test this.
         btManager.setAllAccelRange(accelRange);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps.
-     *
-     * @param gsrRange
-     */
-    @Deprecated
+        @Deprecated
     public void setAllGSRRange(int gsrRange) {
         // TODO: Test this.
         btManager.setAllGSRRange(gsrRange);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps.
-     *
-     * @param enabledSensors
-     */
-    @Deprecated
+        @Deprecated
     public void setAllEnabledSensors(int enabledSensors) {
         //TODO: Test this.
         btManager.setAllEnabledSensors(enabledSensors);
@@ -690,48 +600,24 @@ public class ShimmerService extends Service {
         }
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param setBit
-     */
-    @Deprecated
+        @Deprecated
     public void writePMux(String bluetoothAddress, int setBit) {
         btManager.writePMux(bluetoothAddress, setBit);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param setBit
-     */
-    @Deprecated
+        @Deprecated
     public void write5VReg(String bluetoothAddress, int setBit) {
         btManager.write5VReg(bluetoothAddress, setBit);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public List<String[]> getListofEnabledSensorSignals(String bluetoothAddress) {
         List<String[]> listofSensors = new ArrayList<String[]>();
         listofSensors = btManager.getListofEnabledSensorSignals(bluetoothAddress);
         return listofSensors;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public long getEnabledSensors(String bluetoothAddress) {
         long enabledSensors = btManager.getEnabledSensors(bluetoothAddress);
         return enabledSensors;
@@ -777,142 +663,70 @@ public class ShimmerService extends Service {
         }
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param accelRange
-     */
-    @Deprecated
+        @Deprecated
     public void writeAccelRange(String bluetoothAddress, int accelRange) {
         btManager.writeAccelRange(bluetoothAddress, accelRange);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param range
-     */
-    @Deprecated
+        @Deprecated
     public void writeGyroRange(String bluetoothAddress, int range) {
         btManager.writeGyroRange(bluetoothAddress, range);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param resolution
-     */
-    @Deprecated
+        @Deprecated
     public void writePressureResolution(String bluetoothAddress, int resolution) {
         btManager.writePressureResolution(bluetoothAddress, resolution);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param range
-     */
-    @Deprecated
+        @Deprecated
     public void writeMagRange(String bluetoothAddress, int range) {
         btManager.writeMagRange(bluetoothAddress, range);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param gsrRange
-     */
-    @Deprecated
+        @Deprecated
     public void writeGSRRange(String bluetoothAddress, int gsrRange) {
         btManager.writeGSRRange(bluetoothAddress, gsrRange);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public double getSamplingRate(String bluetoothAddress) {
         double SRate = -1;
         SRate = btManager.getSamplingRate(bluetoothAddress);
         return SRate;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public int getAccelRange(String bluetoothAddress) {
         return btManager.getAccelRange(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public BT_STATE getShimmerState(String bluetoothAddress) {
         BT_STATE status = BT_STATE.DISCONNECTED;
         status = btManager.getShimmerState(bluetoothAddress);
         return status;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public int getGSRRange(String bluetoothAddress) {
         return btManager.getGSRRange(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public int get5VReg(String bluetoothAddress) {
         int fiveVReg = -1;
         fiveVReg = btManager.get5VReg(bluetoothAddress);
         return fiveVReg;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public boolean isLowPowerMagEnabled(String bluetoothAddress) {
         boolean enabled = false;
         enabled = btManager.isLowPowerMagEnabled(bluetoothAddress);
         return enabled;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public int getpmux(String bluetoothAddress) {
         int pmux = -1;
         pmux = btManager.getpmux(bluetoothAddress);
@@ -923,12 +737,7 @@ public class ShimmerService extends Service {
         btManager.startStreaming(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     */
-    @Deprecated
+        @Deprecated
     public void startLogging(String bluetoothAddress) {
         btManager.startLogging(bluetoothAddress);
     }
@@ -960,62 +769,31 @@ public class ShimmerService extends Service {
 	}
 */
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     */
-    @Deprecated
+        @Deprecated
     public void stopLogging(String bluetoothAddress) {
         btManager.stopLogging(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     */
-    @Deprecated
+        @Deprecated
     public void startLogAndStreaming(String bluetoothAddress) {
         btManager.startLoggingAndStreaming(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param enabledSensors
-     * @param sensorToCheck
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public long sensorConflictCheckandCorrection(String bluetoothAddress, long enabledSensors, int sensorToCheck) {
         long newSensorBitmap = 0;
         newSensorBitmap = btManager.sensorConflictCheckandCorrection(bluetoothAddress, enabledSensors, sensorToCheck);
         return newSensorBitmap;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public List<String> getListofEnabledSensors(String bluetoothAddress) {
         List<String> listofSensors = null;
         listofSensors = btManager.getListofEnabledSensors(bluetoothAddress);
         return listofSensors;
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     * @param address
-     * @return
-     */
-    @Deprecated
+        @Deprecated
     public boolean bluetoothAddressComparator(String bluetoothAddress, String address) {
         return btManager.bluetoothAddressComparator(bluetoothAddress, address);
     }
@@ -1024,12 +802,7 @@ public class ShimmerService extends Service {
         btManager.stopStreaming(bluetoothAddress);
     }
 
-    /**
-     * This method is kept for backwards compatibility with existing apps
-     *
-     * @param bluetoothAddress
-     */
-    @Deprecated
+        @Deprecated
     public void setBlinkLEDCMD(String bluetoothAddress) {
         btManager.setBlinkLEDCMD(bluetoothAddress);
     }

@@ -1,48 +1,5 @@
 package com.shimmerresearch.algorithms.orientation;
 
-/* Rev 0.2
- *
- * Madgwick, Sebastian OH, Andrew JL Harrison, and Ravi Vaidyanathan. "Estimation of imu and marg orientation using a gradient descent algorithm." Rehabilitation Robotics (ICORR), 2011 IEEE International Conference on. IEEE, 2011.
- *
- * 3D orientation code taken from https://code.google.com/p/labview-quaternion-ahrs/ which is licensed under GNU_Lesser_GPL
- *
- * Copyright (c) 2010, Shimmer Research, Ltd.
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
-
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Shimmer Research, Ltd. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
-
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @author Jong Chern Lim
- * @date   October, 2013
- *
- *
- * Changes since Rev 0.1
- * - updated java doc
- *
- */
 public class GradDes3DOrientation {
 
     public final static double Q0_INITIAL_DEFAULT = 1;
@@ -60,26 +17,11 @@ public class GradDes3DOrientation {
     double q0Initial, q1Initial, q2Initial, q3Initial;
     double q0, q1, q2, q3;
 
-    /**
-     * Initialise Gradient Descent algorithm with default BETA and initial Quaternion.
-     *
-     * @param samplingPeriod
-     */
-    public GradDes3DOrientation(double samplingPeriod) {
+        public GradDes3DOrientation(double samplingPeriod) {
         this(BETA, samplingPeriod, Q0_INITIAL_DEFAULT, Q1_INITIAL_DEFAULT, Q2_INITIAL_DEFAULT, Q3_INITIAL_DEFAULT);
     }
 
-    /**
-     * Initialise Gradient Descent algorithm with provided BETA and initial Quaternion.
-     *
-     * @param beta
-     * @param samplingPeriod
-     * @param q0
-     * @param q1
-     * @param q2
-     * @param q3
-     */
-    public GradDes3DOrientation(double beta, double samplingPeriod, double q0, double q1, double q2, double q3) {
+        public GradDes3DOrientation(double beta, double samplingPeriod, double q0, double q1, double q2, double q3) {
         setSamplingPeriod(samplingPeriod);
         setInitialConditions(beta, q0, q1, q2, q3);
     }
@@ -104,19 +46,7 @@ public class GradDes3DOrientation {
         setInitialConditions(mBeta, q0Initial, q1Initial, q2Initial, q3Initial);
     }
 
-    /**
-     * @param ax Accelerometer X in m/(sec^2)
-     * @param ay Accelerometer Y in m/(sec^2)
-     * @param az Accelerometer Z in m/(sec^2)
-     * @param gx Gyroscope X in rad/sec
-     * @param gy Gyroscope X in rad/sec
-     * @param gz Gyroscope X in rad/sec
-     * @param mx Magnetometer X in local
-     * @param my Magnetometer X in local
-     * @param mz Magnetometer X in local
-     * @return Calculated Quaternion value
-     */
-    public Orientation3DObject update(double ax, double ay, double az, double gx, double gy, double gz, double mx, double my, double mz) {
+        public Orientation3DObject update(double ax, double ay, double az, double gx, double gy, double gz, double mx, double my, double mz) {
         double recipNorm;
         double s0, s1, s2, s3;
         double qDot1, qDot2, qDot3, qDot4;
@@ -257,16 +187,7 @@ public class GradDes3DOrientation {
         return q3;
     }
 
-    /**
-     * @param ax Accelerometer X in m/(sec^2)
-     * @param ay Accelerometer Y in m/(sec^2)
-     * @param az Accelerometer Z in m/(sec^2)
-     * @param gx Gyroscope X in rad/sec
-     * @param gy Gyroscope X in rad/sec
-     * @param gz Gyroscope X in rad/sec
-     * @return Calculated Quaternion value
-     */
-    public Orientation3DObject update(double ax, double ay, double az, double gx, double gy, double gz) {
+        public Orientation3DObject update(double ax, double ay, double az, double gx, double gy, double gz) {
         double recipNorm;
         double s0, s1, s2, s3;
         double qDot1, qDot2, qDot3, qDot4;

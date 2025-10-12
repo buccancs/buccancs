@@ -17,12 +17,6 @@ import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 
 import java.lang.reflect.*;
 
-/**
- * Contains the packet contents for communication via the Shimmer's UART.
- *
- * @author Mark Nolan
- *
- */
 public class UartPacketDetails {
 
     public static final int PACKET_OVERHEAD_RESPONSE_DATA = 5;            // Header + CMD + LENGTH + COMP + PROP 	------------- (+ CRC MSB + CRC LSB) -> CRC already included in length

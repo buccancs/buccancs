@@ -3,12 +3,6 @@ package com.shimmerresearch.driverUtilities;
 import com.codeminders.hidapi.HIDDeviceInfo;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails.HW_ID;
 
-/**
- * Holds system HW information of Shimmer supported devices (used by DeviceInfo)
- *
- * @author Mark Nolan
- *
- */
 public class HwDriverShimmerDeviceDetails {
 
     public DEVICE_TYPE deviceType = DEVICE_TYPE.UNKOWN;
@@ -40,10 +34,7 @@ public class HwDriverShimmerDeviceDetails {
     public String mShimmerDrivePath = "";
     public int mNumberOfSlots = 1;
     public HIDDeviceInfo mHidDeviceInfo = null;
-    /**
-     * Normally used to store the FTDI serial ID.
-     */
-    public String mFtdiSerialID = "";
+        public String mFtdiSerialID = "";
     public SPAN_VERSION mSpanVersion = SPAN_VERSION.UNKNOWN;
 
     public HwDriverShimmerDeviceDetails() {

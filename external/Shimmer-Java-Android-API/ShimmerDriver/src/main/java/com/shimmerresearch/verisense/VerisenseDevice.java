@@ -70,11 +70,6 @@ import com.shimmerresearch.verisense.sensors.SensorMAX86916;
 import com.shimmerresearch.verisense.sensors.SensorMAX86XXX;
 import com.shimmerresearch.verisense.sensors.SensorVerisenseClock;
 
-/**
- *
- * @author Mark Nolan, Sriram Raju Dandu
- *
- */
 public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
     public static final String VERISENSE_PREFIX = "Verisense";
@@ -119,10 +114,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     private transient OperationalConfigPayload opConfig;
     private transient ProductionConfigPayload prodConfigPayload;
 
-    /**
-     *
-     */
-    public VerisenseDevice() {
+        public VerisenseDevice() {
         super.setDefaultShimmerConfiguration();
 
         setUniqueId(DEVICE_TYPE.VERISENSE.getLabel());
@@ -135,13 +127,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         addCommunicationRoute(commType);
     }
 
-    /**
-     * Fix for a legacy HW ID assignment issue
-     *
-     * @param hardwareVersion
-     * @return
-     */
-    public static int correctHwVersion(int hardwareVersion) {
+        public static int correctHwVersion(int hardwareVersion) {
         if (hardwareVersion == 0) {
             hardwareVersion = HW_ID.VERISENSE_DEV_BRD;
         } else if (hardwareVersion == 1) {
@@ -176,17 +162,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                 svo2.getFirmwareVersionMajor(), svo2.getFirmwareVersionMinor(), svo2.getFirmwareVersionInternal());
     }
 
-    /**
-     * Checks Bit 4 of the first payload config byte to determine if the payload
-     * configuration is of the latest design (i.e., extended configuration bytes)
-     * in-which the number of bytes is greater then 2. The subsequet FW version
-     * bytes can subsequently be used to determine the exact quantity of bytes in
-     * the payload configuration.
-     *
-     * @param payloadConfig byte 0
-     * @return true if the EXT_CFG bit (bit 4) is high
-     */
-    public static boolean isExtendedPayloadConfig(byte payloadConfig) {
+        public static boolean isExtendedPayloadConfig(byte payloadConfig) {
         return (payloadConfig & 0x10) == 0x10;
     }
 
@@ -512,10 +488,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-    /**
-     * @see ShimmerDevice.initializeAlgorithms()
-     */
-    public void initializeAlgorithmsWithDifferentRatesPerSensor() {
+        public void initializeAlgorithmsWithDifferentRatesPerSensor() {
         for (AbstractAlgorithm aa : mMapOfAlgorithmModules.values()) {
             try {
                 if (aa.isEnabled()) {
@@ -588,11 +561,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return PayloadContentsDetails.isPayloadDesignV12orAbove(getShimmerVerObject());
     }
 
-    /**
-     * @return
-     * @see PayloadContentsDetails.isCsvHeaderDesignAzMarkingPoint()
-     */
-    public boolean isCsvHeaderDesignAzMarkingPoint() {
+        public boolean isCsvHeaderDesignAzMarkingPoint() {
         return PayloadContentsDetails.isCsvHeaderDesignAzMarkingPoint(getShimmerVerObject());
     }
 
@@ -1180,17 +1149,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-    /**
-     * Created based on ShimmerDevice.buildMsg(). Whereas that function expects all
-     * sensor bytes to be in the same packet and have the same sampling rate, this
-     * method parses each sensor separately.
-     *
-     * @param newPacket
-     * @param listOfSensorClassKeys
-     * @param timeMsCurrentSample
-     * @return
-     */
-    public ObjectCluster buildMsgForSensorList(byte[] newPacket, COMMUNICATION_TYPE commType, List<SENSORS> listOfSensorClassKeys, double timeMsCurrentSample) {
+        public ObjectCluster buildMsgForSensorList(byte[] newPacket, COMMUNICATION_TYPE commType, List<SENSORS> listOfSensorClassKeys, double timeMsCurrentSample) {
         // Arguments normally passed into ShimmerDevice.buildMsg()
         boolean isTimeSyncEnabled = false;
 
@@ -1547,14 +1506,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         mapOfVerisenseProtocolByteCommunication.remove(communicationType);
     }
 
-    /**
-     * Used during real-time streaming
-     *
-     * @param byteBuffer
-     * @return
-     * @throws IOException
-     */
-    public DataBlockDetails parseDataBlockMetaData(byte[] byteBuffer, long pcTimestampMs) throws IOException {
+        public DataBlockDetails parseDataBlockMetaData(byte[] byteBuffer, long pcTimestampMs) throws IOException {
         DataBlockDetails dataBlockDetails = parseDataBlockMetaData(byteBuffer, 0, 0, 0, 0);
 
         // Streaming data block only contains microcontroller ticks value so we need to track the minutes in SW
@@ -1673,10 +1625,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         return rateHz;
     }
 
-    /**
-     * @see VerisenseDevice#connect(COMMUNICATION_TYPE)
-     */
-    @Override
+        @Override
     public void connect() throws ShimmerException {
         try {
             this.connect(currentStreamingCommsRoute);
@@ -1688,21 +1637,13 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-    /**
-     * @see VerisenseDevice#disconnect(COMMUNICATION_TYPE)
-     */
-    @Override
+        @Override
     public void disconnect() throws ShimmerException {
         this.disconnect(currentStreamingCommsRoute);
 
     }
 
-    /**
-     * Disconnect from the verisense device
-     *
-     * @throws ShimmerException if verisenseProtocolByteCommunication is not set
-     */
-    public void disconnect(COMMUNICATION_TYPE commType) throws ShimmerException {
+        public void disconnect(COMMUNICATION_TYPE commType) throws ShimmerException {
         VerisenseProtocolByteCommunication verisenseProtocolByteCommunication = mapOfVerisenseProtocolByteCommunication.get(commType);
         if (verisenseProtocolByteCommunication != null) {
             verisenseProtocolByteCommunication.disconnect();
@@ -1714,13 +1655,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-    /**
-     * To initialize a BLE connection with the verisense device and
-     * read the status, production configuration, operation configuration
-     *
-     * @throws ShimmerException if verisenseProtocolByteCommunication is not set
-     */
-    public void connect(COMMUNICATION_TYPE commType) throws ShimmerException {
+        public void connect(COMMUNICATION_TYPE commType) throws ShimmerException {
         VerisenseProtocolByteCommunication verisenseProtocolByteCommunication = mapOfVerisenseProtocolByteCommunication.get(commType);
         if (verisenseProtocolByteCommunication != null) {
             try {
@@ -1749,12 +1684,7 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         }
     }
 
-    /**
-     * Start streaming
-     *
-     * @throws ShimmerException if the device is already streaming
-     */
-    @Override
+        @Override
     public void startStreaming() throws ShimmerException {
         super.startStreaming();
         mapOfVerisenseProtocolByteCommunication.get(currentStreamingCommsRoute).startStreaming();

@@ -25,10 +25,7 @@ public class ExGConfigBytesDetails implements Serializable {
     public static final String[] ListOfOnOff = {"On", "Off"};
     public static final Integer[] ListOfOnOffConfigValues = {0x01, 0x00};
     public final static Map<String, ExGConfigOptionDetails> mMapOfExGSettingsChip1;
-    /**
-     *
-     */
-    private static final long serialVersionUID = -6128939356278743505L;
+        private static final long serialVersionUID = -6128939356278743505L;
 
     static {
         Map<String, ExGConfigOptionDetails> aMap = new HashMap<String, ExGConfigOptionDetails>();

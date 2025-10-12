@@ -33,10 +33,7 @@ import com.shimmerresearch.sensors.SensorShimmerClock;
 //https://www.numed.co.uk/files/uploads/Product/Nonin%209560%20Bluetooth%20Specification.pdf
 public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListener {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -4620570962788027578L;
+        private static final long serialVersionUID = -4620570962788027578L;
     private static final byte[] NONIN_CMD_START_STREAMING = new byte[]{0x02, 0x70, 0x02, 0x02, 0x08, 0x03};
     private static final byte NONIN_RESPONSE_ACK = 0x06;
     private static final byte NONIN_RESPONSE_NACK = 0x15;
@@ -118,9 +115,6 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
         }
     }
 
-    /* ******************************************
-     * ShimmerSerialEventCallback Overrides start
-     * ******************************************/
 
     @Override
     public void serialPortRxEvent(int byteLength) {
@@ -149,19 +143,10 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
             e.printStackTrace();
         }
     }
-    /* ******************************************
-     * ShimmerSerialEventCallback Overrides end
-     * ******************************************/
 
 
-    /* ******************************************
-     * Shimmer Device Overrides start
-     * ******************************************/
 
-    /* (non-Javadoc)
-     * @see com.shimmerresearch.driver.ShimmerDevice#deepClone()
-     */
-    @Override
+        @Override
     public ShimmerDevice deepClone() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -224,9 +209,6 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
 
     }
 
-    /* ******************************************
-     * Shimmer Device Overrides end
-     * ******************************************/
 
     protected void dataHandler(ObjectCluster ojc) {
         mDeviceCallbackAdapter.dataHandler(ojc);

@@ -5,10 +5,6 @@ import com.shimmerresearch.verisense.UtilVerisenseDriver;
 import com.shimmerresearch.verisense.payloaddesign.VerisenseTimeDetails;
 import com.shimmerresearch.verisense.sensors.SensorVerisenseClock;
 
-/**
- * @author Mark Nolan
- *
- */
 public class TimePayload extends AbstractPayload {
 
     private long timeMinutes = 0;

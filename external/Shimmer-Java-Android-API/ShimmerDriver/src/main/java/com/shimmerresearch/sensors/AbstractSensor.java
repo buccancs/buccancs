@@ -27,10 +27,7 @@ import com.shimmerresearch.verisense.sensors.ISensorConfig;
 
 public abstract class AbstractSensor implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3465427544416038676L;
+        private static final long serialVersionUID = 3465427544416038676L;
     protected static boolean mEnableCalibration = true;
     public SENSORS mSensorType = null;
     public TreeMap<Integer, SensorDetails> mSensorMap = new TreeMap<Integer, SensorDetails>();
@@ -174,10 +171,7 @@ public abstract class AbstractSensor implements Serializable {
         return "";
     }
 
-    /**
-     * call either createLocalSensorMap() or createLocalSensorMapWithCustomParser() inside depending if a custom parser is needed.
-     */
-    public abstract void generateSensorMap();
+        public abstract void generateSensorMap();
 
     // --------------- Abstract methods end ----------------
 
@@ -185,10 +179,7 @@ public abstract class AbstractSensor implements Serializable {
 
     public abstract void generateSensorGroupMapping();
 
-    /**
-     * for use only if a custom parser is required, i.e. for calibrated data. Use in conjunction with createLocalSensorMapWithCustomParser()
-     */
-    public abstract ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimeStampMs);
+        public abstract ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] rawData, COMMUNICATION_TYPE commType, ObjectCluster objectCluster, boolean isTimeSyncEnabled, double pctimeStampMs);
 
     public abstract void checkShimmerConfigBeforeConfiguring();
 
@@ -207,19 +198,9 @@ public abstract class AbstractSensor implements Serializable {
 
     public abstract void setSensorSamplingRate(double samplingRateHz);
 
-    /**
-     * A sensor ID is needed as some sensor classes contain a number of sensors
-     *
-     * @param sensorId
-     * @param isSensorEnabled
-     * @return
-     */
-    public abstract boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled);
+        public abstract boolean setDefaultConfigForSensor(int sensorId, boolean isSensorEnabled);
 
-    /**
-     * TODO populate in individual AbstractSensor classes the relevant entries from ShimmerObject
-     */
-    public abstract boolean checkConfigOptionValues(String stringKey);
+        public abstract boolean checkConfigOptionValues(String stringKey);
 
     @Deprecated //TODO remove below? old approach?
     public abstract Object getSettings(String componentName, COMMUNICATION_TYPE commType);
@@ -233,13 +214,7 @@ public abstract class AbstractSensor implements Serializable {
 
     public abstract void parseConfigMap(LinkedHashMap<String, Object> mapOfConfigPerShimmer);
 
-    /**
-     * Initialises all the maps in the sensor class. Contents used to be based
-     * in the AbstractSensor contructor but this led to problems trying to
-     * access variables in the specifc classes because they hadn't been
-     * initialise fully yet?
-     */
-    public void initialise() {
+        public void initialise() {
         if (mShimmerVerObject != null) {
             generateSensorMap();
             generateConfigOptionsMap();
@@ -463,13 +438,7 @@ public abstract class AbstractSensor implements Serializable {
         return getConfigValueUsingConfigLabel(Configuration.Shimmer3.SENSOR_ID.RESERVED_ANY_SENSOR, configLabel);
     }
 
-    /**
-     * Quickly implemented method to print channel data to the console
-     *
-     * @param objectCluster
-     * @param listOfChannelOCNAndType a list of channel objectClusterNames to print to the console
-     */
-    public void consolePrintChannelsCal(ObjectCluster objectCluster, List<String[]> listOfChannelOCNAndType) {
+        public void consolePrintChannelsCal(ObjectCluster objectCluster, List<String[]> listOfChannelOCNAndType) {
         String textToPrint = "";
         for (String[] channelOCN : listOfChannelOCNAndType) {
             textToPrint += channelOCN[0] + "_" + channelOCN[1] + ":";
@@ -522,16 +491,7 @@ public abstract class AbstractSensor implements Serializable {
         //USED in {Kinematic sensors}
     }
 
-    /**
-     * Checks a specific sensor class to see if it is using it's default
-     * calibration parameters. Used, for example, in SensorLSM, SensorMPU and
-     * SensorKionix
-     *
-     * @param sensorId
-     * @return boolean indicating that the sensor is using default calibration
-     * parameters.
-     */
-    public boolean isSensorUsingDefaultCal(int sensorId) {
+        public boolean isSensorUsingDefaultCal(int sensorId) {
         return false;
     }
 
@@ -783,10 +743,7 @@ public abstract class AbstractSensor implements Serializable {
             this.text = text;
         }
 
-        /* (non-Javadoc)
-         * @see java.lang.Enum#toString()
-         */
-        @Override
+                @Override
         public String toString() {
             return text;
         }

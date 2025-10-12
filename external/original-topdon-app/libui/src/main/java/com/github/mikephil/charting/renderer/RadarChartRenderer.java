@@ -22,10 +22,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
     protected RadarChart mChart;
 
-    /**
-     * paint for drawing the web
-     */
-    protected Paint mWebPaint;
+        protected Paint mWebPaint;
     protected Paint mHighlightCirclePaint;
     protected Path mDrawDataSetSurfacePathBuffer = new Path();
     protected Path mDrawHighlightCirclePathBuffer = new Path();

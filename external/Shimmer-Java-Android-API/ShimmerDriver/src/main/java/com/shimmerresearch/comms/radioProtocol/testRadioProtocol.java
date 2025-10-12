@@ -14,12 +14,7 @@ public class testRadioProtocol {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
 
-		/*
-		System.out.println(LiteProtocolInstructionSet.Instructions.DATA_PACKET_VALUE);
-		System.out.println(LiteProtocolInstructionSet.Instructions.DATA_PACKET.toString());
-		System.out.println(LiteProtocolInstructionSet.Instructions.valueOf(LiteProtocolInstructionSet.Instructions.DATA_PACKET_VALUE).name());
-*/
-
+		
         System.out.println(LiteProtocolInstructionSet.InstructionsSet.getDescriptor().getValues());
 
         String[] enumValues = new String[LiteProtocolInstructionSet.InstructionsGet.getDescriptor().getValues().size()];
