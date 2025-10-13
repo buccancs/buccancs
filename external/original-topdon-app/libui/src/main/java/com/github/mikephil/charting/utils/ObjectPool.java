@@ -13,7 +13,6 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
     private T modelObject;
     private float replenishPercentage;
 
-
     private ObjectPool(int withCapacity, T object) {
         if (withCapacity <= 0) {
             throw new IllegalArgumentException("Object Pool must be instantiated with a capacity greater than 0!");
@@ -141,7 +140,6 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
     public int getPoolCount() {
         return this.objectsPointer + 1;
     }
-
 
     public static abstract class Poolable {
 

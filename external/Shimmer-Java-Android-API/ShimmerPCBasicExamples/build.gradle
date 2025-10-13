@@ -1,8 +1,15 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+}
 
-sourceCompatibility = 1.11
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 repositories {
-    jcenter()
+    mavenCentral()
+    mavenLocal()
     flatDir {
         dirs 'libs'
     }
@@ -15,15 +22,15 @@ repositories {
         }
     }
 }
+
 dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.21'
-    testImplementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.21.1'
-    testImplementation 'junit:junit:4.12'
-
+    implementation 'com.parse.bolts:bolts-tasks:1.4.0'
     implementation project(':ShimmerDriver')
     implementation project(':ShimmerDriverPC')
     implementation project(':ShimmerBluetoothManager')
-
     implementation name: 'ShimmerBiophysicalProcessingLibrary_Rev_0_11'
-    implementation 'com.parse.bolts:bolts-tasks:1.4.0'
+
+    testImplementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.21.1'
+    testImplementation 'junit:junit:4.13.2'
 }

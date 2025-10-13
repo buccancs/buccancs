@@ -119,4 +119,3 @@ public class DualViewWithManualAlignExternalCamera extends BaseParamDualView {
         }
     }
 }
-

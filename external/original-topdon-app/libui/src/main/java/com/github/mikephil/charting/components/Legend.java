@@ -419,7 +419,7 @@ public class Legend extends ComponentBase {
                                 || (contentWidth - currentLineWidth >=
                                 requiredSpacing + requiredWidth)) {
                             currentLineWidth += requiredSpacing + requiredWidth;
-                        } else { // It doesn't fit, we need to wrap a line
+                        } else {
 
                             mCalculatedLineSizes.add(FSize.getInstance(currentLineWidth, labelLineHeight));
                             maxLineWidth = Math.max(maxLineWidth, currentLineWidth);

@@ -30,4 +30,3 @@ public interface IPieDataSet extends IDataSet<PieEntry> {
     boolean isValueLineVariableLength();
 
 }
-

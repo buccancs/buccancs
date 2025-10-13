@@ -11,7 +11,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toEpochMilliseconds
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
@@ -22,7 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class ManifestWriter @Inject constructor(
     private val storage: RecordingStorage
-    ) {
+) {
     private val json = Json {
         prettyPrint = true
         encodeDefaults = true
@@ -190,9 +189,10 @@ class ManifestWriter @Inject constructor(
         val UTF8: Charset = Charsets.UTF_8
     }
 }
-    private fun toBookmarkEntry(bookmark: RecordingBookmark): BookmarkEntry =
-        BookmarkEntry(
-            bookmarkId = bookmark.id,
-            label = bookmark.label,
-            timestampEpochMs = bookmark.timestamp.toEpochMilliseconds()
-        )
+
+private fun toBookmarkEntry(bookmark: RecordingBookmark): BookmarkEntry =
+    BookmarkEntry(
+        bookmarkId = bookmark.id,
+        label = bookmark.label,
+        timestampEpochMs = bookmark.timestamp.toEpochMilliseconds()
+    )

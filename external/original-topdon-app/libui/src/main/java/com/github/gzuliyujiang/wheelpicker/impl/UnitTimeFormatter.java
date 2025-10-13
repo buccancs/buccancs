@@ -20,4 +20,3 @@ public class UnitTimeFormatter implements TimeFormatter {
     }
 
 }
-

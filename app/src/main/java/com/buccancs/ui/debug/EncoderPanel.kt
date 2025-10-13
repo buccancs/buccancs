@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.buccancs.domain.model.SensorStreamStatus
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun EncoderPanel(

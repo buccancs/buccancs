@@ -342,7 +342,6 @@ public class DateWheelLayout extends BaseWheelLayout {
         return spaceEndView;
     }
 
-
     public final int getSelectedYear() {
         return yearWheelView.getCurrentItem();
     }

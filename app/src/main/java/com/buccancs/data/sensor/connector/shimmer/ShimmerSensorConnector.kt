@@ -6,12 +6,11 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
-import android.net.Uri
-import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
@@ -19,20 +18,18 @@ import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
-import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.ShimmerDeviceCandidate
 import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.domain.repository.ShimmerSettingsRepository
+import com.buccancs.util.nowInstant
 import com.shimmerresearch.android.Shimmer
 import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid
 import com.shimmerresearch.bluetooth.ShimmerBluetooth
-import com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE
 import com.shimmerresearch.driver.CallbackObject
 import com.shimmerresearch.driver.Configuration
 import com.shimmerresearch.driver.FormatCluster
@@ -41,8 +38,8 @@ import com.shimmerresearch.driver.ShimmerDevice
 import com.shimmerresearch.exceptions.ShimmerException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -57,8 +54,7 @@ import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
 import java.security.DigestOutputStream
 import java.security.MessageDigest
-import java.util.Locale
-import java.util.LinkedHashMap
+import java.util.*
 import kotlin.math.absoluteValue
 
 internal class ShimmerSensorConnector(
@@ -123,6 +119,7 @@ internal class ShimmerSensorConnector(
             }
         }
     }
+
     override suspend fun refreshInventory() {
         if (isSimulationMode) {
             super.refreshInventory()

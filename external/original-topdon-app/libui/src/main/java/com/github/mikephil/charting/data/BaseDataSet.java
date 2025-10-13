@@ -58,7 +58,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         calcMinMax();
     }
 
-
     @Override
     public List<Integer> getColors() {
         return mColors;
@@ -90,7 +89,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     public int getColor(int index) {
         return mColors.get(index % mColors.size());
     }
-
 
     @Override
     public GradientColor getGradientColor() {
@@ -156,7 +154,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     public String getLabel() {
         return mLabel;
     }
-
 
     @Override
     public void setLabel(String label) {
@@ -322,7 +319,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     public void setAxisDependency(YAxis.AxisDependency dependency) {
         mAxisDependency = dependency;
     }
-
 
     @Override
     public int getIndexInEntries(int xIndex) {

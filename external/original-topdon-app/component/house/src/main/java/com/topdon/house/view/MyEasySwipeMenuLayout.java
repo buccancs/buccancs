@@ -16,7 +16,6 @@ import com.topdon.house.R;
 
 import java.util.ArrayList;
 
-
 public class MyEasySwipeMenuLayout extends ViewGroup {
 
     private static final String TAG = "EasySwipeMenuLayout";
@@ -94,7 +93,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         } finally {
             typedArray.recycle();
         }
-
 
     }
 
@@ -224,7 +222,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
             mRightView.layout(lLeft, lTop, lRight, lBottom);
         }
 
-
     }
 
     @Override
@@ -282,7 +279,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
                 }
                 mLastP.set(ev.getRawX(), ev.getRawY());
 
-
                 break;
             }
             case MotionEvent.ACTION_UP:
@@ -295,7 +291,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
                 }
                 result = isShouldOpen(getScrollX());
                 handlerSwipeMenu(result);
-
 
                 break;
             }
@@ -333,7 +328,6 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         }
         return super.onInterceptTouchEvent(event);
     }
-
 
     private void handlerSwipeMenu(State result) {
         if (result == State.LEFTOPEN) {
@@ -466,6 +460,5 @@ public class MyEasySwipeMenuLayout extends ViewGroup {
         RIGHTOPEN,
         CLOSE,
     }
-
 
 }

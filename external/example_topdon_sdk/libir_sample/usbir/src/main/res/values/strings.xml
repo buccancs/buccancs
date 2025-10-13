@@ -1,24 +1,24 @@
 <resources>
     <string name="app_name">USB_IR</string>
-    <!-- main activity navigation -->
+
     <string name="nav_usb_monitor">Test USBMonitor connect</string>
     <string name="nav_ir_display">Image and IR display</string>
     <string name="nav_ir_display_isp">USE ISP</string>
     <string name="nav_ir_display_isp_gpu">USE GPU</string>
     <string name="nav_ir_image_or_temp_display">Image/temp/Y16 display</string>
     <string name="nav_tools">FM update,read,write..</string>
-    <!-- usb monitor connect activity -->
+
     <string name="usb_monitor_tip">Test USBMonitor\'s plug-in process callback function, please note that the
         registration and de-registration must appear in pairs.
     </string>
-    <!-- title -->
+
     <string name="pseudo_mode">Pseu</string>
     <string name="temperature">Temp</string>
     <string name="calibration">Cali</string>
     <string name="image">Img</string>
     <string name="information">Info</string>
     <string name="top_menu_other">Oth</string>
-    <!-- pseudocolor  -->
+
     <string name="color_p1">pseudo1</string>
     <string name="color_p3">pseudo3</string>
     <string name="color_p4">pseudo4</string>
@@ -30,13 +30,13 @@
     <string name="color_p10">pseudo10</string>
     <string name="color_p11">pseudo11</string>
     <string name="color_p12">pseudo12</string>
-    <!-- temperature -->
+
     <string name="temp_point">Point</string>
     <string name="temp_line">Line</string>
     <string name="temp_rect">Rect</string>
     <string name="temp_all">Center</string>
     <string name="temp_clear">Clear</string>
-    <!-- firmware update -->
+
     <string name="restore_restart">Restart the module to take effect</string>
     <string name="firmware_update">Firmware update</string>
     <string name="state">State</string>
@@ -44,16 +44,16 @@
     <string name="firmware_success">Success, power off and restart</string>
     <string name="firmware_fail">Failure, error code:</string>
     <string name="firmware_noconnect">Please check your device connection</string>
-    <!-- others -->
+
     <string name="temp_correction">Secondary calibration</string>
     <string name="currentVTemp">CurrentVTemp:</string>
     <string name="shutterVTemp">ShutterVTemp:</string>
     <string name="fps_status">FPS</string>
     <string name="preview_start">Y16ModePreview</string>
-    <!-- image -->
+
     <string name="temp_measure">cmd-Point&amp;line&amp;rect temp measure</string>
     <string name="frame_temp">Frame max&amp;min temp</string>
-    <!-- -->
+
     <string name="single_point_temperature">Single point calibration temp(units:K)</string>
     <string name="low_temperature">Low temp(units:K)</string>
     <string name="high_temperature">High temp(units:K)</string>
@@ -85,11 +85,11 @@
     <string name="data">Data</string>
     <string name="read">Read</string>
     <string name="write">Write</string>
-    <!-- -->
+
     <string name="pic_save_success">Image saved successfully</string>
     <string name="pic_save_fail">Failed to save image</string>
     <string name="file_save_success">File saved successfully</string>
-    <!-- -->
+
     <string name="OTG_confirm">Please make sure the OTG function is turned on\n\nThis SDK is suitable for P2, tiny1C,
         tinyBE, mini256 modules under the USB protocol, please do not use other modules to avoid damage to the module
     </string>

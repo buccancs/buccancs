@@ -19,7 +19,6 @@ public abstract class ComponentBase {
 
     protected int mTextColor = Color.BLACK;
 
-
     public ComponentBase() {
 
     }

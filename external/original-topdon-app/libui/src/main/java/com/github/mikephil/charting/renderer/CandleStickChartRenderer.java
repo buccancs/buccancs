@@ -106,7 +106,6 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
                 trans.pointValuesToPixel(mShadowBuffers);
 
-
                 if (dataSet.getShadowColorSameAsCandle()) {
 
                     if (open > close)
@@ -141,7 +140,6 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 mRenderPaint.setStyle(Paint.Style.STROKE);
 
                 c.drawLines(mShadowBuffers, mRenderPaint);
-
 
                 mBodyBuffers[0] = xPos - 0.5f + barSpace;
                 mBodyBuffers[1] = close * phaseY;

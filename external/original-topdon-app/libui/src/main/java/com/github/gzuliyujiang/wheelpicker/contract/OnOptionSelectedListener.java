@@ -5,4 +5,3 @@ public interface OnOptionSelectedListener {
     void onOptionSelected(int position, Object item);
 
 }
-

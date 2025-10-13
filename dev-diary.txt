@@ -48,6 +48,24 @@
 
 2025-10-13
 - Split orchestration logic into application services (recording, device commands, time sync) and updated Hilt modules plus consumers.
+
+2025-10-13
+- Harmonized and simplified all Gradle build files in external/Shimmer repositories.
+- Standardized to Gradle 8.5, Java 11, modern plugin syntax across 37 files.
+- Removed deprecated configurations (jcenter, dexOptions, eclipse plugin, compile/testCompile).
+- Updated all example apps to consistent configuration pattern.
+- Cleaned settings.gradle files to remove non-existent module references.
+
+2025-10-13
+- Removed all comments from XML, Java, and Kotlin files in external/topdon directories.
+- Processed 333 files removing 54,983 bytes of comments (Java: 193 files, Kotlin: 7 files, XML: 31 files, modules: 102 files).
+- Preserved string literals and code structure while ensuring ASCII-safe character compliance.
+
+2025-10-13
+- Conducted comprehensive repository analysis documenting gaps and unfinished work.
+- Created GAPS_AND_UNFINISHED.md with detailed status of all functional and non-functional requirements.
+- Identified critical blockers: desktop orchestrator ~50% complete, zero integration tests, time sync unvalidated.
+- Documented 18 major gap areas with prioritized 14-20 week roadmap for completion.
 - Staged control networking foundations: control.proto, ControlServer skeleton, token issuance/interceptor, and mDNS advertiser/browser.
 - Extended README/backlog with the new control-service roadmap and captured follow-ups for heartbeat wiring and sync telemetry UI.
 
@@ -60,3 +78,26 @@
 - Introduced `SpaceMonitor`, retention preferences repository, WorkManager-powered Upload/Retention workers, and a settings screen to apply orchestrator/retention policy.
 - Replaced `SessionClock` with `TimeModelAdapter`, normalised Topdon thermal frames, and surfaced live telemetry (streams, uploads, events, storage) via the new Live Session screen.
 - Implemented session library and manifest detail views backed by the stored manifests and refreshed README/backlog to reflect the new UI and background services.
+"2025-10-13
+- Replaced the RGB MediaRecorder path with a MediaCodec + MediaMuxer pipeline that writes crash-safe MediaStore segments, tracks encoder stats, and enqueues artifacts with per-segment metadata.
+- Added bookmark repository/UI wiring so operators can drop timeline markers during capture and see them in session detail views.
+- Refreshed Live Session, Settings, and manifest screens to surface encoder telemetry, bookmark lists, and cleaner state flows; updated README/backlog to capture the new recording workflow.
+"
+
+2025-10-14
+- Instrumented upload recovery logging (WorkManager retries -> UI + `upload_recovery.jsonl`) and noted follow-up to simulate mid-transfer drops.
+- Documented the offline recovery dry-run in `docs/manual-tests/offline-recovery.md` so field teams can force disconnects, capture retries, and archive JSONL/WorkManager evidence.
+- Swapped calibration card for the guided wizard with confidence metrics persisted via DataStore and wrote the operator walkthrough in `docs/manual-tests/calibration-wizard.md`.
+- Started capturing CPU/memory/storage telemetry per session into `performance_metrics.jsonl` to prep for 8+ device stress runs.
+- Added backlog overflow guardrails (warning/critical thresholds, UI card, drop-newest policy) and recorded behaviour for manual review during soak tests.
+- Authored `tools/perf/multi_device_stress.sh` + `tools/perf/analyze_metrics.py` with `docs/manual-tests/multi-device-stress.md` to script coordinated 8+ device stress rehearsals and capture performance summaries.
+- Brought in `BacklogTelemetryLogger` and `tools/tests/offline_recovery.sh` to automate reconnection drills and persist backlog snapshots alongside each session.
+- Introduced adaptive capture throttling via `BacklogPerformanceController` and exposed throttle state in Live Session.
+- Added `PerformanceMetricsAnalyzer` to emit `performance_summary.json` for every session, powering automated trending of CPU/memory/storage data.
+- Taught the creeping build script to export `JAVA_HOME`/`org.gradle.java.home`, leaving Windows users to set
+  `%USERPROFILE%\.gradle\gradle.properties` when needed.
+- Noted in docs that Android build-tools 35.0.0 must be installed; Gradle reports a missing `aapt` otherwise (seen on
+  WSL-hosted SDK).
+- Added `tools/build/install_sdk_packages.sh` to bootstrap a Linux SDK (platform-tools + build-tools 35) inside WSL so
+  Gradle no longer trips on Windows-only binaries.
+- Pointed `local.properties` at the Linux SDK root (`/home/duyan/Android/Sdk`) so creeping builds read the right path.

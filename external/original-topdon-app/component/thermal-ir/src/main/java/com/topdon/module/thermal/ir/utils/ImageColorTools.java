@@ -239,7 +239,6 @@ public class ImageColorTools {
         return outputBitmap;
     }
 
-
     public static int[] getOneColorByTempEx(float customMaxTemp, float customMinTemp, float nowTemp, int[] colorList) {
         if (colorList == null) {
             return null;
@@ -285,7 +284,6 @@ public class ImageColorTools {
         result[2] = b;
         return result;
     }
-
 
     private static int interpolateR(int startColor, int endColor, double ratio) {
         int startR = (startColor >> 16) & 0xFF;

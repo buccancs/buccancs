@@ -161,7 +161,6 @@ public class CameraPreviewManager {
                     System.arraycopy(frame, 0, mIrData, 0, mIrLength);
                     System.arraycopy(mIrData, 0, frameIrAndTempData, 0, mIrLength);
 
-
                     if (!mShowDoubleImage) {
                         if (mInfoLength != 0 && mSunProtectEnable) {
                             System.arraycopy(frame, mIrLength, mInfoData, 0, mInfoLength);
@@ -220,7 +219,6 @@ public class CameraPreviewManager {
                     }
                     mFinalImageWidth = 0;
                     mFinalImageHeight = 0;
-
 
                     handleSurfaceDisplay();
 
@@ -356,8 +354,8 @@ public class CameraPreviewManager {
         mGainSwitchParam.above_temp_data = (int) ((130 + 273.15) * 16 * 4);
         mGainSwitchParam.below_pixel_prop = 0.95f;
         mGainSwitchParam.below_temp_data = (int) ((150 + 273.15) * 16 * 4);
-        mAutoGainSwitchInfo.switch_frame_cnt = 5 * 15; //连续满足触发条件帧数超过该阈值会触发自动增益切换(假设出图帧率为每秒15帧，则5 * 15大概为5秒)
-        mAutoGainSwitchInfo.waiting_frame_cnt = 7 * 15;//触发自动增益切换之后，会间隔该阈值的帧数不进行增益切换监测(假设出图帧率为每秒15帧，则7 * 15大概为7秒)
+        mAutoGainSwitchInfo.switch_frame_cnt = 5 * 15;
+        mAutoGainSwitchInfo.waiting_frame_cnt = 7 * 15;
 
     }
 
@@ -622,7 +620,6 @@ public class CameraPreviewManager {
     public AlarmBean getAlarmBean() {
         return alarmBean;
     }
-
 
     public void setAlarmBean(AlarmBean alarmBean) {
         this.alarmBean = alarmBean;

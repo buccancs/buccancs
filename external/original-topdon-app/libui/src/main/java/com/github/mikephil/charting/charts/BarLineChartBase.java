@@ -292,7 +292,6 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
         mXAxis.calculate(mData.getXMin(), mData.getXMax());
 
-
         if (mAxisLeft.isEnabled())
             mAxisLeft.calculate(mData.getYMin(AxisDependency.LEFT),
                     mData.getYMax(AxisDependency.LEFT));
@@ -303,7 +302,6 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
         calculateOffsets();
     }
-
 
     @Override
     protected void calcMinMax() {
@@ -651,7 +649,6 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
         addViewportJob(job);
     }
-
 
     public void centerViewTo(float xValue, float yValue, AxisDependency axis) {
 

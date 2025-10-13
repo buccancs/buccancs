@@ -7,18 +7,18 @@ import com.buccancs.data.storage.RetentionPreferences
 import com.buccancs.data.storage.RetentionPreferencesRepository
 import com.buccancs.data.storage.SpaceMonitor
 import com.buccancs.data.storage.SpaceState
+import com.buccancs.data.transfer.WorkPolicy
 import com.buccancs.domain.model.OrchestratorConfig
 import com.buccancs.domain.repository.OrchestratorConfigRepository
-import com.buccancs.data.transfer.WorkPolicy
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.Locale
+import java.util.*
+import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -35,18 +35,25 @@ class SettingsViewModel @Inject constructor(
     private val message = MutableStateFlow<String?>(null)
     private val applying = MutableStateFlow(false)
 
-    val uiState: StateFlow<SettingsUiState> = combine(
+    private val configInputs = combine(
         hostInput,
         portInput,
-        useTlsInput,
+        useTlsInput
+    ) { host, port, tls -> Triple(host, port, tls) }
+
+    private val retentionInputs = combine(
         retentionMinFreeInput,
         retentionMaxSessionsInput,
-        retentionMaxAgeDaysInput,
+        retentionMaxAgeDaysInput
+    ) { minFree, maxSessions, maxAge -> Triple(minFree, maxSessions, maxAge) }
+
+    private val baseState = combine(
+        configInputs,
+        retentionInputs,
         retentionPreferencesRepository.preferences,
         spaceMonitor.state,
-        message,
-        applying
-    ) { host, port, tls, minFree, maxSessions, maxAge, retentionPrefs, space, msg, busy ->
+        message
+    ) { (host, port, tls), (minFree, maxSessions, maxAge), retentionPrefs, space, msg ->
         SettingsUiState(
             hostInput = host,
             portInput = port,
@@ -57,8 +64,12 @@ class SettingsViewModel @Inject constructor(
             retentionDefaults = retentionPrefs,
             storageState = space,
             message = msg,
-            isApplying = busy
+            isApplying = false
         )
+    }
+
+    val uiState: StateFlow<SettingsUiState> = combine(baseState, applying) { state, busy ->
+        state.copy(isApplying = busy)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -218,3 +229,6 @@ data class SettingsUiState(
         )
     }
 }
+
+
+

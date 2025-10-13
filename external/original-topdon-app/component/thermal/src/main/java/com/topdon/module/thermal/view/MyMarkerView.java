@@ -14,7 +14,6 @@ import com.topdon.lib.core.db.entity.ThermalEntity;
 import com.topdon.lib.core.tools.TimeTool;
 import com.topdon.module.thermal.R;
 
-
 @SuppressLint("ViewConstructor")
 public class MyMarkerView extends MarkerView {
 

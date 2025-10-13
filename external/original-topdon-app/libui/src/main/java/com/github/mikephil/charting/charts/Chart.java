@@ -109,7 +109,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         init();
     }
 
-
     public Chart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
@@ -288,7 +287,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         invalidate();
     }
 
-
     public void highlightValue(float x, int dataSetIndex) {
         highlightValue(x, dataSetIndex, true);
     }
@@ -309,7 +307,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             highlightValue(new Highlight(x, y, dataSetIndex), callListener);
         }
     }
-
 
     public void highlightValue(Highlight highlight) {
         highlightValue(highlight, false);
@@ -369,7 +366,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         this.mChartTouchListener = l;
     }
 
-
     protected void drawMarkers(Canvas canvas) {
 
         if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
@@ -414,7 +410,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return mDragDecelerationEnabled;
     }
 
-
     public void setDragDecelerationEnabled(boolean enabled) {
         mDragDecelerationEnabled = enabled;
     }
@@ -433,7 +428,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
         mDragDecelerationFrictionCoef = newValue;
     }
-
 
     @RequiresApi(11)
     public void animateXY(int durationMillisX, int durationMillisY, EasingFunction easingX,
@@ -745,7 +739,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
     public boolean saveToPath(String title, String pathOnSD) {
 
-
         Bitmap b = getChartBitmap();
 
         OutputStream stream = null;
@@ -919,7 +912,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-
 
         if (mUnbind)
             unbindDrawables(this);

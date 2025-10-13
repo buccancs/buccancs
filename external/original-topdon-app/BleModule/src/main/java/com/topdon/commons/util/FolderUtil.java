@@ -7,7 +7,6 @@ import com.topdon.lms.sdk.LMS;
 
 import java.io.File;
 
-
 public class FolderUtil {
     public static String mPath = "/data/user/0/com.topdon.diag.artidiag/files";
     public static String mUserId;
@@ -25,7 +24,6 @@ public class FolderUtil {
     public static void setUserId(String userId) {
         mUserId = userId;
     }
-
 
     public static void init() {
         mUserId = PreUtil.getInstance(Topdon.getApp()).get("VCI_" + LMS.getInstance().getLoginName());
@@ -143,7 +141,6 @@ public class FolderUtil {
                 firmwareFile.mkdirs();
             }
 
-
             File tdartsFile = new File(mPath + fileName + "T-darts/");
             if (!tdartsFile.exists()) {
                 tdartsFile.mkdirs();
@@ -223,7 +220,6 @@ public class FolderUtil {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + "/s/";
     }
 
-
     public static String getDataBasePath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName;
     }
@@ -271,7 +267,6 @@ public class FolderUtil {
     public static String getVehicleTopScanPublicPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName;
     }
-
 
     public static String getShotPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + mUserId + "/Shot/";
@@ -328,7 +323,6 @@ public class FolderUtil {
     public static String getDiagDataLogPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + mUserId + "/DataLog/DIAG/";
     }
-
 
     public static String getImmoDataLogPath() {
         return Topdon.getApp().getExternalFilesDir("").getAbsolutePath() + fileName + mUserId + "/DataLog/IMMO/";

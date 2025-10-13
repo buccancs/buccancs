@@ -16,6 +16,5 @@ public interface IBarDataSet extends IBarLineScatterCandleBubbleDataSet<BarEntry
 
     int getHighLightAlpha();
 
-
     String[] getStackLabels();
 }

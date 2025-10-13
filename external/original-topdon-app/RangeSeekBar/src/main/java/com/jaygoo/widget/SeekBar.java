@@ -26,7 +26,6 @@ import androidx.core.content.ContextCompat;
 
 import java.text.DecimalFormat;
 
-
 public class SeekBar {
     public static final int INDICATOR_SHOW_WHEN_TOUCH = 0;
     public static final int INDICATOR_ALWAYS_HIDE = 1;

@@ -12,6 +12,7 @@ import javax.inject.Inject
 class BuccancsApplication : Application() {
     @Inject
     lateinit var orchestratorBridge: DeviceOrchestratorBridge
+
     @Inject
     lateinit var spaceMonitor: SpaceMonitor
 

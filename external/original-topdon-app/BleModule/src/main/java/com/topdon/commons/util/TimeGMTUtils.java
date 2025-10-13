@@ -11,9 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-
 public class TimeGMTUtils {
-
 
     private static boolean isDaylight(TimeZone zone, String time) {
         try {

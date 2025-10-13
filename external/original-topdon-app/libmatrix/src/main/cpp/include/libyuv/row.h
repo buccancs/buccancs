@@ -38,7 +38,8 @@ LIBYUV_DISABLE_X86
 #endif
 #if
 defined(__clang__) && defined(__aarch64__) && !defined(LIBYUV_DISABLE_NEON)
-#if (__clang_major__ < 3) || (__clang_major__ == 3 && (__clang_minor__ < 5))
+#if
+(__clang_major__ < 3) || (__clang_major__ == 3 && (__clang_minor__ < 5))
 #define
 LIBYUV_DISABLE_NEON
 #endif  // clang >= 3.5
@@ -431,7 +432,8 @@ HAS_ARGBTORAWROW_AVX2
 HAS_ARGBTORGB24ROW_AVX2
 #define
 HAS_CONVERT16TO8ROW_AVX2
-#define HAS_CONVERT8TO16ROW_AVX2
+#define
+HAS_CONVERT8TO16ROW_AVX2
 #define
 HAS_I210TOAR30ROW_AVX2
 #define
@@ -451,7 +453,8 @@ HAS_MULTIPLYROW_16_AVX2
 !defined(LIBYUV_DISABLE_X86) &&                                       \
     (defined(__x86_64__) || (defined(__i386__) && !defined(_MSC_VER))) && \
     (defined(CLANG_HAS_AVX512))
-#define HAS_ARGBTORGB24ROW_AVX512VBMI
+#define
+HAS_ARGBTORGB24ROW_AVX512VBMI
 #endif
 #if
 !defined(LIBYUV_DISABLE_NEON) && \
@@ -480,7 +483,8 @@ HAS_ARGBSETROW_NEON
 HAS_ARGBTOARGB1555ROW_NEON
 #define
 HAS_ARGBTOARGB4444ROW_NEON
-#define HAS_ARGBTORAWROW_NEON
+#define
+HAS_ARGBTORAWROW_NEON
 #define
 HAS_ARGBTORGB24ROW_NEON
 #define
@@ -529,7 +533,8 @@ HAS_I422TORGB24ROW_NEON
 HAS_I422TORGB565ROW_NEON
 #define
 HAS_I422TORGBAROW_NEON
-#define HAS_I422TOUYVYROW_NEON
+#define
+HAS_I422TOUYVYROW_NEON
 #define
 HAS_I422TOYUY2ROW_NEON
 #define
@@ -578,7 +583,8 @@ HAS_RGB565TOYROW_NEON
 HAS_RGBATOUVROW_NEON
 #define
 HAS_RGBATOYROW_NEON
-#define HAS_SETROW_NEON
+#define
+HAS_SETROW_NEON
 #define
 HAS_SPLITRGBROW_NEON
 #define
@@ -627,7 +633,8 @@ HAS_ARGBSHUFFLEROW_NEON
 HAS_ARGBSUBTRACTROW_NEON
 #define
 HAS_INTERPOLATEROW_NEON
-#define HAS_SOBELROW_NEON
+#define
+HAS_SOBELROW_NEON
 #define
 HAS_SOBELTOPLANEROW_NEON
 #define
@@ -658,7 +665,8 @@ HAS_ARGB1555TOUVROW_MSA
 HAS_ARGB1555TOYROW_MSA
 #define
 HAS_ARGB4444TOARGBROW_MSA
-#define HAS_ARGBADDROW_MSA
+#define
+HAS_ARGBADDROW_MSA
 #define
 HAS_ARGBATTENUATEROW_MSA
 #define
@@ -707,7 +715,8 @@ HAS_ARGBTOUVROW_MSA
 HAS_ARGBTOYJROW_MSA
 #define
 HAS_ARGBTOYROW_MSA
-#define HAS_BGRATOUVROW_MSA
+#define
+HAS_BGRATOUVROW_MSA
 #define
 HAS_BGRATOYROW_MSA
 #define
@@ -756,7 +765,8 @@ HAS_RAWTOYROW_MSA
 HAS_RGB24TOARGBROW_MSA
 #define
 HAS_RGB24TOUVROW_MSA
-#define HAS_RGB24TOYROW_MSA
+#define
+HAS_RGB24TOYROW_MSA
 #define
 HAS_RGB565TOARGBROW_MSA
 #define
@@ -847,7 +857,8 @@ HAS_ARGBSUBTRACTROW_MMI
 HAS_ARGBTOARGB1555ROW_MMI
 #define
 HAS_ARGBTOARGB4444ROW_MMI
-#define HAS_ARGBTORAWROW_MMI
+#define
+HAS_ARGBTORAWROW_MMI
 #define
 HAS_ARGBTORGB24ROW_MMI
 #define
@@ -896,7 +907,8 @@ HAS_MIRRORROW_MMI
 HAS_MIRRORUVROW_MMI
 #define
 HAS_RAWTOARGBROW_MMI
-#define HAS_RAWTORGB24ROW_MMI
+#define
+HAS_RAWTORGB24ROW_MMI
 #define
 HAS_RAWTOUVROW_MMI
 #define
@@ -1101,6 +1113,7 @@ IACA_ASM_END         \
 IACA_SSC_MARK(MARK_ID)                        \
   __asm__ __volatile__("\n\t  movl $"
 #
+
 MARK_ID        \
                        ", %%ebx"                      \
                        "\n\t  .byte 0x64, 0x67, 0x90" \
@@ -1113,6 +1126,7 @@ IACA_UD_BYTES __asm__ __volatile__("\n\t .byte 0x0F, 0x0B");
 
 #else
 #
+
 define IACA_UD_BYTES \
   {
 __asm _emit 0x0F __asm _emit 0x0B

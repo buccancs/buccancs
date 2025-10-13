@@ -8,7 +8,6 @@ public class BaseParamDualView {
     protected int mDualWidth;
     protected int mDualHeight;
 
-
     public BaseParamDualView(int mIrWidth, int mIrHeight, int mVlWidth, int mVlHeight, int mDualWidth, int mDualHeight) {
         this.mIrWidth = mIrWidth;
         this.mIrHeight = mIrHeight;

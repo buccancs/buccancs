@@ -29,7 +29,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
 
-
 public class DefRangeSeekBar extends View {
 
     public final static int SEEKBAR_MODE_SINGLE = 1;

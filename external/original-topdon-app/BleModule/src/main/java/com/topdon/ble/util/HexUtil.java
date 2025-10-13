@@ -131,7 +131,7 @@ public class HexUtil {
                 return null;
             }
 
-            byte[] buffer = new byte[in.available()];//in.available() 表示要读取的文件中的数据长度
+            byte[] buffer = new byte[in.available()];
             in.read(buffer);
             return buffer;
         } catch (FileNotFoundException e) {

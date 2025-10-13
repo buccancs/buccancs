@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothAdapter;
 
 import androidx.annotation.NonNull;
 
-
 class ClassicScanner extends AbstractScanner {
     private boolean stopQuietly = false;
 

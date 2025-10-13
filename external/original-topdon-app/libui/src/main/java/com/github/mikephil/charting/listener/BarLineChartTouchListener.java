@@ -64,7 +64,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         point.y = (y / 2f);
     }
 
-
     private static float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
@@ -266,7 +265,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
         return true;
     }
 
-
     private void saveTouchStart(MotionEvent event) {
 
         mSavedMatrix.set(mMatrix);
@@ -419,7 +417,6 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
                 && mChart.isInverted(mClosestDataSetToTouch.getAxisDependency()));
     }
 
-
     public Matrix getMatrix() {
         return mMatrix;
     }
@@ -511,7 +508,7 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
     public void computeScroll() {
 
         if (mDecelerationVelocity.x == 0.f && mDecelerationVelocity.y == 0.f)
-            return; // There's no deceleration in progress
+            return;
 
         final long currentTime = AnimationUtils.currentAnimationTimeMillis();
 

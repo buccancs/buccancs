@@ -3,12 +3,12 @@ package com.buccancs.data.sensor.connector.topdon
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
+import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
-import android.net.Uri
+import com.buccancs.core.time.TimeModelAdapter
 import com.buccancs.data.preview.PreviewStreamClient
 import com.buccancs.data.sensor.MetadataWriters
-import com.buccancs.core.time.TimeModelAdapter
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
@@ -23,6 +23,7 @@ import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.util.toEpochMillis
 import com.infisense.iruvc.usb.USBMonitor
 import com.infisense.iruvc.utils.CommonParams
 import com.infisense.iruvc.utils.IFrameCallback
@@ -36,14 +37,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
-import com.buccancs.util.toEpochMillis
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.io.DEFAULT_BUFFER_SIZE
 import kotlin.math.absoluteValue
 
 private fun defaultTopdonDevice(): SensorDevice = SensorDevice(
@@ -60,6 +59,7 @@ private fun defaultTopdonDevice(): SensorDevice = SensorDevice(
 internal class TopdonThermalConnector @Inject constructor(
     @ApplicationScope private val appScope: CoroutineScope,
     @ApplicationContext private val context: Context,
+    private val usbManager: UsbManager,
     private val recordingStorage: RecordingStorage,
     private val thermalNormalizer: ThermalNormalizer,
     artifactFactory: SimulatedArtifactFactory,
@@ -82,10 +82,13 @@ internal class TopdonThermalConnector @Inject constructor(
     private var thermalStream: FileOutputStream? = null
     private var thermalDigest: MessageDigest? = null
     private var thermalBytes: Long = 0
+
     @Volatile
     private var timeModel: TimeModelAdapter? = null
+
     @Volatile
     private var lastThermalMetrics: ThermalNormalizer.Metrics? = null
+
     @Volatile
     private var lastFrameEpochMs: Long? = null
     private var thermalFrameCount: Long = 0
@@ -249,6 +252,7 @@ internal class TopdonThermalConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.stopStreaming()
@@ -264,6 +268,7 @@ internal class TopdonThermalConnector @Inject constructor(
             DeviceCommandResult.Failed(t)
         }
     }
+
     override fun streamIntervalMs(): Long = 200L
     override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
     override fun simulatedRssi(device: SensorDevice): Int? = null
@@ -334,6 +339,7 @@ internal class TopdonThermalConnector @Inject constructor(
         finalizeThermalRecording()
         timeModel = null
     }
+
     private fun closeCamera() {
         try {
             uvcCamera?.onDestroyPreview()
@@ -408,6 +414,7 @@ internal class TopdonThermalConnector @Inject constructor(
         thermalBytes = 0
         currentSessionId = sessionId
     }
+
     private fun finalizeThermalRecording() {
         val stream = thermalStream ?: return
         try {
@@ -444,10 +451,11 @@ internal class TopdonThermalConnector @Inject constructor(
                 add("deviceId" to MetadataWriters.stringValue(deviceId.value))
                 add("streamType" to MetadataWriters.stringValue("thermal_video"))
                 add("artifactFile" to MetadataWriters.stringValue(file.name))
-                val anchorEpoch = clockSnapshot?.let { it.anchorEpochMs + it.clockOffsetMs } ?: System.currentTimeMillis()
+                val anchorEpoch =
+                    clockSnapshot?.let { it.anchorEpochMs + it.clockOffsetMs } ?: System.currentTimeMillis()
                 add("anchorEpochMs" to anchorEpoch.toString())
                 clockSnapshot?.let { add("clockOffsetMs" to it.clockOffsetMs.toString()) }
-                clockSnapshot?.startDeviceEpochMs?.let { add("deviceStartEpochMs" to it.toString()) }
+                clockSnapshot?.recordingStartEpochMs?.let { add("deviceStartEpochMs" to it.toString()) }
                 clockSnapshot?.startAlignedEpochMillis()?.let { add("alignedStartEpochMs" to it.toString()) }
                 clockSnapshot?.durationSinceStartMs(SystemClock.elapsedRealtimeNanos())?.let { duration ->
                     add("durationMs" to duration.toString())
@@ -485,6 +493,7 @@ internal class TopdonThermalConnector @Inject constructor(
         lastFrameEpochMs = null
         thermalFrameCount = 0
     }
+
     override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {
         if (isSimulationMode) {
             return super.collectArtifacts(sessionId)

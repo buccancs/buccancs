@@ -1,10 +1,12 @@
-apply plugin: 'java'
-apply plugin: 'java-library'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
 
-sourceCompatibility = 1.11
-
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 repositories {
     mavenCentral()
@@ -19,13 +21,11 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-
-            groupId = 'com.shimmerresearch' // Replace with your package's group/organization name
-            artifactId = 'shimmerdriverpc' // Replace with the name of your package
-            version = '0.11.6_beta' // Replace with your package version
+            groupId = 'com.shimmerresearch'
+            artifactId = 'shimmerdriverpc'
+            version = '0.11.6_beta'
         }
     }
-
     repositories {
         maven {
             name = "GitHubPackages"
@@ -37,15 +37,18 @@ publishing {
         }
     }
 }
+
 dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.21'
-    testImplementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.21.1'
     implementation project(':ShimmerDriver')
     implementation project(':ShimmerBluetoothManager')
-    api group: 'io.github.java-native', name: 'jssc', version: '2.9.6'
-    implementation group: 'net.sf.bluecove', name: 'bluecove', version: '2.1.0'
-    api group: 'commons-io', name: 'commons-io', version: '2.4'
-    api group: 'net.sf.jchart2d', name: 'jchart2d', version: '3.3.2'
-    testImplementation 'junit:junit:4.12'
     implementation 'com.parse.bolts:bolts-tasks:1.4.0'
+
+    api 'io.github.java-native:jssc:2.9.6'
+    api 'net.sf.bluecove:bluecove:2.1.0'
+    api 'commons-io:commons-io:2.4'
+    api 'net.sf.jchart2d:jchart2d:3.3.2'
+
+    testImplementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.21.1'
+    testImplementation 'junit:junit:4.13.2'
 }

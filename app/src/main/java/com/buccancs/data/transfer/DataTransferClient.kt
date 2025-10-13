@@ -1,7 +1,6 @@
 package com.buccancs.data.transfer
 
 import android.content.Context
-import android.net.Uri
 import com.buccancs.control.DataTransferRequest
 import com.buccancs.control.DataTransferServiceGrpcKt
 import com.buccancs.control.dataTransferRequest

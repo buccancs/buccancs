@@ -2,6 +2,7 @@ package com.buccancs.application.control
 
 import android.util.Log
 import com.buccancs.BuildConfig
+import com.buccancs.application.stimulus.StimulusPresentationManager
 import com.buccancs.application.time.TimeSyncService
 import com.buccancs.control.commands.CommandSerialization
 import com.buccancs.control.commands.DeviceCommandPayload
@@ -36,7 +37,8 @@ class DefaultDeviceCommandService @Inject constructor(
     private val deviceEventRepository: DeviceEventRepository,
     private val timeSyncService: TimeSyncService,
     private val controlServer: ControlServer,
-    private val identityProvider: DeviceIdentityProvider
+    private val identityProvider: DeviceIdentityProvider,
+    private val stimulusPresentationManager: StimulusPresentationManager
 ) : DeviceCommandService {
     private val _lastCommand = MutableStateFlow<DeviceCommandPayload?>(null)
     override val lastCommand: StateFlow<DeviceCommandPayload?> = _lastCommand.asStateFlow()
@@ -127,6 +129,7 @@ class DefaultDeviceCommandService @Inject constructor(
                     receivedAt = nowInstant()
                 )
             )
+            stimulusPresentationManager.present(payload)
             Log.i(TAG, "Stimulus ${payload.stimulusId} (${payload.action}) recorded")
         }
     }
@@ -195,4 +198,3 @@ class DefaultDeviceCommandService @Inject constructor(
         private const val MAX_OFFSET_ADJUSTMENT_MS = 60_000L
     }
 }
-

@@ -28,7 +28,6 @@ public class ViewPortHandler {
 
     }
 
-
     public void setChartDimens(float width, float height) {
 
         float offsetLeft = this.offsetLeft();
@@ -102,7 +101,6 @@ public class ViewPortHandler {
     public MPPointF getContentCenter() {
         return MPPointF.getInstance(mContentRect.centerX(), mContentRect.centerY());
     }
-
 
     public float getChartHeight() {
         return mChartHeight;
@@ -375,7 +373,6 @@ public class ViewPortHandler {
     public Matrix getMatrixTouch() {
         return mMatrixTouch;
     }
-
 
     public boolean isInBoundsX(float x) {
         return isInBoundsLeft(x) && isInBoundsRight(x);

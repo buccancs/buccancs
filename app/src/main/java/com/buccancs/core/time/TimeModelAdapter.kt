@@ -2,7 +2,6 @@ package com.buccancs.core.time
 
 import android.os.SystemClock
 import com.buccancs.domain.model.RecordingSessionAnchor
-import kotlinx.datetime.toEpochMilliseconds
 
 data class TimeModelAdapter(
     val sessionId: String,

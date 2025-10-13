@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 public abstract class Encoder {
     protected static final int STATE_IDLE = 0;
     protected static final int STATE_RECORDING = 1;
@@ -55,12 +54,10 @@ public abstract class Encoder {
         }
     };
 
-
     public Encoder() {
         setDefaultEncodingOptions();
         init();
     }
-
 
     public Encoder(EncodingOptions options) {
         encodingOptions = options;

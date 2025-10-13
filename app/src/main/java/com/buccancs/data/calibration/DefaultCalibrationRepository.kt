@@ -6,6 +6,7 @@ import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.CalibrationCapture
 import com.buccancs.domain.model.CalibrationDefaults
 import com.buccancs.domain.model.CalibrationImageDescriptor
+import com.buccancs.domain.model.CalibrationMetrics
 import com.buccancs.domain.model.CalibrationPatternConfig
 import com.buccancs.domain.model.CalibrationResult
 import com.buccancs.domain.model.CalibrationSessionState
@@ -45,15 +46,25 @@ import kotlin.math.pow
 class DefaultCalibrationRepository @Inject constructor(
     private val controller: DualCameraController,
     private val storage: CalibrationStorage,
+    private val metricsStore: CalibrationMetricsStore,
     @ApplicationScope private val scope: CoroutineScope
 ) : CalibrationRepository {
     private val stateMutex = Mutex()
     private val calculationMutex = Mutex()
     private val _state = MutableStateFlow(initialState())
+    private val metricsState = MutableStateFlow<CalibrationMetrics?>(null)
     private var sessionId: String? = null
     private var captureCounter = 0
     override val sessionState: StateFlow<CalibrationSessionState>
         get() = _state.asStateFlow()
+    override val metrics: StateFlow<CalibrationMetrics?>
+        get() = metricsState.asStateFlow()
+
+    init {
+        scope.launch {
+            metricsStore.metrics.collect { metricsState.value = it }
+        }
+    }
 
     override suspend fun configure(pattern: CalibrationPatternConfig, requiredPairs: Int) {
         require(requiredPairs >= 3) { "requiredPairs must be at least 3" }
@@ -163,10 +174,18 @@ class DefaultCalibrationRepository @Inject constructor(
             }
         }.getOrThrow()
         storage.writeResult(currentSession, result)
+        val metricsSnapshot = CalibrationMetrics(
+            generatedAt = result.generatedAt,
+            meanReprojectionError = result.meanReprojectionError,
+            maxReprojectionError = result.perViewErrors.maxOrNull() ?: result.meanReprojectionError,
+            usedPairs = result.usedPairs,
+            requiredPairs = result.requiredPairs
+        )
+        metricsState.value = metricsSnapshot
+        metricsStore.update(result)
         stateMutex.withLock {
-            val maxError = result.perViewErrors.maxOrNull() ?: 0.0
-            val warning = if (maxError > 1.0) {
-                "High reprojection error detected (max ${"%.3f".format(maxError)} px). Consider recapturing images."
+            val warning = if (metricsSnapshot.maxReprojectionError > 1.0) {
+                "High reprojection error detected (max ${"%.3f".format(metricsSnapshot.maxReprojectionError)} px). Consider recapturing images."
             } else {
                 null
             }

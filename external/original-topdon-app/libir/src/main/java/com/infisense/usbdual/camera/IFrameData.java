@@ -13,7 +13,6 @@ public class IFrameData {
     public static int P_IN_P_LEN = Const.DUAL_WIDTH * Const.DUAL_HEIGHT * 4;
     public static int FRAME_LEN = FUSION_LEN + ORIGINAL_LEN + ORIGINAL_LEN + REMAP_TEMP_LEN + LIGHT_LEN + P_IN_P_LEN;
 
-
     public static byte[] readFusionData(@NonNull byte[] frame, @Nullable byte[] fusionData) {
         if (fusionData == null) {
             fusionData = new byte[FUSION_LEN];

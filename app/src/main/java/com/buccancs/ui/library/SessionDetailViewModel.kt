@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.buccancs.data.recording.manifest.SessionManifest
 import com.buccancs.data.storage.RecordingStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import java.io.File
+import javax.inject.Inject
 
 @HiltViewModel
 class SessionDetailViewModel @Inject constructor(
@@ -23,7 +22,15 @@ class SessionDetailViewModel @Inject constructor(
 ) : ViewModel() {
     private val json = Json { ignoreUnknownKeys = true; prettyPrint = true }
     private val sessionId: String = savedStateHandle[SESSION_ID_KEY] ?: ""
-    private val _state = MutableStateFlow(SessionDetailUiState(isLoading = true, sessionId = sessionId))
+    private val _state = MutableStateFlow(
+        SessionDetailUiState(
+            isLoading = true,
+            sessionId = sessionId,
+            manifest = null,
+            totalBytes = 0,
+            errorMessage = null
+        )
+    )
     val state: StateFlow<SessionDetailUiState> = _state.asStateFlow()
 
     init {
@@ -80,3 +87,4 @@ data class SessionDetailUiState(
     val artifactCount: Int
         get() = manifest?.artifacts?.size ?: 0
 }
+

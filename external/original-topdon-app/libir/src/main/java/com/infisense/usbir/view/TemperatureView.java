@@ -73,13 +73,9 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
     private int drawCount = 3;
     @Nullable
     private LibIRTemp irtemp;
-    /**
-     * {@link #viewWidth} / {@link #temperatureWidth} 的比值.
-     */
+
     private float xScale = 0;
-    /**
-     * {@link #viewHeight} / {@link #temperatureHeight} 的比值.
-     */
+
     private float yScale = 0;
     private int viewWidth = 0;
     private int viewHeight = 0;
@@ -556,7 +552,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-
     public void stop() {
         runflag = false;
         isShow = getVisibility() == View.VISIBLE;
@@ -624,7 +619,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         lineList.add(line);
     }
 
-
     public void addScaleRectangle(Rect r) {
         float sx = getMeasuredWidth() / (float) temperatureWidth;
         float sy = getMeasuredHeight() / (float) temperatureHeight;
@@ -650,7 +644,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
         return new Point((int) (pointList.get(0).x / xScale), (int) (pointList.get(0).y / yScale));
     }
-
 
     public Line getLine() {
         if (!lineList.isEmpty()) {
@@ -1223,7 +1216,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         helper.drawPoint(canvas, x, y);
     }
 
-
     private void drawLine(Canvas canvas, int x1, int y1, int x2, int y2, boolean isTrend) {
         int startX = (int) ((int) (x1 / xScale) * xScale);
         int startY = (int) ((int) (y1 / yScale) * yScale);
@@ -1296,7 +1288,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
             return getCompensateTemp(temp);
         }
     }
-
 
     public void setUseIRISP(boolean useIRISP) {
         if (irtemp != null) {

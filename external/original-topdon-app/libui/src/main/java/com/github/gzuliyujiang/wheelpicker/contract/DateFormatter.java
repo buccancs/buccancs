@@ -9,4 +9,3 @@ public interface DateFormatter {
     String formatDay(int day);
 
 }
-

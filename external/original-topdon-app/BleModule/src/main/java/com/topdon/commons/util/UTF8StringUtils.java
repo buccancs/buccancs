@@ -9,7 +9,6 @@ import java.io.Reader;
 
 public class UTF8StringUtils {
 
-
     public static String readByUtf8WithBom(String path) {
         File file = new File(path);
         FileInputStream in;
@@ -21,7 +20,7 @@ public class UTF8StringUtils {
                 BufferedReader bf = new BufferedReader(read);
                 String txt;
                 while ((txt = bf.readLine()) != null) {
-                    /* 判断文本文件里面的内容是否合法 平台系统中定义 每个敏感词后加上结束标志“|1” */
+
                     txt = txt.trim();
                     String flag = txt.substring(txt.lastIndexOf("|") + 1);
                     if (flag.equals("1")) {
@@ -46,7 +45,7 @@ public class UTF8StringUtils {
                 BufferedReader bf = new BufferedReader(new UnicodeReader(in, "utf-8"));
                 String txt = "";
                 while ((txt = bf.readLine()) != null) {
-                    /* 判断文本文件里面的内容是否合法 平台系统中定义 每个敏感词后加上结束标志“|1” */
+
                     txt = txt.trim();
                     String flag = txt.substring(txt.lastIndexOf("|") + 1);
                     if (flag.equals("1")) {
@@ -61,6 +60,5 @@ public class UTF8StringUtils {
         }
         return "";
     }
-
 
 }

@@ -10,7 +10,6 @@ public class TransformerHorizontalBarChart extends Transformer {
 
         mMatrixOffset.reset();
 
-
         if (!inverted)
             mMatrixOffset.postTranslate(mViewPortHandler.offsetLeft(),
                     mViewPortHandler.getChartHeight() - mViewPortHandler.offsetBottom());

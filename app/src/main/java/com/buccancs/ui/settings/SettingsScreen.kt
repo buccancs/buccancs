@@ -3,10 +3,8 @@ package com.buccancs.ui.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -31,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun SettingsRoute(
@@ -181,8 +179,8 @@ private fun RetentionCard(
             Text(text = "Retention Policy", style = MaterialTheme.typography.titleMedium)
             Text(
                 text = "Defaults: min free ${formatGigabytes(state.retentionDefaults.minFreeBytes)}, " +
-                    "max sessions ${state.retentionDefaults.maxSessions}, " +
-                    "max age ${state.retentionDefaults.maxAgeDays} days",
+                        "max sessions ${state.retentionDefaults.maxSessions}, " +
+                        "max age ${state.retentionDefaults.maxAgeDays} days",
                 style = MaterialTheme.typography.bodySmall
             )
             OutlinedTextField(

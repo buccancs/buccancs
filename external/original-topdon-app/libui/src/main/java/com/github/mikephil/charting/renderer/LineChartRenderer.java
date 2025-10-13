@@ -192,7 +192,6 @@ public class LineChartRenderer extends LineRadarRenderer {
             float curDx = 0f;
             float curDy = 0f;
 
-
             final int firstIndex = mXBounds.min + 1;
             final int lastIndex = mXBounds.min + mXBounds.range;
 

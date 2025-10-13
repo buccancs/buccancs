@@ -8,7 +8,6 @@
               android:paddingLeft="5dp"
               android:paddingRight="5dp">
 
-    <!-- -->
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -48,7 +47,6 @@
 
     </LinearLayout>
 
-    <!-- -->
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -72,7 +70,6 @@
 
     </LinearLayout>
 
-    <!-- -->
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -112,7 +109,6 @@
 
     </LinearLayout>
 
-    <!-- -->
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
@@ -173,7 +169,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- -->
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -232,13 +227,11 @@
 
     </RelativeLayout>
 
-    <!-- -->
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <!-- -->
         <TextView
                 android:id="@+id/textView4"
                 android:layout_width="80dp"
@@ -256,7 +249,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"/>
 
-        <!-- -->
         <TextView
                 android:id="@+id/tvAGC"
                 android:layout_width="80dp"
@@ -275,7 +267,6 @@
                 app:layout_constraintLeft_toRightOf="@id/ONOFF_AGC"
                 app:layout_constraintTop_toBottomOf="@+id/tvAGC"/>
 
-        <!-- -->
         <TextView
                 android:id="@+id/MAXGAINtext"
                 android:layout_width="80dp"
@@ -295,7 +286,6 @@
                 app:layout_constraintLeft_toRightOf="@+id/AGC"
                 app:layout_constraintTop_toBottomOf="@+id/MAXGAINtext"/>
 
-        <!-- -->
         <TextView
                 android:id="@+id/BOStext"
                 android:layout_width="80dp"
@@ -341,7 +331,6 @@
 
     </LinearLayout>
 
-    <!-- 自适应功能 -->
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -365,7 +354,6 @@
 
     </LinearLayout>
 
-    <!-- -->
     <Switch
             android:id="@+id/switchAutoGain"
             android:layout_width="match_parent"
@@ -373,7 +361,6 @@
             android:text="auto gain switch"
             android:textColor="@color/white"/>
 
-    <!-- -->
     <Switch
             android:id="@+id/switchOverProtect"
             android:layout_width="match_parent"

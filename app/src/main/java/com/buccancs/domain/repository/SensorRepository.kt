@@ -1,6 +1,7 @@
 package com.buccancs.domain.repository
 
 import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.PerformanceThrottleLevel
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.model.SensorDevice
@@ -13,6 +14,7 @@ interface SensorRepository {
     val streamStatuses: StateFlow<List<SensorStreamStatus>>
     val recordingState: StateFlow<RecordingState>
     val simulationEnabled: StateFlow<Boolean>
+    val throttleLevel: StateFlow<PerformanceThrottleLevel>
     suspend fun refreshInventory()
     suspend fun connect(deviceId: DeviceId)
     suspend fun disconnect(deviceId: DeviceId)
@@ -21,4 +23,5 @@ interface SensorRepository {
     suspend fun startStreaming(anchor: RecordingSessionAnchor)
     suspend fun stopStreaming(): RecordingSessionAnchor?
     suspend fun collectSessionArtifacts(sessionId: String): List<SessionArtifact>
+    suspend fun applyPerformanceThrottle(level: PerformanceThrottleLevel)
 }

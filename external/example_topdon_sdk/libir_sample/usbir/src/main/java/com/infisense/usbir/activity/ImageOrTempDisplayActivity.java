@@ -29,7 +29,6 @@ import com.infisense.usbir.thread.ImageThread;
 import com.infisense.usbir.utils.ScreenUtils;
 import com.infisense.usbir.utils.USBMonitorCallback;
 
-
 public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnClickListener,
         AdapterView.OnItemSelectedListener {
     public static final int RESTART_USB = 1000;
@@ -123,6 +122,23 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         binding.cameraView.setSyncimage(syncimage);
         binding.cameraView.setBitmap(bitmap);
         binding.cameraView.setLayoutParams(fullScreenlayoutParams);
+    }
+
+    private void startISP() {
+        imageThread = new ImageThread(ImageOrTempDisplayActivity.this, imageWidth, imageHeight);
+        imageThread.setDataFlowMode(defaultDataFlowMode);
+        imageThread.setSyncimage(syncimage);
+        imageThread.setImageSrc(imageSrc);
+        imageThread.setBitmap(bitmap);
+        imageThread.setRotate(true);
+        imageThread.start();
+    }
+
+    private void initProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.layout_loading);
+        builder.setCancelable(true);
+        progressDialog = builder.create();
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -149,23 +165,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    private void startISP() {
-        imageThread = new ImageThread(ImageOrTempDisplayActivity.this, imageWidth, imageHeight);
-        imageThread.setDataFlowMode(defaultDataFlowMode);
-        imageThread.setSyncimage(syncimage);
-        imageThread.setImageSrc(imageSrc);
-        imageThread.setBitmap(bitmap);
-        imageThread.setRotate(true);
-        imageThread.start();
-    }
-
-    private void initProgressDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.layout_loading);
-        builder.setCancelable(true);
-        progressDialog = builder.create();
-    }
 
     private void startUSB(boolean isReStart) {
         if (progressDialog == null) {
@@ -340,7 +339,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             Log.e(TAG, "imageThread.join(): catch an interrupted exception");
         }
     }
-
 
 
 

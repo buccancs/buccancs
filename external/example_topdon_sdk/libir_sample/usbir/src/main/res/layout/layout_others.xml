@@ -6,7 +6,6 @@
               android:paddingLeft="5dp"
               android:paddingRight="5dp">
 
-    <!-- 环境变量修正 -->
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +52,6 @@
 
     </LinearLayout>
 
-    <!-- 读取探测器温度 -->
     <TextView
             android:id="@+id/tvDTEMP"
             android:layout_width="match_parent"
@@ -61,13 +59,11 @@
             android:text=""
             android:textColor="@color/white"/>
 
-    <!-- -->
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <!-- 输出帧频 -->
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -104,7 +100,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-            <!-- -->
             <TextView
                     android:id="@+id/tvShutterEnStatus"
                     android:layout_width="120dp"
@@ -122,12 +117,10 @@
 
     </LinearLayout>
 
-    <!-- 自动快门相关 -->
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <!-- -->
         <TextView
                 android:id="@+id/autotext"
                 android:layout_width="60dp"
@@ -141,7 +134,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/autotext"/>
 
-        <!-- -->
         <TextView
                 android:id="@+id/mintext"
                 android:layout_width="60dp"
@@ -160,7 +152,6 @@
                 android:inputType="number"
                 android:textColor="@color/white"/>
 
-        <!-- -->
         <TextView
                 android:id="@+id/maxtext"
                 android:layout_width="60dp"
@@ -179,7 +170,6 @@
                 android:inputType="number"
                 android:textColor="@color/white"/>
 
-        <!-- -->
         <TextView
                 android:id="@+id/ooctext"
                 android:layout_width="60dp"
@@ -198,7 +188,6 @@
                 android:inputType="number"
                 android:textColor="@color/white"/>
 
-        <!-- -->
         <TextView
                 android:id="@+id/btext"
                 android:layout_width="60dp"
@@ -298,7 +287,6 @@
                 android:textAllCaps="false"/>
     </RelativeLayout>
 
-    <!-- -->
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -348,7 +336,6 @@
 
     </RelativeLayout>
 
-    <!-- -->
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

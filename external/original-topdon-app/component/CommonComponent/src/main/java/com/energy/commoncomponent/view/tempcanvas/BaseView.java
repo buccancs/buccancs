@@ -60,7 +60,6 @@ public abstract class BaseView {
         this.mNote = note;
     }
 
-
     public Bitmap getCustomSizeImg(Bitmap rootImg, int goalW, int goalH) {
         int rootW = rootImg.getWidth();
         int rootH = rootImg.getHeight();

@@ -7,3 +7,5 @@ BACKLOG
 - Harden UploadWorker resume logic by persisting queued artifacts and exposing progress in the Live Session screen.
 - Feed HeartbeatMonitor warnings into RecordingService to trigger safe auto-stop on missed beats.
 
+- Expose bookmark capture and review controls (label editing, manifest export).
+- Extend Live Session telemetry panel with encoder performance charts per segment.

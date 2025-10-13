@@ -51,7 +51,6 @@ import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-
 public class PlayFragment extends Fragment implements TextureView.SurfaceTextureListener {
     public static final String ARG_PARAM1 = "param1";
     public static final String ARG_TRANSPORT_MODE = "ARG_TRANSPORT_MODE";
@@ -102,7 +101,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
     public static PlayFragment newInstance(String url, int transportMode, int sendOption, ResultReceiver rr) {
         return newInstance(url, transportMode, sendOption, rr, false);
     }
-
 
     public static PlayFragment newInstance(String url, int transportMode, int sendOption, ResultReceiver rr, boolean isTs007) {
         PlayFragment fragment = new PlayFragment();
@@ -290,7 +288,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         super.onDestroyView();
     }
 
-
     @Override
     public void onDestroy() {
         stopRending();
@@ -471,7 +468,7 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
             if (mScanner == null) {
                 MediaScannerConnection connection = new MediaScannerConnection(getContext(), new MediaScannerConnection.MediaScannerConnectionClient() {
                     public void onMediaScannerConnected() {
-                        mScanner.scanFile(path, null /* mimeType */);
+                        mScanner.scanFile(path, null);
                     }
 
                     public void onScanCompleted(String path1, Uri uri) {
@@ -571,7 +568,6 @@ public class PlayFragment extends Fragment implements TextureView.SurfaceTexture
         if (mRR != null)
             mRR.send(resultCode, resultData);
     }
-
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {

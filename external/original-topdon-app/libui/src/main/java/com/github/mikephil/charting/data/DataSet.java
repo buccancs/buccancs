@@ -15,7 +15,6 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
     protected float mXMin = Float.MAX_VALUE;
 
-
     public DataSet(List<T> values, String label) {
         super(label);
         this.mValues = values;

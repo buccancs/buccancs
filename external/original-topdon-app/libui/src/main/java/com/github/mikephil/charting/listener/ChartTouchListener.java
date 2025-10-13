@@ -62,7 +62,6 @@ public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDete
         return mLastGesture;
     }
 
-
     protected void performHighlight(Highlight h, MotionEvent e) {
 
         if (h == null || h.equalTo(mLastHighlighted)) {

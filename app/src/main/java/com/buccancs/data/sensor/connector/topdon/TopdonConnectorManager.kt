@@ -43,6 +43,7 @@ internal class TopdonConnectorManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val usbManager: UsbManager,
     private val recordingStorage: RecordingStorage,
+    private val thermalNormalizer: ThermalNormalizer,
     private val previewClient: PreviewStreamClient,
     private val artifactFactory: SimulatedArtifactFactory,
     private val configRepository: SensorHardwareConfigRepository
@@ -200,6 +201,7 @@ internal class TopdonConnectorManager @Inject constructor(
             context,
             usbManager,
             recordingStorage,
+            thermalNormalizer,
             artifactFactory,
             previewClient,
             settings,
@@ -347,3 +349,4 @@ internal class TopdonConnectorManager @Inject constructor(
         var config: TopdonDeviceConfig
     )
 }
+

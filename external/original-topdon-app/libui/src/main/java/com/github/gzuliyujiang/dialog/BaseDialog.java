@@ -125,7 +125,6 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
         setBackgroundColor(CornerRound.No, color);
     }
 
-
     public final void setBackgroundColor(@CornerRound int cornerRound, @ColorInt int color) {
         setBackgroundColor(cornerRound, 20, color);
     }

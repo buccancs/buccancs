@@ -15,7 +15,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <!-- line 1 -->
             <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
@@ -45,7 +44,6 @@
                     android:text="@string/single_point_calibration"
                     android:textAllCaps="false"/>
 
-            <!-- line 2  -->
             <TextView
                     android:id="@+id/textView2"
                     android:layout_width="130dp"
@@ -89,7 +87,6 @@
                     android:text="673"
                     android:textColor="@color/white"/>
 
-            <!-- 多点标定 -->
             <TextView
                     android:id="@+id/tvProductType"
                     android:layout_width="110dp"
@@ -156,7 +153,6 @@
                     android:text="@string/multi_calibration_one_temp_corrent_2"
                     android:textAllCaps="false"/>
 
-            <!-- 取消标定,重置测温参数 -->
             <Button
                     android:id="@+id/cancel"
                     style="@style/myBtnStyle"
@@ -188,7 +184,6 @@
 
         </RelativeLayout>
 
-        <!-- -->
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -230,7 +225,6 @@
                     android:textAllCaps="false"/>
         </RelativeLayout>
 
-        <!-- -->
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -307,7 +301,6 @@
 
         </RelativeLayout>
 
-        <!-- -->
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -330,7 +323,6 @@
                     android:textAllCaps="false"/>
         </LinearLayout>
 
-        <!-- 点线框测温 -->
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -354,7 +346,6 @@
 
         </LinearLayout>
 
-        <!-- -->
         <Switch
                 android:id="@+id/switchGain"
                 android:layout_width="match_parent"

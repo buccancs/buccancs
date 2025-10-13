@@ -2,10 +2,12 @@ package com.buccancs.data.sensor
 
 import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.SensorConnector
+import com.buccancs.data.sensor.connector.ThrottlableConnector
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
 import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.PerformanceThrottleLevel
 import com.buccancs.domain.model.RecordingLifecycleState
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.RecordingState
@@ -44,6 +46,8 @@ class DefaultSensorRepository @Inject constructor(
     override val devices: StateFlow<List<SensorDevice>> = _devices.asStateFlow()
     private val _streamStatuses = MutableStateFlow<List<SensorStreamStatus>>(emptyList())
     override val streamStatuses: StateFlow<List<SensorStreamStatus>> = _streamStatuses.asStateFlow()
+    private val _throttleLevel = MutableStateFlow(PerformanceThrottleLevel.NORMAL)
+    override val throttleLevel: StateFlow<PerformanceThrottleLevel> = _throttleLevel.asStateFlow()
     private val _recordingState = MutableStateFlow(
         RecordingState(
             lifecycle = RecordingLifecycleState.Idle,
@@ -189,6 +193,21 @@ class DefaultSensorRepository @Inject constructor(
             }
         }
         return collected
+    }
+
+    override suspend fun applyPerformanceThrottle(level: PerformanceThrottleLevel) {
+        if (_throttleLevel.value == level) return
+        _throttleLevel.value = level
+        singleConnectors.forEach { connector ->
+            if (connector is ThrottlableConnector) {
+                connector.applyThrottle(level)
+            }
+        }
+        multiConnectors.forEach { connector ->
+            if (connector is ThrottlableConnector) {
+                connector.applyThrottle(level)
+            }
+        }
     }
 
     private fun attachSingleConnector(connector: SensorConnector) {

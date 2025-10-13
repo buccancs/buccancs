@@ -7,7 +7,6 @@ import com.topdon.commons.poster.ThreadMode;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 public class EasyBLEBuilder {
     private final static ExecutorService DEFAULT_EXECUTOR_SERVICE = Executors.newCachedThreadPool();
     BondController bondController;

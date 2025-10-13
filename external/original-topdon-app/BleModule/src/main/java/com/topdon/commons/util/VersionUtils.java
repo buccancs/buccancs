@@ -2,7 +2,6 @@ package com.topdon.commons.util;
 
 import android.text.TextUtils;
 
-
 public class VersionUtils {
 
     public static boolean compareVersions(String v1, String v2) {

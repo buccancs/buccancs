@@ -5,4 +5,3 @@ public interface TextProvider {
     String provideText();
 
 }
-

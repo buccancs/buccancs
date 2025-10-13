@@ -3,7 +3,6 @@ package com.topdon.ble;
 import android.bluetooth.BluetoothDevice;
 import android.os.Build;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;

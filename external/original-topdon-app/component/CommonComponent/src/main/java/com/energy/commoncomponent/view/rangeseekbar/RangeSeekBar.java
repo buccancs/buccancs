@@ -31,7 +31,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class RangeSeekBar extends View {
 
     public final static int SEEKBAR_MODE_SINGLE = 1;

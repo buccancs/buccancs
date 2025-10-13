@@ -79,7 +79,6 @@ public class ImageThread extends Thread {
                             dataFlowMode == CommonParams.DataFlowMode.IMAGE_OUTPUT) {
                         LibIRParse.converyArrayYuv422ToARGB(imageSrc, imageHeight * imageWidth, imageARGB);
 
-
                     } else {
                         LibIRParse.convertArrayY14ToYuv422(imageSrc, imageHeight * imageWidth, imageYUV422);
                         LibIRParse.converyArrayYuv422ToARGB(imageYUV422, imageHeight * imageWidth, imageARGB);

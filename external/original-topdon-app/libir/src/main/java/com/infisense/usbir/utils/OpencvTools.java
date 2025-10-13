@@ -92,7 +92,6 @@ public class OpencvTools {
         return resulARGB;
     }
 
-
     public static Bitmap supImageFour(Bitmap inBitmap) {
         long startTime = System.currentTimeMillis();
         ByteBuffer rawData = ByteBuffer.wrap(SupRUtils.INSTANCE.bitmapToByteArray(inBitmap));
@@ -105,7 +104,6 @@ public class OpencvTools {
         Log.e("4倍超分模型：", String.valueOf((System.currentTimeMillis() - startTime)));
         return SupRUtils.INSTANCE.byteArrayToBitmap(byteArray);
     }
-
 
     public static byte[] supImageFourExToByte(byte[] imgByte) {
         long startTime = System.currentTimeMillis();
@@ -153,7 +151,6 @@ public class OpencvTools {
         return finalBitmap;
     }
 
-
     public static Bitmap supImageFourExToBitmap(Bitmap inBitmap) {
         long startTime = System.currentTimeMillis();
         byte[] rawData = SupRUtils.INSTANCE.bitmapToByteArray(inBitmap);
@@ -176,7 +173,6 @@ public class OpencvTools {
         Log.e("4倍超分模型：", String.valueOf((System.currentTimeMillis() - startTime)));
         return finalBitmap;
     }
-
 
     public static byte[] supImage(byte[] imageARGB, int width, int height, byte[] resulARGB) {
         Mat argbMat = new Mat(width, height, CvType.CV_8UC4);
@@ -210,7 +206,6 @@ public class OpencvTools {
         }
         return doubleByteImage;
     }
-
 
     public static byte[] convertCelsiusToOriginalBytes(float[] temp) {
         if (temp == null) {
@@ -266,7 +261,6 @@ public class OpencvTools {
         }
         return map;
     }
-
 
     public static byte[] matToByteArray(Mat mat) {
         int rows = mat.rows();
@@ -367,7 +361,6 @@ public class OpencvTools {
         }
         return im;
     }
-
 
     private static Mat draw_high_temp_edge_argb_pse(byte[] image, byte[] temperature, int cols, int rows, double high_t, int color_h, int type) throws IOException {
         double[] temp = new double[cols * rows];
@@ -612,7 +605,6 @@ public class OpencvTools {
 
     }
 
-
     public static Bitmap draw_edge_from_temp_reigon_bitmap(byte[] image, byte[] temperature, int image_h, int image_w, double high_t, double low_t, int color_h, int color_l, int type) throws IOException {
         Mat src = draw_high_temp_edge(image, temperature, image_h, image_w, high_t, color_h, type);
         Mat mat = draw_temp_edge(src, temperature, low_t, color_l, type);
@@ -651,7 +643,6 @@ public class OpencvTools {
         Utils.matToBitmap(mat, dstBitmap);
         return dstBitmap;
     }
-
 
     public static Mat calcHU(Size size, double t2) {
         Mat hu = new Mat(size, CV_32FC1);
@@ -742,7 +733,6 @@ public class OpencvTools {
         Core.idft(image_padd_2c, image_padd_2c, DFT_SCALE);
         System.out.println(image_padd_2c.channels());
 
-
         Core.exp(image_padd_2c, image_padd_2c);
         Core.subtract(image_padd_2c, new Scalar(1), image_padd_2c);
         List<Mat> image_padd_s = new ArrayList<Mat>();
@@ -764,7 +754,6 @@ public class OpencvTools {
         return result;
 
     }
-
 
     public static Mat generateColorBar(int[] colorList, float maxTemp, float minTemp, float customMaxTemp,
                                        float customMinTemp, boolean isGrayUse) {
@@ -1380,7 +1369,6 @@ public class OpencvTools {
     }
 
     public static boolean getStatus(Mat image1, Mat image2) {
-
 
         final double similarity = calculateHistogram(image1, image2);
         return similarity > 0.9;

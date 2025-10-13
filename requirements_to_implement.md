@@ -25,7 +25,10 @@ continuous dummy GSR output. In a test scenario with an Android phone
 detects the thermal camera and simultaneously captures both IR (thermal)
 and RGB video streams without user intervention.
 
-**Current state:** The Android agent ships dedicated connectors for Shimmer GSR, RGB camera, microphone, and Topdon thermal hardware via the `SensorConnector`/`MultiDeviceConnector` pipeline, and simulation toggles are live across connectors. Automatic discovery still depends on manually configured inventories and the desktop bridge; end-to-end pairing with real hardware has not been fully verified on the PC orchestrator.
+**Current state:** The Android agent ships dedicated connectors for Shimmer GSR, RGB camera, microphone, and Topdon
+thermal hardware via the `SensorConnector`/`MultiDeviceConnector` pipeline, and simulation toggles are live across
+connectors. Automatic discovery still depends on manually configured inventories and the desktop bridge; end-to-end
+pairing with real hardware has not been fully verified on the PC orchestrator.
 
 **FR2** *(Platform: PC, Android; Priority: Essential; Verification:
 Test) -- Synchronised Multi-Modal Recording:* The system shall start and
@@ -44,7 +47,10 @@ timestamped against a shared timeline, such that when files are
 compared, their start and end times align within the expected small
 offset.
 
-**Current state:** `DefaultRecordingService` and `SensorRepository.startStreaming` coordinate anchor-based start and stop events, applying a shared `TimeModelAdapter` across connectors so streams align on a common timestamp. Desktop start/stop broadcasting exists through the command service, but multi-device field tests with multiple Android endpoints are still pending.
+**Current state:** `DefaultRecordingService` and `SensorRepository.startStreaming` coordinate anchor-based start and
+stop events, applying a shared `TimeModelAdapter` across connectors so streams align on a common timestamp. Desktop
+start/stop broadcasting exists through the command service, but multi-device field tests with multiple Android endpoints
+are still pending.
 
 **FR3** *(Platform: PC, Android; Priority: Essential; Verification:
 Test) -- Time Synchronisation Service:* The system shall synchronise
@@ -62,7 +68,9 @@ recording[\[1\]](file://file-59dbMmLLFHR2oahNVJTqd5#:~:text=%5Citem%5B%5Ctextbf,
 In practice, logs of timestamps from different devices show no
 discernible drift over the course of a session.
 
-**Current state:** The Android client contains a gRPC-based `DefaultTimeSyncService` that samples RTT, computes offsets, and maintains history with quality metrics, and the desktop module exposes corresponding protobuf stubs. A production-grade PC time server and continuous validation against physical devices remain to be integrated.
+**Current state:** The Android client contains a gRPC-based `DefaultTimeSyncService` that samples RTT, computes offsets,
+and maintains history with quality metrics, and the desktop module exposes corresponding protobuf stubs. A
+production-grade PC time server and continuous validation against physical devices remain to be integrated.
 
 **FR4** *(Platform: PC; Priority: Essential; Verification: Test) --
 Session Management:* The system shall organise recordings into discrete
@@ -82,7 +90,9 @@ already active are disallowed and properly prevented by the system. All
 session metadata (start, end, duration, and any marked events during the
 session) is correctly recorded.
 
-**Current state:** Session lifecycle is orchestrated through `DefaultRecordingService`, with the new `ManifestWriter` producing per-session JSON summaries and `RecordingStorage` handling folder layout and file naming. Desktop ingestion and concurrency controls for multiple PC-side operators still need verification.
+**Current state:** Session lifecycle is orchestrated through `DefaultRecordingService`, with the new `ManifestWriter`
+producing per-session JSON summaries and `RecordingStorage` handling folder layout and file naming. Desktop ingestion
+and concurrency controls for multiple PC-side operators still need verification.
 
 **FR5** *(Platform: PC, Android; Priority: Essential; Verification:
 Test) -- Data Recording and Storage:* For each session, the system shall
@@ -111,7 +121,10 @@ smartphone is capturing two video streams (RGB and IR) at once, the
 system exhibits no frame drops in either stream and maintains
 synchronisation between them.
 
-**Current state:** Camera, thermal, microphone, and Shimmer connectors stream to local files with checksums, artifact metadata, and manifest registration; automated file naming is handled by `RecordingStorage.createArtifactFile`. Large-scale throughput (multiple concurrent RGB+IR captures with live previews) has only been exercised in simulation and still needs soak testing with physical hardware and PC-side aggregation.
+**Current state:** Camera, thermal, microphone, and Shimmer connectors stream to local files with checksums, artifact
+metadata, and manifest registration; automated file naming is handled by `RecordingStorage.createArtifactFile`.
+Large-scale throughput (multiple concurrent RGB+IR captures with live previews) has only been exercised in simulation
+and still needs soak testing with physical hardware and PC-side aggregation.
 
 **FR6** *(Platform: PC; Priority: Essential; Verification: Test) -- User
 Interface for Monitoring & Control:* The system shall provide a
@@ -142,7 +155,9 @@ sensor views during the session. Observing the preview does not
 noticeably degrade the system's performance or the quality of the
 recorded data.
 
-**Current state:** The Compose Desktop console lists devices, session controls, and telemetry, and the Android app now exposes Live Session and Session Library screens for on-device monitoring. Preview transports are stubbed and low-bandwidth tiles plus alerting still need to be wired end-to-end for production readiness.
+**Current state:** The Compose Desktop console lists devices, session controls, and telemetry, and the Android app now
+exposes Live Session and Session Library screens for on-device monitoring. Preview transports are stubbed and
+low-bandwidth tiles plus alerting still need to be wired end-to-end for production readiness.
 
 **FR7** *(Platform: PC, Android; Priority: Important; Verification:
 Test) -- Device Synchronisation and Signals:* The system shall
@@ -174,7 +189,9 @@ devices' logs show the stimulus marker at the same moment (within the
 known synchronisation tolerance), and any video recordings capture the
 synchronization signal or stimulus onset as expected.
 
-**Current state:** `DeviceCommandService` merges remote orchestrator traffic and on-device `ControlServer` events, recording sync markers, stimuli, and generic commands into the manifest timeline. Desktop tooling for authoring complex stimulus scripts and validating simultaneous actuation is still in development.
+**Current state:** `DeviceCommandService` merges remote orchestrator traffic and on-device `ControlServer` events,
+recording sync markers, stimuli, and generic commands into the manifest timeline. Desktop tooling for authoring complex
+stimulus scripts and validating simultaneous actuation is still in development.
 
 **FR8** *(Platform: PC, Android; Priority: Important; Verification:
 Test) -- Fault Tolerance and Recovery:* The system shall be robust to
@@ -206,7 +223,9 @@ stops recording and prepares to send its data). The PC log and metadata
 show the timeline of the disconnect and reconnect events, and no data is
 corrupted or lost due to the disruption.
 
-**Current state:** The Android side includes a `HeartbeatMonitor`, reconnect-capable connectors, and command acknowledgement, and the manifest logs disconnection events. Automated recovery, retries, and desktop alerting for long outages still need hardened integration tests.
+**Current state:** The Android side includes a `HeartbeatMonitor`, reconnect-capable connectors, and command
+acknowledgement, and the manifest logs disconnection events. Automated recovery, retries, and desktop alerting for long
+outages still need hardened integration tests.
 
 **FR9** *(Platform: PC, Android; Priority: Important; Verification:
 Test) -- Calibration Utilities:* The system shall include tools for
@@ -236,7 +255,9 @@ calibration data to overlay thermal images on RGB images---if alignment
 looks correct (or the numerical error is low), the requirement is met;
 if not, the system guides the user to recalibrate.
 
-**Current state:** Calibration tooling on Android already captures paired RGB/thermal frames, runs OpenCV routines, persists results, and exposes UI hooks for recalibration. Automated quality thresholds and visual overlays remain manual and should be revisited before field deployment.
+**Current state:** Calibration tooling on Android already captures paired RGB/thermal frames, runs OpenCV routines,
+persists results, and exposes UI hooks for recalibration. Automated quality thresholds and visual overlays remain manual
+and should be revisited before field deployment.
 
 **FR10** *(Platform: PC, Android; Priority: Essential; Verification:
 Test) -- Data Transfer and Aggregation:* When a recording session ends,
@@ -270,7 +291,9 @@ present on the PC are identical to the originals on the phone (i.e. no
 loss of quality or data), meaning the complete dataset is now available
 on the PC for offline analysis.
 
-**Current state:** `SessionTransferRepository`, `DataTransferClient`, and the WorkManager-backed `UploadWorker` queue artifacts from the manifest and provide progress telemetry, with retention policies scheduling cleanup. The receiving PC pipeline and end-to-end verification of failed transfer retries are still outstanding.
+**Current state:** `SessionTransferRepository`, `DataTransferClient`, and the WorkManager-backed `UploadWorker` queue
+artifacts from the manifest and provide progress telemetry, with retention policies scheduling cleanup. The receiving PC
+pipeline and end-to-end verification of failed transfer retries are still outstanding.
 
 ## Non-Functional Requirements
 
@@ -284,12 +307,14 @@ This performance level applies under scenarios with several devices
 streaming data at once. Multi-threaded and asynchronous I/O techniques
 shall be used to parallelize tasks (sensor reading, file writing,
 network streaming, UI updates) and ensure no frame drops or UI freezes
- occur, even with multiple devices and the additional preview overhead.
- For example, the system may downsample or compress live preview video
- frames so that displaying them does not interfere with high-rate sensor
- logging or video recording.
+occur, even with multiple devices and the additional preview overhead.
+For example, the system may downsample or compress live preview video
+frames so that displaying them does not interfere with high-rate sensor
+logging or video recording.
 
-**Current state:** Sensor connectors stream on coroutine scopes with buffered flows, MediaRecorder pipelines, and manifest-backed artifacts, and background uploads run through WorkManager. Sustained validation under simultaneous RGB, thermal, and GSR capture with live preview is still pending hardware soak tests.
+**Current state:** Sensor connectors stream on coroutine scopes with buffered flows, MediaRecorder pipelines, and
+manifest-backed artifacts, and background uploads run through WorkManager. Sustained validation under simultaneous RGB,
+thermal, and GSR capture with live preview is still pending hardware soak tests.
 
 **NFR2** *(Temporal Accuracy):* The system shall maintain clock
 synchronization accuracy on the order of milliseconds or
@@ -298,12 +323,14 @@ The built-in time server and synchronization protocol must keep
 timestamp differences across all devices within \~5 ms (and at most
 10 ms) during recording, ensuring valid sensor fusion and alignment of
 multimodal
- data[\[5\]](file://file-59dbMmLLFHR2oahNVJTqd5#:~:text=%5Citem%5B%5Ctextbf,recording%2C%20ensuring%20valid%20sensor%20fusion).
- This precision level means that events observed in different data
- streams (GSR peaks, video frames, thermal changes) can be reliably
- compared on a shared timeline with only negligible timing error.
+data[\[5\]](file://file-59dbMmLLFHR2oahNVJTqd5#:~:text=%5Citem%5B%5Ctextbf,recording%2C%20ensuring%20valid%20sensor%20fusion).
+This precision level means that events observed in different data
+streams (GSR peaks, video frames, thermal changes) can be reliably
+compared on a shared timeline with only negligible timing error.
 
-**Current state:** The Android client measures offsets with the gRPC `DefaultTimeSyncService`, keeps rolling history and quality scores, and applies clamped offsets when executing commands. A hardened reference time source on the PC and instrumentation to prove sub-5 ms drift across heterogeneous devices remain outstanding.
+**Current state:** The Android client measures offsets with the gRPC `DefaultTimeSyncService`, keeps rolling history and
+quality scores, and applies clamped offsets when executing commands. A hardened reference time source on the PC and
+instrumentation to prove sub-5 ms drift across heterogeneous devices remain outstanding.
 
 **NFR3** *(Reliability and Fault Tolerance):* The system shall be robust
 to interruptions, failures, or data
@@ -313,13 +340,16 @@ must continue unaffected, and any data already recorded shall remain
 intact and uncorrupted. All data files should be written incrementally
 and closed safely so that an unexpected crash or power loss does not
 corrupt the entire dataset. The system should provide mechanisms such as
- queued commands and automatic reconnection attempts so that when
- connectivity is restored, the components recover and continue with
- minimal user intervention (as described in **FR8**). Overall, the design
- should ensure that a single-point failure (e.g. one device going
- offline) does not invalidate the whole experiment's data.
+queued commands and automatic reconnection attempts so that when
+connectivity is restored, the components recover and continue with
+minimal user intervention (as described in **FR8**). Overall, the design
+should ensure that a single-point failure (e.g. one device going
+offline) does not invalidate the whole experiment's data.
 
-**Current state:** Artifact writers stream to disk incrementally with checksums, manifests capture event logs, and the command pipeline records acknowledgements; heartbeat monitoring emits warnings when signals stall. Automated auto-stop, cross-device replay of missed commands, and PC-level resilience still need to be validated under fault-injection scenarios.
+**Current state:** Artifact writers stream to disk incrementally with checksums, manifests capture event logs, and the
+command pipeline records acknowledgements; heartbeat monitoring emits warnings when signals stall. Automated auto-stop,
+cross-device replay of missed commands, and PC-level resilience still need to be validated under fault-injection
+scenarios.
 
 **NFR4** *(Data Integrity and Validation):* The system shall ensure that
 all recorded data is accurate, authentic, and
@@ -331,12 +361,14 @@ completeness checks, such as verifying file sizes or using
 checksums/hashes, to detect any corruption or missing data. The session
 metadata shall serve as a manifest listing all expected files and their
 properties; upon session completion, the system can use this manifest to
- detect if any file is missing or incomplete. All session data shall be
- stored in uniquely timestamped folders (per session run) to prevent
- overwriting or mixing data from different sessions, thereby preserving
- data integrity across multiple experiments.
+detect if any file is missing or incomplete. All session data shall be
+stored in uniquely timestamped folders (per session run) to prevent
+overwriting or mixing data from different sessions, thereby preserving
+data integrity across multiple experiments.
 
-**Current state:** Artifact collectors emit SHA-256 checksums, manifests record relative paths and sizes, and transfers report progress and failures to the Live Session screen. Range validation for sensor payloads and automated manifest reconciliation on the PC side remain to be implemented.
+**Current state:** Artifact collectors emit SHA-256 checksums, manifests record relative paths and sizes, and transfers
+report progress and failures to the Live Session screen. Range validation for sensor payloads and automated manifest
+reconciliation on the PC side remain to be implemented.
 
 **NFR5** *(Security):* The system shall secure all communications and
 data storage by following best practices for confidentiality and access
@@ -349,12 +381,14 @@ must warn the user if any security feature is misconfigured or disabled
 the researcher). By default, all recorded data files remain on the
 researcher's PC (local storage) unless the researcher explicitly chooses
 to export or share them, ensuring sensitive participant data is not
- automatically sent to external servers. Additionally, file permissions
- and runtime security checks should be in place to avoid common
- vulnerabilities (for example, preventing a malicious app from
- impersonating a sensor device or intercepting data streams).
+automatically sent to external servers. Additionally, file permissions
+and runtime security checks should be in place to avoid common
+vulnerabilities (for example, preventing a malicious app from
+impersonating a sensor device or intercepting data streams).
 
-**Current state:** Token-based auth and Android Keystore-backed HMAC signing are implemented for local command intake, and transfers run over gRPC with configurable TLS. Full end-to-end certificate management, transport hardening between desktop and mobile, and UI surfacing of security warnings are still on the roadmap.
+**Current state:** Token-based auth and Android Keystore-backed HMAC signing are implemented for local command intake,
+and transfers run over gRPC with configurable TLS. Full end-to-end certificate management, transport hardening between
+desktop and mobile, and UI surfacing of security warnings are still on the roadmap.
 
 **NFR6** *(Usability):* The system shall be easy to use for researchers,
 including those without extensive software or technical
@@ -374,12 +408,14 @@ well-documented and straightforward to execute. *For example, if the
 experiment involves playing back a stimulus video during the session,
 the interface to load and play that video (and automatically mark the
 event) should be simple and obvious (ideally a single button click),
-  allowing the researcher to focus on the participant and experiment
-  rather than fiddling with software settings.* In general, the system's
-  workflow should match the natural flow of an experiment session, with
-  clear prompts and confirmations for each step.
+allowing the researcher to focus on the participant and experiment
+rather than fiddling with software settings.* In general, the system's
+workflow should match the natural flow of an experiment session, with
+clear prompts and confirmations for each step.
 
-**Current state:** Users can operate the Compose Desktop console and the Android dashboard, Live Session, Session Library, and Settings screens with minimal navigation, and calibration tooling is built into the mobile UI. Formal usability testing, guided onboarding, and context-sensitive help have not yet been delivered.
+**Current state:** Users can operate the Compose Desktop console and the Android dashboard, Live Session, Session
+Library, and Settings screens with minimal navigation, and calibration tooling is built into the mobile UI. Formal
+usability testing, guided onboarding, and context-sensitive help have not yet been delivered.
 
 **NFR7** *(Scalability):* The system shall scale to handle multiple
 devices and long-duration recording sessions without performance
@@ -393,16 +429,18 @@ automatically chunk or segment recordings -- for example, creating
 \~1 GB video file segments -- so that very long sessions do not produce
 unwieldy single files and to reduce the risk of data loss if a failure
 occurs mid-session. Similarly, the network communication and data
-  processing pipeline should handle the bandwidth of multiple video
-  streams plus sensor streams. If live preview feeds are active (see
-  **FR6**), they should be efficiently compressed so even many parallel
-  previews do not overwhelm network or CPU resources. Overall, adding more
-  devices or extending session duration should have a linear or manageable
-  impact on resource usage, and the system should provide feedback (or
-  gracefully degrade quality, if necessary) rather than abruptly fail when
-  limits are approached.
+processing pipeline should handle the bandwidth of multiple video
+streams plus sensor streams. If live preview feeds are active (see
+**FR6**), they should be efficiently compressed so even many parallel
+previews do not overwhelm network or CPU resources. Overall, adding more
+devices or extending session duration should have a linear or manageable
+impact on resource usage, and the system should provide feedback (or
+gracefully degrade quality, if necessary) rather than abruptly fail when
+limits are approached.
 
-**Current state:** Artifact rolling, manifest management, and WorkManager transfers support multi-hour sessions, and the connectors are architected to handle multiple devices concurrently. Large-session segmentation, preview throttling under load, and validation with eight or more physical devices remain on the backlog.
+**Current state:** Artifact rolling, manifest management, and WorkManager transfers support multi-hour sessions, and the
+connectors are architected to handle multiple devices concurrently. Large-session segmentation, preview throttling under
+load, and validation with eight or more physical devices remain on the backlog.
 
 **NFR8** *(Maintainability and Modularity):* The system shall be built
 in a modular, configurable way to simplify maintenance and future
@@ -415,17 +453,19 @@ SDK or updating the GSR sensor API should require changes only in the
 corresponding module, without affecting unrelated parts of the system.)*
 Configuration parameters (such as sensor types, sampling rates, camera
 resolution, or stimulus video file paths) shall be externalised in
- configuration files (e.g. a `config.json`), so that adapting the system
- to new hardware or experimental protocols can be done without modifying
- code. This design will accommodate changing requirements or additional
- sensor modalities (for instance, integrating a new type of sensor or
- adding a different stimulus presentation mechanism) with minimal
- development effort. Extensive logging, unit tests, and deployment
- scripts shall be provided to support debugging and to ensure that as new
- features or devices are introduced, the system's core functionality
- remains stable and verifiable.
+configuration files (e.g. a `config.json`), so that adapting the system
+to new hardware or experimental protocols can be done without modifying
+code. This design will accommodate changing requirements or additional
+sensor modalities (for instance, integrating a new type of sensor or
+adding a different stimulus presentation mechanism) with minimal
+development effort. Extensive logging, unit tests, and deployment
+scripts shall be provided to support debugging and to ensure that as new
+features or devices are introduced, the system's core functionality
+remains stable and verifiable.
 
-**Current state:** Android, desktop, and protocol modules are separated, dependency injection is handled via Hilt, and repositories/services abstract hardware concerns behind interfaces. Automated tests and CI coverage remain minimal, and further modularisation of PC-side orchestration is planned.
+**Current state:** Android, desktop, and protocol modules are separated, dependency injection is handled via Hilt, and
+repositories/services abstract hardware concerns behind interfaces. Automated tests and CI coverage remain minimal, and
+further modularisation of PC-side orchestration is planned.
 
 ------------------------------------------------------------------------
 

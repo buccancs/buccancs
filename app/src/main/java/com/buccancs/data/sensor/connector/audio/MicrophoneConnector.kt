@@ -3,11 +3,11 @@ package com.buccancs.data.sensor.connector.audio
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
-import android.os.SystemClock
 import android.net.Uri
-import com.buccancs.data.sensor.MetadataWriters
-import com.buccancs.core.time.TimeModelAdapter
+import android.os.SystemClock
 import android.util.Log
+import com.buccancs.core.time.TimeModelAdapter
+import com.buccancs.data.sensor.MetadataWriters
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
@@ -31,11 +31,9 @@ import kotlinx.datetime.Instant
 import java.io.File
 import java.io.RandomAccessFile
 import java.security.MessageDigest
-import kotlin.text.Charsets
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
-import kotlin.io.DEFAULT_BUFFER_SIZE
 
 @Singleton
 internal class MicrophoneConnector @Inject constructor(
@@ -67,6 +65,7 @@ internal class MicrophoneConnector @Inject constructor(
     private var bytesWritten: Long = 0
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
     private var pcmScratch = ByteArray(0)
+
     @Volatile
     private var timeModel: TimeModelAdapter? = null
     override suspend fun refreshInventory() {
@@ -346,10 +345,11 @@ internal class MicrophoneConnector @Inject constructor(
                 add("deviceId" to MetadataWriters.stringValue(deviceId.value))
                 add("streamType" to MetadataWriters.stringValue("audio_wav"))
                 add("artifactFile" to MetadataWriters.stringValue(file.name))
-                val anchorEpoch = clockSnapshot?.let { it.anchorEpochMs + it.clockOffsetMs } ?: System.currentTimeMillis()
+                val anchorEpoch =
+                    clockSnapshot?.let { it.anchorEpochMs + it.clockOffsetMs } ?: System.currentTimeMillis()
                 add("anchorEpochMs" to anchorEpoch.toString())
                 clockSnapshot?.let { add("clockOffsetMs" to it.clockOffsetMs.toString()) }
-                clockSnapshot?.startDeviceEpochMs?.let { add("deviceStartEpochMs" to it.toString()) }
+                clockSnapshot?.recordingStartEpochMs?.let { add("deviceStartEpochMs" to it.toString()) }
                 clockSnapshot?.startAlignedEpochMillis()?.let { add("alignedStartEpochMs" to it.toString()) }
                 clockSnapshot?.durationSinceStartMs(SystemClock.elapsedRealtimeNanos())?.let { duration ->
                     add("durationMs" to duration.toString())

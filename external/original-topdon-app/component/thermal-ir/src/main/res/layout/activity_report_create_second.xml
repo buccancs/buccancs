@@ -25,7 +25,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- 添加图片 -->
         <TextView
                 android:id="@+id/tv_add_image"
                 android:layout_width="0dp"
@@ -42,7 +41,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_preview"/>
 
-        <!-- 预览 -->
         <TextView
                 android:id="@+id/tv_preview"
                 android:layout_width="0dp"
@@ -83,7 +81,6 @@
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@null"/>
 
-            <!-- 全图 -->
             <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                     android:id="@+id/report_temp_view_full"
                     android:layout_width="match_parent"
@@ -103,7 +100,7 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
                     android:background="@drawable/bg_corners10_stroke_5b5961">
-                <!-- 点1 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_point1"
                         android:layout_width="match_parent"
@@ -111,7 +108,7 @@
                         android:visibility="gone"
                         app:index="0"
                         app:type="point"/>
-                <!-- 点2 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_point2"
                         android:layout_width="match_parent"
@@ -119,7 +116,7 @@
                         android:visibility="gone"
                         app:index="1"
                         app:type="point"/>
-                <!-- 点3 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_point3"
                         android:layout_width="match_parent"
@@ -127,7 +124,7 @@
                         android:visibility="gone"
                         app:index="2"
                         app:type="point"/>
-                <!-- 点4 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_point4"
                         android:layout_width="match_parent"
@@ -135,7 +132,7 @@
                         android:visibility="gone"
                         app:index="3"
                         app:type="point"/>
-                <!-- 点5 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_point5"
                         android:layout_width="match_parent"
@@ -145,7 +142,6 @@
                         app:type="point"/>
             </LinearLayout>
 
-
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -154,7 +150,7 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
                     android:background="@drawable/bg_corners10_stroke_5b5961">
-                <!-- 线1 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_line1"
                         android:layout_width="match_parent"
@@ -162,7 +158,7 @@
                         android:visibility="gone"
                         app:index="0"
                         app:type="line"/>
-                <!-- 线2 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_line2"
                         android:layout_width="match_parent"
@@ -170,7 +166,7 @@
                         android:visibility="gone"
                         app:index="1"
                         app:type="line"/>
-                <!-- 线3 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_line3"
                         android:layout_width="match_parent"
@@ -178,7 +174,7 @@
                         android:visibility="gone"
                         app:index="2"
                         app:type="line"/>
-                <!-- 线4 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_line4"
                         android:layout_width="match_parent"
@@ -186,7 +182,7 @@
                         android:visibility="gone"
                         app:index="3"
                         app:type="line"/>
-                <!-- 线5 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_line5"
                         android:layout_width="match_parent"
@@ -204,7 +200,7 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
                     android:background="@drawable/bg_corners10_stroke_5b5961">
-                <!-- 面1 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_rect1"
                         android:layout_width="match_parent"
@@ -212,7 +208,7 @@
                         android:visibility="gone"
                         app:index="0"
                         app:type="rect"/>
-                <!-- 面2 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_rect2"
                         android:layout_width="match_parent"
@@ -220,7 +216,7 @@
                         android:visibility="gone"
                         app:index="1"
                         app:type="rect"/>
-                <!-- 面3 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_rect3"
                         android:layout_width="match_parent"
@@ -228,7 +224,7 @@
                         android:visibility="gone"
                         app:index="2"
                         app:type="rect"/>
-                <!-- 面4 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_rect4"
                         android:layout_width="match_parent"
@@ -236,7 +232,7 @@
                         android:visibility="gone"
                         app:index="3"
                         app:type="rect"/>
-                <!-- 面5 -->
+
                 <com.topdon.module.thermal.ir.report.view.ReportIRInputView
                         android:id="@+id/report_temp_view_rect5"
                         android:layout_width="match_parent"

@@ -1101,7 +1101,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-
     private void drawPoint(Canvas canvas, Paint paint, float x1, float y1) {
         float x = (int) (x1 / xscale) * xscale;
         float y = (int) (y1 / yscale) * yscale;
@@ -1113,7 +1112,6 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         };
         canvas.drawLines(points, paint);
     }
-
 
     private void drawLine(Canvas canvas, Paint paint, float x1, float y1, float x2, float y2) {
         float xStart = (int) (x1 / xscale) * xscale;

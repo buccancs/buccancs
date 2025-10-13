@@ -17,7 +17,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
-
 import androidx.annotation.CallSuper;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
@@ -30,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 
 abstract class AbstractScanner implements Scanner {
     final ScanConfiguration configuration;
@@ -294,12 +292,11 @@ abstract class AbstractScanner implements Scanner {
         scanListeners.clear();
     }
 
-    protected abstract boolean isReady();    private final Runnable stopScanRunnable = () -> stopScan(false);
+    protected abstract boolean isReady();
 
     protected abstract void performStartScan();
 
-    protected abstract void performStopScan();
-
+    protected abstract void performStopScan();    private final Runnable stopScanRunnable = () -> stopScan(false);
 
 
 

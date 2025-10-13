@@ -2,7 +2,6 @@ package com.infisense.usbdual;
 
 import android.os.Environment;
 
-
 import com.energy.iruvc.utils.CommonParams;
 import com.energy.iruvc.utils.DeviceType;
 import com.energy.iruvc.utils.DualCameraParams;

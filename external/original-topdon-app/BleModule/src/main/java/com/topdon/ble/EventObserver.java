@@ -7,7 +7,6 @@ import com.topdon.commons.observer.Observer;
 
 import java.util.UUID;
 
-
 public interface EventObserver extends Observer {
     default void onBluetoothAdapterStateChanged(int state) {
     }

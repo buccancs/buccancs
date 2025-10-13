@@ -134,3 +134,6 @@ vale-logs/
 *.key
 *.crt
 local.properties
+
+.gemini/
+gha-creds-*.json

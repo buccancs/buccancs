@@ -54,7 +54,6 @@ public class IniUtil {
         return readFileInfo(path + "/Diag.ini");
     }
 
-
     private static String readFileInfo(String path) {
         String name = "";
         File file = new File(path);
@@ -82,7 +81,6 @@ public class IniUtil {
         }
         return name;
     }
-
 
     public static String getVersion(String path, String name) {
         File file = new File(path + "/Diag.ini");
@@ -128,7 +126,6 @@ public class IniUtil {
         }
         return "";
     }
-
 
     public static HashMap<String, String> getMaintenance(String path, String name) {
         HashMap<String, String> hashMap = new HashMap<>();
@@ -281,7 +278,6 @@ public class IniUtil {
             return hashMap;
         }
     }
-
 
     public static HashMap<String, String> getIniSysTem(String path, String name) {
         HashMap<String, String> hashMap = new HashMap<>();

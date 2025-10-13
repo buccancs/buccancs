@@ -5,24 +5,25 @@ import androidx.lifecycle.viewModelScope
 import com.buccancs.data.recording.manifest.SessionManifest
 import com.buccancs.data.storage.RecordingStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
 import java.io.File
-import java.util.Locale
-import kotlinx.datetime.Instant
+import java.util.*
+import javax.inject.Inject
 
 @HiltViewModel
 class SessionLibraryViewModel @Inject constructor(
     private val storage: RecordingStorage
 ) : ViewModel() {
     private val json = Json { ignoreUnknownKeys = true; prettyPrint = false }
-    private val _state = MutableStateFlow(SessionLibraryUiState(isLoading = true))
+    private val _state =
+        MutableStateFlow(SessionLibraryUiState(isLoading = true, sessions = emptyList(), errorMessage = null))
     val state: StateFlow<SessionLibraryUiState> = _state.asStateFlow()
 
     init {
@@ -112,3 +113,4 @@ data class SessionSummary(
             String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, remaining)
         } ?: "n/a"
 }
+

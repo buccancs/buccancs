@@ -62,7 +62,6 @@ public class ZoomableDraggableView extends View {
         originalBitmapHeight = originalBitmap.getHeight();
     }
 
-
     public void setImageSize(int imageWidth, int imageHeight) {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;

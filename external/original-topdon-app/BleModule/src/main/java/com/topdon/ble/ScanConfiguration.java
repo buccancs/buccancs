@@ -6,7 +6,6 @@ import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanSettings;
 import android.os.Build;
 
-
 import androidx.annotation.RequiresApi;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.topdon.commons.util;
 
-
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;

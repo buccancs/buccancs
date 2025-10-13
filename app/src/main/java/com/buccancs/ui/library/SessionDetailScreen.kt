@@ -2,14 +2,12 @@ package com.buccancs.ui.library
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -25,15 +23,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.data.recording.manifest.ArtifactEntry
+import com.buccancs.data.recording.manifest.BookmarkEntry
 import com.buccancs.data.recording.manifest.DeviceManifest
 import com.buccancs.data.recording.manifest.EventEntry
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun SessionDetailRoute(
@@ -87,6 +86,7 @@ fun SessionDetailScreen(
                     Text(text = "Loading session...")
                 }
             }
+
             state.errorMessage != null -> {
                 Column(
                     modifier = Modifier
@@ -106,6 +106,7 @@ fun SessionDetailScreen(
                     }
                 }
             }
+
             state.manifest == null -> {
                 Column(
                     modifier = Modifier
@@ -117,6 +118,7 @@ fun SessionDetailScreen(
                     Text(text = "Manifest unavailable.")
                 }
             }
+
             else -> {
                 val manifest = state.manifest
                 LazyColumn(
@@ -140,6 +142,11 @@ fun SessionDetailScreen(
                     if (manifest.events.isNotEmpty()) {
                         item {
                             EventList(events = manifest.events)
+                        }
+                    }
+                    if (manifest.bookmarks.isNotEmpty()) {
+                        item {
+                            BookmarkList(bookmarks = manifest.bookmarks)
                         }
                     }
                 }
@@ -239,6 +246,25 @@ private fun EventList(events: List<EventEntry>) {
                     event.label?.let { Text(text = "Label: $it") }
                     event.scheduledEpochMs?.let { Text(text = "Scheduled: $it") }
                     event.receivedEpochMs?.let { Text(text = "Received: $it") }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "Bookmarks", style = MaterialTheme.typography.titleMedium)
+            Spacer(modifier = Modifier.height(8.dp))
+            bookmarks.forEach { bookmark ->
+                Column(modifier = Modifier.padding(vertical = 4.dp)) {
+                    Text(text = bookmark.label.ifBlank { "Bookmark" })
+                    Text(text = "Timestamp: ${bookmark.timestampEpochMs}")
                 }
             }
         }

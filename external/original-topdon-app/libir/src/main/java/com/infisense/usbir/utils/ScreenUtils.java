@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
-
 import com.energy.iruvc.utils.CommonParams;
 
 import java.lang.reflect.Method;

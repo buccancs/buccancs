@@ -1,6 +1,5 @@
 package com.topdon.ble.callback;
 
-
 import com.topdon.ble.Request;
 
 public interface WriteCharacteristicCallback extends RequestFailedCallback {

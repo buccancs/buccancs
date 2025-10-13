@@ -228,7 +228,6 @@ public class TempCompensation {
         return newTempFloat;
     }
 
-
     private float getNewTempValue(float temp) {
         if (nucT == null) {
             return temp;

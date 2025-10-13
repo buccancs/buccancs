@@ -99,28 +99,6 @@ class GuideUsbManager {
         }
     }
 
-    /*
-    private void findInterface() {
-        if (mUsbDevice != null) {
-            int count = mUsbDevice.getInterfaceCount();
-            if (count == 1) {
-                mUsbInterface = mUsbDevice.getInterface(0);
-            } else {
-                for (int i = 0; i < count; i++) {
-                    UsbInterface usbInterface = mUsbDevice.getInterface(i);
-                    if (usbInterface.getEndpointCount() == 2 && usbInterface.getAlternateSetting() == 1) {
-                        mUsbInterface = usbInterface;
-                        mConnectCode = ResultCode.SUCC_FIND_DEVICE_INTERFACE;
-                        break;
-                    }
-                }
-                if (mUsbInterface == null) {
-                    mConnectCode = ResultCode.ERROR_NOT_FIND_INTERFACE;
-                }
-            }
-        }
-    }
-*/
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private fun findInterface() {
         if (mUsbDevice != null) {

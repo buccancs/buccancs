@@ -71,7 +71,6 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
         initView(context);
     }
 
-
     public void start() {
         mDrawThread = new DrawThread();
         mDrawThread.start();
@@ -154,7 +153,6 @@ public abstract class BaseTemperatureView extends SurfaceView implements Surface
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 Log.d(TAG, "onDoubleTap");
-
 
                 return super.onDoubleTap(e);
             }

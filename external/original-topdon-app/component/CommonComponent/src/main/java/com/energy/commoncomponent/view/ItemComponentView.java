@@ -139,4 +139,3 @@ public class ItemComponentView extends LinearLayout {
         void onClick(View view, int id);
     }
 }
-

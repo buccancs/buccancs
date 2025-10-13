@@ -256,7 +256,6 @@ public abstract class AxisBase extends ComponentBase {
         return mGridDashPathEffect;
     }
 
-
     public void enableAxisLineDashedLine(float lineLength, float spaceLength, float phase) {
         mAxisLineDashPathEffect = new DashPathEffect(new float[]{
                 lineLength, spaceLength
@@ -278,7 +277,6 @@ public abstract class AxisBase extends ComponentBase {
     public DashPathEffect getAxisLineDashPathEffect() {
         return mAxisLineDashPathEffect;
     }
-
 
     public float getAxisMaximum() {
         return mAxisMaximum;

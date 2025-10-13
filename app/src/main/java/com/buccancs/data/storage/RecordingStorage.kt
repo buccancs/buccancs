@@ -57,6 +57,18 @@ class RecordingStorage @Inject constructor(
         return File(directory, "manifest.json")
     }
 
+    fun uploadRecoveryLogFile(sessionId: String): File =
+        File(sessionDirectory(sessionId), "upload_recovery.jsonl")
+
+    fun performanceMetricsFile(sessionId: String): File =
+        File(sessionDirectory(sessionId), "performance_metrics.jsonl")
+
+    fun backlogTelemetryFile(sessionId: String): File =
+        File(sessionDirectory(sessionId), "backlog_telemetry.jsonl")
+
+    fun performanceSummaryFile(sessionId: String): File =
+        File(sessionDirectory(sessionId), "performance_summary.json")
+
     fun relativePath(sessionId: String, artifact: File): String {
         val sessionRoot = sessionDirectory(sessionId).absoluteFile.normalize()
         val target = artifact.absoluteFile.normalize()

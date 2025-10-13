@@ -15,6 +15,7 @@ plugins {
     alias(libs.plugins.kotlinKapt) apply false
 }
 
+
 private data class ExternalProjectBuild(
     val taskName: String,
     val projectDir: String,

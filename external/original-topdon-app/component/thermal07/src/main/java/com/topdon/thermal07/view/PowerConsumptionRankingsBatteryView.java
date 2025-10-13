@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 import com.topdon.thermal07.R;
 
-
 public class PowerConsumptionRankingsBatteryView extends View {
     public static final int MAX_LEVEL = 100;
     public static final int DEFAULT_LEVEL = 40;
@@ -119,18 +118,15 @@ public class PowerConsumptionRankingsBatteryView extends View {
         super.onDraw(canvas);
         canvas.setDrawFilter(drawFilter);
 
-
         shellHeadRect.left = width / 2 - shellHeadWidth / 2;
         shellHeadRect.top = 0;
         shellHeadRect.right = width / 2 + shellHeadWidth / 2;
         shellHeadRect.bottom = shellHeadHeight;
 
-
         shellRectF.left = shellStrokeWidth / 2;
         shellRectF.top = shellStrokeWidth / 2 + shellHeadHeight;
         shellRectF.right = width - shellStrokeWidth / 2;
         shellRectF.bottom = height - shellStrokeWidth / 2;
-
 
         levelRect.left = shellStrokeWidth + gap;
 

@@ -36,10 +36,8 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     private boolean mDrawCircleHole = true;
 
-
     public LineDataSet(List<Entry> yVals, String label) {
         super(yVals, label);
-
 
         if (mCircleColors == null) {
             mCircleColors = new ArrayList<Integer>();
@@ -176,7 +174,6 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
     public boolean isDrawSteppedEnabled() {
         return mMode == Mode.STEPPED;
     }
-
 
     public List<Integer> getCircleColors() {
         return mCircleColors;

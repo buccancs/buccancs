@@ -34,7 +34,6 @@ public class LegendRenderer extends Renderer {
     protected Paint.FontMetrics legendFontMetrics = new Paint.FontMetrics();
     private Path mLineFormPath = new Path();
 
-
     public LegendRenderer(ViewPortHandler viewPortHandler, Legend legend) {
         super(viewPortHandler);
 

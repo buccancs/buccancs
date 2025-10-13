@@ -35,7 +35,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 
-
 public class EasyBLE {
     private static final EasyBLEBuilder DEFAULT_BUILDER = new EasyBLEBuilder();
     static volatile EasyBLE instance;

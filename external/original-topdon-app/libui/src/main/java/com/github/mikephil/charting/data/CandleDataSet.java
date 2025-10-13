@@ -113,7 +113,6 @@ public class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> im
         mShowCandleBar = showCandleBar;
     }
 
-
     @Override
     public int getNeutralColor() {
         return mNeutralColor;

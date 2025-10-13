@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">USB_IR</string>
-    <!-- main activity navigation -->
+
     <string name="nav_usb_monitor">测试USBMonitor的简单连接</string>
     <string name="nav_ir_display">图像和温度出图</string>
     <string name="nav_ir_display_isp">使用ISP算法</string>
     <string name="nav_ir_display_isp_gpu">使用GPU方案</string>
     <string name="nav_ir_image_or_temp_display">图像/温度/Y16出图</string>
     <string name="nav_tools">固件升级，读写操作等工具</string>
-    <!-- usb monitor connect activity -->
+
     <string name="usb_monitor_tip">测试USBMonitor的插拔流程回调函数,请注意注册和解除注册一定要成对出现。</string>
-    <!-- title -->
+
     <string name="pseudo_mode">伪彩</string>
     <string name="temperature">测温</string>
     <string name="calibration">标定</string>
     <string name="image">图像</string>
     <string name="information">产品信息</string>
     <string name="top_menu_other">其它</string>
-    <!-- pseudocolor  -->
+
     <string name="color_p1">伪彩1</string>
     <string name="color_p3">伪彩3</string>
     <string name="color_p4">伪彩4</string>
@@ -29,13 +29,13 @@
     <string name="color_p10">伪彩10</string>
     <string name="color_p11">伪彩11</string>
     <string name="color_p12">伪彩12</string>
-    <!-- temperature -->
+
     <string name="temp_point">点</string>
     <string name="temp_line">线</string>
     <string name="temp_rect">框</string>
     <string name="temp_all">中心</string>
     <string name="temp_clear">清除</string>
-    <!-- firmware update -->
+
     <string name="restore_restart">重启模组生效</string>
     <string name="firmware_update">固件升级</string>
     <string name="state">状态</string>
@@ -43,17 +43,16 @@
     <string name="firmware_success">升级成功,请断电重启</string>
     <string name="firmware_fail">失败,错误码:</string>
     <string name="firmware_noconnect">请检查您的设备连接</string>
-    <!-- others -->
+
     <string name="temp_correction">测温二次修正</string>
     <string name="currentVTemp">探测器温度:</string>
     <string name="shutterVTemp">快门温度:</string>
     <string name="fps_status">输出帧频</string>
     <string name="preview_start">中间出图</string>
-    <!-- image -->
+
     <string name="temp_measure">机芯命令-点线框测温</string>
     <string name="frame_temp">帧最高温和最低温</string>
 
-    <!-- -->
     <string name="single_point_temperature">单点标定温度,请注意温度单位(units:K)</string>
     <string name="low_temperature">低温(units:K)</string>
     <string name="high_temperature">高温(units:K)</string>
@@ -85,11 +84,11 @@
     <string name="data">数据</string>
     <string name="read">读</string>
     <string name="write">写</string>
-    <!-- -->
+
     <string name="pic_save_success">图片保存成功</string>
     <string name="pic_save_fail">图片保存失败</string>
     <string name="file_save_success">文件保存成功</string>
-    <!-- -->
+
     <string name="OTG_confirm">
         请先确认OTG功能处于开启状态\n\n本SDK适用于USB协议下的P2,tiny1C,tinyBE,mini256模组，请勿用于其它模组以避免造成模组损坏
     </string>

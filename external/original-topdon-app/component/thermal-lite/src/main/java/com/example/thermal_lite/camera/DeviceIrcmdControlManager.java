@@ -91,7 +91,6 @@ public class DeviceIrcmdControlManager {
         }
         Log.i(TAG, "name = " + name + " valueArrStr = " + valueArrStr.toString());
 
-
         String orgValue = ispParamReadByteArrStr.substring(byteWidth * 8 - end - 1, byteWidth * 8 - begin);
         Log.i(TAG, "name = " + name + " orgValue = " + orgValue +
                 " orgValueInt = " + Long.parseLong(orgValue, 2));

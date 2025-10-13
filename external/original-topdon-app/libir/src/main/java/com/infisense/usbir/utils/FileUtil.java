@@ -442,7 +442,6 @@ public class FileUtil {
         }
     }
 
-
     static String INFISENSE_SAVE_DIR() {
         return Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
     }

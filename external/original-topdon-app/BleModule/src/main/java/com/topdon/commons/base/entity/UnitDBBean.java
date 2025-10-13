@@ -16,7 +16,6 @@ public class UnitDBBean implements Serializable {
     String conversionFormula;
     String calcFactor;
 
-
     public Long getDbid() {
         return dbid;
     }
@@ -96,6 +95,5 @@ public class UnitDBBean implements Serializable {
     public void setCalcFactor(String calcFactor) {
         this.calcFactor = calcFactor;
     }
-
 
 }

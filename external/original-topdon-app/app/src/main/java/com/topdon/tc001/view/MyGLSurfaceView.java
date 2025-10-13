@@ -1,6 +1,5 @@
 package com.topdon.tc001.view;
 
-
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -35,4 +34,3 @@ public class MyGLSurfaceView extends GLSurfaceView {
         }
     }
 }
-

@@ -89,7 +89,6 @@ public class TestRecordActivity extends Activity {
         initLayout();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -132,7 +131,6 @@ public class TestRecordActivity extends Activity {
             mWakeLock = null;
         }
     }
-
 
     private void initLayout() {
 
@@ -314,7 +312,6 @@ public class TestRecordActivity extends Activity {
 
         return super.onKeyDown(keyCode, event);
     }
-
 
     class AudioRecordRunnable implements Runnable {
 

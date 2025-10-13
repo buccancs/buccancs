@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class UnitUtils {
-
 
     public static List<UnitDBBean> getUnitDBBeanList(int unitType) {
         try {
@@ -39,7 +37,6 @@ public class UnitUtils {
         }
     }
 
-
     public static HashMap<String, UnitDBBean> getUnitDBBeanHashMap() {
         String unit = (String) SPUtils.getInstance(Topdon.getApp()).get("unit", "0");
         int unitType = "0".equals(unit) ? 0 : 1;
@@ -59,13 +56,11 @@ public class UnitUtils {
         return hashMap;
     }
 
-
     public static String[] getCalcResult(HashMap<String, UnitDBBean> hashMap, String preUnit, String numericalValue) {
         String unit = (String) SPUtils.getInstance(Topdon.getApp()).get("unit", "0");
         int unitType = "0".equals(unit) ? 0 : 1;
         return getCalcResult(unitType, hashMap, preUnit, numericalValue);
     }
-
 
     public static String[] getCalcResult(int unitType, HashMap<String, UnitDBBean> hashMap, String preUnit, String numericalValue) {
         UnitDBBean unitDBBean = null;

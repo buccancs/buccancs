@@ -56,4 +56,3 @@ object Deps {
     const val gsyVideoPlayer_armv7a = "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv7a:v8.5.0-release-jitpack"
     const val gsyVideoPlayer_arm64 = "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-arm64:v8.5.0-release-jitpack"
 }
-

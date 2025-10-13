@@ -34,7 +34,6 @@ public class CameraView extends TextureView {
 
     private boolean isOpenAmplify = false;
 
-
     public CameraView(Context context) {
         this(context, null, 0);
     }
@@ -158,7 +157,6 @@ public class CameraView extends TextureView {
         }
     }
 
-
     public void stop() {
         try {
             if (cameraThread != null) {
@@ -170,7 +168,3 @@ public class CameraView extends TextureView {
         }
     }
 }
-
-
-
-

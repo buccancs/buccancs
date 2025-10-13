@@ -129,7 +129,6 @@ public class RectDraw extends BaseDraw {
         mRectList.clear();
     }
 
-
     public void changeTouchRectOperateStatus(float startX, float startY) {
         if (mTouchIndex < 0 || mTouchIndex >= mRectList.size()) {
             return;

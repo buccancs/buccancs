@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.infisense.usbir.R;
 import com.infisense.usbir.adapter.PseudocolorAdapter;
 
-
 public class PopupPseudocolor {
 
     private Context mContext;
@@ -50,5 +49,3 @@ public class PopupPseudocolor {
     }
 
 }
-
-

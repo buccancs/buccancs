@@ -12,6 +12,7 @@ plugins {
 android {
     namespace = "com.buccancs"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
+    buildToolsVersion = "34.0.0"
 
     val orchestratorHost = project.findProperty("orchestrator.host") as? String ?: "10.0.2.2"
     val orchestratorPort = (project.findProperty("orchestrator.port") as? String)?.toIntOrNull() ?: 50051
@@ -46,7 +47,9 @@ android {
         compose = true
     }
     testOptions {
-        unitTests.all { it.enabled = false }
+        unitTests.all {
+            it.enabled = true
+        }
     }
     packaging {
         resources {
@@ -78,6 +81,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation("androidx.compose.material:material-icons-extended")
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.google.material)
@@ -107,6 +111,7 @@ dependencies {
     testImplementation(libs.junit.junit)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.androidx.arch.core.testing)
+    testImplementation("io.mockk:mockk:1.13.9")
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

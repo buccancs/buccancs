@@ -9,13 +9,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-
 public class FileSizeUtil {
     public static final int SIZETYPE_B = 1;
     public static final int SIZETYPE_KB = 2;
     public static final int SIZETYPE_MB = 3;
     public static final int SIZETYPE_GB = 4;
-
 
     public static double getFileOrFilesSize(String filePath, int sizeType) {
         File file = new File(filePath);
@@ -78,7 +76,6 @@ public class FileSizeUtil {
         }
         return FormetFileSize(blockSize, sizeType) + getUnit(sizeType);
     }
-
 
     public static String getAutoFileOrFilesSize(String filePath) {
         File file = new File(filePath);
@@ -172,7 +169,6 @@ public class FileSizeUtil {
         }
         return fileSizeLong;
     }
-
 
     public static long getFileSizeByWriteLog(String filename) {
         try {

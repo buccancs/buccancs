@@ -49,6 +49,15 @@ data class CalibrationResult(
     val extrinsic: ExtrinsicTransform
 )
 
+@Serializable
+data class CalibrationMetrics(
+    @Contextual val generatedAt: Instant,
+    val meanReprojectionError: Double,
+    val maxReprojectionError: Double,
+    val usedPairs: Int,
+    val requiredPairs: Int
+)
+
 data class CalibrationImageDescriptor(
     val path: String,
     val width: Int,

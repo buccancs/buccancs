@@ -2163,13 +2163,7 @@ open class IRThermalNightActivity : BaseIRActivity(), ITsTempListener {
                         )
                         compassBitmap.recycle()
                     }
-                    /*if (temp_bg.isVisible) {
-                        if (alphaPaint == null) {
-                            alphaPaint = Paint()
-                        }
-                        alphaPaint?.alpha = (temp_bg.animatorAlpha * 255).toInt()
-                        cameraViewBitmap = BitmapUtils.mergeBitmapAlpha(cameraViewBitmap, temp_bg.drawToBitmap(), alphaPaint, 0, 0)
-                    }*/
+
                     if ((curChooseTabPos == 1 && temperatureView.temperatureRegionMode != REGION_MODE_CLEAN) ||
                         (curChooseTabPos == 2 && temperatureView.isUserHighTemp() && temperatureView.isUserLowTemp())
                     ) {

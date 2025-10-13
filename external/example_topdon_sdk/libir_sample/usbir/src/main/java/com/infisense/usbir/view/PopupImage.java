@@ -22,7 +22,6 @@ import com.infisense.usbir.R;
 import com.infisense.usbir.databinding.LayoutImageBinding;
 import com.infisense.usbir.utils.SharedPreferencesUtil;
 
-
 public class PopupImage implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "PopupImage";

@@ -21,7 +21,6 @@ public class ScatterChart extends BarLineChartBase<ScatterData> implements Scatt
         super(context, attrs, defStyle);
     }
 
-
     @Override
     protected void init() {
         super.init();

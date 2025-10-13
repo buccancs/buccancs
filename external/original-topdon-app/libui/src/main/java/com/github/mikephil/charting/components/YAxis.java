@@ -213,7 +213,6 @@ public class YAxis extends AxisBase {
         OUTSIDE_CHART, INSIDE_CHART
     }
 
-
     public enum AxisDependency {
         LEFT, RIGHT
     }

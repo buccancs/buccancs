@@ -1,5 +1,4 @@
 rootProject.name = 'ShimmerBluetoothManager'
 
 include ':ShimmerDriver'
-project(':ShimmerDriver').projectDir = new File(settingsDir, '../../Shimmer-Java-Android-API/ShimmerDriver')
-//project(':ShimmerAlgorithms').projectDir = new File(settingsDir, '../../Shimmer-Java-Android-API/ShimmerAlgorithms')
+project(':ShimmerDriver').projectDir = new File(settingsDir, '../ShimmerDriver')

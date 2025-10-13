@@ -225,21 +225,7 @@ public class Shimmer extends ShimmerBluetooth {
         setGyroRange(gyroRange);
         setMagRange(magRange);
         mUseProcessingThread = true;
-    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                String macAdd = device.getAddress();
-                if (macAdd.equals(mMyBluetoothAddress)) {
-                    connectionLost();
-                }
-            }
-        }
-    };
+    }
 
     /**
      * Constructor. Prepares a new Bluetooth session. Additional fields allows the device to be set up immediately.
@@ -297,8 +283,21 @@ public class Shimmer extends ShimmerBluetooth {
         setupOrientation(orientation, samplingRate);
         mUseProcessingThread = true;
         mContext = context;
-    }
+    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                BluetoothDevice device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
+                String macAdd = device.getAddress();
+                if (macAdd.equals(mMyBluetoothAddress)) {
+                    connectionLost();
+                }
+            }
+        }
+    };
 
     public Shimmer(Handler handler, String userAssignedName, double samplingRate, int accelRange, int gsrRange, Integer[] sensorIdsToEnable, int gyroRange, int magRange, int orientation, int pressureResolution, boolean enableCalibration, Context context) {
         super(userAssignedName, samplingRate, sensorIdsToEnable, accelRange, gsrRange, gyroRange, magRange, pressureResolution);
@@ -498,16 +497,6 @@ public class Shimmer extends ShimmerBluetooth {
 
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     @Override
     protected void processPacket() {
         setIamAlive(true);
@@ -681,6 +670,16 @@ public class Shimmer extends ShimmerBluetooth {
             }
         }
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     @Override
     protected void processWhileStreaming() {
@@ -983,6 +982,21 @@ public class Shimmer extends ShimmerBluetooth {
 
     }
 
+    @Override
+    protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
+
+
+    }
+
+    @Override
+    protected void sendProgressReport(BluetoothProgressReportPerCmd pr) {
+        sendMsgToHandlerListTarget(MESSAGE_PROGRESS_REPORT, pr);
+    }
+
+    public BT_STATE getState() {
+        return mBluetoothRadioState;
+    }
+
 	/*
 	public byte[] readBytes(int numberofBytes){
 		  byte[] b = new byte[numberofBytes];  
@@ -1004,21 +1018,6 @@ public class Shimmer extends ShimmerBluetooth {
 			   return b;
 		  }
 	}*/
-
-    @Override
-    protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
-
-
-    }
-
-    @Override
-    protected void sendProgressReport(BluetoothProgressReportPerCmd pr) {
-        sendMsgToHandlerListTarget(MESSAGE_PROGRESS_REPORT, pr);
-    }
-
-    public BT_STATE getState() {
-        return mBluetoothRadioState;
-    }
 
     @Override
     public boolean setBluetoothRadioState(BT_STATE state) {

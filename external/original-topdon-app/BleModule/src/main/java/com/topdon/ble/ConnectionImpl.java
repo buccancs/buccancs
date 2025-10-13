@@ -14,7 +14,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
@@ -206,7 +205,6 @@ class ConnectionImpl implements Connection, ScanListener {
             }
         }
     }
-
 
     private void doDiscoverServices() {
         if (bluetoothGatt != null) {

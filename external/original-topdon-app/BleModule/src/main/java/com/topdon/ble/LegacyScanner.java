@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothDevice;
 
 import androidx.annotation.NonNull;
 
-
 class LegacyScanner extends AbstractScanner implements BluetoothAdapter.LeScanCallback {
 
     LegacyScanner(EasyBLE easyBle, BluetoothAdapter bluetoothAdapter) {

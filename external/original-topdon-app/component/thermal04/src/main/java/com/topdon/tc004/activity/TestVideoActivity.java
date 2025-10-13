@@ -1,6 +1,5 @@
 package com.topdon.tc004.activity;
 
-
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -9,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.topdon.tc004.R;
 import com.topdon.tc004.activity.video.PlayFragment;
-
 
 public class TestVideoActivity extends AppCompatActivity {
 

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.infisense.usbir.R;
 import com.infisense.usbir.adapter.TempAdapter;
 
-
 public class PopupTemp {
 
     private Context mContext;
@@ -50,5 +49,3 @@ public class PopupTemp {
     }
 
 }
-
-

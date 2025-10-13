@@ -11,11 +11,11 @@ import androidx.navigation.navArgument
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TOPDON_TC001_DEVICE_ID
 import com.buccancs.ui.MainRoute
-import com.buccancs.ui.topdon.TopdonRoute
-import com.buccancs.ui.session.LiveSessionRoute
-import com.buccancs.ui.library.SessionLibraryRoute
 import com.buccancs.ui.library.SessionDetailRoute
+import com.buccancs.ui.library.SessionLibraryRoute
+import com.buccancs.ui.session.LiveSessionRoute
 import com.buccancs.ui.settings.SettingsRoute
+import com.buccancs.ui.topdon.TopdonRoute
 
 @Composable
 fun AppNavHost(

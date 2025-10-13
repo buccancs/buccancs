@@ -160,16 +160,19 @@ SD(val, pdst)                                        \
 #define
 LD_B(RTYPE, psrc) *((RTYPE*)(psrc))
 #
+
 define LD_UB(...) LD_B(const v16u8, __VA_ARGS__)
 
 #define
 ST_B(RTYPE, in, pdst) *((RTYPE*)(pdst)) = (in)
 #
+
 define ST_UB(...) ST_B(v16u8, __VA_ARGS__)
 
 #define
 ST_H(RTYPE, in, pdst) *((RTYPE*)(pdst)) = (in)
 #
+
 define ST_UH(...) ST_H(v8u16, __VA_ARGS__)
 
 #define

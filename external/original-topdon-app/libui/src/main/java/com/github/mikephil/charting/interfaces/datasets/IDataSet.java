@@ -15,7 +15,6 @@ import java.util.List;
 
 public interface IDataSet<T extends Entry> {
 
-
     float getYMin();
 
     float getYMax();
@@ -42,11 +41,9 @@ public interface IDataSet<T extends Entry> {
 
     int getEntryIndex(T e);
 
-
     int getIndexInEntries(int xIndex);
 
     boolean addEntry(T e);
-
 
     void addEntryOrdered(T e);
 
@@ -63,7 +60,6 @@ public interface IDataSet<T extends Entry> {
     boolean contains(T entry);
 
     void clear();
-
 
     String getLabel();
 

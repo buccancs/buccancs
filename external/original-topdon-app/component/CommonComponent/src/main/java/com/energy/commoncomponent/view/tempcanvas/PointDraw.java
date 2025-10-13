@@ -289,5 +289,4 @@ public class PointDraw extends BaseDraw {
         }
     }
 
-
 }

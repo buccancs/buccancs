@@ -101,7 +101,7 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
 
             for (f = first, i = 0; i < n; f += interval, ++i) {
 
-                if (f == 0.0) // Fix for negative zero case (Where value == -0.0, and 0.0 == -0.0)
+                if (f == 0.0)
                     f = 0.0;
 
                 mAxis.mEntries[i] = (float) f;
@@ -194,7 +194,6 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
 
             Path limitPath = mRenderLimitLinesPathBuffer;
             limitPath.reset();
-
 
             for (int j = 0; j < mChart.getData().getMaxEntryCountSet().getEntryCount(); j++) {
 

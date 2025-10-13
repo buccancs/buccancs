@@ -221,7 +221,7 @@ public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChart
     public void computeScroll() {
 
         if (mDecelerationAngularVelocity == 0.f)
-            return; // There's no deceleration in progress
+            return;
 
         final long currentTime = AnimationUtils.currentAnimationTimeMillis();
 

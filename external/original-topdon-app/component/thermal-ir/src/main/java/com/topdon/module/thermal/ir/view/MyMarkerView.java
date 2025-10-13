@@ -20,7 +20,6 @@ import com.topdon.module.thermal.ir.R;
 
 import java.util.Locale;
 
-
 @SuppressLint("ViewConstructor")
 public class MyMarkerView extends MarkerView {
 

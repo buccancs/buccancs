@@ -13,7 +13,6 @@
             android:supportsRtl="false"
             android:theme="@style/Theme.ANDROID_IRUVC_SDK">
 
-        <!-- 入口Activity,里面有不同的代码示例 -->
         <activity
                 android:name=".activity.MainActivity"
                 android:exported="true"
@@ -25,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
-            <!-- 监听USB设备的插拔 -->
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/>
             </intent-filter>
@@ -36,7 +34,6 @@
 
         </activity>
 
-        <!-- USBMonitor连接测试 -->
         <activity
                 android:name=".activity.USBMonitorActivity"
                 android:exported="true"
@@ -44,7 +41,6 @@
 
         </activity>
 
-        <!-- 红外出图Activity,展示SDK的功能以及出图的完整流程 -->
         <activity
                 android:name=".activity.IRDisplayActivity"
                 android:exported="true"
@@ -52,7 +48,6 @@
 
         </activity>
 
-        <!-- 图像或温度出图Activity,展示不同模式数据流 -->
         <activity
                 android:name=".activity.ImageOrTempDisplayActivity"
                 android:exported="true"
@@ -60,7 +55,6 @@
 
         </activity>
 
-        <!-- -->
         <activity
                 android:name=".activity.ToolActivity"
                 android:exported="true"
@@ -70,7 +64,6 @@
 
     </application>
 
-    <!-- -->
     <uses-permission
             android:name="android.permission.WRITE_EXTERNAL_STORAGE"
             tools:ignore="ScopedStorage"/>
