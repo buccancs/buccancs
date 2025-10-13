@@ -25,11 +25,13 @@ private data class ExternalProjectBuild(
 )
 
 private val externalBuilds = listOf(
-    ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
-    ExternalProjectBuild(
-        "buildShimmerAndroidInstrumentDriver",
-        "external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver"
-    ),
+    // Temporarily disabled due to Gradle version conflict
+    // ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
+    // Temporarily disabled due to missing SDK configuration
+    // ExternalProjectBuild(
+    //     "buildShimmerAndroidInstrumentDriver",
+    //     "external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver"
+    // ),
     ExternalProjectBuild(
         "buildShimmerBluetoothManager",
         "external/Shimmer-Java-Android-API/ShimmerBluetoothManager",

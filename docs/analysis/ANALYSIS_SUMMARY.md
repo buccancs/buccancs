@@ -24,7 +24,7 @@
 ## CRITICAL GAPS
 
 1. Desktop file upload reception incomplete (blocks end-to-end testing)
-2. Time synchronization accuracy never measured (NFR2 unvalidated)
+2. Time synchronisation accuracy never measured (NFR2 unvalidated)
 3. Test coverage at 4% (all tests disabled)
 4. Integration testing framework missing
 5. 3 identified memory leak risks

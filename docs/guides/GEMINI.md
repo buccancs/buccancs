@@ -1,4 +1,4 @@
-**Last Modified:** 2025-10-13 20:05 UTC  
+**Last Modified:** 2025-10-13 20:31 UTC  
 **Modified By:** GitHub Copilot CLI
 
 ### **Core Principles**
@@ -6,6 +6,8 @@
 * **Communication:** Be modest and succinct.
 * **Clarity:** If something is not clear, refer to the requirements, backlogs, todos, build fixes.
 * **Character Set:** Use only ASCII-safe characters in all code, comments, and commit messages.
+* **Language:** Use British English spelling in all documentation, comments, commit messages, and LaTeX files (e.g., "synchronise" not "synchronize", "colour" not "color", "behaviour" not "behavior"). Exception: API identifiers and third-party library references remain as specified.
+* **Documentation Organization:** All documentation files go in `docs/` directory (analysis, project, architecture, guides, latex subdirectories). Exception: README.md stays in root.
 
 ### **File Naming and Tracking Standards**
 
@@ -66,8 +68,22 @@ definitive source:
 
 * **Markdown Files:** Agents ARE ALLOWED to read, modify, and create Markdown (`.md`) files
 * **Documentation Generation:** Agents CAN generate documentation files following the file naming and tracking standards
-* **LaTeX Files:** Agents CAN read and reference LaTeX files but should not modify them without explicit instruction
+* **LaTeX Files:** Agents ARE ALLOWED to read, modify, and create LaTeX (`.tex`, `.latex`) files for thesis writing, academic papers, and technical documentation. Use British English spelling in all LaTeX content.
 * **Analysis and Reports:** Agents SHOULD create analysis documents, technical reports, and documentation as needed
+
+### **File and Directory Exclusions**
+
+To maintain focus on relevant source code and documentation, agents MUST ignore the following build output, IDE configuration, and dependency-related directories:
+
+- `build/`
+- `app/build/`
+- `desktop/build/`
+- `protocol/build/`
+- `artifacts/build/`
+- `.gradle/`
+- `.idea/`
+- `desktop/bin/`
+- `protocol/bin/`
 
 ### **Prohibitions**
 

@@ -29,7 +29,7 @@
 **Responsibilities (Should be separated):**
 1. Session lifecycle management
 2. Device connection orchestration
-3. Time synchronization status
+3. Time synchronisation status
 4. Recording state coordination
 5. Shimmer device scanning and configuration
 6. Topdon device management
@@ -237,7 +237,7 @@ appScope.launch {
 ### 3.2 Threading Patterns
 
 **Minimal Direct Threading:**
-- **0 instances** of `Thread.` or `synchronized` in app/desktop
+- **0 instances** of `Thread.` or `synchronised` in app/desktop
 - **17 instances** of threading primitives (`AtomicReference`, `@Volatile`)
 - **Good:** Using coroutines instead of threads
 
@@ -466,7 +466,7 @@ class AndroidCameraService(private val manager: CameraManager) : CameraService {
 
 **Quality Assessment:** **GOOD**
 - Clear message structure
-- Proper package organization
+- Proper package organisation
 - Java multi-file generation enabled
 
 ### 6.2 Potential Issues
@@ -655,7 +655,7 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 - Foreground services (4 types)
 - Network
 - Wake lock
-- Battery optimization exemption
+- Battery optimisation exemption
 - Notifications
 
 **Total: 18 permissions** - high privilege application
@@ -663,7 +663,7 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 **Issues:**
 1. No dynamic permission request tracking code found
 2. No graceful degradation if permission denied
-3. Battery optimization exemption may not be granted
+3. Battery optimisation exemption may not be granted
 
 **Recommendations:**
 1. Add `PermissionManager` to centralize permission logic
@@ -688,7 +688,7 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 
 **Recommendations:**
 1. Add persistent notification for foreground service
-2. Document battery impact and optimization
+2. Document battery impact and optimisation
 3. Test under Doze mode restrictions
 4. Add battery usage metrics to performance logs
 
@@ -904,7 +904,7 @@ private class DataTransferServiceImpl(...) {
 
 ### Low Priority (Future)
 
-11. **Optimize external dependencies**
+11. **optimise external dependencies**
     - Remove unused Topdon code
     - Minimize Shimmer examples
     - Effort: 1 week

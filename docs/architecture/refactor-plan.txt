@@ -74,6 +74,45 @@ Desktop Work Packages
 - **UI decomposition:** `DesktopApp.kt`, `AppUiState.kt`, `Main.kt` to be reorganized under `ui/app` with separated navigation.
 - **Presentation:** `AppViewModel.kt` moves to `presentation/app`, references feature-specific use cases housed in `domain`.
 - **DI graph:** verify `desktop/di/AppGraph.kt` imports new package paths; consider splitting into `di/core`, `di/feature`.
+- **Documentation:** Create mini README under `desktop/` describing new layering rules and feature directory layout.
+
+Granular Task Inventory
+-----------------------
+*Android Shell*
+- Break apart `MainViewModel.kt` (50k+ lines) into feature controllers under `feature/<feature>/presentation`; keep a lean root ViewModel handling only navigation glue.
+- Relocate `MainScreen.kt` sections into per-feature composables and limit root screen to high-level scaffold.
+- Move `MainActivity.kt` into `feature/root/ui` (rename to `AppActivity.kt` or similar) to match naming conventions.
+- Consolidate extension helpers from `util` into `core/common` and delete the legacy `util` package once references migrate.
+- Reclassify `application/performance` and `application/time` services under `core` or `data` based on responsibility; expose interfaces in `domain`.
+
+*Android Feature-Specific*
+- Settings: create `feature/settings/data`, `feature/settings/domain`, `feature/settings/presentation`, `feature/settings/ui`, including a settings repository and use cases for persistence.
+- Calibration: refactor dual camera controllers and sensor connectors into `feature/calibration/data`; split simulator implementations into separate adapters.
+- Session: move recording, transfer, and manifest writers into `feature/session/data/storage`; surface use cases for start/stop session flows.
+- Library: shift list/detail state into `feature/library/presentation` and adopt typed navigation routes in `feature/library/navigation`.
+- Topdon: encapsulate vendor interactions behind `TopdonDeviceAdapter` and ensure ViewModels depend on domain interfaces only.
+- Debug: decide between `feature/debug` or `core/debug` placement; document gating and ensure code guarded behind build flags if necessary.
+
+*Shared/Core*
+- Create `shared/core/time` to host `InstantUtils.kt` and `kotlinx/datetime` extensions, consolidating time helpers.
+- Introduce coroutine dispatcher provider and result wrappers under `shared/core/common`.
+- Move shared event/state models used by both platforms into `shared/domain/events` to avoid duplication.
+
+*Desktop*
+- Split `SessionRepository.kt` (~22k lines) into bounded repositories (session, preview, retention, command) housed under `desktop/data/<context>`.
+- Extract UI state from `AppUiState.kt` into feature-specific state holders and align Compose screens in `desktop/ui`.
+- Group desktop logging, monitoring, and retention helpers into `desktop/core` for reuse.
+
+*Protocol and Tooling*
+- Remove tracked `protocol/bin/*` directories once regeneration workflow is validated; keep generated code out of VCS.
+- Update `protocol/build.gradle.kts` to emit generated Kotlin into `build/generated/source/proto` and include new package path.
+- Add Gradle alias task (e.g., `:protocol:regenerate`) and document invocation in the developer guide.
+
+*Documentation and Process*
+- Refresh `feature_module_diagram.md`, `navigation_diagram.md`, `shimmer_*` docs with updated packages and feature flow.
+- Update `BACKLOG.txt` with refactor tickets per phase and close superseded legacy entries.
+- Extend `README.md` with contributor instructions for adding a feature within the new layered structure.
+- Log manual verification steps and outcomes per phase in `dev-diary.txt`, including build commands and runtime checks.
 
 Protocol Regeneration Checklist
 -------------------------------

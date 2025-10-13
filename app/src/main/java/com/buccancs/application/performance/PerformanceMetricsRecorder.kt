@@ -101,7 +101,7 @@ class PerformanceMetricsRecorder @Inject constructor(
         }
     }
 
-    private suspend fun writeSample(sessionId: String, payload: SamplePayload) {
+    private suspend fun writeSample(sessionId: String, payload: PerformanceSample) {
         withContext(Dispatchers.IO) {
             fileMutex.withLock {
                 val file = storage.performanceMetricsFile(sessionId)

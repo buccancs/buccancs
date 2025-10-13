@@ -24,10 +24,14 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import java.util.*
+import java.util.LinkedList
+import java.util.Locale
+import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
+
+private val clock get() = Clock.System
 
 @Singleton
 class DefaultSessionTransferRepository @Inject constructor(
@@ -114,7 +118,7 @@ class DefaultSessionTransferRepository @Inject constructor(
                     val pending = PendingArtifact(
                         sessionId = sessionId,
                         artifact = artifact,
-                        queuedAt = Clock.System.now()
+                        queuedAt = clock.now()
                     )
                     pendingQueue.add(pending)
                     allowed += pending
@@ -304,7 +308,7 @@ class DefaultSessionTransferRepository @Inject constructor(
         uploadRecoveryLogger.append(record)
     }
 
-    private fun now(): Instant = Clock.System.now()
+    private fun now(): Instant = clock.now()
 
     private fun pendingBytesLocked(): Long =
         uploadsState.value.values

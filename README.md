@@ -46,7 +46,7 @@
 ## Development Notes
 
 - Android app auto-starts `DeviceOrchestratorBridge` during application start to keep the desktop in sync.
-- Multi-device exercise card on the dashboard runs a synchronized start/stop across all active hardware and reports
+- Multi-device exercise card on the dashboard runs a synchronised start/stop across all active hardware and reports
   per-device timestamps and artifacts.
 - When editing `app/src/main/assets/device-inventory.json`, remember the app copies the file into internal storage on
   first launch; subsequent updates flow through the Compose inventory card and the `SensorHardwareConfigRepository`.
@@ -88,14 +88,14 @@
 
 **Implementation Status:** ~70% complete (Android: 85%, Desktop: 50%)
 
-See `TECHNICAL_DEBT_ANALYSIS_2025-10-13.md` for comprehensive gap analysis, including:
+See `docs/analysis/TECHNICAL_DEBT_ANALYSIS_2025-10-13.md` for comprehensive gap analysis, including:
 - Critical blockers: desktop orchestrator completion, testing infrastructure, time sync validation
 - 18 major gap areas with prioritized 14-20 week roadmap
 - NFR validation status: 0% (all non-functional requirements unverified)
 - Test coverage: 4% (33 test files across 820 Kotlin files, all tests currently disabled)
 - Risk assessment and immediate action items
 
-See `CODE_QUALITY_ANALYSIS_2025-10-13.md` for deep code quality analysis.
+See `docs/analysis/CODE_QUALITY_ANALYSIS_2025-10-13.md` for deep code quality analysis.
 
 ## Pending Focus
 

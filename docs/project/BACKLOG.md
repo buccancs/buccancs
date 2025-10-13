@@ -7,7 +7,7 @@
 ## CRITICAL PRIORITY
 
 - Complete desktop file upload receiver and session folder aggregation (blocks end-to-end testing)
-- Implement production time synchronization server and measure actual accuracy (NFR2 unvalidated)
+- Implement production time synchronisation server and measure actual accuracy (NFR2 unvalidated)
 - Enable tests and create integration test framework (4% coverage insufficient)
 - Fix memory leaks: DisplayListener unregistration, ShimmerConnector Handler/Context lifecycle
 - Refactor MainViewModel (1248 lines) - extract use cases for session, device, hardware management
@@ -40,4 +40,4 @@
 
 ## References
 
-See TECHNICAL_DEBT_ANALYSIS_2025-10-13.md and CODE_QUALITY_ANALYSIS_2025-10-13.md for detailed findings.
+See ../analysis/TECHNICAL_DEBT_ANALYSIS_2025-10-13.md and ../analysis/CODE_QUALITY_ANALYSIS_2025-10-13.md for detailed findings.

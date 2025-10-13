@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-The repository exhibits substantial architectural foundations with approximately 70% implementation completion. The Android client is well-developed (~85%), but critical technical debt exists in testing infrastructure, desktop orchestrator completion, and cross-platform integration validation. Immediate risks center on production readiness blockers and unverified non-functional requirements.
+The repository exhibits substantial architectural foundations with approximately 70% implementation completion. The Android client is well-developed (~85%), but critical technical debt exists in testing infrastructure, desktop orchestrator completion, and cross-platform integration validation. Immediate risks centre on production readiness blockers and unverified non-functional requirements.
 
 **Risk Level: HIGH** - System cannot be deployed for production experiments without addressing critical gaps.
 
@@ -51,7 +51,7 @@ The repository exhibits substantial architectural foundations with approximately
 **Current State:**
 - Desktop module ~50% complete
 - gRPC server stubs exist but file reception incomplete
-- Time synchronization server not production-ready
+- Time synchronisation server not production-ready
 - Session storage and aggregation logic missing
 - Preview tile rendering stubbed
 - Device discovery and connection management incomplete
@@ -76,7 +76,7 @@ private class DataTransferServiceImpl(...) {
 **Technical Debt Items:**
 1. Complete file upload receiver with session folder management
 2. Implement manifest aggregation from multiple devices
-3. Build production time synchronization server (NTP-like)
+3. Build production time synchronisation server (NTP-like)
 4. Complete preview frame decoder and multi-device tile renderer
 5. Implement device connection health monitoring and alerts
 6. Add command broadcast verification and replay for reconnects
@@ -85,7 +85,7 @@ private class DataTransferServiceImpl(...) {
 
 ---
 
-### 1.3 Time Synchronization Validation (SEVERITY: CRITICAL)
+### 1.3 Time synchronisation Validation (SEVERITY: CRITICAL)
 
 **Current State:**
 - Android `DefaultTimeSyncService` implemented with RTT measurement
@@ -223,8 +223,8 @@ class ColorDialog { ... }
 | Requirement | Android | Desktop | Testing | Status | Priority |
 |-------------|---------|---------|---------|--------|----------|
 | FR1: Multi-Device Integration | 85% | 40% | 0% | Partial | Essential |
-| FR2: Synchronized Recording | 90% | 50% | 0% | Partial | Essential |
-| FR3: Time Synchronization | 80% | 30% | 0% | Partial | Essential |
+| FR2: synchronised Recording | 90% | 50% | 0% | Partial | Essential |
+| FR3: Time synchronisation | 80% | 30% | 0% | Partial | Essential |
 | FR4: Session Management | 95% | 60% | 0% | Partial | Essential |
 | FR5: Data Recording | 95% | 40% | 0% | Partial | Essential |
 | FR6: UI Monitoring/Control | 80% | 70% | 0% | Partial | Essential |
@@ -467,7 +467,7 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 
 1. **Desktop Orchestrator Completion** (2 weeks)
    - File upload receiver with session folders
-   - Time synchronization server
+   - Time synchronisation server
    - Device connection monitoring
 
 2. **Integration Testing Foundation** (2 weeks)
@@ -645,7 +645,7 @@ The Buccancs system demonstrates strong architectural foundations and significan
 **Critical Weaknesses:**
 - Desktop orchestrator only 50% complete
 - Zero integration testing or NFR validation
-- Time synchronization accuracy never measured
+- Time synchronisation accuracy never measured
 - Unknown system reliability and fault tolerance
 - Cannot run real experiments end-to-end
 

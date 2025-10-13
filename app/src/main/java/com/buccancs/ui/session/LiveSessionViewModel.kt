@@ -8,6 +8,7 @@ import com.buccancs.application.time.TimeSyncService
 import com.buccancs.data.storage.SpaceMonitor
 import com.buccancs.data.storage.SpaceState
 import com.buccancs.domain.model.DeviceEvent
+import com.buccancs.domain.model.PerformanceThrottleLevel
 import com.buccancs.domain.model.RecordingBookmark
 import com.buccancs.domain.model.RecordingLifecycleState
 import com.buccancs.domain.model.RecordingState
@@ -76,7 +77,14 @@ class LiveSessionViewModel @Inject constructor(
         uploadState,
         spaceState,
         sensorRepository.throttleLevel
-    ) { recording, streamDevice, syncPair, uploadSnapshot, spacePair, throttleLevel ->
+    ) { values ->
+        val recording = values[0] as RecordingState
+        val streamDevice = values[1] as Pair<List<SensorStreamStatus>, List<SensorDevice>>
+        val syncPair = values[2] as Pair<TimeSyncStatus, List<TimeSyncObservation>>
+        val uploadSnapshot = values[3] as UploadSnapshot
+        val spacePair = values[4] as Pair<SpaceState, Boolean>
+        val throttleLevel = values[5] as PerformanceThrottleLevel
+        
         val (streams, devices) = streamDevice
         val (sync, history) = syncPair
         val uploads = uploadSnapshot.uploads

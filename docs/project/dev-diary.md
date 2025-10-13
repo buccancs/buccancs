@@ -143,3 +143,29 @@
 - Updated all cross-references in README.md and agent instruction files
 - Deleted repository_analysis.txt (content superseded by comprehensive analysis documents)
 
+
+## 2025-10-13
+
+- Updated all agent instruction files to require British English spelling in all documentation, comments, and commit messages
+- Added Language and Spelling Standards section to AGENTS.md with comprehensive guidelines
+- Converted all existing markdown documentation files to British English (synchronise, optimise, colour, behaviour, centre)
+- Updated 7 files: README.md, BACKLOG.md, dev-diary.md, ANALYSIS_SUMMARY.md, and all analysis documents
+- Exception: API identifiers and third-party library references remain unchanged
+
+- Enabled full LaTeX file interaction for all agents - can now read, modify, and create .tex files for thesis writing and academic documentation
+- Updated all agent instruction files to allow LaTeX editing with British English requirement
+
+
+## 2025-10-13
+
+- Reorganised all documentation into docs/ directory structure
+- Created subdirectories: analysis/, project/, architecture/, guides/, latex/, manual-tests/
+- Moved files:
+  - Analysis reports → docs/analysis/
+  - Project management (BACKLOG, dev-diary, TODO) → docs/project/
+  - Technical docs and diagrams → docs/architecture/
+  - Agent instructions → docs/guides/
+- Updated all cross-references in README.md, agent files, and documentation
+- Added Documentation Organization section to agent instructions
+- Exception: README.md and .github/copilot-instructions.md remain in place for visibility
+

@@ -9,7 +9,7 @@
 ## Executive Summary
 
 The repository represents a substantial implementation of a multi-sensor data acquisition system with Android capture
-agents and desktop orchestration. Core functionality for recording, synchronization, and data transfer is largely in
+agents and desktop orchestration. Core functionality for recording, synchronisation, and data transfer is largely in
 place, but significant gaps remain in testing, PC-side implementation, documentation, and production readiness.
 
 **Implementation Status:** ~70% complete
@@ -31,8 +31,8 @@ place, but significant gaps remain in testing, PC-side implementation, documenta
 **Missing Components:**
 
 - **Data Ingestion Pipeline**: PC does not fully receive and aggregate uploaded artifacts from Android devices
-- **Session Storage Management**: Desktop-side session folder creation and file organization incomplete
-- **Time Server Implementation**: Production-grade NTP-like time synchronization server not implemented
+- **Session Storage Management**: Desktop-side session folder creation and file organisation incomplete
+- **Time Server Implementation**: Production-grade NTP-like time synchronisation server not implemented
 - **Device Discovery Service**: mDNS browser and automatic device pairing incomplete on PC
 - **Command Broadcast System**: Multi-device command coordination needs validation
 - **Preview Stream Receiver**: Desktop preview tile rendering stubbed
@@ -67,7 +67,7 @@ Priority 5: Complete command broadcast and state replay
 - **No Integration Tests**: Zero tests validating Android ↔ Desktop communication
 - **No Hardware Tests**: No validation with actual Shimmer GSR or Topdon TC001 devices
 - **No Multi-Device Tests**: Scalability claims (8+ devices) unverified
-- **No Sync Accuracy Tests**: Time synchronization precision unmeasured
+- **No Sync Accuracy Tests**: Time synchronisation precision unmeasured
 - **No Fault Injection Tests**: Disconnection/recovery scenarios untested
 - **No Performance Tests**: Throughput, latency, resource usage unmeasured
 - **No Long-Duration Tests**: 120-minute session claims unvalidated
@@ -92,7 +92,7 @@ Priority 5: Create performance benchmark suite
 
 ---
 
-### 3. Time Synchronization Validation (HIGH PRIORITY)
+### 3. Time synchronisation Validation (HIGH PRIORITY)
 
 **Status:** Client implemented, server incomplete, accuracy unverified
 
@@ -106,7 +106,7 @@ Priority 5: Create performance benchmark suite
 
 - Android: `DefaultTimeSyncService` with RTT measurement exists
 - Desktop: Time server stub only
-- **No actual measurements** of synchronization accuracy
+- **No actual measurements** of synchronisation accuracy
 - No validation with physical devices across network
 
 **Missing:**
@@ -322,7 +322,7 @@ Priority 5: Create performance benchmark suite
 
 ---
 
-### 10. Performance Validation and Optimization
+### 10. Performance Validation and optimisation
 
 **Status:** Instrumentation exists, validation absent
 
@@ -618,8 +618,8 @@ Priority 5: Prepare code listings and compile final PDF
 | Req  | Title                     | Android | Desktop | Testing | Status       |
 |------|---------------------------|---------|---------|---------|--------------|
 | FR1  | Multi-Device Integration  | 85%     | 40%     | 0%      | ⚠️ Partial   |
-| FR2  | Synchronized Recording    | 90%     | 50%     | 0%      | ⚠️ Partial   |
-| FR3  | Time Synchronization      | 80%     | 30%     | 0%      | ⚠️ Partial   |
+| FR2  | synchronised Recording    | 90%     | 50%     | 0%      | ⚠️ Partial   |
+| FR3  | Time synchronisation      | 80%     | 30%     | 0%      | ⚠️ Partial   |
 | FR4  | Session Management        | 95%     | 60%     | 0%      | ⚠️ Partial   |
 | FR5  | Data Recording/Storage    | 95%     | 40%     | 0%      | ⚠️ Partial   |
 | FR6  | UI Monitoring/Control     | 80%     | 70%     | 0%      | ⚠️ Partial   |
@@ -648,7 +648,7 @@ Priority 5: Prepare code listings and compile final PDF
 ### Phase 1: Critical Blockers (4-6 weeks)
 
 1. Implement PC file upload receiver and session aggregation
-2. Complete time synchronization server and validation
+2. Complete time synchronisation server and validation
 3. Create integration test framework
 4. Validate with physical Shimmer and Topdon hardware
 5. Build multi-device command broadcast system
