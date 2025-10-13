@@ -567,8 +567,13 @@ internal class ShimmerSensorConnector(
         abortLocalRecording(deleteFile = true)
         withContext(Dispatchers.IO) {
             writerMutex.withLock {
-                val directory = recordingStorage.deviceDirectory(sessionId, deviceId.value)
-                val file = File(directory, "gsr-${System.currentTimeMillis()}.csv")
+                val file = recordingStorage.createArtifactFile(
+                    sessionId = sessionId,
+                    deviceId = deviceId.value,
+                    streamType = "gsr",
+                    timestampEpochMs = System.currentTimeMillis(),
+                    extension = "csv"
+                )
                 val digest = MessageDigest.getInstance("SHA-256")
                 val stream = DigestOutputStream(FileOutputStream(file), digest)
                 val writer = BufferedWriter(

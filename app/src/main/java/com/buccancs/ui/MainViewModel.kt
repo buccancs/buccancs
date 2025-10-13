@@ -2,21 +2,21 @@
 
 package com.buccancs.ui
 
-import com.buccancs.util.nowInstant
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.buccancs.application.control.DeviceCommandService
+import com.buccancs.application.recording.RecordingService
+import com.buccancs.application.time.TimeSyncService
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
 import com.buccancs.control.commands.StartRecordingCommandPayload
 import com.buccancs.control.commands.StimulusCommandPayload
 import com.buccancs.control.commands.StopRecordingCommandPayload
 import com.buccancs.control.commands.SyncSignalCommandPayload
-import com.buccancs.application.control.DeviceCommandService
+import com.buccancs.data.sensor.exercise.DeviceExerciseResult
 import com.buccancs.data.sensor.exercise.MultiDeviceRecordingExercise
 import com.buccancs.data.sensor.exercise.RecordingExerciseResult
-import com.buccancs.data.sensor.exercise.DeviceExerciseResult
-import com.buccancs.application.recording.RecordingService
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.DeviceId
@@ -30,17 +30,17 @@ import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.ShimmerDeviceCandidate
 import com.buccancs.domain.model.ShimmerDeviceConfig
 import com.buccancs.domain.model.ShimmerSettings
-import com.buccancs.domain.model.TopdonDeviceConfig
-import com.buccancs.domain.model.TimeSyncStatus
 import com.buccancs.domain.model.TimeSyncQuality
+import com.buccancs.domain.model.TimeSyncStatus
+import com.buccancs.domain.model.TopdonDeviceConfig
 import com.buccancs.domain.model.UploadStatus
-import com.buccancs.application.time.TimeSyncService
 import com.buccancs.domain.repository.DeviceEventRepository
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.ShimmerSettingsRepository
 import com.buccancs.domain.repository.TopdonDeviceRepository
+import com.buccancs.util.nowInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -53,9 +53,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.datetime.Instant
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -688,12 +688,14 @@ class MainViewModel @Inject constructor(
                     dirty = false,
                     errors = emptyMap()
                 )
+
                 !existing.dirty -> existing.copy(
                     supportsRaw = supportsRaw,
                     baseline = baseline,
                     inputs = baseline,
                     errors = emptyMap()
                 )
+
                 else -> existing.copy(
                     supportsRaw = supportsRaw,
                     baseline = baseline
@@ -931,7 +933,8 @@ class MainViewModel @Inject constructor(
     }
 
     private fun deriveConnectionLabel(status: TimeSyncStatus): String {
-        val ageSeconds = ((nowInstant().toEpochMilliseconds() - status.lastSync.toEpochMilliseconds()) / 1000).coerceAtLeast(0)
+        val ageSeconds =
+            ((nowInstant().toEpochMilliseconds() - status.lastSync.toEpochMilliseconds()) / 1000).coerceAtLeast(0)
         val freshness = when {
             ageSeconds <= 5 -> "fresh"
             ageSeconds <= 20 -> "stale ${ageSeconds}s"
@@ -1322,12 +1325,13 @@ private data class RgbCameraValidationResult(
     val options: Map<String, String>,
     val errors: Map<RgbCameraField, String>
 )
-    private fun sensorStreamLabel(type: SensorStreamType): String = when (type) {
-        SensorStreamType.GSR -> "GSR"
-        SensorStreamType.RGB_VIDEO -> "RGB Video"
-        SensorStreamType.RAW_DNG -> "RAW (DNG)"
-        SensorStreamType.THERMAL_VIDEO -> "Thermal Video"
-        SensorStreamType.AUDIO -> "Audio"
-        SensorStreamType.PREVIEW -> "Preview"
-    }
+
+private fun sensorStreamLabel(type: SensorStreamType): String = when (type) {
+    SensorStreamType.GSR -> "GSR"
+    SensorStreamType.RGB_VIDEO -> "RGB Video"
+    SensorStreamType.RAW_DNG -> "RAW (DNG)"
+    SensorStreamType.THERMAL_VIDEO -> "Thermal Video"
+    SensorStreamType.AUDIO -> "Audio"
+    SensorStreamType.PREVIEW -> "Preview"
+}
 

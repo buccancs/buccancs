@@ -27,7 +27,6 @@ import android.view.Surface
 import com.buccancs.data.preview.PreviewStreamClient
 import com.buccancs.data.preview.PreviewStreamEmitter
 import com.buccancs.data.sensor.MetadataWriters
-import com.buccancs.data.sensor.SessionClock
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
@@ -443,8 +442,13 @@ internal class RgbCameraConnector @Inject constructor(
         recorder.setVideoEncodingBitRate(VIDEO_BIT_RATE)
         recorder.setVideoFrameRate(VIDEO_FRAME_RATE)
         recorder.setVideoSize(size.width, size.height)
-        val directory = recordingStorage.deviceDirectory(sessionId, deviceId.value)
-        val file = File(directory, "rgb-${System.currentTimeMillis()}.mp4")
+        val file = recordingStorage.createArtifactFile(
+            sessionId = sessionId,
+            deviceId = deviceId.value,
+            streamType = "rgb_video",
+            timestampEpochMs = System.currentTimeMillis(),
+            extension = "mp4"
+        )
         recorder.setOutputFile(file.absolutePath)
         recorder.prepare()
         mediaRecorder = recorder

@@ -193,22 +193,6 @@ public class Shimmer extends ShimmerBluetooth {
         mUseProcessingThread = true;
     }
 
-    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                String macAdd = device.getAddress();
-                if (macAdd.equals(mMyBluetoothAddress)) {
-                    connectionLost();
-                }
-            }
-        }
-    };
-
     /**
      * Constructor. Prepares a new Bluetooth session. Additional fields allows the device to be set up immediately.
      *
@@ -241,7 +225,21 @@ public class Shimmer extends ShimmerBluetooth {
         setGyroRange(gyroRange);
         setMagRange(magRange);
         mUseProcessingThread = true;
-    }
+    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                BluetoothDevice device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                String macAdd = device.getAddress();
+                if (macAdd.equals(mMyBluetoothAddress)) {
+                    connectionLost();
+                }
+            }
+        }
+    };
 
     /**
      * Constructor. Prepares a new Bluetooth session. Additional fields allows the device to be set up immediately.
@@ -290,7 +288,6 @@ public class Shimmer extends ShimmerBluetooth {
         mContext = context;
     }
 
-
     public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, Context context) {
         super(myName, samplingRate, setEnabledSensors, accelRange, gsrRange, magGain);
         setupOrientation(orientation, samplingRate);
@@ -302,6 +299,7 @@ public class Shimmer extends ShimmerBluetooth {
         mContext = context;
     }
 
+
     public Shimmer(Handler handler, String userAssignedName, double samplingRate, int accelRange, int gsrRange, Integer[] sensorIdsToEnable, int gyroRange, int magRange, int orientation, int pressureResolution, boolean enableCalibration, Context context) {
         super(userAssignedName, samplingRate, sensorIdsToEnable, accelRange, gsrRange, gyroRange, magRange, pressureResolution);
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -312,7 +310,6 @@ public class Shimmer extends ShimmerBluetooth {
         mUseProcessingThread = true;
         mContext = context;
     }
-
 
     public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, boolean enableCalibration, Context context) {
         super(myName, samplingRate, setEnabledSensors, accelRange, gsrRange, magGain);
@@ -475,16 +472,6 @@ public class Shimmer extends ShimmerBluetooth {
 
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     @Override
     protected void clearSingleDataPacketFromBuffers(byte[] bufferTemp, int packetSize) {
         byte[] fullBuffer = mByteArrayOutputStream.toByteArray();
@@ -510,6 +497,16 @@ public class Shimmer extends ShimmerBluetooth {
         }
 
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     @Override
     protected void processPacket() {
@@ -955,28 +952,6 @@ public class Shimmer extends ShimmerBluetooth {
 
     }
 
-	/*
-	public byte[] readBytes(int numberofBytes){
-		  byte[] b = new byte[numberofBytes];  
-		  try{
-
-			   int timeoutMillis = 500;
-			   int bufferOffset = 0;
-			   long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
-			   while (System.currentTimeMillis() < maxTimeMillis && bufferOffset < b.length && mState!=STATE_NONE) {
-			    int readLength = java.lang.Math.min(mInStream.available(),b.length-bufferOffset);
-			    int readResult = mInStream.read(b, bufferOffset, readLength);
-			    if (readResult == -1) break;
-			    bufferOffset += readResult;
-		   }
-			   return b;
-		  } catch (IOException e) {
-			   connectionLost();
-			   e.printStackTrace();
-			   return b;
-		  }
-	}*/
-
     protected void logAndStreamStatusChanged() {
 
 
@@ -1007,6 +982,28 @@ public class Shimmer extends ShimmerBluetooth {
 
 
     }
+
+	/*
+	public byte[] readBytes(int numberofBytes){
+		  byte[] b = new byte[numberofBytes];  
+		  try{
+
+			   int timeoutMillis = 500;
+			   int bufferOffset = 0;
+			   long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
+			   while (System.currentTimeMillis() < maxTimeMillis && bufferOffset < b.length && mState!=STATE_NONE) {
+			    int readLength = java.lang.Math.min(mInStream.available(),b.length-bufferOffset);
+			    int readResult = mInStream.read(b, bufferOffset, readLength);
+			    if (readResult == -1) break;
+			    bufferOffset += readResult;
+		   }
+			   return b;
+		  } catch (IOException e) {
+			   connectionLost();
+			   e.printStackTrace();
+			   return b;
+		  }
+	}*/
 
     @Override
     protected void processMsgFromCallback(ShimmerMsg shimmerMSG) {
@@ -1437,6 +1434,8 @@ public class Shimmer extends ShimmerBluetooth {
             }
         }
     }
+
+
 
 
 }

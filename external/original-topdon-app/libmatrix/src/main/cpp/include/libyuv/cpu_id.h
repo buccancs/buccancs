@@ -1,10 +1,14 @@
 
-#ifndef INCLUDE_LIBYUV_CPU_ID_H_
-#define INCLUDE_LIBYUV_CPU_ID_H_
+#ifndef
+INCLUDE_LIBYUV_CPU_ID_H_
+#define
+INCLUDE_LIBYUV_CPU_ID_H_
 
-#include "libyuv/basic_types.h"
+#include
+"libyuv/basic_types.h"
 
-#ifdef __cplusplus
+#ifdef
+__cplusplus
 namespace libyuv {
 extern "C" {
 #endif
@@ -34,30 +38,33 @@ static const int kCpuHasMMI = 0x800000;
 LIBYUV_API
 int InitCpuFlags(void);
 static __inline int TestCpuFlag(int test_flag) {
-  LIBYUV_API extern int cpu_info_;
-#ifdef __ATOMIC_RELAXED
-  int cpu_info = __atomic_load_n(&cpu_info_, __ATOMIC_RELAXED);
+LIBYUV_API extern int cpu_info_;
+#ifdef
+__ATOMIC_RELAXED
+int cpu_info = __atomic_load_n(&cpu_info_, __ATOMIC_RELAXED);
 #else
-  int cpu_info = cpu_info_;
+int cpu_info = cpu_info_;
 #endif
-  return (!cpu_info ? InitCpuFlags() : cpu_info) & test_flag;
+return (!cpu_info ? InitCpuFlags() : cpu_info) & test_flag;
 }
 LIBYUV_API
 int ArmCpuCaps(const char* cpuinfo_name);
 LIBYUV_API
 int MaskCpuFlags(int enable_flags);
 static __inline void SetCpuFlags(int cpu_flags) {
-  LIBYUV_API extern int cpu_info_;
-#ifdef __ATOMIC_RELAXED
-  __atomic_store_n(&cpu_info_, cpu_flags, __ATOMIC_RELAXED);
+LIBYUV_API extern int cpu_info_;
+#ifdef
+__ATOMIC_RELAXED
+__atomic_store_n(&cpu_info_, cpu_flags, __ATOMIC_RELAXED);
 #else
-  cpu_info_ = cpu_flags;
+cpu_info_ = cpu_flags;
 #endif
 }
 LIBYUV_API
 void CpuId(int info_eax, int info_ecx, int* cpu_info);
 
-#ifdef __cplusplus
+#ifdef
+__cplusplus
 }  // extern "C"
 }  // namespace libyuv
 #endif

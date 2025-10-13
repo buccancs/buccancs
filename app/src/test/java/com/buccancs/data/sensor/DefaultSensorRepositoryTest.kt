@@ -1,6 +1,5 @@
 package com.buccancs.data.sensor
 
-import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedMicrophoneConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedRgbCameraConnector
@@ -10,6 +9,7 @@ import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.RecordingLifecycleState
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.util.nowInstant
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle

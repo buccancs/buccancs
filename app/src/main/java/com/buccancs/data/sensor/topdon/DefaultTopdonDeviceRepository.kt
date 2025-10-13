@@ -4,13 +4,13 @@ import com.buccancs.data.sensor.connector.topdon.TopdonConnectorManager
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.DeviceCommandResult
 import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.TOPDON_TC001_DEVICE_ID
 import com.buccancs.domain.model.TopdonDeviceState
 import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.domain.repository.SensorRepository
-import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.repository.TopdonDeviceRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject

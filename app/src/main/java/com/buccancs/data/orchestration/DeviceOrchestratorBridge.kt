@@ -4,11 +4,11 @@ import android.content.Context
 import android.os.BatteryManager
 import android.os.Build
 import android.util.Log
+import com.buccancs.application.time.TimeSyncService
 import com.buccancs.control.OrchestrationServiceGrpcKt
 import com.buccancs.control.deviceRegistration
 import com.buccancs.control.deviceStatus
 import com.buccancs.di.ApplicationScope
-import com.buccancs.application.time.TimeSyncService
 import com.buccancs.domain.model.RecordingLifecycleState
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.repository.OrchestratorConfigRepository
@@ -21,7 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 

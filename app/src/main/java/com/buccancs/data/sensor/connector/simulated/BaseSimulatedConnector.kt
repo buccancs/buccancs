@@ -1,6 +1,5 @@
 package com.buccancs.data.sensor.connector.simulated
 
-import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
@@ -10,6 +9,7 @@ import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -105,8 +105,8 @@ internal abstract class BaseSimulatedConnector(
         streamJob?.cancel()
         streamJob = null
         recordingStartedAt?.let { start ->
-        val currentInstant = nowInstant()
-        val duration = (currentInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(0)
+            val currentInstant = nowInstant()
+            val duration = (currentInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(0)
             lastRecordingDurationMs = duration
         }
         recordingStartedAt = null

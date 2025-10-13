@@ -22,8 +22,8 @@ import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -73,27 +73,32 @@ internal class ShimmerConnectorManager @Inject constructor(
     }
 
     override suspend fun connect(deviceId: DeviceId): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.connect()
     }
 
     override suspend fun disconnect(deviceId: DeviceId): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.disconnect()
     }
 
     override suspend fun configure(deviceId: DeviceId, options: Map<String, String>): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.configure(options)
     }
 
     override suspend fun startStreaming(deviceId: DeviceId, anchor: RecordingSessionAnchor): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.startStreaming(anchor)
     }
 
     override suspend fun stopStreaming(deviceId: DeviceId): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.stopStreaming()
     }
 

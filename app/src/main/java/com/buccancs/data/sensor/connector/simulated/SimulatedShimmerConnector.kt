@@ -1,6 +1,5 @@
 package com.buccancs.data.sensor.connector.simulated
 
-import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
 import com.buccancs.di.ApplicationScope
@@ -12,6 +11,7 @@ import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

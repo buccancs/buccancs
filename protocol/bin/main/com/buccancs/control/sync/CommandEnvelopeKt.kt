@@ -3,107 +3,116 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
+
 package com.buccancs.control.sync
 
 @kotlin.jvm.JvmName("-initializecommandEnvelope")
 public inline fun commandEnvelope(block: com.buccancs.control.sync.CommandEnvelopeKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.CommandEnvelope =
-  com.buccancs.control.sync.CommandEnvelopeKt.Dsl._create(com.buccancs.control.sync.CommandEnvelope.newBuilder()).apply { block() }._build()
+    com.buccancs.control.sync.CommandEnvelopeKt.Dsl._create(com.buccancs.control.sync.CommandEnvelope.newBuilder())
+        .apply { block() }._build()
+
 /**
  * Protobuf type `com.buccancs.control.sync.CommandEnvelope`
  */
 public object CommandEnvelopeKt {
-  @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-  @com.google.protobuf.kotlin.ProtoDslMarker
-  public class Dsl private constructor(
-    private val _builder: com.buccancs.control.sync.CommandEnvelope.Builder
-  ) {
-    public companion object {
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.PublishedApi
-      internal fun _create(builder: com.buccancs.control.sync.CommandEnvelope.Builder): Dsl = Dsl(builder)
-    }
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+        private val _builder: com.buccancs.control.sync.CommandEnvelope.Builder
+    ) {
+        public companion object {
+            @kotlin.jvm.JvmSynthetic
+            @kotlin.PublishedApi
+            internal fun _create(builder: com.buccancs.control.sync.CommandEnvelope.Builder): Dsl = Dsl(builder)
+        }
 
-    @kotlin.jvm.JvmSynthetic
-    @kotlin.PublishedApi
-    internal fun _build(): com.buccancs.control.sync.CommandEnvelope = _builder.build()
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _build(): com.buccancs.control.sync.CommandEnvelope = _builder.build()
 
-    /**
-     * `string command_id = 1;`
-     */
-    public var commandId: kotlin.String
-      get() = _builder.getCommandId()
-      set(value) {
-        _builder.setCommandId(value)
-      }
-    /**
-     * `string command_id = 1;`
-     */
-    public fun clearCommandId() {
-      _builder.clearCommandId()
-    }
+        /**
+         * `string command_id = 1;`
+         */
+        public var commandId: kotlin.String
+            get() = _builder.getCommandId()
+            set(value) {
+                _builder.setCommandId(value)
+            }
 
-    /**
-     * `string session_id = 2;`
-     */
-    public var sessionId: kotlin.String
-      get() = _builder.getSessionId()
-      set(value) {
-        _builder.setSessionId(value)
-      }
-    /**
-     * `string session_id = 2;`
-     */
-    public fun clearSessionId() {
-      _builder.clearSessionId()
-    }
+        /**
+         * `string command_id = 1;`
+         */
+        public fun clearCommandId() {
+            _builder.clearCommandId()
+        }
 
-    /**
-     * `string payload_json = 3;`
-     */
-    public var payloadJson: kotlin.String
-      get() = _builder.getPayloadJson()
-      set(value) {
-        _builder.setPayloadJson(value)
-      }
-    /**
-     * `string payload_json = 3;`
-     */
-    public fun clearPayloadJson() {
-      _builder.clearPayloadJson()
-    }
+        /**
+         * `string session_id = 2;`
+         */
+        public var sessionId: kotlin.String
+            get() = _builder.getSessionId()
+            set(value) {
+                _builder.setSessionId(value)
+            }
 
-    /**
-     * `int64 execute_epoch_ms = 4;`
-     */
-    public var executeEpochMs: kotlin.Long
-      get() = _builder.getExecuteEpochMs()
-      set(value) {
-        _builder.setExecuteEpochMs(value)
-      }
-    /**
-     * `int64 execute_epoch_ms = 4;`
-     */
-    public fun clearExecuteEpochMs() {
-      _builder.clearExecuteEpochMs()
-    }
+        /**
+         * `string session_id = 2;`
+         */
+        public fun clearSessionId() {
+            _builder.clearSessionId()
+        }
 
-    /**
-     * `string token = 5;`
-     */
-    public var token: kotlin.String
-      get() = _builder.getToken()
-      set(value) {
-        _builder.setToken(value)
-      }
-    /**
-     * `string token = 5;`
-     */
-    public fun clearToken() {
-      _builder.clearToken()
+        /**
+         * `string payload_json = 3;`
+         */
+        public var payloadJson: kotlin.String
+            get() = _builder.getPayloadJson()
+            set(value) {
+                _builder.setPayloadJson(value)
+            }
+
+        /**
+         * `string payload_json = 3;`
+         */
+        public fun clearPayloadJson() {
+            _builder.clearPayloadJson()
+        }
+
+        /**
+         * `int64 execute_epoch_ms = 4;`
+         */
+        public var executeEpochMs: kotlin.Long
+            get() = _builder.getExecuteEpochMs()
+            set(value) {
+                _builder.setExecuteEpochMs(value)
+            }
+
+        /**
+         * `int64 execute_epoch_ms = 4;`
+         */
+        public fun clearExecuteEpochMs() {
+            _builder.clearExecuteEpochMs()
+        }
+
+        /**
+         * `string token = 5;`
+         */
+        public var token: kotlin.String
+            get() = _builder.getToken()
+            set(value) {
+                _builder.setToken(value)
+            }
+
+        /**
+         * `string token = 5;`
+         */
+        public fun clearToken() {
+            _builder.clearToken()
+        }
     }
-  }
 }
+
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.sync.CommandEnvelope.copy(block: `com.buccancs.control.sync`.CommandEnvelopeKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.CommandEnvelope =
-  `com.buccancs.control.sync`.CommandEnvelopeKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control.sync`.CommandEnvelopeKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 

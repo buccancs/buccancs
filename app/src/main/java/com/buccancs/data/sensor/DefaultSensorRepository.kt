@@ -23,7 +23,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.jvm.JvmSuppressWildcards
 
 @Singleton
 class DefaultSensorRepository @Inject constructor(

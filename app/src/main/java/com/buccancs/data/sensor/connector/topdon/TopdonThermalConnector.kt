@@ -7,7 +7,7 @@ import android.os.SystemClock
 import android.util.Log
 import com.buccancs.data.preview.PreviewStreamClient
 import com.buccancs.data.sensor.MetadataWriters
-import com.buccancs.data.sensor.SessionClock
+import com.buccancs.core.time.TimeModelAdapter
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
@@ -81,7 +81,7 @@ internal class TopdonThermalConnector @Inject constructor(
     private var thermalDigest: MessageDigest? = null
     private var thermalBytes: Long = 0
     @Volatile
-    private var sessionClock: SessionClock? = null
+    private var timeModel: TimeModelAdapter? = null
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
     private val listener = object : USBMonitor.OnDeviceConnectListener {
         override fun onAttach(device: UsbDevice) {
@@ -221,13 +221,13 @@ internal class TopdonThermalConnector @Inject constructor(
         if (isSimulationMode) {
             return super.startStreaming(anchor)
         }
-        sessionClock = SessionClock.fromAnchor(anchor)
+        timeModel = TimeModelAdapter.fromAnchor(anchor)
         val camera = uvcCamera ?: run {
-            sessionClock = null
+            timeModel = null
             return DeviceCommandResult.Rejected("Camera not connected.")
         }
         if (usbControlBlock == null) {
-            sessionClock = null
+            timeModel = null
             return DeviceCommandResult.Rejected("Camera control unavailable.")
         }
         return try {
@@ -238,7 +238,7 @@ internal class TopdonThermalConnector @Inject constructor(
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to start thermal preview", t)
-            sessionClock = null
+            timeModel = null
             DeviceCommandResult.Failed(t)
         }
     }
@@ -249,11 +249,11 @@ internal class TopdonThermalConnector @Inject constructor(
         return try {
             stopStreamingInternal()
             finalizeThermalRecording()
-            sessionClock = null
+            timeModel = null
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to stop thermal preview", t)
-            sessionClock = null
+            timeModel = null
             DeviceCommandResult.Failed(t)
         }
     }
@@ -325,7 +325,7 @@ internal class TopdonThermalConnector @Inject constructor(
         }
         statusState.value = emptyList()
         finalizeThermalRecording()
-        sessionClock = null
+        timeModel = null
     }
     private fun closeCamera() {
         try {
@@ -385,9 +385,13 @@ internal class TopdonThermalConnector @Inject constructor(
     }
 
     private fun prepareThermalRecording(sessionId: String) {
-        val directory = recordingStorage.deviceDirectory(sessionId, deviceId.value)
-        val baseEpoch = sessionClock?.anchorEpochMs ?: System.currentTimeMillis()
-        val file = File(directory, "thermal-$baseEpoch-${System.currentTimeMillis()}.raw")
+        val file = recordingStorage.createArtifactFile(
+            sessionId = sessionId,
+            deviceId = deviceId.value,
+            streamType = "thermal_video",
+            timestampEpochMs = System.currentTimeMillis(),
+            extension = "raw"
+        )
         thermalStream = FileOutputStream(file)
         thermalDigest = MessageDigest.getInstance("SHA-256")
         thermalFile = file
@@ -409,7 +413,7 @@ internal class TopdonThermalConnector @Inject constructor(
         val sessionId = currentSessionId
         val checksum = thermalDigest?.digest() ?: ByteArray(0)
         val bytesCaptured = thermalBytes
-        val clockSnapshot = sessionClock
+        val clockSnapshot = timeModel
         thermalDigest = null
         thermalFile = null
         thermalBytes = 0
@@ -483,7 +487,7 @@ internal class TopdonThermalConnector @Inject constructor(
                 Log.w(logTag, "Failed to persist thermal frame", t)
             }
         }
-        sessionClock = sessionClock?.let { clock ->
+        timeModel = timeModel?.let { clock ->
             if (clock.hasRecordingStarted()) {
                 clock
             } else {
@@ -518,7 +522,7 @@ internal class TopdonThermalConnector @Inject constructor(
         Instant.fromEpochMilliseconds(System.currentTimeMillis())
 
     private fun alignedInstant(instant: Instant): Instant {
-        val clock = sessionClock ?: return instant
+        val clock = timeModel ?: return instant
         val alignedMs = clock.alignDeviceEpoch(instant.toEpochMillis())
         return Instant.fromEpochMilliseconds(alignedMs)
     }

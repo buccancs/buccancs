@@ -419,10 +419,12 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
                             containerColor = MaterialTheme.colorScheme.errorContainer,
                             contentColor = MaterialTheme.colorScheme.onErrorContainer
                         )
+
                         device.recording -> CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.primaryContainer,
                             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
+
                         else -> CardDefaults.cardColors()
                     }
                     SectionCard(
@@ -517,7 +519,6 @@ private fun RetentionSection(retention: RetentionState) {
 }
 
 
-
 @Composable
 private fun TransferSection(transfers: List<TransferStatusItem>) {
     SectionCard(title = "Data Transfers") {
@@ -528,7 +529,8 @@ private fun TransferSection(transfers: List<TransferStatusItem>) {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text("Session ${transfer.sessionId} - Device ${transfer.deviceId}")
                     Text("File: ${transfer.fileName} (${transfer.streamType ?: "unknown"})")
-                    val progress = "${bytesToReadable(transfer.bytesTransferred)} / ${bytesToReadable(transfer.bytesTotal)}"
+                    val progress =
+                        "${bytesToReadable(transfer.bytesTransferred)} / ${bytesToReadable(transfer.bytesTotal)}"
                     Text("State: ${transfer.state} (attempt ${transfer.attempt}) - $progress")
                     transfer.errorMessage?.takeIf { it.isNotBlank() }?.let { error ->
                         Text(
@@ -617,7 +619,10 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
                 }
                 Text("Total bytes: ${bytesToReadable(archive.totalBytes)}", style = MaterialTheme.typography.bodySmall)
                 Text("Subjects: ${archive.subjects.joinToString()}", style = MaterialTheme.typography.bodySmall)
-                Text("Events: ${archive.eventCount} - Devices: ${archive.deviceCount}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "Events: ${archive.eventCount} - Devices: ${archive.deviceCount}",
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
             HorizontalDivider()
         }

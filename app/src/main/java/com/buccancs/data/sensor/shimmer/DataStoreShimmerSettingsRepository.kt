@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.plus
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.roundToInt
 
 @Singleton
 class DataStoreShimmerSettingsRepository @Inject constructor(

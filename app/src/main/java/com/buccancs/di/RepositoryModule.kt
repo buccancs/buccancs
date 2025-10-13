@@ -13,11 +13,11 @@ import com.buccancs.domain.repository.CalibrationRepository
 import com.buccancs.domain.repository.DeviceEventRepository
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
-import com.buccancs.domain.repository.TopdonDeviceRepository
-import com.buccancs.domain.repository.TopdonSettingsRepository
-import com.buccancs.domain.repository.ShimmerSettingsRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.SessionTransferRepository
+import com.buccancs.domain.repository.ShimmerSettingsRepository
+import com.buccancs.domain.repository.TopdonDeviceRepository
+import com.buccancs.domain.repository.TopdonSettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

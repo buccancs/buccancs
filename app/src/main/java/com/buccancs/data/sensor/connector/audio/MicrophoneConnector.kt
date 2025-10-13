@@ -5,7 +5,7 @@ import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.SystemClock
 import com.buccancs.data.sensor.MetadataWriters
-import com.buccancs.data.sensor.SessionClock
+import com.buccancs.core.time.TimeModelAdapter
 import android.util.Log
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
@@ -67,7 +67,7 @@ internal class MicrophoneConnector @Inject constructor(
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
     private var pcmScratch = ByteArray(0)
     @Volatile
-    private var sessionClock: SessionClock? = null
+    private var timeModel: TimeModelAdapter? = null
     override suspend fun refreshInventory() {
         if (isSimulationMode) {
             super.refreshInventory()
@@ -78,7 +78,7 @@ internal class MicrophoneConnector @Inject constructor(
         if (enabled) {
             stopHardwareRecording()
             releaseAudioRecord()
-            sessionClock = null
+            timeModel = null
         }
         super.applySimulation(enabled)
     }
@@ -128,11 +128,11 @@ internal class MicrophoneConnector @Inject constructor(
             return super.startStreaming(anchor)
         }
         return try {
-            sessionClock = SessionClock.fromAnchor(anchor)
+            timeModel = TimeModelAdapter.fromAnchor(anchor)
             val record = ensureAudioRecord()
             prepareOutputFile(anchor.sessionId)
             record.startRecording()
-            sessionClock = sessionClock?.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
+            timeModel = timeModel?.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
             if (recordingJob?.isActive == true) {
                 recordingJob?.cancel()
             }
@@ -166,7 +166,7 @@ internal class MicrophoneConnector @Inject constructor(
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to start microphone streaming", t)
-            sessionClock = null
+            timeModel = null
             DeviceCommandResult.Failed(t)
         }
     }
@@ -179,11 +179,11 @@ internal class MicrophoneConnector @Inject constructor(
             stopHardwareRecording()
             finalizeRecording()
             statusState.value = emptyList()
-            sessionClock = null
+            timeModel = null
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to stop microphone streaming", t)
-            sessionClock = null
+            timeModel = null
             DeviceCommandResult.Failed(t)
         }
     }
@@ -273,9 +273,13 @@ internal class MicrophoneConnector @Inject constructor(
     }
 
     private fun prepareOutputFile(sessionId: String) {
-        val directory = recordingStorage.deviceDirectory(sessionId, deviceId.value)
-        val fileName = "audio-${System.currentTimeMillis()}.wav"
-        val target = File(directory, fileName)
+        val target = recordingStorage.createArtifactFile(
+            sessionId = sessionId,
+            deviceId = deviceId.value,
+            streamType = "audio_wav",
+            timestampEpochMs = System.currentTimeMillis(),
+            extension = "wav"
+        )
         val writer = RandomAccessFile(target, "rw")
         writer.setLength(0)
         writeWavHeader(writer, SAMPLE_RATE_HZ, CHANNEL_COUNT, BITS_PER_SAMPLE, 0)
@@ -309,7 +313,7 @@ internal class MicrophoneConnector @Inject constructor(
     private fun finalizeRecording() {
         val writer = audioWriter ?: return
         val file = audioFile
-        val clockSnapshot = sessionClock
+        val clockSnapshot = timeModel
         val sessionIdSnapshot = currentSessionId
         val bytesCaptured = bytesWritten
         try {
@@ -426,7 +430,7 @@ internal class MicrophoneConnector @Inject constructor(
         Instant.fromEpochMilliseconds(System.currentTimeMillis())
 
     private fun alignedInstant(instant: Instant): Instant {
-        val clock = sessionClock ?: return instant
+        val clock = timeModel ?: return instant
         val alignedMs = clock.alignDeviceEpoch(instant.toEpochMilliseconds())
         return Instant.fromEpochMilliseconds(alignedMs)
     }

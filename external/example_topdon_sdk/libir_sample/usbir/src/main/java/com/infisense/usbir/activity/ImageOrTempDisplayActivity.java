@@ -114,7 +114,16 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         temperatureSrc = new byte[imageWidth * imageHeight * 2];
     }
 
-    private Handler mHandler = new Handler(Looper.myLooper()) {
+    private void initdata() {
+        int screenWidth = ScreenUtils.getScreenWidth(this);
+        fullScreenlayoutParams = new RelativeLayout.LayoutParams(screenWidth,
+                imageHeight * screenWidth / imageWidth);
+        fullScreenlayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        bitmap = Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888);
+        binding.cameraView.setSyncimage(syncimage);
+        binding.cameraView.setBitmap(bitmap);
+        binding.cameraView.setLayoutParams(fullScreenlayoutParams);
+    }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -140,17 +149,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    private void initdata() {
-        int screenWidth = ScreenUtils.getScreenWidth(this);
-        fullScreenlayoutParams = new RelativeLayout.LayoutParams(screenWidth,
-                imageHeight * screenWidth / imageWidth);
-        fullScreenlayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        bitmap = Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888);
-        binding.cameraView.setSyncimage(syncimage);
-        binding.cameraView.setBitmap(bitmap);
-        binding.cameraView.setLayoutParams(fullScreenlayoutParams);
-    }
 
     private void startISP() {
         imageThread = new ImageThread(ImageOrTempDisplayActivity.this, imageWidth, imageHeight);
@@ -342,6 +340,8 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             Log.e(TAG, "imageThread.join(): catch an interrupted exception");
         }
     }
+
+
 
 
 }

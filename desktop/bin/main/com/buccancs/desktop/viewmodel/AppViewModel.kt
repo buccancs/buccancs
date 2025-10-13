@@ -515,19 +515,19 @@ class AppViewModel(
             devices = base.devices
                 .sortedWith(compareByDescending<DeviceInfo> { it.connected }.thenBy { it.id })
                 .map { device ->
-                DeviceListItem(
-                    id = device.id,
-                    model = device.model,
-                    platform = device.platform,
-                    connected = device.connected,
-                    recording = device.recording,
-                    batteryPercent = device.batteryPercent,
-                    previewLatencyMs = device.previewLatencyMs,
-                    clockOffsetMs = device.clockOffsetMs,
-                    lastHeartbeat = device.lastHeartbeat,
-                    sessionId = device.sessionId
-                )
-            },
+                    DeviceListItem(
+                        id = device.id,
+                        model = device.model,
+                        platform = device.platform,
+                        connected = device.connected,
+                        recording = device.recording,
+                        batteryPercent = device.batteryPercent,
+                        previewLatencyMs = device.previewLatencyMs,
+                        clockOffsetMs = device.clockOffsetMs,
+                        lastHeartbeat = device.lastHeartbeat,
+                        sessionId = device.sessionId
+                    )
+                },
             retention = retentionState,
             previews = previewStates,
             transfers = transferStates,

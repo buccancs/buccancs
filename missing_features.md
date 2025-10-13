@@ -2,7 +2,9 @@ Missing pieces, by area.
 
 #### Quick diff to your tree
 
-Yes. Keep MVVM+Compose+Hilt, but introduce a thin **application‑service layer**, slice by **feature**, and make **API/impl** boundaries explicit. Your current tree mixes orchestration and IO inside “data”. Move coordination out of ViewModels and repositories.
+Yes. Keep MVVM+Compose+Hilt, but introduce a thin **application‑service layer**, slice by **feature**, and make *
+*API/impl** boundaries explicit. Your current tree mixes orchestration and IO inside “data”. Move coordination out of
+ViewModels and repositories.
 
 ### Sync + networking
 
@@ -22,7 +24,8 @@ Yes. Keep MVVM+Compose+Hilt, but introduce a thin **application‑service layer*
     * `data/orchestration/security/KeyStoreProvider.kt`, `TokenIssuer.kt`
 * **Offset/drift service** surfaced app‑wide:
 
-    * Promote `time/DefaultTimeSyncRepository.kt` to a singleton `TimeSyncService` with quality flags, RTT filters, regression, and history.
+    * Promote `time/DefaultTimeSyncRepository.kt` to a singleton `TimeSyncService` with quality flags, RTT filters,
+      regression, and history.
 * **Heartbeat + health**:
 
     * `data/events/HeartbeatMonitor.kt` emitting WARN/SAFE and auto‑stop on loss.

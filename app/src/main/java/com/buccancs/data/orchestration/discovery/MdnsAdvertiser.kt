@@ -3,10 +3,10 @@ package com.buccancs.data.orchestration.discovery
 import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
-import dagger.hilt.android.qualifiers.ApplicationContext
 import android.os.Handler
 import android.os.Looper
 import com.buccancs.di.ApplicationScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

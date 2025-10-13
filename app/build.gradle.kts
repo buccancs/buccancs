@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.google.material)
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.coroutines.android)
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.json)

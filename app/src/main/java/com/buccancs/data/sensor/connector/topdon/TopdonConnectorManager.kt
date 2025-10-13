@@ -19,15 +19,13 @@ import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.TopdonDeviceConfig
-import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.domain.model.TopdonSettings
-import com.buccancs.domain.model.TopdonSuperSamplingFactor
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +36,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.jvm.Volatile
 
 @Singleton
 internal class TopdonConnectorManager @Inject constructor(
@@ -54,6 +51,7 @@ internal class TopdonConnectorManager @Inject constructor(
     private val devicesMutex = Mutex()
     private val statusMutex = Mutex()
     private val connectors = mutableMapOf<DeviceId, ManagedConnector>()
+
     @Volatile
     private var connectorCache: Map<DeviceId, ManagedConnector> = emptyMap()
     private val deviceState = MutableStateFlow<Map<DeviceId, SensorDevice>>(emptyMap())
@@ -80,27 +78,32 @@ internal class TopdonConnectorManager @Inject constructor(
     }
 
     override suspend fun connect(deviceId: DeviceId): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.connect()
     }
 
     override suspend fun disconnect(deviceId: DeviceId): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.disconnect()
     }
 
     override suspend fun configure(deviceId: DeviceId, options: Map<String, String>): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.configure(options)
     }
 
     override suspend fun startStreaming(deviceId: DeviceId, anchor: RecordingSessionAnchor): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.startStreaming(anchor)
     }
 
     override suspend fun stopStreaming(deviceId: DeviceId): DeviceCommandResult {
-        val connector = connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        val connector =
+            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.stopStreaming()
     }
 

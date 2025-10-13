@@ -1,6 +1,8 @@
 package com.buccancs.data.transfer
 
+import android.content.Context
 import com.buccancs.di.ApplicationScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.UploadState
 import com.buccancs.domain.model.UploadStatus
@@ -20,7 +22,8 @@ import javax.inject.Singleton
 @Singleton
 class DefaultSessionTransferRepository @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
-    private val client: DataTransferClient
+    private val client: DataTransferClient,
+    @ApplicationContext private val context: Context
 ) : SessionTransferRepository {
     private val uploadsState = MutableStateFlow<Map<String, UploadStatus>>(emptyMap())
     private val uploadsSnapshot = MutableStateFlow<List<UploadStatus>>(emptyList())
@@ -60,6 +63,7 @@ class DefaultSessionTransferRepository @Inject constructor(
             }
             queue.send(UploadCommand(sessionId, artifact))
         }
+        WorkPolicy.enqueueUpload(context)
     }
 
     private suspend fun process(command: UploadCommand) {

@@ -1,8 +1,5 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.api.tasks.Exec
-import org.gradle.api.tasks.testing.Test
-import java.io.File
-import java.util.Locale
+import java.util.*
 
 val libs = the<LibrariesForLibs>()
 
@@ -28,14 +25,37 @@ private data class ExternalProjectBuild(
 
 private val externalBuilds = listOf(
     ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
-    ExternalProjectBuild("buildShimmerAndroidInstrumentDriver", "external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver"),
-    ExternalProjectBuild("buildShimmerBluetoothManager", "external/Shimmer-Java-Android-API/ShimmerBluetoothManager", maxSupportedJavaMajor = 13),
-    ExternalProjectBuild("buildShimmerDriver", "external/Shimmer-Java-Android-API/ShimmerDriver", maxSupportedJavaMajor = 13),
-    ExternalProjectBuild("buildShimmerDriverPC", "external/Shimmer-Java-Android-API/ShimmerDriverPC", maxSupportedJavaMajor = 13),
+    ExternalProjectBuild(
+        "buildShimmerAndroidInstrumentDriver",
+        "external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver"
+    ),
+    ExternalProjectBuild(
+        "buildShimmerBluetoothManager",
+        "external/Shimmer-Java-Android-API/ShimmerBluetoothManager",
+        maxSupportedJavaMajor = 13
+    ),
+    ExternalProjectBuild(
+        "buildShimmerDriver",
+        "external/Shimmer-Java-Android-API/ShimmerDriver",
+        maxSupportedJavaMajor = 13
+    ),
+    ExternalProjectBuild(
+        "buildShimmerDriverPC",
+        "external/Shimmer-Java-Android-API/ShimmerDriverPC",
+        maxSupportedJavaMajor = 13
+    ),
     ExternalProjectBuild("buildShimmerTCP", "external/Shimmer-Java-Android-API/ShimmerTCP", maxSupportedJavaMajor = 13),
-    ExternalProjectBuild("buildShimmerPCBasicExamples", "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples", maxSupportedJavaMajor = 13),
+    ExternalProjectBuild(
+        "buildShimmerPCBasicExamples",
+        "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples",
+        maxSupportedJavaMajor = 13
+    ),
     ExternalProjectBuild("buildShimmerLSL", "external/Shimmer-Java-Android-API/ShimmerLSL", maxSupportedJavaMajor = 13),
-    ExternalProjectBuild("buildJavaShimmerConnect", "external/Shimmer-Java-Android-API/JavaShimmerConnect", maxSupportedJavaMajor = 13),
+    ExternalProjectBuild(
+        "buildJavaShimmerConnect",
+        "external/Shimmer-Java-Android-API/JavaShimmerConnect",
+        maxSupportedJavaMajor = 13
+    ),
     ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample")
 )
 
@@ -77,7 +97,7 @@ private fun findExternalJavaHome(project: org.gradle.api.Project, maxJavaMajor: 
         .map { project.file(it) }
         .firstOrNull { candidate ->
             candidate.exists() && (maxJavaMajor == null ||
-                readJavaMajorVersion(candidate)?.let { it <= maxJavaMajor } == true)
+                    readJavaMajorVersion(candidate)?.let { it <= maxJavaMajor } == true)
         }
 }
 

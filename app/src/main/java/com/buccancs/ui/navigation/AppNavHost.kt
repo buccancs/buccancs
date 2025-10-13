@@ -6,8 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TOPDON_TC001_DEVICE_ID
 import com.buccancs.ui.MainRoute

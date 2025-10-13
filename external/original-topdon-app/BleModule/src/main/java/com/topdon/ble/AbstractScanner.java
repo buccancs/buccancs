@@ -294,13 +294,13 @@ abstract class AbstractScanner implements Scanner {
         scanListeners.clear();
     }
 
-    private final Runnable stopScanRunnable = () -> stopScan(false);
-
-    protected abstract boolean isReady();
+    protected abstract boolean isReady();    private final Runnable stopScanRunnable = () -> stopScan(false);
 
     protected abstract void performStartScan();
 
     protected abstract void performStopScan();
+
+
 
 
 }

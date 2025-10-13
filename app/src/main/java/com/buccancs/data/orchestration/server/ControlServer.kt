@@ -5,8 +5,8 @@ import com.buccancs.control.sync.CommandEnvelope
 import com.buccancs.control.sync.ControlEvent
 import com.buccancs.control.sync.EventSubscription
 import com.buccancs.control.sync.LocalControlGrpcKt
-import com.buccancs.data.orchestration.server.EventPublisher.ControlServerEvent
 import com.buccancs.data.orchestration.security.TokenIssuer
+import com.buccancs.data.orchestration.server.EventPublisher.ControlServerEvent
 import com.buccancs.di.ApplicationScope
 import com.buccancs.util.nowInstant
 import io.grpc.BindableService
@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -132,6 +131,7 @@ class ControlServer @Inject constructor(
                 .filter { it.sessionId == sessionFilter }
                 .map { it.toProto() }
         }
+
         private fun ControlServerEvent.toProto(): ControlEvent =
             ControlEvent.newBuilder()
                 .setEventId(eventId)

@@ -9,9 +9,8 @@ import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.util.nowInstant
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.datetime.Instant
 import javax.inject.Inject
@@ -87,7 +86,8 @@ class MultiDeviceRecordingExercise @Inject constructor(
                 targetDevices.forEach { device ->
                     if (observed.containsKey(device.id)) return@forEach
                     val deviceStatuses = statuses.filter { it.deviceId == device.id }
-                    val nonPreviewActive = deviceStatuses.any { it.streamType != SensorStreamType.PREVIEW && it.isStreaming }
+                    val nonPreviewActive =
+                        deviceStatuses.any { it.streamType != SensorStreamType.PREVIEW && it.isStreaming }
                     val meetsExpectation = if (expectedActive) nonPreviewActive else !nonPreviewActive
                     if (meetsExpectation) {
                         val activeStreams = if (expectedActive) {

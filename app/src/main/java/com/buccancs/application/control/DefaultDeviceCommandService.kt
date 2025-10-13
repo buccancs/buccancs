@@ -2,6 +2,7 @@ package com.buccancs.application.control
 
 import android.util.Log
 import com.buccancs.BuildConfig
+import com.buccancs.application.time.TimeSyncService
 import com.buccancs.control.commands.CommandSerialization
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
@@ -14,7 +15,6 @@ import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.DeviceEventType
 import com.buccancs.domain.repository.DeviceEventRepository
-import com.buccancs.application.time.TimeSyncService
 import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay

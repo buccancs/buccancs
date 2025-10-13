@@ -3,107 +3,116 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
+
 package com.buccancs.control.sync
 
 @kotlin.jvm.JvmName("-initializecontrolEvent")
 public inline fun controlEvent(block: com.buccancs.control.sync.ControlEventKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.ControlEvent =
-  com.buccancs.control.sync.ControlEventKt.Dsl._create(com.buccancs.control.sync.ControlEvent.newBuilder()).apply { block() }._build()
+    com.buccancs.control.sync.ControlEventKt.Dsl._create(com.buccancs.control.sync.ControlEvent.newBuilder())
+        .apply { block() }._build()
+
 /**
  * Protobuf type `com.buccancs.control.sync.ControlEvent`
  */
 public object ControlEventKt {
-  @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-  @com.google.protobuf.kotlin.ProtoDslMarker
-  public class Dsl private constructor(
-    private val _builder: com.buccancs.control.sync.ControlEvent.Builder
-  ) {
-    public companion object {
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.PublishedApi
-      internal fun _create(builder: com.buccancs.control.sync.ControlEvent.Builder): Dsl = Dsl(builder)
-    }
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+        private val _builder: com.buccancs.control.sync.ControlEvent.Builder
+    ) {
+        public companion object {
+            @kotlin.jvm.JvmSynthetic
+            @kotlin.PublishedApi
+            internal fun _create(builder: com.buccancs.control.sync.ControlEvent.Builder): Dsl = Dsl(builder)
+        }
 
-    @kotlin.jvm.JvmSynthetic
-    @kotlin.PublishedApi
-    internal fun _build(): com.buccancs.control.sync.ControlEvent = _builder.build()
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _build(): com.buccancs.control.sync.ControlEvent = _builder.build()
 
-    /**
-     * `string event_id = 1;`
-     */
-    public var eventId: kotlin.String
-      get() = _builder.getEventId()
-      set(value) {
-        _builder.setEventId(value)
-      }
-    /**
-     * `string event_id = 1;`
-     */
-    public fun clearEventId() {
-      _builder.clearEventId()
-    }
+        /**
+         * `string event_id = 1;`
+         */
+        public var eventId: kotlin.String
+            get() = _builder.getEventId()
+            set(value) {
+                _builder.setEventId(value)
+            }
 
-    /**
-     * `string session_id = 2;`
-     */
-    public var sessionId: kotlin.String
-      get() = _builder.getSessionId()
-      set(value) {
-        _builder.setSessionId(value)
-      }
-    /**
-     * `string session_id = 2;`
-     */
-    public fun clearSessionId() {
-      _builder.clearSessionId()
-    }
+        /**
+         * `string event_id = 1;`
+         */
+        public fun clearEventId() {
+            _builder.clearEventId()
+        }
 
-    /**
-     * `string type = 3;`
-     */
-    public var type: kotlin.String
-      get() = _builder.getType()
-      set(value) {
-        _builder.setType(value)
-      }
-    /**
-     * `string type = 3;`
-     */
-    public fun clearType() {
-      _builder.clearType()
-    }
+        /**
+         * `string session_id = 2;`
+         */
+        public var sessionId: kotlin.String
+            get() = _builder.getSessionId()
+            set(value) {
+                _builder.setSessionId(value)
+            }
 
-    /**
-     * `string detail_json = 4;`
-     */
-    public var detailJson: kotlin.String
-      get() = _builder.getDetailJson()
-      set(value) {
-        _builder.setDetailJson(value)
-      }
-    /**
-     * `string detail_json = 4;`
-     */
-    public fun clearDetailJson() {
-      _builder.clearDetailJson()
-    }
+        /**
+         * `string session_id = 2;`
+         */
+        public fun clearSessionId() {
+            _builder.clearSessionId()
+        }
 
-    /**
-     * `int64 timestamp_epoch_ms = 5;`
-     */
-    public var timestampEpochMs: kotlin.Long
-      get() = _builder.getTimestampEpochMs()
-      set(value) {
-        _builder.setTimestampEpochMs(value)
-      }
-    /**
-     * `int64 timestamp_epoch_ms = 5;`
-     */
-    public fun clearTimestampEpochMs() {
-      _builder.clearTimestampEpochMs()
+        /**
+         * `string type = 3;`
+         */
+        public var type: kotlin.String
+            get() = _builder.getType()
+            set(value) {
+                _builder.setType(value)
+            }
+
+        /**
+         * `string type = 3;`
+         */
+        public fun clearType() {
+            _builder.clearType()
+        }
+
+        /**
+         * `string detail_json = 4;`
+         */
+        public var detailJson: kotlin.String
+            get() = _builder.getDetailJson()
+            set(value) {
+                _builder.setDetailJson(value)
+            }
+
+        /**
+         * `string detail_json = 4;`
+         */
+        public fun clearDetailJson() {
+            _builder.clearDetailJson()
+        }
+
+        /**
+         * `int64 timestamp_epoch_ms = 5;`
+         */
+        public var timestampEpochMs: kotlin.Long
+            get() = _builder.getTimestampEpochMs()
+            set(value) {
+                _builder.setTimestampEpochMs(value)
+            }
+
+        /**
+         * `int64 timestamp_epoch_ms = 5;`
+         */
+        public fun clearTimestampEpochMs() {
+            _builder.clearTimestampEpochMs()
+        }
     }
-  }
 }
+
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.sync.ControlEvent.copy(block: `com.buccancs.control.sync`.ControlEventKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.ControlEvent =
-  `com.buccancs.control.sync`.ControlEventKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control.sync`.ControlEventKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 

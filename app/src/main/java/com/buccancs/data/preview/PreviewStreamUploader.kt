@@ -126,6 +126,7 @@ class PreviewStreamUploader @Inject constructor(
                 throw IOException(response.info.ifBlank { "Preview stream rejected." })
             }
         }
+
         private data class QueuedFrame(
             val timestampEpochMs: Long,
             val payload: ByteArray
