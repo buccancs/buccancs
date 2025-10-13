@@ -1,0 +1,270 @@
+Refactor Initiative: Repository-Wide Structural Alignment
+=========================================================
+
+Purpose
+-------
+Bring the Android (Jetpack Compose + Hilt), desktop (Compose Desktop), and protocol modules into a consistent MVVM, layered-architecture structure with shared naming conventions, reorganized packages, and updated documentation without regressing functionality.
+
+Guiding Principles
+------------------
+1. Preserve functionality for Android agent, desktop orchestrator, and protocol consumers throughout the migration.
+2. Align with Kotlin/Android style: PascalCase types, camelCase members, SCREAMING_SNAKE_CASE constants, ASCII identifiers.
+3. Feature-first file layout: features own their data/domain/presentation/ui slices.
+4. Extract cross-cutting code into shared/core modules to avoid duplication.
+5. Maintain minimal, purposeful documentation (docstrings where needed; clear ADRs/diary updates).
+
+Current Repository Assessment
+-----------------------------
+- `app/src/main/java/com/buccancs` currently split by technical concern (`application`, `data`, `domain`, `ui`, `util`) with shared helpers under `util` and complex feature code (e.g., `ui/topdon`, `ui/calibration`) mingled with ViewModels and repositories. This confirms the need for feature-centric sub-packages.
+- Android orchestration code (`data/orchestration/*`) already contains discovery/security/server subfolders that must map cleanly into `data/orchestration/{discovery,security,server}` once rehomed under the new namespace.
+- Desktop module mirrors the technical split (`data`, `domain`, `ui`, `viewmodel`) but lacks explicit feature boundaries and a dedicated `core` layer; DI resides under `di` but ViewModels live at the top level.
+- Protocol module emits Kotlin stubs under `protocol/bin/...` with namespaces such as `com.buccancs.control.*`, requiring coordinated regeneration when moving to `com.buccancs.shared.protocol`.
+- Documentation (`feature_module_diagram.md`, `navigation_diagram.md`, `technical_documentation.md`) references legacy package paths; they must be revised alongside code moves to prevent onboarding confusion.
+
+Investigation Findings & Questions
+----------------------------------
+- Detected legacy extension files: `app/src/main/java/com/buccancs/util/InstantUtils.kt` and `app/src/main/java/kotlinx/datetime/InstantExtensions.kt`; decision needed on whether to consolidate them under `shared/core/time`.
+- ViewModel scattering: `CalibrationViewModel`, `TopdonViewModel`, `SettingsViewModel` live under `ui/<feature>`; plan must clarify new destinations (`feature/<feature>/presentation`).
+- Repository interfaces currently under `domain/repository`; evaluate whether to keep `domain` for interfaces and `data` for implementations or move all feature repositories inside feature packages.
+- Desktop ViewModel `AppViewModel.kt` sits in `desktop/viewmodel`; determine if we maintain a `presentation` namespace or adopt `feature/session/presentation/AppViewModel`.
+- Hilt modules reside under `app/src/main/java/com/buccancs/di`; new structure should separate application-level modules (`di/app`) from feature-specific modules (`feature/<feature>/di`).
+- Protocol regeneration path: confirm existing Gradle task names and whether they support Kotlin target package overrides without manual post-processing.
+- Need inventory of `external/*` usage to avoid breaking binary compatibility; potential creation of `integration` subpackages under each feature.
+- Open Question: should `app-testSupport` module be aligned simultaneously or addressed after primary refactor?
+- Open Question: is there appetite to introduce `core/testing` utilities to ease future test reactivation?
+- `app-testSupport` module currently empty (no source files); confirm whether to populate with testing scaffolds aligned to new namespace or decommission.
+- Vendor SDK artifacts located under `sdk/libs` (`shimmerandroidinstrumentdriver`, `shimmerdriver`, `topdon.aar`); ensure adapters isolate direct references to these binaries.
+- `external` directory hosts vendor source drops (`original-topdon-app`, `Shimmer-Java-Android-API`, `example_topdon_sdk`); audit usage to guarantee wrappers consume only required portions.
+
+Legacy to Target Package Mapping
+--------------------------------
+- `com.buccancs.application.*` -> `com.buccancs.app.core` or `com.buccancs.app.data` depending on responsibility; services exposed to ViewModels should publish interfaces under `domain`.
+- `com.buccancs.data.*` -> `com.buccancs.app.data` with deeper feature scoping (`data.sensor.connector` -> `feature/sensor/data/connector` if feature-specific, otherwise `core`).
+- `com.buccancs.domain.repository.*` -> `com.buccancs.app.domain.repository` (shared) or `com.buccancs.app.feature.<feature>.domain.repository` (feature-scoped).
+- `com.buccancs.ui.*` -> `com.buccancs.app.feature.<feature>.ui` for screens, `...presentation` for ViewModels, `...state` for UI state.
+- `com.buccancs.util.*` and `kotlinx.datetime.InstantExtensions` -> `com.buccancs.shared.core.time` or `com.buccancs.shared.core.util`.
+- `desktop/.../viewmodel` -> `desktop/.../presentation` with corresponding `ui/<screen>` packages.
+- Protocol stubs currently under `com.buccancs.control.*` -> `com.buccancs.shared.protocol.*`.
+
+Feature Migration Sequence (Android)
+------------------------------------
+1. **Settings**
+   - Files: `ui/settings/SettingsScreen.kt`, `ui/settings/SettingsViewModel.kt`, relevant `data/network` preferences.
+   - Actions: Introduce `feature/settings` tree; extract use cases (e.g., network toggles) into `feature/settings/domain`.
+2. **Calibration**
+   - Files: `ui/calibration/*`, `data/calibration/*`, `application/control/DefaultDeviceCommandService`.
+   - Actions: Move ViewModel into `feature/calibration/presentation`; split sensor adapters into `feature/calibration/data`.
+3. **Live Session**
+   - Files: `ui/session/*`, `data/recording/*`, `data/transfer/*`, `domain/model`.
+   - Actions: Align session recording repositories, create `feature/session` slice, ensure manifest writers grouped.
+4. **Library**
+   - Files: `ui/library/*`, `data/storage/*`.
+   - Actions: Provide `feature/library/data/storage` with repository interfaces; ensure shared models in `shared/domain`.
+5. **Topdon**
+   - Files: `ui/topdon/*`, `data/sensor/topdon/*`, vendor adapters in `sdk`.
+   - Actions: Introduce adapter interface in `feature/topdon/data/adapter`; update DI modules.
+6. **Debug**
+   - Files: `ui/debug/*`, relevant instrumentation services.
+   - Actions: Decide whether debug tooling lives under `feature/debug` or `core/debug`; document limitations.
+
+Desktop Work Packages
+---------------------
+- **Data layer realignment:** `desktop/data/repository` -> `desktop/data/<bounded-context>` (session, device, preview, retention).
+- **Domain policies:** move `domain/policy/*` to `domain/policy` or `domain/usecase`.
+- **UI decomposition:** `DesktopApp.kt`, `AppUiState.kt`, `Main.kt` to be reorganized under `ui/app` with separated navigation.
+- **Presentation:** `AppViewModel.kt` moves to `presentation/app`, references feature-specific use cases housed in `domain`.
+- **DI graph:** verify `desktop/di/AppGraph.kt` imports new package paths; consider splitting into `di/core`, `di/feature`.
+
+Protocol Regeneration Checklist
+-------------------------------
+1. Update every `.proto` file `option java_package` to `com.buccancs.shared.protocol`.
+2. Confirm `build.gradle.kts` tasks (`generateProto`, `protocGenerate` or equivalent) point to new output directory.
+3. Run regeneration locally; delete stale generated sources under `protocol/bin`.
+4. Update `settings.gradle.kts` to include new `shared` module dependencies where protocol models are consumed.
+5. Adjust imports in `app`, `desktop`, and any shared modules to new namespace.
+6. Document regeneration command in `docs/architecture/refactor-plan.md` and `dev-diary.txt`.
+
+Phase 0 - Governance and Documentation
+--------------------------------------
+0.1 Schedule kickoff with stakeholders; confirm scope, constraints, and rollout order.
+0.2 Draft `docs/architecture/refactor-plan.md` capturing:
+    - Target package map (`core`, `data`, `domain`, `presentation`, `feature`, `di`, `ui`).
+    - Module responsibilities and dependency rules.
+    - DI strategy (Hilt on Android, chosen DI on desktop).
+0.3 Record decision in `dev-diary.txt` with owner, date, rationale, and initial risk assessment.
+0.4 Update architecture diagrams (`feature_module_diagram.md`, `navigation_diagram.md`, `shimmer_*`) with “current vs target” overlays.
+0.5 Flag relevant backlog items in `BACKLOG.txt` to track progress across phases.
+
+Phase 1 – Shared Foundations and Protocol Realignment
+------------------------------------------------------
+1.1 Introduce `shared` Gradle module:
+    - Add module entry in `settings.gradle.kts`.
+    - Configure `build.gradle.kts` with Kotlin, serialization, and common dependencies.
+1.2 Relocate shared utilities:
+    - Move time, logging, dispatcher utilities, and result wrappers into `shared/src/main/kotlin/com/buccancs/shared/core/common`.
+    - Provide extension functions under `shared/.../util`.
+1.3 Expose domain contracts reusable by Android/desktop:
+    - Create `shared/.../domain/model` for cross-platform models.
+    - Move protocol-facing facades or request types that are not platform-specific.
+1.4 Regenerate protocol stubs:
+    - Update `.proto` files with `option java_package = "com.buccancs.shared.protocol"`.
+    - Run Gradle/protoc task to regenerate Kotlin stubs into `protocol/src/main/kotlin/com/buccancs/shared/protocol`.
+    - Verify compilation for both front ends after adjusting imports.
+1.5 Update documentation:
+    - Note module addition + protocol namespace shift in `README.md`.
+    - Add manual verification steps to `dev-diary.txt`.
+
+Phase 2 – Android Core and Data Layer Migration
+-----------------------------------------------
+2.1 Prepare package scaffolding under `app/src/main/java/com/buccancs/app`:
+    - `core/common`, `core/network`, `core/util`.
+    - `data/<bounded-context>` directories (calibration, orchestration, performance, recording, sensor, topdon, etc.).
+    - `di` for Hilt modules.
+2.2 Move `BuccancsApplication.kt` and entry-point DI setup into `app/.../di`.
+2.3 Relocate repositories and services:
+    - Each repository interface + implementation under `data/<context>`.
+    - Maintain adapters to vendor SDKs within `data/<context>/adapter` packages.
+2.4 Refactor gRPC/orchestration utilities:
+    - Place channel factories, token issuance, MDNS helpers under `data/orchestration` or `core/network` as appropriate.
+2.5 Update imports and DI bindings:
+    - Ensure Hilt modules reference new package paths.
+    - Replace direct constructor calls with DI-provided instances where missing.
+2.6 Validate vendor SDK touchpoints:
+    - Catalogue usages of `sdk/libs` and `external` classes.
+    - Introduce adapter interfaces (`TopdonCameraAdapter`, `ShimmerSensorAdapter`, etc.) housed under `data/<context>/adapter`.
+2.7 Align persistence/manifest writers:
+    - Move `ManifestWriter`, storage helpers, and cache directories into consistent `data/<context>/storage` packages.
+2.8 Document manual verification in `dev-diary.txt` (e.g., build output, smoke test results).
+
+Phase 3 - Android Domain, Presentation, and UI Realignment
+----------------------------------------------------------
+3.1 Establish `domain/model` and `domain/usecase`:
+    - Define or relocate domain-specific models separate from DTOs.
+    - Wrap complex repository calls in use cases as needed to ease ViewModel consumption.
+3.2 Create `presentation` layer:
+    - `presentation/state` for immutable state holders.
+    - `presentation/navigation` for NavHost, destination routes, and graph helpers.
+3.3 Organize features under `feature/<FeatureName>`:
+    - Mirror subpackages: `data`, `domain`, `presentation`, `ui`.
+    - Identify existing screens/features (`calibration`, `session`, `settings`, `topdon`, `debug`) and plan migration order, starting with least coupled.
+    - Move existing Compose screens (`<FeatureName>Screen`) into `.../ui`.
+    - Relocate ViewModels into `.../presentation`, exposing state via `StateFlow`/`ImmutableState`.
+    - Position feature-specific repositories/use cases inside feature boundaries when they are not shared.
+3.4 Update navigation wiring to reference relocated screens/ViewModels.
+3.5 Remove deprecated/duplicate utilities revealed during the move.
+3.6 Update `MainScreen` and `MainViewModel` references to new feature packages and ensure navigation graph cleanly imports.
+3.7 Record manual verification: run `./gradlew :app:assembleDebug`, launch agent if possible, note in `dev-diary.txt`.
+
+Phase 4 - Desktop Module Alignment
+----------------------------------
+4.1 Create equivalent package structure for `desktop/src/main/kotlin/com/buccancs/desktop`:
+    - `core`, `data`, `domain`, `presentation`, `ui`, `di`.
+4.2 Migrate repositories, data sources, and retention managers into `data/*`.
+4.3 Relocate domain models and policies into `domain/*`.
+4.4 Move Compose Desktop screens and UI state into `ui/<ScreenName>`.
+4.5 Centralize DI wiring under `di` (Koin/Hilt or manual).
+4.6 Ensure orchestrator uses `shared` module + updated protocol stubs.
+4.7 Build desktop target (`./gradlew :desktop:run`) and log results in `dev-diary.txt`.
+4.8 Cross-check shared models:
+    - Confirm domain models reused by both platforms now live in `shared`.
+    - Update import paths in desktop repositories/ViewModels accordingly.
+4.9 Evaluate `desktop/bin` generated sources; clean stale directories as packages move.
+
+Phase 5 - Integration, Tooling, and Cleanup
+-------------------------------------------
+5.1 Search for package violations:
+    - Run structural search or custom script to confirm no files remain in legacy packages.
+    - Remove empty directories after moves.
+5.2 Execute `./gradlew assemble` to ensure all modules compile.
+5.3 Update documentation:
+    - Refresh `README.md`, architecture diagrams, `PROJECT_TODO.md`, and relevant docs.
+    - Summarize refactor, risks, and follow-ups in `dev-diary.txt`.
+5.4 Review backlog items and mark completed tasks; add new follow-ups discovered during work.
+5.5 Prepare PR guidance:
+    - Outline manual test checklist.
+    - List affected modules (`app`, `desktop`, `protocol`, `shared`).
+5.6 Groom developer tooling:
+    - If ktlint/detekt configured, update rulesets to enforce package layout.
+    - Add Gradle check (simple Kotlin script) ensuring screens reside under `feature/*/ui`.
+5.7 Update `app-testSupport` references once main modules stabilized; ensure helper classes align with new package names.
+
+Acceptance Criteria
+-------------------
+- Build passes with `./gradlew assemble` and module-specific assemble tasks.
+- Android and desktop applications launch without DI or runtime exceptions.
+- All Kotlin packages reflect target structure; no lingering legacy namespaces.
+- Compose screens adhere to `<ScreenName>Screen` naming and reside under feature UI packages.
+- ViewModels surface immutable state flows from `presentation` packages.
+- Vendor SDK usage isolated behind adapter interfaces in `data` layer.
+- Protocol stubs generated under `com.buccancs.shared.protocol` and consumed by both front ends.
+- Documentation (README, diagrams, dev diary) reflects new structure and verification.
+- Backlog entries referencing structural debt closed or updated with new context.
+- `app-testSupport` utilities compile without referencing removed legacy packages.
+
+Dependencies & Tooling Needs
+----------------------------
+- IDE or script support for bulk package renaming (IntelliJ refactor, custom Kotlin AST tooling).
+- Gradle tasks for protoc regeneration aligned with new package.
+- Optional lint/detekt rule updates to enforce package conventions.
+- Command snippets for repeatable verification:
+    - `./gradlew :app:assembleDebug`
+    - `./gradlew :desktop:run`
+    - `./gradlew protocGenerate`
+- Static analysis sweep:
+    - Run `rg "package com\\.buccancs"` pre/post migrations to ensure no stray namespaces.
+    - Add temporary script in `tools/migrations/verify-packages.ps1` to validate structure during PR review.
+- Migration helper repository:
+    - Consider adding `tools/migrations/package-map.json` to list legacy-to-target conversions for automated scripts.
+
+Risks & Mitigations
+-------------------
+- **Risk:** Broken DI graph during incremental moves.
+  - *Mitigation:* Migrate feature by feature, run assemble after each batch, rely on Hilt lint output.
+- **Risk:** Protocol namespace mismatch causing build failures.
+  - *Mitigation:* Update proto options and regenerate stubs before relocating consumers.
+- **Risk:** Vendor SDK wrappers regress functionality.
+  - *Mitigation:* Maintain adapter tests/manual smoke checks; document verification in `dev-diary.txt`.
+- **Risk:** Documentation drift.
+  - *Mitigation:* Update docs concurrently per phase with peer review.
+- **Risk:** Large Git diff makes review difficult.
+  - *Mitigation:* Submit phased PRs aligned with plan; keep commit subjects scoped (e.g., `Refactor app calibration feature packages`).
+- **Risk:** Generated sources (protocol) conflict with shared module classes.
+  - *Mitigation:* Adopt consistent namespace, ensure Gradle source set ordering prevents duplicate classpaths.
+- **Risk:** Missed vendor dependency updates after adapter extraction.
+  - *Mitigation:* Create checklist for each vendor integration (Topdon, Shimmer, media capture) and validate manually.
+
+Next Actions
+------------
+1. Review plan with stakeholders, adjust scope/order if needed.
+2. Create `shared` module scaffolding and update settings.gradle.kts.
+3. Schedule Android feature migrations in manageable increments, tracking progress via backlog items.
+4. Set up verification checklist for each phase (build, runtime smoke tests, doc updates).
+5. Catalogue existing features/components (calibration, session, settings, topdon, debug) to determine migration order.
+6. Draft ADR for shared module introduction and protocol namespace change for archival.
+7. Investigate `app-testSupport` alignment requirements; decide to include or defer.
+8. Prototype protocol regeneration with new package on a feature branch before large-scale move.
+9. Build migration scripts referencing `package-map.json` for batch refactors.
+10. Define smoke test checklist including Android session start, desktop orchestrator start, and protocol command exchange.
+
+Smoke Test Checklist (Per Phase)
+-------------------------------
+- Launch Android agent, verify:
+  - Main screen renders navigation destinations.
+  - Calibration screen loads sensor data.
+  - Settings toggles persist selections.
+- Run desktop orchestrator:
+  - Start session workflow using mock device.
+  - Confirm data retention policy triggers as expected.
+- Trigger protocol commands between app and desktop to ensure `shared.protocol` changes propagated.
+- Log outcomes in `dev-diary.txt` with timestamps and responsible engineer.
+
+Effort Estimate & Staffing
+--------------------------
+- Phase 0 (Governance, docs): ~1 engineer-week for ADRs, diagram updates, coordination.
+- Phase 1 (Shared foundations, protocol): ~1.5 engineer-weeks including regeneration validation.
+- Phase 2 (Android core/data): ~2 engineer-weeks; recommend 2 engineers pairing on Hilt + adapter refactors.
+- Phase 3 (Android presentation/UI): ~2 engineer-weeks; coordinate with design/product due to navigation reshuffle.
+- Phase 4 (Desktop alignment): ~1.5 engineer-weeks; one engineer familiar with orchestrator domain recommended.
+- Phase 5 (Integration/cleanup): ~1 engineer-week for verification, documentation, and tooling upgrades.
+- Buffer: allocate additional ~1 engineer-week for unforeseen adapter issues or vendor SDK quirks.
+- Suggested staffing: 3 engineers rotating per phase, 1 tech lead overseeing cross-module consistency, 1 documentation owner.

@@ -84,6 +84,19 @@
   - `tools/build/creeping_build.sh` provides a "creeping" build harness that iterates Gradle tasks, captures logs for
     each step, and continues past failures so CI/local runs do not abort on the first module.
 
+## Current State and Technical Debt
+
+**Implementation Status:** ~70% complete (Android: 85%, Desktop: 50%)
+
+See `TECHNICAL_DEBT_ANALYSIS_2025-10-13.md` for comprehensive gap analysis, including:
+- Critical blockers: desktop orchestrator completion, testing infrastructure, time sync validation
+- 18 major gap areas with prioritized 14-20 week roadmap
+- NFR validation status: 0% (all non-functional requirements unverified)
+- Test coverage: 4% (33 test files across 820 Kotlin files, all tests currently disabled)
+- Risk assessment and immediate action items
+
+See `CODE_QUALITY_ANALYSIS_2025-10-13.md` for deep code quality analysis.
+
 ## Pending Focus
 
 - Run a full multi-device soak (2x Shimmer, 2x Topdon) to validate sync accuracy, transfer retries, and retention
