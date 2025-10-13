@@ -1,21 +1,33 @@
 package com.buccancs.data.sensor.connector.camera
 
-import com.buccancs.util.nowInstant
 import android.annotation.SuppressLint
 import android.graphics.ImageFormat
+import android.graphics.Rect
+import android.graphics.YuvImage
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CaptureRequest
+import android.hardware.camera2.CaptureResult
+import android.hardware.camera2.TotalCaptureResult
+import android.hardware.camera2.params.StreamConfigurationMap
+import android.hardware.camera2.DngCreator
+import android.media.Image
 import android.media.ImageReader
 import android.media.MediaRecorder
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.SystemClock
 import android.util.Log
+import android.util.Range
 import android.util.Size
 import android.view.Surface
+import com.buccancs.data.preview.PreviewStreamClient
+import com.buccancs.data.preview.PreviewStreamEmitter
+import com.buccancs.data.sensor.MetadataWriters
+import com.buccancs.data.sensor.SessionClock
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
@@ -29,19 +41,24 @@ import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.datetime.Instant
 import java.io.File
 import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.security.DigestInputStream
 import java.security.MessageDigest
 import javax.inject.Inject
+import kotlin.io.DEFAULT_BUFFER_SIZE
+import kotlin.math.absoluteValue
+import kotlin.math.max
+import kotlin.math.min
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.math.absoluteValue
 
 @Singleton
 internal class RgbCameraConnector @Inject constructor(
@@ -307,7 +324,7 @@ internal class RgbCameraConnector @Inject constructor(
         surfaces += recorderSurface
         surfaces += reader.surface
         try {
-            suspendCancellableCoroutine { continuation ->
+            suspendCancellableCoroutine<Unit> { continuation ->
                 device.createCaptureSession(
                     surfaces,
                     object : CameraCaptureSession.StateCallback() {

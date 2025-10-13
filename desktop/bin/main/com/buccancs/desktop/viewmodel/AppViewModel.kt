@@ -512,7 +512,9 @@ class AppViewModel(
 
         return AppUiState(
             session = sessionSummary,
-            devices = base.devices.map { device ->
+            devices = base.devices
+                .sortedWith(compareByDescending<DeviceInfo> { it.connected }.thenBy { it.id })
+                .map { device ->
                 DeviceListItem(
                     id = device.id,
                     model = device.model,

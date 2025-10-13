@@ -1,0 +1,56 @@
+2025-10-12
+- Exposed RGB camera Material 3 control panel (FPS/bitrate/RAW cadence/exposure/ISO/focus/AWB) and routed updates through SensorRepository.configure.
+- Synced camera settings into connector attributes so the UI stays accurate and added backlog follow-up for on-device throughput validation.
+
+2025-10-12
+- Enabled 4K/60 RGB recording with Camera2 overrides and periodic RAW (DNG) capture; artifacts ride the existing session queue.
+- Added configurable camera settings plumbing plus repository configure hook, refreshed README/backlog, and disabled all Gradle tests.
+
+2025-10-12
+- Added DeviceOrchestratorBridge so the Android agent auto-registers and sends gRPC heartbeats.
+- Introduced PreviewStreamUploader skeleton ready for camera connectors.
+- Wired RGB and thermal connectors to publish throttled preview frames back to the desktop UI.
+- Desktop command repository now replays the latest start/stop state to reconnecting devices for session continuity.
+- GSR connector records a local CSV per session and hands it off for transfer, ensuring data survives brief outages.
+- Added BLE scanning and configurable GSR range/sample-rate controls to the Shimmer device flow in the Compose UI.
+- Disabled desktop tests and refreshed repo docs/backlog to reflect current scope.
+
+2025-10-12
+- Implemented dedicated Topdon TC001 flow with Compose navigation, live preview screen, and hardware control wiring.
+- Added DataStore-backed Topdon settings (auto-connect, palette, super sampling, FPS) and pushed values into the connector pipeline.
+- Extended Topdon connector to stream super-sampled previews locally and adjust remote payload metadata.
+
+
+2025-10-12
+- Cleaned calibration pipeline typing to resolve Mat conversions and restored OpenCV init path for Android.
+- Hardened preview upload/queues and moved shimmer emissions onto the application scope to avoid suspend-context leaks.
+- Reworked dashboard UI to expose Topdon console access and non-Exposed dropdown controls.
+- Added Topdon metadata artifacts (JSON) alongside raw thermal captures so they enter the existing transfer queue.
+
+
+2025-10-12
+- Applied time-sync offsets to command scheduling so sync flashes and start/stop commands line up with the orchestrator clock.
+- Documented the updated sync behaviour for the current repository snapshot.
+- Wired audio, RGB, and thermal connectors to stamp recordings with orchestrator-aligned metadata so analysis inherits consistent timelines.
+
+2025-10-13
+- Introduced multi-device connector managers for Shimmer and Topdon using the hardware inventory asset and in-memory settings per device.
+- Refactored the sensor repository and Topdon device repository to stream multiple endpoints simultaneously with per-device preview control.
+- Documented the new `device-inventory.json` workflow and queued follow-ups for UI surfacing and automated inventory backfill.
+
+2025-10-13
+- Sanitised desktop and Android UI copy to stay ASCII-safe across the Compose stacks.
+- Refreshed README/backlog to capture the completed desktop console, sync pipeline, calibration tooling, and post-session transfer flow.
+
+2025-10-13
+- Added hardware inventory Compose section with per-device status, active Topdon selection, and persisted updates back into the configuration repository.
+- Implemented multi-device recording exercise runner + UI card, capturing per-device stream verification and surfaced results in the dashboard.
+
+2025-10-13
+- Split orchestration logic into application services (recording, device commands, time sync) and updated Hilt modules plus consumers.
+- Staged control networking foundations: control.proto, ControlServer skeleton, token issuance/interceptor, and mDNS advertiser/browser.
+- Extended README/backlog with the new control-service roadmap and captured follow-ups for heartbeat wiring and sync telemetry UI.
+
+2025-10-13
+- Started the on-device ControlServer from DeviceCommandService, merged local command traffic with orchestrator subscriptions, and exposed token issuance via `issueLocalToken`.
+- Added BuildConfig-driven control port, fed local commands through existing flows, and updated docs/backlog for the next integration tasks.

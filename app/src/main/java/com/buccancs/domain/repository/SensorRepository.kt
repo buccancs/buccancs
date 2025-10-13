@@ -16,6 +16,7 @@ interface SensorRepository {
     suspend fun refreshInventory()
     suspend fun connect(deviceId: DeviceId)
     suspend fun disconnect(deviceId: DeviceId)
+    suspend fun configure(deviceId: DeviceId, options: Map<String, String>)
     suspend fun setSimulationEnabled(enabled: Boolean)
     suspend fun startStreaming(anchor: RecordingSessionAnchor)
     suspend fun stopStreaming(): RecordingSessionAnchor?

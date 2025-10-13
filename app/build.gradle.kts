@@ -28,6 +28,7 @@ android {
         buildConfigField("String", "ORCHESTRATOR_HOST", "\"$orchestratorHost\"")
         buildConfigField("int", "ORCHESTRATOR_PORT", orchestratorPort.toString())
         buildConfigField("boolean", "ORCHESTRATOR_USE_TLS", "false")
+        buildConfigField("int", "CONTROL_SERVER_PORT", "53050")
     }
 
     buildTypes {
@@ -97,6 +98,7 @@ dependencies {
     implementation(files("../sdk/libs/topdon.aar"))
     implementation(libs.grpc.okhttp)
     implementation(libs.grpc.android)
+    implementation(libs.grpc.netty.shaded)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

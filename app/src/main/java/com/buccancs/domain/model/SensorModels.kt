@@ -16,6 +16,7 @@ enum class SensorDeviceType {
 enum class SensorStreamType {
     GSR,
     RGB_VIDEO,
+    RAW_DNG,
     THERMAL_VIDEO,
     AUDIO,
     PREVIEW
@@ -71,9 +72,26 @@ data class RecordingState(
     val updatedAt: Instant
 )
 
+enum class TimeSyncQuality {
+    UNKNOWN,
+    GOOD,
+    FAIR,
+    POOR
+}
+
+data class TimeSyncObservation(
+    val timestamp: Instant,
+    val offsetMillis: Double,
+    val roundTripMillis: Double
+)
+
 data class TimeSyncStatus(
     val offsetMillis: Long,
     val roundTripMillis: Long,
     val lastSync: Instant,
-    val driftEstimateMillis: Double
+    val driftEstimateMillisPerMinute: Double,
+    val filteredRoundTripMillis: Double,
+    val quality: TimeSyncQuality,
+    val sampleCount: Int,
+    val regressionSlopeMillisPerMinute: Double
 )

@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package com.buccancs.control.sync;
+
+option java_package = "com.buccancs.control.sync";
+option java_multiple_files = true;
+
+service LocalControl {
+  rpc PushCommand(CommandEnvelope) returns (CommandAck);
+  rpc StreamEvents(EventSubscription) returns (stream ControlEvent);
+}
+
+message CommandEnvelope {
+  string command_id = 1;
+  string session_id = 2;
+  string payload_json = 3;
+  int64 execute_epoch_ms = 4;
+  string token = 5;
+}
+
+message CommandAck {
+  string command_id = 1;
+  bool accepted = 2;
+  string reason = 3;
+}
+
+message EventSubscription {
+  string session_id = 1;
+  string token = 2;
+}
+
+message ControlEvent {
+  string event_id = 1;
+  string session_id = 2;
+  string type = 3;
+  string detail_json = 4;
+  int64 timestamp_epoch_ms = 5;
+}
+

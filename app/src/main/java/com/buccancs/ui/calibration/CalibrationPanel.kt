@@ -161,7 +161,7 @@ fun CalibrationPanel(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
-                                text = "${capture.id} • ${capture.capturedAt}",
+                                text = "${capture.id} - ${capture.capturedAt}",
                                 style = MaterialTheme.typography.bodySmall
                             )
                             TextButton(
@@ -181,7 +181,7 @@ fun CalibrationPanel(
                     style = MaterialTheme.typography.titleSmall
                 )
                 Text(
-                    text = "Pairs used: ${result.usedPairs} • RMS: ${"%.4f".format(result.meanReprojectionError)}",
+                    text = "Pairs used: ${result.usedPairs} - RMS: ${"%.4f".format(result.meanReprojectionError)}",
                     style = MaterialTheme.typography.bodySmall
                 )
                 if (result.perViewErrors.isNotEmpty()) {

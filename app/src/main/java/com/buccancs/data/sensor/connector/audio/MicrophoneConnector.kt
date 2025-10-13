@@ -1,9 +1,11 @@
 package com.buccancs.data.sensor.connector.audio
 
-import com.buccancs.util.nowInstant
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
+import android.os.SystemClock
+import com.buccancs.data.sensor.MetadataWriters
+import com.buccancs.data.sensor.SessionClock
 import android.util.Log
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
@@ -24,12 +26,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
 import java.io.File
 import java.io.RandomAccessFile
 import java.security.MessageDigest
+import kotlin.text.Charsets
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
+import kotlin.io.DEFAULT_BUFFER_SIZE
 
 @Singleton
 internal class MicrophoneConnector @Inject constructor(
@@ -61,6 +66,8 @@ internal class MicrophoneConnector @Inject constructor(
     private var bytesWritten: Long = 0
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
     private var pcmScratch = ByteArray(0)
+    @Volatile
+    private var sessionClock: SessionClock? = null
     override suspend fun refreshInventory() {
         if (isSimulationMode) {
             super.refreshInventory()
@@ -71,6 +78,7 @@ internal class MicrophoneConnector @Inject constructor(
         if (enabled) {
             stopHardwareRecording()
             releaseAudioRecord()
+            sessionClock = null
         }
         super.applySimulation(enabled)
     }
@@ -84,7 +92,7 @@ internal class MicrophoneConnector @Inject constructor(
             deviceState.update {
                 it.copy(
                     connectionStatus = ConnectionStatus.Connected(
-                        since = nowInstant(),
+                        since = deviceNowInstant(),
                         batteryPercent = null,
                         rssiDbm = null
                     ),
@@ -120,9 +128,11 @@ internal class MicrophoneConnector @Inject constructor(
             return super.startStreaming(anchor)
         }
         return try {
+            sessionClock = SessionClock.fromAnchor(anchor)
             val record = ensureAudioRecord()
             prepareOutputFile(anchor.sessionId)
             record.startRecording()
+            sessionClock = sessionClock?.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
             if (recordingJob?.isActive == true) {
                 recordingJob?.cancel()
             }
@@ -137,14 +147,14 @@ internal class MicrophoneConnector @Inject constructor(
                     }
                     if (read > 0) {
                         writePcmSamples(shortBuffer, read)
-                        val now = nowInstant()
+                        val alignedNow = alignedNowInstant()
                         val bufferedSeconds = read.toDouble() / SAMPLE_RATE_HZ.toDouble()
                         val status = SensorStreamStatus(
                             deviceId = deviceId,
                             streamType = SensorStreamType.AUDIO,
                             sampleRateHz = SAMPLE_RATE_HZ.toDouble(),
                             frameRateFps = null,
-                            lastSampleTimestamp = now,
+                            lastSampleTimestamp = alignedNow,
                             bufferedDurationSeconds = bufferedSeconds,
                             isStreaming = true,
                             isSimulated = false
@@ -156,6 +166,7 @@ internal class MicrophoneConnector @Inject constructor(
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to start microphone streaming", t)
+            sessionClock = null
             DeviceCommandResult.Failed(t)
         }
     }
@@ -168,9 +179,11 @@ internal class MicrophoneConnector @Inject constructor(
             stopHardwareRecording()
             finalizeRecording()
             statusState.value = emptyList()
+            sessionClock = null
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to stop microphone streaming", t)
+            sessionClock = null
             DeviceCommandResult.Failed(t)
         }
     }
@@ -296,8 +309,11 @@ internal class MicrophoneConnector @Inject constructor(
     private fun finalizeRecording() {
         val writer = audioWriter ?: return
         val file = audioFile
+        val clockSnapshot = sessionClock
+        val sessionIdSnapshot = currentSessionId
+        val bytesCaptured = bytesWritten
         try {
-            writeWavHeader(writer, SAMPLE_RATE_HZ, CHANNEL_COUNT, BITS_PER_SAMPLE, bytesWritten)
+            writeWavHeader(writer, SAMPLE_RATE_HZ, CHANNEL_COUNT, BITS_PER_SAMPLE, bytesCaptured)
         } catch (t: Throwable) {
             Log.w(logTag, "Unable to finalise WAV header", t)
         } finally {
@@ -307,19 +323,53 @@ internal class MicrophoneConnector @Inject constructor(
             }
             audioWriter = null
         }
-        val artifactFile = file
-        if (artifactFile != null && artifactFile.exists()) {
+        if (file != null && file.exists()) {
             val checksum = audioDigest?.digest() ?: ByteArray(0)
             val artifact = SessionArtifact(
                 deviceId = deviceId,
                 streamType = SensorStreamType.AUDIO,
-                file = artifactFile,
+                file = file,
                 mimeType = "audio/wav",
-                sizeBytes = artifactFile.length(),
+                sizeBytes = file.length(),
                 checksumSha256 = checksum
             )
             pendingArtifacts += artifact
-            completedSessionId = currentSessionId
+            val metadataSessionId = sessionIdSnapshot ?: clockSnapshot?.sessionId ?: deviceId.value
+            val entries = mutableListOf<Pair<String, String>>().apply {
+                add("sessionId" to MetadataWriters.stringValue(metadataSessionId))
+                add("deviceId" to MetadataWriters.stringValue(deviceId.value))
+                add("streamType" to MetadataWriters.stringValue("audio_wav"))
+                add("artifactFile" to MetadataWriters.stringValue(file.name))
+                val anchorEpoch = clockSnapshot?.let { it.anchorEpochMs + it.clockOffsetMs } ?: System.currentTimeMillis()
+                add("anchorEpochMs" to anchorEpoch.toString())
+                clockSnapshot?.let { add("clockOffsetMs" to it.clockOffsetMs.toString()) }
+                clockSnapshot?.startDeviceEpochMs?.let { add("deviceStartEpochMs" to it.toString()) }
+                clockSnapshot?.startAlignedEpochMillis()?.let { add("alignedStartEpochMs" to it.toString()) }
+                clockSnapshot?.durationSinceStartMs(SystemClock.elapsedRealtimeNanos())?.let { duration ->
+                    add("durationMs" to duration.toString())
+                    clockSnapshot.startAlignedEpochMillis()?.let { start ->
+                        add("alignedEndEpochMs" to (start + duration).toString())
+                    }
+                }
+                add("sampleRateHz" to SAMPLE_RATE_HZ.toString())
+                add("channelCount" to CHANNEL_COUNT.toString())
+                add("bitsPerSample" to BITS_PER_SAMPLE.toString())
+                add("bytesCaptured" to bytesCaptured.toString())
+                add("checksumSha256" to MetadataWriters.stringValue(checksum.toHexString()))
+            }
+            val directory = file.parentFile ?: recordingStorage.deviceDirectory(metadataSessionId, deviceId.value)
+            val metadataFile = File(directory, "${file.nameWithoutExtension}-timeline.json")
+            MetadataWriters.writeMetadata(metadataFile, entries)
+            val metadataChecksum = digestFile(metadataFile)
+            pendingArtifacts += SessionArtifact(
+                deviceId = deviceId,
+                streamType = SensorStreamType.AUDIO,
+                file = metadataFile,
+                mimeType = "application/json",
+                sizeBytes = metadataFile.length(),
+                checksumSha256 = metadataChecksum
+            )
+            completedSessionId = metadataSessionId
         }
         audioDigest = null
         audioFile = null
@@ -371,6 +421,35 @@ internal class MicrophoneConnector @Inject constructor(
         this[offset] = (value and 0xFF).toByte()
         this[offset + 1] = ((value shr 8) and 0xFF).toByte()
     }
+
+    private fun deviceNowInstant(): Instant =
+        Instant.fromEpochMilliseconds(System.currentTimeMillis())
+
+    private fun alignedInstant(instant: Instant): Instant {
+        val clock = sessionClock ?: return instant
+        val alignedMs = clock.alignDeviceEpoch(instant.toEpochMilliseconds())
+        return Instant.fromEpochMilliseconds(alignedMs)
+    }
+
+    private fun alignedNowInstant(): Instant = alignedInstant(deviceNowInstant())
+
+    private fun digestFile(file: File): ByteArray {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().use { stream ->
+            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            while (true) {
+                val read = stream.read(buffer)
+                if (read <= 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        return digest.digest()
+    }
+
+    private fun ByteArray.toHexString(): String =
+        joinToString(separator = "") { byte ->
+            ((byte.toInt() and 0xFF) + 0x100).toString(16).substring(1)
+        }
 
     companion object {
         private const val SAMPLE_RATE_HZ = 44_100

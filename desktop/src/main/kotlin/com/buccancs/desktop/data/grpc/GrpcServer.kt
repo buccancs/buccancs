@@ -37,6 +37,7 @@ import com.buccancs.desktop.data.repository.DeviceRepository
 import com.buccancs.desktop.data.repository.PreviewRepository
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.domain.model.DeviceInfo
+import com.buccancs.desktop.domain.model.SessionStatus
 import io.grpc.Server
 import io.grpc.Status
 import io.grpc.StatusException
@@ -186,10 +187,18 @@ private class OrchestrationServiceImpl(
             sessionId = active?.id
         )
         logger.info("Device {} registered", request.deviceId)
-        return registrationAck {
+        val ack = registrationAck {
             accepted = true
             sessionId = active?.id ?: ""
         }
+        if (active != null && active.status == SessionStatus.ACTIVE) {
+            runCatching {
+                commandRepository.replayRecordingState(active.id, request.deviceId)
+            }.onFailure { ex ->
+                logger.warn("Unable to replay recording state to {}", request.deviceId, ex)
+            }
+        }
+        return ack
     }
 
     override suspend fun startSession(request: com.buccancs.control.StartSessionRequest): CommandAck = try {

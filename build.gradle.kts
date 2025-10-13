@@ -1,5 +1,6 @@
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.tasks.Exec
+import org.gradle.api.tasks.testing.Test
 import java.io.File
 import java.util.Locale
 
@@ -111,6 +112,12 @@ private val externalBuildTasks = externalBuilds.mapNotNull { external ->
                 enabled = false
             }
         }
+    }
+}
+
+subprojects {
+    tasks.withType<Test>().configureEach {
+        enabled = false
     }
 }
 

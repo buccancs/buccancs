@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -27,6 +28,7 @@ import org.opencv.android.Utils
 import org.opencv.calib3d.Calib3d
 import org.opencv.core.CvType
 import org.opencv.core.Mat
+import org.opencv.core.MatOfDouble
 import org.opencv.core.MatOfPoint2f
 import org.opencv.core.MatOfPoint3f
 import org.opencv.core.Point3
@@ -203,9 +205,9 @@ class DefaultCalibrationRepository @Inject constructor(
         captures: List<CalibrationCapture>
     ): CalibrationResult {
         val patternSize = Size(pattern.cols.toDouble(), pattern.rows.toDouble())
-        val objectPoints = ArrayList<Mat>()
-        val rgbPoints = ArrayList<Mat>()
-        val thermalPoints = ArrayList<Mat>()
+        val objectPoints = ArrayList<MatOfPoint3f>()
+        val rgbPoints = ArrayList<MatOfPoint2f>()
+        val thermalPoints = ArrayList<MatOfPoint2f>()
         val rgbSize = Size(
             captures.first().rgb.width.toDouble(),
             captures.first().rgb.height.toDouble()
@@ -301,7 +303,7 @@ class DefaultCalibrationRepository @Inject constructor(
     private data class SingleCalibration(
         val rms: Double,
         val cameraMatrix: Mat,
-        val distortion: Mat,
+        val distortion: MatOfDouble,
         val rvecs: List<Mat>,
         val tvecs: List<Mat>,
         val imageSize: Size
@@ -347,18 +349,18 @@ class DefaultCalibrationRepository @Inject constructor(
     )
 
     private fun calibrateSingleCamera(
-        objectPoints: List<Mat>,
-        imagePoints: List<Mat>,
+        objectPoints: List<MatOfPoint3f>,
+        imagePoints: List<MatOfPoint2f>,
         imageSize: Size
     ): SingleCalibration {
         val cameraMatrix = Mat.eye(3, 3, CvType.CV_64F)
-        val distortion = Mat.zeros(8, 1, CvType.CV_64F)
+        val distortion = MatOfDouble()
         val rvecs = mutableListOf<Mat>()
         val tvecs = mutableListOf<Mat>()
         val flags = Calib3d.CALIB_RATIONAL_MODEL or Calib3d.CALIB_FIX_K4 or Calib3d.CALIB_FIX_K5
         val rms = Calib3d.calibrateCamera(
-            objectPoints,
-            imagePoints,
+            objectPoints.map { it as Mat },
+            imagePoints.map { it as Mat },
             imageSize,
             cameraMatrix,
             distortion,
@@ -378,9 +380,9 @@ class DefaultCalibrationRepository @Inject constructor(
     }
 
     private fun performStereoCalibration(
-        objectPoints: List<Mat>,
-        rgbPoints: List<Mat>,
-        thermalPoints: List<Mat>,
+        objectPoints: List<MatOfPoint3f>,
+        rgbPoints: List<MatOfPoint2f>,
+        thermalPoints: List<MatOfPoint2f>,
         rgbSize: Size,
         rgbIntrinsic: SingleCalibration,
         thermalIntrinsic: SingleCalibration
@@ -391,9 +393,9 @@ class DefaultCalibrationRepository @Inject constructor(
         val fundamental = Mat()
         val flags = Calib3d.CALIB_FIX_INTRINSIC
         val rms = Calib3d.stereoCalibrate(
-            objectPoints,
-            rgbPoints,
-            thermalPoints,
+            objectPoints.map { it as Mat },
+            rgbPoints.map { it as Mat },
+            thermalPoints.map { it as Mat },
             rgbIntrinsic.cameraMatrix,
             rgbIntrinsic.distortion,
             thermalIntrinsic.cameraMatrix,
@@ -429,9 +431,9 @@ class DefaultCalibrationRepository @Inject constructor(
     }
 
     private fun computeAveragePerViewErrors(
-        objectPoints: List<Mat>,
-        rgbPoints: List<Mat>,
-        thermalPoints: List<Mat>,
+        objectPoints: List<MatOfPoint3f>,
+        rgbPoints: List<MatOfPoint2f>,
+        thermalPoints: List<MatOfPoint2f>,
         rgbCalibration: SingleCalibration,
         thermalCalibration: SingleCalibration
     ): List<Double> {
@@ -460,16 +462,16 @@ class DefaultCalibrationRepository @Inject constructor(
     }
 
     private fun computeReprojectionError(
-        objectPoints: Mat,
-        imagePoints: Mat,
+        objectPoints: MatOfPoint3f,
+        imagePoints: MatOfPoint2f,
         cameraMatrix: Mat,
-        distortion: Mat,
+        distortion: MatOfDouble,
         rvec: Mat,
         tvec: Mat
     ): Double {
         val projected = MatOfPoint2f()
         Calib3d.projectPoints(objectPoints, rvec, tvec, cameraMatrix, distortion, projected)
-        val originalPoints = imagePoints as MatOfPoint2f
+        val originalPoints = imagePoints
         val projectedArray = projected.toArray()
         val originalArray = originalPoints.toArray()
         var errorSum = 0.0
@@ -500,7 +502,7 @@ class DefaultCalibrationRepository @Inject constructor(
         if (OPEN_CV_READY.get()) return
         synchronized(OPEN_CV_READY) {
             if (OPEN_CV_READY.get()) return
-            val initialized = OpenCVLoader.initLocal() || OpenCVLoader.initDebug()
+            val initialized = OpenCVLoader.initDebug()
             if (!initialized) {
                 throw IllegalStateException("Unable to load OpenCV native libraries")
             }
@@ -533,7 +535,11 @@ class DefaultCalibrationRepository @Inject constructor(
         sessionId = null
         captureCounter = 0
         OPEN_CV_READY.set(false)
-        runCatching { controller.shutdown() }
+        runCatching { runBlocking { controller.shutdown() } }
         _state.value = initialState()
     }
 }
+
+
+
+

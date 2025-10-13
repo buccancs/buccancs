@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.TimeSyncStatus
+import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.ui.calibration.CalibrationActions
 import com.buccancs.ui.calibration.CalibrationPanel
 import com.buccancs.ui.calibration.CalibrationUiState
@@ -46,7 +48,8 @@ import java.util.*
 @Composable
 fun MainRoute(
     viewModel: MainViewModel = hiltViewModel(),
-    calibrationViewModel: CalibrationViewModel = hiltViewModel()
+    calibrationViewModel: CalibrationViewModel = hiltViewModel(),
+    onOpenTopdon: (DeviceId) -> Unit = {}
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val calibrationState by calibrationViewModel.uiState.collectAsStateWithLifecycle()
@@ -76,6 +79,7 @@ fun MainRoute(
         onOrchestratorUseTlsChanged = viewModel::onOrchestratorUseTlsChanged,
         onApplyConfig = viewModel::applyOrchestratorConfig,
         onClearConfigMessage = viewModel::clearConfigMessage,
+        onOpenTopdon = onOpenTopdon,
         calibrationState = calibrationState,
         calibrationActions = calibrationActions
     )
@@ -96,6 +100,7 @@ fun MainScreen(
     onOrchestratorUseTlsChanged: (Boolean) -> Unit,
     onApplyConfig: () -> Unit,
     onClearConfigMessage: () -> Unit,
+    onOpenTopdon: (DeviceId) -> Unit,
     calibrationState: CalibrationUiState,
     calibrationActions: CalibrationActions
 ) {
@@ -111,11 +116,7 @@ fun MainScreen(
                         )
                     },
                     actions = {
-                        TimeSyncStatusView(
-                            offsetMillis = state.timeSyncStatus.offsetMillis,
-                            roundTripMillis = state.timeSyncStatus.roundTripMillis,
-                            driftEstimate = state.timeSyncStatus.driftEstimateMillis
-                        )
+                        TimeSyncStatusView(state.timeSyncStatus)
                     },
                     colors = TopAppBarDefaults.topAppBarColors()
                 )
@@ -162,7 +163,12 @@ fun MainScreen(
                     DeviceCard(
                         device = device,
                         onConnect = { onConnectDevice(device.id) },
-                        onDisconnect = { onDisconnectDevice(device.id) }
+                        onDisconnect = { onDisconnectDevice(device.id) },
+                        onOpenTopdon = if (device.supportsTopdon) {
+                            { onOpenTopdon(device.id) }
+                        } else {
+                            null
+                        }
                     )
                 }
             }
@@ -376,7 +382,8 @@ private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
 private fun DeviceCard(
     device: DeviceUiModel,
     onConnect: () -> Unit,
-    onDisconnect: () -> Unit
+    onDisconnect: () -> Unit,
+    onOpenTopdon: (() -> Unit)?
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -442,35 +449,47 @@ private fun DeviceCard(
                 ) {
                     Text(text = "Disconnect")
                 }
+                if (onOpenTopdon != null) {
+                    TextButton(onClick = onOpenTopdon) {
+                        Text("Open Console")
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun TimeSyncStatusView(
-    offsetMillis: Long,
-    roundTripMillis: Long,
-    driftEstimate: Double
-) {
-    val offsetText = if (offsetMillis == Long.MAX_VALUE) {
+private fun TimeSyncStatusView(status: TimeSyncStatus) {
+    val offsetText = if (status.offsetMillis == Long.MAX_VALUE) {
         "n/a"
     } else {
-        String.format(Locale.US, "%d ms", offsetMillis)
+        String.format(Locale.US, "%d ms", status.offsetMillis)
     }
-    val rttText = if (roundTripMillis == Long.MAX_VALUE) {
+    val rttText = if (status.roundTripMillis == Long.MAX_VALUE) {
         "n/a"
     } else {
-        String.format(Locale.US, "%d ms", roundTripMillis)
+        String.format(Locale.US, "%d ms", status.roundTripMillis)
     }
-    val driftText = if (driftEstimate.isFinite()) {
-        String.format(Locale.US, "%.2f ms/s", driftEstimate)
+    val filteredRttText = if (status.filteredRoundTripMillis.isFinite()) {
+        String.format(Locale.US, "%.1f ms", status.filteredRoundTripMillis)
     } else {
         "n/a"
     }
-    val formatted = "Offset $offsetText | RTT $rttText | Drift $driftText"
+    val driftText = if (status.driftEstimateMillisPerMinute.isFinite()) {
+        String.format(Locale.US, "%.2f ms/min", status.driftEstimateMillisPerMinute)
+    } else {
+        "n/a"
+    }
+    val qualityLabel = when (status.quality) {
+        TimeSyncQuality.GOOD -> "Good"
+        TimeSyncQuality.FAIR -> "Fair"
+        TimeSyncQuality.POOR -> "Poor"
+        TimeSyncQuality.UNKNOWN -> "Unknown"
+    }
+    val text = "Offset $offsetText | RTT $rttText (filtered $filteredRttText) | Drift $driftText | $qualityLabel"
     Text(
-        text = formatted,
+        text = text,
         style = MaterialTheme.typography.bodySmall,
         modifier = Modifier.padding(end = 12.dp)
     )

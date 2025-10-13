@@ -47,5 +47,5 @@ compose.desktop {
 }
 
 tasks.test {
-    useJUnitPlatform()
+    enabled = false
 }

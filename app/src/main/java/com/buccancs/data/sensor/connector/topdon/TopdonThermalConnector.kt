@@ -1,12 +1,16 @@
 package com.buccancs.data.sensor.connector.topdon
 
-import com.buccancs.util.nowInstant
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
+import android.os.SystemClock
 import android.util.Log
+import com.buccancs.data.preview.PreviewStreamClient
+import com.buccancs.data.sensor.MetadataWriters
+import com.buccancs.data.sensor.SessionClock
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
+import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
@@ -30,12 +34,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Instant
+import com.buccancs.util.toEpochMillis
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.io.DEFAULT_BUFFER_SIZE
 import kotlin.math.absoluteValue
+
+private fun defaultTopdonDevice(): SensorDevice = SensorDevice(
+    id = DeviceId("topdon-tc001"),
+    displayName = "Topdon TC001",
+    type = SensorDeviceType.TOPDON_TC001,
+    capabilities = setOf(SensorStreamType.THERMAL_VIDEO, SensorStreamType.PREVIEW),
+    connectionStatus = ConnectionStatus.Disconnected,
+    isSimulated = false,
+    attributes = mapOf("usb.vendorId" to "0x3426", "usb.productId" to "0x0001")
+)
 
 @Singleton
 internal class TopdonThermalConnector @Inject constructor(
@@ -43,19 +60,14 @@ internal class TopdonThermalConnector @Inject constructor(
     @ApplicationContext private val context: Context,
     private val usbManager: UsbManager,
     private val recordingStorage: RecordingStorage,
-    artifactFactory: SimulatedArtifactFactory
+    artifactFactory: SimulatedArtifactFactory,
+    @Suppress("UNUSED_PARAMETER") previewClient: PreviewStreamClient? = null,
+    @Suppress("UNUSED_PARAMETER") settingsRepository: InMemoryTopdonSettingsRepository? = null,
+    initialDevice: SensorDevice = defaultTopdonDevice()
 ) : BaseSimulatedConnector(
     scope = appScope,
     artifactFactory = artifactFactory,
-    initialDevice = SensorDevice(
-        id = DeviceId("topdon-tc001"),
-        displayName = "Topdon TC001",
-        type = SensorDeviceType.TOPDON_TC001,
-        capabilities = setOf(SensorStreamType.THERMAL_VIDEO, SensorStreamType.PREVIEW),
-        connectionStatus = ConnectionStatus.Disconnected,
-        isSimulated = false,
-        attributes = mapOf("usb.vendorId" to "0x3426", "usb.productId" to "0x0001")
-    )
+    initialDevice = initialDevice
 ) {
     private val logTag = "TopdonConnector"
     private var usbMonitor: USBMonitor? = null
@@ -68,6 +80,8 @@ internal class TopdonThermalConnector @Inject constructor(
     private var thermalStream: FileOutputStream? = null
     private var thermalDigest: MessageDigest? = null
     private var thermalBytes: Long = 0
+    @Volatile
+    private var sessionClock: SessionClock? = null
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
     private val listener = object : USBMonitor.OnDeviceConnectListener {
         override fun onAttach(device: UsbDevice) {
@@ -91,7 +105,7 @@ internal class TopdonThermalConnector @Inject constructor(
                 deviceState.update {
                     it.copy(
                         connectionStatus = ConnectionStatus.Connected(
-                            since = nowInstant(),
+                            since = deviceNowInstant(),
                             batteryPercent = null,
                             rssiDbm = null
                         ),
@@ -142,7 +156,7 @@ internal class TopdonThermalConnector @Inject constructor(
         val device = detectTopdonDevice()
         val status = when {
             uvcCamera != null -> ConnectionStatus.Connected(
-                since = nowInstant(),
+                since = deviceNowInstant(),
                 batteryPercent = null,
                 rssiDbm = null
             )
@@ -207,8 +221,15 @@ internal class TopdonThermalConnector @Inject constructor(
         if (isSimulationMode) {
             return super.startStreaming(anchor)
         }
-        val camera = uvcCamera ?: return DeviceCommandResult.Rejected("Camera not connected.")
-        val block = usbControlBlock ?: return DeviceCommandResult.Rejected("Camera control unavailable.")
+        sessionClock = SessionClock.fromAnchor(anchor)
+        val camera = uvcCamera ?: run {
+            sessionClock = null
+            return DeviceCommandResult.Rejected("Camera not connected.")
+        }
+        if (usbControlBlock == null) {
+            sessionClock = null
+            return DeviceCommandResult.Rejected("Camera control unavailable.")
+        }
         return try {
             configureCamera(camera)
             prepareThermalRecording(anchor.sessionId)
@@ -217,10 +238,10 @@ internal class TopdonThermalConnector @Inject constructor(
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to start thermal preview", t)
+            sessionClock = null
             DeviceCommandResult.Failed(t)
         }
     }
-
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.stopStreaming()
@@ -228,13 +249,14 @@ internal class TopdonThermalConnector @Inject constructor(
         return try {
             stopStreamingInternal()
             finalizeThermalRecording()
+            sessionClock = null
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to stop thermal preview", t)
+            sessionClock = null
             DeviceCommandResult.Failed(t)
         }
     }
-
     override fun streamIntervalMs(): Long = 200L
     override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
     override fun simulatedRssi(device: SensorDevice): Int? = null
@@ -303,8 +325,8 @@ internal class TopdonThermalConnector @Inject constructor(
         }
         statusState.value = emptyList()
         finalizeThermalRecording()
+        sessionClock = null
     }
-
     private fun closeCamera() {
         try {
             uvcCamera?.onDestroyPreview()
@@ -364,14 +386,14 @@ internal class TopdonThermalConnector @Inject constructor(
 
     private fun prepareThermalRecording(sessionId: String) {
         val directory = recordingStorage.deviceDirectory(sessionId, deviceId.value)
-        val file = File(directory, "thermal-${System.currentTimeMillis()}.raw")
+        val baseEpoch = sessionClock?.anchorEpochMs ?: System.currentTimeMillis()
+        val file = File(directory, "thermal-$baseEpoch-${System.currentTimeMillis()}.raw")
         thermalStream = FileOutputStream(file)
         thermalDigest = MessageDigest.getInstance("SHA-256")
         thermalFile = file
         thermalBytes = 0
         currentSessionId = sessionId
     }
-
     private fun finalizeThermalRecording() {
         val stream = thermalStream ?: return
         try {
@@ -386,6 +408,8 @@ internal class TopdonThermalConnector @Inject constructor(
         val file = thermalFile
         val sessionId = currentSessionId
         val checksum = thermalDigest?.digest() ?: ByteArray(0)
+        val bytesCaptured = thermalBytes
+        val clockSnapshot = sessionClock
         thermalDigest = null
         thermalFile = null
         thermalBytes = 0
@@ -400,10 +424,42 @@ internal class TopdonThermalConnector @Inject constructor(
                 checksumSha256 = checksum
             )
             pendingArtifacts += artifact
+            val entries = mutableListOf<Pair<String, String>>().apply {
+                add("sessionId" to MetadataWriters.stringValue(sessionId))
+                add("deviceId" to MetadataWriters.stringValue(deviceId.value))
+                add("streamType" to MetadataWriters.stringValue("thermal_video"))
+                add("artifactFile" to MetadataWriters.stringValue(file.name))
+                val anchorEpoch = clockSnapshot?.let { it.anchorEpochMs + it.clockOffsetMs } ?: System.currentTimeMillis()
+                add("anchorEpochMs" to anchorEpoch.toString())
+                clockSnapshot?.let { add("clockOffsetMs" to it.clockOffsetMs.toString()) }
+                clockSnapshot?.startDeviceEpochMs?.let { add("deviceStartEpochMs" to it.toString()) }
+                clockSnapshot?.startAlignedEpochMillis()?.let { add("alignedStartEpochMs" to it.toString()) }
+                clockSnapshot?.durationSinceStartMs(SystemClock.elapsedRealtimeNanos())?.let { duration ->
+                    add("durationMs" to duration.toString())
+                    clockSnapshot.startAlignedEpochMillis()?.let { startAligned ->
+                        add("alignedEndEpochMs" to (startAligned + duration).toString())
+                    }
+                }
+                add("frameWidth" to THERMAL_WIDTH.toString())
+                add("frameHeight" to THERMAL_HEIGHT.toString())
+                add("bytesCaptured" to bytesCaptured.toString())
+                add("checksumSha256" to MetadataWriters.stringValue(checksum.toHexString()))
+            }
+            val directory = file.parentFile ?: recordingStorage.deviceDirectory(sessionId, deviceId.value)
+            val metadataFile = File(directory, file.nameWithoutExtension + "-metadata.json")
+            MetadataWriters.writeMetadata(metadataFile, entries)
+            val metadataChecksum = digestFile(metadataFile)
+            pendingArtifacts += SessionArtifact(
+                deviceId = deviceId,
+                streamType = SensorStreamType.THERMAL_VIDEO,
+                file = metadataFile,
+                mimeType = "application/json",
+                sizeBytes = metadataFile.length(),
+                checksumSha256 = metadataChecksum
+            )
             completedSessionId = sessionId
         }
     }
-
     override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {
         if (isSimulationMode) {
             return super.collectArtifacts(sessionId)
@@ -427,7 +483,14 @@ internal class TopdonThermalConnector @Inject constructor(
                 Log.w(logTag, "Failed to persist thermal frame", t)
             }
         }
-        val now = nowInstant()
+        sessionClock = sessionClock?.let { clock ->
+            if (clock.hasRecordingStarted()) {
+                clock
+            } else {
+                clock.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
+            }
+        }
+        val now = alignedNowInstant()
         val thermal = SensorStreamStatus(
             deviceId = deviceId,
             streamType = SensorStreamType.THERMAL_VIDEO,
@@ -450,6 +513,36 @@ internal class TopdonThermalConnector @Inject constructor(
         )
         statusState.value = listOf(thermal, preview)
     }
+
+    private fun deviceNowInstant(): Instant =
+        Instant.fromEpochMilliseconds(System.currentTimeMillis())
+
+    private fun alignedInstant(instant: Instant): Instant {
+        val clock = sessionClock ?: return instant
+        val alignedMs = clock.alignDeviceEpoch(instant.toEpochMillis())
+        return Instant.fromEpochMilliseconds(alignedMs)
+    }
+
+    private fun alignedNowInstant(): Instant = alignedInstant(deviceNowInstant())
+
+    private fun digestFile(file: File): ByteArray {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().use { stream ->
+            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            while (true) {
+                val read = stream.read(buffer)
+                if (read <= 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        return digest.digest()
+    }
+
+    private fun ByteArray.toHexString(): String =
+        joinToString(separator = "") { byte ->
+            ((byte.toInt() and 0xFF) + 0x100).toString(16).substring(1)
+        }
+
 
     private companion object {
         private const val TOPDON_VENDOR_ID = 0x3426

@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.merge
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.collections.ArrayDeque
+import kotlin.math.max
 
 class CommandRepository {
     private val broadcastFlow = MutableSharedFlow<CommandDispatch>(
@@ -25,6 +26,8 @@ class CommandRepository {
     private val deviceFlows = ConcurrentHashMap<String, MutableSharedFlow<CommandDispatch>>()
     private val startStopCommands = ConcurrentHashMap<String, DeviceCommandPayload>()
     private val startStopOrder = ArrayDeque<String>()
+    private val latestStartBySession = ConcurrentHashMap<String, StartRecordingCommandPayload>()
+    private val latestStopBySession = ConcurrentHashMap<String, StopRecordingCommandPayload>()
     private val startStopLock = Any()
     fun observe(deviceId: String, includeBroadcast: Boolean = true): Flow<CommandDispatch> {
         return if (includeBroadcast) {
@@ -129,6 +132,45 @@ class CommandRepository {
     fun findStartStopCommand(commandId: String): DeviceCommandPayload? =
         startStopCommands[commandId]
 
+    suspend fun replayRecordingState(sessionId: String, deviceId: String) {
+        val start: StartRecordingCommandPayload?
+        val stop: StopRecordingCommandPayload?
+        synchronized(startStopLock) {
+            start = latestStartBySession[sessionId]
+            stop = latestStopBySession[sessionId]
+        }
+        val candidate = when {
+            start == null && stop == null -> return
+            start != null && stop == null -> start
+            start == null && stop != null -> stop
+            start != null && stop != null -> if (start.executeEpochMs >= stop.executeEpochMs) start else stop
+            else -> return
+        }
+        when (candidate) {
+            is StartRecordingCommandPayload -> {
+                val now = System.currentTimeMillis()
+                val replayPayload = candidate.copy(
+                    commandId = UUID.randomUUID().toString(),
+                    issuedEpochMs = now,
+                    executeEpochMs = max(now + REPLAY_DELAY_MS, candidate.executeEpochMs)
+                )
+                dispatch(replayPayload, setOf(deviceId))
+            }
+
+            is StopRecordingCommandPayload -> {
+                val now = System.currentTimeMillis()
+                val replayPayload = candidate.copy(
+                    commandId = UUID.randomUUID().toString(),
+                    issuedEpochMs = now,
+                    executeEpochMs = now
+                )
+                dispatch(replayPayload, setOf(deviceId))
+            }
+
+            else -> {}
+        }
+    }
+
     private suspend fun dispatch(payload: DeviceCommandPayload, targets: Set<String>) {
         val json = CommandSerialization.json.encodeToString(DeviceCommandPayload.serializer(), payload)
         val base = CommandDispatch(
@@ -160,6 +202,11 @@ class CommandRepository {
             while (startStopOrder.size > START_STOP_HISTORY) {
                 val oldest = startStopOrder.removeFirst()
                 startStopCommands.remove(oldest)
+            }
+            when (payload) {
+                is StartRecordingCommandPayload -> latestStartBySession[payload.sessionId] = payload
+                is StopRecordingCommandPayload -> latestStopBySession[payload.sessionId] = payload
+                else -> Unit
             }
         }
     }
@@ -194,5 +241,6 @@ class CommandRepository {
     private companion object {
         private const val HISTORY_SIZE = 32
         private const val START_STOP_HISTORY = 64
+        private const val REPLAY_DELAY_MS = 200L
     }
 }

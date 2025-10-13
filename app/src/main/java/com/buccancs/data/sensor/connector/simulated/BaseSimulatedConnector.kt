@@ -147,6 +147,20 @@ internal abstract class BaseSimulatedConnector(
                         sizeBytes = estimateBinarySize(durationMs, bytesPerSecond = 750_000, minimumBytes = 512_000)
                     )
 
+                SensorStreamType.RAW_DNG ->
+                    artifactFactory.createRandomArtifact(
+                        sessionId = sessionId,
+                        deviceId = deviceId,
+                        streamType = stream,
+                        extension = "dng",
+                        mimeType = "image/x-adobe-dng",
+                        sizeBytes = estimateBinarySize(
+                            durationMs,
+                            bytesPerSecond = 150_000,
+                            minimumBytes = 500_000
+                        )
+                    )
+
                 SensorStreamType.THERMAL_VIDEO ->
                     artifactFactory.createRandomArtifact(
                         sessionId = sessionId,

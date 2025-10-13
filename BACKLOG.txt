@@ -1,0 +1,9 @@
+BACKLOG
+- Execute end-to-end soak with two Shimmer units and two Topdon cameras to confirm sync, transfer retries, and retention alarms.
+- Persist runtime inventory updates (Shimmer scans, Topdon attachments) into `app/src/main/assets/device-inventory.json`.
+- Add preview throttling and palette controls once hardware field dates are locked.
+- Surface ControlServer state/token info in the app UI and document how to call the local command endpoint.
+- Extend mDNS advertiser/browser with retries, TXT attribute schema, and automatic ControlServer port discovery.
+- Surface TimeSyncService history and quality flags on the dashboard plus debug panels.
+- Feed HeartbeatMonitor warnings into RecordingService to trigger safe auto-stop on missed beats.
+

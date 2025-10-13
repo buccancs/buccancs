@@ -1,15 +1,21 @@
-package com.buccancs.data.control
+package com.buccancs.application.control
 
-import com.buccancs.util.nowInstant
 import android.util.Log
+import com.buccancs.BuildConfig
+import com.buccancs.control.commands.CommandSerialization
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
 import com.buccancs.control.commands.StimulusCommandPayload
 import com.buccancs.control.commands.SyncSignalCommandPayload
+import com.buccancs.data.control.CommandClient
+import com.buccancs.data.orchestration.DeviceIdentityProvider
+import com.buccancs.data.orchestration.server.ControlServer
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.DeviceEventType
 import com.buccancs.domain.repository.DeviceEventRepository
+import com.buccancs.application.time.TimeSyncService
+import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -24,33 +30,56 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CommandCoordinator @Inject constructor(
+class DefaultDeviceCommandService @Inject constructor(
     private val commandClient: CommandClient,
     @ApplicationScope private val scope: CoroutineScope,
-    private val deviceEventRepository: DeviceEventRepository
-) {
+    private val deviceEventRepository: DeviceEventRepository,
+    private val timeSyncService: TimeSyncService,
+    private val controlServer: ControlServer,
+    private val identityProvider: DeviceIdentityProvider
+) : DeviceCommandService {
     private val _lastCommand = MutableStateFlow<DeviceCommandPayload?>(null)
-    val lastCommand: StateFlow<DeviceCommandPayload?> = _lastCommand.asStateFlow()
+    override val lastCommand: StateFlow<DeviceCommandPayload?> = _lastCommand.asStateFlow()
+    private val _commands = MutableSharedFlow<DeviceCommandPayload>(extraBufferCapacity = 64)
+    override val commands: SharedFlow<DeviceCommandPayload> = _commands.asSharedFlow()
     private val _syncSignals = MutableSharedFlow<SyncSignalCommandPayload>(extraBufferCapacity = 32)
-    val syncSignals: SharedFlow<SyncSignalCommandPayload> = _syncSignals.asSharedFlow()
-    val commands: SharedFlow<DeviceCommandPayload> = commandClient.commands
+    override val syncSignals: SharedFlow<SyncSignalCommandPayload> = _syncSignals.asSharedFlow()
 
     init {
         scope.launch {
             commandClient.commands.collect { payload ->
-                _lastCommand.value = payload
-                when (payload) {
-                    is SyncSignalCommandPayload -> handleSync(payload)
-                    is EventMarkerCommandPayload -> handleEventMarker(payload)
-                    is StimulusCommandPayload -> handleStimulus(payload)
-                    else -> handleGeneric(payload)
-                }
+                onCommandReceived(payload)
             }
+        }
+        scope.launch {
+            startLocalControlServer()
         }
     }
 
-    suspend fun acknowledge(commandId: String, success: Boolean, message: String?) {
+    override suspend fun acknowledge(commandId: String, success: Boolean, message: String?) {
         commandClient.reportReceipt(commandId, success, message)
+    }
+
+    override fun issueLocalToken(
+        sessionId: String,
+        ttlMillis: Long
+    ): DeviceCommandService.ControlToken {
+        val issued = controlServer.issueToken(sessionId, ttlMillis)
+        return DeviceCommandService.ControlToken(
+            value = issued.value,
+            expiresAt = issued.expiresAt
+        )
+    }
+
+    private suspend fun onCommandReceived(payload: DeviceCommandPayload) {
+        _lastCommand.value = payload
+        _commands.emit(payload)
+        when (payload) {
+            is SyncSignalCommandPayload -> handleSync(payload)
+            is EventMarkerCommandPayload -> handleEventMarker(payload)
+            is StimulusCommandPayload -> handleStimulus(payload)
+            else -> handleGeneric(payload)
+        }
     }
 
     private fun handleSync(payload: SyncSignalCommandPayload) {
@@ -118,8 +147,39 @@ class CommandCoordinator @Inject constructor(
         }
     }
 
+    private suspend fun startLocalControlServer() {
+        val config = ControlServer.Config(
+            port = BuildConfig.CONTROL_SERVER_PORT,
+            sessionId = identityProvider.deviceId()
+        )
+        runCatching { controlServer.start(config) }
+            .onFailure { error ->
+                Log.w(
+                    TAG,
+                    "Unable to start local control server on port ${config.port}: ${error.message}",
+                    error
+                )
+            }
+        controlServer.events.collect { event ->
+            if (event.type != ControlServer.EVENT_TYPE_COMMAND) return@collect
+            val payload = runCatching {
+                CommandSerialization.json.decodeFromString(
+                    DeviceCommandPayload.serializer(),
+                    event.detailJson
+                )
+            }.getOrElse { error ->
+                Log.w(TAG, "Unable to decode local command ${event.eventId}: ${error.message}", error)
+                return@collect
+            }
+            onCommandReceived(payload)
+        }
+    }
+
     private suspend fun delayForExecution(executeEpochMs: Long) {
-        val delayMs = executeEpochMs - System.currentTimeMillis()
+        val offset = timeSyncService.status.value.offsetMillis
+        val clampedOffset = offset.coerceIn(-MAX_OFFSET_ADJUSTMENT_MS, MAX_OFFSET_ADJUSTMENT_MS)
+        val adjustedNow = System.currentTimeMillis() + clampedOffset
+        val delayMs = executeEpochMs - adjustedNow
         if (delayMs > 0) {
             delay(delayMs)
         }
@@ -131,6 +191,8 @@ class CommandCoordinator @Inject constructor(
     }
 
     private companion object {
-        private const val TAG = "CommandCoordinator"
+        private const val TAG = "DeviceCommandService"
+        private const val MAX_OFFSET_ADJUSTMENT_MS = 60_000L
     }
 }
+
