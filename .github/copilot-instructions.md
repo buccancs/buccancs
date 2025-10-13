@@ -1,8 +1,26 @@
+**Last Modified:** 2025-10-13 20:05 UTC  
+**Modified By:** GitHub Copilot CLI
+
 ### **Core Principles**
 
 * **Communication:** Be modest and succinct.
 * **Clarity:** If something is not clear, refer to the requirements, backlogs, todos, build fixes.
 * **Character Set:** Use only ASCII-safe characters in all code, comments, and commit messages.
+
+### **File Naming and Tracking Standards**
+
+* **Documentation Files:** All analysis, report, and documentation MD files MUST include the date in the filename using format `FILENAME_YYYY-MM-DD.md`
+  - Example: `TECHNICAL_DEBT_ANALYSIS_2025-10-13.md`, `SECURITY_AUDIT_2025-10-15.md`
+  - Exception: Core project files like `README.md`, `BACKLOG.md` do not require dates
+* **File Headers:** All generated/modified documentation files MUST include a header:
+  ```markdown
+  **Last Modified:** YYYY-MM-DD HH:MM UTC
+  **Modified By:** [Agent Name] (GitHub Copilot CLI, Gemini, Claude, etc.)
+  **Document Type:** [Analysis/Report/Guide/Documentation]
+  ```
+* **Version Control:** When updating dated documents, create new file with current date instead of modifying old ones
+* **Historical Tracking:** Keep previous versions for history unless explicitly instructed to delete
+* **Cross-References:** Update references in README.md, BACKLOG.md when creating new versions
 
 ### **Development Workflow & Verification**
 
@@ -46,14 +64,14 @@ definitive source:
     * `external/Shimmer-Java-Android-API`
     * `external/ShimmerAndroidAPI`
 
-### **File Exclusions**
+### **File Permissions and Capabilities**
 
-<!-- * Exclude all Markdown (`.md`) files from agent analysis and processing
-* Exclude all LaTeX (`.tex`, `.latex`) files from agent analysis and processing
-* Exclude `docs/` directory from agent processing -->
+* **Markdown Files:** Agents ARE ALLOWED to read, modify, and create Markdown (`.md`) files
+* **Documentation Generation:** Agents CAN generate analysis documents, technical reports, and guides following the file naming and tracking standards above
+* **LaTeX Files:** Agents CAN read and reference LaTeX files but should not modify them without explicit instruction
+* **Source Code:** Full access to read, modify, and create Kotlin, Java, and configuration files
+* **Analysis and Reports:** Actively encouraged to create documentation when analyzing code, identifying issues, or documenting architecture
 
 ### **Prohibitions**
 
 * Do not use emojis in any context (code, comments, documentation, or commit messages).
-
-<!-- * Do not generate Markdown (`.md`) documentation files. -->

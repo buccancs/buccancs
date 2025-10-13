@@ -1,8 +1,24 @@
+**Last Modified:** 2025-10-13 20:05 UTC  
+**Modified By:** GitHub Copilot CLI
+
 ### **Core Principles**
 
 * **Communication:** Be modest and succinct.
 * **Clarity:** If something is not clear, refer to the requirements, backlogs, todos, build fixes.
 * **Character Set:** Use only ASCII-safe characters in all code, comments, and commit messages.
+
+### **File Naming and Tracking Standards**
+
+* **Documentation Files:** All analysis, report, and documentation MD files MUST include the date in the filename using format `FILENAME_YYYY-MM-DD.md`
+  - Example: `TECHNICAL_DEBT_ANALYSIS_2025-10-13.md`
+* **File Headers:** All generated/modified documentation files MUST include a header block:
+  ```markdown
+  **Last Modified:** YYYY-MM-DD HH:MM UTC
+  **Modified By:** [Agent Name] (e.g., Gemini, GitHub Copilot CLI, Claude)
+  **Document Type:** [Analysis/Report/Guide/Documentation]
+  ```
+* **Version Control:** When updating dated documents, create new file with current date rather than modifying old ones
+* **References:** Always check if newer versions of referenced documents exist
 
 ### **Development Workflow & Verification**
 
@@ -46,14 +62,13 @@ definitive source:
     * `external/Shimmer-Java-Android-API`
     * `external/ShimmerAndroidAPI`
 
-### **File Exclusions**
+### **File Permissions and Capabilities**
 
-<!-- * Exclude all Markdown (`.md`) files from agent analysis and processing
-* Exclude all LaTeX (`.tex`, `.latex`) files from agent analysis and processing
-* Exclude `docs/` directory from agent processing -->
+* **Markdown Files:** Agents ARE ALLOWED to read, modify, and create Markdown (`.md`) files
+* **Documentation Generation:** Agents CAN generate documentation files following the file naming and tracking standards
+* **LaTeX Files:** Agents CAN read and reference LaTeX files but should not modify them without explicit instruction
+* **Analysis and Reports:** Agents SHOULD create analysis documents, technical reports, and documentation as needed
 
 ### **Prohibitions**
 
 * Do not use emojis in any context (code, comments, documentation, or commit messages).
-
-<!-- * Do not generate Markdown (`.md`) documentation files. -->
