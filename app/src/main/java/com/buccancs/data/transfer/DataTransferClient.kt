@@ -1,5 +1,7 @@
 package com.buccancs.data.transfer
 
+import android.content.Context
+import android.net.Uri
 import com.buccancs.control.DataTransferRequest
 import com.buccancs.control.DataTransferServiceGrpcKt
 import com.buccancs.control.dataTransferRequest
@@ -8,6 +10,7 @@ import com.buccancs.data.orchestration.GrpcChannelFactory
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.google.protobuf.ByteString
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -18,7 +21,8 @@ import javax.inject.Singleton
 @Singleton
 class DataTransferClient @Inject constructor(
     private val channelFactory: GrpcChannelFactory,
-    private val configRepository: OrchestratorConfigRepository
+    private val configRepository: OrchestratorConfigRepository,
+    @ApplicationContext private val context: Context
 ) {
     suspend fun upload(
         sessionId: String,
@@ -30,17 +34,10 @@ class DataTransferClient @Inject constructor(
         val stub = DataTransferServiceGrpcKt.DataTransferServiceCoroutineStub(channel)
         var transferred = 0L
         val requestFlow = flow {
-            FileInputStream(artifact.file).use { input ->
-                val buffer = ByteArray(DEFAULT_CHUNK_SIZE)
-                while (true) {
-                    val read = input.read(buffer)
-                    if (read == -1) {
-                        break
-                    }
-                    transferred += read
-                    emit(buildChunk(sessionId, artifact, buffer, read, endOfStream = false))
-                    onProgress(transferred)
-                }
+            readArtifactBytes(artifact) { buffer, length ->
+                transferred += length
+                emit(buildChunk(sessionId, artifact, buffer, length, endOfStream = false))
+                onProgress(transferred)
             }
             emit(buildChunk(sessionId, artifact, ByteArray(0), 0, endOfStream = true))
             onProgress(artifact.sizeBytes)
@@ -67,7 +64,7 @@ class DataTransferClient @Inject constructor(
     ): DataTransferRequest = dataTransferRequest {
         session = sessionIdentifier { id = sessionId }
         deviceId = artifact.deviceId.value
-        fileName = artifact.file.name
+        fileName = artifact.file?.name ?: artifact.uri.lastPathSegment ?: generateFallbackName(artifact)
         sizeBytes = artifact.sizeBytes
         sha256 = ByteString.copyFrom(artifact.checksumSha256)
         mimeType = artifact.mimeType
@@ -77,6 +74,31 @@ class DataTransferClient @Inject constructor(
         }
         this.endOfStream = endOfStream
     }
+
+    private suspend fun readArtifactBytes(
+        artifact: SessionArtifact,
+        consumer: suspend (ByteArray, Int) -> Unit
+    ) {
+        val buffer = ByteArray(DEFAULT_CHUNK_SIZE)
+        val input = openInputStream(artifact)
+        input.use { stream ->
+            while (true) {
+                val read = stream.read(buffer)
+                if (read <= 0) {
+                    break
+                }
+                consumer(buffer, read)
+            }
+        }
+    }
+
+    private fun openInputStream(artifact: SessionArtifact) =
+        context.contentResolver.openInputStream(artifact.uri)
+            ?: artifact.file?.let { FileInputStream(it) }
+            ?: throw IllegalStateException("Unable to open artifact ${artifact.uri}")
+
+    private fun generateFallbackName(artifact: SessionArtifact): String =
+        "${artifact.deviceId.value}-${artifact.streamType.name.lowercase()}-${artifact.uri.hashCode()}"
 
     data class UploadResult(
         val success: Boolean,

@@ -1,36 +1,26 @@
 package com.buccancs.data.sensor.connector.camera
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.ImageFormat
-import android.graphics.Rect
-import android.graphics.YuvImage
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CaptureRequest
-import android.hardware.camera2.CaptureResult
-import android.hardware.camera2.TotalCaptureResult
 import android.hardware.camera2.params.StreamConfigurationMap
-import android.hardware.camera2.DngCreator
-import android.media.Image
 import android.media.ImageReader
-import android.media.MediaRecorder
 import android.os.Handler
 import android.os.HandlerThread
-import android.os.SystemClock
 import android.util.Log
-import android.util.Range
 import android.util.Size
 import android.view.Surface
-import com.buccancs.data.preview.PreviewStreamClient
-import com.buccancs.data.preview.PreviewStreamEmitter
-import com.buccancs.data.sensor.MetadataWriters
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceCommandResult
 import com.buccancs.domain.model.DeviceId
@@ -45,16 +35,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.datetime.Instant
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.security.DigestInputStream
-import java.security.MessageDigest
 import javax.inject.Inject
-import kotlin.io.DEFAULT_BUFFER_SIZE
 import kotlin.math.absoluteValue
-import kotlin.math.max
-import kotlin.math.min
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -62,6 +44,7 @@ import kotlin.coroutines.resumeWithException
 @Singleton
 internal class RgbCameraConnector @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
+    @ApplicationContext private val context: Context,
     private val cameraManager: CameraManager,
     private val recordingStorage: RecordingStorage,
     artifactFactory: SimulatedArtifactFactory
@@ -85,10 +68,10 @@ internal class RgbCameraConnector @Inject constructor(
     private var imageReader: ImageReader? = null
     private var handlerThread: HandlerThread? = null
     private var handler: Handler? = null
-    private var mediaRecorder: MediaRecorder? = null
+    private var recorder: SegmentedMediaCodecRecorder? = null
     private var recorderSurface: Surface? = null
-    private var videoFile: File? = null
     private var currentSessionId: String? = null
+    private var currentAnchor: RecordingSessionAnchor? = null
     private var completedSessionId: String? = null
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
     override suspend fun refreshInventory() {
@@ -191,7 +174,7 @@ internal class RgbCameraConnector @Inject constructor(
             if (id == null) {
                 return DeviceCommandResult.Rejected("No back-facing camera available.")
             }
-            configureAndStartSession(device, id, anchor.sessionId)
+            configureAndStartSession(device, id, anchor)
             DeviceCommandResult.Accepted
         } catch (t: Throwable) {
             Log.e(logTag, "Failed to start RGB camera streaming", t)
@@ -311,11 +294,29 @@ internal class RgbCameraConnector @Inject constructor(
         }
     }
 
-    private suspend fun configureAndStartSession(device: CameraDevice, id: String, sessionId: String) {
+    private suspend fun configureAndStartSession(
+        device: CameraDevice,
+        id: String,
+        anchor: RecordingSessionAnchor
+    ) {
         stopStreamingInternal()
         val handler = handler ?: throw IllegalStateException("Camera handler not initialized.")
         val size = chooseVideoSize(id)
-        val recorderSurface = prepareRecorder(sessionId, size)
+        val recorder = SegmentedMediaCodecRecorder(
+            context = context,
+            storage = recordingStorage,
+            sessionId = anchor.sessionId,
+            deviceId = deviceId,
+            anchorEpochMs = anchor.referenceTimestamp.toEpochMilliseconds(),
+            size = size,
+            bitRate = VIDEO_BIT_RATE,
+            frameRate = VIDEO_FRAME_RATE
+        )
+        val recorderSurface = recorder.start()
+        this.recorder = recorder
+        this.recorderSurface = recorderSurface
+        currentSessionId = anchor.sessionId
+        currentAnchor = anchor
         val reader = ImageReader.newInstance(size.width, size.height, ImageFormat.YUV_420_888, 3)
         reader.setOnImageAvailableListener(imageListener, handler)
         imageReader = reader
@@ -337,7 +338,6 @@ internal class RgbCameraConnector @Inject constructor(
                             }.build()
                             try {
                                 session.setRepeatingRequest(request, null, handler)
-                                mediaRecorder?.start()
                                 continuation.resume(Unit)
                             } catch (t: Throwable) {
                                 Log.e(logTag, "Failed to start RGB capture session", t)
@@ -358,14 +358,18 @@ internal class RgbCameraConnector @Inject constructor(
                 )
             }
         } catch (t: Throwable) {
-            releaseRecorder()
+            runCatching { recorderSurface.release() }
+            runCatching { recorder.abort() }
+            this.recorder = null
+            this.recorderSurface = null
+            currentSessionId = null
             reader.close()
             imageReader = null
             throw t
         }
     }
 
-    private fun stopStreamingInternal() {
+    private suspend fun stopStreamingInternal() {
         try {
             captureSession?.stopRepeating()
         } catch (t: Throwable) {
@@ -373,22 +377,36 @@ internal class RgbCameraConnector @Inject constructor(
         }
         captureSession?.close()
         captureSession = null
-        finalizeVideoRecording()
+        val recorder = this.recorder
+        if (recorder != null) {
+            val artifacts = try {
+                recorder.stop()
+            } catch (error: Throwable) {
+                Log.w(logTag, "Recorder stop failed, attempting abort: ${error.message}", error)
+                try {
+                    recorder.abort()
+                } catch (abortError: Throwable) {
+                    Log.w(logTag, "Recorder abort also failed: ${abortError.message}", abortError)
+                }
+                emptyList()
+            }
+            if (artifacts.isNotEmpty()) {
+                pendingArtifacts += artifacts
+                currentSessionId?.let { completedSessionId = it }
+            }
+        }
+        recorderSurface?.release()
+        recorderSurface = null
+        this.recorder = null
+        currentSessionId = null
+        currentAnchor = null
         imageReader?.close()
         imageReader = null
         statusState.value = emptyList()
     }
 
-    private fun closeCamera() {
-        try {
-            captureSession?.stopRepeating()
-        } catch (_: Throwable) {
-        }
-        captureSession?.close()
-        captureSession = null
-        imageReader?.close()
-        imageReader = null
-        finalizeVideoRecording()
+    private suspend fun closeCamera() {
+        stopStreamingInternal()
         cameraDevice?.close()
         cameraDevice = null
     }
@@ -432,97 +450,6 @@ internal class RgbCameraConnector @Inject constructor(
             Log.w(logTag, "Falling back to default camera size", t)
             Size(1280, 720)
         }
-    }
-
-    private fun prepareRecorder(sessionId: String, size: Size): Surface {
-        val recorder = MediaRecorder()
-        recorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-        recorder.setVideoEncodingBitRate(VIDEO_BIT_RATE)
-        recorder.setVideoFrameRate(VIDEO_FRAME_RATE)
-        recorder.setVideoSize(size.width, size.height)
-        val file = recordingStorage.createArtifactFile(
-            sessionId = sessionId,
-            deviceId = deviceId.value,
-            streamType = "rgb_video",
-            timestampEpochMs = System.currentTimeMillis(),
-            extension = "mp4"
-        )
-        recorder.setOutputFile(file.absolutePath)
-        recorder.prepare()
-        mediaRecorder = recorder
-        recorderSurface = recorder.surface
-        videoFile = file
-        currentSessionId = sessionId
-        return recorder.surface
-    }
-
-    private fun releaseRecorder() {
-        val recorder = mediaRecorder ?: return
-        try {
-            recorder.reset()
-        } catch (_: Throwable) {
-        }
-        try {
-            recorder.release()
-        } catch (_: Throwable) {
-        }
-        mediaRecorder = null
-        recorderSurface = null
-        videoFile?.delete()
-        videoFile = null
-        currentSessionId = null
-    }
-
-    private fun finalizeVideoRecording() {
-        val recorder = mediaRecorder ?: return
-        val file = videoFile
-        val sessionId = currentSessionId
-        try {
-            recorder.stop()
-        } catch (t: Throwable) {
-            Log.w(logTag, "Unable to stop MediaRecorder cleanly", t)
-            file?.delete()
-        } finally {
-            try {
-                recorder.reset()
-            } catch (_: Throwable) {
-            }
-            try {
-                recorder.release()
-            } catch (_: Throwable) {
-            }
-            mediaRecorder = null
-        }
-        recorderSurface = null
-        videoFile = null
-        currentSessionId = null
-        if (file != null && file.exists() && sessionId != null) {
-            val checksum = digestFile(file)
-            val artifact = SessionArtifact(
-                deviceId = deviceId,
-                streamType = SensorStreamType.RGB_VIDEO,
-                file = file,
-                mimeType = "video/mp4",
-                sizeBytes = file.length(),
-                checksumSha256 = checksum
-            )
-            pendingArtifacts += artifact
-            completedSessionId = sessionId
-        }
-    }
-
-    private fun digestFile(file: File): ByteArray {
-        val digest = MessageDigest.getInstance("SHA-256")
-        FileInputStream(file).use { fis ->
-            DigestInputStream(fis, digest).use { stream ->
-                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                while (stream.read(buffer) != -1) {
-                }
-            }
-        }
-        return digest.digest()
     }
 
     override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {

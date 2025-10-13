@@ -1,6 +1,7 @@
 package com.buccancs.data.storage
 
 import android.content.Context
+import android.os.Environment
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
@@ -78,10 +79,12 @@ class RecordingStorage @Inject constructor(
         extension: String
     ): File {
         val deviceDir = deviceDirectory(sessionId, deviceId)
-        val timestampLabel = formatter.format(java.time.Instant.ofEpochMilli(timestampEpochMs))
-        val normalizedStream = streamType.lowercase().replace(" ", "_")
-        val sequenceLabel = if (segmentIndex > 0) "_${segmentIndex.toString().padStart(3, '0')}" else ""
-        val fileName = "${timestampLabel}_${normalizedStream}$sequenceLabel.$extension"
+        val fileName = artifactFileName(
+            streamType = streamType,
+            timestampEpochMs = timestampEpochMs,
+            segmentIndex = segmentIndex,
+            extension = extension
+        )
         return File(deviceDir, fileName)
     }
 
@@ -98,8 +101,30 @@ class RecordingStorage @Inject constructor(
         return total
     }
 
+    fun artifactFileName(
+        streamType: String,
+        timestampEpochMs: Long,
+        segmentIndex: Int = 0,
+        extension: String
+    ): String {
+        val timestampLabel = formatter.format(java.time.Instant.ofEpochMilli(timestampEpochMs))
+        val normalizedStream = streamType.lowercase().replace(" ", "_")
+        val sequenceLabel = if (segmentIndex > 0) "_${segmentIndex.toString().padStart(3, '0')}" else ""
+        return "${timestampLabel}_${normalizedStream}$sequenceLabel.$extension"
+    }
+
+    fun mediaStoreRelativePath(sessionId: String, deviceId: String): String {
+        val sanitizedSession = sanitize(sessionId)
+        val sanitizedDevice = sanitize(deviceId)
+        return "${Environment.DIRECTORY_MOVIES}/$MEDIA_STORE_ROOT/$sanitizedSession/$sanitizedDevice/"
+    }
+
+    private fun sanitize(input: String): String =
+        input.replace(Regex("[^A-Za-z0-9._-]"), "_")
+
     companion object {
         private val formatter = java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSS")
             .withZone(java.time.ZoneOffset.UTC)
+        private const val MEDIA_STORE_ROOT = "Buccancs"
     }
 }

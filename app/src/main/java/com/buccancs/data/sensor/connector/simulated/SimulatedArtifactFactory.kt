@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.simulated
 
+import android.net.Uri
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
@@ -43,6 +44,7 @@ internal class SimulatedArtifactFactory private constructor(
         return SessionArtifact(
             deviceId = deviceId,
             streamType = streamType,
+            uri = Uri.fromFile(target),
             file = target,
             mimeType = mimeType,
             sizeBytes = payload.size.toLong(),

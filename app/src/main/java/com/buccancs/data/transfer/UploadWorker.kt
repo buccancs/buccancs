@@ -1,6 +1,7 @@
 package com.buccancs.data.transfer
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -34,19 +35,15 @@ class UploadWorker(
         var failures = 0
         sessionIds.forEach { sessionId ->
             val manifest = loadManifest(storage.manifestFile(sessionId)) ?: return@forEach
-            val sessionDir = storage.sessionDirectory(sessionId)
             manifest.artifacts.forEach { artifactEntry ->
-                val file = File(sessionDir, artifactEntry.relativePath)
-                if (!file.exists()) {
-                    return@forEach
-                }
-                val artifact = toSessionArtifact(artifactEntry, file) ?: return@forEach
+                val artifact = toSessionArtifact(sessionId, artifactEntry, storage) ?: return@forEach
                 val result = client.upload(sessionId, artifact) { }
                 if (result.success) {
-                    file.delete()
+                    artifact.file?.delete()
                 } else {
                     failures += 1
-                    Log.w(TAG, "Upload failure for ${artifact.file.name}: ${result.errorMessage}")
+                    val name = artifact.file?.name ?: artifact.uri.toString()
+                    Log.w(TAG, "Upload failure for $name: ${result.errorMessage}")
                 }
             }
         }
@@ -62,17 +59,30 @@ class UploadWorker(
         }.getOrNull()
     }
 
-    private fun toSessionArtifact(entry: com.buccancs.data.recording.manifest.ArtifactEntry, file: File): SessionArtifact? {
+    private fun toSessionArtifact(
+        sessionId: String,
+        entry: com.buccancs.data.recording.manifest.ArtifactEntry,
+        storage: RecordingStorage
+    ): SessionArtifact? {
         val streamType = runCatching { SensorStreamType.valueOf(entry.streamType) }.getOrNull()
             ?: return null
         val checksum = entry.checksumSha256.decodeHex()
+        val file = entry.relativePath?.let {
+            val directory = storage.sessionDirectory(sessionId)
+            File(directory, it).takeIf(File::exists)
+        }
+        val uri = entry.contentUri?.let { Uri.parse(it) }
+            ?: file?.let { Uri.fromFile(it) }
+            ?: return null
         return SessionArtifact(
             deviceId = DeviceId(entry.deviceId),
             streamType = streamType,
+            uri = uri,
             file = file,
             mimeType = entry.mimeType,
-            sizeBytes = file.length(),
-            checksumSha256 = checksum
+            sizeBytes = entry.sizeBytes.takeIf { it > 0 } ?: file?.length() ?: 0,
+            checksumSha256 = checksum,
+            metadata = entry.metadata
         )
     }
 

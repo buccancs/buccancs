@@ -1124,7 +1124,7 @@ private fun DeviceExerciseResult.toUiModel(): DeviceExerciseUi {
         streams = streamLabels.sorted(),
         startObservedAt = startObservedAt?.toString(),
         stopObservedAt = stopObservedAt?.toString(),
-        artifactNames = artifacts.map { it.file.name }
+        artifactNames = artifacts.map { it.file?.name ?: it.uri.lastPathSegment ?: it.streamType.name }
     )
 }
 

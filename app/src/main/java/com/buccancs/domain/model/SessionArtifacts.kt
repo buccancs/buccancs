@@ -1,14 +1,17 @@
 package com.buccancs.domain.model
 
+import android.net.Uri
 import java.io.File
 
 data class SessionArtifact(
     val deviceId: DeviceId,
     val streamType: SensorStreamType,
-    val file: File,
+    val uri: Uri,
+    val file: File?,
     val mimeType: String,
     val sizeBytes: Long,
-    val checksumSha256: ByteArray
+    val checksumSha256: ByteArray,
+    val metadata: Map<String, String> = emptyMap()
 )
 
 data class UploadStatus(

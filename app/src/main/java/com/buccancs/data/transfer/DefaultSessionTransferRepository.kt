@@ -50,7 +50,7 @@ class DefaultSessionTransferRepository @Inject constructor(
                     sessionId = sessionId,
                     deviceId = artifact.deviceId,
                     streamType = artifact.streamType,
-                    fileName = artifact.file.name,
+                    fileName = artifactName(artifact),
                     bytesTotal = artifact.sizeBytes,
                     bytesTransferred = 0,
                     attempt = 0,
@@ -87,7 +87,7 @@ class DefaultSessionTransferRepository @Inject constructor(
                     bytesTransferred = command.artifact.sizeBytes,
                     error = null
                 )
-                command.artifact.file.delete()
+                command.artifact.file?.delete()
                 break
             } else {
                 updateStatus(
@@ -137,7 +137,7 @@ class DefaultSessionTransferRepository @Inject constructor(
                 sessionId = command.sessionId,
                 deviceId = command.artifact.deviceId,
                 streamType = command.artifact.streamType,
-                fileName = command.artifact.file.name,
+                fileName = artifactName(command.artifact),
                 bytesTotal = total,
                 bytesTransferred = bytesTransferred.coerceAtMost(total),
                 attempt = attempt,
@@ -172,6 +172,9 @@ class DefaultSessionTransferRepository @Inject constructor(
 
     private fun keyFor(sessionId: String, artifact: SessionArtifact): String =
         listOf(sessionId, artifact.deviceId.value, artifact.streamType.name).joinToString("|")
+
+    private fun artifactName(artifact: SessionArtifact): String =
+        artifact.file?.name ?: artifact.uri.lastPathSegment ?: "${artifact.deviceId.value}-${artifact.streamType.name.lowercase()}"
 
     private fun backoffFor(attempt: Int): Long = 1_000L * attempt.coerceAtMost(5)
     private data class UploadCommand(

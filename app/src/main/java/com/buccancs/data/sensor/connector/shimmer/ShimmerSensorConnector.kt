@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
+import android.net.Uri
 import com.buccancs.util.nowInstant
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
@@ -615,6 +616,7 @@ internal class ShimmerSensorConnector(
         SessionArtifact(
             deviceId = deviceId,
             streamType = SensorStreamType.GSR,
+            uri = Uri.fromFile(file),
             file = file,
             mimeType = "text/csv",
             sizeBytes = file.length(),

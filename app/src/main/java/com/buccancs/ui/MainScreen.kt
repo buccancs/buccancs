@@ -49,6 +49,9 @@ import java.util.*
 fun MainRoute(
     viewModel: MainViewModel = hiltViewModel(),
     calibrationViewModel: CalibrationViewModel = hiltViewModel(),
+    onOpenLiveSession: () -> Unit = {},
+    onOpenLibrary: () -> Unit = {},
+    onOpenSettings: () -> Unit = {},
     onOpenTopdon: (DeviceId) -> Unit = {}
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -79,6 +82,9 @@ fun MainRoute(
         onOrchestratorUseTlsChanged = viewModel::onOrchestratorUseTlsChanged,
         onApplyConfig = viewModel::applyOrchestratorConfig,
         onClearConfigMessage = viewModel::clearConfigMessage,
+        onOpenLiveSession = onOpenLiveSession,
+        onOpenLibrary = onOpenLibrary,
+        onOpenSettings = onOpenSettings,
         onOpenTopdon = onOpenTopdon,
         calibrationState = calibrationState,
         calibrationActions = calibrationActions
@@ -100,6 +106,9 @@ fun MainScreen(
     onOrchestratorUseTlsChanged: (Boolean) -> Unit,
     onApplyConfig: () -> Unit,
     onClearConfigMessage: () -> Unit,
+    onOpenLiveSession: () -> Unit,
+    onOpenLibrary: () -> Unit,
+    onOpenSettings: () -> Unit,
     onOpenTopdon: (DeviceId) -> Unit,
     calibrationState: CalibrationUiState,
     calibrationActions: CalibrationActions
@@ -129,6 +138,13 @@ fun MainScreen(
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
+                item {
+                    NavigationLinks(
+                        onOpenLiveSession = onOpenLiveSession,
+                        onOpenLibrary = onOpenLibrary,
+                        onOpenSettings = onOpenSettings
+                    )
+                }
                 item {
                     SessionCard(
                         state = state,
@@ -179,6 +195,30 @@ fun MainScreen(
                     .fillMaxSize()
                     .background(Color.White.copy(alpha = 0.6f))
             )
+        }
+    }
+}
+
+@Composable
+private fun NavigationLinks(
+    onOpenLiveSession: () -> Unit,
+    onOpenLibrary: () -> Unit,
+    onOpenSettings: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Button(onClick = onOpenLiveSession, modifier = Modifier.weight(1f)) {
+            Text(text = "Live Session")
+        }
+        Button(onClick = onOpenLibrary, modifier = Modifier.weight(1f)) {
+            Text(text = "Sessions")
+        }
+        OutlinedButton(onClick = onOpenSettings, modifier = Modifier.weight(1f)) {
+            Text(text = "Settings")
         }
     }
 }

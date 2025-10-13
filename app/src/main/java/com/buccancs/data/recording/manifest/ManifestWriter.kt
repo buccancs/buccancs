@@ -2,6 +2,7 @@ package com.buccancs.data.recording.manifest
 
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.DeviceEvent
+import com.buccancs.domain.model.RecordingBookmark
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SessionArtifact
@@ -79,7 +80,8 @@ class ManifestWriter @Inject constructor(
         sessionId: String,
         endedAt: Instant,
         events: List<DeviceEvent>,
-        artifacts: List<SessionArtifact> = emptyList()
+        artifacts: List<SessionArtifact> = emptyList(),
+        bookmarks: List<RecordingBookmark> = emptyList()
     ) {
         mutex.withLock {
             val current = ensureSession(sessionId) ?: return
@@ -93,10 +95,12 @@ class ManifestWriter @Inject constructor(
                     scheduled >= sessionStart && scheduled <= endEpochMs
                 }
                 .map(::toEventEntry)
+            val bookmarkEntries = bookmarks.map(::toBookmarkEntry)
             val duration = (endEpochMs - sessionStart).takeIf { it >= 0 }
             val updated = current.copy(
                 artifacts = artifactEntries,
                 events = eventEntries,
+                bookmarks = bookmarkEntries,
                 endedAt = endedAt.toString(),
                 endedAtEpochMs = endEpochMs,
                 durationMillis = duration
@@ -119,15 +123,16 @@ class ManifestWriter @Inject constructor(
         )
 
     private fun toArtifactEntry(sessionId: String, artifact: SessionArtifact): ArtifactEntry {
-        val relativePath = storage.relativePath(sessionId, artifact.file)
         return ArtifactEntry(
             deviceId = artifact.deviceId.value,
             streamType = artifact.streamType.name,
-            relativePath = relativePath,
+            relativePath = artifact.file?.let { storage.relativePath(sessionId, it) },
+            contentUri = artifact.uri.toString(),
             mimeType = artifact.mimeType,
             sizeBytes = artifact.sizeBytes,
             checksumSha256 = artifact.checksumSha256.toHexString(),
-            capturedEpochMs = artifact.file.lastModified().takeIf { it > 0 } ?: System.currentTimeMillis()
+            metadata = artifact.metadata,
+            capturedEpochMs = artifact.file?.lastModified()?.takeIf { it > 0 } ?: System.currentTimeMillis()
         )
     }
 
@@ -138,6 +143,13 @@ class ManifestWriter @Inject constructor(
             label = event.label.ifBlank { null },
             scheduledEpochMs = event.scheduledAt.toEpochMilliseconds(),
             receivedEpochMs = event.receivedAt.toEpochMilliseconds()
+        )
+
+    private fun toBookmarkEntry(bookmark: RecordingBookmark): BookmarkEntry =
+        BookmarkEntry(
+            bookmarkId = bookmark.id,
+            label = bookmark.label,
+            timestampEpochMs = bookmark.timestamp.toEpochMilliseconds()
         )
 
     private suspend fun writeManifest(target: File, manifest: SessionManifest) {
@@ -178,3 +190,9 @@ class ManifestWriter @Inject constructor(
         val UTF8: Charset = Charsets.UTF_8
     }
 }
+    private fun toBookmarkEntry(bookmark: RecordingBookmark): BookmarkEntry =
+        BookmarkEntry(
+            bookmarkId = bookmark.id,
+            label = bookmark.label,
+            timestampEpochMs = bookmark.timestamp.toEpochMilliseconds()
+        )

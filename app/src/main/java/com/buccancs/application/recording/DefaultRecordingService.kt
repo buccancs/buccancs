@@ -5,6 +5,7 @@ import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.application.time.TimeSyncService
 import com.buccancs.data.recording.manifest.ManifestWriter
+import com.buccancs.domain.repository.BookmarkRepository
 import com.buccancs.domain.repository.DeviceEventRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.SessionTransferRepository
@@ -23,6 +24,7 @@ class DefaultRecordingService @Inject constructor(
 ) : RecordingService {
     override suspend fun startOrResume(sessionId: String, requestedStart: Instant?): RecordingState {
         val syncStatus = timeSyncService.forceSync()
+        bookmarkRepository.clear()()
         val anchor = RecordingSessionAnchor(
             sessionId = sessionId,
             referenceTimestamp = requestedStart ?: nowInstant(),

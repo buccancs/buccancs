@@ -1,5 +1,6 @@
 package com.buccancs.di
 
+import com.buccancs.data.bookmarks.DefaultBookmarkRepository
 import com.buccancs.data.calibration.DefaultCalibrationRepository
 import com.buccancs.data.events.DefaultDeviceEventRepository
 import com.buccancs.data.orchestration.DataStoreOrchestratorConfigRepository
@@ -9,6 +10,7 @@ import com.buccancs.data.sensor.shimmer.DataStoreShimmerSettingsRepository
 import com.buccancs.data.sensor.topdon.DataStoreTopdonSettingsRepository
 import com.buccancs.data.sensor.topdon.DefaultTopdonDeviceRepository
 import com.buccancs.data.transfer.DefaultSessionTransferRepository
+import com.buccancs.domain.repository.BookmarkRepository
 import com.buccancs.domain.repository.CalibrationRepository
 import com.buccancs.domain.repository.DeviceEventRepository
 import com.buccancs.domain.repository.OrchestratorConfigRepository
@@ -48,6 +50,12 @@ abstract class RepositoryModule {
     abstract fun bindOrchestratorConfigRepository(
         impl: DataStoreOrchestratorConfigRepository
     ): OrchestratorConfigRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindBookmarkRepository(
+        impl: DefaultBookmarkRepository
+    ): BookmarkRepository
 
     @Binds
     @Singleton

@@ -54,3 +54,9 @@
 2025-10-13
 - Started the on-device ControlServer from DeviceCommandService, merged local command traffic with orchestrator subscriptions, and exposed token issuance via `issueLocalToken`.
 - Added BuildConfig-driven control port, fed local commands through existing flows, and updated docs/backlog for the next integration tasks.
+
+2025-10-13
+- Added recording manifest writer plus consistent artifact naming and wired `DefaultRecordingService` to persist session metadata.
+- Introduced `SpaceMonitor`, retention preferences repository, WorkManager-powered Upload/Retention workers, and a settings screen to apply orchestrator/retention policy.
+- Replaced `SessionClock` with `TimeModelAdapter`, normalised Topdon thermal frames, and surfaced live telemetry (streams, uploads, events, storage) via the new Live Session screen.
+- Implemented session library and manifest detail views backed by the stored manifests and refreshed README/backlog to reflect the new UI and background services.

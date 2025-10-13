@@ -5,6 +5,7 @@ import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.os.SystemClock
 import android.util.Log
+import android.net.Uri
 import com.buccancs.data.preview.PreviewStreamClient
 import com.buccancs.data.sensor.MetadataWriters
 import com.buccancs.core.time.TimeModelAdapter
@@ -39,6 +40,7 @@ import com.buccancs.util.toEpochMillis
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.io.DEFAULT_BUFFER_SIZE
@@ -58,8 +60,8 @@ private fun defaultTopdonDevice(): SensorDevice = SensorDevice(
 internal class TopdonThermalConnector @Inject constructor(
     @ApplicationScope private val appScope: CoroutineScope,
     @ApplicationContext private val context: Context,
-    private val usbManager: UsbManager,
     private val recordingStorage: RecordingStorage,
+    private val thermalNormalizer: ThermalNormalizer,
     artifactFactory: SimulatedArtifactFactory,
     @Suppress("UNUSED_PARAMETER") previewClient: PreviewStreamClient? = null,
     @Suppress("UNUSED_PARAMETER") settingsRepository: InMemoryTopdonSettingsRepository? = null,
@@ -82,6 +84,11 @@ internal class TopdonThermalConnector @Inject constructor(
     private var thermalBytes: Long = 0
     @Volatile
     private var timeModel: TimeModelAdapter? = null
+    @Volatile
+    private var lastThermalMetrics: ThermalNormalizer.Metrics? = null
+    @Volatile
+    private var lastFrameEpochMs: Long? = null
+    private var thermalFrameCount: Long = 0
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
     private val listener = object : USBMonitor.OnDeviceConnectListener {
         override fun onAttach(device: UsbDevice) {
@@ -392,6 +399,9 @@ internal class TopdonThermalConnector @Inject constructor(
             timestampEpochMs = System.currentTimeMillis(),
             extension = "raw"
         )
+        thermalFrameCount = 0
+        lastThermalMetrics = null
+        lastFrameEpochMs = null
         thermalStream = FileOutputStream(file)
         thermalDigest = MessageDigest.getInstance("SHA-256")
         thermalFile = file
@@ -422,6 +432,7 @@ internal class TopdonThermalConnector @Inject constructor(
             val artifact = SessionArtifact(
                 deviceId = deviceId,
                 streamType = SensorStreamType.THERMAL_VIDEO,
+                uri = Uri.fromFile(file),
                 file = file,
                 mimeType = "application/octet-stream",
                 sizeBytes = file.length(),
@@ -447,6 +458,12 @@ internal class TopdonThermalConnector @Inject constructor(
                 add("frameWidth" to THERMAL_WIDTH.toString())
                 add("frameHeight" to THERMAL_HEIGHT.toString())
                 add("bytesCaptured" to bytesCaptured.toString())
+                add("frameCount" to thermalFrameCount.toString())
+                lastFrameEpochMs?.let { add("lastFrameEpochMs" to it.toString()) }
+                lastThermalMetrics?.let { metrics ->
+                    add("frameMinCelsius" to String.format(Locale.US, "%.2f", metrics.minCelsius))
+                    add("frameMaxCelsius" to String.format(Locale.US, "%.2f", metrics.maxCelsius))
+                }
                 add("checksumSha256" to MetadataWriters.stringValue(checksum.toHexString()))
             }
             val directory = file.parentFile ?: recordingStorage.deviceDirectory(sessionId, deviceId.value)
@@ -456,6 +473,7 @@ internal class TopdonThermalConnector @Inject constructor(
             pendingArtifacts += SessionArtifact(
                 deviceId = deviceId,
                 streamType = SensorStreamType.THERMAL_VIDEO,
+                uri = Uri.fromFile(metadataFile),
                 file = metadataFile,
                 mimeType = "application/json",
                 sizeBytes = metadataFile.length(),
@@ -463,6 +481,9 @@ internal class TopdonThermalConnector @Inject constructor(
             )
             completedSessionId = sessionId
         }
+        lastThermalMetrics = null
+        lastFrameEpochMs = null
+        thermalFrameCount = 0
     }
     override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {
         if (isSimulationMode) {
@@ -486,6 +507,10 @@ internal class TopdonThermalConnector @Inject constructor(
             } catch (t: Throwable) {
                 Log.w(logTag, "Failed to persist thermal frame", t)
             }
+            val metrics = runCatching { thermalNormalizer.normalize(data) }.getOrNull()
+            if (metrics != null) {
+                lastThermalMetrics = metrics
+            }
         }
         timeModel = timeModel?.let { clock ->
             if (clock.hasRecordingStarted()) {
@@ -493,6 +518,12 @@ internal class TopdonThermalConnector @Inject constructor(
             } else {
                 clock.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
             }
+        }
+        if (data != null) {
+            thermalFrameCount += 1
+            val alignedEpoch = timeModel?.alignMonotonic(SystemClock.elapsedRealtimeNanos())
+                ?: System.currentTimeMillis()
+            lastFrameEpochMs = alignedEpoch
         }
         val now = alignedNowInstant()
         val thermal = SensorStreamStatus(

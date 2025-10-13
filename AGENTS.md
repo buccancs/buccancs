@@ -1,59 +1,31 @@
-### **Core Principles**
+# Repository Guidelines
 
-* **Communication:** Be modest and succinct.
-* **Clarity:** If something is not clear, refer to the requirements, backlogs, todos, build fixes.
-* **Character Set:** Use only ASCII-safe characters in all code, comments, and commit messages.
+## Project Structure and Module Organization
+- `app` hosts the Android agent built with Jetpack Compose, Hilt, and repository-backed data sources for Topdon, Shimmer, and media capture.
+- `desktop` contains the Compose Desktop orchestrator, gRPC control server, and shared view model logic that coordinates sessions.
+- `protocol` stores protobuf schemas and generated Kotlin stubs consumed by both front ends.
+- `sdk/libs` and `external/` provide vendor SDK ground truth; consult these when aligning integrations.
+- Operational notes live in `READ ME.md`, `BACKLOG.txt`, and `dev-diary.txt`; update them whenever workflows or priorities change.
 
-### **Development Workflow & Verification**
+## Build, Test, and Development Commands
+- `.\gradlew assemble` (Windows) or `./gradlew assemble` (Unix) produces binaries for all modules without running tests.
+- `.\gradlew :desktop:run` launches the orchestrator for local verification.
+- `.\gradlew :app:installDebug` deploys the Android agent to a connected device.
+- Tests remain disabled per workflow guidance; do not re-enable suites without explicit direction.
 
-* **Workflow:** Disable all tests for now
-* **Documentation** Maintain a really minimal backlog, dev-diary. Always update the readme with the current state of the
-  repo.
+## Coding Style and Naming Conventions
+- Follow official Kotlin and Android style guides: 4-space indentation, PascalCase for types, camelCase for members, and SCREAMING_SNAKE_CASE for constants.
+- Compose UI files should keep one screen per file and expose a `@Composable` entry point named `<ScreenName>Screen`.
+- ViewModels live in `.../presentation/...` packages and must surface state via immutable flows; repositories reside under `.../data/...`.
+- Keep ASCII-only identifiers and comments to simplify cross-platform tooling.
 
-<!-- 2. **Pre-Commit Build:** Always execute a full Gradle build before committing changes and try to fix the issues.
-4. **Final Build Check:** Re-verify with a final `gradle build` to ensure project integrity and try to fix the issues. -->
+## Testing Guidelines
+- Automated tests are presently disabled; leave `test` tasks untouched in Gradle scripts.
+- If manual verification is required, document the scenario in `dev-diary.txt` and link any captured logs or manifests.
+- When tests return, prefer naming patterns like `FeatureScenarioTest` and co-locate them under `src/test` or `src/androidTest` mirroring the production package tree.
 
-### **Coding and Architectural Standards**
-
-* **Code Conventions:** Strictly adhere to the official Kotlin and Android coding conventions.
-* **Architecture:**
-    * Implement all features following the Jetpack Compose and Model-View-ViewModel (MVVM) architecture with HILT.
-    * Use the Repository pattern for data abstraction and access.
-* **Commenting:**
-    * Only add comments that are essential for development, such as explaining complex algorithms or non-obvious logic.
-    * Refrain from adding non-development-related comments.
-* **Code Deletion:** Remove redundant files and code duplications
-
-### **Implementation Ground Truth**
-
-For specific feature integrations where a local implementation is missing, refer to the following repositories as the
-definitive source:
-
-* **TOPDON SDK - GROUNDTRUTH:**
-    * `sdk/libs/topdon.aar`
-
-* **Example TOPDON TC001 Integration- GROUNDTRUTH:**
-    * **Main:** `external/original-topdon-app`
-    * **BLE:** `external/original-topdon-app/BleModule`
-
-* **Shimmer SDK - GROUNDTRUTH:**
-    * `sdk/libs/shimmerbluetoothmanager-0.11.5_beta.jar`
-    * `sdk/libs/shimmerdriver-0.11.5_beta.jar`
-    * `sdk/libs/shimmermanager-0.11.5_beta.jar`
-    * `sdk/libs/shimmerandroidinstrumentdriver-3.2.4_beta.aar`
-
-* **Example Shimmer3 GSR Integration - GROUNDTRUTH:**
-    * `external/Shimmer-Java-Android-API`
-    * `external/ShimmerAndroidAPI`
-
-### **File Exclusions**
-
-<!-- * Exclude all Markdown (`.md`) files from agent analysis and processing
-* Exclude all LaTeX (`.tex`, `.latex`) files from agent analysis and processing
-* Exclude `docs/` directory from agent processing -->
-
-### **Prohibitions**
-
-* Do not use emojis in any context (code, comments, documentation, or commit messages).
-
-<!-- * Do not generate Markdown (`.md`) documentation files. -->
+## Commit and Pull Request Guidelines
+- Favor short, imperative commit subjects similar to `Delete SessionClock.kt`; avoid placeholder messages such as `asd` seen in legacy history.
+- Each change should mention impacted modules and note doc updates in the body when relevant.
+- Pull requests must describe the user-facing impact, list manual verification steps, and reference backlog items from `BACKLOG.txt` or issues when available.
+- Include screenshots or logs for UI or orchestration changes and call out any dependencies on vendor SDK updates.

@@ -11,8 +11,12 @@
   automatically when a session stops.
 - Audio, RGB, and thermal recordings now emit timeline metadata aligned to the orchestrator clock for downstream
   correlation across platforms.
+- Recording manifests capture session metadata, device inventory, artifacts, and event timelines. Artifacts are named
+  consistently per stream and completed sessions enqueue uploads against the manifest for replay.
 - Calibration utilities on Android capture paired RGB/thermal frames, run OpenCV stereo calibration, and cache results
   for reuse across sessions.
+- Android now exposes dedicated Live Session, Session Library, and Settings screens so operators can monitor active
+  telemetry, review manifests, and adjust orchestrator/retention policy without leaving the app.
 - Dashboard now surfaces hardware inventory from the declarative device list, supports per-device navigation, and
   exposes a one-tap multi-device recording exercise for validation runs.
 - Application service layer introduced for time sync, device commands, and recording coordination to keep ViewModels
@@ -43,6 +47,11 @@
 - Hardware inventory is declaratively managed via `app/src/main/assets/device-inventory.json`; update ids, names, MAC
   addresses, or USB descriptors there to provision additional sensors.
 - Thermal module navigation now exposes a dedicated Topdon console screen (scan, connect/disconnect, preview, settings).
+- Live Session screen (hamburger navigation) summarises recording state, stream telemetry, recent events, uploads, and
+  storage capacity using the new `SpaceMonitor` service.
+- Session Library lists persisted manifests and opens per-session detail views backed by the manifest JSON.
+- Settings screen wraps orchestrator target edits and retention scheduling; updates persist via
+  `RetentionPreferencesRepository` and schedule WorkManager jobs with `WorkPolicy` helpers.
 
 ## Pending Focus
 
@@ -52,3 +61,4 @@
 - Add preview throttling and colour controls ahead of field deployment.
 - Wire ControlServer token issuance into the desktop controller/CLI and expose connection diagnostics in-app.
 - HeartbeatMonitor should feed WARN/SAFE status into the recording UI and auto-stop logic.
+- Expand retention scheduling UI with presets for long-form studies and integrate manifest export tooling.

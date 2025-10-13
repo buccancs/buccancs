@@ -4,6 +4,7 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.SystemClock
+import android.net.Uri
 import com.buccancs.data.sensor.MetadataWriters
 import com.buccancs.core.time.TimeModelAdapter
 import android.util.Log
@@ -332,6 +333,7 @@ internal class MicrophoneConnector @Inject constructor(
             val artifact = SessionArtifact(
                 deviceId = deviceId,
                 streamType = SensorStreamType.AUDIO,
+                uri = Uri.fromFile(file),
                 file = file,
                 mimeType = "audio/wav",
                 sizeBytes = file.length(),
@@ -368,6 +370,7 @@ internal class MicrophoneConnector @Inject constructor(
             pendingArtifacts += SessionArtifact(
                 deviceId = deviceId,
                 streamType = SensorStreamType.AUDIO,
+                uri = Uri.fromFile(metadataFile),
                 file = metadataFile,
                 mimeType = "application/json",
                 sizeBytes = metadataFile.length(),

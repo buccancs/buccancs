@@ -21,6 +21,8 @@ data class SessionManifest(
     val events: List<EventEntry> = emptyList(),
     @SerialName("artifacts")
     val artifacts: List<ArtifactEntry> = emptyList(),
+    @SerialName("bookmarks")
+    val bookmarks: List<BookmarkEntry> = emptyList(),
     @SerialName("ended_at")
     val endedAt: String? = null,
     @SerialName("ended_at_epoch_ms")
@@ -54,13 +56,17 @@ data class ArtifactEntry(
     @SerialName("stream_type")
     val streamType: String,
     @SerialName("relative_path")
-    val relativePath: String,
+    val relativePath: String? = null,
+    @SerialName("content_uri")
+    val contentUri: String? = null,
     @SerialName("mime_type")
     val mimeType: String,
     @SerialName("size_bytes")
     val sizeBytes: Long,
     @SerialName("checksum_sha256")
     val checksumSha256: String,
+    @SerialName("metadata")
+    val metadata: Map<String, String> = emptyMap(),
     @SerialName("captured_epoch_ms")
     val capturedEpochMs: Long
 )
@@ -77,4 +83,14 @@ data class EventEntry(
     val scheduledEpochMs: Long?,
     @SerialName("received_epoch_ms")
     val receivedEpochMs: Long?
+)
+
+@Serializable
+data class BookmarkEntry(
+    @SerialName("bookmark_id")
+    val bookmarkId: String,
+    @SerialName("label")
+    val label: String,
+    @SerialName("timestamp_epoch_ms")
+    val timestampEpochMs: Long
 )
