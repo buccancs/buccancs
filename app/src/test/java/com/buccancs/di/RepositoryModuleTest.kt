@@ -31,22 +31,31 @@ class RepositoryModuleTest {
 
     @Inject
     lateinit var sensorRepository: SensorRepository
+
     @Inject
     lateinit var calibrationRepository: CalibrationRepository
+
     @Inject
     lateinit var bookmarkRepository: BookmarkRepository
+
     @Inject
     lateinit var deviceEventRepository: DeviceEventRepository
+
     @Inject
     lateinit var sensorHardwareConfigRepository: SensorHardwareConfigRepository
+
     @Inject
     lateinit var sessionTransferRepository: SessionTransferRepository
+
     @Inject
     lateinit var shimmerSettingsRepository: ShimmerSettingsRepository
+
     @Inject
     lateinit var topdonSettingsRepository: TopdonSettingsRepository
+
     @Inject
     lateinit var topdonDeviceRepository: TopdonDeviceRepository
+
     @Inject
     lateinit var orchestratorConfigRepository: OrchestratorConfigRepository
 

@@ -294,6 +294,18 @@ public class Shimmer extends ShimmerBluetooth {
         setEnableCalibration(enableCalibration);
         mUseProcessingThread = true;
         mContext = context;
+    }
+
+    public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, boolean enableCalibration, Context context) {
+        super(myName, samplingRate, setEnabledSensors, accelRange, gsrRange, magGain);
+        setupOrientation(orientation, samplingRate);
+        mAdapter = BluetoothAdapter.getDefaultAdapter();
+        mBluetoothRadioState = BT_STATE.DISCONNECTED;
+        mHandlerList.add(handler);
+        setupOrientation(orientation, samplingRate);
+        setEnableCalibration(enableCalibration);
+        mUseProcessingThread = true;
+        mContext = context;
     }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -309,18 +321,6 @@ public class Shimmer extends ShimmerBluetooth {
             }
         }
     };
-
-    public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, boolean enableCalibration, Context context) {
-        super(myName, samplingRate, setEnabledSensors, accelRange, gsrRange, magGain);
-        setupOrientation(orientation, samplingRate);
-        mAdapter = BluetoothAdapter.getDefaultAdapter();
-        mBluetoothRadioState = BT_STATE.DISCONNECTED;
-        mHandlerList.add(handler);
-        setupOrientation(orientation, samplingRate);
-        setEnableCalibration(enableCalibration);
-        mUseProcessingThread = true;
-        mContext = context;
-    }
 
     protected void unregisterDisconnectListener() {
         if (mContext != null) {
@@ -703,16 +703,6 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     @Override
     protected void clearSerialBuffer() {
         startTimerCheckForSerialPortClear();
@@ -734,6 +724,16 @@ public class Shimmer extends ShimmerBluetooth {
 
         stopTimerCheckForSerialPortClear();
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     public void write(byte[] out) {
 		/*
@@ -1027,6 +1027,10 @@ public class Shimmer extends ShimmerBluetooth {
         return changed;
     }
 
+    public boolean isConnected() {
+        return mIsConnected;
+    }
+
 	/*
 	public byte[] readBytes(int numberofBytes){
 		  byte[] b = new byte[numberofBytes];  
@@ -1048,10 +1052,6 @@ public class Shimmer extends ShimmerBluetooth {
 			   return b;
 		  }
 	}*/
-
-    public boolean isConnected() {
-        return mIsConnected;
-    }
 
     @Override
     public void disconnect() {

@@ -22,7 +22,7 @@
 - Upload recovery instrumentation tracks WorkManager retries, appends JSONL logs per session, and surfaces recent
   recovery events on the Live Session screen so mid-session disconnects are observable.
 - Upload backlog guardrails enforce queue thresholds, log `backlog_telemetry.jsonl` snapshots per session, surface
-  warning/critical states in Live Session, and drop newest artifacts once the buffer exceeds 4 GiB/96 items; recording
+  warning/critical states in Live Session, and drop newest artifacts once the buffer exceeds 4 GiB/96 items; recording
   automatically shifts capture into a conserve mode when pressure increases.
 - Recording sessions stream CPU, memory, and storage samples into per-session metrics logs to support performance
   regressions and upcoming multi-device burn-in work, with summaries written to `performance_summary.json` for each
@@ -46,19 +46,20 @@
 ## Development Notes
 
 - **Architecture Refactoring (2025-01-14) - COMPLETE:**
-  - **Phase 1 Complete:** Extracted business logic into use cases (`SessionCoordinator`, `DeviceManagementUseCase`, `HardwareConfigurationUseCase`, `RemoteCommandCoordinator`). MainViewModel reduced from 1,248 to 1,134 lines.
-  - **Phase 2 Complete:** Split MainViewModel into 5 focused feature ViewModels:
-    - `RecordingViewModel` - Session lifecycle and exercise execution
-    - `DeviceInventoryViewModel` - Device connection and inventory
-    - `ShimmerConfigViewModel` - Shimmer device configuration
-    - `OrchestratorConfigViewModel` - Orchestrator connection settings
-    - `TelemetryViewModel` - Stream status, time sync, and events
-  - **Testing Complete:** Created 47 unit tests covering all use cases (100% method coverage)
-  - **Code Review Complete:** Architecture approved, integration plan ready
-  - **Status:** Ready for staged UI migration (see `docs/analysis/INTEGRATION_CHECKLIST_2025-01-14.md`)
-  - New ViewModels average 146 lines each (87% reduction) with focused responsibilities
-  - All refactored code compiles successfully; pre-existing errors in unrelated files remain
-  - See `docs/analysis/` for implementation, test reports, migration guide, and integration checklist
+    - **Phase 1 Complete:** Extracted business logic into use cases (`SessionCoordinator`, `DeviceManagementUseCase`,
+      `HardwareConfigurationUseCase`, `RemoteCommandCoordinator`). MainViewModel reduced from 1,248 to 1,134 lines.
+    - **Phase 2 Complete:** Split MainViewModel into 5 focused feature ViewModels:
+        - `RecordingViewModel` - Session lifecycle and exercise execution
+        - `DeviceInventoryViewModel` - Device connection and inventory
+        - `ShimmerConfigViewModel` - Shimmer device configuration
+        - `OrchestratorConfigViewModel` - Orchestrator connection settings
+        - `TelemetryViewModel` - Stream status, time sync, and events
+    - **Testing Complete:** Created 47 unit tests covering all use cases (100% method coverage)
+    - **Code Review Complete:** Architecture approved, integration plan ready
+    - **Status:** Ready for staged UI migration (see `docs/analysis/INTEGRATION_CHECKLIST_2025-01-14.md`)
+    - New ViewModels average 146 lines each (87% reduction) with focused responsibilities
+    - All refactored code compiles successfully; pre-existing errors in unrelated files remain
+    - See `docs/analysis/` for implementation, test reports, migration guide, and integration checklist
 - Android app auto-starts `DeviceOrchestratorBridge` during application start to keep the desktop in sync.
 - Multi-device exercise card on the dashboard runs a synchronised start/stop across all active hardware and reports
   per-device timestamps and artifacts.
@@ -94,19 +95,21 @@
 - Result pattern error handling infrastructure is fully implemented with domain-specific helpers for Bluetooth, Storage,
   and Codec operations. See `docs/guides/ERROR_HANDLING_REFACTORING_EXAMPLES_2025-10-14.md` for refactoring patterns.
 - Manual drills:
-  - `docs/manual-tests/offline-recovery.md` for simulating upload retries and verifying recovery logs.
-  - `docs/manual-tests/calibration-wizard.md` for the guided calibration walkthrough and metrics audit.
-  - `docs/manual-tests/multi-device-stress.md` paired with `tools/perf/multi_device_stress.sh` to coordinate 8+ device
-    soak tests and summarise recording telemetry. Use `tools/tests/offline_recovery.sh` to automate the reconnection
-    drill against a specific device.
-  - `tools/build/creeping_build.sh` provides a "creeping" build harness that iterates Gradle tasks, captures logs for
-    each step, and continues past failures so CI/local runs do not abort on the first module.
+    - `docs/manual-tests/offline-recovery.md` for simulating upload retries and verifying recovery logs.
+    - `docs/manual-tests/calibration-wizard.md` for the guided calibration walkthrough and metrics audit.
+    - `docs/manual-tests/multi-device-stress.md` paired with `tools/perf/multi_device_stress.sh` to coordinate 8+ device
+      soak tests and summarise recording telemetry. Use `tools/tests/offline_recovery.sh` to automate the reconnection
+      drill against a specific device.
+    - `tools/build/creeping_build.sh` provides a "creeping" build harness that iterates Gradle tasks, captures logs for
+      each step, and continues past failures so CI/local runs do not abort on the first module.
 
 ## Current State and Technical Debt
 
 **Implementation Status:** ~85% complete (Android: 85%, Desktop: 95%)
 
-**IMPORTANT UPDATE (2025-10-14):** The desktop orchestrator is **fully implemented and functional**, not a hollow shell as previously assessed. See `docs/analysis/DESKTOP_ORCHESTRATOR_ANALYSIS_2025-10-14.md` for detailed analysis showing:
+**IMPORTANT UPDATE (2025-10-14):** The desktop orchestrator is **fully implemented and functional**, not a hollow shell
+as previously assessed. See `docs/analysis/DESKTOP_ORCHESTRATOR_ANALYSIS_2025-10-14.md` for detailed analysis showing:
+
 - ✅ All gRPC services fully implemented (not stubs)
 - ✅ Data persistence fully functional with encryption
 - ✅ Session management with complete lifecycle support
@@ -116,6 +119,7 @@
 - ✅ File transfers persist to disk (not sent to /dev/null)
 
 See `docs/analysis/TECHNICAL_DEBT_ANALYSIS_2025-10-13.md` for comprehensive gap analysis, including:
+
 - Testing infrastructure gaps
 - NFR validation status: 0% (all non-functional requirements unverified)
 - Test coverage: 4% (33 test files across 820 Kotlin files, all tests currently disabled)
@@ -123,7 +127,8 @@ See `docs/analysis/TECHNICAL_DEBT_ANALYSIS_2025-10-13.md` for comprehensive gap 
 
 See `docs/project/TESTING_STRATEGY_2025-10-14.md` for comprehensive testing strategy and implementation plan.
 
-See `docs/project/PHASE4_COMPLETION_2025-10-14.md` for Phase 4 tests completion report (85%+ coverage achieved - PRODUCTION READY).
+See `docs/project/PHASE4_COMPLETION_2025-10-14.md` for Phase 4 tests completion report (85%+ coverage achieved -
+PRODUCTION READY).
 
 See `docs/project/PHASE3_COMPLETION_2025-10-14.md` for Phase 3 tests completion report (80% coverage achieved).
 
@@ -150,8 +155,9 @@ See `docs/guides/DI_TESTING_QUICK_REFERENCE.md` for quick testing reference.
 See `docs/project/ERROR_HANDLING_PROJECT_COMPLETE_2025-10-14.md` for Result pattern implementation details.
 
 See `docs/architecture/RESOURCE_MANAGEMENT_COMPLETE_2025-01-14.md` for comprehensive resource management improvements:
+
 - ✅ Fixed DisplayListener memory leak in StimulusPresentationManager
-- ✅ Added Handler cleanup in ShimmerSensorConnector  
+- ✅ Added Handler cleanup in ShimmerSensorConnector
 - ✅ Implemented atomic file operations for manifest writes with backup/recovery
 - ✅ Fixed ImageReader usage pattern in RgbCameraConnector (now uses .use{} pattern)
 - ✅ Added gRPC channel cleanup methods to GrpcChannelFactory
@@ -159,21 +165,28 @@ See `docs/architecture/RESOURCE_MANAGEMENT_COMPLETE_2025-01-14.md` for comprehen
 
 All critical resource leaks addressed. Production-ready resource management across all sensor connectors.
 
-See `docs/architecture/EXTERNAL_DEPENDENCY_ANALYSIS_2025-01-14.md` and `docs/architecture/SDK_IMPROVEMENTS_IMPLEMENTATION_2025-01-14.md` for external SDK integration analysis.
+See `docs/architecture/EXTERNAL_DEPENDENCY_ANALYSIS_2025-01-14.md` and
+`docs/architecture/SDK_IMPROVEMENTS_IMPLEMENTATION_2025-01-14.md` for external SDK integration analysis.
 
 See `docs/architecture/SDK_IMPROVEMENTS_IMPLEMENTATION_2025-01-14.md` for complete implementation details:
-- ✅ **Phase 1 Complete**: Circuit breaker (180 lines), calibration quality enforcement (240 lines), state machine verification
-- ✅ **Phase 2 Complete**: Circuit breaker integrated, thermal simulator created (280 lines), thermal format fully documented
+
+- ✅ **Phase 1 Complete**: Circuit breaker (180 lines), calibration quality enforcement (240 lines), state machine
+  verification
+- ✅ **Phase 2 Complete**: Circuit breaker integrated, thermal simulator created (280 lines), thermal format fully
+  documented
 - ✅ **Phase 3 Complete**: Verified external/original-topdon-app/ is unused (20,207 files safe to delete)
 
-**Critical Discovery (Phase 3):** The entire `external/original-topdon-app/` directory (20,207 files, ~500MB) is **NOT used by the build**. All Topdon dependencies are in `sdk/libs/topdon.aar` (3.84MB). Safe to delete immediately.
+**Critical Discovery (Phase 3):** The entire `external/original-topdon-app/` directory (20,207 files, ~500MB) is **NOT
+used by the build**. All Topdon dependencies are in `sdk/libs/topdon.aar` (3.84MB). Safe to delete immediately.
 
 **Shimmer SDK:**
+
 - ✅ Circuit breaker implemented and integrated (prevents battery drain, user-friendly countdown)
 - ✅ State machine verified (already excellent)
 - 🔧 Wrap in suspend functions (Phase 4)
 
 **Topdon SDK:**
+
 - ✅ Thermal simulator created (3 scenes: indoor 22°C, outdoor 18°C, test pattern)
 - ✅ Frame format documented (256x192, 16-bit LE, conversion: `celsius = (raw/64) - 273.15`)
 - ✅ Cleanup verified: external/ not used, can delete 20,207 files (~500MB)
@@ -181,11 +194,13 @@ See `docs/architecture/SDK_IMPROVEMENTS_IMPLEMENTATION_2025-01-14.md` for comple
 - 🔧 Execute cleanup (delete external/, ready anytime)
 
 **OpenCV:**
+
 - ✅ Quality enforcement implemented (rejects: Mean > 2.0px, Max > 5.0px, Images < 5)
 - ✅ Warnings for suboptimal quality (Mean > 1.0px, Images < 10)
 - 🔧 Add fallback handling (Phase 4)
 
 **Implementation Summary:**
+
 - 5 new production files (~1,100 lines): Circuit breaker, quality enforcement, thermal simulator
 - 7 comprehensive docs (~100KB): Analysis, implementation guides, thermal format specification
 - 20,207 unused files identified for removal (~500MB)
@@ -194,6 +209,7 @@ See `docs/architecture/SDK_IMPROVEMENTS_IMPLEMENTATION_2025-01-14.md` for comple
 See `docs/analysis/CONCURRENCY_THREADING_AUDIT_2025-10-14.md` for concurrency and threading analysis.
 
 See `docs/analysis/CONCURRENCY_FIXES_IMPLEMENTED_2025-10-14.md` for Phase 1 concurrency fixes:
+
 - ✅ Added ApplicationScope to DefaultRecordingService (recordings survive configuration changes)
 - ✅ Added 30s timeout to Shimmer Bluetooth connections
 - ✅ Added 20s timeout to Topdon USB connections
@@ -201,11 +217,13 @@ See `docs/analysis/CONCURRENCY_FIXES_IMPLEMENTED_2025-10-14.md` for Phase 1 conc
 - ✅ Added 5s timeout to file finalisation operations
 
 See `docs/analysis/CONCURRENCY_PHASE2_3_IMPLEMENTATION_2025-10-14.md` for Phase 2/3 implementation:
+
 - ✅ Migrated MdnsAdvertiser and MdnsBrowser from AtomicBoolean to StateFlow
 - ℹ️ Phase 2 (Handler migration) deferred - Handler usage is architecturally appropriate for Android/SDK APIs
 - ℹ️ Remaining StateFlow candidates (GrpcServer, DeviceConnectionMonitor) deferred - simple flags appropriate as-is
 
 See `docs/analysis/CONCURRENCY_PHASE4_ANALYSIS_2025-10-14.md` for Phase 4 threading primitives analysis:
+
 - ✅ Analyzed all 5 @Volatile instances - all usage appropriate for cross-thread communication patterns
 - ✅ Reviewed 12 AtomicBoolean instances - correct usage for guard flags and closures
 - ℹ️ No changes needed - current patterns are optimal for the threading model

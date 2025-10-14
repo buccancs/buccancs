@@ -329,6 +329,7 @@ All modules under `external/original-topdon-app/`: Updated Java compatibility
 ### Source Code Fixes (1 file)
 
 1.
+
 `external/Shimmer-Java-Android-API/ShimmerDriver/src/main/java/com/shimmerresearch/sensors/bmpX80/CalibDetailsBmp280.java`
 
 ### Main Project Integration (1 file)

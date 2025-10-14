@@ -24,6 +24,7 @@ class SensorConnectorModuleTest {
 
     @Inject
     lateinit var sensorConnectors: Set<@JvmSuppressWildcards SensorConnector>
+
     @Inject
     lateinit var multiDeviceConnectors: Set<@JvmSuppressWildcards MultiDeviceConnector>
 

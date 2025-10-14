@@ -23,6 +23,7 @@ class StreamModuleTest {
 
     @Inject
     lateinit var sensorStreamClient: SensorStreamClient
+
     @Inject
     lateinit var previewStreamClient: PreviewStreamClient
 

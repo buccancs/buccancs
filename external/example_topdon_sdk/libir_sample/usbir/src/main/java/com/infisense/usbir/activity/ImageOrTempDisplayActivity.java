@@ -196,6 +196,17 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         iruvc.setRotate(true);
         iruvc.setHandler(mHandler);
         iruvc.registerUSB();
+    }
+
+    private void restartusbcamera() {
+        if (iruvc != null) {
+            iruvc.unregisterUSB();
+            iruvc.stopPreview();
+        }
+        if (imageThread != null) {
+            imageThread.interrupt();
+        }
+        startUSB(true);
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -222,17 +233,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    private void restartusbcamera() {
-        if (iruvc != null) {
-            iruvc.unregisterUSB();
-            iruvc.stopPreview();
-        }
-        if (imageThread != null) {
-            imageThread.interrupt();
-        }
-        startUSB(true);
-    }
 
     private void getDataFlowModeByPosition(int position) {
         if (position == 0) {

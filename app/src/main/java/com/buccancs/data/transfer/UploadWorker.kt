@@ -112,6 +112,7 @@ class UploadWorker(
     interface UploadWorkerEntryPoint {
         fun dataTransferClient(): DataTransferClient
         fun recordingStorage(): RecordingStorage
+
         @StandardJson
         fun json(): Json
     }

@@ -296,8 +296,9 @@ abstract class AbstractScanner implements Scanner {
 
     protected abstract void performStartScan();
 
-    protected abstract void performStopScan();    private final Runnable stopScanRunnable = () -> stopScan(false);
+    protected abstract void performStopScan();
 
+    private final Runnable stopScanRunnable = () -> stopScan(false);
 
 
 }

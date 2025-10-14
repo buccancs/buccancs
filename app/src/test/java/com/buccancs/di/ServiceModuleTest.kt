@@ -24,8 +24,10 @@ class ServiceModuleTest {
 
     @Inject
     lateinit var recordingService: RecordingService
+
     @Inject
     lateinit var deviceCommandService: DeviceCommandService
+
     @Inject
     lateinit var timeSyncService: TimeSyncService
 

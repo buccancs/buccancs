@@ -2,9 +2,15 @@
 
 ## Overview
 
-BuccanCS is a research-grade, multi-modal physiological data collection platform designed for synchronised acquisition of galvanic skin response (GSR), thermal imaging, and RGB video data. The system enables researchers to collect time-aligned physiological datasets for developing and validating contactless GSR prediction models through machine learning.
+BuccanCS is a research-grade, multi-modal physiological data collection platform designed for synchronised acquisition
+of galvanic skin response (GSR), thermal imaging, and RGB video data. The system enables researchers to collect
+time-aligned physiological datasets for developing and validating contactless GSR prediction models through machine
+learning.
 
-This platform addresses a critical gap in physiological computing research: the absence of an integrated system for synchronous multi-sensor data collection. While traditional GSR measurement using contact electrodes is reliable but intrusive, and contactless methods remain unvalidated, this platform provides the infrastructure needed to bridge that gap by collecting paired ground-truth GSR data alongside thermal and visual modalities.
+This platform addresses a critical gap in physiological computing research: the absence of an integrated system for
+synchronous multi-sensor data collection. While traditional GSR measurement using contact electrodes is reliable but
+intrusive, and contactless methods remain unvalidated, this platform provides the infrastructure needed to bridge that
+gap by collecting paired ground-truth GSR data alongside thermal and visual modalities.
 
 **Project Status:** 85% complete - Production-ready data collection system with comprehensive test coverage.
 
@@ -12,15 +18,21 @@ This platform addresses a critical gap in physiological computing research: the 
 
 ### Motivation
 
-Physiological computing leverages bodily signals to assess internal states for health monitoring, affective computing, and human-computer interaction. GSR (galvanic skin response) measures skin electrical conductance changes due to sweat gland activity, reflecting emotional arousal and stress through sympathetic nervous system activity.
+Physiological computing leverages bodily signals to assess internal states for health monitoring, affective computing,
+and human-computer interaction. GSR (galvanic skin response) measures skin electrical conductance changes due to sweat
+gland activity, reflecting emotional arousal and stress through sympathetic nervous system activity.
 
-Traditional GSR measurement requires intrusive skin-contact electrodes that restrict movement and cause discomfort. Contactless GSR measurement using thermal cameras and computer vision offers a promising alternative, but requires well-aligned, synchronised datasets of visual/thermal data paired with ground-truth GSR measurements.
+Traditional GSR measurement requires intrusive skin-contact electrodes that restrict movement and cause discomfort.
+Contactless GSR measurement using thermal cameras and computer vision offers a promising alternative, but requires
+well-aligned, synchronised datasets of visual/thermal data paired with ground-truth GSR measurements.
 
 ### Research Problem
 
-**Core Problem:** No available system exists to synchronously collect GSR signals with complementary thermal and visual data streams in naturalistic settings, limiting development of machine learning models for contactless GSR prediction.
+**Core Problem:** No available system exists to synchronously collect GSR signals with complementary thermal and visual
+data streams in naturalistic settings, limiting development of machine learning models for contactless GSR prediction.
 
 **Solution:** A modular, distributed multi-sensor platform that simultaneously records:
+
 - GSR signals from wearable sensors (Shimmer3 GSR+)
 - Thermal infrared imaging (Topdon TC001)
 - High-resolution RGB video (smartphone camera)
@@ -36,14 +48,17 @@ All data streams are precisely time-synchronised for meaningful correlation and 
 4. Create robust data storage with session management and metadata tracking
 5. Validate system reliability through comprehensive testing (85%+ coverage achieved)
 
-**Note:** Real-time GSR prediction is explicitly outside the scope of this thesis. This work focuses on building the data acquisition infrastructure required for future inference algorithms.
+**Note:** Real-time GSR prediction is explicitly outside the scope of this thesis. This work focuses on building the
+data acquisition infrastructure required for future inference algorithms.
 
 ## System Architecture
 
 ### Overview
 
 BuccanCS uses a distributed architecture with:
-- **Android agents** acting as sensor hubs (Shimmer3 GSR via Bluetooth, Topdon TC001 via USB, built-in RGB camera and microphone)
+
+- **Android agents** acting as sensor hubs (Shimmer3 GSR via Bluetooth, Topdon TC001 via USB, built-in RGB camera and
+  microphone)
 - **Desktop orchestrator** providing centralised coordination, time synchronisation, and data aggregation
 - **gRPC protocol** for command distribution and status reporting
 - **mDNS discovery** for automatic device detection
@@ -51,6 +66,7 @@ BuccanCS uses a distributed architecture with:
 ### Key Components
 
 #### Android Application (`app/`)
+
 - **MVVM Architecture** with Jetpack Compose UI and Hilt dependency injection
 - **Sensor Connectors:** Shimmer3 GSR, Topdon TC001 thermal, RGB camera (CameraX/Camera2), audio
 - **Recording Service:** Coordinates simultaneous multi-sensor capture with shared timestamps
@@ -59,6 +75,7 @@ BuccanCS uses a distributed architecture with:
 - **Control Server:** Accepts local and orchestrator commands via gRPC
 
 #### Desktop Orchestrator (`desktop/`)
+
 - **Compose Desktop** UI for session management and device monitoring
 - **gRPC Server:** Distributes recording commands, time sync, and stimuli to connected devices
 - **Session Management:** Creates session directories, manages metadata, aggregates uploads
@@ -66,30 +83,35 @@ BuccanCS uses a distributed architecture with:
 - **Telemetry Dashboard:** Real-time device status, stream monitoring, storage tracking
 
 #### Protocol (`protocol/`)
+
 - **Protobuf Definitions:** Type-safe messages for commands, events, time sync, device status
 - **Shared Kotlin Stubs:** Generated code used by both Android and desktop modules
 
 ### Hardware Integration
 
 **Shimmer3 GSR+ Sensor:**
+
 - Bluetooth LE connection from Android device
 - 128Hz sampling rate for GSR, accelerometer, and optional PPG
 - Circuit breaker pattern prevents battery drain from repeated connection failures
 - CSV output with microsecond-precision timestamps
 
 **Topdon TC001 Thermal Camera:**
+
 - USB-C connection to Android device (via UVC protocol)
 - 256x192 pixel resolution at 25 Hz
 - 16-bit raw thermal data with calibration metadata
 - Thermal simulator available for testing without hardware
 
 **RGB Camera:**
+
 - 4K@60fps video recording via Camera2 API
 - Segmented MediaCodec/MediaMuxer pipeline with crash-safe MediaStore writes
 - Periodic RAW (DNG) capture for calibration
 - Configurable exposure, ISO, focus, and white balance
 
 **Audio Recording:**
+
 - High-quality microphone capture for contextual annotation
 - Synchronised with other modalities using shared session clock
 
@@ -130,10 +152,10 @@ BuccanCS uses a distributed architecture with:
 ### Code Quality
 
 - **Test Coverage:** 85% (Phase 4 complete - production ready)
-  - 140+ unit tests across core infrastructure
-  - Integration tests for multi-device workflows
-  - Performance tests for resource usage
-  - 100% coverage on Result pattern, DI modules, use cases
+    - 140+ unit tests across core infrastructure
+    - Integration tests for multi-device workflows
+    - Performance tests for resource usage
+    - 100% coverage on Result pattern, DI modules, use cases
 - **Resource Management:** All memory leaks fixed (DisplayListener, Handler callbacks, USB/Bluetooth cleanup)
 - **Concurrency:** Timeouts on all hardware operations, ApplicationScope for long-running tasks
 - **Error Handling:** Comprehensive Result-based error handling with domain-specific helpers
@@ -141,17 +163,20 @@ BuccanCS uses a distributed architecture with:
 ### SDK Integration
 
 **Shimmer SDK:**
+
 - Circuit breaker integrated (prevents battery drain)
 - State machine with explicit transition validation
 - Calibration quality enforcement (rejects poor calibration: Mean >2.0px, Max >5.0px)
 
 **Topdon SDK:**
+
 - Minimal integration via topdon.aar (3.84MB)
 - Thermal frame format documented (256x192, 16-bit LE, celsius = (raw/64) - 273.15)
 - Simulator with 3 scenes (indoor 22C, outdoor 18C, test pattern)
 - External reference code removed (20K+ files, ~500MB - unused by build)
 
 **OpenCV:**
+
 - Stereo calibration with quality thresholds
 - Fallback handling for calibration failures
 - Confidence metrics and audit trails
@@ -161,26 +186,30 @@ BuccanCS uses a distributed architecture with:
 ### Development Environment
 
 **Required:**
+
 - JDK 17 or 21 (OpenJDK recommended)
 - Android SDK with:
-  - Platform 35 (Android 15)
-  - Build Tools 35.0.0
-  - Platform Tools
+    - Platform 35 (Android 15)
+    - Build Tools 35.0.0
+    - Platform Tools
 - Gradle 8.11+ (wrapper included)
 - 8GB+ RAM (16GB recommended)
 
 **Optional:**
+
 - Android Studio Ladybug or later
 - IntelliJ IDEA 2024.1+ for desktop development
 
 ### Hardware Requirements
 
 **Minimum for Development:**
+
 - Android 8.0+ device (API 26+) - simulation mode available for sensor testing
 - PC: Windows 10/11, macOS 12+, or Linux (Ubuntu 20.04+)
 - Network connectivity between Android device and PC (WiFi or USB debugging)
 
 **Full System Testing:**
+
 - Samsung S22 or equivalent (Android 12+, USB 3.0)
 - Shimmer3 GSR+ Unit with Bluetooth LE
 - Topdon TC001 Thermal Camera with USB-C cable
@@ -189,6 +218,7 @@ BuccanCS uses a distributed architecture with:
 ### Runtime Dependencies
 
 **Android:**
+
 - Kotlin 1.9.22
 - Jetpack Compose 1.6.0
 - Hilt 2.50
@@ -198,6 +228,7 @@ BuccanCS uses a distributed architecture with:
 - Topdon SDK (topdon.aar)
 
 **Desktop:**
+
 - Kotlin 1.9.22
 - Compose Desktop 1.6.0
 - gRPC 1.60.0
@@ -274,7 +305,7 @@ Edit `app/src/main/assets/device-inventory.json`:
       "macAddress": "00:06:66:XX:XX:XX"
     },
     {
-      "id": "topdon-001", 
+      "id": "topdon-001",
       "name": "Thermal Camera 1",
       "type": "TOPDON_TC001",
       "usbVendorId": 1234,
@@ -286,7 +317,8 @@ Edit `app/src/main/assets/device-inventory.json`:
 
 #### Time Synchronisation Server (Desktop)
 
-Desktop automatically starts NTP-like time sync service on port 50052. Android devices connect automatically when orchestrator is configured.
+Desktop automatically starts NTP-like time sync service on port 50052. Android devices connect automatically when
+orchestrator is configured.
 
 ### First Recording Session
 
@@ -365,6 +397,7 @@ buccancs/
 ### Completed Features (85% Complete)
 
 **Android App:**
+
 - Multi-sensor recording coordination (Shimmer GSR, Topdon thermal, RGB, audio)
 - Time synchronisation client with RTT measurement and quality tracking
 - Background upload service with crash recovery and retry logic
@@ -377,6 +410,7 @@ buccancs/
 - Performance metrics logging (CPU, memory, storage)
 
 **Desktop Orchestrator:**
+
 - gRPC server for command distribution and device coordination
 - Session management with metadata persistence
 - Time synchronisation server (NTP-like protocol)
@@ -387,6 +421,7 @@ buccancs/
 - mDNS discovery for automatic device detection
 
 **Testing & Quality:**
+
 - 85% test coverage achieved (Phase 4 complete)
 - 140+ unit tests across infrastructure
 - Integration tests for multi-device workflows
@@ -397,6 +432,7 @@ buccancs/
 ### Known Limitations
 
 **Pending Work:**
+
 - End-to-end multi-device field testing (2+ Shimmer, 2+ Topdon)
 - Production time synchronisation validation against physical clock reference
 - Desktop file upload receiver completion for session folder aggregation
@@ -404,6 +440,7 @@ buccancs/
 - Runtime inventory updates persistence to device-inventory.json
 
 **Nice-to-Have Enhancements:**
+
 - Preview throttling and palette controls for thermal camera
 - HeartbeatMonitor integration with auto-stop logic
 - Extended mDNS with retry and TXT attributes
@@ -429,6 +466,7 @@ See `docs/project/BACKLOG.md` for prioritised task list.
 ### Documentation Index
 
 See `docs/INDEX.md` for complete listing of 61 documentation files organised by:
+
 - Analysis reports (17 files)
 - Architecture documents (16 files)
 - Developer guides (9 files)
@@ -438,6 +476,7 @@ See `docs/INDEX.md` for complete listing of 61 documentation files organised by:
 ### Thesis (LaTeX)
 
 Comprehensive thesis documentation in `docs/latex/`:
+
 - `main.tex` - Thesis entry point
 - `1.tex` - Introduction and motivation
 - `2.tex` - Background and literature review
@@ -449,6 +488,7 @@ Comprehensive thesis documentation in `docs/latex/`:
 - `references.bib` - Bibliography
 
 Compile thesis:
+
 ```bash
 cd docs/latex
 pdflatex main.tex
@@ -460,30 +500,35 @@ pdflatex main.tex
 ## Future Work
 
 ### Phase 1: Data Collection Validation
+
 - Complete end-to-end multi-device recording sessions with physical hardware
 - Validate time synchronisation accuracy (<10ms) against external clock reference
 - Collect diverse physiological datasets (different subjects, conditions, contexts)
 - Verify data quality and alignment across all modalities
 
 ### Phase 2: Machine Learning Pipeline
+
 - Develop preprocessing pipeline for thermal, RGB, and GSR data alignment
 - Implement feature extraction from thermal regions of interest (ROI detection)
 - Train initial regression models (linear regression, random forest, neural networks)
 - Evaluate prediction accuracy using collected ground-truth GSR datasets
 
 ### Phase 3: Real-Time Inference
+
 - Port trained models to Android for on-device inference
 - Implement real-time GSR prediction from thermal/RGB streams
 - Optimise inference latency and power consumption
 - Validate real-time predictions against contact-based GSR measurements
 
 ### Phase 4: Extended Sensing
+
 - Integrate additional sensors (heart rate, respiration, EEG)
 - Support more thermal camera models and resolution options
 - Add multi-person tracking and parallel GSR inference
 - Develop cloud-based model training and deployment pipeline
 
 ### Phase 5: Applications
+
 - Stress monitoring for healthcare and wellness
 - Emotion recognition for user experience research
 - Cognitive load assessment for educational technology
@@ -491,7 +536,8 @@ pdflatex main.tex
 
 ## Contributing
 
-This is academic research software developed as part of a Master's thesis. External contributions are not currently accepted, but the codebase will be released under an open-source licence upon thesis completion.
+This is academic research software developed as part of a Master's thesis. External contributions are not currently
+accepted, but the codebase will be released under an open-source licence upon thesis completion.
 
 For questions or collaboration inquiries, please contact the project supervisor.
 
@@ -502,14 +548,16 @@ Copyright 2025. Licence to be determined upon thesis submission (expected April 
 ## Acknowledgements
 
 This research builds upon:
+
 - Shimmer3 platform for wearable physiological sensing
-- Topdon TC001 thermal camera technology  
+- Topdon TC001 thermal camera technology
 - Android CameraX and Camera2 APIs
 - Jetpack Compose for modern UI development
 - gRPC for efficient cross-platform communication
 - OpenCV for computer vision and calibration
 
-Special thanks to the University's Computer Science department and project supervisor for guidance throughout this research.
+Special thanks to the University's Computer Science department and project supervisor for guidance throughout this
+research.
 
 ## Citation
 
@@ -517,12 +565,12 @@ If you use this platform or reference this work, please cite:
 
 ```bibtex
 @mastersthesis{buccancs2025,
-  author = {[Your Name]},
-  title = {Multi-Modal Physiological Sensing Platform: Production-Ready SDK Integration},
-  school = {[Your University]},
-  year = {2025},
-  type = {M.Sc. Thesis},
-  note = {Available at: https://github.com/yourusername/buccancs}
+    author = {[Your Name]},
+    title = {Multi-Modal Physiological Sensing Platform: Production-Ready SDK Integration},
+    school = {[Your University]},
+    year = {2025},
+    type = {M.Sc. Thesis},
+    note = {Available at: https://github.com/yourusername/buccancs}
 }
 ```
 

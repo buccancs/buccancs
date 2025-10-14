@@ -24,8 +24,10 @@ class HardwareModuleTest {
 
     @Inject
     lateinit var bluetoothService: BluetoothService
+
     @Inject
     lateinit var cameraService: CameraService
+
     @Inject
     lateinit var usbService: UsbService
 
