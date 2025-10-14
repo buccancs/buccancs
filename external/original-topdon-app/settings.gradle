@@ -31,8 +31,8 @@ include ':commonlibrary'
 include ':component:pseudo'
 include ':component:thermal-ir'
 include ':component:thermal-lite'
-include ':component:thermal04'
-include ':component:thermal07'
+//include ':component:thermal04' // Removed - different device (not TC001)
+//include ':component:thermal07' // Removed - different device (not TC001)
 include ':component:transfer'
 include ':component:user'
 include ':libapp'

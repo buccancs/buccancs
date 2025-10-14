@@ -52,7 +52,7 @@ import com.topdon.module.thermal.ir.fragment.IRGalleryTabFragment
 import com.topdon.module.user.fragment.MineFragment
 import com.topdon.tc001.app.App
 import com.topdon.tc001.fragment.MainFragment
-import com.topdon.tc001.utils.AppVersionUtil
+//import com.topdon.tc001.utils.AppVersionUtil // Removed - firmware update disabled
 import com.zoho.commons.LauncherModes
 import com.zoho.commons.LauncherProperties
 import com.zoho.salesiqembed.ZohoSalesIQ
@@ -546,8 +546,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private var appVersionUtil: AppVersionUtil? = null
+    //private var appVersionUtil: AppVersionUtil? = null // Removed - firmware update disabled
     private fun checkAppVersion(isShow: Boolean) {
+        // Firmware update functionality disabled
+        /*
         if (appVersionUtil == null) {
             appVersionUtil = AppVersionUtil(this, object : AppVersionUtil.DotIsShowListener {
                 override fun isShow(show: Boolean) {
@@ -558,5 +560,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             })
         }
         appVersionUtil?.checkVersion(isShow)
+        */
     }
 }

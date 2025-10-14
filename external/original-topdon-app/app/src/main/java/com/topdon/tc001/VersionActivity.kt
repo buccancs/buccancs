@@ -11,7 +11,7 @@ import com.topdon.lib.core.tools.CheckDoubleClick
 import com.topdon.lib.core.utils.CommUtils
 import com.topdon.lms.sdk.LMS
 import com.topdon.lms.sdk.UrlConstant
-import com.topdon.tc001.utils.AppVersionUtil
+//import com.topdon.tc001.utils.AppVersionUtil // Removed - firmware update disabled
 import com.topdon.tc001.utils.VersionUtils
 import kotlinx.android.synthetic.main.activity_version.*
 import kotlinx.android.synthetic.main.item_new_version.cl_new_version
@@ -74,8 +74,10 @@ class VersionActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private var appVersionUtil: AppVersionUtil? = null
+    //private var appVersionUtil: AppVersionUtil? = null // Removed - firmware update disabled
     private fun checkAppVersion(isShow: Boolean) {
+        // Firmware update functionality disabled
+        /*
         if (appVersionUtil == null) {
             appVersionUtil = AppVersionUtil(this, object : AppVersionUtil.DotIsShowListener {
                 override fun isShow(show: Boolean) {
@@ -88,5 +90,6 @@ class VersionActivity : BaseActivity(), View.OnClickListener {
             })
         }
         appVersionUtil?.checkVersion(isShow)
+        */
     }
 }

@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
+    //id 'com.google.gms.google-services' // Firebase removed
+    //id 'com.google.firebase.crashlytics' // Firebase removed
     id 'kotlin-kapt'
 }
 
@@ -317,8 +317,8 @@ dependencies {
     implementation project(':component:pseudo')
     implementation project(':component:thermal-ir')
     implementation project(':component:thermal-lite')
-    implementation project(':component:thermal04')
-    implementation project(':component:thermal07')
+    //implementation project(':component:thermal04') // Removed - different device (not TC001)
+    //implementation project(':component:thermal07') // Removed - different device (not TC001)
     implementation project(':component:transfer')
     implementation project(':component:user')
     implementation project(':libapp')
@@ -340,11 +340,11 @@ dependencies {
     implementation libs.wechat.sdk
     implementation libs.umeng.apm
     implementation libs.mobilisten
-    implementation platform(libs.firebase.bom)
-    implementation libs.firebase.crashlytics.ktx
-    implementation libs.firebase.analytics.ktx
-    implementation libs.firebase.messaging
-    implementation libs.firebase.iid
+    //implementation platform(libs.firebase.bom) // Firebase removed
+    //implementation libs.firebase.crashlytics.ktx // Firebase removed
+    //implementation libs.firebase.analytics.ktx // Firebase removed
+    //implementation libs.firebase.messaging // Firebase removed
+    // implementation libs.firebase.iid // Deprecated, functionality moved to firebase-messaging
 
     implementation libs.umeng.common.china
     implementation libs.umeng.asms

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.elvishew.xlog.XLog
 import com.example.thermal_lite.IrConst
 import com.example.thermal_lite.util.CommonUtil
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+//import com.google.firebase.crashlytics.FirebaseCrashlytics // Firebase removed
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.topdon.lib.core.BaseApplication
@@ -80,7 +80,7 @@ class App : BaseApplication() {
             SharedManager.setBaseHost(UrlConstant.BASE_URL)
         }
         if (BuildConfig.DEBUG) {
-            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(false);
+            //FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(false); // Firebase removed
         }
         CoroutineScope(Dispatchers.IO).launch {
             tau_data_H = CommonUtil.getAssetData(mContext, IrConst.TAU_HIGH_GAIN_ASSET_PATH)
