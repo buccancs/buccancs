@@ -21,6 +21,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -83,8 +84,10 @@ class CommandClient @Inject constructor(
             }
         }
         runCatching {
-            ackMutex.withLock {
-                stub.reportCommandReceipt(receipt)
+            withTimeout(10_000) {
+                ackMutex.withLock {
+                    stub.reportCommandReceipt(receipt)
+                }
             }
         }.onFailure { ex ->
             Log.w(TAG, "Unable to report command receipt for $commandId: ${ex.message}", ex)

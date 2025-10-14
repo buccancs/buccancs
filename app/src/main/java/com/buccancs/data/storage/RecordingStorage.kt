@@ -2,6 +2,9 @@ package com.buccancs.data.storage
 
 import android.content.Context
 import android.os.Environment
+import com.buccancs.core.result.Result
+import com.buccancs.core.result.ensureDirectory
+import com.buccancs.core.result.storageOperation
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
@@ -133,6 +136,65 @@ class RecordingStorage @Inject constructor(
 
     private fun sanitize(input: String): String =
         input.replace(Regex("[^A-Za-z0-9._-]"), "_")
+
+    // Result-based API methods for improved error handling
+    
+    /**
+     * Gets the recordings root directory with proper error handling.
+     * @return Result containing the directory or an error.
+     */
+    fun recordingsRootResult(): Result<File> = root.ensureDirectory()
+
+    /**
+     * Gets a session directory with proper error handling.
+     * @param sessionId The session identifier.
+     * @return Result containing the directory or an error.
+     */
+    fun sessionDirectoryResult(sessionId: String): Result<File> =
+        storageOperation {
+            require(sessionId.isNotBlank()) { "Session ID cannot be blank" }
+            File(root, sessionId)
+        }.flatMap { it.ensureDirectory() }
+
+    /**
+     * Gets a device directory within a session with proper error handling.
+     * @param sessionId The session identifier.
+     * @param deviceId The device identifier.
+     * @return Result containing the directory or an error.
+     */
+    fun deviceDirectoryResult(sessionId: String, deviceId: String): Result<File> =
+        storageOperation {
+            require(sessionId.isNotBlank()) { "Session ID cannot be blank" }
+            require(deviceId.isNotBlank()) { "Device ID cannot be blank" }
+        }.flatMap { sessionDirectoryResult(sessionId) }
+            .flatMap { sessionDir ->
+                storageOperation {
+                    File(sessionDir, deviceId)
+                }.flatMap { it.ensureDirectory() }
+            }
+
+    /**
+     * Creates an artifact file with proper error handling.
+     * @return Result containing the file or an error.
+     */
+    fun createArtifactFileResult(
+        sessionId: String,
+        deviceId: String,
+        streamType: String,
+        timestampEpochMs: Long,
+        segmentIndex: Int = 0,
+        extension: String
+    ): Result<File> =
+        deviceDirectoryResult(sessionId, deviceId)
+            .map { deviceDir ->
+                val fileName = artifactFileName(
+                    streamType = streamType,
+                    timestampEpochMs = timestampEpochMs,
+                    segmentIndex = segmentIndex,
+                    extension = extension
+                )
+                File(deviceDir, fileName)
+            }
 
     companion object {
         private val formatter = java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSS")

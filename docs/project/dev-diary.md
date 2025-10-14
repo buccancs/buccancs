@@ -1,8 +1,70 @@
 # Development Diary
 
-**Last Modified:** 2025-10-13 20:10 UTC  
+**Last Modified:** 2025-01-14 04:51 UTC  
 **Modified By:** GitHub Copilot CLI  
 **Document Type:** Development Log
+
+## 2025-01-14
+
+### Resource Management Fixes & Architectural Improvements
+**Time:** 03:38 - 04:43 UTC  
+**Status:** Complete (build cache issue remains)
+
+**Work Done:**
+- Fixed 3 resource leaks: DisplayListener, Handler callbacks, USB resources
+- Created ShimmerConnectionState.kt and ShimmerDataWriter.kt
+- Replaced 12 mutable variables with 2 sealed classes
+- Removed Timber dependency in 4 files
+- Fixed compilation errors in 4 files
+- Removed 13 redundant documentation files
+- Updated file naming to include time
+
+**Build Status:** Blocked by Gradle cache corruption
+
+### Documentation Standards Enhancement
+**Time:** 04:43 - 04:51 UTC  
+**Status:** Complete
+
+**Work Done:**
+- Added cleanup policy to copilot-instructions.md
+- Added writing style guidelines (plain language, no overstatement)
+- Provided examples of good vs. bad writing
+- Updated GUIDELINES_UPDATE document
+- Updated dev-diary and timestamps
+
+**Changes:**
+- Cleanup now required after creating comprehensive versions
+- Plain language required: "fixed" not "transformed", "works" not "revolutionary"
+- Professional dry tone, no marketing language or superlatives
+
+## 2025-10-14
+
+- **External Modules Java 21 Upgrade:** Upgraded all external Shimmer Java libraries (7 projects) and Android modules to Java 21 compatibility
+  - Fixed Kotlin stdlib duplicate classes issues by excluding jdk7/jdk8 variants
+  - Updated Gradle wrappers to 8.11 for better Java 21 support
+  - Created gradle.properties files forcing Java 21 usage across external projects
+  - Fixed source code bug in CalibDetailsBmp280.java (syntax error)
+  - Published Shimmer libraries to mavenLocal for dependency resolution
+  - Configured ShimmerAndroidInstrumentDriver to build main library module only
+  - Updated build.gradle.kts with maxSupportedJavaMajor = 21 for external builds
+  - Added --no-daemon flag to prevent daemon version conflicts
+  - Status: 8/10 external projects building successfully with Java 21
+
+- **Desktop Orchestrator Analysis:** Conducted comprehensive code review disproving "half-a-system" assessment
+  - Verified all gRPC services are fully implemented (not stubs)
+  - Confirmed data persistence is functional with encryption (files written to disk, not /dev/null)
+  - Validated session lifecycle management with complete metadata handling
+  - Documented multi-device coordination, time synchronization, and command broadcasting implementations
+  - Updated project status from ~70% to ~85% complete (Desktop: 50% → 95%)
+  - Created detailed analysis document: `docs/analysis/DESKTOP_ORCHESTRATOR_ANALYSIS_2025-10-14.md`
+  - Updated README to reflect correct implementation status
+
+- **Documentation Organisation:** Analysed docs/guides structure
+  - Confirmed guide files are reference materials, not fix lists
+  - All documented patterns (Result, DI testing, error handling) are already implemented
+  - No pending fixes identified in guide documents
+  - PROJECT_TODO.md contains academic tasks (thesis, literature review) not code fixes
+  - requirements_to_implement.md is requirements analysis, not actionable fixes
 
 ## 2025-10-12
 

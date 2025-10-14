@@ -1,5 +1,6 @@
 package com.buccancs.data.transfer
 
+import com.buccancs.core.serialization.StandardJson
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.UploadBacklogLevel
 import com.buccancs.domain.model.UploadBacklogState
@@ -13,9 +14,9 @@ import javax.inject.Singleton
 
 @Singleton
 class BacklogTelemetryLogger @Inject constructor(
-    private val storage: RecordingStorage
+    private val storage: RecordingStorage,
+    @StandardJson private val json: Json
 ) {
-    private val json = Json { encodeDefaults = true }
 
     suspend fun append(state: UploadBacklogState) {
         if (state.level == UploadBacklogLevel.NORMAL) return

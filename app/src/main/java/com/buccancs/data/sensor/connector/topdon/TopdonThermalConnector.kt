@@ -6,6 +6,11 @@ import android.hardware.usb.UsbManager
 import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
+import com.buccancs.core.result.Error
+import com.buccancs.core.result.Result
+import com.buccancs.core.result.recover
+import com.buccancs.core.result.resultOf
+import com.buccancs.core.result.toResult
 import com.buccancs.core.time.TimeModelAdapter
 import com.buccancs.data.preview.PreviewStreamClient
 import com.buccancs.data.sensor.MetadataWriters
@@ -201,72 +206,98 @@ internal class TopdonThermalConnector @Inject constructor(
         if (isSimulationMode) {
             return super.connect()
         }
+        
+        return performConnect()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                when (error) {
+                    is Error.NotFound -> DeviceCommandResult.Rejected(error.message)
+                    is Error.Hardware -> DeviceCommandResult.Rejected(error.message)
+                    else -> DeviceCommandResult.Failed(error.toException())
+                }
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performConnect(): Result<Unit> = resultOf {
         ensureMonitor()
-        val device = detectTopdonDevice()
-        if (device == null) {
-            return DeviceCommandResult.Rejected("Topdon TC001 camera not detected.")
-        }
+        val device = detectTopdonDevice() ?: throw IllegalStateException("Topdon TC001 camera not detected.")
+        
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false) }
-        return if (tryRequestPermission(device)) {
-            DeviceCommandResult.Accepted
-        } else {
-            DeviceCommandResult.Accepted
-        }
+        tryRequestPermission(device)
     }
 
     override suspend fun disconnect(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.disconnect()
         }
-        return try {
-            disconnectHardware()
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to disconnect Topdon camera", t)
-            DeviceCommandResult.Failed(t)
-        }
+        
+        return performDisconnect()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Disconnect failed: ${error.message}", error.cause)
+                DeviceCommandResult.Failed(error.toException())
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performDisconnect(): Result<Unit> = resultOf {
+        disconnectHardware()
     }
 
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         if (isSimulationMode) {
             return super.startStreaming(anchor)
         }
+        
+        return performStartStreaming(anchor)
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Start streaming failed: ${error.message}", error.cause)
+                timeModel = null
+                DeviceCommandResult.Failed(error.toException())
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
         timeModel = TimeModelAdapter.fromAnchor(anchor)
+        
         val camera = uvcCamera ?: run {
             timeModel = null
-            return DeviceCommandResult.Rejected("Camera not connected.")
+            throw IllegalStateException("Camera not connected.")
         }
+        
         if (usbControlBlock == null) {
             timeModel = null
-            return DeviceCommandResult.Rejected("Camera control unavailable.")
+            throw IllegalStateException("Camera control unavailable.")
         }
-        return try {
-            configureCamera(camera)
-            prepareThermalRecording(anchor.sessionId)
-            camera.setFrameCallback(frameCallback)
-            camera.onStartPreview()
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to start thermal preview", t)
-            timeModel = null
-            DeviceCommandResult.Failed(t)
-        }
+        
+        configureCamera(camera)
+        prepareThermalRecording(anchor.sessionId)
+        camera.setFrameCallback(frameCallback)
+        camera.onStartPreview()
     }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.stopStreaming()
         }
-        return try {
-            stopStreamingInternal()
-            finalizeThermalRecording()
-            timeModel = null
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to stop thermal preview", t)
-            timeModel = null
-            DeviceCommandResult.Failed(t)
-        }
+        
+        return performStopStreaming()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Stop streaming failed: ${error.message}", error.cause)
+                timeModel = null
+                DeviceCommandResult.Failed(error.toException())
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performStopStreaming(): Result<Unit> = resultOf {
+        stopStreamingInternal()
+        finalizeThermalRecording()
+        timeModel = null
     }
 
     override fun streamIntervalMs(): Long = 200L
@@ -313,15 +344,48 @@ internal class TopdonThermalConnector @Inject constructor(
 
     private suspend fun disconnectHardware() {
         withContext(Dispatchers.Main) {
-            stopStreamingInternal()
-            closeCamera()
-            statusState.value = emptyList()
-            if (monitorRegistered) {
-                usbMonitor?.unregister()
-                monitorRegistered = false
+            try {
+                stopStreamingInternal()
+            } catch (t: Throwable) {
+                Log.w(logTag, "Error stopping thermal streaming", t)
             }
-            usbMonitor?.destroy()
-            usbMonitor = null
+            
+            try {
+                closeCamera()
+            } catch (t: Throwable) {
+                Log.w(logTag, "Error closing camera", t)
+            }
+            
+            // Clean up USB control block
+            try {
+                usbControlBlock?.close()
+            } catch (t: Throwable) {
+                Log.w(logTag, "Error closing USB control block", t)
+            } finally {
+                usbControlBlock = null
+            }
+            
+            // Unregister USB monitor
+            if (monitorRegistered) {
+                try {
+                    usbMonitor?.unregister()
+                } catch (t: Throwable) {
+                    Log.w(logTag, "Error unregistering USB monitor", t)
+                } finally {
+                    monitorRegistered = false
+                }
+            }
+            
+            // Destroy USB monitor
+            try {
+                usbMonitor?.destroy()
+            } catch (t: Throwable) {
+                Log.w(logTag, "Error destroying USB monitor", t)
+            } finally {
+                usbMonitor = null
+            }
+            
+            statusState.value = emptyList()
         }
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
     }
@@ -416,25 +480,36 @@ internal class TopdonThermalConnector @Inject constructor(
     }
 
     private fun finalizeThermalRecording() {
-        val stream = thermalStream ?: return
+        val stream = thermalStream
+        
+        // Ensure stream is properly closed in all cases
         try {
-            stream.flush()
-        } catch (_: Throwable) {
+            stream?.flush()
+        } catch (t: Throwable) {
+            Log.w(logTag, "Error flushing thermal stream", t)
         }
+        
         try {
-            stream.close()
-        } catch (_: Throwable) {
+            stream?.close()
+        } catch (t: Throwable) {
+            Log.w(logTag, "Error closing thermal stream", t)
+        } finally {
+            thermalStream = null
         }
-        thermalStream = null
+        
         val file = thermalFile
         val sessionId = currentSessionId
         val checksum = thermalDigest?.digest() ?: ByteArray(0)
         val bytesCaptured = thermalBytes
         val clockSnapshot = timeModel
+        
+        // Clear state
         thermalDigest = null
         thermalFile = null
         thermalBytes = 0
         currentSessionId = null
+        
+        // Create artifact if successful
         if (file != null && file.exists() && sessionId != null) {
             val artifact = SessionArtifact(
                 deviceId = deviceId,

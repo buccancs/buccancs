@@ -137,3 +137,4 @@ local.properties
 
 .gemini/
 gha-creds-*.json
+/artifacts/

@@ -16,6 +16,7 @@ message CommandEnvelope {
   string payload_json = 3;
   int64 execute_epoch_ms = 4;
   string token = 5;
+  int32 protocol_version = 6;
 }
 
 message CommandAck {

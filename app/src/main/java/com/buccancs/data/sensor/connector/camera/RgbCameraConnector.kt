@@ -15,6 +15,10 @@ import android.os.HandlerThread
 import android.util.Log
 import android.util.Size
 import android.view.Surface
+import com.buccancs.core.result.Error
+import com.buccancs.core.result.Result
+import com.buccancs.core.result.recover
+import com.buccancs.core.result.resultOf
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
@@ -111,33 +115,43 @@ internal class RgbCameraConnector @Inject constructor(
         if (isSimulationMode) {
             return super.connect()
         }
-        val id = cameraId ?: findBackCameraId()
-        if (id == null) {
-            return DeviceCommandResult.Rejected("No back-facing camera found.")
-        }
-        if (cameraDevice != null) {
-            return DeviceCommandResult.Accepted
-        }
-        return try {
-            deviceState.update { it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false) }
-            val device = openCamera(id)
-            cameraDevice = device
-            deviceState.update {
-                it.copy(
-                    connectionStatus = ConnectionStatus.Connected(
-                        since = nowInstant(),
-                        batteryPercent = null,
-                        rssiDbm = null
-                    ),
-                    isSimulated = false,
-                    attributes = mapOf("cameraId" to id)
-                )
+        
+        return performConnect()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                when (error) {
+                    is Error.NotFound -> DeviceCommandResult.Rejected(error.message)
+                    is Error.Hardware -> DeviceCommandResult.Rejected(error.message)
+                    else -> {
+                        Log.e(logTag, "Connect failed: ${error.message}", error.cause)
+                        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
+                        DeviceCommandResult.Failed(error.toException())
+                    }
+                }
             }
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to open RGB camera", t)
-            deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
-            DeviceCommandResult.Failed(t)
+            .getOrThrow()
+    }
+
+    private suspend fun performConnect(): Result<Unit> = resultOf {
+        val id = cameraId ?: findBackCameraId() ?: throw IllegalStateException("No back-facing camera found.")
+        
+        if (cameraDevice != null) {
+            return@resultOf  // Already connected
+        }
+        
+        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false) }
+        val device = openCamera(id)
+        cameraDevice = device
+        deviceState.update {
+            it.copy(
+                connectionStatus = ConnectionStatus.Connected(
+                    since = nowInstant(),
+                    batteryPercent = null,
+                    rssiDbm = null
+                ),
+                isSimulated = false,
+                attributes = mapOf("cameraId" to id)
+            )
         }
     }
 
@@ -145,53 +159,66 @@ internal class RgbCameraConnector @Inject constructor(
         if (isSimulationMode) {
             return super.disconnect()
         }
-        return try {
-            stopStreamingInternal()
-            closeCamera()
-            tearDownThread()
-            deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to disconnect RGB camera", t)
-            DeviceCommandResult.Failed(t)
-        }
+        
+        return performDisconnect()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Disconnect failed: ${error.message}", error.cause)
+                DeviceCommandResult.Failed(error.toException())
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performDisconnect(): Result<Unit> = resultOf {
+        stopStreamingInternal()
+        closeCamera()
+        tearDownThread()
+        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
     }
 
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         if (isSimulationMode) {
             return super.startStreaming(anchor)
         }
+        
+        return performStartStreaming(anchor)
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Start streaming failed: ${error.message}", error.cause)
+                DeviceCommandResult.Failed(error.toException())
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
         val device = cameraDevice ?: run {
             val connectResult = connect()
             if (connectResult !is DeviceCommandResult.Accepted) {
-                return connectResult
+                throw IllegalStateException("Unable to connect to camera device.")
             }
-            cameraDevice ?: return DeviceCommandResult.Rejected("Unable to access camera device.")
+            cameraDevice ?: throw IllegalStateException("Unable to access camera device.")
         }
-        return try {
-            val id = cameraId ?: findBackCameraId()
-            if (id == null) {
-                return DeviceCommandResult.Rejected("No back-facing camera available.")
-            }
-            configureAndStartSession(device, id, anchor)
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to start RGB camera streaming", t)
-            DeviceCommandResult.Failed(t)
-        }
+        
+        val id = cameraId ?: findBackCameraId() ?: throw IllegalStateException("No back-facing camera available.")
+        configureAndStartSession(device, id, anchor)
     }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
             return super.stopStreaming()
         }
-        return try {
-            stopStreamingInternal()
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to stop RGB camera streaming", t)
-            DeviceCommandResult.Failed(t)
-        }
+        
+        return performStopStreaming()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Stop streaming failed: ${error.message}", error.cause)
+                DeviceCommandResult.Failed(error.toException())
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performStopStreaming(): Result<Unit> = resultOf {
+        stopStreamingInternal()
     }
 
     override fun streamIntervalMs(): Long = 160L
@@ -465,14 +492,13 @@ internal class RgbCameraConnector @Inject constructor(
     }
 
     private val imageListener = ImageReader.OnImageAvailableListener { reader ->
-        val image = try {
-            reader.acquireLatestImage()
+        try {
+            reader.acquireLatestImage()?.use { image ->
+                // Image automatically closed by use block
+                // Currently just used for frame timing, actual recording via MediaCodec
+            }
         } catch (t: Throwable) {
             Log.w(logTag, "Failed to acquire RGB frame", t)
-            null
-        }
-        if (image != null) {
-            image.close()
         }
         val now = nowInstant()
         val rgbStatus = SensorStreamStatus(

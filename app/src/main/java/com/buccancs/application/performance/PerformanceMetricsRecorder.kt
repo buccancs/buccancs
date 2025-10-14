@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Debug
 import android.os.Process
 import android.os.SystemClock
+import com.buccancs.core.serialization.StandardJson
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -29,11 +30,11 @@ import kotlin.math.max
 class PerformanceMetricsRecorder @Inject constructor(
     @ApplicationContext private val context: Context,
     private val storage: RecordingStorage,
-    @ApplicationScope private val scope: CoroutineScope
+    @ApplicationScope private val scope: CoroutineScope,
+    @StandardJson private val json: Json
 ) {
     private val mutex = Mutex()
     private val fileMutex = Mutex()
-    private val json = Json { encodeDefaults = true }
     private var job: Job? = null
     private var activeSessionId: String? = null
 

@@ -15,6 +15,18 @@ plugins {
     alias(libs.plugins.kotlinKapt) apply false
 }
 
+// Test execution flag - enable via: ./gradlew test -Ptests.enabled=true
+val testsEnabled = project.findProperty("tests.enabled")?.toString()?.toBoolean() ?: false
+
+// Make testsEnabled available to subprojects
+extra.set("testsEnabled", testsEnabled)
+
+if (testsEnabled) {
+    logger.lifecycle("✅ Tests are ENABLED via -Ptests.enabled=true")
+} else {
+    logger.lifecycle("⏸️  Tests are DISABLED (use -Ptests.enabled=true to enable)")
+}
+
 
 private data class ExternalProjectBuild(
     val taskName: String,
@@ -140,7 +152,7 @@ private val externalBuildTasks = externalBuilds.mapNotNull { external ->
 
 subprojects {
     tasks.withType<Test>().configureEach {
-        enabled = false
+        enabled = rootProject.extra.properties["testsEnabled"] as? Boolean ?: false
     }
 }
 

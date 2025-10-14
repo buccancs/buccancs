@@ -174,6 +174,28 @@ class DefaultCalibrationRepository @Inject constructor(
             }
         }.getOrThrow()
         storage.writeResult(currentSession, result)
+        
+        // Validate quality before accepting calibration
+        val qualityCheck = validateCalibrationQuality(result)
+        
+        if (!qualityCheck.passed) {
+            // Quality check failed - reject calibration
+            stateMutex.withLock {
+                _state.value = _state.value.copy(
+                    isProcessing = false,
+                    lastResult = null,
+                    infoMessage = null,
+                    errorMessage = "Calibration quality insufficient"
+                )
+            }
+            throw CalibrationQualityException(
+                message = "Calibration quality does not meet minimum standards",
+                issues = qualityCheck.issues,
+                recommendation = qualityCheck.recommendation
+            )
+        }
+        
+        // Quality check passed
         val metricsSnapshot = CalibrationMetrics(
             generatedAt = result.generatedAt,
             meanReprojectionError = result.meanReprojectionError,
@@ -184,16 +206,14 @@ class DefaultCalibrationRepository @Inject constructor(
         metricsState.value = metricsSnapshot
         metricsStore.update(result)
         stateMutex.withLock {
-            val warning = if (metricsSnapshot.maxReprojectionError > 1.0) {
-                "High reprojection error detected (max ${"%.3f".format(metricsSnapshot.maxReprojectionError)} px). Consider recapturing images."
-            } else {
-                null
-            }
+            // Show quality warnings if any, otherwise show recommendation
+            val message = qualityCheck.warnings.firstOrNull() ?: qualityCheck.recommendation
+            
             _state.value = _state.value.copy(
                 isProcessing = false,
                 lastResult = result,
                 infoMessage = "Calibration complete (RMS ${"%.4f".format(result.meanReprojectionError)})",
-                errorMessage = warning
+                errorMessage = message
             )
         }
         return result

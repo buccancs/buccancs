@@ -6,6 +6,10 @@ import android.media.MediaRecorder
 import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
+import com.buccancs.core.result.Error
+import com.buccancs.core.result.Result
+import com.buccancs.core.result.recover
+import com.buccancs.core.result.resultOf
 import com.buccancs.core.time.TimeModelAdapter
 import com.buccancs.data.sensor.MetadataWriters
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
@@ -87,22 +91,27 @@ internal class MicrophoneConnector @Inject constructor(
         if (isSimulationMode) {
             return super.connect()
         }
-        return try {
-            ensureAudioRecord()
-            deviceState.update {
-                it.copy(
-                    connectionStatus = ConnectionStatus.Connected(
-                        since = deviceNowInstant(),
-                        batteryPercent = null,
-                        rssiDbm = null
-                    ),
-                    isSimulated = false
-                )
+        
+        return performConnect()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Connect failed: ${error.message}", error.cause)
+                DeviceCommandResult.Failed(error.toException())
             }
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to initialise microphone", t)
-            DeviceCommandResult.Failed(t)
+            .getOrThrow()
+    }
+
+    private suspend fun performConnect(): Result<Unit> = resultOf {
+        ensureAudioRecord()
+        deviceState.update {
+            it.copy(
+                connectionStatus = ConnectionStatus.Connected(
+                    since = deviceNowInstant(),
+                    batteryPercent = null,
+                    rssiDbm = null
+                ),
+                isSimulated = false
+            )
         }
     }
 
@@ -110,64 +119,77 @@ internal class MicrophoneConnector @Inject constructor(
         if (isSimulationMode) {
             return super.disconnect()
         }
-        return try {
-            stopHardwareRecording()
-            finalizeRecording()
-            releaseAudioRecord()
-            statusState.value = emptyList()
-            deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to release microphone", t)
-            DeviceCommandResult.Failed(t)
-        }
+        
+        return performDisconnect()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Disconnect failed: ${error.message}", error.cause)
+                DeviceCommandResult.Failed(error.toException())
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performDisconnect(): Result<Unit> = resultOf {
+        stopHardwareRecording()
+        finalizeRecording()
+        releaseAudioRecord()
+        statusState.value = emptyList()
+        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
     }
 
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
         if (isSimulationMode) {
             return super.startStreaming(anchor)
         }
-        return try {
-            timeModel = TimeModelAdapter.fromAnchor(anchor)
-            val record = ensureAudioRecord()
-            prepareOutputFile(anchor.sessionId)
-            record.startRecording()
-            timeModel = timeModel?.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
-            if (recordingJob?.isActive == true) {
-                recordingJob?.cancel()
+        
+        return performStartStreaming(anchor)
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Start streaming failed: ${error.message}", error.cause)
+                timeModel = null
+                DeviceCommandResult.Failed(error.toException())
             }
-            val shortBuffer = ShortArray(bufferSizeInFrames.coerceAtLeast(MIN_BUFFER_FRAMES))
-            recordingJob = appScope.launch(Dispatchers.IO) {
-                while (isActive) {
-                    val read = try {
-                        record.read(shortBuffer, 0, shortBuffer.size, AudioRecord.READ_BLOCKING)
-                    } catch (t: Throwable) {
-                        Log.e(logTag, "Audio read failed", t)
-                        break
-                    }
-                    if (read > 0) {
-                        writePcmSamples(shortBuffer, read)
-                        val alignedNow = alignedNowInstant()
-                        val bufferedSeconds = read.toDouble() / SAMPLE_RATE_HZ.toDouble()
-                        val status = SensorStreamStatus(
-                            deviceId = deviceId,
-                            streamType = SensorStreamType.AUDIO,
-                            sampleRateHz = SAMPLE_RATE_HZ.toDouble(),
-                            frameRateFps = null,
-                            lastSampleTimestamp = alignedNow,
-                            bufferedDurationSeconds = bufferedSeconds,
-                            isStreaming = true,
-                            isSimulated = false
-                        )
-                        statusState.value = listOf(status)
-                    }
+            .getOrThrow()
+    }
+
+    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
+        timeModel = TimeModelAdapter.fromAnchor(anchor)
+        val record = ensureAudioRecord()
+        prepareOutputFile(anchor.sessionId)
+        record.startRecording()
+        timeModel = timeModel?.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
+        
+        if (recordingJob?.isActive == true) {
+            recordingJob?.cancel()
+        }
+        
+        val shortBuffer = ShortArray(bufferSizeInFrames.coerceAtLeast(MIN_BUFFER_FRAMES))
+        recordingJob = appScope.launch(Dispatchers.IO) {
+            while (isActive) {
+                val read = resultOf {
+                    record.read(shortBuffer, 0, shortBuffer.size, AudioRecord.READ_BLOCKING)
+                }.getOrElse { error ->
+                    Log.e(logTag, "Audio read failed: ${error.message}", error.cause)
+                    return@launch
+                }
+                
+                if (read > 0) {
+                    writePcmSamples(shortBuffer, read)
+                    val alignedNow = alignedNowInstant()
+                    val bufferedSeconds = read.toDouble() / SAMPLE_RATE_HZ.toDouble()
+                    val status = SensorStreamStatus(
+                        deviceId = deviceId,
+                        streamType = SensorStreamType.AUDIO,
+                        sampleRateHz = SAMPLE_RATE_HZ.toDouble(),
+                        frameRateFps = null,
+                        lastSampleTimestamp = alignedNow,
+                        bufferedDurationSeconds = bufferedSeconds,
+                        isStreaming = true,
+                        isSimulated = false
+                    )
+                    statusState.value = listOf(status)
                 }
             }
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to start microphone streaming", t)
-            timeModel = null
-            DeviceCommandResult.Failed(t)
         }
     }
 
@@ -175,17 +197,22 @@ internal class MicrophoneConnector @Inject constructor(
         if (isSimulationMode) {
             return super.stopStreaming()
         }
-        return try {
-            stopHardwareRecording()
-            finalizeRecording()
-            statusState.value = emptyList()
-            timeModel = null
-            DeviceCommandResult.Accepted
-        } catch (t: Throwable) {
-            Log.e(logTag, "Failed to stop microphone streaming", t)
-            timeModel = null
-            DeviceCommandResult.Failed(t)
-        }
+        
+        return performStopStreaming()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(logTag, "Stop streaming failed: ${error.message}", error.cause)
+                timeModel = null
+                DeviceCommandResult.Failed(error.toException())
+            }
+            .getOrThrow()
+    }
+
+    private suspend fun performStopStreaming(): Result<Unit> = resultOf {
+        stopHardwareRecording()
+        finalizeRecording()
+        statusState.value = emptyList()
+        timeModel = null
     }
 
     override fun streamIntervalMs(): Long = 220L

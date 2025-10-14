@@ -204,6 +204,20 @@ internal abstract class BaseSimulatedConnector(
         }
     }
 
+    /**
+     * Helper to update device state to disconnected.
+     * Reduces duplication across connector implementations.
+     */
+    protected fun updateStateToDisconnected() {
+        deviceState.update { device ->
+            device.copy(
+                connectionStatus = ConnectionStatus.Disconnected,
+                isSimulated = simulationEnabled && device.isSimulated
+            )
+        }
+        statusState.value = emptyList()
+    }
+
     protected abstract fun streamIntervalMs(): Long
     protected abstract fun simulatedBatteryPercent(device: SensorDevice): Int?
     protected abstract fun simulatedRssi(device: SensorDevice): Int?

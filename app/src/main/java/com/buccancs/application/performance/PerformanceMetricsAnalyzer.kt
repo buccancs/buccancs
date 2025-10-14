@@ -1,5 +1,9 @@
 package com.buccancs.application.performance
 
+import android.util.Log
+import com.buccancs.core.serialization.StandardJson
+import com.buccancs.core.storage.WriteResult
+import com.buccancs.data.storage.AtomicFileWriter
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.PerformanceSummary
 import kotlinx.coroutines.Dispatchers
@@ -13,9 +17,12 @@ import kotlin.math.max
 
 @Singleton
 class PerformanceMetricsAnalyzer @Inject constructor(
-    private val storage: RecordingStorage
+    private val storage: RecordingStorage,
+    @StandardJson private val json: Json
 ) {
-    private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true }
+    companion object {
+        private const val TAG = "PerformanceMetricsAnalyzer"
+    }
 
     suspend fun summarise(sessionId: String) {
         withContext(Dispatchers.IO) {
@@ -33,7 +40,18 @@ class PerformanceMetricsAnalyzer @Inject constructor(
         if (samples.isEmpty()) return
         val summary = buildSummary(sessionId, samples)
         summaryFile.parentFile?.mkdirs()
-        summaryFile.writeText(json.encodeToString(summary))
+        
+        when (val result = AtomicFileWriter.writeAtomicSafe(summaryFile, json.encodeToString(summary), checkSpace = true)) {
+            is WriteResult.Success -> {
+                Log.d(TAG, "Performance summary written for session $sessionId")
+            }
+            is WriteResult.Failure.InsufficientSpace -> {
+                Log.w(TAG, "Insufficient space to write performance summary")
+            }
+            is WriteResult.Failure.WriteError -> {
+                Log.e(TAG, "Failed to write performance summary", result.cause)
+            }
+        }
     }
 
     private fun buildSummary(sessionId: String, samples: List<PerformanceSample>): PerformanceSummary {

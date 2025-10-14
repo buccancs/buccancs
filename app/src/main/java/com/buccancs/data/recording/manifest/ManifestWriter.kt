@@ -1,5 +1,9 @@
 package com.buccancs.data.recording.manifest
 
+import android.util.Log
+import com.buccancs.core.serialization.PrettyJson
+import com.buccancs.core.storage.WriteResult
+import com.buccancs.data.storage.AtomicFileWriter
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.RecordingBookmark
@@ -20,15 +24,16 @@ import javax.inject.Singleton
 
 @Singleton
 class ManifestWriter @Inject constructor(
-    private val storage: RecordingStorage
+    private val storage: RecordingStorage,
+    @PrettyJson private val json: Json
 ) {
-    private val json = Json {
-        prettyPrint = true
-        encodeDefaults = true
-    }
     private val mutex = Mutex()
     private var activeManifest: SessionManifest? = null
     private var activeFile: File? = null
+    
+    companion object {
+        private const val TAG = "ManifestWriter"
+    }
 
     suspend fun beginSession(
         anchor: RecordingSessionAnchor,
@@ -155,7 +160,20 @@ class ManifestWriter @Inject constructor(
         withContext(Dispatchers.IO) {
             target.parentFile?.mkdirs()
             val payload = json.encodeToString(manifest)
-            target.writeText(payload, UTF8)
+            
+            when (val result = AtomicFileWriter.writeAtomicSafe(target, payload, checkSpace = true)) {
+                is WriteResult.Success -> {
+                    Log.d(TAG, "Manifest written: ${manifest.sessionId}")
+                }
+                is WriteResult.Failure.InsufficientSpace -> {
+                    Log.e(TAG, "Insufficient space to write manifest: need ${result.required} bytes, have ${result.available} bytes")
+                    throw Exception("Insufficient storage space")
+                }
+                is WriteResult.Failure.WriteError -> {
+                    Log.e(TAG, "Failed to write manifest: ${result.message}", result.cause)
+                    throw Exception("Failed to write manifest: ${result.message}", result.cause)
+                }
+            }
         }
     }
 
@@ -164,7 +182,7 @@ class ManifestWriter @Inject constructor(
             return null
         }
         return runCatching {
-            json.decodeFromString(SessionManifest.serializer(), file.readText(UTF8))
+            json.decodeFromString(SessionManifest.serializer(), file.readText(Charsets.UTF_8))
         }.getOrNull()
     }
 
@@ -184,10 +202,6 @@ class ManifestWriter @Inject constructor(
 
     private fun ByteArray.toHexString(): String =
         joinToString(separator = "") { byte -> "%02x".format(byte) }
-
-    private companion object {
-        val UTF8: Charset = Charsets.UTF_8
-    }
 }
 
 private fun toBookmarkEntry(bookmark: RecordingBookmark): BookmarkEntry =

@@ -12,9 +12,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.net.InetAddress
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,28 +28,40 @@ class MdnsBrowser @Inject constructor(
     private val nsdManager = context.getSystemService(Context.NSD_SERVICE) as? NsdManager
         ?: throw IllegalStateException("NSD service not available")
     private val handler = Handler(Looper.getMainLooper())
-    private val browsing = AtomicBoolean(false)
+    private val stateMutex = Mutex()
+    private val _browsing = MutableStateFlow(false)
+    val browsing: StateFlow<Boolean> = _browsing.asStateFlow()
     private val discovered = mutableMapOf<String, MdnsService>()
     private val _services = MutableStateFlow<List<MdnsService>>(emptyList())
     val services: StateFlow<List<MdnsService>> = _services.asStateFlow()
 
     fun start(serviceType: String) {
-        if (!browsing.compareAndSet(false, true)) return
-        handler.post {
-            nsdManager.discoverServices(
-                serviceType,
-                NsdManager.PROTOCOL_DNS_SD,
-                discoveryListener
-            )
+        scope.launch {
+            stateMutex.withLock {
+                if (_browsing.value) return@launch
+                _browsing.value = true
+            }
+            handler.post {
+                nsdManager.discoverServices(
+                    serviceType,
+                    NsdManager.PROTOCOL_DNS_SD,
+                    discoveryListener
+                )
+            }
         }
     }
 
     fun stop() {
-        if (!browsing.compareAndSet(true, false)) return
-        handler.post {
-            runCatching { nsdManager.stopServiceDiscovery(discoveryListener) }
+        scope.launch {
+            stateMutex.withLock {
+                if (!_browsing.value) return@launch
+                _browsing.value = false
+            }
+            handler.post {
+                runCatching { nsdManager.stopServiceDiscovery(discoveryListener) }
+            }
+            updateServices(emptyList())
         }
-        updateServices(emptyList())
     }
 
     private val discoveryListener = object : NsdManager.DiscoveryListener {
@@ -60,22 +74,32 @@ class MdnsBrowser @Inject constructor(
         }
 
         override fun onServiceLost(serviceInfo: NsdServiceInfo) {
-            discovered.remove(serviceInfo.serviceName)
-            updateServices(discovered.values.toList())
+            scope.launch {
+                stateMutex.withLock {
+                    discovered.remove(serviceInfo.serviceName)
+                    updateServices(discovered.values.toList())
+                }
+            }
         }
 
         override fun onDiscoveryStopped(serviceType: String) {
-            browsing.set(false)
-            updateServices(emptyList())
+            scope.launch {
+                _browsing.value = false
+                updateServices(emptyList())
+            }
         }
 
         override fun onStartDiscoveryFailed(serviceType: String, errorCode: Int) {
-            browsing.set(false)
-            updateServices(emptyList())
+            scope.launch {
+                _browsing.value = false
+                updateServices(emptyList())
+            }
         }
 
         override fun onStopDiscoveryFailed(serviceType: String, errorCode: Int) {
-            browsing.set(false)
+            scope.launch {
+                _browsing.value = false
+            }
         }
     }
 
@@ -88,15 +112,19 @@ class MdnsBrowser @Inject constructor(
                     }
 
                     override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-                        val entry = MdnsService(
-                            name = serviceInfo.serviceName,
-                            type = serviceInfo.serviceType,
-                            host = serviceInfo.host,
-                            port = serviceInfo.port,
-                            attributes = encodeAttributes(serviceInfo.attributes)
-                        )
-                        discovered[serviceInfo.serviceName] = entry
-                        updateServices(discovered.values.toList())
+                        scope.launch {
+                            stateMutex.withLock {
+                                val entry = MdnsService(
+                                    name = serviceInfo.serviceName,
+                                    type = serviceInfo.serviceType,
+                                    host = serviceInfo.host,
+                                    port = serviceInfo.port,
+                                    attributes = encodeAttributes(serviceInfo.attributes)
+                                )
+                                discovered[serviceInfo.serviceName] = entry
+                                updateServices(discovered.values.toList())
+                            }
+                        }
                     }
                 }
             )
@@ -104,9 +132,7 @@ class MdnsBrowser @Inject constructor(
     }
 
     private fun updateServices(items: List<MdnsService>) {
-        scope.launch {
-            _services.value = items.sortedBy { it.name.lowercase() }
-        }
+        _services.value = items.sortedBy { it.name.lowercase() }
     }
 
     private fun encodeAttributes(raw: Map<String, ByteArray>): Map<String, String> =

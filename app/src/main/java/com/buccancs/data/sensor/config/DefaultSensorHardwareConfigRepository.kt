@@ -2,6 +2,9 @@ package com.buccancs.data.sensor.config
 
 import android.content.Context
 import android.util.Log
+import com.buccancs.core.serialization.StandardJson
+import com.buccancs.core.storage.WriteResult
+import com.buccancs.data.storage.AtomicFileWriter
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.SensorHardwareConfig
 import com.buccancs.domain.model.ShimmerDeviceConfig
@@ -27,9 +30,9 @@ import javax.inject.Singleton
 @Singleton
 class DefaultSensorHardwareConfigRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    @ApplicationScope scope: CoroutineScope
+    @ApplicationScope scope: CoroutineScope,
+    @StandardJson private val json: Json
 ) : SensorHardwareConfigRepository {
-    private val json = Json { ignoreUnknownKeys = true }
     private val configMutex = Mutex()
     private val inventoryFile = File(context.filesDir, STORAGE_FILE_NAME)
     private val _config = MutableStateFlow(loadConfig())
@@ -90,10 +93,21 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
         return inventoryFile.readText(StandardCharsets.UTF_8)
     }
 
-    private fun persist(config: SensorHardwareConfig) {
+    private suspend fun persist(config: SensorHardwareConfig) {
         ensureInventoryFile()
         val encoded = json.encodeToString(config)
-        inventoryFile.writeText(encoded, StandardCharsets.UTF_8)
+        
+        when (val result = AtomicFileWriter.writeAtomicSafe(inventoryFile, encoded, StandardCharsets.UTF_8, checkSpace = true)) {
+            is WriteResult.Success -> {
+                Log.d(TAG, "Config persisted successfully")
+            }
+            is WriteResult.Failure.InsufficientSpace -> {
+                Log.e(TAG, "Insufficient space to write config")
+            }
+            is WriteResult.Failure.WriteError -> {
+                Log.e(TAG, "Failed to write config: ${result.message}", result.cause)
+            }
+        }
     }
 
     private fun ensureInventoryFile() {

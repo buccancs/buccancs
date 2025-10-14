@@ -1,5 +1,6 @@
 package com.buccancs.data.transfer
 
+import com.buccancs.core.serialization.StandardJson
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.UploadRecoveryRecord
 import kotlinx.coroutines.Dispatchers
@@ -14,9 +15,9 @@ import javax.inject.Singleton
 
 @Singleton
 class UploadRecoveryLogger @Inject constructor(
-    private val storage: RecordingStorage
+    private val storage: RecordingStorage,
+    @StandardJson private val json: Json
 ) {
-    private val json = Json { encodeDefaults = true }
     private val mutex = Mutex()
 
     suspend fun append(record: UploadRecoveryRecord) {

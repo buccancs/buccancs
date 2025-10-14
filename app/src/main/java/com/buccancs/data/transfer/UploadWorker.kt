@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.buccancs.core.serialization.StandardJson
 import com.buccancs.data.recording.manifest.SessionManifest
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.DeviceId
@@ -22,7 +23,6 @@ class UploadWorker(
     appContext: Context,
     params: WorkerParameters
 ) : CoroutineWorker(appContext, params) {
-    private val json = Json { ignoreUnknownKeys = true }
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val entryPoint = EntryPointAccessors.fromApplication(
@@ -31,10 +31,11 @@ class UploadWorker(
         )
         val client = entryPoint.dataTransferClient()
         val storage = entryPoint.recordingStorage()
+        val json = entryPoint.json()
         val sessionIds = storage.sessionIds()
         var failures = 0
         sessionIds.forEach { sessionId ->
-            val manifest = loadManifest(storage.manifestFile(sessionId)) ?: return@forEach
+            val manifest = loadManifest(storage.manifestFile(sessionId), json) ?: return@forEach
             manifest.artifacts.forEach { artifactEntry ->
                 val artifact = toSessionArtifact(sessionId, artifactEntry, storage) ?: return@forEach
                 val result = client.upload(sessionId, artifact) { }
@@ -50,7 +51,7 @@ class UploadWorker(
         if (failures == 0) Result.success() else Result.retry()
     }
 
-    private fun loadManifest(file: File): SessionManifest? {
+    private fun loadManifest(file: java.io.File, json: Json): SessionManifest? {
         if (!file.exists()) {
             return null
         }
@@ -111,6 +112,7 @@ class UploadWorker(
     interface UploadWorkerEntryPoint {
         fun dataTransferClient(): DataTransferClient
         fun recordingStorage(): RecordingStorage
+        @StandardJson fun json(): Json
     }
 
     companion object {

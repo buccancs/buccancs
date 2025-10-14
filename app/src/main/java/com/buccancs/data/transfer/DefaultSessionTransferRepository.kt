@@ -31,8 +31,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
 
-private val clock get() = Clock.System
-
 @Singleton
 class DefaultSessionTransferRepository @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
@@ -118,7 +116,7 @@ class DefaultSessionTransferRepository @Inject constructor(
                     val pending = PendingArtifact(
                         sessionId = sessionId,
                         artifact = artifact,
-                        queuedAt = clock.now()
+                        queuedAt = kotlinx.datetime.Clock.System.now()
                     )
                     pendingQueue.add(pending)
                     allowed += pending
@@ -308,7 +306,7 @@ class DefaultSessionTransferRepository @Inject constructor(
         uploadRecoveryLogger.append(record)
     }
 
-    private fun now(): Instant = clock.now()
+    private fun now(): Instant = kotlinx.datetime.Clock.System.now()
 
     private fun pendingBytesLocked(): Long =
         uploadsState.value.values

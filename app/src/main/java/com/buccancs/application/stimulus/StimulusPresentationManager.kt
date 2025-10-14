@@ -44,24 +44,42 @@ class StimulusPresentationManager @Inject constructor(
     private var presentation: CuePresentation? = null
     private var presentationJob: Job? = null
 
+    private val displayListener = object : DisplayListener {
+        override fun onDisplayAdded(displayId: Int) {
+            updateDisplayAvailability()
+        }
+
+        override fun onDisplayRemoved(displayId: Int) {
+            if (presentation?.display?.displayId == displayId) {
+                dismissPresentation()
+            }
+            updateDisplayAvailability()
+        }
+
+        override fun onDisplayChanged(displayId: Int) {
+            updateDisplayAvailability()
+        }
+    }
+
     init {
         updateDisplayAvailability()
-        displayManager.registerDisplayListener(object : DisplayListener {
-            override fun onDisplayAdded(displayId: Int) {
-                updateDisplayAvailability()
-            }
+        displayManager.registerDisplayListener(displayListener, handler)
+    }
 
-            override fun onDisplayRemoved(displayId: Int) {
-                if (presentation?.display?.displayId == displayId) {
-                    dismissPresentation()
-                }
-                updateDisplayAvailability()
+    /**
+     * Cleanup resources to prevent leaks.
+     * Should be called when the manager is no longer needed.
+     */
+    fun shutdown() {
+        scope.launch {
+            presentationJob?.cancel()
+            withContext(Dispatchers.Main) {
+                dismissPresentation()
             }
-
-            override fun onDisplayChanged(displayId: Int) {
-                updateDisplayAvailability()
-            }
-        }, handler)
+        }
+        toneGenerator.release()
+        displayManager.unregisterDisplayListener(displayListener)
+        handler.removeCallbacksAndMessages(null)
     }
 
     fun present(payload: StimulusCommandPayload) {

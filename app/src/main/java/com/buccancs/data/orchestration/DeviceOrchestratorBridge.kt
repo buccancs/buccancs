@@ -21,6 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -76,7 +77,9 @@ class DeviceOrchestratorBridge @Inject constructor(
         val channel = channelFactory.channel(config)
         val stub = OrchestrationServiceGrpcKt.OrchestrationServiceCoroutineStub(channel)
         val registration = buildRegistration(deviceId)
-        val ack = stub.registerDevice(registration)
+        val ack = withTimeout(10_000) {
+            stub.registerDevice(registration)
+        }
         if (!ack.accepted) {
             val reason = ack.reason.ifBlank { "Registration rejected by orchestrator." }
             throw IllegalStateException(reason)
@@ -85,7 +88,9 @@ class DeviceOrchestratorBridge @Inject constructor(
         val context = currentCoroutineContext()
         while (context.isActive) {
             val status = buildStatus(deviceId)
-            stub.reportStatus(status)
+            withTimeout(10_000) {
+                stub.reportStatus(status)
+            }
             delay(STATUS_INTERVAL_MS)
         }
     }

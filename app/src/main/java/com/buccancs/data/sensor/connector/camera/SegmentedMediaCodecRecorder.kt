@@ -10,6 +10,9 @@ import android.os.HandlerThread
 import android.util.Log
 import android.util.Size
 import android.view.Surface
+import com.buccancs.core.result.Error
+import com.buccancs.core.result.codecOperation
+import com.buccancs.core.result.storageOperation
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamType
@@ -122,37 +125,56 @@ internal class SegmentedMediaCodecRecorder(
                 codec.releaseOutputBuffer(index, false)
                 return
             }
+            
             val drainStartNs = System.nanoTime()
-            try {
-                if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
-                    return
+            processBuffer(codec, index, buffer, info, drainStartNs)
+                .onFailure { error ->
+                    Log.e(logTag, "Buffer processing failed: ${error.message}", error.cause)
+                    handleError(error)
                 }
-                if (info.size > 0) {
-                    ensureSegmentReady(info)
-                    buffer.position(info.offset)
-                    buffer.limit(info.offset + info.size)
-                    currentMuxer?.writeSampleData(currentTrackIndex, buffer, info)
-                    val epochMs = anchorEpochMs + info.presentationTimeUs / 1_000
-                    val latencyNs = System.nanoTime() - drainStartNs
-                    currentCollector?.let { collector ->
-                        if (currentSegmentStartUs < 0) {
-                            currentSegmentStartUs = info.presentationTimeUs
-                            collector.markStart(epochMs)
-                        }
-                        collector.recordBuffer(info, info.size, latencyNs)
-                        latestEpochMs = epochMs
-                    }
-                    if (shouldRotate(info)) {
-                        rotateSegment(info)
-                    }
-                }
-            } catch (error: Throwable) {
-                handleError(error)
-            } finally {
-                codec.releaseOutputBuffer(index, false)
-            }
+            
+            codec.releaseOutputBuffer(index, false)
+            
             if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
                 finalizeAndComplete()
+            }
+        }
+        
+        private fun processBuffer(
+            codec: MediaCodec,
+            index: Int,
+            buffer: java.nio.ByteBuffer,
+            info: MediaCodec.BufferInfo,
+            drainStartNs: Long
+        ): com.buccancs.core.result.Result<Unit> = codecOperation {
+            if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
+                return@codecOperation
+            }
+            
+            if (info.size <= 0) {
+                return@codecOperation
+            }
+            
+            ensureSegmentReady(info)
+            buffer.position(info.offset)
+            buffer.limit(info.offset + info.size)
+            currentMuxer?.writeSampleData(currentTrackIndex, buffer, info)
+                ?: throw IllegalStateException("Muxer not ready")
+            
+            val epochMs = anchorEpochMs + info.presentationTimeUs / 1_000
+            val latencyNs = System.nanoTime() - drainStartNs
+            
+            currentCollector?.let { collector ->
+                if (currentSegmentStartUs < 0) {
+                    currentSegmentStartUs = info.presentationTimeUs
+                    collector.markStart(epochMs)
+                }
+                collector.recordBuffer(info, info.size, latencyNs)
+                latestEpochMs = epochMs
+            }
+            
+            if (shouldRotate(info)) {
+                rotateSegment(info)
             }
         }
 
@@ -162,7 +184,9 @@ internal class SegmentedMediaCodecRecorder(
         }
 
         override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
-            handleError(e)
+            val error = Error.Codec("Codec error: ${e.diagnosticInfo}", e)
+            Log.e(logTag, error.message, e)
+            handleError(error)
         }
     }
 
@@ -177,7 +201,7 @@ internal class SegmentedMediaCodecRecorder(
     }
 
     private fun startNewSegment(format: MediaFormat) {
-        try {
+        storageOperation {
             currentMuxer?.let { muxer ->
                 runCatching { muxer.stop() }
                 runCatching { muxer.release() }
@@ -191,7 +215,8 @@ internal class SegmentedMediaCodecRecorder(
             currentMuxer = muxer
             currentCollector = EncoderStatsCollector(segmentIndex)
             currentSegmentStartUs = -1
-        } catch (error: IOException) {
+        }.onFailure { error ->
+            Log.e(logTag, "Failed to start new segment: ${error.message}", error.cause)
             handleError(error)
         }
     }
@@ -261,6 +286,10 @@ internal class SegmentedMediaCodecRecorder(
             completion.completeExceptionally(error)
         }
         abort()
+    }
+    
+    private fun handleError(error: Error) {
+        handleError(error.toException())
     }
 
     companion object {

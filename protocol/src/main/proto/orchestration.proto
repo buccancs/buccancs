@@ -53,6 +53,7 @@ message DeviceRegistration {
   string platform = 3;
   string software_version = 4;
   repeated string capabilities = 5;
+  int32 protocol_version = 6;
 }
 
 message RegistrationAck {
@@ -160,6 +161,7 @@ message CommandEnvelope {
   int64 issued_epoch_ms = 4;
   int64 execute_epoch_ms = 5;
   string command_json = 6;
+  int32 protocol_version = 7;
 }
 
 message CommandSubscribeRequest {

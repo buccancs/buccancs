@@ -4,6 +4,7 @@ import com.buccancs.application.performance.PerformanceMetricsAnalyzer
 import com.buccancs.application.performance.PerformanceMetricsRecorder
 import com.buccancs.application.time.TimeSyncService
 import com.buccancs.data.recording.manifest.ManifestWriter
+import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.repository.BookmarkRepository
@@ -11,12 +12,15 @@ import com.buccancs.domain.repository.DeviceEventRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.SessionTransferRepository
 import com.buccancs.util.nowInstant
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DefaultRecordingService @Inject constructor(
+    @ApplicationScope private val appScope: CoroutineScope,
     private val sensorRepository: SensorRepository,
     private val timeSyncService: TimeSyncService,
     private val transferRepository: SessionTransferRepository,
@@ -27,26 +31,28 @@ class DefaultRecordingService @Inject constructor(
     private val performanceMetricsAnalyzer: PerformanceMetricsAnalyzer
 ) : RecordingService {
     override suspend fun startOrResume(sessionId: String, requestedStart: Instant?): RecordingState {
-        val syncStatus = timeSyncService.forceSync()
-        bookmarkRepository.clear()
-        val anchor = RecordingSessionAnchor(
-            sessionId = sessionId,
-            referenceTimestamp = requestedStart ?: nowInstant(),
-            sharedClockOffsetMillis = syncStatus.offsetMillis
-        )
-        manifestWriter.beginSession(
-            anchor = anchor,
-            devices = sensorRepository.devices.value,
-            simulation = sensorRepository.simulationEnabled.value
-        )
-        try {
-            performanceMetricsRecorder.start(anchor.sessionId)
-            sensorRepository.startStreaming(anchor)
-        } catch (error: Throwable) {
-            performanceMetricsRecorder.stop()
-            throw error
+        return withContext(appScope.coroutineContext) {
+            val syncStatus = timeSyncService.forceSync()
+            bookmarkRepository.clear()
+            val anchor = RecordingSessionAnchor(
+                sessionId = sessionId,
+                referenceTimestamp = requestedStart ?: nowInstant(),
+                sharedClockOffsetMillis = syncStatus.offsetMillis
+            )
+            manifestWriter.beginSession(
+                anchor = anchor,
+                devices = sensorRepository.devices.value,
+                simulation = sensorRepository.simulationEnabled.value
+            )
+            try {
+                performanceMetricsRecorder.start(anchor.sessionId)
+                sensorRepository.startStreaming(anchor)
+            } catch (error: Throwable) {
+                performanceMetricsRecorder.stop()
+                throw error
+            }
+            sensorRepository.recordingState.value
         }
-        return sensorRepository.recordingState.value
     }
 
     override suspend fun stop(): RecordingState = stopWithSummary().state
