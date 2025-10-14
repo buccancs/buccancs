@@ -147,9 +147,9 @@ See `docs/guides/DI_TESTING_GUIDE_2025-10-14.md` for comprehensive DI testing gu
 
 See `docs/guides/DI_TESTING_QUICK_REFERENCE.md` for quick testing reference.
 
-See `docs/analysis/ERROR_HANDLING_IMPLEMENTATION_SUMMARY_2025-10-14.md` for Result pattern implementation details.
+See `docs/project/ERROR_HANDLING_PROJECT_COMPLETE_2025-10-14.md` for Result pattern implementation details.
 
-See `docs/architecture/RESOURCE_MANAGEMENT_FIXES_2025-01-14.md` and `docs/architecture/RESOURCE_MANAGEMENT_IMPLEMENTATION_SUMMARY_2025-01-14.md` for comprehensive resource management improvements:
+See `docs/architecture/RESOURCE_MANAGEMENT_COMPLETE_2025-01-14.md` for comprehensive resource management improvements:
 - ✅ Fixed DisplayListener memory leak in StimulusPresentationManager
 - ✅ Added Handler cleanup in ShimmerSensorConnector  
 - ✅ Implemented atomic file operations for manifest writes with backup/recovery
@@ -161,7 +161,7 @@ All critical resource leaks addressed. Production-ready resource management acro
 
 See `docs/architecture/EXTERNAL_DEPENDENCY_ANALYSIS_2025-01-14.md` and `docs/architecture/SDK_IMPROVEMENTS_IMPLEMENTATION_2025-01-14.md` for external SDK integration analysis.
 
-See `SDK_IMPROVEMENTS_IMPLEMENTED_2025-01-14.md`, `SDK_IMPROVEMENTS_PHASE2_2025-01-14.md`, and `SDK_IMPROVEMENTS_PHASE3_2025-01-14.md` for complete implementation details:
+See `docs/architecture/SDK_IMPROVEMENTS_IMPLEMENTATION_2025-01-14.md` for complete implementation details:
 - ✅ **Phase 1 Complete**: Circuit breaker (180 lines), calibration quality enforcement (240 lines), state machine verification
 - ✅ **Phase 2 Complete**: Circuit breaker integrated, thermal simulator created (280 lines), thermal format fully documented
 - ✅ **Phase 3 Complete**: Verified external/original-topdon-app/ is unused (20,207 files safe to delete)
