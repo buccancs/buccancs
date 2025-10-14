@@ -6,9 +6,12 @@
 
 ## Executive Summary
 
-This document provides a comprehensive audit of concurrency and threading patterns across the BuccanCS codebase, identifying 115 coroutine launch sites, minimal timeouts, Handler-based callback patterns, and threading primitives usage.
+This document provides a comprehensive audit of concurrency and threading patterns across the BuccanCS codebase,
+identifying 115 coroutine launch sites, minimal timeouts, Handler-based callback patterns, and threading primitives
+usage.
 
 **Key Findings:**
+
 - **Good**: ApplicationScope pattern correctly used for long-running operations
 - **Good**: Minimal direct threading (0 Thread() instances, using coroutines throughout)
 - **Issue**: Only 2 timeout usages across 115 coroutine launch sites
@@ -25,6 +28,7 @@ This document provides a comprehensive audit of concurrency and threading patter
 **Total Coroutine Launch Sites:** 115
 
 **ApplicationScope Usage (Correct Pattern):**
+
 - `BacklogPerformanceController` - Monitors backlog performance
 - `DefaultCalibrationRepository` - Manages calibration state
 - `CommandClient` - Long-lived command communication
@@ -37,6 +41,7 @@ This document provides a comprehensive audit of concurrency and threading patter
 - DataStore repositories - Configuration persistence
 
 **viewModelScope Usage:**
+
 - Various ViewModels (MainViewModel, CalibrationViewModel, etc.)
 - **Risk**: Configuration changes may cancel long-running operations
 
@@ -57,9 +62,12 @@ class DefaultRecordingService @Inject constructor(
 }
 ```
 
-**Issue:** The service doesn't explicitly inject `@ApplicationScope CoroutineScope`. It relies on the caller's scope, which could be `viewModelScope` from a ViewModel. If the Activity is recreated during a recording session, the coroutine would be cancelled.
+**Issue:** The service doesn't explicitly inject `@ApplicationScope CoroutineScope`. It relies on the caller's scope,
+which could be `viewModelScope` from a ViewModel. If the Activity is recreated during a recording session, the coroutine
+would be cancelled.
 
 **Recommendation:**
+
 ```kotlin
 @Singleton
 class DefaultRecordingService @Inject constructor(
@@ -85,6 +93,7 @@ class DefaultRecordingService @Inject constructor(
 **Only 2 Instances Found:**
 
 **File:** `app/src/main/java/com/buccancs/data/sensor/exercise/MultiDeviceRecordingExercise.kt`
+
 ```kotlin
 withTimeoutOrNull(timeoutMillis) {
     // Recording exercise timeout
@@ -92,6 +101,7 @@ withTimeoutOrNull(timeoutMillis) {
 ```
 
 **Missing Timeouts on:**
+
 - Bluetooth device connections (ShimmerSensorConnector, TopdonConnector)
 - USB device connections (TopdonThermalConnector)
 - Network operations (CommandClient, DeviceOrchestratorBridge)
@@ -101,6 +111,7 @@ withTimeoutOrNull(timeoutMillis) {
 ### 2.2 High-Risk Operations Without Timeouts
 
 #### Shimmer Connection (Lines 277-288)
+
 ```kotlin
 override suspend fun connect(): DeviceCommandResult {
     return withContext(Dispatchers.Main) {
@@ -114,9 +125,11 @@ override suspend fun connect(): DeviceCommandResult {
 ```
 
 #### Topdon USB Connection
+
 Similar pattern in TopdonThermalConnector - no timeout on USB device initialisation.
 
 #### Network Operations
+
 CommandClient and DeviceOrchestratorBridge establish gRPC channels without connection timeouts.
 
 ### 2.3 Recommendations
@@ -200,6 +213,7 @@ Six Handler instances mixing Android main-thread callbacks with coroutine flows:
 The ShimmerSensorConnector shows the complexity of mixing Handler callbacks with coroutines:
 
 **Current Pattern (Lines 96-116):**
+
 ```kotlin
 private inner class ShimmerMessageHandler : android.os.Handler(android.os.Looper.getMainLooper()) {
     override fun handleMessage(msg: Message) {
@@ -218,6 +232,7 @@ private inner class ShimmerMessageHandler : android.os.Handler(android.os.Looper
 ```
 
 **Problems:**
+
 - Handler is tied to main looper, creating unnecessary main thread dependency
 - Launching new coroutines for each message creates overhead
 - No cancellation mechanism when connector is disconnected
@@ -264,6 +279,7 @@ suspend fun ShimmerBluetoothManagerAndroid.connectAsync(
 ```
 
 **Benefits:**
+
 - Proper cancellation support
 - Type-safe error handling
 - Integrates cleanly with coroutine structured concurrency
@@ -277,47 +293,51 @@ suspend fun ShimmerBluetoothManagerAndroid.connectAsync(
 
 **Purpose: State flags for services and closeable resources**
 
-| File | Variable | Purpose | Status |
-|------|----------|---------|--------|
-| AppShutdownManager | `closed` | Shutdown flag | ✓ Appropriate |
-| DefaultCalibrationRepository | `OPEN_CV_READY` | Static initialisation flag | ✓ Appropriate |
-| MdnsAdvertiser | `active` | Service active flag | ⚠️ Consider StateFlow |
-| MdnsBrowser | `browsing` | Browsing state flag | ⚠️ Consider StateFlow |
-| PreviewStreamUploader | `closed` | Upload stream closure | ✓ Appropriate |
-| SensorStreamUploader | `closed` | Sensor stream closure | ✓ Appropriate |
-| SegmentedMediaCodecRecorder | `closed` | Recorder closure | ✓ Appropriate |
-| GrpcServer (desktop) | `started` | Server state flag | ⚠️ Consider StateFlow |
-| DeviceConnectionMonitor (desktop) | `started` | Monitor state flag | ⚠️ Consider StateFlow |
+| File                              | Variable        | Purpose                    | Status                |
+|-----------------------------------|-----------------|----------------------------|-----------------------|
+| AppShutdownManager                | `closed`        | Shutdown flag              | ✓ Appropriate         |
+| DefaultCalibrationRepository      | `OPEN_CV_READY` | Static initialisation flag | ✓ Appropriate         |
+| MdnsAdvertiser                    | `active`        | Service active flag        | ⚠️ Consider StateFlow |
+| MdnsBrowser                       | `browsing`      | Browsing state flag        | ⚠️ Consider StateFlow |
+| PreviewStreamUploader             | `closed`        | Upload stream closure      | ✓ Appropriate         |
+| SensorStreamUploader              | `closed`        | Sensor stream closure      | ✓ Appropriate         |
+| SegmentedMediaCodecRecorder       | `closed`        | Recorder closure           | ✓ Appropriate         |
+| GrpcServer (desktop)              | `started`       | Server state flag          | ⚠️ Consider StateFlow |
+| DeviceConnectionMonitor (desktop) | `started`       | Monitor state flag         | ⚠️ Consider StateFlow |
 
 **Analysis:**
+
 - Closure flags (`closed`) are appropriately using AtomicBoolean for thread-safe resource management
 - Service state flags (`active`, `browsing`, `started`) could benefit from StateFlow for reactive state updates
 - Static initialisation flag (OPEN_CV_READY) is appropriate use case
 
 ### 4.2 @Volatile Usage (5 instances)
 
-| File | Variable | Purpose | Status |
-|------|----------|---------|--------|
-| CommandClient | Connection state | RPC client volatile state | ⚠️ Review thread safety |
-| MicrophoneConnector | Recording state | Audio recording volatile flag | ⚠️ Consider Mutex |
-| TopdonConnectorManager | Device state | USB device volatile state | ⚠️ Consider Mutex |
-| TopdonThermalConnector (3x) | Multiple device fields | Thermal camera state | ⚠️ Consider Mutex |
-| EncryptionManager (desktop) | Encryption state | Key material volatile | ⚠️ Review thread safety |
+| File                        | Variable               | Purpose                       | Status                  |
+|-----------------------------|------------------------|-------------------------------|-------------------------|
+| CommandClient               | Connection state       | RPC client volatile state     | ⚠️ Review thread safety |
+| MicrophoneConnector         | Recording state        | Audio recording volatile flag | ⚠️ Consider Mutex       |
+| TopdonConnectorManager      | Device state           | USB device volatile state     | ⚠️ Consider Mutex       |
+| TopdonThermalConnector (3x) | Multiple device fields | Thermal camera state          | ⚠️ Consider Mutex       |
+| EncryptionManager (desktop) | Encryption state       | Key material volatile         | ⚠️ Review thread safety |
 
 **Analysis:**
+
 - @Volatile provides visibility guarantees but NOT atomicity
 - Multiple volatile fields in TopdonThermalConnector (3 instances) suggest need for proper locking
 - Consider replacing with Mutex or StateFlow for compound operations
 
 ### 4.3 AtomicInteger and AtomicReference
 
-**AtomicInteger:** Found in `DefaultSessionTransferRepository` - likely for sequence numbers or counters (appropriate use).
+**AtomicInteger:** Found in `DefaultSessionTransferRepository` - likely for sequence numbers or counters (appropriate
+use).
 
 **AtomicReference:** Would need deeper inspection if found.
 
 ### 4.4 Recommendations
 
 **Replace service state flags with StateFlow:**
+
 ```kotlin
 // Instead of:
 private val active = AtomicBoolean(false)
@@ -333,6 +353,7 @@ val active: StateFlow<Boolean> = _active.asStateFlow()
 ```
 
 **Replace volatile with Mutex for compound operations:**
+
 ```kotlin
 // Instead of:
 @Volatile
@@ -358,53 +379,57 @@ suspend fun updateState(newState: DeviceState) = stateMutex.withLock {
 ### 5.1 High Priority Issues
 
 1. **DefaultRecordingService lacks ApplicationScope**
-   - **Impact:** Critical - recording sessions may be cancelled on configuration changes
-   - **Fix:** Inject `@ApplicationScope CoroutineScope`
+    - **Impact:** Critical - recording sessions may be cancelled on configuration changes
+    - **Fix:** Inject `@ApplicationScope CoroutineScope`
 
 2. **No timeouts on hardware connections**
-   - **Impact:** High - app can hang indefinitely on failed Bluetooth/USB connections
-   - **Fix:** Add `withTimeout` to all connect operations (30s for BT, 20s for USB)
+    - **Impact:** High - app can hang indefinitely on failed Bluetooth/USB connections
+    - **Fix:** Add `withTimeout` to all connect operations (30s for BT, 20s for USB)
 
 3. **ShimmerSensorConnector Handler complexity**
-   - **Impact:** Medium - difficult to maintain, test, and reason about
-   - **Fix:** Convert to `suspendCancellableCoroutine` pattern
+    - **Impact:** Medium - difficult to maintain, test, and reason about
+    - **Fix:** Convert to `suspendCancellableCoroutine` pattern
 
 ### 5.2 Medium Priority Issues
 
 4. **Service state flags using AtomicBoolean**
-   - **Impact:** Low - works but not idiomatic Kotlin coroutines
-   - **Fix:** Migrate to StateFlow for reactive state management
+    - **Impact:** Low - works but not idiomatic Kotlin coroutines
+    - **Fix:** Migrate to StateFlow for reactive state management
 
 5. **Multiple @Volatile fields without locking**
-   - **Impact:** Medium - potential race conditions in compound operations
-   - **Fix:** Replace with Mutex for thread-safe compound updates
+    - **Impact:** Medium - potential race conditions in compound operations
+    - **Fix:** Replace with Mutex for thread-safe compound updates
 
 6. **Missing timeouts on network operations**
-   - **Impact:** Medium - gRPC calls could hang
-   - **Fix:** Add timeouts to CommandClient and DeviceOrchestratorBridge
+    - **Impact:** Medium - gRPC calls could hang
+    - **Fix:** Add timeouts to CommandClient and DeviceOrchestratorBridge
 
 ---
 
 ## 6. Implementation Roadmap
 
 ### Phase 1: Critical Fixes (Week 1)
+
 - [ ] Add `@ApplicationScope` to DefaultRecordingService
 - [ ] Add timeouts to Shimmer Bluetooth connection (30s)
 - [ ] Add timeouts to Topdon USB connection (20s)
 - [ ] Add timeouts to gRPC operations (10s)
 
 ### Phase 2: Handler Migration (Week 2)
+
 - [ ] Convert ShimmerSensorConnector Handler to suspendCancellableCoroutine
 - [ ] Test cancellation behaviour with unit tests
 - [ ] Verify no regression in connection stability
 
 ### Phase 3: StateFlow Migration (Week 3)
+
 - [ ] Migrate MdnsAdvertiser to StateFlow
 - [ ] Migrate MdnsBrowser to StateFlow
 - [ ] Migrate GrpcServer state to StateFlow
 - [ ] Migrate DeviceConnectionMonitor to StateFlow
 
 ### Phase 4: Threading Primitives Review (Week 4)
+
 - [ ] Review @Volatile usage in TopdonThermalConnector
 - [ ] Replace with Mutex where compound operations exist
 - [ ] Add unit tests for concurrent access patterns
@@ -603,10 +628,12 @@ class MdnsAdvertiser @Inject constructor(
 **Total Launch Sites:** 115
 
 **Breakdown by Type:**
+
 - `viewModelScope.launch`: ~20 instances (ViewModels)
 - `appScope.launch` / `scope.launch`: ~95 instances (Services, Repositories, Connectors)
 
 **Key Files with High Launch Counts:**
+
 1. ShimmerSensorConnector.kt: 15+ launch sites
 2. TopdonThermalConnector.kt: 10+ launch sites
 3. DefaultSensorRepository.kt: 10+ launch sites
@@ -619,16 +646,17 @@ class MdnsAdvertiser @Inject constructor(
 
 ## Appendix B: Handler Usage Details
 
-| File | Line | Purpose | Migration Priority |
-|------|------|---------|-------------------|
-| ShimmerSensorConnector | 75 | Shimmer SDK callbacks | High |
-| RgbCameraConnector | 419 | Camera thread handler | Medium |
-| SegmentedMediaCodecRecorder | 61 | MediaCodec thread | Medium |
-| StimulusPresentationManager | 42 | Stimulus timing | Low |
-| MdnsAdvertiser | 26 | mDNS callbacks | Low |
-| MdnsBrowser | 28 | mDNS callbacks | Low |
+| File                        | Line | Purpose               | Migration Priority |
+|-----------------------------|------|-----------------------|--------------------|
+| ShimmerSensorConnector      | 75   | Shimmer SDK callbacks | High               |
+| RgbCameraConnector          | 419  | Camera thread handler | Medium             |
+| SegmentedMediaCodecRecorder | 61   | MediaCodec thread     | Medium             |
+| StimulusPresentationManager | 42   | Stimulus timing       | Low                |
+| MdnsAdvertiser              | 26   | mDNS callbacks        | Low                |
+| MdnsBrowser                 | 28   | mDNS callbacks        | Low                |
 
-**High Priority:** ShimmerSensorConnector mixes Handler with coroutines extensively - highest complexity and maintenance burden.
+**High Priority:** ShimmerSensorConnector mixes Handler with coroutines extensively - highest complexity and maintenance
+burden.
 
 ---
 

@@ -115,7 +115,7 @@ internal class RgbCameraConnector @Inject constructor(
         if (isSimulationMode) {
             return super.connect()
         }
-        
+
         return performConnect()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -124,7 +124,12 @@ internal class RgbCameraConnector @Inject constructor(
                     is Error.Hardware -> DeviceCommandResult.Rejected(error.message)
                     else -> {
                         Log.e(logTag, "Connect failed: ${error.message}", error.cause)
-                        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
+                        deviceState.update {
+                            it.copy(
+                                connectionStatus = ConnectionStatus.Disconnected,
+                                isSimulated = false
+                            )
+                        }
                         DeviceCommandResult.Failed(error.toException())
                     }
                 }
@@ -134,11 +139,11 @@ internal class RgbCameraConnector @Inject constructor(
 
     private suspend fun performConnect(): Result<Unit> = resultOf {
         val id = cameraId ?: findBackCameraId() ?: throw IllegalStateException("No back-facing camera found.")
-        
+
         if (cameraDevice != null) {
             return@resultOf  // Already connected
         }
-        
+
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false) }
         val device = openCamera(id)
         cameraDevice = device
@@ -159,7 +164,7 @@ internal class RgbCameraConnector @Inject constructor(
         if (isSimulationMode) {
             return super.disconnect()
         }
-        
+
         return performDisconnect()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -180,7 +185,7 @@ internal class RgbCameraConnector @Inject constructor(
         if (isSimulationMode) {
             return super.startStreaming(anchor)
         }
-        
+
         return performStartStreaming(anchor)
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -198,7 +203,7 @@ internal class RgbCameraConnector @Inject constructor(
             }
             cameraDevice ?: throw IllegalStateException("Unable to access camera device.")
         }
-        
+
         val id = cameraId ?: findBackCameraId() ?: throw IllegalStateException("No back-facing camera available.")
         configureAndStartSession(device, id, anchor)
     }
@@ -207,7 +212,7 @@ internal class RgbCameraConnector @Inject constructor(
         if (isSimulationMode) {
             return super.stopStreaming()
         }
-        
+
         return performStopStreaming()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->

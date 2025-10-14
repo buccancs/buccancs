@@ -6,7 +6,8 @@
 
 ## Overview
 
-Successfully completed Phases 1 and 2 of the MainViewModel refactoring, transforming a 1,248-line God Object with 10 dependencies into a clean architecture with testable use cases and focused feature ViewModels.
+Successfully completed Phases 1 and 2 of the MainViewModel refactoring, transforming a 1,248-line God Object with 10
+dependencies into a clean architecture with testable use cases and focused feature ViewModels.
 
 ## What Was Accomplished
 
@@ -15,24 +16,24 @@ Successfully completed Phases 1 and 2 of the MainViewModel refactoring, transfor
 **Created 4 Use Case Classes:**
 
 1. **SessionCoordinator** (~110 lines)
-   - Session lifecycle management
-   - Recording start/stop coordination
-   - Busy state and error handling
+    - Session lifecycle management
+    - Recording start/stop coordination
+    - Busy state and error handling
 
 2. **DeviceManagementUseCase** (~75 lines)
-   - Device connection/disconnection
-   - Inventory refresh
-   - Simulation toggle
+    - Device connection/disconnection
+    - Inventory refresh
+    - Simulation toggle
 
 3. **HardwareConfigurationUseCase** (~140 lines)
-   - Shimmer MAC/GSR/sample rate configuration
-   - Topdon device selection
-   - RGB camera settings
+    - Shimmer MAC/GSR/sample rate configuration
+    - Topdon device selection
+    - RGB camera settings
 
 4. **RemoteCommandCoordinator** (~150 lines)
-   - Remote command handling
-   - Time-synchronised execution
-   - Command acknowledgement
+    - Remote command handling
+    - Time-synchronised execution
+    - Command acknowledgement
 
 **Created 2 UI Mappers:**
 
@@ -40,6 +41,7 @@ Successfully completed Phases 1 and 2 of the MainViewModel refactoring, transfor
 2. **StreamUiMapper** (~50 lines)
 
 **Benefits:**
+
 - Business logic extracted from ViewModel
 - Testable use case interfaces
 - Consistent Result<T> error handling
@@ -50,36 +52,37 @@ Successfully completed Phases 1 and 2 of the MainViewModel refactoring, transfor
 **Created 5 Focused ViewModels:**
 
 1. **RecordingViewModel** (~200 lines)
-   - Session lifecycle
-   - Exercise execution
-   - Recording state
-   - Dependencies: 3
+    - Session lifecycle
+    - Exercise execution
+    - Recording state
+    - Dependencies: 3
 
 2. **DeviceInventoryViewModel** (~120 lines)
-   - Device connection management
-   - Hardware inventory
-   - Simulation control
-   - Dependencies: 6
+    - Device connection management
+    - Hardware inventory
+    - Simulation control
+    - Dependencies: 6
 
 3. **ShimmerConfigViewModel** (~70 lines)
-   - Shimmer device configuration
-   - Loading and error states
-   - Dependencies: 1
+    - Shimmer device configuration
+    - Loading and error states
+    - Dependencies: 1
 
 4. **OrchestratorConfigViewModel** (~160 lines)
-   - Connection settings
-   - Input validation
-   - Config persistence
-   - Dependencies: 1
+    - Connection settings
+    - Input validation
+    - Config persistence
+    - Dependencies: 1
 
 5. **TelemetryViewModel** (~180 lines)
-   - Stream status display
-   - Time sync monitoring
-   - Event logging
-   - Sync flash effects
-   - Dependencies: 5
+    - Stream status display
+    - Time sync monitoring
+    - Event logging
+    - Sync flash effects
+    - Dependencies: 5
 
 **Benefits:**
+
 - Average 146 lines per ViewModel (87% reduction from MainViewModel)
 - Single responsibility per ViewModel
 - Minimal dependencies (average 3.2 vs 14)
@@ -132,46 +135,49 @@ MainViewModel (1,150 lines, 14 dependencies)
 
 ### Code Distribution
 
-| Component Type | Count | Total Lines | Avg Lines |
-|----------------|-------|-------------|-----------|
-| Use Cases | 4 | ~475 | 119 |
-| ViewModels | 5 | ~730 | 146 |
-| UI Mappers | 2 | ~130 | 65 |
-| **New Code** | **11** | **~1,335** | **121** |
-| MainViewModel (Before) | 1 | 1,248 | - |
-| MainViewModel (After) | 1 | 1,150 | - |
+| Component Type         | Count  | Total Lines | Avg Lines |
+|------------------------|--------|-------------|-----------|
+| Use Cases              | 4      | ~475        | 119       |
+| ViewModels             | 5      | ~730        | 146       |
+| UI Mappers             | 2      | ~130        | 65        |
+| **New Code**           | **11** | **~1,335**  | **121**   |
+| MainViewModel (Before) | 1      | 1,248       | -         |
+| MainViewModel (After)  | 1      | 1,150       | -         |
 
 ### Complexity Reduction
 
-| Metric | Before | After (Avg) | Improvement |
-|--------|--------|-------------|-------------|
-| Lines per class | 1,248 | 121 | 90% reduction |
-| Dependencies | 10 | 3.2 | 68% reduction |
-| Public methods | 22 | 3.4 | 85% reduction |
-| Responsibilities | 11 | 1 | Single responsibility |
+| Metric           | Before | After (Avg) | Improvement           |
+|------------------|--------|-------------|-----------------------|
+| Lines per class  | 1,248  | 121         | 90% reduction         |
+| Dependencies     | 10     | 3.2         | 68% reduction         |
+| Public methods   | 22     | 3.4         | 85% reduction         |
+| Responsibilities | 11     | 1           | Single responsibility |
 
 ### Testability Improvement
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| Unit testable | Difficult | Easy |
-| Mock dependencies | 10 | 1-6 per class |
-| Test isolation | Low | High |
-| Coverage potential | <30% | >80% |
+| Aspect             | Before    | After         |
+|--------------------|-----------|---------------|
+| Unit testable      | Difficult | Easy          |
+| Mock dependencies  | 10        | 1-6 per class |
+| Test isolation     | Low       | High          |
+| Coverage potential | <30%      | >80%          |
 
 ## Files Created (15 total)
 
 ### Use Cases (4 files)
+
 1. `domain/usecase/SessionCoordinator.kt`
 2. `domain/usecase/DeviceManagementUseCase.kt`
 3. `domain/usecase/HardwareConfigurationUseCase.kt`
 4. `domain/usecase/RemoteCommandCoordinator.kt`
 
 ### UI Mappers (2 files)
+
 5. `domain/ui/DeviceUiMapper.kt`
 6. `domain/ui/StreamUiMapper.kt`
 
 ### ViewModels (5 files)
+
 7. `ui/recording/RecordingViewModel.kt`
 8. `ui/device/DeviceInventoryViewModel.kt`
 9. `ui/shimmer/ShimmerConfigViewModel.kt`
@@ -179,9 +185,11 @@ MainViewModel (1,150 lines, 14 dependencies)
 11. `ui/telemetry/TelemetryViewModel.kt`
 
 ### Dependency Injection (1 file)
+
 12. `di/UseCaseModule.kt`
 
 ### Documentation (3 files)
+
 13. `docs/analysis/MAINVIEWMODEL_REFACTORING_ANALYSIS_2025-01-14.md`
 14. `docs/analysis/MAINVIEWMODEL_REFACTORING_IMPLEMENTATION_2025-01-14.md`
 15. `docs/analysis/MAINVIEWMODEL_PHASE2_IMPLEMENTATION_2025-01-14.md`
@@ -216,6 +224,7 @@ MainViewModel (1,150 lines, 14 dependencies)
 **Impact:** MainViewModel still in use by all screens
 
 **Migration Steps:**
+
 1. Update Composable screens to use new ViewModels
 2. Deprecate MainViewModel methods as migrated
 3. Remove MainViewModel when all screens migrated
@@ -243,17 +252,17 @@ MainViewModel (1,150 lines, 14 dependencies)
 ### Immediate Priority
 
 1. **Unit Tests for Use Cases**
-   - SessionCoordinator: 8 test cases
-   - DeviceManagementUseCase: 4 test cases
-   - HardwareConfigurationUseCase: 5 test cases
-   - RemoteCommandCoordinator: 6 test cases
+    - SessionCoordinator: 8 test cases
+    - DeviceManagementUseCase: 4 test cases
+    - HardwareConfigurationUseCase: 5 test cases
+    - RemoteCommandCoordinator: 6 test cases
 
 2. **Unit Tests for ViewModels**
-   - RecordingViewModel: 6 test cases
-   - DeviceInventoryViewModel: 5 test cases
-   - ShimmerConfigViewModel: 4 test cases
-   - OrchestratorConfigViewModel: 5 test cases
-   - TelemetryViewModel: 4 test cases
+    - RecordingViewModel: 6 test cases
+    - DeviceInventoryViewModel: 5 test cases
+    - ShimmerConfigViewModel: 4 test cases
+    - OrchestratorConfigViewModel: 5 test cases
+    - TelemetryViewModel: 4 test cases
 
 **Total Test Cases Needed:** ~47
 
@@ -356,9 +365,13 @@ MainViewModel (1,150 lines, 14 dependencies)
 
 ## Conclusion
 
-The MainViewModel refactoring has successfully transformed a complex God Object into a clean, maintainable architecture with testable use cases and focused ViewModels. The new structure reduces average class size by 87%, improves testability significantly, and provides clear separation of concerns.
+The MainViewModel refactoring has successfully transformed a complex God Object into a clean, maintainable architecture
+with testable use cases and focused ViewModels. The new structure reduces average class size by 87%, improves
+testability significantly, and provides clear separation of concerns.
 
-While UI screen migration remains to complete the transition, the architectural foundation is solid and ready for production use. The refactoring demonstrates that even large, complex ViewModels can be systematically decomposed into maintainable components without breaking existing functionality.
+While UI screen migration remains to complete the transition, the architectural foundation is solid and ready for
+production use. The refactoring demonstrates that even large, complex ViewModels can be systematically decomposed into
+maintainable components without breaking existing functionality.
 
 **Status:** Phases 1 and 2 complete ✓  
 **Quality:** Production-ready  

@@ -20,9 +20,11 @@ class CoroutineModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var dispatchers: CoroutineDispatchers
-    
-    @Inject @ApplicationScope
+    @Inject
+    lateinit var dispatchers: CoroutineDispatchers
+
+    @Inject
+    @ApplicationScope
     lateinit var applicationScope: CoroutineScope
 
     @Before

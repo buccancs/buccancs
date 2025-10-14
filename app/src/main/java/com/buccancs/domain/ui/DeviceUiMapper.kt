@@ -1,18 +1,14 @@
 package com.buccancs.domain.ui
 
 import com.buccancs.domain.model.ConnectionStatus
-import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.ui.DeviceUiModel
-import com.buccancs.ui.StreamUiModel
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.roundToInt
-import java.util.Locale
 
 /**
  * Maps domain models to UI models for device display.

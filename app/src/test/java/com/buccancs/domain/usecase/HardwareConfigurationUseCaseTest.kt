@@ -1,8 +1,6 @@
 package com.buccancs.domain.usecase
 
 import com.buccancs.domain.model.DeviceId
-import com.buccancs.domain.model.SensorHardwareConfig
-import com.buccancs.domain.model.ShimmerDeviceConfig
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.ShimmerSettingsRepository
@@ -10,11 +8,9 @@ import com.buccancs.domain.repository.TopdonDeviceRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.slot
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class HardwareConfigurationUseCaseTest {

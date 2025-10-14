@@ -6,7 +6,8 @@
 
 ## Overview
 
-This guide demonstrates how to write tests using the project's Hilt DI infrastructure, including module verification tests and integration tests with mocked hardware services.
+This guide demonstrates how to write tests using the project's Hilt DI infrastructure, including module verification
+tests and integration tests with mocked hardware services.
 
 ## Table of Contents
 
@@ -20,7 +21,8 @@ This guide demonstrates how to write tests using the project's Hilt DI infrastru
 
 ### Purpose
 
-Module tests verify that your Hilt dependency graph is correctly configured. They catch configuration errors at test time rather than runtime.
+Module tests verify that your Hilt dependency graph is correctly configured. They catch configuration errors at test
+time rather than runtime.
 
 ### Basic Pattern
 
@@ -155,6 +157,7 @@ class CoroutineModuleTest {
 ### Why Mock Hardware Services?
 
 Hardware services (`CameraManager`, `BluetoothAdapter`, `UsbManager`) are difficult to test because:
+
 - They require actual hardware or complex Robolectric setup
 - They're tightly coupled to the Android framework
 - Error conditions are hard to simulate
@@ -377,6 +380,7 @@ class AsyncFeatureTest {
 ### 1. Use Constructor Injection
 
 **Good:**
+
 ```kotlin
 class MyRepository @Inject constructor(
     private val bluetoothService: BluetoothService,
@@ -387,6 +391,7 @@ class MyRepository @Inject constructor(
 ```
 
 **Avoid:**
+
 ```kotlin
 class MyRepository {
     @Inject lateinit var bluetoothService: BluetoothService
@@ -397,11 +402,13 @@ class MyRepository {
 ### 2. Inject Interfaces, Not Implementations
 
 **Good:**
+
 ```kotlin
 @Inject lateinit var repository: SensorRepository
 ```
 
 **Avoid:**
+
 ```kotlin
 @Inject lateinit var repository: DefaultSensorRepository
 ```

@@ -27,7 +27,7 @@ import kotlin.test.assertTrue
 class OrchestratorConfigViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
-    
+
     private lateinit var repository: OrchestratorConfigRepository
     private lateinit var viewModel: OrchestratorConfigViewModel
 
@@ -40,10 +40,10 @@ class OrchestratorConfigViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        
+
         repository = mockk(relaxed = true)
         every { repository.config } returns MutableStateFlow(testConfig)
-        
+
         viewModel = OrchestratorConfigViewModel(repository)
     }
 
@@ -182,14 +182,14 @@ class OrchestratorConfigViewModelTest {
         // Then
         val state = viewModel.uiState.first()
         assertEquals("Configuration saved", state.message)
-        coVerify { 
+        coVerify {
             repository.update(
                 OrchestratorConfig(
                     host = "192.168.1.1",
                     port = 9090,
                     useTls = true
                 )
-            ) 
+            )
         }
     }
 
@@ -215,7 +215,7 @@ class OrchestratorConfigViewModelTest {
         viewModel.onHostChanged("")
         viewModel.applyConfig()
         advanceUntilIdle()
-        
+
         var state = viewModel.uiState.first()
         assertEquals("Host cannot be blank", state.message)
 

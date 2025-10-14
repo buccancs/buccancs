@@ -30,7 +30,7 @@ class CrashRecoveryTest {
 
         // Recovery: repository should still work
         repository.add("Post-recovery", Clock.System.now())
-        
+
         val bookmarks = repository.bookmarks.value
         assertEquals(1, bookmarks.size)
         assertEquals("Post-recovery", bookmarks[0].label)
@@ -90,7 +90,7 @@ class CrashRecoveryTest {
 
         // Repository should still be functional
         repository.add("After exception", Clock.System.now())
-        
+
         val bookmarks = repository.bookmarks.value
         assertEquals(11, bookmarks.size)
     }
@@ -163,7 +163,7 @@ class CrashRecoveryTest {
         val events = repository.events.value
         // Should have last 128 events
         assertEquals(128, events.size)
-        
+
         // Verify order preserved (last events should be 72-199)
         assertTrue(events.first().id.contains("72"))
         assertTrue(events.last().id.contains("199"))

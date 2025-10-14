@@ -6,7 +6,8 @@
 
 ## Overview
 
-This document provides actual refactoring examples from the BuccanCS codebase, showing how to migrate from exception-based error handling to the Result pattern.
+This document provides actual refactoring examples from the BuccanCS codebase, showing how to migrate from
+exception-based error handling to the Result pattern.
 
 ## Example 1: ShimmerSensorConnector.connect()
 
@@ -50,6 +51,7 @@ override suspend fun connect(): DeviceCommandResult {
 ```
 
 ### Problems
+
 1. Silent failure with generic catch
 2. Lost error context (can't distinguish permission vs I/O errors)
 3. No structured error recovery
@@ -126,6 +128,7 @@ private fun findTargetMac(adapter: BluetoothAdapter): Result<String> {
 ```
 
 ### Benefits
+
 - Type-safe error categories (can distinguish Bluetooth, Permission, NotFound)
 - Explicit error recovery per category
 - Better logging with structured error information
@@ -245,6 +248,7 @@ private fun handleError(error: Error) {
 ```
 
 ### Benefits
+
 - Clear error categorization (Codec vs Storage vs others)
 - Structured error recovery per category
 - Better testability of error scenarios
@@ -265,6 +269,7 @@ fun sessionDirectory(sessionId: String): File {
 ```
 
 ### Problems
+
 - Silent failure if mkdirs() fails
 - No error propagation
 - Caller assumes success
@@ -335,6 +340,7 @@ fun saveArtifact(sessionId: String, deviceId: String, data: ByteArray): Result<F
 ```
 
 ### Benefits
+
 - Explicit validation
 - Clear error propagation
 - Chainable operations
@@ -480,16 +486,19 @@ For each method to refactor:
 ## Helper Functions Summary
 
 ### BluetoothResultHelpers
+
 - `BluetoothAdapter?.checkAvailable()` - Validates adapter
 - `bluetoothOperation()` - Wraps BT operations with error handling
 
 ### StorageResultHelpers
+
 - `storageOperation()` - Wraps file I/O
 - `File.ensureDirectory()` - Creates and validates directory
 - `File.ensureReadable()` - Validates readable file
 - `File.safeDelete()` - Safe deletion
 
 ### CodecResultHelpers
+
 - `codecOperation()` - Wraps codec operations
 - `MediaCodec.safeRelease()` - Safe codec cleanup
 

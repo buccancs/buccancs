@@ -19,20 +19,19 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ShimmerConfigViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
-    
+
     private lateinit var hardwareConfiguration: HardwareConfigurationUseCase
     private lateinit var viewModel: ShimmerConfigViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        
+
         hardwareConfiguration = mockk(relaxed = true)
         viewModel = ShimmerConfigViewModel(hardwareConfiguration)
     }
@@ -67,7 +66,7 @@ class ShimmerConfigViewModelTest {
 
         // Then
         coVerify { hardwareConfiguration.configureShimmerMacAddress(deviceId, "00:11:22:33:44:55") }
-        
+
         val state = viewModel.uiState.first()
         assertFalse(state.isLoading) // Should be false after completion
     }
@@ -77,8 +76,8 @@ class ShimmerConfigViewModelTest {
         // Given
         val deviceId = DeviceId("shimmer-1")
         val errorMessage = "Configuration failed"
-        coEvery { hardwareConfiguration.configureShimmerMacAddress(any(), any()) } returns 
-            Result.failure(RuntimeException(errorMessage))
+        coEvery { hardwareConfiguration.configureShimmerMacAddress(any(), any()) } returns
+                Result.failure(RuntimeException(errorMessage))
 
         // When
         viewModel.selectShimmerDevice(deviceId, "00:11:22:33:44:55")
@@ -95,8 +94,8 @@ class ShimmerConfigViewModelTest {
         // Given
         val deviceId = DeviceId("shimmer-1")
         val rangeIndex = 2
-        coEvery { hardwareConfiguration.configureShimmerGsrRange(deviceId, rangeIndex) } returns 
-            Result.success(Unit)
+        coEvery { hardwareConfiguration.configureShimmerGsrRange(deviceId, rangeIndex) } returns
+                Result.success(Unit)
 
         // When
         viewModel.updateShimmerRange(deviceId, rangeIndex)
@@ -111,8 +110,8 @@ class ShimmerConfigViewModelTest {
         // Given
         val deviceId = DeviceId("shimmer-1")
         val sampleRate = 64.0
-        coEvery { hardwareConfiguration.configureShimmerSampleRate(deviceId, sampleRate) } returns 
-            Result.success(Unit)
+        coEvery { hardwareConfiguration.configureShimmerSampleRate(deviceId, sampleRate) } returns
+                Result.success(Unit)
 
         // When
         viewModel.updateShimmerSampleRate(deviceId, sampleRate)
@@ -126,11 +125,11 @@ class ShimmerConfigViewModelTest {
     fun `clearError removes error from state`() = runTest {
         // Given - trigger an error
         val deviceId = DeviceId("shimmer-1")
-        coEvery { hardwareConfiguration.configureShimmerMacAddress(any(), any()) } returns 
-            Result.failure(RuntimeException("Test error"))
+        coEvery { hardwareConfiguration.configureShimmerMacAddress(any(), any()) } returns
+                Result.failure(RuntimeException("Test error"))
         viewModel.selectShimmerDevice(deviceId, "00:11:22:33:44:55")
         advanceUntilIdle()
-        
+
         var state = viewModel.uiState.first()
         assertEquals("Test error", state.errorMessage)
 

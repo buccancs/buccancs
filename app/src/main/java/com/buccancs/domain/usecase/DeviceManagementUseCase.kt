@@ -1,6 +1,5 @@
 package com.buccancs.domain.usecase
 
-import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.repository.SensorHardwareConfigRepository

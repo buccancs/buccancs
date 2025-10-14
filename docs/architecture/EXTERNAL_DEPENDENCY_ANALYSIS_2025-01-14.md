@@ -6,7 +6,8 @@
 
 ## Overview
 
-Analysis of external SDK integrations (Shimmer, Topdon, OpenCV) focusing on integration quality, issues, and recommendations for improvement.
+Analysis of external SDK integrations (Shimmer, Topdon, OpenCV) focusing on integration quality, issues, and
+recommendations for improvement.
 
 ## 1. Shimmer SDK Integration
 
@@ -18,6 +19,7 @@ Analysis of external SDK integrations (Shimmer, Topdon, OpenCV) focusing on inte
 ### Integration Quality ✅
 
 **Strengths:**
+
 - ✅ Proper abstraction via `SensorConnector` interface
 - ✅ Simulation mode for testing without hardware
 - ✅ Manager pattern for multi-device support
@@ -29,6 +31,7 @@ Analysis of external SDK integrations (Shimmer, Topdon, OpenCV) focusing on inte
 #### 1.1 Handler-Based Callbacks (Old Android Pattern)
 
 **Current Implementation:**
+
 ```kotlin
 private val handler = object : Handler(Looper.getMainLooper()) {
     override fun handleMessage(msg: Message) {
@@ -47,7 +50,8 @@ private val handler = object : Handler(Looper.getMainLooper()) {
 }
 ```
 
-**Issue:** 
+**Issue:**
+
 - Old Android pattern using Messages instead of modern coroutines
 - Handler must run on Main thread (requires withContext switches)
 - Callback-based instead of suspending functions
@@ -57,6 +61,7 @@ private val handler = object : Handler(Looper.getMainLooper()) {
 #### 1.2 Synchronous Blocking in Async Context
 
 **Examples:**
+
 ```kotlin
 // Multiple withContext(Dispatchers.Main) calls for Shimmer SDK
 return withContext(Dispatchers.Main) {
@@ -72,6 +77,7 @@ return withContext(Dispatchers.Main) {
 ```
 
 **Issue:**
+
 - Shimmer SDK requires Main thread for operations
 - Forces async code to switch to Main dispatcher
 - Can block UI if Shimmer operations are slow
@@ -81,6 +87,7 @@ return withContext(Dispatchers.Main) {
 #### 1.3 Complex State Management
 
 **Current State Variables:**
+
 ```kotlin
 private var bluetoothManager: ShimmerBluetoothManagerAndroid? = null
 private var shimmerDevice: ShimmerDevice? = null
@@ -99,6 +106,7 @@ private var completedArtifactSessionId: String? = null
 ```
 
 **Issue:**
+
 - 14+ mutable state variables
 - No explicit state machine
 - State transitions implicit in code
@@ -111,6 +119,7 @@ private var completedArtifactSessionId: String? = null
 **Requirement:** Java 11-13 (documented in build files)
 
 **Issue:**
+
 - Newer Java features not available
 - SDK built for older Android APIs
 - May require workarounds for modern Kotlin features
@@ -125,6 +134,7 @@ private var completedArtifactSessionId: String? = null
 **Effort:** 2-3 days
 
 **Proposed Wrapper:**
+
 ```kotlin
 /**
  * Suspending wrapper for Shimmer SDK operations.
@@ -161,6 +171,7 @@ class ShimmerSdkWrapper(
 ```
 
 **Benefits:**
+
 - Modern Kotlin coroutine API
 - Proper cancellation support
 - Clear error handling
@@ -172,6 +183,7 @@ class ShimmerSdkWrapper(
 **Effort:** 3-4 days
 
 **Proposed State Machine:**
+
 ```kotlin
 sealed class ShimmerConnectionState {
     object Disconnected : ShimmerConnectionState()
@@ -219,6 +231,7 @@ class ShimmerStateMachine {
 ```
 
 **Benefits:**
+
 - Clear state transitions
 - Invalid state transitions prevented at compile time
 - Easier testing
@@ -230,6 +243,7 @@ class ShimmerStateMachine {
 **Effort:** 1 day
 
 **Proposed Implementation:**
+
 ```kotlin
 class ShimmerCircuitBreaker(
     private val failureThreshold: Int = 5,
@@ -283,6 +297,7 @@ class ShimmerCircuitBreaker(
 ```
 
 **Benefits:**
+
 - Prevents repeated connection attempts to failing device
 - Automatic recovery after timeout
 - Reduces battery drain from failed connections
@@ -293,6 +308,7 @@ class ShimmerCircuitBreaker(
 **Effort:** 1 day
 
 **Required Documentation:**
+
 - Shimmer SDK version and source
 - Main thread requirement for all operations
 - Known bugs and workarounds
@@ -313,6 +329,7 @@ class ShimmerCircuitBreaker(
 #### 2.1 External App Code Included
 
 **Current Structure:**
+
 ```
 external/original-topdon-app/
 ├── app/              (Full Android app)
@@ -331,6 +348,7 @@ external/original-topdon-app/
 ```
 
 **File Count:** 14,817 files including:
+
 - 2,678 XML files
 - 2,105 .flat files (Android resources)
 - 1,761 JSON files
@@ -340,6 +358,7 @@ external/original-topdon-app/
 - 379 Kotlin files
 
 **Issue:**
+
 - Entire example app included instead of minimal SDK
 - Build artifacts committed to repository (.dex, .class, build/)
 - Deprecated code and unused modules
@@ -350,6 +369,7 @@ external/original-topdon-app/
 #### 2.2 Chinese Comments and Strings
 
 **Examples Found:**
+
 ```java
 // 中文注释 (Chinese comments throughout)
 String errorMessage = "连接失败"; // Connection failed
@@ -357,6 +377,7 @@ Log.d(TAG, "设备已断开"); // Device disconnected
 ```
 
 **Issue:**
+
 - Makes code difficult to maintain for non-Chinese speakers
 - Mixed language codebase
 - Internationalization issues
@@ -366,6 +387,7 @@ Log.d(TAG, "设备已断开"); // Device disconnected
 #### 2.3 Complex USB Initialization Sequence
 
 **Current Implementation:**
+
 ```kotlin
 private val listener = object : USBMonitor.OnDeviceConnectListener {
     override fun onAttach(device: UsbDevice) {
@@ -397,6 +419,7 @@ private val listener = object : USBMonitor.OnDeviceConnectListener {
 ```
 
 **Issue:**
+
 - 6 callbacks for USB lifecycle
 - Async initialization with no timeout
 - No retry logic
@@ -407,6 +430,7 @@ private val listener = object : USBMonitor.OnDeviceConnectListener {
 #### 2.4 Thermal Frame Format Conversions
 
 **Current Issue:**
+
 - Thermal data in proprietary binary format
 - No documentation of frame structure
 - Complex normalization required
@@ -422,6 +446,7 @@ private val listener = object : USBMonitor.OnDeviceConnectListener {
 **Effort:** 3-5 days
 
 **Proposed Structure:**
+
 ```
 app/src/main/java/com/buccancs/data/sensor/connector/topdon/
 ├── TopdonThermalConnector.kt           (Existing)
@@ -434,6 +459,7 @@ app/src/main/java/com/buccancs/data/sensor/connector/topdon/
 ```
 
 **TopdonSdkWrapper:**
+
 ```kotlin
 /**
  * Minimal wrapper for Topdon TC001 thermal camera SDK.
@@ -473,6 +499,7 @@ class TopdonSdkWrapper(
 ```
 
 **Benefits:**
+
 - Minimal code footprint
 - Clean suspend API
 - Proper timeout handling
@@ -484,6 +511,7 @@ class TopdonSdkWrapper(
 **Effort:** 1 day
 
 **Action Plan:**
+
 1. Identify actively used SDK files
 2. Extract minimal required libraries
 3. Remove example app code
@@ -491,11 +519,13 @@ class TopdonSdkWrapper(
 5. Update documentation
 
 **Keep:**
+
 - `libir/` - Core IR camera library
 - USB UVC components
 - Frame decoding utilities
 
 **Remove:**
+
 - Full example app
 - UI components
 - Demo code
@@ -510,6 +540,7 @@ class TopdonSdkWrapper(
 **Effort:** 2-3 days
 
 **Required Documentation:**
+
 ```markdown
 # Topdon TC001 Thermal Frame Format
 
@@ -528,14 +559,17 @@ fun rawToTemperature(raw: Int): Float {
 ```
 
 ## Normalization
+
 - Min/max tracking for display
 - Colormap application
 - Spatial filtering options
 
 ## Performance
+
 - Frame rate: ~25 FPS
 - Latency: <50ms typical
 - USB bandwidth: ~5 MB/s
+
 ```
 
 #### R2.4 Add Thermal Camera Simulator
@@ -574,6 +608,7 @@ class SimulatedThermalCamera : ThermalCamera {
 ```
 
 **Benefits:**
+
 - Testing without hardware
 - Reproducible test scenarios
 - UI development without camera
@@ -590,6 +625,7 @@ class SimulatedThermalCamera : ThermalCamera {
 ### Integration Quality
 
 **Strengths:**
+
 - ✅ Used for specific task (calibration)
 - ✅ Proper Mat lifecycle management (release() called)
 - ✅ Results cached and reused
@@ -600,6 +636,7 @@ class SimulatedThermalCamera : ThermalCamera {
 #### 3.1 Large Library for Limited Functionality
 
 **Usage Analysis:**
+
 ```kotlin
 // Only using these OpenCV functions:
 - OpenCVLoader.initDebug()
@@ -611,6 +648,7 @@ class SimulatedThermalCamera : ThermalCamera {
 ```
 
 **Issue:**
+
 - 50+ MB library for ~6 functions
 - Includes unused computer vision algorithms
 - Native libraries for multiple architectures
@@ -621,6 +659,7 @@ class SimulatedThermalCamera : ThermalCamera {
 #### 3.2 Native Library Loading Complexity
 
 **Current Implementation:**
+
 ```kotlin
 private suspend fun ensureOpenCvLoaded() {
     if (!openCvLoaded) {
@@ -635,6 +674,7 @@ private suspend fun ensureOpenCvLoaded() {
 ```
 
 **Issue:**
+
 - Native library loading can fail
 - No fallback if loading fails
 - Architecture-specific binaries
@@ -645,6 +685,7 @@ private suspend fun ensureOpenCvLoaded() {
 #### 3.3 Calibration Quality Thresholds Not Enforced
 
 **Current Code:**
+
 ```kotlin
 val warning = if (metricsSnapshot.maxReprojectionError > 1.0) {
     "High reprojection error detected..."
@@ -654,6 +695,7 @@ val warning = if (metricsSnapshot.maxReprojectionError > 1.0) {
 ```
 
 **Issue:**
+
 - Warning shown but calibration still accepted
 - No hard threshold for rejection
 - Users can proceed with bad calibration
@@ -669,6 +711,7 @@ val warning = if (metricsSnapshot.maxReprojectionError > 1.0) {
 **Effort:** 1 day
 
 **Required Documentation:**
+
 ```markdown
 # OpenCV Integration
 
@@ -686,19 +729,23 @@ if (!OpenCVLoader.initDebug()) {
 ```
 
 ## Usage
+
 - Stereo camera calibration
 - Chessboard corner detection
 - Reprojection error calculation
 
 ## Limitations
+
 - Requires Android 5.0+
 - Native libraries must match device architecture
 - First initialization may take 1-2 seconds
 
 ## Alternatives Considered
+
 - Custom calibration implementation (complex)
 - BoofCV (alternative CV library)
 - Delegating calibration to desktop app
+
 ```
 
 #### R3.2 Add Automated Quality Checks
@@ -748,6 +795,7 @@ fun validateCalibrationQuality(result: StereoCalibrationResult): CalibrationQual
 ```
 
 **Benefits:**
+
 - Prevents bad calibrations
 - Clear quality feedback
 - Guidance for users
@@ -759,17 +807,18 @@ fun validateCalibrationQuality(result: StereoCalibrationResult): CalibrationQual
 **Effort:** Research phase
 
 **Alternatives:**
+
 1. **BoofCV** - Pure Java CV library
-   - Pros: No native dependencies, smaller size
-   - Cons: Less mature, fewer features
-   
+    - Pros: No native dependencies, smaller size
+    - Cons: Less mature, fewer features
+
 2. **Custom Implementation** - Write calibration from scratch
-   - Pros: Full control, minimal size
-   - Cons: Complex math, testing burden
-   
+    - Pros: Full control, minimal size
+    - Cons: Complex math, testing burden
+
 3. **Desktop Calibration** - Move to desktop app
-   - Pros: No mobile overhead, more powerful
-   - Cons: Extra step for users
+    - Pros: No mobile overhead, more powerful
+    - Cons: Extra step for users
 
 **Recommendation:** Keep OpenCV for now, revisit if APK size becomes critical issue.
 
@@ -779,6 +828,7 @@ fun validateCalibrationQuality(result: StereoCalibrationResult): CalibrationQual
 **Effort:** 1 day
 
 **Proposed Implementation:**
+
 ```kotlin
 private suspend fun ensureOpenCvLoaded(): Result<Unit> {
     if (openCvLoaded) {
@@ -832,33 +882,34 @@ when (val result = calibrationRepository.startCalibration()) {
 
 ### High Priority (Do First)
 
-| Issue | SDK | Priority | Effort | Impact |
-|-------|-----|----------|--------|--------|
-| Create explicit state machine | Shimmer | High | 3-4 days | High |
-| Extract minimal SDK wrapper | Topdon | High | 3-5 days | High |
-| Remove unused Topdon code | Topdon | High | 1 day | High |
-| Document thermal frame format | Topdon | High | 2-3 days | High |
-| Enforce calibration quality | OpenCV | High | 2-3 days | High |
-| Document SDK requirements | All | High | 1 day | Medium |
+| Issue                         | SDK     | Priority | Effort   | Impact |
+|-------------------------------|---------|----------|----------|--------|
+| Create explicit state machine | Shimmer | High     | 3-4 days | High   |
+| Extract minimal SDK wrapper   | Topdon  | High     | 3-5 days | High   |
+| Remove unused Topdon code     | Topdon  | High     | 1 day    | High   |
+| Document thermal frame format | Topdon  | High     | 2-3 days | High   |
+| Enforce calibration quality   | OpenCV  | High     | 2-3 days | High   |
+| Document SDK requirements     | All     | High     | 1 day    | Medium |
 
 ### Medium Priority (Do Soon)
 
-| Issue | SDK | Priority | Effort | Impact |
-|-------|-----|----------|--------|--------|
-| Wrap in suspending functions | Shimmer | Medium | 2-3 days | Medium |
-| Circuit breaker pattern | Shimmer | Medium | 1 day | Medium |
-| Thermal camera simulator | Topdon | Medium | 2-3 days | Medium |
-| OpenCV fallback handling | OpenCV | Medium | 1 day | Medium |
+| Issue                        | SDK     | Priority | Effort   | Impact |
+|------------------------------|---------|----------|----------|--------|
+| Wrap in suspending functions | Shimmer | Medium   | 2-3 days | Medium |
+| Circuit breaker pattern      | Shimmer | Medium   | 1 day    | Medium |
+| Thermal camera simulator     | Topdon  | Medium   | 2-3 days | Medium |
+| OpenCV fallback handling     | OpenCV  | Medium   | 1 day    | Medium |
 
 ### Low Priority (Future)
 
-| Issue | SDK | Priority | Effort | Impact |
-|-------|-----|----------|--------|--------|
-| Alternative CV library | OpenCV | Low | Research | Low |
+| Issue                  | SDK    | Priority | Effort   | Impact |
+|------------------------|--------|----------|----------|--------|
+| Alternative CV library | OpenCV | Low      | Research | Low    |
 
 ## Testing Recommendations
 
 ### Shimmer SDK Testing
+
 1. Connection state machine tests
 2. Circuit breaker behavior tests
 3. Handler cleanup verification
@@ -866,6 +917,7 @@ when (val result = calibrationRepository.startCalibration()) {
 5. Bluetooth permission scenarios
 
 ### Topdon SDK Testing
+
 1. USB connection lifecycle tests
 2. Frame parsing correctness tests
 3. Thermal simulator accuracy tests
@@ -873,6 +925,7 @@ when (val result = calibrationRepository.startCalibration()) {
 5. Reconnection scenarios
 
 ### OpenCV Testing
+
 1. Calibration quality threshold tests
 2. Load failure scenarios
 3. Mat lifecycle leak detection
@@ -882,24 +935,28 @@ when (val result = calibrationRepository.startCalibration()) {
 ## Migration Path
 
 ### Phase 1: Documentation (1 week)
+
 - Document all SDK requirements
 - Document thermal frame format
 - Document calibration quality standards
 - Add inline code documentation
 
 ### Phase 2: Shimmer Improvements (2-3 weeks)
+
 - Implement state machine
 - Add circuit breaker
 - Wrap in suspending functions
 - Comprehensive testing
 
 ### Phase 3: Topdon Cleanup (2 weeks)
+
 - Extract minimal SDK
 - Remove unused code
 - Add thermal simulator
 - Documentation
 
 ### Phase 4: OpenCV Improvements (1 week)
+
 - Enforce quality thresholds
 - Add fallback handling
 - Improve error messages

@@ -162,6 +162,7 @@ class ConcurrentOperationsTest {
                             receivedAt = Clock.System.now()
                         )
                     )
+
                     2 -> {
                         val bookmarks = bookmarkRepo.bookmarks.value
                         if (bookmarks.isNotEmpty()) {

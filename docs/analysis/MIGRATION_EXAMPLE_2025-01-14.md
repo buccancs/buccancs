@@ -195,18 +195,21 @@ fun MainScreen(
 **Use Case:** Screen uses only one type of functionality
 
 **Before:**
+
 ```kotlin
 @Composable
 fun MyScreen(viewModel: MainViewModel = hiltViewModel())
 ```
 
 **After:**
+
 ```kotlin
 @Composable
 fun MyScreen(myViewModel: SpecificViewModel = hiltViewModel())
 ```
 
 **Example Screens:**
+
 - Settings → OrchestratorConfigViewModel
 - Shimmer Config → ShimmerConfigViewModel
 
@@ -215,12 +218,14 @@ fun MyScreen(myViewModel: SpecificViewModel = hiltViewModel())
 **Use Case:** Screen needs multiple types of functionality
 
 **Before:**
+
 ```kotlin
 @Composable
 fun MyScreen(viewModel: MainViewModel = hiltViewModel())
 ```
 
 **After:**
+
 ```kotlin
 @Composable
 fun MyScreen(
@@ -230,6 +235,7 @@ fun MyScreen(
 ```
 
 **Example Screens:**
+
 - MainScreen → Recording + Device + Telemetry ViewModels
 - LiveSession → Recording + Device + Telemetry ViewModels
 
@@ -238,6 +244,7 @@ fun MyScreen(
 **Use Case:** Large screen, migrate piece by piece
 
 **Step 1: Add New ViewModel**
+
 ```kotlin
 @Composable
 fun MyScreen(
@@ -247,6 +254,7 @@ fun MyScreen(
 ```
 
 **Step 2: Use New ViewModel for One Section**
+
 ```kotlin
 // Old section still uses mainViewModel
 OldSection(state = mainState, onAction = { mainViewModel.doOld(it) })
@@ -256,6 +264,7 @@ NewSection(state = newState, onAction = { newViewModel.doNew(it) })
 ```
 
 **Step 3: Complete Migration**
+
 ```kotlin
 @Composable
 fun MyScreen(
@@ -267,45 +276,45 @@ fun MyScreen(
 
 ### MainUiState → New ViewModels
 
-| MainUiState Property | New ViewModel | New Property |
-|---------------------|---------------|--------------|
-| `sessionIdInput` | RecordingViewModel | `sessionId` |
-| `recordingLifecycle` | RecordingViewModel | `lifecycle` |
-| `anchorReference` | RecordingViewModel | `anchorReference` |
-| `isRecording` | RecordingViewModel | `isRecording` |
-| `exercise` | RecordingViewModel | `exercise` |
-| `devices` | DeviceInventoryViewModel | `devices` |
-| `simulationEnabled` | DeviceInventoryViewModel | `simulationEnabled` |
-| `inventory` | DeviceInventoryViewModel | `inventory` |
-| `streamStatuses` | TelemetryViewModel | `streamStatuses` |
-| `timeSyncStatus` | TelemetryViewModel | `timeSyncStatus` |
-| `deviceEvents` | TelemetryViewModel | `deviceEvents` |
-| `showSyncFlash` | TelemetryViewModel | `showSyncFlash` |
-| `orchestratorHostInput` | OrchestratorConfigViewModel | `hostInput` |
-| `orchestratorPortInput` | OrchestratorConfigViewModel | `portInput` |
-| `orchestratorUseTls` | OrchestratorConfigViewModel | `useTls` |
-| `orchestratorConfigDirty` | OrchestratorConfigViewModel | `isDirty` |
-| `configMessage` | OrchestratorConfigViewModel | `message` |
+| MainUiState Property      | New ViewModel               | New Property        |
+|---------------------------|-----------------------------|---------------------|
+| `sessionIdInput`          | RecordingViewModel          | `sessionId`         |
+| `recordingLifecycle`      | RecordingViewModel          | `lifecycle`         |
+| `anchorReference`         | RecordingViewModel          | `anchorReference`   |
+| `isRecording`             | RecordingViewModel          | `isRecording`       |
+| `exercise`                | RecordingViewModel          | `exercise`          |
+| `devices`                 | DeviceInventoryViewModel    | `devices`           |
+| `simulationEnabled`       | DeviceInventoryViewModel    | `simulationEnabled` |
+| `inventory`               | DeviceInventoryViewModel    | `inventory`         |
+| `streamStatuses`          | TelemetryViewModel          | `streamStatuses`    |
+| `timeSyncStatus`          | TelemetryViewModel          | `timeSyncStatus`    |
+| `deviceEvents`            | TelemetryViewModel          | `deviceEvents`      |
+| `showSyncFlash`           | TelemetryViewModel          | `showSyncFlash`     |
+| `orchestratorHostInput`   | OrchestratorConfigViewModel | `hostInput`         |
+| `orchestratorPortInput`   | OrchestratorConfigViewModel | `portInput`         |
+| `orchestratorUseTls`      | OrchestratorConfigViewModel | `useTls`            |
+| `orchestratorConfigDirty` | OrchestratorConfigViewModel | `isDirty`           |
+| `configMessage`           | OrchestratorConfigViewModel | `message`           |
 
 ### Method Mapping
 
-| MainViewModel Method | New ViewModel | New Method |
-|---------------------|---------------|------------|
-| `onSessionIdChanged()` | RecordingViewModel | `onSessionIdChanged()` |
-| `startRecording()` | RecordingViewModel | `startRecording()` |
-| `stopRecording()` | RecordingViewModel | `stopRecording()` |
-| `runExercise()` | RecordingViewModel | `runExercise()` |
-| `connectDevice()` | DeviceInventoryViewModel | `connectDevice()` |
-| `disconnectDevice()` | DeviceInventoryViewModel | `disconnectDevice()` |
-| `refreshInventory()` | DeviceInventoryViewModel | `refreshInventory()` |
-| `toggleSimulation()` | DeviceInventoryViewModel | `toggleSimulation()` |
-| `selectShimmerDevice()` | ShimmerConfigViewModel | `selectShimmerDevice()` |
-| `updateShimmerRange()` | ShimmerConfigViewModel | `updateShimmerRange()` |
-| `updateShimmerSampleRate()` | ShimmerConfigViewModel | `updateShimmerSampleRate()` |
-| `onOrchestratorHostChanged()` | OrchestratorConfigViewModel | `onHostChanged()` |
-| `onOrchestratorPortChanged()` | OrchestratorConfigViewModel | `onPortChanged()` |
-| `onOrchestratorUseTlsChanged()` | OrchestratorConfigViewModel | `onUseTlsChanged()` |
-| `applyOrchestratorConfig()` | OrchestratorConfigViewModel | `applyConfig()` |
+| MainViewModel Method            | New ViewModel               | New Method                  |
+|---------------------------------|-----------------------------|-----------------------------|
+| `onSessionIdChanged()`          | RecordingViewModel          | `onSessionIdChanged()`      |
+| `startRecording()`              | RecordingViewModel          | `startRecording()`          |
+| `stopRecording()`               | RecordingViewModel          | `stopRecording()`           |
+| `runExercise()`                 | RecordingViewModel          | `runExercise()`             |
+| `connectDevice()`               | DeviceInventoryViewModel    | `connectDevice()`           |
+| `disconnectDevice()`            | DeviceInventoryViewModel    | `disconnectDevice()`        |
+| `refreshInventory()`            | DeviceInventoryViewModel    | `refreshInventory()`        |
+| `toggleSimulation()`            | DeviceInventoryViewModel    | `toggleSimulation()`        |
+| `selectShimmerDevice()`         | ShimmerConfigViewModel      | `selectShimmerDevice()`     |
+| `updateShimmerRange()`          | ShimmerConfigViewModel      | `updateShimmerRange()`      |
+| `updateShimmerSampleRate()`     | ShimmerConfigViewModel      | `updateShimmerSampleRate()` |
+| `onOrchestratorHostChanged()`   | OrchestratorConfigViewModel | `onHostChanged()`           |
+| `onOrchestratorPortChanged()`   | OrchestratorConfigViewModel | `onPortChanged()`           |
+| `onOrchestratorUseTlsChanged()` | OrchestratorConfigViewModel | `onUseTlsChanged()`         |
+| `applyOrchestratorConfig()`     | OrchestratorConfigViewModel | `applyConfig()`             |
 
 ## Testing After Migration
 
@@ -354,11 +363,13 @@ fun `can save orchestrator configuration`() = runTest {
 ### 1. Forgetting to Import New ViewModel
 
 **Error:**
+
 ```
 Unresolved reference: RecordingViewModel
 ```
 
 **Solution:**
+
 ```kotlin
 import com.buccancs.ui.recording.RecordingViewModel
 ```
@@ -366,11 +377,13 @@ import com.buccancs.ui.recording.RecordingViewModel
 ### 2. Using Wrong State Property Name
 
 **Error:**
+
 ```
 Unresolved reference: orchestratorHostInput
 ```
 
 **Solution:**
+
 ```kotlin
 // Before: uiState.orchestratorHostInput
 // After: uiState.hostInput
@@ -379,11 +392,13 @@ Unresolved reference: orchestratorHostInput
 ### 3. Not Collecting State
 
 **Error:**
+
 ```
 UI not updating
 ```
 
 **Solution:**
+
 ```kotlin
 val uiState by viewModel.uiState.collectAsState()
 ```
@@ -394,6 +409,7 @@ val uiState by viewModel.uiState.collectAsState()
 If you need >3 ViewModels, consider splitting the screen
 
 **Solution:**
+
 ```kotlin
 // Instead of:
 fun BigScreen(vm1, vm2, vm3, vm4, vm5) // Too many!
@@ -444,16 +460,19 @@ fun MyScreen(
 ## Help and Support
 
 ### Questions?
+
 - Check the full documentation in `docs/analysis/`
 - Review test examples in `app/src/test/`
 - Ask the team in #architecture channel
 
 ### Found a Bug?
+
 - Create a ticket with "Migration:" prefix
 - Include before/after code snippets
 - Tag with "refactoring" label
 
 ### Need Help Migrating?
+
 - Schedule a pairing session
 - Review this guide first
 - Bring specific questions

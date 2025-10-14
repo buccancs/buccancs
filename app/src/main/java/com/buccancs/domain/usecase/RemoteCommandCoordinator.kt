@@ -58,13 +58,13 @@ class RemoteCommandCoordinatorImpl @Inject constructor(
         var message: String? = null
         val success = try {
             awaitExecution(payload.executeEpochMs)
-            
+
             // Update session coordinator with new session ID
             (sessionCoordinator as? SessionCoordinatorImpl)?.updateSessionId(payload.sessionId)
-            
+
             val anchorInstant = payload.anchorEpochMs.takeIf { it > 0 }
                 ?.let { Instant.fromEpochMilliseconds(it) }
-            
+
             val result = sessionCoordinator.startSession(payload.sessionId, anchorInstant)
             result.isSuccess
         } catch (cancellation: CancellationException) {
@@ -93,10 +93,10 @@ class RemoteCommandCoordinatorImpl @Inject constructor(
         var message: String? = null
         val success = try {
             awaitExecution(payload.executeEpochMs)
-            
+
             // Update session coordinator with session ID
             (sessionCoordinator as? SessionCoordinatorImpl)?.updateSessionId(payload.sessionId)
-            
+
             val result = sessionCoordinator.stopSession()
             result.isSuccess
         } catch (cancellation: CancellationException) {
@@ -121,12 +121,12 @@ class RemoteCommandCoordinatorImpl @Inject constructor(
 
     private suspend fun awaitExecution(executeEpochMs: Long) {
         if (executeEpochMs <= 0L) return
-        
+
         val offset = timeSyncService.status.value.offsetMillis
         val clampedOffset = offset.coerceIn(-MAX_OFFSET_ADJUSTMENT_MS, MAX_OFFSET_ADJUSTMENT_MS)
         val adjustedNow = System.currentTimeMillis() + clampedOffset
         val delayMs = executeEpochMs - adjustedNow
-        
+
         if (delayMs > 0) {
             delay(delayMs)
         }

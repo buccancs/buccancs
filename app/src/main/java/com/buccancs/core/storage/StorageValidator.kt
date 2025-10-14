@@ -10,13 +10,14 @@ sealed class StorageCheckResult {
         val available: Long,
         val location: String
     ) : StorageCheckResult()
+
     data class Error(val message: String, val cause: Throwable?) : StorageCheckResult()
 }
 
 object StorageValidator {
     private const val SAFETY_MULTIPLIER = 2.0
     private const val MIN_FREE_BYTES = 100 * 1024 * 1024L
-    
+
     fun checkSpace(
         location: File,
         requiredBytes: Long,
@@ -27,7 +28,7 @@ object StorageValidator {
             val available = dir.usableSpace
             val required = (requiredBytes * safetyMultiplier).toLong()
             val totalRequired = required + MIN_FREE_BYTES
-            
+
             if (available >= totalRequired) {
                 StorageCheckResult.Sufficient
             } else {
@@ -43,7 +44,7 @@ object StorageValidator {
             StorageCheckResult.Error("I/O error checking space", e)
         }
     }
-    
+
     fun formatBytes(bytes: Long): String {
         return when {
             bytes < 1024 -> "$bytes B"

@@ -96,14 +96,17 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
     private suspend fun persist(config: SensorHardwareConfig) {
         ensureInventoryFile()
         val encoded = json.encodeToString(config)
-        
-        when (val result = AtomicFileWriter.writeAtomicSafe(inventoryFile, encoded, StandardCharsets.UTF_8, checkSpace = true)) {
+
+        when (val result =
+            AtomicFileWriter.writeAtomicSafe(inventoryFile, encoded, StandardCharsets.UTF_8, checkSpace = true)) {
             is WriteResult.Success -> {
                 Log.d(TAG, "Config persisted successfully")
             }
+
             is WriteResult.Failure.InsufficientSpace -> {
                 Log.e(TAG, "Insufficient space to write config")
             }
+
             is WriteResult.Failure.WriteError -> {
                 Log.e(TAG, "Failed to write config: ${result.message}", result.cause)
             }

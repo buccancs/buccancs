@@ -7,6 +7,7 @@
 ## Pre-Integration (Complete before any UI changes)
 
 ### Code Quality
+
 - [x] Code review completed
 - [x] Architecture approved
 - [x] Use case tests written (47 tests)
@@ -15,14 +16,16 @@
 - [ ] Code coverage >80% for new code
 
 ### Compilation
+
 - [x] All new use cases compile
-- [x] All new ViewModels compile  
+- [x] All new ViewModels compile
 - [x] All UI mappers compile
 - [x] Hilt module compiles
 - [ ] Fix pre-existing compilation errors (Timber, System references)
 - [ ] Clean build with no warnings
 
 ### Testing
+
 - [ ] Run existing test suite (establish baseline)
 - [ ] All existing tests pass
 - [ ] Run new use case tests
@@ -32,29 +35,32 @@
 ## Phase 1: Soft Launch (Week 1)
 
 ### Setup
+
 - [ ] Create feature flag: `ENABLE_NEW_ARCHITECTURE`
 - [ ] Add to BuildConfig or DataStore
 - [ ] Default to `false` for production
 - [ ] Document flag usage
 
 ### Screen Selection
+
 Target: Low-risk screens for initial migration
 
 - [ ] **Settings Screen** (OrchestratorConfigViewModel)
-  - [ ] Update composable to inject new ViewModel
-  - [ ] Test host/port input
-  - [ ] Test config save/load
-  - [ ] Test validation
-  - [ ] Verify no regressions
+    - [ ] Update composable to inject new ViewModel
+    - [ ] Test host/port input
+    - [ ] Test config save/load
+    - [ ] Test validation
+    - [ ] Verify no regressions
 
 - [ ] **Device Inventory Card** (DeviceInventoryViewModel)
-  - [ ] Update MainScreen device section
-  - [ ] Test device list display
-  - [ ] Test connect/disconnect
-  - [ ] Test simulation toggle
-  - [ ] Verify no regressions
+    - [ ] Update MainScreen device section
+    - [ ] Test device list display
+    - [ ] Test connect/disconnect
+    - [ ] Test simulation toggle
+    - [ ] Verify no regressions
 
 ### Validation
+
 - [ ] Internal testing completed
 - [ ] No crashes observed
 - [ ] Performance acceptable
@@ -66,54 +72,54 @@ Target: Low-risk screens for initial migration
 ### Recording Controls (RecordingViewModel)
 
 - [ ] **Session Management**
-  - [ ] Update session ID input handling
-  - [ ] Migrate start recording button
-  - [ ] Migrate stop recording button
-  - [ ] Test session lifecycle
-  - [ ] Verify state updates
+    - [ ] Update session ID input handling
+    - [ ] Migrate start recording button
+    - [ ] Migrate stop recording button
+    - [ ] Test session lifecycle
+    - [ ] Verify state updates
 
 - [ ] **Exercise Execution**
-  - [ ] Update multi-device exercise card
-  - [ ] Test exercise run
-  - [ ] Test exercise results display
-  - [ ] Test error handling
-  - [ ] Verify progress indicators
+    - [ ] Update multi-device exercise card
+    - [ ] Test exercise run
+    - [ ] Test exercise results display
+    - [ ] Test error handling
+    - [ ] Verify progress indicators
 
 ### Device Management (DeviceInventoryViewModel + ShimmerConfigViewModel)
 
 - [ ] **Shimmer Configuration**
-  - [ ] Migrate Shimmer device card
-  - [ ] Test MAC selection
-  - [ ] Test GSR range selection
-  - [ ] Test sample rate selection
-  - [ ] Verify settings persist
+    - [ ] Migrate Shimmer device card
+    - [ ] Test MAC selection
+    - [ ] Test GSR range selection
+    - [ ] Test sample rate selection
+    - [ ] Verify settings persist
 
 - [ ] **Device Connection**
-  - [ ] Update device connection UI
-  - [ ] Test connect/disconnect flows
-  - [ ] Test inventory refresh
-  - [ ] Test device status updates
-  - [ ] Verify error messages
+    - [ ] Update device connection UI
+    - [ ] Test connect/disconnect flows
+    - [ ] Test inventory refresh
+    - [ ] Test device status updates
+    - [ ] Verify error messages
 
 ### Telemetry Display (TelemetryViewModel)
 
 - [ ] **Stream Status**
-  - [ ] Migrate stream status list
-  - [ ] Test real-time updates
-  - [ ] Test format display
-  - [ ] Verify performance
+    - [ ] Migrate stream status list
+    - [ ] Test real-time updates
+    - [ ] Test format display
+    - [ ] Verify performance
 
 - [ ] **Time Sync Status**
-  - [ ] Update sync status display
-  - [ ] Test connection status labels
-  - [ ] Test sync flash effect
-  - [ ] Verify timing accuracy
+    - [ ] Update sync status display
+    - [ ] Test connection status labels
+    - [ ] Test sync flash effect
+    - [ ] Verify timing accuracy
 
 - [ ] **Event Log**
-  - [ ] Migrate event log display
-  - [ ] Test event scrolling
-  - [ ] Test event filtering
-  - [ ] Verify event ordering
+    - [ ] Migrate event log display
+    - [ ] Test event scrolling
+    - [ ] Test event filtering
+    - [ ] Verify event ordering
 
 ## Phase 3: MainViewModel Deprecation (Week 4)
 
@@ -124,25 +130,25 @@ Target: Low-risk screens for initial migration
   @Deprecated("Use RecordingViewModel.startRecording()")
   fun startRecording() { ... }
   ```
-  - [ ] `startRecording()`
-  - [ ] `stopRecording()`
-  - [ ] `runExercise()`
-  - [ ] `onSessionIdChanged()`
+    - [ ] `startRecording()`
+    - [ ] `stopRecording()`
+    - [ ] `runExercise()`
+    - [ ] `onSessionIdChanged()`
 
 - [ ] **Device Methods**
-  - [ ] `connectDevice()`
-  - [ ] `disconnectDevice()`
-  - [ ] `refreshInventory()`
-  - [ ] `toggleSimulation()`
+    - [ ] `connectDevice()`
+    - [ ] `disconnectDevice()`
+    - [ ] `refreshInventory()`
+    - [ ] `toggleSimulation()`
 
 - [ ] **Configuration Methods**
-  - [ ] `selectShimmerDevice()`
-  - [ ] `updateShimmerRange()`
-  - [ ] `updateShimmerSampleRate()`
-  - [ ] `setActiveTopdon()`
-  - [ ] `onOrchestratorHostChanged()`
-  - [ ] `onOrchestratorPortChanged()`
-  - [ ] `applyOrchestratorConfig()`
+    - [ ] `selectShimmerDevice()`
+    - [ ] `updateShimmerRange()`
+    - [ ] `updateShimmerSampleRate()`
+    - [ ] `setActiveTopdon()`
+    - [ ] `onOrchestratorHostChanged()`
+    - [ ] `onOrchestratorPortChanged()`
+    - [ ] `applyOrchestratorConfig()`
 
 ### Usage Audit
 
@@ -165,15 +171,15 @@ Target: Low-risk screens for initial migration
 ### Code Removal
 
 - [ ] **MainViewModel**
-  - [ ] Remove `MainViewModel.kt` file
-  - [ ] Remove from Hilt graph
-  - [ ] Update imports
-  - [ ] Remove unused state classes
+    - [ ] Remove `MainViewModel.kt` file
+    - [ ] Remove from Hilt graph
+    - [ ] Update imports
+    - [ ] Remove unused state classes
 
 - [ ] **Tests**
-  - [ ] Remove MainViewModel tests (if any)
-  - [ ] Update test documentation
-  - [ ] Archive old test results
+    - [ ] Remove MainViewModel tests (if any)
+    - [ ] Update test documentation
+    - [ ] Archive old test results
 
 ### Documentation
 
@@ -196,20 +202,20 @@ Target: Low-risk screens for initial migration
 ### Metrics to Track
 
 - [ ] **Crash Rate**
-  - Baseline: ______
-  - Target: No increase
-  - Actual: ______
+    - Baseline: ______
+    - Target: No increase
+    - Actual: ______
 
 - [ ] **Performance**
-  - Frame rate: ______
-  - Memory usage: ______
-  - CPU usage: ______
-  - Battery drain: ______
+    - Frame rate: ______
+    - Memory usage: ______
+    - CPU usage: ______
+    - Battery drain: ______
 
 - [ ] **Code Quality**
-  - Test coverage: _____%
-  - Static analysis score: ______
-  - Lint warnings: ______
+    - Test coverage: _____%
+    - Static analysis score: ______
+    - Lint warnings: ______
 
 ### Issue Tracking
 
@@ -241,22 +247,22 @@ Target: Low-risk screens for initial migration
 ### Stakeholders
 
 - [ ] **Development Team**
-  - [ ] Architecture overview session
-  - [ ] Code walkthrough
-  - [ ] Q&A session
-  - [ ] Documentation shared
+    - [ ] Architecture overview session
+    - [ ] Code walkthrough
+    - [ ] Q&A session
+    - [ ] Documentation shared
 
 - [ ] **QA Team**
-  - [ ] Test plan review
-  - [ ] Key test areas identified
-  - [ ] Regression scope defined
-  - [ ] Tools and access provided
+    - [ ] Test plan review
+    - [ ] Key test areas identified
+    - [ ] Regression scope defined
+    - [ ] Tools and access provided
 
 - [ ] **Product Team**
-  - [ ] Feature flag explained
-  - [ ] Migration timeline shared
-  - [ ] Risk assessment presented
-  - [ ] Success criteria defined
+    - [ ] Feature flag explained
+    - [ ] Migration timeline shared
+    - [ ] Risk assessment presented
+    - [ ] Success criteria defined
 
 ### Status Updates
 
@@ -315,6 +321,7 @@ Target: Low-risk screens for initial migration
 ## Sign-off
 
 ### Development Lead
+
 - [ ] Code reviewed
 - [ ] Architecture approved
 - [ ] Tests sufficient
@@ -322,6 +329,7 @@ Target: Low-risk screens for initial migration
 - Signature: __________
 
 ### QA Lead
+
 - [ ] Test plan approved
 - [ ] Testing complete
 - [ ] No blockers
@@ -329,6 +337,7 @@ Target: Low-risk screens for initial migration
 - Signature: __________
 
 ### Product Owner
+
 - [ ] Timeline acceptable
 - [ ] Risk acceptable
 - [ ] Success criteria met
@@ -340,6 +349,7 @@ Target: Low-risk screens for initial migration
 ### Scheduled: __________ (2 weeks after final deployment)
 
 ### Topics
+
 - [ ] Review metrics vs targets
 - [ ] Discuss lessons learned
 - [ ] Identify improvement areas
@@ -347,6 +357,7 @@ Target: Low-risk screens for initial migration
 - [ ] Plan future refactorings
 
 ### Attendees
+
 - [ ] Development team
 - [ ] QA team
 - [ ] Product owner
@@ -355,12 +366,15 @@ Target: Low-risk screens for initial migration
 ## Notes
 
 ### Blockers
+
 _Document any blockers here:_
 
 ### Decisions
+
 _Document key decisions here:_
 
 ### Lessons Learned
+
 _Document lessons learned here:_
 
 ---

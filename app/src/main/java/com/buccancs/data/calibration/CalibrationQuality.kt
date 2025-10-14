@@ -13,11 +13,11 @@ data class CalibrationQualityCheck(
     val metrics: CalibrationMetrics,
     val recommendation: String?
 ) {
-    fun hasErrors(): Boolean = issues.any { 
-        it.severity == QualityIssue.Severity.CRITICAL || 
-        it.severity == QualityIssue.Severity.ERROR 
+    fun hasErrors(): Boolean = issues.any {
+        it.severity == QualityIssue.Severity.CRITICAL ||
+                it.severity == QualityIssue.Severity.ERROR
     }
-    
+
     fun hasCritical(): Boolean = issues.any { it.severity == QualityIssue.Severity.CRITICAL }
 }
 
@@ -36,7 +36,7 @@ data class QualityIssue(
         ERROR,     // Reject calibration - poor quality
         WARNING    // Accept but warn - suboptimal
     }
-    
+
     override fun toString(): String {
         return "[$severity] $message (actual: ${"%.3f".format(actualValue)}, threshold: ${"%.3f".format(threshold)})"
     }
@@ -50,12 +50,12 @@ object CalibrationQualityThresholds {
     const val MAX_MEAN_REPROJECTION_ERROR = 2.0  // pixels
     const val MAX_MAX_REPROJECTION_ERROR = 5.0   // pixels
     const val MIN_IMAGE_COUNT = 5
-    
+
     // Soft thresholds - warnings shown but calibration accepted
     const val TARGET_MEAN_REPROJECTION_ERROR = 1.0  // pixels
     const val TARGET_MAX_REPROJECTION_ERROR = 3.0   // pixels
     const val RECOMMENDED_IMAGE_COUNT = 10
-    
+
     // Additional quality checks
     const val MAX_STD_DEV_REPROJECTION_ERROR = 1.5  // pixels
 }
@@ -68,75 +68,81 @@ fun validateCalibrationQuality(
 ): CalibrationQualityCheck {
     val issues = mutableListOf<QualityIssue>()
     val warnings = mutableListOf<String>()
-    
+
     val maxError = result.perViewErrors.maxOrNull() ?: result.meanReprojectionError
     val stdDev = calculateStdDev(result.perViewErrors, result.meanReprojectionError)
-    
+
     // Check mean reprojection error (CRITICAL)
     if (result.meanReprojectionError > CalibrationQualityThresholds.MAX_MEAN_REPROJECTION_ERROR) {
-        issues.add(QualityIssue(
-            severity = QualityIssue.Severity.CRITICAL,
-            message = "Mean reprojection error exceeds maximum threshold",
-            metric = "meanReprojectionError",
-            actualValue = result.meanReprojectionError,
-            threshold = CalibrationQualityThresholds.MAX_MEAN_REPROJECTION_ERROR
-        ))
+        issues.add(
+            QualityIssue(
+                severity = QualityIssue.Severity.CRITICAL,
+                message = "Mean reprojection error exceeds maximum threshold",
+                metric = "meanReprojectionError",
+                actualValue = result.meanReprojectionError,
+                threshold = CalibrationQualityThresholds.MAX_MEAN_REPROJECTION_ERROR
+            )
+        )
     } else if (result.meanReprojectionError > CalibrationQualityThresholds.TARGET_MEAN_REPROJECTION_ERROR) {
         warnings.add(
             "Mean reprojection error (${"%.3f".format(result.meanReprojectionError)} px) exceeds target " +
-            "(${"%.1f".format(CalibrationQualityThresholds.TARGET_MEAN_REPROJECTION_ERROR)} px). " +
-            "Consider recapturing with better lighting and focus."
+                    "(${"%.1f".format(CalibrationQualityThresholds.TARGET_MEAN_REPROJECTION_ERROR)} px). " +
+                    "Consider recapturing with better lighting and focus."
         )
     }
-    
+
     // Check max reprojection error (ERROR)
     if (maxError > CalibrationQualityThresholds.MAX_MAX_REPROJECTION_ERROR) {
-        issues.add(QualityIssue(
-            severity = QualityIssue.Severity.ERROR,
-            message = "Maximum reprojection error exceeds threshold",
-            metric = "maxReprojectionError",
-            actualValue = maxError,
-            threshold = CalibrationQualityThresholds.MAX_MAX_REPROJECTION_ERROR
-        ))
+        issues.add(
+            QualityIssue(
+                severity = QualityIssue.Severity.ERROR,
+                message = "Maximum reprojection error exceeds threshold",
+                metric = "maxReprojectionError",
+                actualValue = maxError,
+                threshold = CalibrationQualityThresholds.MAX_MAX_REPROJECTION_ERROR
+            )
+        )
     } else if (maxError > CalibrationQualityThresholds.TARGET_MAX_REPROJECTION_ERROR) {
         warnings.add(
             "Maximum reprojection error (${"%.3f".format(maxError)} px) is elevated. " +
-            "Some captures may have poor corner detection."
+                    "Some captures may have poor corner detection."
         )
     }
-    
+
     // Check image count (ERROR)
     if (result.usedPairs < CalibrationQualityThresholds.MIN_IMAGE_COUNT) {
-        issues.add(QualityIssue(
-            severity = QualityIssue.Severity.ERROR,
-            message = "Insufficient calibration images",
-            metric = "imageCount",
-            actualValue = result.usedPairs.toDouble(),
-            threshold = CalibrationQualityThresholds.MIN_IMAGE_COUNT.toDouble()
-        ))
+        issues.add(
+            QualityIssue(
+                severity = QualityIssue.Severity.ERROR,
+                message = "Insufficient calibration images",
+                metric = "imageCount",
+                actualValue = result.usedPairs.toDouble(),
+                threshold = CalibrationQualityThresholds.MIN_IMAGE_COUNT.toDouble()
+            )
+        )
     } else if (result.usedPairs < CalibrationQualityThresholds.RECOMMENDED_IMAGE_COUNT) {
         warnings.add(
             "Image count (${result.usedPairs}) is below recommended " +
-            "(${CalibrationQualityThresholds.RECOMMENDED_IMAGE_COUNT}). " +
-            "More images improve calibration accuracy."
+                    "(${CalibrationQualityThresholds.RECOMMENDED_IMAGE_COUNT}). " +
+                    "More images improve calibration accuracy."
         )
     }
-    
+
     // Check standard deviation (WARNING)
     if (stdDev > CalibrationQualityThresholds.MAX_STD_DEV_REPROJECTION_ERROR) {
         warnings.add(
             "Reprojection error standard deviation (${"%.3f".format(stdDev)} px) is high. " +
-            "This indicates inconsistent calibration quality across images."
+                    "This indicates inconsistent calibration quality across images."
         )
     }
-    
+
     // Generate recommendation
     val recommendation = when {
         issues.isNotEmpty() -> generateRecommendation(issues, result)
         warnings.isNotEmpty() -> "Calibration acceptable but could be improved. See warnings for details."
         else -> "Excellent calibration quality! Mean error: ${"%.3f".format(result.meanReprojectionError)} px"
     }
-    
+
     val metrics = CalibrationMetrics(
         generatedAt = result.generatedAt,
         meanReprojectionError = result.meanReprojectionError,
@@ -144,11 +150,11 @@ fun validateCalibrationQuality(
         usedPairs = result.usedPairs,
         requiredPairs = result.requiredPairs
     )
-    
+
     return CalibrationQualityCheck(
-        passed = !issues.any { 
-            it.severity == QualityIssue.Severity.CRITICAL || 
-            it.severity == QualityIssue.Severity.ERROR 
+        passed = !issues.any {
+            it.severity == QualityIssue.Severity.CRITICAL ||
+                    it.severity == QualityIssue.Severity.ERROR
         },
         issues = issues,
         warnings = warnings,
@@ -169,10 +175,10 @@ private fun generateRecommendation(
 ): String {
     val recommendations = mutableListOf<String>()
     val maxError = result.perViewErrors.maxOrNull() ?: result.meanReprojectionError
-    
+
     recommendations.add("Calibration quality insufficient. Please address the following:")
     recommendations.add("")
-    
+
     if (issues.any { it.metric == "meanReprojectionError" || it.metric == "maxReprojectionError" }) {
         recommendations.add("To improve corner detection accuracy:")
         recommendations.add("  • Ensure bright, even lighting")
@@ -182,7 +188,7 @@ private fun generateRecommendation(
         recommendations.add("  • Clean camera lenses")
         recommendations.add("")
     }
-    
+
     if (issues.any { it.metric == "imageCount" }) {
         recommendations.add("To improve calibration robustness:")
         recommendations.add("  • Capture at least ${CalibrationQualityThresholds.MIN_IMAGE_COUNT} image pairs")
@@ -191,12 +197,12 @@ private fun generateRecommendation(
         recommendations.add("  • Include images from all areas of camera view")
         recommendations.add("")
     }
-    
+
     recommendations.add("Current metrics:")
     recommendations.add("  • Mean error: ${"%.3f".format(result.meanReprojectionError)} px (max: ${CalibrationQualityThresholds.MAX_MEAN_REPROJECTION_ERROR})")
     recommendations.add("  • Max error: ${"%.3f".format(maxError)} px (max: ${CalibrationQualityThresholds.MAX_MAX_REPROJECTION_ERROR})")
     recommendations.add("  • Images: ${result.usedPairs} (min: ${CalibrationQualityThresholds.MIN_IMAGE_COUNT})")
-    
+
     return recommendations.joinToString("\n")
 }
 

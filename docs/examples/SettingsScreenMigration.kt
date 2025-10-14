@@ -3,7 +3,7 @@ package com.buccancs.docs.examples
 /**
  * Example demonstrating Settings screen migration from MainViewModel to OrchestratorConfigViewModel
  * This file is for documentation purposes.
- * 
+ *
  * See: docs/analysis/MIGRATION_EXAMPLE_2025-01-14.md for full guide
  */
 

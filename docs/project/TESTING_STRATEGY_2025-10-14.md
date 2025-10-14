@@ -6,13 +6,17 @@
 
 ## Executive Summary
 
-This document addresses the "House of Cards" problem—the absence of a comprehensive testing strategy despite having a testable architecture. While tests exist in the project, they are disabled and insufficient to ensure codebase stability. This strategy outlines a phased approach to establish robust automated testing that prevents regressions, enables safe refactoring, and verifies critical logic.
+This document addresses the "House of Cards" problem—the absence of a comprehensive testing strategy despite having a
+testable architecture. While tests exist in the project, they are disabled and insufficient to ensure codebase
+stability. This strategy outlines a phased approach to establish robust automated testing that prevents regressions,
+enables safe refactoring, and verifies critical logic.
 
 ## Current State Assessment
 
 ### Tests Explicitly Disabled
 
 The root `build.gradle.kts` file contains:
+
 ```kotlin
 subprojects {
     tasks.withType<Test>().configureEach {
@@ -26,6 +30,7 @@ subprojects {
 ### Existing Test Files
 
 **Android App Module** (app/src/test):
+
 - ✅ `DefaultSensorRepositoryTest.kt` - Repository logic with simulated connectors (3 tests)
 - ✅ `TimeSyncMathTest.kt` - Time synchronisation calculations (3 tests)
 - ✅ `CalibrationViewModelTest.kt` - Calibration UI logic (3 tests)
@@ -35,6 +40,7 @@ subprojects {
 - ❌ `ExampleUnitTest.kt` - Trivial placeholder test
 
 **Desktop Module** (desktop/src/test):
+
 - ✅ `SensorRecordingManagerTest.kt` - Recording manager logic
 - ✅ `SessionRepositoryTest.kt` - Session data management
 
@@ -43,6 +49,7 @@ subprojects {
 ### Architecture Testability Analysis
 
 **Highly Testable Components:**
+
 1. **Dependency Injection (Hilt)** - Constructor injection enables easy mocking
 2. **Repository Pattern** - Data layer abstracted behind interfaces
 3. **Service Layer** - Application logic separated from UI
@@ -50,6 +57,7 @@ subprojects {
 5. **Coroutine-based async** - TestCoroutineScope simplifies async testing
 
 **Components Requiring Testing:**
+
 1. Sensor discovery and connection management
 2. Recording session lifecycle
 3. File upload and retry logic
@@ -66,6 +74,7 @@ subprojects {
 ### High Risk of Regressions
 
 **Without Tests:**
+
 - Changes to `DefaultSensorRepository` could break device discovery
 - Modifications to upload logic might cause data loss
 - Refactoring time sync code could introduce clock drift
@@ -76,6 +85,7 @@ subprojects {
 ### Inability to Refactor Safely
 
 **Complex Areas Needing Improvement:**
+
 - Transfer retry logic (complex state machine)
 - Session manifest generation (intricate data assembly)
 - Sensor stream coordination (timing-sensitive)
@@ -86,6 +96,7 @@ subprojects {
 ### Unverified Logic
 
 **Critical Algorithms Without Tests:**
+
 - Upload backlog calculation
 - Performance metrics aggregation
 - Bookmark timeline correlation
@@ -101,6 +112,7 @@ subprojects {
 **Goal:** Establish test infrastructure and verify existing tests
 
 #### 1.1 Enable Tests Conditionally
+
 ```kotlin
 // build.gradle.kts
 val testsEnabled = project.findProperty("tests.enabled")?.toString()?.toBoolean() ?: false
@@ -115,18 +127,21 @@ subprojects {
 **Benefit:** Tests can be enabled via `./gradlew test -Ptests.enabled=true` without modifying build files.
 
 #### 1.2 Fix and Run Existing Tests
+
 - Verify all 16 existing tests pass
 - Fix any broken tests
 - Ensure test dependencies are correct
 - Document test execution process
 
 #### 1.3 Establish CI/CD Integration
+
 - Add test task to GitHub Actions workflow
 - Configure test reports and coverage
 - Set up failure notifications
 - Create test result dashboard
 
 **Deliverables:**
+
 - [ ] Tests runnable with flag
 - [ ] All existing tests passing
 - [ ] CI/CD running tests automatically
@@ -139,6 +154,7 @@ subprojects {
 #### 2.1 Repository Layer Tests (Week 3)
 
 **Priority 1 - Data Integrity:**
+
 ```kotlin
 class SensorRepositoryTest {
     @Test fun `discovers all configured sensors`()
@@ -163,6 +179,7 @@ class CalibrationRepositoryTest {
 ```
 
 **Deliverables:**
+
 - [ ] 12+ repository tests
 - [ ] 80%+ coverage of critical repositories
 - [ ] Integration tests with TestHardwareModule
@@ -170,6 +187,7 @@ class CalibrationRepositoryTest {
 #### 2.2 Service Layer Tests (Week 4)
 
 **Priority 2 - Business Logic:**
+
 ```kotlin
 class RecordingServiceTest {
     @Test fun `starts recording all connected sensors`()
@@ -192,6 +210,7 @@ class TimeSyncServiceTest {
 ```
 
 **Deliverables:**
+
 - [ ] 15+ service tests
 - [ ] End-to-end service integration tests
 - [ ] Mock orchestrator for testing
@@ -199,6 +218,7 @@ class TimeSyncServiceTest {
 #### 2.3 ViewModel Tests (Week 5)
 
 **Priority 3 - UI Logic:**
+
 ```kotlin
 class LiveSessionViewModelTest {
     @Test fun `displays active recording state`()
@@ -215,6 +235,7 @@ class SensorConfigViewModelTest {
 ```
 
 **Deliverables:**
+
 - [ ] 20+ ViewModel tests
 - [ ] Full ViewModel coverage for critical screens
 - [ ] Fake repositories for isolation
@@ -259,6 +280,7 @@ class CalibrationIntegrationTest {
 ```
 
 **Deliverables:**
+
 - [ ] 25+ error scenario tests
 - [ ] 10+ integration tests
 - [ ] Chaos testing framework
@@ -270,6 +292,7 @@ class CalibrationIntegrationTest {
 #### 4.1 Connector Tests
 
 Test hardware connector implementations with mocked hardware services:
+
 ```kotlin
 class ShimmerConnectorTest {
     @Test fun `discovers paired Shimmer devices`()
@@ -302,6 +325,7 @@ class ManifestBuilderTest {
 ```
 
 **Deliverables:**
+
 - [ ] 40+ connector and processor tests
 - [ ] 70%+ code coverage on critical paths
 - [ ] Performance benchmarks
@@ -311,12 +335,14 @@ class ManifestBuilderTest {
 **Goal:** Maintain test quality and expand coverage
 
 #### 5.1 Test Maintenance
+
 - Update tests when requirements change
 - Refactor tests alongside production code
 - Remove obsolete tests
 - Improve test performance
 
 #### 5.2 Coverage Expansion
+
 - Add tests for new features
 - Increase coverage in untested areas
 - Add regression tests for bugs
@@ -401,11 +427,13 @@ class FeatureIntegrationTest {
 ### Naming Conventions
 
 **Test Classes:** `[ComponentName]Test`
+
 - `SensorRepositoryTest`
 - `RecordingServiceTest`
 - `LiveSessionViewModelTest`
 
 **Test Methods:** Descriptive with backticks
+
 - `` `discovers all configured sensors` ``
 - `` `handles connection failures gracefully` ``
 - `` `persists state across app restarts` ``
@@ -473,6 +501,7 @@ testImplementation(libs.androidx.arch.core.testing)
 ### Test Utilities
 
 Create shared test utilities:
+
 ```kotlin
 // TestFixtures.kt
 object TestFixtures {
@@ -500,24 +529,26 @@ class TestCoroutineRule : TestWatcher() {
 
 ### Coverage Targets
 
-| Component | Current | Phase 1 | Phase 2 | Phase 3 | Phase 4 |
-|-----------|---------|---------|---------|---------|---------|
-| Repositories | ~10% | 40% | 80% | 85% | 90% |
-| Services | ~5% | 30% | 70% | 80% | 85% |
-| ViewModels | ~15% | 40% | 80% | 85% | 90% |
-| Connectors | ~0% | 20% | 50% | 70% | 80% |
-| Utilities | ~20% | 50% | 70% | 80% | 85% |
-| **Overall** | **~4%** | **35%** | **70%** | **80%** | **85%** |
+| Component    | Current | Phase 1 | Phase 2 | Phase 3 | Phase 4 |
+|--------------|---------|---------|---------|---------|---------|
+| Repositories | ~10%    | 40%     | 80%     | 85%     | 90%     |
+| Services     | ~5%     | 30%     | 70%     | 80%     | 85%     |
+| ViewModels   | ~15%    | 40%     | 80%     | 85%     | 90%     |
+| Connectors   | ~0%     | 20%     | 50%     | 70%     | 80%     |
+| Utilities    | ~20%    | 50%     | 70%     | 80%     | 85%     |
+| **Overall**  | **~4%** | **35%** | **70%** | **80%** | **85%** |
 
 ### Quality Metrics
 
 **Test Health:**
+
 - Test pass rate: >98%
 - Average test execution time: <5s per test
 - Flaky test rate: <1%
 - Test maintainability score: >80%
 
 **Code Quality:**
+
 - Cyclomatic complexity: <15 per method
 - Method length: <50 lines
 - Class length: <500 lines
@@ -609,37 +640,41 @@ fi
 
 ### Risks to Testing Initiative
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Tests take too long | Devs skip tests | Optimise slow tests, parallel execution |
-| Flaky tests | Lost confidence | Fix immediately, quarantine if needed |
-| Hard to write tests | Low adoption | Provide examples, pair programming |
-| Tests break frequently | Maintenance burden | Keep tests focused, use good fixtures |
-| Low coverage | False confidence | Track metrics, set targets |
+| Risk                   | Impact             | Mitigation                              |
+|------------------------|--------------------|-----------------------------------------|
+| Tests take too long    | Devs skip tests    | Optimise slow tests, parallel execution |
+| Flaky tests            | Lost confidence    | Fix immediately, quarantine if needed   |
+| Hard to write tests    | Low adoption       | Provide examples, pair programming      |
+| Tests break frequently | Maintenance burden | Keep tests focused, use good fixtures   |
+| Low coverage           | False confidence   | Track metrics, set targets              |
 
 ## Success Criteria
 
 ### Phase Completion Criteria
 
 **Phase 1 Complete When:**
+
 - [ ] Tests can be enabled via flag
 - [ ] All existing tests pass
 - [ ] CI/CD runs tests automatically
 - [ ] Execution documented
 
 **Phase 2 Complete When:**
+
 - [ ] 40+ repository/service/ViewModel tests written
 - [ ] 70%+ coverage on critical paths
 - [ ] All tests pass reliably
 - [ ] Patterns documented
 
 **Phase 3 Complete When:**
+
 - [ ] 35+ error/integration tests written
 - [ ] 80%+ coverage on critical paths
 - [ ] End-to-end workflows tested
 - [ ] Regression suite established
 
 **Phase 4 Complete When:**
+
 - [ ] 85%+ code coverage achieved
 - [ ] All components tested
 - [ ] Performance benchmarks established
@@ -647,8 +682,12 @@ fi
 
 ## Conclusion
 
-The current "House of Cards" problem stems from disabled tests, not absent architecture. The foundation is solid—Hilt DI, repository pattern, service layer—making the codebase highly testable. By systematically enabling tests, writing missing tests, and establishing a testing culture, the project can transition from fragile to robust.
+The current "House of Cards" problem stems from disabled tests, not absent architecture. The foundation is solid—Hilt
+DI, repository pattern, service layer—making the codebase highly testable. By systematically enabling tests, writing
+missing tests, and establishing a testing culture, the project can transition from fragile to robust.
 
-This strategy prioritises high-risk components first, establishes clear patterns, and provides a realistic timeline for achieving comprehensive coverage. The phased approach allows incremental progress while delivering value early through critical path coverage.
+This strategy prioritises high-risk components first, establishes clear patterns, and provides a realistic timeline for
+achieving comprehensive coverage. The phased approach allows incremental progress while delivering value early through
+critical path coverage.
 
 **Next Step:** Enable test execution flag and verify existing tests pass.

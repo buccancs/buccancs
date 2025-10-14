@@ -139,32 +139,7 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         builder.setView(R.layout.layout_loading);
         builder.setCancelable(true);
         progressDialog = builder.create();
-    }    private Handler mHandler = new Handler(Looper.myLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == RESTART_USB) {
-                restartusbcamera();
-            } else if (msg.what == IRCMD_INIT_FAIL) {
-                ResultCode resultCode = (ResultCode) msg.obj;
-                ScreenUtils.showNormalDialog(ImageOrTempDisplayActivity.this,
-                        "error code : " + resultCode.getCode() + "\n"
-                                + "error message :" + resultCode.getMsg(), new PopupWindow.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                finish();
-                            }
-                        });
-            } else if (msg.what == START_PREVIEW_COMPLETE) {
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                if (iruvc != null) {
-                    iruvc.setFrameReady(true);
-                }
-            }
-        }
-    };
+    }
 
     private void startUSB(boolean isReStart) {
         if (progressDialog == null) {
@@ -221,7 +196,32 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         iruvc.setRotate(true);
         iruvc.setHandler(mHandler);
         iruvc.registerUSB();
-    }
+    }    private Handler mHandler = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == RESTART_USB) {
+                restartusbcamera();
+            } else if (msg.what == IRCMD_INIT_FAIL) {
+                ResultCode resultCode = (ResultCode) msg.obj;
+                ScreenUtils.showNormalDialog(ImageOrTempDisplayActivity.this,
+                        "error code : " + resultCode.getCode() + "\n"
+                                + "error message :" + resultCode.getMsg(), new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                finish();
+                            }
+                        });
+            } else if (msg.what == START_PREVIEW_COMPLETE) {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                if (iruvc != null) {
+                    iruvc.setFrameReady(true);
+                }
+            }
+        }
+    };
 
     private void restartusbcamera() {
         if (iruvc != null) {
@@ -339,6 +339,7 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             Log.e(TAG, "imageThread.join(): catch an interrupted exception");
         }
     }
+
 
 
 

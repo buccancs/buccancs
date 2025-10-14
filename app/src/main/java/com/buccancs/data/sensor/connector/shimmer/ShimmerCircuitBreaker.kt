@@ -18,16 +18,16 @@ class ShimmerCircuitBreaker(
     private val failureCount = AtomicInteger(0)
     private val lastFailureTime = AtomicLong(0)
     private val mutex = Mutex()
-    
+
     @Volatile
     private var state = State.CLOSED
-    
+
     enum class State {
         CLOSED,     // Normal operation, requests pass through
         OPEN,       // Too many failures, reject all requests
         HALF_OPEN   // Testing if service recovered
     }
-    
+
     /**
      * Execute operation with circuit breaker protection.
      * Returns Result.failure if circuit is open.
@@ -43,12 +43,12 @@ class ShimmerCircuitBreaker(
             }
         }
     }
-    
+
     private suspend fun <T> handleOpenState(
         operation: suspend () -> T
     ): Result<T> {
         val timeSinceFailure = System.currentTimeMillis() - lastFailureTime.get()
-        
+
         return if (timeSinceFailure > resetTimeoutMs) {
             // Try transitioning to half-open
             state = State.HALF_OPEN
@@ -60,12 +60,12 @@ class ShimmerCircuitBreaker(
             Result.failure(
                 CircuitBreakerOpenException(
                     "Circuit breaker open due to ${failureCount.get()} failures. " +
-                    "Retry in ${remainingMs / 1000}s"
+                            "Retry in ${remainingMs / 1000}s"
                 )
             )
         }
     }
-    
+
     private suspend fun <T> handleHalfOpenState(
         operation: suspend () -> T
     ): Result<T> {
@@ -82,7 +82,7 @@ class ShimmerCircuitBreaker(
             Result.failure(e)
         }
     }
-    
+
     private suspend fun <T> handleClosedState(
         operation: suspend () -> T
     ): Result<T> {
@@ -99,11 +99,11 @@ class ShimmerCircuitBreaker(
             Result.failure(e)
         }
     }
-    
+
     private fun recordFailure() {
         val failures = failureCount.incrementAndGet()
         lastFailureTime.set(System.currentTimeMillis())
-        
+
         if (failures >= failureThreshold && state != State.OPEN) {
             state = State.OPEN
             Log.w(TAG, "Circuit breaker: CLOSED -> OPEN after $failures failures")
@@ -111,12 +111,12 @@ class ShimmerCircuitBreaker(
             Log.d(TAG, "Circuit breaker: Recorded failure $failures/$failureThreshold")
         }
     }
-    
+
     private fun reset() {
         failureCount.set(0)
         state = State.CLOSED
     }
-    
+
     /**
      * Get current circuit breaker status.
      */
@@ -128,7 +128,7 @@ class ShimmerCircuitBreaker(
             resetTimeoutMs = resetTimeoutMs
         )
     }
-    
+
     /**
      * Manually reset circuit breaker (for testing or user override).
      */
@@ -138,7 +138,7 @@ class ShimmerCircuitBreaker(
             Log.i(TAG, "Circuit breaker: Force reset")
         }
     }
-    
+
     data class Status(
         val state: State,
         val failureCount: Int,
@@ -147,13 +147,13 @@ class ShimmerCircuitBreaker(
     ) {
         fun isOpen(): Boolean = state == State.OPEN
         fun canRetry(): Boolean = state != State.OPEN
-        
+
         fun timeUntilRetry(): Long {
             if (state != State.OPEN) return 0
             val elapsed = System.currentTimeMillis() - lastFailureTime
             return (resetTimeoutMs - elapsed).coerceAtLeast(0)
         }
-        
+
         override fun toString(): String {
             return when (state) {
                 State.CLOSED -> "CLOSED (failures: $failureCount)"
@@ -162,7 +162,7 @@ class ShimmerCircuitBreaker(
             }
         }
     }
-    
+
     companion object {
         private const val TAG = "ShimmerCircuitBreaker"
     }

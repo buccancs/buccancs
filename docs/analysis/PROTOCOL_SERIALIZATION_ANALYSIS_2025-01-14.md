@@ -6,14 +6,21 @@
 
 ## Executive Summary
 
-This document analyses the Protocol Buffer definitions, JSON serialisation patterns, and file I/O operations within the Buccancs application. Whilst the current implementation demonstrates good practices in several areas (modern kotlinx.serialisation, proper proto package organisation, automatic resource cleanup with `.use {}`), there are critical issues that could impact data integrity, interoperability, and maintainability.
+This document analyses the Protocol Buffer definitions, JSON serialisation patterns, and file I/O operations within the
+Buccancs application. Whilst the current implementation demonstrates good practices in several areas (modern
+kotlinx.serialisation, proper proto package organisation, automatic resource cleanup with `.use {}`), there are critical
+issues that could impact data integrity, interoperability, and maintainability.
 
 **Overall Quality Assessment:**
-- **Protocol Buffers:** GOOD (clear structure, proper organisation) with MODERATE concerns (no versioning, embedded JSON)
-- **JSON Serialisation:** GOOD (modern kotlinx.serialisation) with MODERATE concerns (multiple configurations, no validation)
+
+- **Protocol Buffers:** GOOD (clear structure, proper organisation) with MODERATE concerns (no versioning, embedded
+  JSON)
+- **JSON Serialisation:** GOOD (modern kotlinx.serialisation) with MODERATE concerns (multiple configurations, no
+  validation)
 - **File I/O:** ADEQUATE with HIGH concerns (no disk space checks, missing atomicity guarantees)
 
 **Priority Recommendations:**
+
 1. **HIGH PRIORITY:** Add disk space validation before file writes (affects data integrity)
 2. **HIGH PRIORITY:** Implement atomic writes for critical files (manifest corruption risk)
 3. **MEDIUM PRIORITY:** Add protocol versioning (future compatibility)
@@ -27,10 +34,12 @@ This document analyses the Protocol Buffer definitions, JSON serialisation patte
 ### 1.1 Files Identified
 
 **Application Proto Files:**
+
 - `protocol/src/main/proto/orchestration.proto` - Session orchestration, device registration, time sync, data transfer
 - `protocol/src/main/proto/sync/control.proto` - Local control service, command envelopes
 
 **Quality Assessment:** GOOD
+
 - Clear message structure with logical grouping
 - Proper package organisation (`com.buccancs.control`, `com.buccancs.control.sync`)
 - Java multi-file generation enabled
@@ -45,6 +54,7 @@ This document analyses the Protocol Buffer definitions, JSON serialisation patte
 **Impact:** Future compatibility issues when protocol evolves
 
 **Current State:**
+
 ```protobuf
 // orchestration.proto
 syntax = "proto3";
@@ -60,7 +70,8 @@ message CommandEnvelope {
 }
 ```
 
-**Problem:** Without version fields, clients and servers cannot negotiate protocol capabilities or handle breaking changes gracefully.
+**Problem:** Without version fields, clients and servers cannot negotiate protocol capabilities or handle breaking
+changes gracefully.
 
 **Recommended Solution:**
 
@@ -86,10 +97,11 @@ message DeviceRegistration {
 ```
 
 **Implementation Steps:**
+
 1. Add `protocol_version` field to key message types:
-   - `CommandEnvelope` (both proto files)
-   - `DeviceRegistration`
-   - `ControlEvent`
+    - `CommandEnvelope` (both proto files)
+    - `DeviceRegistration`
+    - `ControlEvent`
 2. Define version constant in Kotlin:
    ```kotlin
    object ProtocolVersion {
@@ -111,6 +123,7 @@ message DeviceRegistration {
 **Impact:** Loss of type safety, increased message size, parsing overhead
 
 **Current State:**
+
 ```protobuf
 // sync/control.proto
 message CommandEnvelope {
@@ -131,6 +144,7 @@ message ControlEvent {
 ```
 
 **Problems:**
+
 1. **No compile-time type checking** - errors only detected at runtime
 2. **Increased message size** - JSON is verbose compared to protobuf binary
 3. **Double serialisation overhead** - payload serialised to JSON, then protobuf wraps it
@@ -199,12 +213,14 @@ message ControlEvent {
 ```
 
 **Benefits:**
+
 1. **Type safety at compile time** - compiler catches errors early
 2. **Smaller message size** - protobuf binary is more compact than JSON
 3. **Automatic validation** - protobuf validates field types and presence
 4. **Better IDE support** - autocomplete and navigation work properly
 
 **Migration Strategy:**
+
 1. Phase 1: Add new typed fields alongside existing JSON fields
 2. Phase 2: Update clients to use typed fields whilst maintaining JSON for compatibility
 3. Phase 3: Deprecate JSON fields after all clients migrate
@@ -221,6 +237,7 @@ message ControlEvent {
 **Impact:** Confusion, potential divergence over time
 
 **Current State:**
+
 ```protobuf
 // orchestration.proto
 message CommandEnvelope {
@@ -242,9 +259,11 @@ message CommandEnvelope {
 }
 ```
 
-**Problem:** Two different message types with the same name in different packages could cause confusion and maintenance issues.
+**Problem:** Two different message types with the same name in different packages could cause confusion and maintenance
+issues.
 
 **Recommended Solution:**
+
 1. Rename to reflect purpose: `OrchestrationCommand` vs `LocalControlCommand`
 2. Or consolidate into single definition in shared proto file
 3. Import shared definitions where needed
@@ -258,6 +277,7 @@ message CommandEnvelope {
 ### 2.1 Usage Analysis
 
 **Libraries Used:**
+
 - Primary: `kotlinx.serialization` (modern, performant)
 - Legacy: `Gson` (only in external code)
 
@@ -318,6 +338,7 @@ private val shimmerJson = Json { ignoreUnknownKeys = true }
 ```
 
 **Problems:**
+
 1. **Inconsistent parsing behaviour** - some ignore unknown keys, others don't
 2. **Maintenance burden** - configuration changes must be applied everywhere
 3. **Hard to debug** - behaviour varies by location
@@ -420,6 +441,7 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
 ```
 
 **Implementation Steps:**
+
 1. Create `JsonConfig` object and Hilt module
 2. Update all classes to inject Json instance instead of creating locally
 3. Remove all local `private val json = Json { }` declarations
@@ -452,6 +474,7 @@ private fun loadFromFile(): SensorHardwareConfig? {
 ```
 
 **Problems:**
+
 1. **No validation** - malformed JSON can be loaded
 2. **Silent failures** - errors swallowed, hard to debug
 3. **No version checking** - old formats cause crashes
@@ -545,6 +568,7 @@ fun loadConfig(): SensorHardwareConfig {
 ```
 
 **Benefits:**
+
 1. **Explicit error handling** - know exactly what went wrong
 2. **Data integrity** - validation catches corruption early
 3. **Better logging** - specific error messages for debugging
@@ -561,6 +585,7 @@ fun loadConfig(): SensorHardwareConfig {
 **Total File Operations:** 97 instances
 
 **Patterns Found:**
+
 - ✅ 51 `.use {}` blocks (good - automatic cleanup)
 - ✅ Proper `mkdirs()` calls (directory creation)
 - ✅ Explicit UTF-8 charset in many places
@@ -594,12 +619,14 @@ output.writeText(json.encodeToString(result))  // No space check
 ```
 
 **Problems:**
+
 1. **Silent failures** - writes fail mid-operation if disk full
 2. **Partial writes** - files left in corrupted state
 3. **No user feedback** - users unaware of storage issues
 4. **Cascading failures** - subsequent operations fail
 
 **Real-World Scenario:**
+
 ```
 1. User starts 30-minute recording session
 2. Disk fills up after 15 minutes
@@ -748,6 +775,7 @@ viewModelScope.launch {
 ```
 
 **Implementation Priority:**
+
 1. **Phase 1** (Critical): Manifest writes, calibration results
 2. **Phase 2** (Important): Recording metadata, performance logs
 3. **Phase 3** (Nice-to-have): Debug logs, temporary files
@@ -886,6 +914,7 @@ fun writeManifest(manifest: RecordingManifest, sessionId: String): WriteResult<U
 ```
 
 **Benefits:**
+
 1. **Crash safety** - never lose data to partial writes
 2. **Power-loss resilience** - backup available if corruption detected
 3. **Automatic recovery** - can restore from backup automatically
@@ -949,6 +978,7 @@ target.writeText(content)  // Uses Charset.defaultCharset()
 **Current State:** Single copy of critical data
 
 **Recommendation:**
+
 1. Implement backup on manifest write (covered in Issue 3.2)
 2. Add periodic consistency checks
 3. Consider cloud backup integration for completed sessions
@@ -1045,6 +1075,7 @@ class SessionConsistencyChecker @Inject constructor(
 **Current State:** Raw video files stored uncompressed
 
 **Recommendation:** Verify this is intentional design decision. If not, consider:
+
 - Video files already compressed (H.264/H.265), further compression minimal benefit
 - Metadata/JSON files could benefit from compression
 - Consider `.jsonl.gz` for large sensor data streams
@@ -1107,58 +1138,58 @@ class StorageCleanupWorker @AssistedInject constructor(
 **Priority: HIGHEST**
 
 1. **Disk Space Validation** (Issue 3.1)
-   - Days 1-2: Implement `StorageValidator` utility
-   - Day 3: Integrate with manifest/config writes
-   - Day 4: Add UI error handling
-   - Day 5: Testing
+    - Days 1-2: Implement `StorageValidator` utility
+    - Day 3: Integrate with manifest/config writes
+    - Day 4: Add UI error handling
+    - Day 5: Testing
 
 2. **Atomic Writes** (Issue 3.2)
-   - Day 1: Implement `AtomicFileWriter`
-   - Day 2: Integrate with critical file writes
-   - Day 3: Testing and verification
+    - Day 1: Implement `AtomicFileWriter`
+    - Day 2: Integrate with critical file writes
+    - Day 3: Testing and verification
 
 ### Phase 2: Protocol Improvements (Week 2)
 
 **Priority: MEDIUM**
 
 1. **Protocol Versioning** (Issue 1.1)
-   - Days 1-2: Add version fields to proto files
-   - Day 3: Implement version checking in services
-   - Days 4-5: Testing and documentation
+    - Days 1-2: Add version fields to proto files
+    - Day 3: Implement version checking in services
+    - Days 4-5: Testing and documentation
 
 2. **Remove Embedded JSON** (Issue 1.2)
-   - Days 1-2: Define typed message variants
-   - Days 3-4: Gradual migration maintaining backwards compatibility
-   - Day 5: Testing
+    - Days 1-2: Define typed message variants
+    - Days 3-4: Gradual migration maintaining backwards compatibility
+    - Day 5: Testing
 
 ### Phase 3: Serialisation Consistency (Week 3)
 
 **Priority: MEDIUM**
 
 1. **Centralise Json Config** (Issue 2.1)
-   - Day 1: Create `JsonConfig` and Hilt module
-   - Days 2-3: Migrate all usage points
-   - Day 4: Testing
-   - Day 5: Documentation
+    - Day 1: Create `JsonConfig` and Hilt module
+    - Days 2-3: Migrate all usage points
+    - Day 4: Testing
+    - Day 5: Documentation
 
 2. **Schema Validation** (Issue 2.2)
-   - Days 1-2: Add validation to data classes
-   - Days 3-4: Implement `LoadResult` pattern
-   - Day 5: Testing
+    - Days 1-2: Add validation to data classes
+    - Days 3-4: Implement `LoadResult` pattern
+    - Day 5: Testing
 
 ### Phase 4: Storage Robustness (Week 4)
 
 **Priority: LOW**
 
 1. **Consistency Checking** (Issue 4.2)
-   - Days 1-2: Implement consistency checker
-   - Day 3: Add periodic verification
-   - Days 4-5: Testing
+    - Days 1-2: Implement consistency checker
+    - Day 3: Add periodic verification
+    - Days 4-5: Testing
 
 2. **Cleanup Automation** (Issue 4.4)
-   - Days 1-2: Complete retention worker
-   - Day 3: Configure scheduling
-   - Days 4-5: Testing
+    - Days 1-2: Complete retention worker
+    - Day 3: Configure scheduling
+    - Days 4-5: Testing
 
 ---
 
@@ -1262,24 +1293,25 @@ Timber.tag("Storage").e(exception, "Atomic write recovery: file=%s", filename)
 ### 8.1 Developer Documentation
 
 1. **Storage Architecture Guide**
-   - File structure and organisation
-   - Write patterns (atomic, space checking)
-   - Error handling patterns
-   - Consistency checking
+    - File structure and organisation
+    - Write patterns (atomic, space checking)
+    - Error handling patterns
+    - Consistency checking
 
 2. **Protocol Evolution Guide**
-   - How to add new message types
-   - Version compatibility matrix
-   - Migration strategies
+    - How to add new message types
+    - Version compatibility matrix
+    - Migration strategies
 
 3. **JSON Serialisation Guide**
-   - When to use each Json configuration
-   - Validation requirements
-   - Error handling patterns
+    - When to use each Json configuration
+    - Validation requirements
+    - Error handling patterns
 
 ### 8.2 API Documentation
 
 Update all affected methods with:
+
 - Return types (WriteResult, LoadResult)
 - Possible failure modes
 - Example usage
@@ -1291,16 +1323,17 @@ Update all affected methods with:
 
 ### 9.1 Migration Risks
 
-| Risk | Impact | Likelihood | Mitigation |
-|------|--------|------------|------------|
-| Breaking existing sessions | HIGH | MEDIUM | Implement version migration, maintain backwards compatibility |
-| Performance regression | MEDIUM | LOW | Benchmark before/after, atomic writes only for critical files |
-| Storage overhead from backups | MEDIUM | HIGH | Implement cleanup policy, make backups optional per file type |
-| Increased crash rate from strict validation | MEDIUM | MEDIUM | Gradual rollout with feature flags, extensive testing |
+| Risk                                        | Impact | Likelihood | Mitigation                                                    |
+|---------------------------------------------|--------|------------|---------------------------------------------------------------|
+| Breaking existing sessions                  | HIGH   | MEDIUM     | Implement version migration, maintain backwards compatibility |
+| Performance regression                      | MEDIUM | LOW        | Benchmark before/after, atomic writes only for critical files |
+| Storage overhead from backups               | MEDIUM | HIGH       | Implement cleanup policy, make backups optional per file type |
+| Increased crash rate from strict validation | MEDIUM | MEDIUM     | Gradual rollout with feature flags, extensive testing         |
 
 ### 9.2 Rollback Plan
 
 For each phase:
+
 1. Implement behind feature flag
 2. Deploy to small percentage of users
 3. Monitor error rates and performance
@@ -1350,10 +1383,12 @@ For each phase:
 ## Appendix A: File Locations Reference
 
 ### Protocol Buffers
+
 - `protocol/src/main/proto/orchestration.proto` - Main orchestration protocol
 - `protocol/src/main/proto/sync/control.proto` - Local control protocol
 
 ### JSON Serialisation (11 instances)
+
 - `app/src/main/java/com/buccancs/application/performance/PerformanceMetricsAnalyzer.kt:18`
 - `app/src/main/java/com/buccancs/application/performance/PerformanceMetricsRecorder.kt:37`
 - `app/src/main/java/com/buccancs/data/calibration/CalibrationStorage.kt:24`
@@ -1366,6 +1401,7 @@ For each phase:
 - `app/src/main/java/com/buccancs/ui/MainViewModel.kt:91`
 
 ### Critical Write Operations
+
 - `app/src/main/java/com/buccancs/data/recording/manifest/ManifestWriter.kt:158` - Manifest write
 - `app/src/main/java/com/buccancs/data/calibration/CalibrationStorage.kt:55` - Calibration results
 - `app/src/main/java/com/buccancs/data/sensor/config/DefaultSensorHardwareConfigRepository.kt:96` - Config save

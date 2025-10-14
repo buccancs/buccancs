@@ -5,7 +5,6 @@ import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorHardwareConfig
-import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.ShimmerDeviceConfig
 import com.buccancs.domain.model.ShimmerSettings
@@ -39,7 +38,7 @@ import kotlin.test.assertTrue
 class DeviceInventoryViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
-    
+
     private lateinit var deviceManagement: DeviceManagementUseCase
     private lateinit var sensorRepository: SensorRepository
     private lateinit var hardwareConfigRepository: SensorHardwareConfigRepository
@@ -74,21 +73,21 @@ class DeviceInventoryViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        
+
         deviceManagement = mockk(relaxed = true)
         sensorRepository = mockk(relaxed = true)
         hardwareConfigRepository = mockk(relaxed = true)
         topdonDeviceRepository = mockk(relaxed = true)
         shimmerSettingsRepository = mockk(relaxed = true)
         deviceUiMapper = mockk(relaxed = true)
-        
+
         every { deviceManagement.devices } returns MutableStateFlow(listOf(testDevice))
         every { deviceManagement.simulationEnabled } returns MutableStateFlow(false)
         every { sensorRepository.streamStatuses } returns MutableStateFlow(emptyList())
         every { shimmerSettingsRepository.settings } returns MutableStateFlow(ShimmerSettings())
         every { hardwareConfigRepository.config } returns MutableStateFlow(testConfig)
         every { topdonDeviceRepository.activeDeviceId } returns MutableStateFlow(null)
-        
+
         every { deviceUiMapper.toUiModel(any(), any(), any()) } returns mockk(relaxed = true)
 
         viewModel = DeviceInventoryViewModel(

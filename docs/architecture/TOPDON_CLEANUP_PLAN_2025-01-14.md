@@ -9,6 +9,7 @@
 **Total Files:** 20,207 files in `external/original-topdon-app/`
 
 **Breakdown by Module:**
+
 ```
 component/        11,062 files (55%)  - UI components, mostly unused
 app/               2,129 files (11%)  - Full example app
@@ -35,6 +36,7 @@ commonlibrary/        3 files  (0%)   - Utilities
 ### Essential Files (KEEP - ~122 files)
 
 **libir/ - Core IR camera library**
+
 - USB UVC camera drivers
 - Thermal frame decoding
 - Camera initialization
@@ -45,17 +47,21 @@ commonlibrary/        3 files  (0%)   - Utilities
 ### Potentially Useful (EVALUATE - ~200 files)
 
 **libcom/ - Communication utilities** (52 files)
+
 - USB communication helpers
 - May contain frame parsing utilities
 
 **libmatrix/ - Matrix operations** (62 files)
+
 - May contain thermal normalization
 - Check if used by current implementation
 
 **RangeSeekBar/** (18 files)
+
 - UI widget, not needed for SDK
 
 **LocalRepo/** (215 files)
+
 - Contains compiled .aar files
 - Check if we can use Gradle dependencies instead
 
@@ -87,15 +93,15 @@ commonlibrary/        3 files  (0%)   - Utilities
    ```
 
 2. **Document Required Classes**
-   - USBMonitor
-   - UVCCamera
-   - IFrameCallback
-   - CommonParams
-   - Frame format utilities
+    - USBMonitor
+    - UVCCamera
+    - IFrameCallback
+    - CommonParams
+    - Frame format utilities
 
 3. **Check Native Libraries**
-   - Identify .so files actually used
-   - Document architecture requirements
+    - Identify .so files actually used
+    - Document architecture requirements
 
 ### Phase 2: Extract Minimal SDK
 
@@ -111,9 +117,9 @@ commonlibrary/        3 files  (0%)   - Utilities
    ```
 
 2. **Copy Only Essential Files**
-   - Extract minimal .java/.kt files from libir/
-   - Copy required native libraries
-   - Document dependencies
+    - Extract minimal .java/.kt files from libir/
+    - Copy required native libraries
+    - Document dependencies
 
 3. **Create Gradle Module** (Optional)
    ```
@@ -134,23 +140,23 @@ commonlibrary/        3 files  (0%)   - Utilities
    ```
 
 2. **Remove Unused Modules** (in order)
-   - Delete component/ (11,062 files)
-   - Delete app/ (2,129 files)
-   - Delete libui/ (410 files)
-   - Delete libmenu/ (181 files)
-   - Delete libapp/ (167 files)
-   - Delete libir-demo/ (108 files)
-   - Delete BleModule/ (100 files)
-   - Delete buildSrc/ (96 files)
-   - Delete .gradle/ (38 files)
-   - Delete .idea/ (24 files)
-   - Delete libhik/ (13 files)
+    - Delete component/ (11,062 files)
+    - Delete app/ (2,129 files)
+    - Delete libui/ (410 files)
+    - Delete libmenu/ (181 files)
+    - Delete libapp/ (167 files)
+    - Delete libir-demo/ (108 files)
+    - Delete BleModule/ (100 files)
+    - Delete buildSrc/ (96 files)
+    - Delete .gradle/ (38 files)
+    - Delete .idea/ (24 files)
+    - Delete libhik/ (13 files)
 
 3. **Clean Build Artifacts**
-   - Remove all .dex files
-   - Remove all .class files
-   - Remove all build/ directories
-   - Remove .flat resource files
+    - Remove all .dex files
+    - Remove all .class files
+    - Remove all build/ directories
+    - Remove .flat resource files
 
 ### Phase 4: Verify and Test
 
@@ -160,25 +166,27 @@ commonlibrary/        3 files  (0%)   - Utilities
    ```
 
 2. **Test Thermal Camera**
-   - Connect USB camera
-   - Verify frame capture works
-   - Verify temperature conversion
-   - Test disconnect/reconnect
+    - Connect USB camera
+    - Verify frame capture works
+    - Verify temperature conversion
+    - Test disconnect/reconnect
 
 3. **Update Documentation**
-   - Document what was removed
-   - Document what was kept
-   - Update integration guide
+    - Document what was removed
+    - Document what was kept
+    - Update integration guide
 
 ## Expected Results
 
 ### Before Cleanup
+
 - **Files:** 20,207
 - **Size:** ~500+ MB
 - **Maintainability:** Very poor (14K+ files to search)
 - **Build Time:** Slower (more files to process)
 
 ### After Cleanup
+
 - **Files:** ~100-200
 - **Size:** ~10-20 MB (mostly native libs)
 - **Maintainability:** Excellent (minimal, focused code)
@@ -189,24 +197,28 @@ commonlibrary/        3 files  (0%)   - Utilities
 ## Implementation Timeline
 
 ### Week 1: Analysis (2-3 days)
+
 - ✅ Count and categorize files
 - ✅ Identify dependencies
 - ✅ Document required classes
 - ⏳ Test current implementation
 
 ### Week 2: Extraction (3-4 days)
+
 - Extract minimal SDK files
 - Create wrapper API
 - Copy native libraries
 - Verify functionality
 
 ### Week 3: Cleanup (2-3 days)
+
 - Create backup
 - Delete unused modules
 - Update build configuration
 - Clean repository
 
 ### Week 4: Verification (2-3 days)
+
 - Comprehensive testing
 - Performance verification
 - Documentation updates
@@ -217,16 +229,16 @@ commonlibrary/        3 files  (0%)   - Utilities
 ### Risks
 
 1. **Breaking thermal camera functionality**
-   - Mitigation: Extract and test incrementally
-   - Fallback: Restore from backup
+    - Mitigation: Extract and test incrementally
+    - Fallback: Restore from backup
 
 2. **Missing dependencies**
-   - Mitigation: Analyze imports thoroughly
-   - Fallback: Keep libir/ intact initially
+    - Mitigation: Analyze imports thoroughly
+    - Fallback: Keep libir/ intact initially
 
 3. **Native library issues**
-   - Mitigation: Test on multiple devices
-   - Fallback: Keep all .so files initially
+    - Mitigation: Test on multiple devices
+    - Fallback: Keep all .so files initially
 
 ### Rollback Plan
 
@@ -248,27 +260,28 @@ commonlibrary/        3 files  (0%)   - Utilities
 ## Next Actions
 
 1. **Immediate** (Phase 1)
-   - Document all imports from external code
-   - List required classes
-   - Test current thermal camera functionality
+    - Document all imports from external code
+    - List required classes
+    - Test current thermal camera functionality
 
 2. **Short-term** (Phase 2)
-   - Create SDK wrapper structure
-   - Extract minimal files
-   - Verify extraction works
+    - Create SDK wrapper structure
+    - Extract minimal files
+    - Verify extraction works
 
 3. **Medium-term** (Phase 3)
-   - Create backup
-   - Delete unused modules
-   - Update build files
+    - Create backup
+    - Delete unused modules
+    - Update build files
 
 4. **Long-term** (Phase 4)
-   - Comprehensive testing
-   - Documentation
-   - Performance benchmarks
+    - Comprehensive testing
+    - Documentation
+    - Performance benchmarks
 
 ## Conclusion
 
-The cleanup will reduce the repository from 20,207 to ~150 files (99% reduction), drastically improving maintainability while preserving all thermal camera functionality. The phased approach with backups and testing ensures safe execution.
+The cleanup will reduce the repository from 20,207 to ~150 files (99% reduction), drastically improving maintainability
+while preserving all thermal camera functionality. The phased approach with backups and testing ensures safe execution.
 
 **Status:** Analysis complete, ready for Phase 2 extraction

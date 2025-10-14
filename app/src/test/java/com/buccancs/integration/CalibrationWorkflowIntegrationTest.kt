@@ -2,7 +2,6 @@ package com.buccancs.integration
 
 import com.buccancs.domain.model.CalibrationPatternConfig
 import com.buccancs.domain.model.CalibrationSessionState
-import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

@@ -4,8 +4,8 @@ import android.net.Uri
 import android.util.Log
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.DeviceId
-import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
 import java.security.DigestOutputStream
 import java.security.MessageDigest
-import java.util.Locale
+import java.util.*
 
 /**
  * Handles file I/O operations for Shimmer GSR data recording.

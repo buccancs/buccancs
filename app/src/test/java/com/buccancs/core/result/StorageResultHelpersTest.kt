@@ -1,6 +1,8 @@
 package com.buccancs.core.result
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -17,7 +19,7 @@ class StorageResultHelpersTest {
         val result = storageOperation {
             "success"
         }
-        
+
         assertTrue(result.isSuccess())
         assertEquals("success", result.getOrNull())
     }
@@ -27,7 +29,7 @@ class StorageResultHelpersTest {
         val result = storageOperation {
             throw SecurityException("Storage permission denied")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Permission)
@@ -39,7 +41,7 @@ class StorageResultHelpersTest {
         val result = storageOperation {
             throw IOException("Disk full")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Storage)
@@ -51,7 +53,7 @@ class StorageResultHelpersTest {
         val result = storageOperation {
             throw IllegalArgumentException("Invalid path")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Validation)
@@ -63,7 +65,7 @@ class StorageResultHelpersTest {
         val result = storageOperation {
             throw RuntimeException("Unknown storage error")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Storage)
@@ -73,7 +75,7 @@ class StorageResultHelpersTest {
     fun `ensureDirectory succeeds for existing directory`() {
         val directory = temporaryFolder.newFolder("test")
         val result = directory.ensureDirectory()
-        
+
         assertTrue(result.isSuccess())
         assertEquals(directory, result.getOrNull())
     }
@@ -82,9 +84,9 @@ class StorageResultHelpersTest {
     fun `ensureDirectory creates new directory`() {
         val directory = File(temporaryFolder.root, "new_dir")
         assertFalse(directory.exists())
-        
+
         val result = directory.ensureDirectory()
-        
+
         assertTrue(result.isSuccess())
         assertTrue(directory.exists())
         assertTrue(directory.isDirectory)
@@ -94,7 +96,7 @@ class StorageResultHelpersTest {
     fun `ensureDirectory fails for existing file`() {
         val file = temporaryFolder.newFile("not_a_directory")
         val result = file.ensureDirectory()
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Storage)
@@ -105,7 +107,7 @@ class StorageResultHelpersTest {
     fun `ensureDirectory fails when cannot create`() {
         val directory = File("/invalid/path/that/cannot/be/created")
         val result = directory.ensureDirectory()
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Storage)
@@ -115,9 +117,9 @@ class StorageResultHelpersTest {
     fun `ensureReadable succeeds for existing file`() {
         val file = temporaryFolder.newFile("test.txt")
         file.writeText("content")
-        
+
         val result = file.ensureReadable()
-        
+
         assertTrue(result.isSuccess())
         assertEquals(file, result.getOrNull())
     }
@@ -126,7 +128,7 @@ class StorageResultHelpersTest {
     fun `ensureReadable fails for non-existent file`() {
         val file = File(temporaryFolder.root, "does_not_exist.txt")
         val result = file.ensureReadable()
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.NotFound)
@@ -137,7 +139,7 @@ class StorageResultHelpersTest {
     fun `ensureReadable fails for directory`() {
         val directory = temporaryFolder.newFolder("dir")
         val result = directory.ensureReadable()
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Validation)
@@ -148,9 +150,9 @@ class StorageResultHelpersTest {
     fun `safeDelete succeeds for existing file`() {
         val file = temporaryFolder.newFile("to_delete.txt")
         assertTrue(file.exists())
-        
+
         val result = file.safeDelete()
-        
+
         assertTrue(result.isSuccess())
         assertFalse(file.exists())
     }
@@ -159,9 +161,9 @@ class StorageResultHelpersTest {
     fun `safeDelete succeeds for non-existent file`() {
         val file = File(temporaryFolder.root, "does_not_exist.txt")
         assertFalse(file.exists())
-        
+
         val result = file.safeDelete()
-        
+
         assertTrue(result.isSuccess())
     }
 
@@ -172,9 +174,9 @@ class StorageResultHelpersTest {
         subFile.writeText("content")
         assertTrue(directory.exists())
         assertTrue(subFile.exists())
-        
+
         val result = directory.safeDelete()
-        
+
         assertTrue(result.isSuccess())
         assertFalse(directory.exists())
         assertFalse(subFile.exists())

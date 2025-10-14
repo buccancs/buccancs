@@ -10,34 +10,34 @@ This document provides a reference for American to British English conversions r
 
 ### Common -ize/-ise Words
 
-| American English | British English | Usage Example |
-|------------------|-----------------|---------------|
-| synchronize | synchronise | Time synchronisation across devices |
-| optimize | optimise | Performance optimisation |
-| organize | organise | Session organisation |
-| initialize | initialise | Sensor initialisation |
-| prioritize | prioritise | Task prioritisation |
-| authorize | authorise | User authorisation |
-| realize | realise | Realise the requirement |
-| finalize | finalise | Finalise the session |
-| analyze | analyse | Analyse the data |
-| visualize | visualise | Visualise the metrics |
-| utilize | utilise | Utilise resources |
+| American English | British English | Usage Example                       |
+|------------------|-----------------|-------------------------------------|
+| synchronize      | synchronise     | Time synchronisation across devices |
+| optimize         | optimise        | Performance optimisation            |
+| organize         | organise        | Session organisation                |
+| initialize       | initialise      | Sensor initialisation               |
+| prioritize       | prioritise      | Task prioritisation                 |
+| authorize        | authorise       | User authorisation                  |
+| realize          | realise         | Realise the requirement             |
+| finalize         | finalise        | Finalise the session                |
+| analyze          | analyse         | Analyse the data                    |
+| visualize        | visualise       | Visualise the metrics               |
+| utilize          | utilise         | Utilise resources                   |
 
 ### Common Spelling Differences
 
-| American English | British English | Notes |
-|------------------|-----------------|-------|
-| color | colour | CSS properties remain as 'color' |
-| behavior | behaviour | Class names may use 'behavior' |
-| center | centre | Gravity.CENTER remains unchanged |
-| meter | metre | Unit of measurement |
-| fiber | fibre | |
-| defense | defence | |
-| offense | offence | |
-| license | licence | (noun); license (verb) |
-| practice | practise | (verb); practice (noun) |
-| program | programme | (TV/event); program (computer) |
+| American English | British English | Notes                            |
+|------------------|-----------------|----------------------------------|
+| color            | colour          | CSS properties remain as 'color' |
+| behavior         | behaviour       | Class names may use 'behavior'   |
+| center           | centre          | Gravity.CENTER remains unchanged |
+| meter            | metre           | Unit of measurement              |
+| fiber            | fibre           |                                  |
+| defense          | defence         |                                  |
+| offense          | offence         |                                  |
+| license          | licence         | (noun); license (verb)           |
+| practice         | practise        | (verb); practice (noun)          |
+| program          | programme       | (TV/event); program (computer)   |
 
 ### API and Code Exceptions
 
@@ -62,12 +62,14 @@ setBackgroundColor(defaultColour) // API method uses American spelling
 ### Commit Messages
 
 Use British English:
+
 - Good: "Optimise synchronisation logic for better behaviour"
 - Avoid: "Optimize synchronization logic for better behavior"
 
 ### Academic Writing
 
 British English is required for all thesis content:
+
 - Use -ise endings consistently
 - Use British spellings: colour, behaviour, centre, analyse
 - Follow British punctuation conventions
@@ -87,7 +89,8 @@ Add to .vscode/settings.json:
 ### Regex Patterns for Conversion
 
 Search for American patterns:
-`egex
+`
+egex
 \b(synchroniz|optimiz|organiz|analyz|color|behavior|center)\b
 `
 

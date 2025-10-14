@@ -22,9 +22,12 @@ class ServiceModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var recordingService: RecordingService
-    @Inject lateinit var deviceCommandService: DeviceCommandService
-    @Inject lateinit var timeSyncService: TimeSyncService
+    @Inject
+    lateinit var recordingService: RecordingService
+    @Inject
+    lateinit var deviceCommandService: DeviceCommandService
+    @Inject
+    lateinit var timeSyncService: TimeSyncService
 
     @Before
     fun setup() {

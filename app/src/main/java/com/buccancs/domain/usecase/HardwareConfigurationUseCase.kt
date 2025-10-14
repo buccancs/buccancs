@@ -5,7 +5,7 @@ import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.ShimmerSettingsRepository
 import com.buccancs.domain.repository.TopdonDeviceRepository
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,10 +37,10 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
     override suspend fun configureShimmerMacAddress(deviceId: DeviceId, macAddress: String?): Result<Unit> {
         return try {
             val normalized = macAddress?.takeIf { it.isNotBlank() }?.uppercase(Locale.US)
-            
+
             // Update shimmer settings repository
             shimmerSettingsRepository.setTargetMac(normalized)
-            
+
             // Update hardware config repository
             hardwareConfigRepository.updateConfig { config ->
                 val updated = config.shimmer.map { entry ->
@@ -52,7 +52,7 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
                 }
                 config.copy(shimmer = updated)
             }
-            
+
             Result.success(Unit)
         } catch (t: Throwable) {
             Result.failure(t)
@@ -62,10 +62,10 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
     override suspend fun configureShimmerGsrRange(deviceId: DeviceId, rangeIndex: Int): Result<Unit> {
         return try {
             val normalized = rangeIndex.coerceIn(0, 4) // 0-4 for Shimmer GSR ranges
-            
+
             // Update shimmer settings repository
             shimmerSettingsRepository.setGsrRange(normalized)
-            
+
             // Update hardware config repository
             hardwareConfigRepository.updateConfig { config ->
                 val updated = config.shimmer.map { entry ->
@@ -77,7 +77,7 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
                 }
                 config.copy(shimmer = updated)
             }
-            
+
             Result.success(Unit)
         } catch (t: Throwable) {
             Result.failure(t)
@@ -91,10 +91,10 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
             } else {
                 128.0 // Default sample rate
             }
-            
+
             // Update shimmer settings repository
             shimmerSettingsRepository.setSampleRate(sanitized)
-            
+
             // Update hardware config repository
             hardwareConfigRepository.updateConfig { config ->
                 val updated = config.shimmer.map { entry ->
@@ -106,7 +106,7 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
                 }
                 config.copy(shimmer = updated)
             }
-            
+
             Result.success(Unit)
         } catch (t: Throwable) {
             Result.failure(t)

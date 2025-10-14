@@ -84,7 +84,7 @@ class LiveSessionViewModel @Inject constructor(
         val uploadSnapshot = values[3] as UploadSnapshot
         val spacePair = values[4] as Pair<SpaceState, Boolean>
         val throttleLevel = values[5] as PerformanceThrottleLevel
-        
+
         val (streams, devices) = streamDevice
         val (sync, history) = syncPair
         val uploads = uploadSnapshot.uploads

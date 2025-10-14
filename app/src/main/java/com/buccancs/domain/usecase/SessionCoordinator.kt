@@ -54,7 +54,7 @@ class SessionCoordinatorImpl @Inject constructor(
         return try {
             val effectiveSessionId = sessionId.ifBlank { generateSessionId() }
             recordingService.startOrResume(effectiveSessionId, requestedStart)
-            
+
             _sessionState.value = _sessionState.value.copy(
                 currentSessionId = effectiveSessionId,
                 isBusy = false,

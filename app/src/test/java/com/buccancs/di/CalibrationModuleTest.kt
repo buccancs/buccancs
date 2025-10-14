@@ -20,7 +20,8 @@ class CalibrationModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var dualCameraController: DualCameraController
+    @Inject
+    lateinit var dualCameraController: DualCameraController
 
     @Before
     fun setup() {

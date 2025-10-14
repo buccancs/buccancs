@@ -49,7 +49,7 @@ class DefaultTimeSyncServiceTest {
     @Test
     fun `initial status is unknown quality`() = runTest {
         val status = service.status.value
-        
+
         assertEquals(TimeSyncQuality.UNKNOWN, status.quality)
         assertEquals(0, status.sampleCount)
         assertEquals(Long.MAX_VALUE, status.roundTripMillis)
@@ -58,7 +58,7 @@ class DefaultTimeSyncServiceTest {
     @Test
     fun `initial history is empty`() = runTest {
         val history = service.history.value
-        
+
         assertEquals(0, history.size)
     }
 

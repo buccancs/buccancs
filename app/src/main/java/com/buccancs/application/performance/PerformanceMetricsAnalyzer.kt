@@ -40,14 +40,17 @@ class PerformanceMetricsAnalyzer @Inject constructor(
         if (samples.isEmpty()) return
         val summary = buildSummary(sessionId, samples)
         summaryFile.parentFile?.mkdirs()
-        
-        when (val result = AtomicFileWriter.writeAtomicSafe(summaryFile, json.encodeToString(summary), checkSpace = true)) {
+
+        when (val result =
+            AtomicFileWriter.writeAtomicSafe(summaryFile, json.encodeToString(summary), checkSpace = true)) {
             is WriteResult.Success -> {
                 Log.d(TAG, "Performance summary written for session $sessionId")
             }
+
             is WriteResult.Failure.InsufficientSpace -> {
                 Log.w(TAG, "Insufficient space to write performance summary")
             }
+
             is WriteResult.Failure.WriteError -> {
                 Log.e(TAG, "Failed to write performance summary", result.cause)
             }

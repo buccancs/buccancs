@@ -22,8 +22,10 @@ class SensorConnectorModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var sensorConnectors: Set<@JvmSuppressWildcards SensorConnector>
-    @Inject lateinit var multiDeviceConnectors: Set<@JvmSuppressWildcards MultiDeviceConnector>
+    @Inject
+    lateinit var sensorConnectors: Set<@JvmSuppressWildcards SensorConnector>
+    @Inject
+    lateinit var multiDeviceConnectors: Set<@JvmSuppressWildcards MultiDeviceConnector>
 
     @Before
     fun setup() {

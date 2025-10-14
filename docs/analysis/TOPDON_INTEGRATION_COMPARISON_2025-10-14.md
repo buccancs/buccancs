@@ -6,20 +6,24 @@
 
 ## Executive Summary
 
-This document compares the original TOPDON TC001 infrared camera integration (from `external/original-topdon-app`) with our implementation in the BuccanCS research application. The comparison reveals fundamentally different architectural approaches: the original is a consumer-focused thermal imaging application with extensive UI features, whilst ours is a streamlined research data acquisition system optimised for multi-sensor synchronisation and scientific recording.
+This document compares the original TOPDON TC001 infrared camera integration (from `external/original-topdon-app`) with
+our implementation in the BuccanCS research application. The comparison reveals fundamentally different architectural
+approaches: the original is a consumer-focused thermal imaging application with extensive UI features, whilst ours is a
+streamlined research data acquisition system optimised for multi-sensor synchronisation and scientific recording.
 
-**Key Finding:** Our implementation is 85% smaller (1,286 vs 8,853 lines) whilst maintaining core functionality, achieved through architectural simplification, removal of consumer features, and focus on research requirements.
+**Key Finding:** Our implementation is 85% smaller (1,286 vs 8,853 lines) whilst maintaining core functionality,
+achieved through architectural simplification, removal of consumer features, and focus on research requirements.
 
 ## Scale Comparison
 
-| Metric | Original Implementation | Our Implementation | Reduction |
-|--------|------------------------|-------------------|-----------|
-| **Files** | 62 files | 4 files | 93.5% |
-| **Lines of Code** | 8,853 lines | 1,286 lines | 85.5% |
-| **Modules** | libir + libir-demo + libmatrix | Single connector package | - |
-| **Dependencies** | 7 AAR libraries | 1 AAR (reused) | - |
-| **UI Components** | 13 custom views | 0 (delegated to app) | 100% |
-| **Resource Files** | 121 files (32+71+18) | 0 | 100% |
+| Metric             | Original Implementation        | Our Implementation       | Reduction |
+|--------------------|--------------------------------|--------------------------|-----------|
+| **Files**          | 62 files                       | 4 files                  | 93.5%     |
+| **Lines of Code**  | 8,853 lines                    | 1,286 lines              | 85.5%     |
+| **Modules**        | libir + libir-demo + libmatrix | Single connector package | -         |
+| **Dependencies**   | 7 AAR libraries                | 1 AAR (reused)           | -         |
+| **UI Components**  | 13 custom views                | 0 (delegated to app)     | 100%      |
+| **Resource Files** | 121 files (32+71+18)           | 0                        | 100%      |
 
 ## Architectural Comparison
 
@@ -62,6 +66,7 @@ external/original-topdon-app/
 ```
 
 **Purpose:** Full-featured thermal imaging application for end users
+
 - Real-time temperature display with multiple measurement modes
 - Image enhancement (super-sampling, AI upscaling)
 - Photo/video capture with overlays
@@ -99,6 +104,7 @@ app/src/main/java/com/buccancs/
 ```
 
 **Purpose:** Scientific sensor data acquisition for multi-modal research
+
 - Raw thermal frame capture to disk
 - Precise timestamp synchronisation across sensors
 - Session-based recording with metadata
@@ -107,34 +113,35 @@ app/src/main/java/com/buccancs/
 
 ## Feature Comparison Matrix
 
-| Feature Category | Original | Ours | Rationale for Difference |
-|-----------------|----------|------|--------------------------|
-| **USB Device Management** | ✓ | ✓ | Core requirement |
-| **UVC Camera Control** | ✓ | ✓ | Core requirement |
-| **Raw Frame Acquisition** | ✓ | ✓ | Core requirement |
-| **Temperature Calculation** | ✓ | ✓ (simplified) | Research needs raw data |
-| **Multi-device Support** | ✗ | ✓ | Research requirement |
-| **Session Recording** | ✗ | ✓ | Research requirement |
-| **Time Synchronisation** | ✗ | ✓ | Multi-sensor requirement |
-| **Metadata Generation** | ✗ | ✓ | Research documentation |
-| **Simulation Mode** | ✗ | ✓ | Development workflow |
-| | | | |
-| **Real-time Display** | ✓ | ✗ | UI layer responsibility |
-| **Pseudo-colour Palettes** | ✓ (9 modes) | ✗ | Consumer feature |
-| **Image Enhancement** | ✓ (AI upscaling) | ✗ | Consumer feature |
-| **Temperature Overlays** | ✓ | ✗ | UI layer responsibility |
-| **Spot Tracking** | ✓ | ✗ | Consumer feature |
-| **Area Measurement** | ✓ | ✗ | Consumer feature |
-| **Calibration Tools** | ✓ | ✗ | Consumer feature |
-| **Photo/Video Export** | ✓ | ✗ | Different approach |
-| **Zoom/Pan/Rotate** | ✓ | ✗ | UI layer responsibility |
-| **Dual Camera Fusion** | ✓ | ✗ | Not required |
+| Feature Category            | Original         | Ours           | Rationale for Difference |
+|-----------------------------|------------------|----------------|--------------------------|
+| **USB Device Management**   | ✓                | ✓              | Core requirement         |
+| **UVC Camera Control**      | ✓                | ✓              | Core requirement         |
+| **Raw Frame Acquisition**   | ✓                | ✓              | Core requirement         |
+| **Temperature Calculation** | ✓                | ✓ (simplified) | Research needs raw data  |
+| **Multi-device Support**    | ✗                | ✓              | Research requirement     |
+| **Session Recording**       | ✗                | ✓              | Research requirement     |
+| **Time Synchronisation**    | ✗                | ✓              | Multi-sensor requirement |
+| **Metadata Generation**     | ✗                | ✓              | Research documentation   |
+| **Simulation Mode**         | ✗                | ✓              | Development workflow     |
+|                             |                  |                |                          |
+| **Real-time Display**       | ✓                | ✗              | UI layer responsibility  |
+| **Pseudo-colour Palettes**  | ✓ (9 modes)      | ✗              | Consumer feature         |
+| **Image Enhancement**       | ✓ (AI upscaling) | ✗              | Consumer feature         |
+| **Temperature Overlays**    | ✓                | ✗              | UI layer responsibility  |
+| **Spot Tracking**           | ✓                | ✗              | Consumer feature         |
+| **Area Measurement**        | ✓                | ✗              | Consumer feature         |
+| **Calibration Tools**       | ✓                | ✗              | Consumer feature         |
+| **Photo/Video Export**      | ✓                | ✗              | Different approach       |
+| **Zoom/Pan/Rotate**         | ✓                | ✗              | UI layer responsibility  |
+| **Dual Camera Fusion**      | ✓                | ✗              | Not required             |
 
 ## Technical Implementation Differences
 
 ### 1. USB Device Handling
 
 #### Original (IRUVCTC.java)
+
 ```java
 // Monolithic camera class with embedded UI logic
 public class IRUVCTC {
@@ -153,6 +160,7 @@ public class IRUVCTC {
 ```
 
 **Characteristics:**
+
 - Tight coupling between camera, UI, and processing
 - Direct rendering to Android View components
 - Hardcoded device configurations
@@ -160,6 +168,7 @@ public class IRUVCTC {
 - Synchronous bitmap operations
 
 #### Ours (TopdonThermalConnector.kt)
+
 ```kotlin
 @Singleton
 internal class TopdonThermalConnector @Inject constructor(
@@ -188,6 +197,7 @@ internal class TopdonThermalConnector @Inject constructor(
 ```
 
 **Characteristics:**
+
 - Dependency injection with Hilt
 - Coroutines for async operations
 - StateFlow for reactive state
@@ -198,6 +208,7 @@ internal class TopdonThermalConnector @Inject constructor(
 ### 2. Data Processing Pipeline
 
 #### Original Pipeline
+
 ```
 USB Frame → ImageThread → LibIRProcess (native) →
 → Pseudo-colour LUT → Bitmap → SynchronizedBitmap →
@@ -212,6 +223,7 @@ Features:
 ```
 
 #### Our Pipeline
+
 ```
 USB Frame → ThermalNormalizer (validation) →
 → FileOutputStream (raw .raw file) →
@@ -230,6 +242,7 @@ Features:
 ### 3. Camera Configuration
 
 #### Original Configuration
+
 ```java
 // IRUVCTC.java - Extensive settings
 uvcCamera.setDefaultPreviewMode(FRAME_FORMAT_MJPEG);
@@ -243,6 +256,7 @@ ircmd.SetAvoidOverexposure(enabled);     // AGC
 ```
 
 #### Our Configuration
+
 ```kotlin
 // TopdonThermalConnector.kt - Minimal research config
 camera.setOpenStatus(true)
@@ -259,6 +273,7 @@ camera.setUSBPreviewSize(256, 192)  // Fixed resolution
 ### 4. Recording and Storage
 
 #### Original Approach
+
 ```java
 // Separate photo/video capture with overlays
 - Save processed JPEG images with temperature data embedded
@@ -268,6 +283,7 @@ camera.setUSBPreviewSize(256, 192)  // Fixed resolution
 ```
 
 #### Our Approach
+
 ```kotlin
 // Session-based raw data recording
 private fun prepareThermalRecording(sessionId: String) {
@@ -292,6 +308,7 @@ private fun prepareThermalRecording(sessionId: String) {
 ### 5. State Management
 
 #### Original State Management
+
 ```java
 // Scattered state across classes
 public class IRUVCTC {
@@ -309,6 +326,7 @@ SharedPreferencesUtil.save("pseudocolor_mode", mode);
 ```
 
 #### Our State Management
+
 ```kotlin
 // Reactive state with Kotlin Flow
 private val deviceState = MutableStateFlow<SensorDevice>(initialDevice)
@@ -331,6 +349,7 @@ override suspend fun connect(): DeviceCommandResult {
 ### 6. Multi-Device Support
 
 #### Original
+
 ```java
 // Single device focus
 // No multi-camera coordination
@@ -338,6 +357,7 @@ override suspend fun connect(): DeviceCommandResult {
 ```
 
 #### Ours
+
 ```kotlin
 @Singleton
 internal class TopdonConnectorManager @Inject constructor(...) {
@@ -366,46 +386,47 @@ internal class TopdonConnectorManager @Inject constructor(...) {
 **libir Module (62 files, 8,853 lines):**
 
 1. **Camera Classes (4 files, ~2,000 lines)**
-   - `IRUVCTC.java` - Main TC001 implementation
-   - `IRUVCTCOld.java` - Legacy device support
-   - `IRUVCDual.java` - Dual camera fusion
-   - Multiple device variants
+    - `IRUVCTC.java` - Main TC001 implementation
+    - `IRUVCTCOld.java` - Legacy device support
+    - `IRUVCDual.java` - Dual camera fusion
+    - Multiple device variants
 
 2. **Custom Views (8 files, ~1,500 lines)**
-   - `CameraView.java` - Live preview rendering
-   - `TemperatureView.java` - Temperature overlays
-   - `ZoomCaliperView.kt` - Measurement tools
-   - `DragScaleView.java` - Touch interactions
-   - Complex gesture handling
+    - `CameraView.java` - Live preview rendering
+    - `TemperatureView.java` - Temperature overlays
+    - `ZoomCaliperView.kt` - Measurement tools
+    - `DragScaleView.java` - Touch interactions
+    - Complex gesture handling
 
 3. **Utility Classes (20 files, ~2,500 lines)**
-   - `PseudocolorModeTable.java` - 9 colour palettes with LUTs
-   - `OpencvTools.java` - Image processing algorithms
-   - `TargetUtils.java` - Temperature spot tracking
-   - `TempUtil.kt` - Temperature conversions
-   - `HomoFilter.java` - Homography matrix calculations
+    - `PseudocolorModeTable.java` - 9 colour palettes with LUTs
+    - `OpencvTools.java` - Image processing algorithms
+    - `TargetUtils.java` - Temperature spot tracking
+    - `TempUtil.kt` - Temperature conversions
+    - `HomoFilter.java` - Homography matrix calculations
 
 4. **Threading (3 files, ~800 lines)**
-   - `ImageThread.java` - Frame processing pipeline
-   - `ImageThreadTC.java` - TC001-specific thread
-   - Complex thread synchronisation
+    - `ImageThread.java` - Frame processing pipeline
+    - `ImageThreadTC.java` - TC001-specific thread
+    - Complex thread synchronisation
 
 5. **USB Management (5 files, ~1,000 lines)**
-   - Multiple USB monitor implementations
-   - Device filter logic
-   - Permission handling
+    - Multiple USB monitor implementations
+    - Device filter logic
+    - Permission handling
 
 6. **Extensions & Events (8 files, ~500 lines)**
-   - Kotlin extension functions
-   - EventBus message definitions
-   - View helpers
+    - Kotlin extension functions
+    - EventBus message definitions
+    - View helpers
 
 7. **Native Integration (4 files, ~550 lines)**
-   - JNI wrappers for `LibIRProcess`
-   - Algorithm integration
-   - Memory management
+    - JNI wrappers for `LibIRProcess`
+    - Algorithm integration
+    - Memory management
 
 **Cyclomatic Complexity:** High
+
 - Long methods (>200 lines)
 - Deeply nested conditionals
 - State management across threads
@@ -416,31 +437,32 @@ internal class TopdonConnectorManager @Inject constructor(...) {
 **topdon Package (4 files, 1,286 lines):**
 
 1. **TopdonThermalConnector.kt (673 lines)**
-   - USB device lifecycle: ~150 lines
-   - Camera configuration: ~100 lines
-   - Frame capture callback: ~50 lines
-   - Recording management: ~150 lines
-   - Metadata generation: ~100 lines
-   - State updates: ~50 lines
-   - Simulation fallback: inherited from base
+    - USB device lifecycle: ~150 lines
+    - Camera configuration: ~100 lines
+    - Frame capture callback: ~50 lines
+    - Recording management: ~150 lines
+    - Metadata generation: ~100 lines
+    - State updates: ~50 lines
+    - Simulation fallback: inherited from base
 
 2. **TopdonConnectorManager.kt (353 lines)**
-   - Device registry: ~80 lines
-   - Configuration sync: ~100 lines
-   - State aggregation: ~80 lines
-   - Lifecycle coordination: ~60 lines
+    - Device registry: ~80 lines
+    - Configuration sync: ~100 lines
+    - State aggregation: ~80 lines
+    - Lifecycle coordination: ~60 lines
 
 3. **ThermalNormalizer.kt (148 lines)**
-   - YUV422 parsing: ~50 lines
-   - Temperature conversion: ~40 lines
-   - Min/max extraction: ~30 lines
-   - Validation: ~20 lines
+    - YUV422 parsing: ~50 lines
+    - Temperature conversion: ~40 lines
+    - Min/max extraction: ~30 lines
+    - Validation: ~20 lines
 
 4. **ThermalCameraSimulator.kt (112 lines)**
-   - Synthetic data generation: ~80 lines
-   - Testing utilities: ~32 lines
+    - Synthetic data generation: ~80 lines
+    - Testing utilities: ~32 lines
 
 **Cyclomatic Complexity:** Low-Medium
+
 - Short, focused methods (<50 lines typical)
 - Clear separation of concerns
 - Coroutines reduce callback complexity
@@ -504,18 +526,21 @@ import kotlinx.coroutines.*
 ### Original Performance Profile
 
 **Strengths:**
+
 - Optimised for low-latency visual feedback (<50ms)
 - Hardware-accelerated rendering (OpenGL)
 - Efficient pseudo-colour LUT application
 - Native code for compute-intensive operations
 
 **Weaknesses:**
+
 - High memory usage (multiple bitmap buffers)
 - Thread contention (UI, capture, processing threads)
 - EventBus overhead for cross-component communication
 - Synchronisation complexity
 
 **Resource Usage:**
+
 - Memory: ~150-200MB during operation
 - CPU: 20-40% on single core (processing + rendering)
 - Disk: Processed images/videos only
@@ -523,22 +548,26 @@ import kotlinx.coroutines.*
 ### Our Performance Profile
 
 **Strengths:**
+
 - Minimal CPU overhead (raw write to disk)
 - Low memory footprint (streaming, no buffering)
 - Efficient coroutine-based concurrency
 - Predictable latency (no UI blocking)
 
 **Weaknesses:**
+
 - No real-time visualisation (by design)
 - Metadata generation adds small overhead (~5ms)
 - SHA-256 hashing during capture (~2% CPU)
 
 **Resource Usage:**
+
 - Memory: ~30-50MB during operation
 - CPU: 5-10% (USB + file I/O only)
 - Disk: Continuous raw data streaming
 
 **Throughput:**
+
 - 25 FPS × 256×192×2 bytes = ~2.4 MB/s sustained write
 - 10-minute recording = ~1.4 GB raw data
 
@@ -554,6 +583,7 @@ import kotlinx.coroutines.*
 ```
 
 **Testing Challenges:**
+
 - Hardware dependency for all tests
 - Difficult to reproduce edge cases
 - Manual verification of UI features
@@ -583,6 +613,7 @@ override suspend fun applySimulation(enabled: Boolean) {
 ```
 
 **Testing Advantages:**
+
 - Unit tests without hardware
 - Reproducible scenarios
 - Edge case simulation
@@ -594,26 +625,27 @@ override suspend fun applySimulation(enabled: Boolean) {
 ### Original Use Cases (Consumer Thermal Imaging)
 
 1. **Home Inspection**
-   - Visual heat loss detection
-   - Real-time temperature readings
-   - Photo documentation with annotations
+    - Visual heat loss detection
+    - Real-time temperature readings
+    - Photo documentation with annotations
 
 2. **Electrical Troubleshooting**
-   - Hotspot identification
-   - Temperature trending
-   - Comparative analysis
+    - Hotspot identification
+    - Temperature trending
+    - Comparative analysis
 
 3. **HVAC Assessment**
-   - Temperature gradient visualisation
-   - Multi-point measurements
-   - Report generation
+    - Temperature gradient visualisation
+    - Multi-point measurements
+    - Report generation
 
 4. **General Purpose Thermal Viewing**
-   - Quick temperature checks
-   - Pseudo-colour for interpretation
-   - Social media sharing
+    - Quick temperature checks
+    - Pseudo-colour for interpretation
+    - Social media sharing
 
 **Required Features:**
+
 - Instant visual feedback
 - Intuitive UI for non-experts
 - Photo/video capture
@@ -624,26 +656,27 @@ override suspend fun applySimulation(enabled: Boolean) {
 ### Our Use Cases (Neuroscience Research)
 
 1. **Multi-Modal Data Acquisition**
-   - Synchronised thermal + GSR + EEG recording
-   - Precise timestamp alignment
-   - Session-based organisation
+    - Synchronised thermal + GSR + EEG recording
+    - Precise timestamp alignment
+    - Session-based organisation
 
 2. **Stimulus-Response Studies**
-   - Thermal response to stimuli
-   - Time-locked with event markers
-   - Post-hoc analysis pipeline
+    - Thermal response to stimuli
+    - Time-locked with event markers
+    - Post-hoc analysis pipeline
 
 3. **Longitudinal Experiments**
-   - Consistent data format
-   - Metadata for reproducibility
-   - Integrity verification
+    - Consistent data format
+    - Metadata for reproducibility
+    - Integrity verification
 
 4. **Multi-Subject Studies**
-   - Simultaneous multi-device recording
-   - Participant identification
-   - Data validation
+    - Simultaneous multi-device recording
+    - Participant identification
+    - Data validation
 
 **Required Features:**
+
 - Raw data preservation
 - Sub-second synchronisation
 - Metadata completeness
@@ -666,6 +699,7 @@ App Activity
 ```
 
 **Characteristics:**
+
 - Tight coupling between layers
 - Activity directly manages camera
 - UI components contain business logic
@@ -691,6 +725,7 @@ Horizontal Concerns:
 ```
 
 **Characteristics:**
+
 - Clear separation of concerns
 - Testable in isolation
 - Dependency inversion
@@ -701,11 +736,13 @@ Horizontal Concerns:
 ### If Adopting Original Implementation
 
 **Advantages:**
+
 - Feature-complete for consumer use
 - Proven thermal imaging UI
 - Extensive hardware command support
 
 **Challenges:**
+
 - Large codebase to integrate (~9,000 lines)
 - Tight coupling to original app structure
 - EventBus dependency
@@ -715,6 +752,7 @@ Horizontal Concerns:
 - Would need significant refactoring for research use
 
 **Estimated Effort:** 3-4 weeks
+
 - Extract relevant code from monolith
 - Remove UI dependencies
 - Integrate with our architecture
@@ -724,6 +762,7 @@ Horizontal Concerns:
 ### Maintaining Our Implementation
 
 **Advantages:**
+
 - Minimal codebase (1,286 lines)
 - Clean architecture
 - Research-optimised
@@ -731,11 +770,13 @@ Horizontal Concerns:
 - Multi-device ready
 
 **Challenges:**
+
 - Limited to basic thermal capture
 - No real-time visualisation (by design)
 - Manual thermal data processing required
 
 **Maintenance Effort:** Low (~1 day/quarter)
+
 - Vendor SDK updates
 - Bug fixes
 - Minor feature additions
@@ -747,26 +788,26 @@ Horizontal Concerns:
 **Retain our implementation** for the following reasons:
 
 1. **Research Requirements Met**
-   - Raw data preservation ✓
-   - Multi-sensor synchronisation ✓
-   - Session-based recording ✓
-   - Metadata generation ✓
+    - Raw data preservation ✓
+    - Multi-sensor synchronisation ✓
+    - Session-based recording ✓
+    - Metadata generation ✓
 
 2. **Architectural Fit**
-   - Clean separation from UI
-   - Consistent with other sensors
-   - Testable without hardware
-   - Multi-device support
+    - Clean separation from UI
+    - Consistent with other sensors
+    - Testable without hardware
+    - Multi-device support
 
 3. **Maintainability**
-   - 85% less code to maintain
-   - Modern Kotlin patterns
-   - Clear structure
+    - 85% less code to maintain
+    - Modern Kotlin patterns
+    - Clear structure
 
 4. **Performance**
-   - Lower resource usage
-   - Predictable behaviour
-   - Suitable for long recordings
+    - Lower resource usage
+    - Predictable behaviour
+    - Suitable for long recordings
 
 ### Potential Enhancements from Original
 
@@ -820,23 +861,28 @@ Consider selectively adopting:
 
 The original TOPDON integration and our implementation serve fundamentally different purposes:
 
-- **Original:** Feature-rich consumer thermal imaging application optimised for real-time visualisation and user interaction
-- **Ours:** Streamlined research data acquisition system optimised for multi-sensor synchronisation and scientific recording
+- **Original:** Feature-rich consumer thermal imaging application optimised for real-time visualisation and user
+  interaction
+- **Ours:** Streamlined research data acquisition system optimised for multi-sensor synchronisation and scientific
+  recording
 
 Our implementation achieves 85% code reduction whilst fully satisfying research requirements through:
+
 - Architectural simplification
 - Focus on core data capture
 - Removal of consumer features
 - Modern reactive patterns
 - Multi-device design
 
-The comparison validates our design decisions: we have built the right tool for our specific use case rather than adapting a consumer-focused implementation.
+The comparison validates our design decisions: we have built the right tool for our specific use case rather than
+adapting a consumer-focused implementation.
 
 ## Appendices
 
 ### A. File Structure Comparison
 
 #### Original libir Module
+
 ```
 libir/src/main/java/
 ├── android/yt/jni/               # JNI wrappers
@@ -859,6 +905,7 @@ libir/src/main/java/
 ```
 
 #### Our Implementation
+
 ```
 com/buccancs/data/sensor/connector/topdon/
 ├── TopdonThermalConnector.kt    # Main connector
@@ -869,24 +916,25 @@ com/buccancs/data/sensor/connector/topdon/
 
 ### B. Key Classes Comparison
 
-| Original | Lines | Our Equivalent | Lines | Notes |
-|----------|-------|----------------|-------|-------|
-| IRUVCTC.java | ~800 | TopdonThermalConnector.kt | 673 | Similar responsibility |
-| IRUVCDual.java | ~600 | N/A | - | Dual camera not needed |
-| ImageThread.java | ~400 | Inline in connector | ~50 | Simplified with coroutines |
-| CameraView.java | ~350 | Compose UI layer | - | Separated concern |
-| TemperatureView.java | ~300 | UI layer | - | Separated concern |
-| PseudocolorModeTable.java | ~250 | N/A | - | Not required |
-| OpencvTools.java | ~200 | ThermalNormalizer.kt | 148 | Basic validation only |
-| TargetUtils.java | ~180 | N/A | - | Consumer feature |
-| USBMonitor* | ~300 | Reused from AAR | - | Vendor library |
-| EventBus events | ~150 | StateFlow | - | Modern reactive |
+| Original                  | Lines | Our Equivalent            | Lines | Notes                      |
+|---------------------------|-------|---------------------------|-------|----------------------------|
+| IRUVCTC.java              | ~800  | TopdonThermalConnector.kt | 673   | Similar responsibility     |
+| IRUVCDual.java            | ~600  | N/A                       | -     | Dual camera not needed     |
+| ImageThread.java          | ~400  | Inline in connector       | ~50   | Simplified with coroutines |
+| CameraView.java           | ~350  | Compose UI layer          | -     | Separated concern          |
+| TemperatureView.java      | ~300  | UI layer                  | -     | Separated concern          |
+| PseudocolorModeTable.java | ~250  | N/A                       | -     | Not required               |
+| OpencvTools.java          | ~200  | ThermalNormalizer.kt      | 148   | Basic validation only      |
+| TargetUtils.java          | ~180  | N/A                       | -     | Consumer feature           |
+| USBMonitor*               | ~300  | Reused from AAR           | -     | Vendor library             |
+| EventBus events           | ~150  | StateFlow                 | -     | Modern reactive            |
 
 ### C. Vendor SDK Usage
 
 Both implementations use the Infisense UVC SDK (from `topdon.aar`), but with different scope:
 
 **Original Usage:**
+
 - Full SDK feature set
 - Hardware commands (IRCMD)
 - Image processing (LibIRProcess)
@@ -894,6 +942,7 @@ Both implementations use the Infisense UVC SDK (from `topdon.aar`), but with dif
 - OpenGL rendering
 
 **Our Usage:**
+
 - Basic UVC camera control
 - USB device monitoring
 - Frame callback interface

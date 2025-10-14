@@ -22,9 +22,12 @@ class HardwareModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var bluetoothService: BluetoothService
-    @Inject lateinit var cameraService: CameraService
-    @Inject lateinit var usbService: UsbService
+    @Inject
+    lateinit var bluetoothService: BluetoothService
+    @Inject
+    lateinit var cameraService: CameraService
+    @Inject
+    lateinit var usbService: UsbService
 
     @Before
     fun setup() {

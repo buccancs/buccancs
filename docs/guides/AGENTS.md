@@ -6,9 +6,11 @@
 ## Documentation Organization
 
 ### Directory Structure
+
 All documentation files MUST be organized in the `docs/` directory:
 
-- **`docs/analysis/`** - Technical debt analysis, code quality reports, gap analysis (dated files: `FILENAME_YYYY-MM-DD.md`)
+- **`docs/analysis/`** - Technical debt analysis, code quality reports, gap analysis (dated files:
+  `FILENAME_YYYY-MM-DD.md`)
 - **`docs/project/`** - Project management files: BACKLOG.md, dev-diary.md, PROJECT_TODO.md, requirements
 - **`docs/architecture/`** - Technical documentation, architecture diagrams, design decisions
 - **`docs/guides/`** - Agent instructions, user guides, how-to documents
@@ -16,6 +18,7 @@ All documentation files MUST be organized in the `docs/` directory:
 - **`docs/manual-tests/`** - Manual testing procedures and checklists
 
 ### File Placement Rules
+
 - Analysis reports → `docs/analysis/`
 - Project management → `docs/project/`
 - Technical specs → `docs/architecture/`
@@ -24,21 +27,26 @@ All documentation files MUST be organized in the `docs/` directory:
 - Core README.md stays in root for visibility
 
 ### Exception
+
 - `README.md` remains in repository root for immediate visibility
 - `.github/copilot-instructions.md` stays in .github/ directory
 
 ## Language and Spelling Standards
 
 ### British English Requirement
+
 - **ALL documentation, comments, commit messages, and LaTeX files MUST use British English spelling and conventions**
 - Common conversions:
-  - American: -ize, -ization → British: -ise, -isation (e.g., "synchronize" → "synchronise", "optimization" → "optimisation")
-  - American: color, behavior, center → British: colour, behaviour, centre
-  - American: analyze, defense → British: analyse, defence
-- Exception: Variable names, function names, and API identifiers should follow established conventions (e.g., Android API `setBackgroundColor` remains unchanged)
+    - American: -ize, -ization → British: -ise, -isation (e.g., "synchronize" → "synchronise", "optimization" → "
+      optimisation")
+    - American: color, behavior, center → British: colour, behaviour, centre
+    - American: analyze, defense → British: analyse, defence
+- Exception: Variable names, function names, and API identifiers should follow established conventions (e.g., Android
+  API `setBackgroundColor` remains unchanged)
 - Exception: Third-party library references and technical terms remain as specified
 
 ### Application
+
 - Code comments: British English
 - Documentation files (.md, .tex): British English
 - Commit messages: British English
@@ -49,11 +57,15 @@ All documentation files MUST be organized in the `docs/` directory:
 ## File Naming and Tracking Standards
 
 ### Documentation Files
-- **All analysis, report, and documentation MD files MUST include the date in the filename** using format `FILENAME_YYYY-MM-DD.md`
-  - Example: `TECHNICAL_DEBT_ANALYSIS_2025-10-13.md`, `CODE_REVIEW_2025-10-15.md`
-- **Exception:** Core project files like `README.md`, `docs/project/BACKLOG.md`, `PROJECT_TODO.md` do not require dates in filename
+
+- **All analysis, report, and documentation MD files MUST include the date in the filename** using format
+  `FILENAME_YYYY-MM-DD.md`
+    - Example: `TECHNICAL_DEBT_ANALYSIS_2025-10-13.md`, `CODE_REVIEW_2025-10-15.md`
+- **Exception:** Core project files like `README.md`, `docs/project/BACKLOG.md`, `PROJECT_TODO.md` do not require dates
+  in filename
 
 ### File Header Requirements
+
 All generated or modified documentation files MUST include a header block at the top:
 
 ```markdown
@@ -65,6 +77,7 @@ All generated or modified documentation files MUST include a header block at the
 ```
 
 Example:
+
 ```markdown
 # Technical Debt Analysis
 
@@ -74,6 +87,7 @@ Example:
 ```
 
 ### Tracking Outdated Information
+
 - When referencing dated documents, always check if newer versions exist
 - When updating existing dated documents, create a new file with current date rather than modifying old ones
 - Keep previous versions for historical tracking unless explicitly instructed to delete
@@ -82,46 +96,51 @@ Example:
 ## File Permissions and Capabilities
 
 ### Markdown Files
+
 - **Agents ARE ALLOWED** to read, modify, and create Markdown (`.md`) files
 - **Documentation Generation** is actively encouraged for:
-  - Technical analysis reports (following `FILENAME_YYYY-MM-DD.md` naming)
-  - Architecture documentation
-  - Code quality assessments
-  - Implementation guides
-  - API documentation
+    - Technical analysis reports (following `FILENAME_YYYY-MM-DD.md` naming)
+    - Architecture documentation
+    - Code quality assessments
+    - Implementation guides
+    - API documentation
 
 ### Source Code
+
 - Full access to read, modify, and create Kotlin, Java, and configuration files
 - Follow coding standards and architectural patterns defined above
 
 ### LaTeX Files
+
 - **Agents ARE ALLOWED** to read, modify, and create LaTeX (`.tex`, `.latex`) files
 - **Thesis and Academic Writing:** Agents can assist with:
-  - Writing and editing thesis chapters
-  - Creating LaTeX documentation
-  - Formatting academic papers
-  - Generating bibliographies and references
-  - Creating figures and tables
-  - Converting content to LaTeX format
+    - Writing and editing thesis chapters
+    - Creating LaTeX documentation
+    - Formatting academic papers
+    - Generating bibliographies and references
+    - Creating figures and tables
+    - Converting content to LaTeX format
 - **British English Required:** All LaTeX content must use British English spelling
 - **Best Practices:**
-  - Maintain consistent LaTeX formatting and style
-  - Follow academic writing conventions
-  - Use proper LaTeX commands and packages
-  - Keep bibliography entries well-formatted
-  - Test compilation after modifications
+    - Maintain consistent LaTeX formatting and style
+    - Follow academic writing conventions
+    - Use proper LaTeX commands and packages
+    - Keep bibliography entries well-formatted
+    - Test compilation after modifications
 
 ### Generated Documentation
+
 - Create analysis documents as needed when:
-  - Analyzing code quality or technical debt
-  - Documenting architecture decisions
-  - Creating implementation guides
-  - Generating API documentation
+    - Analyzing code quality or technical debt
+    - Documenting architecture decisions
+    - Creating implementation guides
+    - Generating API documentation
 - Always follow file naming and header standards
 
 ## File and Directory Exclusions
 
-To maintain focus on relevant source code and documentation, agents MUST ignore the following build output, IDE configuration, and dependency-related directories:
+To maintain focus on relevant source code and documentation, agents MUST ignore the following build output, IDE
+configuration, and dependency-related directories:
 
 - `build/`
 - `app/build/`
@@ -141,7 +160,8 @@ To maintain focus on relevant source code and documentation, agents MUST ignore 
   sessions.
 - `protocol` stores protobuf schemas and generated Kotlin stubs consumed by both front ends.
 - `sdk/libs` and `external/` provide vendor SDK ground truth; consult these when aligning integrations.
-- Operational notes live in `READ ME.md`, `docs/project/BACKLOG.md`, and `dev-diary.md`; update them whenever workflows or
+- Operational notes live in `READ ME.md`, `docs/project/BACKLOG.md`, and `dev-diary.md`; update them whenever workflows
+  or
   priorities change.
 
 ## Build, Test, and Development Commands

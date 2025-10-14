@@ -88,7 +88,7 @@ class OrchestratorConfigViewModel @Inject constructor(
             val host = hostInput.value.trim()
             val portValue = portInput.value.trim()
             val port = portValue.toIntOrNull()
-            
+
             if (host.isEmpty()) {
                 configMessage.value = "Host cannot be blank"
                 return@launch
@@ -97,7 +97,7 @@ class OrchestratorConfigViewModel @Inject constructor(
                 configMessage.value = "Port must be between 1 and 65535"
                 return@launch
             }
-            
+
             runCatching {
                 orchestratorConfigRepository.update(
                     OrchestratorConfig(

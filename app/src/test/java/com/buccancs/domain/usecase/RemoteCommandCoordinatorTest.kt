@@ -33,7 +33,7 @@ class RemoteCommandCoordinatorTest {
         commandService = mockk(relaxed = true)
         sessionCoordinator = mockk(relaxed = true)
         timeSyncService = mockk(relaxed = true)
-        
+
         every { commandService.lastCommand } returns MutableStateFlow<DeviceCommandPayload?>(null)
         every { timeSyncService.status } returns MutableStateFlow(
             TimeSyncStatus(
@@ -77,7 +77,7 @@ class RemoteCommandCoordinatorTest {
         assertTrue(result.isSuccess)
         val handlingResult = result.getOrNull()!!
         assertTrue(handlingResult.success)
-        
+
         coVerify { sessionCoordinator.startSession("session-1", null) }
         coVerify { commandService.acknowledge("cmd-1", true, null) }
     }
@@ -100,7 +100,7 @@ class RemoteCommandCoordinatorTest {
         assertTrue(result.isSuccess)
         val handlingResult = result.getOrNull()!!
         assertTrue(handlingResult.success)
-        
+
         coVerify { sessionCoordinator.stopSession() }
         coVerify { commandService.acknowledge("cmd-2", true, null) }
     }
@@ -131,7 +131,7 @@ class RemoteCommandCoordinatorTest {
         val handlingResult = result.getOrNull()!!
         assertFalse(handlingResult.success)
         assertEquals("Device busy", handlingResult.message)
-        
+
         coVerify { commandService.acknowledge("cmd-3", false, "Device busy") }
         coVerify(exactly = 0) { sessionCoordinator.startSession(any(), any()) }
     }
@@ -157,7 +157,7 @@ class RemoteCommandCoordinatorTest {
         val handlingResult = result.getOrNull()!!
         assertFalse(handlingResult.success)
         assertEquals(errorMessage, handlingResult.message)
-        
+
         coVerify { commandService.acknowledge("cmd-4", false, errorMessage) }
     }
 
@@ -179,11 +179,11 @@ class RemoteCommandCoordinatorTest {
 
         // Then
         assertTrue(result.isSuccess)
-        coVerify { 
+        coVerify {
             sessionCoordinator.startSession(
-                "session-1", 
+                "session-1",
                 match { it != null && it.toEpochMilliseconds() == anchorEpochMs }
-            ) 
+            )
         }
     }
 
@@ -203,7 +203,7 @@ class RemoteCommandCoordinatorTest {
         assertTrue(result.isSuccess)
         val handlingResult = result.getOrNull()!!
         assertTrue(handlingResult.success)
-        
+
         // Should not interact with session coordinator
         coVerify(exactly = 0) { sessionCoordinator.startSession(any(), any()) }
         coVerify(exactly = 0) { sessionCoordinator.stopSession() }

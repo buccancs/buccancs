@@ -19,14 +19,14 @@ class ThermalCameraSimulator(
 ) {
     private val logTag = "ThermalSimulator"
     private val random = Random.Default
-    
+
     // Heat sources that can be added to the scene
     private val hotSpots = mutableListOf<HotSpot>()
-    
+
     // Drift simulation (slow temperature changes)
     private var driftOffset = 0.0f
     private var driftDirection = 1
-    
+
     /**
      * Represents a localized heat source in the thermal image.
      */
@@ -37,21 +37,21 @@ class ThermalCameraSimulator(
         val radius: Float = 20.0f,
         val intensity: Float = 1.0f
     )
-    
+
     /**
      * Generate a single thermal frame.
      * Returns raw 16-bit thermal data (256x192 pixels).
      */
     fun captureFrame(): ShortArray {
         val data = ShortArray(width * height)
-        
+
         // Update drift for slow ambient temperature changes
         updateDrift()
-        
+
         for (y in 0 until height) {
             for (x in 0 until width) {
                 val idx = y * width + x
-                
+
                 // Base temperature with noise and drift
                 var temperature = baseTemperatureCelsius + driftOffset
                 // Replace nextGaussian() with standard normal distribution using Box-Muller transform
@@ -59,36 +59,36 @@ class ThermalCameraSimulator(
                 val u2 = random.nextDouble()
                 val gaussian = kotlin.math.sqrt(-2.0 * kotlin.math.ln(u1)) * kotlin.math.cos(2.0 * kotlin.math.PI * u2)
                 temperature += gaussian.toFloat() * ambientNoise
-                
+
                 // Add contribution from each hot spot
                 for (hotSpot in hotSpots) {
                     val distance = sqrt(
-                        (x - hotSpot.x).toFloat().pow(2) + 
-                        (y - hotSpot.y).toFloat().pow(2)
+                        (x - hotSpot.x).toFloat().pow(2) +
+                                (y - hotSpot.y).toFloat().pow(2)
                     )
-                    
+
                     if (distance < hotSpot.radius * 3) {
                         // Gaussian falloff for realistic heat distribution
-                        val contribution = hotSpot.temperature * hotSpot.intensity * 
-                            exp(-distance.pow(2) / (2 * hotSpot.radius.pow(2)))
+                        val contribution = hotSpot.temperature * hotSpot.intensity *
+                                exp(-distance.pow(2) / (2 * hotSpot.radius.pow(2)))
                         temperature += contribution
                     }
                 }
-                
+
                 // Convert temperature to raw value
                 data[idx] = temperatureToRaw(temperature)
             }
         }
-        
+
         return data
     }
-    
+
     /**
      * Generate thermal frame as normalized Bitmap for display.
      */
     fun captureBitmap(): Bitmap {
         val shortData = captureFrame()
-        
+
         // Convert ShortArray to ByteArray (little-endian, 2 bytes per pixel)
         val byteData = ByteArray(shortData.size * 2)
         for (i in shortData.indices) {
@@ -96,10 +96,10 @@ class ThermalCameraSimulator(
             byteData[i * 2] = (value and 0xFF).toByte()
             byteData[i * 2 + 1] = ((value shr 8) and 0xFF).toByte()
         }
-        
+
         // Normalize to get grayscale data
         val metrics = ThermalNormalizer().normalize(byteData)
-        
+
         // Convert normalized ByteArray to Bitmap
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         for (y in 0 until height) {
@@ -110,10 +110,10 @@ class ThermalCameraSimulator(
                 bitmap.setPixel(x, y, color)
             }
         }
-        
+
         return bitmap
     }
-    
+
     /**
      * Add a stationary hot spot to the scene.
      */
@@ -121,11 +121,11 @@ class ThermalCameraSimulator(
         require(x in 0 until width) { "x must be within frame bounds" }
         require(y in 0 until height) { "y must be within frame bounds" }
         require(temperature > baseTemperatureCelsius) { "Hot spot must be warmer than base" }
-        
+
         hotSpots.add(HotSpot(x, y, temperature - baseTemperatureCelsius, radius))
         Log.d(logTag, "Added hot spot at ($x, $y) with temp ${temperature}°C, radius $radius")
     }
-    
+
     /**
      * Add a moving hot spot (simulates moving heat source).
      */
@@ -151,7 +151,7 @@ class ThermalCameraSimulator(
             hotSpots.add(moving.toHotSpot())
         }
     }
-    
+
     /**
      * Clear all hot spots.
      */
@@ -159,7 +159,7 @@ class ThermalCameraSimulator(
         hotSpots.clear()
         Log.d(logTag, "Cleared all hot spots")
     }
-    
+
     /**
      * Set base temperature (ambient).
      */
@@ -168,16 +168,16 @@ class ThermalCameraSimulator(
         // Note: Would need to be a var in class definition
         Log.d(logTag, "Base temperature set to ${celsius}°C")
     }
-    
+
     private fun updateDrift() {
         // Slow random walk for ambient temperature
         driftOffset += random.nextFloat() * 0.01f * driftDirection
-        
+
         // Reverse direction if drift gets too large
         if (driftOffset > 3.0f) driftDirection = -1
         if (driftOffset < -3.0f) driftDirection = 1
     }
-    
+
     /**
      * Convert temperature in Celsius to raw 16-bit value.
      * Formula matches Topdon TC001 sensor.
@@ -187,7 +187,7 @@ class ThermalCameraSimulator(
         val raw = (kelvin * 64.0f).toInt()
         return raw.coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
     }
-    
+
     /**
      * Moving hot spot that updates position over time.
      */
@@ -217,11 +217,11 @@ class ThermalCameraSimulator(
             velocityY,
             bounds
         )
-        
+
         fun update() {
             currentX += velocityX
             currentY += velocityY
-            
+
             // Bounce off boundaries
             if (currentX < 0 || currentX >= bounds.first) {
                 // velocityX = -velocityX (would need var)
@@ -232,7 +232,7 @@ class ThermalCameraSimulator(
                 currentY = currentY.coerceIn(0f, bounds.second.toFloat() - 1)
             }
         }
-        
+
         fun toHotSpot(): HotSpot {
             return HotSpot(
                 x = currentX.toInt(),
@@ -242,7 +242,7 @@ class ThermalCameraSimulator(
             )
         }
     }
-    
+
     companion object {
         /**
          * Create simulator with typical indoor scene.
@@ -258,7 +258,7 @@ class ThermalCameraSimulator(
                 addHotSpot(200, 150, 26.0f, 20.0f) // Window with sun
             }
         }
-        
+
         /**
          * Create simulator with outdoor scene.
          */
@@ -272,7 +272,7 @@ class ThermalCameraSimulator(
                 addHotSpot(180, 140, 30.0f, 25.0f) // Warm surface
             }
         }
-        
+
         /**
          * Create simulator for testing/calibration.
          */

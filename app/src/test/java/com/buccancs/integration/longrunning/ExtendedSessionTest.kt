@@ -142,7 +142,7 @@ class ExtendedSessionTest {
         // Add bookmarks gradually
         repeat(1000) { index ->
             repository.add("Gradual $index", Clock.System.now())
-            
+
             // Every 100 items, check state
             if ((index + 1) % 100 == 0) {
                 val bookmarks = repository.bookmarks.value
@@ -168,6 +168,7 @@ class ExtendedSessionTest {
                         repository.add("Bulk $iteration-$index", Clock.System.now())
                     }
                 }
+
                 1 -> {
                     // Individual remove
                     val bookmarks = repository.bookmarks.value
@@ -175,10 +176,12 @@ class ExtendedSessionTest {
                         repository.remove(bookmarks.first().id)
                     }
                 }
+
                 2 -> {
                     // Read
                     repository.bookmarks.value
                 }
+
                 3 -> {
                     // Partial clear (remove half)
                     val bookmarks = repository.bookmarks.value
@@ -186,6 +189,7 @@ class ExtendedSessionTest {
                         repository.remove(it.id)
                     }
                 }
+
                 4 -> delay(1)
             }
         }

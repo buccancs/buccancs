@@ -1,7 +1,6 @@
 package com.buccancs.data.sensor.config
 
 import android.content.Context
-import com.buccancs.domain.model.SensorHardwareConfig
 import com.buccancs.domain.model.ShimmerDeviceConfig
 import com.buccancs.domain.model.TopdonDeviceConfig
 import io.mockk.every
@@ -12,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.Before
 import org.junit.Test
-import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -39,7 +37,7 @@ class DefaultSensorHardwareConfigRepositoryTest {
     @Test
     fun `initial config is loaded`() = runTest {
         val config = repository.config.first()
-        
+
         assertNotNull(config)
     }
 

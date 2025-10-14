@@ -11,8 +11,6 @@ import com.buccancs.control.commands.StimulusCommandPayload
 import com.buccancs.control.commands.StopRecordingCommandPayload
 import com.buccancs.control.commands.SyncSignalCommandPayload
 import com.buccancs.domain.model.DeviceEvent
-import com.buccancs.domain.model.DeviceId
-import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus
 import com.buccancs.domain.repository.DeviceEventRepository

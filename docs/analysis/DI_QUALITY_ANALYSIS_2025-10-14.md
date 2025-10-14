@@ -6,7 +6,9 @@
 
 ## Executive Summary
 
-The project demonstrates good DI architecture with Hilt, featuring clear module separation and proper use of multibindings. However, three critical issues compromise testability and maintainability: absence of DI module tests, concrete system service dependencies, and potential mockability challenges.
+The project demonstrates good DI architecture with Hilt, featuring clear module separation and proper use of
+multibindings. However, three critical issues compromise testability and maintainability: absence of DI module tests,
+concrete system service dependencies, and potential mockability challenges.
 
 ## 1. Module Structure Analysis
 
@@ -25,6 +27,7 @@ The project contains 7 well-organised Hilt modules:
 ### 1.2 Architecture Strengths
 
 #### Clear Separation of Concerns
+
 ```kotlin
 // Each module has single responsibility
 @Module @InstallIn(SingletonComponent::class)
@@ -35,9 +38,11 @@ object HardwareModule { /* hardware only */ }
 ```
 
 #### Proper Singleton Management
+
 All modules correctly use `@Singleton` scope for appropriate dependencies.
 
 #### Multibindings for Extensibility
+
 ```kotlin
 @Module @InstallIn(SingletonComponent::class)
 internal object SensorConnectorModule {
@@ -52,6 +57,7 @@ internal object SensorConnectorModule {
 ```
 
 #### Custom Qualifiers
+
 ```kotlin
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -63,7 +69,9 @@ fun provideApplicationScope(dispatchers: CoroutineDispatchers): CoroutineScope =
 ```
 
 #### Interface-Based Bindings
+
 Most modules correctly use `@Binds` for interface→implementation mappings:
+
 ```kotlin
 @Binds @Singleton
 abstract fun bindSensorRepository(impl: DefaultSensorRepository): SensorRepository
@@ -78,12 +86,14 @@ abstract fun bindSensorRepository(impl: DefaultSensorRepository): SensorReposito
 **Current State:** Zero test files exist for any DI module. All binding errors discovered at runtime.
 
 **Risk:**
+
 - Runtime crashes from missing dependencies
 - No verification that object graph is complete
 - Difficult to detect circular dependencies
 - Breaking changes undetected until app launch
 
 **Evidence:**
+
 ```bash
 $ Get-ChildItem -Path "C:\dev\buccancs\app\src\test" -Recurse -Filter "*Module*Test.kt"
 # No results
@@ -103,12 +113,14 @@ fun provideCameraManager(@ApplicationContext context: Context): CameraManager =
 ```
 
 **Impact:**
+
 - Unit tests for classes using `CameraManager` require Robolectric
 - Integration tests become slow and brittle
 - Cannot test error conditions (e.g., camera unavailable)
 - Difficult to simulate hardware states
 
 **All Affected Services:**
+
 - `BluetoothAdapter` (line 19)
 - `CameraManager` (line 23-24)
 - `UsbManager` (line 28-29)
@@ -118,6 +130,7 @@ fun provideCameraManager(@ApplicationContext context: Context): CameraManager =
 **Severity:** LOW (Actually handled correctly)
 
 The module correctly uses `@ApplicationContext` to avoid memory leaks:
+
 ```kotlin
 @Provides @Singleton
 fun provideUsbManager(@ApplicationContext context: Context): UsbManager
@@ -133,6 +146,7 @@ This is not an issue - the analysis confirms proper implementation.
 Create test files for each module to verify graph completeness:
 
 #### File: `app/src/test/java/com/buccancs/di/RepositoryModuleTest.kt`
+
 ```kotlin
 package com.buccancs.di
 
@@ -156,10 +170,14 @@ class RepositoryModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var sensorRepository: SensorRepository
-    @Inject lateinit var calibrationRepository: CalibrationRepository
-    @Inject lateinit var bookmarkRepository: BookmarkRepository
-    @Inject lateinit var deviceEventRepository: DeviceEventRepository
+    @Inject
+    lateinit var sensorRepository: SensorRepository
+    @Inject
+    lateinit var calibrationRepository: CalibrationRepository
+    @Inject
+    lateinit var bookmarkRepository: BookmarkRepository
+    @Inject
+    lateinit var deviceEventRepository: DeviceEventRepository
 
     @Before
     fun setup() {
@@ -177,6 +195,7 @@ class RepositoryModuleTest {
 ```
 
 #### File: `app/src/test/java/com/buccancs/di/ServiceModuleTest.kt`
+
 ```kotlin
 package com.buccancs.di
 
@@ -202,9 +221,12 @@ class ServiceModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var recordingService: RecordingService
-    @Inject lateinit var deviceCommandService: DeviceCommandService
-    @Inject lateinit var timeSyncService: TimeSyncService
+    @Inject
+    lateinit var recordingService: RecordingService
+    @Inject
+    lateinit var deviceCommandService: DeviceCommandService
+    @Inject
+    lateinit var timeSyncService: TimeSyncService
 
     @Before
     fun setup() {
@@ -221,6 +243,7 @@ class ServiceModuleTest {
 ```
 
 #### File: `app/src/test/java/com/buccancs/di/SensorConnectorModuleTest.kt`
+
 ```kotlin
 package com.buccancs.di
 
@@ -246,8 +269,10 @@ class SensorConnectorModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var sensorConnectors: Set<@JvmSuppressWildcards SensorConnector>
-    @Inject lateinit var multiDeviceConnectors: Set<@JvmSuppressWildcards MultiDeviceConnector>
+    @Inject
+    lateinit var sensorConnectors: Set<@JvmSuppressWildcards SensorConnector>
+    @Inject
+    lateinit var multiDeviceConnectors: Set<@JvmSuppressWildcards MultiDeviceConnector>
 
     @Before
     fun setup() {
@@ -275,6 +300,7 @@ class SensorConnectorModuleTest {
 Create wrapper interfaces for Android system services to enable mocking.
 
 #### File: `app/src/main/java/com/buccancs/hardware/CameraService.kt`
+
 ```kotlin
 package com.buccancs.hardware
 
@@ -294,6 +320,7 @@ class AndroidCameraService(private val manager: android.hardware.camera2.CameraM
 ```
 
 #### File: `app/src/main/java/com/buccancs/hardware/BluetoothService.kt`
+
 ```kotlin
 package com.buccancs.hardware
 
@@ -316,6 +343,7 @@ class AndroidBluetoothService(private val adapter: android.bluetooth.BluetoothAd
 ```
 
 #### File: `app/src/main/java/com/buccancs/hardware/UsbService.kt`
+
 ```kotlin
 package com.buccancs.hardware
 
@@ -335,6 +363,7 @@ class AndroidUsbService(private val manager: android.hardware.usb.UsbManager) : 
 ```
 
 #### Updated `HardwareModule.kt`
+
 ```kotlin
 package com.buccancs.di
 
@@ -356,7 +385,7 @@ object HardwareModule {
     // Provide wrapped services (mockable interfaces)
     @Provides
     @Singleton
-    fun provideBluetoothService(): BluetoothService = 
+    fun provideBluetoothService(): BluetoothService =
         AndroidBluetoothService(BluetoothAdapter.getDefaultAdapter())
 
     @Provides
@@ -374,6 +403,7 @@ object HardwareModule {
 ### 3.3 Add Test Module for Mocks
 
 #### File: `app/src/test/java/com/buccancs/di/TestHardwareModule.kt`
+
 ```kotlin
 package com.buccancs.di
 
@@ -408,21 +438,25 @@ object TestHardwareModule {
 ## 4. Migration Strategy
 
 ### Phase 1: Add Module Tests (1-2 days)
+
 1. Add Hilt testing dependencies to `build.gradle.kts`
 2. Create basic smoke tests for each module
 3. Run tests to verify current graph integrity
 
 ### Phase 2: Create Service Interfaces (2-3 days)
+
 1. Create wrapper interfaces for each system service
 2. Implement Android-specific wrappers
 3. Update `HardwareModule` to provide interfaces
 
 ### Phase 3: Refactor Consumers (3-5 days)
+
 1. Find all classes injecting concrete services
 2. Update to use wrapper interfaces
 3. Run full test suite to verify functionality
 
 ### Phase 4: Add Test Implementations (1-2 days)
+
 1. Create `TestHardwareModule` with mocks
 2. Update existing tests to use test module
 3. Add new unit tests leveraging mockable services
@@ -430,6 +464,7 @@ object TestHardwareModule {
 ## 5. Dependencies Required
 
 Add to `app/build.gradle.kts`:
+
 ```kotlin
 dependencies {
     // Existing Hilt dependencies...
@@ -449,11 +484,13 @@ dependencies {
 ## 6. Benefits of Implementing Recommendations
 
 ### Immediate Benefits
+
 - **Catch DI errors early** via module tests before runtime
 - **Faster test execution** by mocking system services
 - **Better test coverage** for hardware-dependent code
 
 ### Long-term Benefits
+
 - **Easier refactoring** with verified dependency graph
 - **Improved testability** across entire codebase
 - **Clearer architecture** with explicit service boundaries
@@ -461,18 +498,21 @@ dependencies {
 
 ## 7. Current Status Assessment
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Module Organisation | ⭐⭐⭐⭐⭐ | Excellent separation of concerns |
-| Singleton Management | ⭐⭐⭐⭐⭐ | Correct scope usage throughout |
-| Multibindings | ⭐⭐⭐⭐⭐ | Proper use for extensibility |
-| Interface Bindings | ⭐⭐⭐⭐⭐ | Most dependencies use interfaces |
-| Module Testing | ⭐ | No tests exist |
-| Service Abstraction | ⭐⭐ | System services exposed directly |
-| Overall Testability | ⭐⭐⭐ | Good structure, poor test support |
+| Aspect               | Rating | Notes                             |
+|----------------------|--------|-----------------------------------|
+| Module Organisation  | ⭐⭐⭐⭐⭐  | Excellent separation of concerns  |
+| Singleton Management | ⭐⭐⭐⭐⭐  | Correct scope usage throughout    |
+| Multibindings        | ⭐⭐⭐⭐⭐  | Proper use for extensibility      |
+| Interface Bindings   | ⭐⭐⭐⭐⭐  | Most dependencies use interfaces  |
+| Module Testing       | ⭐      | No tests exist                    |
+| Service Abstraction  | ⭐⭐     | System services exposed directly  |
+| Overall Testability  | ⭐⭐⭐    | Good structure, poor test support |
 
 **Overall Grade: B+** (Good architecture with testability gaps)
 
 ## 8. Conclusion
 
-The DI architecture demonstrates strong foundational design with proper use of Hilt patterns. The primary deficiency lies in testability—absent module tests and concrete system service dependencies create maintainability risks. Implementing the recommended wrapper pattern and comprehensive module tests will elevate the architecture from good to excellent whilst significantly improving development velocity and code confidence.
+The DI architecture demonstrates strong foundational design with proper use of Hilt patterns. The primary deficiency
+lies in testability—absent module tests and concrete system service dependencies create maintainability risks.
+Implementing the recommended wrapper pattern and comprehensive module tests will elevate the architecture from good to
+excellent whilst significantly improving development velocity and code confidence.

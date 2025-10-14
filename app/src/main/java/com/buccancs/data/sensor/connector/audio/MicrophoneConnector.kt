@@ -6,7 +6,6 @@ import android.media.MediaRecorder
 import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
-import com.buccancs.core.result.Error
 import com.buccancs.core.result.Result
 import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
@@ -91,7 +90,7 @@ internal class MicrophoneConnector @Inject constructor(
         if (isSimulationMode) {
             return super.connect()
         }
-        
+
         return performConnect()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -119,7 +118,7 @@ internal class MicrophoneConnector @Inject constructor(
         if (isSimulationMode) {
             return super.disconnect()
         }
-        
+
         return performDisconnect()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -141,7 +140,7 @@ internal class MicrophoneConnector @Inject constructor(
         if (isSimulationMode) {
             return super.startStreaming(anchor)
         }
-        
+
         return performStartStreaming(anchor)
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -158,11 +157,11 @@ internal class MicrophoneConnector @Inject constructor(
         prepareOutputFile(anchor.sessionId)
         record.startRecording()
         timeModel = timeModel?.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
-        
+
         if (recordingJob?.isActive == true) {
             recordingJob?.cancel()
         }
-        
+
         val shortBuffer = ShortArray(bufferSizeInFrames.coerceAtLeast(MIN_BUFFER_FRAMES))
         recordingJob = appScope.launch(Dispatchers.IO) {
             while (isActive) {
@@ -172,7 +171,7 @@ internal class MicrophoneConnector @Inject constructor(
                     Log.e(logTag, "Audio read failed: ${error.message}", error.cause)
                     return@launch
                 }
-                
+
                 if (read > 0) {
                     writePcmSamples(shortBuffer, read)
                     val alignedNow = alignedNowInstant()
@@ -197,7 +196,7 @@ internal class MicrophoneConnector @Inject constructor(
         if (isSimulationMode) {
             return super.stopStreaming()
         }
-        
+
         return performStopStreaming()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->

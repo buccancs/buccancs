@@ -21,8 +21,10 @@ class StreamModuleTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @Inject lateinit var sensorStreamClient: SensorStreamClient
-    @Inject lateinit var previewStreamClient: PreviewStreamClient
+    @Inject
+    lateinit var sensorStreamClient: SensorStreamClient
+    @Inject
+    lateinit var previewStreamClient: PreviewStreamClient
 
     @Before
     fun setup() {

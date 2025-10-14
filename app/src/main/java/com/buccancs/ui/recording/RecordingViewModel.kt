@@ -79,8 +79,8 @@ class RecordingViewModel @Inject constructor(
 
     fun startRecording() {
         viewModelScope.launch {
-            val id = uiState.value.sessionId.ifBlank { 
-                sessionCoordinator.generateSessionId() 
+            val id = uiState.value.sessionId.ifBlank {
+                sessionCoordinator.generateSessionId()
             }
             sessionCoordinator.startSession(id, requestedStart = null)
         }

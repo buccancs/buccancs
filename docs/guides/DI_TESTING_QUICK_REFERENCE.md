@@ -31,11 +31,13 @@ class MyTest {
 ## Common Injection Patterns
 
 ### Repository
+
 ```kotlin
 @Inject lateinit var sensorRepository: SensorRepository
 ```
 
 ### Hardware Service (auto-mocked)
+
 ```kotlin
 @Inject lateinit var bluetoothService: BluetoothService
 @Inject lateinit var cameraService: CameraService
@@ -43,12 +45,14 @@ class MyTest {
 ```
 
 ### Qualified Dependency
+
 ```kotlin
 @Inject @ApplicationScope
 lateinit var appScope: CoroutineScope
 ```
 
 ### Collection (multibinding)
+
 ```kotlin
 @Inject 
 lateinit var connectors: Set<@JvmSuppressWildcards SensorConnector>
@@ -57,22 +61,26 @@ lateinit var connectors: Set<@JvmSuppressWildcards SensorConnector>
 ## MockK Cheat Sheet
 
 ### Basic Mocking
+
 ```kotlin
 every { service.getData() } returns testData
 every { service.isEnabled() } returns true
 ```
 
 ### Suspend Functions
+
 ```kotlin
 coEvery { repository.fetch() } returns Result.success(data)
 ```
 
 ### Throwing Exceptions
+
 ```kotlin
 every { service.getData() } throws IOException("Network error")
 ```
 
 ### Argument Matching
+
 ```kotlin
 every { service.save(any()) } returns true
 every { service.find(eq("test")) } returns item
@@ -80,6 +88,7 @@ every { service.process(match { it.size > 5 }) } returns result
 ```
 
 ### Verification
+
 ```kotlin
 verify { service.getData() }
 verify(exactly = 2) { service.getData() }
@@ -88,6 +97,7 @@ coVerify { repository.fetch() }
 ```
 
 ### Capture Arguments
+
 ```kotlin
 val slot = slot<String>()
 verify { service.save(capture(slot)) }
@@ -97,39 +107,46 @@ assertEquals("expected", slot.captured)
 ## Hardware Service Scenarios
 
 ### Bluetooth Enabled
+
 ```kotlin
 every { bluetoothService.isEnabled() } returns true
 every { bluetoothService.isAvailable() } returns true
 ```
 
 ### Bluetooth Disabled
+
 ```kotlin
 every { bluetoothService.isEnabled() } returns false
 every { bluetoothService.isAvailable() } returns true
 ```
 
 ### Bluetooth Unavailable
+
 ```kotlin
 every { bluetoothService.isAvailable() } returns false
 ```
 
 ### Multiple Cameras
+
 ```kotlin
 every { cameraService.getCameraIdList() } returns listOf("0", "1")
 ```
 
 ### No Cameras
+
 ```kotlin
 every { cameraService.getCameraIdList() } returns emptyList()
 ```
 
 ### Camera Error
+
 ```kotlin
 every { cameraService.getCameraIdList() } throws 
     SecurityException("Permission denied")
 ```
 
 ### USB Devices
+
 ```kotlin
 val device = mockk<UsbDevice>()
 every { usbService.getDeviceList() } returns mapOf("device1" to device)
@@ -139,6 +156,7 @@ every { usbService.hasPermission(device) } returns true
 ## Coroutine Testing
 
 ### Basic Test
+
 ```kotlin
 @Test
 fun myTest() = runTest {
@@ -148,6 +166,7 @@ fun myTest() = runTest {
 ```
 
 ### Advance Time
+
 ```kotlin
 @Test
 fun delayedOperation() = runTest {
@@ -161,6 +180,7 @@ fun delayedOperation() = runTest {
 ```
 
 ### Wait for Completion
+
 ```kotlin
 @Test
 fun asyncTest() = runTest {
@@ -173,6 +193,7 @@ fun asyncTest() = runTest {
 ## Assertion Library
 
 ### Kotlin Test
+
 ```kotlin
 assertNotNull(value)
 assertEquals(expected, actual)
@@ -183,6 +204,7 @@ assertContains(collection, element)
 ```
 
 ### JUnit
+
 ```kotlin
 Assert.assertNotNull(value)
 Assert.assertEquals(expected, actual)
@@ -211,22 +233,27 @@ Assert.assertTrue(condition)
 ## Troubleshooting
 
 ### Unresolved Reference
+
 - Ensure `hiltRule.inject()` is called in `@Before`
 - Check imports: `import javax.inject.Inject`
 
 ### NullPointerException
+
 - Did you call `hiltRule.inject()`?
 - Is `@Inject` annotation present?
 
 ### Wrong Mock Returned
+
 - Using `TestHardwareModule` automatically in tests
 - Production code uses real services
 
 ### Verification Failed
+
 - Mock not configured: add `every { ... } returns ...`
 - Check method signature matches exactly
 
 ### Test Hangs
+
 - Missing `advanceUntilIdle()` in coroutine test
 - Infinite loop in code under test
 

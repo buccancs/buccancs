@@ -14,9 +14,11 @@ fun BluetoothAdapter?.checkAvailable(): Result<BluetoothAdapter> = when {
     this == null -> Result.Failure(
         Error.Bluetooth(null, "Bluetooth not available on this device")
     )
+
     !isEnabled -> Result.Failure(
         Error.Bluetooth(null, "Bluetooth is disabled")
     )
+
     else -> Result.Success(this)
 }
 

@@ -1,7 +1,8 @@
 package com.buccancs.core.result
 
 import android.media.MediaCodec
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.Mockito.doThrow
 import org.mockito.Mockito.mock
@@ -15,7 +16,7 @@ class CodecResultHelpersTest {
         val result = codecOperation {
             "success"
         }
-        
+
         assertTrue(result.isSuccess())
         assertEquals("success", result.getOrNull())
     }
@@ -27,11 +28,11 @@ class CodecResultHelpersTest {
             true, // actionable
             "Codec error"
         )
-        
+
         val result = codecOperation {
             throw codecException
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Codec)
@@ -43,7 +44,7 @@ class CodecResultHelpersTest {
         val result = codecOperation {
             throw IllegalStateException("Invalid codec state")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Codec)
@@ -55,7 +56,7 @@ class CodecResultHelpersTest {
         val result = codecOperation {
             throw IOException("Codec I/O error")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Codec)
@@ -67,7 +68,7 @@ class CodecResultHelpersTest {
         val result = codecOperation {
             throw RuntimeException("Unknown codec error")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Codec)
@@ -78,7 +79,7 @@ class CodecResultHelpersTest {
     fun `safeRelease succeeds for normal codec`() {
         val mockCodec = mock(MediaCodec::class.java)
         val result = mockCodec.safeRelease()
-        
+
         assertTrue(result.isSuccess())
         verify(mockCodec).stop()
         verify(mockCodec).release()
@@ -88,9 +89,9 @@ class CodecResultHelpersTest {
     fun `safeRelease handles stop failure gracefully`() {
         val mockCodec = mock(MediaCodec::class.java)
         doThrow(IllegalStateException("Already stopped")).`when`(mockCodec).stop()
-        
+
         val result = mockCodec.safeRelease()
-        
+
         assertTrue(result.isSuccess())
         verify(mockCodec).stop()
         verify(mockCodec).release()
@@ -101,9 +102,9 @@ class CodecResultHelpersTest {
         val mockCodec = mock(MediaCodec::class.java)
         doThrow(IllegalStateException("Already stopped")).`when`(mockCodec).stop()
         doThrow(RuntimeException("Release failed")).`when`(mockCodec).release()
-        
+
         val result = mockCodec.safeRelease()
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Codec)
@@ -114,9 +115,9 @@ class CodecResultHelpersTest {
     fun `safeRelease handles both stop and release failure`() {
         val mockCodec = mock(MediaCodec::class.java)
         doThrow(RuntimeException("Stop failed")).`when`(mockCodec).stop()
-        
+
         val result = mockCodec.safeRelease()
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Codec)

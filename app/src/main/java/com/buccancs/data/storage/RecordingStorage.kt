@@ -138,7 +138,7 @@ class RecordingStorage @Inject constructor(
         input.replace(Regex("[^A-Za-z0-9._-]"), "_")
 
     // Result-based API methods for improved error handling
-    
+
     /**
      * Gets the recordings root directory with proper error handling.
      * @return Result containing the directory or an error.

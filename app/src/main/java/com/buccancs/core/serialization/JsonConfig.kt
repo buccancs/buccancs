@@ -15,14 +15,14 @@ object JsonConfig {
         encodeDefaults = true
         prettyPrint = false
     }
-    
+
     val pretty: Json = Json {
         ignoreUnknownKeys = true
         isLenient = true
         encodeDefaults = true
         prettyPrint = true
     }
-    
+
     val strict: Json = Json {
         ignoreUnknownKeys = false
         isLenient = false
@@ -38,12 +38,12 @@ object JsonModule {
     @Singleton
     @StandardJson
     fun provideStandardJson(): Json = JsonConfig.standard
-    
+
     @Provides
     @Singleton
     @PrettyJson
     fun providePrettyJson(): Json = JsonConfig.pretty
-    
+
     @Provides
     @Singleton
     @StrictJson

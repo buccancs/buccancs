@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buccancs.application.control.DeviceCommandService
-import com.buccancs.application.recording.RecordingService
 import com.buccancs.application.time.TimeSyncService
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
@@ -59,7 +58,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.json.Json
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -89,11 +87,11 @@ class MainViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
     private val lastError = sessionCoordinator.sessionState.map { it.lastError }
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
-    
+
     // Exercise-specific busy state (separate from session coordinator)
     private val exerciseBusy = MutableStateFlow(false)
     private val exerciseError = MutableStateFlow<String?>(null)
-    
+
     private val hostInput = MutableStateFlow("")
     private val portInput = MutableStateFlow("")
     private val useTlsInput = MutableStateFlow(false)

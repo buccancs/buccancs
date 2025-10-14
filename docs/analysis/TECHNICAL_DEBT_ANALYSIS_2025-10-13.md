@@ -10,7 +10,10 @@
 
 ## Executive Summary
 
-The repository exhibits substantial architectural foundations with approximately 70% implementation completion. The Android client is well-developed (~85%), but critical technical debt exists in testing infrastructure, desktop orchestrator completion, and cross-platform integration validation. Immediate risks centre on production readiness blockers and unverified non-functional requirements.
+The repository exhibits substantial architectural foundations with approximately 70% implementation completion. The
+Android client is well-developed (~85%), but critical technical debt exists in testing infrastructure, desktop
+orchestrator completion, and cross-platform integration validation. Immediate risks centre on production readiness
+blockers and unverified non-functional requirements.
 
 **Risk Level: HIGH** - System cannot be deployed for production experiments without addressing critical gaps.
 
@@ -21,6 +24,7 @@ The repository exhibits substantial architectural foundations with approximately
 ### 1.1 Testing Infrastructure (SEVERITY: CRITICAL)
 
 **Current State:**
+
 - Tests explicitly disabled: `subprojects { tasks.withType<Test>().configureEach { enabled = false } }`
 - Test coverage: 33 test files across 820 Kotlin files (4%)
 - Zero integration tests for Android-Desktop communication
@@ -29,12 +33,14 @@ The repository exhibits substantial architectural foundations with approximately
 - No performance benchmarks executed
 
 **Impact:**
+
 - Unknown system reliability and data integrity
 - NFRs completely unvalidated (time sync accuracy, throughput, scalability)
 - Regression risk on every code change
 - Cannot verify FR2 (synchronised recording), FR3 (time sync), FR8 (fault tolerance)
 
 **Technical Debt Items:**
+
 1. Re-enable test infrastructure and establish baseline suite
 2. Create integration test harness for gRPC Android-Desktop flows
 3. Build hardware simulator test fixtures for Shimmer GSR and Topdon thermal
@@ -49,6 +55,7 @@ The repository exhibits substantial architectural foundations with approximately
 ### 1.2 Desktop Orchestrator Completion (SEVERITY: CRITICAL)
 
 **Current State:**
+
 - Desktop module ~50% complete
 - gRPC server stubs exist but file reception incomplete
 - Time synchronisation server not production-ready
@@ -57,6 +64,7 @@ The repository exhibits substantial architectural foundations with approximately
 - Device discovery and connection management incomplete
 
 **Code Evidence:**
+
 ```kotlin
 // desktop/src/main/kotlin/com/buccancs/desktop/data/grpc/GrpcServer.kt
 private class DataTransferServiceImpl(...) {
@@ -68,12 +76,14 @@ private class DataTransferServiceImpl(...) {
 ```
 
 **Impact:**
+
 - Cannot run end-to-end experiments
 - FR10 (data transfer/aggregation) blocked at 20% completion
 - Multi-device coordination unverified
 - Prevents validation of all other requirements
 
 **Technical Debt Items:**
+
 1. Complete file upload receiver with session folder management
 2. Implement manifest aggregation from multiple devices
 3. Build production time synchronisation server (NTP-like)
@@ -88,12 +98,14 @@ private class DataTransferServiceImpl(...) {
 ### 1.3 Time synchronisation Validation (SEVERITY: CRITICAL)
 
 **Current State:**
+
 - Android `DefaultTimeSyncService` implemented with RTT measurement
 - Desktop time server stubbed
 - **Zero measurements** of actual sync accuracy
 - NFR2 requires ≤5ms accuracy, ≤10ms maximum - completely unverified
 
 **Code Evidence:**
+
 ```kotlin
 // app: TimeSyncService exists with offset calculation
 // desktop: TimeSyncServiceImpl returns timestamps but no validation
@@ -101,12 +113,14 @@ private class DataTransferServiceImpl(...) {
 ```
 
 **Impact:**
+
 - Core NFR2 requirement unvalidated
 - Multi-modal data alignment unreliable
 - Cannot guarantee sensor fusion accuracy
 - Thesis evaluation chapter lacks critical metrics
 
 **Technical Debt Items:**
+
 1. Implement production time server with precision timestamping
 2. Add instrumentation to measure cross-device sync accuracy
 3. Create validation tools for multi-device time alignment verification
@@ -123,17 +137,20 @@ private class DataTransferServiceImpl(...) {
 ### 2.1 Code Architecture Debt
 
 **Pattern Inconsistencies:**
+
 - 85+ Repository/Service/Manager classes identified
 - Some logic in ViewModels that should be in application services (partially addressed)
 - Mix of callback-based and Flow-based async patterns in connectors
 - Inconsistent error handling strategies across modules
 
 **Large Files Requiring Refactoring:**
+
 - `MainViewModel.kt` (20+ KB) - god object with mixed concerns
 - `GrpcServer.kt` (20+ KB desktop) - four service implementations in single file
 - `ShimmerSensorConnector.kt` (20+ KB) - complex state management
 
 **Technical Debt Items:**
+
 1. Extract ViewModel business logic into dedicated use case classes
 2. Split GrpcServer into separate service implementation files
 3. Refactor ShimmerSensorConnector to separate connection/streaming/configuration concerns
@@ -148,11 +165,13 @@ private class DataTransferServiceImpl(...) {
 ### 2.2 Duplicate and Dead Code
 
 **External Dependencies:**
+
 - Original Topdon app carries 333 files with deprecated classes and Chinese comments
 - 19 deprecated Android components in external/original-topdon-app
 - Shimmer examples include unused PC demos and LSL integrations
 
 **Code Evidence:**
+
 ```kotlin
 // external/original-topdon-app contains many @Deprecated classes:
 @Deprecated("产品要求所有颜色拾取都更改为 ColorPickDialog 那种样式，这个弹框废弃")
@@ -163,6 +182,7 @@ class ColorDialog { ... }
 ```
 
 **Technical Debt Items:**
+
 1. Remove unused Topdon example activities and deprecated dialogs
 2. Extract minimal Topdon SDK wrapper, delete original app structure
 3. Remove Shimmer PC examples and LSL modules from external builds
@@ -177,12 +197,14 @@ class ColorDialog { ... }
 ### 2.3 Configuration Management
 
 **Current State:**
+
 - Hardware inventory in `app/src/main/assets/device-inventory.json` (static)
 - Runtime discoveries not persisted back to inventory
 - Orchestrator target configured via DataStore + BuildConfig
 - Mix of hardcoded values and config files
 
 **Technical Debt Items:**
+
 1. Implement runtime inventory persistence for discovered devices
 2. Centralize all configuration in single source (config file vs DataStore)
 3. Add configuration validation on startup
@@ -197,6 +219,7 @@ class ColorDialog { ... }
 ### 2.4 Security Hardening
 
 **Current State:**
+
 - Token-based auth implemented for local ControlServer
 - HMAC signing via Android Keystore present
 - gRPC configured for TLS but certificates not managed
@@ -204,6 +227,7 @@ class ColorDialog { ... }
 - Security warnings not surfaced in UI
 
 **Technical Debt Items:**
+
 1. Implement certificate generation and distribution workflow
 2. Configure mutual TLS for all gRPC channels
 3. Add token rotation on time intervals
@@ -220,18 +244,18 @@ class ColorDialog { ... }
 
 ### 3.1 Feature Completeness by Requirement
 
-| Requirement | Android | Desktop | Testing | Status | Priority |
-|-------------|---------|---------|---------|--------|----------|
-| FR1: Multi-Device Integration | 85% | 40% | 0% | Partial | Essential |
-| FR2: synchronised Recording | 90% | 50% | 0% | Partial | Essential |
-| FR3: Time synchronisation | 80% | 30% | 0% | Partial | Essential |
-| FR4: Session Management | 95% | 60% | 0% | Partial | Essential |
-| FR5: Data Recording | 95% | 40% | 0% | Partial | Essential |
-| FR6: UI Monitoring/Control | 80% | 70% | 0% | Partial | Essential |
-| FR7: Device Sync/Signals | 85% | 50% | 0% | Partial | Important |
-| FR8: Fault Tolerance | 70% | 30% | 0% | Partial | Important |
-| FR9: Calibration | 80% | N/A | 0% | Partial | Important |
-| FR10: Data Transfer | 90% | 20% | 0% | Incomplete | Essential |
+| Requirement                   | Android | Desktop | Testing | Status     | Priority  |
+|-------------------------------|---------|---------|---------|------------|-----------|
+| FR1: Multi-Device Integration | 85%     | 40%     | 0%      | Partial    | Essential |
+| FR2: synchronised Recording   | 90%     | 50%     | 0%      | Partial    | Essential |
+| FR3: Time synchronisation     | 80%     | 30%     | 0%      | Partial    | Essential |
+| FR4: Session Management       | 95%     | 60%     | 0%      | Partial    | Essential |
+| FR5: Data Recording           | 95%     | 40%     | 0%      | Partial    | Essential |
+| FR6: UI Monitoring/Control    | 80%     | 70%     | 0%      | Partial    | Essential |
+| FR7: Device Sync/Signals      | 85%     | 50%     | 0%      | Partial    | Important |
+| FR8: Fault Tolerance          | 70%     | 30%     | 0%      | Partial    | Important |
+| FR9: Calibration              | 80%     | N/A     | 0%      | Partial    | Important |
+| FR10: Data Transfer           | 90%     | 20%     | 0%      | Incomplete | Essential |
 
 **Overall Functional Completeness: 70%**
 
@@ -239,16 +263,16 @@ class ColorDialog { ... }
 
 ### 3.2 Non-Functional Requirement Validation
 
-| NFR | Implementation | Validation | Gap |
-|-----|----------------|------------|-----|
-| NFR1: Real-Time Performance | 80% | 0% | No throughput/latency measurements |
-| NFR2: Temporal Accuracy | 70% | 0% | Time sync ≤5ms never measured |
-| NFR3: Reliability | 75% | 0% | Fault injection untested |
-| NFR4: Data Integrity | 85% | 0% | Checksum validation incomplete |
-| NFR5: Security | 60% | 0% | TLS configuration not validated |
-| NFR6: Usability | 65% | 0% | No user testing conducted |
-| NFR7: Scalability | 70% | 0% | 8-device claim unverified |
-| NFR8: Maintainability | 80% | N/A | Good but needs CI/CD |
+| NFR                         | Implementation | Validation | Gap                                |
+|-----------------------------|----------------|------------|------------------------------------|
+| NFR1: Real-Time Performance | 80%            | 0%         | No throughput/latency measurements |
+| NFR2: Temporal Accuracy     | 70%            | 0%         | Time sync ≤5ms never measured      |
+| NFR3: Reliability           | 75%            | 0%         | Fault injection untested           |
+| NFR4: Data Integrity        | 85%            | 0%         | Checksum validation incomplete     |
+| NFR5: Security              | 60%            | 0%         | TLS configuration not validated    |
+| NFR6: Usability             | 65%            | 0%         | No user testing conducted          |
+| NFR7: Scalability           | 70%            | 0%         | 8-device claim unverified          |
+| NFR8: Maintainability       | 80%            | N/A        | Good but needs CI/CD               |
 
 **All NFRs: UNVALIDATED** - This is critical for thesis submission.
 
@@ -257,26 +281,31 @@ class ColorDialog { ... }
 ### 3.3 Missing Features
 
 **Automated Hardware Discovery:**
+
 - Status: Manual MAC addresses in config file
 - Gap: No runtime Bluetooth/USB scanning and persistence
 - Impact: FR1 acceptance criteria not met
 
 **Preview Stream End-to-End:**
+
 - Status: Upload side skeleton, desktop rendering missing
 - Gap: Low-bandwidth preview encoding/decoding incomplete
 - Impact: FR6 acceptance criteria partially met
 
 **Fault Recovery Automation:**
+
 - Status: Components exist but not integrated
 - Gap: Auto-stop on extended disconnect, command replay validation missing
 - Impact: FR8 acceptance criteria partially met
 
 **Calibration Quality Validation:**
+
 - Status: OpenCV routines run, thresholds not enforced
 - Gap: Automated quality checks, visual overlay verification incomplete
 - Impact: FR9 acceptance criteria partially met
 
 **Retention Policy Automation:**
+
 - Status: Repository and preferences exist, worker not implemented
 - Gap: Automated cleanup not triggered
 - Impact: Storage management not operational
@@ -288,12 +317,14 @@ class ColorDialog { ... }
 ### 4.1 Build System Issues
 
 **Current State:**
+
 - External project builds fragile, require specific Java versions
 - 9 external Gradle projects built, some fail silently
 - No build verification or artifact validation
 - Long build times without effective caching
 
 **Code Evidence:**
+
 ```kotlin
 // build.gradle.kts - complex Java version detection
 private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
@@ -303,6 +334,7 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 ```
 
 **Technical Debt Items:**
+
 1. Add build verification steps for external projects
 2. Implement proper error handling and reporting
 3. Create build caching strategy (Gradle build cache)
@@ -317,12 +349,14 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 ### 4.2 Continuous Integration
 
 **Current State:**
+
 - GitHub Actions workflows exist but limited
 - No automated build verification for all modules
 - No integration test execution
 - No release artifact generation
 
 **Technical Debt Items:**
+
 1. Create comprehensive multi-module build CI workflow
 2. Add automated test execution stage
 3. Implement release packaging pipeline (APK, desktop JARs)
@@ -337,12 +371,14 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 ### 4.3 Dependency Management
 
 **Current State:**
+
 - Modern dependency versions (Kotlin 2.2.20, Compose BOM 2025.10.00)
 - Some legacy dependencies: Guava 20.0 (released 2016)
 - External Shimmer/Topdon SDKs as binary JARs/AARs
 - No dependency vulnerability scanning
 
 **Technical Debt Items:**
+
 1. Update legacy dependencies (Guava 20.0 → 33.x)
 2. Add dependency vulnerability scanning (Dependabot, Renovate)
 3. Document SDK version compatibility matrix
@@ -358,12 +394,14 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 ### 5.1 Code Documentation
 
 **Current State:**
+
 - ASCII-safe code enforced (good)
 - Minimal inline comments (per project conventions)
 - No API documentation generation
 - Complex algorithms undocumented
 
 **Technical Debt Items:**
+
 1. Add KDoc for all public APIs
 2. Document complex algorithms (time sync, calibration math)
 3. Create architecture diagrams (existing Markdown docs good start)
@@ -377,11 +415,13 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 ### 5.2 User Documentation
 
 **Current State:**
+
 - Technical documentation exists (requirements, design)
 - Manual test procedures documented in `docs/manual-tests/`
 - User-facing guides missing
 
 **Gaps per PROJECT_TODO.md:**
+
 - User manual for non-technical researchers
 - System administrator setup guide
 - Troubleshooting/FAQ document
@@ -389,6 +429,7 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 - Video demonstrations
 
 **Technical Debt Items:**
+
 1. Write user manual with screenshots
 2. Create system setup guide (Windows/Linux)
 3. Build troubleshooting guide with common errors
@@ -402,11 +443,13 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 ### 5.3 Academic Deliverables
 
 **Current State:**
+
 - LaTeX chapters exist in `docs/latex/`
 - No compiled thesis directory
 - Evaluation chapter cannot be completed without real metrics
 
 **Missing per PROJECT_TODO.md:**
+
 - Compiled final report PDF
 - Interim report (due ~Jan 19th)
 - Ethics review documentation
@@ -424,12 +467,14 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 ### 6.1 Validation Gaps
 
 **Current State:**
+
 - Artifact checksums (SHA-256) generated
 - Manifest tracking exists
 - Range validation for sensor data missing
 - Checksum verification on desktop receive incomplete
 
 **Technical Debt Items:**
+
 1. Implement sensor data range validation (GSR physiological limits)
 2. Add desktop-side checksum verification on file receipt
 3. Create manifest reconciliation on PC (expected vs received files)
@@ -443,12 +488,14 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 ### 6.2 Performance Monitoring Debt
 
 **Current State:**
+
 - `performance_metrics.jsonl` captures CPU/memory/storage
 - `performance_summary.json` computed per session
 - No baseline benchmarks established
 - No alerting on performance degradation
 
 **Technical Debt Items:**
+
 1. Establish baseline performance benchmarks (single device)
 2. Create performance regression test suite
 3. Add real-time alerting for resource exhaustion
@@ -466,53 +513,53 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 **Must complete before any production use:**
 
 1. **Desktop Orchestrator Completion** (2 weeks)
-   - File upload receiver with session folders
-   - Time synchronisation server
-   - Device connection monitoring
+    - File upload receiver with session folders
+    - Time synchronisation server
+    - Device connection monitoring
 
 2. **Integration Testing Foundation** (2 weeks)
-   - Enable test infrastructure
-   - Basic Android-Desktop integration tests
-   - Multi-device mock framework
+    - Enable test infrastructure
+    - Basic Android-Desktop integration tests
+    - Multi-device mock framework
 
 3. **Time Sync Validation** (1-2 weeks)
-   - Instrumentation for accuracy measurement
-   - Multi-device validation tests
-   - Document measured accuracy
+    - Instrumentation for accuracy measurement
+    - Multi-device validation tests
+    - Document measured accuracy
 
 ### Phase 2: Core Functionality (3-4 weeks)
 
 **Complete functional requirements:**
 
 4. **Hardware Validation** (1 week)
-   - Test with physical Shimmer GSR units
-   - Test with Topdon TC001 cameras
-   - Hardware compatibility matrix
+    - Test with physical Shimmer GSR units
+    - Test with Topdon TC001 cameras
+    - Hardware compatibility matrix
 
 5. **Preview Stream End-to-End** (1 week)
-   - Desktop preview rendering
-   - Bandwidth management
+    - Desktop preview rendering
+    - Bandwidth management
 
 6. **Fault Tolerance Integration** (1 week)
-   - Auto-recovery testing
-   - Command replay validation
+    - Auto-recovery testing
+    - Command replay validation
 
 7. **Configuration Management** (1 week)
-   - Runtime inventory persistence
-   - Configuration validation
+    - Runtime inventory persistence
+    - Configuration validation
 
 ### Phase 3: Production Readiness (2-3 weeks)
 
 **Address NFRs and deployment:**
 
 8. **Security Hardening** (1 week)
-   - TLS certificate management
-   - Security validation tests
+    - TLS certificate management
+    - Security validation tests
 
 9. **Performance Validation** (1 week)
-   - Multi-device stress tests (8+ devices)
-   - Long-duration stability (120+ minutes)
-   - Performance benchmarks
+    - Multi-device stress tests (8+ devices)
+    - Long-duration stability (120+ minutes)
+    - Performance benchmarks
 
 10. **Build and CI/CD** (1 week)
     - Comprehensive CI pipeline
@@ -633,9 +680,12 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
 
 ## 11. CONCLUSION
 
-The Buccancs system demonstrates strong architectural foundations and significant implementation progress, particularly on the Android client side. However, **critical technical debt in testing, desktop completion, and validation** prevents production deployment and thesis evaluation.
+The Buccancs system demonstrates strong architectural foundations and significant implementation progress, particularly
+on the Android client side. However, **critical technical debt in testing, desktop completion, and validation** prevents
+production deployment and thesis evaluation.
 
 **Key Strengths:**
+
 - Well-structured MVVM architecture with Hilt DI
 - Comprehensive requirements documentation
 - Modern technology stack (Kotlin 2.2.20, Compose)
@@ -643,6 +693,7 @@ The Buccancs system demonstrates strong architectural foundations and significan
 - Robust Android client implementation
 
 **Critical Weaknesses:**
+
 - Desktop orchestrator only 50% complete
 - Zero integration testing or NFR validation
 - Time synchronisation accuracy never measured
@@ -650,13 +701,16 @@ The Buccancs system demonstrates strong architectural foundations and significan
 - Cannot run real experiments end-to-end
 
 **Viability Assessment:**
+
 - **Current state:** Not production-ready
 - **With focused effort:** Achievable in 14-20 weeks following roadmap
 - **Minimum thesis submission:** Requires 10-12 weeks critical path
 - **Risk level:** HIGH - requires immediate action on Phase 1 items
 
 **Recommended Strategy:**
-Focus exclusively on critical path items (desktop orchestrator, time sync validation, integration testing, hardware validation) before any polish or secondary features. Prioritize collecting real experimental data for thesis evaluation chapter over feature completeness. The 4% test coverage is the single biggest risk factor.
+Focus exclusively on critical path items (desktop orchestrator, time sync validation, integration testing, hardware
+validation) before any polish or secondary features. Prioritize collecting real experimental data for thesis evaluation
+chapter over feature completeness. The 4% test coverage is the single biggest risk factor.
 
 ---
 
@@ -672,6 +726,7 @@ Focus exclusively on critical path items (desktop orchestrator, time sync valida
 - External code: `external/original-topdon-app/`, `external/Shimmer-Java-Android-API/`
 
 **Documentation Files:**
+
 - `GAPS_AND_UNFINISHED.md` - Comprehensive gap analysis
 - `PROJECT_TODO.md` - Academic deliverables checklist
 - `requirements_to_implement.md` - Full requirements specification

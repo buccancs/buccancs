@@ -13,6 +13,7 @@ This guide provides practical examples for migrating from exception-based error 
 ### Example 1: Bluetooth Connection
 
 #### Before (Anti-Pattern)
+
 ```kotlin
 suspend fun connectDevice(deviceId: String): Connection? {
     return try {
@@ -39,6 +40,7 @@ if (connection != null) {
 ```
 
 #### After (Result Pattern)
+
 ```kotlin
 suspend fun connectDevice(deviceId: String): Result<Connection> = resultOf {
     val device = bluetoothAdapter.getRemoteDevice(deviceId)
@@ -73,6 +75,7 @@ when (val result = connectDevice(id)) {
 ### Example 2: Storage Operations
 
 #### Before (Anti-Pattern)
+
 ```kotlin
 fun saveData(sessionId: String, data: ByteArray): Uri? {
     try {
@@ -87,6 +90,7 @@ fun saveData(sessionId: String, data: ByteArray): Uri? {
 ```
 
 #### After (Result Pattern)
+
 ```kotlin
 fun saveData(sessionId: String, data: ByteArray): Result<Uri> = resultOf {
     require(sessionId.isNotBlank()) { "Session ID cannot be blank" }
@@ -118,6 +122,7 @@ saveData(sessionId, data)
 ### Example 3: Cancellation Handling
 
 #### Before (Anti-Pattern)
+
 ```kotlin
 suspend fun processData(data: List<Item>) {
     launch {
@@ -136,6 +141,7 @@ suspend fun processData(data: List<Item>) {
 ```
 
 #### After (Correct Pattern)
+
 ```kotlin
 suspend fun processData(data: List<Item>): Result<Unit> = resultOf {
     data.forEach { item ->
@@ -156,6 +162,7 @@ launch {
 ### Example 4: Chaining Operations
 
 #### Before (Anti-Pattern)
+
 ```kotlin
 suspend fun initialiseSession(config: Config): Session? {
     val device = connectDevice(config.deviceId) ?: return null
@@ -166,6 +173,7 @@ suspend fun initialiseSession(config: Config): Session? {
 ```
 
 #### After (Result Pattern)
+
 ```kotlin
 suspend fun initialiseSession(config: Config): Result<Session> =
     connectDevice(config.deviceId)
@@ -187,6 +195,7 @@ initialiseSession(config)
 ### Example 5: Multiple Result Combination
 
 #### Before (Anti-Pattern)
+
 ```kotlin
 suspend fun synchroniseDevices(ids: List<String>): List<Device> {
     val devices = mutableListOf<Device>()
@@ -204,6 +213,7 @@ suspend fun synchroniseDevices(ids: List<String>): List<Device> {
 ```
 
 #### After (Result Pattern - Fail Fast)
+
 ```kotlin
 suspend fun synchroniseDevices(ids: List<String>): Result<List<Device>> {
     val results = ids.map { id -> connectDevice(id) }
@@ -232,6 +242,7 @@ data class DeviceSyncResult(
 ### Example 6: Converting Nullable to Result
 
 #### Before (Anti-Pattern)
+
 ```kotlin
 fun findDevice(id: String): Device? {
     return deviceCache[id]
@@ -246,6 +257,7 @@ if (device == null) {
 ```
 
 #### After (Result Pattern)
+
 ```kotlin
 fun findDevice(id: String): Result<Device> =
     deviceCache[id].toResult("Device $id not found in cache")
@@ -277,6 +289,7 @@ when (val result = findDevice(id)) {
 ### Common Pitfalls
 
 #### ❌ Don't catch CancellationException
+
 ```kotlin
 try {
     suspendingOperation()
@@ -286,6 +299,7 @@ try {
 ```
 
 #### ✅ Use resultOf instead
+
 ```kotlin
 resultOf {
     suspendingOperation()
@@ -294,11 +308,13 @@ resultOf {
 ```
 
 #### ❌ Don't lose error context
+
 ```kotlin
 Result.Failure(Error.Unknown("Failed"))  // Lost details
 ```
 
 #### ✅ Preserve cause and context
+
 ```kotlin
 Result.Failure(Error.Hardware(
     deviceId = device.id,
@@ -308,11 +324,13 @@ Result.Failure(Error.Hardware(
 ```
 
 #### ❌ Don't ignore errors
+
 ```kotlin
 operation().getOrNull()  // Silent failure
 ```
 
 #### ✅ Handle explicitly
+
 ```kotlin
 operation()
     .onSuccess { /* handle */ }
@@ -322,6 +340,7 @@ operation()
 ## Testing with Result
 
 ### Success Case
+
 ```kotlin
 @Test
 fun `connect device returns success for valid device`() = runTest {
@@ -335,6 +354,7 @@ fun `connect device returns success for valid device`() = runTest {
 ```
 
 ### Failure Case
+
 ```kotlin
 @Test
 fun `connect device returns bluetooth error for invalid device`() = runTest {
@@ -348,6 +368,7 @@ fun `connect device returns bluetooth error for invalid device`() = runTest {
 ```
 
 ### Error Recovery
+
 ```kotlin
 @Test
 fun `connect device retries on timeout`() = runTest {
@@ -369,6 +390,7 @@ fun `connect device retries on timeout`() = runTest {
 ## Quick Reference
 
 ### Creating Results
+
 ```kotlin
 Result.success(value)
 Result.failure(error)
@@ -377,6 +399,7 @@ nullableValue.toResult("Not found")
 ```
 
 ### Transforming Results
+
 ```kotlin
 result.map { transform(it) }
 result.flatMap { nextOperation(it) }
@@ -385,6 +408,7 @@ result.recoverWith { alternativeOperation() }
 ```
 
 ### Consuming Results
+
 ```kotlin
 result.getOrNull()
 result.getOrElse(default)
@@ -394,6 +418,7 @@ result.onFailure { }
 ```
 
 ### Combining Results
+
 ```kotlin
 listOfResults.combine()
 result1.zip(result2)

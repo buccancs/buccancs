@@ -79,6 +79,7 @@ class LoadTestingTest {
                                 repository.remove(bookmarks.first().id)
                             }
                         }
+
                         2 -> repository.bookmarks.value // Read operation
                         3 -> repository.clear()
                     }
@@ -152,7 +153,7 @@ class LoadTestingTest {
 
         val bookmarks = repository.bookmarks.value
         assertTrue(bookmarks.size == 10000, "Expected 10000 bookmarks")
-        
+
         // Verify all bookmarks are accessible
         val firstId = bookmarks.first().id
         val lastId = bookmarks.last().id
@@ -245,6 +246,7 @@ class LoadTestingTest {
                                 receivedAt = Clock.System.now()
                             )
                         )
+
                         3 -> eventRepo.events.value
                         4 -> {
                             val bookmarks = bookmarkRepo.bookmarks.value

@@ -18,7 +18,7 @@ class MemoryEfficiencyTest {
     @Test
     fun `bookmark repository memory footprint is reasonable`() = runTest {
         val repository = DefaultBookmarkRepository()
-        
+
         val runtime = Runtime.getRuntime()
         val before = runtime.totalMemory() - runtime.freeMemory()
 
@@ -32,8 +32,10 @@ class MemoryEfficiencyTest {
 
         // 5000 bookmarks should use < 5MB (rough estimate)
         val fiveMB = 5 * 1024 * 1024
-        assertTrue(usedMemory < fiveMB || usedMemory > 0, 
-            "Memory usage: ${usedMemory / 1024 / 1024}MB for 5000 bookmarks")
+        assertTrue(
+            usedMemory < fiveMB || usedMemory > 0,
+            "Memory usage: ${usedMemory / 1024 / 1024}MB for 5000 bookmarks"
+        )
     }
 
     @Test
@@ -133,7 +135,7 @@ class MemoryEfficiencyTest {
 
         // Memory should be reclaimable
         System.gc()
-        
+
         assertTrue(repository.bookmarks.value.isEmpty())
     }
 

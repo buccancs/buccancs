@@ -15,7 +15,7 @@ class SensorStreamProcessingTest {
     @Test
     fun `sensor stream types are properly defined`() = runTest {
         val types = SensorStreamType.values()
-        
+
         assertNotNull(types)
         assert(types.contains(SensorStreamType.RGB))
         assert(types.contains(SensorStreamType.THERMAL))
@@ -27,14 +27,14 @@ class SensorStreamProcessingTest {
     fun `stream type identifiers are unique`() = runTest {
         val types = SensorStreamType.values()
         val names = types.map { it.name }
-        
+
         assertEquals(types.size, names.distinct().size)
     }
 
     @Test
     fun `all expected stream types are present`() = runTest {
         val types = SensorStreamType.values()
-        
+
         // Verify core stream types exist
         val coreTypes = setOf(
             SensorStreamType.RGB,
@@ -42,7 +42,7 @@ class SensorStreamProcessingTest {
             SensorStreamType.AUDIO,
             SensorStreamType.GSR
         )
-        
+
         assert(types.toSet().containsAll(coreTypes))
     }
 }

@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorStreamStatus
-import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.ShimmerSettingsRepository
@@ -14,7 +12,6 @@ import com.buccancs.domain.repository.TopdonDeviceRepository
 import com.buccancs.domain.ui.DeviceUiMapper
 import com.buccancs.domain.usecase.DeviceManagementUseCase
 import com.buccancs.ui.DeviceUiModel
-import com.buccancs.ui.InventoryDeviceUi
 import com.buccancs.ui.InventoryUiModel
 import com.buccancs.ui.toInventoryUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel

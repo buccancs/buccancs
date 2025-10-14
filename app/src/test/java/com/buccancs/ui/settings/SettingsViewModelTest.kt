@@ -8,7 +8,6 @@ import com.buccancs.data.storage.SpaceState
 import com.buccancs.domain.model.OrchestratorConfig
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +59,7 @@ class SettingsViewModelTest {
     @Test
     fun `initial state is empty`() = runTest {
         val state = viewModel.uiState.value
-        
+
         assertEquals("", state.hostInput)
         assertEquals("", state.portInput)
     }
@@ -83,7 +82,7 @@ class SettingsViewModelTest {
     @Test
     fun `ui state reflects space monitor state`() = runTest {
         val state = viewModel.uiState.value
-        
+
         assertNotNull(state.storageState)
         assertEquals(1_000_000_000L, state.storageState.totalBytes)
     }
@@ -91,7 +90,7 @@ class SettingsViewModelTest {
     @Test
     fun `ui state reflects retention preferences`() = runTest {
         val state = viewModel.uiState.value
-        
+
         assertNotNull(state.retentionDefaults)
     }
 

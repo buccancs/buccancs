@@ -8,7 +8,6 @@ import com.buccancs.control.commands.SyncSignalCommandPayload
 import com.buccancs.data.control.CommandClient
 import com.buccancs.data.orchestration.DeviceIdentityProvider
 import com.buccancs.data.orchestration.server.ControlServer
-import com.buccancs.domain.model.DeviceEventType
 import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus
 import com.buccancs.domain.repository.DeviceEventRepository

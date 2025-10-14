@@ -6,7 +6,9 @@
 
 ## Executive Summary
 
-Contrary to initial assessment, the desktop orchestrator is **NOT** a hollow shell. After comprehensive code review, the desktop module contains a fully functional implementation of all critical server-side orchestration logic. The system is architecturally complete and capable of end-to-end multi-device data collection.
+Contrary to initial assessment, the desktop orchestrator is **NOT** a hollow shell. After comprehensive code review, the
+desktop module contains a fully functional implementation of all critical server-side orchestration logic. The system is
+architecturally complete and capable of end-to-end multi-device data collection.
 
 ## Critical Findings - Implementation is COMPLETE
 
@@ -17,6 +19,7 @@ Contrary to initial assessment, the desktop orchestrator is **NOT** a hollow she
 All gRPC services are fully functional implementations, not stubs:
 
 #### OrchestrationServiceImpl (Lines 172-388)
+
 - **`registerDevice`**: Registers devices, assigns to active sessions, replays recording state
 - **`startSession`**: Creates session directory, updates device assignments, enqueues recording commands
 - **`stopSession`**: Stops session, closes recordings, finalizes metadata
@@ -28,6 +31,7 @@ All gRPC services are fully functional implementations, not stubs:
 **Status:** ✅ COMPLETE - All orchestration logic implemented
 
 #### DataTransferServiceImpl (Lines 623-878)
+
 - **`upload`**: Receives chunked file data from devices
 - Validates session state before accepting transfers
 - Accumulates chunks with size and checksum verification
@@ -39,6 +43,7 @@ All gRPC services are fully functional implementations, not stubs:
 **Status:** ✅ COMPLETE - Data persistence is fully functional, NOT sent to /dev/null
 
 #### SensorStreamServiceImpl (Lines 538-621)
+
 - Receives streaming sensor data batches
 - Validates session and device identifiers
 - Delegates to `SensorRecordingManager` for persistence
@@ -48,6 +53,7 @@ All gRPC services are fully functional implementations, not stubs:
 **Status:** ✅ COMPLETE - Sensor data streaming fully implemented
 
 #### CommandServiceImpl (Lines 108-170)
+
 - Subscribes devices to command streams
 - Broadcasts commands to multiple devices
 - Tracks command receipts and success/failure
@@ -56,6 +62,7 @@ All gRPC services are fully functional implementations, not stubs:
 **Status:** ✅ COMPLETE - Command coordination implemented
 
 #### TimeSyncServiceImpl (Lines 390-464)
+
 - Implements NTP-style ping/pong for time synchronization
 - Tracks clock offsets per device
 - Monitors clock drift and alerts on anomalies
@@ -64,6 +71,7 @@ All gRPC services are fully functional implementations, not stubs:
 **Status:** ✅ COMPLETE - Time synchronization fully functional
 
 #### PreviewServiceImpl (Lines 466-536)
+
 - Receives preview frames from devices
 - Classifies frames (RGB vs thermal)
 - Updates preview repository for UI display
@@ -76,6 +84,7 @@ All gRPC services are fully functional implementations, not stubs:
 **Location:** `desktop/src/main/kotlin/com/buccancs/desktop/data/repository/SessionRepository.kt`
 
 **Lines 283-329: `attachFile` Method**
+
 ```kotlin
 suspend fun attachFile(
     sessionId: String,
@@ -99,6 +108,7 @@ suspend fun attachFile(
 ```
 
 **Evidence of Complete Implementation:**
+
 - Creates session directory structure (line 86-87)
 - Writes files to disk with encryption (line 300-306)
 - Maintains metadata with checksums (line 312-326)
@@ -112,6 +122,7 @@ suspend fun attachFile(
 **Key Methods:**
 
 #### `startSession` (Lines 67-113)
+
 - Creates unique session directory
 - Validates no duplicate active sessions
 - Creates subdirectories for devices and events
@@ -120,6 +131,7 @@ suspend fun attachFile(
 - Updates UI state flows
 
 #### `stopSession` (Lines 115-135)
+
 - Calculates session duration
 - Updates status to COMPLETED
 - Persists final metadata
@@ -127,6 +139,7 @@ suspend fun attachFile(
 - Updates retention snapshots
 
 #### `registerEvent` (Lines 159-180)
+
 - Records synchronization events
 - Associates events with device IDs and timestamps
 - Updates metadata immediately
@@ -139,6 +152,7 @@ suspend fun attachFile(
 **Location:** `desktop/src/main/kotlin/com/buccancs/desktop/data/recording/SensorRecordingManager.kt`
 
 **Key Functionality:**
+
 - **`append`** (Lines 25-65): Writes sensor samples to CSV files
 - **`finalizeStream`** (Lines 67-71): Closes streams with checksum validation
 - **`closeSession`** (Lines 79-85): Finalizes all streams for a session
@@ -147,6 +161,7 @@ suspend fun attachFile(
 - Computes checksums on finalization
 
 **Evidence:**
+
 ```kotlin
 private suspend fun finalizeWriter(key: StreamKey, writer: StreamWriter, ...) {
     writer.close()
@@ -161,18 +176,21 @@ private suspend fun finalizeWriter(key: StreamKey, writer: StreamWriter, ...) {
 ### ✅ 5. Multi-Device Coordination - Fully Implemented
 
 **Device Registration & Management:**
+
 - DeviceRepository tracks connected devices
 - Assigns devices to active sessions
 - Maintains device status (battery, clock offset, recording state)
 - Observable device state for UI updates
 
 **Command Broadcasting:**
+
 - CommandRepository enqueues commands
 - Targets specific devices or broadcasts to all
 - Replays recording state to reconnecting devices
 - Tracks command receipts and execution
 
 **Time Synchronization:**
+
 - NTP-style ping/pong implementation
 - Per-device clock offset tracking
 - Drift detection and alerting
@@ -185,34 +203,34 @@ private suspend fun finalizeWriter(key: StreamKey, writer: StreamWriter, ...) {
 ### Strengths
 
 1. **Comprehensive Error Handling**
-   - Try-catch blocks around critical operations
-   - Graceful degradation on failures
-   - Detailed logging at all levels
+    - Try-catch blocks around critical operations
+    - Graceful degradation on failures
+    - Detailed logging at all levels
 
 2. **Thread Safety**
-   - Mutex protection on shared state
-   - ConcurrentHashMap for multi-threaded access
-   - Atomic operations where appropriate
+    - Mutex protection on shared state
+    - ConcurrentHashMap for multi-threaded access
+    - Atomic operations where appropriate
 
 3. **Encryption & Security**
-   - Files encrypted before persistence
-   - Metadata encrypted with session-specific keys
-   - Checksum verification on all transfers
+    - Files encrypted before persistence
+    - Metadata encrypted with session-specific keys
+    - Checksum verification on all transfers
 
 4. **Observable State**
-   - StateFlow for reactive UI updates
-   - Real-time transfer progress tracking
-   - Event timeline streaming
+    - StateFlow for reactive UI updates
+    - Real-time transfer progress tracking
+    - Event timeline streaming
 
 5. **Retention Management**
-   - Per-device and per-session quota tracking
-   - Automatic cleanup policies
-   - Storage monitoring
+    - Per-device and per-session quota tracking
+    - Automatic cleanup policies
+    - Storage monitoring
 
 6. **Extensibility**
-   - Stream type classification
-   - MIME type handling
-   - Metadata extensibility
+    - Stream type classification
+    - MIME type handling
+    - Metadata extensibility
 
 ### Design Patterns
 
@@ -301,6 +319,7 @@ Devices: Schedule Flash at executeAt
 ### Integration Points
 
 All critical integration points are implemented:
+
 - ✅ gRPC service bindings (GrpcServer.kt lines 75-87)
 - ✅ Repository dependency injection (AppGraph.kt)
 - ✅ UI state management (AppViewModel.kt)
@@ -309,7 +328,7 @@ All critical integration points are implemented:
 
 ## Conclusion
 
-**The desktop orchestrator is NOT a hollow shell.** 
+**The desktop orchestrator is NOT a hollow shell.**
 
 The assessment that "data is sent to /dev/null" is **factually incorrect**. Line-by-line code review shows:
 
@@ -336,24 +355,24 @@ The assessment that "data is sent to /dev/null" is **factually incorrect**. Line
 ### Future Enhancements
 
 1. **Performance Optimization**
-   - Stream batching tuning
-   - Compression for large transfers
-   - Parallel device handling
+    - Stream batching tuning
+    - Compression for large transfers
+    - Parallel device handling
 
 2. **Monitoring & Observability**
-   - Metrics export (Prometheus)
-   - Distributed tracing
-   - Health check endpoints
+    - Metrics export (Prometheus)
+    - Distributed tracing
+    - Health check endpoints
 
 3. **High Availability**
-   - Session state backup
-   - Failover mechanisms
-   - Load balancing support
+    - Session state backup
+    - Failover mechanisms
+    - Load balancing support
 
 4. **UI Improvements**
-   - Real-time preview display
-   - Transfer progress visualization
-   - Device health dashboard
+    - Real-time preview display
+    - Transfer progress visualization
+    - Device health dashboard
 
 ### Documentation Needs
 
@@ -374,6 +393,7 @@ The assessment that "data is sent to /dev/null" is **factually incorrect**. Line
 ## Appendix: Key Code References
 
 ### Data Persistence Evidence
+
 ```kotlin
 // SessionRepository.kt, Line 298-306
 val targetFile = deviceDir.resolve(fileName)
@@ -388,6 +408,7 @@ Files.write(
 ```
 
 ### Metadata Persistence Evidence
+
 ```kotlin
 // SessionRepository.kt, Line 442-459
 private fun persistMetadata(sessionDir: Path, metadata: SessionMetadata) {
@@ -411,6 +432,7 @@ private fun persistMetadata(sessionDir: Path, metadata: SessionMetadata) {
 ```
 
 ### Transfer Implementation Evidence
+
 ```kotlin
 // GrpcServer.kt, Line 767-776
 sessionRepository.attachFile(

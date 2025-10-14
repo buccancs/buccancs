@@ -10,7 +10,6 @@ import com.buccancs.core.result.Error
 import com.buccancs.core.result.Result
 import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
-import com.buccancs.core.result.toResult
 import com.buccancs.core.time.TimeModelAdapter
 import com.buccancs.data.preview.PreviewStreamClient
 import com.buccancs.data.sensor.MetadataWriters
@@ -206,7 +205,7 @@ internal class TopdonThermalConnector @Inject constructor(
         if (isSimulationMode) {
             return super.connect()
         }
-        
+
         return performConnect()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -222,7 +221,7 @@ internal class TopdonThermalConnector @Inject constructor(
     private suspend fun performConnect(): Result<Unit> = resultOf {
         ensureMonitor()
         val device = detectTopdonDevice() ?: throw IllegalStateException("Topdon TC001 camera not detected.")
-        
+
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false) }
         tryRequestPermission(device)
     }
@@ -231,7 +230,7 @@ internal class TopdonThermalConnector @Inject constructor(
         if (isSimulationMode) {
             return super.disconnect()
         }
-        
+
         return performDisconnect()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -249,7 +248,7 @@ internal class TopdonThermalConnector @Inject constructor(
         if (isSimulationMode) {
             return super.startStreaming(anchor)
         }
-        
+
         return performStartStreaming(anchor)
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -262,17 +261,17 @@ internal class TopdonThermalConnector @Inject constructor(
 
     private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
         timeModel = TimeModelAdapter.fromAnchor(anchor)
-        
+
         val camera = uvcCamera ?: run {
             timeModel = null
             throw IllegalStateException("Camera not connected.")
         }
-        
+
         if (usbControlBlock == null) {
             timeModel = null
             throw IllegalStateException("Camera control unavailable.")
         }
-        
+
         configureCamera(camera)
         prepareThermalRecording(anchor.sessionId)
         camera.setFrameCallback(frameCallback)
@@ -283,7 +282,7 @@ internal class TopdonThermalConnector @Inject constructor(
         if (isSimulationMode) {
             return super.stopStreaming()
         }
-        
+
         return performStopStreaming()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
@@ -349,13 +348,13 @@ internal class TopdonThermalConnector @Inject constructor(
             } catch (t: Throwable) {
                 Log.w(logTag, "Error stopping thermal streaming", t)
             }
-            
+
             try {
                 closeCamera()
             } catch (t: Throwable) {
                 Log.w(logTag, "Error closing camera", t)
             }
-            
+
             // Clean up USB control block
             try {
                 usbControlBlock?.close()
@@ -364,7 +363,7 @@ internal class TopdonThermalConnector @Inject constructor(
             } finally {
                 usbControlBlock = null
             }
-            
+
             // Unregister USB monitor
             if (monitorRegistered) {
                 try {
@@ -375,7 +374,7 @@ internal class TopdonThermalConnector @Inject constructor(
                     monitorRegistered = false
                 }
             }
-            
+
             // Destroy USB monitor
             try {
                 usbMonitor?.destroy()
@@ -384,7 +383,7 @@ internal class TopdonThermalConnector @Inject constructor(
             } finally {
                 usbMonitor = null
             }
-            
+
             statusState.value = emptyList()
         }
         deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
@@ -481,14 +480,14 @@ internal class TopdonThermalConnector @Inject constructor(
 
     private fun finalizeThermalRecording() {
         val stream = thermalStream
-        
+
         // Ensure stream is properly closed in all cases
         try {
             stream?.flush()
         } catch (t: Throwable) {
             Log.w(logTag, "Error flushing thermal stream", t)
         }
-        
+
         try {
             stream?.close()
         } catch (t: Throwable) {
@@ -496,19 +495,19 @@ internal class TopdonThermalConnector @Inject constructor(
         } finally {
             thermalStream = null
         }
-        
+
         val file = thermalFile
         val sessionId = currentSessionId
         val checksum = thermalDigest?.digest() ?: ByteArray(0)
         val bytesCaptured = thermalBytes
         val clockSnapshot = timeModel
-        
+
         // Clear state
         thermalDigest = null
         thermalFile = null
         thermalBytes = 0
         currentSessionId = null
-        
+
         // Create artifact if successful
         if (file != null && file.exists() && sessionId != null) {
             val artifact = SessionArtifact(

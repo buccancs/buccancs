@@ -20,9 +20,9 @@ class DefaultDeviceEventRepositoryTest {
     @Test
     fun `record single event`() = runTest {
         val event = createTestEvent("event-1", "Test Event")
-        
+
         repository.record(event)
-        
+
         val events = repository.events.value
         assertEquals(1, events.size)
         assertEquals("event-1", events[0].id)
@@ -34,7 +34,7 @@ class DefaultDeviceEventRepositoryTest {
         repeat(5) { index ->
             repository.record(createTestEvent("event-$index", "Event $index"))
         }
-        
+
         val events = repository.events.value
         assertEquals(5, events.size)
     }
@@ -44,7 +44,7 @@ class DefaultDeviceEventRepositoryTest {
         repeat(150) { index ->
             repository.record(createTestEvent("event-$index", "Event $index"))
         }
-        
+
         val events = repository.events.value
         assertEquals(128, events.size)
         assertEquals("event-22", events[0].id)
@@ -62,9 +62,9 @@ class DefaultDeviceEventRepositoryTest {
                 }
             }
         }
-        
+
         jobs.forEach { it.join() }
-        
+
         val events = repository.events.value
         assertEquals(100, events.size)
     }
@@ -74,7 +74,7 @@ class DefaultDeviceEventRepositoryTest {
         repository.record(createTestEvent("1", "First"))
         repository.record(createTestEvent("2", "Second"))
         repository.record(createTestEvent("3", "Third"))
-        
+
         val events = repository.events.value
         assertEquals("1", events[0].id)
         assertEquals("2", events[1].id)
@@ -86,7 +86,7 @@ class DefaultDeviceEventRepositoryTest {
         repository.record(createTestEvent("sync", "Sync", DeviceEventType.SYNC_SIGNAL))
         repository.record(createTestEvent("marker", "Marker", DeviceEventType.EVENT_MARKER))
         repository.record(createTestEvent("command", "Command", DeviceEventType.COMMAND))
-        
+
         val events = repository.events.value
         assertEquals(3, events.size)
         assertEquals(DeviceEventType.SYNC_SIGNAL, events[0].type)

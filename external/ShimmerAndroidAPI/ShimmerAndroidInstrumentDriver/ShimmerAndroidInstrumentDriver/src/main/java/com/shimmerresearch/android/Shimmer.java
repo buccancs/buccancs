@@ -283,6 +283,17 @@ public class Shimmer extends ShimmerBluetooth {
         setupOrientation(orientation, samplingRate);
         mUseProcessingThread = true;
         mContext = context;
+    }
+
+    public Shimmer(Handler handler, String userAssignedName, double samplingRate, int accelRange, int gsrRange, Integer[] sensorIdsToEnable, int gyroRange, int magRange, int orientation, int pressureResolution, boolean enableCalibration, Context context) {
+        super(userAssignedName, samplingRate, sensorIdsToEnable, accelRange, gsrRange, gyroRange, magRange, pressureResolution);
+        mAdapter = BluetoothAdapter.getDefaultAdapter();
+        mBluetoothRadioState = BT_STATE.DISCONNECTED;
+        mHandlerList.add(handler);
+        setupOrientation(orientation, samplingRate);
+        setEnableCalibration(enableCalibration);
+        mUseProcessingThread = true;
+        mContext = context;
     }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -298,17 +309,6 @@ public class Shimmer extends ShimmerBluetooth {
             }
         }
     };
-
-    public Shimmer(Handler handler, String userAssignedName, double samplingRate, int accelRange, int gsrRange, Integer[] sensorIdsToEnable, int gyroRange, int magRange, int orientation, int pressureResolution, boolean enableCalibration, Context context) {
-        super(userAssignedName, samplingRate, sensorIdsToEnable, accelRange, gsrRange, gyroRange, magRange, pressureResolution);
-        mAdapter = BluetoothAdapter.getDefaultAdapter();
-        mBluetoothRadioState = BT_STATE.DISCONNECTED;
-        mHandlerList.add(handler);
-        setupOrientation(orientation, samplingRate);
-        setEnableCalibration(enableCalibration);
-        mUseProcessingThread = true;
-        mContext = context;
-    }
 
     public Shimmer(Handler handler, String myName, double samplingRate, int accelRange, int gsrRange, int setEnabledSensors, int magGain, int orientation, boolean enableCalibration, Context context) {
         super(myName, samplingRate, setEnabledSensors, accelRange, gsrRange, magGain);
@@ -671,16 +671,6 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     @Override
     protected void processWhileStreaming() {
         byte[] byteBuffer = readBytes(availableBytes());
@@ -712,6 +702,16 @@ public class Shimmer extends ShimmerBluetooth {
             size = newSize;
         }
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     @Override
     protected void clearSerialBuffer() {
@@ -997,28 +997,6 @@ public class Shimmer extends ShimmerBluetooth {
         return mBluetoothRadioState;
     }
 
-	/*
-	public byte[] readBytes(int numberofBytes){
-		  byte[] b = new byte[numberofBytes];  
-		  try{
-
-			   int timeoutMillis = 500;
-			   int bufferOffset = 0;
-			   long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
-			   while (System.currentTimeMillis() < maxTimeMillis && bufferOffset < b.length && mState!=STATE_NONE) {
-			    int readLength = java.lang.Math.min(mInStream.available(),b.length-bufferOffset);
-			    int readResult = mInStream.read(b, bufferOffset, readLength);
-			    if (readResult == -1) break;
-			    bufferOffset += readResult;
-		   }
-			   return b;
-		  } catch (IOException e) {
-			   connectionLost();
-			   e.printStackTrace();
-			   return b;
-		  }
-	}*/
-
     @Override
     public boolean setBluetoothRadioState(BT_STATE state) {
         boolean changed = super.setBluetoothRadioState(state);
@@ -1048,6 +1026,28 @@ public class Shimmer extends ShimmerBluetooth {
         }
         return changed;
     }
+
+	/*
+	public byte[] readBytes(int numberofBytes){
+		  byte[] b = new byte[numberofBytes];  
+		  try{
+
+			   int timeoutMillis = 500;
+			   int bufferOffset = 0;
+			   long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
+			   while (System.currentTimeMillis() < maxTimeMillis && bufferOffset < b.length && mState!=STATE_NONE) {
+			    int readLength = java.lang.Math.min(mInStream.available(),b.length-bufferOffset);
+			    int readResult = mInStream.read(b, bufferOffset, readLength);
+			    if (readResult == -1) break;
+			    bufferOffset += readResult;
+		   }
+			   return b;
+		  } catch (IOException e) {
+			   connectionLost();
+			   e.printStackTrace();
+			   return b;
+		  }
+	}*/
 
     public boolean isConnected() {
         return mIsConnected;

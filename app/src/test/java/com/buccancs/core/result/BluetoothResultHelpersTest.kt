@@ -2,7 +2,9 @@ package com.buccancs.core.result
 
 import android.bluetooth.BluetoothAdapter
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
@@ -14,7 +16,7 @@ class BluetoothResultHelpersTest {
     fun `checkAvailable returns failure when adapter is null`() {
         val adapter: BluetoothAdapter? = null
         val result = adapter.checkAvailable()
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Bluetooth)
@@ -26,9 +28,9 @@ class BluetoothResultHelpersTest {
     fun `checkAvailable returns failure when adapter is disabled`() {
         val adapter = mock(BluetoothAdapter::class.java)
         `when`(adapter.isEnabled).thenReturn(false)
-        
+
         val result = adapter.checkAvailable()
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Bluetooth)
@@ -39,9 +41,9 @@ class BluetoothResultHelpersTest {
     fun `checkAvailable returns success when adapter is enabled`() {
         val adapter = mock(BluetoothAdapter::class.java)
         `when`(adapter.isEnabled).thenReturn(true)
-        
+
         val result = adapter.checkAvailable()
-        
+
         assertTrue(result.isSuccess())
         assertEquals(adapter, result.getOrNull())
     }
@@ -51,7 +53,7 @@ class BluetoothResultHelpersTest {
         val result = bluetoothOperation("00:11:22:33:44:55") {
             "success"
         }
-        
+
         assertTrue(result.isSuccess())
         assertEquals("success", result.getOrNull())
     }
@@ -61,7 +63,7 @@ class BluetoothResultHelpersTest {
         val result = bluetoothOperation("00:11:22:33:44:55") {
             throw SecurityException("Permission denied")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Permission)
@@ -74,7 +76,7 @@ class BluetoothResultHelpersTest {
         val result = bluetoothOperation(deviceId) {
             throw IOException("Connection failed")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Bluetooth)
@@ -87,7 +89,7 @@ class BluetoothResultHelpersTest {
         val result = bluetoothOperation("invalid") {
             throw IllegalArgumentException("Invalid device ID")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Validation)
@@ -100,7 +102,7 @@ class BluetoothResultHelpersTest {
         val result = bluetoothOperation(deviceId) {
             throw RuntimeException("Unknown error")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Bluetooth)

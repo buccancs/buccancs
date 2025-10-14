@@ -7,7 +7,6 @@ import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.usecase.SessionCoordinator
 import com.buccancs.domain.usecase.SessionState
-import com.buccancs.util.nowInstant
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -15,7 +14,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -24,15 +22,12 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RecordingViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
-    
+
     private lateinit var sessionCoordinator: SessionCoordinator
     private lateinit var sensorRepository: SensorRepository
     private lateinit var exercise: MultiDeviceRecordingExercise
@@ -41,11 +36,11 @@ class RecordingViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        
+
         sessionCoordinator = mockk(relaxed = true)
         sensorRepository = mockk(relaxed = true)
         exercise = mockk(relaxed = true)
-        
+
         every { sessionCoordinator.sessionState } returns MutableStateFlow(
             SessionState(
                 currentSessionId = "test-session",

@@ -20,7 +20,6 @@ import com.buccancs.domain.model.SessionArtifact
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 
 internal class SegmentedMediaCodecRecorder(
@@ -125,21 +124,21 @@ internal class SegmentedMediaCodecRecorder(
                 codec.releaseOutputBuffer(index, false)
                 return
             }
-            
+
             val drainStartNs = System.nanoTime()
             processBuffer(codec, index, buffer, info, drainStartNs)
                 .onFailure { error ->
                     Log.e(logTag, "Buffer processing failed: ${error.message}", error.cause)
                     handleError(error)
                 }
-            
+
             codec.releaseOutputBuffer(index, false)
-            
+
             if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
                 finalizeAndComplete()
             }
         }
-        
+
         private fun processBuffer(
             codec: MediaCodec,
             index: Int,
@@ -150,20 +149,20 @@ internal class SegmentedMediaCodecRecorder(
             if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                 return@codecOperation
             }
-            
+
             if (info.size <= 0) {
                 return@codecOperation
             }
-            
+
             ensureSegmentReady(info)
             buffer.position(info.offset)
             buffer.limit(info.offset + info.size)
             currentMuxer?.writeSampleData(currentTrackIndex, buffer, info)
                 ?: throw IllegalStateException("Muxer not ready")
-            
+
             val epochMs = anchorEpochMs + info.presentationTimeUs / 1_000
             val latencyNs = System.nanoTime() - drainStartNs
-            
+
             currentCollector?.let { collector ->
                 if (currentSegmentStartUs < 0) {
                     currentSegmentStartUs = info.presentationTimeUs
@@ -172,7 +171,7 @@ internal class SegmentedMediaCodecRecorder(
                 collector.recordBuffer(info, info.size, latencyNs)
                 latestEpochMs = epochMs
             }
-            
+
             if (shouldRotate(info)) {
                 rotateSegment(info)
             }
@@ -287,7 +286,7 @@ internal class SegmentedMediaCodecRecorder(
         }
         abort()
     }
-    
+
     private fun handleError(error: Error) {
         handleError(error.toException())
     }

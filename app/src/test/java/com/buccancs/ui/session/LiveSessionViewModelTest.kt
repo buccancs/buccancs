@@ -28,7 +28,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class LiveSessionViewModelTest {
@@ -134,7 +133,7 @@ class LiveSessionViewModelTest {
 
         every { eventRepository.events } returns MutableStateFlow(emptyList())
         every { bookmarkRepository.bookmarks } returns MutableStateFlow(emptyList())
-        
+
         every { spaceMonitor.state } returns MutableStateFlow(
             SpaceState(
                 totalBytes = 1_000_000_000L,

@@ -2,7 +2,8 @@ package com.buccancs.core.result
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.IOException
 
@@ -13,7 +14,7 @@ class ResultExtensionsTest {
         val result = resultOf {
             42
         }
-        
+
         assertTrue(result.isSuccess())
         assertEquals(42, result.getOrNull())
     }
@@ -23,7 +24,7 @@ class ResultExtensionsTest {
         val result = resultOf {
             throw IOException("Test IO error")
         }
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.Network)
@@ -40,7 +41,7 @@ class ResultExtensionsTest {
         } catch (e: CancellationException) {
             exceptionThrown = true
         }
-        
+
         assertTrue(exceptionThrown)
     }
 
@@ -48,7 +49,7 @@ class ResultExtensionsTest {
     fun `toError converts IOException to Network error`() {
         val exception = IOException("Network failure")
         val error = exception.toError()
-        
+
         assertTrue(error is Error.Network)
         assertEquals("Network failure", error.message)
     }
@@ -57,7 +58,7 @@ class ResultExtensionsTest {
     fun `toError converts SecurityException to Permission error`() {
         val exception = SecurityException("Permission denied")
         val error = exception.toError()
-        
+
         assertTrue(error is Error.Permission)
         assertEquals("Permission denied", error.message)
     }
@@ -66,7 +67,7 @@ class ResultExtensionsTest {
     fun `toError converts IllegalArgumentException to Validation error`() {
         val exception = IllegalArgumentException("Invalid argument")
         val error = exception.toError()
-        
+
         assertTrue(error is Error.Validation)
         assertEquals("Invalid argument", error.message)
     }
@@ -75,7 +76,7 @@ class ResultExtensionsTest {
     fun `toError converts unknown exception to Unknown error`() {
         val exception = RuntimeException("Unknown error")
         val error = exception.toError()
-        
+
         assertTrue(error is Error.Unknown)
         assertEquals("Unknown error", error.message)
     }
@@ -87,9 +88,9 @@ class ResultExtensionsTest {
             Result.success(2),
             Result.success(3)
         )
-        
+
         val combined = results.combine()
-        
+
         assertTrue(combined.isSuccess())
         assertEquals(listOf(1, 2, 3), combined.getOrNull())
     }
@@ -102,9 +103,9 @@ class ResultExtensionsTest {
             Result.failure(error),
             Result.success(3)
         )
-        
+
         val combined = results.combine()
-        
+
         assertTrue(combined.isFailure())
         assertEquals(error, combined.errorOrNull())
     }
@@ -112,7 +113,7 @@ class ResultExtensionsTest {
     @Test
     fun `toResult converts non-null value to success`() {
         val result = 42.toResult()
-        
+
         assertTrue(result.isSuccess())
         assertEquals(42, result.getOrNull())
     }
@@ -121,7 +122,7 @@ class ResultExtensionsTest {
     fun `toResult converts null to failure`() {
         val value: String? = null
         val result = value.toResult("Value is missing")
-        
+
         assertTrue(result.isFailure())
         val error = result.errorOrNull()
         assertTrue(error is Error.NotFound)
@@ -132,7 +133,7 @@ class ResultExtensionsTest {
     fun `recover replaces failure with value`() {
         val result: Result<Int> = Result.failure(Error.Unknown("Test"))
         val recovered = result.recover { 42 }
-        
+
         assertTrue(recovered.isSuccess())
         assertEquals(42, recovered.getOrNull())
     }
@@ -141,7 +142,7 @@ class ResultExtensionsTest {
     fun `recover preserves success`() {
         val result = Result.success(10)
         val recovered = result.recover { 42 }
-        
+
         assertTrue(recovered.isSuccess())
         assertEquals(10, recovered.getOrNull())
     }
@@ -150,7 +151,7 @@ class ResultExtensionsTest {
     fun `recoverWith replaces failure with new result`() {
         val result: Result<Int> = Result.failure(Error.Unknown("Test"))
         val recovered = result.recoverWith { Result.success(42) }
-        
+
         assertTrue(recovered.isSuccess())
         assertEquals(42, recovered.getOrNull())
     }
@@ -161,7 +162,7 @@ class ResultExtensionsTest {
         val result: Result<Int> = Result.failure(originalError)
         val newError = Error.Unknown("New")
         val recovered = result.recoverWith { Result.failure(newError) }
-        
+
         assertTrue(recovered.isFailure())
         assertEquals(newError, recovered.errorOrNull())
     }
@@ -170,9 +171,9 @@ class ResultExtensionsTest {
     fun `zip combines two successful results`() {
         val result1 = Result.success(10)
         val result2 = Result.success("test")
-        
+
         val zipped = result1.zip(result2)
-        
+
         assertTrue(zipped.isSuccess())
         assertEquals(Pair(10, "test"), zipped.getOrNull())
     }
@@ -182,9 +183,9 @@ class ResultExtensionsTest {
         val error = Error.Unknown("Test")
         val result1: Result<Int> = Result.failure(error)
         val result2 = Result.success("test")
-        
+
         val zipped = result1.zip(result2)
-        
+
         assertTrue(zipped.isFailure())
         assertEquals(error, zipped.errorOrNull())
     }
@@ -194,9 +195,9 @@ class ResultExtensionsTest {
         val error = Error.Unknown("Test")
         val result1 = Result.success(10)
         val result2: Result<String> = Result.failure(error)
-        
+
         val zipped = result1.zip(result2)
-        
+
         assertTrue(zipped.isFailure())
         assertEquals(error, zipped.errorOrNull())
     }
@@ -205,9 +206,9 @@ class ResultExtensionsTest {
     fun `zip with transform combines and transforms`() {
         val result1 = Result.success(10)
         val result2 = Result.success(20)
-        
+
         val zipped = result1.zip(result2) { a, b -> a + b }
-        
+
         assertTrue(zipped.isSuccess())
         assertEquals(30, zipped.getOrNull())
     }

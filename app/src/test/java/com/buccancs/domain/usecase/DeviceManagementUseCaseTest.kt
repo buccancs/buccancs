@@ -17,7 +17,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class DeviceManagementUseCaseTest {
@@ -42,7 +41,7 @@ class DeviceManagementUseCaseTest {
     fun setup() {
         sensorRepository = mockk(relaxed = true)
         hardwareConfigRepository = mockk(relaxed = true)
-        
+
         every { sensorRepository.devices } returns MutableStateFlow(testDevices)
         every { sensorRepository.simulationEnabled } returns MutableStateFlow(false)
 

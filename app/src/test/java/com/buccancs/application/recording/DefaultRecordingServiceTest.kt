@@ -34,7 +34,7 @@ class DefaultRecordingServiceTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        
+
         // Mock repository
         sensorRepository = mockk(relaxed = true)
         every { sensorRepository.recordingState } returns MutableStateFlow(
@@ -44,7 +44,7 @@ class DefaultRecordingServiceTest {
                 startedAt = null
             )
         )
-        
+
         service = DefaultRecordingService(sensorRepository)
     }
 
@@ -83,7 +83,7 @@ class DefaultRecordingServiceTest {
     @Test
     fun `recording state reflects service state`() = runTest {
         val state = service.getRecordingState()
-        
+
         assertEquals(RecordingLifecycleState.Idle, state.lifecycle)
     }
 }

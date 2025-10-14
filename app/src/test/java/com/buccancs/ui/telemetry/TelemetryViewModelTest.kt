@@ -35,7 +35,7 @@ import kotlin.test.assertTrue
 class TelemetryViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
-    
+
     private lateinit var sensorRepository: SensorRepository
     private lateinit var timeSyncService: TimeSyncService
     private lateinit var deviceEventRepository: DeviceEventRepository
@@ -58,21 +58,21 @@ class TelemetryViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        
+
         sensorRepository = mockk(relaxed = true)
         timeSyncService = mockk(relaxed = true)
         deviceEventRepository = mockk(relaxed = true)
         commandService = mockk(relaxed = true)
         streamUiMapper = mockk(relaxed = true)
-        
+
         syncSignals = MutableSharedFlow()
-        
+
         every { sensorRepository.streamStatuses } returns MutableStateFlow(emptyList())
         every { timeSyncService.status } returns MutableStateFlow(testTimeSyncStatus)
         every { deviceEventRepository.events } returns MutableStateFlow(emptyList())
         every { commandService.lastCommand } returns MutableStateFlow(null)
         every { commandService.syncSignals } returns syncSignals
-        
+
         every { streamUiMapper.toUiModel(any()) } returns mockk(relaxed = true)
 
         viewModel = TelemetryViewModel(
@@ -122,7 +122,7 @@ class TelemetryViewModelTest {
         // Given
         syncSignals.emit(Unit)
         advanceUntilIdle()
-        
+
         var state = viewModel.uiState.first()
         assertTrue(state.showSyncFlash)
 
@@ -148,7 +148,7 @@ class TelemetryViewModelTest {
 
         // Then - still showing
         assertTrue(viewModel.uiState.first().showSyncFlash)
-        
+
         // And after full duration from second signal
         advanceTimeBy(500)
         assertFalse(viewModel.uiState.first().showSyncFlash)

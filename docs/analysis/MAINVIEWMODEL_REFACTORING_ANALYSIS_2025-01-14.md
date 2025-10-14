@@ -6,7 +6,10 @@
 
 ## Executive Summary
 
-The `MainViewModel` (1,248 lines) exhibits classic God Object anti-pattern with 10 constructor dependencies and mixing concerns across session management, device orchestration, time synchronisation, recording coordination, hardware configuration, and UI state transformation. This analysis proposes a phased refactoring strategy to decompose responsibilities whilst maintaining existing functionality.
+The `MainViewModel` (1,248 lines) exhibits classic God Object anti-pattern with 10 constructor dependencies and mixing
+concerns across session management, device orchestration, time synchronisation, recording coordination, hardware
+configuration, and UI state transformation. This analysis proposes a phased refactoring strategy to decompose
+responsibilities whilst maintaining existing functionality.
 
 ## Current Architecture Analysis
 
@@ -30,52 +33,52 @@ class MainViewModel @Inject constructor(
 
 ### Responsibility Breakdown
 
-| Responsibility                  | Line Count | Methods | State Flows |
-|---------------------------------|------------|---------|-------------|
-| Session Lifecycle Management    | ~150       | 3       | 3           |
-| Device Connection Control       | ~80        | 4       | 0           |
-| Shimmer Configuration           | ~180       | 4       | 1           |
-| Topdon Device Management        | ~40        | 1       | 1           |
-| RGB Camera Configuration        | ~350       | 9       | 1           |
-| Recording State Coordination    | ~120       | 3       | 0           |
-| Remote Command Handling         | ~150       | 4       | 1           |
-| Orchestrator Configuration      | ~120       | 5       | 4           |
-| Time Synchronisation UI         | ~80        | 0       | 0           |
-| Multi-Device Exercise Control   | ~50        | 1       | 1           |
-| UI State Transformation         | ~300       | 15+     | 5           |
-| Event Logging UI                | ~40        | 0       | 1           |
+| Responsibility                | Line Count | Methods | State Flows |
+|-------------------------------|------------|---------|-------------|
+| Session Lifecycle Management  | ~150       | 3       | 3           |
+| Device Connection Control     | ~80        | 4       | 0           |
+| Shimmer Configuration         | ~180       | 4       | 1           |
+| Topdon Device Management      | ~40        | 1       | 1           |
+| RGB Camera Configuration      | ~350       | 9       | 1           |
+| Recording State Coordination  | ~120       | 3       | 0           |
+| Remote Command Handling       | ~150       | 4       | 1           |
+| Orchestrator Configuration    | ~120       | 5       | 4           |
+| Time Synchronisation UI       | ~80        | 0       | 0           |
+| Multi-Device Exercise Control | ~50        | 1       | 1           |
+| UI State Transformation       | ~300       | 15+     | 5           |
+| Event Logging UI              | ~40        | 0       | 1           |
 
 **Total State Flows:** 18 (10 MutableStateFlow, 8 derived)
 
 ### Code Smells Identified
 
 1. **God Object Anti-Pattern**
-   - 10 constructor dependencies
-   - 1,248 lines in single class
-   - 40+ public methods
-   - 18 state flows managed
+    - 10 constructor dependencies
+    - 1,248 lines in single class
+    - 40+ public methods
+    - 18 state flows managed
 
 2. **Mixed Concerns**
-   - Business logic (recording coordination)
-   - UI transformation (toUiModel methods)
-   - Hardware control (device connection, configuration)
-   - Input validation (RGB camera, orchestrator config)
-   - Remote command handling
+    - Business logic (recording coordination)
+    - UI transformation (toUiModel methods)
+    - Hardware control (device connection, configuration)
+    - Input validation (RGB camera, orchestrator config)
+    - Remote command handling
 
 3. **Complex State Management**
-   - Multiple intermediate state classes (BaseState, SessionState, OrchestratorState, CommandState, ToggleState)
-   - Nested combine operators (5 levels deep)
-   - State synchronisation between repositories and local flows
+    - Multiple intermediate state classes (BaseState, SessionState, OrchestratorState, CommandState, ToggleState)
+    - Nested combine operators (5 levels deep)
+    - State synchronisation between repositories and local flows
 
 4. **Tight Coupling**
-   - Direct hardware configuration in ViewModel
-   - Device-specific logic (Shimmer, Topdon, RGB Camera)
-   - Repository updates mixed with UI state
+    - Direct hardware configuration in ViewModel
+    - Device-specific logic (Shimmer, Topdon, RGB Camera)
+    - Repository updates mixed with UI state
 
 5. **Testability Issues**
-   - Difficult to unit test individual responsibilities
-   - Heavy mocking requirements (10 dependencies)
-   - Side effects in multiple coroutine scopes
+    - Difficult to unit test individual responsibilities
+    - Heavy mocking requirements (10 dependencies)
+    - Side effects in multiple coroutine scopes
 
 ## Proposed Refactoring Strategy
 
@@ -106,12 +109,14 @@ class SessionCoordinatorImpl @Inject constructor(
 ```
 
 **Extracts from MainViewModel:**
+
 - `startRecording()` - lines 482-495
 - `stopRecording()` - lines 497-509
 - `generateSessionId()` - lines 960-963
 - Session state management - lines 77-78, 117-127
 
 **Benefits:**
+
 - Testable recording coordination logic
 - Reusable across multiple ViewModels or screens
 - Clear separation of session lifecycle from UI concerns
@@ -140,12 +145,14 @@ class DeviceManagementUseCaseImpl @Inject constructor(
 ```
 
 **Extracts from MainViewModel:**
+
 - `connectDevice()` - lines 299-303
 - `disconnectDevice()` - lines 305-309
 - `refreshInventory()` - lines 311-315
 - `toggleSimulation()` - lines 292-297
 
 **Benefits:**
+
 - Centralised device management logic
 - Consistent error handling
 - Easier to add new device types
@@ -192,12 +199,14 @@ data class RgbCameraValidation(
 ```
 
 **Extracts from MainViewModel:**
+
 - Shimmer configuration - lines 317-369 (3 methods, ~52 lines)
 - Topdon configuration - lines 371-375 (~5 lines)
 - RGB Camera configuration - lines 394-432 (~40 lines)
 - RGB Camera validation - lines 808-879 (~72 lines)
 
 **Benefits:**
+
 - Device-specific logic isolated
 - Validation separated from UI
 - Easier to add new device types
@@ -224,6 +233,7 @@ class RemoteCommandCoordinatorImpl @Inject constructor(
 ```
 
 **Extracts from MainViewModel:**
+
 - `handleRemoteCommand()` - lines 511-517
 - `handleStartRecordingCommand()` - lines 519-548
 - `handleStopRecordingCommand()` - lines 550-575
@@ -231,6 +241,7 @@ class RemoteCommandCoordinatorImpl @Inject constructor(
 - `awaitExecution()` - lines 666-675
 
 **Benefits:**
+
 - Isolated command handling logic
 - Testable execution timing
 - Reusable across different command sources
@@ -244,11 +255,13 @@ After extracting use cases, split MainViewModel into focused feature ViewModels.
 **Responsibility:** Session lifecycle, recording state, exercise execution.
 
 **Dependencies:**
+
 - `SessionCoordinator` (use case)
 - `MultiDeviceRecordingExercise` (existing)
 - `SensorRepository` (for recording state)
 
 **State:**
+
 ```kotlin
 data class RecordingUiState(
     val sessionId: String,
@@ -262,6 +275,7 @@ data class RecordingUiState(
 ```
 
 **Public Methods:**
+
 - `onSessionIdChanged(value: String)`
 - `startRecording()`
 - `stopRecording()`
@@ -274,11 +288,13 @@ data class RecordingUiState(
 **Responsibility:** Device discovery, connection, inventory management.
 
 **Dependencies:**
+
 - `DeviceManagementUseCase` (use case)
 - `HardwareConfigurationUseCase` (use case)
 - `SensorRepository` (for device list)
 
 **State:**
+
 ```kotlin
 data class DeviceInventoryUiState(
     val simulationEnabled: Boolean,
@@ -289,6 +305,7 @@ data class DeviceInventoryUiState(
 ```
 
 **Public Methods:**
+
 - `toggleSimulation()`
 - `connectDevice(id: DeviceId)`
 - `disconnectDevice(id: DeviceId)`
@@ -301,11 +318,13 @@ data class DeviceInventoryUiState(
 **Responsibility:** Shimmer device configuration and scanning.
 
 **Dependencies:**
+
 - `HardwareConfigurationUseCase` (use case)
 - `ShimmerSettingsRepository` (existing)
 - `SensorRepository` (for device attributes)
 
 **State:**
+
 ```kotlin
 data class ShimmerConfigUiState(
     val deviceId: DeviceId,
@@ -320,6 +339,7 @@ data class ShimmerConfigUiState(
 ```
 
 **Public Methods:**
+
 - `selectShimmerDevice(id: DeviceId, mac: String?)`
 - `updateShimmerRange(id: DeviceId, rangeIndex: Int)`
 - `updateShimmerSampleRate(id: DeviceId, sampleRate: Double)`
@@ -331,10 +351,12 @@ data class ShimmerConfigUiState(
 **Responsibility:** RGB Camera configuration and validation.
 
 **Dependencies:**
+
 - `HardwareConfigurationUseCase` (use case)
 - `SensorRepository` (for camera attributes)
 
 **State:**
+
 ```kotlin
 data class RgbCameraConfigUiState(
     val deviceId: DeviceId,
@@ -346,6 +368,7 @@ data class RgbCameraConfigUiState(
 ```
 
 **Public Methods:**
+
 - `updateRgbCameraField(id: DeviceId, field: RgbCameraField, value: String)`
 - `toggleRgbCameraRaw(id: DeviceId, enabled: Boolean)`
 - `selectRgbCameraAwb(id: DeviceId, awbValue: String)`
@@ -359,12 +382,14 @@ data class RgbCameraConfigUiState(
 **Responsibility:** Stream status, time sync, events, orchestrator status.
 
 **Dependencies:**
+
 - `SensorRepository` (for stream statuses)
 - `TimeSyncService` (existing)
 - `DeviceEventRepository` (existing)
 - `OrchestratorConfigRepository` (existing)
 
 **State:**
+
 ```kotlin
 data class TelemetryUiState(
     val streamStatuses: List<StreamUiModel>,
@@ -376,6 +401,7 @@ data class TelemetryUiState(
 ```
 
 **Public Methods:**
+
 - *(None - read-only display)*
 
 **Lines:** ~150
@@ -385,9 +411,11 @@ data class TelemetryUiState(
 **Responsibility:** Orchestrator connection configuration.
 
 **Dependencies:**
+
 - `OrchestratorConfigRepository` (existing)
 
 **State:**
+
 ```kotlin
 data class OrchestratorConfigUiState(
     val hostInput: String,
@@ -400,6 +428,7 @@ data class OrchestratorConfigUiState(
 ```
 
 **Public Methods:**
+
 - `onOrchestratorHostChanged(value: String)`
 - `onOrchestratorPortChanged(value: String)`
 - `onOrchestratorUseTlsChanged(enabled: Boolean)`
@@ -410,9 +439,11 @@ data class OrchestratorConfigUiState(
 
 ### Phase 3: Improve State Flow Architecture
 
-Current implementation uses multiple intermediate state classes and nested combines. Simplify using more direct StateFlow mapping.
+Current implementation uses multiple intermediate state classes and nested combines. Simplify using more direct
+StateFlow mapping.
 
 #### Before (Complex Aggregation):
+
 ```kotlin
 private val baseInputs = combine(/* 5 flows */) { ... }
 private val baseState = baseInputs.combine(shimmerSettingsFlow) { ... }
@@ -425,6 +456,7 @@ val uiState = combine(aggregateState, inventoryState, exerciseUiState) { ... }
 ```
 
 #### After (Direct Mapping):
+
 ```kotlin
 val uiState: StateFlow<RecordingUiState> = combine(
     sessionCoordinator.sessionState,
@@ -440,6 +472,7 @@ val uiState: StateFlow<RecordingUiState> = combine(
 ```
 
 **Benefits:**
+
 - Fewer intermediate state classes
 - Clearer data flow
 - Easier to understand and maintain
@@ -471,6 +504,7 @@ class StreamUiMapper @Inject constructor() {
 ```
 
 **Benefits:**
+
 - Testable transformation logic
 - Reusable across ViewModels
 - Separation of concerns
@@ -478,6 +512,7 @@ class StreamUiMapper @Inject constructor() {
 ## Implementation Roadmap
 
 ### Milestone 1: Extract Use Cases (2-3 days)
+
 - [ ] Create `SessionCoordinator` interface and implementation
 - [ ] Create `DeviceManagementUseCase` interface and implementation
 - [ ] Create `HardwareConfigurationUseCase` interface and implementation
@@ -487,6 +522,7 @@ class StreamUiMapper @Inject constructor() {
 - [ ] Write unit tests for each use case
 
 ### Milestone 2: Create UI Mappers (1 day)
+
 - [ ] Create `DeviceUiMapper` class
 - [ ] Create `StreamUiMapper` class
 - [ ] Create `EventUiMapper` class
@@ -495,6 +531,7 @@ class StreamUiMapper @Inject constructor() {
 - [ ] Write unit tests for mappers
 
 ### Milestone 3: Split ViewModels (3-4 days)
+
 - [ ] Create `RecordingViewModel` from MainViewModel
 - [ ] Create `DeviceInventoryViewModel` from MainViewModel
 - [ ] Create `ShimmerConfigViewModel` from MainViewModel
@@ -505,12 +542,14 @@ class StreamUiMapper @Inject constructor() {
 - [ ] Update Hilt modules
 
 ### Milestone 4: Simplify State Flows (1-2 days)
+
 - [ ] Remove intermediate state classes where not needed
 - [ ] Simplify combine operators in new ViewModels
 - [ ] Remove unused state flows
 - [ ] Optimise StateFlow sharing strategies
 
 ### Milestone 5: Testing & Validation (2 days)
+
 - [ ] Write unit tests for all new ViewModels
 - [ ] Integration tests for use case coordination
 - [ ] Manual testing of all features
@@ -522,15 +561,21 @@ class StreamUiMapper @Inject constructor() {
 ## Risks and Mitigation
 
 ### Risk 1: Breaking UI Composition
-**Mitigation:** Refactor ViewModels incrementally, keeping MainViewModel alongside new ViewModels initially. Migrate UI screens one by one.
+
+**Mitigation:** Refactor ViewModels incrementally, keeping MainViewModel alongside new ViewModels initially. Migrate UI
+screens one by one.
 
 ### Risk 2: State Synchronisation Issues
+
 **Mitigation:** Use shared repositories as single source of truth. Ensure use cases don't introduce duplicate state.
 
 ### Risk 3: Increased Complexity from Multiple ViewModels
-**Mitigation:** Use clear naming conventions. Document ViewModel responsibilities. Provide architecture decision records.
+
+**Mitigation:** Use clear naming conventions. Document ViewModel responsibilities. Provide architecture decision
+records.
 
 ### Risk 4: Testing Coverage Gaps
+
 **Mitigation:** Write tests alongside refactoring. Aim for 80%+ coverage on new use cases and ViewModels.
 
 ## Success Criteria
@@ -554,26 +599,31 @@ class StreamUiMapper @Inject constructor() {
 ### Public Methods (40+)
 
 **Session Management (4):**
+
 - `onSessionIdChanged(String)`
 - `startRecording()`
 - `stopRecording()`
 - `runExercise()`
 
 **Device Management (4):**
+
 - `toggleSimulation()`
 - `connectDevice(DeviceId)`
 - `disconnectDevice(DeviceId)`
 - `refreshInventory()`
 
 **Shimmer Configuration (3):**
+
 - `selectShimmerDevice(DeviceId, String?)`
 - `updateShimmerRange(DeviceId, Int)`
 - `updateShimmerSampleRate(DeviceId, Double)`
 
 **Topdon Configuration (1):**
+
 - `setActiveTopdon(DeviceId)`
 
 **RGB Camera Configuration (5):**
+
 - `updateRgbCameraField(DeviceId, RgbCameraField, String)`
 - `toggleRgbCameraRaw(DeviceId, Boolean)`
 - `selectRgbCameraAwb(DeviceId, String)`
@@ -581,6 +631,7 @@ class StreamUiMapper @Inject constructor() {
 - `applyRgbCameraSettings(DeviceId)`
 
 **Orchestrator Configuration (5):**
+
 - `onOrchestratorHostChanged(String)`
 - `onOrchestratorPortChanged(String)`
 - `onOrchestratorUseTlsChanged(Boolean)`
@@ -608,6 +659,7 @@ class StreamUiMapper @Inject constructor() {
 ## Appendix B: State Flow Inventory
 
 **MutableStateFlow (10):**
+
 1. `sessionId`
 2. `busy`
 3. `lastError`
@@ -622,6 +674,7 @@ class StreamUiMapper @Inject constructor() {
 12. `rgbCameraInputs`
 
 **Derived StateFlow (8):**
+
 1. `shimmerSettingsFlow` (from repository)
 2. `baseInputs` (combined)
 3. `baseState` (combined)
@@ -637,6 +690,7 @@ class StreamUiMapper @Inject constructor() {
 ## Appendix C: Data Classes (12)
 
 **Private State Classes (7):**
+
 - `BaseInputs`
 - `BaseState`
 - `SessionState`
@@ -646,11 +700,13 @@ class StreamUiMapper @Inject constructor() {
 - `UiAggregate`
 
 **Private Configuration Classes (3):**
+
 - `RgbCameraValues`
 - `RgbCameraInputState`
 - `RgbCameraValidationResult`
 
 **Public UI State Classes (12):**
+
 - `MainUiState`
 - `DeviceUiModel`
 - `ShimmerDeviceUi`
@@ -665,4 +721,5 @@ class StreamUiMapper @Inject constructor() {
 - `DeviceExerciseUi`
 
 **Enum (1):**
+
 - `RgbCameraField`

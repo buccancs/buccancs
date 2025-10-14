@@ -311,6 +311,7 @@ fun readRawFrame(inputStream: InputStream): ShortArray {
 **Manufacturer Spec:** ±2°C or ±2% (whichever is greater)
 
 **Example Error Margins:**
+
 - At 25°C: ±2°C (reading: 23-27°C)
 - At 100°C: ±2°C (reading: 98-102°C)
 - At 200°C: ±4°C (reading: 196-204°C, 2% of 200)
@@ -348,18 +349,22 @@ fun correctForEmissivity(measuredTemp: Float, emissivity: Float, ambientTemp: Fl
 ### Common Issues
 
 **Issue: All pixels read as same value**
+
 - Cause: Camera shutter closed or not initialized
 - Solution: Send init command, wait for first valid frame
 
 **Issue: Temperatures way off (e.g., 500°C indoors)**
+
 - Cause: Incorrect byte order or scale factor
 - Solution: Verify little-endian, check division by 64
 
 **Issue: Noisy image**
+
 - Cause: Normal sensor noise or low-quality optics
 - Solution: Apply spatial filtering, verify focus
 
 **Issue: Saturated readings (max/min values)**
+
 - Cause: Temperature outside sensor range
 - Solution: Check if scene is within -20°C to 550°C
 
@@ -403,9 +408,9 @@ fun `typical indoor scene temperatures`() {
 
 ## Revision History
 
-| Date | Version | Changes |
-|------|---------|---------|
-| 2025-01-14 | 1.0 | Initial documentation |
+| Date       | Version | Changes               |
+|------------|---------|-----------------------|
+| 2025-01-14 | 1.0     | Initial documentation |
 
 ---
 

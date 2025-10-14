@@ -16,7 +16,7 @@ sealed class WriteResult<out T> {
 
 object AtomicFileWriter {
     private const val TAG = "AtomicFileWriter"
-    
+
     fun writeTextAtomic(
         target: File,
         content: String,
@@ -25,31 +25,31 @@ object AtomicFileWriter {
     ): WriteResult<Unit> {
         val tempFile = File(target.parentFile, "${target.name}.tmp")
         val backupFile = File(target.parentFile, "${target.name}.bak")
-        
+
         return try {
             target.parentFile?.mkdirs()
-            
+
             tempFile.writeText(content, charset)
-            
+
             tempFile.outputStream().use { stream ->
                 stream.fd.sync()
             }
-            
+
             if (createBackup && target.exists()) {
                 if (backupFile.exists()) backupFile.delete()
                 if (!target.renameTo(backupFile)) {
                     Log.w(TAG, "Failed to create backup for ${target.name}")
                 }
             }
-            
+
             if (!tempFile.renameTo(target)) {
                 throw IOException("Failed to rename temp file to target")
             }
-            
+
             if (!createBackup && backupFile.exists()) {
                 backupFile.delete()
             }
-            
+
             WriteResult.Success(Unit)
         } catch (e: IOException) {
             tempFile.delete()
@@ -59,7 +59,7 @@ object AtomicFileWriter {
             WriteResult.Failure.WriteError("Unexpected error: ${e.message}", e)
         }
     }
-    
+
     fun recoverFromBackup(target: File): Boolean {
         val backupFile = File(target.parentFile, "${target.name}.bak")
         return if (backupFile.exists()) {

@@ -14,7 +14,7 @@ class GrpcChannelFactory @Inject constructor() {
     private val mutex = Mutex()
     private var cachedChannel: ManagedChannel? = null
     private var cachedConfig: OrchestratorConfig? = null
-    
+
     suspend fun channel(config: OrchestratorConfig): ManagedChannel = mutex.withLock {
         val existing = cachedChannel
         if (
@@ -35,7 +35,7 @@ class GrpcChannelFactory @Inject constructor() {
         cachedConfig = config
         channel
     }
-    
+
     /**
      * Shutdown the cached channel gracefully.
      * Should be called when changing orchestrator or app is closing.
@@ -45,7 +45,7 @@ class GrpcChannelFactory @Inject constructor() {
         cachedChannel = null
         cachedConfig = null
     }
-    
+
     /**
      * Force immediate shutdown of cached channel.
      * Use when app needs to close immediately.

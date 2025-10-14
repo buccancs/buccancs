@@ -33,7 +33,7 @@ class SessionCoordinatorTest {
         recordingService = mockk(relaxed = true)
         timeSyncService = mockk(relaxed = true)
         sensorRepository = mockk(relaxed = true)
-        
+
         every { timeSyncService.status } returns MutableStateFlow(
             TimeSyncStatus(
                 offsetMillis = 0,
@@ -62,7 +62,7 @@ class SessionCoordinatorTest {
         // Then
         assertTrue(result.isSuccess)
         coVerify { recordingService.startOrResume(sessionId, null) }
-        
+
         val state = coordinator.sessionState.first()
         assertEquals(sessionId, state.currentSessionId)
         assertFalse(state.isBusy)
@@ -80,7 +80,7 @@ class SessionCoordinatorTest {
         // Then
         assertTrue(result.isSuccess)
         coVerify { recordingService.startOrResume(match { it.startsWith("session-") }, null) }
-        
+
         val state = coordinator.sessionState.first()
         assertTrue(state.currentSessionId.startsWith("session-"))
     }
@@ -112,7 +112,7 @@ class SessionCoordinatorTest {
 
         // Then
         assertTrue(result.isFailure)
-        
+
         val state = coordinator.sessionState.first()
         assertFalse(state.isBusy)
         assertEquals(errorMessage, state.lastError)
@@ -135,7 +135,7 @@ class SessionCoordinatorTest {
         // Then
         assertTrue(secondCall.isFailure)
         assertEquals("Session coordinator is busy", secondCall.exceptionOrNull()?.message)
-        
+
         val firstResult = firstCall.await()
         assertTrue(firstResult.isSuccess)
     }
@@ -151,7 +151,7 @@ class SessionCoordinatorTest {
         // Then
         assertTrue(result.isSuccess)
         coVerify { recordingService.stop() }
-        
+
         val state = coordinator.sessionState.first()
         assertFalse(state.isBusy)
         assertEquals(null, state.lastError)
@@ -168,7 +168,7 @@ class SessionCoordinatorTest {
 
         // Then
         assertTrue(result.isFailure)
-        
+
         val state = coordinator.sessionState.first()
         assertFalse(state.isBusy)
         assertEquals(errorMessage, state.lastError)
@@ -202,7 +202,7 @@ class SessionCoordinatorTest {
         // Given - trigger an error
         coEvery { recordingService.startOrResume(any(), any()) } throws RuntimeException("Test error")
         coordinator.startSession("test", null)
-        
+
         // Verify error exists
         var state = coordinator.sessionState.first()
         assertNotNull(state.lastError)

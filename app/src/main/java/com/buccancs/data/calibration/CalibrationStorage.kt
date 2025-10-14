@@ -26,7 +26,7 @@ class CalibrationStorage @Inject constructor(
             mkdirs()
         }
     }
-    
+
     companion object {
         private const val TAG = "CalibrationStorage"
     }
@@ -57,7 +57,7 @@ class CalibrationStorage @Inject constructor(
         val sessionDir = createSessionDirectory(sessionId)
         val output = File(sessionDir, "result.json")
         val payload = json.encodeToString(result)
-        
+
         when (val writeResult = AtomicFileWriter.writeAtomicSafe(output, payload, checkSpace = true)) {
             is WriteResult.Success -> {
                 val latest = File(rootDir, "latest_result.json")
@@ -66,10 +66,12 @@ class CalibrationStorage @Inject constructor(
                     is WriteResult.Failure -> Log.w(TAG, "Failed to update latest result link")
                 }
             }
+
             is WriteResult.Failure.InsufficientSpace -> {
                 Log.e(TAG, "Insufficient space to write calibration result")
                 throw IOException("Insufficient storage space")
             }
+
             is WriteResult.Failure.WriteError -> {
                 Log.e(TAG, "Failed to write calibration result", writeResult.cause)
                 throw IOException("Failed to write calibration result: ${writeResult.message}", writeResult.cause)

@@ -1,8 +1,8 @@
 package com.buccancs.data.sensor.connector.shimmer
 
-import kotlin.time.Instant
 import com.buccancs.domain.model.SessionArtifact
 import com.shimmerresearch.driver.ShimmerDevice
+import kotlin.time.Instant
 
 /**
  * Sealed class hierarchy representing all possible Shimmer connection states.

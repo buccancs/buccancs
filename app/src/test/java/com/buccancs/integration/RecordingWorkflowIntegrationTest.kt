@@ -27,7 +27,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 /**
  * Integration test for complete recording workflow.
@@ -122,7 +121,7 @@ class RecordingWorkflowIntegrationTest {
 
         // Recording should continue with remaining devices
         coVerify { sensorRepository.startStreaming(anchor) }
-        
+
         // Stop should still work
         coEvery { sensorRepository.stopStreaming() } returns Unit
         recordingService.stopRecording()

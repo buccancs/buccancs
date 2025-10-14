@@ -53,12 +53,15 @@ fun File.ensureDirectory(): Result<File> = when {
     !exists() && !mkdirs() -> Result.Failure(
         Error.Storage("Failed to create directory: $absolutePath")
     )
+
     !isDirectory -> Result.Failure(
         Error.Storage("Path exists but is not a directory: $absolutePath")
     )
+
     !canWrite() -> Result.Failure(
         Error.Permission("Directory is not writable: $absolutePath", "WRITE_EXTERNAL_STORAGE")
     )
+
     else -> Result.Success(this)
 }
 
@@ -69,12 +72,15 @@ fun File.ensureReadable(): Result<File> = when {
     !exists() -> Result.Failure(
         Error.NotFound("File does not exist: $absolutePath")
     )
+
     !isFile -> Result.Failure(
         Error.Validation("path", "Path is not a file: $absolutePath")
     )
+
     !canRead() -> Result.Failure(
         Error.Permission("File is not readable: $absolutePath", "READ_EXTERNAL_STORAGE")
     )
+
     else -> Result.Success(this)
 }
 

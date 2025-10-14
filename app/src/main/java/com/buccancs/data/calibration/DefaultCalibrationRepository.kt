@@ -174,10 +174,10 @@ class DefaultCalibrationRepository @Inject constructor(
             }
         }.getOrThrow()
         storage.writeResult(currentSession, result)
-        
+
         // Validate quality before accepting calibration
         val qualityCheck = validateCalibrationQuality(result)
-        
+
         if (!qualityCheck.passed) {
             // Quality check failed - reject calibration
             stateMutex.withLock {
@@ -194,7 +194,7 @@ class DefaultCalibrationRepository @Inject constructor(
                 recommendation = qualityCheck.recommendation
             )
         }
-        
+
         // Quality check passed
         val metricsSnapshot = CalibrationMetrics(
             generatedAt = result.generatedAt,
@@ -208,7 +208,7 @@ class DefaultCalibrationRepository @Inject constructor(
         stateMutex.withLock {
             // Show quality warnings if any, otherwise show recommendation
             val message = qualityCheck.warnings.firstOrNull() ?: qualityCheck.recommendation
-            
+
             _state.value = _state.value.copy(
                 isProcessing = false,
                 lastResult = result,

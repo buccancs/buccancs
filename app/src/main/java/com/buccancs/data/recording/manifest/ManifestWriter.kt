@@ -18,7 +18,6 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
-import java.nio.charset.Charset
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +29,7 @@ class ManifestWriter @Inject constructor(
     private val mutex = Mutex()
     private var activeManifest: SessionManifest? = null
     private var activeFile: File? = null
-    
+
     companion object {
         private const val TAG = "ManifestWriter"
     }
@@ -160,15 +159,20 @@ class ManifestWriter @Inject constructor(
         withContext(Dispatchers.IO) {
             target.parentFile?.mkdirs()
             val payload = json.encodeToString(manifest)
-            
+
             when (val result = AtomicFileWriter.writeAtomicSafe(target, payload, checkSpace = true)) {
                 is WriteResult.Success -> {
                     Log.d(TAG, "Manifest written: ${manifest.sessionId}")
                 }
+
                 is WriteResult.Failure.InsufficientSpace -> {
-                    Log.e(TAG, "Insufficient space to write manifest: need ${result.required} bytes, have ${result.available} bytes")
+                    Log.e(
+                        TAG,
+                        "Insufficient space to write manifest: need ${result.required} bytes, have ${result.available} bytes"
+                    )
                     throw Exception("Insufficient storage space")
                 }
+
                 is WriteResult.Failure.WriteError -> {
                     Log.e(TAG, "Failed to write manifest: ${result.message}", result.cause)
                     throw Exception("Failed to write manifest: ${result.message}", result.cause)

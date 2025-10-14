@@ -3,7 +3,6 @@ package com.buccancs.data.sensor
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.RecordingLifecycleState
-import com.buccancs.domain.model.RecordingState
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -40,9 +39,9 @@ class SensorConnectionEdgeCasesTest {
     @Test
     fun `zero devices in simulation mode`() = runTest {
         val repository = createTestRepository(emptyList())
-        
+
         repository.setSimulationEnabled(true)
-        
+
         val devices = repository.devices.value
         assertEquals(0, devices.size)
     }
@@ -95,8 +94,8 @@ class SensorConnectionEdgeCasesTest {
             // Each device should have valid connection status
             assertTrue(
                 device.connectionStatus is ConnectionStatus.Connected ||
-                device.connectionStatus is ConnectionStatus.Disconnected ||
-                device.connectionStatus is ConnectionStatus.Connecting
+                        device.connectionStatus is ConnectionStatus.Disconnected ||
+                        device.connectionStatus is ConnectionStatus.Connecting
             )
         }
     }

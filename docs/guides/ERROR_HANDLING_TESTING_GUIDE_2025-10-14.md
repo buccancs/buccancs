@@ -13,6 +13,7 @@ This guide provides comprehensive testing strategies for the Result pattern erro
 ### 1. ResultTest.kt (5,129 bytes)
 
 Tests core Result<T> functionality:
+
 - Success and Failure creation
 - Value and error extraction
 - Transformation methods (map, flatMap)
@@ -25,6 +26,7 @@ Tests core Result<T> functionality:
 ### 2. ResultExtensionsTest.kt (6,476 bytes)
 
 Tests extension functions and utilities:
+
 - `resultOf` wrapper with exception handling
 - Exception to Error conversion (`toError`)
 - Collection operations (`combine`)
@@ -38,6 +40,7 @@ Tests extension functions and utilities:
 ### 3. BluetoothResultHelpersTest.kt (3,785 bytes)
 
 Tests Bluetooth-specific helpers:
+
 - Adapter validation (`checkAvailable`)
 - Operation wrapper (`bluetoothOperation`)
 - Exception categorisation
@@ -251,6 +254,7 @@ fun `deviceDirectoryResult chains session and device creation`() {
 ## Test Organisation
 
 ### Directory Structure
+
 ```
 app/src/test/java/com/buccancs/
 ├── core/
@@ -274,6 +278,7 @@ app/src/test/java/com/buccancs/
 ## Test Coverage Goals
 
 ### Current Status
+
 - ✅ Result<T> core: 100%
 - ✅ ResultExtensions: 100%
 - ✅ BluetoothResultHelpers: 100%
@@ -284,6 +289,7 @@ app/src/test/java/com/buccancs/
 - ⏭️ RecordingStorage: 0%
 
 ### Target Coverage
+
 - Core infrastructure: 100% (Achieved)
 - Domain helpers: 100% (33% complete)
 - Migrated methods: 80% (0% complete)
@@ -291,6 +297,7 @@ app/src/test/java/com/buccancs/
 ## Running Tests
 
 ### Command Line
+
 ```bash
 # Run all tests
 ./gradlew test
@@ -303,6 +310,7 @@ app/src/test/java/com/buccancs/
 ```
 
 ### From Android Studio
+
 1. Right-click on test class or method
 2. Select "Run 'TestName'"
 3. View results in Run window
@@ -310,6 +318,7 @@ app/src/test/java/com/buccancs/
 ## Mocking Guidelines
 
 ### Mock BluetoothAdapter
+
 ```kotlin
 val mockAdapter = mock(BluetoothAdapter::class.java)
 `when`(mockAdapter.isEnabled).thenReturn(true)
@@ -317,6 +326,7 @@ val mockAdapter = mock(BluetoothAdapter::class.java)
 ```
 
 ### Mock Context for Storage
+
 ```kotlin
 val mockContext = mock(Context::class.java)
 val filesDir = temporaryFolder.newFolder()
@@ -324,6 +334,7 @@ val filesDir = temporaryFolder.newFolder()
 ```
 
 ### Mock MediaCodec
+
 ```kotlin
 val mockCodec = mock(MediaCodec::class.java)
 `when`(mockCodec.createInputSurface()).thenReturn(mockSurface)
@@ -332,6 +343,7 @@ val mockCodec = mock(MediaCodec::class.java)
 ## Common Test Utilities
 
 ### Result Assertions
+
 ```kotlin
 fun <T> assertSuccess(result: Result<T>, expectedValue: T) {
     assertTrue(result.isSuccess())
@@ -354,6 +366,7 @@ fun <T> assertBluetoothError(result: Result<T>, deviceId: String? = null) {
 ```
 
 ### Coroutine Test Helpers
+
 ```kotlin
 @Test
 fun `async operation with result`() = runTest {
@@ -371,6 +384,7 @@ fun `async operation with result`() = runTest {
 ## Next Steps
 
 ### Immediate
+
 1. ✅ Create ResultTest
 2. ✅ Create ResultExtensionsTest
 3. ✅ Create BluetoothResultHelpersTest
@@ -378,6 +392,7 @@ fun `async operation with result`() = runTest {
 5. ⏭️ Create CodecResultHelpersTest
 
 ### Short Term
+
 1. Create integration tests for ShimmerSensorConnector
 2. Create integration tests for SegmentedMediaCodecRecorder
 3. Create integration tests for RecordingStorage
@@ -385,6 +400,7 @@ fun `async operation with result`() = runTest {
 5. Set up test coverage reporting
 
 ### Medium Term
+
 1. Achieve 80% test coverage for all migrated code
 2. Add performance tests for Result operations
 3. Add stress tests for error recovery

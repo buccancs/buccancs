@@ -7,17 +7,20 @@
 ## Quick Start Priority List
 
 ### Must Do (Week 1)
+
 1. ✅ Document SDK requirements and limitations
 2. 🔧 Implement Shimmer state machine
 3. 🔧 Enforce calibration quality thresholds
 4. 📝 Document thermal frame format
 
 ### Should Do (Week 2-3)
+
 5. 🔧 Add Shimmer circuit breaker
 6. 🧹 Clean up Topdon external code
 7. 🔧 Add thermal camera simulator
 
 ### Nice to Have (Week 4+)
+
 8. 🔧 Wrap Shimmer in suspending functions
 9. 🔧 Extract minimal Topdon SDK wrapper
 10. 🔧 Add OpenCV fallback handling
@@ -25,7 +28,9 @@
 ## 1. Shimmer State Machine Implementation
 
 ### Problem
-Current code has 14+ mutable state variables with implicit state transitions, making it difficult to reason about valid states.
+
+Current code has 14+ mutable state variables with implicit state transitions, making it difficult to reason about valid
+states.
 
 ### Solution: Explicit State Machine
 
@@ -308,6 +313,7 @@ class ShimmerSensorConnector(...) {
 ```
 
 ### Benefits
+
 - ✅ Clear state transitions
 - ✅ Invalid transitions prevented
 - ✅ Easier debugging (log all transitions)
@@ -317,6 +323,7 @@ class ShimmerSensorConnector(...) {
 ## 2. Calibration Quality Enforcement
 
 ### Problem
+
 Calibrations with high reprojection errors are accepted, potentially causing bad measurements.
 
 ### Solution: Hard Quality Thresholds
@@ -698,6 +705,7 @@ These three implementations address the highest priority issues:
 Each can be implemented independently and tested without hardware using simulators.
 
 **Next Steps:**
+
 1. Implement state machine (highest impact)
 2. Add quality enforcement (prevents bad data)
 3. Add circuit breaker (improves user experience)

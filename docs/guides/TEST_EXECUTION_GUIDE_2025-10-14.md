@@ -24,12 +24,15 @@ Tests are disabled by default but can be enabled via command-line flag:
 
 ## Why Are Tests Disabled by Default?
 
-Tests are disabled in `build.gradle.kts` to prevent build failures during the testing infrastructure setup phase. This allows:
+Tests are disabled in `build.gradle.kts` to prevent build failures during the testing infrastructure setup phase. This
+allows:
+
 - Incremental test implementation without breaking builds
 - Gradual migration to comprehensive testing
 - Controlled test enablement when ready
 
 **When to Enable Tests:**
+
 - During development when writing/running tests
 - In CI/CD pipelines
 - Before committing changes
@@ -104,6 +107,7 @@ desktop/build/reports/tests/test/index.html
 ```
 
 Open in browser to view:
+
 - Test results summary
 - Pass/fail status
 - Execution time
@@ -116,15 +120,15 @@ Open in browser to view:
 #### Running Tests
 
 1. **Single Test Method:**
-   - Click gutter icon next to test method
-   - Right-click → "Run 'testMethodName'"
+    - Click gutter icon next to test method
+    - Right-click → "Run 'testMethodName'"
 
 2. **Test Class:**
-   - Click gutter icon next to class name
-   - Right-click → "Run 'TestClassName'"
+    - Click gutter icon next to class name
+    - Right-click → "Run 'TestClassName'"
 
 3. **All Tests in Package:**
-   - Right-click package → "Run Tests in 'packageName'"
+    - Right-click package → "Run Tests in 'packageName'"
 
 #### Debugging Tests
 
@@ -185,6 +189,7 @@ exit 0
 ```
 
 Make executable:
+
 ```bash
 chmod +x .git/hooks/pre-commit
 ```
@@ -269,6 +274,7 @@ test:
 **Problem:** No tests execute even with flag enabled.
 
 **Solutions:**
+
 1. Verify flag syntax: `-Ptests.enabled=true` (not `-P tests.enabled=true`)
 2. Check build output for "✅ Tests are ENABLED" message
 3. Ensure tests exist in `src/test` directories
@@ -279,6 +285,7 @@ test:
 **Problem:** Tests fail with compilation errors.
 
 **Solutions:**
+
 1. Rebuild project: `./gradlew clean build`
 2. Sync Gradle files in IDE
 3. Check test dependencies are present
@@ -289,6 +296,7 @@ test:
 **Problem:** `@HiltAndroidTest` tests fail with injection errors.
 
 **Solutions:**
+
 1. Ensure `@get:Rule val hiltRule = HiltAndroidRule(this)`
 2. Call `hiltRule.inject()` in `@Before` method
 3. Add `@Config(application = HiltTestApplication::class)`
@@ -299,6 +307,7 @@ test:
 **Problem:** Tests take too long to execute.
 
 **Solutions:**
+
 1. Run specific tests instead of all: `--tests "SpecificTest"`
 2. Use `--parallel` for parallel execution
 3. Increase test JVM memory: `-Dorg.gradle.jvmargs=-Xmx2g`
@@ -309,6 +318,7 @@ test:
 **Problem:** IDE shows "No tests found" or doesn't execute tests.
 
 **Solutions:**
+
 1. Add `tests.enabled=true` to `gradle.properties`
 2. Invalidate caches and restart IDE
 3. Ensure JUnit runner is configured correctly
@@ -374,23 +384,23 @@ src/test/java/com/buccancs/
 
 ### Common Commands
 
-| Task | Command |
-|------|---------|
-| Run all tests | `./gradlew test -Ptests.enabled=true` |
-| Run app tests | `./gradlew :app:test -Ptests.enabled=true` |
+| Task              | Command                                                  |
+|-------------------|----------------------------------------------------------|
+| Run all tests     | `./gradlew test -Ptests.enabled=true`                    |
+| Run app tests     | `./gradlew :app:test -Ptests.enabled=true`               |
 | Run specific test | `./gradlew test -Ptests.enabled=true --tests "TestName"` |
-| Run with coverage | `./gradlew test -Ptests.enabled=true jacocoTestReport` |
-| Continuous mode | `./gradlew test -Ptests.enabled=true --continuous` |
-| Clean and test | `./gradlew clean test -Ptests.enabled=true` |
+| Run with coverage | `./gradlew test -Ptests.enabled=true jacocoTestReport`   |
+| Continuous mode   | `./gradlew test -Ptests.enabled=true --continuous`       |
+| Clean and test    | `./gradlew clean test -Ptests.enabled=true`              |
 
 ### IDE Shortcuts
 
-| Action | Windows/Linux | Mac |
-|--------|---------------|-----|
-| Run test | Ctrl+Shift+F10 | Ctrl+Shift+R |
-| Debug test | Ctrl+Shift+F9 | Ctrl+Shift+D |
-| Re-run tests | Shift+F10 | Shift+F10 |
-| Stop tests | Ctrl+F2 | Cmd+F2 |
+| Action       | Windows/Linux  | Mac          |
+|--------------|----------------|--------------|
+| Run test     | Ctrl+Shift+F10 | Ctrl+Shift+R |
+| Debug test   | Ctrl+Shift+F9  | Ctrl+Shift+D |
+| Re-run tests | Shift+F10      | Shift+F10    |
+| Stop tests   | Ctrl+F2        | Cmd+F2       |
 
 ## Getting Help
 
@@ -421,4 +431,6 @@ open app/build/reports/jacoco/test/html/index.html
 
 ## Summary
 
-Tests are controlled by the `-Ptests.enabled=true` flag, allowing flexible execution without modifying build files. Use this guide to run tests locally, in CI/CD, and from your IDE. Follow best practices for fast, reliable testing that catches issues early.
+Tests are controlled by the `-Ptests.enabled=true` flag, allowing flexible execution without modifying build files. Use
+this guide to run tests locally, in CI/CD, and from your IDE. Follow best practices for fast, reliable testing that
+catches issues early.

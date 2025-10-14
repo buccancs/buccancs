@@ -13,20 +13,21 @@
 
 **Critical Files Requiring Refactoring:**
 
-| File | Lines | Issues | Priority |
-|------|-------|--------|----------|
-| MainViewModel.kt | 1,248 | God object, mixed concerns | HIGH |
-| ShimmerSensorConnector.kt | 706 | Complex state machine | HIGH |
-| TopdonThermalConnector.kt | 559 | Hardware lifecycle management | MEDIUM |
-| DefaultCalibrationRepository.kt | 535 | OpenCV integration complexity | MEDIUM |
-| MainScreen.kt | 527 | Monolithic UI composition | MEDIUM |
-| LiveSessionScreen.kt | 503 | Heavy telemetry rendering | MEDIUM |
-| RgbCameraConnector.kt | 483 | MediaCodec lifecycle | MEDIUM |
-| MicrophoneConnector.kt | 445 | Audio pipeline management | LOW |
+| File                            | Lines | Issues                        | Priority |
+|---------------------------------|-------|-------------------------------|----------|
+| MainViewModel.kt                | 1,248 | God object, mixed concerns    | HIGH     |
+| ShimmerSensorConnector.kt       | 706   | Complex state machine         | HIGH     |
+| TopdonThermalConnector.kt       | 559   | Hardware lifecycle management | MEDIUM   |
+| DefaultCalibrationRepository.kt | 535   | OpenCV integration complexity | MEDIUM   |
+| MainScreen.kt                   | 527   | Monolithic UI composition     | MEDIUM   |
+| LiveSessionScreen.kt            | 503   | Heavy telemetry rendering     | MEDIUM   |
+| RgbCameraConnector.kt           | 483   | MediaCodec lifecycle          | MEDIUM   |
+| MicrophoneConnector.kt          | 445   | Audio pipeline management     | LOW      |
 
 ### 1.2 MainViewModel Analysis (1,248 lines)
 
 **Responsibilities (Should be separated):**
+
 1. Session lifecycle management
 2. Device connection orchestration
 3. Time synchronisation status
@@ -41,6 +42,7 @@
 12. Event marker handling
 
 **Code Smells:**
+
 ```kotlin
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -61,13 +63,14 @@ class MainViewModel @Inject constructor(
 ```
 
 **Refactoring Recommendations:**
+
 1. Extract `SessionCoordinator` use case
-2. Extract `DeviceManagementUseCase` 
+2. Extract `DeviceManagementUseCase`
 3. Extract `HardwareConfigurationUseCase`
 4. Split into multiple feature-specific ViewModels:
-   - `RecordingViewModel` - session lifecycle
-   - `DeviceDiscoveryViewModel` - hardware scanning
-   - `TelemetryViewModel` - status monitoring
+    - `RecordingViewModel` - session lifecycle
+    - `DeviceDiscoveryViewModel` - hardware scanning
+    - `TelemetryViewModel` - status monitoring
 5. Move hardware logic to application services (partially done)
 
 **Estimated Refactoring Effort:** 3-4 days
@@ -102,6 +105,7 @@ internal class ShimmerSensorConnector(
 ```
 
 **Issues:**
+
 1. **12 try-catch blocks** - complex error handling
 2. **Handler on main looper** - threading complexity
 3. **Manual file I/O** - should use higher-level abstractions
@@ -110,6 +114,7 @@ internal class ShimmerSensorConnector(
 6. **Memory leak risk** - Handler holds Activity context reference
 
 **Refactoring Recommendations:**
+
 1. Extract `ShimmerConnectionStateMachine` sealed class
 2. Extract `ShimmerDataWriter` for file I/O
 3. Use structured concurrency (no Handler)
@@ -125,6 +130,7 @@ internal class ShimmerSensorConnector(
 ### 2.1 Error Handling Distribution
 
 **Analysis Results:**
+
 - **12 try-catch blocks** in ShimmerSensorConnector.kt
 - **9 try-catch blocks** in SegmentedMediaCodecRecorder.kt
 - **185 total logging calls** across app/desktop modules
@@ -133,6 +139,7 @@ internal class ShimmerSensorConnector(
 ### 2.2 Error Handling Anti-Patterns
 
 **Pattern 1: Silent Failure**
+
 ```kotlin
 try {
     // complex operation
@@ -143,12 +150,14 @@ try {
 ```
 
 **Pattern 2: Inconsistent Result Types**
+
 - Some methods return nullable types
 - Some throw exceptions
 - Some use try-catch internally
 - No standard Result/Either wrapper
 
 **Pattern 3: Unhandled Cancellation**
+
 ```kotlin
 launch {
     try {
@@ -163,6 +172,7 @@ launch {
 ### 2.3 Recommended Error Handling Strategy
 
 **Adopt Result Pattern:**
+
 ```kotlin
 sealed class Result<out T> {
     data class Success<T>(val value: T) : Result<T>()
@@ -188,6 +198,7 @@ suspend fun connectDevice(id: DeviceId): Result<Connection> = try {
 ```
 
 **Benefits:**
+
 - Explicit error handling at call sites
 - Type-safe error categories
 - Forces caller to handle errors
@@ -202,6 +213,7 @@ suspend fun connectDevice(id: DeviceId): Result<Connection> = try {
 ### 3.1 Coroutine Scope Management
 
 **Current Pattern:**
+
 - Application-level `@ApplicationScope` CoroutineScope (good)
 - ViewModels use `viewModelScope` (good)
 - **108 `launch {}` and `async {}` calls** - need audit
@@ -209,6 +221,7 @@ suspend fun connectDevice(id: DeviceId): Result<Connection> = try {
 **Potential Issues:**
 
 **Issue 1: Long-running operations in viewModelScope**
+
 ```kotlin
 // In MainViewModel
 viewModelScope.launch {
@@ -219,6 +232,7 @@ viewModelScope.launch {
 ```
 
 **Issue 2: No timeout on suspending calls**
+
 ```kotlin
 suspend fun connectDevice(id: DeviceId) {
     // No timeout - could hang forever
@@ -227,6 +241,7 @@ suspend fun connectDevice(id: DeviceId) {
 ```
 
 **Issue 3: Unstructured concurrency**
+
 ```kotlin
 // Starting a coroutine without parent context
 appScope.launch {
@@ -237,11 +252,13 @@ appScope.launch {
 ### 3.2 Threading Patterns
 
 **Minimal Direct Threading:**
+
 - **0 instances** of `Thread.` or `synchronised` in app/desktop
 - **17 instances** of threading primitives (`AtomicReference`, `@Volatile`)
 - **Good:** Using coroutines instead of threads
 
 **Handler Usage in ShimmerConnector:**
+
 ```kotlin
 private val handler = object : Handler(Looper.getMainLooper()) {
     override fun handleMessage(msg: Message) {
@@ -256,6 +273,7 @@ private val handler = object : Handler(Looper.getMainLooper()) {
 ### 3.3 Recommendations
 
 1. **Add timeout to all network/hardware operations:**
+
 ```kotlin
 withTimeout(30.seconds) {
     device.connect()
@@ -263,6 +281,7 @@ withTimeout(30.seconds) {
 ```
 
 2. **Use application scope for long-running operations:**
+
 ```kotlin
 // Recording service should use application scope, not viewModelScope
 @ApplicationScope
@@ -276,6 +295,7 @@ class DefaultRecordingService @Inject constructor(
 ```
 
 3. **Convert Handler callbacks to suspendCancellableCoroutine:**
+
 ```kotlin
 suspend fun Shimmer.connectAsync(): Result<Unit> = suspendCancellableCoroutine { cont ->
     val handler = Handler(Looper.getMainLooper()) {
@@ -301,6 +321,7 @@ suspend fun Shimmer.connectAsync(): Result<Unit> = suspendCancellableCoroutine {
 **File I/O with `.use {}` pattern:** 51 instances (good)
 
 **Manual cleanup required:**
+
 - Camera resources (MediaCodec, ImageReader)
 - Bluetooth connections (Shimmer SDK)
 - USB connections (Topdon SDK)
@@ -311,6 +332,7 @@ suspend fun Shimmer.connectAsync(): Result<Unit> = suspendCancellableCoroutine {
 ### 4.2 Potential Memory Leaks
 
 **Issue 1: Display Listener Not Unregistered**
+
 ```kotlin
 // app/src/main/java/com/buccancs/application/stimulus/StimulusPresentationManager.kt:49
 displayManager.registerDisplayListener(object : DisplayListener {
@@ -319,6 +341,7 @@ displayManager.registerDisplayListener(object : DisplayListener {
 ```
 
 **Issue 2: Shimmer Handler Holds Context**
+
 ```kotlin
 class ShimmerSensorConnector(
     private val context: Context, // Activity context?
@@ -331,6 +354,7 @@ class ShimmerSensorConnector(
 ```
 
 **Issue 3: WorkManager Workers**
+
 ```kotlin
 // UploadWorker.kt - long-running file uploads
 class UploadWorker(context: Context, params: WorkerParameters) {
@@ -344,11 +368,13 @@ class UploadWorker(context: Context, params: WorkerParameters) {
 **40 instances** of Bitmap/ImageReader usage
 
 **Areas to Audit:**
+
 1. Camera preview frames - are they recycled?
 2. Thermal image bitmaps - memory allocation rate?
 3. Calibration image pairs - temporary storage?
 
 **Recommendation:** Use `use {}` or explicit try-finally for all Image resources:
+
 ```kotlin
 imageReader.acquireLatestImage()?.use { image ->
     processImage(image)
@@ -358,22 +384,26 @@ imageReader.acquireLatestImage()?.use { image ->
 ### 4.4 Database Usage
 
 **Zero Room/SQLite usage detected** - all persistence via:
+
 - DataStore (preferences)
 - JSON files (manifests, configs)
 - Raw files (recordings)
 
 **Implications:**
+
 - No complex queries needed (good)
 - All data fits in memory (potential issue for large sessions)
 - No transactional integrity for multi-file operations
 - Manual consistency management
 
 **Trade-off Analysis:**
+
 - **Pro:** Simple, no migration complexity
 - **Con:** No ACID guarantees, difficult to query historical data
 - **Risk:** Session manifest corruption if app crashes during write
 
 **Recommendation:** Add write-ahead logging or atomic file operations for critical manifests:
+
 ```kotlin
 // Atomic file write pattern
 val tempFile = File(dir, "$name.tmp")
@@ -388,6 +418,7 @@ tempFile.renameTo(File(dir, name)) // Atomic on most filesystems
 ### 5.1 Module Structure Analysis
 
 **Hilt Modules Found:**
+
 - CalibrationModule
 - CoroutineModule (provides @ApplicationScope)
 - HardwareModule
@@ -397,6 +428,7 @@ tempFile.renameTo(File(dir, name)) // Atomic on most filesystems
 - StreamModule
 
 **Quality Assessment:** **GOOD**
+
 - Clear separation of concerns
 - Proper use of @Singleton
 - Multibindings for extensibility (SensorConnector set)
@@ -405,11 +437,13 @@ tempFile.renameTo(File(dir, name)) // Atomic on most filesystems
 ### 5.2 Potential Issues
 
 **Issue 1: No Module Testing**
+
 - Zero test files for DI modules
 - No verification that all bindings work
 - First error discovered at runtime
 
 **Issue 2: Concrete Dependencies**
+
 ```kotlin
 @Provides
 fun provideCameraManager(context: Context): CameraManager =
@@ -418,6 +452,7 @@ fun provideCameraManager(context: Context): CameraManager =
 ```
 
 **Issue 3: Context Scoping**
+
 ```kotlin
 @Provides
 @Singleton
@@ -428,6 +463,7 @@ fun provideUsbManager(@ApplicationContext context: Context): UsbManager
 ### 5.3 Recommendations
 
 1. **Add DI Module Tests:**
+
 ```kotlin
 @HiltAndroidTest
 class RepositoryModuleTest {
@@ -441,6 +477,7 @@ class RepositoryModuleTest {
 ```
 
 2. **Wrap System Services:**
+
 ```kotlin
 interface CameraService {
     fun getCameraIds(): List<String>
@@ -461,10 +498,12 @@ class AndroidCameraService(private val manager: CameraManager) : CameraService {
 ### 6.1 Proto Definitions Found
 
 **Files:**
+
 - `orchestration.proto` - session commands, sync signals
 - `control.proto` - local control service, command envelopes
 
 **Quality Assessment:** **GOOD**
+
 - Clear message structure
 - Proper package organisation
 - Java multi-file generation enabled
@@ -472,6 +511,7 @@ class AndroidCameraService(private val manager: CameraManager) : CameraService {
 ### 6.2 Potential Issues
 
 **Issue 1: No Proto Versioning**
+
 ```proto
 syntax = "proto3";
 package com.buccancs.control;
@@ -479,6 +519,7 @@ package com.buccancs.control;
 ```
 
 **Recommendation:**
+
 ```proto
 message CommandEnvelope {
   string command_id = 1;
@@ -491,6 +532,7 @@ message CommandEnvelope {
 ```
 
 **Issue 2: Embedded JSON in Proto**
+
 ```proto
 message CommandEnvelope {
   string payload_json = 3; // Type safety lost
@@ -498,6 +540,7 @@ message CommandEnvelope {
 ```
 
 **Better Approach:**
+
 ```proto
 message CommandEnvelope {
   oneof payload {
@@ -509,6 +552,7 @@ message CommandEnvelope {
 ```
 
 **Benefits:**
+
 - Type safety at compile time
 - Smaller message size (no JSON overhead)
 - Automatic serialization validation
@@ -524,6 +568,7 @@ message CommandEnvelope {
 **92 instances** of JSON serialization/deserialization
 
 **Libraries Used:**
+
 - kotlinx.serialization (primary)
 - Gson (in external code)
 
@@ -532,6 +577,7 @@ message CommandEnvelope {
 ### 7.2 Potential Issues
 
 **Issue 1: Multiple Json Instances**
+
 ```kotlin
 // In MainViewModel
 private val shimmerJson = Json { ignoreUnknownKeys = true }
@@ -542,6 +588,7 @@ Json.encodeToString(...)
 ```
 
 **Recommendation:** Centralize Json configuration:
+
 ```kotlin
 @Provides
 @Singleton
@@ -554,11 +601,13 @@ fun provideJson(): Json = Json {
 ```
 
 **Issue 2: No Schema Validation**
+
 - Device inventory loaded without validation
 - Manifests written without schema checks
 - Config files can be malformed
 
 **Recommendation:** Add validation layer:
+
 ```kotlin
 @Serializable
 data class DeviceInventory(
@@ -581,6 +630,7 @@ data class DeviceInventory(
 **97 instances** of File operations
 
 **Patterns Found:**
+
 - **51 `.use {}` blocks** (good - automatic cleanup)
 - Manual FileOutputStream/FileInputStream
 - Direct File() construction
@@ -589,6 +639,7 @@ data class DeviceInventory(
 ### 8.2 Issues Found
 
 **Issue 1: No Disk Space Checks Before Write**
+
 ```kotlin
 fun writeRecording(data: ByteArray) {
     File(path).writeBytes(data)
@@ -597,6 +648,7 @@ fun writeRecording(data: ByteArray) {
 ```
 
 **Better:**
+
 ```kotlin
 fun writeRecording(data: ByteArray): Result<Unit> {
     val available = File(path).usableSpace
@@ -609,6 +661,7 @@ fun writeRecording(data: ByteArray): Result<Unit> {
 ```
 
 **Issue 2: Implicit Charset**
+
 ```kotlin
 // ShimmerSensorConnector uses explicit UTF-8 (good)
 OutputStreamWriter(fos, StandardCharsets.UTF_8)
@@ -617,6 +670,7 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 ```
 
 **Issue 3: Atomic Write Not Always Used**
+
 - Manifests written directly (corruption risk)
 - No write-ahead log
 - No fsync/flush verification
@@ -624,18 +678,21 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 ### 8.3 Storage Architecture Issues
 
 **Current Approach:**
+
 - Session folders: `/<sessionId>/`
 - Artifacts: `recording_<timestamp>_<stream>.mp4`
 - Manifests: `manifest.json`
 - Metadata: various `.jsonl` files
 
 **Issues:**
+
 1. **No backup mechanism** - single copy of critical data
 2. **No consistency checks** - partial writes possible
 3. **No compression** - raw video files (intentional?)
 4. **Manual cleanup** - retention worker not fully implemented
 
 **Recommendations:**
+
 1. Add manifest checksums and validation on load
 2. Implement two-phase commit for critical files
 3. Add periodic consistency checks
@@ -648,6 +705,7 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 ### 9.1 Permission Handling
 
 **Permissions Requested:**
+
 - Bluetooth (scan, connect, admin)
 - Location (for BLE scanning)
 - Camera
@@ -661,11 +719,13 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 **Total: 18 permissions** - high privilege application
 
 **Issues:**
+
 1. No dynamic permission request tracking code found
 2. No graceful degradation if permission denied
 3. Battery optimisation exemption may not be granted
 
 **Recommendations:**
+
 1. Add `PermissionManager` to centralize permission logic
 2. Implement feature-level permission requirements
 3. Add UI feedback for missing permissions
@@ -674,19 +734,23 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 ### 9.2 Background Execution
 
 **Background Workers:**
+
 - UploadWorker (file transfers)
 - RetentionWorker (cleanup)
 
 **Foreground Services:**
+
 - Recording service (implied)
 
 **Issues:**
+
 1. No code found for foreground service notification
 2. WorkManager constraints not validated
 3. Doze mode impact not documented
 4. Battery usage not profiled
 
 **Recommendations:**
+
 1. Add persistent notification for foreground service
 2. Document battery impact and optimisation
 3. Test under Doze mode restrictions
@@ -695,16 +759,19 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 ### 9.3 Configuration Changes
 
 **Lifecycle Management:**
+
 - ViewModels handle configuration changes (good)
 - Application-scoped services survive (good)
 - Recording survives Activity destruction (good via Service)
 
 **Potential Issues:**
+
 1. Camera resources might not survive all config changes
 2. USB device permissions might be lost on rotation
 3. Bluetooth connections might drop on process death
 
 **Needs Testing:**
+
 - Rotate device during recording
 - Switch to another app during recording
 - Receive phone call during recording
@@ -717,6 +784,7 @@ OutputStreamWriter(fos, StandardCharsets.UTF_8)
 ### 10.1 Desktop Code Completion
 
 **Module Structure:**
+
 ```
 desktop/src/main/kotlin/com/buccancs/desktop/
 ├── data/
@@ -735,6 +803,7 @@ desktop/src/main/kotlin/com/buccancs/desktop/
 ```
 
 **Code Metrics:**
+
 - GrpcServer.kt: ~800 lines (4 service implementations in one file)
 - DesktopApp.kt: ~700 lines (entire UI in one file)
 - Similar patterns to Android (large files, mixed concerns)
@@ -742,6 +811,7 @@ desktop/src/main/kotlin/com/buccancs/desktop/
 ### 10.2 Desktop-Specific Issues
 
 **Issue 1: GrpcServer God Class**
+
 ```kotlin
 class GrpcServer(...) {
     // Contains:
@@ -755,6 +825,7 @@ class GrpcServer(...) {
 ```
 
 **Issue 2: File Upload Reception Incomplete**
+
 ```kotlin
 private class DataTransferServiceImpl(...) {
     override fun upload(requests: Flow<DataTransferRequest>): Flow<DataTransferStatus> {
@@ -766,6 +837,7 @@ private class DataTransferServiceImpl(...) {
 ```
 
 **Issue 3: No Desktop Tests**
+
 - Zero test files for desktop module
 - gRPC service implementations untested
 - Session aggregation logic unverified
@@ -773,21 +845,21 @@ private class DataTransferServiceImpl(...) {
 ### 10.3 Desktop Recommendations
 
 1. **Split GrpcServer.kt:**
-   - One file per service implementation
-   - Shared utilities in separate file
-   - Estimated effort: 1 day
+    - One file per service implementation
+    - Shared utilities in separate file
+    - Estimated effort: 1 day
 
 2. **Complete File Reception:**
-   - Implement session folder structure
-   - Add manifest aggregation
-   - Verify checksums
-   - Estimated effort: 3-4 days
+    - Implement session folder structure
+    - Add manifest aggregation
+    - Verify checksums
+    - Estimated effort: 3-4 days
 
 3. **Add Desktop Tests:**
-   - gRPC service unit tests
-   - Repository integration tests
-   - Session aggregation tests
-   - Estimated effort: 1 week
+    - gRPC service unit tests
+    - Repository integration tests
+    - Session aggregation tests
+    - Estimated effort: 1 week
 
 ---
 
@@ -798,17 +870,20 @@ private class DataTransferServiceImpl(...) {
 **83 import statements** from Shimmer packages
 
 **Integration Quality:**
+
 - Proper abstraction via SensorConnector interface
 - Simulation mode for testing without hardware
 - Manager pattern for multi-device support
 
 **Issues:**
+
 1. Handler-based callbacks (old Android pattern)
 2. Synchronous blocking calls in async code
 3. Complex state management in ShimmerConnector
 4. Java compatibility constraints (requires Java 11-13)
 
 **Recommendations:**
+
 1. Wrap Shimmer SDK in suspending functions
 2. Create explicit state machine for connection lifecycle
 3. Add circuit breaker for repeated connection failures
@@ -819,12 +894,14 @@ private class DataTransferServiceImpl(...) {
 **Topdon usage** in TopdonThermalConnector (559 lines)
 
 **Issues:**
+
 1. External app code included (333 files, many deprecated)
 2. Chinese comments and strings in external code
 3. Complex USB initialization sequence
 4. Thermal frame format conversions
 
 **Recommendations:**
+
 1. Extract minimal SDK wrapper
 2. Remove unused Topdon example app code
 3. Document thermal frame format and conversions
@@ -835,16 +912,19 @@ private class DataTransferServiceImpl(...) {
 **OpenCV usage** in calibration code
 
 **Integration Quality:**
+
 - Used for camera calibration only
 - Proper Mat lifecycle management
 - Results cached and reused
 
 **Issues:**
+
 1. Large library (50+ MB) for limited functionality
 2. Native library loading complexity
 3. Calibration quality thresholds not enforced
 
 **Recommendations:**
+
 1. Document OpenCV initialization requirements
 2. Add automated quality checks
 3. Consider alternative if only basic operations needed
@@ -857,46 +937,46 @@ private class DataTransferServiceImpl(...) {
 ### Critical (Fix Immediately)
 
 1. **Enable and expand test coverage** (4% → 40%)
-   - Effort: 4-6 weeks
-   - Impact: Risk reduction, regression prevention
+    - Effort: 4-6 weeks
+    - Impact: Risk reduction, regression prevention
 
 2. **Complete desktop file reception**
-   - Effort: 3-4 days
-   - Impact: Unblocks end-to-end testing
+    - Effort: 3-4 days
+    - Impact: Unblocks end-to-end testing
 
 3. **Fix memory leak risks**
-   - DisplayListener registration
-   - ShimmerConnector Handler/Context
-   - Effort: 2-3 days
-   - Impact: App stability
+    - DisplayListener registration
+    - ShimmerConnector Handler/Context
+    - Effort: 2-3 days
+    - Impact: App stability
 
 ### High Priority (Next Sprint)
 
 4. **Refactor MainViewModel** (1,248 lines)
-   - Effort: 3-4 days
-   - Impact: Maintainability, testability
+    - Effort: 3-4 days
+    - Impact: Maintainability, testability
 
 5. **Implement Result error handling**
-   - Effort: 2-3 weeks (incremental)
-   - Impact: Better error recovery, debugging
+    - Effort: 2-3 weeks (incremental)
+    - Impact: Better error recovery, debugging
 
 6. **Add resource cleanup validation**
-   - Effort: 1 week
-   - Impact: Memory leak prevention
+    - Effort: 1 week
+    - Impact: Memory leak prevention
 
 7. **Split GrpcServer.kt**
-   - Effort: 1 day
-   - Impact: Desktop code maintainability
+    - Effort: 1 day
+    - Impact: Desktop code maintainability
 
 ### Medium Priority (Next Month)
 
 8. **Refactor ShimmerConnector** (706 lines)
-   - Effort: 4-5 days
-   - Impact: Hardware reliability
+    - Effort: 4-5 days
+    - Impact: Hardware reliability
 
 9. **Add DI module tests**
-   - Effort: 1 week
-   - Impact: Catch configuration errors
+    - Effort: 1 week
+    - Impact: Catch configuration errors
 
 10. **Improve proto definitions**
     - Effort: 2-3 days
@@ -922,18 +1002,18 @@ private class DataTransferServiceImpl(...) {
 
 ### Current State
 
-| Metric | Current | Target | Gap |
-|--------|---------|--------|-----|
-| Test Coverage | 4% | 40%+ | -36% |
-| Files >500 lines | 8 | <3 | +5 |
-| DI Modules Tested | 0% | 100% | -100% |
-| Error Handling Strategy | Ad-hoc | Consistent | Major |
-| Resource Leak Risks | 3 identified | 0 | -3 |
-| Proto Type Safety | Partial | Full | Medium |
-| Null Safety Issues | 24 | <5 | -19 |
-| Concurrency Audited | No | Yes | Required |
-| Memory Profiled | No | Yes | Required |
-| Performance Baselined | No | Yes | Required |
+| Metric                  | Current      | Target     | Gap      |
+|-------------------------|--------------|------------|----------|
+| Test Coverage           | 4%           | 40%+       | -36%     |
+| Files >500 lines        | 8            | <3         | +5       |
+| DI Modules Tested       | 0%           | 100%       | -100%    |
+| Error Handling Strategy | Ad-hoc       | Consistent | Major    |
+| Resource Leak Risks     | 3 identified | 0          | -3       |
+| Proto Type Safety       | Partial      | Full       | Medium   |
+| Null Safety Issues      | 24           | <5         | -19      |
+| Concurrency Audited     | No           | Yes        | Required |
+| Memory Profiled         | No           | Yes        | Required |
+| Performance Baselined   | No           | Yes        | Required |
 
 ### Code Smells Detected
 
@@ -948,43 +1028,48 @@ private class DataTransferServiceImpl(...) {
 
 ### Architectural Health
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Modularity | B+ | Good module separation |
-| Dependency Direction | A- | Proper layering, some leaks |
-| Interface Segregation | B | Good but could improve |
-| Single Responsibility | C | Many multi-responsibility classes |
-| Open/Closed | B+ | Good extension points |
-| Dependency Inversion | A | Excellent DI usage |
-| Testability | D | Low test coverage, hard to mock |
+| Aspect                | Rating | Notes                             |
+|-----------------------|--------|-----------------------------------|
+| Modularity            | B+     | Good module separation            |
+| Dependency Direction  | A-     | Proper layering, some leaks       |
+| Interface Segregation | B      | Good but could improve            |
+| Single Responsibility | C      | Many multi-responsibility classes |
+| Open/Closed           | B+     | Good extension points             |
+| Dependency Inversion  | A      | Excellent DI usage                |
+| Testability           | D      | Low test coverage, hard to mock   |
 
 **Overall Code Quality Grade: C+**
 
-Solid architectural foundations with good modern patterns (Hilt, Coroutines, Compose), but significant technical debt in large files, error handling, and testing that limits maintainability and reliability.
+Solid architectural foundations with good modern patterns (Hilt, Coroutines, Compose), but significant technical debt in
+large files, error handling, and testing that limits maintainability and reliability.
 
 ---
 
 ## 14. IMMEDIATE ACTION ITEMS
 
 **Week 1:**
+
 1. Fix DisplayListener memory leak
 2. Add basic integration tests (10 tests)
 3. Complete desktop file upload reception
 4. Document critical failure modes
 
 **Week 2:**
+
 5. Refactor MainViewModel (extract 3 use cases)
 6. Add Result wrapper for error handling (start with connectors)
 7. Split GrpcServer.kt into separate files
 8. Add DI module tests
 
 **Week 3:**
+
 9. Audit all coroutine launches for proper scoping
 10. Add timeout to all hardware operations
 11. Implement atomic file writes for manifests
 12. Add resource cleanup validation tests
 
 **Week 4:**
+
 13. Refactor ShimmerConnector state machine
 14. Add proto versioning
 15. Centralize Json configuration
@@ -994,15 +1079,18 @@ Solid architectural foundations with good modern patterns (Hilt, Coroutines, Com
 
 ## 15. CONCLUSION
 
-The codebase demonstrates **good architectural instincts** (MVVM, DI, coroutines, separation of concerns) but suffers from **scaling issues** common in rapid development:
+The codebase demonstrates **good architectural instincts** (MVVM, DI, coroutines, separation of concerns) but suffers
+from **scaling issues** common in rapid development:
 
 **Strengths:**
+
 - Modern Kotlin/Compose stack
 - Proper dependency injection
 - Clean package structure
 - Good separation of Android/Desktop/Protocol
 
 **Critical Weaknesses:**
+
 - Testing virtually absent (4%)
 - Large files with mixed concerns
 - Inconsistent error handling
@@ -1010,6 +1098,7 @@ The codebase demonstrates **good architectural instincts** (MVVM, DI, coroutines
 - Desktop module incomplete
 
 **Path Forward:**
+
 1. **Stop adding features** until test coverage >20%
 2. **Refactor MainViewModel** before it grows larger
 3. **Complete desktop orchestrator** to enable integration testing
@@ -1018,12 +1107,14 @@ The codebase demonstrates **good architectural instincts** (MVVM, DI, coroutines
 
 **Risk Assessment:**
 Without addressing these quality issues, the system will become:
+
 - Difficult to debug in production
 - Prone to crashes and data loss
 - Hard to maintain and extend
 - Unable to pass code review for thesis
 
 **Recommended Investment:**
+
 - **4-6 weeks** of focused refactoring and testing
 - Then **2 weeks** of integration testing
 - Before any new feature development
