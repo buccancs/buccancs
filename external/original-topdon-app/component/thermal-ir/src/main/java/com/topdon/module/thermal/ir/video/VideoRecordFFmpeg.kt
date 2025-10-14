@@ -49,8 +49,6 @@ import com.topdon.lib.ui.widget.BitmapConstraintLayout
 import com.topdon.lib.ui.widget.LiteSurfaceView
 import com.topdon.libcom.view.TempLayout
 import com.topdon.module.thermal.ir.R
-import com.topdon.module.thermal.ir.view.HikSurfaceView
-import com.topdon.module.thermal.ir.view.TemperatureHikView
 import com.topdon.module.thermal.ir.view.compass.LinearCompassView
 import io.reactivex.FlowableEmitter
 import io.reactivex.Observable
@@ -492,7 +490,6 @@ class VideoRecordFFmpeg(
             }
 
             is LiteSurfaceView -> cameraViewBitmap = cameraView.scaleBitmap()
-            is HikSurfaceView -> cameraViewBitmap = cameraView.getScaleBitmap()
             else -> cameraViewBitmap = Bitmap.createBitmap(cameraView.width, cameraView.height, Bitmap.Config.ARGB_8888)
         }
         when (temperatureView) {
@@ -506,10 +503,6 @@ class VideoRecordFFmpeg(
                         cameraViewBitmap = BitmapUtils.mergeBitmap(cameraViewBitmap, temperatureView.regionBitmap, 0, 0)
                     }
                 }
-            }
-
-            is TemperatureHikView -> {
-                temperatureView.draw(Canvas(cameraViewBitmap))
             }
         }
         if (thermalPseudoBarView?.visibility == VISIBLE) {

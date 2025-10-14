@@ -8,6 +8,7 @@ import com.buccancs.control.sync.LocalControlGrpcKt
 import com.buccancs.data.orchestration.security.TokenIssuer
 import com.buccancs.data.orchestration.server.EventPublisher.ControlServerEvent
 import com.buccancs.di.ApplicationScope
+import com.buccancs.di.IoDispatcher
 import com.buccancs.util.nowInstant
 import io.grpc.BindableService
 import io.grpc.Server
@@ -15,7 +16,6 @@ import io.grpc.ServerBuilder
 import io.grpc.Status
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -28,11 +28,11 @@ import javax.inject.Singleton
 
 @Singleton
 class ControlServer @Inject constructor(
-    @ApplicationScope private val scope: CoroutineScope,
+    @param:ApplicationScope private val scope: CoroutineScope,
     private val authInterceptor: AuthInterceptor,
     private val eventPublisher: EventPublisher,
     private val tokenIssuer: TokenIssuer,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     private val mutex = Mutex()
     private var server: Server? = null

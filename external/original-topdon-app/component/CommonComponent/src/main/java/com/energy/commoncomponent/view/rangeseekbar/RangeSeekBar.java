@@ -75,7 +75,6 @@ public class RangeSeekBar extends View {
     private int progressWidth;
     private float minInterval;
     private int gravity;
-    /
 
     protected void onMeasureProgress(int w, int h) {
         int viewHeight = h - getPaddingBottom() - getPaddingTop();
@@ -620,7 +619,6 @@ public class RangeSeekBar extends View {
         return new SeekBarState[]{leftSeekBarState, rightSeekBarState};
     }
 
-    /
 
     public void setEnabled(boolean enabled, @ColorRes int colorId, @DrawableRes int drawableId) {
         setEnabled(enabled);

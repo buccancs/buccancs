@@ -14,7 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -303,7 +303,7 @@ private fun SessionCard(
                 text = "Orchestrator status: ${state.orchestratorConnectionStatus}",
                 style = MaterialTheme.typography.bodySmall
             )
-            Divider()
+            HorizontalDivider()
             Text(
                 text = "Orchestrator Connection",
                 style = MaterialTheme.typography.titleSmall,
@@ -411,7 +411,7 @@ private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                    Divider()
+                    HorizontalDivider()
                 }
             }
         }
@@ -459,7 +459,7 @@ private fun DeviceCard(
             val batteryText = device.batteryPercent?.let { "$it%" } ?: "n/a"
             Text(text = "Battery: $batteryText", style = MaterialTheme.typography.bodySmall)
             if (device.streams.isNotEmpty()) {
-                Divider()
+                HorizontalDivider()
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     device.streams.forEach { stream ->
                         Text(

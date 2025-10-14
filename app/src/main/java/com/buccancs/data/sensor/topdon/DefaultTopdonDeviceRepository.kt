@@ -14,6 +14,7 @@ import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.TopdonDeviceRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -49,10 +50,12 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
     private val _activeDeviceId = MutableStateFlow(TOPDON_TC001_DEVICE_ID)
     override val activeDeviceId: StateFlow<DeviceId> = _activeDeviceId.asStateFlow()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val previewFrameFlow: StateFlow<TopdonPreviewFrame?> = activeDeviceId
         .flatMapLatest { id -> connectorManager.previewFrame(id) ?: flowOf(null) }
         .stateIn(scope, SharingStarted.Eagerly, null)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val previewRunningFlow: StateFlow<Boolean> = activeDeviceId
         .flatMapLatest { id -> connectorManager.previewRunning(id) ?: flowOf(false) }
         .stateIn(scope, SharingStarted.Eagerly, false)

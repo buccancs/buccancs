@@ -53,7 +53,6 @@ public class SeekBar {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     DecimalFormat indicatorTextDecimalFormat;
 
-    /
 
     private void initBitmap() {
         setIndicatorDrawableId(indicatorDrawableId);

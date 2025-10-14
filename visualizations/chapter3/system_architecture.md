@@ -1,73 +1,123 @@
+**Last Modified:** 2025-10-14 11:00 UTC  
+**Modified By:** GitHub Copilot CLI  
+**Document Type:** Architecture Visualisation
+
 ```mermaid
 graph TD
-    subgraph "PC Orchestrator"
-        PC[PC Controller]
+    subgraph "PC Orchestrator (Compose Desktop)"
+        PC[Desktop Controller]
+        GrpcServer[gRPC Server]
+        SessionManager[Session Manager]
+        TimeSyncServer[Time Sync Server (NTP-like)]
+        MdnsServer[mDNS Discovery]
     end
 
-subgraph "Android Device"
+subgraph "Android Device (MVVM + Hilt)"
 subgraph "Application Layer"
-App[Main Application]
-UI[User Interface]
+App[Main Application (Compose UI)]
+RecordingService[Recording Service (Foreground)]
+UploadService[Upload Service (WorkManager)]
 end
 
 subgraph "Control & Synchronization"
-SyncManager[Sync Manager]
-NetworkHandler[Network Handler (TCP Server)]
+TimeSyncClient[Time Sync Client (<10ms)]
+CommandClient[Command Client (gRPC)]
+ControlServer[Control Server (Local)]
+MdnsAdvertiser[mDNS Advertiser]
+end
+
+subgraph "Domain Layer"
+UseCases[Use Cases (Business Logic)]
+ResultTypes[Result<T, E> Pattern]
 end
 
 subgraph "Data Acquisition Layer"
-GSR_Module[GSR Module]
-Thermal_Module[Thermal Module]
-RGB_Module[RGB Module]
+ShimmerConnector[Shimmer Connector + State Machine]
+TopdonConnector[Topdon Connector]
+RgbConnector[RGB Camera Connector]
+AudioConnector[Audio Connector]
+CircuitBreaker[Circuit Breaker]
 end
 
 subgraph "Driver & Hardware Interface"
-ShimmerSDK[Shimmer SDK]
-TopdonSDK[Topdon SDK]
-CameraX[CameraX API]
-Bluetooth[Bluetooth Stack]
-USB[USB Host Stack]
+ShimmerSDK[Shimmer SDK (BLE)]
+TopdonSDK[Topdon SDK (USB)]
+Camera2[Camera2 API]
+MediaCodec[MediaCodec/MediaMuxer]
+AudioRecord[AudioRecord]
 end
 end
 
 subgraph "External Sensors"
-Shimmer[Shimmer3 GSR]
-Topdon[Topdon TC001]
-RGBCam[Internal RGB Camera]
+Shimmer[Shimmer3 GSR+ (BLE)]
+Topdon[Topdon TC001 (USB-C)]
+RGBCam[Internal RGB Camera (4K@60fps)]
+Mic[Microphone]
 end
 
-PC -- TCP/IP --> NetworkHandler
-NetworkHandler --> SyncManager
-SyncManager --> App
-App --> UI
+PC -- gRPC/TLS --> CommandClient
+GrpcServer -- Commands --> CommandClient
+TimeSyncServer -- NTP Protocol --> TimeSyncClient
+MdnsServer -- Discovery --> MdnsAdvertiser
+SessionManager -- Session Metadata --> UploadService
 
-SyncManager -- Controls --> GSR_Module
-SyncManager -- Controls --> Thermal_Module
-SyncManager -- Controls --> RGB_Module
+CommandClient --> RecordingService
+TimeSyncClient --> RecordingService
+ControlServer -- Local Commands --> RecordingService
+RecordingService --> UseCases
+UseCases -- Result Types --> ShimmerConnector
+UseCases -- Result Types --> TopdonConnector
+UseCases -- Result Types --> RgbConnector
+UseCases -- Result Types --> AudioConnector
 
-GSR_Module --> ShimmerSDK
-Thermal_Module --> TopdonSDK
-RGB_Module --> CameraX
+ShimmerConnector -- Protected by --> CircuitBreaker
+ShimmerConnector --> ShimmerSDK
+TopdonConnector --> TopdonSDK
+RgbConnector --> Camera2
+RgbConnector --> MediaCodec
+AudioConnector --> AudioRecord
 
-ShimmerSDK --> Bluetooth
-TopdonSDK --> USB
+ShimmerSDK -- Bluetooth LE --> Shimmer
+TopdonSDK -- USB Host --> Topdon
+Camera2 -- Internal --> RGBCam
+AudioRecord -- Internal --> Mic
 
-Bluetooth -- BLE --> Shimmer
-USB -- USB- C --> Topdon
-CameraX -- Internal --> RGBCam
+App -- Observes --> UseCases
+UploadService -- Transfers --> SessionManager
 ```
 
-### Figure: System Architecture Diagram
+### Figure: System Architecture Diagram (Updated 2025-10-14)
 
-This diagram details the system's architecture, illustrating the interaction between the PC orchestrator, the Android
-device, and the external sensors.
+This diagram details the production system architecture with comprehensive error handling, resource management, and distributed coordination.
 
-- The **PC Orchestrator** sends control commands over TCP/IP.
-- The **Android Device** is structured in layers:
-    - **Control & Synchronization:** The `Network Handler` receives commands from the PC and passes them to the
-      `Sync Manager`, which orchestrates the recording process.
-    - **Data Acquisition Layer:** Separate modules for GSR, Thermal, and RGB data are responsible for acquiring data
-      from their respective sensors.
-    - **Driver & Hardware Interface:** This layer contains the specific SDKs and APIs (`Shimmer SDK`, `Topdon SDK`,
-      `CameraX`) used to communicate with the hardware.
-- The **External Sensors** are the Shimmer3 GSR, the Topdon TC001, and the internal RGB camera.
+**PC Orchestrator (Compose Desktop):**
+
+- **gRPC Server:** Distributes recording commands, time sync, stimuli to connected Android devices with command replay for reconnections
+- **Session Manager:** Creates session directories, manages metadata manifests, aggregates uploads from devices
+- **Time Sync Server:** NTP-like protocol with RTT measurement providing <10ms accuracy across devices
+- **mDNS Discovery:** Automatic device detection on local network
+
+**Android Device Architecture (MVVM + Hilt):**
+
+- **Application Layer:** Jetpack Compose UI with MVVM pattern, RecordingService coordinates multi-sensor capture, UploadService handles background session transfers
+- **Control & Synchronization:** Time sync client maintains clock accuracy, command client receives orchestrator commands, control server accepts local commands, mDNS advertiser broadcasts device availability
+- **Domain Layer:** Use cases implement business logic, Result pattern provides type-safe error handling across all operations
+- **Data Acquisition Layer:** Sensor connectors manage hardware lifecycle with explicit state machines, circuit breaker protects against connection failure loops
+- **Driver Interface:** Shimmer SDK (BLE), Topdon SDK (USB), Camera2 API (4K@60fps), MediaCodec segmented recording, AudioRecord for contextual annotation
+
+**External Sensors:**
+
+- **Shimmer3 GSR+:** Bluetooth LE connection, 128Hz sampling, CSV output with microsecond timestamps
+- **Topdon TC001:** USB-C connection, 256x192 resolution at 25Hz, 16-bit raw thermal data
+- **RGB Camera:** Internal camera via Camera2, 4K@60fps video, periodic RAW (DNG) capture for calibration
+- **Microphone:** High-quality audio capture synchronised with other modalities
+
+**Key Architectural Features:**
+
+- Result pattern eliminates exception-based error flow
+- Circuit breaker prevents battery drain from failed connections
+- Segmented recording survives application crashes
+- gRPC with TLS for secure orchestrator communication
+- mDNS for automatic multi-device discovery
+- WorkManager ensures reliable background uploads
+- Hilt dependency injection with comprehensive test coverage

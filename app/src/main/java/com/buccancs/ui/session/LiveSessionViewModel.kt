@@ -79,9 +79,12 @@ class LiveSessionViewModel @Inject constructor(
         sensorRepository.throttleLevel
     ) { values ->
         val recording = values[0] as RecordingState
+        @Suppress("UNCHECKED_CAST")
         val streamDevice = values[1] as Pair<List<SensorStreamStatus>, List<SensorDevice>>
+        @Suppress("UNCHECKED_CAST")
         val syncPair = values[2] as Pair<TimeSyncStatus, List<TimeSyncObservation>>
         val uploadSnapshot = values[3] as UploadSnapshot
+        @Suppress("UNCHECKED_CAST")
         val spacePair = values[4] as Pair<SpaceState, Boolean>
         val throttleLevel = values[5] as PerformanceThrottleLevel
 

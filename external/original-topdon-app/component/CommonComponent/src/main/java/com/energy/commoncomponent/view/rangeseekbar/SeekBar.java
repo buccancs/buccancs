@@ -54,7 +54,6 @@ public class SeekBar {
     Rect indicatorTextRect = new Rect();
     Rect indicatorRect = new Rect();
 
-    /
 
     private void initBitmap() {
         setIndicatorDrawableId(indicatorDrawableId);

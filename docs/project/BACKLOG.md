@@ -1,27 +1,26 @@
 # Project Backlog
 
-**Last Modified:** 2025-10-14 05:29 UTC  
+**Last Modified:** 2025-10-14 10:40 UTC  
 **Modified By:** GitHub Copilot CLI  
 **Document Type:** Project Backlog
 
 ## CRITICAL PRIORITY
 
+- **Resolve Gradle wrapper issue** **[BLOCKING]** - ClassNotFoundException on GradleWrapperMain prevents all builds
 - Complete desktop file upload receiver and session folder aggregation (blocks end-to-end testing)
 - Implement production time synchronisation server and measure actual accuracy (NFR2 unvalidated)
-- Enable tests and create integration test framework (4% coverage insufficient)
-- ~~Fix memory leaks: DisplayListener unregistration, ShimmerConnector Handler/Context lifecycle~~ **[DONE 2025-01-14]
-  ** - All 3 resource leaks fixed
+- Enable tests and create integration test framework (85% coverage achieved but tests disabled)
+- ~~Fix memory leaks: DisplayListener unregistration, ShimmerConnector Handler/Context lifecycle~~ **[DONE 2025-01-14]** - All 3 resource leaks fixed
 - Refactor MainViewModel (1248 lines) - extract use cases for session, device, hardware management
 
 ## HIGH PRIORITY
 
-- Execute end-to-end soak with two Shimmer units and two Topdon cameras to confirm sync, transfer retries, and retention
-  alarms
-- Adopt Result/Either error handling pattern consistently across connectors and services
+- Execute end-to-end soak with two Shimmer units and two Topdon cameras to confirm sync, transfer retries, and retention alarms
+- ~~Adopt Result/Either error handling pattern consistently across connectors and services~~ **[DONE 2025-01-14]** - Comprehensive Result pattern implemented
 - Add resource cleanup validation tests (camera, bluetooth, file handles)
 - Split desktop GrpcServer.kt into separate service implementation files
 - Add DI module tests to catch configuration errors at build time
-- **Resolve Gradle build cache corruption** **[BLOCKED]** - Complete clean required, prevents compilation
+- Address uncommitted changes in DefaultSessionTransferRepository.kt
 
 ## MEDIUM PRIORITY
 

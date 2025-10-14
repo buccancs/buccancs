@@ -1,19 +1,31 @@
+**Last Modified:** 2025-10-14 11:00 UTC  
+**Modified By:** GitHub Copilot CLI  
+**Document Type:** Architecture Visualisation
+
 ```mermaid
 graph TD
-    subgraph "Application Layer (Your App)"
+    subgraph "Application Layer"
         ComposeUI["Compose UI (Screens, ViewModels)"]
-        AppService["Foreground Service (Optional)"]
+        RecordingService["RecordingService (Foreground)"]
         HiltDI["Hilt (Dependency Injection)"]
     end
 
-    subgraph "Buccancs Repository (Kotlin Wrappers)"
-        ShimmerRepo["ShimmerRepository"]
-        KotlinFlows["Kotlin Flows (StateFlow, SharedFlow)"]
+    subgraph "Domain Layer"
+        UseCases["Use Cases"]
+        ResultPattern["Result<T, E> Pattern"]
+    end
+
+    subgraph "Data Layer - Sensor Connector"
+        ShimmerConnector["ShimmerSensorConnector"]
+        ConnectionState["ShimmerConnectionState (Sealed)"]
+        DataWriter["ShimmerDataWriter"]
+        CircuitBreaker["Circuit Breaker"]
+        ResourceCleanup["Resource Cleanup (Handler, Context)"]
     end
 
     subgraph "Shimmer Android SDK"
         subgraph "Android Instrument Driver"
-            ShimmerServiceSDK["ShimmerService (SDK Service)"]
+            ShimmerServiceSDK["ShimmerService (SDK)"]
             ShimmerBTManagerAndroid["ShimmerBluetoothManagerAndroid"]
             Shimmer3BLEAndroid["Shimmer3BLEAndroid"]
             HandlerMsgs["Handler Messages"]
@@ -30,15 +42,19 @@ graph TD
     end
 
     subgraph "Hardware"
-        ShimmerSensor["Shimmer Sensor"]
+        ShimmerSensor["Shimmer3 GSR+ Sensor"]
     end
 
-    ComposeUI -- Observes --> KotlinFlows
-    AppService -- Uses --> ShimmerRepo
-    HiltDI -- Injects --> ShimmerRepo
-    ShimmerRepo -- Exposes --> KotlinFlows
-    ShimmerRepo -- Wraps --> ShimmerServiceSDK
-    ShimmerRepo -- Wraps --> ShimmerBTManagerAndroid
+    ComposeUI -- Observes Flow --> UseCases
+    RecordingService -- Uses --> UseCases
+    HiltDI -- Injects --> ShimmerConnector
+    UseCases -- Returns Result --> ShimmerConnector
+    ShimmerConnector -- Manages --> ConnectionState
+    ShimmerConnector -- Uses --> DataWriter
+    ShimmerConnector -- Protected by --> CircuitBreaker
+    ShimmerConnector -- Ensures --> ResourceCleanup
+    ShimmerConnector -- Wraps --> ShimmerServiceSDK
+    ShimmerConnector -- Wraps --> ShimmerBTManagerAndroid
     ShimmerServiceSDK -- Uses --> ShimmerBTManagerAndroid
     ShimmerBTManagerAndroid -- Inherits from --> ShimmerBTManager
     ShimmerBTManagerAndroid -- Creates --> Shimmer3BLEAndroid
@@ -49,20 +65,24 @@ graph TD
     FastBle -- Communicates with --> ShimmerSensor
 ```
 
-### Shimmer Integration Architecture
+### Shimmer Integration Architecture (Updated 2025-10-14)
 
-This diagram shows a recommended architecture for integrating the Shimmer SDK into a modern Android application using
-Jetpack Compose and Hilt.
+This diagram shows the production architecture for Shimmer SDK integration with modern error handling, state management, and resource cleanup.
 
-- **Application Layer:** This is your application's UI layer, built with Compose. ViewModels observe data from the
-  repository, and a foreground service can be used to manage long-running connections.
-- **Buccancs Repository:** This is a crucial layer that you will create. It acts as a bridge between the Shimmer SDK and
-  your application. It wraps the `Handler`-based SDK and exposes the data as modern Kotlin `Flows`, which are much
-  easier to work with in a Compose-based architecture.
-- **Shimmer Android SDK:** This is the provided Shimmer SDK, consisting of the Android-specific instrument driver and
-  the core driver libraries.
-- **3rd Party BLE Library:** The Shimmer SDK uses the `FastBle` library for its Bluetooth Low Energy communication.
-- **Hardware:** The physical Shimmer sensor.
+**Key Architectural Improvements:**
 
-The key takeaway here is the use of a repository to abstract away the complexities of the Shimmer SDK and provide a
-clean, modern API to the rest of your application.
+- **Result Pattern:** Type-safe error handling with `Result<T, E>` replacing exceptions throughout connector layer
+- **State Machine:** `ShimmerConnectionState` sealed class with explicit states (Disconnected, Connecting, Connected, Recording, Error)
+- **Circuit Breaker:** Connection failure protection prevents battery drain from repeated failed attempts with user-friendly countdown
+- **Resource Cleanup:** Fixed memory leaks - proper Handler, Context, and Bluetooth lifecycle management
+- **Data Writer:** Separated CSV writing logic into `ShimmerDataWriter` for testability
+- **Domain Layer:** Use cases abstract business logic from UI and hardware concerns
+
+**Layer Responsibilities:**
+
+- **Application Layer:** Compose UI observes data via ViewModels, RecordingService coordinates multi-sensor capture
+- **Domain Layer:** Use cases implement business logic, return Result types for error propagation
+- **Data Layer:** ShimmerConnector wraps SDK complexity, manages state machine, ensures resource cleanup
+- **Shimmer SDK:** Provided Android-specific instrument driver and core driver libraries
+- **FastBle:** Third-party Bluetooth Low Energy communication library
+- **Hardware:** Shimmer3 GSR+ physical sensor with 128Hz sampling

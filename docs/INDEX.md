@@ -90,7 +90,7 @@ Technical design and diagrams (15 files):
 
 Developer reference materials (9 files):
 
-- [AGENTS.md](guides/AGENTS.md) - Comprehensive repository guidelines
+- [AGENTS.md](../AGENTS.md) - Comprehensive repository guidelines
 - [DI_TESTING_GUIDE_2025-10-14.md](guides/DI_TESTING_GUIDE_2025-10-14.md) - DI testing comprehensive guide
 - [DI_TESTING_QUICK_REFERENCE.md](guides/DI_TESTING_QUICK_REFERENCE.md) - DI testing quick reference
 - [ERROR_HANDLING_MIGRATION_GUIDE_2025-10-14.md](guides/ERROR_HANDLING_MIGRATION_GUIDE_2025-10-14.md) - Error handling
@@ -101,7 +101,7 @@ Developer reference materials (9 files):
   Refactoring examples
 - [ERROR_HANDLING_TESTING_GUIDE_2025-10-14.md](guides/ERROR_HANDLING_TESTING_GUIDE_2025-10-14.md) - Error handling
   testing
-- [GEMINI.md](guides/GEMINI.md) - Gemini-specific instructions
+- [GEMINI.md](../GEMINI.md) - Gemini-specific instructions
 - [TEST_EXECUTION_GUIDE_2025-10-14.md](guides/TEST_EXECUTION_GUIDE_2025-10-14.md) - Test execution guide
 
 ### Manual Testing (manual-tests/)
@@ -126,7 +126,7 @@ LaTeX source files for thesis chapters and academic papers.
 - **What to Work On:** [project/BACKLOG.md](project/BACKLOG.md)
 - **Recent Changes:** [project/dev-diary.md](project/dev-diary.md)
 - **Technical Debt:** [analysis/TECHNICAL_DEBT_ANALYSIS_2025-10-13.md](analysis/TECHNICAL_DEBT_ANALYSIS_2025-10-13.md)
-- **Agent Instructions:** [guides/AGENTS.md](guides/AGENTS.md)
+- **Agent Instructions:** [guides/AGENTS.md](../AGENTS.md)
 - **Testing Strategy:** [project/TESTING_STRATEGY_2025-10-14.md](project/TESTING_STRATEGY_2025-10-14.md)
 
 ## File Naming Convention

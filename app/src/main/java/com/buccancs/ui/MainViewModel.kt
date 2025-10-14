@@ -814,7 +814,6 @@ class MainViewModel @Inject constructor(
             is StartRecordingCommandPayload -> "Start ${payload.sessionId} @ $whenText"
             is StopRecordingCommandPayload -> "Stop ${payload.sessionId} @ $whenText"
             is StimulusCommandPayload -> "Stimulus ${payload.stimulusId} (${payload.action}) @ $whenText"
-            else -> "Command ${payload.commandId} @ $whenText"
         }
     }
 

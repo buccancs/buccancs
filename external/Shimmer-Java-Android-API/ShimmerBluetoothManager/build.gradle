@@ -4,8 +4,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -35,7 +35,7 @@ publishing {
 }
 
 dependencies {
-    implementation 'commons-codec:commons-codec:1.5'
+    implementation 'commons-codec:commons-codec:1.17.1'
     implementation 'commons-lang:commons-lang:2.6'
     implementation project(':ShimmerDriver')
 

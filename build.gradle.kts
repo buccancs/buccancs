@@ -39,38 +39,16 @@ private data class ExternalProjectBuild(
 private val externalBuilds = listOf(
     // Temporarily disabled due to Gradle version conflict
     // ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
-    // Temporarily disabled due to missing SDK configuration
-    // ExternalProjectBuild(
-    //     "buildShimmerAndroidInstrumentDriver",
-    //     "external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver"
-    // ),
-    ExternalProjectBuild(
-        "buildShimmerBluetoothManager",
-        "external/Shimmer-Java-Android-API/ShimmerBluetoothManager",
-        maxSupportedJavaMajor = 13
-    ),
-    ExternalProjectBuild(
-        "buildShimmerDriver",
-        "external/Shimmer-Java-Android-API/ShimmerDriver",
-        maxSupportedJavaMajor = 13
-    ),
-    ExternalProjectBuild(
-        "buildShimmerDriverPC",
-        "external/Shimmer-Java-Android-API/ShimmerDriverPC",
-        maxSupportedJavaMajor = 13
-    ),
-    ExternalProjectBuild("buildShimmerTCP", "external/Shimmer-Java-Android-API/ShimmerTCP", maxSupportedJavaMajor = 13),
-    ExternalProjectBuild(
-        "buildShimmerPCBasicExamples",
-        "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples",
-        maxSupportedJavaMajor = 13
-    ),
-    ExternalProjectBuild("buildShimmerLSL", "external/Shimmer-Java-Android-API/ShimmerLSL", maxSupportedJavaMajor = 13),
-    ExternalProjectBuild(
-        "buildJavaShimmerConnect",
-        "external/Shimmer-Java-Android-API/JavaShimmerConnect",
-        maxSupportedJavaMajor = 13
-    ),
+    
+    // Shimmer SDK builds - now updated to Java 21
+    ExternalProjectBuild("buildShimmerBluetoothManager", "external/Shimmer-Java-Android-API/ShimmerBluetoothManager"),
+    ExternalProjectBuild("buildShimmerDriver", "external/Shimmer-Java-Android-API/ShimmerDriver"),
+    ExternalProjectBuild("buildShimmerDriverPC", "external/Shimmer-Java-Android-API/ShimmerDriverPC"),
+    ExternalProjectBuild("buildShimmerTCP", "external/Shimmer-Java-Android-API/ShimmerTCP"),
+    ExternalProjectBuild("buildShimmerPCBasicExamples", "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples"),
+    ExternalProjectBuild("buildShimmerLSL", "external/Shimmer-Java-Android-API/ShimmerLSL"),
+    ExternalProjectBuild("buildJavaShimmerConnect", "external/Shimmer-Java-Android-API/JavaShimmerConnect"),
+    
     ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample")
 )
 

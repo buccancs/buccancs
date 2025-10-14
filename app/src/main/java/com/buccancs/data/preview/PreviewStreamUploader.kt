@@ -10,6 +10,7 @@ import com.google.protobuf.ByteString
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.flow
@@ -117,6 +118,7 @@ class PreviewStreamUploader @Inject constructor(
             }
             frames.close()
             runCatching { job.join() }
+            @OptIn(ExperimentalCoroutinesApi::class)
             val response = if (ack.isCompleted) {
                 runCatching { ack.getCompleted() }.getOrNull()
             } else {

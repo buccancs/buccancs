@@ -1,9 +1,17 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+    }
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
         maven { url 'https://jitpack.io' }
         maven {
             url 'https://maven.zohodl.com'
@@ -19,11 +27,8 @@ dependencyResolutionManagement {
 rootProject.name = "TopInfrared"
 include ':app'
 include ':commonlibrary'
-include ':component:CommonComponent'
-include ':component:edit3d'
-include ':component:house'
+//include ':component:CommonComponent' // Temporarily disabled due to corrupted source files
 include ':component:pseudo'
-include ':component:thermal-hik'
 include ':component:thermal-ir'
 include ':component:thermal-lite'
 include ':component:thermal04'
@@ -32,13 +37,10 @@ include ':component:transfer'
 include ':component:user'
 include ':libapp'
 include ':libcom'
-include ':libhik'
 include ':libir'
 include ':libmenu'
 include ':libui'
 include ':LocalRepo:libac020'
 include ':LocalRepo:libcommon'
 include ':LocalRepo:libirutils'
-include ':RangeSeekBar'
-include ':ai-upscale'
-include ':ts004:thermal04'
+//include ':RangeSeekBar' // Temporarily disabled due to corrupted source files

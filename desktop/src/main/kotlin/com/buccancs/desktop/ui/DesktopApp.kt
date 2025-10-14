@@ -150,7 +150,7 @@ fun DesktopApp(viewModel: AppViewModel) {
 }
 
 @Composable
-private fun ControlPanel(
+internal fun ControlPanel(
     control: ControlPanelState,
     sessionActive: Boolean,
     onStartSession: () -> Unit,

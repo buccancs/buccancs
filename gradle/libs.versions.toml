@@ -102,3 +102,4 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 tink = { module = "com.google.crypto.tink:tink", version.ref = "tink" }
 vecmath = { module = "java3d:vecmath", version.ref = "vecmath" }
+compose-ui-test-junit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "composeMultiplatform" }

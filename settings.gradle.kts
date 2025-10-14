@@ -29,3 +29,4 @@ rootProject.name = "buccancs"
 include(":app")
 include(":desktop")
 include(":protocol")
+include(":shimmer")

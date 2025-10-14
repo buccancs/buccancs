@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -68,7 +68,7 @@ fun CalibrationPanel(
             }
             if (state.wizardStep == CalibrationWizardStep.Capture || state.wizardStep == CalibrationWizardStep.Validate) {
                 LinearProgressIndicator(
-                    progress = state.captureProgress,
+                    progress = { state.captureProgress },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -100,7 +100,7 @@ fun CalibrationPanel(
                     style = MaterialTheme.typography.bodySmall
                 )
             }
-            Divider()
+            HorizontalDivider()
             when (state.wizardStep) {
                 CalibrationWizardStep.Configure -> {
                     PatternSettingsSection(state, actions)
@@ -167,7 +167,7 @@ fun CalibrationPanel(
                 CapturedList(state, actions)
             }
             state.lastResult?.let { result ->
-                Divider()
+                HorizontalDivider()
                 Text(
                     text = "Last Calibration (${result.generatedAt})",
                     style = MaterialTheme.typography.titleSmall
@@ -306,7 +306,7 @@ private fun StepControls(
 
 @Composable
 private fun CapturedList(state: CalibrationUiState, actions: CalibrationActions) {
-    Divider()
+    HorizontalDivider()
     Text(
         text = "Captured Frames",
         style = MaterialTheme.typography.titleSmall

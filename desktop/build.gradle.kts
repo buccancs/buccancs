@@ -38,6 +38,8 @@ dependencies {
 
     testImplementation(kotlin("test-junit5"))
     testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.junit)
+    testImplementation(libs.compose.ui.test.junit4)
 }
 
 compose.desktop {
@@ -48,4 +50,15 @@ compose.desktop {
 
 tasks.test {
     enabled = false
+}
+
+val desktopTestSourceSet = sourceSets.named("test")
+
+tasks.register<Test>("uiDesktop") {
+    description = "Runs desktop Compose UI smoke tests."
+    group = "verification"
+    testClassesDirs = desktopTestSourceSet.get().output.classesDirs
+    classpath = desktopTestSourceSet.get().runtimeClasspath
+    systemProperty("java.awt.headless", "true")
+    useJUnit()
 }

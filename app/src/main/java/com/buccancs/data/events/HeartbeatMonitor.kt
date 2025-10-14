@@ -59,7 +59,7 @@ class HeartbeatMonitor @Inject constructor(
         }
     }
 
-    protected open fun onAutoStop() {
+    protected fun onAutoStop() {
 
     }
 

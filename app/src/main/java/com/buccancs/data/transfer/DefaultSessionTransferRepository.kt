@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Instant
+import com.buccancs.util.nowInstant
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,13 +31,12 @@ import kotlin.math.max
 
 @Singleton
 class DefaultSessionTransferRepository @Inject constructor(
-    @ApplicationScope private val scope: CoroutineScope,
+    @param:ApplicationScope private val scope: CoroutineScope,
     private val client: DataTransferClient,
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val uploadRecoveryLogger: UploadRecoveryLogger,
     private val networkStateProvider: NetworkStateProvider,
-    private val backlogTelemetryLogger: BacklogTelemetryLogger,
-    @Suppress("UnusedPrivateMember") private val backlogPerformanceController: BacklogPerformanceController
+    private val backlogTelemetryLogger: BacklogTelemetryLogger
 ) : SessionTransferRepository {
     private val uploadsState = MutableStateFlow<Map<String, UploadStatus>>(emptyMap())
     private val uploadsSnapshot = MutableStateFlow<List<UploadStatus>>(emptyList())
@@ -113,7 +113,7 @@ class DefaultSessionTransferRepository @Inject constructor(
                     val pending = PendingArtifact(
                         sessionId = sessionId,
                         artifact = artifact,
-                        queuedAt = kotlinx.datetime.Clock.System.now()
+                        queuedAt = nowInstant()
                     )
                     pendingQueue.add(pending)
                     allowed += pending
@@ -303,7 +303,7 @@ class DefaultSessionTransferRepository @Inject constructor(
         uploadRecoveryLogger.append(record)
     }
 
-    private fun now(): Instant = kotlinx.datetime.Clock.System.now()
+    private fun now(): Instant = nowInstant()
 
     private fun pendingBytesLocked(): Long =
         uploadsState.value.values

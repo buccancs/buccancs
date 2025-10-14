@@ -12,7 +12,6 @@ plugins {
 android {
     namespace = "com.buccancs"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
-    buildToolsVersion = "34.0.0"
 
     val orchestratorHost = project.findProperty("orchestrator.host") as? String ?: "10.0.2.2"
     val orchestratorPort = (project.findProperty("orchestrator.port") as? String)?.toIntOrNull() ?: 50051
@@ -62,6 +61,7 @@ kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_21)
         freeCompilerArgs.add("-opt-in=kotlin.time.ExperimentalTime")
+        freeCompilerArgs.add("-Xannotation-default-target=param-property")
     }
 }
 
@@ -96,10 +96,7 @@ dependencies {
     implementation(libs.guava)
     implementation(libs.vecmath)
     implementation(libs.fastble)
-    implementation(files("../sdk/libs/shimmerandroidinstrumentdriver-3.2.4_beta.aar"))
-    implementation(files("../sdk/libs/shimmerbluetoothmanager-0.11.5_beta.jar"))
-    implementation(files("../sdk/libs/shimmerdriver-0.11.5_beta.jar"))
-    implementation(files("../sdk/libs/shimmerdriverpc-0.11.5_beta.jar"))
+    implementation(project(":shimmer"))
     implementation(files("../sdk/libs/topdon.aar"))
     implementation(libs.grpc.okhttp)
     implementation(libs.grpc.android)
@@ -119,6 +116,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.compiler)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

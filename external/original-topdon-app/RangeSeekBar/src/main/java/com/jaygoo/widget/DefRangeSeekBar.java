@@ -75,7 +75,6 @@ public class DefRangeSeekBar extends View {
     private int progressWidth;
     private float minInterval;
     private int gravity;
-    /
 
     protected void onMeasureProgress(int w, int h) {
         int viewHeight = h - getPaddingBottom() - getPaddingTop();
@@ -624,7 +623,6 @@ public class DefRangeSeekBar extends View {
         return new SeekBarState[]{leftSeekBarState, rightSeekBarState};
     }
 
-    /
 
     public void setIndicatorTextDecimalFormat(String formatPattern) {
         leftSB.setIndicatorTextDecimalFormat(formatPattern);

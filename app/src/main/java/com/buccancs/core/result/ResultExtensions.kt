@@ -73,7 +73,7 @@ inline fun <T, R> Result<T>.andThen(transform: (T) -> Result<R>): Result<R> = fl
 /**
  * Combines two Result values into a Pair.
  */
-inline fun <T, U> Result<T>.zip(other: Result<U>): Result<Pair<T, U>> =
+fun <T, U> Result<T>.zip(other: Result<U>): Result<Pair<T, U>> =
     flatMap { t -> other.map { u -> t to u } }
 
 /**
