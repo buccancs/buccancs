@@ -17,10 +17,10 @@
 - Updated BACKLOG.md with Gradle wrapper issue and Result pattern completion
 - Updated README.md to reflect latest project state and blocking issues
 - Updated architecture diagrams and visualisations with current implementation:
-  - visualizations/shimmer_architecture.md - Added Result pattern, circuit breaker, state machine
-  - visualizations/chapter3/state_machine.md - Added error handling states and recovery paths
-  - visualizations/chapter3/system_architecture.md - Comprehensive production architecture with all layers
-  - docs/architecture/shimmer_data_flow_diagram.md - Complete flow with resource cleanup
+    - visualizations/shimmer_architecture.md - Added Result pattern, circuit breaker, state machine
+    - visualizations/chapter3/state_machine.md - Added error handling states and recovery paths
+    - visualizations/chapter3/system_architecture.md - Comprehensive production architecture with all layers
+    - docs/architecture/shimmer_data_flow_diagram.md - Complete flow with resource cleanup
 
 **Diagram Updates:**
 
@@ -393,6 +393,9 @@
 
 ## 2025-10-14
 
-- Circulated UI automation Tier 0/Tier 1 review packet (`docs/project/UI_AUTOMATION_REVIEW_REQUEST_2025-10-14.md`); awaiting Android, desktop, and QA lead responses by 2025-10-17.
+- Circulated UI automation Tier 0/Tier 1 review packet (`docs/project/UI_AUTOMATION_REVIEW_REQUEST_2025-10-14.md`);
+  awaiting Android, desktop, and QA lead responses by 2025-10-17.
 - Preparing Phase 2 proof-of-concept UI smoke tests following `docs/project/UI_AUTOMATION_PHASE2_KICKOFF_2025-10-14.md`.
-- Documented current automation progress and outstanding gaps in `docs/project/TEST_AUTOMATION_STATUS_2025-10-14.md`; emulator run still failing on missing semantic nodes (Topdon console button, Session detail artifacts, Live Session backlog, Settings message).
+- Documented current automation progress and outstanding gaps in `docs/project/TEST_AUTOMATION_STATUS_2025-10-14.md`;
+  emulator run still failing on missing semantic nodes (Topdon console button, Session detail artifacts, Live Session
+  backlog, Settings message).

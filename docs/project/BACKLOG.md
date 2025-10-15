@@ -10,13 +10,16 @@
 - Complete desktop file upload receiver and session folder aggregation (blocks end-to-end testing)
 - Implement production time synchronisation server and measure actual accuracy (NFR2 unvalidated)
 - Enable tests and create integration test framework (85% coverage achieved but tests disabled)
-- ~~Fix memory leaks: DisplayListener unregistration, ShimmerConnector Handler/Context lifecycle~~ **[DONE 2025-01-14]** - All 3 resource leaks fixed
+- ~~Fix memory leaks: DisplayListener unregistration, ShimmerConnector Handler/Context lifecycle~~ **[DONE 2025-01-14]
+  ** - All 3 resource leaks fixed
 - Refactor MainViewModel (1248 lines) - extract use cases for session, device, hardware management
 
 ## HIGH PRIORITY
 
-- Execute end-to-end soak with two Shimmer units and two Topdon cameras to confirm sync, transfer retries, and retention alarms
-- ~~Adopt Result/Either error handling pattern consistently across connectors and services~~ **[DONE 2025-01-14]** - Comprehensive Result pattern implemented
+- Execute end-to-end soak with two Shimmer units and two Topdon cameras to confirm sync, transfer retries, and retention
+  alarms
+- ~~Adopt Result/Either error handling pattern consistently across connectors and services~~ **[DONE 2025-01-14]** -
+  Comprehensive Result pattern implemented
 - Add resource cleanup validation tests (camera, bluetooth, file handles)
 - Split desktop GrpcServer.kt into separate service implementation files
 - Add DI module tests to catch configuration errors at build time

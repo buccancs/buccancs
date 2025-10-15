@@ -6,20 +6,23 @@
 
 ## Overview
 
-Successfully migrated the Shimmer SDK from pre-compiled JAR/AAR files (Java 11) to a source-based Gradle module compiled with Java 21, including all UI components and resources.
+Successfully migrated the Shimmer SDK from pre-compiled JAR/AAR files (Java 11) to a source-based Gradle module compiled
+with Java 21, including all UI components and resources.
 
 ## Migration Summary
 
 ### Before Migration
+
 - Used pre-compiled binaries:
-  - `shimmerandroidinstrumentdriver-3.2.4_beta.aar` (1.3MB)
-  - `shimmerbluetoothmanager-0.11.5_beta.jar` (32KB)
-  - `shimmerdriver-0.11.5_beta.jar` (1.8MB)
-  - `shimmerdriverpc-0.11.5_beta.jar` (126KB)
+    - `shimmerandroidinstrumentdriver-3.2.4_beta.aar` (1.3MB)
+    - `shimmerbluetoothmanager-0.11.5_beta.jar` (32KB)
+    - `shimmerdriver-0.11.5_beta.jar` (1.8MB)
+    - `shimmerdriverpc-0.11.5_beta.jar` (126KB)
 - Compiled with Java 11
 - Total size: ~3.3MB
 
 ### After Migration
+
 - New `:shimmer` Gradle module
 - Compiles from source with Java 21
 - Includes all UI components (fragments, dialogs, adapters)
@@ -32,6 +35,7 @@ Successfully migrated the Shimmer SDK from pre-compiled JAR/AAR files (Java 11) 
 ### 1. Module Creation
 
 Created new Android library module at `shimmer/build.gradle.kts`:
+
 - **Plugin**: `com.android.library` + `kotlin("android")`
 - **Namespace**: `com.shimmerresearch.androidinstrumentdriver`
 - **Compile SDK**: 35
@@ -70,6 +74,7 @@ sourceSets {
 Added missing dependencies for Java 21 compatibility:
 
 **Core Dependencies:**
+
 - `com.google.guava:guava:33.3.1-android` (updated from 20.0)
 - `java3d:vecmath:1.3.1`
 - `androidx.appcompat:appcompat:1.7.0`
@@ -77,11 +82,13 @@ Added missing dependencies for Java 21 compatibility:
 - `com.github.Jasonchenlijian:FastBle:2.4.0`
 
 **New Dependencies:**
+
 - `org.apache.commons:commons-lang3:3.17.0` (for ArrayUtils, StringUtils)
 - `commons-codec:commons-codec:1.17.1` (for Hex encoding)
 - `com.parse.bolts:bolts-tasks:1.4.0` (for TaskCompletionSource)
 
 **Shimmer JAR Files:**
+
 - ShimmerBiophysicalProcessingLibrary_Rev_0_11.jar
 - AndroidBluetoothLibrary.jar
 - androidplot-core-0.5.0-release.jar
@@ -96,6 +103,7 @@ All dependencies use `api()` configuration to export them to dependent modules.
 Successfully compiled and included all UI components:
 
 **Fragments:**
+
 - `ConnectedShimmersListFragment` - Shows list of connected Shimmer devices
 - `DeviceConfigFragment` - Device configuration interface
 - `DeviceSensorConfigFragment` - Sensor-specific configuration
@@ -104,6 +112,7 @@ Successfully compiled and included all UI components:
 - `FileListActivity` - File browsing interface
 
 **Layouts:**
+
 - `fragment_plot.xml` - Plot display layout
 - `fragment_device_config.xml` - Config UI layout
 - `device_list.xml` - Device list layout
@@ -112,11 +121,13 @@ Successfully compiled and included all UI components:
 - Multiple list item templates
 
 **Support Fragments:**
+
 - All `supportfragments/**` classes for compatibility
 
 ### 5. Resource Management
 
 Configured custom resource structure to match Shimmer's non-standard layout:
+
 - Fragments layouts: `res/layouts/fragments/`
 - General layouts: `res/layouts/general/`
 - Standard resources: `res/`
@@ -126,11 +137,13 @@ This structure allows Shimmer's resources to coexist with the main app resources
 ### 6. Build Configuration Updates
 
 **settings.gradle.kts:**
+
 ```kotlin
 include(":shimmer")
 ```
 
 **app/build.gradle.kts:**
+
 ```kotlin
 // Removed old JAR/AAR dependencies
 // Added:
@@ -140,11 +153,13 @@ implementation(project(":shimmer"))
 ## Verification
 
 ### Build Success
+
 - `:shimmer:assembleDebug` - SUCCESS
 - `:app:assembleDebug` - SUCCESS
 - All 75 UI component compilation errors resolved
 
 ### AAR Contents Verified
+
 ```
 shimmer-debug.aar (4.1MB)
 ├── classes.jar
@@ -167,6 +182,7 @@ shimmer-debug.aar (4.1MB)
 ```
 
 ### APK Verification
+
 - Final APK size: 183MB (unchanged)
 - All Shimmer classes accessible
 - No runtime class loading issues
@@ -202,6 +218,7 @@ shimmer-debug.aar (4.1MB)
 ## Backward Compatibility
 
 The migration maintains full backward compatibility:
+
 - All existing Shimmer-using code continues to work unchanged
 - Same classes, same packages, same API
 - No code changes required in app module
@@ -218,4 +235,6 @@ Potential improvements now that we have source access:
 
 ## Conclusion
 
-Successfully migrated the Shimmer SDK from pre-compiled Java 11 binaries to a source-based Java 21 module including all UI components. The migration provides better maintainability, debugging capabilities, and full compatibility with modern Android development tools.
+Successfully migrated the Shimmer SDK from pre-compiled Java 11 binaries to a source-based Java 21 module including all
+UI components. The migration provides better maintainability, debugging capabilities, and full compatibility with modern
+Android development tools.
