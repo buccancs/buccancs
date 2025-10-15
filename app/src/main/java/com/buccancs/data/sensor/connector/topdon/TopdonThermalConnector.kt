@@ -303,7 +303,7 @@ internal class TopdonThermalConnector @Inject constructor(
     override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
     override fun simulatedRssi(device: SensorDevice): Int? = null
     override fun sampleStatuses(
-        timestamp: kotlinx.datetime.Instant,
+        timestamp: kotlin.time.Instant,
         frameCounter: Long,
         anchor: RecordingSessionAnchor
     ): List<SensorStreamStatus> {

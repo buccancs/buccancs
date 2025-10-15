@@ -60,7 +60,7 @@ internal class SimulatedShimmerConnector @Inject constructor(
 
     override fun simulatedRssi(device: SensorDevice): Int? = -48
     override fun sampleStatuses(
-        timestamp: kotlinx.datetime.Instant,
+        timestamp: kotlin.time.Instant,
         frameCounter: Long,
         anchor: RecordingSessionAnchor
     ): List<SensorStreamStatus> {
