@@ -40,7 +40,7 @@ package com.buccancs.data.sensor.connector.shimmer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.datetime.Instant
+
 
 /**
  * Connection state for Shimmer device.

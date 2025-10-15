@@ -395,3 +395,4 @@
 
 - Circulated UI automation Tier 0/Tier 1 review packet (`docs/project/UI_AUTOMATION_REVIEW_REQUEST_2025-10-14.md`); awaiting Android, desktop, and QA lead responses by 2025-10-17.
 - Preparing Phase 2 proof-of-concept UI smoke tests following `docs/project/UI_AUTOMATION_PHASE2_KICKOFF_2025-10-14.md`.
+- Documented current automation progress and outstanding gaps in `docs/project/TEST_AUTOMATION_STATUS_2025-10-14.md`; emulator run still failing on missing semantic nodes (Topdon console button, Session detail artifacts, Live Session backlog, Settings message).
