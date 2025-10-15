@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.Log
 import com.buccancs.application.time.TimeSyncService
 import com.buccancs.control.OrchestrationServiceGrpcKt
+import com.buccancs.control.ProtocolVersion
 import com.buccancs.control.deviceRegistration
 import com.buccancs.control.deviceStatus
 import com.buccancs.di.ApplicationScope
@@ -101,6 +102,7 @@ class DeviceOrchestratorBridge @Inject constructor(
         platform = "Android ${Build.VERSION.RELEASE}"
         softwareVersion = resolveSoftwareVersion()
         capabilities += gatherCapabilities()
+        protocolVersion = ProtocolVersion.CURRENT
     }
 
     private fun resolveModel(): String {

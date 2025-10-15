@@ -7,29 +7,47 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
+import com.buccancs.ui.components.topdon.TopdonButton
+import com.buccancs.ui.components.topdon.TopdonOutlinedButton
+import com.buccancs.ui.components.topdon.TopdonTextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -110,7 +128,12 @@ private fun TopdonScreen(
                     )
                 },
                 navigationIcon = {
-                    TextButton(onNavigateUp) { Text("Back") }
+                    IconButton(onClick = onNavigateUp) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Navigate back"
+                        )
+                    }
                 },
                 scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(toolbarState)
             )
@@ -121,7 +144,7 @@ private fun TopdonScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
                 TopdonStatusCard(state, onRefresh, onConnect, onDisconnect, onClearError)
@@ -144,36 +167,141 @@ private fun TopdonStatusCard(
     onDisconnect: () -> Unit,
     onClearError: () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(state.deviceLabel, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-            Text(state.connectionStatusLabel, style = MaterialTheme.typography.bodyMedium)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = state.deviceLabel,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = if (state.isConnected) Icons.Default.Check else Icons.Default.Close,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                            tint = if (state.isConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = state.connectionStatusLabel,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = if (state.isConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                if (state.scanning) {
+                    CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                }
+            }
+
             if (state.scanning) {
-                Text(
-                    text = "Scanning USB...",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Text(
+                        text = "Scanning USB...",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                    )
+                }
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Button(onClick = onConnect, enabled = !state.isConnected) { Text("Connect") }
-                OutlinedButton(onClick = onDisconnect, enabled = state.isConnected) { Text("Disconnect") }
-                TextButton(onClick = onRefresh) { Text("Refresh") }
-            }
+
             state.errorMessage?.let { error ->
-                AssistChip(
-                    onClick = onClearError,
-                    label = { Text(error) },
-                    colors = AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.errorContainer)
-                )
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.errorContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Error,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onErrorContainer,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Text(
+                            text = error,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onErrorContainer,
+                            modifier = Modifier.weight(1f)
+                        )
+                        FilledTonalIconButton(
+                            onClick = onClearError,
+                            modifier = Modifier.size(32.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Dismiss error",
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                TopdonButton(
+                    onClick = onConnect,
+                    enabled = !state.isConnected,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Connect")
+                }
+                TopdonOutlinedButton(
+                    onClick = onDisconnect,
+                    enabled = state.isConnected,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Disconnect")
+                }
+                IconButton(
+                    onClick = onRefresh,
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = "Refresh"
+                    )
+                }
             }
         }
     }
@@ -192,9 +320,8 @@ private fun TopdonPreviewCard(
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
         }
     }
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier
@@ -202,46 +329,112 @@ private fun TopdonPreviewCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Infrared Preview", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                contentAlignment = Alignment.Center
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                if (imageBitmap != null) {
-                    Image(
-                        bitmap = imageBitmap,
-                        contentDescription = "Thermal preview",
-                        modifier = Modifier.fillMaxWidth(),
-                        contentScale = ContentScale.FillWidth
-                    )
-                } else {
-                    Text(
-                        text = if (state.previewActive) "Awaiting frame..." else "Preview idle",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-            previewFrame?.let { frame ->
                 Text(
-                    text = "Resolution: ${frame.width} x ${frame.height} (x${frame.superSamplingFactor})",
-                    style = MaterialTheme.typography.bodySmall
+                    text = "Thermal Preview",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
                 )
-                TopdonTimestamp(frame.timestamp)
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Button(onStartPreview, enabled = state.isConnected && !state.previewActive) { Text("Start Preview") }
-                OutlinedButton(onStopPreview, enabled = state.previewActive) { Text("Stop Preview") }
                 AssistChip(
                     onClick = onTogglePreview,
                     label = { Text(if (state.previewActive) "Streaming" else "Idle") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = if (state.previewActive) Icons.Default.PlayArrow else Icons.Default.Stop,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    },
                     colors = AssistChipDefaults.assistChipColors(
-                        containerColor = if (state.previewActive) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant
+                        containerColor = if (state.previewActive) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
+                        labelColor = if (state.previewActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )
+            }
+
+            OutlinedCard(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(240.dp)
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (imageBitmap != null) {
+                        Image(
+                            bitmap = imageBitmap,
+                            contentDescription = "Thermal preview",
+                            modifier = Modifier.fillMaxWidth(),
+                            contentScale = ContentScale.FillWidth
+                        )
+                    } else {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                imageVector = if (state.previewActive) Icons.Default.PlayArrow else Icons.Default.Stop,
+                                contentDescription = null,
+                                modifier = Modifier.size(48.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = if (state.previewActive) "Awaiting frame..." else "Preview idle",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
+            }
+
+            previewFrame?.let { frame ->
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(
+                        text = "Resolution: ${frame.width} x ${frame.height} (x${frame.superSamplingFactor})",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    TopdonTimestamp(frame.timestamp)
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                TopdonButton(
+                    onClick = onStartPreview,
+                    enabled = state.isConnected && !state.previewActive,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Start")
+                }
+                TopdonOutlinedButton(
+                    onClick = onStopPreview,
+                    enabled = state.previewActive,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Stop,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Stop")
+                }
             }
         }
     }
@@ -255,42 +448,80 @@ private fun TopdonSettingsCard(
     onSelectSuperSampling: (TopdonSuperSamplingFactor) -> Unit,
     onUpdatePreviewFps: (Int) -> Unit
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text("Settings", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-            Row(
+            Text(
+                text = "Settings",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Surface(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = MaterialTheme.shapes.small
             ) {
-                Column {
-                    Text("Auto-connect on USB", style = MaterialTheme.typography.bodyMedium)
-                    Text(
-                        text = if (state.autoConnectEnabled) "Device starts preview automatically" else "Manual start required",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Auto-connect on USB",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            text = if (state.autoConnectEnabled) "Starts preview automatically" else "Manual start required",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(
+                        checked = state.autoConnectEnabled,
+                        onCheckedChange = onSetAutoConnect
                     )
                 }
-                Switch(checked = state.autoConnectEnabled, onCheckedChange = onSetAutoConnect)
             }
-            PaletteDropdown(
-                label = "Palette",
-                options = state.paletteOptions,
-                selected = state.settings.palette,
-                onSelect = onSelectPalette
+
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = "Colour Palette",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                PaletteDropdown(
+                    options = state.paletteOptions,
+                    selected = state.settings.palette,
+                    onSelect = onSelectPalette
+                )
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = "Super Sampling",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                SuperSamplingDropdown(
+                    options = state.superSamplingOptions,
+                    selected = state.settings.superSampling,
+                    onSelect = onSelectSuperSampling
+                )
+            }
+
+            PreviewFpsSlider(
+                current = state.settings.previewFpsLimit,
+                onUpdate = onUpdatePreviewFps
             )
-            SuperSamplingDropdown(
-                label = "Super sampling",
-                options = state.superSamplingOptions,
-                selected = state.settings.superSampling,
-                onSelect = onSelectSuperSampling
-            )
-            PreviewFpsSlider(current = state.settings.previewFpsLimit, onUpdate = onUpdatePreviewFps)
         }
     }
 }
@@ -306,17 +537,21 @@ private fun TopdonTimestamp(timestamp: Instant) {
 
 @Composable
 private fun PaletteDropdown(
-    label: String,
     options: List<TopdonPalette>,
     selected: TopdonPalette,
     onSelect: (TopdonPalette) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Text(text = label, style = MaterialTheme.typography.bodySmall)
-    OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
+    TopdonButton(
+        onClick = { expanded = true },
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text(selected.name.lowercase().replaceFirstChar { it.titlecase() })
     }
-    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false }
+    ) {
         options.forEach { option ->
             DropdownMenuItem(
                 text = { Text(option.name.lowercase().replaceFirstChar { it.titlecase() }) },
@@ -331,17 +566,21 @@ private fun PaletteDropdown(
 
 @Composable
 private fun SuperSamplingDropdown(
-    label: String,
     options: List<TopdonSuperSamplingFactor>,
     selected: TopdonSuperSamplingFactor,
     onSelect: (TopdonSuperSamplingFactor) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Text(text = label, style = MaterialTheme.typography.bodySmall)
-    OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
+    TopdonButton(
+        onClick = { expanded = true },
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text("x${selected.multiplier}")
     }
-    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false }
+    ) {
         options.forEach { option ->
             DropdownMenuItem(
                 text = { Text("x${option.multiplier}") },
@@ -360,24 +599,38 @@ private fun PreviewFpsSlider(
     onUpdate: (Int) -> Unit
 ) {
     var sliderValue by remember { mutableFloatStateOf(current.toFloat()) }
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text("Preview frame rate limit", style = MaterialTheme.typography.bodyMedium)
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("${sliderValue.roundToInt()} fps", style = MaterialTheme.typography.bodySmall)
-            Slider(
-                value = sliderValue,
-                onValueChange = { sliderValue = it },
-                valueRange = 2f..30f,
-                steps = 28,
-                onValueChangeFinished = {
-                    onUpdate(sliderValue.roundToInt())
-                },
-                modifier = Modifier.weight(1f)
+            Text(
+                text = "Preview Frame Rate",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+            Surface(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Text(
+                    text = "${sliderValue.roundToInt()} fps",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+                )
+            }
         }
+        Slider(
+            value = sliderValue,
+            onValueChange = { sliderValue = it },
+            valueRange = 2f..30f,
+            steps = 28,
+            onValueChangeFinished = {
+                onUpdate(sliderValue.roundToInt())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }

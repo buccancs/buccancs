@@ -1,23 +1,42 @@
 package com.buccancs.ui.session
 
 import androidx.annotation.ColorInt
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,15 +44,25 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.buccancs.ui.theme.Spacing
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.MotionTokens
+import com.buccancs.ui.theme.MotionTransitions
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
+import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.PerformanceThrottleLevel
 import com.buccancs.domain.model.RecordingBookmark
@@ -42,19 +71,19 @@ import com.buccancs.domain.model.UploadBacklogLevel
 import com.buccancs.domain.model.UploadBacklogState
 import com.buccancs.domain.model.UploadRecoveryRecord
 import com.buccancs.domain.model.UploadStatus
+import com.buccancs.ui.components.InfoRow
+import com.buccancs.ui.components.StatusIndicator
 import com.buccancs.ui.debug.ClockPanel
 import com.buccancs.ui.debug.EncoderPanel
 import java.util.Locale
 
 @Composable
 fun LiveSessionRoute(
-    onNavigateUp: () -> Unit,
     viewModel: LiveSessionViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     LiveSessionScreen(
         state = state,
-        onNavigateUp = onNavigateUp,
         onAddBookmark = { viewModel.recordBookmark() },
         onTriggerStimulus = { viewModel.previewStimulus() }
     )
@@ -64,7 +93,6 @@ fun LiveSessionRoute(
 @Composable
 fun LiveSessionScreen(
     state: LiveSessionUiState,
-    onNavigateUp: () -> Unit,
     onAddBookmark: () -> Unit,
     onTriggerStimulus: () -> Unit
 ) {
@@ -72,18 +100,34 @@ fun LiveSessionScreen(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Live Session") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
+                colors = TopAppBarDefaults.topAppBarColors(),
+                actions = {
+                    StatusIndicator(
+                        icon = when (state.syncStatus.quality.name.uppercase()) {
+                            "SYNCED" -> Icons.Default.CheckCircle
+                            "SYNCING" -> Icons.Default.Cloud
+                            else -> Icons.Default.Warning
+                        },
+                        label = state.syncStatus.quality.name,
+                        color = when (state.syncStatus.quality.name.uppercase()) {
+                            "SYNCED" -> MaterialTheme.colorScheme.primary
+                            "SYNCING" -> MaterialTheme.colorScheme.secondary
+                            else -> MaterialTheme.colorScheme.error
+                        }
+                    )
+                }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddBookmark,
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Bookmark,
+                    contentDescription = "Add Bookmark"
+                )
+            }
         }
     ) { padding ->
         androidx.compose.foundation.layout.Box(
@@ -95,11 +139,19 @@ fun LiveSessionScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .testTag("live-list")
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .padding(horizontal = Spacing.Medium, vertical = Spacing.Small),
+                verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 item {
-                    RecordingCard(state, onAddBookmark)
+                    CollapsibleRecordingCard(state)
+                }
+                item {
+                    DeviceStreamGrid(devices = state.devices)
+                }
+                if (state.uploads.isNotEmpty() || (state.backlog.level != UploadBacklogLevel.NORMAL || state.backlog.queuedCount > 0)) {
+                    item {
+                        UploadStatusCard(uploads = state.uploads, backlog = state.backlog)
+                    }
                 }
                 item {
                     StimulusPanel(state.stimulus, onTriggerStimulus)
@@ -117,17 +169,9 @@ fun LiveSessionScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-                item {
-                    DeviceList(devices = state.devices)
-                }
-                if (state.uploads.isNotEmpty()) {
+                if (state.bookmarks.isNotEmpty()) {
                     item {
-                        UploadList(uploads = state.uploads)
-                    }
-                }
-                if (state.backlog.level != UploadBacklogLevel.NORMAL || state.backlog.queuedCount > 0) {
-                    item {
-                        BacklogCard(state.backlog)
+                        BookmarkList(bookmarks = state.bookmarks)
                     }
                 }
                 if (state.recoveries.isNotEmpty()) {
@@ -138,11 +182,6 @@ fun LiveSessionScreen(
                 if (state.events.isNotEmpty()) {
                     item {
                         EventList(events = state.events)
-                    }
-                }
-                if (state.bookmarks.isNotEmpty()) {
-                    item {
-                        BookmarkList(bookmarks = state.bookmarks)
                     }
                 }
                 item {
@@ -529,12 +568,274 @@ private fun formatBytes(bytes: Long): String {
     return String.format(Locale.US, "%.1f %s", value, units[digitGroups])
 }
 
+@Composable
+private fun CollapsibleRecordingCard(state: LiveSessionUiState) {
+    var expanded by remember { mutableStateOf(true) }
+    val rotationAngle by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        label = "rotation",
+        animationSpec = MotionTokens.mediumElementEnter()
+    )
+    
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+    ) {
+        Column(modifier = Modifier.padding(Spacing.Medium)) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { expanded = !expanded },
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Recording",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = state.recording.lifecycle.toString(),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+                Icon(
+                    imageVector = Icons.Default.ExpandMore,
+                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    modifier = Modifier.rotate(rotationAngle)
+                )
+            }
+            
+            AnimatedVisibility(
+                visible = expanded,
+                enter = MotionTransitions.expandVertically(),
+                exit = MotionTransitions.shrinkVertically()
+            ) {
+                Column(modifier = Modifier.padding(top = Spacing.Medium)) {
+                    val anchor = state.recording.anchor
+                    if (anchor != null) {
+                        InfoRow("Session ID", anchor.sessionId)
+                        InfoRow("Reference", anchor.referenceTimestamp.toString())
+                        InfoRow("Clock Offset", "${anchor.sharedClockOffsetMillis} ms")
+                    } else {
+                        Text(
+                            text = "Session idle",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                    
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = Spacing.Small),
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                    ) {
+                        AssistChip(
+                            onClick = {},
+                            label = { Text(if (state.simulationEnabled) "Simulation" else "Live") }
+                        )
+                        if (state.throttleLevel == PerformanceThrottleLevel.CONSERVE) {
+                            AssistChip(
+                                onClick = {},
+                                label = { Text("Throttled") },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Warning,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
+@Composable
+private fun InfoRow(label: String, value: String) {
+    InfoRow(
+        label = label,
+        value = value,
+        valueColor = MaterialTheme.colorScheme.onPrimaryContainer
+    )
+}
 
+@Composable
+private fun DeviceStreamGrid(devices: List<SensorDevice>) {
+    if (devices.isEmpty()) return
+    
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(Spacing.Medium)) {
+            Text(
+                text = "Device Status",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = Spacing.Medium),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            ) {
+                items(devices, key = { it.id.value }) { device ->
+                    DeviceStatusChip(device)
+                }
+            }
+        }
+    }
+}
 
+@Composable
+private fun DeviceStatusChip(device: SensorDevice) {
+    val backgroundColor = when (device.connectionStatus) {
+        is ConnectionStatus.Connected -> MaterialTheme.colorScheme.primaryContainer
+        ConnectionStatus.Connecting -> MaterialTheme.colorScheme.secondaryContainer
+        else -> MaterialTheme.colorScheme.surfaceVariant
+    }
+    
+    val iconColor = when (device.connectionStatus) {
+        is ConnectionStatus.Connected -> MaterialTheme.colorScheme.primary
+        ConnectionStatus.Connecting -> MaterialTheme.colorScheme.secondary
+        else -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
+    
+    Card(
+        colors = CardDefaults.cardColors(containerColor = backgroundColor)
+    ) {
+        Column(
+            modifier = Modifier.padding(Spacing.Medium),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = when (device.connectionStatus) {
+                    is ConnectionStatus.Connected -> Icons.Default.CheckCircle
+                    else -> Icons.Default.Warning
+                },
+                contentDescription = null,
+                tint = iconColor,
+                modifier = Modifier.size(Dimensions.IconSizeDefault)
+            )
+            Text(
+                text = device.displayName,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = Spacing.ExtraSmall)
+            )
+            Text(
+                text = when (device.connectionStatus) {
+                    is ConnectionStatus.Connected -> "Connected"
+                    ConnectionStatus.Connecting -> "Connecting"
+                    ConnectionStatus.Disconnected -> "Disconnected"
+                },
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
 
+@Composable
+private fun UploadStatusCard(uploads: List<UploadStatus>, backlog: UploadBacklogState) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = if (backlog.level == UploadBacklogLevel.CRITICAL) {
+                MaterialTheme.colorScheme.errorContainer
+            } else if (backlog.level == UploadBacklogLevel.WARNING) {
+                MaterialTheme.colorScheme.tertiaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            }
+        )
+    ) {
+        Column(modifier = Modifier.padding(Spacing.Medium)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Upload Status",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                if (backlog.queuedCount > 0) {
+                    AssistChip(
+                        onClick = {},
+                        label = { Text("${backlog.queuedCount} queued") },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Cloud,
+                                contentDescription = null
+                            )
+                        }
+                    )
+                }
+            }
+            
+            if (uploads.isNotEmpty()) {
+                Column(
+                    modifier = Modifier.padding(top = Spacing.Medium),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                ) {
+                    uploads.forEach { upload ->
+                        UploadProgressItem(upload)
+                    }
+                }
+            }
+            
+            if (backlog.level != UploadBacklogLevel.NORMAL || backlog.message != null) {
+                Text(
+                    text = backlog.message ?: "Upload backlog: ${backlog.level}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = when (backlog.level) {
+                        UploadBacklogLevel.CRITICAL -> MaterialTheme.colorScheme.error
+                        UploadBacklogLevel.WARNING -> MaterialTheme.colorScheme.tertiary
+                        else -> MaterialTheme.colorScheme.onSurfaceVariant
+                    },
+                    modifier = Modifier.padding(top = Spacing.Small)
+                )
+            }
+        }
+    }
+}
 
-
-
-
-
+@Composable
+private fun UploadProgressItem(upload: UploadStatus) {
+    val progressValue = if (upload.bytesTotal > 0) {
+        (upload.bytesTransferred.toFloat() / upload.bytesTotal.toFloat())
+    } else {
+        0f
+    }
+    
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "${upload.deviceId.value.take(8)}... ${upload.streamType.name}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "${(progressValue * 100).toInt()}%",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+        LinearProgressIndicator(
+            progress = { progressValue },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = Spacing.ExtraSmall)
+        )
+    }
+}

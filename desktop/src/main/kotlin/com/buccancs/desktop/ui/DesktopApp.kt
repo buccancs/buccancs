@@ -41,6 +41,8 @@ import com.buccancs.desktop.ui.state.RetentionState
 import com.buccancs.desktop.ui.state.SessionArchiveItem
 import com.buccancs.desktop.ui.state.SessionSummary
 import com.buccancs.desktop.ui.state.TransferStatusItem
+import com.buccancs.desktop.ui.theme.BuccancsTheme
+import com.buccancs.desktop.ui.theme.Spacing
 import com.buccancs.desktop.viewmodel.AppViewModel
 import org.jetbrains.skia.Image
 import java.time.ZoneId
@@ -62,15 +64,15 @@ private fun SectionCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                     Text(title, style = MaterialTheme.typography.titleMedium)
                     subtitle?.let {
                         Text(
@@ -81,7 +83,7 @@ private fun SectionCard(
                     }
                 }
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
                     verticalAlignment = Alignment.CenterVertically,
                     content = actions
                 )
@@ -97,13 +99,13 @@ fun DesktopApp(viewModel: AppViewModel) {
     val formatter = rememberFormatter()
     val sessionTitle = state.session?.let { "Session ${it.id} (${it.status})" } ?: "No active session"
     val sessionActive = state.session?.status == SessionStatus.ACTIVE.name
-    MaterialTheme {
+    BuccancsTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .padding(Spacing.Medium),
+                verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 Text(sessionTitle, style = MaterialTheme.typography.headlineSmall)
                 ControlPanel(
@@ -182,11 +184,11 @@ internal fun ControlPanel(
     } else {
         "Clock offsets: $offsetsSummary"
     }
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Medium)) {
         SectionCard(title = "Session Control") {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 OutlinedTextField(
                     value = control.operatorId,
@@ -203,7 +205,7 @@ internal fun ControlPanel(
                     singleLine = true
                 )
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)) {
                 Button(onClick = onStartSession, enabled = !sessionActive) { Text("Start Session") }
                 Button(onClick = onStopSession, enabled = sessionActive) { Text("Stop Session") }
             }
@@ -217,7 +219,7 @@ internal fun ControlPanel(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 OutlinedTextField(
                     value = control.syncSignalType,
@@ -250,7 +252,7 @@ internal fun ControlPanel(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 OutlinedTextField(
                     value = control.eventMarkerId,
@@ -282,7 +284,7 @@ internal fun ControlPanel(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 OutlinedTextField(
                     value = control.stimulusId,
@@ -310,7 +312,7 @@ internal fun ControlPanel(
         SectionCard(title = "Data Hygiene") {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 OutlinedTextField(
                     value = control.subjectEraseId,
@@ -356,14 +358,14 @@ private fun SessionSummaryCard(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 MetricItem("GSR Samples", metrics.gsrSamples, Modifier.weight(1f))
                 MetricItem("Video Frames", metrics.videoFrames, Modifier.weight(1f))
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 MetricItem("Thermal Frames", metrics.thermalFrames, Modifier.weight(1f))
                 MetricItem("Audio Samples", metrics.audioSamples, Modifier.weight(1f))
@@ -372,7 +374,7 @@ private fun SessionSummaryCard(
             Text("No samples received yet", style = MaterialTheme.typography.bodySmall)
         }
         metricsUpdatedAt?.let { Text("Metrics updated: $it", style = MaterialTheme.typography.bodySmall) }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
             Button(onClick = onEraseSession, enabled = canErase) { Text("Erase Session") }
             if (!canErase) {
                 Text("Stop session before erasing.", style = MaterialTheme.typography.bodySmall)
@@ -386,7 +388,7 @@ private fun SessionSummaryCard(
 private fun MetricItem(label: String, value: Long, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(2.dp)
+        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
     ) {
         Text(label, style = MaterialTheme.typography.labelSmall)
         Text(
@@ -411,7 +413,7 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(Spacing.Small)
             ) {
                 items(devices) { device ->
                     val colors = when {
@@ -432,7 +434,7 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
                         subtitle = device.platform,
                         colors = colors
                     ) {
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
                             StatusBadge(
                                 text = if (device.connected) "Connected" else "Disconnected",
                                 background = if (device.connected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.errorContainer,
@@ -469,7 +471,7 @@ private fun StatusBadge(text: String, background: Color, content: Color, modifie
     ) {
         Text(
             text = text,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+            modifier = Modifier.padding(horizontal = Spacing.Small, vertical = Spacing.ExtraSmall),
             style = MaterialTheme.typography.labelSmall
         )
     }
@@ -526,7 +528,7 @@ internal fun TransferSection(transfers: List<TransferStatusItem>) {
             Text("No transfers recorded")
         } else {
             transfers.forEach { transfer ->
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                     Text("Session ${transfer.sessionId} - Device ${transfer.deviceId}")
                     Text("File: ${transfer.fileName} (${transfer.streamType ?: "unknown"})")
                     val progress =
@@ -554,7 +556,7 @@ private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: Dat
             Text("No events logged")
         } else {
             events.forEach { event ->
-                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                     Text("Event ${event.eventId} - ${event.label}")
                     Text("Time: ${formatter.format(event.timestamp)}", style = MaterialTheme.typography.bodySmall)
                     if (event.deviceIds.isNotEmpty()) {
@@ -576,7 +578,7 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
         } else {
             previews.forEach { preview ->
                 val bitmap = remember(preview.payload) { decodeImage(preview.payload) }
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                     Text("${preview.deviceId} - ${preview.cameraId} (${preview.mimeType}) ${preview.width}x${preview.height}")
                     Text(
                         text = "Latency ${"%.1f".format(preview.latencyMs)} ms - Received ${formatter.format(preview.receivedAt)}",
@@ -605,7 +607,7 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
     if (archives.isEmpty()) return
     SectionCard(title = "Archived Sessions", subtitle = "Count: ${archives.size}") {
         archives.forEach { archive ->
-            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                 Text("Session ${archive.id} - ${archive.status}")
                 Text("Created: ${formatter.format(archive.createdAt)}", style = MaterialTheme.typography.bodySmall)
                 archive.startedAt?.let {

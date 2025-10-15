@@ -1,5 +1,6 @@
 package com.buccancs.data.orchestration.server
 
+import com.buccancs.control.ProtocolVersion
 import com.buccancs.control.sync.CommandAck
 import com.buccancs.control.sync.CommandEnvelope
 import com.buccancs.control.sync.ControlEvent
@@ -98,6 +99,15 @@ class ControlServer @Inject constructor(
         private val sessionId: String
     ) : LocalControlGrpcKt.LocalControlCoroutineImplBase() {
         override suspend fun pushCommand(request: CommandEnvelope): CommandAck {
+            val clientVersion = request.protocolVersion.takeIf { it > 0 } ?: ProtocolVersion.CURRENT
+            if (!ProtocolVersion.isCompatible(clientVersion)) {
+                throw Status.FAILED_PRECONDITION
+                    .withDescription(
+                        "Incompatible protocol version: ${ProtocolVersion.versionString(clientVersion)} " +
+                        "(device: ${ProtocolVersion.versionString(ProtocolVersion.CURRENT)})"
+                    )
+                    .asRuntimeException()
+            }
             val verification = tokenIssuer.verify(request.token, request.sessionId)
             if (!verification.valid) {
                 throw Status.UNAUTHENTICATED

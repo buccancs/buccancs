@@ -48,7 +48,6 @@ fun CalibrationPanel(
                 fontWeight = FontWeight.SemiBold
             )
             WizardStepIndicator(current = state.wizardStep)
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = state.guidanceMessage,
                 style = MaterialTheme.typography.bodySmall,
@@ -104,7 +103,6 @@ fun CalibrationPanel(
             when (state.wizardStep) {
                 CalibrationWizardStep.Configure -> {
                     PatternSettingsSection(state, actions)
-                    Spacer(modifier = Modifier.height(4.dp))
                     StepControls(
                         primaryLabel = "Start Session",
                         primaryEnabled = !state.active && !state.isProcessing,
@@ -117,15 +115,12 @@ fun CalibrationPanel(
 
                 CalibrationWizardStep.Capture -> {
                     PatternSettingsSection(state, actions, compact = true)
-                    Spacer(modifier = Modifier.height(8.dp))
                     CaptureControls(state, actions)
                 }
 
                 CalibrationWizardStep.Validate -> {
                     PatternSettingsSection(state, actions, compact = true)
-                    Spacer(modifier = Modifier.height(8.dp))
                     CaptureControls(state, actions)
-                    Spacer(modifier = Modifier.height(8.dp))
                     StepControls(
                         primaryLabel = if (state.isProcessing) "Computing..." else "Compute Calibration",
                         primaryEnabled = state.capturedCount >= state.requiredPairs && !state.isProcessing,
@@ -138,7 +133,6 @@ fun CalibrationPanel(
 
                 CalibrationWizardStep.Review -> {
                     PatternSettingsSection(state, actions, compact = true)
-                    Spacer(modifier = Modifier.height(8.dp))
                     StepControls(
                         primaryLabel = "Re-run Capture",
                         primaryEnabled = !state.isProcessing,
@@ -261,20 +255,23 @@ private fun PatternSettingsSection(
 
 @Composable
 private fun CaptureControls(state: CalibrationUiState, actions: CalibrationActions) {
-    Text(text = "Capture Guidance", style = MaterialTheme.typography.titleSmall)
-    Spacer(modifier = Modifier.height(4.dp))
-    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        Button(
-            onClick = actions.onCapturePair,
-            enabled = state.active && !state.isProcessing
-        ) {
-            Text("Capture Pair")
-        }
-        OutlinedButton(
-            onClick = actions.onClearSession,
-            enabled = !state.isProcessing
-        ) {
-            Text("Clear Captures")
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(text = "Capture Guidance", style = MaterialTheme.typography.titleSmall)
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Button(
+                onClick = actions.onCapturePair,
+                enabled = state.active && !state.isProcessing
+            ) {
+                Text("Capture Pair")
+            }
+            OutlinedButton(
+                onClick = actions.onClearSession,
+                enabled = !state.isProcessing
+            ) {
+                Text("Clear Captures")
+            }
         }
     }
 }

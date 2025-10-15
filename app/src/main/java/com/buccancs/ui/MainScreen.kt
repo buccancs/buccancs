@@ -207,9 +207,7 @@ private fun NavigationLinks(
     onOpenSettings: () -> Unit
 ) {
     Row(
-        modifier = Modifier
-	        .fillMaxWidth()
-	        .padding(vertical = 4.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Button(

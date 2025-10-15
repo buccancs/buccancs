@@ -3,20 +3,30 @@ package com.buccancs.ui.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -27,14 +37,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.buccancs.BuildConfig
+import com.buccancs.ui.components.InfoRow
+import com.buccancs.ui.components.SectionHeader
+import com.buccancs.ui.theme.Spacing
 import java.util.Locale
 
 @Composable
 fun SettingsRoute(
-    onNavigateUp: () -> Unit,
+    onNavigateUp: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -49,8 +64,7 @@ fun SettingsRoute(
         onRetentionMaxAgeDaysChanged = viewModel::onRetentionMaxAgeDaysChanged,
         onApplyOrchestrator = viewModel::applyOrchestrator,
         onApplyRetention = { viewModel.applyRetention(context) },
-        onClearMessage = viewModel::clearMessage,
-        onNavigateUp = onNavigateUp
+        onClearMessage = viewModel::clearMessage
     )
 }
 
@@ -66,54 +80,90 @@ fun SettingsScreen(
     onRetentionMaxAgeDaysChanged: (String) -> Unit,
     onApplyOrchestrator: () -> Unit,
     onApplyRetention: () -> Unit,
-    onClearMessage: () -> Unit,
-    onNavigateUp: () -> Unit
+    onClearMessage: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Settings") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
+                colors = TopAppBarDefaults.topAppBarColors()
             )
         }
     ) { padding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
-	            .fillMaxSize()
-	            .padding(padding)
-	            .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .fillMaxSize()
+                .padding(padding)
+                .padding(horizontal = Spacing.Medium, vertical = Spacing.Small),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
         ) {
-            OrchestratorCard(
-                state = state,
-                onHostChanged = onHostChanged,
-                onPortChanged = onPortChanged,
-                onUseTlsChanged = onUseTlsChanged,
-                onApply = onApplyOrchestrator
-            )
-            RetentionCard(
-                state = state,
-                onMinFreeChanged = onRetentionMinFreeChanged,
-                onMaxSessionsChanged = onRetentionMaxSessionsChanged,
-                onMaxAgeDaysChanged = onRetentionMaxAgeDaysChanged,
-                onApply = onApplyRetention
-            )
-            StorageSummaryCard(state = state)
-            state.message?.let {
-                MessageCard(message = it, onDismiss = onClearMessage)
+            item {
+                SectionHeader(
+                    title = "Connection",
+                    icon = Icons.Default.Cloud
+                )
+            }
+            item {
+                OrchestratorCard(
+                    state = state,
+                    onHostChanged = onHostChanged,
+                    onPortChanged = onPortChanged,
+                    onUseTlsChanged = onUseTlsChanged,
+                    onApply = onApplyOrchestrator
+                )
+            }
+            
+            item {
+                SectionHeader(
+                    title = "Data Management",
+                    icon = Icons.Default.Storage
+                )
+            }
+            item {
+                RetentionCard(
+                    state = state,
+                    onMinFreeChanged = onRetentionMinFreeChanged,
+                    onMaxSessionsChanged = onRetentionMaxSessionsChanged,
+                    onMaxAgeDaysChanged = onRetentionMaxAgeDaysChanged,
+                    onApply = onApplyRetention
+                )
+            }
+            item {
+                StorageSummaryCard(state = state)
+            }
+            
+            item {
+                SectionHeader(
+                    title = "Simulation",
+                    icon = Icons.Default.Science
+                )
+            }
+            item {
+                SimulationModeCard(state = state)
+            }
+            
+            item {
+                SectionHeader(
+                    title = "About",
+                    icon = Icons.Default.Info
+                )
+            }
+            item {
+                AppInfoCard()
+            }
+            
+            if (state.message != null) {
+                item {
+                    MessageCard(message = state.message, onDismiss = onClearMessage)
+                }
             }
         }
     }
+}
+
+@Composable
+private fun SectionHeader(title: String, icon: androidx.compose.ui.graphics.vector.ImageVector) {
+    SectionHeader(title = title, icon = icon)
 }
 
 @Composable
@@ -124,12 +174,18 @@ private fun OrchestratorCard(
     onUseTlsChanged: (Boolean) -> Unit,
     onApply: () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(text = "Orchestrator", style = MaterialTheme.typography.titleMedium)
+        Column(
+            modifier = Modifier.padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+        ) {
+            Text(
+                text = "Orchestrator Connection",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
             OutlinedTextField(
                 value = state.hostInput,
                 onValueChange = onHostChanged,
@@ -144,22 +200,41 @@ private fun OrchestratorCard(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = MaterialTheme.shapes.small
             ) {
-                Switch(
-                    checked = state.useTls,
-                    onCheckedChange = onUseTlsChanged
-                )
-                Text(text = "Use TLS")
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Use TLS",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Switch(
+                        checked = state.useTls,
+                        onCheckedChange = onUseTlsChanged
+                    )
+                }
             }
-            Button(
+            FilledTonalButton(
                 onClick = onApply,
                 enabled = !state.isApplying,
-                modifier = Modifier.testTag("settings-apply-orchestrator")
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("settings-apply-orchestrator")
             ) {
-                Text(text = "Apply Orchestrator")
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = "Apply Connection")
             }
         }
     }
@@ -173,18 +248,32 @@ private fun RetentionCard(
     onMaxAgeDaysChanged: (String) -> Unit,
     onApply: () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(text = "Retention Policy", style = MaterialTheme.typography.titleMedium)
+        Column(
+            modifier = Modifier.padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+        ) {
             Text(
-                text = "Defaults: min free ${formatGigabytes(state.retentionDefaults.minFreeBytes)}, " +
-                        "max sessions ${state.retentionDefaults.maxSessions}, " +
-                        "max age ${state.retentionDefaults.maxAgeDays} days",
-                style = MaterialTheme.typography.bodySmall
+                text = "Retention Policy",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
             )
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Text(
+                    text = "Defaults: ${formatGigabytes(state.retentionDefaults.minFreeBytes)} free, " +
+                            "${state.retentionDefaults.maxSessions} sessions max, " +
+                            "${state.retentionDefaults.maxAgeDays} days",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                )
+            }
             OutlinedTextField(
                 value = state.retentionMinFreeInput,
                 onValueChange = onMinFreeChanged,
@@ -206,12 +295,20 @@ private fun RetentionCard(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-            Button(
+            FilledTonalButton(
                 onClick = onApply,
                 enabled = !state.isApplying,
-                modifier = Modifier.testTag("settings-apply-retention")
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("settings-apply-retention")
             ) {
-                Text(text = "Apply Retention")
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = "Apply Policy")
             }
         }
     }
@@ -220,33 +317,136 @@ private fun RetentionCard(
 @Composable
 private fun StorageSummaryCard(state: SettingsUiState) {
     val storage = state.storageState
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(text = "Storage", style = MaterialTheme.typography.titleMedium)
-            Text(text = "Total: ${formatBytes(storage.totalBytes)}")
-            Text(text = "Available: ${formatBytes(storage.availableBytes)}")
-            Text(text = "Used: ${formatBytes(storage.usedBytes)}")
-            Text(text = "Status: ${storage.status.name}")
+        Column(
+            modifier = Modifier.padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+        ) {
+            Text(
+                text = "Storage Status",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+            InfoRow("Total", formatBytes(storage.totalBytes))
+            InfoRow("Available", formatBytes(storage.availableBytes))
+            InfoRow("Used", formatBytes(storage.usedBytes))
+            InfoRow("Status", storage.status.name)
+        }
+    }
+}
+
+@Composable
+private fun StorageInfoRow(label: String, value: String) {
+    InfoRow(label = label, value = value)
+}
+
+@Composable
+private fun SimulationModeCard(state: SettingsUiState) {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+        ) {
+            Text(
+                text = "Simulation Mode",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = "Simulation mode uses generated data instead of real sensors for testing purposes.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Enable Simulation",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Switch(
+                        checked = false,
+                        onCheckedChange = {},
+                        enabled = false
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppInfoCard() {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+        ) {
+            Text(
+                text = "Application Info",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+            InfoRow("Version", BuildConfig.VERSION_NAME)
+            InfoRow("Build", BuildConfig.VERSION_CODE.toString())
+            InfoRow("Type", if (BuildConfig.DEBUG) "Debug" else "Release")
         }
     }
 }
 
 @Composable
 private fun MessageCard(message: String, onDismiss: () -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colorScheme.errorContainer
         ) {
-            Text(text = message, style = MaterialTheme.typography.bodyMedium)
-            Button(onClick = onDismiss) {
-                Text(text = "Dismiss")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Spacing.Medium),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    text = message,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.weight(1f)
+                )
+                FilledTonalIconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier.size(32.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Dismiss",
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
             }
         }
     }
