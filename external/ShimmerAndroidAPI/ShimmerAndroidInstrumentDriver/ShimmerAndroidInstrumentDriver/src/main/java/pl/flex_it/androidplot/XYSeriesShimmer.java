@@ -1,10 +1,8 @@
 package pl.flex_it.androidplot;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.androidplot.series.XYSeries;
+
+import java.util.List;
 
 public class XYSeriesShimmer implements XYSeries {
     private List<Number> mDataY;

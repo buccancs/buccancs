@@ -1,5 +1,7 @@
 package com.shimmerresearch.android.guiUtilities.supportfragments;
 
+import static android.view.KeyEvent.KEYCODE_ENTER;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -23,8 +25,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.view.KeyEvent.KEYCODE_ENTER;
 
 
 public class DeviceConfigListAdapter extends BaseExpandableListAdapter {

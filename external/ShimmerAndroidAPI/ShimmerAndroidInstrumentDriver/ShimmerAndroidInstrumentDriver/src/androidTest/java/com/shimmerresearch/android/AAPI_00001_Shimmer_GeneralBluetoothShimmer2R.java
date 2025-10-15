@@ -2,7 +2,9 @@ package com.shimmerresearch.android;
 
 import android.os.Handler;
 import android.support.test.runner.AndroidJUnit4;
+
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails;
+
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

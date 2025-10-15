@@ -1,5 +1,5 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import java.util.*
+import java.util.Locale
 
 val libs = the<LibrariesForLibs>()
 
@@ -39,7 +39,7 @@ private data class ExternalProjectBuild(
 private val externalBuilds = listOf(
     // Temporarily disabled due to Gradle version conflict
     // ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
-    
+
     // Shimmer SDK builds - now updated to Java 21
     ExternalProjectBuild("buildShimmerBluetoothManager", "external/Shimmer-Java-Android-API/ShimmerBluetoothManager"),
     ExternalProjectBuild("buildShimmerDriver", "external/Shimmer-Java-Android-API/ShimmerDriver"),
@@ -48,7 +48,7 @@ private val externalBuilds = listOf(
     ExternalProjectBuild("buildShimmerPCBasicExamples", "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples"),
     ExternalProjectBuild("buildShimmerLSL", "external/Shimmer-Java-Android-API/ShimmerLSL"),
     ExternalProjectBuild("buildJavaShimmerConnect", "external/Shimmer-Java-Android-API/JavaShimmerConnect"),
-    
+
     ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample")
 )
 

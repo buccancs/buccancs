@@ -7,9 +7,9 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.buccancs.data.storage.SessionUsage
 import com.buccancs.data.storage.SpaceState
 import com.buccancs.data.storage.SpaceStatus
-import com.buccancs.data.storage.SessionUsage
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test

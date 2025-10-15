@@ -207,6 +207,32 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             imageThread.interrupt();
         }
         startUSB(true);
+    }
+
+    private void getDataFlowModeByPosition(int position) {
+        if (position == 0) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.TEMP_OUTPUT;
+        } else if (position == 1) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.IR_OUTPUT;
+        } else if (position == 2) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.KBC_OUTPUT;
+        } else if (position == 3) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.HBC_DPC_OUTPUT;
+        } else if (position == 4) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.VBC_OUTPUT;
+        } else if (position == 5) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.TNR_OUTPUT;
+        } else if (position == 6) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.SNR_OUTPUT;
+        } else if (position == 7) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.AGC_OUTPUT;
+        } else if (position == 8) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.DDE_OUTPUT;
+        } else if (position == 9) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.GAMMA_OUTPUT;
+        } else if (position == 10) {
+            defaultDataFlowMode = CommonParams.DataFlowMode.MIRROR_OUTPUT;
+        }
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -233,32 +259,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    private void getDataFlowModeByPosition(int position) {
-        if (position == 0) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.TEMP_OUTPUT;
-        } else if (position == 1) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.IR_OUTPUT;
-        } else if (position == 2) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.KBC_OUTPUT;
-        } else if (position == 3) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.HBC_DPC_OUTPUT;
-        } else if (position == 4) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.VBC_OUTPUT;
-        } else if (position == 5) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.TNR_OUTPUT;
-        } else if (position == 6) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.SNR_OUTPUT;
-        } else if (position == 7) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.AGC_OUTPUT;
-        } else if (position == 8) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.DDE_OUTPUT;
-        } else if (position == 9) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.GAMMA_OUTPUT;
-        } else if (position == 10) {
-            defaultDataFlowMode = CommonParams.DataFlowMode.MIRROR_OUTPUT;
-        }
-    }
 
     @Override
     public void onClick(View view) {

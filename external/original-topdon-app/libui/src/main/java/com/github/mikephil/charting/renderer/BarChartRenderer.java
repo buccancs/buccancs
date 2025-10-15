@@ -19,7 +19,9 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+
 import android.graphics.LinearGradient;
+
 import com.github.mikephil.charting.model.GradientColor;
 
 import java.util.List;

@@ -31,6 +31,7 @@ import com.shimmerresearch.verisense.VerisenseDevice;
 import com.shimmerresearch.verisense.communication.SyncProgressDetails;
 import com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication;
 import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+
 import info.monitorenter.gui.chart.Chart2D;
 
 import javax.swing.JLabel;
@@ -44,11 +45,14 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTextPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JMenu;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -62,6 +66,7 @@ import java.util.TimerTask;
 import java.awt.Canvas;
 import java.awt.Graphics2D;
 import java.awt.Image;
+
 import javax.swing.JComboBox;
 
 public class SensorMapsExample extends BasicProcessWithCallBack {

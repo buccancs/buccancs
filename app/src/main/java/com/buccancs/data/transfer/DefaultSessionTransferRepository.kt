@@ -2,7 +2,6 @@ package com.buccancs.data.transfer
 
 import android.content.Context
 import android.util.Log
-import com.buccancs.application.performance.BacklogPerformanceController
 import com.buccancs.data.network.NetworkStateProvider
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.SessionArtifact
@@ -12,6 +11,7 @@ import com.buccancs.domain.model.UploadRecoveryRecord
 import com.buccancs.domain.model.UploadState
 import com.buccancs.domain.model.UploadStatus
 import com.buccancs.domain.repository.SessionTransferRepository
+import com.buccancs.util.nowInstant
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -23,8 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Instant
-import com.buccancs.util.nowInstant
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max

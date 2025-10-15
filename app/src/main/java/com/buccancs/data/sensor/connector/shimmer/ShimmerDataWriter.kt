@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
 import java.security.DigestOutputStream
 import java.security.MessageDigest
-import java.util.*
+import java.util.Locale
 
 /**
  * Handles file I/O operations for Shimmer GSR data recording.

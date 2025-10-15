@@ -4,7 +4,8 @@
     <string name="see_more_than" translatable="false">See More Than Human Eye Can</string>
 
     <string name="version_code" translatable="false">Version %s</string>
-    <string name="version_year" translatable="false">Copyright %s TOPDON Technology Co.,Ltd.\nAll Rights Reserved.</string>
+    <string name="version_year" translatable="false">Copyright %s TOPDON Technology Co.,Ltd.\nAll Rights Reserved.
+    </string>
     <string name="splash_title_1" translatable="false">See More</string>
     <string name="splash_title_2" translatable="false">Than Human Eye Can</string>
 

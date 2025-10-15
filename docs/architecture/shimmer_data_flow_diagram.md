@@ -54,7 +54,8 @@ Z --> AA
 
 ### Shimmer Data Flow Diagram (Updated 2025-10-14)
 
-This diagram shows the complete data flow for Shimmer GSR integration with production error handling, state management, and resource cleanup.
+This diagram shows the complete data flow for Shimmer GSR integration with production error handling, state management,
+and resource cleanup.
 
 **Device Discovery & Connection:**
 

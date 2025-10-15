@@ -12,7 +12,8 @@ synchronous multi-sensor data collection. While traditional GSR measurement usin
 intrusive, and contactless methods remain unvalidated, this platform provides the infrastructure needed to bridge that
 gap by collecting paired ground-truth GSR data alongside thermal and visual modalities.
 
-**Project Status:** 85% complete - Production-ready data collection system with comprehensive error handling and resource management.
+**Project Status:** 85% complete - Production-ready data collection system with comprehensive error handling and
+resource management.
 
 ## Research Context
 
@@ -349,7 +350,8 @@ Tests are currently disabled by default. To enable (requires Gradle wrapper fix)
 ./gradlew testDebugUnitTest -Ptests.enabled=true jacocoTestReport
 ```
 
-Note: Gradle wrapper currently has ClassNotFoundException issue preventing builds. See `docs/guides/TEST_EXECUTION_GUIDE_2025-10-14.md` for comprehensive testing documentation.
+Note: Gradle wrapper currently has ClassNotFoundException issue preventing builds. See
+`docs/guides/TEST_EXECUTION_GUIDE_2025-10-14.md` for comprehensive testing documentation.
 
 ## Project Structure
 

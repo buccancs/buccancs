@@ -32,7 +32,7 @@ class TransferActivity : BaseActivity() {
     private lateinit var transferDialog: TransferDialog
     private val ivBack: ImageView by lazy { findViewById(R.id.iv_back) }
     private val clSuccess: ConstraintLayout by lazy { findViewById(R.id.cl_success) }
-    
+
     override fun initContentView(): Int = R.layout.activity_transfer
     override fun initView() {
         ivBack.setOnClickListener {

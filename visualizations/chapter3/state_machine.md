@@ -34,14 +34,19 @@ stateDiagram-v2
 
 ### Figure: Software State Machine for Recording Control (Updated 2025-10-14)
 
-This state diagram illustrates the production behaviour of the Android recording application with comprehensive error handling.
+This state diagram illustrates the production behaviour of the Android recording application with comprehensive error
+handling.
 
 **Primary States:**
 
-- **Idle:** Initial state. Application waits for all required sensors to connect. Result pattern validates connection attempts.
-- **Ready:** All sensors connected and validated. Application ready to start recording. Sensor disconnection returns to Idle.
-- **Recording:** Actively recording data from all sensors. Entered on "START" command from PC orchestrator or local control.
-- **Syncing:** Temporary state for time synchronisation with orchestrator NTP-like protocol. Returns to Recording on success.
+- **Idle:** Initial state. Application waits for all required sensors to connect. Result pattern validates connection
+  attempts.
+- **Ready:** All sensors connected and validated. Application ready to start recording. Sensor disconnection returns to
+  Idle.
+- **Recording:** Actively recording data from all sensors. Entered on "START" command from PC orchestrator or local
+  control.
+- **Syncing:** Temporary state for time synchronisation with orchestrator NTP-like protocol. Returns to Recording on
+  success.
 - **Error:** Sensor failure or sync timeout. Circuit breaker engages to prevent resource drain.
 - **Stopped:** Recording stopped by "STOP" command. Can transition back to Ready for new recording session.
 
@@ -52,7 +57,8 @@ This state diagram illustrates the production behaviour of the Android recording
 
 **Error Handling Sub-states:**
 
-- **CircuitBreakerOpen:** Connection failures trigger circuit breaker. Countdown displayed to user. Prevents battery drain.
+- **CircuitBreakerOpen:** Connection failures trigger circuit breaker. Countdown displayed to user. Prevents battery
+  drain.
 - **CircuitBreakerHalfOpen:** After timeout, test connection attempted. Success closes circuit, failure reopens.
 
 **Key Improvements:**

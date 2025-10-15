@@ -34,35 +34,36 @@ class PdfViewModel : BaseViewModel() {
     private suspend fun getReportDataRepository(isTC007: Boolean, page: Int): ReportData? {
         var result: ReportData? = null
         val downLatch = CountDownLatch(1)
-            override fun onResponse(p0: String?) {
-                result = Gson().fromJson(p0, ReportData::class.java)
-                downLatch.countDown()
-            }
-
-            override fun onFail(p0: Exception?) {
-                result = ReportData()
-                result?.msg = p0?.message
-                result?.code = -1
-                downLatch.countDown()
-                TLog.e("bcf", "获取报告列表失败：" + p0?.message)
-            }
-
-            override fun onFail(failMsg: String?, errorCode: String) {
-                super.onFail(failMsg, errorCode)
-                try {
-                    StringUtils.getResString(
-                        LMS.mContext,
-                        if (TextUtils.isEmpty(errorCode)) -500 else errorCode.toInt()
-                    ).let {
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        })
-        withContext(Dispatchers.IO) {
-            downLatch.await()
+        override fun onResponse(p0: String?) {
+            result = Gson().fromJson(p0, ReportData::class.java)
+            downLatch.countDown()
         }
-        return result
+
+        override fun onFail(p0: Exception?) {
+            result = ReportData()
+            result?.msg = p0?.message
+            result?.code = -1
+            downLatch.countDown()
+            TLog.e("bcf", "获取报告列表失败：" + p0?.message)
+        }
+
+        override fun onFail(failMsg: String?, errorCode: String) {
+            super.onFail(failMsg, errorCode)
+            try {
+                StringUtils.getResString(
+                    LMS.mContext,
+                    if (TextUtils.isEmpty(errorCode)) -500 else errorCode.toInt()
+                ).let {
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    })
+    withContext(Dispatchers.IO)
+    {
+        downLatch.await()
     }
+    return result
+}
 }

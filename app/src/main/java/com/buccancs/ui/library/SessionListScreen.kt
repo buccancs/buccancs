@@ -28,11 +28,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.ui.platform.testTag
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun SessionLibraryRoute(
@@ -79,8 +79,8 @@ fun SessionLibraryScreen(
             state.isLoading -> {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
+	                    .fillMaxSize()
+	                    .padding(padding),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -93,9 +93,9 @@ fun SessionLibraryScreen(
             state.errorMessage != null -> {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .padding(24.dp),
+	                    .fillMaxSize()
+	                    .padding(padding)
+	                    .padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
@@ -116,9 +116,9 @@ fun SessionLibraryScreen(
             state.sessions.isEmpty() -> {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .padding(24.dp),
+	                    .fillMaxSize()
+	                    .padding(padding)
+	                    .padding(24.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -129,9 +129,9 @@ fun SessionLibraryScreen(
             else -> {
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+	                    .fillMaxSize()
+	                    .padding(padding)
+	                    .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(state.sessions) { summary ->
@@ -147,9 +147,9 @@ fun SessionLibraryScreen(
 private fun SessionRow(summary: SessionSummary, onClick: () -> Unit) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .testTag("session-row-${summary.sessionId}"),
+	        .fillMaxWidth()
+	        .clickable(onClick = onClick)
+	        .testTag("session-row-${summary.sessionId}"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

@@ -1,10 +1,9 @@
 package com.shimmerresearch.android.guiUtilities;
 
 
+import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;

@@ -3,7 +3,7 @@ package com.buccancs.data.transfer
 import com.buccancs.domain.model.UploadBacklogLevel
 import com.buccancs.domain.model.UploadBacklogState
 import com.buccancs.domain.model.UploadStatus
-import java.util.*
+import java.util.Locale
 import kotlin.math.log10
 import kotlin.math.max
 import kotlin.math.pow

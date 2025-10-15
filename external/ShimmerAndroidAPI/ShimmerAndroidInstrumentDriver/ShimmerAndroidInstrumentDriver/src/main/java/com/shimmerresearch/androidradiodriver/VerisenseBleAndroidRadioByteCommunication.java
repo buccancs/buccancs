@@ -4,27 +4,21 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.content.Context;
 import android.os.Build;
-import android.widget.Toast;
-
-import com.clj.fastble.callback.BleMtuChangedCallback;
-import com.shimmerresearch.driverUtilities.UtilShimmer;
-import com.shimmerresearch.verisense.communication.AbstractByteCommunication;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
+import com.clj.fastble.callback.BleMtuChangedCallback;
 import com.clj.fastble.callback.BleNotifyCallback;
 import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.verisense.communication.AbstractByteCommunication;
 
-import org.apache.commons.codec.binary.Hex;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import bolts.TaskCompletionSource;
 

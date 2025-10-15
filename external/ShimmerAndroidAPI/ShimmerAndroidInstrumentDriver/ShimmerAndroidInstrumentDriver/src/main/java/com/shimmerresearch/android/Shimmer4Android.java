@@ -2,8 +2,6 @@ package com.shimmerresearch.android;
 
 import android.os.Handler;
 
-import com.shimmerresearch.bluetooth.ShimmerBluetooth;
-import com.shimmerresearch.driver.ShimmerDevice;
 import com.shimmerresearch.driver.shimmer4sdk.Shimmer4sdk;
 
 

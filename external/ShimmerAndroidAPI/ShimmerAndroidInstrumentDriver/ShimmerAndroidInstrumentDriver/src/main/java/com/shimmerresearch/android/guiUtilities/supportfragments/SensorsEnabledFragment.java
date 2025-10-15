@@ -3,7 +3,6 @@ package com.shimmerresearch.android.guiUtilities.supportfragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.fragment.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
@@ -13,6 +12,8 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.fragment.app.ListFragment;
 
 import com.shimmerresearch.android.Shimmer;
 import com.shimmerresearch.android.Shimmer4Android;

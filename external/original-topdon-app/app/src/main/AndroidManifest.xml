@@ -28,28 +28,28 @@
 
 
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities,android:exported,android:grantUriPermissions">
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true"
+                tools:replace="android:authorities,android:exported,android:grantUriPermissions">
             <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"
-                tools:replace="android:name,android:resource"/>
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"
+                    tools:replace="android:name,android:resource"/>
         </provider>
         <uses-native-library android:name="libOpenCL.so" android:required="false"/>
 
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities,android:exported,android:grantUriPermissions">
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true"
+                tools:replace="android:authorities,android:exported,android:grantUriPermissions">
             <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"
-                tools:replace="android:name,android:resource"/>
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"
+                    tools:replace="android:name,android:resource"/>
         </provider>
         <uses-native-library android:name="libcutils.so" android:required="false"/>
 

@@ -3,7 +3,6 @@ package com.shimmerresearch.android.guiUtilities;
 
 import android.app.Activity;
 import android.app.ListFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;

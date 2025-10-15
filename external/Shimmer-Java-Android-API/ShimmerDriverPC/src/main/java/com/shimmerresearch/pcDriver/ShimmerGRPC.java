@@ -50,6 +50,7 @@ import com.shimmerresearch.driver.ThreadSafeByteFifoBuffer;
 import com.shimmerresearch.exceptions.ShimmerException;
 
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

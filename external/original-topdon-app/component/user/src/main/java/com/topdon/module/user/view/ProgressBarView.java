@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.topdon.module.user.bean.ColorsBean;
 
 import java.util.List;

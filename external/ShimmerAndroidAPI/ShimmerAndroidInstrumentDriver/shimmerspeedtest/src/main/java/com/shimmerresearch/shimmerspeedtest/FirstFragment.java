@@ -6,7 +6,9 @@ import static com.shimmerresearch.android.guiUtilities.ShimmerBluetoothDialog.EX
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import android.widget.TextView;
 import android.widget.Toast;
 

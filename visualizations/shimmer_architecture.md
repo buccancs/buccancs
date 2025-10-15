@@ -67,13 +67,16 @@ graph TD
 
 ### Shimmer Integration Architecture (Updated 2025-10-14)
 
-This diagram shows the production architecture for Shimmer SDK integration with modern error handling, state management, and resource cleanup.
+This diagram shows the production architecture for Shimmer SDK integration with modern error handling, state management,
+and resource cleanup.
 
 **Key Architectural Improvements:**
 
 - **Result Pattern:** Type-safe error handling with `Result<T, E>` replacing exceptions throughout connector layer
-- **State Machine:** `ShimmerConnectionState` sealed class with explicit states (Disconnected, Connecting, Connected, Recording, Error)
-- **Circuit Breaker:** Connection failure protection prevents battery drain from repeated failed attempts with user-friendly countdown
+- **State Machine:** `ShimmerConnectionState` sealed class with explicit states (Disconnected, Connecting, Connected,
+  Recording, Error)
+- **Circuit Breaker:** Connection failure protection prevents battery drain from repeated failed attempts with
+  user-friendly countdown
 - **Resource Cleanup:** Fixed memory leaks - proper Handler, Context, and Bluetooth lifecycle management
 - **Data Writer:** Separated CSV writing logic into `ShimmerDataWriter` for testability
 - **Domain Layer:** Use cases abstract business logic from UI and hardware concerns

@@ -25,12 +25,10 @@ import com.shimmerresearch.driver.Configuration;
 import com.shimmerresearch.driver.ShimmerDevice;
 import com.shimmerresearch.driverUtilities.AssembleShimmerConfig;
 import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
-import com.shimmerresearch.driverUtilities.SensorDetails;
 import com.shimmerresearch.managers.bluetoothManager.ShimmerBluetoothManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DeviceSensorConfigFragment extends Fragment {
 

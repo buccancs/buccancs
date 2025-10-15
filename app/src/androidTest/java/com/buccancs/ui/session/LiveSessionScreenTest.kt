@@ -3,8 +3,8 @@ package com.buccancs.ui.session
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertCountEquals
-import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
@@ -13,6 +13,9 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
+import com.buccancs.data.storage.SessionUsage
+import com.buccancs.data.storage.SpaceState
+import com.buccancs.data.storage.SpaceStatus
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.DeviceEventType
@@ -27,9 +30,6 @@ import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
-import com.buccancs.data.storage.SpaceState
-import com.buccancs.data.storage.SpaceStatus
-import com.buccancs.data.storage.SessionUsage
 import com.buccancs.domain.model.TimeSyncObservation
 import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus
@@ -111,9 +111,11 @@ class LiveSessionScreenTest {
             .performScrollToNode(hasTestTag("live-backlog"))
         composeRule.onAllNodesWithTag("live-backlog", useUnmergedTree = true).assertCountEquals(1)
         composeRule.onNodeWithText("Level: WARNING", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
-        composeRule.onNodeWithText("Queue exceeded threshold", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Queue exceeded threshold", ignoreCase = true, useUnmergedTree = true)
+            .assertIsDisplayed()
         composeRule.onNodeWithText("Important marker", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
-        composeRule.onNodeWithText("Topdon TC001 (TOPDON_TC001)", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Topdon TC001 (TOPDON_TC001)", ignoreCase = true, useUnmergedTree = true)
+            .assertIsDisplayed()
     }
 
     @Test

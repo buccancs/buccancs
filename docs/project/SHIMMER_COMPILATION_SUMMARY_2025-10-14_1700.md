@@ -15,9 +15,11 @@ Both ShimmerAndroidAPI and Shimmer-Java-Android-API components are now successfu
 **Source Location:** `external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/`
 
 **Compiled from source with Java 21:**
+
 - **36 Java source files** → **129 compiled classes**
 
 **Packages compiled:**
+
 ```
 ✓ com.shimmerresearch.android
   - Shimmer.java
@@ -84,28 +86,34 @@ Both ShimmerAndroidAPI and Shimmer-Java-Android-API components are now successfu
 These JARs are **included but not recompiled** - they're bundled into the AAR:
 
 **shimmerdriver-0.11.5_beta.jar (1.8MB):**
+
 - Core Shimmer driver classes
 - `com.shimmerresearch.driver.*`
 - `com.shimmerresearch.driverUtilities.*`
 - ObjectCluster, ShimmerDevice, Configuration, etc.
 
 **shimmerbluetoothmanager-0.11.5_beta.jar (32KB):**
+
 - Bluetooth manager abstractions
 - `com.shimmerresearch.managers.bluetoothManager.*`
 
 **shimmerdriverpc-0.11.5_beta.jar (126KB):**
+
 - PC-specific driver utilities
 - Desktop/PC Shimmer communication
 
 **ShimmerBiophysicalProcessingLibrary_Rev_0_11.jar:**
+
 - Signal processing algorithms
 - ECG, EMG, GSR processing utilities
 
 **AndroidBluetoothLibrary.jar:**
+
 - Android Bluetooth communication layer
 - Low-level BT protocol handling
 
 **androidplot-core-0.5.0-release.jar:**
+
 - Real-time plotting library
 - Used by PlotFragment for sensor visualization
 
@@ -114,6 +122,7 @@ These JARs are **included but not recompiled** - they're bundled into the AAR:
 All UI components are **fully compiled and functional** with Java 21:
 
 ### Fragments (7 types)
+
 - `ConnectedShimmersListFragment` - List connected Shimmer devices
 - `DeviceConfigFragment` - Configure device settings
 - `DeviceSensorConfigFragment` - Configure sensors
@@ -123,18 +132,23 @@ All UI components are **fully compiled and functional** with Java 21:
 - `DataSyncFragment` - Data synchronization UI
 
 ### Dialogs (3 types)
+
 - `EnableSensorsDialog` - Sensor selection dialog
 - `ShimmerBluetoothDialog` - Bluetooth pairing dialog
 - `SensorConfigDialog` - Sensor configuration dialog
 
 ### Activities (1 type)
+
 - `FileListActivity` - File browser for Shimmer data files
 
 ### Adapters (1 type)
+
 - `DeviceConfigListAdapter` - Expandable list adapter for config UI
 
 ### Layout Resources (13 layouts)
+
 All layouts successfully compiled and included:
+
 - `fragment_plot.xml` - Plot display layout
 - `fragment_device_config.xml` - Config screen layout
 - `fragment_sensors_enabled_list.xml` - Sensor list layout
@@ -158,6 +172,7 @@ All layouts successfully compiled and included:
 **Compile SDK:** 35
 
 **Contents:**
+
 - 129 compiled .class files (from source)
 - All JAR dependencies (bundled)
 - 13 layout XML files
@@ -169,6 +184,7 @@ All layouts successfully compiled and included:
 The following external Shimmer projects are **intentionally disabled** and NOT compiled:
 
 From `external/Shimmer-Java-Android-API/`:
+
 - ❌ ShimmerBluetoothManager (Java ≤13 project)
 - ❌ ShimmerDriver (Java ≤13 project)
 - ❌ ShimmerDriverPC (Java ≤13 project)
@@ -179,6 +195,7 @@ From `external/Shimmer-Java-Android-API/`:
 
 **Why disabled?**
 These are standalone example/utility projects that:
+
 1. Require Java ≤13 to compile (incompatible with our Java 21 environment)
 2. Are not needed for Android app functionality
 3. Their functionality is already provided by the compiled JARs in `sdk/libs/`
@@ -209,6 +226,7 @@ implementation(project(":shimmer"))
 ```
 
 This gives the app access to:
+
 - ✓ All core Shimmer classes (from compiled source)
 - ✓ All driver classes (from bundled JARs)
 - ✓ All UI components (fragments, dialogs, activities)
@@ -256,4 +274,5 @@ All these classes are available and working with Java 21.
 6. ✅ **Advanced features** - Signal processing, plotting, configuration
 7. ✅ **Full Java 21 compatibility** - No legacy Java version required
 
-The only things NOT compiled are the optional standalone example projects from the external repository that aren't needed for the Android app.
+The only things NOT compiled are the optional standalone example projects from the external repository that aren't
+needed for the Android app.

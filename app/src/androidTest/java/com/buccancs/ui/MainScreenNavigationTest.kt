@@ -4,11 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.buccancs.domain.model.DeviceId
-import com.buccancs.ui.DeviceUiModel
-import com.buccancs.ui.StreamUiModel
 import com.buccancs.ui.calibration.CalibrationActions
 import com.buccancs.ui.calibration.CalibrationUiState
 import org.junit.Assert.assertEquals

@@ -7,17 +7,13 @@ import android.content.DialogInterface;
 import android.widget.ListView;
 
 import com.shimmerresearch.android.Shimmer;
-import com.shimmerresearch.android.Shimmer4Android;
 import com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractEnableSensorsDialog;
 import com.shimmerresearch.driver.Configuration;
 import com.shimmerresearch.driver.ShimmerDevice;
-import com.shimmerresearch.driverUtilities.AssembleShimmerConfig;
 import com.shimmerresearch.managers.bluetoothManager.ShimmerBluetoothManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.shimmerresearch.driver.Configuration.Shimmer3.SENSOR_ID.HOST_PPG_DUMMY;
 
 
 public class EnableSensorsDialog extends AbstractEnableSensorsDialog {

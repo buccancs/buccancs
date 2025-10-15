@@ -3,9 +3,6 @@ package com.shimmerresearch.android.guiUtilities.supportfragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +12,9 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.shimmerresearch.android.Shimmer;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid;
 import com.shimmerresearch.androidinstrumentdriver.R;
 import com.shimmerresearch.driver.Configuration;

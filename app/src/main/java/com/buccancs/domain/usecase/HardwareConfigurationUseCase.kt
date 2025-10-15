@@ -5,7 +5,7 @@ import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.ShimmerSettingsRepository
 import com.buccancs.domain.repository.TopdonDeviceRepository
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 

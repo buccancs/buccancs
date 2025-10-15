@@ -19,19 +19,13 @@ import com.shimmerresearch.bluetooth.BluetoothProgressReportPerCmd;
 import com.shimmerresearch.bluetooth.ShimmerBluetooth;
 import com.shimmerresearch.driver.CallbackObject;
 import com.shimmerresearch.driver.Configuration.COMMUNICATION_TYPE;
-
 import com.shimmerresearch.driver.ObjectCluster;
 import com.shimmerresearch.driver.ShimmerDevice;
 import com.shimmerresearch.driver.ShimmerMsg;
 import com.shimmerresearch.driver.shimmer2r3.ConfigByteLayoutShimmer3;
-import com.shimmerresearch.driver.shimmer4sdk.Shimmer4sdk;
 import com.shimmerresearch.driverUtilities.ShimmerBattStatusDetails;
-import com.shimmerresearch.driverUtilities.ShimmerVerDetails;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 import com.shimmerresearch.exceptions.ShimmerException;
-import com.shimmerresearch.exgConfig.ExGConfigOptionDetails;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -306,6 +300,16 @@ public class Shimmer extends ShimmerBluetooth {
         setEnableCalibration(enableCalibration);
         mUseProcessingThread = true;
         mContext = context;
+    }
+
+    protected void unregisterDisconnectListener() {
+        if (mContext != null) {
+            try {
+                mContext.unregisterReceiver(mReceiver);
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
     }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -321,16 +325,6 @@ public class Shimmer extends ShimmerBluetooth {
             }
         }
     };
-
-    protected void unregisterDisconnectListener() {
-        if (mContext != null) {
-            try {
-                mContext.unregisterReceiver(mReceiver);
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
-        }
-    }
 
     protected void registerDisconnectListener() {
         if (mContext != null) {
@@ -725,16 +719,6 @@ public class Shimmer extends ShimmerBluetooth {
         stopTimerCheckForSerialPortClear();
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     public void write(byte[] out) {
 		/*
 		ConnectedThread r;
@@ -746,6 +730,16 @@ public class Shimmer extends ShimmerBluetooth {
 		*/
         mConnectedThread.write(out);
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     private void connectionFailed() {
         setBluetoothRadioState(BT_STATE.DISCONNECTED);
@@ -1031,6 +1025,11 @@ public class Shimmer extends ShimmerBluetooth {
         return mIsConnected;
     }
 
+    @Override
+    public void disconnect() {
+        this.stop();
+    }
+
 	/*
 	public byte[] readBytes(int numberofBytes){
 		  byte[] b = new byte[numberofBytes];  
@@ -1052,11 +1051,6 @@ public class Shimmer extends ShimmerBluetooth {
 			   return b;
 		  }
 	}*/
-
-    @Override
-    public void disconnect() {
-        this.stop();
-    }
 
     @Override
     protected void startOperation(BT_STATE currentOperation) {

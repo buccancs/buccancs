@@ -25,15 +25,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.ui.platform.testTag
 import com.buccancs.data.recording.manifest.ArtifactEntry
 import com.buccancs.data.recording.manifest.BookmarkEntry
 import com.buccancs.data.recording.manifest.DeviceManifest
 import com.buccancs.data.recording.manifest.EventEntry
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun SessionDetailRoute(
@@ -77,8 +77,8 @@ fun SessionDetailScreen(
             state.isLoading -> {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
+	                    .fillMaxSize()
+	                    .padding(padding),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -91,9 +91,9 @@ fun SessionDetailScreen(
             state.errorMessage != null -> {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .padding(24.dp),
+	                    .fillMaxSize()
+	                    .padding(padding)
+	                    .padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
@@ -111,8 +111,8 @@ fun SessionDetailScreen(
             state.manifest == null -> {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
+	                    .fillMaxSize()
+	                    .padding(padding),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -124,10 +124,10 @@ fun SessionDetailScreen(
                 val manifest = state.manifest
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .testTag("session-detail-list")
-                        .padding(padding)
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+	                    .fillMaxSize()
+	                    .testTag("session-detail-list")
+	                    .padding(padding)
+	                    .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     item {
@@ -162,8 +162,8 @@ private fun SummaryCard(state: SessionDetailUiState) {
     val manifest = state.manifest ?: return
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .testTag("session-summary"),
+	        .fillMaxWidth()
+	        .testTag("session-summary"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -185,8 +185,8 @@ private fun SummaryCard(state: SessionDetailUiState) {
 private fun DeviceList(devices: List<DeviceManifest>) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .testTag("session-devices"),
+	        .fillMaxWidth()
+	        .testTag("session-devices"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -219,8 +219,8 @@ private fun DeviceList(devices: List<DeviceManifest>) {
 private fun ArtifactList(artifacts: List<ArtifactEntry>) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .testTag("session-artifacts"),
+	        .fillMaxWidth()
+	        .testTag("session-artifacts"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -243,8 +243,8 @@ private fun ArtifactList(artifacts: List<ArtifactEntry>) {
 private fun EventList(events: List<EventEntry>) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .testTag("session-events"),
+	        .fillMaxWidth()
+	        .testTag("session-events"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -266,8 +266,8 @@ private fun EventList(events: List<EventEntry>) {
 private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .testTag("session-bookmarks"),
+	        .fillMaxWidth()
+	        .testTag("session-bookmarks"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

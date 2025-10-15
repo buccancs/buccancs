@@ -1,14 +1,5 @@
 package com.shimmerresearch.tools;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.Collection;
-import java.util.Iterator;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
@@ -20,6 +11,15 @@ import com.google.common.collect.Multimap;
 import com.shimmerresearch.android.shimmerService.ShimmerService;
 import com.shimmerresearch.driver.FormatCluster;
 import com.shimmerresearch.driver.ObjectCluster;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.Collection;
+import java.util.Iterator;
 
 
 public class Logging {

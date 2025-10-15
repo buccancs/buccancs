@@ -3,16 +3,15 @@ package com.shimmerresearch.android.guiUtilities.supportfragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.ListFragment;
 
 import com.androidplot.xy.XYPlot;
 import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid;

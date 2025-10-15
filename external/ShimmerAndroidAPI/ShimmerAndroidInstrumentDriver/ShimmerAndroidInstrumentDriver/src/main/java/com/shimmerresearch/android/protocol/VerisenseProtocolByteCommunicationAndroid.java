@@ -12,11 +12,7 @@ import com.shimmerresearch.verisense.communication.AbstractByteCommunication;
 import com.shimmerresearch.verisense.communication.VerisenseMessage;
 import com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication;
 
-import java.io.BufferedWriter;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

@@ -1,14 +1,11 @@
 package com.shimmerresearch.android;
 
-import android.bluetooth.BluetoothAdapter;
 import android.os.Handler;
 
 import com.shimmerresearch.bluetooth.ShimmerBluetooth;
 import com.shimmerresearch.driver.CallbackObject;
 import com.shimmerresearch.driver.ObjectCluster;
-import com.shimmerresearch.driver.ShimmerMsg;
 import com.shimmerresearch.verisense.VerisenseDevice;
-import com.shimmerresearch.verisense.communication.SyncProgressDetails;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -88,22 +88,29 @@ UploadService -- Transfers --> SessionManager
 
 ### Figure: System Architecture Diagram (Updated 2025-10-14)
 
-This diagram details the production system architecture with comprehensive error handling, resource management, and distributed coordination.
+This diagram details the production system architecture with comprehensive error handling, resource management, and
+distributed coordination.
 
 **PC Orchestrator (Compose Desktop):**
 
-- **gRPC Server:** Distributes recording commands, time sync, stimuli to connected Android devices with command replay for reconnections
+- **gRPC Server:** Distributes recording commands, time sync, stimuli to connected Android devices with command replay
+  for reconnections
 - **Session Manager:** Creates session directories, manages metadata manifests, aggregates uploads from devices
 - **Time Sync Server:** NTP-like protocol with RTT measurement providing <10ms accuracy across devices
 - **mDNS Discovery:** Automatic device detection on local network
 
 **Android Device Architecture (MVVM + Hilt):**
 
-- **Application Layer:** Jetpack Compose UI with MVVM pattern, RecordingService coordinates multi-sensor capture, UploadService handles background session transfers
-- **Control & Synchronization:** Time sync client maintains clock accuracy, command client receives orchestrator commands, control server accepts local commands, mDNS advertiser broadcasts device availability
-- **Domain Layer:** Use cases implement business logic, Result pattern provides type-safe error handling across all operations
-- **Data Acquisition Layer:** Sensor connectors manage hardware lifecycle with explicit state machines, circuit breaker protects against connection failure loops
-- **Driver Interface:** Shimmer SDK (BLE), Topdon SDK (USB), Camera2 API (4K@60fps), MediaCodec segmented recording, AudioRecord for contextual annotation
+- **Application Layer:** Jetpack Compose UI with MVVM pattern, RecordingService coordinates multi-sensor capture,
+  UploadService handles background session transfers
+- **Control & Synchronization:** Time sync client maintains clock accuracy, command client receives orchestrator
+  commands, control server accepts local commands, mDNS advertiser broadcasts device availability
+- **Domain Layer:** Use cases implement business logic, Result pattern provides type-safe error handling across all
+  operations
+- **Data Acquisition Layer:** Sensor connectors manage hardware lifecycle with explicit state machines, circuit breaker
+  protects against connection failure loops
+- **Driver Interface:** Shimmer SDK (BLE), Topdon SDK (USB), Camera2 API (4K@60fps), MediaCodec segmented recording,
+  AudioRecord for contextual annotation
 
 **External Sensors:**
 

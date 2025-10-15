@@ -4,13 +4,11 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.shimmerresearch.bluetooth.ShimmerBluetooth;
 import com.shimmerresearch.comms.serialPortInterface.AbstractSerialPortHal;
 import com.shimmerresearch.comms.serialPortInterface.ErrorCodesSerialPort;
 import com.shimmerresearch.comms.serialPortInterface.SerialPortListener;
-
 
 import java.io.DataInputStream;
 import java.io.IOException;
