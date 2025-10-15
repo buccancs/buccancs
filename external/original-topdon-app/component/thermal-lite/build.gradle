@@ -76,15 +76,15 @@ dependencies {
     implementation project(':component:pseudo')
     implementation project(':component:thermal-ir')
 
-    kapt Deps.arouter_compiler
+    kapt libs.arouter.compiler
     api(project(":LocalRepo:libac020"))
     api(project(":LocalRepo:libirutils"))
     api(project(":LocalRepo:libcommon"))
     //api(project(":component:CommonComponent")) // Temporarily disabled
-    implementation(Deps.multidex)
-    implementation(Deps.material)
+    implementation(libs.androidx.multidex)
+    implementation(libs.androidx.material)
 
-    api Deps.compass_sense
-    api Deps.compass_core
+    api libs.compass.sense
+    api libs.compass.core
 
 }

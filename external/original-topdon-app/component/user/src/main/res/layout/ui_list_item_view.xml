@@ -26,7 +26,6 @@
             android:text="@string/album_menu_Photos"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:fontFamily="@font/pingfang_medium"
             app:layout_constraintLeft_toRightOf="@+id/iv_left_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -37,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             tools:text="3G"
-            android:fontFamily="@font/pingfang_regular"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"

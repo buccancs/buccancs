@@ -51,7 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ts004_tisr_tips"
-            android:fontFamily="@font/pingfang_regular"
             android:textColor="#CCFFFFFF"
             android:textSize="14sp"
             android:layout_marginTop="16dp"

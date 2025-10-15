@@ -3,6 +3,7 @@ package com.buccancs.ui
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.buccancs.domain.model.DeviceId
@@ -48,7 +49,7 @@ class MainScreenNavigationTest {
             }
         }
 
-        composeRule.onNodeWithText("Settings").performClick()
+        composeRule.onNodeWithTag("nav-settings", useUnmergedTree = true).performClick()
 
         assertTrue("Settings callback should be invoked", settingsInvoked)
     }
@@ -81,7 +82,7 @@ class MainScreenNavigationTest {
             }
         }
 
-        composeRule.onNodeWithText("Live Session").performClick()
+        composeRule.onNodeWithTag("nav-live-session", useUnmergedTree = true).performClick()
 
         assertTrue("Live Session callback should be invoked", liveSessionInvoked)
     }
@@ -135,7 +136,14 @@ class MainScreenNavigationTest {
             }
         }
 
-        composeRule.onNodeWithText("Open Console").performClick()
+        composeRule.waitUntil {
+            runCatching {
+                composeRule.onNodeWithTag("device-open-console-${deviceId.value}", useUnmergedTree = true)
+                    .fetchSemanticsNode()
+                true
+            }.getOrDefault(false)
+        }
+        composeRule.onNodeWithTag("device-open-console-${deviceId.value}", useUnmergedTree = true).performClick()
 
         assertEquals("Topdon callback should receive device ID", deviceId, receivedDeviceId)
     }

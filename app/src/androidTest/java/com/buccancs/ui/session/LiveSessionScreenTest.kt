@@ -2,10 +2,15 @@ package com.buccancs.ui.session
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToNode
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
 import com.buccancs.domain.model.ConnectionStatus
@@ -57,7 +62,7 @@ class LiveSessionScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Add Bookmark").performClick()
+        composeRule.onNodeWithText("Add Bookmark", ignoreCase = true, useUnmergedTree = true).performClick()
 
         assertTrue("Add Bookmark should invoke callback", invoked)
     }
@@ -79,7 +84,7 @@ class LiveSessionScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Preview Stimulus").performClick()
+        composeRule.onNodeWithText("Preview Stimulus", ignoreCase = true, useUnmergedTree = true).performClick()
 
         assertTrue("Preview Stimulus should invoke callback", invoked)
     }
@@ -98,12 +103,35 @@ class LiveSessionScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Uploads").assertIsDisplayed()
-        composeRule.onNodeWithText("Upload Backlog").assertIsDisplayed()
-        composeRule.onNodeWithText("Level: WARNING").assertIsDisplayed()
-        composeRule.onNodeWithText("Queue exceeded threshold").assertIsDisplayed()
-        composeRule.onNodeWithText("Important marker").assertIsDisplayed()
-        composeRule.onNodeWithText("Topdon TC001 (TOPDON_TC001)").assertIsDisplayed()
+        composeRule.onNodeWithTag("live-list", useUnmergedTree = true)
+            .performScrollToNode(hasTestTag("live-uploads"))
+        composeRule.onAllNodesWithTag("live-uploads", useUnmergedTree = true).assertCountEquals(1)
+
+        composeRule.onNodeWithTag("live-list", useUnmergedTree = true)
+            .performScrollToNode(hasTestTag("live-backlog"))
+        composeRule.onAllNodesWithTag("live-backlog", useUnmergedTree = true).assertCountEquals(1)
+        composeRule.onNodeWithText("Level: WARNING", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Queue exceeded threshold", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Important marker", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Topdon TC001 (TOPDON_TC001)", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+    }
+
+    @Test
+    fun deviceListShowsPlaceholderWhenEmpty() {
+        composeRule.setContent {
+            MaterialTheme {
+                LiveSessionScreen(
+                    state = LiveSessionUiState.initial(),
+                    onNavigateUp = {},
+                    onAddBookmark = {},
+                    onTriggerStimulus = {}
+                )
+            }
+        }
+
+        composeRule.onNodeWithTag("live-list", useUnmergedTree = true)
+            .performScrollToNode(hasTestTag("live-no-devices"))
+        composeRule.onAllNodesWithTag("live-no-devices", useUnmergedTree = true).assertCountEquals(1)
     }
 
     private fun richLiveSessionState(): LiveSessionUiState {

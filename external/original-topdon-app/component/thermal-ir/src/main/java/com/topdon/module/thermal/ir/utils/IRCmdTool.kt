@@ -11,7 +11,7 @@ import com.energy.iruvc.utils.SynchronizedBitmap
 import com.infisense.usbdual.camera.BaseDualView
 import com.infisense.usbdual.camera.USBMonitorManager
 import com.infisense.usbir.utils.FileUtil
-import com.infisense.usbir.utils.HexDump
+import com.topdon.lib.core.utils.HexDump
 import com.topdon.lib.core.common.SaveSettingUtil
 import com.topdon.lib.core.common.SharedManager
 import java.io.IOException

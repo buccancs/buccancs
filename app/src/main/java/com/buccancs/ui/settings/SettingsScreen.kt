@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.platform.testTag
 import java.util.*
 
 @Composable
@@ -155,7 +156,8 @@ private fun OrchestratorCard(
             }
             Button(
                 onClick = onApply,
-                enabled = !state.isApplying
+                enabled = !state.isApplying,
+                modifier = Modifier.testTag("settings-apply-orchestrator")
             ) {
                 Text(text = "Apply Orchestrator")
             }
@@ -206,7 +208,8 @@ private fun RetentionCard(
             )
             Button(
                 onClick = onApply,
-                enabled = !state.isApplying
+                enabled = !state.isApplying,
+                modifier = Modifier.testTag("settings-apply-retention")
             ) {
                 Text(text = "Apply Retention")
             }

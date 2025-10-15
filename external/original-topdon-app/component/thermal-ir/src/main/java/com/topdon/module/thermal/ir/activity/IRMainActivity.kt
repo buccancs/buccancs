@@ -25,13 +25,11 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.dialog.TipDialog
 import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.repository.GalleryRepository.DirType
-import com.topdon.lib.core.repository.TC007Repository
 import com.topdon.lib.core.socket.WebSocketProxy
 import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.lib.core.utils.CommUtils
 import com.topdon.lib.core.utils.NetWorkUtils
 import com.topdon.lib.core.utils.PermissionUtils
-import com.topdon.lms.sdk.LMS
 import com.topdon.module.thermal.ir.BuildConfig
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.dialog.HomeGuideDialog
@@ -79,7 +77,6 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                 NetWorkUtils.switchNetwork(false)
                 iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_connect)
                 lifecycleScope.launch {
-                    TC007Repository.syncTime()
                 }
                 if (SharedManager.isConnect07AutoOpen) {
                     ARouter.getInstance().build(RouterConfig.IR_THERMAL_07).navigation(this)

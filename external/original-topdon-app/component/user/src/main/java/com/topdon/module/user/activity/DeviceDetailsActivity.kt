@@ -9,10 +9,7 @@ import com.topdon.lib.core.config.ExtraKeyConfig
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.repository.ProductBean
-import com.topdon.lib.core.repository.TC007Repository
 import com.topdon.lib.core.repository.TS004Repository
-import com.topdon.lms.sdk.utils.TLog
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.user.R
 import kotlinx.android.synthetic.main.activity_device_details.*
 import kotlinx.coroutines.launch
@@ -33,9 +30,7 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
     private fun getDeviceDetails() {
         lifecycleScope.launch {
             if (isTC007) {
-                val productBean: ProductBean? = TC007Repository.getProductInfo()
                 if (productBean == null) {
-                    TToast.shortToast(this@DeviceDetailsActivity, R.string.operation_failed_tips)
                 } else {
                     tv_sn_value.text = productBean.ProductSN
                     tv_device_model_value.text = productBean.ProductName
@@ -47,7 +42,6 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
                     tv_sn_value.text = deviceDetailsBean.data!!.sn
                     tv_device_model_value.text = deviceDetailsBean.data!!.model
                 } else {
-                    TToast.shortToast(this@DeviceDetailsActivity, R.string.operation_failed_tips)
                 }
             }
         }
@@ -60,7 +54,6 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
                 val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
                 val mClipData = ClipData.newPlainText("text", text)
                 cm!!.setPrimaryClip(mClipData)
-                TToast.shortToast(this@DeviceDetailsActivity, R.string.ts004_copy_success)
             }
         }
     }

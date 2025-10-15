@@ -22,7 +22,6 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.dialog.TipDialog
 import com.topdon.lib.core.ktbase.BaseFragment
 import com.topdon.lib.core.repository.BatteryInfo
-import com.topdon.lib.core.repository.TC007Repository
 import com.topdon.lib.core.socket.SocketCmdUtil
 import com.topdon.lib.core.socket.WebSocketProxy
 import com.topdon.lib.core.tools.AppLanguageUtils
@@ -30,7 +29,7 @@ import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.lib.core.tools.LocaleContextWrapper
 import com.topdon.lib.core.utils.NetWorkUtils
 import com.topdon.lib.core.utils.WsCmdConstants
-import com.topdon.lms.sdk.weiget.TToast
+import android.widget.Toast
 import com.topdon.tc001.DeviceTypeActivity
 import com.topdon.tc001.R
 import com.topdon.tc001.popup.DelPopup
@@ -120,7 +119,6 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         recycler_view.adapter = adapter
         if (WebSocketProxy.getInstance().isTC007Connect()) {
             lifecycleScope.launch {
-                val batteryInfo: BatteryInfo? = TC007Repository.getBatteryInfo()
                 if (batteryInfo != null) {
                     adapter.tc007Battery = batteryInfo
                 }
@@ -172,7 +170,6 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             SharedManager.hasTC007 = true
             adapter.hasConnectTC007 = true
             lifecycleScope.launch {
-                val batteryInfo: BatteryInfo? = TC007Repository.getBatteryInfo()
                 if (batteryInfo != null) {
                     adapter.tc007Battery = batteryInfo
                 }

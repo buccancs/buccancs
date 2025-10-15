@@ -23,8 +23,6 @@ import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.repository.TS004Repository
 import com.topdon.lib.core.utils.Constants
 import com.topdon.lib.core.viewmodel.FirmwareViewModel
-import com.topdon.lms.sdk.LMS
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.user.R
 import com.topdon.module.user.dialog.DownloadProDialog
 import com.topdon.module.user.dialog.FirmwareInstallDialog
@@ -65,7 +63,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
         }
         firmwareViewModel.failLD.observe(this) {
             dismissCameraLoading()
-            TToast.shortToast(this, if (it) R.string.upgrade_bind_error else R.string.http_code_z5000)
             tv_upgrade_point.isVisible = false
         }
     }
@@ -206,7 +203,6 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
                 item_setting_bottom_text.text =
                     getString(R.string.setting_firmware_update_version) + "V" + versionBean.data?.firmware
             } else {
-                TToast.shortToast(this@MoreActivity, R.string.operation_failed_tips)
             }
         }
     }
@@ -231,13 +227,11 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
             val isSuccess = TS004Repository.getResetAll()
             XLog.i("恢复出厂设置接口调用 ${if (isSuccess) "成功" else "失败"}")
             if (isSuccess) {
-                TToast.shortToast(this@MoreActivity, R.string.ts004_reset_tip4)
                 (application as BaseApplication).disconnectWebSocket()
                 EventBus.getDefault().post(TS004ResetEvent())
                 ARouter.getInstance().build(RouterConfig.MAIN).navigation(this@MoreActivity)
                 finish()
             } else {
-                TToast.shortToast(this@MoreActivity, R.string.operation_failed_tips)
             }
             delay(500)
             dismissLoadingDialog()

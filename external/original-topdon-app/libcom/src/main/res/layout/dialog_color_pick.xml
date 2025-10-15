@@ -163,8 +163,6 @@
             app:rsb_step_radius="10dp"
             app:rsb_step_width="10dp"
             app:rsb_steps="2"
-            app:rsb_step_padding_right="8dp"
-            app:rsb_step_padding_left="8dp"
             app:rsb_thumb_width="26dp"
             app:rsb_thumb_height="26dp"
             app:rsb_thumb_drawable="@drawable/step_blue_svg"

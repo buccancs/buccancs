@@ -2,6 +2,8 @@ package com.topdon.transfer
 
 import android.media.MediaScannerConnection
 import android.view.WindowManager
+import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.AppUtils
@@ -15,7 +17,7 @@ import com.hjq.permissions.XXPermissions
 import com.topdon.lib.core.config.FileConfig
 import com.topdon.lib.core.dialog.TipDialog
 import com.topdon.lib.core.ktbase.BaseActivity
-import kotlinx.android.synthetic.main.activity_transfer.*
+import com.topdon.lib.core.R as LibR
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,9 +30,12 @@ import java.util.zip.ZipFile
 
 class TransferActivity : BaseActivity() {
     private lateinit var transferDialog: TransferDialog
+    private val ivBack: ImageView by lazy { findViewById(R.id.iv_back) }
+    private val clSuccess: ConstraintLayout by lazy { findViewById(R.id.cl_success) }
+    
     override fun initContentView(): Int = R.layout.activity_transfer
     override fun initView() {
-        iv_back.setOnClickListener {
+        ivBack.setOnClickListener {
             finish()
         }
         requestPermission()
@@ -47,19 +52,19 @@ class TransferActivity : BaseActivity() {
                     if (allGranted) {
                         startTransfer()
                     } else {
-                        ToastUtils.showShort(R.string.scan_ble_tip_authorize)
+                        ToastUtils.showShort(LibR.string.scan_ble_tip_authorize)
                     }
                 }
 
                 override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
                     if (doNotAskAgain) {
                         TipDialog.Builder(this@TransferActivity)
-                            .setTitleMessage(getString(R.string.app_tip))
-                            .setMessage(getString(R.string.app_album_content))
-                            .setPositiveListener(R.string.app_open) {
+                            .setTitleMessage(getString(LibR.string.app_tip))
+                            .setMessage(getString(LibR.string.app_album_content))
+                            .setPositiveListener(LibR.string.app_open) {
                                 AppUtils.launchAppDetailsSettings()
                             }
-                            .setCancelListener(R.string.app_cancel) {
+                            .setCancelListener(LibR.string.app_cancel) {
                             }
                             .setCanceled(true)
                             .create().show()
@@ -80,7 +85,7 @@ class TransferActivity : BaseActivity() {
             MediaScannerConnection.scanFile(this@TransferActivity, arrayOf(FileConfig.lineGalleryDir), null, null)
             window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             transferDialog.dismiss()
-            cl_success.isVisible = true
+            clSuccess.isVisible = true
         }
     }
 

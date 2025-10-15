@@ -28,9 +28,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/svg_select_right"
             android:contentDescription="@null"
-            app:lms_dot_radius="5dp"
-            app:lms_dot_spacing="6dp"
-            app:lms_dot_move_rate="0.75"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

@@ -19,9 +19,6 @@ import com.topdon.lib.core.BaseApplication
 import com.topdon.lib.core.broadcast.DeviceBroadcastReceiver
 import com.topdon.lib.core.common.SharedManager
 import com.topdon.lib.core.config.HttpConfig
-import com.topdon.lms.sdk.LMS
-import com.topdon.lms.sdk.utils.ConstantUtil
-import com.topdon.lms.sdk.utils.LanguageUtil
 import java.util.Date
 
 object InitUtil {

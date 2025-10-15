@@ -23,11 +23,9 @@ import com.topdon.lib.core.ktbase.BaseFragment
 import com.topdon.lib.core.dialog.TipDialog
 import com.topdon.lib.core.http.tool.DownloadTool
 import com.topdon.lib.core.repository.ProductBean
-import com.topdon.lib.core.repository.TC007Repository
 import com.topdon.lib.core.socket.WebSocketProxy
 import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.lib.core.viewmodel.FirmwareViewModel
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.user.R
 import com.topdon.module.user.dialog.DownloadProDialog
 import com.topdon.module.user.dialog.FirmwareInstallDialog
@@ -108,7 +106,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
         firmwareViewModel.failLD.observe(this) {
             dismissLoadingDialog()
-            TToast.shortToast(requireContext(), if (it) R.string.upgrade_bind_error else R.string.http_code_z5000)
             tv_upgrade_point.isVisible = false
         }
     }
@@ -192,9 +189,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         tv_right_text.isVisible = isConnect
         if (isConnect) {
             lifecycleScope.launch {
-                val productBean: ProductBean? = TC007Repository.getProductInfo()
                 if (productBean == null) {
-                    TToast.shortToast(requireContext(), R.string.operation_failed_tips)
                 } else {
                     item_setting_bottom_text.text =
                         getString(R.string.setting_firmware_update_version) + "V" + productBean.getVersionStr()
@@ -249,7 +244,6 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             XLog.d("TC007 固件升级 - 开始安装固件升级包")
             val installDialog = FirmwareInstallDialog(requireContext())
             installDialog.show()
-            val isSuccess = TC007Repository.updateFirmware(file)
             installDialog.dismiss()
             if (isSuccess) {
                 XLog.d("TC007 固件升级 - 固件升级包发送往 TC007 成功，即将断开连接")
@@ -311,16 +305,13 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
     private fun resetAll() {
         showLoadingDialog(R.string.ts004_reset_tip3)
         lifecycleScope.launch {
-            val isSuccess = TC007Repository.resetToFactory()
             if (isSuccess) {
                 XLog.d("TC007 恢复出厂设置成功，即将断开连接")
-                TToast.shortToast(requireContext(), R.string.ts004_reset_tip4)
                 (requireActivity().application as BaseApplication).disconnectWebSocket()
                 EventBus.getDefault().post(TS004ResetEvent())
                 ARouter.getInstance().build(RouterConfig.MAIN).navigation(requireContext())
                 requireActivity().finish()
             } else {
-                TToast.shortToast(requireContext(), R.string.operation_failed_tips)
             }
             delay(500)
             dismissLoadingDialog()

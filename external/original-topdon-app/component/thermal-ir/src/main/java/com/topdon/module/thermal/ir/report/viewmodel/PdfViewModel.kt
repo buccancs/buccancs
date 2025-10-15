@@ -8,14 +8,7 @@ import com.google.gson.Gson
 import com.topdon.lib.core.common.SharedManager
 import com.topdon.lib.core.ktbase.BaseViewModel
 import com.topdon.lib.core.tools.TimeTool
-import com.topdon.lib.core.utils.HttpHelp
 import com.topdon.libcom.R
-import com.topdon.lms.sdk.LMS
-import com.topdon.lms.sdk.network.IResponseCallback
-import com.topdon.lms.sdk.utils.NetworkUtil
-import com.topdon.lms.sdk.utils.StringUtils
-import com.topdon.lms.sdk.utils.TLog
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.report.bean.ReportData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +22,6 @@ class PdfViewModel : BaseViewModel() {
 
     fun getReportData(isTC007: Boolean, page: Int) {
         if (!NetworkUtil.isConnected(Utils.getApp())) {
-            TToast.shortToast(Utils.getApp(), R.string.lms_setting_http_error)
             listData.postValue(null)
             return
         }
@@ -42,7 +34,6 @@ class PdfViewModel : BaseViewModel() {
     private suspend fun getReportDataRepository(isTC007: Boolean, page: Int): ReportData? {
         var result: ReportData? = null
         val downLatch = CountDownLatch(1)
-        HttpHelp.getFirstReportData(isTC007, page, object : IResponseCallback {
             override fun onResponse(p0: String?) {
                 result = Gson().fromJson(p0, ReportData::class.java)
                 downLatch.countDown()
@@ -63,7 +54,6 @@ class PdfViewModel : BaseViewModel() {
                         LMS.mContext,
                         if (TextUtils.isEmpty(errorCode)) -500 else errorCode.toInt()
                     ).let {
-                        TToast.shortToast(LMS.mContext, it)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

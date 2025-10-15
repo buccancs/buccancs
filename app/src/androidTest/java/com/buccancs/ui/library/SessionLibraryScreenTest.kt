@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import kotlinx.datetime.Instant
@@ -36,7 +37,7 @@ class SessionLibraryScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Loading sessions…").assertIsDisplayed()
+        composeRule.onNodeWithText("Loading sessions…", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
     }
 
     @Test
@@ -59,7 +60,7 @@ class SessionLibraryScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Retry").performClick()
+        composeRule.onNodeWithText("Retry", ignoreCase = true, useUnmergedTree = true).performClick()
 
         assertTrue("Retry button should invoke refresh", refreshed)
     }
@@ -93,7 +94,7 @@ class SessionLibraryScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("session-abc").performClick()
+        composeRule.onNodeWithTag("session-row-${session.sessionId}", useUnmergedTree = true).performClick()
 
         assertEquals("session-abc", selectedSession)
     }

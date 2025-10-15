@@ -11,8 +11,6 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.dialog.TipDialog
 import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.repository.TS004Repository
-import com.topdon.lms.sdk.utils.TLog
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.user.R
 import com.topdon.module.user.bean.ColorsBean
 import kotlinx.android.synthetic.main.activity_storage_space.*
@@ -56,7 +54,6 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
         lifecycleScope.launch {
             val freeSpaceBean = TS004Repository.getFreeSpace()
             if (freeSpaceBean == null) {
-                TToast.shortToast(this@StorageSpaceActivity, R.string.operation_failed_tips)
             } else {
                 TLog.d("ts004", "║ response :$freeSpaceBean")
                 tv_progress_value.text =
@@ -108,7 +105,6 @@ class StorageSpaceActivity : BaseActivity(), View.OnClickListener {
                             } else {
                                 delay(500)
                                 dismissLoadingDialog()
-                                TToast.shortToast(this@StorageSpaceActivity, R.string.operation_failed_tips)
                             }
                         }
                     }

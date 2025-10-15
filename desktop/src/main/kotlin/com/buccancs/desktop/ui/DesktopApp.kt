@@ -476,7 +476,7 @@ private fun StatusBadge(text: String, background: Color, content: Color, modifie
 }
 
 @Composable
-private fun RetentionSection(retention: RetentionState) {
+internal fun RetentionSection(retention: RetentionState) {
     val subtitle = "Total stored: ${bytesToReadable(retention.totalBytes)}"
     SectionCard(title = "Retention", subtitle = subtitle) {
         if (retention.perSessionBytes.isEmpty() && retention.perDeviceBytes.isEmpty()) {
@@ -520,7 +520,7 @@ private fun RetentionSection(retention: RetentionState) {
 
 
 @Composable
-private fun TransferSection(transfers: List<TransferStatusItem>) {
+internal fun TransferSection(transfers: List<TransferStatusItem>) {
     SectionCard(title = "Data Transfers") {
         if (transfers.isEmpty()) {
             Text("No transfers recorded")

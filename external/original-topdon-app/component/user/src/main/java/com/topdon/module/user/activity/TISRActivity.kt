@@ -9,7 +9,6 @@ import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.repository.*
 import com.topdon.lib.core.socket.SocketCmdUtil
 import com.topdon.lib.core.utils.WsCmdConstants
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.user.R
 import kotlinx.android.synthetic.main.activity_tisr.*
 import kotlinx.coroutines.launch
@@ -37,7 +36,6 @@ class TISRActivity : BaseActivity() {
                 setting_item_tisr_select.isChecked = isTISR
                 SharedManager.is04TISR = isTISR
             } else {
-                TToast.shortToast(this@TISRActivity, R.string.operation_failed_tips)
             }
         }
     }
@@ -47,7 +45,6 @@ class TISRActivity : BaseActivity() {
             val isSuccess = TS004Repository.setTISR(state)
             if (isSuccess) {
             } else {
-                TToast.shortToast(this@TISRActivity, R.string.operation_failed_tips)
             }
         }
     }

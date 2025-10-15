@@ -55,7 +55,6 @@
             android:textSize="14sp"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="20dp"
-            android:fontFamily="@font/pingfang_regular"
             android:textColor="#CCFFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

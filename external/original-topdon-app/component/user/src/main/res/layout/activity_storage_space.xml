@@ -64,7 +64,6 @@
                     android:layout_marginTop="11dp"
                     android:textColor="@color/white"
                     android:textSize="19sp"
-                    android:fontFamily="@font/pingfang_medium"
                     android:includeFontPadding="false"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cLayout_storage_bg"
@@ -97,7 +96,6 @@
                         android:textColor="@color/white"
                         android:textSize="19sp"
                         tools:text="8"
-                        android:fontFamily="@font/pingfang_medium"
                         android:includeFontPadding="false"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +122,6 @@
                         android:textColor="@color/white"
                         android:textSize="19sp"
                         tools:text="32"
-                        android:fontFamily="@font/pingfang_medium"
                         android:includeFontPadding="false"
                         app:layout_constraintRight_toLeftOf="@+id/tv_total"
                         app:layout_constraintTop_toTopOf="parent"/>

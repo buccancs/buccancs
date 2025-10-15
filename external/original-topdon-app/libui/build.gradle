@@ -32,6 +32,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
     }
+    buildFeatures {
+        buildConfig = true
+    }
+
     kotlinOptions {
         jvmTarget = '21'
     }
@@ -62,5 +66,5 @@ android {
 dependencies {
     implementation project(':libapp')
     implementation project(':libmenu') //伪彩条用着 PseudoColorConfig
-    kapt Deps.arouter_compiler
+    kapt libs.arouter.compiler
 }

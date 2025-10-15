@@ -1,2 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('libcommon_1.0.5_23051509.aar'))

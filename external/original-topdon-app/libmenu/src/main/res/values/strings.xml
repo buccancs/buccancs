@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dual_menu_1">Dual 1</string>
+    <string name="dual_menu_2">Dual 2</string>
+    <string name="menu_thermal_merge">Merge</string>
+    <string name="menu_thermal_imaging">Thermal Imaging</string>
+    <string name="menu_thermal_visible_light">Visible Light</string>
+    <string name="menu_thermal_registration">Registration</string>
+    <string name="thermal_picture_in_camera">Picture in Camera</string>
+    <string name="ios_double_light">Double Light</string>
+</resources>

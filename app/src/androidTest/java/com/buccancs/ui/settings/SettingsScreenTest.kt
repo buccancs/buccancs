@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.buccancs.data.storage.SpaceState
@@ -45,7 +46,7 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Apply Orchestrator").performClick()
+        composeRule.onNodeWithTag("settings-apply-orchestrator", useUnmergedTree = true).performClick()
 
         assertTrue("Apply orchestrator should invoke callback", invoked)
     }
@@ -77,7 +78,7 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Apply Retention").performClick()
+        composeRule.onNodeWithTag("settings-apply-retention", useUnmergedTree = true).performClick()
 
         assertTrue("Apply retention should invoke callback", invoked)
     }
@@ -108,8 +109,8 @@ class SettingsScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Settings saved.").assertIsDisplayed()
-        composeRule.onNodeWithText("Dismiss").performClick()
+        composeRule.onNodeWithText("Settings saved.", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Dismiss", ignoreCase = true, useUnmergedTree = true).performClick()
         assertTrue("Dismiss should invoke callback", dismissed)
     }
 

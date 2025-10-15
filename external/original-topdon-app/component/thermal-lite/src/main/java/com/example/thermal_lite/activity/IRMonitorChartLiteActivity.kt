@@ -29,7 +29,6 @@ import com.topdon.lib.core.db.entity.ThermalEntity
 import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.tools.NumberTools
 import com.topdon.lib.core.tools.TimeTool
-import com.topdon.lms.sdk.LMS.mContext
 import com.topdon.module.thermal.ir.bean.DataBean
 import com.topdon.module.thermal.ir.bean.SelectPositionBean
 import com.topdon.module.thermal.ir.event.MonitorSaveEvent

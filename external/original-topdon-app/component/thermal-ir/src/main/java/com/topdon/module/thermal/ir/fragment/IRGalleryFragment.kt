@@ -27,7 +27,6 @@ import com.topdon.lib.core.dialog.ConfirmSelectDialog
 import com.topdon.module.thermal.ir.event.GalleryAddEvent
 import com.topdon.lib.core.bean.event.GalleryDelEvent
 import com.topdon.lib.core.config.FileConfig.getGalleryDirByType
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.event.GalleryDirChangeEvent
 import com.topdon.module.thermal.ir.event.GalleryDownloadEvent
 import com.topdon.module.thermal.ir.viewmodel.IRGalleryTabViewModel
@@ -80,7 +79,6 @@ class IRGalleryFragment : BaseFragment() {
         }
         viewModel.pageListLD.observe(this) {
             if (it == null) {
-                TToast.shortToast(requireContext(), R.string.operation_failed_tips)
             }
             refresh_layout.finishRefresh(it != null)
             refresh_layout.finishLoadMore(it != null)
@@ -92,7 +90,6 @@ class IRGalleryFragment : BaseFragment() {
         viewModel.deleteResultLD.observe(this) {
             dismissLoadingDialog()
             if (it) {
-                TToast.shortToast(requireContext(), R.string.test_results_delete_success)
                 tabViewModel.isEditModeLD.value = false
                 MediaScannerConnection.scanFile(
                     requireContext(),
@@ -102,7 +99,6 @@ class IRGalleryFragment : BaseFragment() {
                 )
                 EventBus.getDefault().post(GalleryDelEvent())
             } else {
-                TToast.shortToast(requireContext(), R.string.test_results_delete_failed)
             }
         }
         tabViewModel.isEditModeLD.observe(this) {

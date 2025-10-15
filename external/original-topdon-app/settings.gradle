@@ -24,15 +24,12 @@ dependencyResolutionManagement {
         }
     }
 }
+
 rootProject.name = "TopInfrared"
 include ':app'
-include ':commonlibrary'
-//include ':component:CommonComponent' // Temporarily disabled due to corrupted source files
 include ':component:pseudo'
 include ':component:thermal-ir'
 include ':component:thermal-lite'
-//include ':component:thermal04' // Removed - different device (not TC001)
-//include ':component:thermal07' // Removed - different device (not TC001)
 include ':component:transfer'
 include ':component:user'
 include ':libapp'
@@ -43,4 +40,3 @@ include ':libui'
 include ':LocalRepo:libac020'
 include ':LocalRepo:libcommon'
 include ':LocalRepo:libirutils'
-//include ':RangeSeekBar' // Temporarily disabled due to corrupted source files

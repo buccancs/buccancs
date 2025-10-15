@@ -22,9 +22,6 @@ import com.topdon.lib.core.dialog.TipDialog
 import com.topdon.lib.core.socket.WebSocketProxy
 import com.topdon.lib.core.utils.NetWorkUtils
 import com.topdon.libcom.PDFHelp
-import com.topdon.lms.sdk.LMS
-import com.topdon.lms.sdk.utils.StringUtils
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.report.view.ReportIRShowView
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.report.bean.ReportBean
@@ -124,7 +121,6 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
             tv_complete -> {
                 if (LMS.getInstance().isLogin) {
                     if (!NetworkUtils.isConnected()) {
-                        TToast.shortToast(this, R.string.setting_http_error)
                         return
                     }
                     showCameraLoading()

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.topdon.lib.core.tools.UnitTools
 import com.topdon.lib.core.utils.ScreenUtil
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.R
 import kotlinx.android.synthetic.main.dialog_ir_config_input.*
 import java.lang.NumberFormatException
@@ -75,10 +74,8 @@ class IRConfigInputDialog(context: Context, val type: Type, val isTC007: Boolean
                     dismiss()
                     onConfirmListener?.invoke(input)
                 } else {
-                    TToast.shortToast(context, R.string.tip_input_format)
                 }
             } catch (e: NumberFormatException) {
-                TToast.shortToast(context, R.string.tip_input_format)
             }
         }
         window?.let {

@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.platform.testTag
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
 import com.buccancs.domain.model.DeviceEvent
@@ -93,6 +94,7 @@ fun LiveSessionScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
+                    .testTag("live-list")
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -219,14 +221,19 @@ private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
 @Composable
 private fun DeviceList(devices: List<SensorDevice>) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("live-devices"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Devices", style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(8.dp))
             if (devices.isEmpty()) {
-                Text(text = "No devices registered.")
+                Text(
+                    text = "No devices registered.",
+                    modifier = Modifier.testTag("live-no-devices")
+                )
             } else {
                 devices.forEach { device ->
                     Column(modifier = Modifier.padding(vertical = 4.dp)) {
@@ -255,7 +262,9 @@ private fun DeviceList(devices: List<SensorDevice>) {
 @Composable
 private fun UploadList(uploads: List<UploadStatus>) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("live-uploads"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -287,7 +296,9 @@ private fun UploadList(uploads: List<UploadStatus>) {
 @Composable
 private fun BacklogCard(state: UploadBacklogState) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("live-backlog"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -517,9 +528,6 @@ private fun formatBytes(bytes: Long): String {
     val value = bytes / Math.pow(1024.0, digitGroups.toDouble())
     return String.format(Locale.US, "%.1f %s", value, units[digitGroups])
 }
-
-
-
 
 
 

@@ -31,7 +31,6 @@ import com.topdon.lib.core.repository.TS004Repository
 import com.topdon.module.thermal.ir.R
 import com.topdon.lib.core.dialog.ConfirmSelectDialog
 import com.topdon.lib.core.bean.event.GalleryDelEvent
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.event.GalleryDownloadEvent
 import com.topdon.module.thermal.ir.fragment.GalleryFragment
 import kotlinx.android.synthetic.main.activity_ir_gallery_detail_04.*
@@ -167,7 +166,6 @@ class IRGalleryDetail04Activity : BaseActivity() {
                     }
                 } else {
                     dismissCameraLoading()
-                    TToast.shortToast(this@IRGalleryDetail04Activity, R.string.test_results_delete_failed)
                 }
             }
         } else {

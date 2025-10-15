@@ -22,6 +22,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
     }
+    buildFeatures {
+        buildConfig = true
+    }
+
     kotlinOptions {
         jvmTarget = '21'
     }
@@ -53,10 +57,10 @@ android {
 }
 
 dependencies {
-    implementation Deps.material //需要 ConstraintLayout、ViewPager2
+    implementation libs.androidx.material //需要 ConstraintLayout、ViewPager2
 
-    implementation Deps.glide
-    implementation Deps.utilcode
+    implementation libs.glide
+    implementation libs.utilcode
 
     implementation project(':libapp') //需要使用 string 资源
 }

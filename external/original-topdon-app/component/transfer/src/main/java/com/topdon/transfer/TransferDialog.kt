@@ -6,27 +6,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import com.topdon.lib.core.utils.ScreenUtil
-import kotlinx.android.synthetic.main.dialog_transfer.view.*
+import com.topdon.lib.core.R as LibR
 
-class TransferDialog(context: Context) : Dialog(context, R.style.InfoDialog) {
+class TransferDialog(context: Context) : Dialog(context, LibR.style.InfoDialog) {
+    
+    private val contentView: View = LayoutInflater.from(context).inflate(R.layout.dialog_transfer, null)
+    private val seekBar: SeekBar by lazy { contentView.findViewById<SeekBar>(R.id.seek_bar) }
+    
     var max: Int
-        get() = contentView.seek_bar.max
+        get() = seekBar.max
         set(value) {
-            contentView.seek_bar.max = value
+            seekBar.max = value
         }
     var progress: Int
-        get() = contentView.seek_bar.progress
+        get() = seekBar.progress
         set(value) {
-            contentView.seek_bar.progress = value
+            seekBar.progress = value
         }
 
-    private val contentView: View = LayoutInflater.from(context).inflate(R.layout.dialog_transfer, null)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setCancelable(false)
         setCanceledOnTouchOutside(false)
-        contentView.seek_bar.isEnabled = false
+        seekBar.isEnabled = false
         setContentView(contentView)
         window?.let {
             val layoutParams = it.attributes

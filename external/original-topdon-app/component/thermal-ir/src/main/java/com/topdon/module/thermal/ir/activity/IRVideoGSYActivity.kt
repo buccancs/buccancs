@@ -24,7 +24,6 @@ import com.topdon.lib.core.tools.ToastTools
 import com.topdon.module.thermal.ir.R
 import com.topdon.lib.core.dialog.ConfirmSelectDialog
 import com.topdon.lib.core.bean.event.GalleryDelEvent
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.event.GalleryDownloadEvent
 import kotlinx.android.synthetic.main.activity_ir_video_gsy.*
 import kotlinx.coroutines.launch
@@ -172,7 +171,6 @@ class IRVideoGSYActivity : BaseActivity() {
                     finish()
                 } else {
                     dismissCameraLoading()
-                    TToast.shortToast(this@IRVideoGSYActivity, R.string.test_results_delete_failed)
                 }
             }
         } else {

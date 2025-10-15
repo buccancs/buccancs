@@ -6,13 +6,6 @@ import com.blankj.utilcode.util.TimeUtils
 import com.elvishew.xlog.XLog
 import com.topdon.lib.core.ktbase.BaseViewModel
 import com.topdon.lib.core.utils.SingleLiveEvent
-import com.topdon.lms.sdk.LMS
-import com.topdon.lms.sdk.UrlConstant
-import com.topdon.lms.sdk.bean.CommonBean
-import com.topdon.lms.sdk.network.HttpProxy
-import com.topdon.lms.sdk.network.IResponseCallback
-import com.topdon.lms.sdk.network.ResponseBean
-import com.topdon.lms.sdk.xutils.http.RequestParams
 import com.topdon.module.thermal.ir.report.bean.ReportBean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

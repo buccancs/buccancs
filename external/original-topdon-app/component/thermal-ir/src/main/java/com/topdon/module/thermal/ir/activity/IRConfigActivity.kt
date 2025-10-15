@@ -22,10 +22,8 @@ import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.tools.NumberTools
 import com.topdon.lib.core.tools.UnitTools
 import com.topdon.lib.core.dialog.TipDialog
-import com.topdon.lib.core.repository.TC007Repository
 import com.topdon.lib.core.socket.WebSocketProxy
 import com.topdon.lib.ui.widget.MyItemDecoration
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.adapter.ConfigEmAdapter
 import com.topdon.module.thermal.ir.bean.DataBean
@@ -105,7 +103,6 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
             if (isTC007 && WebSocketProxy.getInstance().isTC007Connect()) {
                 lifecycleScope.launch {
                     val config = ConfigRepository.readConfig(true)
-                    TC007Repository.setIRConfig(config.environment, config.distance, config.radiation)
                 }
             }
         }
@@ -294,7 +291,6 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
                             onAddListener?.onClick(it)
                         }
                     } else {
-                        TToast.shortToast(context, R.string.config_add_tip)
                     }
                 }
                 rootView.tv_all_emissivity.setOnClickListener {

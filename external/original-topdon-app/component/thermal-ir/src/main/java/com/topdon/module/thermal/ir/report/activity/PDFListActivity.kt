@@ -16,14 +16,6 @@ import com.topdon.lib.core.socket.WebSocketProxy
 import com.topdon.lib.core.utils.NetWorkUtils
 import com.topdon.libcom.PDFHelp
 import com.topdon.libcom.view.CommLoadMoreView
-import com.topdon.lms.sdk.LMS
-import com.topdon.lms.sdk.UrlConstant
-import com.topdon.lms.sdk.network.HttpProxy
-import com.topdon.lms.sdk.network.IResponseCallback
-import com.topdon.lms.sdk.utils.LanguageUtil
-import com.topdon.lms.sdk.utils.StringUtils
-import com.topdon.lms.sdk.weiget.TToast
-import com.topdon.lms.sdk.xutils.http.RequestParams
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.adapter.PDFAdapter
 import com.topdon.module.thermal.ir.report.viewmodel.PdfViewModel
@@ -148,7 +140,6 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                                             LMS.mContext,
                                             if (TextUtils.isEmpty(errorCode)) -500 else errorCode.toInt()
                                         ).let {
-                                            TToast.shortToast(LMS.mContext, it)
                                         }
                                     } catch (e: Exception) {
                                         e.printStackTrace()

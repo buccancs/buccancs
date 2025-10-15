@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.platform.testTag
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus
@@ -211,13 +212,28 @@ private fun NavigationLinks(
             .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Button(onClick = onOpenLiveSession, modifier = Modifier.weight(1f)) {
+        Button(
+            onClick = onOpenLiveSession,
+            modifier = Modifier
+                .weight(1f)
+                .testTag("nav-live-session")
+        ) {
             Text(text = "Live Session")
         }
-        Button(onClick = onOpenLibrary, modifier = Modifier.weight(1f)) {
+        Button(
+            onClick = onOpenLibrary,
+            modifier = Modifier
+                .weight(1f)
+                .testTag("nav-library")
+        ) {
             Text(text = "Sessions")
         }
-        OutlinedButton(onClick = onOpenSettings, modifier = Modifier.weight(1f)) {
+        OutlinedButton(
+            onClick = onOpenSettings,
+            modifier = Modifier
+                .weight(1f)
+                .testTag("nav-settings")
+        ) {
             Text(text = "Settings")
         }
     }
@@ -426,7 +442,9 @@ private fun DeviceCard(
     onOpenTopdon: (() -> Unit)?
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("device-card-${device.id.value}"),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -490,7 +508,10 @@ private fun DeviceCard(
                     Text(text = "Disconnect")
                 }
                 if (onOpenTopdon != null) {
-                    TextButton(onClick = onOpenTopdon) {
+                    TextButton(
+                        onClick = onOpenTopdon,
+                        modifier = Modifier.testTag("device-open-console-${device.id.value}")
+                    ) {
                         Text("Open Console")
                     }
                 }
@@ -534,4 +555,3 @@ private fun TimeSyncStatusView(status: TimeSyncStatus) {
         modifier = Modifier.padding(end = 12.dp)
     )
 }
-

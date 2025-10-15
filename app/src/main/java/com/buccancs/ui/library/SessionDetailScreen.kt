@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.platform.testTag
 import com.buccancs.data.recording.manifest.ArtifactEntry
 import com.buccancs.data.recording.manifest.BookmarkEntry
 import com.buccancs.data.recording.manifest.DeviceManifest
@@ -124,6 +125,7 @@ fun SessionDetailScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
+                        .testTag("session-detail-list")
                         .padding(padding)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -159,7 +161,9 @@ fun SessionDetailScreen(
 private fun SummaryCard(state: SessionDetailUiState) {
     val manifest = state.manifest ?: return
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("session-summary"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -180,7 +184,9 @@ private fun SummaryCard(state: SessionDetailUiState) {
 @Composable
 private fun DeviceList(devices: List<DeviceManifest>) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("session-devices"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -212,7 +218,9 @@ private fun DeviceList(devices: List<DeviceManifest>) {
 @Composable
 private fun ArtifactList(artifacts: List<ArtifactEntry>) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("session-artifacts"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -234,7 +242,9 @@ private fun ArtifactList(artifacts: List<ArtifactEntry>) {
 @Composable
 private fun EventList(events: List<EventEntry>) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("session-events"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -255,7 +265,9 @@ private fun EventList(events: List<EventEntry>) {
 @Composable
 private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("session-bookmarks"),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

@@ -9,8 +9,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.topdon.lib.core.common.SharedManager
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.utils.CommUtils
-import com.topdon.lms.sdk.Config
-import com.topdon.lms.sdk.LMS
 import kotlinx.android.synthetic.main.activity_splash.tv_app_name
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

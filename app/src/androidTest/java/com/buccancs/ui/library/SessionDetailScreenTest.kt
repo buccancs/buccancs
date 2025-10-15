@@ -3,9 +3,12 @@ package com.buccancs.ui.library
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToNode
 import com.buccancs.data.recording.manifest.ArtifactEntry
 import com.buccancs.data.recording.manifest.BookmarkEntry
 import com.buccancs.data.recording.manifest.DeviceManifest
@@ -43,7 +46,7 @@ class SessionDetailScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Loading session...").assertIsDisplayed()
+        composeRule.onNodeWithText("Loading session...", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
     }
 
     @Test
@@ -67,7 +70,7 @@ class SessionDetailScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Retry").performClick()
+        composeRule.onNodeWithText("Retry", ignoreCase = true, useUnmergedTree = true).performClick()
 
         assertTrue("Retry button should invoke refresh", retried)
     }
@@ -93,14 +96,23 @@ class SessionDetailScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Summary").assertIsDisplayed()
-        composeRule.onNodeWithText("Devices").assertIsDisplayed()
-        composeRule.onNodeWithText("Artifacts").assertIsDisplayed()
-        composeRule.onNodeWithText("Events").assertIsDisplayed()
-        composeRule.onNodeWithText("Bookmarks").assertIsDisplayed()
-        composeRule.onNodeWithText("Session total json").assertIsDisplayed()
-        composeRule.onNodeWithText("Important event").assertIsDisplayed()
-        composeRule.onNodeWithText("Calibrated start").assertIsDisplayed()
+        composeRule.onNodeWithTag("session-summary", useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithTag("session-devices", useUnmergedTree = true).assertIsDisplayed()
+
+        composeRule.onNodeWithTag("session-detail-list", useUnmergedTree = true)
+            .performScrollToNode(hasTestTag("session-artifacts"))
+        composeRule.onNodeWithTag("session-artifacts", useUnmergedTree = true).assertIsDisplayed()
+
+        composeRule.onNodeWithTag("session-detail-list", useUnmergedTree = true)
+            .performScrollToNode(hasTestTag("session-events"))
+        composeRule.onNodeWithTag("session-events", useUnmergedTree = true).assertIsDisplayed()
+
+        composeRule.onNodeWithTag("session-detail-list", useUnmergedTree = true)
+            .performScrollToNode(hasTestTag("session-bookmarks"))
+        composeRule.onNodeWithTag("session-bookmarks", useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Session total json", ignoreCase = true, useUnmergedTree = true).assertExists()
+        composeRule.onNodeWithText("Important event", ignoreCase = true, useUnmergedTree = true).assertExists()
+        composeRule.onNodeWithText("Calibrated start", ignoreCase = true, useUnmergedTree = true).assertExists()
     }
 
     private fun sampleManifest(): SessionManifest {

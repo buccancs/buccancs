@@ -45,7 +45,6 @@ import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.lib.core.utils.CommUtils
 import com.topdon.lib.core.utils.PermissionUtils
 import com.topdon.lib.core.viewmodel.VersionViewModel
-import com.topdon.lms.sdk.LMS
 import com.topdon.module.thermal.ir.activity.IRThermalNightActivity
 import com.topdon.module.thermal.ir.activity.IRThermalPlusActivity
 import com.topdon.module.thermal.ir.fragment.IRGalleryTabFragment

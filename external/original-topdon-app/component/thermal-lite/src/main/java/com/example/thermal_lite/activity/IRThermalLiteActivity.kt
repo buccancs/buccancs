@@ -108,7 +108,6 @@ import com.topdon.lib.ui.widget.seekbar.RangeSeekBar
 import com.topdon.libcom.AlarmHelp
 import com.topdon.libcom.dialog.ColorPickDialog
 import com.topdon.libcom.dialog.TempAlarmSetDialog
-import com.topdon.lms.sdk.LMS.mContext
 import com.topdon.menu.constant.FenceType
 import com.topdon.menu.constant.SettingType
 import com.topdon.menu.constant.TwoLightType

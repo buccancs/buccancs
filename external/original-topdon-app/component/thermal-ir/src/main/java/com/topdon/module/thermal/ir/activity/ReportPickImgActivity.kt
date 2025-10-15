@@ -23,7 +23,6 @@ import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.adapter.GalleryAdapter
 import com.topdon.lib.core.bean.event.GalleryDelEvent
 import com.topdon.lib.core.utils.Constants.IS_REPORT_FIRST
-import com.topdon.lms.sdk.weiget.TToast
 import com.topdon.module.thermal.ir.viewmodel.IRGalleryViewModel
 import kotlinx.android.synthetic.main.activity_report_pick_img.*
 import org.greenrobot.eventbus.EventBus
@@ -51,7 +50,6 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
         }
         viewModel.deleteResultLD.observe(this) {
             if (it) {
-                TToast.shortToast(this@ReportPickImgActivity, R.string.test_results_delete_success)
                 adapter.isEditMode = false
                 EventBus.getDefault().post(GalleryDelEvent())
                 MediaScannerConnection.scanFile(
@@ -62,7 +60,6 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
                 )
                 viewModel.queryAllReportImg(if (isTC007) DirType.TC007 else DirType.LINE)
             } else {
-                TToast.shortToast(this@ReportPickImgActivity, R.string.test_results_delete_failed)
             }
         }
         viewModel.queryAllReportImg(if (isTC007) DirType.TC007 else DirType.LINE)

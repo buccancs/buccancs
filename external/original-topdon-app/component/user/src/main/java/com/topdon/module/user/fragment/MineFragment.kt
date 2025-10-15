@@ -37,12 +37,6 @@ import com.topdon.lib.core.tools.GlideLoader
 import com.topdon.lib.core.tools.ToastTools
 import com.topdon.lib.core.utils.Constants
 import com.topdon.lib.core.utils.NetWorkUtils
-import com.topdon.lms.sdk.LMS
-import com.topdon.lms.sdk.UrlConstant
-import com.topdon.lms.sdk.bean.CommonBean
-import com.topdon.lms.sdk.bean.FeedBackBean
-import com.topdon.lms.sdk.feedback.activity.FeedbackActivity
-import com.topdon.lms.sdk.utils.LanguageUtil
 import com.topdon.module.user.R
 import com.topdon.module.user.activity.LanguageActivity
 import com.topdon.module.user.activity.MoreActivity
