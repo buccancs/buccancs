@@ -2,7 +2,7 @@ package com.buccancs.data.orchestration.security
 
 import android.util.Base64
 import com.buccancs.util.nowInstant
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import java.nio.charset.StandardCharsets
 import javax.crypto.Mac
 import javax.crypto.SecretKey

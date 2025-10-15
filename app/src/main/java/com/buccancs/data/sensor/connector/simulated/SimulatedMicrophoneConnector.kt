@@ -7,7 +7,7 @@ import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random

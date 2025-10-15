@@ -12,7 +12,7 @@ import com.buccancs.domain.model.CalibrationResult
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 

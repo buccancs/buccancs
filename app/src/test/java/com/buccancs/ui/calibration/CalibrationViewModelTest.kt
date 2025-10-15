@@ -18,7 +18,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -203,7 +203,7 @@ class CalibrationViewModelTest {
         }
 
         override suspend fun computeAndPersist(): CalibrationResult =
-            CalibrationViewModelTest.sampleResult(0.2, 0.4, _sessionState.value.captures.size)
+            sampleResult(0.2, 0.4, _sessionState.value.captures.size)
 
         override suspend fun loadLatestResult(): CalibrationResult? = _sessionState.value.lastResult
 

@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.abs

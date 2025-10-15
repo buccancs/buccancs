@@ -2,7 +2,7 @@ package com.buccancs.domain.repository
 
 import com.buccancs.domain.model.RecordingBookmark
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 interface BookmarkRepository {
     val bookmarks: StateFlow<List<RecordingBookmark>>

@@ -49,7 +49,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)

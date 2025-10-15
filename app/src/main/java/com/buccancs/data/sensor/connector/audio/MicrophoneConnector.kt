@@ -30,7 +30,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import java.io.File
 import java.io.RandomAccessFile
 import java.security.MessageDigest

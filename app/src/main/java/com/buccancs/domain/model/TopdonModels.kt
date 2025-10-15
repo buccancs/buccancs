@@ -1,6 +1,6 @@
 package com.buccancs.domain.model
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 val TOPDON_TC001_DEVICE_ID: DeviceId = DeviceId("topdon-tc001")
 

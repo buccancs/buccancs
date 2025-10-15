@@ -71,7 +71,7 @@ private fun readJavaMajorVersion(javaHome: File): Int? {
     }
 }
 
-private fun findExternalJavaHome(project: org.gradle.api.Project, maxJavaMajor: Int?): File? {
+private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
     val propertyValue = project.providers.gradleProperty("externalJavaHome").orNull?.takeIf { it.isNotBlank() }
     val envValue = System.getenv("EXTERNAL_JAVA_HOME")?.takeIf { it.isNotBlank() }
     val osName = System.getProperty("os.name").lowercase(Locale.US)

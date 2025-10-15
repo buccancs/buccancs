@@ -53,7 +53,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.encodeToString
 import java.io.BufferedWriter
 import java.io.File
@@ -265,10 +265,10 @@ internal class ShimmerSensorConnector(
     }
 
     private suspend fun applyShimmerSettings(shimmer: ShimmerBluetooth): Result<Unit> =
-        bluetoothOperation(shimmer.getBluetoothAddress()) {
+        bluetoothOperation(shimmer.bluetoothAddress) {
             val rangeIndex = currentSettings.gsrRangeIndex.coerceIn(0, MAX_GSR_RANGE_INDEX)
-            shimmer.setGSRRange(rangeIndex)
-            shimmer.setSamplingRateShimmer(currentSettings.sampleRateHz)
+            shimmer.gsrRange = rangeIndex
+            shimmer.samplingRateShimmer = currentSettings.sampleRateHz
             shimmer.writeConfigBytes()
         }
 
@@ -484,12 +484,12 @@ internal class ShimmerSensorConnector(
     }
 
     override fun streamIntervalMs(): Long = 250L
-    override fun simulatedBatteryPercent(device: SensorDevice): Int? {
+    override fun simulatedBatteryPercent(device: SensorDevice): Int {
         val baseline = 90 - (device.id.value.hashCode().absoluteValue % 12)
         return baseline.coerceIn(40, 98)
     }
 
-    override fun simulatedRssi(device: SensorDevice): Int? = -45
+    override fun simulatedRssi(device: SensorDevice): Int = -45
     override fun sampleStatuses(
         timestamp: Instant,
         frameCounter: Long,

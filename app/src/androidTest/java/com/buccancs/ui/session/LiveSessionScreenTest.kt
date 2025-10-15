@@ -38,7 +38,7 @@ import com.buccancs.domain.model.UploadBacklogState
 import com.buccancs.domain.model.UploadRecoveryRecord
 import com.buccancs.domain.model.UploadState
 import com.buccancs.domain.model.UploadStatus
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test

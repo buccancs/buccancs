@@ -56,7 +56,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.builtins.ListSerializer
 import java.util.*
 import javax.inject.Inject

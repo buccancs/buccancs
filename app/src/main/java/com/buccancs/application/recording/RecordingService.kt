@@ -3,7 +3,7 @@ package com.buccancs.application.recording
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.RecordingState
 import com.buccancs.domain.model.SessionArtifact
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 interface RecordingService {
     suspend fun startOrResume(sessionId: String, requestedStart: Instant? = null): RecordingState

@@ -1,6 +1,6 @@
 package com.buccancs.util
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 fun nowInstant(): Instant = Instant.fromEpochMilliseconds(System.currentTimeMillis())
 

@@ -37,7 +37,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume

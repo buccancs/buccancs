@@ -1,6 +1,6 @@
 package com.buccancs.domain.model
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 

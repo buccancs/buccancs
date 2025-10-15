@@ -40,7 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
@@ -449,9 +449,9 @@ internal class TopdonThermalConnector @Inject constructor(
     }
 
     private fun configureCamera(camera: UVCCamera) {
-        camera.setOpenStatus(true)
-        camera.setDefaultPreviewMode(CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG)
-        camera.setDefaultBandwidth(0.6f)
+        camera.openStatus = true
+        camera.defaultPreviewMode = CommonParams.FRAMEFORMATType.FRAME_FORMAT_MJPEG
+        camera.defaultBandwidth = 0.6f
         camera.setDefaultPreviewMinFps(1)
         camera.setDefaultPreviewMaxFps(30)
         val result = camera.setUSBPreviewSize(THERMAL_WIDTH, THERMAL_HEIGHT)

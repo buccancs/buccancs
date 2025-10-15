@@ -1,7 +1,7 @@
 package com.buccancs.domain.model
 
 import android.net.Uri
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import java.io.File
 
 data class SessionArtifact(

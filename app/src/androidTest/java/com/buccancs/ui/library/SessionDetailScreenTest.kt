@@ -15,7 +15,7 @@ import com.buccancs.data.recording.manifest.DeviceManifest
 import com.buccancs.data.recording.manifest.EventEntry
 import com.buccancs.data.recording.manifest.SessionManifest
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.plus
 import org.junit.Assert.assertTrue
 import org.junit.Rule

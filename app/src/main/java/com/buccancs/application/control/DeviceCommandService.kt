@@ -4,7 +4,7 @@ import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.SyncSignalCommandPayload
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 interface DeviceCommandService {
     val lastCommand: StateFlow<DeviceCommandPayload?>

@@ -2,7 +2,7 @@ package com.buccancs.data.calibration
 
 import android.graphics.Bitmap
 import com.buccancs.domain.model.CalibrationPatternConfig
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 data class CalibrationFrame(
     val bitmap: Bitmap,
