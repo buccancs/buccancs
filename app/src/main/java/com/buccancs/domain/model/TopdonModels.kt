@@ -38,7 +38,10 @@ data class TopdonPreviewFrame(
     val height: Int,
     val mimeType: String,
     val payload: ByteArray,
-    val superSamplingFactor: Int
+    val superSamplingFactor: Int,
+    val minTemp: Float? = null,
+    val maxTemp: Float? = null,
+    val avgTemp: Float? = null
 )
 
 data class TopdonDeviceState(

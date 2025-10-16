@@ -14,12 +14,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlin.time.Instant
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Instant
 
 @Singleton
 class ManifestWriter @Inject constructor(

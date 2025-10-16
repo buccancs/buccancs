@@ -1,40 +1,48 @@
 package com.topdon.tc001
 
+import android.os.Bundle
 import android.view.WindowManager
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.github.barteksc.pdfviewer.PDFView
 import com.topdon.lib.core.config.RouterConfig
-import com.topdon.lib.core.ktbase.BaseActivity
-import kotlinx.android.synthetic.main.activity_pdf.*
+import com.topdon.tc001.ui.theme.TopdonTheme
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
 
 @Route(path = RouterConfig.PDF)
-class PdfActivity : BaseActivity() {
-    override fun initContentView() = R.layout.activity_pdf
-    override fun initView() {
-        pdf_view.fromAsset(if (intent.getBooleanExtra("isTS001", false)) "TC001.pdf" else "TS004.pdf")
-            .enableSwipe(true)
-            .swipeHorizontal(false)
-            .enableDoubletap(true)
-            .defaultPage(0)
-            .enableAnnotationRendering(false)
-            .password(null)
-            .scrollHandle(null)
-            .enableAntialiasing(true)
-            .spacing(0)
-            .load()
-    }
+class PdfActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-    override fun initData() {
-        val tc001File = File(getExternalFilesDir("pdf")!!, "TC001.pdf")
-        if (!tc001File.exists()) {
-            copyBigDataToSD("TC001.pdf", tc001File)
+        val isTS001 = intent.getBooleanExtra("isTS001", false)
+        val pdfFileName = if (isTS001) "TC001.pdf" else "TS004.pdf"
+
+        // Copy PDF files to external storage if not exists
+        val pdfFile = File(getExternalFilesDir("pdf")!!, pdfFileName)
+        if (!pdfFile.exists()) {
+            copyAssetToFile(pdfFileName, pdfFile)
         }
-        val tc004File = File(getExternalFilesDir("pdf")!!, "TS004.pdf")
-        if (!tc004File.exists()) {
-            copyBigDataToSD("TS004.pdf", tc004File)
+
+        setContent {
+            TopdonTheme {
+                PdfScreen(
+                    pdfFile = pdfFile,
+                    title = if (isTS001) "TC001 Manual" else "TS004 Manual",
+                    onNavigateUp = { finish() }
+                )
+            }
         }
     }
 
@@ -48,18 +56,94 @@ class PdfActivity : BaseActivity() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
-    @Throws(IOException::class)
-    private fun copyBigDataToSD(assetsName: String, targetFile: File) {
-        val myOutput: OutputStream = FileOutputStream(targetFile)
-        val myInput = assets.open(assetsName)
-        val buffer = ByteArray(1024)
-        var length: Int = myInput.read(buffer)
-        while (length > 0) {
-            myOutput.write(buffer, 0, length)
-            length = myInput.read(buffer)
+    private fun copyAssetToFile(assetName: String, targetFile: File) {
+        try {
+            assets.open(assetName).use { input ->
+                FileOutputStream(targetFile).use { output ->
+                    val buffer = ByteArray(1024)
+                    var length: Int
+                    while (input.read(buffer).also { length = it } > 0) {
+                        output.write(buffer, 0, length)
+                    }
+                    output.flush()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        myOutput.flush()
-        myInput.close()
-        myOutput.close()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PdfScreen(
+    pdfFile: File,
+    title: String,
+    onNavigateUp: () -> Unit
+) {
+    var isLoading by remember { mutableStateOf(true) }
+    var pageCount by remember { mutableStateOf(0) }
+    var currentPage by remember { mutableStateOf(0) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Column {
+                        Text(title)
+                        if (pageCount > 0) {
+                            Text(
+                                text = "Page ${currentPage + 1} of $pageCount",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateUp) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            AndroidView(
+                factory = { context ->
+                    PDFView(context, null).apply {
+                        fromFile(pdfFile)
+                            .enableSwipe(true)
+                            .swipeHorizontal(false)
+                            .enableDoubletap(true)
+                            .defaultPage(0)
+                            .enableAnnotationRendering(false)
+                            .enableAntialiasing(true)
+                            .spacing(0)
+                            .onLoad { pages ->
+                                isLoading = false
+                                pageCount = pages
+                            }
+                            .onPageChange { page, _ ->
+                                currentPage = page
+                            }
+                            .load()
+                    }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }
     }
 }

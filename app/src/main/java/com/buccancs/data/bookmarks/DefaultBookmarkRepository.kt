@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.time.Instant
-import java.util.UUID
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Instant
 
 @Singleton
 class DefaultBookmarkRepository @Inject constructor() : BookmarkRepository {

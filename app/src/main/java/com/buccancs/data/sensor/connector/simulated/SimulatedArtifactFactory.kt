@@ -7,7 +7,7 @@ import com.buccancs.domain.model.SessionArtifact
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.security.MessageDigest
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import kotlin.random.Random
 

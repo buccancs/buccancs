@@ -23,10 +23,10 @@ data class SplashUiState(
 
 @HiltViewModel
 class SplashViewModel @Inject constructor() : ViewModel() {
-    
+
     private val _uiState = MutableStateFlow(SplashUiState())
     val uiState: StateFlow<SplashUiState> = _uiState.asStateFlow()
-    
+
     init {
         viewModelScope.launch {
             delay(1000)
@@ -40,7 +40,7 @@ class SplashViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-    
+
     private fun checkClauseAcceptance(): Boolean {
         return true
     }

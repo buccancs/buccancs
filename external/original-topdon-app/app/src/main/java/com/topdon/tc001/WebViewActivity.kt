@@ -2,61 +2,140 @@ package com.topdon.tc001
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebSettings
 import android.webkit.WebView
-import androidx.core.view.isVisible
+import android.webkit.WebViewClient
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.github.lzyzsd.jsbridge.BridgeWebViewClient
 import com.topdon.lib.core.config.ExtraKeyConfig
 import com.topdon.lib.core.config.RouterConfig
-import com.topdon.lib.core.ktbase.BaseBindingActivity
-import com.topdon.tc001.databinding.ActivityWebViewBinding
+import com.topdon.tc001.ui.theme.TopdonTheme
 
 @Route(path = RouterConfig.WEB_VIEW)
-class WebViewActivity : BaseBindingActivity<ActivityWebViewBinding>() {
-    override fun initContentLayoutId(): Int = R.layout.activity_web_view
-
-    @SuppressLint("SetJavaScriptEnabled")
+class WebViewActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showLoadingDialog()
-        val url: String = intent.extras?.getString(ExtraKeyConfig.URL) ?: ""
-        binding.tvReload.setOnClickListener {
-            showLoadingDialog()
-            binding.viewCover.isVisible = true
-            binding.clError.isVisible = false
-            binding.webView.loadUrl(url)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val url = intent.extras?.getString(ExtraKeyConfig.URL) ?: ""
+
+        setContent {
+            TopdonTheme {
+                WebViewScreen(
+                    url = url,
+                    onNavigateUp = { finish() }
+                )
+            }
         }
-        val webSettings: WebSettings = binding.webView.settings
-        webSettings.setSupportZoom(false)
-        webSettings.useWideViewPort = true
-        webSettings.javaScriptCanOpenWindowsAutomatically = true
-        webSettings.defaultTextEncodingName = "UTF-8"
-        webSettings.javaScriptEnabled = true
-        webSettings.allowFileAccess = true
-        webSettings.cacheMode = WebSettings.LOAD_NO_CACHE
-        webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-        binding.webView.webViewClient = object : BridgeWebViewClient(binding.webView) {
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                dismissLoadingDialog()
-                binding.viewCover.isVisible = false
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun WebViewScreen(
+    url: String,
+    onNavigateUp: () -> Unit
+) {
+    var isLoading by remember { mutableStateOf(true) }
+    var hasError by remember { mutableStateOf(false) }
+    var webView by remember { mutableStateOf<WebView?>(null) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Web View") },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateUp) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            if (url.isNotEmpty()) {
+                AndroidView(
+                    factory = { context ->
+                        WebView(context).apply {
+                            @SuppressLint("SetJavaScriptEnabled")
+                            settings.apply {
+                                javaScriptEnabled = true
+                                domStorageEnabled = true
+                                setSupportZoom(false)
+                                useWideViewPort = true
+                                javaScriptCanOpenWindowsAutomatically = true
+                                allowFileAccess = true
+                            }
+                            webViewClient = object : WebViewClient() {
+                                override fun onPageFinished(view: WebView?, url: String?) {
+                                    super.onPageFinished(view, url)
+                                    isLoading = false
+                                }
+
+                                override fun onReceivedError(
+                                    view: WebView?,
+                                    errorCode: Int,
+                                    description: String?,
+                                    failingUrl: String?
+                                ) {
+                                    super.onReceivedError(view, errorCode, description, failingUrl)
+                                    isLoading = false
+                                    hasError = true
+                                }
+                            }
+                            loadUrl(url)
+                            webView = this
+                        }
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
             }
 
-            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                dismissLoadingDialog()
-                binding.viewCover.isVisible = false
-                if (request?.isForMainFrame == true) {
-                    binding.clError.isVisible = true
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
+            if (hasError) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = "Failed to load page",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Button(
+                        onClick = {
+                            hasError = false
+                            isLoading = true
+                            webView?.reload()
+                        }
+                    ) {
+                        Text("Retry")
+                    }
                 }
             }
         }
-        binding.webView.registerHandler("goBack") { _, function ->
-            function.onCallBack("android")
-            finish()
-        }
-        binding.webView.loadUrl(url)
     }
 }

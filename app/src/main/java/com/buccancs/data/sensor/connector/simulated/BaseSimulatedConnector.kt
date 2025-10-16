@@ -19,11 +19,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlin.time.Instant
 import java.nio.charset.StandardCharsets
-import java.util.Locale
+import java.util.*
 import kotlin.math.max
 import kotlin.random.Random
+import kotlin.time.Instant
 
 internal abstract class BaseSimulatedConnector(
     protected val scope: CoroutineScope,

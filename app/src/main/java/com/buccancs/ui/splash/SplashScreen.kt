@@ -37,7 +37,7 @@ fun SplashRoute(
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    
+
     LaunchedEffect(state.navigationTarget) {
         when (state.navigationTarget) {
             NavigationTarget.CLAUSE -> onNavigateToClause()
@@ -45,21 +45,21 @@ fun SplashRoute(
             NavigationTarget.NONE -> {}
         }
     }
-    
+
     SplashScreen(appName = state.appName)
 }
 
 @Composable
 private fun SplashScreen(appName: String) {
     val alphaAnimation = remember { Animatable(0f) }
-    
+
     LaunchedEffect(Unit) {
         alphaAnimation.animateTo(
             targetValue = 1f,
             animationSpec = tween(durationMillis = 800)
         )
     }
-    
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +86,7 @@ private fun SplashScreen(appName: String) {
                 fontStyle = FontStyle.Italic,
                 color = Color.White
             )
-            
+
             Text(
                 text = "IMAGING",
                 style = MaterialTheme.typography.titleMedium,
@@ -94,9 +94,9 @@ private fun SplashScreen(appName: String) {
                 fontStyle = FontStyle.Italic,
                 color = Color.White
             )
-            
+
             Spacer(modifier = Modifier.height(280.dp))
-            
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -111,9 +111,9 @@ private fun SplashScreen(appName: String) {
                         color = Color.White
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.width(12.dp))
-                
+
                 Text(
                     text = appName,
                     style = MaterialTheme.typography.headlineSmall,

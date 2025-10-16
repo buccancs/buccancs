@@ -15,11 +15,11 @@ import com.buccancs.data.recording.manifest.DeviceManifest
 import com.buccancs.data.recording.manifest.EventEntry
 import com.buccancs.data.recording.manifest.SessionManifest
 import kotlinx.datetime.DateTimeUnit
-import kotlin.time.Instant
 import kotlinx.datetime.plus
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Instant
 
 class SessionDetailScreenTest {
 

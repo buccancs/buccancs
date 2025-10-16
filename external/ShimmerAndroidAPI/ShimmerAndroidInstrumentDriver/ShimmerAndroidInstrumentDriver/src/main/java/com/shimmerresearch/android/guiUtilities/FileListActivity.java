@@ -5,22 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.core.content.FileProvider;
-
 import com.shimmerresearch.androidinstrumentdriver.R;
-
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
-
-import javax.annotation.Nullable;
 
 public class FileListActivity extends Activity {
 

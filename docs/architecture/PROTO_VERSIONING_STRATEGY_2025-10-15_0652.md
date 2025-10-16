@@ -9,10 +9,12 @@
 ### Existing Version Fields
 
 **sync/control.proto:**
+
 - `CommandEnvelope.protocol_version` (int32, field 6)
 - Currently unused in implementation
 
 **orchestration.proto:**
+
 - No version fields present
 - Messages used for gRPC service communication
 
@@ -36,24 +38,25 @@ Use semantic versioning with single integer version numbers:
 - **Version 4**: Add streaming improvements
 
 **Version Number Format:** `MAJOR * 1000 + MINOR`
+
 - Example: v1.0 = 1000, v1.5 = 1005, v2.0 = 2000
 
 ### Backward Compatibility Rules
 
 1. **Minor version changes (1000 → 1001):**
-   - Add optional fields only
-   - Services must handle both old and new field presence
-   - Clients can use either version
+    - Add optional fields only
+    - Services must handle both old and new field presence
+    - Clients can use either version
 
 2. **Major version changes (1000 → 2000):**
-   - Breaking changes allowed
-   - Services must explicitly support both versions
-   - Clients negotiate version during connection
+    - Breaking changes allowed
+    - Services must explicitly support both versions
+    - Clients negotiate version during connection
 
 3. **Deprecation policy:**
-   - Support N-1 major versions
-   - Announce deprecation 3 months in advance
-   - Remove after 6 months
+    - Support N-1 major versions
+    - Announce deprecation 3 months in advance
+    - Remove after 6 months
 
 ## Implementation Plan
 
@@ -70,6 +73,7 @@ message StartSessionRequest {
 ```
 
 **Field Number Convention:**
+
 - Field 100: protocol_version (reserved across all messages)
 - Fields 1-99: Message-specific fields
 - Fields 101+: Future extensions
@@ -128,6 +132,7 @@ message RegistrationAck {
 Convert command payloads from JSON to protobuf:
 
 **Before:**
+
 ```protobuf
 message CommandEnvelope {
   string command_id = 1;
@@ -137,6 +142,7 @@ message CommandEnvelope {
 ```
 
 **After:**
+
 ```protobuf
 message CommandEnvelope {
   string command_id = 1;
@@ -196,11 +202,13 @@ object ProtocolVersion {
 Add protocol_version field to all messages with default value 1000.
 
 **Desktop Services:**
+
 - Validate incoming version in all RPC methods
 - Log warnings for missing versions
 - Default to v1.0 if not specified
 
 **Android Client:**
+
 - Send current version in all requests
 - Handle version rejection gracefully
 
@@ -233,6 +241,7 @@ message CommandEnvelope {
 ```
 
 Clients send both for compatibility:
+
 - New servers use typed_payload
 - Old servers use payload_json
 
@@ -367,12 +376,12 @@ class OrchestrationServiceImpl : OrchestrationServiceGrpcKt.OrchestrationService
 
 ## Version History
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0 (1000) | 2025-10-15 | Initial protocol definition |
-| 1.1 (1001) | TBD | Add protocol_version to all messages |
-| 1.2 (1002) | TBD | Add version negotiation to registration |
-| 2.0 (2000) | TBD | Replace JSON payloads with typed messages (breaking) |
+| Version    | Date       | Changes                                              |
+|------------|------------|------------------------------------------------------|
+| 1.0 (1000) | 2025-10-15 | Initial protocol definition                          |
+| 1.1 (1001) | TBD        | Add protocol_version to all messages                 |
+| 1.2 (1002) | TBD        | Add version negotiation to registration              |
+| 2.0 (2000) | TBD        | Replace JSON payloads with typed messages (breaking) |
 
 ## Benefits
 
@@ -385,12 +394,12 @@ class OrchestrationServiceImpl : OrchestrationServiceGrpcKt.OrchestrationService
 
 ## Risks and Mitigation
 
-| Risk | Mitigation |
-|------|------------|
-| Breaking existing clients | Phased rollout with backward compatibility |
-| Version check overhead | Minimal - single integer comparison |
-| Complexity increase | Clear documentation and examples |
-| Migration effort | Automated tooling for version field addition |
+| Risk                      | Mitigation                                   |
+|---------------------------|----------------------------------------------|
+| Breaking existing clients | Phased rollout with backward compatibility   |
+| Version check overhead    | Minimal - single integer comparison          |
+| Complexity increase       | Clear documentation and examples             |
+| Migration effort          | Automated tooling for version field addition |
 
 ## Next Steps
 

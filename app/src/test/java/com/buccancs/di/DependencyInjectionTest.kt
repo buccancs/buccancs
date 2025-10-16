@@ -1,8 +1,21 @@
 package com.buccancs.di
 
 import android.content.Context
-import com.buccancs.domain.repository.*
-import com.buccancs.domain.usecase.*
+import com.buccancs.domain.repository.BookmarkRepository
+import com.buccancs.domain.repository.CalibrationRepository
+import com.buccancs.domain.repository.DeviceEventRepository
+import com.buccancs.domain.repository.OrchestratorConfigRepository
+import com.buccancs.domain.repository.SensorHardwareConfigRepository
+import com.buccancs.domain.repository.SensorRepository
+import com.buccancs.domain.repository.SessionTransferRepository
+import com.buccancs.domain.repository.ShimmerSettingsRepository
+import com.buccancs.domain.repository.TopdonDeviceRepository
+import com.buccancs.domain.repository.TopdonSettingsRepository
+import com.buccancs.domain.usecase.DeviceManagementUseCase
+import com.buccancs.domain.usecase.HardwareConfigurationUseCase
+import com.buccancs.domain.usecase.RemoteCommandCoordinator
+import com.buccancs.domain.usecase.RgbCameraStateManager
+import com.buccancs.domain.usecase.SessionCoordinator
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
@@ -18,7 +31,7 @@ import kotlin.test.assertNotNull
 /**
  * DI module validation tests.
  * Verifies that all Hilt modules are properly configured and dependencies resolve correctly.
- * 
+ *
  * Tests cover:
  * - Repository bindings
  * - Use case bindings

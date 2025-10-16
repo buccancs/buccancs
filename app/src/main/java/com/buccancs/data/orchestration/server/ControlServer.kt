@@ -104,7 +104,7 @@ class ControlServer @Inject constructor(
                 throw Status.FAILED_PRECONDITION
                     .withDescription(
                         "Incompatible protocol version: ${ProtocolVersion.versionString(clientVersion)} " +
-                        "(device: ${ProtocolVersion.versionString(ProtocolVersion.CURRENT)})"
+                                "(device: ${ProtocolVersion.versionString(ProtocolVersion.CURRENT)})"
                     )
                     .asRuntimeException()
             }

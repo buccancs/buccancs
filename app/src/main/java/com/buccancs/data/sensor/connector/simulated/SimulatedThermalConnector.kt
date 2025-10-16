@@ -7,10 +7,10 @@ import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import kotlinx.coroutines.CoroutineScope
-import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
+import kotlin.time.Instant
 
 @Singleton
 internal class SimulatedThermalConnector @Inject constructor(

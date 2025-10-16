@@ -53,7 +53,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
-import kotlin.time.Instant
 import kotlinx.serialization.encodeToString
 import java.io.BufferedWriter
 import java.io.File
@@ -64,6 +63,7 @@ import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.util.*
 import kotlin.math.absoluteValue
+import kotlin.time.Instant
 
 internal class ShimmerSensorConnector(
     private val appScope: CoroutineScope,

@@ -4,7 +4,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -13,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import com.buccancs.ui.theme.MotionTokens
 
 /**
@@ -33,7 +31,7 @@ fun AnimatedButton(
         animationSpec = MotionTokens.smallElementEnter(),
         label = "buttonScale"
     )
-    
+
     Button(
         onClick = onClick,
         modifier = modifier.scale(scale),
@@ -61,7 +59,7 @@ fun AnimatedOutlinedButton(
         animationSpec = MotionTokens.smallElementEnter(),
         label = "buttonScale"
     )
-    
+
     OutlinedButton(
         onClick = onClick,
         modifier = modifier.scale(scale),
@@ -89,7 +87,7 @@ fun AnimatedTonalButton(
         animationSpec = MotionTokens.smallElementEnter(),
         label = "buttonScale"
     )
-    
+
     FilledTonalButton(
         onClick = onClick,
         modifier = modifier.scale(scale),

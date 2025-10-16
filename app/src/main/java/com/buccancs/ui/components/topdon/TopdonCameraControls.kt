@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -168,7 +167,7 @@ fun TopdonTemperatureCrosshair(
                     .background(TopdonColors.Primary)
             )
         }
-        
+
         Surface(
             modifier = Modifier
                 .offset(x = 45.dp, y = (-8).dp)
@@ -255,7 +254,7 @@ private fun TopdonCameraControlsPreview() {
     TopdonTheme {
         var selectedMode by remember { mutableStateOf(MeasurementMode.SPOT) }
         var selectedPalette by remember { mutableStateOf(samplePalettes[0]) }
-        
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -266,13 +265,13 @@ private fun TopdonCameraControlsPreview() {
                 selectedMode = selectedMode,
                 onModeSelected = { selectedMode = it }
             )
-            
+
             TopdonPaletteSelector(
                 palettes = samplePalettes,
                 selectedPalette = selectedPalette,
                 onPaletteSelected = { selectedPalette = it }
             )
-            
+
             TopdonTemperatureRange(
                 minTemp = 18.5f,
                 maxTemp = 35.2f

@@ -16,4 +16,7 @@ interface TopdonDeviceRepository {
     suspend fun startPreview()
     suspend fun stopPreview()
     suspend fun clearError()
+    suspend fun capturePhoto()
+    suspend fun startRecording()
+    suspend fun stopRecording()
 }

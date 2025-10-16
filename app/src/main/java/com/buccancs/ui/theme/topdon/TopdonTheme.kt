@@ -14,28 +14,28 @@ private val TopdonDarkColorScheme = darkColorScheme(
     onPrimary = TopdonColors.TextPrimary,
     primaryContainer = TopdonColors.PrimaryContainer,
     onPrimaryContainer = TopdonColors.TextPrimary,
-    
+
     secondary = TopdonColors.Secondary,
     onSecondary = TopdonColors.TextPrimary,
     secondaryContainer = TopdonColors.SecondaryContainer,
     onSecondaryContainer = TopdonColors.TextPrimary,
-    
+
     tertiary = TopdonColors.TempHot,
     onTertiary = TopdonColors.TextPrimary,
     tertiaryContainer = TopdonColors.TempCool,
     onTertiaryContainer = TopdonColors.TextPrimary,
-    
+
     background = TopdonColors.DarkBackground,
     onBackground = TopdonColors.TextPrimary,
-    
+
     surface = TopdonColors.DarkSurface,
     onSurface = TopdonColors.TextPrimary,
     surfaceVariant = TopdonColors.DarkSurfaceVariant,
     onSurfaceVariant = TopdonColors.TextSecondary,
-    
+
     error = TopdonColors.SelectRed,
     onError = TopdonColors.TextPrimary,
-    
+
     outline = TopdonColors.LineSeparator,
     outlineVariant = TopdonColors.CustomControl
 )

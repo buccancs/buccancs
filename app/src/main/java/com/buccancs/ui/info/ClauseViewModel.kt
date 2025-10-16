@@ -16,17 +16,17 @@ data class ClauseUiState(
 
 @HiltViewModel
 class ClauseViewModel @Inject constructor() : ViewModel() {
-    
+
     private val _uiState = MutableStateFlow(ClauseUiState())
     val uiState: StateFlow<ClauseUiState> = _uiState.asStateFlow()
-    
+
     fun acceptClause() {
     }
-    
+
     fun showDisagreeDialog() {
         _uiState.value = _uiState.value.copy(showDisagreeDialog = true)
     }
-    
+
     fun dismissDisagreeDialog() {
         _uiState.value = _uiState.value.copy(showDisagreeDialog = false)
     }

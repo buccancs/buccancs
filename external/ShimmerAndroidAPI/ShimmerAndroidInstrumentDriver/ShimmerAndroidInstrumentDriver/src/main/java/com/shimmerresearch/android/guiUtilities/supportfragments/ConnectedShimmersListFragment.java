@@ -5,14 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
-import android.widget.ListView;
-
+import android.widget.*;
 import androidx.fragment.app.ListFragment;
-
 import com.shimmerresearch.androidinstrumentdriver.R;
 import com.shimmerresearch.driver.ShimmerDevice;
 

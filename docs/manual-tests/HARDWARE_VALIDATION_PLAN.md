@@ -6,7 +6,8 @@
 
 ## Overview
 
-Comprehensive validation plan for testing BuccanCS system with physical hardware: Android phone connected via WiFi, Shimmer GSR unit via Bluetooth, and Topdon TC001 thermal camera via USB.
+Comprehensive validation plan for testing BuccanCS system with physical hardware: Android phone connected via WiFi,
+Shimmer GSR unit via Bluetooth, and Topdon TC001 thermal camera via USB.
 
 ## Prerequisites
 
@@ -51,6 +52,7 @@ adb shell df  # Phone
 **Objective:** Verify Android app can reach desktop orchestrator
 
 **Steps:**
+
 1. Start desktop orchestrator
 2. Note desktop PC IP address and port (default: 50051)
 3. Open Android app
@@ -59,11 +61,13 @@ adb shell df  # Phone
 6. Tap "Test Connection"
 
 **Expected:**
+
 - Connection success message
 - Device appears in desktop dashboard
 - Green status indicator
 
 **Validation:**
+
 ```bash
 # Check gRPC server logs on desktop
 grep "Device.*registered" desktop.log
@@ -77,16 +81,19 @@ grep "Device.*registered" desktop.log
 **Objective:** Verify time synchronisation meets NFR2 (5ms avg, 10ms max)
 
 **Steps:**
+
 1. Ensure phone is connected to orchestrator
 2. Observe time sync metrics in Android app (if visible)
 3. Check desktop logs for sync reports
 
 **Expected:**
+
 - Round-trip time < 100ms
 - Clock offset < 5ms average
 - No drift warnings
 
 **Validation:**
+
 ```bash
 # Desktop logs should show sync reports
 grep "Sync report from" desktop.log | tail -20
@@ -102,6 +109,7 @@ grep "drift" desktop.log
 **Objective:** Verify Bluetooth LE connection to Shimmer3 GSR+
 
 **Steps:**
+
 1. Power on Shimmer unit (LED should blink)
 2. In Android app, go to Hardware tab
 3. Tap "Scan for Shimmer Devices"
@@ -110,12 +118,14 @@ grep "drift" desktop.log
 6. Wait for connection success
 
 **Expected:**
+
 - Shimmer appears in scan results within 10 seconds
 - Connection establishes within 5 seconds
 - Battery level displayed
 - Sensor status shows "Ready"
 
 **Validation:**
+
 ```bash
 # Check Android logs via ADB
 adb logcat | grep -i shimmer
@@ -125,6 +135,7 @@ adb logcat | grep "Shimmer.*connected"
 ```
 
 **Troubleshooting:**
+
 - If no devices found: Check Shimmer battery, ensure Bluetooth is enabled
 - If connection fails: Try power cycling Shimmer unit
 - If repeated failures: Check circuit breaker logs (should prevent battery drain)
@@ -134,18 +145,21 @@ adb logcat | grep "Shimmer.*connected"
 **Objective:** Verify USB connection to Topdon thermal camera
 
 **Steps:**
+
 1. Connect Topdon TC001 to phone via USB-C cable
 2. Grant USB permission when prompted
 3. In Android app, go to Hardware tab
 4. Topdon should auto-detect and show status
 
 **Expected:**
+
 - USB permission dialog appears
 - Camera initialises within 5 seconds
 - Live thermal preview visible
 - Frame rate displayed (should be ~30fps)
 
 **Validation:**
+
 ```bash
 # Check Android logs
 adb logcat | grep -i topdon
@@ -155,6 +169,7 @@ adb logcat | grep "USB.*attached"
 ```
 
 **Troubleshooting:**
+
 - If not detected: Check USB cable, try different USB port
 - If permission denied: Manually grant permission in Android settings
 - If camera fails to initialise: Check Topdon SDK logs
@@ -164,16 +179,19 @@ adb logcat | grep "USB.*attached"
 **Objective:** Verify built-in camera access
 
 **Steps:**
+
 1. In Android app, go to Hardware tab
 2. Select "RGB Camera"
 3. Preview should appear
 
 **Expected:**
+
 - Camera preview loads within 2 seconds
 - Preview shows live video feed
 - Resolution displayed (should be 1920x1080)
 
 **Validation:**
+
 ```bash
 # Check camera initialisation
 adb logcat | grep "CameraX\|Camera2"
@@ -186,6 +204,7 @@ adb logcat | grep "CameraX\|Camera2"
 **Objective:** Verify basic recording functionality with all sensors
 
 **Steps:**
+
 1. Ensure all hardware is connected (Shimmer, Topdon, RGB camera)
 2. In desktop orchestrator, create new session
 3. Add phone as participant device
@@ -195,6 +214,7 @@ adb logcat | grep "CameraX\|Camera2"
 7. Wait for upload to complete
 
 **Expected:**
+
 - Recording starts on phone within 1 second of command
 - All sensors show "Recording" status
 - Desktop shows live telemetry
@@ -202,6 +222,7 @@ adb logcat | grep "CameraX\|Camera2"
 - Files upload to desktop
 
 **Validation:**
+
 ```bash
 # Check session directory on desktop
 ls -lh ~/buccancs-sessions/<session-id>/devices/<device-id>/
@@ -214,6 +235,7 @@ ls -lh ~/buccancs-sessions/<session-id>/devices/<device-id>/
 ```
 
 **Data Quality Checks:**
+
 ```bash
 # Check GSR data
 head -20 gsr.csv
@@ -235,6 +257,7 @@ ffprobe rgb_video.mp4
 **Objective:** Verify event markers are recorded with timestamps
 
 **Steps:**
+
 1. Start recording as in Test 3.1
 2. After 30 seconds, send sync signal from desktop (flash LED)
 3. Note the time
@@ -242,11 +265,13 @@ ffprobe rgb_video.mp4
 5. Stop recording
 
 **Expected:**
+
 - Sync signal reaches phone immediately
 - Event marker recorded in metadata
 - Timestamp aligns with actual event time
 
 **Validation:**
+
 ```bash
 # Check metadata for events
 jq '.events' metadata.json
@@ -262,17 +287,20 @@ jq '.events' metadata.json
 **Objective:** Measure actual time sync accuracy over WiFi (NFR2 validation)
 
 **Steps:**
+
 1. Ensure phone connected to orchestrator
 2. Let time sync run for 5 minutes
 3. Collect sync reports from desktop logs
 4. Calculate statistics
 
 **Expected:**
+
 - Average offset < 5ms
 - Maximum offset < 10ms
 - Round-trip time stable
 
 **Validation:**
+
 ```bash
 # Extract sync reports from logs
 grep "Sync report from" desktop.log > sync_reports.txt
@@ -317,6 +345,7 @@ EOF
 **Objective:** Verify system stability and data quality over extended recording
 
 **Steps:**
+
 1. Ensure all hardware connected and charged
 2. Start recording session
 3. Let record for 120 minutes (2 hours)
@@ -325,12 +354,14 @@ EOF
 6. Verify complete upload
 
 **Expected:**
+
 - No crashes or disconnections
 - Continuous data collection
 - All files upload successfully
 - Battery consumption reasonable
 
 **Monitoring:**
+
 ```bash
 # Monitor desktop orchestrator logs
 tail -f desktop.log | grep -E "error|warning|drift"
@@ -343,6 +374,7 @@ watch -n 60 "df -h ~/buccancs-sessions"
 ```
 
 **Post-Test Validation:**
+
 ```bash
 # Check total samples collected
 # GSR at 128Hz * 7200 seconds = 921,600 samples
@@ -364,6 +396,7 @@ python3 tools/perf/analyze_metrics.py --check-gaps gsr.csv
 **Objective:** Verify multi-device coordination and synchronisation
 
 **Steps:**
+
 1. Connect two phones to orchestrator
 2. Each phone has Shimmer and/or camera
 3. Start session from desktop
@@ -373,12 +406,14 @@ python3 tools/perf/analyze_metrics.py --check-gaps gsr.csv
 7. Verify both uploads complete
 
 **Expected:**
+
 - Both devices receive start command within 100ms
 - Sync signal reaches both devices simultaneously
 - Timestamps aligned within 10ms
 - Both datasets complete
 
 **Validation:**
+
 ```bash
 # Check both device directories exist
 ls ~/buccancs-sessions/<session-id>/devices/
@@ -401,26 +436,26 @@ head -3 device-002/gsr.csv
 For thesis evaluation chapter, collect:
 
 1. **Time Sync Accuracy:**
-   - 100+ samples of offset and RTT
-   - Mean, max, std dev
-   - Drift over time
+    - 100+ samples of offset and RTT
+    - Mean, max, std dev
+    - Drift over time
 
 2. **Sample Rates:**
-   - Actual GSR Hz achieved
-   - Actual thermal fps achieved
-   - Frame drop rate
+    - Actual GSR Hz achieved
+    - Actual thermal fps achieved
+    - Frame drop rate
 
 3. **System Performance:**
-   - CPU usage during recording
-   - Memory consumption
-   - Battery drain rate
-   - Storage write rate
+    - CPU usage during recording
+    - Memory consumption
+    - Battery drain rate
+    - Storage write rate
 
 4. **Reliability:**
-   - Session success rate
-   - Upload completion rate
-   - Reconnection success rate
-   - Data loss incidents
+    - Session success rate
+    - Upload completion rate
+    - Reconnection success rate
+    - Data loss incidents
 
 ### Data Export
 
@@ -445,12 +480,14 @@ python3 tools/perf/analyze_metrics.py thesis_data/performance_metrics.jsonl > th
 **Symptoms:** Connection timeout, "Cannot reach orchestrator" error
 
 **Checks:**
+
 - Verify phone and PC on same WiFi network
 - Ping PC from phone (if network tools available)
 - Check firewall isn't blocking port 50051
 - Verify correct IP address entered
 
 **Solutions:**
+
 ```bash
 # Check gRPC server is listening
 netstat -an | grep 50051
@@ -464,12 +501,14 @@ sudo ufw allow 50051  # Linux
 **Symptoms:** "Connection failed" after scan finds device
 
 **Checks:**
+
 - Shimmer battery level
 - Bluetooth enabled on phone
 - No other app connected to Shimmer
 - Circuit breaker not tripped
 
 **Solutions:**
+
 - Power cycle Shimmer (remove battery, wait 10 seconds, replace)
 - Clear Bluetooth cache on phone
 - Check app logs for circuit breaker status
@@ -479,11 +518,13 @@ sudo ufw allow 50051  # Linux
 **Symptoms:** No USB permission dialog, or camera stays in "Initialising" state
 
 **Checks:**
+
 - USB cable firmly connected
 - USB debugging enabled on phone
 - Topdon SDK library present in APK
 
 **Solutions:**
+
 - Try different USB cable
 - Manually grant USB permission in Settings
 - Check USB mode (should be MTP or PTP, not charging only)
@@ -493,11 +534,13 @@ sudo ufw allow 50051  # Linux
 **Symptoms:** Recording completes but files don't appear on desktop
 
 **Checks:**
+
 - Network connectivity
 - Desktop session directory permissions
 - Available disk space
 
 **Solutions:**
+
 ```bash
 # Check desktop logs for upload errors
 grep "upload\|transfer" desktop.log | tail -50
@@ -573,18 +616,18 @@ Ready for thesis submission: [ ] YES [ ] NO - Reason:
    ```
 
 2. **Update documentation:**
-   - Record results in dev-diary.md
-   - Update VALIDATION_CHECKLIST with completion status
-   - Note any issues in BACKLOG.md
+    - Record results in dev-diary.md
+    - Update VALIDATION_CHECKLIST with completion status
+    - Note any issues in BACKLOG.md
 
 3. **Generate thesis figures:**
-   - Time sync accuracy plot
-   - Sample rate consistency graph
-   - System resource usage charts
-   - Multi-device timeline visualisation
+    - Time sync accuracy plot
+    - Sample rate consistency graph
+    - System resource usage charts
+    - Multi-device timeline visualisation
 
 4. **Prepare evaluation chapter data:**
-   - Statistical analysis of measurements
-   - Comparison with NFR requirements
-   - Performance benchmarks
-   - Reliability metrics
+    - Statistical analysis of measurements
+    - Comparison with NFR requirements
+    - Performance benchmarks
+    - Reliability metrics

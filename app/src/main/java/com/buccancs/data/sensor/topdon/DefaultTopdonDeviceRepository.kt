@@ -186,5 +186,35 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
     override suspend fun clearError() {
         errors.value = null
     }
+
+    override suspend fun capturePhoto() {
+        errors.value = null
+        val result = connectorManager.capturePhoto(_activeDeviceId.value)
+        when (result) {
+            is DeviceCommandResult.Rejected -> errors.value = result.reason
+            is DeviceCommandResult.Failed -> errors.value = result.error.message
+            else -> errors.value = null
+        }
+    }
+
+    override suspend fun startRecording() {
+        errors.value = null
+        val result = connectorManager.startRecording(_activeDeviceId.value)
+        when (result) {
+            is DeviceCommandResult.Rejected -> errors.value = result.reason
+            is DeviceCommandResult.Failed -> errors.value = result.error.message
+            else -> errors.value = null
+        }
+    }
+
+    override suspend fun stopRecording() {
+        errors.value = null
+        val result = connectorManager.stopRecording(_activeDeviceId.value)
+        when (result) {
+            is DeviceCommandResult.Rejected -> errors.value = result.reason
+            is DeviceCommandResult.Failed -> errors.value = result.error.message
+            else -> errors.value = null
+        }
+    }
 }
 

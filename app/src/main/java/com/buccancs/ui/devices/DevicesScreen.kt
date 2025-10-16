@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.DeviceId
@@ -60,7 +61,7 @@ fun DevicesRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val calibrationState by calibrationViewModel.uiState.collectAsStateWithLifecycle()
-    
+
     val calibrationActions = CalibrationActions(
         onRowsChanged = calibrationViewModel::updatePatternRows,
         onColsChanged = calibrationViewModel::updatePatternCols,
@@ -74,7 +75,7 @@ fun DevicesRoute(
         onClearSession = calibrationViewModel::clearSession,
         onRemoveCapture = calibrationViewModel::removeCapture
     )
-    
+
     DevicesScreen(
         state = state,
         calibrationState = calibrationState,
@@ -96,7 +97,7 @@ fun DevicesScreen(
     onOpenTopdon: (DeviceId) -> Unit
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -120,7 +121,7 @@ fun DevicesScreen(
                     )
                 }
             }
-            
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -140,8 +141,11 @@ fun DevicesScreen(
                             )
                         }
                     }
+
                     1 -> { // Shimmer
-                        items(state.devices.filter { it.typeLabel.contains("Shimmer", ignoreCase = true) }, key = { it.id.value }) { device ->
+                        items(
+                            state.devices.filter { it.typeLabel.contains("Shimmer", ignoreCase = true) },
+                            key = { it.id.value }) { device ->
                             DeviceCard(
                                 device = device,
                                 onConnect = { onConnectDevice(device.id) },
@@ -150,6 +154,7 @@ fun DevicesScreen(
                             )
                         }
                     }
+
                     2 -> { // TOPDON
                         items(state.devices.filter { it.supportsTopdon }, key = { it.id.value }) { device ->
                             DeviceCard(
@@ -160,6 +165,7 @@ fun DevicesScreen(
                             )
                         }
                     }
+
                     3 -> { // Calibration
                         item {
                             CalibrationPanel(
@@ -206,12 +212,12 @@ private fun DeviceCard(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                </Column>
-                
+                }
+
                 Surface(
-                    color = if (device.isConnected) 
-                        MaterialTheme.colorScheme.primaryContainer 
-                    else 
+                    color = if (device.isConnected)
+                        MaterialTheme.colorScheme.primaryContainer
+                    else
                         MaterialTheme.colorScheme.surfaceVariant,
                     shape = MaterialTheme.shapes.small
                 ) {
@@ -224,23 +230,23 @@ private fun DeviceCard(
                             imageVector = if (device.isConnected) Icons.Default.Check else Icons.Default.Close,
                             contentDescription = null,
                             modifier = Modifier.size(14.dp),
-                            tint = if (device.isConnected) 
-                                MaterialTheme.colorScheme.onPrimaryContainer 
-                            else 
+                            tint = if (device.isConnected)
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            else
                                 MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = device.connectionStatus,
                             style = MaterialTheme.typography.labelMedium,
-                            color = if (device.isConnected) 
-                                MaterialTheme.colorScheme.onPrimaryContainer 
-                            else 
+                            color = if (device.isConnected)
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            else
                                 MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
             }
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
@@ -272,7 +278,7 @@ private fun DeviceCard(
                         Text("Disconnect")
                     }
                 }
-                
+
                 onOpenTopdon?.let {
                     OutlinedButton(
                         onClick = it,

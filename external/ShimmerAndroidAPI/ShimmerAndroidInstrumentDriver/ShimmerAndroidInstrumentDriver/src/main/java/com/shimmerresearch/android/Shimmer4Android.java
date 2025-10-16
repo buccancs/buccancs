@@ -1,7 +1,6 @@
 package com.shimmerresearch.android;
 
 import android.os.Handler;
-
 import com.shimmerresearch.driver.shimmer4sdk.Shimmer4sdk;
 
 

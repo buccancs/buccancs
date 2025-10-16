@@ -12,9 +12,9 @@ import com.buccancs.util.nowInstant
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
-import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Instant
 
 @Singleton
 class MultiDeviceRecordingExercise @Inject constructor(

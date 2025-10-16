@@ -2,12 +2,12 @@ package com.buccancs.data.orchestration.security
 
 import android.util.Base64
 import com.buccancs.util.nowInstant
-import kotlin.time.Instant
 import java.nio.charset.StandardCharsets
 import javax.crypto.Mac
 import javax.crypto.SecretKey
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Instant
 
 @Singleton
 class TokenIssuer @Inject constructor(

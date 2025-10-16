@@ -5,7 +5,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.os.Build;
-
+import bolts.TaskCompletionSource;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
 import com.clj.fastble.callback.BleMtuChangedCallback;
@@ -19,8 +19,6 @@ import com.shimmerresearch.verisense.communication.AbstractByteCommunication;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
-import bolts.TaskCompletionSource;
 
 public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommunication {
     protected String TxID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";

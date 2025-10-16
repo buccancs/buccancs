@@ -18,7 +18,7 @@ data class HelpUiState(
 
 @HiltViewModel
 class HelpViewModel @Inject constructor() : ViewModel() {
-    
+
     private val _uiState = MutableStateFlow(
         HelpUiState(
             helpSections = listOf(

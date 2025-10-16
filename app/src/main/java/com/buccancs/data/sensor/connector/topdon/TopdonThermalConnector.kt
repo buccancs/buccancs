@@ -40,7 +40,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.time.Instant
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
@@ -48,6 +47,7 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
+import kotlin.time.Instant
 
 private fun defaultTopdonDevice(): SensorDevice = SensorDevice(
     id = DeviceId("topdon-tc001"),

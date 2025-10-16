@@ -13,12 +13,12 @@ object TopdonSpacing {
     val Large = 16.dp
     val ExtraLarge = 24.dp
     val DoubleExtraLarge = 32.dp
-    
+
     val BottomNavHeight = 56.dp
     val ButtonHeight = 48.dp
     val IconSize = 24.dp
     val LargeIconSize = 48.dp
-    
+
     val CardElevation = 2.dp
     val DialogPadding = 24.dp
     val ScreenPadding = 16.dp

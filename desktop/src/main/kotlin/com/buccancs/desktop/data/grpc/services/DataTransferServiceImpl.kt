@@ -3,10 +3,9 @@ package com.buccancs.desktop.data.grpc.services
 import com.buccancs.control.DataTransferRequest
 import com.buccancs.control.DataTransferServiceGrpcKt
 import com.buccancs.control.DataTransferStatus
-import com.buccancs.desktop.data.aggregation.SessionAggregationService
 import com.buccancs.desktop.data.aggregation.AggregationResult
+import com.buccancs.desktop.data.aggregation.SessionAggregationService
 import com.buccancs.desktop.data.repository.SessionRepository
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -171,7 +170,7 @@ class DataTransferServiceImpl(
                             checksum = accumulator.checksum,
                             streamType = accumulator.streamType
                         )
-                        
+
                         // Aggregate file into session structure with manifest update
                         try {
                             val aggregationResult = aggregationService.aggregateFile(
@@ -183,14 +182,16 @@ class DataTransferServiceImpl(
                                 mimeType = accumulator.mimeType,
                                 streamType = accumulator.streamType
                             )
-                            
+
                             when (aggregationResult) {
                                 is AggregationResult.Success -> {
                                     logger.debug("File aggregated: {}", aggregationResult.message)
                                 }
+
                                 is AggregationResult.Duplicate -> {
                                     logger.info("Duplicate file detected: {}", aggregationResult.fileName)
                                 }
+
                                 is AggregationResult.Failure -> {
                                     logger.warn("Aggregation failed: {}", aggregationResult.error)
                                 }
@@ -203,7 +204,7 @@ class DataTransferServiceImpl(
                                 ex
                             )
                         }
-                        
+
                         try {
                             sessionRepository.markTransferCompleted(
                                 sessionId = accumulator.sessionId,

@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Storage
@@ -45,7 +45,7 @@ import com.buccancs.BuildConfig
 import com.buccancs.ui.components.InfoRow
 import com.buccancs.ui.components.SectionHeader
 import com.buccancs.ui.theme.Spacing
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun SettingsRoute(
@@ -112,7 +112,7 @@ fun SettingsScreen(
                     onApply = onApplyOrchestrator
                 )
             }
-            
+
             item {
                 SectionHeader(
                     title = "Data Management",
@@ -131,7 +131,7 @@ fun SettingsScreen(
             item {
                 StorageSummaryCard(state = state)
             }
-            
+
             item {
                 SectionHeader(
                     title = "Simulation",
@@ -141,7 +141,7 @@ fun SettingsScreen(
             item {
                 SimulationModeCard(state = state)
             }
-            
+
             item {
                 SectionHeader(
                     title = "About",
@@ -151,7 +151,7 @@ fun SettingsScreen(
             item {
                 AppInfoCard()
             }
-            
+
             if (state.message != null) {
                 item {
                     MessageCard(message = state.message, onDismiss = onClearMessage)

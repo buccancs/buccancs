@@ -2,22 +2,27 @@ package com.buccancs.ui.library
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,7 +39,7 @@ import com.buccancs.data.recording.manifest.ArtifactEntry
 import com.buccancs.data.recording.manifest.BookmarkEntry
 import com.buccancs.data.recording.manifest.DeviceManifest
 import com.buccancs.data.recording.manifest.EventEntry
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun SessionDetailRoute(
@@ -77,8 +83,8 @@ fun SessionDetailScreen(
             state.isLoading -> {
                 Column(
                     modifier = Modifier
-	                    .fillMaxSize()
-	                    .padding(padding),
+                        .fillMaxSize()
+                        .padding(padding),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -89,21 +95,42 @@ fun SessionDetailScreen(
             }
 
             state.errorMessage != null -> {
-                Column(
+                Surface(
                     modifier = Modifier
-	                    .fillMaxSize()
-	                    .padding(padding)
-	                    .padding(24.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                        .fillMaxSize()
+                        .padding(padding),
+                    color = MaterialTheme.colorScheme.surface
                 ) {
-                    Text(
-                        text = "Unable to load session",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                    Text(text = state.errorMessage, style = MaterialTheme.typography.bodyMedium)
-                    androidx.compose.material3.Button(onClick = onRefresh) {
-                        Text(text = "Retry")
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(24.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Error,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Unable to load session",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = state.errorMessage,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(24.dp))
+                        FilledTonalButton(onClick = onRefresh) {
+                            Text(text = "Retry")
+                        }
                     }
                 }
             }
@@ -111,8 +138,8 @@ fun SessionDetailScreen(
             state.manifest == null -> {
                 Column(
                     modifier = Modifier
-	                    .fillMaxSize()
-	                    .padding(padding),
+                        .fillMaxSize()
+                        .padding(padding),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -124,10 +151,10 @@ fun SessionDetailScreen(
                 val manifest = state.manifest
                 LazyColumn(
                     modifier = Modifier
-	                    .fillMaxSize()
-	                    .testTag("session-detail-list")
-	                    .padding(padding)
-	                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                        .fillMaxSize()
+                        .testTag("session-detail-list")
+                        .padding(padding)
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     item {
@@ -160,54 +187,167 @@ fun SessionDetailScreen(
 @Composable
 private fun SummaryCard(state: SessionDetailUiState) {
     val manifest = state.manifest ?: return
-    Card(
+    ElevatedCard(
         modifier = Modifier
-	        .fillMaxWidth()
-	        .testTag("session-summary"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            .fillMaxWidth()
+            .testTag("session-summary")
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Summary", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Started: ${manifest.startedAt}")
-            manifest.endedAt?.let { Text(text = "Ended: $it") }
-            manifest.durationMillis?.let { duration ->
-                Text(text = "Duration: ${formatDuration(duration)}")
+            Text(
+                text = "Summary",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Column(
+                    modifier = Modifier.padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    InfoRow("Started", manifest.startedAt)
+                    manifest.endedAt?.let { InfoRow("Ended", it) }
+                    manifest.durationMillis?.let { duration ->
+                        InfoRow("Duration", formatDuration(duration))
+                    }
+                }
             }
-            Text(text = "Artifacts: ${manifest.artifacts.size}")
-            Text(text = "Total size: ${formatBytes(state.totalBytes)}")
-            Text(text = "Simulation: ${manifest.simulation}")
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                StatChip(
+                    label = "Artifacts",
+                    value = manifest.artifacts.size.toString(),
+                    modifier = Modifier.weight(1f)
+                )
+                StatChip(
+                    label = "Size",
+                    value = formatBytes(state.totalBytes),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            if (manifest.simulation) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.tertiaryContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Text(
+                        text = "Simulation Mode",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun InfoRow(label: String, value: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "$label:",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            fontWeight = FontWeight.Medium
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    }
+}
+
+@Composable
+private fun StatChip(label: String, value: String, modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        shape = MaterialTheme.shapes.small
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = value,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
         }
     }
 }
 
 @Composable
 private fun DeviceList(devices: List<DeviceManifest>) {
-    Card(
+    ElevatedCard(
         modifier = Modifier
-	        .fillMaxWidth()
-	        .testTag("session-devices"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            .fillMaxWidth()
+            .testTag("session-devices")
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Devices", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            devices.forEach { device ->
-                Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                    Text(text = device.deviceId, style = MaterialTheme.typography.bodyMedium)
-                    Text(text = "Name: ${device.displayName}")
-                    Text(text = "Type: ${device.type}")
-                    Text(text = "Simulated: ${device.simulated}")
-                    if (device.capabilities.isNotEmpty()) {
-                        Text(text = "Capabilities: ${device.capabilities.joinToString()}")
-                    }
-                    if (device.attributes.isNotEmpty()) {
-                        Text(
-                            text = "Attributes: ${
-                                device.attributes.entries.joinToString { "${it.key}=${it.value}" }
-                            }",
-                            style = MaterialTheme.typography.bodySmall
-                        )
+            Text(
+                text = "Devices",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                devices.forEach { device ->
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Text(
+                                text = device.deviceId,
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Text(text = "Name: ${device.displayName}")
+                            Text(text = "Type: ${device.type}")
+                            if (device.simulated) {
+                                Text(
+                                    text = "Simulated: ${device.simulated}",
+                                    color = MaterialTheme.colorScheme.tertiary,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                            if (device.capabilities.isNotEmpty()) {
+                                Text(text = "Capabilities: ${device.capabilities.joinToString()}")
+                            }
+                            if (device.attributes.isNotEmpty()) {
+                                Text(
+                                    text = "Attributes: ${
+                                        device.attributes.entries.joinToString { "${it.key}=${it.value}" }
+                                    }",
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -217,22 +357,52 @@ private fun DeviceList(devices: List<DeviceManifest>) {
 
 @Composable
 private fun ArtifactList(artifacts: List<ArtifactEntry>) {
-    Card(
+    ElevatedCard(
         modifier = Modifier
-	        .fillMaxWidth()
-	        .testTag("session-artifacts"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            .fillMaxWidth()
+            .testTag("session-artifacts")
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Artifacts", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            artifacts.forEach { artifact ->
-                Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                    Text(text = "${artifact.streamType} - ${artifact.fileName()}")
-                    Text(text = "Device: ${artifact.deviceId}")
-                    Text(text = "Size: ${formatBytes(artifact.sizeBytes)}")
-                    Text(text = "Captured at: ${artifact.capturedEpochMs}")
-                    Text(text = "Mime: ${artifact.mimeType}")
+            Text(
+                text = "Artifacts",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                artifacts.forEach { artifact ->
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Text(
+                                text = "${artifact.streamType} - ${artifact.fileName()}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                            Text(
+                                text = "Device: ${artifact.deviceId}",
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                            Text(
+                                text = "Size: ${formatBytes(artifact.sizeBytes)}",
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                            Text(
+                                text = "Captured at: ${artifact.capturedEpochMs}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                            Text(
+                                text = "Mime: ${artifact.mimeType}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -241,21 +411,53 @@ private fun ArtifactList(artifacts: List<ArtifactEntry>) {
 
 @Composable
 private fun EventList(events: List<EventEntry>) {
-    Card(
+    ElevatedCard(
         modifier = Modifier
-	        .fillMaxWidth()
-	        .testTag("session-events"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            .fillMaxWidth()
+            .testTag("session-events")
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Events", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            events.forEach { event ->
-                Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                    Text(text = "${event.type} - ${event.eventId}")
-                    event.label?.let { Text(text = "Label: $it") }
-                    event.scheduledEpochMs?.let { Text(text = "Scheduled: $it") }
-                    event.receivedEpochMs?.let { Text(text = "Received: $it") }
+            Text(
+                text = "Events",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                events.forEach { event ->
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Text(
+                                text = "${event.type} - ${event.eventId}",
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                            event.label?.let {
+                                Text(
+                                    text = "Label: $it",
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                            }
+                            event.scheduledEpochMs?.let {
+                                Text(
+                                    text = "Scheduled: $it",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                            }
+                            event.receivedEpochMs?.let {
+                                Text(
+                                    text = "Received: $it",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -264,19 +466,38 @@ private fun EventList(events: List<EventEntry>) {
 
 @Composable
 private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
-    Card(
+    ElevatedCard(
         modifier = Modifier
-	        .fillMaxWidth()
-	        .testTag("session-bookmarks"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            .fillMaxWidth()
+            .testTag("session-bookmarks")
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Bookmarks", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            bookmarks.forEach { bookmark ->
-                Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                    Text(text = bookmark.label.ifBlank { "Bookmark" })
-                    Text(text = "Timestamp: ${bookmark.timestampEpochMs}")
+            Text(
+                text = "Bookmarks",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                bookmarks.forEach { bookmark ->
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Text(
+                                text = bookmark.label.ifBlank { "Bookmark" },
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer
+                            )
+                            Text(
+                                text = "Timestamp: ${bookmark.timestampEpochMs}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer
+                            )
+                        }
+                    }
                 }
             }
         }

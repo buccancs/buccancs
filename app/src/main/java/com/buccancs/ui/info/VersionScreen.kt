@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -24,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -35,7 +33,7 @@ fun VersionRoute(
     viewModel: VersionViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    
+
     VersionScreen(
         appName = state.appName,
         version = state.version,
@@ -89,20 +87,20 @@ private fun VersionScreen(
                     fontSize = MaterialTheme.typography.displayLarge.fontSize,
                     color = MaterialTheme.colorScheme.primary
                 )
-                
+
                 Text(
                     text = appName,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
-                
+
                 Text(
                     text = "Version $version",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -119,7 +117,7 @@ private fun VersionScreen(
                     VersionInfoRow("Release Date", releaseDate)
                 }
             }
-            
+
             if (features.isNotEmpty()) {
                 Card(
                     modifier = Modifier.fillMaxWidth()
@@ -135,7 +133,7 @@ private fun VersionScreen(
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold
                         )
-                        
+
                         features.forEach { feature ->
                             Text(
                                 text = "• $feature",

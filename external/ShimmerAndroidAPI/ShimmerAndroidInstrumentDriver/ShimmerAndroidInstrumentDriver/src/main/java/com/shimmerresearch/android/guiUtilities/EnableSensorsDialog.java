@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.ListView;
-
 import com.shimmerresearch.android.Shimmer;
 import com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractEnableSensorsDialog;
 import com.shimmerresearch.driver.Configuration;

@@ -233,6 +233,31 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         } else if (position == 10) {
             defaultDataFlowMode = CommonParams.DataFlowMode.MIRROR_OUTPUT;
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.manualShutButton) {
+            if (syncimage.type == 1) {
+                ircmd.tiny1bShutterManual();
+            } else {
+                ircmd.updateOOCOrB(CommonParams.UpdateOOCOrBType.B_UPDATE);
+            }
+        } else {
+            if (view.getId() == R.id.btnImageTemp) {
+                defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
+            } else if (view.getId() == R.id.btnImage) {
+                defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_OUTPUT;
+            } else if (view.getId() == R.id.btnY16ModeSet) {
+                int position = binding.ParamY16ModeType.getSelectedItemPosition();
+                Log.i(TAG, "position = " + position);
+                getDataFlowModeByPosition(position);
+            }
+            initDataFlowMode(defaultDataFlowMode);
+            imageThread.setDataFlowMode(defaultDataFlowMode);
+            restartusbcamera();
+            startISP();
+        }
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -259,31 +284,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.manualShutButton) {
-            if (syncimage.type == 1) {
-                ircmd.tiny1bShutterManual();
-            } else {
-                ircmd.updateOOCOrB(CommonParams.UpdateOOCOrBType.B_UPDATE);
-            }
-        } else {
-            if (view.getId() == R.id.btnImageTemp) {
-                defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_AND_TEMP_OUTPUT;
-            } else if (view.getId() == R.id.btnImage) {
-                defaultDataFlowMode = CommonParams.DataFlowMode.IMAGE_OUTPUT;
-            } else if (view.getId() == R.id.btnY16ModeSet) {
-                int position = binding.ParamY16ModeType.getSelectedItemPosition();
-                Log.i(TAG, "position = " + position);
-                getDataFlowModeByPosition(position);
-            }
-            initDataFlowMode(defaultDataFlowMode);
-            imageThread.setDataFlowMode(defaultDataFlowMode);
-            restartusbcamera();
-            startISP();
-        }
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

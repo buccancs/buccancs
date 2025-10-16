@@ -15,10 +15,10 @@ data class WebViewUiState(
 
 @HiltViewModel
 class WebViewViewModel @Inject constructor() : ViewModel() {
-    
+
     private val _uiState = MutableStateFlow(WebViewUiState())
     val uiState: StateFlow<WebViewUiState> = _uiState.asStateFlow()
-    
+
     fun loadUrl(url: String) {
         _uiState.value = _uiState.value.copy(
             url = url,

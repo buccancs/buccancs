@@ -37,12 +37,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.math.absoluteValue
+import kotlin.time.Instant
 
 @Singleton
 internal class RgbCameraConnector @Inject constructor(

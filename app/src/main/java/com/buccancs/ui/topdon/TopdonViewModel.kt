@@ -19,8 +19,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlin.time.Instant
 import javax.inject.Inject
+import kotlin.time.Instant
 
 @HiltViewModel
 class TopdonViewModel @Inject constructor(
@@ -127,6 +127,18 @@ class TopdonViewModel @Inject constructor(
         viewModelScope.launch { deviceRepository.setActiveDevice(deviceId) }
     }
 
+    fun capturePhoto() {
+        viewModelScope.launch { deviceRepository.capturePhoto() }
+    }
+
+    fun startRecording() {
+        viewModelScope.launch { deviceRepository.startRecording() }
+    }
+
+    fun stopRecording() {
+        viewModelScope.launch { deviceRepository.stopRecording() }
+    }
+
     private fun SensorStreamStatus.toUiModel(): TopdonStreamStatusUi =
         TopdonStreamStatusUi(
             label = when (streamType) {
@@ -169,7 +181,8 @@ data class TopdonUiState(
     val settings: TopdonSettings,
     val streamStatuses: List<TopdonStreamStatusUi>,
     val paletteOptions: List<TopdonPalette>,
-    val superSamplingOptions: List<TopdonSuperSamplingFactor>
+    val superSamplingOptions: List<TopdonSuperSamplingFactor>,
+    val isRecording: Boolean = false
 ) {
     val autoConnectEnabled: Boolean
         get() = settings.autoConnectOnAttach

@@ -17,7 +17,6 @@ import java.nio.file.StandardOpenOption
 import java.security.GeneralSecurityException
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
-import kotlin.jvm.java
 
 class EncryptionKeyProvider(
     private val keyFile: Path

@@ -1,27 +1,26 @@
 package com.buccancs.ui.theme
 
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 
 /**
  * Material Design 3 Motion System
  * Following MD3 easing curves and duration patterns
- * 
+ *
  * Motion should:
  * - Explain state changes
  * - Show hierarchy
@@ -39,48 +38,48 @@ object MotionEasing {
      * Used for: Large elements, important state changes
      */
     val Emphasized: Easing = CubicBezierEasing(0.2f, 0.0f, 0.0f, 1.0f)
-    
+
     /**
      * Emphasized decelerate - Elements entering the screen
      * Used for: Incoming elements, expanding
      */
     val EmphasizedDecelerate: Easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1.0f)
-    
+
     /**
      * Emphasized accelerate - Elements leaving the screen
      * Used for: Outgoing elements, collapsing
      */
     val EmphasizedAccelerate: Easing = CubicBezierEasing(0.3f, 0.0f, 0.8f, 0.15f)
-    
+
     /**
      * Standard easing - Default for most transitions
      * Used for: Standard animations, subtle changes
      */
     val Standard: Easing = CubicBezierEasing(0.2f, 0.0f, 0.0f, 1.0f)
-    
+
     /**
      * Standard decelerate - Elements entering
      * Used for: Fade in, scale up
      */
     val StandardDecelerate: Easing = CubicBezierEasing(0.0f, 0.0f, 0.0f, 1.0f)
-    
+
     /**
      * Standard accelerate - Elements leaving
      * Used for: Fade out, scale down
      */
     val StandardAccelerate: Easing = CubicBezierEasing(0.3f, 0.0f, 1.0f, 1.0f)
-    
+
     /**
      * Legacy easing - For backward compatibility
      * Used for: Subtle, less pronounced animations
      */
     val Legacy: Easing = CubicBezierEasing(0.4f, 0.0f, 0.2f, 1.0f)
-    
+
     /**
      * Legacy decelerate
      */
     val LegacyDecelerate: Easing = CubicBezierEasing(0.0f, 0.0f, 0.2f, 1.0f)
-    
+
     /**
      * Legacy accelerate
      */
@@ -97,19 +96,19 @@ object MotionDuration {
     const val Short2 = 100     // Checkboxes, switches
     const val Short3 = 150     // Radio buttons, selection
     const val Short4 = 200     // Chips, small cards
-    
+
     // Medium durations - Standard transitions
     const val Medium1 = 250    // Standard fade, small movements
     const val Medium2 = 300    // FAB transitions, button press
     const val Medium3 = 350    // Card expansion, list items
     const val Medium4 = 400    // Bottom sheets, dialogs
-    
+
     // Long durations - Large elements, complex transitions
     const val Long1 = 450      // Large cards, sheets
     const val Long2 = 500      // Screen transitions
     const val Long3 = 550      // Complex multi-element
     const val Long4 = 600      // Full-screen transitions
-    
+
     // Extra long - Very large or multiple elements
     const val ExtraLong1 = 700
     const val ExtraLong2 = 800
@@ -128,12 +127,12 @@ object MotionTokens {
         durationMillis = MotionDuration.Short4,
         easing = MotionEasing.StandardDecelerate
     )
-    
+
     fun <T> fadeOut(): AnimationSpec<T> = tween(
         durationMillis = MotionDuration.Short3,
         easing = MotionEasing.StandardAccelerate
     )
-    
+
     /**
      * Small elements (chips, checkboxes, small cards)
      */
@@ -141,12 +140,12 @@ object MotionTokens {
         durationMillis = MotionDuration.Short4,
         easing = MotionEasing.StandardDecelerate
     )
-    
+
     fun <T> smallElementExit(): AnimationSpec<T> = tween(
         durationMillis = MotionDuration.Short3,
         easing = MotionEasing.StandardAccelerate
     )
-    
+
     /**
      * Medium elements (cards, list items)
      */
@@ -154,12 +153,12 @@ object MotionTokens {
         durationMillis = MotionDuration.Medium3,
         easing = MotionEasing.EmphasizedDecelerate
     )
-    
+
     fun <T> mediumElementExit(): AnimationSpec<T> = tween(
         durationMillis = MotionDuration.Medium2,
         easing = MotionEasing.EmphasizedAccelerate
     )
-    
+
     /**
      * Large elements (bottom sheets, dialogs, screens)
      */
@@ -167,12 +166,12 @@ object MotionTokens {
         durationMillis = MotionDuration.Medium4,
         easing = MotionEasing.EmphasizedDecelerate
     )
-    
+
     fun <T> largeElementExit(): AnimationSpec<T> = tween(
         durationMillis = MotionDuration.Medium3,
         easing = MotionEasing.EmphasizedAccelerate
     )
-    
+
     /**
      * Container transforms (expand/collapse)
      */
@@ -180,12 +179,12 @@ object MotionTokens {
         durationMillis = MotionDuration.Medium4,
         easing = MotionEasing.EmphasizedDecelerate
     )
-    
+
     fun <T> containerCollapse(): AnimationSpec<T> = tween(
         durationMillis = MotionDuration.Medium3,
         easing = MotionEasing.EmphasizedAccelerate
     )
-    
+
     /**
      * Spring animations for natural motion
      */
@@ -193,7 +192,7 @@ object MotionTokens {
         dampingRatio = Spring.DampingRatioMediumBouncy,
         stiffness = Spring.StiffnessMediumLow
     )
-    
+
     fun <T> springSoft(): AnimationSpec<T> = spring(
         dampingRatio = Spring.DampingRatioLowBouncy,
         stiffness = Spring.StiffnessLow
@@ -213,14 +212,14 @@ object MotionTransitions {
             easing = MotionEasing.StandardDecelerate
         )
     )
-    
+
     fun fadeExit(): ExitTransition = fadeOut(
         animationSpec = tween(
             durationMillis = MotionDuration.Short3,
             easing = MotionEasing.StandardAccelerate
         )
     )
-    
+
     /**
      * Slide horizontal - For navigation
      */
@@ -236,7 +235,7 @@ object MotionTransitions {
             easing = MotionEasing.StandardDecelerate
         )
     )
-    
+
     fun slideOutToStart(): ExitTransition = slideOutHorizontally(
         targetOffsetX = { -it },
         animationSpec = tween(
@@ -249,7 +248,7 @@ object MotionTransitions {
             easing = MotionEasing.StandardAccelerate
         )
     )
-    
+
     /**
      * Slide vertical - For bottom sheets, expanding content
      */
@@ -265,7 +264,7 @@ object MotionTransitions {
             easing = MotionEasing.StandardDecelerate
         )
     )
-    
+
     fun slideOutToBottom(): ExitTransition = slideOutVertically(
         targetOffsetY = { it },
         animationSpec = tween(
@@ -278,7 +277,7 @@ object MotionTransitions {
             easing = MotionEasing.StandardAccelerate
         )
     )
-    
+
     /**
      * Expand/collapse - For collapsible sections
      */
@@ -293,7 +292,7 @@ object MotionTransitions {
             easing = MotionEasing.StandardDecelerate
         )
     )
-    
+
     fun shrinkVertically(): ExitTransition = shrinkVertically(
         animationSpec = tween(
             durationMillis = MotionDuration.Medium2,

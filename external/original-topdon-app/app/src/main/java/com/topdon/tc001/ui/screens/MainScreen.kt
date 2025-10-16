@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import com.topdon.tc001.R
 
 data class DeviceInfo(
@@ -100,7 +101,7 @@ private fun NoDeviceContent(
         verticalArrangement = Arrangement.Center
     ) {
         Spacer(modifier = Modifier.weight(0.15f))
-        
+
         Text(
             text = stringResource(R.string.top_infrared_up_case),
             style = MaterialTheme.typography.headlineMedium,
@@ -108,18 +109,18 @@ private fun NoDeviceContent(
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
-        
+
         Spacer(modifier = Modifier.height(8.dp))
-        
+
         Text(
             text = stringResource(R.string.see_more_than),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
-        
+
         Spacer(modifier = Modifier.weight(0.2f))
-        
+
         Image(
             painter = painterResource(R.drawable.ic_main_device_bg_not),
             contentDescription = null,
@@ -128,9 +129,9 @@ private fun NoDeviceContent(
                 .weight(0.4f),
             contentScale = ContentScale.Fit
         )
-        
+
         Spacer(modifier = Modifier.weight(0.15f))
-        
+
         FilledTonalButton(
             onClick = onConnectDeviceClick,
             modifier = Modifier
@@ -143,7 +144,7 @@ private fun NoDeviceContent(
                 style = MaterialTheme.typography.titleMedium
             )
         }
-        
+
         Spacer(modifier = Modifier.weight(0.1f))
     }
 }
@@ -179,7 +180,7 @@ private fun DeviceListContent(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            
+
             IconButton(
                 onClick = onAddDeviceClick,
                 modifier = Modifier.size(48.dp)
@@ -191,7 +192,7 @@ private fun DeviceListContent(
                 )
             }
         }
-        
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -217,7 +218,7 @@ private fun DeviceCard(
     modifier: Modifier = Modifier
 ) {
     var showDeleteOption by remember { mutableStateOf(false) }
-    
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -241,9 +242,9 @@ private fun DeviceCard(
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                
+
                 Spacer(modifier = Modifier.height(4.dp))
-                
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -261,7 +262,7 @@ private fun DeviceCard(
                     )
                 }
             }
-            
+
             device.batteryLevel?.let { level ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -282,4 +283,32 @@ private fun DeviceCard(
             }
         }
     }
+}
+
+@Preview(name = "No Devices", showBackground = true)
+@Composable
+private fun NoDevicePreview() {
+    MainScreen(
+        devices = emptyList(),
+        onConnectDeviceClick = {},
+        onAddDeviceClick = {},
+        onDeviceClick = {},
+        onDeviceLongClick = {}
+    )
+}
+
+@Preview(name = "With Devices", showBackground = true)
+@Composable
+private fun WithDevicesPreview() {
+    MainScreen(
+        devices = listOf(
+            DeviceInfo("TC001 (Line)", DeviceType.TC001_LINE, true, 85),
+            DeviceInfo("TS004", DeviceType.TS004, false, null),
+            DeviceInfo("TC007", DeviceType.TC007, true, 92)
+        ),
+        onConnectDeviceClick = {},
+        onAddDeviceClick = {},
+        onDeviceClick = {},
+        onDeviceLongClick = {}
+    )
 }

@@ -1,6 +1,11 @@
 package com.buccancs.ui.components.topdon
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -95,7 +100,7 @@ fun TopdonBackButton(
         modifier = modifier
     ) {
         Icon(
-            imageVector = androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack,
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = contentDescription,
             tint = TopdonColors.TextPrimary
         )
@@ -135,12 +140,12 @@ private fun TopdonTopAppBarPreview() {
             },
             actions = {
                 TopdonAppBarIconButton(
-                    icon = androidx.compose.material.icons.Icons.Default.Settings,
+                    icon = Icons.Default.Settings,
                     onClick = {},
                     contentDescription = "Settings"
                 )
                 TopdonAppBarIconButton(
-                    icon = androidx.compose.material.icons.Icons.Default.MoreVert,
+                    icon = Icons.Default.MoreVert,
                     onClick = {},
                     contentDescription = "More options"
                 )
@@ -160,7 +165,7 @@ private fun TopdonCenterAlignedTopAppBarPreview() {
             },
             actions = {
                 TopdonAppBarIconButton(
-                    icon = androidx.compose.material.icons.Icons.Default.Refresh,
+                    icon = Icons.Default.Refresh,
                     onClick = {},
                     contentDescription = "Refresh"
                 )

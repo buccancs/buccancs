@@ -29,7 +29,7 @@ import kotlin.test.assertTrue
 /**
  * Resource cleanup validation tests.
  * Verifies that camera, bluetooth, file handles, and network resources are properly released.
- * 
+ *
  * Tests cover:
  * - Camera resource cleanup (sessions, devices, surfaces, image readers)
  * - Handler thread termination
@@ -99,8 +99,10 @@ class ResourceCleanupTest {
         delay(100)
 
         val device = connector.device.value
-        assertTrue(device.connectionStatus is ConnectionStatus.Disconnected || 
-                   device.connectionStatus is ConnectionStatus.Connected)
+        assertTrue(
+            device.connectionStatus is ConnectionStatus.Disconnected ||
+                    device.connectionStatus is ConnectionStatus.Connected
+        )
 
         scope.cancel()
     }

@@ -32,7 +32,7 @@ fun HelpRoute(
     viewModel: HelpViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    
+
     HelpScreen(
         sections = state.helpSections,
         onNavigateUp = onNavigateUp
@@ -94,7 +94,7 @@ private fun HelpSectionCard(section: HelpSection) {
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
-            
+
             Text(
                 text = section.content,
                 style = MaterialTheme.typography.bodyMedium,

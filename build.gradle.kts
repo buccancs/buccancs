@@ -1,5 +1,5 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import java.util.Locale
+import java.util.*
 
 val libs = the<LibrariesForLibs>()
 

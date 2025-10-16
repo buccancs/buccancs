@@ -37,7 +37,7 @@ fun ClauseRoute(
     viewModel: ClauseViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    
+
     ClauseScreen(
         appName = state.appName,
         version = state.version,
@@ -87,7 +87,7 @@ private fun ClauseScreen(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
-            
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -102,21 +102,21 @@ private fun ClauseScreen(
                         text = "Before using this application, please read and agree to:",
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    
+
                     TextButton(
                         onClick = { onNavigateToPolicy(1) },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("User Agreement")
                     }
-                    
+
                     TextButton(
                         onClick = { onNavigateToPolicy(2) },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Privacy Policy")
                     }
-                    
+
                     TextButton(
                         onClick = { onNavigateToPolicy(3) },
                         modifier = Modifier.fillMaxWidth()
@@ -125,15 +125,15 @@ private fun ClauseScreen(
                     }
                 }
             }
-            
+
             Text(
                 text = "By agreeing, you confirm that you have read and understood the above policies.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            
+
             Spacer(modifier = Modifier.weight(1f))
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -144,7 +144,7 @@ private fun ClauseScreen(
                 ) {
                     Text("Disagree")
                 }
-                
+
                 Button(
                     onClick = onAgree,
                     modifier = Modifier.weight(1f)
@@ -152,9 +152,9 @@ private fun ClauseScreen(
                     Text("Agree & Continue")
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Text(
                 text = "$yearRange\nVersion $version",
                 style = MaterialTheme.typography.bodySmall,

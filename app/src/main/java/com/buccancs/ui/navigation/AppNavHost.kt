@@ -16,6 +16,7 @@ import com.buccancs.ui.session.LiveSessionRoute
 import com.buccancs.ui.settings.SettingsRoute
 import com.buccancs.ui.theme.MotionTransitions
 import com.buccancs.ui.topdon.TopdonRoute
+import com.buccancs.ui.topdon.thermal.ThermalPreviewRoute
 
 @Composable
 fun AppNavHost(
@@ -41,7 +42,7 @@ fun AppNavHost(
             ) {
                 LiveSessionRoute()
             }
-            
+
             composable(
                 route = Screen.Devices.route,
                 enterTransition = { MotionTransitions.fadeEnter() },
@@ -53,7 +54,7 @@ fun AppNavHost(
                     }
                 )
             }
-            
+
             composable(
                 route = Screen.Library.route,
                 enterTransition = { MotionTransitions.fadeEnter() },
@@ -66,7 +67,7 @@ fun AppNavHost(
                     }
                 )
             }
-            
+
             composable(
                 route = Screen.Settings.route,
                 enterTransition = { MotionTransitions.fadeEnter() },
@@ -74,7 +75,7 @@ fun AppNavHost(
             ) {
                 SettingsRoute(onNavigateUp = { navController.navigateUp() })
             }
-            
+
             composable(
                 route = "session_detail/{sessionId}",
                 arguments = listOf(navArgument("sessionId") { type = NavType.StringType }),
@@ -85,7 +86,7 @@ fun AppNavHost(
             ) {
                 SessionDetailRoute(onNavigateUp = { navController.navigateUp() })
             }
-            
+
             composable(
                 route = "topdon/{deviceId}",
                 arguments = listOf(navArgument("deviceId") { type = NavType.StringType }),
@@ -98,7 +99,29 @@ fun AppNavHost(
                 val deviceId = arg?.takeIf { it.isNotBlank() }?.let(::DeviceId) ?: TOPDON_TC001_DEVICE_ID
                 TopdonRoute(
                     deviceId = deviceId,
-                    onNavigateUp = { navController.navigateUp() }
+                    onNavigateUp = { navController.navigateUp() },
+                    onNavigateToThermalPreview = {
+                        navController.navigate(Screen.TopdonThermalPreview.createRoute(deviceId))
+                    }
+                )
+            }
+
+            composable(
+                route = "topdon/{deviceId}/thermal",
+                arguments = listOf(navArgument("deviceId") { type = NavType.StringType }),
+                enterTransition = { MotionTransitions.slideInFromEnd() },
+                exitTransition = { MotionTransitions.fadeExit() },
+                popEnterTransition = { MotionTransitions.fadeEnter() },
+                popExitTransition = { MotionTransitions.slideOutToStart() }
+            ) { backStackEntry ->
+                val arg = backStackEntry.arguments?.getString("deviceId")
+                val deviceId = arg?.takeIf { it.isNotBlank() }?.let(::DeviceId) ?: TOPDON_TC001_DEVICE_ID
+                ThermalPreviewRoute(
+                    deviceId = deviceId,
+                    onNavigateUp = { navController.navigateUp() },
+                    onNavigateToSettings = {
+                        navController.navigate(Screen.Settings.route)
+                    }
                 )
             }
         }

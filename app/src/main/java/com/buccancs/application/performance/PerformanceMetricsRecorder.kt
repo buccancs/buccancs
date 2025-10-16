@@ -19,12 +19,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlin.time.Instant
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
+import kotlin.time.Instant
 
 @Singleton
 class PerformanceMetricsRecorder @Inject constructor(

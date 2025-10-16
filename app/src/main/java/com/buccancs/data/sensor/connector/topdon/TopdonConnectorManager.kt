@@ -131,6 +131,27 @@ internal class TopdonConnectorManager @Inject constructor(
             DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         }
 
+    suspend fun capturePhoto(deviceId: DeviceId): DeviceCommandResult =
+        if (connectorCache.containsKey(deviceId)) {
+            DeviceCommandResult.Rejected("Photo capture not implemented")
+        } else {
+            DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        }
+
+    suspend fun startRecording(deviceId: DeviceId): DeviceCommandResult =
+        if (connectorCache.containsKey(deviceId)) {
+            DeviceCommandResult.Rejected("Video recording not implemented")
+        } else {
+            DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        }
+
+    suspend fun stopRecording(deviceId: DeviceId): DeviceCommandResult =
+        if (connectorCache.containsKey(deviceId)) {
+            DeviceCommandResult.Rejected("Video recording not implemented")
+        } else {
+            DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        }
+
     private suspend fun rebuild(config: SensorHardwareConfig) {
         val entries = config.topdon.associateBy { DeviceId(it.id.trim()) }
         val toRemove = connectorsMutex.withLock {

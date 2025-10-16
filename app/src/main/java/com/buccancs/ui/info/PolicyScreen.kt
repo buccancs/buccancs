@@ -31,11 +31,11 @@ fun PolicyRoute(
     viewModel: PolicyViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    
+
     LaunchedEffect(themeType) {
         viewModel.loadPolicy(themeType)
     }
-    
+
     PolicyScreen(
         title = state.title,
         content = state.content,
@@ -78,6 +78,7 @@ private fun PolicyScreen(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+
                 else -> {
                     Text(
                         text = content,

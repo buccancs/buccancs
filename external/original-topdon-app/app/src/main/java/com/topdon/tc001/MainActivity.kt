@@ -1,128 +1,66 @@
 package com.topdon.tc001
 
-import android.Manifest
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.util.SparseArray
-import android.view.KeyEvent
-import android.view.View
-import androidx.activity.viewModels
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.Utils
-import com.elvishew.xlog.XLog
 import com.example.suplib.wrapper.SupHelp
-import com.example.thermal_lite.activity.IRThermalLiteActivity
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
+import com.blankj.utilcode.util.Utils
 import com.topdon.lib.core.BaseApplication
-import com.topdon.lib.core.bean.event.TS004ResetEvent
-import com.topdon.lib.core.bean.event.WinterClickEvent
-import com.topdon.lib.core.bean.event.device.DevicePermissionEvent
 import com.topdon.lib.core.common.SharedManager
-import com.topdon.lib.core.config.AppConfig
 import com.topdon.lib.core.config.ExtraKeyConfig
 import com.topdon.lib.core.config.RouterConfig
-import com.topdon.lib.core.dialog.FirmwareUpDialog
-import com.topdon.lib.core.dialog.TipDialog
-import com.topdon.lib.core.dialog.TipOtgDialog
-import com.topdon.lib.core.ktbase.BaseActivity
-import com.topdon.lib.core.repository.GalleryRepository
 import com.topdon.lib.core.socket.WebSocketProxy
 import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.lib.core.utils.CommUtils
-import com.topdon.lib.core.utils.PermissionUtils
-import com.topdon.lib.core.viewmodel.VersionViewModel
-import com.topdon.module.thermal.ir.activity.IRThermalNightActivity
-import com.topdon.module.thermal.ir.activity.IRThermalPlusActivity
-import com.topdon.module.thermal.ir.fragment.IRGalleryTabFragment
-import com.topdon.module.user.fragment.MineFragment
 import com.topdon.tc001.app.App
-import com.topdon.tc001.fragment.MainFragment
-//import com.topdon.tc001.utils.AppVersionUtil // Removed - firmware update disabled
-import com.zoho.commons.LauncherModes
-import com.zoho.commons.LauncherProperties
-import com.zoho.salesiqembed.ZohoSalesIQ
-import kotlinx.android.synthetic.main.activity_main.*
+import com.topdon.tc001.ui.screens.DeviceInfo
+import com.topdon.tc001.ui.screens.DeviceType
+import com.topdon.tc001.ui.screens.MainScreen
+import com.topdon.tc001.ui.theme.TopdonTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
 
 @Route(path = RouterConfig.MAIN)
-class MainActivity : BaseActivity(), View.OnClickListener {
-    private val versionViewModel: VersionViewModel by viewModels()
-    private var checkPermissionType: Int = -1
-    override fun initContentView() = R.layout.activity_main
-    private fun logInfo() {
-        try {
-            val str = StringBuilder()
-            str.append("Info").append("\n")
-            str.append("FLAVOR: ${BuildConfig.FLAVOR}").append("\n")
-            str.append("VERSION_CODE: ${BuildConfig.VERSION_CODE}").append("\n")
-            str.append("VERSION_NAME: ${BuildConfig.VERSION_NAME}").append("\n")
-            str.append("VERSION_DATE: ${BuildConfig.VERSION_DATE}").append("\n")
-            str.append("BRAND: ${Build.BRAND}").append("\n")
-            str.append("MODEL: ${Build.MODEL}").append("\n")
-            str.append("PRODUCT: ${Build.PRODUCT}").append("\n")
-            str.append("CPU_ABI: ${Build.CPU_ABI}").append("\n")
-            str.append("SDK_INT: ${Build.VERSION.SDK_INT}").append("\n")
-            str.append("RELEASE: ${Build.VERSION.RELEASE}").append("\n")
-            if (SharedManager.getHasShowClause()) {
-                XLog.i(str)
-            }
-        } catch (e: Exception) {
-            if (SharedManager.getHasShowClause()) {
-                XLog.e("log error: ${e.message}")
+class MainActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // Initialize app components
+        lifecycleScope.launch(Dispatchers.IO) {
+            SupHelp.getInstance().initAiUpScaler(Utils.getApp())
+        }
+
+        App.instance.initWebSocket()
+        copyAssetFile("SR.pb", File(filesDir, "SR.pb"))
+        BaseApplication.instance.clearDb()
+
+        // Auto-navigate to device screen if connected
+        checkInitialNavigation()
+
+        setContent {
+            TopdonTheme {
+                MainActivityScreen()
             }
         }
     }
 
-    override fun initView() {
-        logInfo()
-        lifecycleScope.launch(Dispatchers.IO) {
-            SupHelp.getInstance().initAiUpScaler(Utils.getApp())
-        }
-        view_page.offscreenPageLimit = 3
-        view_page.isUserInputEnabled = false
-        view_page.adapter = ViewPagerAdapter(this)
-        view_page.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                refreshTabSelect(position)
-            }
-        })
-        if (savedInstanceState == null) {
-            view_page.setCurrentItem(1, false)
-        }
-        view_mine_point.isVisible = !SharedManager.hasClickWinter
-        cl_icon_gallery.setOnClickListener(this)
-        view_main.setOnClickListener(this)
-        cl_icon_mine.setOnClickListener(this)
-        App.instance.initWebSocket()
-        copyFile("SR.pb", File(filesDir, "SR.pb"))
-        BaseApplication.instance.clearDb()
-        if (BaseApplication.instance.isDomestic()) {
-            checkAppVersion(true)
-        } else {
-            versionViewModel.checkVersion()
-        }
+    private fun checkInitialNavigation() {
         if (!SharedManager.hasTcLine && !SharedManager.hasTS004 && !SharedManager.hasTC007) {
             if (DeviceTools.isConnect()) {
                 if (!WebSocketProxy.getInstance().isConnected()) {
@@ -142,6 +80,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 }
             }
         }
+
         if (DeviceTools.isConnect()) {
             SharedManager.hasTcLine = true
         }
@@ -153,412 +92,205 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        versionViewModel.updateLiveData.observe(this) {
-            FirmwareUpDialog(this).apply {
-                titleStr = getString(com.topdon.lib.core.R.string.update_new_version)
-                sizeStr = it.versionNo
-                contentStr = it.description
-                isShowCancel = !it.isForcedUpgrade
-                onConfirmClickListener = {
-                    updateApk(it.downPageUrl)
-                }
-                onCancelClickListener = {
-                    SharedManager.setVersionCheckDate(System.currentTimeMillis())
-                }
-            }.show()
-        }
-    }
-
-    private fun updateApk(url: String) {
-        if (applicationInfo.targetSdkVersion < Build.VERSION_CODES.P) {
-            val intent = Intent()
-            intent.action = "android.intent.action.VIEW"
-            intent.data = Uri.parse(url)
-            startActivity(intent)
-        } else {
-            if (AppUtils.isAppInstalled("com.android.vending")) {
-                try {
-                    val intent = Intent()
-                    intent.action = "android.intent.action.VIEW"
-                    intent.data = Uri.parse(AppConfig.GOOGLE_APK_MARKET_URL)
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    val intent = Intent()
-                    intent.action = "android.intent.action.VIEW"
-                    intent.data = Uri.parse(AppConfig.GOOGLE_APK_URL)
-                    startActivity(intent)
-                }
-            } else {
-                val intent = Intent()
-                intent.action = "android.intent.action.VIEW"
-                intent.data = Uri.parse(AppConfig.GOOGLE_APK_URL)
-                startActivity(intent)
-            }
-        }
-    }
-
-    private var resetTipsDialog: TipDialog? = null
-    private fun showResetTipsDialog() {
-        disconnectDialog?.dismiss()
-        if (resetTipsDialog == null) {
-            resetTipsDialog = TipDialog.Builder(this)
-                .setMessage(R.string.device_reset_alert)
-                .setPositiveListener(R.string.app_got_it) {
-                }
-                .create()
-        }
-        resetTipsDialog?.show()
-    }
-
-    private var disconnectDialog: TipDialog? = null
-    private fun dialogDisconnect() {
-        if (resetTipsDialog?.isShowing == true) {
-            return
-        }
-        if (disconnectDialog == null) {
-            disconnectDialog = TipDialog.Builder(this)
-                .setMessage(R.string.device_disconnect_alert)
-                .setPositiveListener(R.string.app_got_it) {
-                }
-                .create()
-        }
-        disconnectDialog?.show()
-    }
-
-    private fun copyFile(filename: String, targetFile: File) {
-        if (targetFile.exists()) {
-            return
-        }
+    private fun copyAssetFile(assetName: String, targetFile: File) {
+        if (targetFile.exists()) return
         try {
-            val inputStream = assets.open(filename)
-            val outputStream: OutputStream = FileOutputStream(targetFile)
-            val buffer = ByteArray(1024)
-            var length: Int
-            while (inputStream.read(buffer).also { length = it } > 0) {
-                outputStream.write(buffer, 0, length)
+            assets.open(assetName).use { input ->
+                FileOutputStream(targetFile).use { output ->
+                    val buffer = ByteArray(1024)
+                    var length: Int
+                    while (input.read(buffer).also { length = it } > 0) {
+                        output.write(buffer, 0, length)
+                    }
+                }
             }
-            inputStream.close()
-            outputStream.close()
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+}
 
-    override fun initData() {
-        checkPermissionType = 0
-        checkCameraPermission()
+@Composable
+private fun MainActivityScreen() {
+    var selectedTab by remember { mutableStateOf(1) } // Start on Home tab
+    var showExitDialog by remember { mutableStateOf(false) }
+
+    BackHandler {
+        showExitDialog = true
     }
 
-    override fun onResume() {
-        super.onResume()
-        LMS.getInstance().language = SharedManager.getLanguage(this)
+    if (showExitDialog) {
+        ExitConfirmDialog(
+            appName = CommUtils.getAppName(),
+            onConfirm = {
+                showExitDialog = false
+                // Exit app
+                android.os.Process.killProcess(android.os.Process.myPid())
+            },
+            onDismiss = { showExitDialog = false }
+        )
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onClick(v: View?) {
-        when (v) {
-            cl_icon_gallery -> {
-                checkPermissionType = 1
-                checkStoragePermission()
-            }
-
-            view_main -> {
-                view_page.setCurrentItem(1, false)
-            }
-
-            cl_icon_mine -> {
-                view_page.setCurrentItem(2, false)
-            }
-        }
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            TipDialog.Builder(this)
-                .setMessage(getString(R.string.main_exit, CommUtils.getAppName()))
-                .setCancelListener(R.string.app_no)
-                .setPositiveListener(R.string.app_yes) {
-                    BaseApplication.instance.exitAll()
-                    finish()
-                }
-                .create().show()
-            return true
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun getDevicePermission(event: DevicePermissionEvent) {
-        DeviceTools.requestUsb(this, 0, event.device)
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onWinterClick(event: WinterClickEvent) {
-        view_mine_point.isVisible = false
-    }
-
-    private fun refreshTabSelect(index: Int) {
-        iv_icon_gallery.isSelected = false
-        tv_icon_gallery.isSelected = false
-        iv_icon_mine.isSelected = false
-        tv_icon_mine.isSelected = false
-        iv_bottom_main_bg.setImageResource(R.drawable.ic_main_bg_not_select)
-        when (index) {
-            0 -> {
-                iv_icon_gallery.isSelected = true
-                tv_icon_gallery.isSelected = true
-            }
-
-            1 -> {
-                iv_bottom_main_bg.setImageResource(R.drawable.ic_main_bg_select)
-            }
-
-            2 -> {
-                iv_icon_mine.isSelected = true
-                tv_icon_mine.isSelected = true
-            }
-        }
-    }
-
-    override fun connected() {
-        if (SharedManager.isConnectAutoOpen) {
-            checkPermissionType = 2
-            checkCameraPermission()
-        }
-    }
-
-    private var tipOtgDialog: TipOtgDialog? = null
-    override fun disConnected() {
-        if (WebSocketProxy.getInstance().isTS004Connect()) {
-            ARouter.getInstance().build(RouterConfig.IR_MONOCULAR).navigation(this)
-        }
-        if (tipOtgDialog != null && tipOtgDialog!!.isShowing) {
-            return
-        }
-        if (SharedManager.isTipOTG && !BaseApplication.instance.hasOtgShow) {
-            tipOtgDialog = TipOtgDialog.Builder(this)
-                .setMessage(R.string.tip_otg)
-                .setPositiveListener(R.string.app_confirm) {
-                    SharedManager.isTipOTG = !it
-                }
-                .create()
-            tipOtgDialog?.show()
-            BaseApplication.instance.hasOtgShow = true
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onTS004ResetEvent(event: TS004ResetEvent) {
-        showResetTipsDialog()
-    }
-
-    override fun onSocketConnected(isTS004: Boolean) {
-        disconnectDialog?.dismiss()
-    }
-
-    override fun onSocketDisConnected(isTS004: Boolean) {
-        if (lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED) && isTS004) {
-            dialogDisconnect()
-        }
-    }
-
-    private class ViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
-        override fun getItemCount() = 3
-        override fun createFragment(position: Int): Fragment {
-            return when (position) {
-                0 -> {
-                    IRGalleryTabFragment().apply {
-                        arguments = Bundle().also {
-                            it.putBoolean(ExtraKeyConfig.CAN_SWITCH_DIR, true)
-                            it.putBoolean(ExtraKeyConfig.HAS_BACK_ICON, false)
-                            it.putInt(ExtraKeyConfig.DIR_TYPE, GalleryRepository.DirType.LINE.ordinal)
-                        }
-                    }
-                }
-
-                1 -> MainFragment()
-                else -> MineFragment()
-            }
-        }
-    }
-
-    private fun getNeedPermissionList(): SparseArray<List<String>> {
-        val sparseArray = SparseArray<List<String>>()
-        sparseArray.append(R.string.permission_request_camera_app, listOf(Manifest.permission.CAMERA))
-        (if (this.applicationInfo.targetSdkVersion >= 34) {
-            listOf(
-                Permission.READ_MEDIA_VIDEO,
-                Permission.READ_MEDIA_IMAGES,
-                Permission.WRITE_EXTERNAL_STORAGE
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(
+                selectedTab = selectedTab,
+                onTabSelected = { selectedTab = it }
             )
-        } else if (this.applicationInfo.targetSdkVersion == 33) {
-            listOf(
-                Permission.READ_MEDIA_VIDEO,
-                Permission.READ_MEDIA_IMAGES,
-                Permission.WRITE_EXTERNAL_STORAGE
-            )
-        } else {
-            listOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
-        }).let {
-            sparseArray.append(R.string.permission_request_storage_app, it)
         }
-        return sparseArray
+    ) { padding ->
+        Box(modifier = Modifier.padding(padding)) {
+            when (selectedTab) {
+                0 -> GalleryTabContent()
+                1 -> HomeTabContent()
+                2 -> ProfileTabContent()
+            }
+        }
     }
+}
 
-    private fun checkCameraPermission() {
-        if (!PermissionUtils.isVisualUser() && !XXPermissions.isGranted(
-                this,
-                getNeedPermissionList()[R.string.permission_request_camera_app]
-            )
+@Composable
+private fun BottomNavigationBar(
+    selectedTab: Int,
+    onTabSelected: (Int) -> Unit
+) {
+    NavigationBar {
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.PhotoLibrary, contentDescription = "Gallery") },
+            label = { Text("Gallery") },
+            selected = selectedTab == 0,
+            onClick = { onTabSelected(0) }
+        )
+
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+            label = { Text("Home") },
+            selected = selectedTab == 1,
+            onClick = { onTabSelected(1) }
+        )
+
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
+            label = { Text("Profile") },
+            selected = selectedTab == 2,
+            onClick = { onTabSelected(2) }
+        )
+    }
+}
+
+@Composable
+private fun GalleryTabContent() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
         ) {
-            if (BaseApplication.instance.isDomestic()) {
-                if (SharedManager.getMainPermissionsState()) {
-                    return
-                }
-                TipDialog.Builder(this)
-                    .setMessage(getString(R.string.permission_request_camera_app, CommUtils.getAppName()))
-                    .setCancelListener(R.string.app_cancel)
-                    .setPositiveListener(R.string.app_confirm) {
-                        initCameraPermission()
-                    }
-                    .create().show()
-            } else {
-                initCameraPermission()
-            }
-        } else {
-            initCameraPermission()
-        }
-    }
-
-    private fun initCameraPermission() {
-        XXPermissions.with(this)
-            .permission(getNeedPermissionList()[R.string.permission_request_camera_app])
-            .request(object : OnPermissionCallback {
-                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                    if (allGranted) {
-                        checkStoragePermission()
-                    }
-                }
-
-                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
-                    if (BaseApplication.instance.isDomestic()) {
-                        SharedManager.setMainPermissionsState(true)
-                    }
-                    if (doNotAskAgain) {
-                        TipDialog.Builder(this@MainActivity)
-                            .setTitleMessage(getString(R.string.app_tip))
-                            .setMessage(
-                                if (PermissionUtils.hasCameraPermission())
-                                    getString(R.string.app_album_content)
-                                else getString(R.string.app_camera_content)
-                            )
-                            .setPositiveListener(R.string.app_open) {
-                                AppUtils.launchAppDetailsSettings()
-                            }
-                            .setCancelListener(R.string.app_cancel) {
-                            }
-                            .setCanceled(true)
-                            .create().show()
-                    }
-                }
-            })
-    }
-
-    private fun checkStoragePermission() {
-        if (!XXPermissions.isGranted(this, getNeedPermissionList()[R.string.permission_request_storage_app])) {
-            if (BaseApplication.instance.isDomestic()) {
-                TipDialog.Builder(this)
-                    .setMessage(getString(R.string.permission_request_storage_app, CommUtils.getAppName()))
-                    .setCancelListener(R.string.app_cancel)
-                    .setPositiveListener(R.string.app_confirm) {
-                        initStoragePermission()
-                    }
-                    .create().show()
-            } else {
-                initStoragePermission()
-            }
-        } else {
-            initStoragePermission()
-        }
-    }
-
-    private fun initStoragePermission() {
-        if (PermissionUtils.isVisualUser()) {
-            jumpIRActivity()
-            return
-        }
-        XXPermissions.with(this)
-            .permission(
-                getNeedPermissionList()[R.string.permission_request_storage_app]
+            Icon(
+                imageVector = Icons.Default.PhotoLibrary,
+                contentDescription = null,
+                modifier = Modifier.size(64.dp),
+                tint = MaterialTheme.colorScheme.primary
             )
-            .request(object : OnPermissionCallback {
-                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                    if (allGranted) {
-                        jumpIRActivity()
-                    }
-                }
-
-                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
-                    if (doNotAskAgain) {
-                        TipDialog.Builder(this@MainActivity)
-                            .setTitleMessage(getString(R.string.app_tip))
-                            .setMessage(getString(R.string.app_album_content))
-                            .setPositiveListener(R.string.app_open) {
-                                AppUtils.launchAppDetailsSettings()
-                            }
-                            .setCancelListener(R.string.app_cancel) {
-                            }
-                            .setCanceled(true)
-                            .create().show()
-                    }
-                }
-            })
-    }
-
-    fun jumpIRActivity() {
-        when (checkPermissionType) {
-            0 -> {
-                DeviceTools.isConnect(isSendConnectEvent = true)
-            }
-
-            1 -> {
-                view_page.setCurrentItem(0, false)
-            }
-
-            2 -> {
-                if (DeviceTools.isTC001PlusConnect()) {
-                    ARouter.getInstance().build(RouterConfig.IR_MAIN).navigation(this@MainActivity)
-                    startActivityForResult(Intent(this@MainActivity, IRThermalPlusActivity::class.java), 101)
-                } else if (DeviceTools.isTC001LiteConnect()) {
-                    ARouter.getInstance().build(RouterConfig.IR_MAIN).navigation(this@MainActivity)
-                    startActivityForResult(Intent(this@MainActivity, IRThermalLiteActivity::class.java), 101)
-                } else {
-                    ARouter.getInstance().build(RouterConfig.IR_MAIN).navigation(this@MainActivity)
-                    startActivityForResult(Intent(this@MainActivity, IRThermalNightActivity::class.java), 101)
-                }
-            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Gallery",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                text = "Thermal image gallery view",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
+}
 
-    //private var appVersionUtil: AppVersionUtil? = null // Removed - firmware update disabled
-    private fun checkAppVersion(isShow: Boolean) {
-        // Firmware update functionality disabled
-        /*
-        if (appVersionUtil == null) {
-            appVersionUtil = AppVersionUtil(this, object : AppVersionUtil.DotIsShowListener {
-                override fun isShow(show: Boolean) {
-                }
-
-                override fun version(version: String) {
-                }
-            })
-        }
-        appVersionUtil?.checkVersion(isShow)
-        */
+@Composable
+private fun HomeTabContent() {
+    // Use existing MainScreen composable
+    val mockDevices = remember {
+        listOf(
+            DeviceInfo("TC001", DeviceType.TC001_LINE, isConnected = false, batteryLevel = null),
+            DeviceInfo("TS004", DeviceType.TS004, isConnected = false, batteryLevel = null)
+        )
     }
+
+    MainScreen(
+        devices = mockDevices,
+        onConnectDeviceClick = {
+            // Navigate to device type selection
+        },
+        onAddDeviceClick = {
+            // Navigate to add device
+        },
+        onDeviceClick = { deviceType ->
+            // Handle device click
+        },
+        onDeviceLongClick = { deviceType ->
+            // Handle long click
+        }
+    )
+}
+
+@Composable
+private fun ProfileTabContent() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = null,
+                modifier = Modifier.size(64.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Profile",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                text = "User settings and preferences",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Composable
+private fun ExitConfirmDialog(
+    appName: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = { Icon(Icons.Default.ExitToApp, contentDescription = null) },
+        title = { Text("Exit $appName?") },
+        text = { Text("Are you sure you want to exit the application?") },
+        confirmButton = {
+            Button(onClick = onConfirm) {
+                Text("Exit")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
 }

@@ -1,169 +1,217 @@
 package com.topdon.tc001
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import com.alibaba.android.arouter.launcher.ARouter
 import com.topdon.lib.core.config.ExtraKeyConfig
 import com.topdon.lib.core.config.RouterConfig
-import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.tools.DeviceTools
-import kotlinx.android.synthetic.main.activity_device_type.*
-import kotlinx.android.synthetic.main.item_device_type.view.*
+import com.topdon.tc001.ui.theme.TopdonTheme
 
-class DeviceTypeActivity : BaseActivity() {
-    private var clientType: IRDeviceType? = null
-    override fun initContentView(): Int = R.layout.activity_device_type
-    override fun initView() {
-        recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.adapter = MyAdapter(this).apply {
-            onItemClickListener = {
-                clientType = it
-                when (it) {
-                    IRDeviceType.TS004 -> {
-                        ARouter.getInstance()
-                            .build(RouterConfig.IR_DEVICE_ADD)
-                            .withBoolean("isTS004", true)
-                            .navigation(this@DeviceTypeActivity)
-                    }
+class DeviceTypeActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-                    IRDeviceType.TC007 -> {
-                        ARouter.getInstance()
-                            .build(RouterConfig.IR_DEVICE_ADD)
-                            .withBoolean("isTS004", false)
-                            .navigation(this@DeviceTypeActivity)
-                    }
+        setContent {
+            TopdonTheme {
+                DeviceTypeScreen(
+                    onNavigateUp = { finish() },
+                    onDeviceSelected = { deviceType ->
+                        when (deviceType) {
+                            IRDeviceType.TS004 -> {
+                                ARouter.getInstance()
+                                    .build(RouterConfig.IR_DEVICE_ADD)
+                                    .withBoolean("isTS004", true)
+                                    .navigation(this)
+                            }
 
-                    else -> {
-                        ARouter.getInstance()
-                            .build(RouterConfig.IR_MAIN)
-                            .withBoolean(ExtraKeyConfig.IS_TC007, false)
-                            .navigation(this@DeviceTypeActivity)
-                        if (DeviceTools.isConnect()) {
-                            finish()
+                            IRDeviceType.TC007 -> {
+                                ARouter.getInstance()
+                                    .build(RouterConfig.IR_DEVICE_ADD)
+                                    .withBoolean("isTS004", false)
+                                    .navigation(this)
+                            }
+
+                            else -> {
+                                ARouter.getInstance()
+                                    .build(RouterConfig.IR_MAIN)
+                                    .withBoolean(ExtraKeyConfig.IS_TC007, false)
+                                    .navigation(this)
+                                if (DeviceTools.isConnect()) {
+                                    finish()
+                                }
+                            }
                         }
                     }
+                )
+            }
+        }
+    }
+
+    enum class IRDeviceType(val deviceName: String, val isLine: Boolean) {
+        TC001("TC001", true),
+        TC001_PLUS("TC001 Plus", true),
+        TC002C_DUO("TC002C Duo", true),
+        TC007("TC007", false),
+        TS001("TS001", true),
+        TS004("TS004", false)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DeviceTypeScreen(
+    onNavigateUp: () -> Unit,
+    onDeviceSelected: (DeviceTypeActivity.IRDeviceType) -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Select Device Type") },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateUp) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
                 }
-            }
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            DeviceSection(
+                title = "USB Connection",
+                devices = listOf(
+                    DeviceTypeActivity.IRDeviceType.TS001 to R.drawable.ic_device_type_ts001,
+                    DeviceTypeActivity.IRDeviceType.TC001 to R.drawable.ic_device_type_tc001
+                ),
+                secondRow = listOf(
+                    DeviceTypeActivity.IRDeviceType.TC001_PLUS to R.drawable.ic_device_type_tc001_plus,
+                    DeviceTypeActivity.IRDeviceType.TC002C_DUO to R.drawable.ic_device_type_tc001_plus
+                ),
+                onDeviceSelected = onDeviceSelected
+            )
+
+            DeviceSection(
+                title = "WiFi Connection",
+                devices = listOf(
+                    DeviceTypeActivity.IRDeviceType.TS004 to R.drawable.ic_device_type_ts004
+                ),
+                secondRow = emptyList(),
+                onDeviceSelected = onDeviceSelected
+            )
         }
     }
+}
 
-    override fun initData() {
-    }
-
-    override fun connected() {
-        if (clientType?.isLine() == true) {
-            finish()
-        }
-    }
-
-    override fun onSocketConnected(isTS004: Boolean) {
-        if (isTS004) {
-            if (clientType == IRDeviceType.TS004) {
-                finish()
-            }
-        } else {
-            if (clientType == IRDeviceType.TC007) {
-                finish()
-            }
-        }
-    }
-
-    private class MyAdapter(val context: Context) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-        var onItemClickListener: ((type: IRDeviceType) -> Unit)? = null
-
-        private data class ItemInfo(val isTitle: Boolean, val firstType: IRDeviceType, val secondType: IRDeviceType?)
-
-        private val dataList: ArrayList<ItemInfo> = arrayListOf(
-            ItemInfo(true, IRDeviceType.TS001, IRDeviceType.TC001),
-            ItemInfo(false, IRDeviceType.TC001_PLUS, IRDeviceType.TC002C_DUO),
-            ItemInfo(true, IRDeviceType.TS004, null),
+@Composable
+private fun DeviceSection(
+    title: String,
+    devices: List<Pair<DeviceTypeActivity.IRDeviceType, Int>>,
+    secondRow: List<Pair<DeviceTypeActivity.IRDeviceType, Int>>,
+    onDeviceSelected: (DeviceTypeActivity.IRDeviceType) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.primary
         )
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_device_type, parent, false))
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val firstType: IRDeviceType = dataList[position].firstType
-            val secondType: IRDeviceType? = dataList[position].secondType
-            holder.itemView.tv_title.isVisible = dataList[position].isTitle
-            holder.itemView.tv_title.text =
-                context.getString(if (firstType.isLine()) R.string.tc_connect_line else R.string.tc_connect_wifi)
-            holder.itemView.tv_item1.text = firstType.getDeviceName()
-            when (firstType) {
-                IRDeviceType.TC001 -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_tc001)
-                IRDeviceType.TC001_PLUS -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_tc001_plus)
-                IRDeviceType.TC002C_DUO -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_tc001_plus)
-                IRDeviceType.TC007 -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_tc007)
-                IRDeviceType.TS001 -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_ts001)
-                IRDeviceType.TS004 -> holder.itemView.iv_item1.setImageResource(R.drawable.ic_device_type_ts004)
-            }
-            holder.itemView.group_item2.isVisible = secondType != null
-            if (secondType != null) {
-                holder.itemView.tv_item2.text = secondType.getDeviceName()
-                when (secondType) {
-                    IRDeviceType.TC001 -> holder.itemView.iv_item2.setImageResource(R.drawable.ic_device_type_tc001)
-                    IRDeviceType.TC001_PLUS -> holder.itemView.iv_item2.setImageResource(R.drawable.ic_device_type_tc001_plus)
-                    IRDeviceType.TC002C_DUO -> holder.itemView.iv_item2.setImageResource(R.drawable.ic_device_type_tc001_plus)
-                    IRDeviceType.TC007 -> holder.itemView.iv_item2.setImageResource(R.drawable.ic_device_type_tc007)
-                    IRDeviceType.TS001 -> holder.itemView.iv_item2.setImageResource(R.drawable.ic_device_type_ts001)
-                    IRDeviceType.TS004 -> holder.itemView.iv_item2.setImageResource(R.drawable.ic_device_type_ts004)
-                }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            devices.forEach { (deviceType, iconRes) ->
+                DeviceCard(
+                    deviceType = deviceType,
+                    iconRes = iconRes,
+                    onSelected = { onDeviceSelected(deviceType) },
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
 
-        override fun getItemCount(): Int = dataList.size
-        inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
-            init {
-                rootView.view_bg_item1.setOnClickListener {
-                    val position = bindingAdapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        onItemClickListener?.invoke(dataList[position].firstType)
-                    }
-                }
-                rootView.view_bg_item2.setOnClickListener {
-                    val position = bindingAdapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        val irDeviceType: IRDeviceType = dataList[position].secondType ?: return@setOnClickListener
-                        onItemClickListener?.invoke(irDeviceType)
-                    }
+        if (secondRow.isNotEmpty()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                secondRow.forEach { (deviceType, iconRes) ->
+                    DeviceCard(
+                        deviceType = deviceType,
+                        iconRes = iconRes,
+                        onSelected = { onDeviceSelected(deviceType) },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }
     }
+}
 
-    enum class IRDeviceType {
-        TC001 {
-            override fun isLine(): Boolean = true
-            override fun getDeviceName(): String = "TC001"
-        },
-        TC001_PLUS {
-            override fun isLine(): Boolean = true
-            override fun getDeviceName(): String = "TC001 Plus"
-        },
-        TC002C_DUO {
-            override fun isLine(): Boolean = true
-            override fun getDeviceName(): String = "TC002C Duo"
-        },
-        TC007 {
-            override fun isLine(): Boolean = false
-            override fun getDeviceName(): String = "TC007"
-        },
-        TS001 {
-            override fun isLine(): Boolean = true
-            override fun getDeviceName(): String = "TS001"
-        },
-        TS004 {
-            override fun isLine(): Boolean = false
-            override fun getDeviceName(): String = "TS004"
-        };
+@Composable
+private fun DeviceCard(
+    deviceType: DeviceTypeActivity.IRDeviceType,
+    iconRes: Int,
+    onSelected: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .clickable(onClick = onSelected),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = deviceType.deviceName,
+                modifier = Modifier.size(80.dp)
+            )
 
-        abstract fun isLine(): Boolean
-        abstract fun getDeviceName(): String
+            Text(
+                text = deviceType.deviceName,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
     }
 }

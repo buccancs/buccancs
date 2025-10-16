@@ -15,10 +15,8 @@ import com.buccancs.desktop.domain.policy.RetentionPolicy
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withTimeout
-import kotlinx.serialization.json.Json
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -38,7 +36,7 @@ class EndToEndIntegrationTest {
     private lateinit var sensorRecordingManager: SensorRecordingManager
     private lateinit var encryptionManager: EncryptionManager
     private lateinit var retentionManager: DataRetentionManager
-    
+
     private val serverPort = 50051
     private val testDeviceId = "test-device-001"
     private val testSessionId = "test-session-001"
@@ -61,10 +59,10 @@ class EndToEndIntegrationTest {
         commandRepository = CommandRepository()
         previewRepository = PreviewRepository()
         sensorRecordingManager = SensorRecordingManager(sessionRepository)
-        
+
         val monitor = DeviceConnectionMonitor(deviceRepository)
         monitor.start()
-        
+
         grpcServer = GrpcServer(
             port = serverPort,
             sessionRepository = sessionRepository,
@@ -101,7 +99,7 @@ class EndToEndIntegrationTest {
 
         val ack = client.registerDevice(registration)
         assertTrue(ack.accepted)
-        
+
         withTimeout(3000) {
             delay(500)
             val devices = deviceRepository.observe().first()
@@ -137,9 +135,9 @@ class EndToEndIntegrationTest {
 
         val startAck = client.startSession(startRequest)
         assertTrue("Session start should be accepted", startAck.accepted)
-        
+
         delay(500)
-        
+
         val activeSession = sessionRepository.activeSession.first()
         assertNotNull("Active session should exist", activeSession)
         assertEquals(testSessionId, activeSession?.id)
@@ -150,9 +148,9 @@ class EndToEndIntegrationTest {
         }
         val stopAck = client.stopSession(stopRequest)
         assertTrue("Session stop should be accepted", stopAck.accepted)
-        
+
         delay(500)
-        
+
         val stoppedSession = sessionRepository.activeSession.first()
         assertNull("Session should be stopped", stoppedSession)
 
@@ -164,7 +162,7 @@ class EndToEndIntegrationTest {
         val channel = ManagedChannelBuilder.forAddress("localhost", serverPort)
             .usePlaintext()
             .build()
-        
+
         val sessionClient = OrchestrationServiceGrpcKt.OrchestrationServiceCoroutineStub(channel)
         val transferClient = DataTransferServiceGrpcKt.DataTransferServiceCoroutineStub(channel)
 
@@ -182,7 +180,7 @@ class EndToEndIntegrationTest {
 
         val testContent = "Test file content for upload".toByteArray()
         val sha256 = java.security.MessageDigest.getInstance("SHA-256").digest(testContent)
-        
+
         val requests = kotlinx.coroutines.flow.flow {
             emit(dataTransferRequest {
                 session = sessionIdentifier { id = testSessionId }
@@ -205,9 +203,9 @@ class EndToEndIntegrationTest {
         assertEquals(1, responses.size)
         assertTrue("Upload should succeed", responses[0].success)
         assertEquals("test-data.txt", responses[0].fileName)
-        
+
         delay(500)
-        
+
         val sessionDir = tempDir.resolve(testSessionId)
         val deviceDir = sessionDir.resolve("devices").resolve(testDeviceId)
         val uploadedFile = deviceDir.resolve("test-data.txt")
@@ -221,7 +219,7 @@ class EndToEndIntegrationTest {
         val channel = ManagedChannelBuilder.forAddress("localhost", serverPort)
             .usePlaintext()
             .build()
-        
+
         val sessionClient = OrchestrationServiceGrpcKt.OrchestrationServiceCoroutineStub(channel)
         val sensorClient = SensorStreamServiceGrpcKt.SensorStreamServiceCoroutineStub(channel)
 
@@ -262,15 +260,15 @@ class EndToEndIntegrationTest {
         val ack = sensorClient.stream(batches)
         assertTrue("Stream should succeed", ack.success)
         assertEquals(sampleCount.toLong(), ack.totalSamples)
-        
+
         delay(1000)
-        
+
         val sessionDir = tempDir.resolve(testSessionId)
         val sensorFile = sessionDir.resolve("sensors")
             .resolve(testDeviceId)
             .resolve("gsr.csv")
         assertTrue("Sensor file should exist", Files.exists(sensorFile))
-        
+
         val lines = Files.readAllLines(sensorFile)
         assertTrue("Should have header + data", lines.size > sampleCount)
 
@@ -285,7 +283,7 @@ class EndToEndIntegrationTest {
         val client = TimeSyncServiceGrpcKt.TimeSyncServiceCoroutineStub(channel)
 
         val clientSendTime = System.currentTimeMillis()
-        
+
         val ping = timeSyncPing {
             clientSendEpochMs = clientSendTime
             deviceId = testDeviceId
@@ -293,20 +291,24 @@ class EndToEndIntegrationTest {
 
         val pong = client.ping(ping)
         val clientReceiveTime = System.currentTimeMillis()
-        
+
         assertTrue("Server receive time should be set", pong.serverReceiveEpochMs > 0)
         assertTrue("Server send time should be set", pong.serverSendEpochMs > 0)
-        assertTrue("Server times should be ordered", 
-            pong.serverSendEpochMs >= pong.serverReceiveEpochMs)
-        
+        assertTrue(
+            "Server times should be ordered",
+            pong.serverSendEpochMs >= pong.serverReceiveEpochMs
+        )
+
         val roundTripMs = (clientReceiveTime - clientSendTime).toDouble()
         assertTrue("Round trip should be reasonable", roundTripMs < 1000.0)
-        
-        val offsetMs = ((pong.serverReceiveEpochMs + pong.serverSendEpochMs) / 2.0) - 
-            ((clientSendTime + clientReceiveTime) / 2.0)
-        
-        assertTrue("Clock offset should be small on localhost", 
-            kotlin.math.abs(offsetMs) < 100.0)
+
+        val offsetMs = ((pong.serverReceiveEpochMs + pong.serverSendEpochMs) / 2.0) -
+                ((clientSendTime + clientReceiveTime) / 2.0)
+
+        assertTrue(
+            "Clock offset should be small on localhost",
+            kotlin.math.abs(offsetMs) < 100.0
+        )
 
         val report = timeSyncReport {
             deviceId = testDeviceId
@@ -326,7 +328,7 @@ class EndToEndIntegrationTest {
         val channel = ManagedChannelBuilder.forAddress("localhost", serverPort)
             .usePlaintext()
             .build()
-        
+
         val sessionClient = OrchestrationServiceGrpcKt.OrchestrationServiceCoroutineStub(channel)
         val commandClient = CommandServiceGrpcKt.CommandServiceCoroutineStub(channel)
 
@@ -375,7 +377,7 @@ class EndToEndIntegrationTest {
         val channel = ManagedChannelBuilder.forAddress("localhost", serverPort)
             .usePlaintext()
             .build()
-        
+
         val sessionClient = OrchestrationServiceGrpcKt.OrchestrationServiceCoroutineStub(channel)
         val previewClient = PreviewServiceGrpcKt.PreviewServiceCoroutineStub(channel)
 
@@ -411,9 +413,9 @@ class EndToEndIntegrationTest {
 
         val ack = previewClient.streamPreview(frames)
         assertTrue("Preview stream should be received", ack.received)
-        
+
         delay(500)
-        
+
         val preview = previewRepository.observe().first()
             .find { it.deviceId == testDeviceId }
         assertNotNull("Preview should be stored", preview)
@@ -427,7 +429,7 @@ class EndToEndIntegrationTest {
         val channel = ManagedChannelBuilder.forAddress("localhost", serverPort)
             .usePlaintext()
             .build()
-        
+
         val sessionClient = OrchestrationServiceGrpcKt.OrchestrationServiceCoroutineStub(channel)
 
         val device1 = "device-001"
@@ -451,7 +453,7 @@ class EndToEndIntegrationTest {
             model = "Device 3"
             platform = "Android"
         })
-        
+
         delay(1000)
 
         val devices = deviceRepository.observe().first()
@@ -472,7 +474,7 @@ class EndToEndIntegrationTest {
             targets = deviceTarget { broadcast = true }
         })
         assertTrue(markerAck.accepted)
-        
+
         delay(500)
 
         sessionClient.stopSession(stopSessionRequest {

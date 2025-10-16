@@ -19,26 +19,25 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -56,10 +55,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.buccancs.ui.theme.Spacing
-import com.buccancs.ui.theme.Dimensions
-import com.buccancs.ui.theme.MotionTokens
-import com.buccancs.ui.theme.MotionTransitions
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
 import com.buccancs.domain.model.ConnectionStatus
@@ -75,7 +70,11 @@ import com.buccancs.ui.components.InfoRow
 import com.buccancs.ui.components.StatusIndicator
 import com.buccancs.ui.debug.ClockPanel
 import com.buccancs.ui.debug.EncoderPanel
-import java.util.Locale
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.MotionTokens
+import com.buccancs.ui.theme.MotionTransitions
+import com.buccancs.ui.theme.Spacing
+import java.util.*
 
 @Composable
 fun LiveSessionRoute(
@@ -197,32 +196,147 @@ fun LiveSessionScreen(
 private fun RecordingCard(
     state: LiveSessionUiState, onAddBookmark: () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Recording", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Lifecycle: ${state.recording.lifecycle}")
-            Text(text = "Simulation: ${state.simulationEnabled}")
-            val throttleColor = if (state.throttleLevel == PerformanceThrottleLevel.CONSERVE) {
-                MaterialTheme.colorScheme.error
-            } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
+            Text(
+                text = "Recording",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Column(
+                    modifier = Modifier.padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Lifecycle:",
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        Text(
+                            text = state.recording.lifecycle.toString(),
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Simulation:",
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        Text(
+                            text = if (state.simulationEnabled) "Enabled" else "Disabled",
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                }
             }
-            Text(text = "Throttle: ${state.throttleLevel}", color = throttleColor)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if (state.throttleLevel == PerformanceThrottleLevel.CONSERVE) {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.errorContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Row(
+                        modifier = Modifier.padding(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Warning,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onErrorContainer,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Text(
+                            text = "Throttle: ${state.throttleLevel}",
+                            color = MaterialTheme.colorScheme.onErrorContainer,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
             val anchor = state.recording.anchor
             if (anchor != null) {
-                Text(text = "Session ID: ${anchor.sessionId}")
-                Text(text = "Reference: ${anchor.referenceTimestamp}")
-                Text(text = "Clock offset: ${anchor.sharedClockOffsetMillis} ms")
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Column(
+                        modifier = Modifier.padding(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = "Session ID: ${anchor.sessionId}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Text(
+                            text = "Reference: ${anchor.referenceTimestamp}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Text(
+                            text = "Clock offset: ${anchor.sharedClockOffsetMillis} ms",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
+                }
             } else {
-                Text(text = "Session idle")
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Text(
+                        text = "Session idle",
+                        modifier = Modifier.padding(12.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
-            Text(text = "Updated: ${state.recording.updatedAt}")
+
+            Text(
+                text = "Updated: ${state.recording.updatedAt}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
             Spacer(modifier = Modifier.height(12.dp))
-            Button(onClick = onAddBookmark) {
+            FilledTonalButton(
+                onClick = onAddBookmark,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Bookmark,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "Add Bookmark")
             }
         }
@@ -231,26 +345,94 @@ private fun RecordingCard(
 
 @Composable
 private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Stimulus", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = if (state.hasExternalDisplay) "External display ready" else "External display not detected",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            state.activeCue?.let { cue ->
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Active: ${cue.label}", style = MaterialTheme.typography.bodySmall)
-            } ?: state.lastCue?.let { cue ->
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Last: ${cue.label}", style = MaterialTheme.typography.bodySmall)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Stimulus",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Icon(
+                    imageVector = Icons.Default.Lightbulb,
+                    contentDescription = null,
+                    tint = if (state.activeCue != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = if (state.hasExternalDisplay) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = if (state.hasExternalDisplay) Icons.Default.CheckCircle else Icons.Default.Warning,
+                        contentDescription = null,
+                        tint = if (state.hasExternalDisplay) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Text(
+                        text = if (state.hasExternalDisplay) "External display ready" else "External display not detected",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (state.hasExternalDisplay) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            state.activeCue?.let { cue ->
+                Spacer(modifier = Modifier.height(8.dp))
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.tertiaryContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Text(
+                        text = "Active: ${cue.label}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        modifier = Modifier.padding(12.dp)
+                    )
+                }
+            } ?: state.lastCue?.let { cue ->
+                Spacer(modifier = Modifier.height(8.dp))
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Text(
+                        text = "Last: ${cue.label}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(12.dp)
+                    )
+                }
+            }
+
             Spacer(modifier = Modifier.height(12.dp))
-            Button(onClick = onTriggerStimulus) {
+            FilledTonalButton(
+                onClick = onTriggerStimulus,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Lightbulb,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "Preview Stimulus")
             }
         }
@@ -259,39 +441,102 @@ private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
 
 @Composable
 private fun DeviceList(devices: List<SensorDevice>) {
-    Card(
+    ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("live-devices"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            .testTag("live-devices")
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Devices", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Devices",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             if (devices.isEmpty()) {
-                Text(
-                    text = "No devices registered.",
-                    modifier = Modifier.testTag("live-no-devices")
-                )
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Text(
+                        text = "No devices registered.",
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .testTag("live-no-devices"),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             } else {
-                devices.forEach { device ->
-                    Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                        Text(
-                            text = "${device.displayName} (${device.type})",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(text = "Status: ${device.connectionStatus}")
-                        Text(text = "Capabilities: ${device.capabilities.joinToString { it.name }}")
-                        if (device.attributes.isNotEmpty()) {
-                            Text(
-                                text = "Attributes: ${
-                                    device.attributes.entries.joinToString { "${it.key}=${it.value}" }
-                                }",
-                                style = MaterialTheme.typography.bodySmall
-                            )
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    devices.forEach { device ->
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = when (device.connectionStatus) {
+                                is ConnectionStatus.Connected -> MaterialTheme.colorScheme.primaryContainer
+                                else -> MaterialTheme.colorScheme.surfaceVariant
+                            },
+                            shape = MaterialTheme.shapes.small
+                        ) {
+                            Column(modifier = Modifier.padding(12.dp)) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "${device.displayName} (${device.type})",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = when (device.connectionStatus) {
+                                            is ConnectionStatus.Connected -> MaterialTheme.colorScheme.onPrimaryContainer
+                                            else -> MaterialTheme.colorScheme.onSurfaceVariant
+                                        }
+                                    )
+                                    Icon(
+                                        imageVector = when (device.connectionStatus) {
+                                            is ConnectionStatus.Connected -> Icons.Default.CheckCircle
+                                            else -> Icons.Default.Warning
+                                        },
+                                        contentDescription = null,
+                                        tint = when (device.connectionStatus) {
+                                            is ConnectionStatus.Connected -> MaterialTheme.colorScheme.onPrimaryContainer
+                                            else -> MaterialTheme.colorScheme.onSurfaceVariant
+                                        },
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                }
+                                Text(
+                                    text = "Status: ${device.connectionStatus}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = when (device.connectionStatus) {
+                                        is ConnectionStatus.Connected -> MaterialTheme.colorScheme.onPrimaryContainer
+                                        else -> MaterialTheme.colorScheme.onSurfaceVariant
+                                    }
+                                )
+                                Text(
+                                    text = "Capabilities: ${device.capabilities.joinToString { it.name }}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = when (device.connectionStatus) {
+                                        is ConnectionStatus.Connected -> MaterialTheme.colorScheme.onPrimaryContainer
+                                        else -> MaterialTheme.colorScheme.onSurfaceVariant
+                                    }
+                                )
+                                if (device.attributes.isNotEmpty()) {
+                                    Text(
+                                        text = "Attributes: ${
+                                            device.attributes.entries.joinToString { "${it.key}=${it.value}" }
+                                        }",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = when (device.connectionStatus) {
+                                            is ConnectionStatus.Connected -> MaterialTheme.colorScheme.onPrimaryContainer
+                                            else -> MaterialTheme.colorScheme.onSurfaceVariant
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
                 }
             }
         }
@@ -492,25 +737,157 @@ private fun BookmarkList(bookmarks: List<RecordingBookmark>) {
 @Composable
 private fun StorageCard(state: LiveSessionUiState) {
     val storage = state.storage
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Storage", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Total: ${formatBytes(storage.totalBytes)}")
-            Text(text = "Available: ${formatBytes(storage.availableBytes)}")
-            Text(text = "Used: ${formatBytes(storage.usedBytes)}")
-            Text(text = "Status: ${storage.status.name}")
+            Text(
+                text = "Storage",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = when (storage.status.name) {
+                    "LOW" -> MaterialTheme.colorScheme.errorContainer
+                    "WARNING" -> MaterialTheme.colorScheme.tertiaryContainer
+                    else -> MaterialTheme.colorScheme.primaryContainer
+                },
+                shape = MaterialTheme.shapes.small
+            ) {
+                Column(
+                    modifier = Modifier.padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Total:",
+                            fontWeight = FontWeight.Medium,
+                            color = when (storage.status.name) {
+                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                else -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
+                        )
+                        Text(
+                            text = formatBytes(storage.totalBytes),
+                            color = when (storage.status.name) {
+                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                else -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Available:",
+                            fontWeight = FontWeight.Medium,
+                            color = when (storage.status.name) {
+                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                else -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
+                        )
+                        Text(
+                            text = formatBytes(storage.availableBytes),
+                            color = when (storage.status.name) {
+                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                else -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Used:",
+                            fontWeight = FontWeight.Medium,
+                            color = when (storage.status.name) {
+                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                else -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
+                        )
+                        Text(
+                            text = formatBytes(storage.usedBytes),
+                            color = when (storage.status.name) {
+                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                else -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Status:",
+                            fontWeight = FontWeight.SemiBold,
+                            color = when (storage.status.name) {
+                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                else -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
+                        )
+                        Text(
+                            text = storage.status.name,
+                            fontWeight = FontWeight.SemiBold,
+                            color = when (storage.status.name) {
+                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                else -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
+                        )
+                    }
+                }
+            }
+
             if (storage.sessions.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "Sessions:", style = MaterialTheme.typography.labelLarge)
-                storage.sessions.take(6).forEach { usage ->
-                    Text(
-                        text = "${usage.sessionId} — ${formatBytes(usage.bytes)}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
+                Text(
+                    text = "Sessions:",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    storage.sessions.take(6).forEach { usage ->
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            shape = MaterialTheme.shapes.small
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = usage.sessionId,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                Text(
+                                    text = formatBytes(usage.bytes),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    fontWeight = FontWeight.Medium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -576,7 +953,7 @@ private fun CollapsibleRecordingCard(state: LiveSessionUiState) {
         label = "rotation",
         animationSpec = MotionTokens.mediumElementEnter()
     )
-    
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
@@ -607,7 +984,7 @@ private fun CollapsibleRecordingCard(state: LiveSessionUiState) {
                     modifier = Modifier.rotate(rotationAngle)
                 )
             }
-            
+
             AnimatedVisibility(
                 visible = expanded,
                 enter = MotionTransitions.expandVertically(),
@@ -626,7 +1003,7 @@ private fun CollapsibleRecordingCard(state: LiveSessionUiState) {
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
-                    
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -669,7 +1046,7 @@ private fun InfoRow(label: String, value: String) {
 @Composable
 private fun DeviceStreamGrid(devices: List<SensorDevice>) {
     if (devices.isEmpty()) return
-    
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -680,7 +1057,7 @@ private fun DeviceStreamGrid(devices: List<SensorDevice>) {
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
-            
+
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -702,13 +1079,13 @@ private fun DeviceStatusChip(device: SensorDevice) {
         ConnectionStatus.Connecting -> MaterialTheme.colorScheme.secondaryContainer
         else -> MaterialTheme.colorScheme.surfaceVariant
     }
-    
+
     val iconColor = when (device.connectionStatus) {
         is ConnectionStatus.Connected -> MaterialTheme.colorScheme.primary
         ConnectionStatus.Connecting -> MaterialTheme.colorScheme.secondary
         else -> MaterialTheme.colorScheme.onSurfaceVariant
     }
-    
+
     Card(
         colors = CardDefaults.cardColors(containerColor = backgroundColor)
     ) {
@@ -781,7 +1158,7 @@ private fun UploadStatusCard(uploads: List<UploadStatus>, backlog: UploadBacklog
                     )
                 }
             }
-            
+
             if (uploads.isNotEmpty()) {
                 Column(
                     modifier = Modifier.padding(top = Spacing.Medium),
@@ -792,7 +1169,7 @@ private fun UploadStatusCard(uploads: List<UploadStatus>, backlog: UploadBacklog
                     }
                 }
             }
-            
+
             if (backlog.level != UploadBacklogLevel.NORMAL || backlog.message != null) {
                 Text(
                     text = backlog.message ?: "Upload backlog: ${backlog.level}",
@@ -816,7 +1193,7 @@ private fun UploadProgressItem(upload: UploadStatus) {
     } else {
         0f
     }
-    
+
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),

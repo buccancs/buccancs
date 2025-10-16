@@ -65,6 +65,7 @@ interface DataTransferService {
 Move each nested class to separate file with minimal dependencies:
 
 **File structure:**
+
 ```
 desktop/src/main/kotlin/com/buccancs/desktop/data/grpc/
 ├── GrpcServer.kt (coordinator only)
@@ -80,34 +81,34 @@ desktop/src/main/kotlin/com/buccancs/desktop/data/grpc/
 **Dependency analysis per service:**
 
 1. **CommandServiceImpl**
-   - Dependencies: CommandRepository
-   - Size: ~60 lines
-   - Complexity: Low
+    - Dependencies: CommandRepository
+    - Size: ~60 lines
+    - Complexity: Low
 
 2. **OrchestrationServiceImpl**
-   - Dependencies: SessionRepository, DeviceRepository, CommandRepository, SensorRecordingManager
-   - Size: ~170 lines
-   - Complexity: High (device registration, status aggregation)
+    - Dependencies: SessionRepository, DeviceRepository, CommandRepository, SensorRecordingManager
+    - Size: ~170 lines
+    - Complexity: High (device registration, status aggregation)
 
 3. **TimeSyncServiceImpl**
-   - Dependencies: None (stateless)
-   - Size: ~60 lines
-   - Complexity: Low
+    - Dependencies: None (stateless)
+    - Size: ~60 lines
+    - Complexity: Low
 
 4. **PreviewServiceImpl**
-   - Dependencies: PreviewRepository, DeviceRepository
-   - Size: ~70 lines
-   - Complexity: Medium
+    - Dependencies: PreviewRepository, DeviceRepository
+    - Size: ~70 lines
+    - Complexity: Medium
 
 5. **SensorStreamServiceImpl**
-   - Dependencies: SensorRecordingManager, DeviceRepository
-   - Size: ~80 lines
-   - Complexity: Medium
+    - Dependencies: SensorRecordingManager, DeviceRepository
+    - Size: ~80 lines
+    - Complexity: Medium
 
 6. **DataTransferServiceImpl**
-   - Dependencies: SessionRepository, DeviceRepository
-   - Size: ~220 lines
-   - Complexity: High (file upload, checksum validation)
+    - Dependencies: SessionRepository, DeviceRepository
+    - Size: ~220 lines
+    - Complexity: High (file upload, checksum validation)
 
 ### Phase 3: Update GrpcServer to Coordinator
 

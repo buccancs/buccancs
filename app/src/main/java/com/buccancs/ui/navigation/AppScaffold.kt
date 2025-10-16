@@ -41,7 +41,7 @@ fun AppScaffold(
 private fun AppBottomNavigation(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    
+
     NavigationBar {
         bottomNavItems.forEach { item ->
             NavigationBarItem(

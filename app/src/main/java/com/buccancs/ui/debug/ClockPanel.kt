@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.buccancs.domain.model.TimeSyncObservation
 import com.buccancs.domain.model.TimeSyncStatus
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun ClockPanel(

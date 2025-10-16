@@ -1,8 +1,8 @@
 package com.buccancs.domain.model
 
 import android.net.Uri
-import kotlin.time.Instant
 import java.io.File
+import kotlin.time.Instant
 
 data class SessionArtifact(
     val deviceId: DeviceId,

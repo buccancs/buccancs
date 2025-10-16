@@ -25,11 +25,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.abs
 import kotlin.math.roundToLong
+import kotlin.time.Instant
 
 @Singleton
 class DefaultTimeSyncService @Inject constructor(

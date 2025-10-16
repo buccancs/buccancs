@@ -20,13 +20,12 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.OpenInFull
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -45,9 +44,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import com.buccancs.ui.components.topdon.TopdonButton
-import com.buccancs.ui.components.topdon.TopdonOutlinedButton
-import com.buccancs.ui.components.topdon.TopdonTextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -67,14 +63,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
-import kotlin.time.Instant
+import com.buccancs.ui.components.topdon.TopdonButton
+import com.buccancs.ui.components.topdon.TopdonOutlinedButton
 import kotlin.math.roundToInt
+import kotlin.time.Instant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopdonRoute(
     deviceId: DeviceId,
     onNavigateUp: () -> Unit,
+    onNavigateToThermalPreview: () -> Unit = {},
     viewModel: TopdonViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -85,6 +84,7 @@ fun TopdonRoute(
     TopdonScreen(
         state = state,
         onNavigateUp = onNavigateUp,
+        onNavigateToThermalPreview = onNavigateToThermalPreview,
         onRefresh = viewModel::refresh,
         onConnect = viewModel::connect,
         onDisconnect = viewModel::disconnect,
@@ -104,6 +104,7 @@ fun TopdonRoute(
 private fun TopdonScreen(
     state: TopdonUiState,
     onNavigateUp: () -> Unit,
+    onNavigateToThermalPreview: () -> Unit,
     onRefresh: () -> Unit,
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
@@ -150,7 +151,7 @@ private fun TopdonScreen(
                 TopdonStatusCard(state, onRefresh, onConnect, onDisconnect, onClearError)
             }
             item {
-                TopdonPreviewCard(state, onStartPreview, onStopPreview, onTogglePreview)
+                TopdonPreviewCard(state, onStartPreview, onStopPreview, onTogglePreview, onNavigateToThermalPreview)
             }
             item {
                 TopdonSettingsCard(state, onSetAutoConnect, onSelectPalette, onSelectSuperSampling, onUpdatePreviewFps)
@@ -312,7 +313,8 @@ private fun TopdonPreviewCard(
     state: TopdonUiState,
     onStartPreview: () -> Unit,
     onStopPreview: () -> Unit,
-    onTogglePreview: () -> Unit
+    onTogglePreview: () -> Unit,
+    onNavigateToThermalPreview: () -> Unit
 ) {
     val previewFrame = state.previewFrame
     val imageBitmap = remember(previewFrame?.payload) {
@@ -434,6 +436,16 @@ private fun TopdonPreviewCard(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text("Stop")
+                }
+
+                FilledTonalIconButton(
+                    onClick = onNavigateToThermalPreview,
+                    enabled = state.isConnected
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.OpenInFull,
+                        contentDescription = "Full screen preview"
+                    )
                 }
             }
         }

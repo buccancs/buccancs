@@ -28,7 +28,7 @@ class GrpcServer(
 ) {
     private val logger = LoggerFactory.getLogger(GrpcServer::class.java)
     private val started = AtomicBoolean(false)
-    
+
     private val server: Server = NettyServerBuilder
         .forPort(port)
         .executor(Dispatchers.Default.asExecutor())

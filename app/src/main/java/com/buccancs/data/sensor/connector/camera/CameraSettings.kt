@@ -1,7 +1,7 @@
 package com.buccancs.data.sensor.connector.camera
 
 import android.hardware.camera2.CaptureRequest
-import java.util.Locale
+import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 

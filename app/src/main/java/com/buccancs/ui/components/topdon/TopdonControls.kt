@@ -142,7 +142,7 @@ fun TopdonSlider(
                 color = TopdonColors.Primary
             )
         }
-        
+
         Slider(
             value = value,
             onValueChange = onValueChange,
@@ -223,7 +223,7 @@ private fun TopdonControlsPreview() {
         var sliderValue by remember { mutableFloatStateOf(50f) }
         var tempValue by remember { mutableFloatStateOf(25f) }
         var zoomValue by remember { mutableFloatStateOf(1f) }
-        
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -238,7 +238,7 @@ private fun TopdonControlsPreview() {
                 Text("Auto-connect", color = TopdonColors.TextPrimary)
                 TopdonSwitch(checked = switchState, onCheckedChange = { switchState = it })
             }
-            
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 TopdonCheckbox(checked = checkboxState, onCheckedChange = { checkboxState = it })
                 Text(
@@ -247,7 +247,7 @@ private fun TopdonControlsPreview() {
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-            
+
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     TopdonRadioButton(selected = radioState == 0, onClick = { radioState = 0 })
@@ -266,21 +266,21 @@ private fun TopdonControlsPreview() {
                     )
                 }
             }
-            
+
             TopdonSlider(
                 value = sliderValue,
                 onValueChange = { sliderValue = it },
                 valueRange = 0f..100f,
                 label = "Frame Rate"
             )
-            
+
             TopdonTemperatureSlider(
                 value = tempValue,
                 onValueChange = { tempValue = it },
                 valueRange = -20f..120f,
                 label = "Temperature Threshold"
             )
-            
+
             TopdonZoomSlider(
                 value = zoomValue,
                 onValueChange = { zoomValue = it }

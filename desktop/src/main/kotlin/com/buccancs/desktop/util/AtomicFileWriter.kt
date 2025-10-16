@@ -14,7 +14,7 @@ import kotlin.io.path.readBytes
  * Ensures files are written completely or not at all.
  */
 object AtomicFileWriter {
-    
+
     /**
      * Writes content atomically by writing to a temporary file first,
      * then moving it to the target location.
@@ -29,7 +29,7 @@ object AtomicFileWriter {
                 StandardOpenOption.TRUNCATE_EXISTING,
                 StandardOpenOption.SYNC
             )
-            
+
             Files.move(
                 tempPath,
                 targetPath,
@@ -41,14 +41,14 @@ object AtomicFileWriter {
             throw e
         }
     }
-    
+
     /**
      * Writes string content atomically.
      */
     fun writeAtomicString(targetPath: Path, content: String) {
         writeAtomic(targetPath, content.toByteArray(StandardCharsets.UTF_8))
     }
-    
+
     /**
      * Writes content atomically with checksum verification.
      * Stores checksum in a companion .sha256 file.
@@ -56,9 +56,9 @@ object AtomicFileWriter {
     fun writeAtomicWithChecksum(targetPath: Path, content: ByteArray) {
         val checksum = calculateSha256(content)
         val checksumPath = targetPath.resolveSibling("${targetPath.fileName}.sha256")
-        
+
         writeAtomic(targetPath, content)
-        
+
         try {
             Files.writeString(
                 checksumPath,
@@ -71,14 +71,14 @@ object AtomicFileWriter {
             throw e
         }
     }
-    
+
     /**
      * Writes string content atomically with checksum.
      */
     fun writeAtomicStringWithChecksum(targetPath: Path, content: String) {
         writeAtomicWithChecksum(targetPath, content.toByteArray(StandardCharsets.UTF_8))
     }
-    
+
     /**
      * Verifies file integrity by checking stored checksum.
      */
@@ -86,12 +86,12 @@ object AtomicFileWriter {
         if (!filePath.exists()) {
             return false
         }
-        
+
         val checksumPath = filePath.resolveSibling("${filePath.fileName}.sha256")
         if (!checksumPath.exists()) {
             return false
         }
-        
+
         return try {
             val content = filePath.readBytes()
             val actualChecksum = calculateSha256(content)
@@ -101,7 +101,7 @@ object AtomicFileWriter {
             false
         }
     }
-    
+
     /**
      * Reads file content with checksum verification.
      */
@@ -111,20 +111,20 @@ object AtomicFileWriter {
         }
         return filePath.readBytes()
     }
-    
+
     /**
      * Reads string content with checksum verification.
      */
     fun readVerifiedString(filePath: Path): String {
         return String(readVerified(filePath), StandardCharsets.UTF_8)
     }
-    
+
     /**
      * Write-ahead logging: creates a backup before modifying critical files.
      */
     fun writeWithBackup(targetPath: Path, content: ByteArray) {
         val backupPath = targetPath.resolveSibling("${targetPath.fileName}.backup")
-        
+
         if (targetPath.exists()) {
             Files.copy(
                 targetPath,
@@ -132,7 +132,7 @@ object AtomicFileWriter {
                 StandardCopyOption.REPLACE_EXISTING
             )
         }
-        
+
         try {
             writeAtomicWithChecksum(targetPath, content)
             backupPath.toFile().delete()
@@ -147,24 +147,24 @@ object AtomicFileWriter {
             throw e
         }
     }
-    
+
     /**
      * Write-ahead logging for string content.
      */
     fun writeStringWithBackup(targetPath: Path, content: String) {
         writeWithBackup(targetPath, content.toByteArray(StandardCharsets.UTF_8))
     }
-    
+
     /**
      * Recovers from backup if primary file is corrupted.
      */
     fun recoverFromBackup(targetPath: Path): Boolean {
         val backupPath = targetPath.resolveSibling("${targetPath.fileName}.backup")
-        
+
         if (!backupPath.exists()) {
             return false
         }
-        
+
         return try {
             Files.move(
                 backupPath,
@@ -176,7 +176,7 @@ object AtomicFileWriter {
             false
         }
     }
-    
+
     private fun calculateSha256(content: ByteArray): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val hash = digest.digest(content)

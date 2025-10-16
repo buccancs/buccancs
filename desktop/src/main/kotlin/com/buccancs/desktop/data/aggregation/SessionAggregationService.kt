@@ -27,7 +27,7 @@ class SessionAggregationService(
 ) {
     private val logger = LoggerFactory.getLogger(SessionAggregationService::class.java)
     private val mutex = Mutex()
-    
+
     /**
      * Aggregates a received file into the session structure.
      */
@@ -45,7 +45,7 @@ class SessionAggregationService(
             if (!sessionDir.exists()) {
                 return AggregationResult.failure("Session directory does not exist: $sessionId")
             }
-            
+
             // Verify checksum if provided
             if (checksum != null && checksum.isNotEmpty()) {
                 val computed = MessageDigest.getInstance("SHA-256").digest(content)
@@ -54,18 +54,18 @@ class SessionAggregationService(
                     return AggregationResult.failure("Checksum mismatch for $fileName")
                 }
             }
-            
+
             // Create device directory
             val deviceDir = sessionDir.resolve("devices").resolve(deviceId)
             Files.createDirectories(deviceDir)
-            
+
             // Create stream type subdirectory if specified
             val targetDir = if (streamType != null) {
                 deviceDir.resolve(streamType).also { Files.createDirectories(it) }
             } else {
                 deviceDir
             }
-            
+
             // Check for duplicates
             val targetPath = targetDir.resolve(fileName)
             if (targetPath.exists()) {
@@ -81,21 +81,21 @@ class SessionAggregationService(
                     return AggregationResult.success(renamed.fileName.toString())
                 }
             }
-            
+
             // Write file
             Files.write(targetPath, content)
             logger.info("Aggregated file {} from device {} ({} bytes)", fileName, deviceId, content.size)
-            
+
             // Update manifest
             updateManifest(sessionId, deviceId, targetPath, content.size.toLong(), checksum, mimeType, streamType)
-            
+
             AggregationResult.success(fileName)
         } catch (e: Exception) {
             logger.error("Failed to aggregate file {} from {}", fileName, deviceId, e)
             AggregationResult.failure(e.message ?: "Unknown error")
         }
     }
-    
+
     /**
      * Consolidates all device manifests into a unified session manifest.
      */
@@ -103,24 +103,24 @@ class SessionAggregationService(
         try {
             val sessionDir = sessionRepository.sessionDirectory(sessionId)
             val devicesDir = sessionDir.resolve("devices")
-            
+
             if (!devicesDir.exists()) {
                 return AggregationResult.failure("No devices directory found")
             }
-            
+
             val consolidatedManifest = SessionManifest(
                 sessionId = sessionId,
                 createdAt = System.currentTimeMillis(),
                 devices = mutableMapOf()
             )
-            
+
             // Read each device manifest
             Files.list(devicesDir).use { deviceDirs ->
                 deviceDirs.forEach { deviceDir ->
                     if (Files.isDirectory(deviceDir)) {
                         val deviceId = deviceDir.fileName.toString()
                         val manifestPath = deviceDir.resolve("manifest.json")
-                        
+
                         if (manifestPath.exists()) {
                             try {
                                 val manifestContent = Files.readString(manifestPath)
@@ -134,22 +134,24 @@ class SessionAggregationService(
                     }
                 }
             }
-            
+
             // Write consolidated manifest atomically with backup
             val consolidatedPath = sessionDir.resolve("session-manifest.json")
             val manifestJson = json.encodeToString(consolidatedManifest)
             AtomicFileWriter.writeStringWithBackup(consolidatedPath, manifestJson)
-            
-            logger.info("Consolidated manifest created for session {} with {} devices", 
-                sessionId, consolidatedManifest.devices.size)
-            
+
+            logger.info(
+                "Consolidated manifest created for session {} with {} devices",
+                sessionId, consolidatedManifest.devices.size
+            )
+
             AggregationResult.success("Consolidated ${consolidatedManifest.devices.size} device manifests")
         } catch (e: Exception) {
             logger.error("Failed to consolidate manifests for session {}", sessionId, e)
             AggregationResult.failure(e.message ?: "Consolidation failed")
         }
     }
-    
+
     /**
      * Validates session completeness.
      */
@@ -158,7 +160,7 @@ class SessionAggregationService(
             try {
                 val sessionDir = sessionRepository.sessionDirectory(sessionId)
                 val manifestPath = sessionDir.resolve("session-manifest.json")
-                
+
                 if (!manifestPath.exists()) {
                     return SessionCompletenessReport(
                         sessionId = sessionId,
@@ -167,14 +169,14 @@ class SessionAggregationService(
                         error = "Session manifest not found"
                     )
                 }
-                
+
                 val manifestContent = Files.readString(manifestPath)
                 val manifest = json.decodeFromString<SessionManifest>(manifestContent)
-                
+
                 val missingFiles = mutableListOf<String>()
                 var totalExpected = 0
                 var totalReceived = 0
-                
+
                 manifest.devices.forEach { (deviceId, deviceManifest) ->
                     deviceManifest.artifacts.forEach { artifact ->
                         totalExpected++
@@ -182,7 +184,7 @@ class SessionAggregationService(
                             .resolve(deviceId)
                             .resolve(artifact.streamType ?: "")
                             .resolve(artifact.fileName)
-                        
+
                         if (!filePath.exists()) {
                             missingFiles.add("$deviceId/${artifact.fileName}")
                         } else {
@@ -190,7 +192,7 @@ class SessionAggregationService(
                         }
                     }
                 }
-                
+
                 SessionCompletenessReport(
                     sessionId = sessionId,
                     isComplete = missingFiles.isEmpty(),
@@ -210,7 +212,7 @@ class SessionAggregationService(
             }
         }
     }
-    
+
     private fun updateManifest(
         sessionId: String,
         deviceId: String,
@@ -224,14 +226,14 @@ class SessionAggregationService(
             val sessionDir = sessionRepository.sessionDirectory(sessionId)
             val deviceDir = sessionDir.resolve("devices").resolve(deviceId)
             val manifestPath = deviceDir.resolve("manifest.json")
-            
+
             val manifest = if (manifestPath.exists()) {
                 val content = Files.readString(manifestPath)
                 json.decodeFromString<DeviceManifest>(content)
             } else {
                 DeviceManifest(deviceId = deviceId, artifacts = mutableListOf())
             }
-            
+
             val artifact = FileArtifact(
                 fileName = filePath.fileName.toString(),
                 size = size,
@@ -240,16 +242,16 @@ class SessionAggregationService(
                 streamType = streamType,
                 receivedAt = System.currentTimeMillis()
             )
-            
+
             manifest.artifacts.add(artifact)
-            
+
             val manifestJson = json.encodeToString(manifest)
             AtomicFileWriter.writeStringWithBackup(manifestPath, manifestJson)
         } catch (e: Exception) {
             logger.error("Failed to update manifest", e)
         }
     }
-    
+
     private fun generateUniqueFileName(directory: Path, originalName: String): Path {
         val baseName = originalName.substringBeforeLast('.')
         val extension = if (originalName.contains('.')) {
@@ -257,17 +259,17 @@ class SessionAggregationService(
         } else {
             ""
         }
-        
+
         var counter = 1
         var candidatePath: Path
         do {
             candidatePath = directory.resolve("${baseName}_$counter$extension")
             counter++
         } while (candidatePath.exists())
-        
+
         return candidatePath
     }
-    
+
     private fun bytesToHex(bytes: ByteArray): String {
         return bytes.joinToString("") { "%02x".format(it) }
     }
@@ -310,7 +312,7 @@ sealed class AggregationResult {
     data class Success(val message: String) : AggregationResult()
     data class Duplicate(val fileName: String) : AggregationResult()
     data class Failure(val error: String) : AggregationResult()
-    
+
     companion object {
         fun success(message: String) = Success(message)
         fun duplicate(fileName: String) = Duplicate(fileName)

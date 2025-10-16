@@ -12,10 +12,10 @@ object Dimensions {
     val IconSizeSmall = 16.dp      // For status indicators, chips
     val IconSizeDefault = 24.dp    // Standard icon size
     val IconSizeLarge = 32.dp      // Large icons, FAB
-    
+
     // Touch targets (minimum 48dp per MD3)
     val TouchTargetMinimum = 48.dp
-    
+
     // Common sizes aligned to 8dp grid
     val Size160 = 160.dp  // Preview height
     val Size120 = 120.dp

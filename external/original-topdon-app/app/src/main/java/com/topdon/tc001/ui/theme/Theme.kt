@@ -42,7 +42,7 @@ fun TopdonTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = DarkColorScheme
-    
+
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setSystemBarsColor(

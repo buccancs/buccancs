@@ -34,11 +34,11 @@ fun WebViewRoute(
     viewModel: WebViewViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    
+
     LaunchedEffect(url) {
         viewModel.loadUrl(url)
     }
-    
+
     WebViewScreen(
         title = title.ifEmpty { state.title },
         url = state.url,
@@ -56,7 +56,7 @@ private fun WebViewScreen(
     onNavigateUp: () -> Unit
 ) {
     var webViewLoading by remember { mutableStateOf(true) }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -97,7 +97,7 @@ private fun WebViewScreen(
                     modifier = Modifier.fillMaxSize()
                 )
             }
-            
+
             if (isLoading || webViewLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)

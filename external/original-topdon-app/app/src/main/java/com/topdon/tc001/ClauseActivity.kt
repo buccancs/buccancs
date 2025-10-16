@@ -1,23 +1,29 @@
 package com.topdon.tc001
 
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.topdon.lib.core.BaseApplication
 import com.topdon.lib.core.common.SharedManager
 import com.topdon.lib.core.config.RouterConfig
-import com.topdon.lib.core.dialog.TipDialog
-import com.topdon.lib.core.dialog.TipProgressDialog
 import com.topdon.lib.core.utils.CommUtils
 import com.topdon.lms.sdk.utils.NetworkUtil
-import android.widget.Toast
 import com.topdon.tc001.app.App
+import com.topdon.tc001.ui.theme.TopdonTheme
 import com.topdon.tc001.utils.VersionUtils
-import kotlinx.android.synthetic.main.activity_clause.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -25,101 +31,168 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 @Route(path = RouterConfig.CLAUSE)
-class ClauseActivity : AppCompatActivity() {
-    private lateinit var dialog: TipProgressDialog
+class ClauseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_clause)
-        initView()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val appName = CommUtils.getAppName()
+        val year = Calendar.getInstance().get(Calendar.YEAR)
+        val version = VersionUtils.getCodeStr(this)
+        val keyUseType = if (BaseApplication.instance.isDomestic()) 1 else 0
+
+        setContent {
+            TopdonTheme {
+                ClauseScreen(
+                    appName = appName,
+                    yearRange = "2023-$year",
+                    version = version,
+                    onAgree = { confirmInitApp() },
+                    onDisagree = { showDisagreeDialog() },
+                    onNavigateToPolicy = { themeType ->
+                        if (NetworkUtil.isConnected(this)) {
+                            ARouter.getInstance()
+                                .build(RouterConfig.POLICY)
+                                .withInt(PolicyActivity.KEY_THEME_TYPE, themeType)
+                                .withInt(PolicyActivity.KEY_USE_TYPE, keyUseType)
+                                .navigation(this)
+                        }
+                    }
+                )
+            }
+        }
     }
 
-    private fun initView() {
-        dialog = TipProgressDialog.Builder(this)
-            .setMessage(com.topdon.lib.core.R.string.tip_loading)
-            .setCanceleable(false)
-            .create()
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        clause_year_txt.text = getString(R.string.version_year, "2023-$year")
-        clause_agree_btn.setOnClickListener {
-            confirmInitApp()
-        }
-        clause_disagree_btn.setOnClickListener {
-            TipDialog.Builder(this)
-                .setMessage(getString(R.string.privacy_tips))
-                .setPositiveListener(R.string.privacy_confirm) {
-                    confirmInitApp()
-                }
-                .setCancelListener(R.string.privacy_cancel) {
-                    this.finish()
-                }
-                .setCanceled(true)
-                .create().show()
-        }
-        val keyUseType = if (BaseApplication.instance.isDomestic()) 1 else 0
-        clause_item.setOnClickListener {
-            if (!NetworkUtil.isConnected(this)) {
-                TToast.shortToast(this, R.string.lms_setting_http_error)
-            } else {
-                ARouter.getInstance()
-                    .build(RouterConfig.POLICY)
-                    .withInt(PolicyActivity.KEY_THEME_TYPE, 1)
-                    .withInt(PolicyActivity.KEY_USE_TYPE, keyUseType)
-                    .navigation(this)
-            }
-        }
-        clause_item2.setOnClickListener {
-            if (!NetworkUtil.isConnected(this)) {
-                TToast.shortToast(this, R.string.lms_setting_http_error)
-            } else {
-                ARouter.getInstance()
-                    .build(RouterConfig.POLICY)
-                    .withInt(PolicyActivity.KEY_THEME_TYPE, 2)
-                    .withInt(PolicyActivity.KEY_USE_TYPE, keyUseType)
-                    .navigation(this)
-            }
-        }
-        clause_item3.setOnClickListener {
-            if (!NetworkUtil.isConnected(this)) {
-                TToast.shortToast(this, R.string.lms_setting_http_error)
-            } else {
-                ARouter.getInstance()
-                    .build(RouterConfig.POLICY)
-                    .withInt(PolicyActivity.KEY_THEME_TYPE, 3)
-                    .withInt(PolicyActivity.KEY_USE_TYPE, keyUseType)
-                    .navigation(this)
-            }
-        }
-        if (BaseApplication.instance.isDomestic()) {
-            tv_privacy.text = "    ${getString(R.string.privacy_agreement_tips_new, CommUtils.getAppName())}"
-            tv_privacy.visibility = View.VISIBLE
-            tv_privacy.movementMethod = ScrollingMovementMethod.getInstance()
-        }
-        tv_welcome.text = getString(R.string.welcome_use_app, CommUtils.getAppName())
-        tv_version.text = "${getString(R.string.set_version)}V${VersionUtils.getCodeStr(this)}"
-        clause_name.text = CommUtils.getAppName()
+    private fun showDisagreeDialog() {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setMessage(getString(R.string.privacy_tips))
+            .setPositiveButton(R.string.privacy_confirm) { _, _ -> confirmInitApp() }
+            .setNegativeButton(R.string.privacy_cancel) { _, _ -> finish() }
+            .setCancelable(true)
+            .show()
     }
 
     private fun confirmInitApp() {
         lifecycleScope.launch {
-            showLoading()
             App.delayInit()
             async(Dispatchers.IO) {
                 delay(1000)
-                return@async
-            }.await().let {
-                ARouter.getInstance().build(RouterConfig.MAIN).navigation(this@ClauseActivity)
-                SharedManager.setHasShowClause(true)
-                dismissLoading()
-                finish()
-            }
+            }.await()
+            ARouter.getInstance().build(RouterConfig.MAIN).navigation(this@ClauseActivity)
+            SharedManager.setHasShowClause(true)
+            finish()
         }
     }
+}
 
-    private fun showLoading() {
-        dialog.show()
-    }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ClauseScreen(
+    appName: String,
+    version: String,
+    yearRange: String,
+    onAgree: () -> Unit,
+    onDisagree: () -> Unit,
+    onNavigateToPolicy: (Int) -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Terms & Conditions") }
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = "Welcome to $appName",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-    private fun dismissLoading() {
-        dialog.dismiss()
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = "Before using this application, please read and agree to:",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+
+                    TextButton(
+                        onClick = { onNavigateToPolicy(1) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("User Agreement")
+                    }
+
+                    TextButton(
+                        onClick = { onNavigateToPolicy(2) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Privacy Policy")
+                    }
+
+                    TextButton(
+                        onClick = { onNavigateToPolicy(3) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Terms of Service")
+                    }
+                }
+            }
+
+            Text(
+                text = "By agreeing, you confirm that you have read and understood the above policies.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                OutlinedButton(
+                    onClick = onDisagree,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Disagree")
+                }
+
+                Button(
+                    onClick = onAgree,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Agree & Continue")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "$yearRange\nVersion $version",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
+}
 }

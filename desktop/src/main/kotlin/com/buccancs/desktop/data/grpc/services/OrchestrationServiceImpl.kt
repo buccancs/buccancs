@@ -1,8 +1,8 @@
 package com.buccancs.desktop.data.grpc.services
 
 import com.buccancs.control.CommandAck
-import com.buccancs.control.DeviceStatus
 import com.buccancs.control.DeviceRegistration
+import com.buccancs.control.DeviceStatus
 import com.buccancs.control.EventMarkerRequest
 import com.buccancs.control.OrchestrationServiceGrpcKt
 import com.buccancs.control.ProtocolVersion
@@ -20,7 +20,6 @@ import com.buccancs.desktop.data.repository.DeviceRepository
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.domain.model.DeviceInfo
 import com.buccancs.desktop.domain.model.SessionStatus
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow

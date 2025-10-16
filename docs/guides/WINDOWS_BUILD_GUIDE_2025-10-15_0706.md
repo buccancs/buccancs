@@ -6,11 +6,14 @@
 
 ## Problem Statement
 
-WSL (Windows Subsystem for Linux) has persistent filesystem I/O errors when accessing the Windows Android SDK, preventing Gradle from compiling Android projects. This guide provides the solution: building from native Windows instead.
+WSL (Windows Subsystem for Linux) has persistent filesystem I/O errors when accessing the Windows Android SDK,
+preventing Gradle from compiling Android projects. This guide provides the solution: building from native Windows
+instead.
 
 ## Solution Overview
 
-Run Gradle builds from Windows Command Prompt or PowerShell while continuing to use WSL for Git operations and documentation work.
+Run Gradle builds from Windows Command Prompt or PowerShell while continuing to use WSL for Git operations and
+documentation work.
 
 ---
 
@@ -21,11 +24,13 @@ Run Gradle builds from Windows Command Prompt or PowerShell while continuing to 
 **Required:** JDK 21 (already installed based on local.properties)
 
 Verify installation:
+
 ```cmd
 java -version
 ```
 
 Expected output:
+
 ```
 openjdk version "21.0.8"
 ```
@@ -37,6 +42,7 @@ Location: `C:\Program Files\Java\jdk-24` (from local.properties)
 **Required:** Android SDK with build tools 36.1.0
 
 Verify installation:
+
 ```cmd
 dir "C:\Users\duyan\AppData\Local\Android\Sdk"
 ```
@@ -48,6 +54,7 @@ Location: `C:\Users\duyan\AppData\Local\Android\Sdk` (from local.properties)
 **Status:** Fixed (regenerated with proper manifest)
 
 Verify:
+
 ```cmd
 cd C:\dev\buccancs
 gradlew.bat --version
@@ -68,16 +75,19 @@ cd C:\dev\buccancs
 ### Common Build Commands
 
 #### 1. Build All Modules
+
 ```cmd
 gradlew.bat build
 ```
 
 #### 2. Clean Build
+
 ```cmd
 gradlew.bat clean build
 ```
 
 #### 3. Build Android APK
+
 ```cmd
 gradlew.bat :app:assembleDebug
 ```
@@ -85,23 +95,27 @@ gradlew.bat :app:assembleDebug
 Output: `app\build\outputs\apk\debug\app-debug.apk`
 
 #### 4. Build Desktop Application
+
 ```cmd
 gradlew.bat :desktop:run
 ```
 
 #### 5. Compile Tests
+
 ```cmd
 gradlew.bat :app:compileDebugAndroidTestKotlin
 gradlew.bat :app:compileDebugUnitTestKotlin
 ```
 
 #### 6. Run Tests (when tests enabled)
+
 ```cmd
 gradlew.bat :app:testDebugUnitTest
 gradlew.bat :desktop:test
 ```
 
 #### 7. Check Code Style
+
 ```cmd
 gradlew.bat :app:ktlintCheck
 gradlew.bat :desktop:ktlintCheck
@@ -133,12 +147,14 @@ C:\dev\buccancs\
 ### local.properties
 
 **Current (WSL paths - problematic):**
+
 ```properties
 sdk.dir=/mnt/c/Users/duyan/AppData/Local/Android/Sdk
 ANDROID_HOME=/mnt/c/Users/duyan/AppData/Local/Android/Sdk
 ```
 
 **Required (Windows paths - for native builds):**
+
 ```properties
 sdk.dir=C\:\\Users\\duyan\\AppData\\Local\\Android\\Sdk
 ANDROID_HOME=C\:\\Users\\duyan\\AppData\\Local\\Android\\Sdk
@@ -155,8 +171,8 @@ Set system environment variables in Windows:
 1. Open "Edit the system environment variables"
 2. Click "Environment Variables"
 3. Add/verify:
-   - `ANDROID_HOME` = `C:\Users\duyan\AppData\Local\Android\Sdk`
-   - `JAVA_HOME` = `C:\Program Files\Java\jdk-24`
+    - `ANDROID_HOME` = `C:\Users\duyan\AppData\Local\Android\Sdk`
+    - `JAVA_HOME` = `C:\Program Files\Java\jdk-24`
 4. Remove `sdk.dir` from `local.properties` to use environment variables
 
 ---
@@ -172,6 +188,7 @@ Set system environment variables in Windows:
 5. **Run:** Run → Run 'app'
 
 **Advantages:**
+
 - Native Windows environment
 - Full Android tooling
 - Integrated debugger
@@ -185,6 +202,7 @@ Set system environment variables in Windows:
 4. **Build:** Build → Build Project
 
 **Advantages:**
+
 - Better Kotlin support
 - Desktop module support
 - Multi-module project handling
@@ -196,17 +214,20 @@ Set system environment variables in Windows:
 ### Issue 1: Gradle Wrapper Not Found
 
 **Error:**
+
 ```
 'gradlew.bat' is not recognized as an internal or external command
 ```
 
 **Solution:**
+
 ```cmd
 cd C:\dev\buccancs
 dir gradlew.bat
 ```
 
 If missing, regenerate from WSL:
+
 ```bash
 cd /mnt/c/dev/buccancs
 gradle wrapper --gradle-version 8.14
@@ -215,12 +236,14 @@ gradle wrapper --gradle-version 8.14
 ### Issue 2: JAVA_HOME Not Set
 
 **Error:**
+
 ```
 ERROR: JAVA_HOME is not set and no 'java' command could be found
 ```
 
 **Solution:**
 Set JAVA_HOME environment variable or add to path:
+
 ```cmd
 set JAVA_HOME=C:\Program Files\Java\jdk-24
 set PATH=%JAVA_HOME%\bin;%PATH%
@@ -229,12 +252,14 @@ set PATH=%JAVA_HOME%\bin;%PATH%
 ### Issue 3: Android SDK Not Found
 
 **Error:**
+
 ```
 SDK location not found
 ```
 
 **Solution:**
 Create/update `local.properties`:
+
 ```properties
 sdk.dir=C\:\\Users\\duyan\\AppData\\Local\\Android\\Sdk
 ```
@@ -244,12 +269,14 @@ Or set ANDROID_HOME environment variable.
 ### Issue 4: Build Tools Version Mismatch
 
 **Error:**
+
 ```
 Installed Build Tools revision X is corrupted
 ```
 
 **Solution:**
 Update `app/build.gradle.kts`:
+
 ```kotlin
 android {
     buildToolsVersion = "36.1.0"  // Match installed version
@@ -259,17 +286,20 @@ android {
 ### Issue 5: Tests Disabled
 
 **Note:**
+
 ```
 ⏸️  Tests are DISABLED (use -Ptests.enabled=true to enable)
 ```
 
 **Solution:**
 Enable tests:
+
 ```cmd
 gradlew.bat test -Ptests.enabled=true
 ```
 
 Or update `gradle.properties`:
+
 ```properties
 tests.enabled=true
 ```
@@ -281,12 +311,14 @@ tests.enabled=true
 ### Recommended Approach
 
 **Use WSL for:**
+
 - Git operations (`git commit`, `git push`, `git pull`)
 - Documentation editing (Markdown files)
 - Text file modifications
 - Directory navigation and file management
 
 **Use Windows for:**
+
 - Gradle builds (`gradlew.bat build`)
 - Android compilation
 - Test execution
@@ -296,23 +328,27 @@ tests.enabled=true
 ### Workflow Example
 
 1. **Edit code in WSL:**
+
 ```bash
 cd /mnt/c/dev/buccancs
 vim app/src/main/kotlin/com/buccancs/ui/MainScreen.kt
 ```
 
 2. **Build in Windows Command Prompt:**
+
 ```cmd
 cd C:\dev\buccancs
 gradlew.bat :app:assembleDebug
 ```
 
 3. **Run tests in Windows:**
+
 ```cmd
 gradlew.bat :app:testDebugUnitTest -Ptests.enabled=true
 ```
 
 4. **Commit in WSL:**
+
 ```bash
 cd /mnt/c/dev/buccancs
 git add .
@@ -370,6 +406,7 @@ switch ($Command) {
 ```
 
 Usage:
+
 ```powershell
 .\build.ps1 apk
 .\build.ps1 test
@@ -409,6 +446,7 @@ if "%1"=="build" (
 ```
 
 Usage:
+
 ```cmd
 build.bat apk
 build.bat test
@@ -421,33 +459,43 @@ build.bat test
 After setup, verify everything works:
 
 ### 1. Check Java
+
 ```cmd
 java -version
 ```
+
 Expected: JDK 21
 
 ### 2. Check Gradle
+
 ```cmd
 gradlew.bat --version
 ```
+
 Expected: Gradle 8.14
 
 ### 3. Check Android SDK
+
 ```cmd
 dir "%ANDROID_HOME%\build-tools\36.1.0"
 ```
+
 Expected: Build tools present
 
 ### 4. Build Project
+
 ```cmd
 gradlew.bat build --no-daemon
 ```
+
 Expected: BUILD SUCCESSFUL
 
 ### 5. Compile Tests
+
 ```cmd
 gradlew.bat :app:compileDebugAndroidTestKotlin --no-daemon
 ```
+
 Expected: Successful compilation
 
 ---
@@ -457,6 +505,7 @@ Expected: Successful compilation
 ### 1. Use Gradle Daemon
 
 Add to `gradle.properties`:
+
 ```properties
 org.gradle.daemon=true
 org.gradle.parallel=true
@@ -466,6 +515,7 @@ org.gradle.caching=true
 ### 2. Increase Gradle Memory
 
 Add to `gradle.properties`:
+
 ```properties
 org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=512m
 ```
@@ -479,6 +529,7 @@ gradlew.bat build --build-cache
 ### 4. Use Configuration Cache (Gradle 8+)
 
 Add to `gradle.properties`:
+
 ```properties
 org.gradle.configuration-cache=true
 ```
@@ -490,11 +541,13 @@ org.gradle.configuration-cache=true
 ### Gradle Daemon Issues
 
 Stop daemon:
+
 ```cmd
 gradlew.bat --stop
 ```
 
 View daemon status:
+
 ```cmd
 gradlew.bat --status
 ```
@@ -536,6 +589,7 @@ gradlew.bat build
 **Status:** Ready to implement
 
 **Benefits:**
+
 - Eliminates WSL filesystem issues
 - Full Android tooling support
 - Faster build times
@@ -543,8 +597,10 @@ gradlew.bat build
 - Reliable test execution
 
 **Drawbacks:**
+
 - Requires context switching between WSL and Windows
 - Two environment configurations to maintain
 - Learning curve for Windows command line
 
-**Recommendation:** Use Android Studio for best developer experience with native Windows builds and WSL for Git operations.
+**Recommendation:** Use Android Studio for best developer experience with native Windows builds and WSL for Git
+operations.

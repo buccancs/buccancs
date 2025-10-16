@@ -44,7 +44,7 @@ import com.buccancs.ui.calibration.CalibrationActions
 import com.buccancs.ui.calibration.CalibrationPanel
 import com.buccancs.ui.calibration.CalibrationUiState
 import com.buccancs.ui.calibration.CalibrationViewModel
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun MainRoute(
@@ -134,9 +134,9 @@ fun MainScreen(
         ) { padding ->
             LazyColumn(
                 modifier = Modifier
-	                .fillMaxSize()
-	                .padding(padding)
-	                .padding(horizontal = 16.dp, vertical = 12.dp),
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
@@ -193,8 +193,8 @@ fun MainScreen(
         if (state.showSyncFlash) {
             Box(
                 modifier = Modifier
-	                .fillMaxSize()
-	                .background(Color.White.copy(alpha = 0.6f))
+                    .fillMaxSize()
+                    .background(Color.White.copy(alpha = 0.6f))
             )
         }
     }
@@ -213,24 +213,24 @@ private fun NavigationLinks(
         Button(
             onClick = onOpenLiveSession,
             modifier = Modifier
-	            .weight(1f)
-	            .testTag("nav-live-session")
+                .weight(1f)
+                .testTag("nav-live-session")
         ) {
             Text(text = "Live Session")
         }
         Button(
             onClick = onOpenLibrary,
             modifier = Modifier
-	            .weight(1f)
-	            .testTag("nav-library")
+                .weight(1f)
+                .testTag("nav-library")
         ) {
             Text(text = "Sessions")
         }
         OutlinedButton(
             onClick = onOpenSettings,
             modifier = Modifier
-	            .weight(1f)
-	            .testTag("nav-settings")
+                .weight(1f)
+                .testTag("nav-settings")
         ) {
             Text(text = "Settings")
         }
@@ -256,8 +256,8 @@ private fun SessionCard(
     ) {
         Column(
             modifier = Modifier
-	            .fillMaxWidth()
-	            .padding(16.dp),
+                .fillMaxWidth()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
@@ -396,8 +396,8 @@ private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
     ) {
         Column(
             modifier = Modifier
-	            .fillMaxWidth()
-	            .padding(16.dp),
+                .fillMaxWidth()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text("Recent Commands", style = MaterialTheme.typography.titleMedium)
@@ -441,14 +441,14 @@ private fun DeviceCard(
 ) {
     Card(
         modifier = Modifier
-	        .fillMaxWidth()
-	        .testTag("device-card-${device.id.value}"),
+            .fillMaxWidth()
+            .testTag("device-card-${device.id.value}"),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier = Modifier
-	            .fillMaxWidth()
-	            .padding(16.dp),
+                .fillMaxWidth()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(

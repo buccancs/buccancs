@@ -36,7 +36,7 @@ fun StatusChip(
         StatusLevel.ERROR -> MaterialTheme.colorScheme.error
         StatusLevel.INFO -> MaterialTheme.colorScheme.onSurfaceVariant
     }
-    
+
     AssistChip(
         onClick = onClick ?: {},
         label = { Text(label) },

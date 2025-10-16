@@ -1,6 +1,12 @@
 package com.buccancs.ui.components.topdon
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PhotoLibrary
+import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -12,7 +18,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.buccancs.ui.theme.topdon.TopdonColors
-import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.theme.topdon.TopdonTheme
 
 /**
@@ -129,31 +134,31 @@ private fun TopdonBottomNavigationPreview() {
             TopdonNavigationBarItem(
                 selected = false,
                 onClick = {},
-                icon = androidx.compose.material.icons.Icons.Default.Camera,
+                icon = Icons.Default.Camera,
                 label = "Monitor"
             )
             TopdonNavigationBarItem(
                 selected = false,
                 onClick = {},
-                icon = androidx.compose.material.icons.Icons.Default.PhotoLibrary,
+                icon = Icons.Default.PhotoLibrary,
                 label = "Gallery"
             )
             TopdonNavigationBarItem(
                 selected = true,
                 onClick = {},
-                icon = androidx.compose.material.icons.Icons.Default.Thermostat,
+                icon = Icons.Default.Thermostat,
                 label = "Thermal"
             )
             TopdonNavigationBarItem(
                 selected = false,
                 onClick = {},
-                icon = androidx.compose.material.icons.Icons.Default.Description,
+                icon = Icons.Default.Description,
                 label = "Report"
             )
             TopdonNavigationBarItemWithBadge(
                 selected = false,
                 onClick = {},
-                icon = androidx.compose.material.icons.Icons.Default.Person,
+                icon = Icons.Default.Person,
                 label = "Profile",
                 badgeCount = 3
             )

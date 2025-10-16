@@ -10,10 +10,10 @@ import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
-import kotlin.time.Instant
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Instant
 
 class TopdonScreenTest {
 

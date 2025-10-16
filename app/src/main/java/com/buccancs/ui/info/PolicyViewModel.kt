@@ -18,22 +18,22 @@ data class PolicyUiState(
 
 @HiltViewModel
 class PolicyViewModel @Inject constructor() : ViewModel() {
-    
+
     private val _uiState = MutableStateFlow(PolicyUiState())
     val uiState: StateFlow<PolicyUiState> = _uiState.asStateFlow()
-    
+
     fun loadPolicy(themeType: Int) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             delay(500)
-            
+
             val (title, content) = when (themeType) {
                 1 -> "User Agreement" to generateUserAgreement()
                 2 -> "Privacy Policy" to generatePrivacyPolicy()
                 3 -> "Terms of Service" to generateTermsOfService()
                 else -> "Policy" to "Policy content not available."
             }
-            
+
             _uiState.value = PolicyUiState(
                 title = title,
                 content = content,
@@ -41,7 +41,7 @@ class PolicyViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-    
+
     private fun generateUserAgreement(): String = """
         USER AGREEMENT
         
@@ -73,7 +73,7 @@ class PolicyViewModel @Inject constructor() : ViewModel() {
         
         For questions, contact support.
     """.trimIndent()
-    
+
     private fun generatePrivacyPolicy(): String = """
         PRIVACY POLICY
         
@@ -114,7 +114,7 @@ class PolicyViewModel @Inject constructor() : ViewModel() {
         
         Contact us for privacy concerns.
     """.trimIndent()
-    
+
     private fun generateTermsOfService(): String = """
         TERMS OF SERVICE
         

@@ -8,6 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Sensors
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -141,7 +146,7 @@ fun TopdonDeviceCard(
                     )
                 }
             }
-            
+
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(TopdonSpacing.ExtraSmall)
@@ -160,7 +165,7 @@ fun TopdonDeviceCard(
                     color = TopdonColors.TextSecondary
                 )
             }
-            
+
             Surface(
                 shape = RoundedCornerShape(4.dp),
                 color = if (isConnected) TopdonColors.GreenPoint else TopdonColors.CustomControl
@@ -249,7 +254,7 @@ fun TopdonSettingsItem(
                     modifier = Modifier.size(24.dp)
                 )
             }
-            
+
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(TopdonSpacing.ExtraSmall)
@@ -267,7 +272,7 @@ fun TopdonSettingsItem(
                     )
                 }
             }
-            
+
             trailingContent?.invoke()
         }
     }
@@ -286,14 +291,14 @@ private fun TopdonDeviceCardPreview() {
                 deviceType = "Thermal Camera",
                 isConnected = true,
                 onClick = {},
-                icon = androidx.compose.material.icons.Icons.Default.Thermostat
+                icon = Icons.Default.Thermostat
             )
             TopdonDeviceCard(
                 deviceName = "Shimmer3 GSR",
                 deviceType = "Biosensor",
                 isConnected = false,
                 onClick = {},
-                icon = androidx.compose.material.icons.Icons.Default.Sensors
+                icon = Icons.Default.Sensors
             )
         }
     }
@@ -308,10 +313,10 @@ private fun TopdonSettingsItemPreview() {
                 title = "Device Settings",
                 subtitle = "Configure thermal camera",
                 onClick = {},
-                leadingIcon = androidx.compose.material.icons.Icons.Default.Settings,
+                leadingIcon = Icons.Default.Settings,
                 trailingContent = {
                     Icon(
-                        imageVector = androidx.compose.material.icons.Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = null,
                         tint = TopdonColors.TextTertiary
                     )
