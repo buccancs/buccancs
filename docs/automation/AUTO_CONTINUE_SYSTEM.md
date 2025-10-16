@@ -1,11 +1,11 @@
-**Last Modified:** 2025-10-15 23:04 UTC  
+**Last Modified:** 2025-10-16 00:35 UTC  
 **Modified By:** GitHub Copilot CLI  
 **Document Type:** Guide
 
 # Copilot Auto-Continuation System
 
 Complete automated continuation system for GitHub Copilot CLI with smart prompts, session management, rate limiting, and
-progress tracking.
+progress tracking. Supports both Windows PowerShell and WSL/Linux environments.
 
 ## Features
 
@@ -67,13 +67,15 @@ progress tracking.
 
 ## Quick Start
 
-### 1. Start the Auto-Injection Service
+### Windows PowerShell
+
+#### 1. Start the Auto-Injection Service
 
 ```powershell
 .\start_auto_inject.ps1
 ```
 
-### 2. In Your Copilot Session, Signal Completion
+#### 2. In Your Copilot Session, Signal Completion
 
 At the end of each response, run:
 
@@ -87,10 +89,38 @@ Or manually:
 .\send_continue.ps1
 ```
 
-### 3. Monitor Progress
+#### 3. Monitor Progress
 
 ```powershell
 .\monitor_dashboard.ps1 -Continuous
+```
+
+### WSL/Linux
+
+#### 1. Start the Auto-Injection Service
+
+```bash
+./start_system.sh
+```
+
+#### 2. In Your Copilot Session, Signal Completion
+
+At the end of each response, run:
+
+```bash
+./send_continue.sh --last-response "your last response text"
+```
+
+#### 3. Monitor Progress
+
+```bash
+./monitor_dashboard.sh --continuous
+```
+
+To stop the service:
+
+```bash
+./stop_system.sh
 ```
 
 ## Architecture

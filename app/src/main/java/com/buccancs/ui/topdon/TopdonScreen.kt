@@ -20,9 +20,12 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.OpenInFull
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -74,6 +77,9 @@ fun TopdonRoute(
     deviceId: DeviceId,
     onNavigateUp: () -> Unit,
     onNavigateToThermalPreview: () -> Unit = {},
+    onNavigateToGallery: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
+    onNavigateToGuide: () -> Unit = {},
     viewModel: TopdonViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -85,6 +91,9 @@ fun TopdonRoute(
         state = state,
         onNavigateUp = onNavigateUp,
         onNavigateToThermalPreview = onNavigateToThermalPreview,
+        onNavigateToGallery = onNavigateToGallery,
+        onNavigateToSettings = onNavigateToSettings,
+        onNavigateToGuide = onNavigateToGuide,
         onRefresh = viewModel::refresh,
         onConnect = viewModel::connect,
         onDisconnect = viewModel::disconnect,
@@ -105,6 +114,9 @@ private fun TopdonScreen(
     state: TopdonUiState,
     onNavigateUp: () -> Unit,
     onNavigateToThermalPreview: () -> Unit,
+    onNavigateToGallery: () -> Unit,
+    onNavigateToSettings: () -> Unit,
+    onNavigateToGuide: () -> Unit,
     onRefresh: () -> Unit,
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
@@ -136,6 +148,14 @@ private fun TopdonScreen(
                         )
                     }
                 },
+                actions = {
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Settings"
+                        )
+                    }
+                },
                 scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(toolbarState)
             )
         }
@@ -148,10 +168,13 @@ private fun TopdonScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                TopdonStatusCard(state, onRefresh, onConnect, onDisconnect, onClearError)
+                TopdonStatusCard(state, onRefresh, onConnect, onDisconnect, onClearError, onNavigateToGuide)
             }
             item {
                 TopdonPreviewCard(state, onStartPreview, onStopPreview, onTogglePreview, onNavigateToThermalPreview)
+            }
+            item {
+                TopdonQuickActionsCard(onNavigateToGallery, onNavigateToSettings)
             }
             item {
                 TopdonSettingsCard(state, onSetAutoConnect, onSelectPalette, onSelectSuperSampling, onUpdatePreviewFps)
@@ -166,7 +189,8 @@ private fun TopdonStatusCard(
     onRefresh: () -> Unit,
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
-    onClearError: () -> Unit
+    onClearError: () -> Unit,
+    onNavigateToGuide: () -> Unit
 ) {
     ElevatedCard(
         modifier = Modifier.fillMaxWidth()
@@ -302,6 +326,21 @@ private fun TopdonStatusCard(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "Refresh"
                     )
+                }
+            }
+
+            if (!state.isConnected) {
+                TopdonOutlinedButton(
+                    onClick = onNavigateToGuide,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Connection Guide")
                 }
             }
         }
@@ -446,6 +485,60 @@ private fun TopdonPreviewCard(
                         imageVector = Icons.Default.OpenInFull,
                         contentDescription = "Full screen preview"
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TopdonQuickActionsCard(
+    onNavigateToGallery: () -> Unit,
+    onNavigateToSettings: () -> Unit
+) {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = "Quick Actions",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                TopdonOutlinedButton(
+                    onClick = onNavigateToGallery,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Image,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Gallery")
+                }
+
+                TopdonOutlinedButton(
+                    onClick = onNavigateToSettings,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Settings")
                 }
             }
         }

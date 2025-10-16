@@ -31,6 +31,18 @@ sealed class Screen(val route: String) {
     data object TopdonThermalPreview : Screen("topdon/{deviceId}/thermal") {
         fun createRoute(deviceId: DeviceId) = "topdon/${deviceId.value}/thermal"
     }
+
+    data object TopdonGallery : Screen("topdon/gallery")
+
+    data object TopdonImageDetail : Screen("topdon/image/{imageId}") {
+        fun createRoute(imageId: String) = "topdon/image/$imageId"
+    }
+
+    data object TopdonSettings : Screen("topdon/settings")
+
+    data object TopdonConnectionGuide : Screen("topdon/guide")
+
+    data object Shimmer : Screen("shimmer")
 }
 
 sealed class BottomNavItem(

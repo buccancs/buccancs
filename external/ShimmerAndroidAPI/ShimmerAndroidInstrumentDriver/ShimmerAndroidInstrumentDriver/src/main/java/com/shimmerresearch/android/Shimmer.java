@@ -317,21 +317,7 @@ public class Shimmer extends ShimmerBluetooth {
             filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
             mContext.registerReceiver(mReceiver, filter);
         }
-    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                String macAdd = device.getAddress();
-                if (macAdd.equals(mMyBluetoothAddress)) {
-                    connectionLost();
-                }
-            }
-        }
-    };
+    }
 
     public synchronized void connect(final String address, String bluetoothLibrary) {
         registerDisconnectListener();
@@ -390,7 +376,21 @@ public class Shimmer extends ShimmerBluetooth {
 
 
         }
-    }
+    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                BluetoothDevice device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                String macAdd = device.getAddress();
+                if (macAdd.equals(mMyBluetoothAddress)) {
+                    connectionLost();
+                }
+            }
+        }
+    };
 
     public synchronized void connected(BluetoothSocket socket) {
         System.out.println("initialize process 2) connected and start initialize");
@@ -730,16 +730,6 @@ public class Shimmer extends ShimmerBluetooth {
         sendMsgToHandlerList(MESSAGE_TOAST, bundle);
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     protected void connectionLost() {
         if (mIOThread != null) {
             mIOThread.stop = true;
@@ -756,6 +746,16 @@ public class Shimmer extends ShimmerBluetooth {
         bundle.putString(TOAST, "Device connection was lost");
         sendMsgToHandlerList(MESSAGE_TOAST, bundle);
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     @Override
     protected void inquiryDone() {
@@ -1027,6 +1027,12 @@ public class Shimmer extends ShimmerBluetooth {
 
     }
 
+    @Override
+    protected void startOperation(BT_STATE currentOperation, int totalNumOfCmds) {
+
+
+    }
+
 	/*
 	public byte[] readBytes(int numberofBytes){
 		  byte[] b = new byte[numberofBytes];  
@@ -1048,12 +1054,6 @@ public class Shimmer extends ShimmerBluetooth {
 			   return b;
 		  }
 	}*/
-
-    @Override
-    protected void startOperation(BT_STATE currentOperation, int totalNumOfCmds) {
-
-
-    }
 
     @Override
     protected void eventLogAndStreamStatusChanged(byte b) {

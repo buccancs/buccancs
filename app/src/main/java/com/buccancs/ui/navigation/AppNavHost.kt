@@ -14,9 +14,14 @@ import com.buccancs.ui.library.SessionDetailRoute
 import com.buccancs.ui.library.SessionLibraryRoute
 import com.buccancs.ui.session.LiveSessionRoute
 import com.buccancs.ui.settings.SettingsRoute
+import com.buccancs.ui.shimmer.ShimmerScreen
 import com.buccancs.ui.theme.MotionTransitions
 import com.buccancs.ui.topdon.TopdonRoute
 import com.buccancs.ui.topdon.thermal.ThermalPreviewRoute
+import com.buccancs.ui.topdon.gallery.TopdonGalleryRoute
+import com.buccancs.ui.topdon.settings.TopdonSettingsRoute
+import com.buccancs.ui.topdon.guide.ConnectionGuideRoute
+import com.buccancs.ui.topdon.detail.ImageDetailRoute
 
 @Composable
 fun AppNavHost(
@@ -51,6 +56,9 @@ fun AppNavHost(
                 DevicesRoute(
                     onOpenTopdon = { deviceId ->
                         navController.navigate(Screen.TopdonDevice.createRoute(deviceId))
+                    },
+                    onOpenShimmer = { deviceId ->
+                        navController.navigate(Screen.Shimmer.route)
                     }
                 )
             }
@@ -102,6 +110,15 @@ fun AppNavHost(
                     onNavigateUp = { navController.navigateUp() },
                     onNavigateToThermalPreview = {
                         navController.navigate(Screen.TopdonThermalPreview.createRoute(deviceId))
+                    },
+                    onNavigateToGallery = {
+                        navController.navigate(Screen.TopdonGallery.route)
+                    },
+                    onNavigateToSettings = {
+                        navController.navigate(Screen.TopdonSettings.route)
+                    },
+                    onNavigateToGuide = {
+                        navController.navigate(Screen.TopdonConnectionGuide.route)
                     }
                 )
             }
@@ -122,6 +139,75 @@ fun AppNavHost(
                     onNavigateToSettings = {
                         navController.navigate(Screen.Settings.route)
                     }
+                )
+            }
+
+            composable(
+                route = Screen.TopdonGallery.route,
+                enterTransition = { MotionTransitions.slideInFromEnd() },
+                exitTransition = { MotionTransitions.fadeExit() },
+                popEnterTransition = { MotionTransitions.fadeEnter() },
+                popExitTransition = { MotionTransitions.slideOutToStart() }
+            ) {
+                TopdonGalleryRoute(
+                    onNavigateUp = { navController.navigateUp() },
+                    onNavigateToDetail = { imageId ->
+                        navController.navigate(Screen.TopdonImageDetail.createRoute(imageId))
+                    }
+                )
+            }
+
+            composable(
+                route = "topdon/image/{imageId}",
+                arguments = listOf(navArgument("imageId") { type = NavType.StringType }),
+                enterTransition = { MotionTransitions.slideInFromEnd() },
+                exitTransition = { MotionTransitions.fadeExit() },
+                popEnterTransition = { MotionTransitions.fadeEnter() },
+                popExitTransition = { MotionTransitions.slideOutToStart() }
+            ) { backStackEntry ->
+                val imageId = backStackEntry.arguments?.getString("imageId") ?: ""
+                ImageDetailRoute(
+                    imageId = imageId,
+                    onNavigateUp = { navController.navigateUp() }
+                )
+            }
+
+            composable(
+                route = Screen.TopdonSettings.route,
+                enterTransition = { MotionTransitions.slideInFromEnd() },
+                exitTransition = { MotionTransitions.fadeExit() },
+                popEnterTransition = { MotionTransitions.fadeEnter() },
+                popExitTransition = { MotionTransitions.slideOutToStart() }
+            ) {
+                TopdonSettingsRoute(
+                    onNavigateUp = { navController.navigateUp() }
+                )
+            }
+
+            composable(
+                route = Screen.TopdonConnectionGuide.route,
+                enterTransition = { MotionTransitions.slideInFromEnd() },
+                exitTransition = { MotionTransitions.fadeExit() },
+                popEnterTransition = { MotionTransitions.fadeEnter() },
+                popExitTransition = { MotionTransitions.slideOutToStart() }
+            ) {
+                ConnectionGuideRoute(
+                    onNavigateUp = { navController.navigateUp() },
+                    onConnectDevice = {
+                        navController.navigateUp()
+                    }
+                )
+            }
+
+            composable(
+                route = "shimmer",
+                enterTransition = { MotionTransitions.slideInFromEnd() },
+                exitTransition = { MotionTransitions.fadeExit() },
+                popEnterTransition = { MotionTransitions.fadeEnter() },
+                popExitTransition = { MotionTransitions.slideOutToStart() }
+            ) {
+                ShimmerScreen(
+                    onNavigateBack = { navController.navigateUp() }
                 )
             }
         }

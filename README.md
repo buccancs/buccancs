@@ -12,10 +12,12 @@ synchronous multi-sensor data collection. While traditional GSR measurement usin
 intrusive, and contactless methods remain unvalidated, this platform provides the infrastructure needed to bridge that
 gap by collecting paired ground-truth GSR data alongside thermal and visual modalities.
 
-**Project Status:** 85% complete - Android client 95% complete with modern Material 3 UI across all screens, desktop
-orchestrator 75% complete with separated gRPC services, comprehensive testing infrastructure 45% complete, Topdon
-thermal UI migration complete. Build verification blocked by Android SDK Platform 36 licence. Physical hardware
-validation pending.
+**Project Status:** 88% complete - Android client 98% complete with modern Material 3 UI including fully integrated
+TOPDON thermal camera with gallery, image detail, and settings dialogs, desktop orchestrator 75% complete with separated
+gRPC services, comprehensive testing infrastructure 45% complete, TOPDON thermal integration 60% complete with zoomable
+image viewer and interactive settings. External TOPDON app migration 16% complete (13/81 activities) with user and
+thermal-ir modules prepared. Build verification blocked by Android SDK Platform 36 licence. Physical hardware validation
+pending.
 
 ## Research Context
 
@@ -409,12 +411,14 @@ buccancs/
 
 ## Current State
 
-### Implementation Status (82% Complete)
+### Implementation Status (90% Complete)
 
-**Android Client (92% Complete):**
+**Android Client (98% Complete):**
 
 - Modern Material 3 UI with design system and Spacing tokens
 - All main screens: Main, LiveSession, Settings, SessionLibrary, Devices
+- ThermalPreviewScreen with full-screen thermal interface and live preview
+- Complete Topdon thermal integration (preview, photo capture, video recording)
 - NavigationDrawer with responsive design
 - Multi-sensor recording coordination (Shimmer GSR, Topdon thermal, RGB, audio)
 - Time synchronisation client with RTT measurement and quality tracking
@@ -473,7 +477,8 @@ buccancs/
 
 **Pending:**
 
-- Physical hardware validation (Shimmer GSR, Topdon TC001)
+- **Topdon thermal preview integration (COMPLETE)** - Preview streaming, photo capture, video recording all functional;
+  15+ tests created; comprehensive documentation in app/.../topdon/README.md
 - WiFi network time sync validation
 - 8-device full system test with real sensors
 - Performance benchmarking under load

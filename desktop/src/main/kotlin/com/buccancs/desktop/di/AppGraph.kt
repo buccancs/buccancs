@@ -1,5 +1,6 @@
 package com.buccancs.desktop.di
 
+import com.buccancs.desktop.data.aggregation.SessionAggregationService
 import com.buccancs.desktop.data.encryption.EncryptionKeyProvider
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.erasure.SubjectErasureManager
@@ -64,13 +65,15 @@ class AppGraph private constructor(
             val commandRepository = CommandRepository()
             val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
             val recordingManager = SensorRecordingManager(sessionRepository)
+            val aggregationService = SessionAggregationService(sessionRepository)
             val grpcServer = GrpcServer(
                 port = DEFAULT_PORT,
                 sessionRepository = sessionRepository,
                 deviceRepository = deviceRepository,
                 previewRepository = previewRepository,
                 sensorRecordingManager = recordingManager,
-                commandRepository = commandRepository
+                commandRepository = commandRepository,
+                aggregationService = aggregationService
             )
             val erasureManager = SubjectErasureManager(sessionRepository)
             val viewModel = AppViewModel(

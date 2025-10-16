@@ -220,33 +220,11 @@ private fun ThermalPreviewArea(
 
             else -> {
                 val previewFrame = state.previewFrame
-                val imageBitmap = remember(previewFrame?.payload) {
-                    previewFrame?.payload?.let { bytes ->
-                        BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
-                    }
-                }
-
-                if (imageBitmap != null) {
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        Image(
-                            bitmap = imageBitmap,
-                            contentDescription = "Thermal preview",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f),
-                            contentScale = ContentScale.Fit
-                        )
-
-                        previewFrame?.let { frame ->
-                            TopdonTemperatureRange(
-                                minTemp = frame.minTemp ?: 0f,
-                                maxTemp = frame.maxTemp ?: 0f,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(TopdonSpacing.Medium)
-                            )
-                        }
-                    }
+                if (previewFrame != null) {
+                    ThermalFrameDisplay(
+                        frame = previewFrame,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 } else {
                     TopdonLinearProgress(modifier = Modifier.fillMaxWidth())
                     Text(
@@ -448,3 +426,86 @@ private fun ThermalPreviewScreenPreview() {
         )
     }
 }
+
+@Composable
+private fun ThermalFrameDisplay(
+    frame: TopdonPreviewFrame,
+    modifier: Modifier = Modifier
+) {
+    val bitmap = remember(frame.timestamp) {
+        createThermalBitmap(frame)
+    }
+
+    Column(modifier = modifier) {
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap,
+                contentDescription = "Thermal preview",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentScale = ContentScale.Fit
+            )
+
+            TopdonTemperatureRange(
+                minTemp = frame.minTemp ?: 0f,
+                maxTemp = frame.maxTemp ?: 0f,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(TopdonSpacing.Medium)
+            )
+        } else {
+            TopdonEmptyState(message = "Processing thermal data...")
+        }
+    }
+}
+
+private fun createThermalBitmap(frame: TopdonPreviewFrame): androidx.compose.ui.graphics.ImageBitmap? {
+    return try {
+        val width = frame.width
+        val height = frame.height
+        val data = frame.payload
+
+        if (data.size < width * height * 2) {
+            return null
+        }
+
+        val bitmap = android.graphics.Bitmap.createBitmap(width, height, android.graphics.Bitmap.Config.ARGB_8888)
+        val pixels = IntArray(width * height)
+
+        var minTemp = Double.POSITIVE_INFINITY
+        var maxTemp = Double.NEGATIVE_INFINITY
+        val temperatures = DoubleArray(width * height)
+
+        for (i in 0 until (width * height)) {
+            val offset = i * 2
+            if (offset + 1 < data.size) {
+                val raw = (data[offset].toInt() and 0xFF) or ((data[offset + 1].toInt() and 0xFF) shl 8)
+                val temp = raw / 100.0 - 273.15
+                temperatures[i] = temp
+                minTemp = kotlin.math.min(minTemp, temp)
+                maxTemp = kotlin.math.max(maxTemp, temp)
+            }
+        }
+
+        val range = (maxTemp - minTemp).takeIf { it > 0.0001 } ?: 1.0
+
+        for (i in pixels.indices) {
+            val normalized = ((temperatures[i] - minTemp) / range).coerceIn(0.0, 1.0)
+            pixels[i] = applyThermalPalette(normalized)
+        }
+
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        bitmap.asImageBitmap()
+    } catch (e: Exception) {
+        null
+    }
+}
+
+private fun applyThermalPalette(normalized: Double): Int {
+    val r = (normalized * 255).toInt().coerceIn(0, 255)
+    val g = ((normalized - 0.5) * 510).toInt().coerceIn(0, 255)
+    val b = ((1.0 - normalized) * 255).toInt().coerceIn(0, 255)
+    return android.graphics.Color.rgb(r, g, b)
+}
+

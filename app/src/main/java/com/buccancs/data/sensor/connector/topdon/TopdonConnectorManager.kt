@@ -2,6 +2,7 @@ package com.buccancs.data.sensor.connector.topdon
 
 import android.content.Context
 import android.hardware.usb.UsbManager
+import android.util.Log
 import com.buccancs.data.preview.PreviewStreamClient
 import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
@@ -113,44 +114,86 @@ internal class TopdonConnectorManager @Inject constructor(
         return connector.collectArtifacts(sessionId)
     }
 
-    fun previewFrame(deviceId: DeviceId): StateFlow<TopdonPreviewFrame?>? = null
+    fun previewFrame(deviceId: DeviceId): StateFlow<TopdonPreviewFrame?>? {
+        return connectorCache[deviceId]?.previewFrameFlow
+    }
 
-    fun previewRunning(deviceId: DeviceId): StateFlow<Boolean>? = null
+    fun previewRunning(deviceId: DeviceId): StateFlow<Boolean>? {
+        return connectorCache[deviceId]?.previewRunningFlow
+    }
 
-    suspend fun startPreview(deviceId: DeviceId): DeviceCommandResult =
-        if (connectorCache.containsKey(deviceId)) {
-            DeviceCommandResult.Rejected("Preview control not implemented")
-        } else {
-            DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+    suspend fun startPreview(deviceId: DeviceId): DeviceCommandResult {
+        val managed = connectorCache[deviceId]
+            ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        return managed.connector.startPreview()
+    }
+
+    suspend fun stopPreview(deviceId: DeviceId): DeviceCommandResult {
+        val managed = connectorCache[deviceId]
+            ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+        return managed.connector.stopPreview()
+    }
+
+    suspend fun capturePhoto(deviceId: DeviceId): DeviceCommandResult {
+        val managed = connectorCache[deviceId]
+            ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+
+        val frame = managed.previewFrameFlow.value
+            ?: return DeviceCommandResult.Rejected("No preview frame available")
+
+        return withContext(Dispatchers.IO) {
+            try {
+                val contentResolver = context.contentResolver
+                val contentValues = android.content.ContentValues().apply {
+                    put(
+                        android.provider.MediaStore.Images.Media.DISPLAY_NAME,
+                        "thermal_${System.currentTimeMillis()}.jpg"
+                    )
+                    put(android.provider.MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                    put(android.provider.MediaStore.Images.Media.RELATIVE_PATH, "Pictures/BuccanCS/Thermal")
+                }
+
+                val uri = contentResolver.insert(
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    contentValues
+                ) ?: return@withContext DeviceCommandResult.Failed(
+                    IllegalStateException("Failed to create media store entry")
+                )
+
+                contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    val bitmap = thermalNormalizer.createBitmapFromFrame(frame)
+                    bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 95, outputStream)
+                }
+
+                Log.i("TopdonConnectorManager", "Photo saved to $uri")
+                DeviceCommandResult.Accepted
+            } catch (t: Throwable) {
+                Log.e("TopdonConnectorManager", "Failed to capture photo", t)
+                DeviceCommandResult.Failed(t)
+            }
         }
+    }
 
-    suspend fun stopPreview(deviceId: DeviceId): DeviceCommandResult =
-        if (connectorCache.containsKey(deviceId)) {
-            DeviceCommandResult.Rejected("Preview control not implemented")
-        } else {
-            DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
-        }
+    suspend fun startRecording(deviceId: DeviceId): DeviceCommandResult {
+        val managed = connectorCache[deviceId]
+            ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
 
-    suspend fun capturePhoto(deviceId: DeviceId): DeviceCommandResult =
-        if (connectorCache.containsKey(deviceId)) {
-            DeviceCommandResult.Rejected("Photo capture not implemented")
-        } else {
-            DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
-        }
+        val sessionId = "standalone_${System.currentTimeMillis()}"
+        val anchor = RecordingSessionAnchor(
+            sessionId = sessionId,
+            anchorEpochMs = System.currentTimeMillis(),
+            anchorElapsedRealtimeNanos = android.os.SystemClock.elapsedRealtimeNanos()
+        )
 
-    suspend fun startRecording(deviceId: DeviceId): DeviceCommandResult =
-        if (connectorCache.containsKey(deviceId)) {
-            DeviceCommandResult.Rejected("Video recording not implemented")
-        } else {
-            DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
-        }
+        return managed.connector.startStreaming(anchor)
+    }
 
-    suspend fun stopRecording(deviceId: DeviceId): DeviceCommandResult =
-        if (connectorCache.containsKey(deviceId)) {
-            DeviceCommandResult.Rejected("Video recording not implemented")
-        } else {
-            DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
-        }
+    suspend fun stopRecording(deviceId: DeviceId): DeviceCommandResult {
+        val managed = connectorCache[deviceId]
+            ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+
+        return managed.connector.stopStreaming()
+    }
 
     private suspend fun rebuild(config: SensorHardwareConfig) {
         val entries = config.topdon.associateBy { DeviceId(it.id.trim()) }
@@ -288,7 +331,9 @@ internal class TopdonConnectorManager @Inject constructor(
             deviceJob = deviceJob,
             statusJob = statusJob,
             configJob = configJob,
-            config = normalizedConfig
+            config = normalizedConfig,
+            previewFrameFlow = connector.previewFrameFlow,
+            previewRunningFlow = connector.previewRunningFlow
         )
         managedRef = managed
         configRepository.upsertTopdonDevice(normalizedConfig)
@@ -367,7 +412,9 @@ internal class TopdonConnectorManager @Inject constructor(
         val deviceJob: Job,
         val statusJob: Job,
         val configJob: Job,
-        var config: TopdonDeviceConfig
+        var config: TopdonDeviceConfig,
+        val previewFrameFlow: StateFlow<TopdonPreviewFrame?>,
+        val previewRunningFlow: StateFlow<Boolean>
     )
 }
 

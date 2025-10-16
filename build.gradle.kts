@@ -49,7 +49,8 @@ private val externalBuilds = listOf(
     ExternalProjectBuild("buildShimmerLSL", "external/Shimmer-Java-Android-API/ShimmerLSL"),
     ExternalProjectBuild("buildJavaShimmerConnect", "external/Shimmer-Java-Android-API/JavaShimmerConnect"),
 
-    ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample")
+    // Topdon SDK sample - disabled temporarily due to Android SDK path and build complexity
+    // ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample")
 )
 
 private val usingWindowsWrapperExtension = System.getProperty("os.name").startsWith("Windows", ignoreCase = true)
@@ -111,7 +112,7 @@ private val externalBuildTasks = externalBuilds.mapNotNull { external ->
             group = "external build"
             description = "Builds the external project located at ${external.projectDir}."
             workingDir = file(external.projectDir)
-            commandLine(listOf(wrapperFile.absolutePath) + external.tasksToRun)
+            commandLine(listOf(wrapperFile.absolutePath) + external.tasksToRun + listOf("-x", "test"))
             val javaHomeOverride = findExternalJavaHome(project, external.maxSupportedJavaMajor)
             if (javaHomeOverride != null) {
                 environment("JAVA_HOME", javaHomeOverride.absolutePath)

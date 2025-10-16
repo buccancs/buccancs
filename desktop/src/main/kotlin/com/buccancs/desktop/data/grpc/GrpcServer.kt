@@ -1,5 +1,6 @@
 package com.buccancs.desktop.data.grpc
 
+import com.buccancs.desktop.data.aggregation.SessionAggregationService
 import com.buccancs.desktop.data.grpc.services.CommandServiceImpl
 import com.buccancs.desktop.data.grpc.services.DataTransferServiceImpl
 import com.buccancs.desktop.data.grpc.services.OrchestrationServiceImpl
@@ -24,7 +25,8 @@ class GrpcServer(
     private val deviceRepository: DeviceRepository,
     private val previewRepository: PreviewRepository,
     private val sensorRecordingManager: SensorRecordingManager,
-    private val commandRepository: CommandRepository
+    private val commandRepository: CommandRepository,
+    private val aggregationService: SessionAggregationService
 ) {
     private val logger = LoggerFactory.getLogger(GrpcServer::class.java)
     private val started = AtomicBoolean(false)
@@ -44,7 +46,7 @@ class GrpcServer(
         .addService(TimeSyncServiceImpl(deviceRepository))
         .addService(PreviewServiceImpl(sessionRepository, deviceRepository, previewRepository))
         .addService(SensorStreamServiceImpl(sessionRepository, sensorRecordingManager))
-        .addService(DataTransferServiceImpl(sessionRepository))
+        .addService(DataTransferServiceImpl(sessionRepository, aggregationService))
         .build()
 
     fun start() {

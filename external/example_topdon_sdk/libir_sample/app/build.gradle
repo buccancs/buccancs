@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'com.infisense.ir'
     compileSdk rootProject.ext.android.compileSdkVer
 
     defaultConfig {

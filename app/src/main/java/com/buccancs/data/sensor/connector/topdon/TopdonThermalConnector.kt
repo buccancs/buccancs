@@ -27,6 +27,7 @@ import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.util.toEpochMillis
 import com.infisense.iruvc.usb.USBMonitor
 import com.infisense.iruvc.utils.CommonParams
@@ -37,6 +38,9 @@ import com.infisense.iruvc.uvc.UVCType
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -97,6 +101,15 @@ internal class TopdonThermalConnector @Inject constructor(
     private var lastFrameEpochMs: Long? = null
     private var thermalFrameCount: Long = 0
     private val pendingArtifacts = mutableListOf<SessionArtifact>()
+
+    private val _previewFrameFlow = MutableStateFlow<TopdonPreviewFrame?>(null)
+    val previewFrameFlow: StateFlow<TopdonPreviewFrame?> = _previewFrameFlow.asStateFlow()
+
+    private val _previewRunningFlow = MutableStateFlow(false)
+    val previewRunningFlow: StateFlow<Boolean> = _previewRunningFlow.asStateFlow()
+
+    private var lastPreviewEmitTimeMs: Long = 0
+    private val previewThrottleMs = 42L
     private val listener = object : USBMonitor.OnDeviceConnectListener {
         override fun onAttach(device: UsbDevice) {
             appScope.launch {
@@ -581,6 +594,92 @@ internal class TopdonThermalConnector @Inject constructor(
         return artifacts
     }
 
+    suspend fun startPreview(): DeviceCommandResult {
+        if (isSimulationMode) {
+            _previewRunningFlow.value = true
+            appScope.launch {
+                while (_previewRunningFlow.value) {
+                    kotlinx.coroutines.delay(42)
+                    val simulatedFrame = createSimulatedPreviewFrame()
+                    _previewFrameFlow.value = simulatedFrame
+                }
+            }
+            return DeviceCommandResult.Accepted
+        }
+
+        val camera = uvcCamera ?: return DeviceCommandResult.Rejected("Camera not connected")
+
+        return withContext(Dispatchers.Main) {
+            try {
+                camera.setFrameCallback(frameCallback)
+                camera.onStartPreview()
+                _previewRunningFlow.value = true
+                DeviceCommandResult.Accepted
+            } catch (t: Throwable) {
+                Log.e(logTag, "Failed to start preview", t)
+                DeviceCommandResult.Failed(t)
+            }
+        }
+    }
+
+    suspend fun stopPreview(): DeviceCommandResult {
+        if (isSimulationMode) {
+            _previewRunningFlow.value = false
+            _previewFrameFlow.value = null
+            return DeviceCommandResult.Accepted
+        }
+
+        val camera = uvcCamera ?: return DeviceCommandResult.Rejected("Camera not connected")
+
+        return withContext(Dispatchers.Main) {
+            try {
+                camera.setFrameCallback(null)
+                camera.onStopPreview()
+                _previewRunningFlow.value = false
+                _previewFrameFlow.value = null
+                DeviceCommandResult.Accepted
+            } catch (t: Throwable) {
+                Log.e(logTag, "Failed to stop preview", t)
+                DeviceCommandResult.Failed(t)
+            }
+        }
+    }
+
+    private fun emitPreviewFrame(thermalData: ByteArray, metrics: ThermalNormalizer.Metrics?) {
+        try {
+            val frame = TopdonPreviewFrame(
+                timestamp = Instant.fromEpochMilliseconds(System.currentTimeMillis()),
+                width = THERMAL_WIDTH,
+                height = THERMAL_HEIGHT,
+                mimeType = "application/octet-stream",
+                payload = thermalData,
+                superSamplingFactor = 1,
+                minTemp = metrics?.minCelsius?.toFloat(),
+                maxTemp = metrics?.maxCelsius?.toFloat(),
+                avgTemp = metrics?.avgCelsius?.toFloat()
+            )
+
+            _previewFrameFlow.value = frame
+        } catch (t: Throwable) {
+            Log.w(logTag, "Failed to emit preview frame", t)
+        }
+    }
+
+    private fun createSimulatedPreviewFrame(): TopdonPreviewFrame {
+        val dummyData = ByteArray(THERMAL_WIDTH * THERMAL_HEIGHT * 2) { ((it % 256) and 0xFF).toByte() }
+        return TopdonPreviewFrame(
+            timestamp = Instant.fromEpochMilliseconds(System.currentTimeMillis()),
+            width = THERMAL_WIDTH,
+            height = THERMAL_HEIGHT,
+            mimeType = "application/octet-stream",
+            payload = dummyData,
+            superSamplingFactor = 1,
+            minTemp = 18.0f,
+            maxTemp = 35.0f,
+            avgTemp = 26.5f
+        )
+    }
+
     private val frameCallback = IFrameCallback { data ->
         if (data != null) {
             try {
@@ -593,6 +692,12 @@ internal class TopdonThermalConnector @Inject constructor(
             val metrics = runCatching { thermalNormalizer.normalize(data) }.getOrNull()
             if (metrics != null) {
                 lastThermalMetrics = metrics
+            }
+
+            val now = System.currentTimeMillis()
+            if (_previewRunningFlow.value && now - lastPreviewEmitTimeMs >= previewThrottleMs) {
+                lastPreviewEmitTimeMs = now
+                emitPreviewFrame(data, metrics)
             }
         }
         timeModel = timeModel?.let { clock ->

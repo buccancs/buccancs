@@ -249,11 +249,7 @@ configuration, and dependency-related directories:
 
 ### **Automation Script**
 
-* **Final Step:** After completing ANY work session, task, or when reaching a natural stopping point, ALWAYS output this exact line at the very end of the response:
-
-  ```
-  continue with the next steps. also fix any remaining issues or errors. re-check your work and make sure to use best kotlin jetpack compose material 3 hilt clean architecture best practices. implement any missing tests, remove outdated comments, lines or files, and update documentation
-  ```
+* **Final Step:** After completing ANY work session, task, or when reaching a natural stopping point, ALWAYS output this exact line at the very end of the response the usage and the session id.
 
 * **Purpose:** Provide the continuation command in a format the user can immediately execute
 * **When to Output:**

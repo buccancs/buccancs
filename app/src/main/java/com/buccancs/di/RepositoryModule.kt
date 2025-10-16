@@ -9,6 +9,7 @@ import com.buccancs.data.sensor.config.DefaultSensorHardwareConfigRepository
 import com.buccancs.data.sensor.shimmer.DataStoreShimmerSettingsRepository
 import com.buccancs.data.sensor.topdon.DataStoreTopdonSettingsRepository
 import com.buccancs.data.sensor.topdon.DefaultTopdonDeviceRepository
+import com.buccancs.data.sensor.topdon.gallery.DefaultTopdonGalleryRepository
 import com.buccancs.data.transfer.DefaultSessionTransferRepository
 import com.buccancs.domain.repository.BookmarkRepository
 import com.buccancs.domain.repository.CalibrationRepository
@@ -19,6 +20,7 @@ import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.SessionTransferRepository
 import com.buccancs.domain.repository.ShimmerSettingsRepository
 import com.buccancs.domain.repository.TopdonDeviceRepository
+import com.buccancs.domain.repository.TopdonGalleryRepository
 import com.buccancs.domain.repository.TopdonSettingsRepository
 import dagger.Binds
 import dagger.Module
@@ -86,4 +88,10 @@ abstract class RepositoryModule {
     internal abstract fun bindTopdonDeviceRepository(
         impl: DefaultTopdonDeviceRepository
     ): TopdonDeviceRepository
+
+    @Binds
+    @Singleton
+    internal abstract fun bindTopdonGalleryRepository(
+        impl: DefaultTopdonGalleryRepository
+    ): TopdonGalleryRepository
 }

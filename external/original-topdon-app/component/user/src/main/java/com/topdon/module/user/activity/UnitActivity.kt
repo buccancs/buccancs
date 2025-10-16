@@ -1,33 +1,158 @@
 package com.topdon.module.user.activity
 
-import androidx.core.view.isVisible
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.topdon.lib.core.common.SharedManager
 import com.topdon.lib.core.config.RouterConfig
-import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.module.user.R
-import kotlinx.android.synthetic.main.activity_unit.*
 
 @Route(path = RouterConfig.UNIT)
-class UnitActivity : BaseActivity() {
-    override fun initContentView() = R.layout.activity_unit
-    override fun initView() {
-        title_view.setRightClickListener {
-            SharedManager.setTemperature(if (iv_degrees_celsius.isVisible) 1 else 0)
-            finish()
-        }
-        iv_degrees_celsius.isVisible = SharedManager.getTemperature() == 1
-        iv_fahrenheit.isVisible = SharedManager.getTemperature() == 0
-        constraint_degrees_celsius.setOnClickListener {
-            iv_degrees_celsius.isVisible = true
-            iv_fahrenheit.isVisible = false
-        }
-        constraint_fahrenheit.setOnClickListener {
-            iv_degrees_celsius.isVisible = false
-            iv_fahrenheit.isVisible = true
-        }
-    }
+class UnitActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-    override fun initData() {
+        setContent {
+            MaterialTheme {
+                UnitScreen(
+                    initialUnit = SharedManager.getTemperature(),
+                    onUnitChanged = { unit ->
+                        SharedManager.setTemperature(unit)
+                    },
+                    onNavigateUp = { finish() }
+                )
+            }
+        }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun UnitScreen(
+    initialUnit: Int,
+    onUnitChanged: (Int) -> Unit,
+    onNavigateUp: () -> Unit
+) {
+    var selectedUnit by remember { mutableIntStateOf(initialUnit) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.unit_title)) },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateUp) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    TextButton(
+                        onClick = {
+                            onUnitChanged(selectedUnit)
+                            onNavigateUp()
+                        }
+                    ) {
+                        Text(stringResource(R.string.done))
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            UnitOption(
+                title = stringResource(R.string.degrees_celsius),
+                subtitle = "°C",
+                selected = selectedUnit == 1,
+                onClick = { selectedUnit = 1 }
+            )
+
+            UnitOption(
+                title = stringResource(R.string.fahrenheit),
+                subtitle = "°F",
+                selected = selectedUnit == 0,
+                onClick = { selectedUnit = 0 }
+            )
+        }
+    }
+}
+
+@Composable
+private fun UnitOption(
+    title: String,
+    subtitle: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = if (selected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            }
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = if (selected) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
+                )
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (selected) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
+                )
+            }
+
+            if (selected) {
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = "Selected",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+    }
+}
+

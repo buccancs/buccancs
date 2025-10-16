@@ -1,55 +1,28 @@
-# Copilot Auto-Continuation System
+# Automation Tools
 
-Complete automated continuation system for GitHub Copilot CLI.
+Simple automation for GitHub Copilot CLI continuation.
 
-## Quick Start
+## Usage
 
-```powershell
-# Start the complete system
-.\start_system.ps1
+```bash
+# Continue with default prompt
+./continue.sh
 
-# Monitor in another window
-.\monitor_dashboard.ps1 -Continuous
-
-# Signal completion (call at end of each response)
-.\auto_signal_wrapper.ps1 -LastResponse "your response"
+# Continue with custom prompt
+./continue.sh "fix the build errors and run tests"
 ```
 
-## Scripts
+## Default Prompt
 
-### Core System
+The script uses a standard continuation prompt that requests:
 
-- `start_system.ps1` - Initialize and start all components
-- `stop_auto_inject.ps1` - Stop the background service
-- `monitor_dashboard.ps1` - Real-time monitoring dashboard
+- Continue with next steps
+- Fix remaining issues or errors
+- Follow Kotlin Jetpack Compose Material 3 best practices
+- Implement missing tests
+- Remove outdated code
+- Update documentation
 
-### Automation Components
+## Logs
 
-- `auto_inject_service.ps1` - Background monitoring service
-- `send_continue.ps1` - Signal handler with smart prompts
-- `auto_signal_wrapper.ps1` - Main integration wrapper
-
-### Intelligence
-
-- `session_manager.ps1` - Session lifecycle and context
-- `smart_continuation.ps1` - Context-aware prompt generation
-- `rate_limiter.ps1` - Request throttling
-
-### Documentation
-
-- `doc_updater.ps1` - Automatic doc updates
-
-## Features
-
-- Session management with context preservation
-- Smart continuation prompts
-- Rate limiting and throttling
-- Error detection and recovery
-- Progress tracking
-- Documentation integration
-- Real-time monitoring
-- Multi-session coordination
-
-## Documentation
-
-See `docs/automation/AUTO_CONTINUE_SYSTEM.md` for complete guide.
+Session timestamps are logged to `/mnt/c/dev/buccancs/logs/last_session.txt`

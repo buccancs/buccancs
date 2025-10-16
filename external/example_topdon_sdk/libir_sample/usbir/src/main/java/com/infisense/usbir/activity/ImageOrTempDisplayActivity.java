@@ -258,6 +258,19 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             restartusbcamera();
             startISP();
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.ParamY16ModeType: {
+                Log.i(TAG, "position = " + position);
+                getDataFlowModeByPosition(position);
+                break;
+            }
+            default:
+                break;
+        }
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -284,19 +297,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
-            case R.id.ParamY16ModeType: {
-                Log.i(TAG, "position = " + position);
-                getDataFlowModeByPosition(position);
-                break;
-            }
-            default:
-                break;
-        }
-    }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

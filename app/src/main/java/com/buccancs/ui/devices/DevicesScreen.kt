@@ -56,6 +56,7 @@ import com.buccancs.ui.theme.Spacing
 @Composable
 fun DevicesRoute(
     onOpenTopdon: (DeviceId) -> Unit,
+    onOpenShimmer: (DeviceId) -> Unit,
     viewModel: MainViewModel = hiltViewModel(),
     calibrationViewModel: CalibrationViewModel = hiltViewModel()
 ) {
@@ -82,7 +83,8 @@ fun DevicesRoute(
         calibrationActions = calibrationActions,
         onConnectDevice = viewModel::connectDevice,
         onDisconnectDevice = viewModel::disconnectDevice,
-        onOpenTopdon = onOpenTopdon
+        onOpenTopdon = onOpenTopdon,
+        onOpenShimmer = onOpenShimmer
     )
 }
 
@@ -94,7 +96,8 @@ fun DevicesScreen(
     calibrationActions: CalibrationActions,
     onConnectDevice: (DeviceId) -> Unit,
     onDisconnectDevice: (DeviceId) -> Unit,
-    onOpenTopdon: (DeviceId) -> Unit
+    onOpenTopdon: (DeviceId) -> Unit,
+    onOpenShimmer: (DeviceId) -> Unit
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
 
@@ -137,6 +140,9 @@ fun DevicesScreen(
                                 onDisconnect = { onDisconnectDevice(device.id) },
                                 onOpenTopdon = if (device.supportsTopdon) {
                                     { onOpenTopdon(device.id) }
+                                } else null,
+                                onOpenShimmer = if (device.shimmer != null) {
+                                    { onOpenShimmer(device.id) }
                                 } else null
                             )
                         }
@@ -150,7 +156,10 @@ fun DevicesScreen(
                                 device = device,
                                 onConnect = { onConnectDevice(device.id) },
                                 onDisconnect = { onDisconnectDevice(device.id) },
-                                onOpenTopdon = null
+                                onOpenTopdon = null,
+                                onOpenShimmer = if (device.shimmer != null) {
+                                    { onOpenShimmer(device.id) }
+                                } else null
                             )
                         }
                     }
@@ -161,7 +170,8 @@ fun DevicesScreen(
                                 device = device,
                                 onConnect = { onConnectDevice(device.id) },
                                 onDisconnect = { onDisconnectDevice(device.id) },
-                                onOpenTopdon = { onOpenTopdon(device.id) }
+                                onOpenTopdon = { onOpenTopdon(device.id) },
+                                onOpenShimmer = null
                             )
                         }
                     }
@@ -185,7 +195,8 @@ private fun DeviceCard(
     device: DeviceUiModel,
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
-    onOpenTopdon: (() -> Unit)?
+    onOpenTopdon: (() -> Unit)?,
+    onOpenShimmer: (() -> Unit)?
 ) {
     ElevatedCard(
         modifier = Modifier.fillMaxWidth()
@@ -280,6 +291,22 @@ private fun DeviceCard(
                 }
 
                 onOpenTopdon?.let {
+                    OutlinedButton(
+                        onClick = it,
+                        enabled = device.isConnected,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("Configure")
+                    }
+                }
+
+                onOpenShimmer?.let {
                     OutlinedButton(
                         onClick = it,
                         enabled = device.isConnected,

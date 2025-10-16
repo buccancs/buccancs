@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'com.infisense.usbir'
     compileSdk rootProject.ext.android.compileSdkVer
 
     defaultConfig {
@@ -36,8 +37,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
     }
     ndkVersion rootProject.ext.android.ndkVersion
     android.applicationVariants.all { variant ->
