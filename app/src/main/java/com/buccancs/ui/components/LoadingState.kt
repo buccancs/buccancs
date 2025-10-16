@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 
 @Composable
@@ -18,15 +19,20 @@ fun LoadingState(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxSize()
+            .padding(LayoutPadding.Section),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Small,
+            alignment = Alignment.CenterVertically
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CircularProgressIndicator()
         Text(
             text = message,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = Spacing.Medium)
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

@@ -1,29 +1,17 @@
 package com.buccancs.ui.components.topdon
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cable
 import androidx.compose.material.icons.filled.Usb
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -80,7 +68,7 @@ fun TopdonDeviceListItem(
                             .size(8.dp)
                             .clip(CircleShape)
                             .background(
-                                if (isConnected) Color(0xFF4CAF50) else Color(0xFF9E9E9E)
+                                if (isConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                             )
                     )
 
@@ -143,9 +131,9 @@ private fun BatteryIndicator(
                     .padding(1.dp)
                     .background(
                         color = when {
-                            level > 60 -> Color(0xFF4CAF50)
-                            level > 20 -> Color(0xFFFFC107)
-                            else -> Color(0xFFF44336)
+                            level > 60 -> MaterialTheme.colorScheme.primary
+                            level > 20 -> MaterialTheme.colorScheme.tertiary
+                            else -> MaterialTheme.colorScheme.error
                         },
                         shape = MaterialTheme.shapes.extraSmall
                     )

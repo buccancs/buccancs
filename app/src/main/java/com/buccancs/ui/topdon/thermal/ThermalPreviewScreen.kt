@@ -1,6 +1,5 @@
 package com.buccancs.ui.topdon.thermal
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,18 +15,8 @@ import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -40,22 +29,7 @@ import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
-import com.buccancs.ui.components.topdon.MeasurementMode
-import com.buccancs.ui.components.topdon.ThermalPalette
-import com.buccancs.ui.components.topdon.TopdonAppBarIconButton
-import com.buccancs.ui.components.topdon.TopdonBackButton
-import com.buccancs.ui.components.topdon.TopdonButton
-import com.buccancs.ui.components.topdon.TopdonCenterAlignedTopAppBar
-import com.buccancs.ui.components.topdon.TopdonElevatedCard
-import com.buccancs.ui.components.topdon.TopdonEmptyState
-import com.buccancs.ui.components.topdon.TopdonIconButton
-import com.buccancs.ui.components.topdon.TopdonLinearProgress
-import com.buccancs.ui.components.topdon.TopdonLoadingOverlay
-import com.buccancs.ui.components.topdon.TopdonMeasurementModeSelector
-import com.buccancs.ui.components.topdon.TopdonOutlinedButton
-import com.buccancs.ui.components.topdon.TopdonPaletteSelector
-import com.buccancs.ui.components.topdon.TopdonSlider
-import com.buccancs.ui.components.topdon.TopdonTemperatureRange
+import com.buccancs.ui.components.topdon.*
 import com.buccancs.ui.theme.topdon.TopdonColors
 import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.theme.topdon.TopdonTheme
@@ -119,6 +93,7 @@ private fun ThermalPreviewScreen(
     var measurementMode by remember { mutableStateOf(MeasurementMode.SPOT) }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopdonCenterAlignedTopAppBar(
                 title = "Thermal Preview",
@@ -185,7 +160,7 @@ private fun ThermalPreviewArea(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(TopdonColors.DarkBackground),
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
         when {
@@ -196,7 +171,7 @@ private fun ThermalPreviewArea(
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
-                            tint = TopdonColors.TextSecondary,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(16.dp)
                         )
                     }
@@ -230,7 +205,7 @@ private fun ThermalPreviewArea(
                     Text(
                         text = "Awaiting frame...",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = TopdonColors.TextSecondary,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(TopdonSpacing.Medium)
                     )
                 }
@@ -288,7 +263,7 @@ private fun ThermalControlPanel(
                     onClick = if (state.isRecording) onStopRecording else onStartRecording,
                     icon = Icons.Default.Videocam,
                     contentDescription = "Record video",
-                    tint = if (state.isRecording) TopdonColors.SelectRed else TopdonColors.TextPrimary,
+                    tint = if (state.isRecording) TopdonColors.SelectRed else MaterialTheme.colorScheme.onSurface,
                     enabled = state.previewActive
                 )
             }
@@ -308,7 +283,7 @@ private fun ThermalSettingsPanel(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(TopdonColors.DarkBackground.copy(alpha = 0.95f))
+            .background(MaterialTheme.colorScheme.background.copy(alpha = 0.95f))
             .padding(TopdonSpacing.Large)
     ) {
         LazyColumn(
@@ -323,7 +298,7 @@ private fun ThermalSettingsPanel(
                     Text(
                         text = "Thermal Settings",
                         style = MaterialTheme.typography.titleLarge,
-                        color = TopdonColors.TextPrimary
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     TopdonIconButton(
                         onClick = onDismiss,

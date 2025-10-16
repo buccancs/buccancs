@@ -2,11 +2,7 @@ package com.buccancs.ui.components.topdon
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.PhotoLibrary
-import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -31,8 +27,8 @@ fun TopdonBottomNavigation(
 ) {
     NavigationBar(
         modifier = modifier,
-        containerColor = TopdonColors.DarkBackground,
-        contentColor = TopdonColors.TextPrimary,
+        containerColor = MaterialTheme.colorScheme.background,
+        contentColor = MaterialTheme.colorScheme.onSurface,
         tonalElevation = 0.dp,
         content = content
     )
@@ -65,11 +61,11 @@ fun RowScope.TopdonNavigationBarItem(
         enabled = enabled,
         alwaysShowLabel = true,
         colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = TopdonColors.Primary,
-            selectedTextColor = TopdonColors.Primary,
-            unselectedIconColor = TopdonColors.TextSecondary,
-            unselectedTextColor = TopdonColors.TextSecondary,
-            indicatorColor = TopdonColors.DarkSurfaceVariant
+            selectedIconColor = MaterialTheme.colorScheme.primary,
+            selectedTextColor = MaterialTheme.colorScheme.primary,
+            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            indicatorColor = MaterialTheme.colorScheme.surfaceVariant
         )
     )
 }
@@ -96,7 +92,7 @@ fun RowScope.TopdonNavigationBarItemWithBadge(
                     if (badgeCount > 0) {
                         androidx.compose.material3.Badge(
                             containerColor = TopdonColors.SelectRed,
-                            contentColor = TopdonColors.TextPrimary
+                            contentColor = MaterialTheme.colorScheme.onSurface
                         ) {
                             Text(
                                 text = if (badgeCount > 99) "99+" else badgeCount.toString(),
@@ -117,11 +113,11 @@ fun RowScope.TopdonNavigationBarItemWithBadge(
         enabled = enabled,
         alwaysShowLabel = true,
         colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = TopdonColors.Primary,
-            selectedTextColor = TopdonColors.Primary,
-            unselectedIconColor = TopdonColors.TextSecondary,
-            unselectedTextColor = TopdonColors.TextSecondary,
-            indicatorColor = TopdonColors.DarkSurfaceVariant
+            selectedIconColor = MaterialTheme.colorScheme.primary,
+            selectedTextColor = MaterialTheme.colorScheme.primary,
+            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            indicatorColor = MaterialTheme.colorScheme.surfaceVariant
         )
     )
 }

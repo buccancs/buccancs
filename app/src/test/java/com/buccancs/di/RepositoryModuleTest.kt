@@ -1,15 +1,6 @@
 package com.buccancs.di
 
-import com.buccancs.domain.repository.BookmarkRepository
-import com.buccancs.domain.repository.CalibrationRepository
-import com.buccancs.domain.repository.DeviceEventRepository
-import com.buccancs.domain.repository.OrchestratorConfigRepository
-import com.buccancs.domain.repository.SensorHardwareConfigRepository
-import com.buccancs.domain.repository.SensorRepository
-import com.buccancs.domain.repository.SessionTransferRepository
-import com.buccancs.domain.repository.ShimmerSettingsRepository
-import com.buccancs.domain.repository.TopdonDeviceRepository
-import com.buccancs.domain.repository.TopdonSettingsRepository
+import com.buccancs.domain.repository.*
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication

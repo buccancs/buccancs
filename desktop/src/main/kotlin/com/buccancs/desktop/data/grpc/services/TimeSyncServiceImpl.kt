@@ -1,12 +1,6 @@
 package com.buccancs.desktop.data.grpc.services
 
-import com.buccancs.control.CommandAck
-import com.buccancs.control.TimeSyncPing
-import com.buccancs.control.TimeSyncPong
-import com.buccancs.control.TimeSyncReport
-import com.buccancs.control.TimeSyncServiceGrpcKt
-import com.buccancs.control.commandAck
-import com.buccancs.control.timeSyncPong
+import com.buccancs.control.*
 import com.buccancs.desktop.data.repository.DeviceRepository
 import org.slf4j.LoggerFactory
 import java.time.Instant

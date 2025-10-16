@@ -3,6 +3,7 @@ package com.buccancs.ui.components
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.OutlinedButton
@@ -12,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.MotionTokens
 
 /**
@@ -34,7 +36,9 @@ fun AnimatedButton(
 
     Button(
         onClick = onClick,
-        modifier = modifier.scale(scale),
+        modifier = modifier
+            .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+            .scale(scale),
         enabled = enabled,
         interactionSource = interactionSource
     ) {
@@ -62,7 +66,9 @@ fun AnimatedOutlinedButton(
 
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.scale(scale),
+        modifier = modifier
+            .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+            .scale(scale),
         enabled = enabled,
         interactionSource = interactionSource
     ) {
@@ -90,7 +96,9 @@ fun AnimatedTonalButton(
 
     FilledTonalButton(
         onClick = onClick,
-        modifier = modifier.scale(scale),
+        modifier = modifier
+            .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+            .scale(scale),
         enabled = enabled,
         interactionSource = interactionSource
     ) {

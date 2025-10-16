@@ -2,18 +2,9 @@ package com.buccancs.ui.library
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollToNode
-import com.buccancs.data.recording.manifest.ArtifactEntry
-import com.buccancs.data.recording.manifest.BookmarkEntry
-import com.buccancs.data.recording.manifest.DeviceManifest
-import com.buccancs.data.recording.manifest.EventEntry
-import com.buccancs.data.recording.manifest.SessionManifest
+import com.buccancs.data.recording.manifest.*
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import org.junit.Assert.assertTrue

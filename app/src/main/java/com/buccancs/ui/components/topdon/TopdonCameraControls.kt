@@ -3,24 +3,13 @@ package com.buccancs.ui.components.topdon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,7 +34,7 @@ fun TopdonMeasurementModeSelector(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(TopdonColors.DarkSurface, RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
             .padding(TopdonSpacing.Small),
         horizontalArrangement = Arrangement.spacedBy(TopdonSpacing.Small)
     ) {
@@ -55,12 +44,12 @@ fun TopdonMeasurementModeSelector(
                     .weight(1f)
                     .clickable { onModeSelected(mode) },
                 shape = RoundedCornerShape(6.dp),
-                color = if (selectedMode == mode) TopdonColors.Primary else Color.Transparent
+                color = if (selectedMode == mode) MaterialTheme.colorScheme.primary else Color.Transparent
             ) {
                 Text(
                     text = mode.label,
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (selectedMode == mode) TopdonColors.TextPrimary else TopdonColors.TextSecondary,
+                    color = if (selectedMode == mode) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(vertical = 8.dp),
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
@@ -94,7 +83,7 @@ fun TopdonPaletteSelector(
         Text(
             text = "Colour Palette",
             style = MaterialTheme.typography.labelMedium,
-            color = TopdonColors.TextSecondary
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -129,7 +118,7 @@ private fun PaletteOption(
             )
             .border(
                 width = if (isSelected) 2.dp else 0.dp,
-                color = if (isSelected) TopdonColors.Primary else Color.Transparent,
+                color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
                 shape = RoundedCornerShape(8.dp)
             )
             .clickable(onClick = onClick)
@@ -158,13 +147,13 @@ fun TopdonTemperatureCrosshair(
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .border(2.dp, TopdonColors.Primary, CircleShape),
+                .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Box(
                 modifier = Modifier
                     .size(2.dp)
-                    .background(TopdonColors.Primary)
+                    .background(MaterialTheme.colorScheme.primary)
             )
         }
 
@@ -173,12 +162,12 @@ fun TopdonTemperatureCrosshair(
                 .offset(x = 45.dp, y = (-8).dp)
                 .align(Alignment.CenterEnd),
             shape = RoundedCornerShape(4.dp),
-            color = TopdonColors.DarkBackground.copy(alpha = 0.9f)
+            color = MaterialTheme.colorScheme.background.copy(alpha = 0.9f)
         ) {
             Text(
                 text = formatTemperature(temperature, useFahrenheit),
                 style = MaterialTheme.typography.labelSmall,
-                color = TopdonColors.TextPrimary,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
@@ -205,7 +194,7 @@ fun TopdonTemperatureRange(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(TopdonColors.DarkBackground.copy(alpha = 0.8f), RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.background.copy(alpha = 0.8f), RoundedCornerShape(8.dp))
             .padding(TopdonSpacing.Medium),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -238,7 +227,7 @@ private fun TemperatureIndicator(
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall,
-            color = TopdonColors.TextSecondary
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = formatTemperature(temperature, useFahrenheit),

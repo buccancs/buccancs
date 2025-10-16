@@ -4,9 +4,7 @@ import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.UploadBacklogLevel
 import com.buccancs.domain.model.UploadStatus
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 
 class UploadBacklogCalculatorTest {

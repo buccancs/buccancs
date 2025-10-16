@@ -1,10 +1,6 @@
 package com.buccancs.ui.components.shimmer
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +24,9 @@ fun ShimmerSensorConfigCard(
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
         modifier = modifier.fillMaxWidth()
     ) {
         Column(

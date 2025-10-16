@@ -1,18 +1,8 @@
 package com.buccancs.ui.components.topdon
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +16,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.buccancs.ui.theme.topdon.TopdonColors
 import com.buccancs.ui.theme.topdon.TopdonTheme
 
 /**
@@ -35,7 +24,7 @@ import com.buccancs.ui.theme.topdon.TopdonTheme
 @Composable
 fun TopdonCircularProgress(
     modifier: Modifier = Modifier,
-    color: Color = TopdonColors.Primary,
+    color: Color = MaterialTheme.colorScheme.primary,
     strokeWidth: androidx.compose.ui.unit.Dp = 4.dp
 ) {
     CircularProgressIndicator(
@@ -51,8 +40,8 @@ fun TopdonCircularProgress(
 @Composable
 fun TopdonLinearProgress(
     modifier: Modifier = Modifier,
-    color: Color = TopdonColors.Primary,
-    trackColor: Color = TopdonColors.LineSeparator
+    color: Color = MaterialTheme.colorScheme.primary,
+    trackColor: Color = MaterialTheme.colorScheme.outline
 ) {
     LinearProgressIndicator(
         modifier = modifier,
@@ -68,8 +57,8 @@ fun TopdonLinearProgress(
 fun TopdonLinearProgressWithValue(
     progress: Float,
     modifier: Modifier = Modifier,
-    color: Color = TopdonColors.Primary,
-    trackColor: Color = TopdonColors.LineSeparator
+    color: Color = MaterialTheme.colorScheme.primary,
+    trackColor: Color = MaterialTheme.colorScheme.outline
 ) {
     LinearProgressIndicator(
         progress = { progress },
@@ -91,7 +80,7 @@ fun TopdonLoadingOverlay(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(TopdonColors.DarkBackground.copy(alpha = 0.8f)),
+            .background(MaterialTheme.colorScheme.background.copy(alpha = 0.8f)),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -105,7 +94,7 @@ fun TopdonLoadingOverlay(
                 Text(
                     text = message,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = TopdonColors.TextPrimary
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
@@ -139,9 +128,9 @@ fun TopdonShimmerEffect(
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        TopdonColors.DarkSurface,
-                        TopdonColors.DarkSurfaceVariant,
-                        TopdonColors.DarkSurface
+                        MaterialTheme.colorScheme.surface,
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        MaterialTheme.colorScheme.surface
                     ),
                     start = Offset(translateAnim - 500f, translateAnim - 500f),
                     end = Offset(translateAnim, translateAnim)
@@ -170,7 +159,7 @@ fun TopdonEmptyState(
         Text(
             text = message,
             style = MaterialTheme.typography.bodyLarge,
-            color = TopdonColors.TextSecondary,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = if (icon != null) 16.dp else 0.dp)
         )
     }

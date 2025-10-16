@@ -1,11 +1,6 @@
 package com.buccancs.domain.ui
 
-import com.buccancs.domain.model.ConnectionStatus
-import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorDeviceType
-import com.buccancs.domain.model.SensorStreamStatus
-import com.buccancs.domain.model.SensorStreamType
-import com.buccancs.domain.model.ShimmerSettings
+import com.buccancs.domain.model.*
 import com.buccancs.ui.DeviceUiModel
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.SHIMMER_PRIMARY_DEVICE_ID
-import com.buccancs.domain.model.ShimmerDeviceCandidate
 import com.buccancs.domain.usecase.DeviceManagementUseCase
 import com.buccancs.domain.usecase.HardwareConfigurationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,7 +39,8 @@ class ShimmerScreenViewModel @Inject constructor(
                 if (shimmerDevice != null) {
                     val isConnected = shimmerDevice.connectionStatus is ConnectionStatus.Connected
                     val isConnecting = shimmerDevice.connectionStatus is ConnectionStatus.Connecting
-                    val isStreaming = shimmerDevice.streams.any { it.isActive }
+                    // Note: Streaming status should be tracked separately via stream statuses
+                    val isStreaming = false // TODO: Get from stream status flow
 
                     _uiState.value = _uiState.value.copy(
                         isConnected = isConnected,

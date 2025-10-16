@@ -3,57 +3,13 @@ package com.buccancs.ui.topdon
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.OpenInFull
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -66,8 +22,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
+import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.components.topdon.TopdonButton
 import com.buccancs.ui.components.topdon.TopdonOutlinedButton
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.LayoutPadding
+import com.buccancs.ui.theme.Spacing
 import kotlin.math.roundToInt
 import kotlin.time.Instant
 
@@ -164,8 +124,8 @@ private fun TopdonScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(LayoutPadding.Screen),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
         ) {
             item {
                 TopdonStatusCard(state, onRefresh, onConnect, onDisconnect, onClearError, onNavigateToGuide)
@@ -192,156 +152,161 @@ private fun TopdonStatusCard(
     onClearError: () -> Unit,
     onNavigateToGuide: () -> Unit
 ) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth()
+    SectionCard(
+        modifier = Modifier.fillMaxWidth(),
+        spacing = Spacing.SmallMedium
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = state.deviceLabel,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Icon(
-                            imageVector = if (state.isConnected) Icons.Default.Check else Icons.Default.Close,
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp),
-                            tint = if (state.isConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = state.connectionStatusLabel,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = if (state.isConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-                if (state.scanning) {
-                    CircularProgressIndicator(modifier = Modifier.size(24.dp))
-                }
-            }
-
-            if (state.scanning) {
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    shape = MaterialTheme.shapes.small
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = state.deviceLabel,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
                 ) {
-                    Text(
-                        text = "Scanning USB...",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-                    )
-                }
-            }
-
-            state.errorMessage?.let { error ->
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.errorContainer,
-                    shape = MaterialTheme.shapes.small
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Error,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onErrorContainer,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Text(
-                            text = error,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onErrorContainer,
-                            modifier = Modifier.weight(1f)
-                        )
-                        FilledTonalIconButton(
-                            onClick = onClearError,
-                            modifier = Modifier.size(32.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Close,
-                                contentDescription = "Dismiss error",
-                                modifier = Modifier.size(16.dp)
-                            )
+                    Icon(
+                        imageVector = if (state.isConnected) Icons.Default.Check else Icons.Default.Close,
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimensions.IconSizeSmall),
+                        tint = if (state.isConnected) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
                         }
+                    )
+                    Text(
+                        text = state.connectionStatusLabel,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (state.isConnected) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        }
+                    )
+                }
+            }
+            if (state.scanning) {
+                CircularProgressIndicator(modifier = Modifier.size(Dimensions.IconSizeDefault))
+            }
+        }
+
+        if (state.scanning) {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Text(
+                    text = "Scanning USB...",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.padding(
+                        horizontal = Spacing.SmallMedium,
+                        vertical = Spacing.Small
+                    )
+                )
+            }
+        }
+
+        state.errorMessage?.let { error ->
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.errorContainer,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(Spacing.SmallMedium),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Error,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onErrorContainer,
+                        modifier = Modifier.size(Dimensions.IconSizeDefault)
+                    )
+                    Text(
+                        text = error,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onErrorContainer,
+                        modifier = Modifier.weight(1f)
+                    )
+                    FilledTonalIconButton(
+                        onClick = onClearError,
+                        modifier = Modifier.size(Dimensions.TouchTargetMinimum)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Dismiss error",
+                            modifier = Modifier.size(Dimensions.IconSizeSmall)
+                        )
                     }
                 }
             }
+        }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+        ) {
+            TopdonButton(
+                onClick = onConnect,
+                enabled = !state.isConnected,
+                modifier = Modifier.weight(1f)
             ) {
-                TopdonButton(
-                    onClick = onConnect,
-                    enabled = !state.isConnected,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Connect")
-                }
-                TopdonOutlinedButton(
-                    onClick = onDisconnect,
-                    enabled = state.isConnected,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Disconnect")
-                }
-                IconButton(
-                    onClick = onRefresh,
-                    modifier = Modifier.size(48.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = "Refresh"
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = null,
+                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                )
+                Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
+                Text("Connect")
             }
+            TopdonOutlinedButton(
+                onClick = onDisconnect,
+                enabled = state.isConnected,
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                )
+                Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
+                Text("Disconnect")
+            }
+            IconButton(
+                onClick = onRefresh,
+                modifier = Modifier.size(Dimensions.TouchTargetMinimum)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = "Refresh"
+                )
+            }
+        }
 
-            if (!state.isConnected) {
-                TopdonOutlinedButton(
-                    onClick = onNavigateToGuide,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Connection Guide")
-                }
+        if (!state.isConnected) {
+            TopdonOutlinedButton(
+                onClick = onNavigateToGuide,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = null,
+                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                )
+                Spacer(modifier = Modifier.width(Spacing.SmallMedium))
+                Text("Connection Guide")
             }
         }
     }

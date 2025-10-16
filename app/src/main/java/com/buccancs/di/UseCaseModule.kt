@@ -1,13 +1,6 @@
 package com.buccancs.di
 
-import com.buccancs.domain.usecase.DeviceManagementUseCase
-import com.buccancs.domain.usecase.DeviceManagementUseCaseImpl
-import com.buccancs.domain.usecase.HardwareConfigurationUseCase
-import com.buccancs.domain.usecase.HardwareConfigurationUseCaseImpl
-import com.buccancs.domain.usecase.RemoteCommandCoordinator
-import com.buccancs.domain.usecase.RemoteCommandCoordinatorImpl
-import com.buccancs.domain.usecase.SessionCoordinator
-import com.buccancs.domain.usecase.SessionCoordinatorImpl
+import com.buccancs.domain.usecase.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

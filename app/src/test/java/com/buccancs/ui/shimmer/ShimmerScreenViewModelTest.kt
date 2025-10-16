@@ -1,9 +1,9 @@
 package com.buccancs.ui.shimmer
 
 import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.SHIMMER_PRIMARY_DEVICE_ID
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
-import com.buccancs.domain.model.SHIMMER_PRIMARY_DEVICE_ID
 import com.buccancs.domain.usecase.DeviceManagementUseCase
 import com.buccancs.domain.usecase.HardwareConfigurationUseCase
 import io.mockk.coEvery
@@ -14,11 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

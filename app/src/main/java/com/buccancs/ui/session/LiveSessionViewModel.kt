@@ -7,30 +7,15 @@ import com.buccancs.application.stimulus.StimulusState
 import com.buccancs.application.time.TimeSyncService
 import com.buccancs.data.storage.SpaceMonitor
 import com.buccancs.data.storage.SpaceState
-import com.buccancs.domain.model.DeviceEvent
-import com.buccancs.domain.model.PerformanceThrottleLevel
-import com.buccancs.domain.model.RecordingBookmark
-import com.buccancs.domain.model.RecordingLifecycleState
-import com.buccancs.domain.model.RecordingState
-import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorStreamStatus
-import com.buccancs.domain.model.TimeSyncObservation
-import com.buccancs.domain.model.TimeSyncQuality
-import com.buccancs.domain.model.TimeSyncStatus
-import com.buccancs.domain.model.UploadBacklogLevel
-import com.buccancs.domain.model.UploadBacklogState
-import com.buccancs.domain.model.UploadRecoveryRecord
-import com.buccancs.domain.model.UploadStatus
+import com.buccancs.domain.model.*
 import com.buccancs.domain.repository.BookmarkRepository
 import com.buccancs.domain.repository.DeviceEventRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.SessionTransferRepository
 import com.buccancs.util.nowInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Instant
@@ -46,6 +31,7 @@ class LiveSessionViewModel @Inject constructor(
     spaceMonitor: SpaceMonitor
 ) : ViewModel() {
     private val simulation = sensorRepository.simulationEnabled
+    private val _userMessage = MutableStateFlow<String?>(null)
     private val streamAndDevices = combine(
         sensorRepository.streamStatuses,
         sensorRepository.devices
@@ -117,11 +103,13 @@ class LiveSessionViewModel @Inject constructor(
     private val combinedState = combine(
         baseSnapshot,
         stimulusPresentationManager.state,
-        bookmarkRepository.bookmarks
-    ) { snapshot, stimulus, bookmarks ->
+        bookmarkRepository.bookmarks,
+        _userMessage
+    ) { snapshot, stimulus, bookmarks, message ->
         snapshot.toUiState(
             stimulus = stimulus,
-            bookmarks = bookmarks.takeLast(MAX_BOOKMARKS)
+            bookmarks = bookmarks.takeLast(MAX_BOOKMARKS),
+            userMessage = message
         )
     }
 
@@ -129,6 +117,9 @@ class LiveSessionViewModel @Inject constructor(
         val sanitized = label.trim().ifBlank { "Bookmark" }
         viewModelScope.launch {
             bookmarkRepository.add(sanitized, nowInstant())
+            _userMessage.value = "Bookmark added"
+            delay(3000)
+            _userMessage.value = null
         }
     }
 
@@ -159,7 +150,8 @@ data class LiveSessionUiState(
     val storage: SpaceState,
     val simulationEnabled: Boolean,
     val stimulus: StimulusState,
-    val throttleLevel: PerformanceThrottleLevel
+    val throttleLevel: PerformanceThrottleLevel,
+    val userMessage: String? = null
 ) {
     companion object {
         fun initial(): LiveSessionUiState = LiveSessionUiState(
@@ -219,7 +211,8 @@ private data class SessionSnapshot(
 
 private fun SessionSnapshot.toUiState(
     stimulus: StimulusState,
-    bookmarks: List<RecordingBookmark>
+    bookmarks: List<RecordingBookmark>,
+    userMessage: String? = null
 ): LiveSessionUiState =
     LiveSessionUiState(
         recording = recording,
@@ -235,7 +228,8 @@ private fun SessionSnapshot.toUiState(
         storage = storage,
         simulationEnabled = simulationEnabled,
         stimulus = stimulus,
-        throttleLevel = throttleLevel
+        throttleLevel = throttleLevel,
+        userMessage = userMessage
     )
 
 private data class UploadSnapshot(

@@ -11,48 +11,25 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
-import com.buccancs.core.result.Error
-import com.buccancs.core.result.Result
-import com.buccancs.core.result.bluetoothOperation
-import com.buccancs.core.result.checkAvailable
-import com.buccancs.core.result.recover
-import com.buccancs.core.result.recoverWith
-import com.buccancs.core.result.toResult
+import com.buccancs.core.result.*
 import com.buccancs.core.serialization.JsonConfig
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
-import com.buccancs.domain.model.ConnectionStatus
-import com.buccancs.domain.model.DeviceCommandResult
-import com.buccancs.domain.model.RecordingSessionAnchor
-import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorStreamStatus
-import com.buccancs.domain.model.SensorStreamType
-import com.buccancs.domain.model.SessionArtifact
-import com.buccancs.domain.model.ShimmerDeviceCandidate
-import com.buccancs.domain.model.ShimmerSettings
+import com.buccancs.domain.model.*
 import com.buccancs.domain.repository.ShimmerSettingsRepository
 import com.buccancs.util.nowInstant
 import com.shimmerresearch.android.Shimmer
 import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid
 import com.shimmerresearch.bluetooth.ShimmerBluetooth
-import com.shimmerresearch.driver.CallbackObject
-import com.shimmerresearch.driver.Configuration
-import com.shimmerresearch.driver.FormatCluster
-import com.shimmerresearch.driver.ObjectCluster
-import com.shimmerresearch.driver.ShimmerDevice
+import com.shimmerresearch.driver.*
 import com.shimmerresearch.exceptions.ShimmerException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.encodeToString
 import java.io.BufferedWriter
 import java.io.File
@@ -64,6 +41,21 @@ import java.security.MessageDigest
 import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.time.Instant
+
+/**
+ * Shimmer3 GSR sensor connector using ShimmerBluetoothManagerAndroid
+ *
+ * Connection Pattern (matching SDK reference):
+ * 1. Create ShimmerBluetoothManagerAndroid with Handler on main looper
+ * 2. Call manager.connectShimmerThroughBTAddress(mac, name, btType)
+ * 3. SDK callbacks via Handler MSG_IDENTIFIER_STATE_CHANGE for connection status
+ * 4. Get ShimmerDevice from manager after CONNECTED state
+ * 5. Call device.startStreaming()
+ * 6. SDK callbacks via Handler MSG_IDENTIFIER_DATA_PACKET with ObjectCluster
+ *
+ * Reference: external/ShimmerAndroidAPI/shimmer3BLEBasicExample
+ * Reference: external/ShimmerAndroidAPI/bluetoothManagerExample
+ */
 
 internal class ShimmerSensorConnector(
     private val appScope: CoroutineScope,
@@ -80,12 +72,6 @@ internal class ShimmerSensorConnector(
     initialDevice = initialDevice
 ) {
     private val logTag = "ShimmerConnector-${deviceId.value}"
-
-    // Circuit breaker to prevent repeated connection failures
-    private val circuitBreaker = ShimmerCircuitBreaker(
-        failureThreshold = 5,
-        resetTimeoutMs = 60_000L
-    )
 
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
@@ -141,9 +127,19 @@ internal class ShimmerSensorConnector(
             return
         }
         val adapter = bluetoothAdapter ?: return
+
+        // Get bonded Shimmer devices
         val bonded = bondedShimmerDevices(adapter)
         updateDisplayName(bonded.firstOrNull())
-        val scanned = scanForBleDevices(adapter)
+
+        // Optional: Scan for additional BLE devices
+        // Alternative: Use ShimmerBluetoothDialog from SDK for device selection
+        val scanned = if (ENABLE_BLE_SCANNING) {
+            scanForBleDevices(adapter)
+        } else {
+            emptyList()
+        }
+
         val bondedCandidates = bonded.map {
             ShimmerDeviceCandidate(
                 mac = it.address.normalizeMac(),
@@ -153,6 +149,7 @@ internal class ShimmerSensorConnector(
         }
         val merged = mergeCandidates(bondedCandidates, scanned)
         discoveredCandidates = merged
+
         if (currentSettings.targetMacAddress.isNullOrBlank() && merged.isNotEmpty()) {
             shimmerSettingsRepository.setTargetMac(merged.first().mac)
         }
@@ -286,81 +283,56 @@ internal class ShimmerSensorConnector(
             return super.connect()
         }
 
-        // Use circuit breaker to prevent repeated connection failures
-        val cbResult = circuitBreaker.execute {
-            connectHardware()
-                .map { DeviceCommandResult.Accepted }
-                .recoverWith { error ->
-                    Result.Success(
-                        when (error) {
-                            is Error.Bluetooth -> DeviceCommandResult.Rejected(error.message)
-                            is Error.Permission -> DeviceCommandResult.Rejected("Bluetooth permission required. Please grant BLUETOOTH_CONNECT permission.")
-                            is Error.NotFound -> DeviceCommandResult.Rejected(error.message)
-                            else -> DeviceCommandResult.Failed(error.toException())
-                        }
-                    )
+        return connectHardware()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                when (error) {
+                    is Error.Bluetooth -> DeviceCommandResult.Rejected(error.message)
+                    is Error.Permission -> DeviceCommandResult.Rejected("Bluetooth permission required. Please grant BLUETOOTH_CONNECT permission.")
+                    is Error.NotFound -> DeviceCommandResult.Rejected(error.message)
+                    else -> DeviceCommandResult.Failed(error.toException())
                 }
-                .getOrThrow()
-        }
-
-        return cbResult.getOrElse { exception ->
-            when (exception) {
-                is CircuitBreakerOpenException -> {
-                    val status = circuitBreaker.getStatus()
-                    val retrySeconds = status.timeUntilRetry() / 1000
-                    Log.w(logTag, "Circuit breaker open: ${exception.message}")
-                    DeviceCommandResult.Rejected(
-                        "Too many connection failures. Please wait $retrySeconds seconds before retrying."
-                    )
-                }
-
-                else -> DeviceCommandResult.Failed(exception)
             }
-        }
+            .getOrThrow()
     }
 
     private suspend fun connectHardware(): Result<Unit> {
-        // Step 1: Validate adapter
+        // Validate adapter
         val adapter = bluetoothAdapter.checkAvailable()
             .getOrElse { error -> return Result.Failure(error) }
 
-        // Step 2: Find target device MAC address
+        // Find target device MAC address
         val mac = findTargetMac(adapter)
             .getOrElse { error -> return Result.Failure(error) }
 
-        // Step 3: Update settings
+        // Update settings
         shimmerSettingsRepository.setTargetMac(mac)
         targetMac = mac
         updateDeviceMetadata()
 
-        // Step 4: Initiate connection with timeout
+        // Get device name
         val name = discoveredCandidates.firstOrNull { it.mac == mac }?.name
             ?: deviceState.value.attributes[ATTR_LAST_BONDED_NAME]
             ?: deviceState.value.displayName
 
-        return try {
-            withTimeout(30_000) {
-                withContext(Dispatchers.Main) {
-                    bluetoothOperation(mac) {
-                        val manager = ensureManager()
-                        deviceState.update {
-                            it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false)
-                        }
-                        manager.connectShimmerThroughBTAddress(mac, name, preferredBtType)
-                    }.onFailure { error ->
-                        Log.e(logTag, "Bluetooth connection failed: ${error.message}", error.cause)
-                        deviceState.update {
-                            it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false)
-                        }
-                    }
+        // Connect via manager (must be on main thread per SDK requirements)
+        return withContext(Dispatchers.Main) {
+            bluetoothOperation(mac) {
+                val manager = ensureManager()
+                deviceState.update {
+                    it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false)
+                }
+
+                // Let SDK handle connection - it will callback via handler
+                manager.connectShimmerThroughBTAddress(mac, name, preferredBtType)
+                Log.i(logTag, "Connection initiated for $name ($mac)")
+                Unit // Explicit Unit return
+            }.onFailure { error ->
+                Log.e(logTag, "Connection initiation failed: ${error.message}", error.cause)
+                deviceState.update {
+                    it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false)
                 }
             }
-        } catch (e: kotlinx.coroutines.TimeoutCancellationException) {
-            Log.e(logTag, "Connection timeout after 30 seconds")
-            deviceState.update {
-                it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false)
-            }
-            Result.Failure(Error.Timeout("Shimmer connection timeout after 30 seconds"))
         }
     }
 
@@ -423,7 +395,11 @@ internal class ShimmerSensorConnector(
             samplesSeen = 0
             lastSampleTimestamp = null
             prepareLocalRecording(anchor.sessionId)
+
+            // Start streaming - SDK will callback via handler with data packets
             device.startStreaming()
+            Log.i(logTag, "Streaming started for session ${anchor.sessionId}")
+
             streamEmitter?.close()
             streamEmitter = streamClient.openStream(
                 sessionId = anchor.sessionId,
@@ -842,7 +818,12 @@ internal class ShimmerSensorConnector(
     private companion object {
         private val preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BLE
         private const val STREAM_ID = "gsr"
+
+        // BLE scanning configuration
+        // Set to false to rely only on bonded devices (matches SDK reference examples)
+        private const val ENABLE_BLE_SCANNING = true
         private const val SCAN_DURATION_MS = 6_000L
+
         private const val MAX_GSR_RANGE_INDEX = 4
         private const val ATTR_AVAILABLE_DEVICES = "shimmer.candidates"
         private const val ATTR_SELECTED_MAC = "shimmer.selected"
@@ -852,8 +833,3 @@ internal class ShimmerSensorConnector(
         private const val ATTR_LAST_BONDED_NAME = "shimmer.last_bonded_name"
     }
 }
-
-
-
-
-

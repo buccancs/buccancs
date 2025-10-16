@@ -2,9 +2,7 @@ package com.buccancs.core.result
 
 import android.bluetooth.BluetoothAdapter
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`

@@ -6,17 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,19 +54,19 @@ fun TopdonTextField(
             maxLines = maxLines,
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = TopdonColors.DarkSurface,
-                unfocusedContainerColor = TopdonColors.DarkSurface,
-                disabledContainerColor = TopdonColors.DarkBackgroundVariant,
-                focusedTextColor = TopdonColors.TextPrimary,
-                unfocusedTextColor = TopdonColors.TextPrimary,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                disabledContainerColor = MaterialTheme.colorScheme.backgroundVariant,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 disabledTextColor = TopdonColors.TextTertiary,
-                focusedIndicatorColor = TopdonColors.Primary,
-                unfocusedIndicatorColor = TopdonColors.LineSeparator,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
                 errorIndicatorColor = TopdonColors.SelectRed,
-                focusedLabelColor = TopdonColors.Primary,
-                unfocusedLabelColor = TopdonColors.TextSecondary,
+                focusedLabelColor = MaterialTheme.colorScheme.primary,
+                unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 errorLabelColor = TopdonColors.SelectRed,
-                cursorColor = TopdonColors.Primary,
+                cursorColor = MaterialTheme.colorScheme.primary,
                 errorCursorColor = TopdonColors.SelectRed
             )
         )
@@ -129,16 +120,16 @@ fun TopdonOutlinedTextField(
             maxLines = maxLines,
             shape = RoundedCornerShape(8.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = TopdonColors.TextPrimary,
-                unfocusedTextColor = TopdonColors.TextPrimary,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 disabledTextColor = TopdonColors.TextTertiary,
-                focusedBorderColor = TopdonColors.Primary,
-                unfocusedBorderColor = TopdonColors.LineSeparator,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
                 errorBorderColor = TopdonColors.SelectRed,
-                focusedLabelColor = TopdonColors.Primary,
-                unfocusedLabelColor = TopdonColors.TextSecondary,
+                focusedLabelColor = MaterialTheme.colorScheme.primary,
+                unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 errorLabelColor = TopdonColors.SelectRed,
-                cursorColor = TopdonColors.Primary,
+                cursorColor = MaterialTheme.colorScheme.primary,
                 errorCursorColor = TopdonColors.SelectRed
             )
         )

@@ -1,24 +1,13 @@
 package com.buccancs.data.sensor.connector.simulated
 
 import com.buccancs.data.sensor.connector.SensorConnector
-import com.buccancs.domain.model.ConnectionStatus
-import com.buccancs.domain.model.DeviceCommandResult
-import com.buccancs.domain.model.DeviceId
-import com.buccancs.domain.model.RecordingSessionAnchor
-import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorStreamStatus
-import com.buccancs.domain.model.SensorStreamType
-import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.*
 import com.buccancs.util.nowInstant
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.math.max

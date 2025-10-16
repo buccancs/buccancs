@@ -3,12 +3,7 @@ package com.buccancs.desktop.data.monitor
 import com.buccancs.desktop.data.repository.DeviceRepository
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.domain.model.DeviceConnectionEvent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.time.Instant

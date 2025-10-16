@@ -4,12 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.BasicAlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +13,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.buccancs.ui.theme.topdon.TopdonColors
 import com.buccancs.ui.theme.topdon.TopdonTheme
 
 /**
@@ -68,9 +62,9 @@ fun TopdonAlertDialog(
         },
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        containerColor = TopdonColors.DarkSurface,
-        titleContentColor = TopdonColors.TextPrimary,
-        textContentColor = TopdonColors.TextSecondary,
+        containerColor = MaterialTheme.colorScheme.surface,
+        titleContentColor = MaterialTheme.colorScheme.onSurface,
+        textContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
         properties = properties
     )
 }
@@ -93,7 +87,7 @@ fun TopdonDialog(
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = TopdonColors.DarkSurface
+            color = MaterialTheme.colorScheme.surface
         ) {
             content()
         }
@@ -163,7 +157,7 @@ fun TopdonLoadingDialog(
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = TopdonColors.DarkSurface,
+            color = MaterialTheme.colorScheme.surface,
             modifier = Modifier.padding(24.dp)
         ) {
             Column(
@@ -172,12 +166,12 @@ fun TopdonLoadingDialog(
                 modifier = Modifier.padding(24.dp)
             ) {
                 androidx.compose.material3.CircularProgressIndicator(
-                    color = TopdonColors.Primary
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = message,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = TopdonColors.TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center
                 )
             }

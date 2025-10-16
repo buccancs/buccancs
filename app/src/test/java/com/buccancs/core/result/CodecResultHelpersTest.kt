@@ -4,9 +4,7 @@ import android.media.MediaCodec
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.mockito.Mockito.doThrow
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import java.io.IOException
 
 class CodecResultHelpersTest {

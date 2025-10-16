@@ -1,26 +1,14 @@
 package com.buccancs.ui.components.topdon
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Sensors
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Thermostat
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +38,7 @@ fun TopdonCard(
         },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = TopdonColors.DarkSurface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         content = { content() }
     )
@@ -73,7 +61,7 @@ fun TopdonElevatedCard(
         },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = TopdonColors.DarkSurface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = TopdonSpacing.CardElevation
@@ -99,10 +87,10 @@ fun TopdonOutlinedCard(
         },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.outlinedCardColors(
-            containerColor = TopdonColors.DarkSurface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         border = CardDefaults.outlinedCardBorder().copy(
-            brush = androidx.compose.ui.graphics.SolidColor(TopdonColors.LineSeparator)
+            brush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.outline)
         ),
         content = { content() }
     )
@@ -135,14 +123,14 @@ fun TopdonDeviceCard(
             if (icon != null) {
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = TopdonColors.DarkSurfaceVariant,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     modifier = Modifier.size(48.dp)
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
                         modifier = Modifier.padding(12.dp),
-                        tint = if (isConnected) TopdonColors.Primary else TopdonColors.TextSecondary
+                        tint = if (isConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -155,25 +143,25 @@ fun TopdonDeviceCard(
                     text = deviceName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
-                    color = TopdonColors.TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = deviceType,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TopdonColors.TextSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
             Surface(
                 shape = RoundedCornerShape(4.dp),
-                color = if (isConnected) TopdonColors.GreenPoint else TopdonColors.CustomControl
+                color = if (isConnected) TopdonColors.GreenPoint else MaterialTheme.colorScheme.outlineVariant
             ) {
                 Text(
                     text = if (isConnected) "Connected" else "Disconnected",
                     style = MaterialTheme.typography.labelSmall,
-                    color = TopdonColors.TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                 )
             }
@@ -207,14 +195,14 @@ fun TopdonGalleryCard(
                     text = title,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
-                    color = TopdonColors.TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = timestamp,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TopdonColors.TextSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -237,7 +225,7 @@ fun TopdonSettingsItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        color = TopdonColors.DarkSurface
+        color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             modifier = Modifier
@@ -250,7 +238,7 @@ fun TopdonSettingsItem(
                 Icon(
                     imageVector = leadingIcon,
                     contentDescription = null,
-                    tint = TopdonColors.TextSecondary,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -262,13 +250,13 @@ fun TopdonSettingsItem(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = TopdonColors.TextPrimary
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 if (subtitle != null) {
                     Text(
                         text = subtitle,
                         style = MaterialTheme.typography.bodySmall,
-                        color = TopdonColors.TextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

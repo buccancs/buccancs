@@ -1,11 +1,7 @@
 package com.buccancs.data.sensor.connector.simulated
 
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.ConnectionStatus
-import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorDeviceType
-import com.buccancs.domain.model.SensorStreamStatus
-import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.*
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 import javax.inject.Singleton

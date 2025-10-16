@@ -16,20 +16,10 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.buccancs.ui.components.shimmer.ShimmerConfigCard
-import com.buccancs.ui.components.shimmer.ShimmerConnectionCard
-import com.buccancs.ui.components.shimmer.ShimmerDataCard
-import com.buccancs.ui.components.shimmer.ShimmerDeviceSelectorDialog
-import com.buccancs.ui.components.shimmer.ShimmerStreamingCard
+import com.buccancs.ui.components.shimmer.*
 import com.buccancs.ui.theme.Spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +40,7 @@ fun ShimmerScreen(
     }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = { Text("Shimmer Device") },

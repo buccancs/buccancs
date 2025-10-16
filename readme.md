@@ -1,0 +1,71 @@
+# BuccanCS: Multi-Modal Physiological Data Collection Platform
+
+BuccanCS is a research-grade platform for synchronised acquisition of galvanic skin response (GSR), thermal imaging,
+RGB video, and audio. It coordinates Android agents and a desktop orchestrator to capture time-aligned datasets for
+contactless GSR research.
+
+The repository contains the Android application, desktop orchestration tools, shared protocol definitions, and
+automation scripts that support laboratory and field data collection. The software currently operates as an
+engineering prototype (~88% feature complete) with outstanding validation on physical hardware.
+
+## Quick Start
+
+1. Install Java Development Kit 21 and the Android SDK (platform 36, build tools 36.1).
+2. Clone the repository and open a terminal in `C:\dev\buccancs` (or your equivalent path).
+3. Use the Gradle wrapper to build modules from Windows PowerShell or Command Prompt:
+
+   ```powershell
+   gradlew.bat build
+   ```
+
+4. To build the Android agent only:
+
+   ```powershell
+   gradlew.bat :app:assembleDebug
+   ```
+
+5. To launch the desktop orchestrator during development:
+
+   ```powershell
+   gradlew.bat :desktop:run
+   ```
+
+Additional setup details, `local.properties` guidance, and troubleshooting notes live in `docs/development.md`.
+
+## Documentation
+
+- `docs/readme.md` – Documentation index and navigation
+- `docs/system-overview.md` – Architecture, data flow, and platform capabilities
+- `docs/requirements.md` – Functional and non-functional targets with delivery status
+- `docs/development.md` – Environment setup, build, and run workflows
+- `docs/testing.md` – Automated and manual validation procedures
+- `docs/contributing.md` – Coding standards, documentation conventions, and collaboration guidelines
+- `docs/latex/` – Thesis chapters and academic material (unchanged)
+
+## Core Capabilities
+
+- Multi-device management with synchronised start/stop control for Android agents and connected sensors
+- Sub-10 ms time synchronisation across devices using an NTP-style service with round-trip sampling
+- Session management that writes manifest metadata, telemetry, and artefacts per recording
+- Parallel capture and later reconciliation of GSR CSV streams, RGB video, thermal frames, and audio
+- Background upload pipeline with retry and recovery logging for interrupted transfers
+- Automation scripts for stress testing, backlog monitoring, and Copilot-driven continuations
+
+## Hardware and Sensors
+
+- **Shimmer3 GSR+** connector delivering 128 Hz galvanic skin response and analogue channels with calibration checks
+- **Topdon TC001 thermal camera** integration with live preview, configurable palettes, and raw frame capture
+- **Android RGB camera and microphone** support via CameraX/Camera2 with bookmarks and session annotations
+- **Simulation toggles** for each sensor mode to exercise orchestration flows without physical hardware
+
+## Project Status
+
+- Android agent UI migration to Material 3: ~98% complete, pending final gallery polish
+- Desktop orchestrator services: ~75% complete; end-to-end multi-device validation outstanding
+- Automated tests: ~45% active with additional suites present but currently disabled pending infrastructure fixes
+- TOPDON thermal integration: ~60% complete with zoomable viewer and settings; external app migration partially complete
+- Build verification temporarily blocked by Android SDK Platform 36 licence acceptance; hardware validation pending
+
+Please raise issues or craft pull requests against the simplified documentation structure introduced in October 2025.
+
+

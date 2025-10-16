@@ -4,12 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buccancs.application.control.DeviceCommandService
 import com.buccancs.application.time.TimeSyncService
-import com.buccancs.control.commands.DeviceCommandPayload
-import com.buccancs.control.commands.EventMarkerCommandPayload
-import com.buccancs.control.commands.StartRecordingCommandPayload
-import com.buccancs.control.commands.StimulusCommandPayload
-import com.buccancs.control.commands.StopRecordingCommandPayload
-import com.buccancs.control.commands.SyncSignalCommandPayload
+import com.buccancs.control.commands.*
 import com.buccancs.domain.model.DeviceEvent
 import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus
@@ -22,11 +17,7 @@ import com.buccancs.util.nowInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Instant

@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
+import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 
 @Composable
@@ -24,14 +25,17 @@ fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(Spacing.Large),
-        verticalArrangement = Arrangement.Center,
+            .padding(LayoutPadding.Section),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Small,
+            alignment = Alignment.CenterVertically
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.padding(bottom = Spacing.Medium),
+            modifier = Modifier.padding(bottom = Spacing.ExtraSmall),
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
@@ -45,8 +49,7 @@ fun EmptyState(
                 text = it,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = Spacing.Small)
+                textAlign = TextAlign.Center
             )
         }
     }

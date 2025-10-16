@@ -38,9 +38,9 @@ fun TopdonButton(
         enabled = enabled,
         shape = RoundedCornerShape(50.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = TopdonColors.Primary,
-            contentColor = TopdonColors.TextPrimary,
-            disabledContainerColor = TopdonColors.CustomControl,
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            disabledContainerColor = MaterialTheme.colorScheme.outlineVariant,
             disabledContentColor = TopdonColors.TextTertiary
         ),
         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
@@ -64,12 +64,12 @@ fun TopdonOutlinedButton(
         enabled = enabled,
         shape = RoundedCornerShape(50.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = TopdonColors.TextPrimary,
+            contentColor = MaterialTheme.colorScheme.onSurface,
             disabledContentColor = TopdonColors.TextTertiary
         ),
         border = ButtonDefaults.outlinedButtonBorder.copy(
             brush = androidx.compose.ui.graphics.SolidColor(
-                if (enabled) TopdonColors.Primary else TopdonColors.CustomControl
+                if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
             )
         ),
         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
@@ -92,7 +92,7 @@ fun TopdonTextButton(
         modifier = modifier,
         enabled = enabled,
         colors = ButtonDefaults.textButtonColors(
-            contentColor = TopdonColors.Primary,
+            contentColor = MaterialTheme.colorScheme.primary,
             disabledContentColor = TopdonColors.TextTertiary
         ),
         content = content
@@ -109,7 +109,7 @@ fun TopdonIconButton(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    tint: Color = TopdonColors.TextPrimary
+    tint: Color = MaterialTheme.colorScheme.onSurface
 ) {
     IconButton(
         onClick = onClick,

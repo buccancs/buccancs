@@ -15,14 +15,8 @@ import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton

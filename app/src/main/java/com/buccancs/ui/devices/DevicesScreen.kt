@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +19,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Thermostat
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -40,7 +40,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.DeviceId
@@ -51,6 +50,9 @@ import com.buccancs.ui.calibration.CalibrationActions
 import com.buccancs.ui.calibration.CalibrationPanel
 import com.buccancs.ui.calibration.CalibrationUiState
 import com.buccancs.ui.calibration.CalibrationViewModel
+import com.buccancs.ui.components.SectionCard
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 
 @Composable
@@ -102,6 +104,7 @@ fun DevicesScreen(
     var selectedTab by remember { mutableIntStateOf(0) }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = { Text("Devices") },
@@ -128,7 +131,7 @@ fun DevicesScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = Spacing.Medium, vertical = Spacing.Small),
+                    .padding(LayoutPadding.ScreenCompact),
                 verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 when (selectedTab) {
@@ -198,128 +201,136 @@ private fun DeviceCard(
     onOpenTopdon: (() -> Unit)?,
     onOpenShimmer: (() -> Unit)?
 ) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth()
+    SectionCard(
+        modifier = Modifier.fillMaxWidth(),
+        spacing = Spacing.Small
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = device.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = device.typeLabel,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            Surface(
+                color = if (device.isConnected) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
+                },
+                shape = MaterialTheme.shapes.small
             ) {
-                Column(modifier = Modifier.weight(1f)) {
+                Row(
+                    modifier = Modifier.padding(
+                        horizontal = Spacing.SmallMedium,
+                        vertical = Spacing.Small
+                    ),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
-                        text = device.title,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
+                        text = device.connectionStatus,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = if (device.isConnected) {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        }
                     )
-                    Text(
-                        text = device.typeLabel,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    Icon(
+                        imageVector = if (device.isConnected) Icons.Default.Check else Icons.Default.Close,
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimensions.IconSizeSmall),
+                        tint = if (device.isConnected) {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        }
                     )
                 }
+            }
+        }
 
-                Surface(
-                    color = if (device.isConnected)
-                        MaterialTheme.colorScheme.primaryContainer
-                    else
-                        MaterialTheme.colorScheme.surfaceVariant,
-                    shape = MaterialTheme.shapes.small
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+        ) {
+            if (!device.isConnected) {
+                FilledTonalButton(
+                    onClick = onConnect,
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = if (device.isConnected) Icons.Default.Check else Icons.Default.Close,
-                            contentDescription = null,
-                            modifier = Modifier.size(14.dp),
-                            tint = if (device.isConnected)
-                                MaterialTheme.colorScheme.onPrimaryContainer
-                            else
-                                MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = device.connectionStatus,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = if (device.isConnected)
-                                MaterialTheme.colorScheme.onPrimaryContainer
-                            else
-                                MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    )
+                    Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
+                    Text("Connect")
+                }
+            } else {
+                OutlinedButton(
+                    onClick = onDisconnect,
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    )
+                    Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
+                    Text("Disconnect")
                 }
             }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
-            ) {
-                if (!device.isConnected) {
-                    FilledTonalButton(
-                        onClick = onConnect,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Connect")
-                    }
-                } else {
-                    OutlinedButton(
-                        onClick = onDisconnect,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Disconnect")
-                    }
+            onOpenTopdon?.let {
+                OutlinedButton(
+                    onClick = it,
+                    enabled = device.isConnected,
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    )
+                    Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
+                    Text("Configure")
                 }
+            }
 
-                onOpenTopdon?.let {
-                    OutlinedButton(
-                        onClick = it,
-                        enabled = device.isConnected,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Configure")
-                    }
-                }
-
-                onOpenShimmer?.let {
-                    OutlinedButton(
-                        onClick = it,
-                        enabled = device.isConnected,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Configure")
-                    }
+            onOpenShimmer?.let {
+                OutlinedButton(
+                    onClick = it,
+                    enabled = device.isConnected,
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    )
+                    Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
+                    Text("Configure")
                 }
             }
         }

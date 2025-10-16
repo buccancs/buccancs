@@ -25,19 +25,19 @@
     <uses-feature android:name="android.hardware.camera.any" android:required="false"/>
 
     <application
-            android:name=".BuccancsApplication"
-            android:allowBackup="true"
-            android:dataExtractionRules="@xml/data_extraction_rules"
-            android:fullBackupContent="@xml/backup_rules"
-            android:label="@string/app_name"
-            android:supportsRtl="true"
-            android:theme="@style/Theme.Buccancs">
+        android:name=".BuccancsApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Buccancs">
 
         <activity
-                android:name=".ui.MainActivity"
-                android:exported="true"
-                android:launchMode="singleTop"
-                android:theme="@style/Theme.Buccancs">
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Buccancs">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

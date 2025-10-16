@@ -100,6 +100,7 @@ fun BuccancsTheme(
     MaterialTheme(
         colorScheme = if (darkTheme) DarkColors else LightColors,
         typography = BuccancsTypography,
+        shapes = BuccancsShapes,
         content = content
     )
 }

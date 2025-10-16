@@ -154,7 +154,7 @@ Blocker: Android SDK Platform 36 licence acceptance required
 - Prevents compilation and APK building
 - Code complete and ready to compile
 - Resolution: Run sdkmanager --licenses
-- See: docs/project/BUILD_STATUS_2025-10-15_2300.md
+- See: docs/project/build-status-2025-10-15-2300.md
 
 **Testing Plan Created:**
 
@@ -211,7 +211,7 @@ Configuration:
 
 **Documentation Created:**
 
-HARDWARE_DEBUG_SESSION_2025-10-16_0121.md (350+ lines):
+hardware-debug-session-2025-10-16-0121.md (350+ lines):
 - Hardware component overview
 - Code analysis findings
 - Permission verification
@@ -708,8 +708,8 @@ Found 7 critical methods returning not implemented errors in TopdonConnectorMana
 
 **Documentation Created:**
 
-1. UI_GAPS_ANALYSIS_2025-10-16_0012.md
-2. TOPDON_PREVIEW_IMPLEMENTATION_GUIDE.md with 12 step-by-step implementation tasks
+1. ui-gaps-analysis-2025-10-16-0012.md
+2. topdon-preview-implementation-guide.md with 12 step-by-step implementation tasks
 
 **Next Steps:**
 
@@ -932,9 +932,9 @@ Completed comprehensive Material Design 3 migration for all six primary applicat
 **Documentation Created:**
 
 - MATERIAL3_MIGRATION_SUMMARY_2025-10-15_1501.md - Comprehensive migration documentation
-- Updated README.md with User Interface section
+- Updated readme.md with User Interface section
 - Updated dev-diary.md with complete session log
-- Updated BACKLOG.md with completion status
+- Updated backlog.md with completion status
 
 **Build Status:**
 
@@ -1073,7 +1073,7 @@ Completed final polish, animations, accessibility, and documentation.
 
 **Documentation:**
 
-- COMPOSE_MIGRATION_README.md - Complete migration guide
+- COMPOSE_MIGRATION_readme.md - Complete migration guide
 - Usage examples and architecture docs
 - Build instructions and dependencies
 - Known issues and future enhancements
@@ -1083,7 +1083,7 @@ Completed final polish, animations, accessibility, and documentation.
 - AnimatedComponents.kt (91 lines)
 - LoadingComponents.kt (103 lines)
 - AccessibilityComponents.kt (57 lines)
-- COMPOSE_MIGRATION_README.md (350 lines)
+- COMPOSE_MIGRATION_readme.md (350 lines)
 - Preview functions in MainScreen.kt (33 lines)
 
 **Total Project:**
@@ -1470,7 +1470,7 @@ Started full migration of external/original-topdon-app from XML Views to Compose
 
 - ui/theme/Color.kt, Type.kt, Theme.kt
 - ui/screens/MainScreen.kt
-- TOPDON_APP_COMPOSE_MIGRATION_2025-10-15_1352.md
+- topdon-app-compose-migration-2025-10-15-1352.md
 
 **Next:** Complete MainActivity, convert SplashActivity, Gallery, Settings
 
@@ -1778,7 +1778,7 @@ Implemented complete Material Design 3 motion system with easing curves, duratio
 **Status:** Complete
 
 Completed comprehensive cleanup of docs/project directory removing 22 redundant files (76% reduction from 29 to 7
-files). Retained essential active documents (BACKLOG.md, dev-diary.md) and reference materials (requirements, UI plans).
+files). Retained essential active documents (backlog.md, dev-diary.md) and reference materials (requirements, UI plans).
 Combined with docs/analysis cleanup, total 34 files removed across both directories establishing clear documentation
 structure.
 
@@ -1910,7 +1910,7 @@ Comprehensive documentation cleanup and consolidation in docs/analysis directory
 
 **Created Consolidated Status Report:**
 
-- PROJECT_STATUS_2025-10-15_1158.md reflecting accurate current state
+- project-status-2025-10-15-1158.md reflecting accurate current state
 - Updated completion: Android 92%, Desktop 75%, Overall 82%
 - Documents UI modernization, service extraction, refactoring completion
 
@@ -2431,7 +2431,7 @@ Implemented protocol versioning framework with semantic versioning support and b
 
 **Files Created:**
 
-- docs/architecture/PROTO_VERSIONING_STRATEGY_2025-10-15_0652.md (comprehensive strategy document)
+- docs/architecture/proto-versioning-strategy-2025-10-15-0652.md (comprehensive strategy document)
 
 **Files Modified:**
 
@@ -2687,7 +2687,7 @@ All analysis documents now include:
 **Documentation:**
 
 - Created IMPLEMENTATION_STATUS_2025-10-15_0410.md
-- Updated BACKLOG.md to mark tasks complete
+- Updated backlog.md to mark tasks complete
 - All tests follow project standards (disabled by default, timeout specs, proper setup/teardown)
 
 **Metrics:**
@@ -2825,7 +2825,7 @@ organisation.
 
 **Files Created:**
 
-- docs/guides/README.md - Navigation index for all guides
+- docs/guides/readme.md - Navigation index for all guides
 - docs/project/DOCUMENTATION_CLEANUP_2025-10-15_0325.md - Cleanup log
 
 **Files Retained (8 guides):**
@@ -2836,8 +2836,8 @@ organisation.
 - ERROR_HANDLING_TESTING_GUIDE_2025-10-14.md - Testing strategies
 - TEST_EXECUTION_GUIDE_2025-10-14.md - Test command reference
 - shimmer-integration-notes.txt - External SDK reference
-- topdon_navigation.txt - External SDK reference
-- topdon_tc001_integration.txt - External SDK reference
+- topdon-navigation.txt - External SDK reference
+- topdon-tc001-integration.txt - External SDK reference
 
 **Rationale:**
 
@@ -2878,10 +2878,10 @@ phase-specific documents superseded by comprehensive summaries.
 
 **Files Retained (10 essential):**
 
-- BACKLOG.md - Active task tracking
-- PROJECT_TODO.md - Task list
+- backlog.md - Active task tracking
+- project-todo.md - Task list
 - dev-diary.md - Development journal
-- requirements_to_implement.md - Requirements
+- requirements-to-implement.md - Requirements
 - FINAL_BUILD_STATUS_2025-10-14_2048.md - Complete build history
 - FINAL_OPTIMIZATION_SUMMARY_2025-10-14_2228.md - All consolidation phases
 - EXTERNAL_MODULES_JAVA21_UPGRADE_2025-10-14.md - Module upgrades
@@ -2906,7 +2906,7 @@ picture without requiring multiple reads. Documentation structure matches projec
 
 - Apply same consolidation approach to docs/analysis and docs/architecture if needed
 - Maintain this standard by removing superseded documents when creating comprehensive summaries
-- Update cross-references in README.md if any broken links exist
+- Update cross-references in readme.md if any broken links exist
 
 ## 2025-10-14
 
@@ -2918,12 +2918,12 @@ picture without requiring multiple reads. Documentation structure matches projec
 **Work Done:**
 
 - Updated dev-diary.md with current session timestamp
-- Updated BACKLOG.md with Gradle wrapper issue and Result pattern completion
-- Updated README.md to reflect latest project state and blocking issues
+- Updated backlog.md with Gradle wrapper issue and Result pattern completion
+- Updated readme.md to reflect latest project state and blocking issues
 - Updated architecture diagrams and visualisations with current implementation:
-    - visualizations/shimmer_architecture.md - Added Result pattern, circuit breaker, state machine
-    - visualizations/chapter3/state_machine.md - Added error handling states and recovery paths
-    - visualizations/chapter3/system_architecture.md - Comprehensive production architecture with all layers
+    - visualizations/shimmer-architecture.md - Added Result pattern, circuit breaker, state machine
+    - visualizations/chapter3/state-machine.md - Added error handling states and recovery paths
+    - visualizations/chapter3/system-architecture.md - Comprehensive production architecture with all layers
     - docs/architecture/shimmer_data_flow_diagram.md - Complete flow with resource cleanup
 
 **Diagram Updates:**
@@ -2997,9 +2997,9 @@ picture without requiring multiple reads. Documentation structure matches projec
     - 2 SDK improvements phase files (covered in main guide)
     - 2 testing implementation files (covered in completion reports)
     - 2 guideline update files (integrated into copilot-instructions.md)
-    - 1 obsolete build fixes file (current status in BACKLOG.md)
-- Updated INDEX.md with complete file listings (53 files documented)
-- Updated BACKLOG.md and dev-diary.md
+    - 1 obsolete build fixes file (current status in backlog.md)
+- Updated index.md with complete file listings (53 files documented)
+- Updated backlog.md and dev-diary.md
 - Created DOCUMENTATION_CONSOLIDATION_2025-10-14_0529.md
 
 **Changes:**
@@ -3082,8 +3082,8 @@ picture without requiring multiple reads. Documentation structure matches projec
     - Confirmed guide files are reference materials, not fix lists
     - All documented patterns (Result, DI testing, error handling) are already implemented
     - No pending fixes identified in guide documents
-    - PROJECT_TODO.md contains academic tasks (thesis, literature review) not code fixes
-    - requirements_to_implement.md is requirements analysis, not actionable fixes
+    - project-todo.md contains academic tasks (thesis, literature review) not code fixes
+    - requirements-to-implement.md is requirements analysis, not actionable fixes
 
 ## 2025-10-12
 
@@ -3251,7 +3251,7 @@ picture without requiring multiple reads. Documentation structure matches projec
 
 ## 2025-10-13
 
-- Updated all agent instruction files (AGENTS.md, GEMINI.md, .github/copilot-instructions.md) with file naming and
+- Updated all agent instruction files (agents.md, gemini.md, .github/copilot-instructions.md) with file naming and
   tracking standards
 - All documentation files now require date in filename (e.g., FILENAME_YYYY-MM-DD.md) and header with modification
   timestamp and agent name
@@ -3264,18 +3264,18 @@ picture without requiring multiple reads. Documentation structure matches projec
 ## 2025-10-13
 
 - Converted all project .txt files to .md format with proper headers and tracking information
-- Files converted: BACKLOG.txt -> BACKLOG.md, dev-diary.txt -> dev-diary.md, ANALYSIS_SUMMARY.txt -> ANALYSIS_SUMMARY.md
-- Updated all cross-references in README.md and agent instruction files
+- Files converted: BACKLOG.txt -> backlog.md, dev-diary.txt -> dev-diary.md, ANALYSIS_SUMMARY.txt -> ANALYSIS_SUMMARY.md
+- Updated all cross-references in readme.md and agent instruction files
 - Deleted repository_analysis.txt (content superseded by comprehensive analysis documents)
 
 ## 2025-10-13
 
 - Updated all agent instruction files to require British English spelling in all documentation, comments, and commit
   messages
-- Added Language and Spelling Standards section to AGENTS.md with comprehensive guidelines
+- Added Language and Spelling Standards section to agents.md with comprehensive guidelines
 - Converted all existing markdown documentation files to British English (synchronise, optimise, colour, behaviour,
   centre)
-- Updated 7 files: README.md, BACKLOG.md, dev-diary.md, ANALYSIS_SUMMARY.md, and all analysis documents
+- Updated 7 files: readme.md, backlog.md, dev-diary.md, ANALYSIS_SUMMARY.md, and all analysis documents
 - Exception: API identifiers and third-party library references remain unchanged
 
 - Enabled full LaTeX file interaction for all agents - can now read, modify, and create .tex files for thesis writing
@@ -3291,9 +3291,9 @@ picture without requiring multiple reads. Documentation structure matches projec
     - Project management (BACKLOG, dev-diary, TODO) → docs/project/
     - Technical docs and diagrams → docs/architecture/
     - Agent instructions → docs/guides/
-- Updated all cross-references in README.md, agent files, and documentation
+- Updated all cross-references in readme.md, agent files, and documentation
 - Added Documentation Organization section to agent instructions
-- Exception: README.md and .github/copilot-instructions.md remain in place for visibility
+- Exception: readme.md and .github/copilot-instructions.md remain in place for visibility
 
 ## 2025-10-15
 
@@ -3367,7 +3367,7 @@ Implemented base Topdon UI component library following Material 3 design with or
 
 **Documentation:**
 
-- docs/project/TOPDON_UI_DEV_A_PROGRESS_2025-10-15_1313.md
+- docs/project/topdon-ui-dev-a-progress-2025-10-15-1313.md
 
 **Impact:**
 
@@ -3513,7 +3513,7 @@ Created comprehensive automation script suite for continuous workflow without ma
 2. **auto_continue.sh** - Bash script for WSL/Linux
 3. **auto_continue.bat** - Windows batch wrapper
 4. **send_continue.ps1** - New simplified PowerShell with proper Enter key handling
-5. **AUTO_CONTINUE_README.md** - Complete documentation
+5. **AUTO_CONTINUE_readme.md** - Complete documentation
 
 **Key Improvement:**
 
@@ -3553,7 +3553,7 @@ Created comprehensive automation script suite for continuous workflow without ma
 **Files Created:**
 
 - send_continue.ps1
-- AUTO_CONTINUE_README.md
+- AUTO_CONTINUE_readme.md
 
 **Impact:**
 Enables fully automated continuous workflow where agent can trigger next iteration without user intervention.
@@ -3679,13 +3679,13 @@ Pruned and consolidated docs/guides documentation to reduce redundancy and impro
 
 ### Changes Made
 
-- Created `ERROR_HANDLING_GUIDE_2025-10-15.md` consolidating 3 error handling guides (migration, refactoring examples,
+- Created `error-handling-guide-2025-10-15.md` consolidating 3 error handling guides (migration, refactoring examples,
   testing)
-- Created `TESTING_GUIDE_2025-10-15.md` consolidating 3 testing guides (DI testing, test execution, error handling
+- Created `testing-guide-2025-10-15.md` consolidating 3 testing guides (DI testing, test execution, error handling
   testing)
 - Removed 5 redundant dated guide files
-- Updated `README.md` with new guide structure and selection matrix
-- Created `DOCUMENTATION_CLEANUP_2025-10-15_2052.md` documenting changes
+- Updated `readme.md` with new guide structure and selection matrix
+- Created `documentation-cleanup-2025-10-15-2052.md` documenting changes
 
 ### Results
 
@@ -3697,10 +3697,10 @@ Pruned and consolidated docs/guides documentation to reduce redundancy and impro
 
 ### Files Modified
 
-- `docs/guides/ERROR_HANDLING_GUIDE_2025-10-15.md` (created)
-- `docs/guides/TESTING_GUIDE_2025-10-15.md` (created)
-- `docs/guides/README.md` (updated)
-- `docs/project/DOCUMENTATION_CLEANUP_2025-10-15_2052.md` (created)
+- `docs/guides/error-handling-guide-2025-10-15.md` (created)
+- `docs/guides/testing-guide-2025-10-15.md` (created)
+- `docs/guides/readme.md` (updated)
+- `docs/project/documentation-cleanup-2025-10-15-2052.md` (created)
 
 ### Files Removed
 
@@ -3806,7 +3806,7 @@ Simplified tools/automation directory structure.
 - Removed overcomplicated session management, rate limiting, and monitoring services
 - Deleted redundant documentation (QUICKSTART.md, INSTALL_WSL.md)
 - Kept specialist tools: build scripts, performance analysis, test utilities
-- Added top-level tools/README.md for navigation
+- Added top-level tools/readme.md for navigation
 
 **Result:**
 - Reduced from 29 files to 8 functional files
@@ -3816,3 +3816,4 @@ Simplified tools/automation directory structure.
 
 **Rationale:**
 The previous automation system was overengineered with session databases, JSON tracking, rate limiters, and background services. Most users need a simple way to continue work, not a complex orchestration system. Kept specialist build/perf/test tools as they serve specific purposes.
+

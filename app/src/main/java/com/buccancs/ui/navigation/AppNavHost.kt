@@ -17,11 +17,11 @@ import com.buccancs.ui.settings.SettingsRoute
 import com.buccancs.ui.shimmer.ShimmerScreen
 import com.buccancs.ui.theme.MotionTransitions
 import com.buccancs.ui.topdon.TopdonRoute
-import com.buccancs.ui.topdon.thermal.ThermalPreviewRoute
-import com.buccancs.ui.topdon.gallery.TopdonGalleryRoute
-import com.buccancs.ui.topdon.settings.TopdonSettingsRoute
-import com.buccancs.ui.topdon.guide.ConnectionGuideRoute
 import com.buccancs.ui.topdon.detail.ImageDetailRoute
+import com.buccancs.ui.topdon.gallery.TopdonGalleryRoute
+import com.buccancs.ui.topdon.guide.ConnectionGuideRoute
+import com.buccancs.ui.topdon.settings.TopdonSettingsRoute
+import com.buccancs.ui.topdon.thermal.ThermalPreviewRoute
 
 @Composable
 fun AppNavHost(

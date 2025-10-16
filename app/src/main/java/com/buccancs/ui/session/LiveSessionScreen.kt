@@ -5,47 +5,14 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -57,20 +24,15 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
-import com.buccancs.domain.model.ConnectionStatus
-import com.buccancs.domain.model.DeviceEvent
-import com.buccancs.domain.model.PerformanceThrottleLevel
-import com.buccancs.domain.model.RecordingBookmark
-import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.UploadBacklogLevel
-import com.buccancs.domain.model.UploadBacklogState
-import com.buccancs.domain.model.UploadRecoveryRecord
-import com.buccancs.domain.model.UploadStatus
+import com.buccancs.domain.model.*
+import com.buccancs.ui.components.AnimatedTonalButton
 import com.buccancs.ui.components.InfoRow
+import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.components.StatusIndicator
 import com.buccancs.ui.debug.ClockPanel
 import com.buccancs.ui.debug.EncoderPanel
 import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.MotionTokens
 import com.buccancs.ui.theme.MotionTransitions
 import com.buccancs.ui.theme.Spacing
@@ -95,7 +57,19 @@ fun LiveSessionScreen(
     onAddBookmark: () -> Unit,
     onTriggerStimulus: () -> Unit
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(state.userMessage) {
+        state.userMessage?.let {
+            snackbarHostState.showSnackbar(
+                message = it,
+                duration = SnackbarDuration.Short
+            )
+        }
+    }
+
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text(text = "Live Session") },
@@ -138,7 +112,7 @@ fun LiveSessionScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .testTag("live-list")
-                    .padding(horizontal = Spacing.Medium, vertical = Spacing.Small),
+                    .padding(LayoutPadding.Screen),
                 verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 item {
@@ -345,97 +319,120 @@ private fun RecordingCard(
 
 @Composable
 private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth()
+    SectionCard(
+        modifier = Modifier.fillMaxWidth(),
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Stimulus",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Icon(
+                imageVector = Icons.Default.Lightbulb,
+                contentDescription = null,
+                tint = if (state.activeCue != null) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
+                modifier = Modifier.size(Dimensions.IconSizeDefault)
+            )
+        }
+        HorizontalDivider()
+
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = if (state.hasExternalDisplay) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            },
+            shape = MaterialTheme.shapes.small
+        ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.padding(
+                    horizontal = Spacing.SmallMedium,
+                    vertical = Spacing.Small
+                ),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Icon(
+                    imageVector = if (state.hasExternalDisplay) {
+                        Icons.Default.CheckCircle
+                    } else {
+                        Icons.Default.Warning
+                    },
+                    contentDescription = null,
+                    tint = if (state.hasExternalDisplay) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
+                    modifier = Modifier.size(Dimensions.IconSizeDefault)
+                )
                 Text(
-                    text = "Stimulus",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
+                    text = if (state.hasExternalDisplay) {
+                        "External display ready"
+                    } else {
+                        "External display not detected"
+                    },
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (state.hasExternalDisplay) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
                 )
-                Icon(
-                    imageVector = Icons.Default.Lightbulb,
-                    contentDescription = null,
-                    tint = if (state.activeCue != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = if (state.hasExternalDisplay) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                shape = MaterialTheme.shapes.small
-            ) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = if (state.hasExternalDisplay) Icons.Default.CheckCircle else Icons.Default.Warning,
-                        contentDescription = null,
-                        tint = if (state.hasExternalDisplay) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Text(
-                        text = if (state.hasExternalDisplay) "External display ready" else "External display not detected",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = if (state.hasExternalDisplay) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            state.activeCue?.let { cue ->
-                Spacer(modifier = Modifier.height(8.dp))
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.tertiaryContainer,
-                    shape = MaterialTheme.shapes.small
-                ) {
-                    Text(
-                        text = "Active: ${cue.label}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer,
-                        modifier = Modifier.padding(12.dp)
-                    )
-                }
-            } ?: state.lastCue?.let { cue ->
-                Spacer(modifier = Modifier.height(8.dp))
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.surfaceVariant,
-                    shape = MaterialTheme.shapes.small
-                ) {
-                    Text(
-                        text = "Last: ${cue.label}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(12.dp)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-            FilledTonalButton(
-                onClick = onTriggerStimulus,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Lightbulb,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Preview Stimulus")
             }
         }
+
+        state.activeCue?.let { cue ->
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.tertiaryContainer,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Text(
+                    text = "Active: ${cue.label}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    modifier = Modifier.padding(
+                        horizontal = Spacing.SmallMedium,
+                        vertical = Spacing.Small
+                    )
+                )
+            }
+        } ?: state.lastCue?.let { cue ->
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = MaterialTheme.shapes.small
+            ) {
+                Text(
+                    text = "Last: ${cue.label}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(
+                        horizontal = Spacing.SmallMedium,
+                        vertical = Spacing.Small
+                    )
+                )
+            }
+        }
+
+        AnimatedTonalButton(
+            onClick = onTriggerStimulus,
+            modifier = Modifier.fillMaxWidth(),
+            text = "Preview Stimulus"
+        )
     }
 }
 
@@ -545,32 +542,45 @@ private fun DeviceList(devices: List<SensorDevice>) {
 
 @Composable
 private fun UploadList(uploads: List<UploadStatus>) {
-    Card(
+    SectionCard(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("live-uploads"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Uploads", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            uploads.forEach { upload ->
-                Column(modifier = Modifier.padding(vertical = 4.dp)) {
+        Text(
+            text = "Uploads",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        uploads.forEach { upload ->
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+                Text(
+                    text = "${upload.deviceId.value} — ${upload.streamType.name}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                val progress = if (upload.bytesTotal > 0) {
+                    val pct = (upload.bytesTransferred.toDouble() / upload.bytesTotal.toDouble()) * 100.0
+                    String.format(Locale.US, "%.1f%%", pct)
+                } else {
+                    "n/a"
+                }
+                Text(
+                    text = "State: ${upload.state} · Progress: $progress",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "Attempt: ${upload.attempt}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                upload.errorMessage?.let {
                     Text(
-                        text = "${upload.deviceId.value} — ${upload.streamType.name}",
-                        style = MaterialTheme.typography.bodyMedium
+                        text = "Error: $it",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
-                    val progress = if (upload.bytesTotal > 0) {
-                        val pct = (upload.bytesTransferred.toDouble() / upload.bytesTotal.toDouble()) * 100.0
-                        String.format(Locale.US, "%.1f%%", pct)
-                    } else {
-                        "n/a"
-                    }
-                    Text(text = "State: ${upload.state} · Progress: $progress")
-                    Text(text = "Attempt: ${upload.attempt}")
-                    upload.errorMessage?.let {
-                        Text(text = "Error: $it", color = MaterialTheme.colorScheme.error)
-                    }
                 }
             }
         }
@@ -579,63 +589,67 @@ private fun UploadList(uploads: List<UploadStatus>) {
 
 @Composable
 private fun BacklogCard(state: UploadBacklogState) {
-    Card(
+    SectionCard(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("live-backlog"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Upload Backlog", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Upload Backlog",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = "Level: ${state.level}",
+            style = MaterialTheme.typography.bodyMedium,
+            color = when (state.level) {
+                UploadBacklogLevel.NORMAL -> MaterialTheme.colorScheme.onSurfaceVariant
+                UploadBacklogLevel.WARNING -> MaterialTheme.colorScheme.tertiary
+                UploadBacklogLevel.CRITICAL -> MaterialTheme.colorScheme.error
+            }
+        )
+        Text(
+            text = "Pending: ${state.queuedCount} artifacts · ${formatBytes(state.queuedBytes)} remaining",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        state.message?.let {
             Text(
-                text = "Level: ${state.level}",
-                style = MaterialTheme.typography.bodyMedium,
-                color = when (state.level) {
-                    UploadBacklogLevel.NORMAL -> MaterialTheme.colorScheme.onSurfaceVariant
-                    UploadBacklogLevel.WARNING -> MaterialTheme.colorScheme.tertiary
-                    UploadBacklogLevel.CRITICAL -> MaterialTheme.colorScheme.error
+                text = it,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (state.level == UploadBacklogLevel.CRITICAL) {
+                    MaterialTheme.colorScheme.error
+                } else {
+                    MaterialTheme.colorScheme.tertiary
                 }
             )
+        }
+        if (state.level == UploadBacklogLevel.CRITICAL) {
             Text(
-                text = "Pending: ${state.queuedCount} artifacts · ${formatBytes(state.queuedBytes)} remaining",
-                style = MaterialTheme.typography.bodySmall
+                text = "Newest artifacts are dropped until backlog clears. Review network/retention configuration.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error
             )
-            state.message?.let {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = if (state.level == UploadBacklogLevel.CRITICAL) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.colorScheme.tertiary
-                    }
-                )
-            }
-            if (state.level == UploadBacklogLevel.CRITICAL) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Newest artifacts are dropped until backlog clears. Review network/retention configuration.",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
-            if (state.perSessionQueued.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "Session Breakdown", style = MaterialTheme.typography.labelLarge)
-                state.perSessionQueued
-                    .toList()
-                    .sortedByDescending { it.second }
-                    .take(6)
-                    .forEach { (sessionId, count) ->
-                        val bytes = state.perSessionBytes[sessionId] ?: 0L
-                        Text(
-                            text = "$sessionId — $count items (${formatBytes(bytes)})",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-            }
+        }
+        if (state.perSessionQueued.isNotEmpty()) {
+            Text(
+                text = "Session Breakdown",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+            state.perSessionQueued
+                .toList()
+                .sortedByDescending { it.second }
+                .take(6)
+                .forEach { (sessionId, count) ->
+                    val bytes = state.perSessionBytes[sessionId] ?: 0L
+                    Text(
+                        text = "$sessionId — $count items (${formatBytes(bytes)})",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
         }
     }
 }
@@ -644,51 +658,52 @@ private fun BacklogCard(state: UploadBacklogState) {
 private fun RecoveryList(records: List<UploadRecoveryRecord>) {
     if (records.isEmpty()) return
     val recent = records.sortedByDescending { it.timestamp }.take(12)
-    Card(
+    SectionCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Upload Recovery", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            recent.forEach { record ->
-                Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                    Text(
-                        text = "${record.deviceId.value} — ${record.streamType.name} · Attempt ${record.attempt} · ${record.state}",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    val networkLabel = buildString {
-                        append(record.network.transport)
-                        append(if (record.network.connected) " connected" else " offline")
-                        if (record.network.metered) {
-                            append(" · metered")
-                        }
+        Text(
+            text = "Upload Recovery",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        recent.forEach { record ->
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+                Text(
+                    text = "${record.deviceId.value} — ${record.streamType.name} · Attempt ${record.attempt} · ${record.state}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                val networkLabel = buildString {
+                    append(record.network.transport)
+                    append(if (record.network.connected) " connected" else " offline")
+                    if (record.network.metered) {
+                        append(" · metered")
                     }
-                    val networkColor = if (record.network.connected) {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    } else {
-                        MaterialTheme.colorScheme.error
-                    }
+                }
+                val networkColor = if (record.network.connected) {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                } else {
+                    MaterialTheme.colorScheme.error
+                }
+                Text(
+                    text = "Timestamp: ${record.timestamp}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    text = "Network: $networkLabel",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = networkColor
+                )
+                Text(
+                    text = "Bytes: ${formatBytes(record.bytesTransferred)} / ${formatBytes(record.bytesTotal)}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                record.errorMessage?.let { message ->
                     Text(
-                        text = "Timestamp: ${record.timestamp}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = "Network: $networkLabel",
+                        text = "Error: $message",
                         style = MaterialTheme.typography.bodySmall,
-                        color = networkColor
+                        color = MaterialTheme.colorScheme.error
                     )
-                    Text(
-                        text = "Bytes: ${formatBytes(record.bytesTransferred)} / ${formatBytes(record.bytesTotal)}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    record.errorMessage?.let { message ->
-                        Text(
-                            text = "Error: $message",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
                 }
             }
         }
@@ -697,19 +712,31 @@ private fun RecoveryList(records: List<UploadRecoveryRecord>) {
 
 @Composable
 private fun EventList(events: List<DeviceEvent>) {
-    Card(
+    SectionCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Recent Events", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            events.forEach { event ->
-                Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                    Text(text = "${event.type} — ${event.label}")
-                    Text(text = "Scheduled: ${event.scheduledAt}")
-                    Text(text = "Received: ${event.receivedAt}")
-                }
+        Text(
+            text = "Recent Events",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        events.forEach { event ->
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+                Text(
+                    text = "${event.type} — ${event.label}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Scheduled: ${event.scheduledAt}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "Received: ${event.receivedAt}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }
@@ -717,18 +744,26 @@ private fun EventList(events: List<DeviceEvent>) {
 
 @Composable
 private fun BookmarkList(bookmarks: List<RecordingBookmark>) {
-    Card(
+    SectionCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Bookmarks", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            bookmarks.forEach { bookmark ->
-                Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                    Text(text = bookmark.label.ifBlank { "Bookmark" })
-                    Text(text = "Timestamp: ${bookmark.timestamp}")
-                }
+        Text(
+            text = "Bookmarks",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        bookmarks.forEach { bookmark ->
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+                Text(
+                    text = bookmark.label.ifBlank { "Bookmark" },
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Timestamp: ${bookmark.timestamp}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }
@@ -737,155 +772,80 @@ private fun BookmarkList(bookmarks: List<RecordingBookmark>) {
 @Composable
 private fun StorageCard(state: LiveSessionUiState) {
     val storage = state.storage
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth()
+    SectionCard(
+        modifier = Modifier.fillMaxWidth(),
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = "Storage",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+
+        val statusContainer = when (storage.status.name) {
+            "LOW" -> MaterialTheme.colorScheme.errorContainer
+            "WARNING" -> MaterialTheme.colorScheme.tertiaryContainer
+            else -> MaterialTheme.colorScheme.primaryContainer
+        }
+        val statusContent = when (storage.status.name) {
+            "LOW" -> MaterialTheme.colorScheme.onErrorContainer
+            "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
+            else -> MaterialTheme.colorScheme.onPrimaryContainer
+        }
+
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = statusContainer,
+            shape = MaterialTheme.shapes.small
+        ) {
+            Column(
+                modifier = Modifier.padding(
+                    horizontal = Spacing.SmallMedium,
+                    vertical = Spacing.Small
+                ),
+                verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+            ) {
+                StorageStatRow("Total", formatBytes(storage.totalBytes), statusContent)
+                StorageStatRow("Available", formatBytes(storage.availableBytes), statusContent)
+                StorageStatRow("Used", formatBytes(storage.usedBytes), statusContent)
+                StorageStatRow("Status", storage.status.name, statusContent, emphasize = true)
+            }
+        }
+
+        if (storage.sessions.isNotEmpty()) {
             Text(
-                text = "Storage",
-                style = MaterialTheme.typography.titleMedium,
+                text = "Sessions",
+                style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold
             )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = when (storage.status.name) {
-                    "LOW" -> MaterialTheme.colorScheme.errorContainer
-                    "WARNING" -> MaterialTheme.colorScheme.tertiaryContainer
-                    else -> MaterialTheme.colorScheme.primaryContainer
-                },
-                shape = MaterialTheme.shapes.small
-            ) {
-                Column(
-                    modifier = Modifier.padding(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Row(
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+                storage.sessions.take(6).forEach { usage ->
+                    Surface(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        shape = MaterialTheme.shapes.small
                     ) {
-                        Text(
-                            text = "Total:",
-                            fontWeight = FontWeight.Medium,
-                            color = when (storage.status.name) {
-                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
-                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        )
-                        Text(
-                            text = formatBytes(storage.totalBytes),
-                            color = when (storage.status.name) {
-                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
-                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Available:",
-                            fontWeight = FontWeight.Medium,
-                            color = when (storage.status.name) {
-                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
-                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        )
-                        Text(
-                            text = formatBytes(storage.availableBytes),
-                            color = when (storage.status.name) {
-                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
-                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Used:",
-                            fontWeight = FontWeight.Medium,
-                            color = when (storage.status.name) {
-                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
-                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        )
-                        Text(
-                            text = formatBytes(storage.usedBytes),
-                            color = when (storage.status.name) {
-                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
-                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Status:",
-                            fontWeight = FontWeight.SemiBold,
-                            color = when (storage.status.name) {
-                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
-                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        )
-                        Text(
-                            text = storage.status.name,
-                            fontWeight = FontWeight.SemiBold,
-                            color = when (storage.status.name) {
-                                "LOW" -> MaterialTheme.colorScheme.onErrorContainer
-                                "WARNING" -> MaterialTheme.colorScheme.onTertiaryContainer
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        )
-                    }
-                }
-            }
-
-            if (storage.sessions.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Sessions:",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    storage.sessions.take(6).forEach { usage ->
-                        Surface(
-                            modifier = Modifier.fillMaxWidth(),
-                            color = MaterialTheme.colorScheme.surfaceVariant,
-                            shape = MaterialTheme.shapes.small
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    horizontal = Spacing.SmallMedium,
+                                    vertical = Spacing.ExtraSmall
+                                ),
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    text = usage.sessionId,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = formatBytes(usage.bytes),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    fontWeight = FontWeight.Medium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
+                            Text(
+                                text = usage.sessionId,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = formatBytes(usage.bytes),
+                                style = MaterialTheme.typography.bodySmall,
+                                fontWeight = FontWeight.Medium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
                     }
                 }
@@ -954,79 +914,76 @@ private fun CollapsibleRecordingCard(state: LiveSessionUiState) {
         animationSpec = MotionTokens.mediumElementEnter()
     )
 
-    Card(
+    SectionCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        tonal = true,
+        spacing = Spacing.SmallMedium
     ) {
-        Column(modifier = Modifier.padding(Spacing.Medium)) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expanded = !expanded },
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = !expanded },
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Recording",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = state.recording.lifecycle.toString(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+            Icon(
+                imageVector = Icons.Default.ExpandMore,
+                contentDescription = if (expanded) "Collapse" else "Expand",
+                modifier = Modifier.rotate(rotationAngle)
+            )
+        }
+
+        AnimatedVisibility(
+            visible = expanded,
+            enter = MotionTransitions.expandVertically(),
+            exit = MotionTransitions.shrinkVertically()
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+                val anchor = state.recording.anchor
+                if (anchor != null) {
+                    RecordingInfoRow("Session ID", anchor.sessionId)
+                    RecordingInfoRow("Reference", anchor.referenceTimestamp.toString())
+                    RecordingInfoRow("Clock Offset", "${anchor.sharedClockOffsetMillis} ms")
+                } else {
                     Text(
-                        text = "Recording",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = state.recording.lifecycle.toString(),
+                        text = "Session idle",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-                Icon(
-                    imageVector = Icons.Default.ExpandMore,
-                    contentDescription = if (expanded) "Collapse" else "Expand",
-                    modifier = Modifier.rotate(rotationAngle)
-                )
-            }
 
-            AnimatedVisibility(
-                visible = expanded,
-                enter = MotionTransitions.expandVertically(),
-                exit = MotionTransitions.shrinkVertically()
-            ) {
-                Column(modifier = Modifier.padding(top = Spacing.Medium)) {
-                    val anchor = state.recording.anchor
-                    if (anchor != null) {
-                        InfoRow("Session ID", anchor.sessionId)
-                        InfoRow("Reference", anchor.referenceTimestamp.toString())
-                        InfoRow("Clock Offset", "${anchor.sharedClockOffsetMillis} ms")
-                    } else {
-                        Text(
-                            text = "Session idle",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = Spacing.Small),
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
-                    ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                ) {
+                    AssistChip(
+                        onClick = {},
+                        label = { Text(if (state.simulationEnabled) "Simulation" else "Live") }
+                    )
+                    if (state.throttleLevel == PerformanceThrottleLevel.CONSERVE) {
                         AssistChip(
                             onClick = {},
-                            label = { Text(if (state.simulationEnabled) "Simulation" else "Live") }
+                            label = { Text("Throttled") },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Warning,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
                         )
-                        if (state.throttleLevel == PerformanceThrottleLevel.CONSERVE) {
-                            AssistChip(
-                                onClick = {},
-                                label = { Text("Throttled") },
-                                leadingIcon = {
-                                    Icon(
-                                        imageVector = Icons.Default.Warning,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.error
-                                    )
-                                }
-                            )
-                        }
                     }
                 }
             }
@@ -1035,7 +992,31 @@ private fun CollapsibleRecordingCard(state: LiveSessionUiState) {
 }
 
 @Composable
-private fun InfoRow(label: String, value: String) {
+private fun StorageStatRow(
+    label: String,
+    value: String,
+    color: Color,
+    emphasize: Boolean = false
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = label,
+            fontWeight = if (emphasize) FontWeight.SemiBold else FontWeight.Medium,
+            color = color
+        )
+        Text(
+            text = value,
+            fontWeight = if (emphasize) FontWeight.SemiBold else FontWeight.Normal,
+            color = color
+        )
+    }
+}
+
+@Composable
+private fun RecordingInfoRow(label: String, value: String) {
     InfoRow(
         label = label,
         value = value,
@@ -1047,26 +1028,24 @@ private fun InfoRow(label: String, value: String) {
 private fun DeviceStreamGrid(devices: List<SensorDevice>) {
     if (devices.isEmpty()) return
 
-    Card(
+    SectionCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(Spacing.Medium)) {
-            Text(
-                text = "Device Status",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
+        Text(
+            text = "Device Status",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
 
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = Spacing.Medium),
-                horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
-            ) {
-                items(devices, key = { it.id.value }) { device ->
-                    DeviceStatusChip(device)
-                }
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = Spacing.Small),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+        ) {
+            items(devices, key = { it.id.value }) { device ->
+                DeviceStatusChip(device)
             }
         }
     }
@@ -1122,66 +1101,65 @@ private fun DeviceStatusChip(device: SensorDevice) {
 
 @Composable
 private fun UploadStatusCard(uploads: List<UploadStatus>, backlog: UploadBacklogState) {
-    Card(
+    val containerColor = when (backlog.level) {
+        UploadBacklogLevel.CRITICAL -> MaterialTheme.colorScheme.errorContainer
+        UploadBacklogLevel.WARNING -> MaterialTheme.colorScheme.tertiaryContainer
+        else -> MaterialTheme.colorScheme.surfaceVariant
+    }
+
+    SectionCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = if (backlog.level == UploadBacklogLevel.CRITICAL) {
-                MaterialTheme.colorScheme.errorContainer
-            } else if (backlog.level == UploadBacklogLevel.WARNING) {
-                MaterialTheme.colorScheme.tertiaryContainer
-            } else {
-                MaterialTheme.colorScheme.surfaceVariant
-            }
-        )
+        colors = CardDefaults.elevatedCardColors(containerColor = containerColor),
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(Spacing.Medium)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Upload Status",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-                if (backlog.queuedCount > 0) {
-                    AssistChip(
-                        onClick = {},
-                        label = { Text("${backlog.queuedCount} queued") },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Cloud,
-                                contentDescription = null
-                            )
-                        }
-                    )
-                }
-            }
-
-            if (uploads.isNotEmpty()) {
-                Column(
-                    modifier = Modifier.padding(top = Spacing.Medium),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Small)
-                ) {
-                    uploads.forEach { upload ->
-                        UploadProgressItem(upload)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Upload Status",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            if (backlog.queuedCount > 0) {
+                AssistChip(
+                    onClick = {},
+                    label = { Text("${backlog.queuedCount} queued") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.CloudUpload,
+                            contentDescription = null
+                        )
                     }
-                }
-            }
-
-            if (backlog.level != UploadBacklogLevel.NORMAL || backlog.message != null) {
-                Text(
-                    text = backlog.message ?: "Upload backlog: ${backlog.level}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = when (backlog.level) {
-                        UploadBacklogLevel.CRITICAL -> MaterialTheme.colorScheme.error
-                        UploadBacklogLevel.WARNING -> MaterialTheme.colorScheme.tertiary
-                        else -> MaterialTheme.colorScheme.onSurfaceVariant
-                    },
-                    modifier = Modifier.padding(top = Spacing.Small)
                 )
             }
+        }
+
+        if (uploads.isNotEmpty()) {
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+                uploads.forEach { upload ->
+                    UploadProgressItem(upload)
+                }
+            }
+        } else {
+            Text(
+                text = "No active uploads",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
+        if (backlog.level != UploadBacklogLevel.NORMAL || backlog.message != null) {
+            Text(
+                text = backlog.message ?: "Upload backlog: ${backlog.level}",
+                style = MaterialTheme.typography.bodySmall,
+                color = when (backlog.level) {
+                    UploadBacklogLevel.CRITICAL -> MaterialTheme.colorScheme.error
+                    UploadBacklogLevel.WARNING -> MaterialTheme.colorScheme.tertiary
+                    else -> MaterialTheme.colorScheme.onSurfaceVariant
+                }
+            )
         }
     }
 }

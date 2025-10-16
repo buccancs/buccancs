@@ -32,7 +32,7 @@ The app module is fully migrated to Jetpack Compose with Material 3:
 
 ### Quick Links
 
-- **App Module Migration:** See `COMPOSE_MIGRATION_README.md` in this directory
+- **App Module Migration:** See `COMPOSE_MIGRATION_readme.md` in this directory
 - **Phase 1 Report:** See `/docs/project/TOPDON_COMPOSE_MIGRATION_SUMMARY_2025-10-16_0020.md`
 - **Complete Migration Plan:** See `/docs/project/TOPDON_COMPLETE_MIGRATION_PLAN_2025-10-16_0035.md`
 
@@ -58,4 +58,6 @@ Converting thermal-ir module core activities (highest priority):
 
 The app module builds successfully with all Compose components integrated.
 Thermal-ir module Compose dependencies added, ready for conversion.
+
+
 

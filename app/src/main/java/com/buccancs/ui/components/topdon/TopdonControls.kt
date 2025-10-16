@@ -1,26 +1,8 @@
 package com.buccancs.ui.components.topdon
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,14 +28,14 @@ fun TopdonSwitch(
         modifier = modifier,
         enabled = enabled,
         colors = SwitchDefaults.colors(
-            checkedThumbColor = TopdonColors.TextPrimary,
-            checkedTrackColor = TopdonColors.Primary,
+            checkedThumbColor = MaterialTheme.colorScheme.onSurface,
+            checkedTrackColor = MaterialTheme.colorScheme.primary,
             uncheckedThumbColor = TopdonColors.TextTertiary,
-            uncheckedTrackColor = TopdonColors.CustomControl,
+            uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant,
             disabledCheckedThumbColor = TopdonColors.TextTertiary,
-            disabledCheckedTrackColor = TopdonColors.LineSeparator,
+            disabledCheckedTrackColor = MaterialTheme.colorScheme.outline,
             disabledUncheckedThumbColor = TopdonColors.TextTertiary,
-            disabledUncheckedTrackColor = TopdonColors.LineSeparator
+            disabledUncheckedTrackColor = MaterialTheme.colorScheme.outline
         )
     )
 }
@@ -74,11 +56,11 @@ fun TopdonCheckbox(
         modifier = modifier,
         enabled = enabled,
         colors = CheckboxDefaults.colors(
-            checkedColor = TopdonColors.Primary,
-            uncheckedColor = TopdonColors.LineSeparator,
-            checkmarkColor = TopdonColors.TextPrimary,
-            disabledCheckedColor = TopdonColors.CustomControl,
-            disabledUncheckedColor = TopdonColors.CustomControl
+            checkedColor = MaterialTheme.colorScheme.primary,
+            uncheckedColor = MaterialTheme.colorScheme.outline,
+            checkmarkColor = MaterialTheme.colorScheme.onSurface,
+            disabledCheckedColor = MaterialTheme.colorScheme.outlineVariant,
+            disabledUncheckedColor = MaterialTheme.colorScheme.outlineVariant
         )
     )
 }
@@ -99,10 +81,10 @@ fun TopdonRadioButton(
         modifier = modifier,
         enabled = enabled,
         colors = RadioButtonDefaults.colors(
-            selectedColor = TopdonColors.Primary,
-            unselectedColor = TopdonColors.LineSeparator,
-            disabledSelectedColor = TopdonColors.CustomControl,
-            disabledUnselectedColor = TopdonColors.CustomControl
+            selectedColor = MaterialTheme.colorScheme.primary,
+            unselectedColor = MaterialTheme.colorScheme.outline,
+            disabledSelectedColor = MaterialTheme.colorScheme.outlineVariant,
+            disabledUnselectedColor = MaterialTheme.colorScheme.outlineVariant
         )
     )
 }
@@ -134,12 +116,12 @@ fun TopdonSlider(
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodyMedium,
-                color = TopdonColors.TextPrimary
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = valueFormatter(value),
                 style = MaterialTheme.typography.bodyMedium,
-                color = TopdonColors.Primary
+                color = MaterialTheme.colorScheme.primary
             )
         }
 
@@ -151,12 +133,12 @@ fun TopdonSlider(
             enabled = enabled,
             onValueChangeFinished = onValueChangeFinished,
             colors = SliderDefaults.colors(
-                thumbColor = TopdonColors.Primary,
-                activeTrackColor = TopdonColors.Primary,
-                inactiveTrackColor = TopdonColors.LineSeparator,
-                disabledThumbColor = TopdonColors.CustomControl,
-                disabledActiveTrackColor = TopdonColors.CustomControl,
-                disabledInactiveTrackColor = TopdonColors.LineSeparator
+                thumbColor = MaterialTheme.colorScheme.primary,
+                activeTrackColor = MaterialTheme.colorScheme.primary,
+                inactiveTrackColor = MaterialTheme.colorScheme.outline,
+                disabledThumbColor = MaterialTheme.colorScheme.outlineVariant,
+                disabledActiveTrackColor = MaterialTheme.colorScheme.outlineVariant,
+                disabledInactiveTrackColor = MaterialTheme.colorScheme.outline
             )
         )
     }
@@ -235,7 +217,7 @@ private fun TopdonControlsPreview() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Auto-connect", color = TopdonColors.TextPrimary)
+                Text("Auto-connect", color = MaterialTheme.colorScheme.onSurface)
                 TopdonSwitch(checked = switchState, onCheckedChange = { switchState = it })
             }
 
@@ -243,7 +225,7 @@ private fun TopdonControlsPreview() {
                 TopdonCheckbox(checked = checkboxState, onCheckedChange = { checkboxState = it })
                 Text(
                     text = "Enable high resolution",
-                    color = TopdonColors.TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
@@ -253,7 +235,7 @@ private fun TopdonControlsPreview() {
                     TopdonRadioButton(selected = radioState == 0, onClick = { radioState = 0 })
                     Text(
                         text = "Celsius",
-                        color = TopdonColors.TextPrimary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
@@ -261,7 +243,7 @@ private fun TopdonControlsPreview() {
                     TopdonRadioButton(selected = radioState == 1, onClick = { radioState = 1 })
                     Text(
                         text = "Fahrenheit",
-                        color = TopdonColors.TextPrimary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }

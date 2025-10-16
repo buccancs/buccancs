@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 
 @Composable
@@ -26,15 +27,18 @@ fun ErrorState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(Spacing.Large),
-        verticalArrangement = Arrangement.Center,
+            .padding(LayoutPadding.Section),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Small,
+            alignment = Alignment.CenterVertically
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
             imageVector = Icons.Default.Error,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.error,
-            modifier = Modifier.padding(bottom = Spacing.Medium)
+            modifier = Modifier.padding(bottom = Spacing.ExtraSmall)
         )
         Text(
             text = title,
@@ -47,7 +51,7 @@ fun ErrorState(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = Spacing.Small, bottom = Spacing.Medium)
+            modifier = Modifier.padding(bottom = Spacing.Small)
         )
         onRetry?.let {
             Button(onClick = it) {
