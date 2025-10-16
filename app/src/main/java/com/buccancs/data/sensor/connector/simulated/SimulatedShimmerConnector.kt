@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.simulated
 
+import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
 import com.buccancs.di.ApplicationScope

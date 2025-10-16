@@ -13,9 +13,9 @@ import com.topdon.lib.core.tools.UnitTools
 import com.topdon.lib.ui.widget.MyItemDecoration
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.view.EmissivityView
-import kotlinx.android.synthetic.main.activity_ir_emissivity.*
-import kotlinx.android.synthetic.main.item_ir_emissivity_title.*
-import kotlinx.android.synthetic.main.item_ir_emissivity_title.view.*
+// Stubbed: import kotlinx.android.synthetic.main.activity_ir_emissivity.*
+// Stubbed: import kotlinx.android.synthetic.main.item_ir_emissivity_title.*
+// Stubbed: import kotlinx.android.synthetic.main.item_ir_emissivity_title.view.*
 
 class IREmissivityActivity : BaseActivity() {
     override fun initContentView(): Int = R.layout.activity_ir_emissivity

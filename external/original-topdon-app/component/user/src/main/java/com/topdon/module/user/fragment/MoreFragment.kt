@@ -27,10 +27,9 @@ import com.topdon.lib.core.socket.WebSocketProxy
 import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.lib.core.viewmodel.FirmwareViewModel
 import com.topdon.module.user.R
+import com.topdon.module.user.databinding.FragmentMoreBinding
 import com.topdon.module.user.dialog.DownloadProDialog
 import com.topdon.module.user.dialog.FirmwareInstallDialog
-import kotlinx.android.synthetic.main.fragment_more.*
-import kotlinx.android.synthetic.main.layout_upgrade.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -40,36 +39,40 @@ import java.text.DecimalFormat
 @Route(path = RouterConfig.TC_MORE)
 class MoreFragment : BaseFragment(), View.OnClickListener {
     private var isTC007 = false
+    private var _binding: FragmentMoreBinding? = null
+    private val binding get() = _binding!!
     private val firmwareViewModel: FirmwareViewModel by viewModels()
     override fun initContentView() = R.layout.fragment_more
     override fun initView() {
+        _binding = FragmentMoreBinding.bind(requireView())
+        val binding = binding
         isTC007 = arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false
-        setting_item_model.setOnClickListener(this)
-        setting_item_correction.setOnClickListener(this)
-        setting_item_dual.setOnClickListener(this)
-        setting_item_unit.setOnClickListener(this)
-        setting_version.setOnClickListener(this)
-        setting_device_information.setOnClickListener(this)
-        setting_reset.setOnClickListener(this)
-        setting_reset.isVisible = false
-        setting_version.isVisible = isTC007 && Build.VERSION.SDK_INT >= 29
-        setting_device_information.isVisible = isTC007
-        setting_item_dual.isVisible = !isTC007 && DeviceTools.isTC001PlusConnect()
+        binding.settingItemModel.setOnClickListener(this)
+        binding.settingItemCorrection.setOnClickListener(this)
+        binding.settingItemDual.setOnClickListener(this)
+        binding.settingItemUnit.setOnClickListener(this)
+        binding.settingVersionRoot.setOnClickListener(this)
+        binding.settingDeviceInformation.setOnClickListener(this)
+        binding.settingReset.setOnClickListener(this)
+        binding.settingReset.isVisible = false
+        binding.settingVersionRoot.isVisible = isTC007 && Build.VERSION.SDK_INT >= 29
+        binding.settingDeviceInformation.isVisible = isTC007
+        binding.settingItemDual.isVisible = !isTC007 && DeviceTools.isTC001PlusConnect()
         if (isTC007) {
             refresh07Connect(WebSocketProxy.getInstance().isTC007Connect())
         }
-        setting_item_auto_show.isChecked =
+        binding.settingItemAutoShow.isChecked =
             if (isTC007) SharedManager.isConnect07AutoOpen else SharedManager.isConnectAutoOpen
-        setting_item_auto_show.setOnCheckedChangeListener { _, isChecked ->
+        binding.settingItemAutoShow.setOnCheckedChangeListener { _, isChecked ->
             if (isTC007) {
                 SharedManager.isConnect07AutoOpen = isChecked
             } else {
                 SharedManager.isConnectAutoOpen = isChecked
             }
         }
-        setting_item_config_select.isChecked =
+        binding.settingItemConfigSelect.isChecked =
             if (isTC007) WifiSaveSettingUtil.isSaveSetting else SaveSettingUtil.isSaveSetting
-        setting_item_config_select.setOnCheckedChangeListener { _, isChecked ->
+        binding.settingItemConfigSelect.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 TipDialog.Builder(requireContext())
                     .setMessage(R.string.save_setting_tips)
@@ -81,7 +84,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                         }
                     }
                     .setCancelListener(R.string.app_cancel) {
-                        setting_item_config_select.isChecked = false
+                        binding.settingItemConfigSelect.isChecked = false
                     }
                     .setCanceled(false)
                     .create().show()
@@ -96,7 +99,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             }
         }
         firmwareViewModel.firmwareDataLD.observe(this) {
-            tv_upgrade_point.isVisible = it != null
+            binding.settingVersion.tvUpgradePoint.isVisible = it != null
             dismissLoadingDialog()
             if (it == null) {
                 ToastUtils.showShort(R.string.setting_firmware_update_latest_version)
@@ -106,7 +109,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         }
         firmwareViewModel.failLD.observe(this) {
             dismissLoadingDialog()
-            tv_upgrade_point.isVisible = false
+            binding.settingVersion.tvUpgradePoint.isVisible = false
         }
     }
 
@@ -114,11 +117,13 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun connected() {
-        setting_item_dual.isVisible = !isTC007 && DeviceTools.isTC001PlusConnect()
+        _binding?.let { binding ->
+            binding.settingItemDual.isVisible = !isTC007 && DeviceTools.isTC001PlusConnect()
+        }
     }
 
     override fun disConnected() {
-        setting_item_dual.isVisible = false
+        _binding?.settingItemDual?.isVisible = false
     }
 
     override fun onSocketConnected(isTS004: Boolean) {
@@ -135,25 +140,25 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            setting_item_model -> {
+            binding.settingItemModel -> {
                 ARouter.getInstance().build(RouterConfig.IR_SETTING).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .navigation(requireContext())
             }
 
-            setting_item_dual -> {
+            binding.settingItemDual -> {
                 ARouter.getInstance().build(RouterConfig.MANUAL_START).navigation(requireContext())
             }
 
-            setting_item_unit -> {
+            binding.settingItemUnit -> {
                 ARouter.getInstance().build(RouterConfig.UNIT).navigation(requireContext())
             }
 
-            setting_item_correction -> {
+            binding.settingItemCorrection -> {
                 ARouter.getInstance().build(RouterConfig.IR_CORRECTION).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .navigation(requireContext())
             }
 
-            setting_version -> {
+            binding.settingVersionRoot -> {
                 val firmwareData = firmwareViewModel.firmwareDataLD.value
                 if (firmwareData != null) {
                     showFirmwareUpDialog(firmwareData)
@@ -164,7 +169,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                 }
             }
 
-            setting_device_information -> {
+            binding.settingDeviceInformation -> {
                 if (WebSocketProxy.getInstance().isTC007Connect()) {
                     ARouter.getInstance()
                         .build(RouterConfig.DEVICE_INFORMATION)
@@ -173,7 +178,7 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
                 }
             }
 
-            setting_reset -> {
+            binding.settingReset -> {
                 if (WebSocketProxy.getInstance().isTC007Connect()) {
                     restoreFactory()
                 }
@@ -182,21 +187,23 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun refresh07Connect(isConnect: Boolean) {
-        setting_device_information.isRightArrowVisible = isConnect
-        setting_device_information.setRightTextId(if (isConnect) 0 else R.string.app_no_connect)
-        setting_reset.isRightArrowVisible = isConnect
-        setting_reset.setRightTextId(if (isConnect) 0 else R.string.app_no_connect)
-        tv_right_text.isVisible = isConnect
-        if (isConnect) {
-            lifecycleScope.launch {
-                if (productBean == null) {
-                } else {
-                    item_setting_bottom_text.text =
-                        getString(R.string.setting_firmware_update_version) + "V" + productBean.getVersionStr()
+        _binding?.let { binding ->
+            binding.settingDeviceInformation.isRightArrowVisible = isConnect
+            binding.settingDeviceInformation.setRightTextId(if (isConnect) 0 else R.string.app_no_connect)
+            binding.settingReset.isRightArrowVisible = isConnect
+            binding.settingReset.setRightTextId(if (isConnect) 0 else R.string.app_no_connect)
+            binding.settingVersion.tvRightText.isVisible = isConnect
+            if (isConnect) {
+                lifecycleScope.launch {
+                    if (productBean == null) {
+                    } else {
+                        binding.settingVersion.itemSettingBottomText.text =
+                            getString(R.string.setting_firmware_update_version) + "V" + productBean.getVersionStr()
+                    }
                 }
+            } else {
+                binding.settingVersion.itemSettingBottomText.setText(R.string.setting_firmware_update_version)
             }
-        } else {
-            item_setting_bottom_text.setText(R.string.setting_firmware_update_version)
         }
     }
 
@@ -316,5 +323,10 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             delay(500)
             dismissLoadingDialog()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

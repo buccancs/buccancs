@@ -1,0 +1,177 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/C:/Users/duyan/.gradle/wrapper/dists/gradle-8.14-bin/38aieal9i53h9rfe7vjup95b9/gradle-8.14/lib/native-platform-0.22-milestone-28.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+> Task :libapp:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :libapp:preBuild UP-TO-DATE
+> Task :libapp:preBetaDebugBuild UP-TO-DATE
+> Task :libapp:dataBindingMergeDependencyArtifactsBetaDebug UP-TO-DATE
+> Task :libapp:generateBetaDebugResValues UP-TO-DATE
+> Task :libapp:generateBetaDebugResources UP-TO-DATE
+> Task :libapp:packageBetaDebugResources UP-TO-DATE
+> Task :libapp:parseBetaDebugLocalResources UP-TO-DATE
+> Task :libapp:dataBindingGenBaseClassesBetaDebug UP-TO-DATE
+> Task :libapp:dataBindingTriggerBetaDebug UP-TO-DATE
+> Task :libapp:generateBetaDebugBuildConfig UP-TO-DATE
+> Task :libapp:generateBetaDebugRFile UP-TO-DATE
+> Task :libapp:kaptGenerateStubsBetaDebugKotlin UP-TO-DATE
+> Task :libapp:kaptBetaDebugKotlin UP-TO-DATE
+
+> Task :libapp:compileBetaDebugKotlin FAILED
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:10:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:11:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:12:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:13:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:26:9 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:28:21 Unresolved reference 'it'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:29:46 Unresolved reference 'it'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:48:9 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:48:55 Unresolved reference 'IResponseCallback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:49:13 'onResponse' overrides nothing.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:62:13 'onFail' overrides nothing.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:67:13 'onFail' overrides nothing.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:68:17 Unresolved reference 'IResponseCallback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:68:23 Unresolved reference 'onFail'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:70:21 Unresolved reference 'StringUtils'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:70:21 Argument type mismatch: actual type is 'R', but 'K' was expected.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:71:25 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:73:23 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:73:27 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:74:25 Unresolved reference 'TToast'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:74:43 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/repository/LmsRepository.kt:77:21 Argument type mismatch: actual type is 'kotlin.Unit', but 'K' was expected.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:2:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:3:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:4:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:12:54 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:13:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:18:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:24:43 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:25:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:28:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:37:59 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:38:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:42:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:48:42 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:49:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:52:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:60:51 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:61:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:65:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:71:35 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:72:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:75:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:84:49 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:85:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:90:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:96:36 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:97:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:100:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:108:38 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:109:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:112:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:121:53 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:122:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:126:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:134:43 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:135:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:138:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:144:39 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:145:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:148:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:154:45 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:155:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:158:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:164:41 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:165:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:168:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:174:40 Unresolved reference 'Callback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:175:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/http/ts004/HttpUtils.kt:178:9 Unresolved reference 'x'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:25:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:26:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:190:13 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:192:49 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:193:13 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:193:55 Unresolved reference 'CommonBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:195:61 Unresolved reference 'data'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:197:33 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:198:43 Unresolved reference 'topdonId'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:199:42 Unresolved reference 'phone'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:200:42 Unresolved reference 'email'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:201:45 Unresolved reference 'userName'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:202:44 Unresolved reference 'avatar'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/tools/PermissionTool.kt:13:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/tools/PermissionTool.kt:72:25 Unresolved reference 'TToast'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/tools/PermissionTool.kt:86:29 Unresolved reference 'TToast'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/tools/PermissionTool.kt:100:25 Unresolved reference 'TToast'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:5:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:6:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:7:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:8:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:9:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:21:81 Unresolved reference 'IResponseCallback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:22:19 Unresolved reference 'UrlConstant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:23:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:27:48 Unresolved reference 'LanguageUtil'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:30:9 Unresolved reference 'instant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:17:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:18:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:19:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:20:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:21:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:22:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:23:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:24:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:25:19 Unresolved reference 'lms'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:240:25 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:276:43 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:297:24 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:299:13 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:300:24 Unresolved reference 'it'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:315:19 Unresolved reference 'UrlConstant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:316:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:319:55 Unresolved reference 'LanguageUtil'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:321:46 Unresolved reference 'DateUtils'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:322:9 Unresolved reference 'HttpProxy'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:322:54 Unresolved reference 'IResponseCallback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:323:13 'onResponse' overrides nothing.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:325:37 Unresolved reference 'CommonBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:325:50 Unresolved reference 'ResponseBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:326:62 Unresolved reference 'data'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:333:13 'onFail' overrides nothing.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:348:19 Unresolved reference 'UrlConstant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:349:22 Unresolved reference 'RequestParams'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:355:9 Unresolved reference 'HttpProxy'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:355:54 Unresolved reference 'IResponseCallback'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:356:13 'onResponse' overrides nothing.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:358:37 Unresolved reference 'CommonBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:358:50 Unresolved reference 'ResponseBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:359:44 Unresolved reference 'LMS'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:360:61 Unresolved reference 'data'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:371:13 'onFail' overrides nothing.
+
+[Incubating] Problems report is available at: file:///C:/dev/buccancs/external/original-topdon-app/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':libapp:compileBetaDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 3s
+12 actionable tasks: 1 executed, 11 up-to-date

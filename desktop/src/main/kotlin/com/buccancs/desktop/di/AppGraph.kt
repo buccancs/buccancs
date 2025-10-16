@@ -1,6 +1,7 @@
 package com.buccancs.desktop.di
 
 import com.buccancs.desktop.data.aggregation.SessionAggregationService
+import com.buccancs.desktop.data.discovery.MdnsServiceBrowser
 import com.buccancs.desktop.data.encryption.EncryptionKeyProvider
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.erasure.SubjectErasureManager
@@ -31,13 +32,16 @@ class AppGraph private constructor(
     private val grpcServer: GrpcServer,
     private val appViewModel: AppViewModel,
     private val subjectErasureManager: SubjectErasureManager,
+    private val mdnsServiceBrowser: MdnsServiceBrowser,
     private val appScope: CoroutineScope,
     private val connectionMonitor: DeviceConnectionMonitor
 ) {
     fun provideAppViewModel(): AppViewModel = appViewModel
     fun provideGrpcServer(): GrpcServer = grpcServer
     fun provideSubjectErasureManager(): SubjectErasureManager = subjectErasureManager
+    fun provideMdnsServiceBrowser(): MdnsServiceBrowser = mdnsServiceBrowser
     fun shutdown() {
+        mdnsServiceBrowser.stop()
         connectionMonitor.stop()
         appScope.cancel()
     }
@@ -90,6 +94,8 @@ class AppGraph private constructor(
                 scope = appScope
             )
             connectionMonitor.start()
+            val mdnsServiceBrowser = MdnsServiceBrowser(appScope)
+            mdnsServiceBrowser.start()
             return AppGraph(
                 sessionRepository = sessionRepository,
                 deviceRepository = deviceRepository,
@@ -99,6 +105,7 @@ class AppGraph private constructor(
                 grpcServer = grpcServer,
                 appViewModel = viewModel,
                 subjectErasureManager = erasureManager,
+                mdnsServiceBrowser = mdnsServiceBrowser,
                 appScope = appScope,
                 connectionMonitor = connectionMonitor
             )

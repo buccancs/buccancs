@@ -1,33 +1,42 @@
 package com.buccancs.data.sensor.connector.shimmer
 
-import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.le.ScanCallback
-import android.bluetooth.le.ScanResult
-import android.content.Context
 import android.net.Uri
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.util.Log
-import com.buccancs.core.result.*
+import com.buccancs.core.result.DeviceCommandResult
+import com.buccancs.core.result.Error
+import com.buccancs.core.result.Result
+import com.buccancs.core.result.recover
+import com.buccancs.core.result.resultOf
+import com.buccancs.core.result.toResult
 import com.buccancs.core.serialization.JsonConfig
 import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamEmitter
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.ShimmerDeviceCandidate
+import com.buccancs.domain.model.ShimmerDeviceConfig
+import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.domain.repository.ShimmerSettingsRepository
+import com.buccancs.hardware.shimmer.ShimmerHardwareClient
+import com.buccancs.hardware.shimmer.ShimmerHardwareDevice
+import com.buccancs.hardware.shimmer.ShimmerHardwareSettings
+import com.buccancs.hardware.shimmer.ShimmerNotice
+import com.buccancs.hardware.shimmer.ShimmerSample
+import com.buccancs.hardware.shimmer.ShimmerStatus
 import com.buccancs.util.nowInstant
-import com.shimmerresearch.android.Shimmer
-import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid
-import com.shimmerresearch.bluetooth.ShimmerBluetooth
-import com.shimmerresearch.driver.*
-import com.shimmerresearch.exceptions.ShimmerException
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.encodeToString
@@ -38,29 +47,14 @@ import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
 import java.security.DigestOutputStream
 import java.security.MessageDigest
-import java.util.*
+import java.util.Locale
 import kotlin.math.absoluteValue
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
-
-/**
- * Shimmer3 GSR sensor connector using ShimmerBluetoothManagerAndroid
- *
- * Connection Pattern (matching SDK reference):
- * 1. Create ShimmerBluetoothManagerAndroid with Handler on main looper
- * 2. Call manager.connectShimmerThroughBTAddress(mac, name, btType)
- * 3. SDK callbacks via Handler MSG_IDENTIFIER_STATE_CHANGE for connection status
- * 4. Get ShimmerDevice from manager after CONNECTED state
- * 5. Call device.startStreaming()
- * 6. SDK callbacks via Handler MSG_IDENTIFIER_DATA_PACKET with ObjectCluster
- *
- * Reference: external/ShimmerAndroidAPI/shimmer3BLEBasicExample
- * Reference: external/ShimmerAndroidAPI/bluetoothManagerExample
- */
 
 internal class ShimmerSensorConnector(
     private val appScope: CoroutineScope,
-    private val context: Context,
-    private val bluetoothAdapter: BluetoothAdapter?,
+    private val hardwareClient: ShimmerHardwareClient,
     artifactFactory: SimulatedArtifactFactory,
     private val streamClient: SensorStreamClient,
     private val recordingStorage: RecordingStorage,
@@ -73,32 +67,11 @@ internal class ShimmerSensorConnector(
 ) {
     private val logTag = "ShimmerConnector-${deviceId.value}"
 
-    private val handler = object : Handler(Looper.getMainLooper()) {
-        override fun handleMessage(msg: Message) {
-            when (msg.what) {
-                ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE -> handleStateChange(msg.obj)
-                ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET -> if (msg.obj is ObjectCluster) {
-                    handleDataPacket(msg.obj as ObjectCluster)
-                }
-
-                Shimmer.MESSAGE_TOAST -> {
-                    val text = msg.data?.getString(Shimmer.TOAST)
-                    if (!text.isNullOrBlank()) {
-                        Log.i(logTag, text)
-                    }
-                }
-
-                else -> super.handleMessage(msg)
-            }
-        }
-    }
-    private var bluetoothManager: ShimmerBluetoothManagerAndroid? = null
-    private var shimmerDevice: ShimmerDevice? = null
-    private var targetMac: String? = shimmerSettingsRepository.settings.value.targetMacAddress?.normalizeMac()
     private var streamingAnchor: RecordingSessionAnchor? = null
-    private var samplesSeen = 0L
+    private var samplesSeen: Long = 0
     private var lastSampleTimestamp: Instant? = null
     private var streamEmitter: SensorStreamEmitter? = null
+
     private val writerMutex = Mutex()
     private var localWriter: BufferedWriter? = null
     private var localDigest: MessageDigest? = null
@@ -107,9 +80,13 @@ internal class ShimmerSensorConnector(
     private var localSessionId: String? = null
     private var completedArtifact: SessionArtifact? = null
     private var completedArtifactSessionId: String? = null
+
     private val json = JsonConfig.standard
     private var currentSettings: ShimmerSettings = shimmerSettingsRepository.settings.value
     private var discoveredCandidates: List<ShimmerDeviceCandidate> = emptyList()
+    private var hardwareInventory: List<ShimmerHardwareDevice> = emptyList()
+    private var hardwareStatus: ShimmerStatus = ShimmerStatus.Idle
+    private var targetMac: String? = currentSettings.targetMacAddress?.normalizeMac()
 
     init {
         appScope.launch {
@@ -119,6 +96,36 @@ internal class ShimmerSensorConnector(
                 applySettingsToConnectedDevice()
             }
         }
+        appScope.launch {
+            hardwareClient.devices.collect { devices ->
+                hardwareInventory = devices
+            }
+        }
+        appScope.launch {
+            hardwareClient.status.collect { status ->
+                hardwareStatus = status
+                handleHardwareStatus(status)
+            }
+        }
+        appScope.launch {
+            hardwareClient.samples.collect { sample ->
+                handleHardwareSample(sample)
+            }
+        }
+        appScope.launch {
+            hardwareClient.notices.collect { notice ->
+                logHardwareNotice(notice)
+            }
+        }
+    }
+
+    private fun logHardwareNotice(notice: ShimmerNotice) {
+        val tag = when (notice.category) {
+            ShimmerNotice.Category.Info -> "info"
+            ShimmerNotice.Category.Warning -> "warn"
+            ShimmerNotice.Category.Error -> "error"
+        }
+        Log.i(logTag, "[hardware:$tag] ${notice.message}")
     }
 
     override suspend fun refreshInventory() {
@@ -126,121 +133,53 @@ internal class ShimmerSensorConnector(
             super.refreshInventory()
             return
         }
-        val adapter = bluetoothAdapter ?: return
 
-        // Get bonded Shimmer devices
-        val bonded = bondedShimmerDevices(adapter)
-        updateDisplayName(bonded.firstOrNull())
-
-        // Optional: Scan for additional BLE devices
-        // Alternative: Use ShimmerBluetoothDialog from SDK for device selection
-        val scanned = if (ENABLE_BLE_SCANNING) {
-            scanForBleDevices(adapter)
-        } else {
-            emptyList()
+        hardwareClient.refreshBondedDevices()
+        if (ENABLE_BLE_SCANNING) {
+            hardwareClient.scan(DEFAULT_SCAN_DURATION)
         }
 
-        val bondedCandidates = bonded.map {
-            ShimmerDeviceCandidate(
-                mac = it.address.normalizeMac(),
-                name = it.name,
-                rssi = null
-            )
-        }
-        val merged = mergeCandidates(bondedCandidates, scanned)
-        discoveredCandidates = merged
+        val candidates = hardwareInventory.map { it.toCandidate() }
+        discoveredCandidates = candidates
+        updateDisplayName(candidates.firstOrNull())
 
-        if (currentSettings.targetMacAddress.isNullOrBlank() && merged.isNotEmpty()) {
-            shimmerSettingsRepository.setTargetMac(merged.first().mac)
+        if (currentSettings.targetMacAddress.isNullOrBlank() && candidates.isNotEmpty()) {
+            shimmerSettingsRepository.setTargetMac(candidates.first().mac)
         }
-        updateDeviceMetadata(merged)
+        updateDeviceMetadata(candidates)
     }
 
-    private fun updateDisplayName(device: BluetoothDevice?) {
+    private fun updateDisplayName(candidate: ShimmerDeviceCandidate?) {
         deviceState.update { current ->
-            val status = if (current.connectionStatus is ConnectionStatus.Connected) {
-                current.connectionStatus
-            } else {
-                ConnectionStatus.Disconnected
-            }
+            val connection = current.connectionStatus
+            val normalizedStatus = if (connection is ConnectionStatus.Connected) connection else ConnectionStatus.Disconnected
             val attributes = current.attributes.toMutableMap()
-            if (device != null) {
-                attributes[ATTR_LAST_BONDED_MAC] = device.address.normalizeMac()
-                attributes[ATTR_LAST_BONDED_NAME] = device.name ?: "Shimmer"
+            if (candidate != null) {
+                attributes[ATTR_LAST_BONDED_MAC] = candidate.mac
+                attributes[ATTR_LAST_BONDED_NAME] = candidate.name ?: "Shimmer"
             }
             current.copy(
-                displayName = device?.name ?: current.displayName,
-                connectionStatus = status,
+                displayName = candidate?.name ?: current.displayName,
+                connectionStatus = normalizedStatus,
                 isSimulated = false,
                 attributes = attributes.toMap()
             )
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private suspend fun scanForBleDevices(adapter: BluetoothAdapter): List<ShimmerDeviceCandidate> =
-        withContext(Dispatchers.Default) {
-            val scanner = adapter.bluetoothLeScanner ?: return@withContext emptyList()
-            val discovered = mutableMapOf<String, ShimmerDeviceCandidate>()
-            val callback = object : ScanCallback() {
-                override fun onScanResult(callbackType: Int, result: ScanResult) {
-                    super.onScanResult(callbackType, result)
-                    val device = result.device ?: return
-                    val mac = device.address?.normalizeMac() ?: return
-                    val name = device.name ?: result.scanRecord?.deviceName
-                    val candidate = ShimmerDeviceCandidate(mac = mac, name = name, rssi = result.rssi)
-                    discovered[mac] = candidate
-                }
-            }
-            try {
-                scanner.startScan(callback)
-            } catch (security: SecurityException) {
-                Log.w(logTag, "Missing permission to scan for Shimmer devices: ${security.message}")
-                return@withContext emptyList()
-            } catch (state: IllegalStateException) {
-                Log.w(logTag, "Unable to start Shimmer scan: ${state.message}")
-                return@withContext emptyList()
-            }
-            try {
-                delay(SCAN_DURATION_MS)
-            } finally {
-                runCatching { scanner.stopScan(callback) }
-            }
-            discovered.values.toList()
-        }
-
-    private fun mergeCandidates(
-        primary: List<ShimmerDeviceCandidate>,
-        secondary: List<ShimmerDeviceCandidate>
-    ): List<ShimmerDeviceCandidate> {
-        val combined = LinkedHashMap<String, ShimmerDeviceCandidate>()
-        (primary + secondary).forEach { candidate ->
-            val mac = candidate.mac.normalizeMac()
-            val existing = combined[mac]
-            if (existing == null) {
-                combined[mac] = candidate.copy(mac = mac)
-            } else {
-                combined[mac] = ShimmerDeviceCandidate(
-                    mac = mac,
-                    name = existing.name ?: candidate.name,
-                    rssi = candidate.rssi ?: existing.rssi
-                )
-            }
-        }
-        return combined.values.sortedWith(
-            compareBy(
-                { it.name?.lowercase(Locale.US) ?: it.mac.lowercase(Locale.US) },
-                { it.mac }
-            )
+    private fun ShimmerHardwareDevice.toCandidate(): ShimmerDeviceCandidate =
+        ShimmerDeviceCandidate(
+            mac = macAddress.normalizeMac(),
+            name = name,
+            rssi = rssi
         )
-    }
 
     private fun updateDeviceMetadata(candidates: List<ShimmerDeviceCandidate>? = null) {
         val candidateList = candidates ?: discoveredCandidates
-        val encodedCandidates = runCatching { json.encodeToString(candidateList) }.getOrDefault("[]")
+        val encoded = runCatching { json.encodeToString(candidateList) }.getOrDefault("[]")
         deviceState.update { current ->
             val attributes = current.attributes.toMutableMap()
-            attributes[ATTR_AVAILABLE_DEVICES] = encodedCandidates
+            attributes[ATTR_AVAILABLE_DEVICES] = encoded
             attributes[ATTR_SELECTED_MAC] = currentSettings.targetMacAddress?.normalizeMac().orEmpty()
             attributes[ATTR_GSR_RANGE] = currentSettings.gsrRangeIndex.toString()
             attributes[ATTR_SAMPLE_RATE] = currentSettings.sampleRateHz.toString()
@@ -248,32 +187,120 @@ internal class ShimmerSensorConnector(
         }
     }
 
-    private fun applySettingsToConnectedDevice() {
-        val shimmer = shimmerDevice as? ShimmerBluetooth ?: return
-        appScope.launch(Dispatchers.IO) {
-            applyShimmerSettings(shimmer)
-                .onSuccess {
-                    Log.d(logTag, "Shimmer settings applied successfully")
+    private fun handleHardwareStatus(status: ShimmerStatus) {
+        when (status) {
+            ShimmerStatus.Idle -> {
+                statusState.value = emptyList()
+                deviceState.update {
+                    it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false)
                 }
+            }
+
+            is ShimmerStatus.Connecting -> {
+                status.macAddress?.let { targetMac = it.normalizeMac() }
+                statusState.value = emptyList()
+                deviceState.update {
+                    it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false)
+                }
+            }
+
+            is ShimmerStatus.Connected -> {
+                status.macAddress?.let { targetMac = it.normalizeMac() }
+                val since = Instant.fromEpochMilliseconds(status.sinceEpochMs)
+                deviceState.update {
+                    it.copy(
+                        connectionStatus = ConnectionStatus.Connected(
+                            since = since,
+                            batteryPercent = null,
+                            rssiDbm = null
+                        ),
+                        isSimulated = false
+                    )
+                }
+            }
+
+            is ShimmerStatus.Streaming -> {
+                status.macAddress?.let { targetMac = it.normalizeMac() }
+                val since = Instant.fromEpochMilliseconds(status.sinceEpochMs)
+                deviceState.update {
+                    it.copy(
+                        connectionStatus = ConnectionStatus.Connected(
+                            since = since,
+                            batteryPercent = null,
+                            rssiDbm = null
+                        ),
+                        isSimulated = false
+                    )
+                }
+            }
+
+            is ShimmerStatus.Error -> {
+                Log.e(
+                    logTag,
+                    "Hardware error for ${status.macAddress ?: "unknown"}: ${status.message} (recoverable=${status.recoverable})"
+                )
+                statusState.value = emptyList()
+                deviceState.update {
+                    it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false)
+                }
+            }
+        }
+    }
+
+    private fun handleHardwareSample(sample: ShimmerSample) {
+        val conductance = sample.conductanceSiemens
+        val resistance = sample.resistanceOhms ?: conductance?.let { if (it > 0.0) 1_000_000.0 / it else null }
+        val timestamp = sample.timestampEpochMs
+        val instant = Instant.fromEpochMilliseconds(timestamp)
+
+        lastSampleTimestamp = instant
+        samplesSeen += 1
+
+        statusState.value = listOf(
+            SensorStreamStatus(
+                deviceId = deviceId,
+                streamType = SensorStreamType.GSR,
+                sampleRateHz = currentSettings.sampleRateHz,
+                frameRateFps = null,
+                lastSampleTimestamp = instant,
+                bufferedDurationSeconds = 0.0,
+                isStreaming = true,
+                isSimulated = false
+            )
+        )
+
+        persistLocalSample(timestamp, conductance, resistance)
+
+        streamEmitter?.let { emitter ->
+            val payload = buildMap<String, Double> {
+                conductance?.let { put("conductance_microsiemens", it) }
+                resistance?.let { put("resistance_ohms", it) }
+            }
+            if (payload.isNotEmpty()) {
+                appScope.launch(Dispatchers.IO) {
+                    emitter.emit(timestamp, payload)
+                }
+            }
+        }
+    }
+
+    private fun applySettingsToConnectedDevice() {
+        val settings = ShimmerHardwareSettings(
+            gsrRangeIndex = currentSettings.gsrRangeIndex,
+            sampleRateHz = currentSettings.sampleRateHz,
+            firmwarePreset = null
+        )
+        appScope.launch {
+            runCatching { hardwareClient.applySettings(settings) }
                 .onFailure { error ->
-                    Log.w(logTag, "Failed to apply Shimmer settings: ${error.message}", error.cause)
+                    Log.w(logTag, "Failed to apply Shimmer settings: ${error.message}", error)
                 }
         }
     }
 
-    private suspend fun applyShimmerSettings(shimmer: ShimmerBluetooth): Result<Unit> =
-        bluetoothOperation(shimmer.bluetoothAddress) {
-            val rangeIndex = currentSettings.gsrRangeIndex.coerceIn(0, MAX_GSR_RANGE_INDEX)
-            shimmer.gsrRange = rangeIndex
-            shimmer.samplingRateShimmer = currentSettings.sampleRateHz
-            shimmer.writeConfigBytes()
-        }
-
-    private fun String.normalizeMac(): String = uppercase(Locale.US)
-
     override suspend fun applySimulation(enabled: Boolean) {
         if (enabled) {
-            disconnectHardware()
+            performDisconnect()
         }
         super.applySimulation(enabled)
     }
@@ -286,62 +313,31 @@ internal class ShimmerSensorConnector(
         return connectHardware()
             .map { DeviceCommandResult.Accepted }
             .recover { error ->
-                when (error) {
-                    is Error.Bluetooth -> DeviceCommandResult.Rejected(error.message)
-                    is Error.Permission -> DeviceCommandResult.Rejected("Bluetooth permission required. Please grant BLUETOOTH_CONNECT permission.")
-                    is Error.NotFound -> DeviceCommandResult.Rejected(error.message)
-                    else -> DeviceCommandResult.Failed(error.toException())
-                }
+                Log.e(logTag, "Hardware connection failed: ${error.message}", error.cause)
+                DeviceCommandResult.Failed(error.toException())
             }
             .getOrThrow()
     }
 
     private suspend fun connectHardware(): Result<Unit> {
-        // Validate adapter
-        val adapter = bluetoothAdapter.checkAvailable()
+        val mac = selectTargetMac()
             .getOrElse { error -> return Result.Failure(error) }
 
-        // Find target device MAC address
-        val mac = findTargetMac(adapter)
-            .getOrElse { error -> return Result.Failure(error) }
-
-        // Update settings
         shimmerSettingsRepository.setTargetMac(mac)
         targetMac = mac
         updateDeviceMetadata()
 
-        // Get device name
-        val name = discoveredCandidates.firstOrNull { it.mac == mac }?.name
-            ?: deviceState.value.attributes[ATTR_LAST_BONDED_NAME]
-            ?: deviceState.value.displayName
-
-        // Connect via manager (must be on main thread per SDK requirements)
-        return withContext(Dispatchers.Main) {
-            bluetoothOperation(mac) {
-                val manager = ensureManager()
-                deviceState.update {
-                    it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false)
-                }
-
-                // Let SDK handle connection - it will callback via handler
-                manager.connectShimmerThroughBTAddress(mac, name, preferredBtType)
-                Log.i(logTag, "Connection initiated for $name ($mac)")
-                Unit // Explicit Unit return
-            }.onFailure { error ->
-                Log.e(logTag, "Connection initiation failed: ${error.message}", error.cause)
-                deviceState.update {
-                    it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false)
-                }
-            }
+        return resultOf {
+            hardwareClient.connect(mac)
         }
     }
 
-    private fun findTargetMac(adapter: BluetoothAdapter): Result<String> {
-        val desiredMac = currentSettings.targetMacAddress?.normalizeMac()
-        val mac = desiredMac
+    private fun selectTargetMac(): Result<String> {
+        val desired = currentSettings.targetMacAddress?.normalizeMac()
+        val mac = desired
             ?: discoveredCandidates.firstOrNull()?.mac
+            ?: hardwareInventory.firstOrNull()?.macAddress?.normalizeMac()
             ?: deviceState.value.attributes[ATTR_LAST_BONDED_MAC]?.normalizeMac()
-            ?: bondedShimmerDevices(adapter).firstOrNull()?.address?.normalizeMac()
 
         return mac.toResult("No Shimmer device available. Use Scan to discover devices.")
     }
@@ -353,19 +349,23 @@ internal class ShimmerSensorConnector(
 
         return performDisconnect()
             .map { DeviceCommandResult.Accepted }
-            .recover { error: Error ->
+            .recover { error ->
                 Log.e(logTag, "Disconnect failed: ${error.message}", error.cause)
                 DeviceCommandResult.Failed(error.toException())
             }
             .getOrThrow()
     }
 
-    private suspend fun performDisconnect(): Result<Unit> = withContext(Dispatchers.Main) {
-        bluetoothOperation(targetMac) {
-            stopHardwareStreamingInternal()
-            disconnectHardware()
-            statusState.value = emptyList()
-        }
+    private suspend fun performDisconnect(): Result<Unit> = resultOf {
+        hardwareClient.stopStreaming()
+        hardwareClient.disconnect()
+        streamingAnchor = null
+        samplesSeen = 0
+        lastSampleTimestamp = null
+        statusState.value = emptyList()
+        runCatching { streamEmitter?.close() }
+        streamEmitter = null
+        abortLocalRecording(deleteFile = true)
     }
 
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
@@ -373,41 +373,36 @@ internal class ShimmerSensorConnector(
             return super.startStreaming(anchor)
         }
 
-        val device = shimmerDevice
-            ?: return DeviceCommandResult.Rejected("Shimmer device not connected.")
+        val status = hardwareStatus
+        if (status !is ShimmerStatus.Connected && status !is ShimmerStatus.Streaming) {
+            return DeviceCommandResult.Rejected("Shimmer device not connected.")
+        }
 
-        return performStartStreaming(device, anchor)
+        return performStartStreaming(anchor)
             .map { DeviceCommandResult.Accepted }
-            .recover { error: Error ->
+            .recover { error ->
                 Log.e(logTag, "Start streaming failed: ${error.message}", error.cause)
-                abortLocalRecording(true)
+                abortLocalRecording(deleteFile = true)
                 DeviceCommandResult.Failed(error.toException())
             }
             .getOrThrow()
     }
 
-    private suspend fun performStartStreaming(
-        device: ShimmerDevice,
-        anchor: RecordingSessionAnchor
-    ): Result<Unit> = withContext(Dispatchers.Main) {
-        bluetoothOperation(targetMac) {
-            streamingAnchor = anchor
-            samplesSeen = 0
-            lastSampleTimestamp = null
-            prepareLocalRecording(anchor.sessionId)
+    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
+        streamingAnchor = anchor
+        samplesSeen = 0
+        lastSampleTimestamp = null
+        prepareLocalRecording(anchor.sessionId)
 
-            // Start streaming - SDK will callback via handler with data packets
-            device.startStreaming()
-            Log.i(logTag, "Streaming started for session ${anchor.sessionId}")
+        streamEmitter?.close()
+        streamEmitter = streamClient.openStream(
+            sessionId = anchor.sessionId,
+            deviceId = deviceId,
+            streamId = STREAM_ID,
+            sampleRateHz = currentSettings.sampleRateHz
+        )
 
-            streamEmitter?.close()
-            streamEmitter = streamClient.openStream(
-                sessionId = anchor.sessionId,
-                deviceId = deviceId,
-                streamId = STREAM_ID,
-                sampleRateHz = 128.0
-            )
-        }
+        hardwareClient.startStreaming()
     }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
@@ -417,31 +412,28 @@ internal class ShimmerSensorConnector(
 
         return performStopStreaming()
             .map { DeviceCommandResult.Accepted }
-            .recover { error: Error ->
+            .recover { error ->
                 Log.e(logTag, "Stop streaming failed: ${error.message}", error.cause)
-                abortLocalRecording(true)
+                abortLocalRecording(deleteFile = true)
                 DeviceCommandResult.Failed(error.toException())
             }
             .getOrThrow()
     }
 
-    private suspend fun performStopStreaming(): Result<Unit> = withContext(Dispatchers.Main) {
-        bluetoothOperation(targetMac) {
-            val sessionId = streamingAnchor?.sessionId
-            stopHardwareStreamingInternal()
-            streamingAnchor = null
-            samplesSeen = 0
-            lastSampleTimestamp = null
-            statusState.value = emptyList()
-            runCatching { streamEmitter?.close() }
-            streamEmitter = null
-            finalizeLocalRecording()?.let { artifact ->
-                if (sessionId != null) {
-                    completedArtifact = artifact
-                    completedArtifactSessionId = sessionId
-                }
+    private suspend fun performStopStreaming(): Result<Unit> = resultOf {
+        val sessionId = streamingAnchor?.sessionId
+        hardwareClient.stopStreaming()
+        streamingAnchor = null
+        samplesSeen = 0
+        lastSampleTimestamp = null
+        statusState.value = emptyList()
+        runCatching { streamEmitter?.close() }
+        streamEmitter = null
+        finalizeLocalRecording()?.let { artifact ->
+            if (sessionId != null) {
+                completedArtifact = artifact
+                completedArtifactSessionId = sessionId
             }
-            Unit // Explicit return
         }
     }
 
@@ -460,12 +452,14 @@ internal class ShimmerSensorConnector(
     }
 
     override fun streamIntervalMs(): Long = 250L
+
     override fun simulatedBatteryPercent(device: SensorDevice): Int {
         val baseline = 90 - (device.id.value.hashCode().absoluteValue % 12)
         return baseline.coerceIn(40, 98)
     }
 
     override fun simulatedRssi(device: SensorDevice): Int = -45
+
     override fun sampleStatuses(
         timestamp: Instant,
         frameCounter: Long,
@@ -492,190 +486,39 @@ internal class ShimmerSensorConnector(
         )
     }
 
-    @SuppressLint("MissingPermission")
-    private fun bondedShimmerDevices(adapter: BluetoothAdapter): List<BluetoothDevice> {
-        return adapter.bondedDevices?.filter { device ->
-            val name = device.name ?: return@filter false
-            name.contains("shimmer", ignoreCase = true)
-        } ?: emptyList()
-    }
-
-    private fun ensureManager(): ShimmerBluetoothManagerAndroid {
-        val existing = bluetoothManager
-        if (existing != null) {
-            return existing
-        }
-        return ShimmerBluetoothManagerAndroid(context, handler).also {
-            bluetoothManager = it
-        }
-    }
-
-    private fun handleStateChange(payload: Any?) {
-        val state: ShimmerBluetooth.BT_STATE
-        val mac: String
-        when (payload) {
-            is ObjectCluster -> {
-                state = payload.mState
-                mac = payload.macAddress
-            }
-
-            is CallbackObject -> {
-                state = payload.mState
-                mac = payload.mBluetoothAddress ?: ""
-            }
-
-            else -> return
-        }
-        when (state) {
-            ShimmerBluetooth.BT_STATE.CONNECTED -> onConnected(mac)
-            ShimmerBluetooth.BT_STATE.CONNECTING -> onConnecting()
-            ShimmerBluetooth.BT_STATE.DISCONNECTED -> onDisconnected()
-            ShimmerBluetooth.BT_STATE.STREAMING,
-            ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING -> onStreaming()
-
-            ShimmerBluetooth.BT_STATE.SDLOGGING -> onLogging()
-            else -> Unit
-        }
-    }
-
-    private fun onConnecting() {
-        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false) }
-    }
-
-    private fun onConnected(mac: String) {
-        val manager = bluetoothManager ?: return
-        val normalizedMac = mac.normalizeMac()
-        shimmerDevice = manager.getShimmerDeviceBtConnectedFromMac(normalizedMac)
-        targetMac = normalizedMac
-        if (currentSettings.targetMacAddress.isNullOrBlank()) {
-            appScope.launch { shimmerSettingsRepository.setTargetMac(normalizedMac) }
-        }
-        deviceState.update {
-            it.copy(
-                connectionStatus = ConnectionStatus.Connected(
-                    since = nowInstant(),
-                    batteryPercent = null,
-                    rssiDbm = null
-                ),
-                isSimulated = false
-            )
-        }
-        updateDeviceMetadata()
-        applySettingsToConnectedDevice()
-    }
-
-    private fun onStreaming() {
-        deviceState.update { current ->
-            val existing = current.connectionStatus as? ConnectionStatus.Connected
-            current.copy(
-                connectionStatus = ConnectionStatus.Connected(
-                    since = existing?.since ?: nowInstant(),
-                    batteryPercent = existing?.batteryPercent,
-                    rssiDbm = existing?.rssiDbm
-                ),
-                isSimulated = false
-            )
-        }
-    }
-
-    private fun onLogging() {
-        onStreaming()
-    }
-
-    private fun onDisconnected() {
-        val sessionId = streamingAnchor?.sessionId
-        streamingAnchor = null
-        if (localWriter != null || localFile != null) {
-            appScope.launch {
-                finalizeLocalRecording()?.let { artifact ->
-                    if (sessionId != null) {
-                        completedArtifact = artifact
-                        completedArtifactSessionId = sessionId
-                    }
-                }
-            }
-        }
-        shimmerDevice = null
-        samplesSeen = 0
-        lastSampleTimestamp = null
-        statusState.value = emptyList()
-        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
-        updateDeviceMetadata()
-    }
-
-    private fun handleDataPacket(cluster: ObjectCluster) {
-        val now = nowInstant()
-        lastSampleTimestamp = now
-        samplesSeen += 1
-        val sampleInstant = extractTimestamp(cluster) ?: now
-        val status = SensorStreamStatus(
-            deviceId = deviceId,
-            streamType = SensorStreamType.GSR,
-            sampleRateHz = 128.0,
-            frameRateFps = null,
-            lastSampleTimestamp = sampleInstant,
-            bufferedDurationSeconds = 0.0,
-            isStreaming = true,
-            isSimulated = false
-        )
-        statusState.value = listOf(status)
-        val conductance = extractConductance(cluster)
-        val resistance = conductance?.let { if (it > 0) 1_000_000.0 / it else 0.0 }
-        persistLocalSample(
-            timestampEpochMs = sampleInstant.toEpochMilliseconds(),
-            conductance = conductance,
-            resistance = resistance
-        )
-        streamEmitter?.let { emitter ->
-            appScope.launch {
-                emitter.emit(
-                    timestampEpochMs = sampleInstant.toEpochMilliseconds(),
-                    values = buildMap {
-                        if (conductance != null) put("conductance_microsiemens", conductance)
-                        if (resistance != null) put("resistance_ohms", resistance)
-                    }
-                )
-            }
-        }
-    }
-
     private suspend fun prepareLocalRecording(sessionId: String) {
         abortLocalRecording(deleteFile = true)
-        withContext(Dispatchers.IO) {
-            writerMutex.withLock {
-                val file = recordingStorage.createArtifactFile(
-                    sessionId = sessionId,
-                    deviceId = deviceId.value,
-                    streamType = "gsr",
-                    timestampEpochMs = System.currentTimeMillis(),
-                    extension = "csv"
-                )
-                val digest = MessageDigest.getInstance("SHA-256")
-                val stream = DigestOutputStream(FileOutputStream(file), digest)
-                val writer = BufferedWriter(
-                    OutputStreamWriter(stream, StandardCharsets.UTF_8)
-                )
-                writer.write("timestamp_ms,conductance_microsiemens,resistance_ohms")
-                writer.newLine()
-                writer.flush()
-                localWriter = writer
-                localDigest = digest
-                localDigestStream = stream
-                localFile = file
-                localSessionId = sessionId
-                completedArtifact = null
-                completedArtifactSessionId = null
-            }
+        writerMutex.withLock {
+            val file = recordingStorage.createArtifactFile(
+                sessionId = sessionId,
+                deviceId = deviceId.value,
+                streamType = STREAM_ID,
+                timestampEpochMs = System.currentTimeMillis(),
+                extension = "csv"
+            )
+            val digest = MessageDigest.getInstance("SHA-256")
+            val stream = DigestOutputStream(FileOutputStream(file), digest)
+            val writer = BufferedWriter(OutputStreamWriter(stream, StandardCharsets.UTF_8))
+            writer.write("timestamp_ms,conductance_microsiemens,resistance_ohms")
+            writer.newLine()
+            writer.flush()
+            localWriter = writer
+            localDigest = digest
+            localDigestStream = stream
+            localFile = file
+            localSessionId = sessionId
+            completedArtifact = null
+            completedArtifactSessionId = null
         }
     }
 
-    private suspend fun finalizeLocalRecording(): SessionArtifact? = withContext(Dispatchers.IO) {
+    private suspend fun finalizeLocalRecording(): SessionArtifact? {
         val file = localFile
         val sessionId = localSessionId
         val digest = localDigest
         if (file == null || sessionId == null || digest == null) {
             clearLocalRecording(deleteFile = true)
-            return@withContext null
+            return null
         }
         writerMutex.withLock {
             runCatching { localWriter?.flush() }
@@ -688,7 +531,7 @@ internal class ShimmerSensorConnector(
         localDigest = null
         localFile = null
         localSessionId = null
-        SessionArtifact(
+        return SessionArtifact(
             deviceId = deviceId,
             streamType = SensorStreamType.GSR,
             uri = Uri.fromFile(file),
@@ -700,9 +543,7 @@ internal class ShimmerSensorConnector(
     }
 
     private suspend fun abortLocalRecording(deleteFile: Boolean) {
-        withContext(Dispatchers.IO) {
-            clearLocalRecording(deleteFile)
-        }
+        clearLocalRecording(deleteFile)
     }
 
     private suspend fun clearLocalRecording(deleteFile: Boolean) {
@@ -727,9 +568,7 @@ internal class ShimmerSensorConnector(
         conductance: Double?,
         resistance: Double?
     ) {
-        if (localWriter == null) {
-            return
-        }
+        if (localWriter == null) return
         val conductanceStr = conductance?.let { String.format(Locale.US, "%.6f", it) } ?: ""
         val resistanceStr = resistance?.let { String.format(Locale.US, "%.2f", it) } ?: ""
         val line = buildString {
@@ -746,57 +585,8 @@ internal class ShimmerSensorConnector(
                     writer.write(line)
                     writer.newLine()
                     writer.flush()
-                }.onFailure { ex ->
-                    Log.w(logTag, "Failed to persist local GSR sample: ${ex.message}")
-                }
-            }
-        }
-    }
-
-    private fun extractTimestamp(cluster: ObjectCluster): Instant? {
-        val collections =
-            cluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP)
-        val calibrated = ObjectCluster.returnFormatCluster(collections, "CAL") as? FormatCluster
-        val seconds = calibrated?.mData ?: return null
-        val millis = (seconds * 1_000.0).toLong()
-        return Instant.fromEpochMilliseconds(millis)
-    }
-
-    private suspend fun disconnectHardware() {
-        withContext(Dispatchers.Main) {
-            try {
-                stopHardwareStreamingInternal()
-            } catch (t: Throwable) {
-                Log.w(logTag, "Error stopping Shimmer streaming during disconnect", t)
-            }
-            shimmerDevice?.let { device ->
-                try {
-                    (device as? ShimmerBluetooth)?.disconnect()
-                } catch (t: Throwable) {
-                    Log.w(logTag, "Error disconnecting Shimmer device", t)
-                }
-            }
-            shimmerDevice = null
-            bluetoothManager?.disconnectAllDevices()
-
-            // Clean up Handler to prevent lingering callbacks
-            handler.removeCallbacksAndMessages(null)
-        }
-        runCatching { streamEmitter?.close() }
-        streamEmitter = null
-        abortLocalRecording(true)
-        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
-    }
-
-    private suspend fun stopHardwareStreamingInternal() {
-        withContext(Dispatchers.Main) {
-            shimmerDevice?.let { device ->
-                if (device.isStreaming) {
-                    try {
-                        device.stopStreaming()
-                    } catch (t: ShimmerException) {
-                        Log.w(logTag, "Failed to stop Shimmer streaming cleanly", t)
-                    }
+                }.onFailure { error ->
+                    Log.w(logTag, "Failed to persist GSR sample: ${error.message}")
                 }
             }
         }
@@ -807,29 +597,17 @@ internal class ShimmerSensorConnector(
         return hash / 10_000.0
     }
 
-    private fun extractConductance(cluster: ObjectCluster): Double? {
-        val conductanceClusters = cluster.getCollectionOfFormatClusters(
-            Configuration.Shimmer3.ObjectClusterSensorName.GSR_CONDUCTANCE
-        )
-        val calibrated = ObjectCluster.returnFormatCluster(conductanceClusters, "CAL") as? FormatCluster
-        return calibrated?.mData
-    }
+    private fun String.normalizeMac(): String = uppercase(Locale.US)
 
     private companion object {
-        private val preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BLE
         private const val STREAM_ID = "gsr"
-
-        // BLE scanning configuration
-        // Set to false to rely only on bonded devices (matches SDK reference examples)
-        private const val ENABLE_BLE_SCANNING = true
-        private const val SCAN_DURATION_MS = 6_000L
-
-        private const val MAX_GSR_RANGE_INDEX = 4
         private const val ATTR_AVAILABLE_DEVICES = "shimmer.candidates"
         private const val ATTR_SELECTED_MAC = "shimmer.selected"
         private const val ATTR_GSR_RANGE = "shimmer.gsr_range"
         private const val ATTR_SAMPLE_RATE = "shimmer.sample_rate"
         private const val ATTR_LAST_BONDED_MAC = "shimmer.last_bonded_mac"
         private const val ATTR_LAST_BONDED_NAME = "shimmer.last_bonded_name"
+        private const val ENABLE_BLE_SCANNING = true
+        private val DEFAULT_SCAN_DURATION = 5.seconds
     }
 }

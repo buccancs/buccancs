@@ -46,11 +46,17 @@ class GrpcServer(
 
     fun start() {
         if (started.compareAndSet(false, true)) {
-            server.start()
-            logger.info("gRPC server started on port {}", port)
-            Runtime.getRuntime().addShutdownHook(Thread {
-                stop()
-            })
+            try {
+                server.start()
+                logger.info("gRPC server started on port {}", port)
+                Runtime.getRuntime().addShutdownHook(Thread {
+                    stop()
+                })
+            } catch (e: Exception) {
+                started.set(false)
+                logger.error("Failed to start gRPC server on port $port", e)
+                throw IllegalStateException("Cannot start gRPC server on port $port. Port may already be in use.", e)
+            }
         }
     }
 

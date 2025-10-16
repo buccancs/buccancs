@@ -4,7 +4,11 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performClick
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame
@@ -25,25 +29,10 @@ class TopdonScreenTest {
         var invoked = false
         val state = TopdonUiState.initial()
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = { invoked = true },
-                    onDisconnect = {},
-                    onStartPreview = {},
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
-                )
-            }
-        }
+        renderScreen(
+            state = state,
+            onConnect = { invoked = true }
+        )
 
         composeRule.onNodeWithText("Connect", ignoreCase = true, useUnmergedTree = true).performClick()
 
@@ -58,25 +47,10 @@ class TopdonScreenTest {
             connectionStatusLabel = "Connected"
         )
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = {},
-                    onDisconnect = { invoked = true },
-                    onStartPreview = {},
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
-                )
-            }
-        }
+        renderScreen(
+            state = state,
+            onDisconnect = { invoked = true }
+        )
 
         composeRule.onNodeWithText("Disconnect", ignoreCase = true, useUnmergedTree = true).performClick()
 
@@ -91,27 +65,12 @@ class TopdonScreenTest {
             previewActive = false
         )
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = {},
-                    onDisconnect = {},
-                    onStartPreview = { invoked = true },
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
-                )
-            }
-        }
+        renderScreen(
+            state = state,
+            onStartPreview = { invoked = true }
+        )
 
-        composeRule.onNodeWithText("Start Preview", ignoreCase = true, useUnmergedTree = true).performClick()
+        composeRule.onNodeWithText("Start", ignoreCase = true, useUnmergedTree = true).performClick()
 
         assertTrue("Start Preview should invoke callback", invoked)
     }
@@ -124,27 +83,12 @@ class TopdonScreenTest {
             previewActive = true
         )
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = {},
-                    onDisconnect = {},
-                    onStartPreview = {},
-                    onStopPreview = { invoked = true },
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
-                )
-            }
-        }
+        renderScreen(
+            state = state,
+            onStopPreview = { invoked = true }
+        )
 
-        composeRule.onNodeWithText("Stop Preview", ignoreCase = true, useUnmergedTree = true).performClick()
+        composeRule.onNodeWithText("Stop", ignoreCase = true, useUnmergedTree = true).performClick()
 
         assertTrue("Stop Preview should invoke callback", invoked)
     }
@@ -154,27 +98,12 @@ class TopdonScreenTest {
         var invoked = false
         val state = TopdonUiState.initial()
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = { invoked = true },
-                    onConnect = {},
-                    onDisconnect = {},
-                    onStartPreview = {},
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
-                )
-            }
-        }
+        renderScreen(
+            state = state,
+            onRefresh = { invoked = true }
+        )
 
-        composeRule.onNodeWithText("Refresh", ignoreCase = true, useUnmergedTree = true).performClick()
+        composeRule.onNodeWithContentDescription("Refresh", useUnmergedTree = true).performClick()
 
         assertTrue("Refresh should invoke callback", invoked)
     }
@@ -186,73 +115,34 @@ class TopdonScreenTest {
             errorMessage = "USB permission denied"
         )
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = {},
-                    onDisconnect = {},
-                    onStartPreview = {},
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = { cleared = true }
-                )
-            }
-        }
+        renderScreen(
+            state = state,
+            onClearError = { cleared = true }
+        )
 
         composeRule.onNodeWithText("USB permission denied", ignoreCase = true, useUnmergedTree = true)
             .assertIsDisplayed()
-            .performClick()
+        composeRule.onNodeWithContentDescription("Dismiss error", useUnmergedTree = true).performClick()
 
         assertTrue("Error chip should invoke clear callback", cleared)
     }
 
     @Test
     fun previewFrameDataRendersWhenPresent() {
-        val instant = Instant.parse("2025-10-15T04:00:00Z")
-        val frame = TopdonPreviewFrame(
-            timestamp = instant,
-            width = 256,
-            height = 192,
-            palette = TopdonPalette.IRONBOW,
-            superSamplingFactor = TopdonSuperSamplingFactor.X2,
-            payload = ByteArray(256 * 192 * 3)
-        )
         val state = TopdonUiState.initial().copy(
             isConnected = true,
             previewActive = true,
-            previewFrame = frame
+            previewFrame = previewFrame(
+                superSampling = TopdonSuperSamplingFactor.X2
+            )
         )
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = {},
-                    onDisconnect = {},
-                    onStartPreview = {},
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
-                )
-            }
-        }
+        renderScreen(state = state)
 
         composeRule.onNodeWithText("Resolution: 256 x 192 (x2)", ignoreCase = true, useUnmergedTree = true)
             .assertIsDisplayed()
-        composeRule.onNodeWithText("Streaming", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Streaming", ignoreCase = true, useUnmergedTree = true)
+            .assertIsDisplayed()
     }
 
     @Test
@@ -263,25 +153,7 @@ class TopdonScreenTest {
             previewFrame = null
         )
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = {},
-                    onDisconnect = {},
-                    onStartPreview = {},
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
-                )
-            }
-        }
+        renderScreen(state = state)
 
         composeRule.onNodeWithText("Preview idle", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
     }
@@ -290,25 +162,7 @@ class TopdonScreenTest {
     fun scanningMessageDisplaysWhenScanning() {
         val state = TopdonUiState.initial().copy(scanning = true)
 
-        composeRule.setContent {
-            MaterialTheme {
-                TopdonScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = {},
-                    onDisconnect = {},
-                    onStartPreview = {},
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
-                )
-            }
-        }
+        renderScreen(state = state)
 
         composeRule.onNodeWithText("Scanning USB...", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
     }
@@ -324,30 +178,73 @@ class TopdonScreenTest {
             )
         )
 
+        renderScreen(state = state)
+
+        composeRule.onNodeWithText("Auto-connect on USB", ignoreCase = true)
+            .performScrollTo()
+            .assertIsDisplayed()
+        composeRule.onNodeWithText("Starts preview automatically", ignoreCase = true)
+            .performScrollTo()
+            .assertIsDisplayed()
+    }
+
+    private fun renderScreen(
+        state: TopdonUiState,
+        onNavigateUp: () -> Unit = {},
+        onNavigateToThermalPreview: () -> Unit = {},
+        onNavigateToGallery: () -> Unit = {},
+        onNavigateToSettings: () -> Unit = {},
+        onNavigateToGuide: () -> Unit = {},
+        onRefresh: () -> Unit = {},
+        onConnect: () -> Unit = {},
+        onDisconnect: () -> Unit = {},
+        onStartPreview: () -> Unit = {},
+        onStopPreview: () -> Unit = {},
+        onTogglePreview: () -> Unit = {},
+        onSetAutoConnect: (Boolean) -> Unit = {},
+        onSelectPalette: (TopdonPalette) -> Unit = {},
+        onSelectSuperSampling: (TopdonSuperSamplingFactor) -> Unit = {},
+        onUpdatePreviewFps: (Int) -> Unit = {},
+        onClearError: () -> Unit = {}
+    ) {
         composeRule.setContent {
             MaterialTheme {
                 TopdonScreen(
                     state = state,
-                    onNavigateUp = {},
-                    onRefresh = {},
-                    onConnect = {},
-                    onDisconnect = {},
-                    onStartPreview = {},
-                    onStopPreview = {},
-                    onTogglePreview = {},
-                    onSetAutoConnect = {},
-                    onSelectPalette = {},
-                    onSelectSuperSampling = {},
-                    onUpdatePreviewFps = {},
-                    onClearError = {}
+                    onNavigateUp = onNavigateUp,
+                    onNavigateToThermalPreview = onNavigateToThermalPreview,
+                    onNavigateToGallery = onNavigateToGallery,
+                    onNavigateToSettings = onNavigateToSettings,
+                    onNavigateToGuide = onNavigateToGuide,
+                    onRefresh = onRefresh,
+                    onConnect = onConnect,
+                    onDisconnect = onDisconnect,
+                    onStartPreview = onStartPreview,
+                    onStopPreview = onStopPreview,
+                    onTogglePreview = onTogglePreview,
+                    onSetAutoConnect = onSetAutoConnect,
+                    onSelectPalette = onSelectPalette,
+                    onSelectSuperSampling = onSelectSuperSampling,
+                    onUpdatePreviewFps = onUpdatePreviewFps,
+                    onClearError = onClearError
                 )
             }
         }
-
-        composeRule.onNodeWithText("Settings", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
-        composeRule.onNodeWithText("Auto-connect on USB", ignoreCase = true, useUnmergedTree = true)
-            .assertIsDisplayed()
-        composeRule.onNodeWithText("Device starts preview automatically", ignoreCase = true, useUnmergedTree = true)
-            .assertIsDisplayed()
     }
+
+    private fun previewFrame(
+        timestamp: Instant = Instant.parse("2025-10-15T04:00:00Z"),
+        width: Int = 256,
+        height: Int = 192,
+        mimeType: String = "image/jpeg",
+        payload: ByteArray = ByteArray(16),
+        superSampling: TopdonSuperSamplingFactor = TopdonSuperSamplingFactor.X2
+    ): TopdonPreviewFrame = TopdonPreviewFrame(
+        timestamp = timestamp,
+        width = width,
+        height = height,
+        mimeType = mimeType,
+        payload = payload,
+        superSamplingFactor = superSampling.multiplier
+    )
 }

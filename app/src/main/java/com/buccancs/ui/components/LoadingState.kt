@@ -15,8 +15,8 @@ import com.buccancs.ui.theme.Spacing
 
 @Composable
 fun LoadingState(
-    message: String = "Loading",
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    message: String = "Loading"
 ) {
     Column(
         modifier = modifier

@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.topdon.menu.R
 import com.topdon.menu.constant.TempPointType
+import com.topdon.lib.core.R as CoreR
 
 @SuppressLint("NotifyDataSetChanged")
 internal class TempPointAdapter : BaseMenuAdapter() {
@@ -28,12 +29,12 @@ internal class TempPointAdapter : BaseMenuAdapter() {
 
     private val dataArray: Array<Data> = arrayOf(
         Data(
-            R.string.main_tab_second_high_temperature_point,
+            CoreR.string.main_tab_second_high_temperature_point,
             R.drawable.selector_menu2_temp_point_1,
             TempPointType.HIGH
         ),
-        Data(R.string.main_tab_second_low_temperature_point, R.drawable.selector_menu2_temp_point_2, TempPointType.LOW),
-        Data(R.string.thermal_delete, R.drawable.selector_menu2_del, TempPointType.DELETE),
+        Data(CoreR.string.main_tab_second_low_temperature_point, R.drawable.selector_menu2_temp_point_2, TempPointType.LOW),
+        Data(CoreR.string.thermal_delete, R.drawable.selector_menu2_del, TempPointType.DELETE),
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

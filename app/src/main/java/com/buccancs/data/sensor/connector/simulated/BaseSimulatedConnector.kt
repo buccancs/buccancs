@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector.simulated
 
+import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.domain.model.*
 import com.buccancs.util.nowInstant

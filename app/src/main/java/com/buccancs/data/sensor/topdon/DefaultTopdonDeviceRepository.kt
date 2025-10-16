@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.topdon
 
+import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.data.sensor.connector.topdon.TopdonConnectorManager
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.*
@@ -141,7 +142,7 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
         val result = connectorManager.startPreview(_activeDeviceId.value)
         when (result) {
             is DeviceCommandResult.Rejected -> errors.value = result.reason
-            is DeviceCommandResult.Failed -> errors.value = result.error.message
+            is DeviceCommandResult.Failed -> errors.value = result.error?.message
             else -> errors.value = null
         }
     }
@@ -149,7 +150,7 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
     override suspend fun stopPreview() {
         val result = connectorManager.stopPreview(_activeDeviceId.value)
         if (result is DeviceCommandResult.Failed) {
-            errors.value = result.error.message
+            errors.value = result.error?.message
         } else {
             errors.value = null
         }
@@ -179,7 +180,7 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
         val result = connectorManager.capturePhoto(_activeDeviceId.value)
         when (result) {
             is DeviceCommandResult.Rejected -> errors.value = result.reason
-            is DeviceCommandResult.Failed -> errors.value = result.error.message
+            is DeviceCommandResult.Failed -> errors.value = result.error?.message
             else -> errors.value = null
         }
     }
@@ -189,7 +190,7 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
         val result = connectorManager.startRecording(_activeDeviceId.value)
         when (result) {
             is DeviceCommandResult.Rejected -> errors.value = result.reason
-            is DeviceCommandResult.Failed -> errors.value = result.error.message
+            is DeviceCommandResult.Failed -> errors.value = result.error?.message
             else -> errors.value = null
         }
     }
@@ -199,7 +200,7 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
         val result = connectorManager.stopRecording(_activeDeviceId.value)
         when (result) {
             is DeviceCommandResult.Rejected -> errors.value = result.reason
-            is DeviceCommandResult.Failed -> errors.value = result.error.message
+            is DeviceCommandResult.Failed -> errors.value = result.error?.message
             else -> errors.value = null
         }
     }

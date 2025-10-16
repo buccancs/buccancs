@@ -1,0 +1,81 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/C:/Users/duyan/.gradle/wrapper/dists/gradle-8.14-bin/38aieal9i53h9rfe7vjup95b9/gradle-8.14/lib/native-platform-0.22-milestone-28.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+> Task :libapp:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :libapp:preBuild UP-TO-DATE
+> Task :libapp:preBetaDebugBuild UP-TO-DATE
+> Task :libapp:dataBindingMergeDependencyArtifactsBetaDebug UP-TO-DATE
+> Task :libapp:generateBetaDebugResValues UP-TO-DATE
+> Task :libapp:generateBetaDebugResources UP-TO-DATE
+> Task :libapp:packageBetaDebugResources UP-TO-DATE
+> Task :libapp:parseBetaDebugLocalResources UP-TO-DATE
+> Task :libapp:dataBindingGenBaseClassesBetaDebug UP-TO-DATE
+> Task :libapp:dataBindingTriggerBetaDebug UP-TO-DATE
+> Task :libapp:generateBetaDebugBuildConfig UP-TO-DATE
+> Task :libapp:generateBetaDebugRFile UP-TO-DATE
+> Task :libapp:kaptGenerateStubsBetaDebugKotlin UP-TO-DATE
+> Task :libapp:kaptBetaDebugKotlin UP-TO-DATE
+> Task :libapp:compileBetaDebugKotlin UP-TO-DATE
+> Task :libapp:javaPreCompileBetaDebug UP-TO-DATE
+> Task :libapp:compileBetaDebugJavaWithJavac UP-TO-DATE
+> Task :libapp:bundleLibCompileToJarBetaDebug UP-TO-DATE
+> Task :libmenu:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :libmenu:preBuild UP-TO-DATE
+> Task :libmenu:preBetaDebugBuild UP-TO-DATE
+> Task :libmenu:dataBindingMergeDependencyArtifactsBetaDebug UP-TO-DATE
+> Task :libmenu:generateBetaDebugResValues UP-TO-DATE
+> Task :libmenu:generateBetaDebugResources UP-TO-DATE
+> Task :libmenu:packageBetaDebugResources UP-TO-DATE
+> Task :libmenu:parseBetaDebugLocalResources UP-TO-DATE
+> Task :libmenu:dataBindingGenBaseClassesBetaDebug UP-TO-DATE
+> Task :libmenu:dataBindingTriggerBetaDebug UP-TO-DATE
+> Task :libmenu:generateBetaDebugBuildConfig UP-TO-DATE
+> Task :libmenu:generateBetaDebugRFile UP-TO-DATE
+> Task :libmenu:kaptGenerateStubsBetaDebugKotlin UP-TO-DATE
+> Task :libmenu:kaptBetaDebugKotlin UP-TO-DATE
+> Task :libmenu:compileBetaDebugKotlin UP-TO-DATE
+> Task :libmenu:javaPreCompileBetaDebug UP-TO-DATE
+> Task :libmenu:compileBetaDebugJavaWithJavac UP-TO-DATE
+> Task :libmenu:bundleLibCompileToJarBetaDebug UP-TO-DATE
+> Task :libui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :libui:preBuild UP-TO-DATE
+> Task :libui:preBetaDebugBuild UP-TO-DATE
+> Task :libui:generateBetaDebugBuildConfig UP-TO-DATE
+> Task :libui:generateBetaDebugResValues UP-TO-DATE
+> Task :libui:generateBetaDebugResources UP-TO-DATE
+> Task :libui:packageBetaDebugResources UP-TO-DATE
+> Task :libui:parseBetaDebugLocalResources UP-TO-DATE
+> Task :libui:generateBetaDebugRFile UP-TO-DATE
+> Task :libui:kaptGenerateStubsBetaDebugKotlin UP-TO-DATE
+> Task :libui:kaptBetaDebugKotlin UP-TO-DATE
+> Task :libui:compileBetaDebugKotlin NO-SOURCE
+> Task :libui:javaPreCompileBetaDebug UP-TO-DATE
+> Task :libui:compileBetaDebugJavaWithJavac UP-TO-DATE
+> Task :libui:bundleLibCompileToJarBetaDebug UP-TO-DATE
+> Task :component:user:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :component:user:preBuild UP-TO-DATE
+> Task :component:user:preBetaDebugBuild UP-TO-DATE
+> Task :component:user:dataBindingMergeDependencyArtifactsBetaDebug UP-TO-DATE
+> Task :component:user:generateBetaDebugResValues UP-TO-DATE
+> Task :component:user:generateBetaDebugResources UP-TO-DATE
+> Task :component:user:packageBetaDebugResources UP-TO-DATE
+> Task :component:user:parseBetaDebugLocalResources UP-TO-DATE
+> Task :component:user:dataBindingGenBaseClassesBetaDebug UP-TO-DATE
+> Task :component:user:generateBetaDebugBuildConfig UP-TO-DATE
+> Task :component:user:generateBetaDebugRFile UP-TO-DATE
+> Task :component:user:kaptGenerateStubsBetaDebugKotlin UP-TO-DATE
+> Task :component:user:kaptBetaDebugKotlin UP-TO-DATE
+
+> Task :component:user:compileBetaDebugKotlin FAILED
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:14:16 Unresolved reference 'android'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:23:9 Unresolved reference 'cl_layout_copy'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:33:21 Unresolved reference 'productBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:35:21 Unresolved reference 'tv_sn_value'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:35:40 Unresolved reference 'productBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:36:21 Unresolved reference 'tv_device_model_value'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:36:50 Unresolved reference 'productBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:41:21 Unresolved reference 'TLog'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:42:21 Unresolved reference 'tv_sn_value'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/component/user/src/main/java/com/topdon/module/user/activity/DeviceDetailsActivity.kt:43:21 Unresolved reference 'tv_device_model_value'.

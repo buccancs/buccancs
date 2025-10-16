@@ -2,14 +2,42 @@ package com.buccancs.ui.session
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
 import com.buccancs.data.storage.SessionUsage
 import com.buccancs.data.storage.SpaceState
 import com.buccancs.data.storage.SpaceStatus
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceEvent
+import com.buccancs.domain.model.DeviceEventType
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.NetworkSnapshot
+import com.buccancs.domain.model.PerformanceThrottleLevel
+import com.buccancs.domain.model.RecordingBookmark
+import com.buccancs.domain.model.RecordingLifecycleState
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.RecordingState
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.TimeSyncObservation
+import com.buccancs.domain.model.TimeSyncQuality
+import com.buccancs.domain.model.TimeSyncStatus
+import com.buccancs.domain.model.UploadBacklogLevel
+import com.buccancs.domain.model.UploadBacklogState
+import com.buccancs.domain.model.UploadRecoveryRecord
+import com.buccancs.domain.model.UploadState
+import com.buccancs.domain.model.UploadStatus
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -23,18 +51,12 @@ class LiveSessionScreenTest {
     @Test
     fun addBookmarkButtonInvokesCallback() {
         var invoked = false
-        composeRule.setContent {
-            MaterialTheme {
-                LiveSessionScreen(
-                    state = LiveSessionUiState.initial(),
-                    onNavigateUp = {},
-                    onAddBookmark = { invoked = true },
-                    onTriggerStimulus = {}
-                )
-            }
-        }
+        renderScreen(
+            state = LiveSessionUiState.initial(),
+            onAddBookmark = { invoked = true }
+        )
 
-        composeRule.onNodeWithText("Add Bookmark", ignoreCase = true, useUnmergedTree = true).performClick()
+        composeRule.onNodeWithContentDescription("Add Bookmark", useUnmergedTree = true).performClick()
 
         assertTrue("Add Bookmark should invoke callback", invoked)
     }
@@ -45,16 +67,11 @@ class LiveSessionScreenTest {
         val state = LiveSessionUiState.initial().copy(
             stimulus = StimulusState(hasExternalDisplay = true)
         )
-        composeRule.setContent {
-            MaterialTheme {
-                LiveSessionScreen(
-                    state = state,
-                    onNavigateUp = {},
-                    onAddBookmark = {},
-                    onTriggerStimulus = { invoked = true }
-                )
-            }
-        }
+
+        renderScreen(
+            state = state,
+            onTriggerStimulus = { invoked = true }
+        )
 
         composeRule.onNodeWithText("Preview Stimulus", ignoreCase = true, useUnmergedTree = true).performClick()
 
@@ -64,23 +81,10 @@ class LiveSessionScreenTest {
     @Test
     fun backlogAndUploadPanelsRenderWhenDataPresent() {
         val testState = richLiveSessionState()
-        composeRule.setContent {
-            MaterialTheme {
-                LiveSessionScreen(
-                    state = testState,
-                    onNavigateUp = {},
-                    onAddBookmark = {},
-                    onTriggerStimulus = {}
-                )
-            }
-        }
 
-        composeRule.onNodeWithTag("live-list", useUnmergedTree = true)
-            .performScrollToNode(hasTestTag("live-uploads"))
+        renderScreen(state = testState)
+
         composeRule.onAllNodesWithTag("live-uploads", useUnmergedTree = true).assertCountEquals(1)
-
-        composeRule.onNodeWithTag("live-list", useUnmergedTree = true)
-            .performScrollToNode(hasTestTag("live-backlog"))
         composeRule.onAllNodesWithTag("live-backlog", useUnmergedTree = true).assertCountEquals(1)
         composeRule.onNodeWithText("Level: WARNING", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
         composeRule.onNodeWithText("Queue exceeded threshold", ignoreCase = true, useUnmergedTree = true)
@@ -92,20 +96,25 @@ class LiveSessionScreenTest {
 
     @Test
     fun deviceListShowsPlaceholderWhenEmpty() {
+        renderScreen(state = LiveSessionUiState.initial())
+
+        composeRule.onAllNodesWithTag("live-no-devices", useUnmergedTree = true).assertCountEquals(1)
+    }
+
+    private fun renderScreen(
+        state: LiveSessionUiState,
+        onAddBookmark: () -> Unit = {},
+        onTriggerStimulus: () -> Unit = {}
+    ) {
         composeRule.setContent {
             MaterialTheme {
                 LiveSessionScreen(
-                    state = LiveSessionUiState.initial(),
-                    onNavigateUp = {},
-                    onAddBookmark = {},
-                    onTriggerStimulus = {}
+                    state = state,
+                    onAddBookmark = onAddBookmark,
+                    onTriggerStimulus = onTriggerStimulus
                 )
             }
         }
-
-        composeRule.onNodeWithTag("live-list", useUnmergedTree = true)
-            .performScrollToNode(hasTestTag("live-no-devices"))
-        composeRule.onAllNodesWithTag("live-no-devices", useUnmergedTree = true).assertCountEquals(1)
     }
 
     private fun richLiveSessionState(): LiveSessionUiState {

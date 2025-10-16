@@ -3,9 +3,12 @@ package com.buccancs.ui.calibration
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasText
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -31,9 +34,9 @@ class CalibrationPanelTest {
             }
         }
 
-        composeRule.onNodeWithText("Pattern Rows", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
-        composeRule.onNodeWithText("Pattern Columns", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
-        composeRule.onNodeWithText("Square Size (mm)", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Rows", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Columns", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Square (mm)", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
     }
 
     @Test
@@ -81,7 +84,8 @@ class CalibrationPanelTest {
 
         composeRule.onNodeWithText("Position pattern in frame", ignoreCase = true, useUnmergedTree = true)
             .assertIsDisplayed()
-        composeRule.onNodeWithText("5 / 20", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Captured pairs: 5 / 20", ignoreCase = true, useUnmergedTree = true)
+            .assertIsDisplayed()
     }
 
     @Test
@@ -104,7 +108,7 @@ class CalibrationPanelTest {
             }
         }
 
-        composeRule.onNodeWithText("Capture", ignoreCase = true, useUnmergedTree = true).performClick()
+        composeRule.onNodeWithText("Capture Pair", ignoreCase = true, useUnmergedTree = true).performClick()
 
         assertTrue("Capture should invoke callback", invoked)
     }
@@ -112,7 +116,7 @@ class CalibrationPanelTest {
     @Test
     fun computeStepShowsComputeButton() {
         val state = CalibrationUiState.initial().copy(
-            wizardStep = CalibrationWizardStep.Compute,
+            wizardStep = CalibrationWizardStep.Validate,
             active = true,
             capturedCount = 20,
             requiredPairs = 20,
@@ -138,7 +142,7 @@ class CalibrationPanelTest {
     fun computeCalibrationInvokesCallback() {
         var invoked = false
         val state = CalibrationUiState.initial().copy(
-            wizardStep = CalibrationWizardStep.Compute,
+            wizardStep = CalibrationWizardStep.Validate,
             active = true,
             capturedCount = 20,
             requiredPairs = 20
@@ -179,7 +183,7 @@ class CalibrationPanelTest {
             }
         }
 
-        composeRule.onNodeWithText("Clear Session", ignoreCase = true, useUnmergedTree = true).performClick()
+        composeRule.onNodeWithText("Clear Captures", ignoreCase = true, useUnmergedTree = true).performClick()
 
         assertTrue("Clear Session should invoke callback", invoked)
     }
@@ -224,7 +228,16 @@ class CalibrationPanelTest {
             }
         }
 
-        composeRule.onNodeWithText("Processing...", ignoreCase = true, useUnmergedTree = true).assertExists()
+        composeRule.onNode(
+            hasText("Capture Pair", ignoreCase = true) and hasClickAction(),
+            useUnmergedTree = false
+        )
+            .assertIsNotEnabled()
+        composeRule.onNode(
+            hasText("Clear Captures", ignoreCase = true) and hasClickAction(),
+            useUnmergedTree = false
+        )
+            .assertIsNotEnabled()
     }
 
     private fun noopActions(): CalibrationActions = CalibrationActions(

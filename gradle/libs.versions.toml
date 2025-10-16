@@ -1,7 +1,7 @@
 [versions]
-agp = "8.12.0"
+agp = "8.13.0"
 kotlin = "2.2.20"
-composeMultiplatform = "1.9.0"
+composeMultiplatform = "1.9.1"
 hilt = "2.57.2"
 protobufPlugin = "0.9.5"
 composeBom = "2025.10.00"
@@ -12,31 +12,36 @@ androidxActivityCompose = "1.11.0"
 androidxAppcompat = "1.7.1"
 androidxCore = "1.17.0"
 androidxDatastore = "1.1.7"
-androidxDocumentfile = "1.0.1"
+androidxDocumentfile = "1.1.0"
 androidxHiltNavigation = "1.3.0"
-androidxLifecycle = "2.8.7"
+androidxLifecycle = "2.9.4"
 androidxNavigation = "2.9.5"
 androidxTestExtJunit = "1.3.0"
 androidxCoreTesting = "2.2.0"
-androidxWork = "2.10.0"
+androidxWork = "2.10.5"
 bouncycastle = "1.82"
 espresso = "3.7.0"
 fastBle = "2.4.0"
-grpc = "1.64.0"
-grpcKotlin = "1.4.1"
-guava = "20.0"
+grpc = "1.76.0"
+grpcKotlin = "1.5.0"
+guava = "33.5.0-android"
 junit4 = "4.13.2"
 junitJupiter = "5.11.0"
 kotlinxCoroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
-kotlinxSerialization = "1.7.3"
+kotlinxSerialization = "1.9.0"
 opencvAndroid = "4.5.2"
-protobuf = "3.25.3"
-robolectric = "4.13"
+protobuf = "4.33.0"
+robolectric = "4.16"
 slf4j = "2.0.17"
 tink = "1.18.0"
 vecmath = "1.3.1"
-material = "1.12.0"
+material = "1.13.0"
+mockk = "1.14.6"
+androidxTestCore = "1.7.0"
+androidxCoreKtx = "1.17.0"
+composeIconsExtended = "1.8.1"
+kotlinTest = "2.2.20"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -103,3 +108,7 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 tink = { module = "com.google.crypto.tink:tink", version.ref = "tink" }
 vecmath = { module = "java3d:vecmath", version.ref = "vecmath" }
 compose-ui-test-junit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "composeMultiplatform" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlinTest" }

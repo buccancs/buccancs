@@ -19,7 +19,7 @@ import com.topdon.libcom.view.CommLoadMoreView
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.adapter.PDFAdapter
 import com.topdon.module.thermal.ir.report.viewmodel.PdfViewModel
-import kotlinx.android.synthetic.main.activity_pdf_list.*
+// Stubbed: import kotlinx.android.synthetic.main.activity_pdf_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -37,7 +37,7 @@ class HardwareDebugViewModel @Inject constructor(
                 val systemInfo = hardwareDebugger.getSystemInfo()
                 val usbDevices = hardwareDebugger.scanUsbDevices()
                 val bluetoothInfo = hardwareDebugger.scanBluetoothDevices()
-                val logPath = hardwareDebugger.getDebugLogFile().absolutePath
+                val logPath = hardwareDebugger.retrieveDebugLogFile().absolutePath
 
                 _uiState.update {
                     it.copy(

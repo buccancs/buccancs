@@ -5,8 +5,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import com.buccancs.ui.navigation.AppNavHost
@@ -28,11 +30,16 @@ class MainActivity : ComponentActivity() {
 
         requestRequiredPermissions()
 
-        setContent {
+        val composeView = ComposeView(this).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(this@MainActivity))
+            setTestTagsAsResourceIdCompat(true)
+        }
+        composeView.setContent {
             BuccancsTheme {
                 AppNavHost()
             }
         }
+        setContentView(composeView)
     }
 
     private fun requestRequiredPermissions() {
@@ -95,3 +102,19 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+private fun ComposeView.setTestTagsAsResourceIdCompat(enable: Boolean) {
+    runCatching {
+        val method = ComposeView::class.java.getMethod(
+            "setTestTagsAsResourceId",
+            java.lang.Boolean.TYPE
+        )
+        method.invoke(this, enable)
+    }.onSuccess {
+        Log.d(TAG, "setTestTagsAsResourceIdCompat invoked (enable=$enable)")
+    }.onFailure { throwable ->
+        Log.w(TAG, "Failed to set test tags as resource ids", throwable)
+    }
+}
+
+private const val TAG = "MainActivity"

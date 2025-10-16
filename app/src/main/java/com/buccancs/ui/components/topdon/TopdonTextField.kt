@@ -11,7 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.buccancs.ui.theme.CornerRadius
+import com.buccancs.ui.theme.Spacing
 import com.buccancs.ui.theme.topdon.TopdonColors
 import com.buccancs.ui.theme.topdon.TopdonTheme
 
@@ -52,11 +53,11 @@ fun TopdonTextField(
             keyboardActions = keyboardActions,
             singleLine = singleLine,
             maxLines = maxLines,
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(CornerRadius.Small),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                disabledContainerColor = MaterialTheme.colorScheme.backgroundVariant,
+                disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 disabledTextColor = TopdonColors.TextTertiary,
@@ -75,7 +76,7 @@ fun TopdonTextField(
                 text = errorMessage,
                 color = TopdonColors.SelectRed,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+                modifier = Modifier.padding(start = Spacing.Large, top = Spacing.ExtraSmall)
             )
         }
     }
@@ -118,7 +119,7 @@ fun TopdonOutlinedTextField(
             keyboardActions = keyboardActions,
             singleLine = singleLine,
             maxLines = maxLines,
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(CornerRadius.Small),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
@@ -138,7 +139,7 @@ fun TopdonOutlinedTextField(
                 text = errorMessage,
                 color = TopdonColors.SelectRed,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+                modifier = Modifier.padding(start = Spacing.Large, top = Spacing.ExtraSmall)
             )
         }
     }
@@ -149,7 +150,7 @@ fun TopdonOutlinedTextField(
 private fun TopdonTextFieldPreview() {
     TopdonTheme {
         var text by remember { mutableStateOf("") }
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(Spacing.Large)) {
             TopdonTextField(
                 value = text,
                 onValueChange = { text = it },
@@ -165,7 +166,7 @@ private fun TopdonTextFieldPreview() {
 private fun TopdonOutlinedTextFieldPreview() {
     TopdonTheme {
         var text by remember { mutableStateOf("") }
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(Spacing.Large)) {
             TopdonOutlinedTextField(
                 value = text,
                 onValueChange = { text = it },
@@ -181,7 +182,7 @@ private fun TopdonOutlinedTextFieldPreview() {
 @Composable
 private fun TopdonTextFieldErrorPreview() {
     TopdonTheme {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(Spacing.Large)) {
             TopdonOutlinedTextField(
                 value = "Invalid",
                 onValueChange = {},

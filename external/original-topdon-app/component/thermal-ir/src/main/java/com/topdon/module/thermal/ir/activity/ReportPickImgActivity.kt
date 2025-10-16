@@ -24,7 +24,7 @@ import com.topdon.module.thermal.ir.adapter.GalleryAdapter
 import com.topdon.lib.core.bean.event.GalleryDelEvent
 import com.topdon.lib.core.utils.Constants.IS_REPORT_FIRST
 import com.topdon.module.thermal.ir.viewmodel.IRGalleryViewModel
-import kotlinx.android.synthetic.main.activity_report_pick_img.*
+// Stubbed: import kotlinx.android.synthetic.main.activity_report_pick_img.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

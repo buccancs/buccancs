@@ -8,5 +8,8 @@
     <color name="color_select6">#808080</color>
 
     <color name="we_read_theme_color">#FFE9F1F9</color>
+    
+    <!-- Stubbed missing colors -->
+    <color name="colorAccent">#FFBA42</color>
 
 </resources>

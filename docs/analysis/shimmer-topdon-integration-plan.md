@@ -35,6 +35,11 @@
    - Run end-to-end hardware smoke tests to verify streaming, calibration changes, and artifact generation without sample code dependencies.  
    - Deprecate and eventually remove `external/…` sample directories once parity is confirmed.
 
+## Progress
+- Implemented adapter interfaces (`ShimmerHardwareClient`, `TopdonThermalClient`) and default implementations that manage discovery, connection lifecycle, preview, and streaming using only the distributed SDK artifacts.
+- Reworked `ShimmerSensorConnector` and `TopdonThermalConnector` to depend on the adapters for hardware state, samples, and configuration, eliminating direct `ShimmerBluetoothManagerAndroid`/`USBMonitor` usage in production code.
+- Updated connector managers and dependency injection bindings to supply the hardware clients, preparing follow-up work on richer hardware settings and validation.
+
 ## Acceptance Criteria
 - All production modules reference only Buccancs adapter interfaces; no Kotlin/Java code imports classes from the sample repositories.
 - Shimmer discovery uses bonded + BLE scan data, maintains firmware/hardware metadata, applies EXG/sample-rate settings, and retries connections via the adapter.

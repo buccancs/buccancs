@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.utils.IRConfigData
-import kotlinx.android.synthetic.main.item_ir_config_emissivity.view.*
+// Stubbed: import kotlinx.android.synthetic.main.item_ir_config_emissivity.view.*
 
 class ConfigEmAdapter(val context: Context) : RecyclerView.Adapter<ConfigEmAdapter.ViewHolder>() {
     private val dataList: ArrayList<IRConfigData> = IRConfigData.irConfigData(context)

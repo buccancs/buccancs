@@ -8,8 +8,4 @@ sealed interface DeviceCommand {
     data object StopStreaming : DeviceCommand
 }
 
-sealed interface DeviceCommandResult {
-    data object Accepted : DeviceCommandResult
-    data class Rejected(val reason: String) : DeviceCommandResult
-    data class Failed(val error: Throwable) : DeviceCommandResult
-}
+typealias DeviceCommandResult = com.buccancs.core.result.DeviceCommandResult

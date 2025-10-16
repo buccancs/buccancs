@@ -15,7 +15,7 @@ import com.topdon.module.thermal.ir.event.GalleryDirChangeEvent
 import com.topdon.module.thermal.ir.popup.GalleryChangePopup
 import com.topdon.module.thermal.ir.popup.OptionPickPopup
 import com.topdon.module.thermal.ir.viewmodel.IRGalleryTabViewModel
-import kotlinx.android.synthetic.main.fragment_gallery_tab.*
+// Stubbed: import kotlinx.android.synthetic.main.fragment_gallery_tab.*
 import org.greenrobot.eventbus.EventBus
 
 class IRGalleryTabFragment : BaseFragment() {

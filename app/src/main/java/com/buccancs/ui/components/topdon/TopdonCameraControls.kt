@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.buccancs.ui.theme.topdon.TopdonColors
+import java.util.Locale
 import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.theme.topdon.TopdonTheme
 
@@ -177,7 +178,7 @@ fun TopdonTemperatureCrosshair(
 private fun formatTemperature(celsius: Float, useFahrenheit: Boolean): String {
     val temp = if (useFahrenheit) (celsius * 9f / 5f) + 32f else celsius
     val unit = if (useFahrenheit) "°F" else "°C"
-    return String.format("%.1f%s", temp, unit)
+    return String.format(Locale.US, "%.1f%s", temp, unit)
 }
 
 /**

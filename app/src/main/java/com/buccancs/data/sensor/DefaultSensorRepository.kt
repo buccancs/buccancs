@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor
 
+import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.data.sensor.connector.ThrottlableConnector
@@ -86,7 +87,7 @@ class DefaultSensorRepository @Inject constructor(
             null -> return
         }
         if (result is DeviceCommandResult.Failed) {
-            throw result.error
+            throw result.error ?: IllegalStateException("Configuration failed with unknown error")
         }
     }
 
@@ -110,7 +111,7 @@ class DefaultSensorRepository @Inject constructor(
                 if (snapshot?.connectionStatus is ConnectionStatus.Connected) {
                     val result = connector.startStreaming(anchor)
                     if (result is DeviceCommandResult.Failed) {
-                        throw result.error
+                        throw result.error ?: IllegalStateException("Start streaming failed with unknown error")
                     }
                 }
             }
@@ -121,7 +122,7 @@ class DefaultSensorRepository @Inject constructor(
                     if (snapshot?.connectionStatus is ConnectionStatus.Connected) {
                         val result = connector.startStreaming(deviceId, anchor)
                         if (result is DeviceCommandResult.Failed) {
-                            throw result.error
+                            throw result.error ?: IllegalStateException("Start streaming failed with unknown error")
                         }
                     }
                 }
@@ -144,7 +145,7 @@ class DefaultSensorRepository @Inject constructor(
         singleConnectors.forEach { connector ->
             val result = connector.stopStreaming()
             if (result is DeviceCommandResult.Failed) {
-                throw result.error
+                throw result.error ?: IllegalStateException("Stop streaming failed with unknown error")
             }
         }
         multiConnectors.forEach { connector ->
@@ -152,7 +153,7 @@ class DefaultSensorRepository @Inject constructor(
             deviceIds.forEach { deviceId ->
                 val result = connector.stopStreaming(deviceId)
                 if (result is DeviceCommandResult.Failed) {
-                    throw result.error
+                    throw result.error ?: IllegalStateException("Stop streaming failed with unknown error")
                 }
             }
         }

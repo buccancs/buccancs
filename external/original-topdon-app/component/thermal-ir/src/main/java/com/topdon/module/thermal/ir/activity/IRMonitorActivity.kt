@@ -10,7 +10,7 @@ import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.bean.SelectPositionBean
 import com.topdon.module.thermal.ir.event.MonitorSaveEvent
 import com.topdon.module.thermal.ir.event.ThermalActionEvent
-import kotlinx.android.synthetic.main.activity_ir_monitor.*
+// Stubbed: import kotlinx.android.synthetic.main.activity_ir_monitor.*
 import org.greenrobot.eventbus.EventBus
 
 @Route(path = RouterConfig.IR_THERMAL_MONITOR)

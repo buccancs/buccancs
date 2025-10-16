@@ -8,7 +8,7 @@ import com.example.thermal_lite.R
 import com.example.thermal_lite.fragment.IRMonitorLiteFragment
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.ktbase.BaseActivity
-import kotlinx.android.synthetic.main.activity_ir_correction_lite_three.tv_correction
+// Stubbed: import kotlinx.android.synthetic.main.activity_ir_correction_lite_three.tv_correction
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

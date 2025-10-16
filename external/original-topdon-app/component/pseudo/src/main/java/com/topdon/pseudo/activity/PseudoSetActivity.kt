@@ -5,16 +5,21 @@ import android.graphics.drawable.GradientDrawable
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.view.isVisible
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.topdon.lib.core.common.ProductType
 import com.topdon.lib.core.config.ExtraKeyConfig
 import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.tools.UnitTools
+import com.topdon.lib.core.view.ColorSelectView
 import com.topdon.pseudo.R
 import com.topdon.pseudo.bean.CustomPseudoBean
 import com.topdon.pseudo.constant.*
-import kotlinx.android.synthetic.main.activity_pseudo_set.*
+import com.topdon.pseudo.view.PseudoPickView
+import com.topdon.lib.core.R as CoreR
 import java.lang.NumberFormatException
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -201,12 +206,12 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
                 if (cl_custom_content.isVisible) {
                     val inputMax = et_max_temp.text.toString()
                     if (inputMax.isEmpty()) {
-                        ToastUtils.showShort(R.string.tip_input_format)
+                        ToastUtils.showShort(CoreR.string.tip_input_format)
                         return
                     }
                     val inputMin = et_min_temp.text.toString()
                     if (inputMin.isEmpty()) {
-                        ToastUtils.showShort(R.string.tip_input_format)
+                        ToastUtils.showShort(CoreR.string.tip_input_format)
                         return
                     }
                     val maxTemp = try {
@@ -220,11 +225,11 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
                         null
                     }
                     if (maxTemp == null || minTemp == null || maxTemp < minTemp || maxTemp > 550f || minTemp < -20f) {
-                        ToastUtils.showShort(R.string.tip_input_format)
+                        ToastUtils.showShort(CoreR.string.tip_input_format)
                         return
                     }
                     if (maxTemp - minTemp < 0.1f) {
-                        ToastUtils.showShort(R.string.tip_input_format)
+                        ToastUtils.showShort(CoreR.string.tip_input_format)
                         return
                     }
                     customPseudoBean.maxTemp = maxTemp
@@ -264,8 +269,8 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         cl_color_recommend.isVisible = !isToCustom
         tv_color_custom.setTextColor(if (isToCustom) 0xffffba42.toInt() else 0xffffffff.toInt())
         tv_color_recommend.setTextColor(if (isToCustom) 0xffffffff.toInt() else 0xffffba42.toInt())
-        tv_color_custom.setBackgroundResource(if (isToCustom) R.drawable.bg_corners50_solid_2a183e_stroke_theme else 0)
-        tv_color_recommend.setBackgroundResource(if (isToCustom) 0 else R.drawable.bg_corners50_solid_2a183e_stroke_theme)
+        tv_color_custom.setBackgroundResource(if (isToCustom) CoreR.drawable.bg_corners50_solid_2a183e_stroke_theme else 0)
+        tv_color_recommend.setBackgroundResource(if (isToCustom) 0 else CoreR.drawable.bg_corners50_solid_2a183e_stroke_theme)
     }
 
     private fun reset6CustomColor() {
@@ -281,53 +286,53 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         when (customPseudoBean.customRecommendIndex) {
             0 -> {
                 tv_recommend_color1.setTextColor(0x80ffffff.toInt())
-                view_recommend_bg_color1.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
+                view_recommend_bg_color1.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_30_ff)
             }
 
             1 -> {
                 tv_recommend_color2.setTextColor(0x80ffffff.toInt())
-                view_recommend_bg_color2.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
+                view_recommend_bg_color2.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_30_ff)
             }
 
             2 -> {
                 tv_recommend_color3.setTextColor(0x80ffffff.toInt())
-                view_recommend_bg_color3.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
+                view_recommend_bg_color3.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_30_ff)
             }
 
             3 -> {
                 tv_recommend_color4.setTextColor(0x80ffffff.toInt())
-                view_recommend_bg_color4.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
+                view_recommend_bg_color4.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_30_ff)
             }
 
             4 -> {
                 tv_recommend_color5.setTextColor(0x80ffffff.toInt())
-                view_recommend_bg_color5.setBackgroundResource(R.drawable.bg_corners04_stroke_30_ff)
+                view_recommend_bg_color5.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_30_ff)
             }
         }
         when (index) {
             0 -> {
                 tv_recommend_color1.setTextColor(0xffffba42.toInt())
-                view_recommend_bg_color1.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
+                view_recommend_bg_color1.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_2dp_ffba42)
             }
 
             1 -> {
                 tv_recommend_color2.setTextColor(0xffffba42.toInt())
-                view_recommend_bg_color2.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
+                view_recommend_bg_color2.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_2dp_ffba42)
             }
 
             2 -> {
                 tv_recommend_color3.setTextColor(0xffffba42.toInt())
-                view_recommend_bg_color3.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
+                view_recommend_bg_color3.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_2dp_ffba42)
             }
 
             3 -> {
                 tv_recommend_color4.setTextColor(0xffffba42.toInt())
-                view_recommend_bg_color4.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
+                view_recommend_bg_color4.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_2dp_ffba42)
             }
 
             4 -> {
                 tv_recommend_color5.setTextColor(0xffffba42.toInt())
-                view_recommend_bg_color5.setBackgroundResource(R.drawable.bg_corners04_stroke_2dp_ffba42)
+                view_recommend_bg_color5.setBackgroundResource(CoreR.drawable.bg_corners04_stroke_2dp_ffba42)
             }
         }
         customPseudoBean.customRecommendIndex = index
@@ -338,8 +343,8 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         iv_over_color_select.isVisible = !isUseGray
         tv_over_grey.setTextColor(if (isUseGray) 0xffffba42.toInt() else 0xffffffff.toInt())
         tv_over_color.setTextColor(if (isUseGray) 0xffffffff.toInt() else 0xffffba42.toInt())
-        cl_over_grey.setBackgroundResource(if (isUseGray) R.drawable.bg_corners05_solid_2a183e_stroke_theme else R.drawable.bg_corners05_solid_626569)
-        cl_over_color.setBackgroundResource(if (isUseGray) R.drawable.bg_corners05_solid_626569 else R.drawable.bg_corners05_solid_2a183e_stroke_theme)
+        cl_over_grey.setBackgroundResource(if (isUseGray) CoreR.drawable.bg_corners05_solid_2a183e_stroke_theme else CoreR.drawable.bg_corners05_solid_626569)
+        cl_over_color.setBackgroundResource(if (isUseGray) CoreR.drawable.bg_corners05_solid_626569 else CoreR.drawable.bg_corners05_solid_2a183e_stroke_theme)
         customPseudoBean.isUseGray = isUseGray
     }
 
@@ -352,3 +357,100 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         return drawable
     }
 }
+
+private val PseudoSetActivity.et_max_temp: EditText
+    get() = findViewById(R.id.et_max_temp)
+private val PseudoSetActivity.et_min_temp: EditText
+    get() = findViewById(R.id.et_min_temp)
+private val PseudoSetActivity.tv_max_temp_unit: TextView
+    get() = findViewById(R.id.tv_max_temp_unit)
+private val PseudoSetActivity.tv_min_temp_unit: TextView
+    get() = findViewById(R.id.tv_min_temp_unit)
+private val PseudoSetActivity.pseudo_pick_view: PseudoPickView
+    get() = findViewById(R.id.pseudo_pick_view)
+private val PseudoSetActivity.color_select_view: ColorSelectView
+    get() = findViewById(R.id.color_select_view)
+private val PseudoSetActivity.view_custom_color1: View
+    get() = findViewById(R.id.view_custom_color1)
+private val PseudoSetActivity.view_custom_color2: View
+    get() = findViewById(R.id.view_custom_color2)
+private val PseudoSetActivity.view_custom_color3: View
+    get() = findViewById(R.id.view_custom_color3)
+private val PseudoSetActivity.view_custom_color4: View
+    get() = findViewById(R.id.view_custom_color4)
+private val PseudoSetActivity.view_custom_color5: View
+    get() = findViewById(R.id.view_custom_color5)
+private val PseudoSetActivity.view_custom_color6: View
+    get() = findViewById(R.id.view_custom_color6)
+private val PseudoSetActivity.iv_custom_add: ImageView
+    get() = findViewById(R.id.iv_custom_add)
+private val PseudoSetActivity.iv_custom_del: ImageView
+    get() = findViewById(R.id.iv_custom_del)
+private val PseudoSetActivity.view_recommend_color1: View
+    get() = findViewById(R.id.view_recommend_color1)
+private val PseudoSetActivity.view_recommend_color2: View
+    get() = findViewById(R.id.view_recommend_color2)
+private val PseudoSetActivity.view_recommend_color3: View
+    get() = findViewById(R.id.view_recommend_color3)
+private val PseudoSetActivity.view_recommend_color4: View
+    get() = findViewById(R.id.view_recommend_color4)
+private val PseudoSetActivity.view_recommend_color5: View
+    get() = findViewById(R.id.view_recommend_color5)
+private val PseudoSetActivity.view_recommend_bg_color1: View
+    get() = findViewById(R.id.view_recommend_bg_color1)
+private val PseudoSetActivity.view_recommend_bg_color2: View
+    get() = findViewById(R.id.view_recommend_bg_color2)
+private val PseudoSetActivity.view_recommend_bg_color3: View
+    get() = findViewById(R.id.view_recommend_bg_color3)
+private val PseudoSetActivity.view_recommend_bg_color4: View
+    get() = findViewById(R.id.view_recommend_bg_color4)
+private val PseudoSetActivity.view_recommend_bg_color5: View
+    get() = findViewById(R.id.view_recommend_bg_color5)
+private val PseudoSetActivity.cl_dynamic: View
+    get() = findViewById(R.id.cl_dynamic)
+private val PseudoSetActivity.cl_custom: View
+    get() = findViewById(R.id.cl_custom)
+private val PseudoSetActivity.cl_custom_content: View
+    get() = findViewById(R.id.cl_custom_content)
+private val PseudoSetActivity.cl_color_custom: View
+    get() = findViewById(R.id.cl_color_custom)
+private val PseudoSetActivity.cl_color_recommend: View
+    get() = findViewById(R.id.cl_color_recommend)
+private val PseudoSetActivity.cl_over_grey: View
+    get() = findViewById(R.id.cl_over_grey)
+private val PseudoSetActivity.cl_over_color: View
+    get() = findViewById(R.id.cl_over_color)
+private val PseudoSetActivity.tv_color_custom: TextView
+    get() = findViewById(R.id.tv_color_custom)
+private val PseudoSetActivity.tv_color_recommend: TextView
+    get() = findViewById(R.id.tv_color_recommend)
+private val PseudoSetActivity.tv_dynamic_title: TextView
+    get() = findViewById(R.id.tv_dynamic_title)
+private val PseudoSetActivity.tv_custom_title: TextView
+    get() = findViewById(R.id.tv_custom_title)
+private val PseudoSetActivity.tv_recommend_color1: TextView
+    get() = findViewById(R.id.tv_recommend_color1)
+private val PseudoSetActivity.tv_recommend_color2: TextView
+    get() = findViewById(R.id.tv_recommend_color2)
+private val PseudoSetActivity.tv_recommend_color3: TextView
+    get() = findViewById(R.id.tv_recommend_color3)
+private val PseudoSetActivity.tv_recommend_color4: TextView
+    get() = findViewById(R.id.tv_recommend_color4)
+private val PseudoSetActivity.tv_recommend_color5: TextView
+    get() = findViewById(R.id.tv_recommend_color5)
+private val PseudoSetActivity.tv_over_grey: TextView
+    get() = findViewById(R.id.tv_over_grey)
+private val PseudoSetActivity.tv_over_color: TextView
+    get() = findViewById(R.id.tv_over_color)
+private val PseudoSetActivity.tv_confirm: TextView
+    get() = findViewById(R.id.tv_confirm)
+private val PseudoSetActivity.tv_cancel: TextView
+    get() = findViewById(R.id.tv_cancel)
+private val PseudoSetActivity.iv_dynamic: ImageView
+    get() = findViewById(R.id.iv_dynamic)
+private val PseudoSetActivity.iv_custom: ImageView
+    get() = findViewById(R.id.iv_custom)
+private val PseudoSetActivity.iv_over_grey_select: ImageView
+    get() = findViewById(R.id.iv_over_grey_select)
+private val PseudoSetActivity.iv_over_color_select: ImageView
+    get() = findViewById(R.id.iv_over_color_select)

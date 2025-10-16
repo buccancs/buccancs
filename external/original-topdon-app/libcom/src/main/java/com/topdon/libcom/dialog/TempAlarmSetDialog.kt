@@ -9,6 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.topdon.lib.core.tools.UnitTools
@@ -17,7 +21,7 @@ import com.topdon.libcom.R
 import com.topdon.lib.core.bean.AlarmBean
 import com.topdon.lib.core.common.SaveSettingUtil
 import com.topdon.lib.core.tools.ToastTools
-import kotlinx.android.synthetic.main.dialog_temp_alarm_set.*
+import com.topdon.lib.core.R as CoreR
 
 class TempAlarmSetDialog(
     context: Context,
@@ -155,11 +159,11 @@ class TempAlarmSetDialog(
                 null
             }
             if (inputHigh != null && inputLow != null && inputLow > inputHigh) {
-                ToastTools.showShort(R.string.tip_input_format)
+                ToastTools.showShort(CoreR.string.tip_input_format)
                 return
             }
         } catch (e: Exception) {
-            ToastTools.showShort(R.string.tip_input_format)
+            ToastTools.showShort(CoreR.string.tip_input_format)
             return
         }
         val inputHigh = if (et_alarm_high.text.isNotEmpty()) et_alarm_high.text.toString() else ""
@@ -268,3 +272,56 @@ class TempAlarmSetDialog(
         mediaPlayer?.start()
     }
 }
+
+private val TempAlarmSetDialog.cl_root: View
+    get() = findViewById(R.id.cl_root)
+private val TempAlarmSetDialog.cl_close: View
+    get() = findViewById(R.id.cl_close)
+private val TempAlarmSetDialog.tv_save: TextView
+    get() = findViewById(R.id.tv_save)
+private val TempAlarmSetDialog.iv_ringtone1: ImageView
+    get() = findViewById(R.id.iv_ringtone1)
+private val TempAlarmSetDialog.iv_ringtone2: ImageView
+    get() = findViewById(R.id.iv_ringtone2)
+private val TempAlarmSetDialog.iv_ringtone3: ImageView
+    get() = findViewById(R.id.iv_ringtone3)
+private val TempAlarmSetDialog.iv_ringtone4: ImageView
+    get() = findViewById(R.id.iv_ringtone4)
+private val TempAlarmSetDialog.iv_ringtone5: ImageView
+    get() = findViewById(R.id.iv_ringtone5)
+private val TempAlarmSetDialog.switch_alarm_high: SwitchCompat
+    get() = findViewById(R.id.switch_alarm_high)
+private val TempAlarmSetDialog.switch_alarm_low: SwitchCompat
+    get() = findViewById(R.id.switch_alarm_low)
+private val TempAlarmSetDialog.switch_alarm_mark: SwitchCompat
+    get() = findViewById(R.id.switch_alarm_mark)
+private val TempAlarmSetDialog.switch_alarm_ringtone: SwitchCompat
+    get() = findViewById(R.id.switch_alarm_ringtone)
+private val TempAlarmSetDialog.img_mark_high: View
+    get() = findViewById(R.id.img_mark_high)
+private val TempAlarmSetDialog.img_mark_low: View
+    get() = findViewById(R.id.img_mark_low)
+private val TempAlarmSetDialog.iv_check_stoke: ImageView
+    get() = findViewById(R.id.iv_check_stoke)
+private val TempAlarmSetDialog.iv_check_matrix: ImageView
+    get() = findViewById(R.id.iv_check_matrix)
+private val TempAlarmSetDialog.tv_alarm_high_unit: TextView
+    get() = findViewById(R.id.tv_alarm_high_unit)
+private val TempAlarmSetDialog.tv_alarm_low_unit: TextView
+    get() = findViewById(R.id.tv_alarm_low_unit)
+private val TempAlarmSetDialog.img_c_alarm_high: ImageView
+    get() = findViewById(R.id.img_c_alarm_high)
+private val TempAlarmSetDialog.img_c_alarm_low: ImageView
+    get() = findViewById(R.id.img_c_alarm_low)
+private val TempAlarmSetDialog.et_alarm_high: EditText
+    get() = findViewById(R.id.et_alarm_high)
+private val TempAlarmSetDialog.et_alarm_low: EditText
+    get() = findViewById(R.id.et_alarm_low)
+private val TempAlarmSetDialog.cl_alarm_mark: View
+    get() = findViewById(R.id.cl_alarm_mark)
+private val TempAlarmSetDialog.cl_ringtone_select: View
+    get() = findViewById(R.id.cl_ringtone_select)
+private val TempAlarmSetDialog.tv_alarm_ringtone: TextView
+    get() = findViewById(R.id.tv_alarm_ringtone)
+private val TempAlarmSetDialog.tv_alarm_mark: TextView
+    get() = findViewById(R.id.tv_alarm_mark)

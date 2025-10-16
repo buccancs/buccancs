@@ -12,8 +12,8 @@ import androidx.core.view.isVisible
 import com.topdon.lib.core.tools.UnitTools
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.report.bean.ImageTempBean
-import kotlinx.android.synthetic.main.item_report_ir_input.view.*
-import kotlinx.android.synthetic.main.view_report_ir_input.view.*
+// Stubbed: import kotlinx.android.synthetic.main.item_report_ir_input.view.*
+// Stubbed: import kotlinx.android.synthetic.main.view_report_ir_input.view.*
 
 class ReportIRInputView : LinearLayout {
     companion object {

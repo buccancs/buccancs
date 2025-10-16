@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.topdon.lib.core.utils.ScreenUtil
 import com.topdon.module.user.R
-import kotlinx.android.synthetic.main.dialog_download_pro.view.*
+// Stubbed: import kotlinx.android.synthetic.main.dialog_download_pro.view.*
 import java.text.DecimalFormat
 
 class DownloadProDialog(context: Context) : Dialog(context, R.style.InfoDialog) {

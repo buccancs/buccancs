@@ -9,6 +9,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -17,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.buccancs.ui.theme.CornerRadius
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.Spacing
 import com.buccancs.ui.theme.topdon.TopdonColors
 import com.buccancs.ui.theme.topdon.TopdonTheme
 
@@ -34,16 +37,19 @@ fun TopdonButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.height(48.dp),
+        modifier = modifier.height(Dimensions.TouchTargetMinimum),
         enabled = enabled,
-        shape = RoundedCornerShape(50.dp),
+        shape = RoundedCornerShape(CornerRadius.ExtraLarge),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onSurface,
             disabledContainerColor = MaterialTheme.colorScheme.outlineVariant,
             disabledContentColor = TopdonColors.TextTertiary
         ),
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
+        contentPadding = PaddingValues(
+            horizontal = Spacing.Large,
+            vertical = Spacing.SmallMedium
+        ),
         content = content
     )
 }
@@ -60,9 +66,9 @@ fun TopdonOutlinedButton(
 ) {
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.height(48.dp),
+        modifier = modifier.height(Dimensions.TouchTargetMinimum),
         enabled = enabled,
-        shape = RoundedCornerShape(50.dp),
+        shape = RoundedCornerShape(CornerRadius.ExtraLarge),
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = MaterialTheme.colorScheme.onSurface,
             disabledContentColor = TopdonColors.TextTertiary
@@ -72,7 +78,10 @@ fun TopdonOutlinedButton(
                 if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
             )
         ),
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
+        contentPadding = PaddingValues(
+            horizontal = Spacing.Large,
+            vertical = Spacing.SmallMedium
+        ),
         content = content
     )
 }

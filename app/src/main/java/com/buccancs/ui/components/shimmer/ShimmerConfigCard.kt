@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -14,6 +13,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.theme.Spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,17 +31,15 @@ fun ShimmerConfigCard(
     var gsrRangeExpanded by remember { mutableStateOf(false) }
     var sampleRateExpanded by remember { mutableStateOf(false) }
 
-    ElevatedCard(
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        modifier = modifier.fillMaxWidth()
+    SectionCard(
+        modifier = modifier.fillMaxWidth(),
+        spacing = Spacing.Small
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(vertical = Spacing.ExtraSmall),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
         ) {
             Text(
                 text = "Configuration",

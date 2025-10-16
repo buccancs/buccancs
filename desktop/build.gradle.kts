@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.api.tasks.JavaExec
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -14,6 +15,7 @@ kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_21)
         freeCompilerArgs.add("-opt-in=kotlin.time.ExperimentalTime")
+        freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
     }
 }
 
@@ -23,6 +25,7 @@ dependencies {
     implementation(compose.runtime)
     implementation(compose.foundation)
     implementation(compose.material3)
+    implementation(compose.materialIconsExtended)
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.swing)
     implementation(libs.coroutines.jdk8)
@@ -33,13 +36,18 @@ dependencies {
     implementation(libs.tink)
     implementation(libs.bouncycastle.bcprov)
 
+    implementation("org.jmdns:jmdns:3.5.9")
+
     implementation(libs.slf4j.api)
     runtimeOnly(libs.slf4j.simple)
 
     testImplementation(kotlin("test-junit5"))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.junit)
+    testImplementation("org.junit.platform:junit-platform-suite:1.10.2")
     testImplementation(libs.compose.ui.test.junit4)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.mockk)
 }
 
 compose.desktop {
@@ -48,8 +56,22 @@ compose.desktop {
     }
 }
 
+tasks.register<JavaExec>("runHeadlessServer") {
+    group = "application"
+    description = "Runs the orchestrator gRPC server without launching the desktop UI."
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("com.buccancs.desktop.HeadlessServerKt")
+    systemProperty("java.awt.headless", "true")
+}
+
 tasks.test {
-    enabled = false
+    val testsEnabled = project.rootProject.extra.get("testsEnabled") as Boolean
+    enabled = testsEnabled
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = false
+    }
 }
 
 val desktopTestSourceSet = sourceSets.named("test")
@@ -60,5 +82,5 @@ tasks.register<Test>("uiDesktop") {
     testClassesDirs = desktopTestSourceSet.get().output.classesDirs
     classpath = desktopTestSourceSet.get().runtimeClasspath
     systemProperty("java.awt.headless", "true")
-    useJUnit()
+    useJUnitPlatform()
 }

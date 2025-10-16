@@ -41,13 +41,13 @@ private val externalBuilds = listOf(
     // ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
 
     // Shimmer SDK builds - now updated to Java 21
-    ExternalProjectBuild("buildShimmerBluetoothManager", "external/Shimmer-Java-Android-API/ShimmerBluetoothManager"),
-    ExternalProjectBuild("buildShimmerDriver", "external/Shimmer-Java-Android-API/ShimmerDriver"),
-    ExternalProjectBuild("buildShimmerDriverPC", "external/Shimmer-Java-Android-API/ShimmerDriverPC"),
-    ExternalProjectBuild("buildShimmerTCP", "external/Shimmer-Java-Android-API/ShimmerTCP"),
-    ExternalProjectBuild("buildShimmerPCBasicExamples", "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples"),
-    ExternalProjectBuild("buildShimmerLSL", "external/Shimmer-Java-Android-API/ShimmerLSL"),
-    ExternalProjectBuild("buildJavaShimmerConnect", "external/Shimmer-Java-Android-API/JavaShimmerConnect"),
+    ExternalProjectBuild("buildShimmerBluetoothManager", "external/Shimmer-Java-Android-API/ShimmerBluetoothManager", maxSupportedJavaMajor = 21),
+    ExternalProjectBuild("buildShimmerDriver", "external/Shimmer-Java-Android-API/ShimmerDriver", maxSupportedJavaMajor = 21),
+    ExternalProjectBuild("buildShimmerDriverPC", "external/Shimmer-Java-Android-API/ShimmerDriverPC", maxSupportedJavaMajor = 21),
+    ExternalProjectBuild("buildShimmerTCP", "external/Shimmer-Java-Android-API/ShimmerTCP", maxSupportedJavaMajor = 21),
+    ExternalProjectBuild("buildShimmerPCBasicExamples", "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples", maxSupportedJavaMajor = 21),
+    ExternalProjectBuild("buildShimmerLSL", "external/Shimmer-Java-Android-API/ShimmerLSL", maxSupportedJavaMajor = 21),
+    ExternalProjectBuild("buildJavaShimmerConnect", "external/Shimmer-Java-Android-API/JavaShimmerConnect", maxSupportedJavaMajor = 21),
 
     // Topdon SDK sample - disabled temporarily due to Android SDK path and build complexity
     // ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample")
@@ -78,11 +78,14 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
     val osName = System.getProperty("os.name").lowercase(Locale.US)
     val defaultCandidates = buildList {
         if (osName.contains("windows")) {
-            add("C:/Program Files/Java/jdk-17")
-            add("C:/Program Files/Java/jdk-21")
+            add("C:\\Program Files\\Java\\jdk-21")
+            add("C:\\Program Files\\Java\\jdk-17")
         } else {
+            add("/usr/lib/jvm/java-21-openjdk")
+            add("/usr/lib/jvm/java-21")
             add("/usr/lib/jvm/java-17-openjdk")
             add("/usr/lib/jvm/java-17")
+            add("/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home")
             add("/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home")
         }
     }

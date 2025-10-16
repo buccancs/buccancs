@@ -1,5 +1,6 @@
 package com.buccancs.debug
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.hardware.usb.UsbManager
@@ -76,6 +77,7 @@ class HardwareDebugger @Inject constructor(
     /**
      * Scan and log Bluetooth devices
      */
+    @SuppressLint("MissingPermission", "HardwareIds")
     fun scanBluetoothDevices(): BluetoothInfo {
         val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
         val adapter = bluetoothManager?.adapter
@@ -290,7 +292,7 @@ class HardwareDebugger @Inject constructor(
     /**
      * Get debug log file
      */
-    fun getDebugLogFile(): File = debugLogFile
+    fun retrieveDebugLogFile(): File = debugLogFile
 
     private fun logToFile(message: String) {
         try {

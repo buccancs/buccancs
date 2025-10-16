@@ -24,10 +24,10 @@ enum class StatusLevel {
 
 @Composable
 fun StatusChip(
+    modifier: Modifier = Modifier,
     label: String,
     icon: ImageVector? = null,
     level: StatusLevel = StatusLevel.INFO,
-    modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
     val iconColor = when (level) {

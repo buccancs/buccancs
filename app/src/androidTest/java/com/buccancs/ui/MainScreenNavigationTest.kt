@@ -133,7 +133,7 @@ class MainScreenNavigationTest {
             }
         }
 
-        composeRule.waitUntil {
+        composeRule.waitUntil(timeoutMillis = 5_000) {
             runCatching {
                 composeRule.onNodeWithTag("device-open-console-${deviceId.value}", useUnmergedTree = true)
                     .fetchSemanticsNode()

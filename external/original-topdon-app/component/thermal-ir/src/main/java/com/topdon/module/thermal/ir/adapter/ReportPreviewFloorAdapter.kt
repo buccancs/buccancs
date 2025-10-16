@@ -15,23 +15,23 @@ import com.topdon.lib.core.bean.GalleryBean
 import com.topdon.lib.core.bean.HouseRepPreviewProjectItemBean
 import com.topdon.lib.core.utils.AppUtil
 import com.topdon.module.thermal.ir.R
-import kotlinx.android.synthetic.main.item_gallery_head_lay.view.*
-import kotlinx.android.synthetic.main.item_gallery_lay.view.*
-import kotlinx.android.synthetic.main.item_report_floor.view.lly_album
-import kotlinx.android.synthetic.main.item_report_floor.view.rcy_album
-import kotlinx.android.synthetic.main.item_report_floor.view.rcy_category
-import kotlinx.android.synthetic.main.item_report_floor.view.rcy_report
-import kotlinx.android.synthetic.main.item_report_floor.view.tv_floor_number
-import kotlinx.android.synthetic.main.item_report_floor_child.view.iv_problem
-import kotlinx.android.synthetic.main.item_report_floor_child.view.iv_repair
-import kotlinx.android.synthetic.main.item_report_floor_child.view.iv_replace
-import kotlinx.android.synthetic.main.item_report_floor_child.view.lly_content
-import kotlinx.android.synthetic.main.item_report_floor_child.view.rly_parent
-import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_problem
-import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_project
-import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_remark
-import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_repair
-import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_replace
+// Stubbed: import kotlinx.android.synthetic.main.item_gallery_head_lay.view.*
+// Stubbed: import kotlinx.android.synthetic.main.item_gallery_lay.view.*
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor.view.lly_album
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor.view.rcy_album
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor.view.rcy_category
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor.view.rcy_report
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor.view.tv_floor_number
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.iv_problem
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.iv_repair
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.iv_replace
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.lly_content
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.rly_parent
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_problem
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_project
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_remark
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_repair
+// Stubbed: import kotlinx.android.synthetic.main.item_report_floor_child.view.tv_replace
 
 @SuppressLint("NotifyDataSetChanged")
 class ReportPreviewFloorAdapter(

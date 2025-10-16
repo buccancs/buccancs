@@ -1,15 +1,18 @@
 package com.buccancs.ui.components.shimmer
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.theme.Spacing
+import java.util.Locale
 
 @Composable
 fun ShimmerDataCard(
@@ -20,61 +23,52 @@ fun ShimmerDataCard(
     gsrData: Double?,
     modifier: Modifier = Modifier
 ) {
-    ElevatedCard(
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        modifier = modifier.fillMaxWidth()
+    SectionCard(
+        modifier = modifier.fillMaxWidth(),
+        spacing = Spacing.Small
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
-        ) {
+        Text(
+            text = "Live Data",
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        if (timestamp != null) {
+            DataRow(label = "Timestamp", value = String.format(Locale.US, "%.2f ms", timestamp))
+        }
+
+        if (accelX != null || accelY != null || accelZ != null) {
             Text(
-                text = "Live Data",
-                style = MaterialTheme.typography.titleMedium
+                text = "Accelerometer (m/s^2)",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            if (timestamp != null) {
-                DataRow(label = "Timestamp", value = String.format("%.2f ms", timestamp))
+            if (accelX != null) {
+                DataRow(label = "X-Axis", value = String.format(Locale.US, "%.3f", accelX))
             }
-
-            if (accelX != null || accelY != null || accelZ != null) {
-                Text(
-                    text = "Accelerometer (m/s^2)",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                if (accelX != null) {
-                    DataRow(label = "X-Axis", value = String.format("%.3f", accelX))
-                }
-                if (accelY != null) {
-                    DataRow(label = "Y-Axis", value = String.format("%.3f", accelY))
-                }
-                if (accelZ != null) {
-                    DataRow(label = "Z-Axis", value = String.format("%.3f", accelZ))
-                }
+            if (accelY != null) {
+                DataRow(label = "Y-Axis", value = String.format(Locale.US, "%.3f", accelY))
             }
-
-            if (gsrData != null) {
-                Text(
-                    text = "Galvanic Skin Response",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                DataRow(label = "GSR", value = String.format("%.2f kOhm", gsrData))
+            if (accelZ != null) {
+                DataRow(label = "Z-Axis", value = String.format(Locale.US, "%.3f", accelZ))
             }
+        }
 
-            if (timestamp == null && accelX == null && accelY == null && accelZ == null && gsrData == null) {
-                Text(
-                    text = "No data available. Start streaming to see live data.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+        if (gsrData != null) {
+            Text(
+                text = "Galvanic Skin Response",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            DataRow(label = "GSR", value = String.format(Locale.US, "%.2f kOhm", gsrData))
+        }
+
+        if (timestamp == null && accelX == null && accelY == null && accelZ == null && gsrData == null) {
+            Text(
+                text = "No data available. Start streaming to see live data.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -103,8 +97,8 @@ private fun DataRow(label: String, value: String) {
 private fun ShimmerDataCardPreview() {
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier,
+            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
         ) {
             ShimmerDataCard(
                 timestamp = null,

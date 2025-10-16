@@ -5,7 +5,11 @@ object ProtocolVersion {
     const val MIN_SUPPORTED = 1000  // v1.0
 
     fun isSupported(version: Int): Boolean {
-        return version >= MIN_SUPPORTED && version <= CURRENT
+        // Support same major version with any minor version
+        val versionMajor = version / 1000
+        val currentMajor = CURRENT / 1000
+        val minMajor = MIN_SUPPORTED / 1000
+        return versionMajor in minMajor..currentMajor
     }
 
     fun isCompatible(clientVersion: Int): Boolean {

@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import com.topdon.lib.core.tools.UnitTools
 import com.topdon.lib.core.utils.ScreenUtil
 import com.topdon.module.thermal.ir.R
-import kotlinx.android.synthetic.main.dialog_ir_config_input.*
+// Stubbed: import kotlinx.android.synthetic.main.dialog_ir_config_input.*
 import java.lang.NumberFormatException
 
 class IRConfigInputDialog(context: Context, val type: Type, val isTC007: Boolean) :

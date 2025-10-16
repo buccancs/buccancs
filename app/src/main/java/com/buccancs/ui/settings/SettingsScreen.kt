@@ -8,7 +8,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -28,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.BuildConfig
+import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.components.InfoRow
 import com.buccancs.ui.components.SectionHeader
 import com.buccancs.ui.components.SectionCard
@@ -78,7 +78,8 @@ fun SettingsScreen(
                 title = { Text(text = "Settings") },
                 colors = TopAppBarDefaults.topAppBarColors()
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         LazyColumn(
             modifier = Modifier

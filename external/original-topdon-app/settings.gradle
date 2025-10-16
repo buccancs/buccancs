@@ -26,17 +26,20 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "TopInfrared"
-include ':app'
-include ':component:pseudo'
-include ':component:thermal-ir'
-include ':component:thermal-lite'
+// Re-enabling component modules incrementally
+// include ':app'
+// include ':component:pseudo'
+// include ':component:thermal-ir'
+// include ':component:thermal-lite'
 include ':component:transfer'
-include ':component:user'
+// include ':component:user'  // Needs synthetic imports migration
+// Core libraries - all building successfully
 include ':libapp'
 include ':libcom'
 include ':libir'
 include ':libmenu'
 include ':libui'
+// LocalRepo libraries
 include ':LocalRepo:libac020'
 include ':LocalRepo:libcommon'
 include ':LocalRepo:libirutils'

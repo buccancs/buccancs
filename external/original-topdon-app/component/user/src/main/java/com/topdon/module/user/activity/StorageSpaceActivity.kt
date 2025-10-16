@@ -13,7 +13,7 @@ import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.repository.TS004Repository
 import com.topdon.module.user.R
 import com.topdon.module.user.bean.ColorsBean
-import kotlinx.android.synthetic.main.activity_storage_space.*
+// Stubbed: import kotlinx.android.synthetic.main.activity_storage_space.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat

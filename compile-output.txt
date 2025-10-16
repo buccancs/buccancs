@@ -1,0 +1,45 @@
+Configuration on demand is an incubating feature.
+
+> Configure project :
+Γ£à Tests are ENABLED via -Ptests.enabled=true
+
+> Task :desktop:clean
+> Task :shimmer:clean
+> Task :shimmer:preBuild UP-TO-DATE
+> Task :shimmer:preDebugBuild UP-TO-DATE
+> Task :shimmer:writeDebugAarMetadata
+> Task :shimmer:processDebugNavigationResources FROM-CACHE
+> Task :shimmer:generateDebugResValues FROM-CACHE
+> Task :shimmer:generateDebugResources FROM-CACHE
+> Task :shimmer:packageDebugResources FROM-CACHE
+> Task :shimmer:extractDeepLinksDebug FROM-CACHE
+> Task :shimmer:processDebugManifest FROM-CACHE
+> Task :shimmer:compileDebugLibraryResources FROM-CACHE
+> Task :shimmer:parseDebugLocalResources FROM-CACHE
+> Task :shimmer:generateDebugRFile FROM-CACHE
+> Task :shimmer:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :shimmer:compileDebugKotlin NO-SOURCE
+> Task :shimmer:javaPreCompileDebug FROM-CACHE
+> Task :shimmer:compileDebugJavaWithJavac FROM-CACHE
+> Task :protocol:clean FAILED
+> Task :shimmer:bundleLibCompileToJarDebug
+> Task :app:clean
+w: Detected multiple Kotlin daemon sessions at 
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':protocol:clean'.
+> java.io.IOException: Unable to delete directory 'C:\dev\buccancs\protocol\build'
+    Failed to delete some children. This might happen because a process has files open or has its working directory set in the target directory.
+    - C:\dev\buccancs\protocol\build\libs\protocol.jar
+    - C:\dev\buccancs\protocol\build\libs
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 5s
+17 actionable tasks: 6 executed, 11 from cache

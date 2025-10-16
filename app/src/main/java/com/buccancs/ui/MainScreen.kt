@@ -23,6 +23,7 @@ import com.buccancs.ui.calibration.CalibrationActions
 import com.buccancs.ui.calibration.CalibrationPanel
 import com.buccancs.ui.calibration.CalibrationUiState
 import com.buccancs.ui.calibration.CalibrationViewModel
+import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.components.AnimatedButton
 import com.buccancs.ui.components.AnimatedOutlinedButton
 import com.buccancs.ui.components.AnimatedTonalButton
@@ -115,7 +116,8 @@ fun MainScreen(
                     },
                     colors = TopAppBarDefaults.topAppBarColors()
                 )
-            }
+            },
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { padding ->
             LazyColumn(
                 modifier = Modifier

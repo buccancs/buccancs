@@ -20,13 +20,13 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TopdonDeviceListItem(
+    modifier: Modifier = Modifier,
     deviceName: String,
     deviceState: String,
     isConnected: Boolean,
     connectionType: DeviceConnectionType = DeviceConnectionType.USB,
     batteryLevel: Int? = null,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit
 ) {
     Card(
         modifier = modifier

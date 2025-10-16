@@ -38,7 +38,8 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import static com.blankj.utilcode.util.ImageUtils.save;
+// Removed problematic static import
+// import static com.blankj.utilcode.util.ImageUtils.save;
 
 public class ExcelUtil {
 

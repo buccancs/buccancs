@@ -8,7 +8,7 @@ import android.view.View.MeasureSpec
 import android.widget.PopupWindow
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.module.thermal.ir.R
-import kotlinx.android.synthetic.main.popup_gallery_change.view.*
+// Stubbed: import kotlinx.android.synthetic.main.popup_gallery_change.view.*
 
 class GalleryChangePopup(private val context: Context) : PopupWindow() {
 

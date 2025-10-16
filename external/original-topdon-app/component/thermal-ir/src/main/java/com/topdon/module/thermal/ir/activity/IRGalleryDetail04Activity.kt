@@ -33,7 +33,7 @@ import com.topdon.lib.core.dialog.ConfirmSelectDialog
 import com.topdon.lib.core.bean.event.GalleryDelEvent
 import com.topdon.module.thermal.ir.event.GalleryDownloadEvent
 import com.topdon.module.thermal.ir.fragment.GalleryFragment
-import kotlinx.android.synthetic.main.activity_ir_gallery_detail_04.*
+// Stubbed: import kotlinx.android.synthetic.main.activity_ir_gallery_detail_04.*
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File

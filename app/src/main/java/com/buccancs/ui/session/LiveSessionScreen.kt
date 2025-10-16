@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -25,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
 import com.buccancs.domain.model.*
+import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.components.AnimatedTonalButton
 import com.buccancs.ui.components.InfoRow
 import com.buccancs.ui.components.SectionCard
@@ -101,7 +104,8 @@ fun LiveSessionScreen(
                     contentDescription = "Add Bookmark"
                 )
             }
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         androidx.compose.foundation.layout.Box(
             modifier = Modifier
@@ -319,8 +323,34 @@ private fun RecordingCard(
 
 @Composable
 private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
+    val statusDescription = if (state.hasExternalDisplay) {
+        "External display ready"
+    } else {
+        "External display not detected"
+    }
+    val activeCueDescription = state.activeCue?.let { "Active cue ${it.label}" }
+    val lastCueDescription = state.lastCue?.let { "Last cue ${it.label}" }
+
     SectionCard(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("live-stimulus-card")
+            .semantics(mergeDescendants = true) {
+                contentDescription = buildString {
+                    append("Stimulus card. ")
+                    append(statusDescription)
+                    activeCueDescription?.let {
+                        append(". ")
+                        append(it)
+                    }
+                    if (activeCueDescription == null) {
+                        lastCueDescription?.let {
+                            append(". ")
+                            append(it)
+                        }
+                    }
+                }
+            },
         spacing = Spacing.Small
     ) {
         Row(
@@ -347,7 +377,12 @@ private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
         HorizontalDivider()
 
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("stimulus-external-display")
+                .semantics(mergeDescendants = true) {
+                    contentDescription = statusDescription
+                },
             color = if (state.hasExternalDisplay) {
                 MaterialTheme.colorScheme.primaryContainer
             } else {
@@ -395,7 +430,12 @@ private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
 
         state.activeCue?.let { cue ->
             Surface(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("stimulus-active-cue")
+                    .semantics(mergeDescendants = true) {
+                        contentDescription = "Active cue ${cue.label}"
+                    },
                 color = MaterialTheme.colorScheme.tertiaryContainer,
                 shape = MaterialTheme.shapes.small
             ) {
@@ -412,7 +452,12 @@ private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
             }
         } ?: state.lastCue?.let { cue ->
             Surface(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("stimulus-last-cue")
+                    .semantics(mergeDescendants = true) {
+                        contentDescription = "Last cue ${cue.label}"
+                    },
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 shape = MaterialTheme.shapes.small
             ) {
@@ -430,7 +475,9 @@ private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
 
         AnimatedTonalButton(
             onClick = onTriggerStimulus,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("stimulus-preview-button"),
             text = "Preview Stimulus"
         )
     }
@@ -1029,7 +1076,9 @@ private fun DeviceStreamGrid(devices: List<SensorDevice>) {
     if (devices.isEmpty()) return
 
     SectionCard(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("live-device-status"),
         spacing = Spacing.Small
     ) {
         Text(
@@ -1066,6 +1115,21 @@ private fun DeviceStatusChip(device: SensorDevice) {
     }
 
     Card(
+        modifier = Modifier
+            .testTag("device-${device.id.value}")
+            .semantics(mergeDescendants = true) {
+                contentDescription = buildString {
+                    append(device.displayName)
+                    append(", status ")
+                    append(
+                        when (device.connectionStatus) {
+                            is ConnectionStatus.Connected -> "Connected"
+                            ConnectionStatus.Connecting -> "Connecting"
+                            ConnectionStatus.Disconnected -> "Disconnected"
+                        }
+                    )
+                }
+            },
         colors = CardDefaults.cardColors(containerColor = backgroundColor)
     ) {
         Column(
@@ -1084,7 +1148,9 @@ private fun DeviceStatusChip(device: SensorDevice) {
             Text(
                 text = device.displayName,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = Spacing.ExtraSmall)
+                modifier = Modifier
+                    .padding(top = Spacing.ExtraSmall)
+                    .testTag("device-${device.id.value}-name")
             )
             Text(
                 text = when (device.connectionStatus) {
@@ -1093,7 +1159,8 @@ private fun DeviceStatusChip(device: SensorDevice) {
                     ConnectionStatus.Disconnected -> "Disconnected"
                 },
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.testTag("device-${device.id.value}-status")
             )
         }
     }

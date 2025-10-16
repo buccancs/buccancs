@@ -19,10 +19,10 @@ import com.buccancs.ui.theme.Spacing
 
 @Composable
 fun ErrorState(
+    modifier: Modifier = Modifier,
     title: String = "An error occurred",
     message: String,
-    onRetry: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    onRetry: (() -> Unit)? = null
 ) {
     Column(
         modifier = modifier

@@ -37,7 +37,7 @@ import com.topdon.module.thermal.ir.fragment.IRGalleryTabFragment
 import com.topdon.module.thermal.ir.fragment.IRThermalFragment
 import com.topdon.module.thermal.ir.fragment.AbilityFragment
 import com.topdon.module.thermal.ir.fragment.PDFListFragment
-import kotlinx.android.synthetic.main.activity_ir_main.*
+// Stubbed: import kotlinx.android.synthetic.main.activity_ir_main.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus

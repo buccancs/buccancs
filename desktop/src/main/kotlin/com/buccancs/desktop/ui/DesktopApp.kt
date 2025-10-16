@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,12 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.buccancs.desktop.domain.model.SessionStatus
+import com.buccancs.desktop.ui.components.*
 import com.buccancs.desktop.ui.state.*
 import com.buccancs.desktop.ui.theme.BuccancsTheme
 import com.buccancs.desktop.ui.theme.Spacing
@@ -29,62 +31,26 @@ import kotlin.math.ln
 import kotlin.math.pow
 
 @Composable
-private fun SectionCard(
-    title: String,
-    modifier: Modifier = Modifier,
-    subtitle: String? = null,
-    colors: CardColors = CardDefaults.cardColors(),
-    actions: @Composable RowScope.() -> Unit = {},
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Card(modifier = modifier.fillMaxWidth(), colors = colors) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
-                    Text(title, style = MaterialTheme.typography.titleMedium)
-                    subtitle?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
-                    verticalAlignment = Alignment.CenterVertically,
-                    content = actions
-                )
-            }
-            content()
-        }
-    }
-}
-
-@Composable
 fun DesktopApp(viewModel: AppViewModel) {
     val state by viewModel.uiState.collectAsState()
     val formatter = rememberFormatter()
     val sessionTitle = state.session?.let { "Session ${it.id} (${it.status})" } ?: "No active session"
     val sessionActive = state.session?.status == SessionStatus.ACTIVE.name
+    
     BuccancsTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .padding(Spacing.Medium),
                 verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
-                Text(sessionTitle, style = MaterialTheme.typography.headlineSmall)
+                AppHeader(sessionTitle)
+                
                 ControlPanel(
                     control = state.control,
                     sessionActive = sessionActive,
@@ -107,6 +73,7 @@ fun DesktopApp(viewModel: AppViewModel) {
                     onSubjectEraseChange = viewModel::updateSubjectEraseId,
                     onSubjectErase = viewModel::eraseSubject
                 )
+                
                 state.session?.let {
                     SessionSummaryCard(
                         summary = it,
@@ -116,6 +83,7 @@ fun DesktopApp(viewModel: AppViewModel) {
                         onEraseSession = { viewModel.eraseSession(it.id) }
                     )
                 }
+                
                 DeviceSection(devices = state.devices, formatter = formatter)
                 RetentionSection(retention = state.retention)
                 TransferSection(transfers = state.transfers)
@@ -125,6 +93,24 @@ fun DesktopApp(viewModel: AppViewModel) {
                 AlertsSection(alerts = state.alerts)
             }
         }
+    }
+}
+
+@Composable
+private fun AppHeader(sessionTitle: String) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+    ) {
+        Text(
+            text = "Buccancs Orchestrator",
+            style = MaterialTheme.typography.displaySmall,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Text(
+            text = sessionTitle,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
@@ -162,7 +148,7 @@ internal fun ControlPanel(
         "Clock offsets: $offsetsSummary"
     }
     Column(verticalArrangement = Arrangement.spacedBy(Spacing.Medium)) {
-        SectionCard(title = "Session Control") {
+        BuccancsCard(title = "Session Control") {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
@@ -183,15 +169,27 @@ internal fun ControlPanel(
                 )
             }
             Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)) {
-                Button(onClick = onStartSession, enabled = !sessionActive) { Text("Start Session") }
-                Button(onClick = onStopSession, enabled = sessionActive) { Text("Stop Session") }
+                PrimaryButton(
+                    text = "Start Session",
+                    onClick = onStartSession,
+                    enabled = !sessionActive
+                )
+                SecondaryButton(
+                    text = "Stop Session",
+                    onClick = onStopSession,
+                    enabled = sessionActive
+                )
             }
         }
-        SectionCard(
-            title = "Synchronization Signal",
+        BuccancsCard(
+            title = "Synchronisation Signal",
             subtitle = offsetsLabel,
             actions = {
-                Button(onClick = onSendSync, enabled = sessionActive) { Text("Send Sync") }
+                PrimaryButton(
+                    text = "Send Sync",
+                    onClick = onSendSync,
+                    enabled = sessionActive
+                )
             }
         ) {
             Row(
@@ -221,10 +219,14 @@ internal fun ControlPanel(
                 )
             }
         }
-        SectionCard(
+        BuccancsCard(
             title = "Event Markers",
             actions = {
-                Button(onClick = onAddEvent, enabled = sessionActive) { Text("Add Event") }
+                PrimaryButton(
+                    text = "Add Event",
+                    onClick = onAddEvent,
+                    enabled = sessionActive
+                )
             }
         ) {
             Row(
@@ -253,10 +255,14 @@ internal fun ControlPanel(
                 )
             }
         }
-        SectionCard(
+        BuccancsCard(
             title = "Stimulus Controls",
             actions = {
-                Button(onClick = onTriggerStimulus, enabled = sessionActive) { Text("Trigger") }
+                PrimaryButton(
+                    text = "Trigger",
+                    onClick = onTriggerStimulus,
+                    enabled = sessionActive
+                )
             }
         ) {
             Row(
@@ -286,7 +292,7 @@ internal fun ControlPanel(
                 )
             }
         }
-        SectionCard(title = "Data Hygiene") {
+        BuccancsCard(title = "Data Hygiene") {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
@@ -298,7 +304,10 @@ internal fun ControlPanel(
                     modifier = Modifier.weight(1f),
                     singleLine = true
                 )
-                Button(onClick = onSubjectErase) { Text("Erase Subject") }
+                SecondaryButton(
+                    text = "Erase Subject",
+                    onClick = onSubjectErase
+                )
             }
         }
     }
@@ -314,7 +323,7 @@ private fun SessionSummaryCard(
     onEraseSession: () -> Unit
 ) {
     val subtitle = "Status: ${summary.status}"
-    SectionCard(title = "Session ${summary.id}", subtitle = subtitle) {
+    BuccancsCard(title = "Session ${summary.id}", subtitle = subtitle) {
         Text("Created: ${formatter.format(summary.createdAt)}")
         summary.startedAt?.let { Text("Started: ${formatter.format(it)}") }
         Text("Elapsed: ${durationToReadable(summary.elapsedMillis)}")
@@ -384,80 +393,93 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
         val connected = devices.count { it.connected }
         "Connected: $connected / ${devices.size}"
     }
-    SectionCard(title = "Devices", subtitle = summary) {
+    BuccancsCard(title = "Devices", subtitle = summary) {
         if (devices.isEmpty()) {
-            Text("No devices connected")
+            Text(
+                text = "No devices connected",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().heightIn(max = 400.dp),
                 verticalArrangement = Arrangement.spacedBy(Spacing.Small)
             ) {
                 items(devices) { device ->
-                    val colors = when {
-                        !device.connected -> CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            contentColor = MaterialTheme.colorScheme.onErrorContainer
-                        )
-
-                        device.recording -> CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-
-                        else -> CardDefaults.cardColors()
-                    }
-                    SectionCard(
-                        title = "${device.id} - ${device.model}",
-                        subtitle = device.platform,
-                        colors = colors
-                    ) {
-                        Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
-                            StatusBadge(
-                                text = if (device.connected) "Connected" else "Disconnected",
-                                background = if (device.connected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.errorContainer,
-                                content = if (device.connected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onErrorContainer
-                            )
-                            StatusBadge(
-                                text = if (device.recording) "Recording" else "Idle",
-                                background = if (device.recording) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                                content = if (device.recording) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        device.sessionId?.let { Text("Session: $it") }
-                        device.batteryPercent?.let { Text("Battery: ${"%.1f".format(it)}%") }
-                        device.previewLatencyMs?.let { Text("Preview latency: ${"%.1f".format(it)} ms") }
-                        device.clockOffsetMs?.let { Text("Clock offset: ${"%.2f".format(it)} ms") }
-                        device.lastHeartbeat?.let { Text("Heartbeat: ${formatter.format(it)}") }
-                    }
+                    DeviceCard(device = device, formatter = formatter)
                 }
             }
         }
     }
 }
 
-
 @Composable
-private fun StatusBadge(text: String, background: Color, content: Color, modifier: Modifier = Modifier) {
-    Surface(
-        modifier = modifier,
-        shape = MaterialTheme.shapes.small,
-        color = background,
-        contentColor = content,
-        tonalElevation = 0.dp,
-        shadowElevation = 0.dp
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.padding(horizontal = Spacing.Small, vertical = Spacing.ExtraSmall),
-            style = MaterialTheme.typography.labelSmall
+private fun DeviceCard(device: DeviceListItem, formatter: DateTimeFormatter) {
+    val colors = when {
+        !device.connected -> CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.errorContainer,
+            contentColor = MaterialTheme.colorScheme.onErrorContainer
         )
+        device.recording -> CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+        else -> CardDefaults.cardColors()
+    }
+    
+    BuccancsOutlinedCard(
+        title = "${device.id} - ${device.model}",
+        subtitle = device.platform
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+            if (device.connected) {
+                ConnectedBadge()
+            } else {
+                DisconnectedBadge()
+            }
+            if (device.recording) {
+                RecordingBadge()
+            } else {
+                IdleBadge()
+            }
+        }
+        device.sessionId?.let {
+            Text(
+                "Session: $it",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+        device.batteryPercent?.let {
+            Text(
+                "Battery: ${"%.1f".format(it)}%",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+        device.previewLatencyMs?.let {
+            Text(
+                "Preview latency: ${"%.1f".format(it)} ms",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+        device.clockOffsetMs?.let {
+            Text(
+                "Clock offset: ${"%.2f".format(it)} ms",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+        device.lastHeartbeat?.let {
+            Text(
+                "Heartbeat: ${formatter.format(it)}",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
 @Composable
 internal fun RetentionSection(retention: RetentionState) {
     val subtitle = "Total stored: ${bytesToReadable(retention.totalBytes)}"
-    SectionCard(title = "Retention", subtitle = subtitle) {
+    BuccancsCard(title = "Retention", subtitle = subtitle) {
         if (retention.perSessionBytes.isEmpty() && retention.perDeviceBytes.isEmpty()) {
             Text("No retention data available")
         } else {
@@ -500,7 +522,7 @@ internal fun RetentionSection(retention: RetentionState) {
 
 @Composable
 internal fun TransferSection(transfers: List<TransferStatusItem>) {
-    SectionCard(title = "Data Transfers") {
+    BuccancsCard(title = "Data Transfers") {
         if (transfers.isEmpty()) {
             Text("No transfers recorded")
         } else {
@@ -528,7 +550,7 @@ internal fun TransferSection(transfers: List<TransferStatusItem>) {
 
 @Composable
 private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: DateTimeFormatter) {
-    SectionCard(title = "Event Timeline") {
+    BuccancsCard(title = "Event Timeline") {
         if (events.isEmpty()) {
             Text("No events logged")
         } else {
@@ -549,7 +571,7 @@ private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: Dat
 
 @Composable
 private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTimeFormatter) {
-    SectionCard(title = "Live Preview") {
+    BuccancsCard(title = "Live Preview") {
         if (previews.isEmpty()) {
             Text("No preview frames received yet")
         } else {
@@ -582,7 +604,7 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
 @Composable
 private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTimeFormatter) {
     if (archives.isEmpty()) return
-    SectionCard(title = "Archived Sessions", subtitle = "Count: ${archives.size}") {
+    BuccancsCard(title = "Archived Sessions", subtitle = "Count: ${archives.size}") {
         archives.forEach { archive ->
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                 Text("Session ${archive.id} - ${archive.status}")
@@ -612,7 +634,7 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
 @Composable
 private fun AlertsSection(alerts: List<String>) {
     if (alerts.isEmpty()) return
-    SectionCard(
+    BuccancsCard(
         title = "Alerts",
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,

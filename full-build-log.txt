@@ -1,0 +1,47 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/C:/Users/duyan/.gradle/wrapper/dists/gradle-8.14-bin/38aieal9i53h9rfe7vjup95b9/gradle-8.14/lib/native-platform-0.22-milestone-28.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+[Incubating] Problems report is available at: file:///C:/dev/buccancs/external/original-topdon-app/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'TopInfrared'.
+> Multiple build operations failed.
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1690ca0c86489a103db1afa207777ca5\metadata.bin
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\100a175b788c78dccb6bb9b224f359d1\metadata.bin
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\2985db5da37cb00b8ae19b6ff45948b0\metadata.bin
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1527efb8fb1f24330531c6dab8d0e203\metadata.bin
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1b714a7b1d8d777057402b668dc67581\metadata.bin
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1b71d0fe267b1dd30430dd0b2e0d8fcf\metadata.bin
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\106a9e8a2b485dfa1b3d91d8e5ae422f\metadata.bin
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1085fa6b1e26ea2d2db6d9456aee41db\metadata.bin
+      Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\11897d2c4084182bb4e1770c8cc3efd1\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1690ca0c86489a103db1afa207777ca5\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\100a175b788c78dccb6bb9b224f359d1\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\2985db5da37cb00b8ae19b6ff45948b0\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1527efb8fb1f24330531c6dab8d0e203\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1b714a7b1d8d777057402b668dc67581\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1b71d0fe267b1dd30430dd0b2e0d8fcf\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\106a9e8a2b485dfa1b3d91d8e5ae422f\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\1085fa6b1e26ea2d2db6d9456aee41db\metadata.bin
+   > Could not read workspace metadata from C:\Users\duyan\.gradle\caches\8.14\transforms\11897d2c4084182bb4e1770c8cc3efd1\metadata.bin
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 9s

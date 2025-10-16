@@ -1,11 +1,13 @@
 package com.buccancs.data.sensor.connector.audio
 
+import android.annotation.SuppressLint
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
+import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.core.result.Result
 import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
@@ -242,6 +244,7 @@ internal class MicrophoneConnector @Inject constructor(
         return artifacts
     }
 
+    @SuppressLint("MissingPermission")
     private fun ensureAudioRecord(): AudioRecord {
         val existing = audioRecord
         if (existing != null && existing.state == AudioRecord.STATE_INITIALIZED) {

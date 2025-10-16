@@ -74,8 +74,8 @@ fun TopdonLinearProgressWithValue(
  */
 @Composable
 fun TopdonLoadingOverlay(
-    message: String? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    message: String? = null
 ) {
     Box(
         modifier = modifier

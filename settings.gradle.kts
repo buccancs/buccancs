@@ -26,7 +26,16 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "buccancs"
-include(":app")
-include(":desktop")
-include(":protocol")
-include(":shimmer")
+
+val localModules = rootDir
+    .listFiles { candidate ->
+        candidate.isDirectory &&
+            (candidate.resolve("build.gradle.kts").isFile || candidate.resolve("build.gradle").isFile)
+    }
+    ?.sortedBy { it.name }
+    ?: emptyList()
+
+localModules.forEach { moduleDir ->
+    include(":${moduleDir.name}")
+    project(":${moduleDir.name}").projectDir = moduleDir
+}

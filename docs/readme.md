@@ -6,10 +6,12 @@ overview for a conceptual grounding, then dip into the development, testing, or 
 ## Document Map
 
 - `system-overview.md` – Purpose of the platform, component architecture, and data flow at a glance
+- `automation.md` – Auto-continue harness for Copilot/Gemini CLI and custom agents
 - `requirements.md` – Functional and non-functional targets with current delivery status
 - `development.md` – Environment prerequisites, build commands, and day-to-day workflows
 - `testing.md` – Automated coverage, manual drills, telemetry capture, and troubleshooting tips
 - `contributing.md` – Coding conventions, documentation rules, and collaboration expectations
+- `tasks/` – Active and archived task plans (see `tasks/README.md`)
 - `latex/` – Thesis chapters and academic artefacts (retained for reference, unchanged)
 
 ## Using the Docs

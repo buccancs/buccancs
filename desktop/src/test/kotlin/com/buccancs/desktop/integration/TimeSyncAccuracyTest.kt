@@ -5,6 +5,8 @@ import com.buccancs.control.TimeSyncServiceGrpcKt
 import com.buccancs.control.deviceRegistration
 import com.buccancs.control.timeSyncPing
 import com.buccancs.control.timeSyncReport
+import com.buccancs.desktop.data.aggregation.SessionAggregationService
+import com.buccancs.desktop.data.encryption.EncryptionKeyProvider
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.grpc.GrpcServer
 import com.buccancs.desktop.data.monitor.DeviceConnectionMonitor
@@ -17,22 +19,31 @@ import com.buccancs.desktop.data.retention.DataRetentionManager
 import com.buccancs.desktop.domain.policy.RetentionPolicy
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
 import kotlin.math.abs
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalPathApi::class, ExperimentalCoroutinesApi::class)
 class TimeSyncAccuracyTest {
     private lateinit var tempDir: Path
     private lateinit var grpcServer: GrpcServer
     private lateinit var sessionRepository: SessionRepository
     private lateinit var deviceRepository: DeviceRepository
+    private lateinit var aggregationService: SessionAggregationService
+    private lateinit var monitor: DeviceConnectionMonitor
+    private lateinit var monitorScope: TestScope
 
     private val serverPort = 50052
     private val testDeviceId = "accuracy-test-device"
@@ -40,14 +51,13 @@ class TimeSyncAccuracyTest {
     @Before
     fun setup() {
         tempDir = Files.createTempDirectory("buccancs-timesync-test")
-        val encryptionManager = EncryptionManager()
+        val keyProvider = EncryptionKeyProvider(tempDir.resolve("encryption.key"))
+        val encryptionManager = EncryptionManager(keyProvider)
         val retentionManager = DataRetentionManager(
             RetentionPolicy(
-                maxSessionCount = 100,
-                maxSessionBytes = 1L * 1024 * 1024 * 1024,
-                maxDeviceBytes = 500L * 1024 * 1024,
-                maxGlobalBytes = 10L * 1024 * 1024 * 1024,
-                deleteOldestSessionWhenFull = true
+                perSessionCapBytes = 1L * 1024 * 1024 * 1024,
+                perDeviceCapBytes = 500L * 1024 * 1024,
+                globalCapBytes = 10L * 1024 * 1024 * 1024
             )
         )
         sessionRepository = SessionRepository(tempDir, encryptionManager, retentionManager)
@@ -55,8 +65,9 @@ class TimeSyncAccuracyTest {
         val commandRepository = CommandRepository()
         val previewRepository = PreviewRepository()
         val sensorRecordingManager = SensorRecordingManager(sessionRepository)
-
-        val monitor = DeviceConnectionMonitor(deviceRepository)
+        aggregationService = SessionAggregationService(sessionRepository)
+        monitorScope = TestScope(UnconfinedTestDispatcher())
+        monitor = DeviceConnectionMonitor(deviceRepository, sessionRepository, monitorScope)
         monitor.start()
 
         grpcServer = GrpcServer(
@@ -65,7 +76,8 @@ class TimeSyncAccuracyTest {
             deviceRepository = deviceRepository,
             previewRepository = previewRepository,
             sensorRecordingManager = sensorRecordingManager,
-            commandRepository = commandRepository
+            commandRepository = commandRepository,
+            aggregationService = aggregationService
         )
         grpcServer.start()
     }
@@ -73,6 +85,12 @@ class TimeSyncAccuracyTest {
     @After
     fun teardown() {
         grpcServer.stop()
+        if (::monitor.isInitialized) {
+            monitor.stop()
+        }
+        if (::monitorScope.isInitialized) {
+            monitorScope.cancel()
+        }
         if (::tempDir.isInitialized && Files.exists(tempDir)) {
             tempDir.deleteRecursively()
         }

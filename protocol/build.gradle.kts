@@ -1,6 +1,7 @@
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.id
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.api.tasks.testing.Test
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -23,6 +24,8 @@ dependencies {
     api(libs.protobuf.java.util)
     api(libs.coroutines.core)
     api(libs.kotlinx.serialization.json)
+    testImplementation(kotlin("test"))
+    testImplementation(libs.junit.jupiter)
 }
 
 protobuf {
@@ -48,6 +51,10 @@ protobuf {
             }
         }
     }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 tasks.withType<GenerateProtoTask>().configureEach {

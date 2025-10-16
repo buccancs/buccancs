@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.connector
 
+import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.domain.model.*
 import kotlinx.coroutines.flow.StateFlow
 

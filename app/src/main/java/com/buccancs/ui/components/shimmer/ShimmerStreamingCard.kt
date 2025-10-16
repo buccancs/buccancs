@@ -5,7 +5,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Button
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -13,8 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.buccancs.ui.theme.Spacing
+import com.buccancs.ui.components.SectionCard
 
 @Composable
 fun ShimmerStreamingCard(
@@ -24,56 +23,47 @@ fun ShimmerStreamingCard(
     onStopStreaming: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ElevatedCard(
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        modifier = modifier.fillMaxWidth()
+    SectionCard(
+        modifier = modifier.fillMaxWidth(),
+        spacing = Spacing.Small
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+        Text(
+            text = "Streaming Control",
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Text(
+            text = if (isStreaming) "Device is streaming data" else "Device is idle",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
         ) {
-            Text(
-                text = "Streaming Control",
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Text(
-                text = if (isStreaming) "Device is streaming data" else "Device is idle",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
-            ) {
-                if (isStreaming) {
-                    OutlinedButton(
-                        onClick = onStopStreaming,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Stop,
-                            contentDescription = null
-                        )
-                        Text("Stop Streaming", modifier = Modifier.padding(start = Spacing.Small))
-                    }
-                } else {
-                    Button(
-                        onClick = onStartStreaming,
-                        enabled = isConnected,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.PlayArrow,
-                            contentDescription = null
-                        )
-                        Text("Start Streaming", modifier = Modifier.padding(start = Spacing.Small))
-                    }
+            if (isStreaming) {
+                OutlinedButton(
+                    onClick = onStopStreaming,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Stop,
+                        contentDescription = null
+                    )
+                    Text("Stop Streaming", modifier = Modifier.padding(start = Spacing.Small))
+                }
+            } else {
+                Button(
+                    onClick = onStartStreaming,
+                    enabled = isConnected,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = null
+                    )
+                    Text("Start Streaming", modifier = Modifier.padding(start = Spacing.Small))
                 }
             }
         }
@@ -85,8 +75,8 @@ fun ShimmerStreamingCard(
 private fun ShimmerStreamingCardPreview() {
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.padding(Spacing.Large),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Large)
         ) {
             ShimmerStreamingCard(
                 isStreaming = false,

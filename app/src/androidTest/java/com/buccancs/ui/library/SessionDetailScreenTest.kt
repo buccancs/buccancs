@@ -101,7 +101,8 @@ class SessionDetailScreenTest {
         composeRule.onNodeWithTag("session-detail-list", useUnmergedTree = true)
             .performScrollToNode(hasTestTag("session-bookmarks"))
         composeRule.onNodeWithTag("session-bookmarks", useUnmergedTree = true).assertIsDisplayed()
-        composeRule.onNodeWithText("Session total json", ignoreCase = true, useUnmergedTree = true).assertExists()
+        composeRule.onNodeWithText("session-total.json", ignoreCase = true, useUnmergedTree = true, substring = true)
+            .assertExists()
         composeRule.onNodeWithText("Important event", ignoreCase = true, useUnmergedTree = true).assertExists()
         composeRule.onNodeWithText("Calibrated start", ignoreCase = true, useUnmergedTree = true).assertExists()
     }

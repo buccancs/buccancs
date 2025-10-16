@@ -17,10 +17,10 @@ import com.buccancs.ui.theme.Spacing
 
 @Composable
 fun EmptyState(
+    modifier: Modifier = Modifier,
     icon: ImageVector,
     title: String,
-    description: String? = null,
-    modifier: Modifier = Modifier
+    description: String? = null
 ) {
     Column(
         modifier = modifier

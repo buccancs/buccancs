@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TopdonBottomNavigation(
+    modifier: Modifier = Modifier,
     selectedTab: TopdonTab,
     onTabSelected: (TopdonTab) -> Unit,
-    showNotificationBadge: Boolean = false,
-    modifier: Modifier = Modifier
+    showNotificationBadge: Boolean = false
 ) {
     NavigationBar(
         modifier = modifier.fillMaxWidth(),
@@ -69,10 +69,10 @@ fun TopdonBottomNavigation(
 
 @Composable
 fun TopdonCustomBottomNavigation(
+    modifier: Modifier = Modifier,
     selectedTab: TopdonTab,
     onTabSelected: (TopdonTab) -> Unit,
     showNotificationBadge: Boolean = false,
-    modifier: Modifier = Modifier,
     visible: Boolean = true
 ) {
     AnimatedVisibility(

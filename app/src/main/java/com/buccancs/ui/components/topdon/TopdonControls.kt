@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.buccancs.ui.theme.topdon.TopdonColors
 import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.theme.topdon.TopdonTheme
+import java.util.Locale
 import kotlin.math.roundToInt
 
 /**
@@ -166,7 +167,7 @@ fun TopdonTemperatureSlider(
         steps = 0,
         valueFormatter = { temp ->
             val displayTemp = if (useFahrenheit) (temp * 9f / 5f) + 32f else temp
-            String.format("%.1f°%s", displayTemp, if (useFahrenheit) "F" else "C")
+            String.format(Locale.US, "%.1f°%s", displayTemp, if (useFahrenheit) "F" else "C")
         },
         onValueChangeFinished = onValueChangeFinished
     )
@@ -190,7 +191,7 @@ fun TopdonZoomSlider(
         label = "Zoom",
         modifier = modifier,
         steps = 0,
-        valueFormatter = { String.format("%.1fx", it) },
+        valueFormatter = { String.format(Locale.US, "%.1fx", it) },
         onValueChangeFinished = onValueChangeFinished
     )
 }

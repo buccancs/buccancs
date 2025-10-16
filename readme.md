@@ -36,10 +36,12 @@ Additional setup details, `local.properties` guidance, and troubleshooting notes
 
 - `docs/readme.md` – Documentation index and navigation
 - `docs/system-overview.md` – Architecture, data flow, and platform capabilities
+- `docs/automation.md` – Auto-continue harness for unattended CLI sessions
 - `docs/requirements.md` – Functional and non-functional targets with delivery status
 - `docs/development.md` – Environment setup, build, and run workflows
 - `docs/testing.md` – Automated and manual validation procedures
 - `docs/contributing.md` – Coding standards, documentation conventions, and collaboration guidelines
+- `docs/tasks/` – Active task plans and archived work breakdowns
 - `docs/latex/` – Thesis chapters and academic material (unchanged)
 
 ## Core Capabilities

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.time.Instant
 
@@ -143,10 +144,10 @@ class TopdonViewModel @Inject constructor(
                 SensorStreamType.AUDIO -> "Audio"
             },
             detail = buildString {
-                frameRateFps?.let { append(String.format("%.1f fps", it)) }
+                frameRateFps?.let { append(String.format(Locale.US, "%.1f fps", it)) }
                 if (sampleRateHz != null) {
                     if (isNotEmpty()) append(" | ")
-                    append(String.format("%.1f Hz", sampleRateHz))
+                    append(String.format(Locale.US, "%.1f Hz", sampleRateHz))
                 }
             }
         )

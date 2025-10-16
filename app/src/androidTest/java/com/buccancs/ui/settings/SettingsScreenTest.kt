@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -40,8 +41,7 @@ class SettingsScreenTest {
                     onRetentionMaxAgeDaysChanged = {},
                     onApplyOrchestrator = { invoked = true },
                     onApplyRetention = {},
-                    onClearMessage = {},
-                    onNavigateUp = {}
+                    onClearMessage = {}
                 )
             }
         }
@@ -72,13 +72,13 @@ class SettingsScreenTest {
                     onRetentionMaxAgeDaysChanged = {},
                     onApplyOrchestrator = {},
                     onApplyRetention = { invoked = true },
-                    onClearMessage = {},
-                    onNavigateUp = {}
+                    onClearMessage = {}
                 )
             }
         }
 
         composeRule.onNodeWithTag("settings-apply-retention", useUnmergedTree = true).performClick()
+        composeRule.waitForIdle()
 
         assertTrue("Apply retention should invoke callback", invoked)
     }
@@ -103,14 +103,14 @@ class SettingsScreenTest {
                     onRetentionMaxAgeDaysChanged = {},
                     onApplyOrchestrator = {},
                     onApplyRetention = {},
-                    onClearMessage = { dismissed = true },
-                    onNavigateUp = {}
+                    onClearMessage = { dismissed = true }
                 )
             }
         }
 
-        composeRule.onNodeWithText("Settings saved.", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
-        composeRule.onNodeWithText("Dismiss", ignoreCase = true, useUnmergedTree = true).performClick()
+        composeRule.onNodeWithText("Settings saved.", ignoreCase = true, useUnmergedTree = false)
+            .assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("Dismiss", useUnmergedTree = true).performClick()
         assertTrue("Dismiss should invoke callback", dismissed)
     }
 

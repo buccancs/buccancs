@@ -13,7 +13,7 @@ import com.topdon.lib.core.dialog.TipDialog
 import com.topdon.lib.core.view.TitleView
 import com.topdon.module.thermal.ir.event.CorrectionFinishEvent
 import com.topdon.module.thermal.ir.view.TimeDownView
-import kotlinx.android.synthetic.main.activity_ir_thermal_lite.time_down_view
+// Stubbed: import kotlinx.android.synthetic.main.activity_ir_thermal_lite.time_down_view
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

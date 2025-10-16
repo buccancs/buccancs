@@ -47,7 +47,7 @@ android {
 
     buildFeatures {
         buildConfig = true
-        viewBinding = false
+        viewBinding = true
         compose = true
     }
 

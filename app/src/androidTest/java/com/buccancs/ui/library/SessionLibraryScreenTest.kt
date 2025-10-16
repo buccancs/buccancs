@@ -37,7 +37,7 @@ class SessionLibraryScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("Loading sessions…", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
+        composeRule.onNodeWithText("Loading sessions", ignoreCase = true, useUnmergedTree = true).assertIsDisplayed()
     }
 
     @Test

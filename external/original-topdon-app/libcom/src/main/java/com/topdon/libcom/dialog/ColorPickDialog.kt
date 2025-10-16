@@ -6,27 +6,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import com.blankj.utilcode.util.SizeUtils
-import com.jaygoo.widget.DefRangeSeekBar
-import com.jaygoo.widget.OnRangeChangedListener
+import android.widget.SeekBar
 import com.topdon.lib.core.utils.ScreenUtil
 import com.topdon.libcom.R
-import com.topdon.lib.core.utils.ColorUtils
-import kotlinx.android.synthetic.main.dialog_color_pick.nifty_slider_view
-import kotlinx.android.synthetic.main.dialog_color_pick.tv_nifty_left
-import kotlinx.android.synthetic.main.dialog_color_pick.tv_nifty_right
-import kotlinx.android.synthetic.main.dialog_color_pick.tv_size_title
-import kotlinx.android.synthetic.main.dialog_color_pick.tv_size_value
-import kotlinx.android.synthetic.main.dialog_color_pick.view.*
+import com.topdon.lib.core.view.ColorSelectView
+import com.topdon.lib.core.R as CoreR
 
 class ColorPickDialog(
     context: Context,
     @ColorInt private var color: Int,
     var textSize: Int,
     var textSizeIsDP: Boolean = false
-) : Dialog(context, R.style.InfoDialog), View.OnClickListener {
+) : Dialog(context, CoreR.style.InfoDialog), View.OnClickListener, SeekBar.OnSeekBarChangeListener {
     var onPickListener: ((color: Int, textSize: Int) -> Unit)? = null
     private val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_color_pick, null)
 
@@ -41,10 +37,9 @@ class ColorPickDialog(
             layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             it.attributes = layoutParams
         }
-        val activeTrackColor =
-            ColorUtils.setColorAlpha(ContextCompat.getColor(context, R.color.we_read_theme_color), 0.1f)
-        val iconTintColor =
-            ColorUtils.setColorAlpha(ContextCompat.getColor(context, R.color.we_read_theme_color), 0.7f)
+        val baseColor = ContextCompat.getColor(context, R.color.we_read_theme_color)
+        val activeTrackColor = ColorUtils.setAlphaComponent(baseColor, (0.1f * 255).toInt())
+        val iconTintColor = ColorUtils.setAlphaComponent(baseColor, (0.7f * 255).toInt())
         when (color) {
             0xff0000ff.toInt() -> rootView.view_color1.isSelected = true
             0xffff0000.toInt() -> rootView.view_color2.isSelected = true
@@ -59,41 +54,15 @@ class ColorPickDialog(
             color = it
         }
         if (textSize != -1) {
-            tv_size_title.visibility = View.VISIBLE
-            tv_size_value.visibility = View.VISIBLE
-            tv_nifty_left.visibility = View.VISIBLE
-            tv_nifty_right.visibility = View.VISIBLE
-            nifty_slider_view.visibility = View.VISIBLE
-            nifty_slider_view.setOnRangeChangedListener(object : OnRangeChangedListener {
-                override fun onRangeChanged(
-                    view: DefRangeSeekBar?,
-                    leftValue: Float,
-                    rightValue: Float,
-                    isFromUser: Boolean
-                ) {
-                    var text = "标准"
-                    text = if (leftValue <= 0) {
-                        textSize = 14
-                        context.getString(R.string.temp_text_standard)
-                    } else if (leftValue <= 50) {
-                        textSize = 16
-                        context.getString(R.string.temp_text_big)
-                    } else {
-                        textSize = 18
-                        context.getString(R.string.temp_text_sup_big)
-                    }
-                    tv_size_value?.text = text
-                }
-
-                override fun onStartTrackingTouch(view: DefRangeSeekBar?, isLeft: Boolean) {
-                }
-
-                override fun onStopTrackingTouch(view: DefRangeSeekBar?, isLeft: Boolean) {
-                }
-            })
-            nifty_slider_view.setProgress(textSizeToNifyValue(textSize, textSizeIsDP))
+            rootView.tv_size_title.visibility = View.VISIBLE
+            rootView.tv_size_value.visibility = View.VISIBLE
+            rootView.tv_nifty_left.visibility = View.VISIBLE
+            rootView.tv_nifty_right.visibility = View.VISIBLE
+            rootView.nifty_slider_view.visibility = View.VISIBLE
+            rootView.nifty_slider_view.setOnSeekBarChangeListener(this)
+        rootView.nifty_slider_view.progress = textSizeToProgress(textSize, textSizeIsDP)
         } else {
-            nifty_slider_view.visibility = View.GONE
+            rootView.nifty_slider_view.visibility = View.GONE
         }
         rootView.view_color1.setOnClickListener(this)
         rootView.view_color2.setOnClickListener(this)
@@ -105,19 +74,41 @@ class ColorPickDialog(
         rootView.tv_save.setOnClickListener(this)
     }
 
-    private fun textSizeToNifyValue(size: Int, isTC007: Boolean): Float {
-        if (isTC007) {
-            return when (size) {
-                14 -> 0f
-                16 -> 50f
-                else -> 100f
+    private fun textSizeToProgress(size: Int, isDpValue: Boolean): Int {
+        return if (isDpValue) {
+            when (size) {
+                14 -> 0
+                16 -> 1
+                else -> 2
+            }
+        } else {
+            when (size) {
+                SizeUtils.sp2px(14f) -> 0
+                SizeUtils.sp2px(16f) -> 1
+                else -> 2
             }
         }
-        return when (size) {
-            SizeUtils.sp2px(14f) -> 0f
-            SizeUtils.sp2px(16f) -> 50f
-            else -> 100f
+    }
+
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        val sizeValue = when (progress) {
+            0 -> 14
+            1 -> 16
+            else -> 18
         }
+        textSize = if (textSizeIsDP) sizeValue else SizeUtils.sp2px(sizeValue.toFloat())
+        val textRes = when (progress) {
+            0 -> CoreR.string.temp_text_standard
+            1 -> CoreR.string.temp_text_big
+            else -> CoreR.string.temp_text_sup_big
+        }
+        rootView.tv_size_value.text = context.getString(textRes)
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+    }
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
     }
 
     override fun onClick(v: View?) {
@@ -181,3 +172,32 @@ class ColorPickDialog(
         rootView.view_color6.isSelected = false
     }
 }
+
+private val View.rl_close: View
+    get() = findViewById<View>(R.id.rl_close)
+private val View.tv_save: View
+    get() = findViewById<View>(R.id.tv_save)
+private val View.view_color1: View
+    get() = findViewById<View>(R.id.view_color1)
+private val View.view_color2: View
+    get() = findViewById<View>(R.id.view_color2)
+private val View.view_color3: View
+    get() = findViewById<View>(R.id.view_color3)
+private val View.view_color4: View
+    get() = findViewById<View>(R.id.view_color4)
+private val View.view_color5: View
+    get() = findViewById<View>(R.id.view_color5)
+private val View.view_color6: View
+    get() = findViewById<View>(R.id.view_color6)
+private val View.color_select_view: ColorSelectView
+    get() = findViewById<ColorSelectView>(R.id.color_select_view)
+private val View.tv_size_title: TextView
+    get() = findViewById<TextView>(R.id.tv_size_title)
+private val View.tv_size_value: TextView
+    get() = findViewById<TextView>(R.id.tv_size_value)
+private val View.tv_nifty_left: TextView
+    get() = findViewById<TextView>(R.id.tv_nifty_left)
+private val View.tv_nifty_right: TextView
+    get() = findViewById<TextView>(R.id.tv_nifty_right)
+private val View.nifty_slider_view: SeekBar
+    get() = findViewById<SeekBar>(R.id.nifty_slider_view)

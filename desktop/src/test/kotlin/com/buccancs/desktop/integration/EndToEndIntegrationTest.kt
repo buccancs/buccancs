@@ -1,6 +1,8 @@
 package com.buccancs.desktop.integration
 
 import com.buccancs.control.*
+import com.buccancs.desktop.data.aggregation.SessionAggregationService
+import com.buccancs.desktop.data.encryption.EncryptionKeyProvider
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.grpc.GrpcServer
 import com.buccancs.desktop.data.monitor.DeviceConnectionMonitor
@@ -14,8 +16,12 @@ import com.buccancs.desktop.domain.model.SessionStatus
 import com.buccancs.desktop.domain.policy.RetentionPolicy
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withTimeout
 import org.junit.After
 import org.junit.Assert.*
@@ -23,9 +29,11 @@ import org.junit.Before
 import org.junit.Test
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalPathApi::class, ExperimentalCoroutinesApi::class)
 class EndToEndIntegrationTest {
     private lateinit var tempDir: Path
     private lateinit var grpcServer: GrpcServer
@@ -36,6 +44,9 @@ class EndToEndIntegrationTest {
     private lateinit var sensorRecordingManager: SensorRecordingManager
     private lateinit var encryptionManager: EncryptionManager
     private lateinit var retentionManager: DataRetentionManager
+    private lateinit var aggregationService: SessionAggregationService
+    private lateinit var monitor: DeviceConnectionMonitor
+    private lateinit var monitorScope: TestScope
 
     private val serverPort = 50051
     private val testDeviceId = "test-device-001"
@@ -44,14 +55,13 @@ class EndToEndIntegrationTest {
     @Before
     fun setup() {
         tempDir = Files.createTempDirectory("buccancs-integration-test")
-        encryptionManager = EncryptionManager()
+        val keyProvider = EncryptionKeyProvider(tempDir.resolve("encryption.key"))
+        encryptionManager = EncryptionManager(keyProvider)
         retentionManager = DataRetentionManager(
             RetentionPolicy(
-                maxSessionCount = 100,
-                maxSessionBytes = 10L * 1024 * 1024 * 1024,
-                maxDeviceBytes = 5L * 1024 * 1024 * 1024,
-                maxGlobalBytes = 50L * 1024 * 1024 * 1024,
-                deleteOldestSessionWhenFull = true
+                perSessionCapBytes = 10L * 1024 * 1024 * 1024,
+                perDeviceCapBytes = 5L * 1024 * 1024 * 1024,
+                globalCapBytes = 50L * 1024 * 1024 * 1024
             )
         )
         sessionRepository = SessionRepository(tempDir, encryptionManager, retentionManager)
@@ -59,8 +69,9 @@ class EndToEndIntegrationTest {
         commandRepository = CommandRepository()
         previewRepository = PreviewRepository()
         sensorRecordingManager = SensorRecordingManager(sessionRepository)
-
-        val monitor = DeviceConnectionMonitor(deviceRepository)
+        aggregationService = SessionAggregationService(sessionRepository)
+        monitorScope = TestScope(UnconfinedTestDispatcher())
+        monitor = DeviceConnectionMonitor(deviceRepository, sessionRepository, monitorScope)
         monitor.start()
 
         grpcServer = GrpcServer(
@@ -69,7 +80,8 @@ class EndToEndIntegrationTest {
             deviceRepository = deviceRepository,
             previewRepository = previewRepository,
             sensorRecordingManager = sensorRecordingManager,
-            commandRepository = commandRepository
+            commandRepository = commandRepository,
+            aggregationService = aggregationService
         )
         grpcServer.start()
     }
@@ -77,6 +89,12 @@ class EndToEndIntegrationTest {
     @After
     fun teardown() {
         grpcServer.stop()
+        if (::monitor.isInitialized) {
+            monitor.stop()
+        }
+        if (::monitorScope.isInitialized) {
+            monitorScope.cancel()
+        }
         if (::tempDir.isInitialized && Files.exists(tempDir)) {
             tempDir.deleteRecursively()
         }
@@ -179,7 +197,8 @@ class EndToEndIntegrationTest {
         delay(500)
 
         val testContent = "Test file content for upload".toByteArray()
-        val sha256 = java.security.MessageDigest.getInstance("SHA-256").digest(testContent)
+        val fileChecksum = java.security.MessageDigest.getInstance("SHA-256")
+            .digest(testContent)
 
         val requests = kotlinx.coroutines.flow.flow {
             emit(dataTransferRequest {
@@ -187,7 +206,7 @@ class EndToEndIntegrationTest {
                 deviceId = testDeviceId
                 fileName = "test-data.txt"
                 sizeBytes = testContent.size.toLong()
-                sha256 = com.google.protobuf.ByteString.copyFrom(sha256)
+                sha256 = com.google.protobuf.ByteString.copyFrom(fileChecksum)
                 mimeType = "text/plain"
                 streamType = "sensor"
                 chunk = com.google.protobuf.ByteString.copyFrom(testContent)
@@ -236,7 +255,7 @@ class EndToEndIntegrationTest {
         delay(500)
 
         val sampleCount = 100
-        val samples = (0 until sampleCount).map { i ->
+        val sampleSeries = (0 until sampleCount).map { i ->
             sensorSample {
                 timestampEpochMs = System.currentTimeMillis() + i * 10
                 values.add(sensorSampleValue {
@@ -252,7 +271,7 @@ class EndToEndIntegrationTest {
                 deviceId = testDeviceId
                 streamId = "gsr"
                 sampleRateHz = 100.0
-                this.samples.addAll(samples)
+                samples += sampleSeries
                 endOfStream = true
             })
         }
@@ -404,8 +423,8 @@ class EndToEndIntegrationTest {
                         ByteArray(100) { (i + it).toByte() }
                     )
                     mimeType = "image/jpeg"
-                    width = 640u
-                    height = 480u
+                    width = 640
+                    height = 480
                 })
                 delay(100)
             }
@@ -417,6 +436,7 @@ class EndToEndIntegrationTest {
         delay(500)
 
         val preview = previewRepository.observe().first()
+            .values
             .find { it.deviceId == testDeviceId }
         assertNotNull("Preview should be stored", preview)
         assertEquals("camera-0", preview?.cameraId)

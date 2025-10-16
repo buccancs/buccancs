@@ -1,5 +1,6 @@
 package com.buccancs.hardware
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 
@@ -13,9 +14,11 @@ interface BluetoothService {
 class AndroidBluetoothService(private val adapter: BluetoothAdapter?) : BluetoothService {
     override fun isEnabled(): Boolean = adapter?.isEnabled == true
 
+    @SuppressLint("MissingPermission")
     override fun getBondedDevices(): Set<BluetoothDevice> =
         adapter?.bondedDevices ?: emptySet()
 
+    @SuppressLint("MissingPermission")
     override fun startDiscovery(): Boolean = adapter?.startDiscovery() == true
 
     override fun isAvailable(): Boolean = adapter != null

@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.report.bean.ReportConditionBean
 import com.topdon.module.thermal.ir.report.bean.ReportInfoBean
-import kotlinx.android.synthetic.main.view_report_info.view.*
+// Stubbed: import kotlinx.android.synthetic.main.view_report_info.view.*
 
 class ReportInfoView : LinearLayout {
     constructor(context: Context) : this(context, null)

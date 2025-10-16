@@ -1,6 +1,8 @@
 package com.buccancs.desktop.integration
 
 import com.buccancs.control.*
+import com.buccancs.desktop.data.aggregation.SessionAggregationService
+import com.buccancs.desktop.data.encryption.EncryptionKeyProvider
 import com.buccancs.desktop.data.encryption.EncryptionManager
 import com.buccancs.desktop.data.grpc.GrpcServer
 import com.buccancs.desktop.data.monitor.DeviceConnectionMonitor
@@ -16,23 +18,33 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalPathApi::class, ExperimentalCoroutinesApi::class)
 class MultiDeviceStressTest {
     private lateinit var tempDir: Path
     private lateinit var grpcServer: GrpcServer
     private lateinit var sessionRepository: SessionRepository
     private lateinit var deviceRepository: DeviceRepository
     private lateinit var commandRepository: CommandRepository
+    private lateinit var aggregationService: SessionAggregationService
+    private lateinit var monitor: DeviceConnectionMonitor
+    private lateinit var monitorScope: TestScope
 
     private val serverPort = 50053
     private val testSessionId = "stress-test-session"
@@ -40,14 +52,13 @@ class MultiDeviceStressTest {
     @Before
     fun setup() {
         tempDir = Files.createTempDirectory("buccancs-stress-test")
-        val encryptionManager = EncryptionManager()
+        val keyProvider = EncryptionKeyProvider(tempDir.resolve("encryption.key"))
+        val encryptionManager = EncryptionManager(keyProvider)
         val retentionManager = DataRetentionManager(
             RetentionPolicy(
-                maxSessionCount = 100,
-                maxSessionBytes = 50L * 1024 * 1024 * 1024,
-                maxDeviceBytes = 10L * 1024 * 1024 * 1024,
-                maxGlobalBytes = 100L * 1024 * 1024 * 1024,
-                deleteOldestSessionWhenFull = true
+                perSessionCapBytes = 50L * 1024 * 1024 * 1024,
+                perDeviceCapBytes = 10L * 1024 * 1024 * 1024,
+                globalCapBytes = 100L * 1024 * 1024 * 1024
             )
         )
         sessionRepository = SessionRepository(tempDir, encryptionManager, retentionManager)
@@ -55,8 +66,9 @@ class MultiDeviceStressTest {
         commandRepository = CommandRepository()
         val previewRepository = PreviewRepository()
         val sensorRecordingManager = SensorRecordingManager(sessionRepository)
-
-        val monitor = DeviceConnectionMonitor(deviceRepository)
+        aggregationService = SessionAggregationService(sessionRepository)
+        monitorScope = TestScope(UnconfinedTestDispatcher())
+        monitor = DeviceConnectionMonitor(deviceRepository, sessionRepository, monitorScope)
         monitor.start()
 
         grpcServer = GrpcServer(
@@ -65,7 +77,8 @@ class MultiDeviceStressTest {
             deviceRepository = deviceRepository,
             previewRepository = previewRepository,
             sensorRecordingManager = sensorRecordingManager,
-            commandRepository = commandRepository
+            commandRepository = commandRepository,
+            aggregationService = aggregationService
         )
         grpcServer.start()
     }
@@ -73,6 +86,12 @@ class MultiDeviceStressTest {
     @After
     fun teardown() {
         grpcServer.stop()
+        if (::monitor.isInitialized) {
+            monitor.stop()
+        }
+        if (::monitorScope.isInitialized) {
+            monitorScope.cancel()
+        }
         if (::tempDir.isInitialized && Files.exists(tempDir)) {
             tempDir.deleteRecursively()
         }
@@ -147,7 +166,7 @@ class MultiDeviceStressTest {
         val samplesPerDevice = 1000
         val streamJobs = devices.map { deviceId ->
             async {
-                val samples = (0 until samplesPerDevice).map { i ->
+                val sampleSeries = (0 until samplesPerDevice).map { i ->
                     sensorSample {
                         timestampEpochMs = System.currentTimeMillis() + i * 10
                         values.add(sensorSampleValue {
@@ -162,14 +181,14 @@ class MultiDeviceStressTest {
                 }
 
                 val batches = kotlinx.coroutines.flow.flow {
-                    samples.chunked(100).forEach { chunk ->
+                    sampleSeries.chunked(100).forEach { chunk ->
                         emit(sensorSampleBatch {
                             session = sessionIdentifier { id = testSessionId }
                             this.deviceId = deviceId
                             streamId = "gsr"
                             sampleRateHz = 100.0
-                            this.samples.addAll(chunk)
-                            endOfStream = (chunk == samples.chunked(100).last())
+                            samples += chunk
+                            endOfStream = (chunk == sampleSeries.chunked(100).last())
                         })
                         delay(10)
                     }
@@ -239,7 +258,8 @@ class MultiDeviceStressTest {
                 async {
                     val fileName = "data-$fileIndex.bin"
                     val content = ByteArray(fileSizeBytes) { it.toByte() }
-                    val sha256 = java.security.MessageDigest.getInstance("SHA-256").digest(content)
+                    val fileChecksum = java.security.MessageDigest.getInstance("SHA-256")
+                        .digest(content)
 
                     val requests = kotlinx.coroutines.flow.flow {
                         val chunkSize = 8192
@@ -253,7 +273,7 @@ class MultiDeviceStressTest {
                                 this.deviceId = deviceId
                                 this.fileName = fileName
                                 sizeBytes = content.size.toLong()
-                                sha256 = com.google.protobuf.ByteString.copyFrom(sha256)
+                                sha256 = com.google.protobuf.ByteString.copyFrom(fileChecksum)
                                 mimeType = "application/octet-stream"
                                 streamType = "sensor"
                                 this.chunk = com.google.protobuf.ByteString.copyFrom(chunk)
@@ -325,7 +345,7 @@ class MultiDeviceStressTest {
                     includeBroadcast = true
                 })
 
-                val job = kotlinx.coroutines.launch {
+                val job = launch {
                     flow.collect { envelope ->
                         commands.add(envelope)
                         if (commands.size >= 10) {
@@ -407,7 +427,7 @@ class MultiDeviceStressTest {
                 val startTime = System.currentTimeMillis()
 
                 while (System.currentTimeMillis() - startTime < durationSeconds * 1000) {
-                    val samples = (0 until samplesPerBatch).map { i ->
+                    val sampleWindow = (0 until samplesPerBatch).map { i ->
                         sensorSample {
                             timestampEpochMs = System.currentTimeMillis() + i * 10
                             values.add(sensorSampleValue {
@@ -422,15 +442,15 @@ class MultiDeviceStressTest {
                             session = sessionIdentifier { id = testSessionId }
                             this.deviceId = deviceId
                             streamId = "gsr"
-                            sampleRateHz = sampleRateHz
-                            this.samples.addAll(samples)
+                            this.sampleRateHz = sampleRateHz
+                            samples += sampleWindow
                             endOfStream = false
                         })
                     }
 
                     runCatching {
                         sensorClient.stream(batch)
-                        totalSent += samples.size
+                        totalSent += sampleWindow.size
                     }
 
                     delay(batchIntervalMs)
@@ -441,7 +461,7 @@ class MultiDeviceStressTest {
                         session = sessionIdentifier { id = testSessionId }
                         this.deviceId = deviceId
                         streamId = "gsr"
-                        sampleRateHz = sampleRateHz
+                        this.sampleRateHz = sampleRateHz
                         endOfStream = true
                     })
                 }

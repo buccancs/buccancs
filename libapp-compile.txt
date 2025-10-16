@@ -1,0 +1,72 @@
+> Task :libapp:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :libapp:preBuild UP-TO-DATE
+> Task :libapp:preBetaDebugBuild UP-TO-DATE
+> Task :libapp:dataBindingMergeDependencyArtifactsBetaDebug UP-TO-DATE
+> Task :libapp:generateBetaDebugResValues UP-TO-DATE
+> Task :libapp:generateBetaDebugResources UP-TO-DATE
+> Task :libapp:packageBetaDebugResources UP-TO-DATE
+> Task :libapp:parseBetaDebugLocalResources UP-TO-DATE
+> Task :libapp:dataBindingGenBaseClassesBetaDebug UP-TO-DATE
+> Task :libapp:dataBindingTriggerBetaDebug UP-TO-DATE
+> Task :libapp:generateBetaDebugBuildConfig UP-TO-DATE
+> Task :libapp:generateBetaDebugRFile UP-TO-DATE
+> Task :libapp:kaptGenerateStubsBetaDebugKotlin UP-TO-DATE
+> Task :libapp:kaptBetaDebugKotlin UP-TO-DATE
+
+> Task :libapp:compileBetaDebugKotlin FAILED
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:193:55 One type argument expected for data class CommonBean<T> : Any.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:195:61 Unresolved reference 'data'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:198:43 Unresolved reference 'topdonId'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:199:42 Unresolved reference 'phone'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:200:42 Unresolved reference 'email'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:201:45 Unresolved reference 'userName'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/ktbase/BaseActivity.kt:202:44 Unresolved reference 'avatar'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:5:27 Unresolved reference 'UrlConstant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:6:35 Unresolved reference 'HttpProxy'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:8:33 Unresolved reference 'LanguageUtil'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:22:19 Unresolved reference 'UrlConstant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:27:48 Unresolved reference 'LanguageUtil'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/utils/HttpHelp.kt:30:9 Unresolved reference 'instant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:18:27 Unresolved reference 'UrlConstant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:20:35 Unresolved reference 'HttpProxy'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:22:35 Unresolved reference 'ResponseBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:23:33 Unresolved reference 'DateUtils'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:24:33 Unresolved reference 'LanguageUtil'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:299:31 Unresolved reference 'bindDevice'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:300:24 Unresolved reference 'it'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:315:19 Unresolved reference 'UrlConstant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:319:55 Unresolved reference 'LanguageUtil'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:321:46 Unresolved reference 'DateUtils'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:322:9 Unresolved reference 'HttpProxy'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:325:37 One type argument expected for data class CommonBean<T> : Any.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:325:50 Unresolved reference 'ResponseBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:326:62 Unresolved reference 'data'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:348:19 Unresolved reference 'UrlConstant'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:355:9 Unresolved reference 'HttpProxy'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:358:37 One type argument expected for data class CommonBean<T> : Any.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:358:50 Unresolved reference 'ResponseBean'.
+e: file:///C:/dev/buccancs/external/original-topdon-app/libapp/src/main/java/com/core/viewmodel/FirmwareViewModel.kt:360:61 Unresolved reference 'data'.
+
+[Incubating] Problems report is available at: file:///C:/dev/buccancs/external/original-topdon-app/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':libapp:compileBetaDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 7s
+12 actionable tasks: 1 executed, 11 up-to-date

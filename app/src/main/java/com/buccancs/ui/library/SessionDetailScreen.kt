@@ -3,11 +3,10 @@ package com.buccancs.ui.library
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -22,14 +21,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.data.recording.manifest.ArtifactEntry
 import com.buccancs.data.recording.manifest.BookmarkEntry
 import com.buccancs.data.recording.manifest.DeviceManifest
 import com.buccancs.data.recording.manifest.EventEntry
+import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.components.AnimatedTonalButton
 import com.buccancs.ui.components.SectionCard
+import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 import java.util.*
@@ -61,7 +63,7 @@ fun SessionDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateUp) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -70,7 +72,8 @@ fun SessionDetailScreen(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         when {
             state.isLoading -> {
@@ -82,7 +85,7 @@ fun SessionDetailScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     CircularProgressIndicator()
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(Spacing.SmallMedium))
                     Text(text = "Loading session...")
                 }
             }
@@ -97,7 +100,7 @@ fun SessionDetailScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(24.dp),
+                            .padding(Spacing.ExtraLarge),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -105,25 +108,23 @@ fun SessionDetailScreen(
                             imageVector = Icons.Default.Error,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.size(48.dp)
+                            modifier = Modifier.size(Dimensions.IconSizeLarge)
                         )
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(Spacing.Medium))
                         Text(
                             text = "Unable to load session",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.error
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(Spacing.Small))
                         Text(
                             text = state.errorMessage,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        Spacer(modifier = Modifier.height(24.dp))
-                        FilledTonalButton(onClick = onRefresh) {
-                            Text(text = "Retry")
-                        }
+                        Spacer(modifier = Modifier.height(Spacing.ExtraLarge))
+                        AnimatedTonalButton(onClick = onRefresh, text = "Retry")
                     }
                 }
             }
@@ -147,8 +148,8 @@ fun SessionDetailScreen(
                         .fillMaxSize()
                         .testTag("session-detail-list")
                         .padding(padding)
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                        .padding(LayoutPadding.Screen),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
                 ) {
                     item {
                         SummaryCard(state = state)
@@ -178,82 +179,84 @@ fun SessionDetailScreen(
 }
 
 @Composable
-private fun SummaryCard(
-    state: SessionDetailUiState,
-    colors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceVariant
-    )
-) {
+private fun SummaryCard(state: SessionDetailUiState) {
     val manifest = state.manifest ?: return
-    ElevatedCard(
+    SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-summary")
+            .testTag("session-summary"),
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Summary",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+        Text(
+            text = "Summary",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
 
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shape = MaterialTheme.shapes.small
+        ) {
+            Column(
+                modifier = Modifier.padding(
+                    horizontal = Spacing.SmallMedium,
+                    vertical = Spacing.Small
+                ),
+                verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+            ) {
+                InfoRow("Started", manifest.startedAt, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                manifest.endedAt?.let { InfoRow("Ended", it, color = MaterialTheme.colorScheme.onPrimaryContainer) }
+                manifest.durationMillis?.let { duration ->
+                    InfoRow("Duration", formatDuration(duration), color = MaterialTheme.colorScheme.onPrimaryContainer)
+                }
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+        ) {
+            StatChip(
+                label = "Artifacts",
+                value = manifest.artifacts.size.toString(),
+                modifier = Modifier.weight(1f)
+            )
+            StatChip(
+                label = "Size",
+                value = formatBytes(state.totalBytes),
+                modifier = Modifier.weight(1f)
+            )
+            StatChip(
+                label = "Bookmarks",
+                value = manifest.bookmarks.size.toString(),
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        if (manifest.simulation) {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.primaryContainer,
+                color = MaterialTheme.colorScheme.tertiaryContainer,
                 shape = MaterialTheme.shapes.small
             ) {
-                Column(
-                    modifier = Modifier.padding(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    InfoRow("Started", manifest.startedAt)
-                    manifest.endedAt?.let { InfoRow("Ended", it) }
-                    manifest.durationMillis?.let { duration ->
-                        InfoRow("Duration", formatDuration(duration))
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                StatChip(
-                    label = "Artifacts",
-                    value = manifest.artifacts.size.toString(),
-                    modifier = Modifier.weight(1f)
-                )
-                StatChip(
-                    label = "Size",
-                    value = formatBytes(state.totalBytes),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            if (manifest.simulation) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.tertiaryContainer,
-                    shape = MaterialTheme.shapes.small
-                ) {
-                    Text(
-                        text = "Simulation Mode",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                Text(
+                    text = "Simulation Mode",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    modifier = Modifier.padding(
+                        horizontal = Spacing.SmallMedium,
+                        vertical = Spacing.ExtraSmall
                     )
-                }
+                )
             }
         }
     }
 }
 
 @Composable
-private fun InfoRow(label: String, value: String) {
+private fun InfoRow(label: String, value: String, color: Color = MaterialTheme.colorScheme.onSurface) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -261,13 +264,13 @@ private fun InfoRow(label: String, value: String) {
         Text(
             text = "$label:",
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            color = color,
             fontWeight = FontWeight.Medium
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onPrimaryContainer
+            color = color
         )
     }
 }
@@ -280,7 +283,10 @@ private fun StatChip(label: String, value: String, modifier: Modifier = Modifier
         shape = MaterialTheme.shapes.small
     ) {
         Column(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(
+                horizontal = Spacing.SmallMedium,
+                vertical = Spacing.Small
+            ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -300,51 +306,61 @@ private fun StatChip(label: String, value: String, modifier: Modifier = Modifier
 
 @Composable
 private fun DeviceList(devices: List<DeviceManifest>) {
-    ElevatedCard(
+    SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-devices")
+            .testTag("session-devices"),
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Devices",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                devices.forEach { device ->
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.surfaceVariant,
-                        shape = MaterialTheme.shapes.small
+        Text(
+            text = "Devices",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+            devices.forEach { device ->
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Column(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.SmallMedium,
+                            vertical = Spacing.Small
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
                     ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
+                        Text(
+                            text = device.deviceId,
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Text(text = "Name: ${device.displayName}", style = MaterialTheme.typography.bodyMedium)
+                        Text(text = "Type: ${device.type}", style = MaterialTheme.typography.bodyMedium)
+                        if (device.simulated) {
                             Text(
-                                text = device.deviceId,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.SemiBold
+                                text = "Simulated: ${device.simulated}",
+                                color = MaterialTheme.colorScheme.tertiary,
+                                fontWeight = FontWeight.Medium
                             )
-                            Text(text = "Name: ${device.displayName}")
-                            Text(text = "Type: ${device.type}")
-                            if (device.simulated) {
-                                Text(
-                                    text = "Simulated: ${device.simulated}",
-                                    color = MaterialTheme.colorScheme.tertiary,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-                            if (device.capabilities.isNotEmpty()) {
-                                Text(text = "Capabilities: ${device.capabilities.joinToString()}")
-                            }
-                            if (device.attributes.isNotEmpty()) {
-                                Text(
-                                    text = "Attributes: ${
-                                        device.attributes.entries.joinToString { "${it.key}=${it.value}" }
-                                    }",
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                            }
+                        }
+                        if (device.capabilities.isNotEmpty()) {
+                            Text(
+                                text = "Capabilities: ${device.capabilities.joinToString()}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        if (device.attributes.isNotEmpty()) {
+                            Text(
+                                text = "Attributes: ${
+                                    device.attributes.entries.joinToString { "${it.key}=${it.value}" }
+                                }",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
                     }
                 }
@@ -355,51 +371,56 @@ private fun DeviceList(devices: List<DeviceManifest>) {
 
 @Composable
 private fun ArtifactList(artifacts: List<ArtifactEntry>) {
-    ElevatedCard(
+    SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-artifacts")
+            .testTag("session-artifacts"),
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Artifacts",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                artifacts.forEach { artifact ->
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = MaterialTheme.shapes.small
+        Text(
+            text = "Artifacts",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+            artifacts.forEach { artifact ->
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Column(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.SmallMedium,
+                            vertical = Spacing.Small
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
                     ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            Text(
-                                text = "${artifact.streamType} - ${artifact.fileName()}",
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                            Text(
-                                text = "Device: ${artifact.deviceId}",
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                            Text(
-                                text = "Size: ${formatBytes(artifact.sizeBytes)}",
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                            Text(
-                                text = "Captured at: ${artifact.capturedEpochMs}",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                            Text(
-                                text = "Mime: ${artifact.mimeType}",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
+                        Text(
+                            text = "${artifact.streamType} - ${artifact.fileName()}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        Text(
+                            text = "Device: ${artifact.deviceId}",
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        Text(
+                            text = "Size: ${formatBytes(artifact.sizeBytes)}",
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        Text(
+                            text = "Captured at: ${artifact.capturedEpochMs}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        Text(
+                            text = "Mime: ${artifact.mimeType}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
                     }
                 }
             }
@@ -409,51 +430,56 @@ private fun ArtifactList(artifacts: List<ArtifactEntry>) {
 
 @Composable
 private fun EventList(events: List<EventEntry>) {
-    ElevatedCard(
+    SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-events")
+            .testTag("session-events"),
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Events",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                events.forEach { event ->
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = MaterialTheme.shapes.small
+        Text(
+            text = "Events",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+            events.forEach { event ->
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Column(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.SmallMedium,
+                            vertical = Spacing.Small
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
                     ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
+                        Text(
+                            text = "${event.type} - ${event.eventId}",
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        event.label?.let {
                             Text(
-                                text = "${event.type} - ${event.eventId}",
-                                fontWeight = FontWeight.SemiBold,
+                                text = "Label: $it",
                                 color = MaterialTheme.colorScheme.onSecondaryContainer
                             )
-                            event.label?.let {
-                                Text(
-                                    text = "Label: $it",
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            }
-                            event.scheduledEpochMs?.let {
-                                Text(
-                                    text = "Scheduled: $it",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            }
-                            event.receivedEpochMs?.let {
-                                Text(
-                                    text = "Received: $it",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            }
+                        }
+                        event.scheduledEpochMs?.let {
+                            Text(
+                                text = "Scheduled: $it",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                        }
+                        event.receivedEpochMs?.let {
+                            Text(
+                                text = "Received: $it",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
                         }
                     }
                 }
@@ -464,37 +490,42 @@ private fun EventList(events: List<EventEntry>) {
 
 @Composable
 private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
-    ElevatedCard(
+    SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-bookmarks")
+            .testTag("session-bookmarks"),
+        spacing = Spacing.Small
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Bookmarks",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                bookmarks.forEach { bookmark ->
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        shape = MaterialTheme.shapes.small
+        Text(
+            text = "Bookmarks",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+            bookmarks.forEach { bookmark ->
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.tertiaryContainer,
+                    shape = MaterialTheme.shapes.small
+                ) {
+                    Column(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.SmallMedium,
+                            vertical = Spacing.Small
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
                     ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            Text(
-                                text = bookmark.label.ifBlank { "Bookmark" },
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onTertiaryContainer
-                            )
-                            Text(
-                                text = "Timestamp: ${bookmark.timestampEpochMs}",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onTertiaryContainer
-                            )
-                        }
+                        Text(
+                            text = bookmark.label.ifBlank { "Bookmark" },
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                        Text(
+                            text = "Timestamp: ${bookmark.timestampEpochMs}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
                     }
                 }
             }

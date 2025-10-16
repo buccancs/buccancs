@@ -1,9 +1,8 @@
 package com.buccancs.data.sensor.connector.topdon
 
 import android.content.Context
-import android.hardware.usb.UsbManager
 import android.util.Log
-import com.buccancs.data.preview.PreviewStreamClient
+import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
@@ -11,6 +10,7 @@ import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.*
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
+import com.buccancs.hardware.topdon.TopdonThermalClient
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,17 +20,17 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Instant.Companion.fromEpochMilliseconds
 
 @Singleton
 internal class TopdonConnectorManager @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
     @ApplicationContext private val context: Context,
-    private val usbManager: UsbManager,
     private val recordingStorage: RecordingStorage,
     private val thermalNormalizer: ThermalNormalizer,
-    private val previewClient: PreviewStreamClient,
     private val artifactFactory: SimulatedArtifactFactory,
-    private val configRepository: SensorHardwareConfigRepository
+    private val configRepository: SensorHardwareConfigRepository,
+    private val hardwareClient: TopdonThermalClient,
 ) : MultiDeviceConnector {
     private val connectorsMutex = Mutex()
     private val devicesMutex = Mutex()
@@ -164,8 +164,8 @@ internal class TopdonConnectorManager @Inject constructor(
         val sessionId = "standalone_${System.currentTimeMillis()}"
         val anchor = RecordingSessionAnchor(
             sessionId = sessionId,
-            anchorEpochMs = System.currentTimeMillis(),
-            anchorElapsedRealtimeNanos = android.os.SystemClock.elapsedRealtimeNanos()
+            referenceTimestamp = fromEpochMilliseconds(System.currentTimeMillis()),
+            sharedClockOffsetMillis = 0L
         )
 
         return managed.connector.startStreaming(anchor)
@@ -244,15 +244,12 @@ internal class TopdonConnectorManager @Inject constructor(
             attributes = buildAttributes(entry)
         )
         val connector = TopdonThermalConnector(
-            scope,
-            context,
-            usbManager,
-            recordingStorage,
-            thermalNormalizer,
-            artifactFactory,
-            previewClient,
-            settings,
-            device
+            appScope = scope,
+            hardwareClient = hardwareClient,
+            recordingStorage = recordingStorage,
+            artifactFactory = artifactFactory,
+            settingsRepository = settings,
+            initialDevice = device
         )
         val normalizedConfig = entry.normalizeDefaults(settings.settings.value)
         var currentConfig = normalizedConfig

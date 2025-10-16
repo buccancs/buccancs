@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.topdon.menu.R
 import com.topdon.menu.constant.TargetType
+import com.topdon.lib.core.R as CoreR
 
 @SuppressLint("NotifyDataSetChanged")
 internal class TargetAdapter : BaseMenuAdapter() {
@@ -35,11 +36,11 @@ internal class TargetAdapter : BaseMenuAdapter() {
     }
 
     private val dataArray: Array<Data> = arrayOf(
-        Data(R.string.main_tab_second_measure_mode, R.drawable.selector_menu2_target_1_person, TargetType.MODE),
-        Data(R.string.main_tab_first_target, R.drawable.selector_menu2_target_2_style, TargetType.STYLE),
-        Data(R.string.main_tab_second_target_color, R.drawable.selector_menu2_target_3_color, TargetType.COLOR),
-        Data(R.string.thermal_delete, R.drawable.selector_menu2_del, TargetType.DELETE),
-        Data(R.string.main_tab_second_target_help, R.drawable.selector_menu2_target_4_help, TargetType.HELP),
+        Data(CoreR.string.main_tab_second_measure_mode, R.drawable.selector_menu2_target_1_person, TargetType.MODE),
+        Data(CoreR.string.main_tab_first_target, R.drawable.selector_menu2_target_2_style, TargetType.STYLE),
+        Data(CoreR.string.main_tab_second_target_color, R.drawable.selector_menu2_target_3_color, TargetType.COLOR),
+        Data(CoreR.string.thermal_delete, R.drawable.selector_menu2_del, TargetType.DELETE),
+        Data(CoreR.string.main_tab_second_target_help, R.drawable.selector_menu2_target_4_help, TargetType.HELP),
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

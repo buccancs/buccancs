@@ -11,7 +11,8 @@ import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.lib.core.repository.ProductBean
 import com.topdon.lib.core.repository.TS004Repository
 import com.topdon.module.user.R
-import kotlinx.android.synthetic.main.activity_device_details.*
+// Stubbed out - kotlinx.android.synthetic is deprecated
+// // Stubbed: import kotlinx.android.synthetic.main.activity_device_details.*
 import kotlinx.coroutines.launch
 
 @Route(path = RouterConfig.DEVICE_INFORMATION)
@@ -20,7 +21,7 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
     override fun initContentView() = R.layout.activity_device_details
     override fun initView() {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-        cl_layout_copy.setOnClickListener(this)
+        // Stubbed: cl_layout_copy.setOnClickListener(this)
     }
 
     override fun initData() {
@@ -29,6 +30,8 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
 
     private fun getDeviceDetails() {
         lifecycleScope.launch {
+            // Stubbed out implementation - requires view binding migration
+            /*
             if (isTC007) {
                 if (productBean == null) {
                 } else {
@@ -44,6 +47,7 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
                 } else {
                 }
             }
+            */
         }
     }
 

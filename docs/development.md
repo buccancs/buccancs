@@ -71,9 +71,17 @@ or the `ANDROID_HOME` environment variable.
 
 ## Automation Aids
 
-- Earlier revisions included helper scripts such as `tools/perf/multi_device_stress.sh` and
-  `tools/tests/offline_recovery.sh`. Retrieve them from Git history or recreate equivalent runners using the flows
-  described in `docs/testing.md`.
-- Copilot auto-continuation tooling (formerly under `tools/automation/`) can be restored from history if you need to
-  bootstrap scripted prompt loops.
-- `docs/testing.md` remains the source of truth for manual and automated validation steps.
+- `automation/auto_continue.ps1` – PowerShell harness that replays continuation prompts, consumes queued instructions,
+  and logs agent output. See `docs/automation.md` for full setup.
+- `automation/auto_continue.sh` – Bash/WSL variant for the same workflow; can share queue and pause files with the
+  PowerShell harness when both point at the same Windows path.
+- `automation/configure_copilot_trust.ps1` – One-off helper that writes `C:\` into Copilot CLI’s trusted folders list so
+  the assistant can operate anywhere under the drive without repeated prompts.
+- `automation/templates/` – Ready-made prompt snippets (best-practice continuation, Codex review hand-off) you can copy
+  into the queue; see `docs/automation.md` for usage patterns.
+- `automation/logs/` – Session transcripts with prompts, responses, session IDs, and token usage (when `--show-usage`
+  is enabled).
+- `docs/tasks/active-plan.md` – The working plan for the current task; ensure it exists and stays current so automated
+  sessions always know the goal, acceptance criteria, risks, and parallelisable task lists.
+- `docs/testing.md` remains the source of truth for manual and automated validation steps, including how to recreate the
+  historical stress and recovery drills.

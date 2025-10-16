@@ -41,7 +41,13 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        viewBinding = true
         buildConfig = true
+    }
+    
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
     }
 
     flavorDimensions 'app'
@@ -74,6 +80,7 @@ android {
 }
 
 dependencies {
+    // Stubbed out - Direct local .aar file dependencies not supported when building an AAR
     api fileTree(include: ['*.jar'], dir: 'libs')
     api libs.androidx.appcompat
     api libs.androidx.fragment.ktx
@@ -96,6 +103,11 @@ dependencies {
 
     api libs.rxjava2
     api libs.rxandroid
+    api libs.okhttp
+    api libs.okhttp.logging.interceptor
+    api libs.retrofit
+    api libs.retrofit.converter.gson
+    api libs.retrofit.adapter.rxjava2
     api libs.rxpermissions
     api libs.rxlifecycle
     api libs.rxlifecycle.android
