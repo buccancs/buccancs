@@ -3,9 +3,11 @@ package com.buccancs.data.orchestration.discovery
 import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Base64
+import androidx.core.content.ContextCompat
 import com.buccancs.di.ApplicationScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +29,7 @@ class MdnsBrowser @Inject constructor(
     private val nsdManager = context.getSystemService(Context.NSD_SERVICE) as? NsdManager
         ?: throw IllegalStateException("NSD service not available")
     private val handler = Handler(Looper.getMainLooper())
+    private val resolveExecutor = ContextCompat.getMainExecutor(context)
     private val stateMutex = Mutex()
     private val _browsing = MutableStateFlow(false)
     val browsing: StateFlow<Boolean> = _browsing.asStateFlow()
@@ -103,30 +106,39 @@ class MdnsBrowser @Inject constructor(
     }
 
     private fun resolveService(info: NsdServiceInfo) {
-        handler.post {
-            nsdManager.resolveService(
-                info,
-                object : NsdManager.ResolveListener {
-                    override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
-                    }
+        val listener = object : NsdManager.ResolveListener {
+            override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
+            }
 
-                    override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-                        scope.launch {
-                            stateMutex.withLock {
-                                val entry = MdnsService(
-                                    name = serviceInfo.serviceName,
-                                    type = serviceInfo.serviceType,
-                                    host = serviceInfo.host,
-                                    port = serviceInfo.port,
-                                    attributes = encodeAttributes(serviceInfo.attributes)
-                                )
-                                discovered[serviceInfo.serviceName] = entry
-                                updateServices(discovered.values.toList())
-                            }
+            override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
+                scope.launch {
+                    stateMutex.withLock {
+                        val hostAddress = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            serviceInfo.hostAddresses.firstOrNull()
+                        } else {
+                            @Suppress("DEPRECATION")
+                            serviceInfo.host
                         }
+                        val entry = MdnsService(
+                            name = serviceInfo.serviceName,
+                            type = serviceInfo.serviceType,
+                            host = hostAddress,
+                            port = serviceInfo.port,
+                            attributes = encodeAttributes(serviceInfo.attributes)
+                        )
+                        discovered[serviceInfo.serviceName] = entry
+                        updateServices(discovered.values.toList())
                     }
                 }
-            )
+            }
+        }
+        handler.post {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                nsdManager.resolveService(info, resolveExecutor, listener)
+            } else {
+                @Suppress("DEPRECATION")
+                nsdManager.resolveService(info, listener)
+            }
         }
     }
 

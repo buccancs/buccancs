@@ -21,11 +21,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
+import com.buccancs.data.storage.SpaceState
+import com.buccancs.data.storage.SpaceStatus
+import com.buccancs.data.storage.SessionUsage
 import com.buccancs.domain.model.*
 import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.components.AnimatedTonalButton
@@ -36,10 +40,11 @@ import com.buccancs.ui.debug.ClockPanel
 import com.buccancs.ui.debug.EncoderPanel
 import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.LayoutPadding
-import com.buccancs.ui.theme.MotionTokens
-import com.buccancs.ui.theme.MotionTransitions
-import com.buccancs.ui.theme.Spacing
+import com.buccancs.ui.theme.*
 import java.util.*
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Instant
 
 @Composable
 fun LiveSessionRoute(
@@ -78,18 +83,36 @@ fun LiveSessionScreen(
                 title = { Text(text = "Live Session") },
                 colors = TopAppBarDefaults.topAppBarColors(),
                 actions = {
+                    val (syncIcon, syncLabel, syncColor) = when (state.syncStatus.quality) {
+                        TimeSyncQuality.GOOD -> Triple(
+                            Icons.Default.CheckCircle,
+                            "Synced",
+                            MaterialTheme.colorScheme.primary
+                        )
+
+                        TimeSyncQuality.FAIR -> Triple(
+                            Icons.Default.Cloud,
+                            "Syncing",
+                            MaterialTheme.colorScheme.tertiary
+                        )
+
+                        TimeSyncQuality.POOR -> Triple(
+                            Icons.Default.Warning,
+                            "Degraded",
+                            MaterialTheme.colorScheme.error
+                        )
+
+                        TimeSyncQuality.UNKNOWN -> Triple(
+                            Icons.Default.Help,
+                            "Unknown",
+                            MaterialTheme.colorScheme.outline
+                        )
+                    }
+
                     StatusIndicator(
-                        icon = when (state.syncStatus.quality.name.uppercase()) {
-                            "SYNCED" -> Icons.Default.CheckCircle
-                            "SYNCING" -> Icons.Default.Cloud
-                            else -> Icons.Default.Warning
-                        },
-                        label = state.syncStatus.quality.name,
-                        color = when (state.syncStatus.quality.name.uppercase()) {
-                            "SYNCED" -> MaterialTheme.colorScheme.primary
-                            "SYNCING" -> MaterialTheme.colorScheme.secondary
-                            else -> MaterialTheme.colorScheme.error
-                        }
+                        icon = syncIcon,
+                        label = syncLabel,
+                        color = syncColor
                     )
                 }
             )
@@ -117,6 +140,7 @@ fun LiveSessionScreen(
                     .fillMaxSize()
                     .testTag("live-list")
                     .padding(LayoutPadding.Screen),
+                contentPadding = PaddingValues(bottom = Spacing.Hero),
                 verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 item {
@@ -950,6 +974,175 @@ private fun formatBytes(bytes: Long): String {
     val digitGroups = (Math.log10(bytes.toDouble()) / Math.log10(1024.0)).toInt()
     val value = bytes / Math.pow(1024.0, digitGroups.toDouble())
     return String.format(Locale.US, "%.1f %s", value, units[digitGroups])
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFF6F1FF)
+@Composable
+private fun LiveSessionScreenPreview() {
+    BuccancsTheme {
+        LiveSessionScreen(
+            state = previewLiveSessionState(),
+            onAddBookmark = {},
+            onTriggerStimulus = {}
+        )
+    }
+}
+
+private fun previewLiveSessionState(): LiveSessionUiState {
+    val now = Instant.fromEpochMilliseconds(1_700_000_000_000)
+    val rgbCamera = DeviceId("rgb-camera")
+    val thermalCamera = DeviceId("topdon-thermal")
+
+    return LiveSessionUiState.initial().copy(
+        recording = RecordingState(
+            lifecycle = RecordingLifecycleState.Recording,
+            anchor = RecordingSessionAnchor(
+                sessionId = "session-042",
+                referenceTimestamp = now - 4.minutes,
+                sharedClockOffsetMillis = -3
+            ),
+            updatedAt = now
+        ),
+        streams = listOf(
+            SensorStreamStatus(
+                deviceId = rgbCamera,
+                streamType = SensorStreamType.RGB_VIDEO,
+                sampleRateHz = 30.0,
+                frameRateFps = 30.0,
+                lastSampleTimestamp = now,
+                bufferedDurationSeconds = 1.4,
+                isStreaming = true,
+                isSimulated = false
+            ),
+            SensorStreamStatus(
+                deviceId = thermalCamera,
+                streamType = SensorStreamType.THERMAL_VIDEO,
+                sampleRateHz = 30.0,
+                frameRateFps = 24.0,
+                lastSampleTimestamp = now - 1.seconds,
+                bufferedDurationSeconds = 0.8,
+                isStreaming = true,
+                isSimulated = false
+            )
+        ),
+        devices = listOf(
+            SensorDevice(
+                id = rgbCamera,
+                displayName = "Phone RGB Camera",
+                type = SensorDeviceType.ANDROID_RGB_CAMERA,
+                capabilities = setOf(SensorStreamType.RGB_VIDEO, SensorStreamType.PREVIEW),
+                connectionStatus = ConnectionStatus.Connected(now - 6.minutes),
+                isSimulated = false,
+                attributes = mapOf("Battery" to "82%")
+            ),
+            SensorDevice(
+                id = thermalCamera,
+                displayName = "Topdon TC001",
+                type = SensorDeviceType.TOPDON_TC001,
+                capabilities = setOf(SensorStreamType.THERMAL_VIDEO, SensorStreamType.PREVIEW),
+                connectionStatus = ConnectionStatus.Connected(now - 5.minutes),
+                isSimulated = false
+            )
+        ),
+        syncStatus = TimeSyncStatus(
+            offsetMillis = 3,
+            roundTripMillis = 9,
+            lastSync = now - 2.seconds,
+            driftEstimateMillisPerMinute = 0.4,
+            filteredRoundTripMillis = 12.0,
+            quality = TimeSyncQuality.FAIR,
+            sampleCount = 18,
+            regressionSlopeMillisPerMinute = 0.1
+        ),
+        syncHistory = listOf(
+            TimeSyncObservation(now - 15.seconds, 3.2, 11.0),
+            TimeSyncObservation(now - 5.seconds, 2.4, 9.5),
+            TimeSyncObservation(now, 2.0, 8.7)
+        ),
+        uploads = listOf(
+            UploadStatus(
+                sessionId = "session-042",
+                deviceId = rgbCamera,
+                streamType = SensorStreamType.RGB_VIDEO,
+                fileName = "rgb_segment_01.mp4",
+                bytesTotal = 512_000_000,
+                bytesTransferred = 260_000_000,
+                attempt = 1,
+                state = UploadState.IN_PROGRESS
+            )
+        ),
+        recoveries = listOf(
+            UploadRecoveryRecord(
+                sessionId = "session-041",
+                deviceId = thermalCamera,
+                streamType = SensorStreamType.THERMAL_VIDEO,
+                attempt = 2,
+                state = UploadState.FAILED,
+                timestamp = now - 45.seconds,
+                bytesTransferred = 120_000_000,
+                bytesTotal = 200_000_000,
+                network = NetworkSnapshot(
+                    connected = true,
+                    transport = "WIFI",
+                    metered = false
+                ),
+                errorMessage = "Connection dropped"
+            )
+        ),
+        backlog = UploadBacklogState(
+            level = UploadBacklogLevel.WARNING,
+            queuedCount = 3,
+            queuedBytes = 1_500_000_000,
+            message = "Uploads pending",
+            perSessionQueued = mapOf("session-042" to 2),
+            perSessionBytes = mapOf("session-042" to 900_000_000L)
+        ),
+        events = listOf(
+            DeviceEvent(
+                id = "event-1",
+                type = DeviceEventType.STIMULUS,
+                label = "Stimulus: Flash",
+                scheduledAt = now - 30.seconds,
+                receivedAt = now - 29.seconds
+            ),
+            DeviceEvent(
+                id = "event-2",
+                type = DeviceEventType.COMMAND,
+                label = "Start Recording",
+                scheduledAt = now - 4.minutes,
+                receivedAt = now - 4.minutes
+            )
+        ),
+        bookmarks = listOf(
+            RecordingBookmark(
+                id = "bookmark-1",
+                label = "Interesting event",
+                timestamp = now - 25.seconds,
+                createdAt = now - 25.seconds
+            )
+        ),
+        storage = SpaceState(
+            totalBytes = 128L * 1024 * 1024 * 1024,
+            usedBytes = 72L * 1024 * 1024 * 1024,
+            availableBytes = 56L * 1024 * 1024 * 1024,
+            status = SpaceStatus.WARNING,
+            sessions = listOf(
+                SessionUsage(
+                    sessionId = "session-040",
+                    bytes = 32L * 1024 * 1024 * 1024,
+                    lastModifiedEpochMs = now.toEpochMilliseconds() - 86_400_000
+                )
+            )
+        ),
+        simulationEnabled = false,
+        stimulus = StimulusState(
+            hasExternalDisplay = false,
+            activeCue = StimulusCue.preview(),
+            activeCueEndsAtEpochMs = now.toEpochMilliseconds() + 3_000,
+            lastCue = StimulusCue.preview()
+        ),
+        throttleLevel = PerformanceThrottleLevel.NORMAL
+    )
 }
 
 @Composable
