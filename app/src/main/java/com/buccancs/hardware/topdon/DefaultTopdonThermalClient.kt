@@ -387,11 +387,11 @@ class DefaultTopdonThermalClient @Inject constructor(
             serialNumber = safeSerialNumber(device),
             sinceEpochMs = connectedSinceEpochMs
         )
-        if (previewEnabled || streamingEnabled) {
-            withContext(Dispatchers.Main) {
-                uvcCamera?.setFrameCallback(frameCallback)
-                uvcCamera?.onStartPreview()
-            }
+        // Auto-start preview after connection for immediate feedback
+        previewEnabled = true
+        withContext(Dispatchers.Main) {
+            uvcCamera?.setFrameCallback(frameCallback)
+            uvcCamera?.onStartPreview()
         }
     }
 
