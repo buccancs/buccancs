@@ -47,7 +47,9 @@ protobuf {
                 id("grpckotlin")
             }
             builtins {
-                id("kotlin")
+                // Ensure both Java and Kotlin sources exist while avoiding duplicate registration
+                runCatching { getByName("java") }.getOrElse { id("java") }
+                runCatching { getByName("kotlin") }.getOrElse { id("kotlin") }
             }
         }
     }
@@ -58,11 +60,18 @@ tasks.withType<Test>().configureEach {
 }
 
 tasks.withType<GenerateProtoTask>().configureEach {
+    val protoBaseDirProvider = layout.buildDirectory.dir("generated/sources/proto/${sourceSet.name}")
+    val kotlinOutputDirProvider = protoBaseDirProvider.map { it.dir("kotlin") }
+    val projectDir = project.projectDir
+
+    doFirst {
+        val protoBaseDir = protoBaseDirProvider.get().asFile
+        listOf("java", "kotlin", "grpc", "grpckotlin").forEach { subDir ->
+            protoBaseDir.resolve(subDir).mkdirs()
+        }
+    }
     doLast {
-        val kotlinOutputDir = project.layout.buildDirectory
-            .dir("generated/sources/proto/${sourceSet.name}/kotlin")
-            .get()
-            .asFile
+        val kotlinOutputDir = kotlinOutputDirProvider.get().asFile
         if (!kotlinOutputDir.exists()) return@doLast
         kotlinOutputDir.walkTopDown()
             .filter { it.isFile && it.extension == "kt" }
@@ -88,7 +97,7 @@ tasks.withType<GenerateProtoTask>().configureEach {
                 val fixed = sanitizedLines.joinToString("\n")
                 if (changed && fixed != original) {
                     file.writeText(fixed)
-                    logger.info("Sanitized protobuf Kotlin DSL in ${file.relativeTo(project.projectDir)}")
+                    logger.info("Sanitized protobuf Kotlin DSL in ${file.relativeTo(projectDir)}")
                 }
             }
     }

@@ -38,9 +38,6 @@ android {
 
             // Include all resource directories (matching original Shimmer structure)
             res.srcDirs(
-                "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/src/main/res/layouts/fragments",
-                "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/src/main/res/layouts/general",
-                "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/src/main/res/layouts",
                 "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/src/main/res"
             )
             // Include JAR libs
