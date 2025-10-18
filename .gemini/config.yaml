@@ -17,7 +17,7 @@ code_review:
     include_drafts: true
 
 ignore_patterns:
-  - "**/*.md"
+  # Allow Markdown so Gemini can read AGENTS.md instructions.
   - "**/*.tex"
   - "**/*.latex"
   - "docs/**"

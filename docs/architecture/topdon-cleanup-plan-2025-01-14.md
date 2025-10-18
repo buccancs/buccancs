@@ -1,5 +1,5 @@
 **Last Modified:** 2025-01-14 04:41 UTC  
-**Modified By:** GitHub Copilot CLI  
+**Modified By:** Copilot CLI  
 **Document Type:** Cleanup Plan
 
 # Topdon External Code Cleanup Plan
@@ -242,7 +242,7 @@ commonlibrary/        3 files  (0%)   - Utilities
 
 ### Rollback Plan
 
-1. Keep external/ directory in git history
+1. Keep external/ directory in the repository history
 2. Create backup tarball before deletion
 3. Tag current commit before cleanup
 4. Test thoroughly before committing

@@ -8,6 +8,9 @@ The repository contains the Android application, desktop orchestration tools, sh
 automation scripts that support laboratory and field data collection. The software currently operates as an
 engineering prototype (~88% feature complete) with outstanding validation on physical hardware.
 
+For contributor workflows, environment setup, testing expectations, and automation usage, follow the consolidated
+guidance in `AGENTS.md`, which supersedes older documents.
+
 ## Quick Start
 
 1. Install Java Development Kit 21 and the Android SDK (platform 36, build tools 36.1).
@@ -35,6 +38,7 @@ Additional setup details, `local.properties` guidance, and troubleshooting notes
 ## Documentation
 
 - `docs/readme.md` – Documentation index and navigation
+- `docs/status/status-2025-10-17.md` – Latest consolidated build/testing/UI/manifest snapshot with archive pointers
 - `docs/system-overview.md` – Architecture, data flow, and platform capabilities
 - `docs/automation.md` – Auto-continue harness for unattended CLI sessions
 - `docs/requirements.md` – Functional and non-functional targets with delivery status

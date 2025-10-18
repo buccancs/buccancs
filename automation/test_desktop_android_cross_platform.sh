@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Cross-platform automated desktop-Android connection test
-# Works on: macOS, Linux, Windows (Git Bash/WSL)
+# Works on: macOS, Linux, Windows (WSL)
 
 set -e
 
@@ -58,7 +58,7 @@ get_android_sdk() {
             fi
             ;;
         windows)
-            # Windows paths (Git Bash)
+            # Windows paths
             if [[ -d "$LOCALAPPDATA/Android/Sdk" ]]; then
                 echo "$LOCALAPPDATA/Android/Sdk"
                 return 0

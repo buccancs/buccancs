@@ -1,16 +1,18 @@
 # Documentation Index
 
 This directory now contains a curated, lightweight documentation set for the BuccanCS platform. Start with the system
-overview for a conceptual grounding, then dip into the development, testing, or contributing guides as needed.
+overview for a conceptual grounding, then consult `AGENTS.md` for the ground-truth contributor playbook before diving
+into module-specific references.
 
 ## Document Map
 
 - `system-overview.md` – Purpose of the platform, component architecture, and data flow at a glance
-- `automation.md` – Auto-continue harness for Copilot/Gemini CLI and custom agents
+- `status/status-2025-10-17.md` – Consolidated build, automation, UI, and manifest snapshot (archived reports linked within)
+- `automation.md` – Auto-continue harness details (supplements automation section in `AGENTS.md`)
 - `requirements.md` – Functional and non-functional targets with current delivery status
-- `development.md` – Environment prerequisites, build commands, and day-to-day workflows
-- `testing.md` – Automated coverage, manual drills, telemetry capture, and troubleshooting tips
-- `contributing.md` – Coding conventions, documentation rules, and collaboration expectations
+- `development.md` – Extended environment notes and troubleshooting (see `AGENTS.md` for canonical checklist)
+- `testing.md` – Manual drill instructions and artefact references (expectations defined in `AGENTS.md`)
+- `contributing.md` – Historical guidance; all active policies live in `AGENTS.md`
 - `tasks/` – Active and archived task plans (see `tasks/README.md`)
 - `latex/` – Thesis chapters and academic artefacts (retained for reference, unchanged)
 

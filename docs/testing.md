@@ -3,6 +3,9 @@
 BuccanCS ships with automated test suites and targeted manual drills that ensure multi-device recording remains stable.
 Use this guide to plan coverage, run stress scenarios, and capture the right artefacts for debugging.
 
+> Refer to `AGENTS.md` for the canonical testing expectations and contributor checklist. This document expands on those
+> requirements with drill instructions and artefact references.
+
 ## Automated Tests
 
 - **Unit tests:** `gradlew.bat :app:testDebugUnitTest` and `gradlew.bat :desktop:test`. These cover Result-pattern
@@ -29,7 +32,7 @@ Validates the stereo calibration wizard end-to-end:
 
 ### Multi-Device Stress Test
 
-Restore the historical harness (`tools/perf/multi_device_stress.sh`) from Git history or recreate its flow manually:
+Restore the historical harness (`tools/perf/multi_device_stress.sh`) from the repository history or recreate its flow manually:
 
 1. Ensure each agent is visible in the desktop dashboard.
 2. For automated runs, reintroduce the shell script and supply orchestrator host/port, session name, duration, run count,
@@ -54,7 +57,7 @@ Simulates a mid-upload network loss:
 ## Telemetry and Logs
 
 - **Performance metrics:** Harvested per agent as NDJSON (`performance_metrics.jsonl`); analyse with a notebook or the
-  historical helper script (`tools/perf/analyze_metrics.py`) restored from Git history.
+  historical helper script (`tools/perf/analyze_metrics.py`) restored from the repository history.
 - **Backlog telemetry:** `backlog_telemetry.jsonl` records warning/critical transitions for upload queues.
 - **Upload recovery:** `upload_recovery.jsonl` documents state, network conditions, failed attempts, and retries.
 - **Session manifests:** Under each session folder, summarising device participation, timestamps, and artefact URIs.

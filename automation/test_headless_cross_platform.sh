@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Cross-platform headless command infrastructure test
-# Works on: macOS, Linux, Windows (Git Bash/WSL)
+# Works on: macOS, Linux, Windows (WSL)
 
 set -e
 

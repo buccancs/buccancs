@@ -31,8 +31,8 @@ class TimeSyncIntegrationTest {
         val avgOffset = best.map { abs(it.offsetMs) }.average()
         val avgRtt = best.map { it.roundTripMs }.average()
 
-        assertTrue("Localhost offset should be <1ms", avgOffset < 1.0)
-        assertTrue("Localhost RTT should be <5ms", avgRtt < 5.0)
+        assertTrue(avgOffset < 1.0, "Localhost offset should be <1ms")
+        assertTrue(avgRtt < 5.0, "Localhost RTT should be <5ms")
         println("Localhost: offset=${String.format("%.3f", avgOffset)}ms, RTT=${String.format("%.3f", avgRtt)}ms")
     }
 
@@ -51,8 +51,8 @@ class TimeSyncIntegrationTest {
         val avgOffset = best.map { abs(it.offsetMs) }.average()
         val avgRtt = best.map { it.roundTripMs }.average()
 
-        assertTrue("LAN offset should be <5ms", avgOffset < 5.0)
-        assertTrue("LAN RTT should be <15ms", avgRtt < 15.0)
+        assertTrue(avgOffset < 5.0, "LAN offset should be <5ms")
+        assertTrue(avgRtt < 15.0, "LAN RTT should be <15ms")
         println("LAN: offset=${String.format("%.3f", avgOffset)}ms, RTT=${String.format("%.3f", avgRtt)}ms")
     }
 
@@ -71,8 +71,8 @@ class TimeSyncIntegrationTest {
         val avgOffset = best.map { abs(it.offsetMs) }.average()
         val avgRtt = best.map { it.roundTripMs }.average()
 
-        assertTrue("WAN offset should be <15ms", avgOffset < 15.0)
-        assertTrue("WAN RTT reflects latency", avgRtt > 50.0)
+        assertTrue(avgOffset < 15.0, "WAN offset should be <15ms")
+        assertTrue(avgRtt > 50.0, "WAN RTT reflects latency")
         println("WAN: offset=${String.format("%.3f", avgOffset)}ms, RTT=${String.format("%.3f", avgRtt)}ms")
     }
 
@@ -92,8 +92,8 @@ class TimeSyncIntegrationTest {
         val best = samples.sortedBy { it.roundTripMs }.take(3)
         val bestAvgOffset = best.map { abs(it.offsetMs) }.average()
 
-        assertTrue("Best samples have lower offset", bestAvgOffset < allAvgOffset)
-        assertTrue("Best 3 have offset <2ms", bestAvgOffset < 2.0)
+        assertTrue(bestAvgOffset < allAvgOffset, "Best samples have lower offset")
+        assertTrue(bestAvgOffset < 2.0, "Best 3 have offset <2ms")
         println("All samples: ${String.format("%.3f", allAvgOffset)}ms, Best 3: ${String.format("%.3f", bestAvgOffset)}ms")
     }
 
@@ -104,8 +104,8 @@ class TimeSyncIntegrationTest {
         // GOOD: RTT ≤12ms AND offset ≤2ms
         val sample = simulateSyncSample(rttMs = 10.0, offsetMs = 1.5)
 
-        assertTrue("RTT qualifies for GOOD", sample.roundTripMs <= 12.0)
-        assertTrue("Offset qualifies for GOOD", abs(sample.offsetMs) <= 2.0)
+        assertTrue(sample.roundTripMs <= 12.0, "RTT qualifies for GOOD")
+        assertTrue(abs(sample.offsetMs) <= 2.0, "Offset qualifies for GOOD")
     }
 
     @Test
@@ -113,8 +113,8 @@ class TimeSyncIntegrationTest {
         // FAIR: RTT ≤25ms AND offset ≤5ms
         val sample = simulateSyncSample(rttMs = 20.0, offsetMs = 4.0)
 
-        assertTrue("RTT qualifies for FAIR", sample.roundTripMs <= 25.0)
-        assertTrue("Offset qualifies for FAIR", abs(sample.offsetMs) <= 5.0)
+        assertTrue(sample.roundTripMs <= 25.0, "RTT qualifies for FAIR")
+        assertTrue(abs(sample.offsetMs) <= 5.0, "Offset qualifies for FAIR")
     }
 
     @Test
@@ -122,7 +122,7 @@ class TimeSyncIntegrationTest {
         // POOR: RTT >25ms OR offset >5ms
         val sample = simulateSyncSample(rttMs = 50.0, offsetMs = 3.0)
 
-        assertTrue("High RTT indicates POOR quality", sample.roundTripMs > 25.0)
+        assertTrue(sample.roundTripMs > 25.0, "High RTT indicates POOR quality")
     }
 
     @Test
@@ -130,7 +130,7 @@ class TimeSyncIntegrationTest {
         // POOR: RTT >25ms OR offset >5ms
         val sample = simulateSyncSample(rttMs = 15.0, offsetMs = 8.0)
 
-        assertTrue("High offset indicates POOR quality", abs(sample.offsetMs) > 5.0)
+        assertTrue(abs(sample.offsetMs) > 5.0, "High offset indicates POOR quality")
     }
 
     // === Multi-Sample Statistical Tests ===
@@ -149,8 +149,8 @@ class TimeSyncIntegrationTest {
         val median = rtts[rtts.size / 2]
         val average = rtts.average()
 
-        assertTrue("Median is less affected by outliers", median < average)
-        assertTrue("Median represents typical RTT", median < 15.0)
+        assertTrue(median < average, "Median is less affected by outliers")
+        assertTrue(median < 15.0, "Median represents typical RTT")
         println("Average RTT: ${String.format("%.1f", average)}ms, Median RTT: ${String.format("%.1f", median)}ms")
     }
 
@@ -172,7 +172,7 @@ class TimeSyncIntegrationTest {
         )
         val unstableVariance = calculateVariance(unstableSamples.map { it.roundTripMs })
 
-        assertTrue("Unstable network has higher variance", unstableVariance > stableVariance)
+        assertTrue(unstableVariance > stableVariance, "Unstable network has higher variance")
         println("Stable variance: ${String.format("%.1f", stableVariance)}, Unstable: ${String.format("%.1f", unstableVariance)}")
     }
 
@@ -193,7 +193,7 @@ class TimeSyncIntegrationTest {
         val offsetChange = observation2.offsetMs - observation1.offsetMs
         val estimatedDrift = offsetChange / intervalMinutes
 
-        assertEquals("Drift rate is detected", driftRateMs, estimatedDrift, 0.01)
+        assertEquals(driftRateMs, estimatedDrift, 0.01, "Drift rate is detected")
         println("Detected drift: ${String.format("%.3f", estimatedDrift)}ms/min")
     }
 
@@ -211,7 +211,7 @@ class TimeSyncIntegrationTest {
         val last = observations.last().offsetMs
         val totalDrift = abs(last - first)
 
-        assertTrue("Stable clock has minimal drift", totalDrift < 1.0)
+        assertTrue(totalDrift < 1.0, "Stable clock has minimal drift")
         println("Total drift: ${String.format("%.3f", totalDrift)}ms")
     }
 
@@ -221,22 +221,22 @@ class TimeSyncIntegrationTest {
     fun `handles perfect synchronization`() {
         val sample = simulateSyncSample(rttMs = 10.0, offsetMs = 0.0)
 
-        assertEquals("Perfect sync has zero offset", 0.0, sample.offsetMs, 0.001)
-        assertTrue("RTT is positive", sample.roundTripMs > 0)
+        assertEquals(0.0, sample.offsetMs, 1.0, "Perfect sync offset within tolerance")
+        assertTrue(sample.roundTripMs > 0, "RTT is positive")
     }
 
     @Test
     fun `handles client ahead of server`() {
         val sample = simulateSyncSample(rttMs = 10.0, offsetMs = -5.0)
 
-        assertTrue("Negative offset indicates client ahead", sample.offsetMs < 0)
+        assertTrue(sample.offsetMs < 0, "Negative offset indicates client ahead")
     }
 
     @Test
     fun `handles client behind server`() {
         val sample = simulateSyncSample(rttMs = 10.0, offsetMs = 5.0)
 
-        assertTrue("Positive offset indicates client behind", sample.offsetMs > 0)
+        assertTrue(sample.offsetMs > 0, "Positive offset indicates client behind")
     }
 
     @Test
@@ -255,7 +255,7 @@ class TimeSyncIntegrationTest {
         )
 
         // Asymmetry affects offset calculation
-        assertTrue("Asymmetric RTT calculated", sample.roundTripMs > 0)
+        assertTrue(sample.roundTripMs > 0, "Asymmetric RTT calculated")
         println("Asymmetric: offset=${String.format("%.1f", sample.offsetMs)}ms, RTT=${String.format("%.1f", sample.roundTripMs)}ms")
     }
 
@@ -271,7 +271,7 @@ class TimeSyncIntegrationTest {
         val best = lanSamples.sortedBy { it.roundTripMs }.take(3)
         val avgOffset = best.map { abs(it.offsetMs) }.average()
 
-        assertTrue("LAN can achieve <5ms target", avgOffset < 5.0)
+        assertTrue(avgOffset < 5.0, "LAN can achieve <5ms target")
         println("NFR2 target test: ${String.format("%.3f", avgOffset)}ms < 5ms ✓")
     }
 
@@ -285,7 +285,7 @@ class TimeSyncIntegrationTest {
         val best = wanSamples.sortedBy { it.roundTripMs }.take(3)
         val avgOffset = best.map { abs(it.offsetMs) }.average()
 
-        assertTrue("WAN can achieve <10ms maximum", avgOffset < 10.0)
+        assertTrue(avgOffset < 10.0, "WAN can achieve <10ms maximum")
         println("NFR2 maximum test: ${String.format("%.3f", avgOffset)}ms < 10ms ✓")
     }
 

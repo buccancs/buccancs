@@ -1,5 +1,5 @@
 **Last Modified:** 2025-01-14 04:52 UTC  
-**Modified By:** GitHub Copilot CLI  
+**Modified By:** Copilot CLI  
 **Document Type:** Dependency Analysis
 
 # Topdon Actual Dependencies
@@ -239,9 +239,7 @@ cp external/original-topdon-app/libir/libs/opengl_1.3.2_standard.aar \
 rm -rf external/original-topdon-app/
 
 # 8. Commit changes
-git add app/libs/*.aar app/build.gradle.kts settings.gradle.kts
-git rm -r external/original-topdon-app
-git commit -m "refactor: extract minimal Topdon SDK (2 AARs, 99.99% reduction)"
+<!-- Version-control commands intentionally omitted -->
 ```
 
 ## Verification Checklist

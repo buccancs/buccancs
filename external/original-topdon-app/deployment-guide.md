@@ -182,10 +182,7 @@ time ./gradlew :app:assembleDevDebug --no-daemon
 
 ### If Issues Found
 
-1. **Critical bugs:** Revert to original XML version
-   ```bash
-   git checkout HEAD~1 -- app/src/main/java/com/topdon/tc001/MainActivity.kt
-   ```
+1. **Critical bugs:** Revert to the previous XML implementation of `app/src/main/java/com/topdon/tc001/MainActivity.kt` using your version-control history.
 
 2. **Performance issues:** Profile and optimize
     - Use Compose Compiler Reports
@@ -265,7 +262,7 @@ Check image paths
 
 ### Contact
 
-- Original migration: GitHub Copilot CLI
+- Original migration: Copilot CLI
 - Date: 2025-10-15
 - Status: 90% complete, production-ready core
 

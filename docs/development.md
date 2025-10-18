@@ -3,6 +3,9 @@
 Follow this guide to provision a workstation, build the modules, and exercise the platform during day-to-day
 development.
 
+> Canonical contributor guidance now lives in `AGENTS.md`. Use this document for extended setup notes and troubleshooting
+> detail that complement the ground-truth checklist.
+
 ## Prerequisites
 
 - **Java:** JDK 21 (set `JAVA_HOME` accordingly; verify with `java -version`).
@@ -11,11 +14,11 @@ development.
 - **Gradle Wrapper:** Use the repository-provided wrapper (`gradlew`/`gradlew.bat`) rather than a global install.
 - **Android Studio / IntelliJ IDEA:** Recommended for editing and Compose previews.
 - **Platform Tools:** `adb`, `grpcurl`, and `python3` for device management and automation scripts.
-- **Optional:** WSL for Git and scripting; run Gradle builds natively on Windows to avoid WSL filesystem issues.
+- **Optional:** WSL for scripting; run Gradle builds natively on Windows to avoid WSL filesystem issues.
 
 ## Repository Setup
 
-1. Clone the repository and install Git LFS if you intend to update SDK artefacts.
+1. Clone the repository and install the configured large-file storage tooling if you intend to update SDK artefacts.
 2. Copy or create `local.properties` with `sdk.dir` pointing at your Android SDK location (already tracked for the
    canonical Windows path).
 3. Open the project in Android Studio or IntelliJ; allow the IDE to import Gradle settings.
@@ -54,7 +57,7 @@ or the `ANDROID_HOME` environment variable.
 - **Desktop orchestrator:** Execute `gradlew.bat :desktop:run`. The app discovers agents via mDNS, displays status
   panels, and exposes session controls. Use matching protobuf versions to avoid gRPC negotiation issues.
 - **Sensor tooling:** Utilities under `shimmer/` cover vendor workflows; tutorials for the removed `tools/` helpers can be
-  recovered from Git history if you need the original automation scripts.
+  recovered from the repository history if you need the original automation scripts.
 
 ## Troubleshooting
 

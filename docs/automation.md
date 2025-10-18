@@ -2,6 +2,9 @@
 
 This harness keeps Copilot CLI, Codex CLI, Gemini CLI, or any compatible agent moving while you are away from the keyboard. It provides two thin wrappers—one for native PowerShell on Windows, one for WSL/Linux shells—that invoke the agent, feed prompts, log responses, and stop when human input is required.
 
+> Overview, safety requirements, and approval policies for automation usage are centralised in `AGENTS.md`. Use this
+> document for operational detail and command references.
+
 ## Features
 
 - Replays a default continuation prompt or consumes queued prompt files.
@@ -27,6 +30,7 @@ Ensure these paths remain under `automation/` so both harnesses can find them.
 ## Pre-Flight Setup
 
 - **Copilot CLI trust zone:** Run `pwsh automation/configure_copilot_trust.ps1` once so `C:\` and its subdirectories are trusted.
+- **Repository instructions:** Every agent session must read and follow `AGENTS.md`. The automation harness assumes those rules are in force for Codex, Copilot, and Gemini.
 - **Default Copilot permissions:** Command templates include `--allow-all-paths` and `--allow-all-tools`, letting Copilot read/write the workspace and launch helper binaries.
 - **Default prompt template:** The harness loads `automation/templates/default-prompt.txt`, which first enforces planning in `docs/tasks/active-plan.md` (objective, acceptance criteria, risks, parallelisable task lists) and then reminds the agent to respect Jetpack Compose + Material 3 and clean architecture conventions, fix build errors/warnings, and add/update tests.
 - **Codex CLI full approval:** When you run Codex CLI, include its full-approval switch (for example, `codex run --approval-policy full …`) in the command template.
@@ -88,5 +92,5 @@ The harness prints the path to the latest session log before shutting down so yo
 ## Tips
 
 - Keep `docs/tasks/active-plan.md` current—the default prompt expects it to describe the active goal, acceptance criteria, risks, and task lists.
-- Enqueue `automation/templates/codex-review.txt` to stage every change (`git add --all`), request a Codex review, and append the feedback to the session log.
+- Enqueue `automation/templates/codex-review.txt` to capture feedback, request a Codex review, and append the response to the session log.
 - Review the logs in `automation/logs/` to see the entire conversation, token usage, and session IDs.

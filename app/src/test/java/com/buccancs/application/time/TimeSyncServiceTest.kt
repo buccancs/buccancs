@@ -8,9 +8,10 @@ import com.buccancs.domain.model.OrchestratorConfig
 import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus
 import com.buccancs.domain.repository.OrchestratorConfigRepository
-import io.grpc.Channel
+import io.grpc.ManagedChannel
 import io.mockk.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
@@ -36,7 +37,7 @@ class TimeSyncServiceTest {
     private lateinit var channelFactory: GrpcChannelFactory
     private lateinit var identityProvider: DeviceIdentityProvider
     private lateinit var service: DefaultTimeSyncService
-    private lateinit var mockChannel: Channel
+    private lateinit var mockChannel: ManagedChannel
     private lateinit var mockStub: TimeSyncServiceGrpcKt.TimeSyncServiceCoroutineStub
 
     private val testConfig = OrchestratorConfig(
@@ -56,7 +57,7 @@ class TimeSyncServiceTest {
 
         every { identityProvider.deviceId() } returns "test-device-001"
         every { configRepository.config } returns MutableStateFlow(testConfig)
-        every { channelFactory.channel(testConfig) } returns mockChannel
+        coEvery { channelFactory.channel(testConfig) } returns mockChannel
 
         service = DefaultTimeSyncService(
             scope = scope,
@@ -129,9 +130,9 @@ class TimeSyncServiceTest {
         
         // This is more of a documentation test to ensure
         // we understand the quality thresholds
-        assertTrue("GOOD threshold is defined", true)
-        assertTrue("FAIR threshold is defined", true)
-        assertTrue("POOR threshold is defined", true)
+        assertTrue(true, "GOOD threshold is defined")
+        assertTrue(true, "FAIR threshold is defined")
+        assertTrue(true, "POOR threshold is defined")
     }
 
     // === State Flow Tests ===
@@ -165,12 +166,12 @@ class TimeSyncServiceTest {
 
     @Test
     fun `service uses provided orchestrator config`() = runTest {
-        verify(exactly = 0) { channelFactory.channel(any()) }
+        coVerify(exactly = 0) { channelFactory.channel(any()) }
 
         // Config should be read but channel not created until sync
         every { configRepository.config } returns MutableStateFlow(testConfig)
         
-        assertTrue("Config is provided", testConfig.host == "localhost")
+        assertTrue(testConfig.host == "localhost", "Config is provided")
     }
 
     @Test
@@ -187,14 +188,14 @@ class TimeSyncServiceTest {
     fun `service handles missing configuration gracefully`() = runTest {
         // Service should handle configuration errors
         // This is tested implicitly through the error handling in performSync
-        assertTrue("Service handles errors", true)
+        assertTrue(true, "Service handles errors")
     }
 
     @Test
     fun `service handles network failures gracefully`() = runTest {
         // Network failures should be caught and status updated
         // This requires mocking the gRPC call to throw an exception
-        assertTrue("Service handles network errors", true)
+        assertTrue(true, "Service handles network errors")
     }
 
     // === Multi-Sample Tests ===
@@ -206,8 +207,8 @@ class TimeSyncServiceTest {
         val sampleCount = 5
         val bestSampleCount = 3
 
-        assertTrue("Sample count is defined", sampleCount == 5)
-        assertTrue("Best sample count is defined", bestSampleCount == 3)
+        assertTrue(sampleCount == 5, "Sample count is defined")
+        assertTrue(bestSampleCount == 3, "Best sample count is defined")
     }
 
     @Test
@@ -215,7 +216,7 @@ class TimeSyncServiceTest {
         // Service should delay SAMPLE_DELAY_MS (100ms) between samples
         val sampleDelayMs = 100L
 
-        assertTrue("Sample delay is defined", sampleDelayMs == 100L)
+        assertTrue(sampleDelayMs == 100L, "Sample delay is defined")
     }
 
     // === History Management Tests ===
@@ -225,7 +226,7 @@ class TimeSyncServiceTest {
         // Service maintains MAX_HISTORY (100) observations
         val maxHistory = 100
 
-        assertTrue("Max history is defined", maxHistory == 100)
+        assertTrue(maxHistory == 100, "Max history is defined")
     }
 
     @Test
@@ -264,7 +265,7 @@ class TimeSyncServiceTest {
         // SYNC_INTERVAL_MS should be 60,000ms (60 seconds)
         val syncIntervalMs = 60_000L
 
-        assertTrue("Sync interval is 60 seconds", syncIntervalMs == 60_000L)
+        assertTrue(syncIntervalMs == 60_000L, "Sync interval is 60 seconds")
     }
 
     @Test
@@ -272,7 +273,7 @@ class TimeSyncServiceTest {
         // RETRY_INTERVAL_MS should be 5,000ms (5 seconds)
         val retryIntervalMs = 5_000L
 
-        assertTrue("Retry interval is 5 seconds", retryIntervalMs == 5_000L)
+        assertTrue(retryIntervalMs == 5_000L, "Retry interval is 5 seconds")
     }
 
     // === Timestamp Tests ===
@@ -288,7 +289,7 @@ class TimeSyncServiceTest {
     fun `observations include timestamp`() = runTest {
         // TimeSyncObservation should include timestamp
         // This is verified through the data model
-        assertTrue("Observations have timestamps", true)
+        assertTrue(true, "Observations have timestamps")
     }
 
     // === Offset and RTT Tests ===
@@ -298,15 +299,14 @@ class TimeSyncServiceTest {
         val status = service.status.value
 
         // Initial offset should be 0 (no sync yet)
-        assertTrue("Initial offset defined", status.offsetMillis == 0L)
+        assertTrue(status.offsetMillis == 0L, "Initial offset defined")
     }
 
     @Test
     fun `initial filtered RTT is infinite`() = runTest {
         val status = service.status.value
 
-        assertTrue("Initial filtered RTT is infinite", 
-            status.filteredRoundTripMillis.isInfinite())
+        assertTrue(status.filteredRoundTripMillis.isInfinite(), "Initial filtered RTT is infinite")
     }
 
     // === Best Sample Selection Tests ===
@@ -315,21 +315,21 @@ class TimeSyncServiceTest {
     fun `service ranks samples by RTT`() {
         // Service should sort samples by round trip time
         // and select the best (lowest RTT) samples
-        assertTrue("Samples are ranked by RTT", true)
+        assertTrue(true, "Samples are ranked by RTT")
     }
 
     @Test
     fun `service selects best samples for averaging`() {
         // Service takes top 3 samples (lowest RTT)
         // and averages their offsets and RTTs
-        assertTrue("Best samples are selected", true)
+        assertTrue(true, "Best samples are selected")
     }
 
     @Test
     fun `service calculates median RTT`() {
         // Service calculates median of all samples
         // for quality assessment
-        assertTrue("Median RTT is calculated", true)
+        assertTrue(true, "Median RTT is calculated")
     }
 
     // === gRPC Integration Tests ===
@@ -338,7 +338,7 @@ class TimeSyncServiceTest {
     fun `service creates channel from factory`() = runTest {
         // Channel should be created using the factory
         // This happens during performSync
-        verify(exactly = 0) { channelFactory.channel(any()) }
+        coVerify(exactly = 0) { channelFactory.channel(any()) }
         // Would be called during actual sync
     }
 
@@ -360,7 +360,7 @@ class TimeSyncServiceTest {
         }
         val elapsed = (System.nanoTime() - start) / 1_000_000
 
-        assertTrue("Status reads are fast", elapsed < 100) // < 100ms for 1000 reads
+        assertTrue(elapsed < 100, "Status reads are fast") // < 100ms for 1000 reads
     }
 
     @Test
@@ -372,7 +372,7 @@ class TimeSyncServiceTest {
         }
         val elapsed = (System.nanoTime() - start) / 1_000_000
 
-        assertTrue("History reads are fast", elapsed < 100) // < 100ms for 1000 reads
+        assertTrue(elapsed < 100, "History reads are fast") // < 100ms for 1000 reads
     }
 
     // === Edge Case Tests ===
@@ -382,7 +382,7 @@ class TimeSyncServiceTest {
         // Perfect synchronization (offset = 0) should be handled
         val status = service.status.value
 
-        assertTrue("Zero offset is valid", status.offsetMillis >= 0 || status.offsetMillis < 0)
+        assertTrue(status.offsetMillis >= 0 || status.offsetMillis < 0, "Zero offset is valid")
     }
 
     @Test
@@ -390,7 +390,7 @@ class TimeSyncServiceTest {
         // Negative offset (client ahead of server) should be handled
         val status = service.status.value
 
-        assertTrue("Negative offset is valid", true)
+        assertTrue(true, "Negative offset is valid")
     }
 
     @Test
@@ -398,7 +398,7 @@ class TimeSyncServiceTest {
         // Very large RTT should result in POOR quality
         val status = service.status.value
 
-        assertTrue("Large RTT is handled", status.roundTripMillis >= 0)
+        assertTrue(status.roundTripMillis >= 0, "Large RTT is handled")
     }
 
     // === Concurrent Access Tests ===
@@ -407,26 +407,26 @@ class TimeSyncServiceTest {
     fun `status can be read concurrently`() = runTest {
         // Multiple coroutines can read status simultaneously
         val jobs = List(10) {
-            kotlinx.coroutines.launch {
+            launch {
                 service.status.value
             }
         }
         jobs.forEach { it.join() }
 
-        assertTrue("Concurrent reads succeed", true)
+        assertTrue(true, "Concurrent reads succeed")
     }
 
     @Test
     fun `history can be read concurrently`() = runTest {
         // Multiple coroutines can read history simultaneously
         val jobs = List(10) {
-            kotlinx.coroutines.launch {
+            launch {
                 service.history.value
             }
         }
         jobs.forEach { it.join() }
 
-        assertTrue("Concurrent reads succeed", true)
+        assertTrue(true, "Concurrent reads succeed")
     }
 
     // === Data Model Tests ===
@@ -448,7 +448,7 @@ class TimeSyncServiceTest {
     @Test
     fun `TimeSyncObservation can be created`() {
         // Verify data model structure
-        assertTrue("TimeSyncObservation model exists", true)
+        assertTrue(true, "TimeSyncObservation model exists")
     }
 
     // === Configuration Constants Tests ===
@@ -456,21 +456,21 @@ class TimeSyncServiceTest {
     @Test
     fun `service constants are reasonable`() {
         // SAMPLE_COUNT: 5 samples per sync
-        assertTrue("Sample count is reasonable", 5 in 3..10)
+        assertTrue(5 in 3..10, "Sample count is reasonable")
         
         // BEST_SAMPLE_COUNT: 3 best samples
-        assertTrue("Best sample count is reasonable", 3 in 2..5)
+        assertTrue(3 in 2..5, "Best sample count is reasonable")
         
         // SAMPLE_DELAY_MS: 100ms between samples
-        assertTrue("Sample delay is reasonable", 100L in 50L..200L)
+        assertTrue(100L in 50L..200L, "Sample delay is reasonable")
         
         // SYNC_INTERVAL_MS: 60 seconds between syncs
-        assertTrue("Sync interval is reasonable", 60_000L in 30_000L..120_000L)
+        assertTrue(60_000L in 30_000L..120_000L, "Sync interval is reasonable")
         
         // RETRY_INTERVAL_MS: 5 seconds retry delay
-        assertTrue("Retry interval is reasonable", 5_000L in 1_000L..10_000L)
+        assertTrue(5_000L in 1_000L..10_000L, "Retry interval is reasonable")
         
         // MAX_HISTORY: 100 observations
-        assertTrue("Max history is reasonable", 100 in 50..200)
+        assertTrue(100 in 50..200, "Max history is reasonable")
     }
 }

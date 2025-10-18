@@ -40,13 +40,7 @@ This file is the canonical rulebook for repository assistants. Keep it short, ke
 - Do not paste large files—point to them.
 - Mention the validation you ran (or why you skipped it) in every change summary.
 
-## 6. Git & Change Management
-- Branch names: `feature/<slug>` or `fix/<slug>`; keep slugs short and descriptive.
-- Commits use conventional prefixes (`feat`, `fix`, `docs`, `refactor`, `chore`, `test`, `build`) and British English.
-- Never force-push `main`; rebase topic branches before merge.
-- Update backlog entries when work is deferred, and clean up merged branches.
-
-## 7. Hand-off Checklist
+## 6. Hand-off Checklist
 - Record open threads or blockers in `docs/project/dev-diary.md`.
 - List outstanding review items and required follow-up tests.
 - Ensure documentation headers and links reflect the current state.

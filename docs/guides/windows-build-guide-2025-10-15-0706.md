@@ -1,5 +1,5 @@
 **Last Modified:** 2025-10-15 07:06 UTC  
-**Modified By:** GitHub Copilot CLI  
+**Modified By:** Copilot CLI  
 **Document Type:** Build Guide
 
 # Windows Native Build Guide
@@ -12,8 +12,7 @@ instead.
 
 ## Solution Overview
 
-Run Gradle builds from Windows Command Prompt or PowerShell while continuing to use WSL for Git operations and
-documentation work.
+Run Gradle builds from Windows Command Prompt or PowerShell while continuing to use WSL for documentation work.
 
 ---
 
@@ -312,7 +311,6 @@ tests.enabled=true
 
 **Use WSL for:**
 
-- Git operations (`git commit`, `git push`, `git pull`)
 - Documentation editing (Markdown files)
 - Text file modifications
 - Directory navigation and file management
@@ -346,17 +344,6 @@ gradlew.bat :app:assembleDebug
 ```cmd
 gradlew.bat :app:testDebugUnitTest -Ptests.enabled=true
 ```
-
-4. **Commit in WSL:**
-
-```bash
-cd /mnt/c/dev/buccancs
-git add .
-git commit -m "Updated MainScreen"
-git push
-```
-
----
 
 ## PowerShell Script
 
@@ -584,7 +571,7 @@ gradlew.bat build
 
 **Problem:** WSL/Android SDK filesystem incompatibility  
 **Solution:** Build from native Windows environment  
-**Approach:** Hybrid workflow (WSL for Git, Windows for builds)  
+**Approach:** Hybrid workflow (WSL for documentation tasks, Windows for builds)  
 **Tools:** Command Prompt, PowerShell, or IDE  
 **Status:** Ready to implement
 
@@ -602,5 +589,5 @@ gradlew.bat build
 - Two environment configurations to maintain
 - Learning curve for Windows command line
 
-**Recommendation:** Use Android Studio for best developer experience with native Windows builds and WSL for Git
+**Recommendation:** Use Android Studio for best developer experience with native Windows builds and WSL for shell scripting where helpful.
 operations.

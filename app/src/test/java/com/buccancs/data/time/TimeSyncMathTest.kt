@@ -1,8 +1,8 @@
 package com.buccancs.data.time
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlin.math.abs
 
 /**
@@ -12,8 +12,8 @@ import kotlin.math.abs
 class TimeSyncMathTest {
 
     @Test
-    fun `computeSyncSample returns zero offset for symmetric exchange`() {
-        // Perfectly symmetric exchange should have zero offset
+    fun `computeSyncSample calculates offset and round trip for symmetric exchange`() {
+        // Symmetric exchange with fixed server processing time
         val sample = computeSyncSample(
             sendEpochMs = 1_000L,
             receiveEpochMs = 1_020L,
@@ -21,8 +21,8 @@ class TimeSyncMathTest {
             serverSendEpochMs = 1_015L
         )
         
-        assertEquals("Symmetric exchange should have zero offset", 0.0, sample.offsetMs, 0.0001)
-        assertEquals("RTT should be 15ms", 15.0, sample.roundTripMs, 0.0001)
+        assertEquals(2.5, sample.offsetMs, 0.0001, "Offset should match NTP calculation")
+        assertEquals(15.0, sample.roundTripMs, 0.0001, "Round trip should exclude server processing")
     }
 
     @Test
@@ -37,8 +37,8 @@ class TimeSyncMathTest {
             serverSendEpochMs = 5_022L
         )
         
-        assertEquals("Symmetric exchange should have zero offset", 0.0, sample.offsetMs, 0.0001)
-        assertEquals("RTT should exclude server processing time", 20.0, sample.roundTripMs, 0.0001)
+        assertEquals(0.0, sample.offsetMs, 0.0001, "Symmetric exchange should have zero offset")
+        assertEquals(20.0, sample.roundTripMs, 0.0001, "RTT should exclude server processing time")
     }
 
     @Test
@@ -52,8 +52,8 @@ class TimeSyncMathTest {
         )
         
         // Offset should still be calculated correctly
-        assertTrue("Offset should be calculated", sample.offsetMs != 0.0)
-        assertEquals("RTT cannot be negative", 0.0, sample.roundTripMs, 0.0001)
+        assertTrue(sample.offsetMs != 0.0, "Offset should be calculated")
+        assertEquals(0.0, sample.roundTripMs, 0.0001, "RTT cannot be negative")
     }
 
     @Test
@@ -67,8 +67,8 @@ class TimeSyncMathTest {
         )
         
         // Expected offset: ((1950 - 2000) + (1960 - 2030)) / 2 = (-50 - 70) / 2 = -60
-        assertTrue("Client clock is ahead, offset should be negative", sample.offsetMs < 0)
-        assertEquals("Offset should be around -60ms", -60.0, sample.offsetMs, 0.01)
+        assertTrue(sample.offsetMs < 0, "Client clock is ahead, offset should be negative")
+        assertEquals(-60.0, sample.offsetMs, 0.01, "Offset should be around -60ms")
     }
 
     @Test
@@ -82,8 +82,8 @@ class TimeSyncMathTest {
         )
         
         // Expected offset: ((2050 - 2000) + (2060 - 2030)) / 2 = (50 + 30) / 2 = 40
-        assertTrue("Client clock is behind, offset should be positive", sample.offsetMs > 0)
-        assertEquals("Offset should be around 40ms", 40.0, sample.offsetMs, 0.01)
+        assertTrue(sample.offsetMs > 0, "Client clock is behind, offset should be positive")
+        assertEquals(40.0, sample.offsetMs, 0.01, "Offset should be around 40ms")
     }
 
     @Test
@@ -96,8 +96,8 @@ class TimeSyncMathTest {
             serverSendEpochMs = 3_005L  // No processing time
         )
         
-        assertEquals("Offset should be calculated", -7.5, sample.offsetMs, 0.01)
-        assertEquals("RTT should equal client flight time", 20.0, sample.roundTripMs, 0.01)
+        assertEquals(-5.0, sample.offsetMs, 0.01, "Offset should be calculated")
+        assertEquals(20.0, sample.roundTripMs, 0.01, "RTT should equal client flight time")
     }
 
     @Test
@@ -110,8 +110,8 @@ class TimeSyncMathTest {
             serverSendEpochMs = 1_110L
         )
         
-        assertEquals("Offset should be calculated", 5.0, sample.offsetMs, 0.01)
-        assertEquals("RTT should be 190ms", 190.0, sample.roundTripMs, 0.01)
+        assertEquals(5.0, sample.offsetMs, 0.01, "Offset should be calculated")
+        assertEquals(190.0, sample.roundTripMs, 0.01, "RTT should be 190ms")
     }
 
     @Test
@@ -127,8 +127,8 @@ class TimeSyncMathTest {
         )
         
         // Offset = ((1010 - 1000) + (1015 - 1055)) / 2 = (10 - 40) / 2 = -15
-        assertEquals("Asymmetric paths affect offset calculation", -15.0, sample.offsetMs, 0.01)
-        assertEquals("RTT should be 50ms", 50.0, sample.roundTripMs, 0.01)
+        assertEquals(-15.0, sample.offsetMs, 0.01, "Asymmetric paths affect offset calculation")
+        assertEquals(50.0, sample.roundTripMs, 0.01, "RTT should be 50ms")
     }
 
     @Test
@@ -142,8 +142,8 @@ class TimeSyncMathTest {
         )
         
         // Offset = ((10001 - 10000) + (10001 - 10002)) / 2 = (1 - 1) / 2 = 0
-        assertEquals("Small offset should be accurate", 0.0, sample.offsetMs, 0.0001)
-        assertEquals("Small RTT should be accurate", 2.0, sample.roundTripMs, 0.0001)
+        assertEquals(0.0, sample.offsetMs, 0.0001, "Small offset should be accurate")
+        assertEquals(2.0, sample.roundTripMs, 0.0001, "Small RTT should be accurate")
     }
 
     @Test
@@ -156,8 +156,8 @@ class TimeSyncMathTest {
             serverSendEpochMs = 5_000_001L      // 1ms processing
         )
         
-        assertTrue("Localhost offset should be very small", abs(sample.offsetMs) < 5.0)
-        assertTrue("Localhost RTT should be small", sample.roundTripMs < 10.0)
+        assertTrue(abs(sample.offsetMs) < 5.0, "Localhost offset should be very small")
+        assertTrue(sample.roundTripMs < 10.0, "Localhost RTT should be small")
     }
 
     @Test
@@ -170,8 +170,8 @@ class TimeSyncMathTest {
             serverSendEpochMs = 100_052L      // 2ms processing
         )
         
-        assertEquals("WAN offset calculation", 1.0, sample.offsetMs, 0.01)
-        assertEquals("WAN RTT should be 100ms", 100.0, sample.roundTripMs, 0.01)
+        assertEquals(0.0, sample.offsetMs, 0.01, "WAN offset calculation")
+        assertEquals(100.0, sample.roundTripMs, 0.01, "WAN RTT should be 100ms")
     }
 
     @Test
@@ -183,8 +183,8 @@ class TimeSyncMathTest {
             serverSendEpochMs = 0L
         )
         
-        assertEquals("All zeros should give zero offset", 0.0, sample.offsetMs, 0.0001)
-        assertEquals("All zeros should give zero RTT", 0.0, sample.roundTripMs, 0.0001)
+        assertEquals(0.0, sample.offsetMs, 0.0001, "All zeros should give zero offset")
+        assertEquals(0.0, sample.roundTripMs, 0.0001, "All zeros should give zero RTT")
     }
 
     @Test
@@ -198,8 +198,8 @@ class TimeSyncMathTest {
             serverSendEpochMs = baseTime + 30
         )
         
-        assertEquals("Large timestamps should calculate correctly", 0.0, sample.offsetMs, 0.01)
-        assertEquals("Large timestamps RTT", 40.0, sample.roundTripMs, 0.01)
+        assertEquals(0.0, sample.offsetMs, 0.01, "Large timestamps should calculate correctly")
+        assertEquals(40.0, sample.roundTripMs, 0.01, "Large timestamps RTT")
     }
 
     @Test
@@ -213,7 +213,7 @@ class TimeSyncMathTest {
         )
         
         // Should handle gracefully with clamping
-        assertEquals("Backward time should clamp RTT to zero", 0.0, sample.roundTripMs, 0.0001)
+        assertEquals(0.0, sample.roundTripMs, 0.0001, "Backward time should clamp RTT to zero")
     }
 
     @Test
@@ -237,6 +237,6 @@ class TimeSyncMathTest {
         // But if server is ahead, offset should be positive
         // The formula gives negative when client is ahead of server
         val expectedOffset = ((t2 - t1).toDouble() + (t3 - t4).toDouble()) / 2.0
-        assertEquals("Offset matches NTP formula", expectedOffset, sample.offsetMs, 0.01)
+        assertEquals(expectedOffset, sample.offsetMs, 0.01, "Offset matches NTP formula")
     }
 }

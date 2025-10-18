@@ -47,12 +47,12 @@ This keeps our repo consistent while easing future upstream updates.
 - Document update instructions so future vendor drops are unpacked into `vendor/` rather than committed at root level.
 
 ### Phase 4 – Tooling & Automation
-- Add a CI check that scans directory names (similar to `git ls-files` audit used during this cleanup) to prevent regressions.
+- Add a CI check that scans directory names using the existing file-audit script to prevent regressions.
 - Provide a developer script (`tools/scripts/check-folder-names.ps1`) that contributors can run locally.
 
 ## Open Questions
-- Should we relocate extremely large vendor trees to Git submodules to avoid churn? (Worth evaluating once wrappers are in place.)
-- Do we want a global `.gitattributes` entry to normalise case sensitivity for specific folders on macOS/Windows?
+- Should we relocate extremely large vendor trees to dedicated submodules to avoid churn? (Worth evaluating once wrappers are in place.)
+- Do we want a repository-level attributes file to normalise case sensitivity for specific folders on macOS/Windows?
 
 ## Next Steps
 1. Circulate this proposal among maintainers for agreement on the wrapper approach.

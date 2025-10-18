@@ -1,1 +1,1 @@
-Stage every modified file (`git add --all`), prepare a short summary of the work, ask Codex for a focused review noting risks, and paste Codex’s review back into the session log once you receive it.
+Prepare a short summary of the work, cite the relevant sections of `AGENTS.md`, ask Codex for a focused review noting risks, and paste Codex’s review back into the session log once you receive it.
