@@ -1,7 +1,11 @@
 package com.buccancs.data.calibration
 
 import android.content.Context
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.doublePreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.buccancs.domain.model.CalibrationMetrics
 import com.buccancs.domain.model.CalibrationResult
@@ -39,7 +43,8 @@ class CalibrationMetricsStore @Inject constructor(
         dataStore.edit { preferences ->
             preferences[KEY_GENERATED_AT] = result.generatedAt.toEpochMilliseconds()
             preferences[KEY_MEAN_ERROR] = result.meanReprojectionError
-            preferences[KEY_MAX_ERROR] = result.perViewErrors.maxOrNull() ?: result.meanReprojectionError
+            preferences[KEY_MAX_ERROR] =
+                result.perViewErrors.maxOrNull() ?: result.meanReprojectionError
             preferences[KEY_USED_PAIRS] = result.usedPairs
             preferences[KEY_REQUIRED_PAIRS] = result.requiredPairs
         }

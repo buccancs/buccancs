@@ -46,7 +46,8 @@ object FileConfig {
     /**
      * 固件升级包安装目录.
      */
-    fun getFirmwareFile(filename: String): File = File(Utils.getApp().getExternalFilesDir("firmware"), filename)
+    fun getFirmwareFile(filename: String): File =
+        File(Utils.getApp().getExternalFilesDir("firmware"), filename)
 
     /**
      * 图片报告路径.
@@ -54,7 +55,8 @@ object FileConfig {
     @JvmStatic
     fun getPdfDir(): String {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
+            val dir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
             val path = dir + File.separator + CommUtils.getAppName() + File.separator + "pdf"
             val file = File(path)
             if (!file.exists()) {
@@ -73,7 +75,8 @@ object FileConfig {
     val excelDir: String
         get() {
             return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
+                val dir =
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
                 val path = dir + File.separator + CommUtils.getAppName() + File.separator + "excel"
                 val file = File(path)
                 if (!file.exists()) {
@@ -92,7 +95,8 @@ object FileConfig {
     @JvmStatic
     val gallerySourDir: String
         get() {
-            val result = Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!.absolutePath + File.separator + "TopInfrared"
+            val result = Utils.getApp()
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!.absolutePath + File.separator + "TopInfrared"
             val file = File(result)
             if (!file.exists()) {
                 file.mkdirs()
@@ -106,7 +110,8 @@ object FileConfig {
     @JvmStatic
     val oldTc001GalleryDir: String
         get() {
-            val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
+            val dir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
             val path = dir + File.separator + "TC001"
             val file = File(path)
             if (!file.exists()) {
@@ -115,7 +120,7 @@ object FileConfig {
             return path
         }
 
-    fun getGalleryDirByType(currentDirType : DirType) : String = when (currentDirType) {
+    fun getGalleryDirByType(currentDirType: DirType): String = when (currentDirType) {
         DirType.LINE -> lineGalleryDir
         DirType.TC007 -> tc007GalleryDir
         else -> ts004GalleryDir
@@ -127,7 +132,8 @@ object FileConfig {
     @JvmStatic
     val lineGalleryDir: String
         get() {
-            val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
+            val dir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
             val path = dir + File.separator + CommUtils.getAppName()
             val file = File(path)
             if (!file.exists()) {
@@ -142,7 +148,8 @@ object FileConfig {
     @JvmStatic
     val ts004GalleryDir: String
         get() {
-            val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
+            val dir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
             val path = dir + File.separator + "TS004"
             val file = File(path)
             if (!file.exists()) {
@@ -157,7 +164,8 @@ object FileConfig {
     @JvmStatic
     val tc007GalleryDir: String
         get() {
-            val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
+            val dir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
             val path = dir + File.separator + "TC007"
             val file = File(path)
             if (!file.exists()) {
@@ -197,7 +205,6 @@ object FileConfig {
         }
 
 
-
     /**
      * 外部存储/Documents/APP名称/house
      */
@@ -205,7 +212,8 @@ object FileConfig {
     val documentsDir: String
         get() {
             return if (Build.VERSION.SDK_INT < 29) {
-                val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
+                val dir =
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
                 val path = dir + File.separator + CommUtils.getAppName() + "/house"
                 val file = File(path)
                 if (!file.exists()) {

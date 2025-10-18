@@ -48,13 +48,18 @@ class IRGalleryViewModel : BaseViewModel() {
             pageListLD.postValue(pageList)
             if (pageList != null) {
                 val sourceList =
-                    if (hasLoadPage == 0) ArrayList(pageList.size) else sourceListLD.value ?: ArrayList(pageList.size)
+                    if (hasLoadPage == 0) ArrayList(pageList.size) else sourceListLD.value
+                        ?: ArrayList(pageList.size)
                 val showList =
-                    if (hasLoadPage == 0) ArrayList(pageList.size) else showListLD.value ?: ArrayList(pageList.size)
+                    if (hasLoadPage == 0) ArrayList(pageList.size) else showListLD.value
+                        ?: ArrayList(pageList.size)
                 if (pageList.isNotEmpty()) {
                     hasLoadPage++
                 }
-                var beforeTime = if (sourceList.isEmpty()) 0 else TimeTool.timeToMinute(sourceList.last().timeMillis, 4)
+                var beforeTime = if (sourceList.isEmpty()) 0 else TimeTool.timeToMinute(
+                    sourceList.last().timeMillis,
+                    4
+                )
                 for (galleryBean in pageList) {
                     val currentTime = TimeTool.timeToMinute(galleryBean.timeMillis, 4)
                     if (beforeTime != currentTime) {
@@ -71,7 +76,11 @@ class IRGalleryViewModel : BaseViewModel() {
     }
 
     val deleteResultLD: MutableLiveData<Boolean> = MutableLiveData()
-    fun delete(deleteList: List<GalleryBean>, dirType: GalleryRepository.DirType, isDelLocal: Boolean) {
+    fun delete(
+        deleteList: List<GalleryBean>,
+        dirType: GalleryRepository.DirType,
+        isDelLocal: Boolean
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             if (dirType == GalleryRepository.DirType.TS004_REMOTE) {
                 val isSuccess = TS004Repository.deleteFiles(Array(deleteList.size) {

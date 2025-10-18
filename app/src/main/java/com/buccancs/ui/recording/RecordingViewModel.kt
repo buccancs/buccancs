@@ -16,7 +16,12 @@ import com.buccancs.ui.sensorStreamLabel
 import com.buccancs.util.nowInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.ExperimentalTime
@@ -169,6 +174,8 @@ private fun DeviceExerciseResult.toUiModel(): DeviceExerciseUi {
         streams = streamLabels,
         startObservedAt = startObservedAt?.toString(),
         stopObservedAt = stopObservedAt?.toString(),
-        artifactNames = artifacts.map { it.file?.name ?: it.uri.lastPathSegment ?: it.streamType.name }
+        artifactNames = artifacts.map {
+            it.file?.name ?: it.uri.lastPathSegment ?: it.streamType.name
+        }
     )
 }

@@ -104,7 +104,8 @@ fun AppNavHost(
                 popExitTransition = { MotionTransitions.slideOutToStart() }
             ) { backStackEntry ->
                 val arg = backStackEntry.arguments?.getString("deviceId")
-                val deviceId = arg?.takeIf { it.isNotBlank() }?.let(::DeviceId) ?: TOPDON_TC001_DEVICE_ID
+                val deviceId =
+                    arg?.takeIf { it.isNotBlank() }?.let(::DeviceId) ?: TOPDON_TC001_DEVICE_ID
                 TopdonRoute(
                     deviceId = deviceId,
                     onNavigateUp = { navController.navigateUp() },
@@ -132,7 +133,8 @@ fun AppNavHost(
                 popExitTransition = { MotionTransitions.slideOutToStart() }
             ) { backStackEntry ->
                 val arg = backStackEntry.arguments?.getString("deviceId")
-                val deviceId = arg?.takeIf { it.isNotBlank() }?.let(::DeviceId) ?: TOPDON_TC001_DEVICE_ID
+                val deviceId =
+                    arg?.takeIf { it.isNotBlank() }?.let(::DeviceId) ?: TOPDON_TC001_DEVICE_ID
                 ThermalPreviewRoute(
                     deviceId = deviceId,
                     onNavigateUp = { navController.navigateUp() },

@@ -12,7 +12,8 @@ import com.topdon.lib.core.R as LibR
 
 class TransferDialog(context: Context) : Dialog(context, LibR.style.InfoDialog) {
 
-    private val contentView: View = LayoutInflater.from(context).inflate(R.layout.dialog_transfer, null)
+    private val contentView: View =
+        LayoutInflater.from(context).inflate(R.layout.dialog_transfer, null)
     private val seekBar: SeekBar by lazy { contentView.findViewById<SeekBar>(R.id.seek_bar) }
 
     var max: Int

@@ -47,7 +47,12 @@ class CaliperImageView : AppCompatImageView {
         visibility = View.GONE
     }
 
-    fun setImageSize(imageWidth: Int, imageHeight: Int, parentViewWidth: Int, parentViewHeight: Int) {
+    fun setImageSize(
+        imageWidth: Int,
+        imageHeight: Int,
+        parentViewWidth: Int,
+        parentViewHeight: Int
+    ) {
         this.imageWidth = imageWidth
         this.imageHeight = imageHeight
         if (parentViewWidth > 0) {

@@ -22,7 +22,8 @@ object WifiUtil {
     /**
      * 不带双引号的 SSID.
      */
-    fun ScanResult.getWifiName(): String = if (Build.VERSION.SDK_INT < 33) SSID else removeQuotation(wifiSsid.toString())
+    fun ScanResult.getWifiName(): String =
+        if (Build.VERSION.SDK_INT < 33) SSID else removeQuotation(wifiSsid.toString())
 
     fun WifiInfo.getWifiName(): String = removeQuotation(ssid)
 
@@ -64,7 +65,8 @@ object WifiUtil {
         activity.lifecycle.addObserver(WifiScanObserver(activity, WifiScanReceiver(listener)))
     }
 
-    private class WifiStateObserver(val context: Context, val receiver: BroadcastReceiver) : DefaultLifecycleObserver {
+    private class WifiStateObserver(val context: Context, val receiver: BroadcastReceiver) :
+        DefaultLifecycleObserver {
         override fun onCreate(owner: LifecycleOwner) {
             context.registerReceiver(receiver, IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION))
         }
@@ -75,9 +77,13 @@ object WifiUtil {
         }
     }
 
-    private class WifiScanObserver(val context: Context, val receiver: BroadcastReceiver) : DefaultLifecycleObserver {
+    private class WifiScanObserver(val context: Context, val receiver: BroadcastReceiver) :
+        DefaultLifecycleObserver {
         override fun onCreate(owner: LifecycleOwner) {
-            context.registerReceiver(receiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+            context.registerReceiver(
+                receiver,
+                IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+            )
         }
 
         override fun onDestroy(owner: LifecycleOwner) {
@@ -89,11 +95,17 @@ object WifiUtil {
     /**
      * WIFI 状态变更广播监听.
      */
-    private class WifiStateReceiver(val listener: ((isEnable: Boolean) -> Unit)) : BroadcastReceiver() {
+    private class WifiStateReceiver(val listener: ((isEnable: Boolean) -> Unit)) :
+        BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN)) {
+            when (intent?.getIntExtra(
+                WifiManager.EXTRA_WIFI_STATE,
+                WifiManager.WIFI_STATE_UNKNOWN
+            )) {
                 WifiManager.WIFI_STATE_ENABLED -> listener.invoke(true)
-                WifiManager.WIFI_STATE_DISABLED, WifiManager.WIFI_STATE_UNKNOWN -> listener.invoke(false)
+                WifiManager.WIFI_STATE_DISABLED, WifiManager.WIFI_STATE_UNKNOWN -> listener.invoke(
+                    false
+                )
             }
         }
     }
@@ -101,9 +113,12 @@ object WifiUtil {
     /**
      * WIFI 扫描结果广播监听.
      */
-    private class WifiScanReceiver(val listener: ((isSuccess: Boolean) -> Unit)) : BroadcastReceiver() {
+    private class WifiScanReceiver(val listener: ((isSuccess: Boolean) -> Unit)) :
+        BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            listener.invoke(intent?.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false) ?: false)
+            listener.invoke(
+                intent?.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false) ?: false
+            )
         }
     }
 }

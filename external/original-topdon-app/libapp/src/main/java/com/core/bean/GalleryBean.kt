@@ -19,7 +19,7 @@ open class GalleryBean(
     val timeMillis: Long,
     var hasDownload: Boolean,
 ) : Parcelable {
-    constructor(file: File): this(
+    constructor(file: File) : this(
         id = 0,
         path = file.absolutePath,
         thumb = file.absolutePath,
@@ -29,7 +29,7 @@ open class GalleryBean(
         hasDownload = true,
     )
 
-    constructor(isVideo: Boolean, fileBean: FileBean): this(
+    constructor(isVideo: Boolean, fileBean: FileBean) : this(
         id = fileBean.id,
         path = "http://192.168.40.1:8080/DCIM/${fileBean.name}",
         thumb = if (isVideo) "http://192.168.40.1:8080/DCIM/${fileBean.thumb}" else "http://192.168.40.1:8080/DCIM/${fileBean.name}",

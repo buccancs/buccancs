@@ -44,7 +44,8 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
 
-abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListener, IIRFrameCallback {
+abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListener,
+    IIRFrameCallback {
     private var snStr = ""
     protected var dualView: DualViewWithExternalCameraCommonApi? = null
     private var irPid = 0x5830
@@ -174,7 +175,8 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
         if (dualView != null) {
             return
         }
-        val dualRotate: Int = if (saveSetBean.rotateAngle == 270) 0 else (saveSetBean.rotateAngle + 90)
+        val dualRotate: Int =
+            if (saveSetBean.rotateAngle == 270) 0 else (saveSetBean.rotateAngle + 90)
         dualView = DualViewWithExternalCameraCommonApi(
             getSurfaceView(),
             USBMonitorManager.getInstance().uvcCamera, defaultDataFlowMode,
@@ -305,7 +307,11 @@ abstract class BaseIRPlushActivity : IRThermalNightActivity(), OnUSBConnectListe
     override fun onDettach(device: UsbDevice?) {
     }
 
-    override fun onConnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?, createNew: Boolean) {
+    override fun onConnect(
+        device: UsbDevice?,
+        ctrlBlock: USBMonitor.UsbControlBlock?,
+        createNew: Boolean
+    ) {
         mIrHandler.sendEmptyMessage(Const.HANDLE_CONNECT)
     }
 

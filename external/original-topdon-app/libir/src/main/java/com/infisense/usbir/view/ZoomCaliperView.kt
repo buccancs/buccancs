@@ -52,7 +52,12 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         onResumeView()
     }
 
-    fun setImageSize(imageHeight: Int, imageWidth: Int, parentViewWidth: Int, parentViewHeight: Int) {
+    fun setImageSize(
+        imageHeight: Int,
+        imageWidth: Int,
+        parentViewWidth: Int,
+        parentViewHeight: Int
+    ) {
         if (this.imageHeight == imageHeight && this.imageWidth == imageWidth) {
             return
         }
@@ -127,7 +132,8 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
                 val view: View = mTextureView.parent as View
                 parentViewW = view.measuredWidth.toFloat()
                 parentViewH = view.measuredHeight.toFloat()
-                isCheckChildView = isTouchPointInView(mTextureView, event.rawX.toInt(), event.rawY.toInt())
+                isCheckChildView =
+                    isTouchPointInView(mTextureView, event.rawX.toInt(), event.rawY.toInt())
             }
 
             MotionEvent.ACTION_MOVE -> {
@@ -291,7 +297,12 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
 
     private var curChooseMeasureMode: Int = ObserveBean.TYPE_MEASURE_PERSON
     private var curChooseTargetMode: Int = ObserveBean.TYPE_TARGET_HORIZONTAL
-    fun updateSelectBitmap(targetMeasureMode: Int, targetType: Int, targetColorType: Int, parentCameraView: View?) {
+    fun updateSelectBitmap(
+        targetMeasureMode: Int,
+        targetType: Int,
+        targetColorType: Int,
+        parentCameraView: View?
+    ) {
         if (curChooseTargetMode == targetType && curChooseMeasureMode == targetMeasureMode) {
             return
         }
@@ -300,10 +311,16 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         updateTargetBitmap(targetMeasureMode, targetType, targetColorType, parentCameraView)
     }
 
-    fun updateTargetBitmap(targetMeasureMode: Int, targetType: Int, targetColorType: Int, parentCameraView: View?) {
+    fun updateTargetBitmap(
+        targetMeasureMode: Int,
+        targetType: Int,
+        targetColorType: Int,
+        parentCameraView: View?
+    ) {
         this.visibility = View.VISIBLE
         m = TargetUtils.getMeasureSize(targetMeasureMode)
-        val targetIcon = TargetUtils.getSelectTargetDraw(targetMeasureMode, targetType, targetColorType)
+        val targetIcon =
+            TargetUtils.getSelectTargetDraw(targetMeasureMode, targetType, targetColorType)
         originalBitmap = (resources.getDrawable(targetIcon) as BitmapDrawable).bitmap
         (mTextureView as ImageView).setImageBitmap(originalBitmap)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

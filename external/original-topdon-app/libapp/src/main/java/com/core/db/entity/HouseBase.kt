@@ -91,8 +91,6 @@ open class HouseBase {
     var updateTime: Long = 0
 
 
-
-
     override fun equals(other: Any?): Boolean = other is HouseBase && other.id == id
 
     override fun hashCode(): Int = id.toInt()
@@ -125,9 +123,9 @@ open class HouseBase {
     /**
      * 获取该报告对应的 PDF 文件名称
      */
-    fun getPdfFileName(): String = "TC_${TimeUtils.millis2String(createTime, "yyyyMMdd_HHmmss")}.pdf"
+    fun getPdfFileName(): String =
+        "TC_${TimeUtils.millis2String(createTime, "yyyyMMdd_HHmmss")}.pdf"
 }
-
 
 
 /**
@@ -193,7 +191,6 @@ class HouseDetect : HouseBase() {
 }
 
 
-
 /**
  * 房屋检测 - 一项报告.
  */
@@ -204,6 +201,7 @@ class HouseReport : HouseBase() {
      */
     @ColumnInfo
     var inspectorWhitePath: String = ""
+
     /**
      * 检测师签名图片（黑色笔刷版）在本地绝对路径
      */
@@ -216,12 +214,12 @@ class HouseReport : HouseBase() {
      */
     @ColumnInfo
     var houseOwnerWhitePath: String = ""
+
     /**
      * 房主签名图片（黑色笔刷版）在本地绝对路径
      */
     @ColumnInfo
     var houseOwnerBlackPath: String = ""
-
 
 
     /**

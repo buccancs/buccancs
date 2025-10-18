@@ -42,6 +42,7 @@ class FirmwareViewModel(application: Application) : AndroidViewModel(application
          * TS004 固件升级包 软件编码.
          */
         private const val TS004_SOFT_CODE = "TS004_FirmwareSW_Scope"
+
         /**
          * TC007 固件升级包 软件编码.
          */
@@ -51,6 +52,7 @@ class FirmwareViewModel(application: Application) : AndroidViewModel(application
          * TS004 apk 内置固件升级包版本.
          */
         private const val TS004_FIRMWARE_VERSION = "V1.70"
+
         /**
          * TS004 apk 内置固件升级包文件名.
          */
@@ -60,6 +62,7 @@ class FirmwareViewModel(application: Application) : AndroidViewModel(application
          * TC007 apk 内置固件升级包版本.
          */
         private const val TC007_FIRMWARE_VERSION = "V4.06"
+
         /**
          * TC007 apk 内置固件升级包文件名.
          */
@@ -80,12 +83,12 @@ class FirmwareViewModel(application: Application) : AndroidViewModel(application
     private var isRequest = false
 
 
-
     /**
      * 查询固件升级包成功 LiveData.
      * null表示查询成功但没有配固件升级包
      */
     val firmwareDataLD: MutableLiveData<FirmwareData?> = MutableLiveData()
+
     /**
      * 查询固件升级包失败 LiveData.
      * true-设备已被其他用户绑定错误 false-普通错误
@@ -227,14 +230,26 @@ class FirmwareViewModel(application: Application) : AndroidViewModel(application
         //需求就是只需要中英两种语言，其他语言就使用英文。
         val tipsStr = getApplication<Application>().getString(R.string.fireware_update_tips)
 
-        firmwareDataLD.postValue(FirmwareData(apkVersionStr, tipsStr, apkFirmwareName, firmwareFile.length()))
+        firmwareDataLD.postValue(
+            FirmwareData(
+                apkVersionStr,
+                tipsStr,
+                apkFirmwareName,
+                firmwareFile.length()
+            )
+        )
         isRequest = false
     }
 
     /**
      * 调接口走完整的获取固件升级包信息流程.
      */
-    private suspend fun getInfoFromNetwork(isTS004: Boolean, sn: String, randomNum: String, firmware: String) {
+    private suspend fun getInfoFromNetwork(
+        isTS004: Boolean,
+        sn: String,
+        randomNum: String,
+        firmware: String
+    ) {
         //绑定设备
         val bindCode = bindDevice(sn, randomNum)
         if (bindCode != LMS.SUCCESS && bindCode != 15109) {
@@ -245,7 +260,8 @@ class FirmwareViewModel(application: Application) : AndroidViewModel(application
         }
 
         //获取固件升级包列表
-        val packageData: PackageData? = querySoftPackage(sn, if (isTS004) TS004_SOFT_CODE else TC007_SOFT_CODE)
+        val packageData: PackageData? =
+            querySoftPackage(sn, if (isTS004) TS004_SOFT_CODE else TC007_SOFT_CODE)
         if (packageData == null) {
             XLog.w("${if (isTS004) "TS004" else "TC007"} 固件升级 - 获取固件升级包信息失败!")
             failLD.postValue(false)
@@ -308,73 +324,87 @@ class FirmwareViewModel(application: Application) : AndroidViewModel(application
     /**
      * 查询指定 SN 的固件升级包列表
      */
-    private suspend fun querySoftPackage(sn: String, softCode: String): PackageData? = withContext(Dispatchers.IO) {
-        var packageData: PackageData? = null
-        val countDownLatch = CountDownLatch(1)
+    private suspend fun querySoftPackage(sn: String, softCode: String): PackageData? =
+        withContext(Dispatchers.IO) {
+            var packageData: PackageData? = null
+            val countDownLatch = CountDownLatch(1)
 
-        val url = UrlConstant.BASE_URL + "api/v1/user/deviceSoftOut/page"
-        val params = RequestParams()
-        params.addBodyParameter("sn", sn)
-        params.addBodyParameter("softCode", softCode)
-        params.addBodyParameter("downloadLanguageId", LanguageUtil.getLanguageId(Utils.getApp()))
-        params.addBodyParameter("downloadPlatformId", 2) //1-IOS 2-APP 3-官网 4-PC 5-生产 6-其他
-        params.addBodyParameter("queryTime", DateUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("GMT")))
-        HttpProxy.instant.post(url, params, object : IResponseCallback {
-            override fun onResponse(response: String?) {
-                try {
-                    val commonBean: CommonBean<String> = ResponseBean.convertCommonBean(response, null) as CommonBean<String>
-                    packageData = Gson().fromJson(commonBean.data, PackageData::class.java)
-                } catch (_: Exception) {
+            val url = UrlConstant.BASE_URL + "api/v1/user/deviceSoftOut/page"
+            val params = RequestParams()
+            params.addBodyParameter("sn", sn)
+            params.addBodyParameter("softCode", softCode)
+            params.addBodyParameter(
+                "downloadLanguageId",
+                LanguageUtil.getLanguageId(Utils.getApp())
+            )
+            params.addBodyParameter("downloadPlatformId", 2) //1-IOS 2-APP 3-官网 4-PC 5-生产 6-其他
+            params.addBodyParameter(
+                "queryTime",
+                DateUtils.format(
+                    System.currentTimeMillis(),
+                    "yyyy-MM-dd HH:mm:ss",
+                    TimeZone.getTimeZone("GMT")
+                )
+            )
+            HttpProxy.instant.post(url, params, object : IResponseCallback {
+                override fun onResponse(response: String?) {
+                    try {
+                        val commonBean: CommonBean<String> =
+                            ResponseBean.convertCommonBean(response, null) as CommonBean<String>
+                        packageData = Gson().fromJson(commonBean.data, PackageData::class.java)
+                    } catch (_: Exception) {
 
+                    }
+                    countDownLatch.countDown()
                 }
-                countDownLatch.countDown()
-            }
 
-            override fun onFail(exception: Exception?) {
-                countDownLatch.countDown()
-            }
-        })
+                override fun onFail(exception: Exception?) {
+                    countDownLatch.countDown()
+                }
+            })
 
-        countDownLatch.await()
-        return@withContext packageData
-    }
+            countDownLatch.await()
+            return@withContext packageData
+        }
 
     /**
      * 查询指定 SN 指定固件升级包的下载信息.
      */
-    private suspend fun queryDownloadUrl(sn: String, businessId: Int): DownloadData? = withContext(Dispatchers.IO) {
-        var result: DownloadData? = null
-        val countDownLatch = CountDownLatch(1)
-        val url = UrlConstant.BASE_URL + "api/v1/user/deviceSoftOut/getFileUrl"
-        val params = RequestParams()
-        params.addBodyParameter("sn", sn)
-        params.addBodyParameter("businessId", businessId)
-        params.addBodyParameter("businessType", 20)//业务类型，20-软件包
-        params.addBodyParameter("productType", 20)//0-未知 10-贸易体系 20-品牌体系
-        params.addBodyParameter("isCheckPoint", 0)//0-不校验 1-校验（也不知道校验的是什么，接口文档没说）
-        HttpProxy.instant.post(url, params, object : IResponseCallback {
-            override fun onResponse(response: String?) {
-                try {
-                    val commonBean: CommonBean<String> = ResponseBean.convertCommonBean(response, null) as CommonBean<String>
-                    if (commonBean.code == LMS.SUCCESS.toString()) {
-                        result = Gson().fromJson(commonBean.data, DownloadData::class.java)
-                        result?.responseCode = commonBean.code?.toIntOrNull() ?: 0
-                    } else {
-                        result = DownloadData("", 0, commonBean.code?.toIntOrNull() ?: -1)
+    private suspend fun queryDownloadUrl(sn: String, businessId: Int): DownloadData? =
+        withContext(Dispatchers.IO) {
+            var result: DownloadData? = null
+            val countDownLatch = CountDownLatch(1)
+            val url = UrlConstant.BASE_URL + "api/v1/user/deviceSoftOut/getFileUrl"
+            val params = RequestParams()
+            params.addBodyParameter("sn", sn)
+            params.addBodyParameter("businessId", businessId)
+            params.addBodyParameter("businessType", 20)//业务类型，20-软件包
+            params.addBodyParameter("productType", 20)//0-未知 10-贸易体系 20-品牌体系
+            params.addBodyParameter("isCheckPoint", 0)//0-不校验 1-校验（也不知道校验的是什么，接口文档没说）
+            HttpProxy.instant.post(url, params, object : IResponseCallback {
+                override fun onResponse(response: String?) {
+                    try {
+                        val commonBean: CommonBean<String> =
+                            ResponseBean.convertCommonBean(response, null) as CommonBean<String>
+                        if (commonBean.code == LMS.SUCCESS.toString()) {
+                            result = Gson().fromJson(commonBean.data, DownloadData::class.java)
+                            result?.responseCode = commonBean.code?.toIntOrNull() ?: 0
+                        } else {
+                            result = DownloadData("", 0, commonBean.code?.toIntOrNull() ?: -1)
+                        }
+                    } catch (_: Exception) {
+
                     }
-                } catch (_: Exception) {
-
+                    countDownLatch.countDown()
                 }
-                countDownLatch.countDown()
-            }
 
-            override fun onFail(exception: Exception?) {
-                countDownLatch.countDown()
-            }
-        })
-        countDownLatch.await()
-        return@withContext result
-    }
+                override fun onFail(exception: Exception?) {
+                    countDownLatch.countDown()
+                }
+            })
+            countDownLatch.await()
+            return@withContext result
+        }
 
     private fun getVersionFromStr(versionStr: String): Double = try {
         if (versionStr[0] == 'V') {

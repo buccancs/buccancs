@@ -50,12 +50,24 @@ class TemperatureEditView : TemperatureBaseView {
         iTsTempListenerWeakReference = WeakReference(listener)
     }
 
-    private fun getTSTemp(temp: Float): Float = iTsTempListenerWeakReference?.get()?.tempCorrectByTs(temp) ?: temp
+    private fun getTSTemp(temp: Float): Float =
+        iTsTempListenerWeakReference?.get()?.tempCorrectByTs(temp) ?: temp
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(
         context,
         attrs,
         defStyleAttr,
@@ -120,9 +132,18 @@ class TemperatureEditView : TemperatureBaseView {
         }
     }
 
-    private fun drawOnePoint(canvas: Canvas, point: Point, index: Int): LibIRTemp.TemperatureSampleResult? {
+    private fun drawOnePoint(
+        canvas: Canvas,
+        point: Point,
+        index: Int
+    ): LibIRTemp.TemperatureSampleResult? {
         val result = try {
-            irtemp.getTemperatureOfPoint(Point((point.x / xScale).toInt(), (point.y / yScale).toInt()))
+            irtemp.getTemperatureOfPoint(
+                Point(
+                    (point.x / xScale).toInt(),
+                    (point.y / yScale).toInt()
+                )
+            )
         } catch (_: IllegalArgumentException) {
             return null
         }
@@ -135,7 +156,11 @@ class TemperatureEditView : TemperatureBaseView {
         return result
     }
 
-    private fun drawOneLine(canvas: Canvas, line: Line, index: Int): LibIRTemp.TemperatureSampleResult? {
+    private fun drawOneLine(
+        canvas: Canvas,
+        line: Line,
+        index: Int
+    ): LibIRTemp.TemperatureSampleResult? {
         drawLine(canvas, line)
         val tempStartX: Int = (line.start.x / xScale).toInt()
         val tempStartY: Int = (line.start.y / yScale).toInt()
@@ -145,7 +170,12 @@ class TemperatureEditView : TemperatureBaseView {
             return null
         }
         val result = try {
-            irtemp.getTemperatureOfLine(Line(Point(tempStartX, tempStartY), Point(tempStopX, tempStopY)))
+            irtemp.getTemperatureOfLine(
+                Line(
+                    Point(tempStartX, tempStartY),
+                    Point(tempStopX, tempStopY)
+                )
+            )
         } catch (_: IllegalArgumentException) {
             return null
         }
@@ -163,7 +193,11 @@ class TemperatureEditView : TemperatureBaseView {
         return result
     }
 
-    private fun drawOneRect(canvas: Canvas, rect: Rect, index: Int): LibIRTemp.TemperatureSampleResult? {
+    private fun drawOneRect(
+        canvas: Canvas,
+        rect: Rect,
+        index: Int
+    ): LibIRTemp.TemperatureSampleResult? {
         drawRect(canvas, rect)
         val left = (rect.left / xScale).toInt()
         val top = (rect.top / yScale).toInt()

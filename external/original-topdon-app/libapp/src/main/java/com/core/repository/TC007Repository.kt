@@ -29,7 +29,7 @@ object TC007Repository {
     private fun Any.toBody(): RequestBody = Gson().toJson(this).toRequestBody()
 
     var netWork: Network? = null
-    var tempFrameParam : TempFrameParam ?= null
+    var tempFrameParam: TempFrameParam? = null
 
     private fun getOKHttpClient(timeout: Long): OkHttpClient {
         val builder = OkHttpClient.Builder()
@@ -52,9 +52,6 @@ object TC007Repository {
         .client(getOKHttpClient(timeout))
         .build()
         .create(TC007Service::class.java)
-
-
-
 
 
     /**
@@ -131,7 +128,8 @@ object TC007Repository {
             var packNum = 0
             var hasReadCount = 0
             var byteArray = ByteArray(pageSize)//10M每包
-            val totalPackNum = (file.length() / (pageSize) + (if (file.length() % (pageSize) > 0) 1 else 0)).toInt()
+            val totalPackNum =
+                (file.length() / (pageSize) + (if (file.length() % (pageSize) > 0) 1 else 0)).toInt()
             val md5 = EncryptUtils.encryptMD5File2String(file).lowercase(Locale.ROOT)
 
             var readCount = fileInputStream.read(byteArray)
@@ -139,9 +137,16 @@ object TC007Repository {
                 hasReadCount += readCount
                 if (hasReadCount == pageSize) {
                     packNum++
-                    val body = byteArray.toRequestBody("application/octet-stream".toMediaTypeOrNull())
+                    val body =
+                        byteArray.toRequestBody("application/octet-stream".toMediaTypeOrNull())
                     val part = MultipartBody.Part.createFormData("zipFile", "zipFile", body)
-                    val code = getTC007Service(30).sendUpgradeFile(file.name, packNum, totalPackNum, md5, part).Code
+                    val code = getTC007Service(30).sendUpgradeFile(
+                        file.name,
+                        packNum,
+                        totalPackNum,
+                        md5,
+                        part
+                    ).Code
                     if (code == 400805) {//已在升级中
                         return@withContext true
                     }
@@ -151,7 +156,8 @@ object TC007Repository {
                     hasReadCount = 0
                     byteArray = ByteArray(pageSize)//10M每包
                 }
-                readCount = fileInputStream.read(byteArray, hasReadCount, byteArray.size - hasReadCount)
+                readCount =
+                    fileInputStream.read(byteArray, hasReadCount, byteArray.size - hasReadCount)
             }
 
             if (hasReadCount > 0) {
@@ -160,7 +166,13 @@ object TC007Repository {
                 System.arraycopy(byteArray, 0, lastArray, 0, hasReadCount)
                 val body = lastArray.toRequestBody("application/octet-stream".toMediaTypeOrNull())
                 val part = MultipartBody.Part.createFormData("zipFile", "zipFile", body)
-                val code = getTC007Service(30).sendUpgradeFile(file.name, packNum, totalPackNum, md5, part).Code
+                val code = getTC007Service(30).sendUpgradeFile(
+                    file.name,
+                    packNum,
+                    totalPackNum,
+                    md5,
+                    part
+                ).Code
                 if (code == 400805) {//已在升级中
                     return@withContext true
                 }
@@ -216,7 +228,7 @@ object TC007Repository {
      * @param isCelsius true-摄氏度 false-华氏度
      * @param Level 测温档位,0:高增益 1:低增益 3:自动切换
      */
-    suspend fun setEnvAttr(isCelsius: Boolean,Level : Int): Boolean = withContext(Dispatchers.IO) {
+    suspend fun setEnvAttr(isCelsius: Boolean, Level: Int): Boolean = withContext(Dispatchers.IO) {
         try {
             val paramMap: HashMap<String, Any> = HashMap()
             paramMap["TempUnit"] = if (isCelsius) 0 else 2 //0-摄氏度 1-开尔文 2-华氏度
@@ -236,19 +248,20 @@ object TC007Repository {
      * @param distance 测温距离，单位米
      * @param radiation 发射率 `[0.01,1]`
      */
-    suspend fun setIRConfig(environment: Float, distance: Float, radiation: Float): Boolean = withContext(Dispatchers.IO) {
-        try {
-            val paramMap: HashMap<String, Any> = HashMap()
-            paramMap["AtmosphereTemp"] = ((environment + 273.15f) * 10).toInt()
-            paramMap["Distance"] = (distance * 100).toInt()
-            paramMap["Emissivity"] = (radiation * 10000).toInt()
+    suspend fun setIRConfig(environment: Float, distance: Float, radiation: Float): Boolean =
+        withContext(Dispatchers.IO) {
+            try {
+                val paramMap: HashMap<String, Any> = HashMap()
+                paramMap["AtmosphereTemp"] = ((environment + 273.15f) * 10).toInt()
+                paramMap["Distance"] = (distance * 100).toInt()
+                paramMap["Emissivity"] = (radiation * 10000).toInt()
 //            paramMap["ReflectedTemp"] = 2982
 //            paramMap["Transmittance"] = 10000
-            getTC007Service().setIRConfig(paramMap.toBody()).isSuccess()
-        } catch (_: Exception) {
-            false
+                getTC007Service().setIRConfig(paramMap.toBody()).isSuccess()
+            } catch (_: Exception) {
+                false
+            }
         }
-    }
 
     /**
      * 清除所有点、线、面.
@@ -264,13 +277,14 @@ object TC007Repository {
             false
         }
     }
+
     /**
      * 切换全局测温开关状态
      */
     suspend fun getTempFrame(): Boolean = withContext(Dispatchers.IO) {
         try {
             val data = getTC007Service().getTempFrame()
-            if (data.isSuccess()){
+            if (data.isSuccess()) {
                 tempFrameParam = data.Data
             }
             data.isSuccess()
@@ -278,23 +292,25 @@ object TC007Repository {
             false
         }
     }
+
     /**
      * 设置全局测温开启或关闭.
      */
     suspend fun setTempFrame(boolean: Boolean): Boolean = withContext(Dispatchers.IO) {
         try {
-            if (tempFrameParam != null){
+            if (tempFrameParam != null) {
                 tempFrameParam!!.FrameLow.Enable = boolean
                 tempFrameParam!!.FrameCenter.Enable = boolean
                 tempFrameParam!!.FrameHigh.Enable = boolean
                 getTC007Service().setTempFrame(tempFrameParam!!.toBody()).isSuccess()
-            }else{
+            } else {
                 false
             }
         } catch (_: Exception) {
             false
         }
     }
+
     /**
      * 设置测温点列表.
      */
@@ -309,6 +325,7 @@ object TC007Repository {
             false
         }
     }
+
     /**
      * 设置测温线列表.
      */
@@ -325,6 +342,7 @@ object TC007Repository {
             false
         }
     }
+
     /**
      * 设置测温面列表.
      */
@@ -344,7 +362,7 @@ object TC007Repository {
     /**
      * 拍照
      */
-    suspend fun getPhoto() : TC007Response<PhotoBean>? = withContext(Dispatchers.IO){
+    suspend fun getPhoto(): TC007Response<PhotoBean>? = withContext(Dispatchers.IO) {
         try {
             getTC007Service().getPhoto()
         } catch (e: Exception) {
@@ -356,7 +374,7 @@ object TC007Repository {
     /**
      * 设置图像模式
      */
-    suspend fun setMode(mode : Int) : TC007Response<Any?>? = withContext(Dispatchers.IO){
+    suspend fun setMode(mode: Int): TC007Response<Any?>? = withContext(Dispatchers.IO) {
         try {
             getTC007Service().setMode(mode)
         } catch (e: Exception) {
@@ -365,18 +383,18 @@ object TC007Repository {
         }
     }
 
-    suspend fun getAttribute(default : Boolean) : TC007Response<AttributeBean?>? = withContext(Dispatchers.IO){
-        try {
-            getTC007Service().getAttribute(1,default.toString())
-        } catch (e: Exception) {
-            null
+    suspend fun getAttribute(default: Boolean): TC007Response<AttributeBean?>? =
+        withContext(Dispatchers.IO) {
+            try {
+                getTC007Service().getAttribute(1, default.toString())
+            } catch (e: Exception) {
+                null
+            }
         }
-    }
 
 
-
-    suspend fun setRatio(data: Any?) : TC007Response<Any?>? = withContext(Dispatchers.IO){
-        if (data == null){
+    suspend fun setRatio(data: Any?): TC007Response<Any?>? = withContext(Dispatchers.IO) {
+        if (data == null) {
             return@withContext null
         }
         try {
@@ -388,16 +406,17 @@ object TC007Repository {
     }
 
 
-    suspend fun getRegistration(default : Boolean) : TC007Response<WifiAttributeBean?>? = withContext(Dispatchers.IO){
-        try {
-            getTC007Service().getRegistration(1,default.toString())
-        } catch (e: Exception) {
-            null
+    suspend fun getRegistration(default: Boolean): TC007Response<WifiAttributeBean?>? =
+        withContext(Dispatchers.IO) {
+            try {
+                getTC007Service().getRegistration(1, default.toString())
+            } catch (e: Exception) {
+                null
+            }
         }
-    }
 
-    suspend fun setRegistration(data: Any?) : TC007Response<Any?>? = withContext(Dispatchers.IO){
-        if (data == null){
+    suspend fun setRegistration(data: Any?): TC007Response<Any?>? = withContext(Dispatchers.IO) {
+        if (data == null) {
             return@withContext null
         }
         try {
@@ -409,8 +428,8 @@ object TC007Repository {
     }
 
 
-    suspend fun setPallete(data: Any?) : TC007Response<Any?>? = withContext(Dispatchers.IO){
-        if (data == null){
+    suspend fun setPallete(data: Any?): TC007Response<Any?>? = withContext(Dispatchers.IO) {
+        if (data == null) {
             return@withContext null
         }
         try {
@@ -421,8 +440,8 @@ object TC007Repository {
         }
     }
 
-    suspend fun setParam(data: Any?) : TC007Response<Any?>? = withContext(Dispatchers.IO){
-        if (data == null){
+    suspend fun setParam(data: Any?): TC007Response<Any?>? = withContext(Dispatchers.IO) {
+        if (data == null) {
             return@withContext null
         }
         try {
@@ -433,8 +452,8 @@ object TC007Repository {
         }
     }
 
-    suspend fun setFont(data: Any?) : TC007Response<Any?>? = withContext(Dispatchers.IO){
-        if (data == null){
+    suspend fun setFont(data: Any?): TC007Response<Any?>? = withContext(Dispatchers.IO) {
+        if (data == null) {
             return@withContext null
         }
         try {
@@ -445,7 +464,7 @@ object TC007Repository {
         }
     }
 
-    suspend fun setCorrection() : TC007Response<Any?>? = withContext(Dispatchers.IO){
+    suspend fun setCorrection(): TC007Response<Any?>? = withContext(Dispatchers.IO) {
         try {
             getTC007Service().setCorrection()
         } catch (e: Exception) {
@@ -454,8 +473,8 @@ object TC007Repository {
         }
     }
 
-    suspend fun setIsotherm(data: Any?) : TC007Response<Any?>? = withContext(Dispatchers.IO){
-        if (data == null){
+    suspend fun setIsotherm(data: Any?): TC007Response<Any?>? = withContext(Dispatchers.IO) {
+        if (data == null) {
             return@withContext null
         }
         try {

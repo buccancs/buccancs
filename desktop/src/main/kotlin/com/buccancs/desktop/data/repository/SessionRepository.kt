@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 import java.nio.charset.StandardCharsets
@@ -28,7 +27,7 @@ import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.security.MessageDigest
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.exists
 
@@ -73,9 +72,10 @@ class SessionRepository(
             if (_activeSession.value?.status == SessionStatus.ACTIVE) {
                 throw IllegalStateException("Session ${_activeSession.value?.id} already active")
             }
-            storedSessions.value.firstOrNull { it.status == SessionStatus.ACTIVE }?.let { existing ->
-                throw IllegalStateException("Session ${existing.id} already active")
-            }
+            storedSessions.value.firstOrNull { it.status == SessionStatus.ACTIVE }
+                ?.let { existing ->
+                    throw IllegalStateException("Session ${existing.id} already active")
+                }
             clearTransfersForSession(sessionId)
             val sessionDir = baseDir.resolve(sessionId)
             val metadataPath = sessionDir.resolve(metadataPlainFileName)
@@ -268,7 +268,8 @@ class SessionRepository(
             deviceId = deviceId,
             fileName = fileName,
             streamType = streamType,
-            expectedBytes = if (expectedBytes > 0) expectedBytes else existing?.expectedBytes ?: receivedBytes,
+            expectedBytes = if (expectedBytes > 0) expectedBytes else existing?.expectedBytes
+                ?: receivedBytes,
             receivedBytes = receivedBytes,
             attempt = (existing?.attempt ?: 0).coerceAtLeast(1),
             state = FileTransferState.COMPLETED,
@@ -296,7 +297,8 @@ class SessionRepository(
         val deviceDir = sessionDir.resolve("devices").resolve(deviceId)
         Files.createDirectories(deviceDir)
         val targetFile = deviceDir.resolve(fileName)
-        val encrypted = encryptionManager.encrypt(content, sessionId.toByteArray(StandardCharsets.UTF_8))
+        val encrypted =
+            encryptionManager.encrypt(content, sessionId.toByteArray(StandardCharsets.UTF_8))
         Files.write(
             targetFile,
             encrypted,
@@ -441,7 +443,10 @@ class SessionRepository(
 
     private fun persistMetadata(sessionDir: Path, metadata: SessionMetadata) {
         val jsonBytes = json.encodeToString(metadata).toByteArray(StandardCharsets.UTF_8)
-        val encrypted = encryptionManager.encrypt(jsonBytes, metadata.sessionId.toByteArray(StandardCharsets.UTF_8))
+        val encrypted = encryptionManager.encrypt(
+            jsonBytes,
+            metadata.sessionId.toByteArray(StandardCharsets.UTF_8)
+        )
         Files.write(
             sessionDir.resolve(metadataFileName),
             encrypted,
@@ -463,16 +468,23 @@ class SessionRepository(
         val encryptedPath = sessionDir.resolve(metadataFileName)
         if (Files.exists(encryptedPath)) {
             val encrypted = Files.readAllBytes(encryptedPath)
-            val jsonBytes = encryptionManager.decrypt(encrypted, sessionId.toByteArray(StandardCharsets.UTF_8))
+            val jsonBytes =
+                encryptionManager.decrypt(encrypted, sessionId.toByteArray(StandardCharsets.UTF_8))
             ensurePlainMetadata(sessionDir, jsonBytes)
-            return json.decodeFromString(SessionMetadata.serializer(), String(jsonBytes, StandardCharsets.UTF_8))
+            return json.decodeFromString(
+                SessionMetadata.serializer(),
+                String(jsonBytes, StandardCharsets.UTF_8)
+            )
         }
         val plainPath = sessionDir.resolve(metadataPlainFileName)
         if (!Files.exists(plainPath)) {
             throw IllegalStateException("Missing metadata for session $sessionId")
         }
         val jsonBytes = Files.readAllBytes(plainPath)
-        val metadata = json.decodeFromString(SessionMetadata.serializer(), String(jsonBytes, StandardCharsets.UTF_8))
+        val metadata = json.decodeFromString(
+            SessionMetadata.serializer(),
+            String(jsonBytes, StandardCharsets.UTF_8)
+        )
         Files.write(
             encryptedPath,
             encryptionManager.encrypt(jsonBytes, sessionId.toByteArray(StandardCharsets.UTF_8)),
@@ -534,9 +546,21 @@ class SessionRepository(
     private fun MetadataMetrics.toDomain(previous: SessionMetrics): SessionMetrics =
         SessionMetrics(
             gsrSamples = gsrSamples,
+            gsrSampleDrops = gsrSampleDrops,
+            gsrOutOfRangeSamples = gsrOutOfRangeSamples,
+            gsrAverageHz = gsrAverageHz,
+            gsrMaxGapMs = gsrMaxGapMs,
+            gsrMinValue = gsrMinValue,
+            gsrMaxValue = gsrMaxValue,
             videoFrames = videoFrames,
             thermalFrames = thermalFrames,
             audioSamples = audioSamples,
+            videoFrameDrops = videoFrameDrops,
+            thermalFrameDrops = thermalFrameDrops,
+            videoMaxGapMs = videoMaxGapMs,
+            thermalMaxGapMs = thermalMaxGapMs,
+            videoAverageFps = videoAverageFps,
+            thermalAverageFps = thermalAverageFps,
             deviceCount = previous.deviceCount,
             activeRecordingCount = previous.activeRecordingCount,
             updatedAt = Instant.now()

@@ -18,7 +18,11 @@ import com.topdon.module.thermal.ir.R
 class ChartTrendView : LineChart {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
         val textColor: Int = ContextCompat.getColor(context, R.color.chart_text)
         val axisChartColors: Int = ContextCompat.getColor(context, R.color.chart_axis)
         this.isDragEnabled = false

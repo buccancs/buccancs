@@ -14,7 +14,8 @@ android {
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     val orchestratorHost = project.findProperty("orchestrator.host") as? String ?: "10.0.2.2"
-    val orchestratorPort = (project.findProperty("orchestrator.port") as? String)?.toIntOrNull() ?: 50051
+    val orchestratorPort =
+        (project.findProperty("orchestrator.port") as? String)?.toIntOrNull() ?: 50051
 
     defaultConfig {
         applicationId = "com.buccancs"
@@ -34,7 +35,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {

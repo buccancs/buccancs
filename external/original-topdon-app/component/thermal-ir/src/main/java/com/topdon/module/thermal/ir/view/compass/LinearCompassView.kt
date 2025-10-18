@@ -144,7 +144,12 @@ class LinearCompassView : View {
         }
         val endWidth = width / 2f
         val endHeight = (3 / 10f) * height
-        canvas.drawText(text, realX(text, endWidth, textPaint), realY(text, endHeight, textPaint), textPaint)
+        canvas.drawText(
+            text,
+            realX(text, endWidth, textPaint),
+            realY(text, endHeight, textPaint),
+            textPaint
+        )
     }
 
     private fun drawCompassLine() {

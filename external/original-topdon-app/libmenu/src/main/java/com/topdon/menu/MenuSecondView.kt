@@ -107,15 +107,31 @@ class MenuSecondView : FrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(
         context,
         attrs,
         defStyleAttr,
         defStyleRes
     ) {
         val typedArray: TypedArray =
-            context.obtainStyledAttributes(attrs, R.styleable.MenuSecondView, defStyleAttr, defStyleRes)
+            context.obtainStyledAttributes(
+                attrs,
+                R.styleable.MenuSecondView,
+                defStyleAttr,
+                defStyleRes
+            )
         menuType = when (typedArray.getInt(R.styleable.MenuSecondView_deviceType, 0)) {
             0 -> MenuType.SINGLE_LIGHT
             1 -> MenuType.DOUBLE_LIGHT
@@ -134,27 +150,36 @@ class MenuSecondView : FrameLayout {
             binding = ViewMenuSecondBinding.inflate(LayoutInflater.from(context), this, true)
             refreshImg(GalleryRepository.DirType.LINE)
             fenceAdapter = FenceAdapter(menuType)
-            binding.recyclerFence.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerFence.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerFence.adapter = fenceAdapter
             twoLightAdapter = TwoLightAdapter(menuType)
-            binding.recyclerTwoLight.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerTwoLight.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerTwoLight.adapter = twoLightAdapter
-            binding.recyclerColor.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerColor.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerColor.adapter = colorAdapter
             settingTeAdapter = SettingAdapter(menuType)
-            binding.recyclerSettingTe.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerSettingTe.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerSettingTe.adapter = settingTeAdapter
             tempLevelAdapter = TempLevelAdapter(menuType)
-            binding.recyclerTempLevel.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerTempLevel.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerTempLevel.adapter = tempLevelAdapter
 
-            binding.recyclerTempSource.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerTempSource.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerTempSource.adapter = tempSourceAdapter
-            binding.recyclerTarget.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerTarget.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerTarget.adapter = targetAdapter
-            binding.recyclerTempPoint.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerTempPoint.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerTempPoint.adapter = tempPointAdapter
-            binding.recyclerSettingOb.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            binding.recyclerSettingOb.layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             binding.recyclerSettingOb.adapter = settingObAdapter
         }
     }

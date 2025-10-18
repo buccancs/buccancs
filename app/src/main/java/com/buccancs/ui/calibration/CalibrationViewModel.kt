@@ -4,10 +4,18 @@ package com.buccancs.ui.calibration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.CalibrationDefaults
+import com.buccancs.domain.model.CalibrationMetrics
+import com.buccancs.domain.model.CalibrationPatternConfig
+import com.buccancs.domain.model.CalibrationResult
+import com.buccancs.domain.model.CalibrationSessionState
 import com.buccancs.domain.repository.CalibrationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.ExperimentalTime
@@ -18,7 +26,8 @@ class CalibrationViewModel @Inject constructor(
 ) : ViewModel() {
     private val patternRowsInput = MutableStateFlow(CalibrationDefaults.Pattern.rows.toString())
     private val patternColsInput = MutableStateFlow(CalibrationDefaults.Pattern.cols.toString())
-    private val squareSizeMmInput = MutableStateFlow((CalibrationDefaults.Pattern.squareSizeMeters * 1_000.0).format(2))
+    private val squareSizeMmInput =
+        MutableStateFlow((CalibrationDefaults.Pattern.squareSizeMeters * 1_000.0).format(2))
     private val requiredPairsInput = MutableStateFlow(CalibrationDefaults.RequiredPairs.toString())
     private val busy = MutableStateFlow(false)
     private val inputState = combine(
@@ -71,7 +80,12 @@ class CalibrationViewModel @Inject constructor(
             confidenceLabel = confidence,
             isLowConfidence = lowConfidence,
             actionHints = hints,
-            captures = session.captures.map { CalibrationCaptureItem(it.id, it.rgb.capturedAt.toString()) },
+            captures = session.captures.map {
+                CalibrationCaptureItem(
+                    it.id,
+                    it.rgb.capturedAt.toString()
+                )
+            },
             capturedCount = session.captures.size,
             requiredPairs = session.requiredPairs,
             infoMessage = session.infoMessage,
@@ -105,7 +119,8 @@ class CalibrationViewModel @Inject constructor(
         val rows = patternRowsInput.value.toIntOrNull()?.coerceAtLeast(2) ?: return
         val cols = patternColsInput.value.toIntOrNull()?.coerceAtLeast(2) ?: return
         val squareSizeMeters =
-            squareSizeMmInput.value.toDoubleOrNull()?.let { it / 1_000.0 }?.takeIf { it > 0.0 } ?: return
+            squareSizeMmInput.value.toDoubleOrNull()?.let { it / 1_000.0 }?.takeIf { it > 0.0 }
+                ?: return
         val requiredPairs = requiredPairsInput.value.toIntOrNull()?.coerceAtLeast(3) ?: return
         viewModelScope.launch {
             calibrationRepository.configure(
@@ -336,7 +351,10 @@ data class CalibrationCaptureItem(
 )
 
 enum class CalibrationWizardStep(val title: String, val defaultGuidance: String) {
-    Configure("Configure Pattern", "Confirm checkerboard dimensions and required pair count before starting."),
+    Configure(
+        "Configure Pattern",
+        "Confirm checkerboard dimensions and required pair count before starting."
+    ),
     Capture("Capture Pairs", "Capture calibration frames with varied angles and distances."),
     Validate("Compute Calibration", "Process the capture set to generate calibration metrics."),
     Review("Review Metrics", "Assess reprojection errors and decide whether to rerun capture.")

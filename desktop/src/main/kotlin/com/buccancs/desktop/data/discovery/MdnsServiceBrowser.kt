@@ -31,7 +31,7 @@ class MdnsServiceBrowser(
     private var jmdns: JmDNS? = null
     private val _browsing = MutableStateFlow(false)
     val browsing: StateFlow<Boolean> = _browsing.asStateFlow()
-    
+
     private val discovered = mutableMapOf<String, DiscoveredDevice>()
     private val _devices = MutableStateFlow<List<DiscoveredDevice>>(emptyList())
     val devices: StateFlow<List<DiscoveredDevice>> = _devices.asStateFlow()
@@ -44,7 +44,7 @@ class MdnsServiceBrowser(
                         logger.warn("mDNS browser already running")
                         return@launch
                     }
-                    
+
                     logger.info("Starting mDNS service discovery for $serviceType")
                     jmdns = JmDNS.create(InetAddress.getLocalHost()).also { dns ->
                         dns.addServiceListener(serviceType, serviceListener)
@@ -90,7 +90,7 @@ class MdnsServiceBrowser(
         override fun serviceResolved(event: ServiceEvent) {
             val info = event.info
             logger.info("Service resolved: ${info.name} at ${info.hostAddresses.joinToString()}")
-            
+
             val attrs = mutableMapOf<String, String>()
             val propNames = info.propertyNames
             while (propNames.hasMoreElements()) {
@@ -100,7 +100,7 @@ class MdnsServiceBrowser(
                     attrs[key] = value
                 }
             }
-            
+
             val device = DiscoveredDevice(
                 serviceName = info.name,
                 serviceType = info.type,
@@ -109,7 +109,7 @@ class MdnsServiceBrowser(
                 port = info.port,
                 attributes = attrs
             )
-            
+
             scope.launch {
                 discovered[info.name] = device
                 _devices.value = discovered.values.toList()

@@ -52,7 +52,8 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
             it?.let { data ->
                 if (page == 1) {
                     if (data.code == LMS.SUCCESS) {
-                        reportAdapter.loadMoreModule.isEnableLoadMore = !data.data?.records.isNullOrEmpty()
+                        reportAdapter.loadMoreModule.isEnableLoadMore =
+                            !data.data?.records.isNullOrEmpty()
                         fragment_pdf_recycler_lay.finishRefresh()
                     } else {
                         fragment_pdf_recycler_lay.finishRefresh(false)
@@ -97,19 +98,28 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
         }
         reportAdapter.jumpDetailListener = { item, position ->
             ARouter.getInstance().build(RouterConfig.REPORT_DETAIL)
-                .withParcelable(ExtraKeyConfig.REPORT_BEAN, reportAdapter.data[position]?.reportContent)
+                .withParcelable(
+                    ExtraKeyConfig.REPORT_BEAN,
+                    reportAdapter.data[position]?.reportContent
+                )
                 .navigation(this)
         }
         reportAdapter.isUseEmpty = true
         reportAdapter.delListener = { item, position ->
             val reportBean = item.reportContent
             TipDialog.Builder(this)
-                .setMessage(getString(R.string.tip_config_delete, reportBean?.report_info?.report_name ?: ""))
+                .setMessage(
+                    getString(
+                        R.string.tip_config_delete,
+                        reportBean?.report_info?.report_name ?: ""
+                    )
+                )
                 .setPositiveListener(R.string.app_confirm) {
                     lifecycleScope.launch {
                         showLoadingDialog()
                         withContext(Dispatchers.IO) {
-                            val url = UrlConstant.BASE_URL + "api/v1/outProduce/testReport/delTestReport"
+                            val url =
+                                UrlConstant.BASE_URL + "api/v1/outProduce/testReport/delTestReport"
                             val params = RequestParams()
                             params.addBodyParameter(
                                 "modelId",
@@ -117,12 +127,16 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                             )
                             params.addBodyParameter("testReportIds", arrayOf(item.testReportId))
                             params.addBodyParameter("status", 1)
-                            params.addBodyParameter("languageId", LanguageUtil.getLanguageId(Utils.getApp()))
+                            params.addBodyParameter(
+                                "languageId",
+                                LanguageUtil.getLanguageId(Utils.getApp())
+                            )
                             params.addBodyParameter("reportType", 2)
                             HttpProxy.instant.post(url, params, object :
                                 IResponseCallback {
                                 override fun onResponse(response: String?) {
-                                    val reportNumber = item.reportContent?.report_info?.report_number ?: ""
+                                    val reportNumber =
+                                        item.reportContent?.report_info?.report_number ?: ""
                                     val file = File(FileConfig.getPdfDir() + "/$reportNumber.pdf")
                                     if (file.exists()) {
                                         file.delete()

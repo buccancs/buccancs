@@ -1,18 +1,40 @@
 package com.buccancs.desktop.ui.screens
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.buccancs.desktop.ui.components.*
+import com.buccancs.desktop.ui.components.BuccancsCard
+import com.buccancs.desktop.ui.components.PrimaryButton
+import com.buccancs.desktop.ui.components.ScreenHeader
+import com.buccancs.desktop.ui.components.SecondaryButton
+import com.buccancs.desktop.ui.components.StatusCard
+import com.buccancs.desktop.ui.components.StatusType
+import com.buccancs.desktop.ui.components.TertiaryButton
 import com.buccancs.desktop.ui.theme.BuccancsTheme
 import com.buccancs.desktop.ui.theme.Spacing
 
@@ -23,7 +45,7 @@ import com.buccancs.desktop.ui.theme.Spacing
 fun UsersScreen() {
     var showAddDialog by remember { mutableStateOf(false) }
     var selectedTab by remember { mutableStateOf(0) }
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,13 +62,13 @@ fun UsersScreen() {
                 subtitle = "Manage operators, subjects, and their participation in sessions",
                 modifier = Modifier.weight(1f)
             )
-            
+
             PrimaryButton(
                 text = "Add User",
                 onClick = { showAddDialog = true }
             )
         }
-        
+
         // Tabs
         PrimaryTabRow(selectedTabIndex = selectedTab) {
             Tab(
@@ -60,13 +82,13 @@ fun UsersScreen() {
                 text = { Text("Subjects") }
             )
         }
-        
+
         when (selectedTab) {
             0 -> OperatorsContent()
             1 -> SubjectsContent()
         }
     }
-    
+
     if (showAddDialog) {
         AddUserDialog(
             onDismiss = { showAddDialog = false },
@@ -124,9 +146,9 @@ private fun OperatorCard(operator: Operator) {
                     )
                 }
             }
-            
+
             HorizontalDivider()
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -146,9 +168,9 @@ private fun OperatorCard(operator: Operator) {
                     )
                 }
             }
-            
+
             HorizontalDivider()
-            
+
             Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
                 SecondaryButton(
                     text = "Edit",
@@ -195,9 +217,9 @@ private fun SubjectCard(subject: Subject) {
                     )
                 }
             }
-            
+
             HorizontalDivider()
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -217,7 +239,7 @@ private fun SubjectCard(subject: Subject) {
                     )
                 }
             }
-            
+
             if (!subject.consentGiven) {
                 HorizontalDivider()
                 StatusCard(
@@ -230,9 +252,9 @@ private fun SubjectCard(subject: Subject) {
                     )
                 }
             }
-            
+
             HorizontalDivider()
-            
+
             Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
                 SecondaryButton(
                     text = "Edit",
@@ -261,14 +283,14 @@ private fun AddUserDialog(
     var userType by remember { mutableStateOf("Operator") }
     var userId by remember { mutableStateOf("") }
     var userName by remember { mutableStateOf("") }
-    
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Add User") },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.Medium)) {
                 var expanded by remember { mutableStateOf(false) }
-                
+
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = it }
@@ -281,9 +303,12 @@ private fun AddUserDialog(
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true)
+                            .menuAnchor(
+                                ExposedDropdownMenuAnchorType.PrimaryNotEditable,
+                                enabled = true
+                            )
                     )
-                    
+
                     ExposedDropdownMenu(
                         expanded = expanded,
                         onDismissRequest = { expanded = false }
@@ -299,7 +324,7 @@ private fun AddUserDialog(
                         }
                     }
                 }
-                
+
                 OutlinedTextField(
                     value = userId,
                     onValueChange = { userId = it },
@@ -307,7 +332,7 @@ private fun AddUserDialog(
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
-                
+
                 if (userType == "Operator") {
                     OutlinedTextField(
                         value = userName,
@@ -330,9 +355,33 @@ private fun AddUserDialog(
 
 private fun getSampleOperators(): List<Operator> {
     return listOf(
-        Operator("OP-001", "Dr. Jane Smith", "jane.smith@buccancs.org", "Principal Investigator", 45, "16 Oct 2025", true),
-        Operator("OP-002", "Alex Johnson", "alex.j@buccancs.org", "Research Assistant", 28, "15 Oct 2025", true),
-        Operator("OP-003", "Dr. Michael Chen", "m.chen@buccancs.org", "Co-Investigator", 12, "10 Oct 2025", true)
+        Operator(
+            "OP-001",
+            "Dr. Jane Smith",
+            "jane.smith@buccancs.org",
+            "Principal Investigator",
+            45,
+            "16 Oct 2025",
+            true
+        ),
+        Operator(
+            "OP-002",
+            "Alex Johnson",
+            "alex.j@buccancs.org",
+            "Research Assistant",
+            28,
+            "15 Oct 2025",
+            true
+        ),
+        Operator(
+            "OP-003",
+            "Dr. Michael Chen",
+            "m.chen@buccancs.org",
+            "Co-Investigator",
+            12,
+            "10 Oct 2025",
+            true
+        )
     )
 }
 

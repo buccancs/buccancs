@@ -8,7 +8,8 @@ package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializedeviceStatus")
 public inline fun deviceStatus(block: com.buccancs.control.DeviceStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceStatus =
-    com.buccancs.control.DeviceStatusKt.Dsl._create(com.buccancs.control.DeviceStatus.newBuilder()).apply { block() }
+    com.buccancs.control.DeviceStatusKt.Dsl._create(com.buccancs.control.DeviceStatus.newBuilder())
+        .apply { block() }
         ._build()
 
 /**
@@ -23,7 +24,8 @@ public object DeviceStatusKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DeviceStatus.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.DeviceStatus.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic

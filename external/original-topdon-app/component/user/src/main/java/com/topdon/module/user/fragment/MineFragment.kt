@@ -114,14 +114,16 @@ class MineFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private val languagePickResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val localeStr: String = it.data?.getStringExtra("localeStr") ?: return@registerForActivityResult
-            SharedManager.setLanguage(requireContext(), localeStr)
-            LanguageUtils.applyLanguage(AppLanguageUtils.getLocaleByLanguage(localeStr))
-            ToastTools.showShort(R.string.tip_save_success)
+    private val languagePickResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val localeStr: String =
+                    it.data?.getStringExtra("localeStr") ?: return@registerForActivityResult
+                SharedManager.setLanguage(requireContext(), localeStr)
+                LanguageUtils.applyLanguage(AppLanguageUtils.getLocaleByLanguage(localeStr))
+                ToastTools.showShort(R.string.tip_save_success)
+            }
         }
-    }
 
     override fun onClick(v: View?) {
         val binding = binding
@@ -159,12 +161,14 @@ class MineFragment : BaseFragment(), View.OnClickListener {
 
             binding.settingElectronicManual -> {
                 ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL)
-                    .withInt(Constants.SETTING_TYPE, Constants.SETTING_BOOK).navigation(requireContext())
+                    .withInt(Constants.SETTING_TYPE, Constants.SETTING_BOOK)
+                    .navigation(requireContext())
             }
 
             binding.settingFaq -> {
                 ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL)
-                    .withInt(Constants.SETTING_TYPE, Constants.SETTING_FAQ).navigation(requireContext())
+                    .withInt(Constants.SETTING_TYPE, Constants.SETTING_FAQ)
+                    .navigation(requireContext())
             }
 
             binding.settingFeedback -> {
@@ -247,7 +251,8 @@ class MineFragment : BaseFragment(), View.OnClickListener {
     private fun changeLoginStyle() {
         val binding = _binding ?: return
         if (LMS.getInstance().isLogin) {
-            val layoutParams = ConstraintLayout.LayoutParams(0, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+            val layoutParams =
+                ConstraintLayout.LayoutParams(0, ConstraintLayout.LayoutParams.WRAP_CONTENT)
             layoutParams.startToEnd = R.id.setting_user_img_night
             layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
             layoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
@@ -317,11 +322,11 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                 .setCanceled(true)
                 .create().show()
         }
-    
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        dragCustomerView = null
-        _binding = null
+
+        override fun onDestroyView() {
+            super.onDestroyView()
+            dragCustomerView = null
+            _binding = null
+        }
     }
-}

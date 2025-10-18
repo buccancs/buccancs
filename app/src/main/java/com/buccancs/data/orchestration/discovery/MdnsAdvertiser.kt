@@ -27,10 +27,16 @@ class MdnsAdvertiser @Inject constructor(
         ?: throw IllegalStateException("NSD service not available")
     private val handler = Handler(Looper.getMainLooper())
     private val stateMutex = Mutex()
-    private val _state = MutableStateFlow(State(isActive = false, inProgress = false, errorMessage = null))
+    private val _state =
+        MutableStateFlow(State(isActive = false, inProgress = false, errorMessage = null))
     val state: StateFlow<State> = _state.asStateFlow()
 
-    fun start(serviceName: String, serviceType: String, port: Int, attributes: Map<String, String> = emptyMap()) {
+    fun start(
+        serviceName: String,
+        serviceType: String,
+        port: Int,
+        attributes: Map<String, String> = emptyMap()
+    ) {
         scope.launch {
             stateMutex.withLock {
                 if (_state.value.isActive) return@launch
@@ -67,7 +73,11 @@ class MdnsAdvertiser @Inject constructor(
         }
 
         override fun onRegistrationFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
-            updateState(isActive = false, inProgress = false, error = "Registration failed: $errorCode")
+            updateState(
+                isActive = false,
+                inProgress = false,
+                error = "Registration failed: $errorCode"
+            )
         }
 
         override fun onServiceUnregistered(serviceInfo: NsdServiceInfo) {
@@ -75,13 +85,23 @@ class MdnsAdvertiser @Inject constructor(
         }
 
         override fun onUnregistrationFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
-            updateState(isActive = false, inProgress = false, error = "Unregister failed: $errorCode")
+            updateState(
+                isActive = false,
+                inProgress = false,
+                error = "Unregister failed: $errorCode"
+            )
         }
     }
 
     private fun updateState(isActive: Boolean, inProgress: Boolean, error: String?) {
         scope.launch {
-            _state.update { it.copy(isActive = isActive, inProgress = inProgress, errorMessage = error) }
+            _state.update {
+                it.copy(
+                    isActive = isActive,
+                    inProgress = inProgress,
+                    errorMessage = error
+                )
+            }
         }
     }
 

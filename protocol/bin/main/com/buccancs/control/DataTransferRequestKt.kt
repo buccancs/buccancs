@@ -23,7 +23,8 @@ public object DataTransferRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DataTransferRequest.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.DataTransferRequest.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -186,7 +187,8 @@ public object DataTransferRequestKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.DataTransferRequest.copy(block: `com.buccancs.control`.DataTransferRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferRequest =
-    `com.buccancs.control`.DataTransferRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.DataTransferRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 
 public val com.buccancs.control.DataTransferRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?
     get() = if (hasSession()) getSession() else null

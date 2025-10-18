@@ -1,3 +1,5 @@
 <paths>
-    <external-path name="my_logs" path="ShimmerArraysExample/"/>
+    <external-path
+        name="my_logs"
+        path="ShimmerArraysExample/" />
 </paths>

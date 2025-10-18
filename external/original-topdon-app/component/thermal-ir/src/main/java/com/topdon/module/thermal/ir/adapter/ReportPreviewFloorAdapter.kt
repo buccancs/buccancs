@@ -15,6 +15,7 @@ import com.topdon.lib.core.bean.GalleryBean
 import com.topdon.lib.core.bean.HouseRepPreviewProjectItemBean
 import com.topdon.lib.core.utils.AppUtil
 import com.topdon.module.thermal.ir.R
+
 // Stubbed: import kotlinx.android.synthetic.main.item_gallery_head_lay.view.*
 // Stubbed: import kotlinx.android.synthetic.main.item_gallery_lay.view.*
 // Stubbed: import kotlinx.android.synthetic.main.item_report_floor.view.lly_album

@@ -46,6 +46,7 @@ open class TitleView : ViewGroup {
      * true-居中 false-居左
      */
     private val isTitleCenter: Boolean
+
     /**
      * 当前主题的 actionBarSize，在 measure 阶段使用.
      */
@@ -55,31 +56,45 @@ open class TitleView : ViewGroup {
     /**
      * 左侧 View.
      */
-    protected var tvLeft: MyTextView ?= null
+    protected var tvLeft: MyTextView? = null
+
     /**
      * 从右往左数 View 1.
      */
-    protected var tvRight1: MyTextView ?= null
+    protected var tvRight1: MyTextView? = null
+
     /**
      * 从右往左数 View 2.
      */
-    protected var tvRight2: MyTextView ?= null
+    protected var tvRight2: MyTextView? = null
+
     /**
      * 从右往左数 View 3.
      */
-    protected var tvRight3: MyTextView ?= null
+    protected var tvRight3: MyTextView? = null
+
     /**
      * 标题文字.
      */
-    protected var tvTitle: MyTextView ?= null
+    protected var tvTitle: MyTextView? = null
 
     constructor(context: Context) : this(context, null)
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes:Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(context, attrs, defStyleAttr, defStyleRes) {
         val typedArray = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
         actionBarSize = typedArray.getDimensionPixelSize(0, 0)
         typedArray.recycle()
@@ -126,10 +141,10 @@ open class TitleView : ViewGroup {
 
         isTitleCenter = a.getBoolean(R.styleable.TitleView_isTitleCenter, false)
         tvTitle?.text = a.getText(R.styleable.TitleView_titleText)
-        tvTitle?.gravity = if (isTitleCenter) Gravity.CENTER else (Gravity.CENTER_VERTICAL or Gravity.START)
+        tvTitle?.gravity =
+            if (isTitleCenter) Gravity.CENTER else (Gravity.CENTER_VERTICAL or Gravity.START)
         a.recycle()
     }
-
 
 
     open fun initView() {
@@ -143,7 +158,7 @@ open class TitleView : ViewGroup {
     /**
      * 构建一个 TextView 并添加到当前 View 中.
      */
-    fun addTextView(context: Context,padding:Float,imgHeight: Float): MyTextView {
+    fun addTextView(context: Context, padding: Float, imgHeight: Float): MyTextView {
         val textView = MyTextView(context)
         textView.isVisible = false
         textView.gravity = Gravity.CENTER_VERTICAL
@@ -156,7 +171,7 @@ open class TitleView : ViewGroup {
     }
 
     fun addTextView(context: Context): MyTextView {
-        return addTextView(context,12f,24f)
+        return addTextView(context, 12f, 24f)
     }
 
 
@@ -178,14 +193,19 @@ open class TitleView : ViewGroup {
         for (i in 0 until childCount) {
             val childView: View = getChildAt(i)
             if (childView != tvTitle && childView.visibility != View.GONE) {
-                val widthSpec = MeasureSpec.makeMeasureSpec(childView.measuredWidth, MeasureSpec.EXACTLY)
-                childView.measure(widthSpec, MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.EXACTLY))
+                val widthSpec =
+                    MeasureSpec.makeMeasureSpec(childView.measuredWidth, MeasureSpec.EXACTLY)
+                childView.measure(
+                    widthSpec,
+                    MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.EXACTLY)
+                )
             }
         }
 
         //测量标题文字
         if (isTitleCenter) {//居中
-            val leftSize = if (tvLeft!!.isVisible) tvLeft?.measuredWidth else SizeUtils.dp2px(ICON_SIZE)
+            val leftSize =
+                if (tvLeft!!.isVisible) tvLeft?.measuredWidth else SizeUtils.dp2px(ICON_SIZE)
             var rightSize = 0
             if (tvRight1!!.isVisible) {
                 rightSize += tvRight1!!.measuredWidth
@@ -200,25 +220,31 @@ open class TitleView : ViewGroup {
                 rightSize = SizeUtils.dp2px(ICON_SIZE)
             }
             val titleWidth = measuredWidth - leftSize!!.coerceAtLeast(rightSize) * 2
-            val widthSpec = MeasureSpec.makeMeasureSpec(titleWidth.coerceAtLeast(0), MeasureSpec.EXACTLY)
+            val widthSpec =
+                MeasureSpec.makeMeasureSpec(titleWidth.coerceAtLeast(0), MeasureSpec.EXACTLY)
             tvTitle?.measure(widthSpec, MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.EXACTLY))
         } else {//居左
             var titleWidth = measuredWidth
-            titleWidth -= if (tvLeft!!.isVisible) tvLeft!!.measuredWidth else SizeUtils.dp2px(ICON_SIZE)
-            titleWidth -= if (tvRight1!!.isVisible) tvRight1!!.measuredWidth else SizeUtils.dp2px(ICON_SIZE)
+            titleWidth -= if (tvLeft!!.isVisible) tvLeft!!.measuredWidth else SizeUtils.dp2px(
+                ICON_SIZE
+            )
+            titleWidth -= if (tvRight1!!.isVisible) tvRight1!!.measuredWidth else SizeUtils.dp2px(
+                ICON_SIZE
+            )
             if (tvRight2!!.isVisible) {
                 titleWidth -= tvRight2!!.measuredWidth
             }
             if (tvRight3!!.isVisible) {
                 titleWidth -= tvRight3!!.measuredWidth
             }
-            val widthSpec = MeasureSpec.makeMeasureSpec(titleWidth.coerceAtLeast(0), MeasureSpec.EXACTLY)
+            val widthSpec =
+                MeasureSpec.makeMeasureSpec(titleWidth.coerceAtLeast(0), MeasureSpec.EXACTLY)
             tvTitle?.measure(widthSpec, MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.EXACTLY))
         }
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        for (i in 0 until  childCount) {
+        for (i in 0 until childCount) {
             val child = getChildAt(i)
             if (!child.isVisible) {
                 continue
@@ -226,29 +252,38 @@ open class TitleView : ViewGroup {
             val childWidth = child.measuredWidth
             when (child) {
                 tvLeft -> child.layout(0, 0, childWidth, measuredHeight)
-                tvRight1 -> child.layout(measuredWidth - childWidth, 0, measuredWidth, measuredHeight)
+                tvRight1 -> child.layout(
+                    measuredWidth - childWidth,
+                    0,
+                    measuredWidth,
+                    measuredHeight
+                )
+
                 tvRight2 -> {
                     val right = measuredWidth - tvRight1!!.measuredWidth
                     child.layout(right - tvRight2!!.measuredWidth, 0, right, measuredHeight)
                 }
+
                 tvRight3 -> {
                     val right = measuredWidth - tvRight1!!.measuredWidth - tvRight2!!.measuredWidth
                     child.layout(right - tvRight3!!.measuredWidth, 0, right, measuredHeight)
                 }
+
                 tvTitle -> {
                     if (isTitleCenter) {
                         val margin = (measuredWidth - childWidth) / 2
                         child.layout(margin, 0, margin + childWidth, measuredHeight)
                     } else {
-                        val left = if (tvLeft!!.isVisible) tvLeft!!.measuredWidth else SizeUtils.dp2px(ICON_SIZE)
+                        val left =
+                            if (tvLeft!!.isVisible) tvLeft!!.measuredWidth else SizeUtils.dp2px(
+                                ICON_SIZE
+                            )
                         child.layout(left, 0, left + childWidth, measuredHeight)
                     }
                 }
             }
         }
     }
-
-
 
 
     /**
@@ -258,6 +293,7 @@ open class TitleView : ViewGroup {
         tvTitle?.setText(resId)
         tvTitle?.invalidate()
     }
+
     /**
      * 设置标题文字.
      */
@@ -265,7 +301,6 @@ open class TitleView : ViewGroup {
         tvTitle?.text = title
         tvTitle?.invalidate()
     }
-
 
 
     /**
@@ -280,6 +315,7 @@ open class TitleView : ViewGroup {
                 requestLayout()
             }
         }
+
     /**
      * 将左侧 View 图片部分设置为指定图片.
      */
@@ -288,6 +324,7 @@ open class TitleView : ViewGroup {
         tvLeft?.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
         requestLayout()
     }
+
     /**
      * 将左侧 View 的文字部分设置为指定文字.
      */
@@ -296,6 +333,7 @@ open class TitleView : ViewGroup {
         tvLeft?.isVisible = true
         requestLayout()
     }
+
     /**
      * 将左侧 View 的文字部分设置为指定文字.
      */
@@ -304,13 +342,13 @@ open class TitleView : ViewGroup {
         tvLeft?.isVisible = text?.isNotEmpty() == true || tvLeft!!.hasAnyDrawable()
         requestLayout()
     }
+
     /**
      * 设置左侧 View 点击事件监听.
      */
     fun setLeftClickListener(leftClickListener: OnClickListener?) {
         tvLeft?.setOnClickListener(leftClickListener)
     }
-
 
 
     /**
@@ -325,6 +363,7 @@ open class TitleView : ViewGroup {
                 requestLayout()
             }
         }
+
     /**
      * 将右侧 View 图片部分设置为指定图片.
      */
@@ -333,6 +372,7 @@ open class TitleView : ViewGroup {
         tvRight1?.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
         requestLayout()
     }
+
     /**
      * 将右侧 View 的文字部分设置为指定文字.
      */
@@ -341,6 +381,7 @@ open class TitleView : ViewGroup {
         tvRight1?.isVisible = true
         requestLayout()
     }
+
     /**
      * 将右侧 View 的文字部分设置为指定文字.
      */
@@ -349,13 +390,13 @@ open class TitleView : ViewGroup {
         tvRight1?.isVisible = text?.isNotEmpty() == true || tvRight1!!.hasAnyDrawable()
         requestLayout()
     }
+
     /**
      * 设置右侧 View 点击事件监听.
      */
     fun setRightClickListener(rightClickListener: OnClickListener?) {
         tvRight1?.setOnClickListener(rightClickListener)
     }
-
 
 
     /**
@@ -366,6 +407,7 @@ open class TitleView : ViewGroup {
         tvRight2?.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
         requestLayout()
     }
+
     /**
      * 设置右侧 View 2 点击事件监听.
      */
@@ -382,6 +424,7 @@ open class TitleView : ViewGroup {
         tvRight3?.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
         requestLayout()
     }
+
     /**
      * 设置右侧 View 3 点击事件监听.
      */

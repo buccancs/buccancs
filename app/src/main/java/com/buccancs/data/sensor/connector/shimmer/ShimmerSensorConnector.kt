@@ -3,7 +3,6 @@ package com.buccancs.data.sensor.connector.shimmer
 import android.net.Uri
 import android.util.Log
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.core.result.Error
 import com.buccancs.core.result.Result
 import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
@@ -15,15 +14,12 @@ import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.ConnectionStatus
-import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.RecordingSessionAnchor
 import com.buccancs.domain.model.SensorDevice
-import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.ShimmerDeviceCandidate
-import com.buccancs.domain.model.ShimmerDeviceConfig
 import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.domain.repository.ShimmerSettingsRepository
 import com.buccancs.hardware.shimmer.ShimmerHardwareClient
@@ -32,14 +28,12 @@ import com.buccancs.hardware.shimmer.ShimmerHardwareSettings
 import com.buccancs.hardware.shimmer.ShimmerNotice
 import com.buccancs.hardware.shimmer.ShimmerSample
 import com.buccancs.hardware.shimmer.ShimmerStatus
-import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.encodeToString
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileOutputStream
@@ -152,7 +146,8 @@ internal class ShimmerSensorConnector(
     private fun updateDisplayName(candidate: ShimmerDeviceCandidate?) {
         deviceState.update { current ->
             val connection = current.connectionStatus
-            val normalizedStatus = if (connection is ConnectionStatus.Connected) connection else ConnectionStatus.Disconnected
+            val normalizedStatus =
+                if (connection is ConnectionStatus.Connected) connection else ConnectionStatus.Disconnected
             val attributes = current.attributes.toMutableMap()
             if (candidate != null) {
                 attributes[ATTR_LAST_BONDED_MAC] = candidate.mac
@@ -180,7 +175,8 @@ internal class ShimmerSensorConnector(
         deviceState.update { current ->
             val attributes = current.attributes.toMutableMap()
             attributes[ATTR_AVAILABLE_DEVICES] = encoded
-            attributes[ATTR_SELECTED_MAC] = currentSettings.targetMacAddress?.normalizeMac().orEmpty()
+            attributes[ATTR_SELECTED_MAC] =
+                currentSettings.targetMacAddress?.normalizeMac().orEmpty()
             attributes[ATTR_GSR_RANGE] = currentSettings.gsrRangeIndex.toString()
             attributes[ATTR_SAMPLE_RATE] = currentSettings.sampleRateHz.toString()
             current.copy(attributes = attributes.toMap())
@@ -249,7 +245,8 @@ internal class ShimmerSensorConnector(
 
     private fun handleHardwareSample(sample: ShimmerSample) {
         val conductance = sample.conductanceSiemens
-        val resistance = sample.resistanceOhms ?: conductance?.let { if (it > 0.0) 1_000_000.0 / it else null }
+        val resistance =
+            sample.resistanceOhms ?: conductance?.let { if (it > 0.0) 1_000_000.0 / it else null }
         val timestamp = sample.timestampEpochMs
         val instant = Instant.fromEpochMilliseconds(timestamp)
 
@@ -388,22 +385,23 @@ internal class ShimmerSensorConnector(
             .getOrThrow()
     }
 
-    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
-        streamingAnchor = anchor
-        samplesSeen = 0
-        lastSampleTimestamp = null
-        prepareLocalRecording(anchor.sessionId)
+    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> =
+        resultOf {
+            streamingAnchor = anchor
+            samplesSeen = 0
+            lastSampleTimestamp = null
+            prepareLocalRecording(anchor.sessionId)
 
-        streamEmitter?.close()
-        streamEmitter = streamClient.openStream(
-            sessionId = anchor.sessionId,
-            deviceId = deviceId,
-            streamId = STREAM_ID,
-            sampleRateHz = currentSettings.sampleRateHz
-        )
+            streamEmitter?.close()
+            streamEmitter = streamClient.openStream(
+                sessionId = anchor.sessionId,
+                deviceId = deviceId,
+                streamId = STREAM_ID,
+                sampleRateHz = currentSettings.sampleRateHz
+            )
 
-        hardwareClient.startStreaming()
-    }
+            hardwareClient.startStreaming()
+        }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {

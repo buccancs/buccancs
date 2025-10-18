@@ -7,15 +7,29 @@ import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.shimmer.InMemoryShimmerSettingsRepository
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.ShimmerDeviceConfig
+import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.hardware.shimmer.ShimmerHardwareClient
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,9 +47,11 @@ internal class ShimmerConnectorManager @Inject constructor(
     private val statusMutex = Mutex()
     private val connectors = mutableMapOf<DeviceId, ManagedConnector>()
     private val devicesState = MutableStateFlow<Map<DeviceId, SensorDevice>>(emptyMap())
-    private val statusesState = MutableStateFlow<Map<DeviceId, List<SensorStreamStatus>>>(emptyMap())
+    private val statusesState =
+        MutableStateFlow<Map<DeviceId, List<SensorStreamStatus>>>(emptyMap())
     override val devices: StateFlow<Map<DeviceId, SensorDevice>> = devicesState.asStateFlow()
-    override val streamStatuses: StateFlow<Map<DeviceId, List<SensorStreamStatus>>> = statusesState.asStateFlow()
+    override val streamStatuses: StateFlow<Map<DeviceId, List<SensorStreamStatus>>> =
+        statusesState.asStateFlow()
 
     init {
         scope.launch(Dispatchers.Default) {
@@ -57,35 +73,49 @@ internal class ShimmerConnectorManager @Inject constructor(
 
     override suspend fun connect(deviceId: DeviceId): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.connect()
     }
 
     override suspend fun disconnect(deviceId: DeviceId): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.disconnect()
     }
 
-    override suspend fun configure(deviceId: DeviceId, options: Map<String, String>): DeviceCommandResult {
+    override suspend fun configure(
+        deviceId: DeviceId,
+        options: Map<String, String>
+    ): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.configure(options)
     }
 
-    override suspend fun startStreaming(deviceId: DeviceId, anchor: RecordingSessionAnchor): DeviceCommandResult {
+    override suspend fun startStreaming(
+        deviceId: DeviceId,
+        anchor: RecordingSessionAnchor
+    ): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.startStreaming(anchor)
     }
 
     override suspend fun stopStreaming(deviceId: DeviceId): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Shimmer device ${deviceId.value}")
         return connector.stopStreaming()
     }
 
-    override suspend fun collectArtifacts(deviceId: DeviceId, sessionId: String): List<SessionArtifact> {
+    override suspend fun collectArtifacts(
+        deviceId: DeviceId,
+        sessionId: String
+    ): List<SessionArtifact> {
         val connector = connectorFor(deviceId) ?: return emptyList()
         return connector.collectArtifacts(sessionId)
     }
@@ -131,7 +161,10 @@ internal class ShimmerConnectorManager @Inject constructor(
         }
     }
 
-    private suspend fun createConnector(deviceId: DeviceId, config: ShimmerDeviceConfig): ManagedConnector {
+    private suspend fun createConnector(
+        deviceId: DeviceId,
+        config: ShimmerDeviceConfig
+    ): ManagedConnector {
         val initialSettings = ShimmerSettings(
             targetMacAddress = config.macAddress?.uppercase(),
             gsrRangeIndex = config.gsrRangeIndex?.coerceIn(0, ShimmerSettings.DEFAULT_GSR_RANGE)
@@ -252,7 +285,8 @@ internal class ShimmerConnectorManager @Inject constructor(
         if (!mac.isNullOrEmpty()) {
             attributes["config.macAddress"] = mac.uppercase()
         }
-        config.sampleRateHz?.takeIf { it > 0.0 }?.let { attributes["config.sampleRateHz"] = "%.2f".format(it) }
+        config.sampleRateHz?.takeIf { it > 0.0 }
+            ?.let { attributes["config.sampleRateHz"] = "%.2f".format(it) }
         config.gsrRangeIndex?.let { attributes["config.gsrRangeIndex"] = it.toString() }
         return attributes
     }
@@ -266,13 +300,17 @@ internal class ShimmerConnectorManager @Inject constructor(
         var config: ShimmerDeviceConfig
     )
 
-    private fun ShimmerDeviceConfig.normalizeDefaults(initial: ShimmerSettings): ShimmerDeviceConfig = copy(
-        macAddress = macAddress ?: initial.targetMacAddress,
-        gsrRangeIndex = gsrRangeIndex ?: initial.gsrRangeIndex,
-        sampleRateHz = sampleRateHz ?: initial.sampleRateHz
-    )
+    private fun ShimmerDeviceConfig.normalizeDefaults(initial: ShimmerSettings): ShimmerDeviceConfig =
+        copy(
+            macAddress = macAddress ?: initial.targetMacAddress,
+            gsrRangeIndex = gsrRangeIndex ?: initial.gsrRangeIndex,
+            sampleRateHz = sampleRateHz ?: initial.sampleRateHz
+        )
 
-    private fun enrichShimmerConfig(current: ShimmerDeviceConfig, device: SensorDevice): ShimmerDeviceConfig {
+    private fun enrichShimmerConfig(
+        current: ShimmerDeviceConfig,
+        device: SensorDevice
+    ): ShimmerDeviceConfig {
         val selectedMac = device.attributes[ATTR_SELECTED_MAC]?.takeIf { it.isNotBlank() }
         val name = device.displayName.takeIf { it.isNotBlank() }
         return current.copy(

@@ -14,8 +14,9 @@ import com.topdon.lib.core.R
 import com.topdon.lib.core.utils.ScreenUtil
 
 @Deprecated("3.80使用新首页设备列表逻辑，不需要设备切换提示弹框了")
-class TipChangeDeviceDialog :Dialog {
+class TipChangeDeviceDialog : Dialog {
     constructor(context: Context, themeResId: Int) : super(context, themeResId)
+
     class Builder {
         var dialog: TipChangeDeviceDialog? = null
         private var context: Context? = null

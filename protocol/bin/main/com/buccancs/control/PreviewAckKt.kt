@@ -8,7 +8,8 @@ package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializepreviewAck")
 public inline fun previewAck(block: com.buccancs.control.PreviewAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.PreviewAck =
-    com.buccancs.control.PreviewAckKt.Dsl._create(com.buccancs.control.PreviewAck.newBuilder()).apply { block() }
+    com.buccancs.control.PreviewAckKt.Dsl._create(com.buccancs.control.PreviewAck.newBuilder())
+        .apply { block() }
         ._build()
 
 /**
@@ -23,7 +24,8 @@ public object PreviewAckKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.PreviewAck.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.PreviewAck.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic

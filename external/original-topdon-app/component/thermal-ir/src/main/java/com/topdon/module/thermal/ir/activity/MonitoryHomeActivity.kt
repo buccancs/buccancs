@@ -40,7 +40,8 @@ class MonitoryHomeActivity : BaseActivity() {
                 IRMonitorHistoryFragment()
             } else {
                 val fragment = IRMonitorCaptureFragment()
-                fragment.arguments = Bundle().also { it.putBoolean(ExtraKeyConfig.IS_TC007, isTC007) }
+                fragment.arguments =
+                    Bundle().also { it.putBoolean(ExtraKeyConfig.IS_TC007, isTC007) }
                 fragment
             }
         }

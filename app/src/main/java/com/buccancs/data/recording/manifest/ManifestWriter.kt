@@ -5,12 +5,15 @@ import com.buccancs.core.serialization.PrettyJson
 import com.buccancs.core.storage.WriteResult
 import com.buccancs.data.storage.AtomicFileWriter
 import com.buccancs.data.storage.RecordingStorage
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.DeviceEvent
+import com.buccancs.domain.model.RecordingBookmark
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SessionArtifact
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 import javax.inject.Inject
@@ -65,8 +68,9 @@ class ManifestWriter @Inject constructor(
         if (artifacts.isEmpty()) return
         mutex.withLock {
             val current = ensureSession(sessionId) ?: return
-            val updatedArtifacts = (current.artifacts + artifacts.map { toArtifactEntry(sessionId, it) })
-                .distinctBy { entry -> entry.deviceId + "|" + entry.relativePath }
+            val updatedArtifacts =
+                (current.artifacts + artifacts.map { toArtifactEntry(sessionId, it) })
+                    .distinctBy { entry -> entry.deviceId + "|" + entry.relativePath }
             val updated = current.copy(artifacts = updatedArtifacts)
             activeManifest = updated
             val file = activeFile ?: storage.manifestFile(sessionId)
@@ -84,8 +88,9 @@ class ManifestWriter @Inject constructor(
     ) {
         mutex.withLock {
             val current = ensureSession(sessionId) ?: return
-            val artifactEntries = (current.artifacts + artifacts.map { toArtifactEntry(sessionId, it) })
-                .distinctBy { entry -> entry.deviceId + "|" + entry.relativePath }
+            val artifactEntries =
+                (current.artifacts + artifacts.map { toArtifactEntry(sessionId, it) })
+                    .distinctBy { entry -> entry.deviceId + "|" + entry.relativePath }
             val sessionStart = current.startedAtEpochMs
             val endEpochMs = endedAt.toEpochMilliseconds()
             val eventEntries = events
@@ -131,7 +136,8 @@ class ManifestWriter @Inject constructor(
             sizeBytes = artifact.sizeBytes,
             checksumSha256 = artifact.checksumSha256.toHexString(),
             metadata = artifact.metadata,
-            capturedEpochMs = artifact.file?.lastModified()?.takeIf { it > 0 } ?: System.currentTimeMillis()
+            capturedEpochMs = artifact.file?.lastModified()?.takeIf { it > 0 }
+                ?: System.currentTimeMillis()
         )
     }
 
@@ -156,7 +162,8 @@ class ManifestWriter @Inject constructor(
             target.parentFile?.mkdirs()
             val payload = json.encodeToString(manifest)
 
-            when (val result = AtomicFileWriter.writeAtomicSafe(target, payload, checkSpace = true)) {
+            when (val result =
+                AtomicFileWriter.writeAtomicSafe(target, payload, checkSpace = true)) {
                 is WriteResult.Success -> {
                     Log.d(TAG, "Manifest written: ${manifest.sessionId}")
                 }

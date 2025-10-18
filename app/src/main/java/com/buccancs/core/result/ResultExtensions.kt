@@ -23,7 +23,12 @@ fun Throwable.toError(): Error = when (this) {
     is SecurityException -> Error.Permission(message ?: "Permission denied", null, this)
     is IllegalArgumentException -> Error.Validation("argument", message ?: "Invalid argument", this)
     is IllegalStateException -> Error.Configuration(message ?: "Invalid state", this)
-    is java.util.concurrent.TimeoutException -> Error.Timeout(message ?: "Operation timed out", null, this)
+    is java.util.concurrent.TimeoutException -> Error.Timeout(
+        message ?: "Operation timed out",
+        null,
+        this
+    )
+
     is NoSuchElementException -> Error.NotFound(message ?: "Element not found", this)
     else -> Error.Unknown(message ?: "Unknown error", this)
 }

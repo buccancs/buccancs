@@ -13,7 +13,7 @@ public class CarDetectChildBean {
     public String temperature;
     public boolean isSelected;
 
-    public CarDetectChildBean(int type,int pos,String description, String item, String temperature) {
+    public CarDetectChildBean(int type, int pos, String description, String item, String temperature) {
         this.type = type;
         this.pos = pos;
         this.description = description;

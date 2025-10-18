@@ -124,7 +124,8 @@ class RecordingStorage @Inject constructor(
     ): String {
         val timestampLabel = formatter.format(java.time.Instant.ofEpochMilli(timestampEpochMs))
         val normalizedStream = streamType.lowercase().replace(" ", "_")
-        val sequenceLabel = if (segmentIndex > 0) "_${segmentIndex.toString().padStart(3, '0')}" else ""
+        val sequenceLabel =
+            if (segmentIndex > 0) "_${segmentIndex.toString().padStart(3, '0')}" else ""
         return "${timestampLabel}_${normalizedStream}$sequenceLabel.$extension"
     }
 

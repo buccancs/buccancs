@@ -1,6 +1,11 @@
 package com.buccancs.domain.ui
 
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.ui.DeviceUiModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,7 +25,8 @@ class DeviceUiMapper @Inject constructor(
     ): DeviceUiModel {
         val connected = device.connectionStatus is ConnectionStatus.Connected
         val connectionLabel = device.connectionStatus.uiLabel()
-        val batteryPercent = (device.connectionStatus as? ConnectionStatus.Connected)?.batteryPercent
+        val batteryPercent =
+            (device.connectionStatus as? ConnectionStatus.Connected)?.batteryPercent
         val activeStreams = streams.filter { it.deviceId == device.id }
             .map { streamUiMapper.toUiModel(it) }
         val capabilityLabels = device.capabilities

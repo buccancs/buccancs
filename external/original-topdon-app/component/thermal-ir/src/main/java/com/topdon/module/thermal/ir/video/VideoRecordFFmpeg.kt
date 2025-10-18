@@ -483,24 +483,41 @@ class VideoRecordFFmpeg(
     private fun createBitmapFromView(): Bitmap {
         var cameraViewBitmap: Bitmap
         when (cameraView) {
-            is CameraView -> cameraViewBitmap = if (dualView == null) cameraView.scaledBitmap else dualView.scaledBitmap
+            is CameraView -> cameraViewBitmap =
+                if (dualView == null) cameraView.scaledBitmap else dualView.scaledBitmap
+
             is TextureView -> {
-                cameraViewBitmap = Bitmap.createBitmap(cameraView.width, cameraView.height, Bitmap.Config.ARGB_8888)
+                cameraViewBitmap = Bitmap.createBitmap(
+                    cameraView.width,
+                    cameraView.height,
+                    Bitmap.Config.ARGB_8888
+                )
                 cameraView.getBitmap(cameraViewBitmap)
             }
 
             is LiteSurfaceView -> cameraViewBitmap = cameraView.scaleBitmap()
-            else -> cameraViewBitmap = Bitmap.createBitmap(cameraView.width, cameraView.height, Bitmap.Config.ARGB_8888)
+            else -> cameraViewBitmap =
+                Bitmap.createBitmap(cameraView.width, cameraView.height, Bitmap.Config.ARGB_8888)
         }
         when (temperatureView) {
             is TemperatureView -> {
                 if (isRecordTemp) {
                     if (temperatureView.temperatureRegionMode != TemperatureView.REGION_MODE_CLEAN) {
-                        cameraViewBitmap = BitmapUtils.mergeBitmap(cameraViewBitmap, temperatureView.regionBitmap, 0, 0)
+                        cameraViewBitmap = BitmapUtils.mergeBitmap(
+                            cameraViewBitmap,
+                            temperatureView.regionBitmap,
+                            0,
+                            0
+                        )
                     }
                 } else {
                     if (temperatureView.temperatureRegionMode == TemperatureView.REGION_MODE_RESET) {
-                        cameraViewBitmap = BitmapUtils.mergeBitmap(cameraViewBitmap, temperatureView.regionBitmap, 0, 0)
+                        cameraViewBitmap = BitmapUtils.mergeBitmap(
+                            cameraViewBitmap,
+                            temperatureView.regionBitmap,
+                            0,
+                            0
+                        )
                     }
                 }
             }

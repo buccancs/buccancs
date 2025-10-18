@@ -23,7 +23,8 @@ public object StatusSubscribeRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.StatusSubscribeRequest.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.StatusSubscribeRequest.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -58,7 +59,8 @@ public object StatusSubscribeRequestKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.StatusSubscribeRequest.copy(block: `com.buccancs.control`.StatusSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StatusSubscribeRequest =
-    `com.buccancs.control`.StatusSubscribeRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.StatusSubscribeRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 
 public val com.buccancs.control.StatusSubscribeRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?
     get() = if (hasSession()) getSession() else null

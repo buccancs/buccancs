@@ -1,6 +1,11 @@
 package com.buccancs.ui.calibration
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -17,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.Spacing
@@ -170,7 +174,11 @@ fun CalibrationPanel(
                     val maxError = result.perViewErrors.maxOrNull() ?: 0.0
                     val median = result.perViewErrors.sorted()[result.perViewErrors.size / 2]
                     Text(
-                        text = "Per-view error median ${"%.4f".format(median)} px · max ${"%.4f".format(maxError)} px",
+                        text = "Per-view error median ${"%.4f".format(median)} px · max ${
+                            "%.4f".format(
+                                maxError
+                            )
+                        } px",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -349,7 +357,10 @@ private fun WizardStepIndicator(current: CalibrationWizardStep) {
             ) {
                 Text(
                     text = "${index + 1}. ${step.title}",
-                    modifier = Modifier.padding(horizontal = Spacing.SmallMedium, vertical = Spacing.ExtraSmall),
+                    modifier = Modifier.padding(
+                        horizontal = Spacing.SmallMedium,
+                        vertical = Spacing.ExtraSmall
+                    ),
                     color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.labelLarge
                 )

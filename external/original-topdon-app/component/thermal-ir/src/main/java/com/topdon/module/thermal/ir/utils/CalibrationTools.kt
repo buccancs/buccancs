@@ -11,7 +11,10 @@ object CalibrationTools {
         var success = false
         if (irCmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_TPD) == 0) {
             irCmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_TPD)
-            val result = irCmd.setTPDKtBtRecalPoint(CommonParams.TPDKtBtRecalPointType.RECAL_1_POINT, singlePointTemp)
+            val result = irCmd.setTPDKtBtRecalPoint(
+                CommonParams.TPDKtBtRecalPointType.RECAL_1_POINT,
+                singlePointTemp
+            )
             if (result == 0) {
                 success = true
             } else {
@@ -27,7 +30,10 @@ object CalibrationTools {
         var success = false
         if (irCmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_TPD) == 0) {
             val result =
-                irCmd.setTPDKtBtRecalPoint(CommonParams.TPDKtBtRecalPointType.RECAL_2_POINT_FIRST, pointTemp + 273)
+                irCmd.setTPDKtBtRecalPoint(
+                    CommonParams.TPDKtBtRecalPointType.RECAL_2_POINT_FIRST,
+                    pointTemp + 273
+                )
             if (result == 0) {
                 success = true
             } else {
@@ -43,7 +49,10 @@ object CalibrationTools {
         var success = false
         if (irCmd.restoreDefaultConfig(CommonParams.DefaultConfigType.DEF_CFG_TPD) == 0) {
             val result =
-                irCmd.setTPDKtBtRecalPoint(CommonParams.TPDKtBtRecalPointType.RECAL_2_POINT_END, pointTemp + 273)
+                irCmd.setTPDKtBtRecalPoint(
+                    CommonParams.TPDKtBtRecalPointType.RECAL_2_POINT_END,
+                    pointTemp + 273
+                )
             if (result == 0) {
                 success = true
             } else {
@@ -133,12 +142,19 @@ object CalibrationTools {
     fun autoShutter(irCmd: IRCMD?, flag: Boolean) {
         val data =
             if (flag) CommonParams.PropAutoShutterParameterValue.StatusSwith.ON else CommonParams.PropAutoShutterParameterValue.StatusSwith.OFF
-        irCmd?.setPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH, data)
+        irCmd?.setPropAutoShutterParameter(
+            CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH,
+            data
+        )
     }
 
     fun setTpdDis(irCmd: IRCMD?, value: Int) {
         val data = CommonParams.PropTPDParamsValue.NumberType(value.toString())
-        setTpdParams(irCmd = irCmd, params = CommonParams.PropTPDParams.TPD_PROP_DISTANCE, value = data)
+        setTpdParams(
+            irCmd = irCmd,
+            params = CommonParams.PropTPDParams.TPD_PROP_DISTANCE,
+            value = data
+        )
     }
 
     fun setTpdEms(irCmd: IRCMD?, value: Int) {

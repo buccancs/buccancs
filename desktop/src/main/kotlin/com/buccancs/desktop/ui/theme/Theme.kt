@@ -9,7 +9,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 /**
  * Material Design 3 Theme for Buccancs Desktop
- * 
+ *
  * Follows Material Design 3 guidelines with:
  * - Complete color scheme with semantic roles
  * - Typography scale for hierarchy
@@ -22,35 +22,35 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = LightColorTokens.OnPrimary,
     primaryContainer = LightColorTokens.PrimaryContainer,
     onPrimaryContainer = LightColorTokens.OnPrimaryContainer,
-    
+
     secondary = LightColorTokens.Secondary,
     onSecondary = LightColorTokens.OnSecondary,
     secondaryContainer = LightColorTokens.SecondaryContainer,
     onSecondaryContainer = LightColorTokens.OnSecondaryContainer,
-    
+
     tertiary = LightColorTokens.Tertiary,
     onTertiary = LightColorTokens.OnTertiary,
     tertiaryContainer = LightColorTokens.TertiaryContainer,
     onTertiaryContainer = LightColorTokens.OnTertiaryContainer,
-    
+
     error = LightColorTokens.Error,
     onError = LightColorTokens.OnError,
     errorContainer = LightColorTokens.ErrorContainer,
     onErrorContainer = LightColorTokens.OnErrorContainer,
-    
+
     background = LightColorTokens.Background,
     onBackground = LightColorTokens.OnBackground,
-    
+
     surface = LightColorTokens.Surface,
     onSurface = LightColorTokens.OnSurface,
     surfaceVariant = LightColorTokens.SurfaceVariant,
     onSurfaceVariant = LightColorTokens.OnSurfaceVariant,
-    
+
     outline = LightColorTokens.Outline,
     outlineVariant = LightColorTokens.OutlineVariant,
-    
+
     scrim = LightColorTokens.Scrim,
-    
+
     inverseSurface = LightColorTokens.InverseSurface,
     inverseOnSurface = LightColorTokens.InverseOnSurface,
     inversePrimary = LightColorTokens.InversePrimary
@@ -61,35 +61,35 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = DarkColorTokens.OnPrimary,
     primaryContainer = DarkColorTokens.PrimaryContainer,
     onPrimaryContainer = DarkColorTokens.OnPrimaryContainer,
-    
+
     secondary = DarkColorTokens.Secondary,
     onSecondary = DarkColorTokens.OnSecondary,
     secondaryContainer = DarkColorTokens.SecondaryContainer,
     onSecondaryContainer = DarkColorTokens.OnSecondaryContainer,
-    
+
     tertiary = DarkColorTokens.Tertiary,
     onTertiary = DarkColorTokens.OnTertiary,
     tertiaryContainer = DarkColorTokens.TertiaryContainer,
     onTertiaryContainer = DarkColorTokens.OnTertiaryContainer,
-    
+
     error = DarkColorTokens.Error,
     onError = DarkColorTokens.OnError,
     errorContainer = DarkColorTokens.ErrorContainer,
     onErrorContainer = DarkColorTokens.OnErrorContainer,
-    
+
     background = DarkColorTokens.Background,
     onBackground = DarkColorTokens.OnBackground,
-    
+
     surface = DarkColorTokens.Surface,
     onSurface = DarkColorTokens.OnSurface,
     surfaceVariant = DarkColorTokens.SurfaceVariant,
     onSurfaceVariant = DarkColorTokens.OnSurfaceVariant,
-    
+
     outline = DarkColorTokens.Outline,
     outlineVariant = DarkColorTokens.OutlineVariant,
-    
+
     scrim = DarkColorTokens.Scrim,
-    
+
     inverseSurface = DarkColorTokens.InverseSurface,
     inverseOnSurface = DarkColorTokens.InverseOnSurface,
     inversePrimary = DarkColorTokens.InversePrimary
@@ -103,7 +103,7 @@ val LocalSemanticColors = staticCompositionLocalOf { SemanticColors }
 
 /**
  * Main theme composable for Buccancs Desktop
- * 
+ *
  * @param darkTheme Whether to use dark theme. Defaults to true for desktop comfort.
  * @param content The content to display within the theme
  */

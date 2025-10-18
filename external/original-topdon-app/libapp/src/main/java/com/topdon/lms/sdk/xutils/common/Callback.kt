@@ -10,6 +10,6 @@ interface Callback {
         fun onCancelled(cex: CancelledException?)
         fun onFinished()
     }
-    
+
     class CancelledException(message: String?) : Exception(message)
 }

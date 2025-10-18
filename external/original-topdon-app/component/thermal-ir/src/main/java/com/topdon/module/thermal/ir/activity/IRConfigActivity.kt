@@ -50,8 +50,14 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
     override fun initView() {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
         tv_default_temp_title.text =
-            "${getString(R.string.thermal_config_environment)} ${UnitTools.showConfigC(-10, if (isTC007) 50 else 55)}"
-        tv_default_dis_title.text = "${getString(R.string.thermal_config_distance)} (0.2~${if (isTC007) 4 else 5}m)"
+            "${getString(R.string.thermal_config_environment)} ${
+                UnitTools.showConfigC(
+                    -10,
+                    if (isTC007) 50 else 55
+                )
+            }"
+        tv_default_dis_title.text =
+            "${getString(R.string.thermal_config_distance)} (0.2~${if (isTC007) 4 else 5}m)"
         tv_default_em_title.text =
             "${getString(R.string.thermal_config_radiation)} (${if (isTC007) "0.1" else "0.01"}~1.00)"
         tv_default_temp_unit.text = UnitTools.showUnit()
@@ -95,7 +101,8 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = ConcatAdapter(adapter, ConfigEmAdapter(this))
         viewModel.configLiveData.observe(this) {
-            tv_default_temp_value.text = NumberTools.to02(UnitTools.showUnitValue(it.defaultModel.environment))
+            tv_default_temp_value.text =
+                NumberTools.to02(UnitTools.showUnitValue(it.defaultModel.environment))
             tv_default_dis_value.text = NumberTools.to02(it.defaultModel.distance)
             tv_default_em_value.text = NumberTools.to02(it.defaultModel.radiation)
             iv_default_selector.isSelected = true
@@ -128,7 +135,13 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
         }
         guideDialog.show()
         if (Build.VERSION.SDK_INT >= 31) {
-            window?.decorView?.setRenderEffect(RenderEffect.createBlurEffect(20f, 20f, Shader.TileMode.MIRROR))
+            window?.decorView?.setRenderEffect(
+                RenderEffect.createBlurEffect(
+                    20f,
+                    20f,
+                    Shader.TileMode.MIRROR
+                )
+            )
         } else {
             lifecycleScope.launch {
                 delay(100)
@@ -193,9 +206,15 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return if (viewType == 0) {
-                ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ir_config_config, parent, false))
+                ItemViewHolder(
+                    LayoutInflater.from(context)
+                        .inflate(R.layout.item_ir_config_config, parent, false)
+                )
             } else {
-                FootViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ir_config_foot, parent, false))
+                FootViewHolder(
+                    LayoutInflater.from(context)
+                        .inflate(R.layout.item_ir_config_foot, parent, false)
+                )
             }
         }
 
@@ -203,20 +222,23 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder is ItemViewHolder) {
                 val dataBean = dataList[position]
-                holder.itemView.tv_name.text = "${context.getString(R.string.thermal_custom_mode)}${dataBean.name}"
+                holder.itemView.tv_name.text =
+                    "${context.getString(R.string.thermal_custom_mode)}${dataBean.name}"
                 holder.itemView.iv_selector.isSelected = dataBean.use
-                holder.itemView.tv_temp_title.text = "${context.getString(R.string.thermal_config_environment)} ${
-                    UnitTools.showConfigC(
-                        -10,
-                        if (isTC007) 50 else 55
-                    )
-                }"
+                holder.itemView.tv_temp_title.text =
+                    "${context.getString(R.string.thermal_config_environment)} ${
+                        UnitTools.showConfigC(
+                            -10,
+                            if (isTC007) 50 else 55
+                        )
+                    }"
                 holder.itemView.tv_dis_title.text =
                     "${context.getString(R.string.thermal_config_distance)} (0.2~${if (isTC007) 4 else 5}m)"
                 holder.itemView.tv_em_title.text =
                     "${context.getString(R.string.thermal_config_radiation)} (${if (isTC007) "0.1" else "0.01"}~1.00)"
                 holder.itemView.tv_temp_unit.text = UnitTools.showUnit()
-                holder.itemView.tv_temp_value.text = NumberTools.to02(UnitTools.showUnitValue(dataBean.environment))
+                holder.itemView.tv_temp_value.text =
+                    NumberTools.to02(UnitTools.showUnitValue(dataBean.environment))
                 holder.itemView.tv_dis_value.text = NumberTools.to02(dataBean.distance)
                 holder.itemView.tv_em_value.text = NumberTools.to02(dataBean.radiation)
             } else if (holder is FootViewHolder) {
@@ -246,7 +268,8 @@ class IRConfigActivity : BaseActivity(), View.OnClickListener {
                         IRConfigInputDialog(context, IRConfigInputDialog.Type.TEMP, isTC007)
                             .setInput(UnitTools.showUnitValue(dataList[position].environment))
                             .setConfirmListener {
-                                itemView.tv_temp_value.text = NumberTools.to02(UnitTools.showToCValue(it))
+                                itemView.tv_temp_value.text =
+                                    NumberTools.to02(UnitTools.showToCValue(it))
                                 dataList[position].environment = UnitTools.showToCValue(it)
                                 onUpdateListener?.invoke(dataList[position])
                             }

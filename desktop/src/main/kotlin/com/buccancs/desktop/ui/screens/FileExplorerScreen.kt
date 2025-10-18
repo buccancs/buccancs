@@ -1,18 +1,43 @@
 package com.buccancs.desktop.ui.screens
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.DataObject
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.InsertDriveFile
+import androidx.compose.material.icons.filled.TableChart
+import androidx.compose.material.icons.filled.VideoFile
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.buccancs.desktop.ui.components.*
+import com.buccancs.desktop.ui.components.BuccancsCard
+import com.buccancs.desktop.ui.components.BuccancsOutlinedCard
+import com.buccancs.desktop.ui.components.PrimaryButton
+import com.buccancs.desktop.ui.components.SecondaryButton
 import com.buccancs.desktop.ui.theme.BuccancsTheme
 import com.buccancs.desktop.ui.theme.Spacing
 
@@ -23,7 +48,7 @@ import com.buccancs.desktop.ui.theme.Spacing
 fun FileExplorerScreen() {
     var currentPath by remember { mutableStateOf("~/.buccancs/sessions") }
     var selectedFile by remember { mutableStateOf<FileItem?>(null) }
-    
+
     Row(modifier = Modifier.fillMaxSize()) {
         // File browser
         Column(
@@ -38,7 +63,7 @@ fun FileExplorerScreen() {
                 style = MaterialTheme.typography.displaySmall,
                 color = MaterialTheme.colorScheme.primary
             )
-            
+
             // Breadcrumb navigation
             BuccancsCard(title = "Location") {
                 Row(
@@ -53,7 +78,7 @@ fun FileExplorerScreen() {
                     )
                 }
             }
-            
+
             // File list
             BuccancsCard(
                 title = "Files",
@@ -72,7 +97,7 @@ fun FileExplorerScreen() {
                     }
                 }
             }
-            
+
             // Actions
             Row(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
@@ -87,7 +112,7 @@ fun FileExplorerScreen() {
                 )
             }
         }
-        
+
         // File details sidebar
         Surface(
             modifier = Modifier
@@ -107,13 +132,13 @@ fun FileExplorerScreen() {
                         "File Details",
                         style = MaterialTheme.typography.titleLarge
                     )
-                    
+
                     BuccancsOutlinedCard(title = selectedFile!!.name) {
                         Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
                             DetailRow("Type", selectedFile!!.type)
                             DetailRow("Size", selectedFile!!.size)
                             DetailRow("Modified", selectedFile!!.modified)
-                            
+
                             if (selectedFile!!.type == "Video") {
                                 HorizontalDivider()
                                 DetailRow("Resolution", "1920x1080")
@@ -121,7 +146,7 @@ fun FileExplorerScreen() {
                                 DetailRow("Codec", "H.264")
                                 DetailRow("Frame Rate", "30 fps")
                             }
-                            
+
                             if (selectedFile!!.type == "CSV") {
                                 HorizontalDivider()
                                 DetailRow("Rows", "128,547")
@@ -130,29 +155,29 @@ fun FileExplorerScreen() {
                             }
                         }
                     }
-                    
+
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
                         PrimaryButton(
                             text = "Open File",
                             onClick = { /* Open */ },
                             modifier = Modifier.fillMaxWidth()
                         )
-                        
+
                         SecondaryButton(
                             text = "Export",
                             onClick = { /* Export */ },
                             modifier = Modifier.fillMaxWidth()
                         )
-                        
+
                         SecondaryButton(
                             text = "Show in Folder",
                             onClick = { /* Show */ },
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
-                    
+
                     Spacer(Modifier.weight(1f))
-                    
+
                     SecondaryButton(
                         text = "Delete",
                         onClick = { /* Delete */ },
@@ -223,7 +248,7 @@ private fun FileListItem(
                 else
                     MaterialTheme.colorScheme.onSurfaceVariant
             )
-            
+
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     file.name,

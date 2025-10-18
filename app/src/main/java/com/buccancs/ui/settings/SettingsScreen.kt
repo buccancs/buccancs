@@ -1,11 +1,25 @@
 package com.buccancs.ui.settings
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
@@ -29,12 +43,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.BuildConfig
 import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.components.InfoRow
-import com.buccancs.ui.components.SectionHeader
 import com.buccancs.ui.components.SectionCard
+import com.buccancs.ui.components.SectionHeader
 import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun SettingsRoute(

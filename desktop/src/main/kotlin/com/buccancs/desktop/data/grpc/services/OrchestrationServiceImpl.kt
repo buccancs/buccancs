@@ -1,6 +1,19 @@
 package com.buccancs.desktop.data.grpc.services
 
-import com.buccancs.control.*
+import com.buccancs.control.CommandAck
+import com.buccancs.control.DeviceRegistration
+import com.buccancs.control.DeviceStatus
+import com.buccancs.control.EventMarkerRequest
+import com.buccancs.control.OrchestrationServiceGrpcKt
+import com.buccancs.control.ProtocolVersion
+import com.buccancs.control.RegistrationAck
+import com.buccancs.control.StartSessionRequest
+import com.buccancs.control.StatusSubscribeRequest
+import com.buccancs.control.StopSessionRequest
+import com.buccancs.control.SyncSignalRequest
+import com.buccancs.control.commandAck
+import com.buccancs.control.deviceStatus
+import com.buccancs.control.registrationAck
 import com.buccancs.desktop.data.recording.SensorRecordingManager
 import com.buccancs.desktop.data.repository.CommandRepository
 import com.buccancs.desktop.data.repository.DeviceRepository
@@ -34,8 +47,9 @@ class OrchestrationServiceImpl(
             )
             return registrationAck {
                 accepted = false
-                reason = "Incompatible protocol version: ${ProtocolVersion.versionString(clientVersion)} " +
-                        "(server: ${ProtocolVersion.versionString(ProtocolVersion.CURRENT)})"
+                reason =
+                    "Incompatible protocol version: ${ProtocolVersion.versionString(clientVersion)} " +
+                            "(server: ${ProtocolVersion.versionString(ProtocolVersion.CURRENT)})"
             }
         }
         val active = sessionRepository.activeSession.value
@@ -119,7 +133,8 @@ class OrchestrationServiceImpl(
         val executeAt = request.scheduledEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
         val signalType = request.signalType.ifBlank { "flash" }
         val targets = resolveTargets(request.targets)
-        val eventDevices = if (targets.isEmpty()) deviceRepository.connectedDeviceIds().toList() else targets.toList()
+        val eventDevices = if (targets.isEmpty()) deviceRepository.connectedDeviceIds()
+            .toList() else targets.toList()
         sessionRepository.registerEvent(
             eventId = "sync-$signalType-$executeAt",
             label = "sync:$signalType",
@@ -151,7 +166,8 @@ class OrchestrationServiceImpl(
         val markerId = request.markerId.ifBlank { "event-$timestamp" }
         val description = request.description.ifBlank { "event-marker" }
         val targets = resolveTargets(request.targets)
-        val eventDevices = if (targets.isEmpty()) deviceRepository.connectedDeviceIds().toList() else targets.toList()
+        val eventDevices = if (targets.isEmpty()) deviceRepository.connectedDeviceIds()
+            .toList() else targets.toList()
         sessionRepository.registerEvent(
             eventId = markerId,
             label = description,
@@ -202,14 +218,15 @@ class OrchestrationServiceImpl(
         }
     }
 
-    override fun subscribeStatus(request: StatusSubscribeRequest): Flow<DeviceStatus> = channelFlow {
-        val job = launch {
-            deviceRepository.observe().collectLatest { devices ->
-                devices.map(::toProto).forEach { trySend(it) }
+    override fun subscribeStatus(request: StatusSubscribeRequest): Flow<DeviceStatus> =
+        channelFlow {
+            val job = launch {
+                deviceRepository.observe().collectLatest { devices ->
+                    devices.map(::toProto).forEach { trySend(it) }
+                }
             }
+            awaitClose { job.cancel() }
         }
-        awaitClose { job.cancel() }
-    }
 
     private fun toProto(info: DeviceInfo): DeviceStatus = deviceStatus {
         deviceId = info.id

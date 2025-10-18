@@ -41,7 +41,7 @@ import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 
 class AppViewModel(
     private val sessionRepository: SessionRepository,
@@ -58,6 +58,8 @@ class AppViewModel(
     private val transferState = MutableStateFlow<List<FileTransferProgress>>(emptyList())
     private val transferCompletionNotified = mutableSetOf<String>()
     private val transferFailureNotified = mutableSetOf<String>()
+    private val knownEventIds = mutableSetOf<String>()
+    private var eventAlertsPrimed = false
     private val _uiState = MutableStateFlow(
         AppUiState(
             session = null,
@@ -131,6 +133,20 @@ class AppViewModel(
                         val reason = event.reason.name.lowercase(Locale.US).replace('_', '-')
                         appendAlert("Device ${event.deviceId} disconnected ($reason)")
                     }
+                }
+            }
+        }
+        scope.launch {
+            sessionRepository.activeEvents().collect { events ->
+                if (!eventAlertsPrimed) {
+                    knownEventIds.clear()
+                    knownEventIds.addAll(events.map { it.eventId })
+                    eventAlertsPrimed = true
+                } else {
+                    events.filter { !knownEventIds.contains(it.eventId) }
+                        .forEach(::handleSessionEventAlert)
+                    knownEventIds.clear()
+                    knownEventIds.addAll(events.map { it.eventId })
                 }
             }
         }
@@ -340,7 +356,8 @@ class AppViewModel(
             if (items.any { it.state != FileTransferState.COMPLETED }) {
                 transferCompletionNotified.remove(sessionId)
             }
-            val allCompleted = items.isNotEmpty() && items.all { it.state == FileTransferState.COMPLETED }
+            val allCompleted =
+                items.isNotEmpty() && items.all { it.state == FileTransferState.COMPLETED }
             if (allCompleted && transferCompletionNotified.add(sessionId)) {
                 appendAlert("All uploads received for session $sessionId")
             }
@@ -355,6 +372,36 @@ class AppViewModel(
 
     private fun appendAlert(message: String) {
         alerts.value = (alerts.value + message).takeLast(10)
+    }
+
+    private fun handleSessionEventAlert(event: EventLog) {
+        val label = event.label
+        val deviceId = event.deviceIds.firstOrNull()
+            ?: label.substringAfter(':', missingDelimiterValue = "device")
+        when {
+            label.startsWith("device-replay-queued:") ->
+                appendAlert("Device $deviceId queued for command replay")
+
+            label.startsWith("device-replay:") ->
+                appendAlert("Replayed commands to device $deviceId")
+
+            label.startsWith("frame-drop:") -> {
+                val parts = label.split(":")
+                val kindToken = parts.getOrNull(1)?.uppercase(Locale.US) ?: "FRAME"
+                val totalDrops = parts.getOrNull(3)
+                val message = buildString {
+                    append(kindToken)
+                    append(" frame drops on device ")
+                    append(deviceId)
+                    totalDrops?.let {
+                        append(" (total ")
+                        append(it)
+                        append(")")
+                    }
+                }
+                appendAlert(message)
+            }
+        }
     }
 
     private fun updateControl(transform: (ControlPanelState) -> ControlPanelState) {
@@ -416,16 +463,29 @@ class AppViewModel(
 
         val sessionSummary = base.session?.let { session ->
             val startInstant = session.startedAt ?: session.createdAt
-            val elapsedMillis = if (session.status == SessionStatus.COMPLETED && session.totalDurationMs != null) {
-                session.totalDurationMs
-            } else {
-                Duration.between(startInstant, now).toMillis().coerceAtLeast(0)
-            }
+            val elapsedMillis =
+                if (session.status == SessionStatus.COMPLETED && session.totalDurationMs != null) {
+                    session.totalDurationMs
+                } else {
+                    Duration.between(startInstant, now).toMillis().coerceAtLeast(0)
+                }
             val metricsState = SessionMetricsState(
                 gsrSamples = session.metrics.gsrSamples,
+                gsrSampleDrops = session.metrics.gsrSampleDrops,
+                gsrOutOfRangeSamples = session.metrics.gsrOutOfRangeSamples,
+                gsrAverageHz = session.metrics.gsrAverageHz,
+                gsrMaxGapMs = session.metrics.gsrMaxGapMs,
+                gsrMinValue = session.metrics.gsrMinValue,
+                gsrMaxValue = session.metrics.gsrMaxValue,
                 videoFrames = session.metrics.videoFrames,
                 thermalFrames = session.metrics.thermalFrames,
                 audioSamples = session.metrics.audioSamples,
+                videoFrameDrops = session.metrics.videoFrameDrops,
+                thermalFrameDrops = session.metrics.thermalFrameDrops,
+                videoAverageFps = session.metrics.videoAverageFps,
+                thermalAverageFps = session.metrics.thermalAverageFps,
+                videoMaxGapMs = session.metrics.videoMaxGapMs,
+                thermalMaxGapMs = session.metrics.thermalMaxGapMs,
                 updatedAt = session.metrics.updatedAt
             )
             SessionSummary(
@@ -507,8 +567,9 @@ class AppViewModel(
                 )
             }
 
-        val alertMessages = (inputs.alerts + offlineWarnings + base.retention.actions.map { formatRetentionAlert(it) })
-            .distinct()
+        val alertMessages =
+            (inputs.alerts + offlineWarnings + base.retention.actions.map { formatRetentionAlert(it) })
+                .distinct()
 
         return AppUiState(
             session = sessionSummary,
@@ -538,20 +599,29 @@ class AppViewModel(
         )
     }
 
-    private fun formatRetentionAlert(action: DataRetentionManager.QuotaAction): String = when (action) {
-        is DataRetentionManager.QuotaAction.DeviceCapExceeded ->
-            "Device ${action.deviceId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
+    private fun formatRetentionAlert(action: DataRetentionManager.QuotaAction): String =
+        when (action) {
+            is DataRetentionManager.QuotaAction.DeviceCapExceeded ->
+                "Device ${action.deviceId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
+                    bytesToReadable(
+                        action.limitBytes
+                    )
+                })"
 
-        is DataRetentionManager.QuotaAction.GlobalCapExceeded ->
-            "Global quota exceeded (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
+            is DataRetentionManager.QuotaAction.GlobalCapExceeded ->
+                "Global quota exceeded (${bytesToReadable(action.usageBytes)} > ${
+                    bytesToReadable(
+                        action.limitBytes
+                    )
+                })"
 
-        is DataRetentionManager.QuotaAction.SessionCapExceeded ->
-            "Session ${action.sessionId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
-                bytesToReadable(
-                    action.limitBytes
-                )
-            })"
-    }
+            is DataRetentionManager.QuotaAction.SessionCapExceeded ->
+                "Session ${action.sessionId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
+                    bytesToReadable(
+                        action.limitBytes
+                    )
+                })"
+        }
 
     private fun tickerFlow(periodMillis: Long = 1_000L) = flow {
         while (true) {
@@ -563,7 +633,8 @@ class AppViewModel(
     private fun bytesToReadable(bytes: Long): String {
         if (bytes <= 0) return "0 B"
         val units = arrayOf("B", "KB", "MB", "GB", "TB")
-        val exp = (Math.log(bytes.toDouble()) / Math.log(1024.0)).toInt().coerceAtMost(units.lastIndex)
+        val exp =
+            (Math.log(bytes.toDouble()) / Math.log(1024.0)).toInt().coerceAtMost(units.lastIndex)
         val value = bytes / Math.pow(1024.0, exp.toDouble())
         return String.format("%.2f %s", value, units[exp])
     }

@@ -63,22 +63,37 @@ class PseudoPickView : View {
     var onSelectChangeListener: ((selectIndex: Int) -> Unit)? = null
 
     var selectIndex = 0
-    var sourceColors: IntArray = intArrayOf(0xff0000ff.toInt(), 0xffff0000.toInt(), 0xffffff00.toInt())
-    var actualColors: IntArray = intArrayOf(0xff0000ff.toInt(), 0xffff0000.toInt(), 0xffffff00.toInt())
+    var sourceColors: IntArray =
+        intArrayOf(0xff0000ff.toInt(), 0xffff0000.toInt(), 0xffffff00.toInt())
+    var actualColors: IntArray =
+        intArrayOf(0xff0000ff.toInt(), 0xffff0000.toInt(), 0xffffff00.toInt())
     var zAltitudes: IntArray = intArrayOf(0, 0, 0)
     var places: FloatArray = floatArrayOf(0f, 0.5f, 1f)
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(
         context,
         attrs,
         defStyleAttr,
         defStyleRes
     ) {
-        selectYesDrawable = ContextCompat.getDrawable(context, R.drawable.svg_pseudo_triangle_select)!!
-        selectNotDrawable = ContextCompat.getDrawable(context, R.drawable.svg_pseudo_triangle_not_select)!!
+        selectYesDrawable =
+            ContextCompat.getDrawable(context, R.drawable.svg_pseudo_triangle_select)!!
+        selectNotDrawable =
+            ContextCompat.getDrawable(context, R.drawable.svg_pseudo_triangle_not_select)!!
         selectYesDrawable.setBounds(0, 0, SizeUtils.dp2px(16f), SizeUtils.dp2px(10f))
         selectNotDrawable.setBounds(0, 0, SizeUtils.dp2px(16f), SizeUtils.dp2px(10f))
     }
@@ -90,7 +105,15 @@ class PseudoPickView : View {
         this.places = places
         refreshActualColors()
         barPaint.shader =
-            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+            LinearGradient(
+                barRect.left,
+                0f,
+                barRect.right,
+                0f,
+                actualColors,
+                places,
+                Shader.TileMode.CLAMP
+            )
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
@@ -100,7 +123,15 @@ class PseudoPickView : View {
         actualColors[selectIndex] = color
         refreshActualColors()
         barPaint.shader =
-            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+            LinearGradient(
+                barRect.left,
+                0f,
+                barRect.right,
+                0f,
+                actualColors,
+                places,
+                Shader.TileMode.CLAMP
+            )
         invalidate()
     }
 
@@ -137,7 +168,15 @@ class PseudoPickView : View {
         selectIndex = addIndex
         refreshActualColors()
         barPaint.shader =
-            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+            LinearGradient(
+                barRect.left,
+                0f,
+                barRect.right,
+                0f,
+                actualColors,
+                places,
+                Shader.TileMode.CLAMP
+            )
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
@@ -160,7 +199,15 @@ class PseudoPickView : View {
         }
         refreshActualColors()
         barPaint.shader =
-            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+            LinearGradient(
+                barRect.left,
+                0f,
+                barRect.right,
+                0f,
+                actualColors,
+                places,
+                Shader.TileMode.CLAMP
+            )
         invalidate()
         onSelectChangeListener?.invoke(selectIndex)
     }
@@ -214,16 +261,33 @@ class PseudoPickView : View {
             ((widthSize - selectRadius * 2) * 30 / 311f).toInt().toFloat()
         )
         barPaint.shader =
-            LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+            LinearGradient(
+                barRect.left,
+                0f,
+                barRect.right,
+                0f,
+                actualColors,
+                places,
+                Shader.TileMode.CLAMP
+            )
         val wantHeight: Int =
-            barRect.height().toInt() + SizeUtils.dp2px(2f) + selectNotDrawable.bounds.height() + selectRadius * 2
+            barRect.height()
+                .toInt() + SizeUtils.dp2px(2f) + selectNotDrawable.bounds.height() + selectRadius * 2
         setMeasuredDimension(widthSize, wantHeight)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val barRadius = SizeUtils.dp2px(4f).toFloat()
-        canvas.drawRoundRect(barRect.left, 0f, barRect.right, barRect.bottom, barRadius, barRadius, barPaint)
+        canvas.drawRoundRect(
+            barRect.left,
+            0f,
+            barRect.right,
+            barRect.bottom,
+            barRadius,
+            barRadius,
+            barPaint
+        )
         canvas.translate(0f, barRect.bottom + SizeUtils.dp2px(2f))
         val strokeWidth: Float = SizeUtils.dp2px(1.5f).toFloat()
         val circleRadius: Float = (selectRadius - strokeWidth * 2).toInt().toFloat()
@@ -326,15 +390,51 @@ class PseudoPickView : View {
                         }
                     }
                     if (newIndex < oldIndex) {
-                        System.arraycopy(sourceColors, newIndex, sourceColors, newIndex + 1, oldIndex - newIndex)
-                        System.arraycopy(zAltitudes, newIndex, zAltitudes, newIndex + 1, oldIndex - newIndex)
-                        System.arraycopy(places, newIndex, places, newIndex + 1, oldIndex - newIndex)
+                        System.arraycopy(
+                            sourceColors,
+                            newIndex,
+                            sourceColors,
+                            newIndex + 1,
+                            oldIndex - newIndex
+                        )
+                        System.arraycopy(
+                            zAltitudes,
+                            newIndex,
+                            zAltitudes,
+                            newIndex + 1,
+                            oldIndex - newIndex
+                        )
+                        System.arraycopy(
+                            places,
+                            newIndex,
+                            places,
+                            newIndex + 1,
+                            oldIndex - newIndex
+                        )
                         selectIndex = newIndex
                         sourceColors[newIndex] = currentColor
                     } else if (newIndex > oldIndex) {
-                        System.arraycopy(sourceColors, oldIndex + 1, sourceColors, oldIndex, newIndex - oldIndex)
-                        System.arraycopy(zAltitudes, oldIndex + 1, zAltitudes, oldIndex, newIndex - oldIndex)
-                        System.arraycopy(places, oldIndex + 1, places, oldIndex, newIndex - oldIndex)
+                        System.arraycopy(
+                            sourceColors,
+                            oldIndex + 1,
+                            sourceColors,
+                            oldIndex,
+                            newIndex - oldIndex
+                        )
+                        System.arraycopy(
+                            zAltitudes,
+                            oldIndex + 1,
+                            zAltitudes,
+                            oldIndex,
+                            newIndex - oldIndex
+                        )
+                        System.arraycopy(
+                            places,
+                            oldIndex + 1,
+                            places,
+                            oldIndex,
+                            newIndex - oldIndex
+                        )
                         selectIndex = newIndex
                         sourceColors[newIndex] = currentColor
                     }
@@ -342,7 +442,15 @@ class PseudoPickView : View {
                     zAltitudes[newIndex] = calculateZAltitude(newPlace)
                     refreshActualColors()
                     barPaint.shader =
-                        LinearGradient(barRect.left, 0f, barRect.right, 0f, actualColors, places, Shader.TileMode.CLAMP)
+                        LinearGradient(
+                            barRect.left,
+                            0f,
+                            barRect.right,
+                            0f,
+                            actualColors,
+                            places,
+                            Shader.TileMode.CLAMP
+                        )
                     invalidate()
                 }
             }

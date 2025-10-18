@@ -12,7 +12,9 @@ import com.topdon.module.user.R
 import java.text.DecimalFormat
 
 class DownloadProDialog(context: Context) : Dialog(context, R.style.InfoDialog) {
-    private val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_download_pro, null)
+    private val rootView: View =
+        LayoutInflater.from(context).inflate(R.layout.dialog_download_pro, null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setCancelable(false)
@@ -29,7 +31,11 @@ class DownloadProDialog(context: Context) : Dialog(context, R.style.InfoDialog) 
     fun refreshProgress(current: Long, total: Long) {
         val progress = (current * 100f / total).toInt()
         rootView.tv_size.text =
-            "${context.getString(R.string.detail_len)}: ${getFileSizeStr(current)}/${getFileSizeStr(total)}"
+            "${context.getString(R.string.detail_len)}: ${getFileSizeStr(current)}/${
+                getFileSizeStr(
+                    total
+                )
+            }"
         rootView.progress_bar.progress = progress
         rootView.tv_progress.text = "${progress}%"
     }

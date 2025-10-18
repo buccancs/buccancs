@@ -156,7 +156,10 @@ class ReportPickImgActivity : BaseActivity(), View.OnClickListener {
                     .withBoolean(ExtraKeyConfig.IS_PICK_REPORT_IMG, true)
                     .withBoolean(IS_REPORT_FIRST, false)
                     .withString(ExtraKeyConfig.FILE_ABSOLUTE_PATH, irPath)
-                    .withParcelable(ExtraKeyConfig.REPORT_INFO, intent.getParcelableExtra(ExtraKeyConfig.REPORT_INFO))
+                    .withParcelable(
+                        ExtraKeyConfig.REPORT_INFO,
+                        intent.getParcelableExtra(ExtraKeyConfig.REPORT_INFO)
+                    )
                     .withParcelable(
                         ExtraKeyConfig.REPORT_CONDITION,
                         intent.getParcelableExtra(ExtraKeyConfig.REPORT_CONDITION)

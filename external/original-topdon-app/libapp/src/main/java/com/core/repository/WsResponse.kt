@@ -34,6 +34,7 @@ data class WsRange(
 data class WsLight(
     val brightness: Int?//81-100 高，61-80 中，0-60 低
 )
+
 /**
  * websocket - 画中画
  */

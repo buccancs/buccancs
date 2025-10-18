@@ -5,7 +5,7 @@ import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.ShimmerSettingsRepository
 import com.buccancs.domain.repository.TopdonDeviceRepository
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,7 +34,10 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
     private val topdonDeviceRepository: TopdonDeviceRepository
 ) : HardwareConfigurationUseCase {
 
-    override suspend fun configureShimmerMacAddress(deviceId: DeviceId, macAddress: String?): Result<Unit> {
+    override suspend fun configureShimmerMacAddress(
+        deviceId: DeviceId,
+        macAddress: String?
+    ): Result<Unit> {
         return try {
             val normalized = macAddress?.takeIf { it.isNotBlank() }?.uppercase(Locale.US)
 
@@ -59,7 +62,10 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
         }
     }
 
-    override suspend fun configureShimmerGsrRange(deviceId: DeviceId, rangeIndex: Int): Result<Unit> {
+    override suspend fun configureShimmerGsrRange(
+        deviceId: DeviceId,
+        rangeIndex: Int
+    ): Result<Unit> {
         return try {
             val normalized = rangeIndex.coerceIn(0, 4) // 0-4 for Shimmer GSR ranges
 
@@ -84,7 +90,10 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
         }
     }
 
-    override suspend fun configureShimmerSampleRate(deviceId: DeviceId, sampleRateHz: Double): Result<Unit> {
+    override suspend fun configureShimmerSampleRate(
+        deviceId: DeviceId,
+        sampleRateHz: Double
+    ): Result<Unit> {
         return try {
             val sanitized = if (sampleRateHz.isFinite() && sampleRateHz > 0.0) {
                 sampleRateHz
@@ -122,7 +131,10 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
         }
     }
 
-    override suspend fun configureRgbCamera(deviceId: DeviceId, settings: Map<String, String>): Result<Unit> {
+    override suspend fun configureRgbCamera(
+        deviceId: DeviceId,
+        settings: Map<String, String>
+    ): Result<Unit> {
         return try {
             sensorRepository.configure(deviceId, settings)
             Result.success(Unit)

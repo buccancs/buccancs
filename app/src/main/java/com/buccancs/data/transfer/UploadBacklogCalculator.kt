@@ -3,7 +3,7 @@ package com.buccancs.data.transfer
 import com.buccancs.domain.model.UploadBacklogLevel
 import com.buccancs.domain.model.UploadBacklogState
 import com.buccancs.domain.model.UploadStatus
-import java.util.*
+import java.util.Locale
 import kotlin.math.log10
 import kotlin.math.max
 import kotlin.math.pow
@@ -27,7 +27,13 @@ internal object UploadBacklogCalculator {
         val queuedCount = active.size
         val perSessionQueued = active.groupBy { it.sessionId }.mapValues { it.value.size }
         val perSessionBytes = active.groupBy { it.sessionId }
-            .mapValues { entry -> entry.value.sumOf { (it.bytesTotal - it.bytesTransferred).coerceAtLeast(0) } }
+            .mapValues { entry ->
+                entry.value.sumOf {
+                    (it.bytesTotal - it.bytesTransferred).coerceAtLeast(
+                        0
+                    )
+                }
+            }
         val level = levelFor(queuedBytes, queuedCount)
         val message = when (level) {
             UploadBacklogLevel.NORMAL -> null
@@ -35,7 +41,11 @@ internal object UploadBacklogCalculator {
                 "Upload backlog warning: $queuedCount items pending (${formatBytes(queuedBytes)})."
 
             UploadBacklogLevel.CRITICAL ->
-                "Upload backlog critical: throttling queue at $queuedCount items (${formatBytes(queuedBytes)})."
+                "Upload backlog critical: throttling queue at $queuedCount items (${
+                    formatBytes(
+                        queuedBytes
+                    )
+                })."
         }
         return UploadBacklogState(
             level = level,

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.topdon.lib.core.tools.TimeTool
 
 @Entity(tableName = "thermal")
-class ThermalEntity  {
+class ThermalEntity {
 
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0

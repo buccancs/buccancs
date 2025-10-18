@@ -8,7 +8,8 @@ object TempUtil {
         if (point1 == point2) {
             return ArrayList(0)
         }
-        val pointList: ArrayList<Point> = ArrayList(abs(point1.x - point2.x).coerceAtLeast(abs(point1.y - point2.y)))
+        val pointList: ArrayList<Point> =
+            ArrayList(abs(point1.x - point2.x).coerceAtLeast(abs(point1.y - point2.y)))
         if (point1.x == point2.x) {
             val startY = point1.y.coerceAtMost(point2.y)
             val endY = point1.y.coerceAtLeast(point2.y)
@@ -43,7 +44,8 @@ object TempUtil {
         val tempList: ArrayList<Float> = ArrayList(pointList.size)
         pointList.forEach {
             val index = (it.y * width + it.x) * 2
-            val tempInt = (tempArray[index + 1].toInt() shl 8 and 0xff00) or (tempArray[index].toInt() and 0xff)
+            val tempInt =
+                (tempArray[index + 1].toInt() shl 8 and 0xff00) or (tempArray[index].toInt() and 0xff)
             val tempValue = tempInt / 64f - 273.15f
             tempList.add(tempValue)
         }

@@ -54,8 +54,6 @@ open class DirBase {
     var dangerCount: Int = 0
 
 
-
-
     override fun equals(other: Any?): Boolean = other is DirBase && other.id == id
 
     override fun hashCode(): Int = id.toInt()
@@ -68,16 +66,18 @@ open class DirBase {
 }
 
 
-
 /**
  * 检测所属的一项目录.
  */
-@Entity(foreignKeys = [ForeignKey(
-    entity = HouseDetect::class,
-    parentColumns = ["id"],
-    childColumns = ["parentId"],
-    onDelete = ForeignKey.CASCADE,
-    onUpdate = ForeignKey.CASCADE,)])
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = HouseDetect::class,
+        parentColumns = ["id"],
+        childColumns = ["parentId"],
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE,
+    )]
+)
 class DirDetect() : DirBase() {
     @Ignore
     constructor(parentId: Long, position: Int, dirName: String) : this() {
@@ -183,16 +183,18 @@ class DirDetect() : DirBase() {
 }
 
 
-
 /**
  * 报告所属的一项目录.
  */
-@Entity(foreignKeys = [ForeignKey(
-    entity = HouseReport::class,
-    parentColumns = ["id"],
-    childColumns = ["parentId"],
-    onDelete = ForeignKey.CASCADE,
-    onUpdate = ForeignKey.CASCADE,)])
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = HouseReport::class,
+        parentColumns = ["id"],
+        childColumns = ["parentId"],
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE,
+    )]
+)
 class DirReport : DirBase() {
     /**
      * 所对应的报告 Id

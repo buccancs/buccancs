@@ -36,7 +36,7 @@ object GalleryRepository {
                 return false
             }
             val fileList = sourceDir.listFiles()
-            if(fileList?.isEmpty() == true){
+            if (fileList?.isEmpty() == true) {
                 return false
             }
             if (!targetDir.exists()) {
@@ -45,7 +45,7 @@ object GalleryRepository {
             //遍历要复制该目录下的全部文件
             fileList?.forEach {
                 val path = sourceDir.absolutePath + File.separator + it.name
-                copyPictureFile(path,targetDir.absolutePath + File.separator + it.name)
+                copyPictureFile(path, targetDir.absolutePath + File.separator + it.name)
             }
             return true
         } catch (ex: Exception) {
@@ -76,7 +76,8 @@ object GalleryRepository {
     fun readLatest(dirType: DirType): String {
         var firstPath = ""
         try {
-            val path = if (dirType == DirType.LINE) FileConfig.lineGalleryDir else FileConfig.tc007GalleryDir
+            val path =
+                if (dirType == DirType.LINE) FileConfig.lineGalleryDir else FileConfig.tc007GalleryDir
             val dirFile = File(path)
             if (dirFile.isDirectory) {
                 val files = dirFile.listFiles()!!
@@ -101,11 +102,18 @@ object GalleryRepository {
      * @param pageNum 页码，从1开始
      * @param pageCount 每页数据条数
      */
-    suspend fun loadByPage(isVideo: Boolean, dirType: DirType, pageNum: Int, pageCount: Int): ArrayList<GalleryBean>? {
+    suspend fun loadByPage(
+        isVideo: Boolean,
+        dirType: DirType,
+        pageNum: Int,
+        pageCount: Int
+    ): ArrayList<GalleryBean>? {
         return withContext(Dispatchers.IO) {
             val resultList: ArrayList<GalleryBean> = ArrayList()
             if (dirType == DirType.TS004_REMOTE) {
-                val pageList = TS004Repository.getFileByPage(if (isVideo) 1 else 0, pageNum, pageCount) ?: return@withContext null
+                val pageList =
+                    TS004Repository.getFileByPage(if (isVideo) 1 else 0, pageNum, pageCount)
+                        ?: return@withContext null
                 pageList.forEach {
                     resultList.add(GalleryBean(isVideo, it))
                 }
@@ -137,23 +145,24 @@ object GalleryRepository {
     /**
      * 仅供生成报告使用的，加载所有指定设备类型的图片.
      */
-    suspend fun loadAllReportImg(dirType: DirType): ArrayList<GalleryBean> = withContext(Dispatchers.IO) {
-        val resultList: ArrayList<GalleryBean> = ArrayList()
-        try {
-            val allFileList = loadAllLocale(false, dirType)
-            allFileList.forEach {
-                resultList.add(GalleryBean(it))
-            }
-            if (resultList.isNotEmpty()) {
-                resultList.sortByDescending {
-                    it.timeMillis
+    suspend fun loadAllReportImg(dirType: DirType): ArrayList<GalleryBean> =
+        withContext(Dispatchers.IO) {
+            val resultList: ArrayList<GalleryBean> = ArrayList()
+            try {
+                val allFileList = loadAllLocale(false, dirType)
+                allFileList.forEach {
+                    resultList.add(GalleryBean(it))
                 }
+                if (resultList.isNotEmpty()) {
+                    resultList.sortByDescending {
+                        it.timeMillis
+                    }
+                }
+            } catch (e: Exception) {
+                XLog.e("读取图库失败: ${e.message}")
             }
-        } catch (e: Exception) {
-            XLog.e("读取图库失败: ${e.message}")
+            return@withContext resultList
         }
-        return@withContext resultList
-    }
 
     /**
      * 加载本地所有指定类型的图片或视频列表.
@@ -165,7 +174,12 @@ object GalleryRepository {
                 val isSuccess = copySourDir(sourFile, File(FileConfig.lineGalleryDir))
                 if (isSuccess) {
                     FileUtils.delete(sourFile)
-                    MediaScannerConnection.scanFile(Utils.getApp(), arrayOf(FileConfig.lineGalleryDir), null, null)
+                    MediaScannerConnection.scanFile(
+                        Utils.getApp(),
+                        arrayOf(FileConfig.lineGalleryDir),
+                        null,
+                        null
+                    )
                 }
             }
         }

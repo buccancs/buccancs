@@ -65,7 +65,8 @@ class MainFragment : BaseFragment(), View.OnClickListener {
 
                 ConnectType.TS004 -> {
                     if (WebSocketProxy.getInstance().isTS004Connect()) {
-                        ARouter.getInstance().build(RouterConfig.IR_MONOCULAR).navigation(requireContext())
+                        ARouter.getInstance().build(RouterConfig.IR_MONOCULAR)
+                            .navigation(requireContext())
                     } else {
                         ARouter.getInstance()
                             .build(RouterConfig.IR_DEVICE_ADD)
@@ -134,7 +135,8 @@ class MainFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun refresh() {
-        val hasAnyDevice = SharedManager.hasTcLine || SharedManager.hasTS004 || SharedManager.hasTC007
+        val hasAnyDevice =
+            SharedManager.hasTcLine || SharedManager.hasTS004 || SharedManager.hasTC007
         val binding = binding
         binding.clHasDevice.isVisible = hasAnyDevice
         binding.clNoDevice.isVisible = !hasAnyDevice
@@ -193,7 +195,8 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             }
             try {
                 val battery: JSONObject = JSONObject(event.text).getJSONObject("battery")
-                adapter.tc007Battery = BatteryInfo(battery.getString("status"), battery.getString("remaining"))
+                adapter.tc007Battery =
+                    BatteryInfo(battery.getString("status"), battery.getString("remaining"))
             } catch (_: Exception) {
             }
         }
@@ -226,7 +229,10 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         var onItemClickListener: ((type: ConnectType) -> Unit)? = null
         var onItemLongClickListener: ((view: View, type: ConnectType) -> Unit)? = null
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_device_connect, parent, false))
+            return ViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_device_connect, parent, false)
+            )
         }
 
         @SuppressLint("SetTextI18n")
@@ -254,7 +260,8 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             itemBinding.viewDeviceState.isSelected = hasConnect
             itemBinding.tvDeviceState.isSelected = hasConnect
             itemBinding.tvDeviceState.text = if (hasConnect) "online" else "offline"
-            itemBinding.tvBattery.isVisible = type == ConnectType.TC007 && hasConnectTC007 && tc007Battery != null
+            itemBinding.tvBattery.isVisible =
+                type == ConnectType.TC007 && hasConnectTC007 && tc007Battery != null
             itemBinding.batteryView.isVisible =
                 type == ConnectType.TC007 && hasConnectTC007 && tc007Battery != null
             when (type) {
@@ -372,10 +379,10 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         LINE,
         TS004,
         TC007,
-    
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+        override fun onDestroyView() {
+            super.onDestroyView()
+            _binding = null
+        }
     }
-}

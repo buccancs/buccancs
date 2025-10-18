@@ -11,7 +11,8 @@ import com.buccancs.domain.model.SensorStreamStatus
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -79,7 +80,8 @@ class HardwareDebugger @Inject constructor(
      */
     @SuppressLint("MissingPermission", "HardwareIds")
     fun scanBluetoothDevices(): BluetoothInfo {
-        val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
+        val bluetoothManager =
+            context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
         val adapter = bluetoothManager?.adapter
 
         val info = BluetoothInfo(
@@ -120,7 +122,12 @@ class HardwareDebugger @Inject constructor(
     /**
      * Log device connection event
      */
-    fun logConnection(deviceId: DeviceId, deviceType: String, success: Boolean, durationMs: Long? = null) {
+    fun logConnection(
+        deviceId: DeviceId,
+        deviceType: String,
+        success: Boolean,
+        durationMs: Long? = null
+    ) {
         val status = if (success) "SUCCESS" else "FAILED"
         val duration = durationMs?.let { " (${it}ms)" } ?: ""
         logToFile("CONNECTION $status: $deviceType ${deviceId.value}$duration")
@@ -144,7 +151,15 @@ class HardwareDebugger @Inject constructor(
         logToFile("  Type: ${status.streamType}")
         logToFile("  Sample Rate: ${status.sampleRateHz ?: "N/A"} Hz")
         logToFile("  Frame Rate: ${status.frameRateFps ?: "N/A"} fps")
-        logToFile("  Buffered: ${String.format(Locale.US, "%.3f", status.bufferedDurationSeconds)}s")
+        logToFile(
+            "  Buffered: ${
+                String.format(
+                    Locale.US,
+                    "%.3f",
+                    status.bufferedDurationSeconds
+                )
+            }s"
+        )
         logToFile("  Streaming: ${status.isStreaming}")
         logToFile("  Simulated: ${status.isSimulated}")
         logToFile("")
@@ -183,7 +198,17 @@ class HardwareDebugger @Inject constructor(
      */
     fun logGsrData(deviceId: DeviceId, conductance: Double?, resistance: Double?) {
         logToFile("GSR: ${deviceId.value}")
-        conductance?.let { logToFile("  Conductance: ${String.format(Locale.US, "%.6f", it)} microsiemens") }
+        conductance?.let {
+            logToFile(
+                "  Conductance: ${
+                    String.format(
+                        Locale.US,
+                        "%.6f",
+                        it
+                    )
+                } microsiemens"
+            )
+        }
         resistance?.let { logToFile("  Resistance: ${String.format(Locale.US, "%.2f", it)} ohms") }
     }
 
@@ -230,7 +255,13 @@ class HardwareDebugger @Inject constructor(
             val drops = intervals.count { it > expectedInterval * 1.5 }
             dropCount += drops
 
-            return FrameRateStats(actualFps, jitter.toDouble(), actualFps / expectedFps * 100, frameCount, dropCount)
+            return FrameRateStats(
+                actualFps,
+                jitter.toDouble(),
+                actualFps / expectedFps * 100,
+                frameCount,
+                dropCount
+            )
         }
     }
 

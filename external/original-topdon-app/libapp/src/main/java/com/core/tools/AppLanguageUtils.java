@@ -101,7 +101,7 @@ public class AppLanguageUtils {
         resources.updateConfiguration(configuration, dm);
     }
 
-    public static void getConf(){
+    public static void getConf() {
 
     }
 

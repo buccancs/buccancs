@@ -13,12 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.utils.IRConfigData
+
 // Stubbed: import kotlinx.android.synthetic.main.item_ir_config_emissivity.view.*
 
 class ConfigEmAdapter(val context: Context) : RecyclerView.Adapter<ConfigEmAdapter.ViewHolder>() {
     private val dataList: ArrayList<IRConfigData> = IRConfigData.irConfigData(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ir_config_emissivity, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_ir_config_emissivity, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -42,10 +45,22 @@ class ConfigEmAdapter(val context: Context) : RecyclerView.Adapter<ConfigEmAdapt
             canvas.drawLine(0f, 0f, 0f, bounds.bottom.toFloat(), paint)
             canvas.drawLine(0f, 0f, bounds.right.toFloat(), 0f, paint)
             if (drawRight) {
-                canvas.drawLine(bounds.right.toFloat(), 0f, bounds.right.toFloat(), bounds.bottom.toFloat(), paint)
+                canvas.drawLine(
+                    bounds.right.toFloat(),
+                    0f,
+                    bounds.right.toFloat(),
+                    bounds.bottom.toFloat(),
+                    paint
+                )
             }
             if (drawBottom) {
-                canvas.drawLine(0f, bounds.bottom.toFloat(), bounds.right.toFloat(), bounds.bottom.toFloat(), paint)
+                canvas.drawLine(
+                    0f,
+                    bounds.bottom.toFloat(),
+                    bounds.right.toFloat(),
+                    bounds.bottom.toFloat(),
+                    paint
+                )
             }
         }
 

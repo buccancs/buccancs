@@ -18,7 +18,8 @@ import com.topdon.lib.core.view.ColorSelectView
  *
  * Created by LCG on 2024/2/2.
  */
-class ColorSelectDialog(context: Context, @ColorInt private var color: Int) : Dialog(context, R.style.InfoDialog) {
+class ColorSelectDialog(context: Context, @ColorInt private var color: Int) :
+    Dialog(context, R.style.InfoDialog) {
 
     /**
      * 颜色值拾取事件监听.
@@ -32,7 +33,8 @@ class ColorSelectDialog(context: Context, @ColorInt private var color: Int) : Di
         setCanceledOnTouchOutside(true)
 
 
-        val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_color_select, null)
+        val rootView: View =
+            LayoutInflater.from(context).inflate(R.layout.dialog_color_select, null)
         setContentView(rootView)
         rootView.color_select_view.selectColor(color)
         rootView.color_select_view.onSelectListener = {

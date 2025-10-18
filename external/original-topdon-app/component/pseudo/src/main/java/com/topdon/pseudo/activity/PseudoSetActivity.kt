@@ -31,7 +31,8 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
     override fun initView() {
         val isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
         customPseudoBean =
-            intent.getParcelableExtra(ExtraKeyConfig.CUSTOM_PSEUDO_BEAN) ?: CustomPseudoBean.loadFromShared(isTC007)
+            intent.getParcelableExtra(ExtraKeyConfig.CUSTOM_PSEUDO_BEAN)
+                ?: CustomPseudoBean.loadFromShared(isTC007)
         switchDynamicCustom(customPseudoBean.isUseCustomPseudo)
         et_max_temp.setText(UnitTools.showNoUnit(customPseudoBean.maxTemp))
         et_min_temp.setText(UnitTools.showNoUnit(customPseudoBean.minTemp))
@@ -51,7 +52,8 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
             }
             color_select_view.selectColor(pseudo_pick_view.sourceColors[it])
             iv_custom_add.isEnabled = pseudo_pick_view.sourceColors.size < 7
-            iv_custom_del.isEnabled = pseudo_pick_view.sourceColors.size > 3 && !pseudo_pick_view.isCurrentOnlyLimit()
+            iv_custom_del.isEnabled =
+                pseudo_pick_view.sourceColors.size > 3 && !pseudo_pick_view.isCurrentOnlyLimit()
         }
         pseudo_pick_view.reset(
             customPseudoBean.selectIndex,
@@ -61,7 +63,8 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
         )
         view_recommend_color1.background = buildRectDrawableArray(ColorRecommend.colorList1)
         view_recommend_color2.background = buildRectDrawableArray(ColorRecommend.colorList2)
-        view_recommend_color3.background = buildRectDrawableArray(ColorRecommend.getColorByIndex(isTC007, 2))
+        view_recommend_color3.background =
+            buildRectDrawableArray(ColorRecommend.getColorByIndex(isTC007, 2))
         view_recommend_color4.background = buildRectDrawableArray(ColorRecommend.colorList4)
         view_recommend_color5.background = buildRectDrawableArray(ColorRecommend.colorList5)
         switchRecommendColorIndex(customPseudoBean.customRecommendIndex)
@@ -215,12 +218,22 @@ class PseudoSetActivity : BaseActivity(), View.OnClickListener {
                         return
                     }
                     val maxTemp = try {
-                        UnitTools.showToCValue(BigDecimal(inputMax).setScale(1, RoundingMode.HALF_UP).toFloat())
+                        UnitTools.showToCValue(
+                            BigDecimal(inputMax).setScale(
+                                1,
+                                RoundingMode.HALF_UP
+                            ).toFloat()
+                        )
                     } catch (e: NumberFormatException) {
                         null
                     }
                     val minTemp = try {
-                        UnitTools.showToCValue(BigDecimal(inputMin).setScale(1, RoundingMode.HALF_UP).toFloat())
+                        UnitTools.showToCValue(
+                            BigDecimal(inputMin).setScale(
+                                1,
+                                RoundingMode.HALF_UP
+                            ).toFloat()
+                        )
                     } catch (e: NumberFormatException) {
                         null
                     }

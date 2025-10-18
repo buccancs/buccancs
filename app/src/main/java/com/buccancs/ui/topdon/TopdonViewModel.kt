@@ -3,7 +3,14 @@ package com.buccancs.ui.topdon
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.TopdonPalette
+import com.buccancs.domain.model.TopdonPreviewFrame
+import com.buccancs.domain.model.TopdonSettings
+import com.buccancs.domain.model.TopdonSuperSamplingFactor
 import com.buccancs.domain.repository.TopdonDeviceRepository
 import com.buccancs.domain.repository.TopdonSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

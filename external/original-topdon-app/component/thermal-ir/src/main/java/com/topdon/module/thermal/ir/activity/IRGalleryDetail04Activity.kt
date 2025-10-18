@@ -82,7 +82,8 @@ class IRGalleryDetail04Activity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     private fun initViewPager() {
         ir_gallery_viewpager.adapter = GalleryViewPagerAdapter(this)
-        ir_gallery_viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        ir_gallery_viewpager.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 this@IRGalleryDetail04Activity.position = position
@@ -208,7 +209,11 @@ class IRGalleryDetail04Activity : BaseActivity() {
             }
 
             override fun onResourceReady(
-                resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean
+                resource: File?,
+                model: Any?,
+                target: Target<File>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
             ): Boolean {
                 EventBus.getDefault().post(GalleryDownloadEvent(data.name))
                 dismissCameraLoading()

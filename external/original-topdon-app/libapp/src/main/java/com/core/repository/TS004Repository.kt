@@ -32,8 +32,8 @@ import java.util.concurrent.TimeUnit
 object TS004Repository {
     private fun Any.toBody(): RequestBody = Gson().toJson(this).toRequestBody()
 
-    var netWork : Network ?= null
-    private fun getOKHttpClient(): OkHttpClient  {
+    var netWork: Network? = null
+    private fun getOKHttpClient(): OkHttpClient {
         val build = OkHttpClient.Builder()
             .retryOnConnectionFailure(false)//不重试
             .connectTimeout(15, TimeUnit.SECONDS) //2024-5-29 TS004 群中决定接口统一超时15秒
@@ -61,7 +61,10 @@ object TS004Repository {
      * @param dataMap key-URL，value-保存为的文件
      * @param listener 每个下载结果的回调，在主线程回调
      */
-    suspend fun downloadList(dataMap: Map<String, File>, listener: ((path: String, isSuccess: Boolean) -> Unit)): Int {
+    suspend fun downloadList(
+        dataMap: Map<String, File>,
+        listener: ((path: String, isSuccess: Boolean) -> Unit)
+    ): Int {
         return withContext(Dispatchers.IO) {
             var successCount = 0
             dataMap.forEach {
@@ -186,7 +189,8 @@ object TS004Repository {
             paramMap["pageNum"] = 1
             paramMap["pageCount"] = 1
             paramMap["fileType"] = fileType
-            getTS004Service().getFileList(paramMap.toBody()).data?.filelist ?: return@withContext ArrayList()
+            getTS004Service().getFileList(paramMap.toBody()).data?.filelist
+                ?: return@withContext ArrayList()
         } catch (_: Exception) {
             null
         }
@@ -218,19 +222,21 @@ object TS004Repository {
      * @param fileType 0-图片 1-录像 2-所有
      * @return null-请求失败
      */
-    suspend fun getFileByPage(fileType: Int, pageNum: Int, pageCount: Int): List<FileBean>? = withContext(Dispatchers.IO) {
-        try {
-            val paramMap: HashMap<String, Any> = HashMap()
-            paramMap["pageNum"] = pageNum
-            paramMap["pageCount"] = pageCount
-            paramMap["fileType"] = fileType
-            getTS004Service().getFileList(paramMap.toBody()).data?.filelist ?: ArrayList()
-        } catch (_: Exception) {
-            null
+    suspend fun getFileByPage(fileType: Int, pageNum: Int, pageCount: Int): List<FileBean>? =
+        withContext(Dispatchers.IO) {
+            try {
+                val paramMap: HashMap<String, Any> = HashMap()
+                paramMap["pageNum"] = pageNum
+                paramMap["pageCount"] = pageCount
+                paramMap["fileType"] = fileType
+                getTS004Service().getFileList(paramMap.toBody()).data?.filelist ?: ArrayList()
+            } catch (_: Exception) {
+                null
+            }
         }
-    }
 
     data class IdData(val id: Int)
+
     /**
      * 删除指定 id 的照片视频文件
      */
@@ -314,7 +320,8 @@ object TS004Repository {
                     hasReadCount = 0
                     byteArray = ByteArray(1024 * 1024 * 5)//5M每包
                 }
-                readCount = fileInputStream.read(byteArray, hasReadCount, byteArray.size - hasReadCount)
+                readCount =
+                    fileInputStream.read(byteArray, hasReadCount, byteArray.size - hasReadCount)
             }
 
             if (hasReadCount > 0) {
@@ -527,6 +534,7 @@ object TS004Repository {
             false
         }
     }
+
     /**
      * 恢复出厂设置
      */
@@ -538,6 +546,7 @@ object TS004Repository {
             false
         }
     }
+
     /**
      * 设置超分
      * @param  state 0-关闭 1-开启

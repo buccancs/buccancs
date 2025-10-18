@@ -171,8 +171,10 @@ class TempAlarmSetDialog(
         var highValue: Float? = null
         var lowValue: Float? = null
         try {
-            highValue = if (inputHigh.isNotEmpty()) UnitTools.showToCValue(inputHigh.toFloat()) else null
-            lowValue = if (inputLow.isNotEmpty()) UnitTools.showToCValue(inputLow.toFloat()) else null
+            highValue =
+                if (inputHigh.isNotEmpty()) UnitTools.showToCValue(inputHigh.toFloat()) else null
+            lowValue =
+                if (inputLow.isNotEmpty()) UnitTools.showToCValue(inputLow.toFloat()) else null
         } catch (_: Exception) {
         }
         alarmBean.highTemp = highValue ?: Float.MAX_VALUE
@@ -185,7 +187,8 @@ class TempAlarmSetDialog(
     }
 
     private fun showColorDialog(isHigh: Boolean) {
-        val colorPickDialog = ColorPickDialog(context, if (isHigh) alarmBean.highColor else alarmBean.lowColor, -1)
+        val colorPickDialog =
+            ColorPickDialog(context, if (isHigh) alarmBean.highColor else alarmBean.lowColor, -1)
         colorPickDialog.onPickListener = { it: Int, i1: Int ->
             if (isHigh) {
                 alarmBean.highColor = it

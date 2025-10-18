@@ -23,7 +23,8 @@ public object SyncSignalRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SyncSignalRequest.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.SyncSignalRequest.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -114,7 +115,8 @@ public object SyncSignalRequestKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.SyncSignalRequest.copy(block: `com.buccancs.control`.SyncSignalRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SyncSignalRequest =
-    `com.buccancs.control`.SyncSignalRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.SyncSignalRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 
 public val com.buccancs.control.SyncSignalRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?
     get() = if (hasSession()) getSession() else null

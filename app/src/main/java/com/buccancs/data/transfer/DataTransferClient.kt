@@ -63,7 +63,8 @@ class DataTransferClient @Inject constructor(
     ): DataTransferRequest = dataTransferRequest {
         session = sessionIdentifier { id = sessionId }
         deviceId = artifact.deviceId.value
-        fileName = artifact.file?.name ?: artifact.uri.lastPathSegment ?: generateFallbackName(artifact)
+        fileName =
+            artifact.file?.name ?: artifact.uri.lastPathSegment ?: generateFallbackName(artifact)
         sizeBytes = artifact.sizeBytes
         sha256 = ByteString.copyFrom(artifact.checksumSha256)
         mimeType = artifact.mimeType

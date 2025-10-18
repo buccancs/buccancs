@@ -47,6 +47,7 @@ interface TC007Service {
         @Query("md5") md5: String,
         @Part part: MultipartBody.Part
     ): TC007Response<Any?>
+
     /**
      * 查询固件升级状态.
      */
@@ -71,6 +72,7 @@ interface TC007Service {
      */
     @GET("/v1/thermal/env/attribute?default=false")
     suspend fun getEnvAttr(): TC007Response<EnvAttr>
+
     /**
      * 设置测温属性参数
      */
@@ -86,27 +88,30 @@ interface TC007Service {
 
     @GET("/v1/thermal/temp/frame")
     suspend fun getTempFrame(): TC007Response<TempFrameParam>
+
     /**
      * 设置整帧测温（中心点、全图最高温、全图最低温）
      */
     @POST("/v1/thermal/temp/frame")
     suspend fun setTempFrame(@Body requestBody: RequestBody): TC007Response<Any?>
+
     /**
      * 设置测温点
      */
     @POST("/v1/thermal/temp/point")
     suspend fun setTempPoint(@Body requestBody: RequestBody): TC007Response<Any?>
+
     /**
      * 设置测温线
      */
     @POST("/v1/thermal/temp/line")
     suspend fun setTempLine(@Body requestBody: RequestBody): TC007Response<Any?>
+
     /**
      * 设置测温面
      */
     @POST("/v1/thermal/temp/rectangle")
     suspend fun setTempRect(@Body requestBody: RequestBody): TC007Response<Any?>
-
 
 
     /**
@@ -135,9 +140,13 @@ interface TC007Service {
 
     @PUT("/v1/camera/videoin/registration")
     suspend fun setRegistration(@Body requestBody: RequestBody): TC007Response<Any?>
+
     //双光配准
     @GET("/v1/camera/videoin/registration")
-    suspend fun getRegistration(@Query("chn") mode: Int,@Query("default") default : String): TC007Response<WifiAttributeBean?>
+    suspend fun getRegistration(
+        @Query("chn") mode: Int,
+        @Query("default") default: String
+    ): TC007Response<WifiAttributeBean?>
 
     @PUT("/v1/camera/videoin/thermal/pallete/dj")
     suspend fun setPallete(@Body requestBody: RequestBody): TC007Response<Any?>
@@ -158,8 +167,10 @@ interface TC007Service {
      * false
      */
     @GET("/v1/thermal/env/attribute")
-    suspend fun getAttribute(@Query("chn") mode: Int,@Query("default") default : String): TC007Response<AttributeBean?>
-
+    suspend fun getAttribute(
+        @Query("chn") mode: Int,
+        @Query("default") default: String
+    ): TC007Response<AttributeBean?>
 
 
     @POST("/v1/camera/videoin/param")
@@ -167,6 +178,7 @@ interface TC007Service {
 
     @POST("/v1/system/local/font")
     suspend fun setFont(@Body requestBody: RequestBody): TC007Response<Any?>
+
     @PUT("/v1/camera/videoin/thermal/correction")
     suspend fun setCorrection(): TC007Response<Any?>
 

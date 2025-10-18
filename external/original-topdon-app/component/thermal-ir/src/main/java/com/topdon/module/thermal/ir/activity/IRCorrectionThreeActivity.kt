@@ -7,6 +7,7 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.ktbase.BaseActivity
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.fragment.IRCorrectionFragment
+
 // Stubbed: import kotlinx.android.synthetic.main.activity_ir_correction_three.*
 
 @Route(path = RouterConfig.IR_CORRECTION_THREE)

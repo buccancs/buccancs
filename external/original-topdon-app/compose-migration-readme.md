@@ -4,7 +4,8 @@
 
 ### Phase 1: app Module ✅ COMPLETE
 
-The app module has been successfully migrated from XML Views to Jetpack Compose with Material 3 design.
+The app module has been successfully migrated from XML Views to Jetpack Compose with Material 3
+design.
 
 **Progress:** 11/11 activities (100% of app module)  
 **Overall Progress:** 11/81 activities (14% of entire project)
@@ -330,7 +331,8 @@ private fun ScreenPreview() {
 
 ### Running Previews
 
-Open any screen file in Android Studio and click on the preview panel to see the UI without running the app.
+Open any screen file in Android Studio and click on the preview panel to see the UI without running
+the app.
 
 ## Migration Statistics
 
@@ -400,7 +402,8 @@ Open any screen file in Android Studio and click on the preview panel to see the
 **Next Phase:** thermal-ir module (34 activities)  
 **Approach:** Hybrid Compose/AndroidView for risk mitigation
 
-The app module migration demonstrates successful Compose adoption. Phase 2 requires a strategic hybrid approach to
+The app module migration demonstrates successful Compose adoption. Phase 2 requires a strategic
+hybrid approach to
 preserve complex thermal processing while modernising the UI layer.
 
 ---

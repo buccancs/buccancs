@@ -1,18 +1,43 @@
 package com.buccancs.desktop.ui.screens
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.FolderOpen
+import androidx.compose.material.icons.filled.NetworkCheck
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.buccancs.desktop.ui.components.*
+import com.buccancs.desktop.ui.components.BuccancsCard
+import com.buccancs.desktop.ui.components.PrimaryButton
+import com.buccancs.desktop.ui.components.ScreenHeader
+import com.buccancs.desktop.ui.components.SecondaryButton
 import com.buccancs.desktop.ui.theme.BuccancsTheme
 import com.buccancs.desktop.ui.theme.Spacing
 
@@ -28,7 +53,7 @@ fun SettingsScreen() {
     var logLevel by remember { mutableStateOf("INFO") }
     var retentionDays by remember { mutableStateOf("30") }
     var maxStorageGB by remember { mutableStateOf("50") }
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,7 +65,7 @@ fun SettingsScreen() {
             title = "Settings",
             subtitle = "Configure server, storage, appearance and logging"
         )
-        
+
         // Server Configuration
         BuccancsCard(
             title = "Server Configuration",
@@ -54,7 +79,7 @@ fun SettingsScreen() {
                 leadingIcon = { Icon(Icons.Default.NetworkCheck, "Port") },
                 singleLine = true
             )
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -74,7 +99,7 @@ fun SettingsScreen() {
                 )
             }
         }
-        
+
         // Storage Configuration
         BuccancsCard(
             title = "Storage Configuration",
@@ -93,7 +118,7 @@ fun SettingsScreen() {
                 },
                 singleLine = true
             )
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
@@ -106,7 +131,7 @@ fun SettingsScreen() {
                     leadingIcon = { Icon(Icons.Default.CalendarToday, "Days") },
                     singleLine = true
                 )
-                
+
                 OutlinedTextField(
                     value = maxStorageGB,
                     onValueChange = { maxStorageGB = it },
@@ -117,7 +142,7 @@ fun SettingsScreen() {
                 )
             }
         }
-        
+
         // Appearance
         BuccancsCard(
             title = "Appearance",
@@ -142,14 +167,14 @@ fun SettingsScreen() {
                 )
             }
         }
-        
+
         // Logging
         BuccancsCard(
             title = "Logging",
             subtitle = "Debug and diagnostic settings"
         ) {
             var expanded by remember { mutableStateOf(false) }
-            
+
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = it }
@@ -162,10 +187,13 @@ fun SettingsScreen() {
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true),
+                        .menuAnchor(
+                            ExposedDropdownMenuAnchorType.PrimaryNotEditable,
+                            enabled = true
+                        ),
                     leadingIcon = { Icon(Icons.Default.BugReport, "Log") }
                 )
-                
+
                 ExposedDropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
@@ -182,7 +210,7 @@ fun SettingsScreen() {
                 }
             }
         }
-        
+
         // Actions
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -193,7 +221,7 @@ fun SettingsScreen() {
                 onClick = { /* Save */ },
                 modifier = Modifier.weight(1f)
             )
-            
+
             SecondaryButton(
                 text = "Reset to Defaults",
                 onClick = { /* Reset */ },

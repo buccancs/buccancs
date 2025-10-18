@@ -61,14 +61,18 @@ class MainActivity : ComponentActivity() {
                         val allFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP
                         )
-                        val timeStampCluster = ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
+                        val timeStampCluster =
+                            ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
                         val timeStampData = timeStampCluster?.mData
                         Log.i(LOG_TAG, "Time Stamp: $timeStampData")
 
                         val accelXFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X
                         )
-                        val accelXCluster = ObjectCluster.returnFormatCluster(accelXFormats, "CAL") as? FormatCluster
+                        val accelXCluster = ObjectCluster.returnFormatCluster(
+                            accelXFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         accelXCluster?.let {
                             val accelXData = it.mData
                             Log.i(LOG_TAG, "Accel LN X: $accelXData")
@@ -77,7 +81,10 @@ class MainActivity : ComponentActivity() {
                         val accelYFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_Y
                         )
-                        val accelYCluster = ObjectCluster.returnFormatCluster(accelYFormats, "CAL") as? FormatCluster
+                        val accelYCluster = ObjectCluster.returnFormatCluster(
+                            accelYFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         accelYCluster?.let {
                             val accelYData = it.mData
                             Log.i(LOG_TAG, "Accel LN Y: $accelYData")
@@ -86,7 +93,10 @@ class MainActivity : ComponentActivity() {
                         val accelZFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_Z
                         )
-                        val accelZCluster = ObjectCluster.returnFormatCluster(accelZFormats, "CAL") as? FormatCluster
+                        val accelZCluster = ObjectCluster.returnFormatCluster(
+                            accelZFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         accelZCluster?.let {
                             val accelZData = it.mData
                             Log.i(LOG_TAG, "Accel LN Z: $accelZData")
@@ -130,7 +140,9 @@ class MainActivity : ComponentActivity() {
                             "Streaming & Logging"
 
                         ShimmerBluetooth.BT_STATE.SDLOGGING -> connectionState.value = "SD Logging"
-                        ShimmerBluetooth.BT_STATE.DISCONNECTED -> connectionState.value = "Disconnected"
+                        ShimmerBluetooth.BT_STATE.DISCONNECTED -> connectionState.value =
+                            "Disconnected"
+
                         else -> {}
                     }
                 }
@@ -151,7 +163,11 @@ class MainActivity : ComponentActivity() {
         )
 
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 permissionGranted = false
                 break
             }

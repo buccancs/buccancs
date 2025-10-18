@@ -8,7 +8,8 @@ package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializetimeSyncPing")
 public inline fun timeSyncPing(block: com.buccancs.control.TimeSyncPingKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncPing =
-    com.buccancs.control.TimeSyncPingKt.Dsl._create(com.buccancs.control.TimeSyncPing.newBuilder()).apply { block() }
+    com.buccancs.control.TimeSyncPingKt.Dsl._create(com.buccancs.control.TimeSyncPing.newBuilder())
+        .apply { block() }
         ._build()
 
 /**
@@ -23,7 +24,8 @@ public object TimeSyncPingKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.TimeSyncPing.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.TimeSyncPing.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic

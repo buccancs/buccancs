@@ -35,10 +35,12 @@ object AtomicFileWriter {
         val contentBytes = content.toByteArray(charset)
 
         if (checkSpace) {
-            when (val spaceCheck = StorageValidator.checkSpace(targetFile, contentBytes.size.toLong())) {
+            when (val spaceCheck =
+                StorageValidator.checkSpace(targetFile, contentBytes.size.toLong())) {
                 is StorageCheckResult.Insufficient -> {
                     Log.e(
-                        TAG, "Insufficient space: need ${StorageValidator.formatBytes(spaceCheck.required)}, " +
+                        TAG,
+                        "Insufficient space: need ${StorageValidator.formatBytes(spaceCheck.required)}, " +
                                 "have ${StorageValidator.formatBytes(spaceCheck.available)}"
                     )
                     return@withContext WriteResult.Failure.InsufficientSpace(
@@ -49,7 +51,10 @@ object AtomicFileWriter {
 
                 is StorageCheckResult.Error -> {
                     Log.e(TAG, "Error checking space: ${spaceCheck.message}", spaceCheck.cause)
-                    return@withContext WriteResult.Failure.WriteError(spaceCheck.message, spaceCheck.cause)
+                    return@withContext WriteResult.Failure.WriteError(
+                        spaceCheck.message,
+                        spaceCheck.cause
+                    )
                 }
 
                 StorageCheckResult.Sufficient -> {

@@ -3,13 +3,24 @@ package com.buccancs.ui.components.topdon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,9 +30,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.topdon.TopdonColors
-import java.util.Locale
 import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.theme.topdon.TopdonTheme
+import java.util.Locale
 
 /**
  * Measurement mode selector for thermal imaging
@@ -196,7 +207,10 @@ fun TopdonTemperatureRange(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background.copy(alpha = 0.8f), RoundedCornerShape(8.dp))
+            .background(
+                MaterialTheme.colorScheme.background.copy(alpha = 0.8f),
+                RoundedCornerShape(8.dp)
+            )
             .padding(TopdonSpacing.Medium),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -272,7 +286,13 @@ private fun TopdonCameraControlsPreview() {
 }
 
 private val samplePalettes = listOf(
-    ThermalPalette("Iron", listOf(Color(0xFF000033), Color(0xFFFF0000), Color(0xFFFFFF00), Color(0xFFFFFFFF))),
-    ThermalPalette("Rainbow", listOf(Color(0xFF0000FF), Color(0xFF00FF00), Color(0xFFFFFF00), Color(0xFFFF0000))),
+    ThermalPalette(
+        "Iron",
+        listOf(Color(0xFF000033), Color(0xFFFF0000), Color(0xFFFFFF00), Color(0xFFFFFFFF))
+    ),
+    ThermalPalette(
+        "Rainbow",
+        listOf(Color(0xFF0000FF), Color(0xFF00FF00), Color(0xFFFFFF00), Color(0xFFFF0000))
+    ),
     ThermalPalette("Gray", listOf(Color(0xFF000000), Color(0xFF808080), Color(0xFFFFFFFF)))
 )

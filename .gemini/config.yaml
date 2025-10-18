@@ -12,12 +12,6 @@ code_review:
   max_review_comments: -1
   pull_request_opened:
     help: false
-    summary: false
+    summary: true
     code_review: true
     include_drafts: true
-
-ignore_patterns:
-  # Allow Markdown so Gemini can read AGENTS.md instructions.
-  - "**/*.tex"
-  - "**/*.latex"
-  - "docs/**"

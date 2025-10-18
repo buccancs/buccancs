@@ -8,10 +8,17 @@ import com.buccancs.core.serialization.StandardJson
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.encodeToString
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -62,7 +69,10 @@ class PerformanceMetricsRecorder @Inject constructor(
             val cpuDelta = nowCpuMillis - lastCpuMillis
             val wallDelta = nowWallMillis - lastWallMillis
             val cpuPercent = if (wallDelta > 0L) {
-                ((cpuDelta.toDouble() / (wallDelta.toDouble() * cores)) * 100.0).coerceIn(0.0, 100.0)
+                ((cpuDelta.toDouble() / (wallDelta.toDouble() * cores)) * 100.0).coerceIn(
+                    0.0,
+                    100.0
+                )
             } else {
                 0.0
             }
@@ -73,7 +83,8 @@ class PerformanceMetricsRecorder @Inject constructor(
             Debug.getMemoryInfo(memoryInfo)
             val pssMb = memoryInfo.totalPss / 1024.0
             val javaHeapMb =
-                (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024.0 * 1024.0)
+                (Runtime.getRuntime().totalMemory() - Runtime.getRuntime()
+                    .freeMemory()) / (1024.0 * 1024.0)
             val tempC: Double? = null
 
             val sessionDir = storage.sessionDirectory(sessionId)

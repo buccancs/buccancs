@@ -1432,7 +1432,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransfer other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransfer.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.FileByteTransfer.getDefaultInstance())
+                    return this;
                 if (!other.getName().isEmpty()) {
                     name_ = other.name_;
                     onChanged();
@@ -2025,7 +2026,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.CommandStatus other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.CommandStatus.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.CommandStatus.getDefaultInstance())
+                    return this;
                 if (!other.getStatus().isEmpty()) {
                     status_ = other.status_;
                     onChanged();
@@ -2571,7 +2573,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.HelloRequest.getDefaultInstance())
+                    return this;
                 if (!other.getName().isEmpty()) {
                     name_ = other.name_;
                     onChanged();
@@ -3117,7 +3120,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.HelloReply other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.HelloReply.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.HelloReply.getDefaultInstance())
+                    return this;
                 if (!other.getMessage().isEmpty()) {
                     message_ = other.message_;
                     onChanged();
@@ -3663,7 +3667,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequest other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequest.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.ShimmerRequest.getDefaultInstance())
+                    return this;
                 if (!other.getAddress().isEmpty()) {
                     address_ = other.address_;
                     onChanged();
@@ -4209,7 +4214,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.StreamRequest.getDefaultInstance())
+                    return this;
                 if (!other.getMessage().isEmpty()) {
                     message_ = other.message_;
                     onChanged();
@@ -6642,7 +6648,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2 other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.ObjectCluster2.getDefaultInstance())
+                    return this;
                 if (!other.getName().isEmpty()) {
                     name_ = other.name_;
                     onChanged();
@@ -7456,7 +7463,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.StringMsg other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.StringMsg.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.StringMsg.getDefaultInstance())
+                    return this;
                 if (!other.getMessage().isEmpty()) {
                     message_ = other.message_;
                     onChanged();
@@ -8011,7 +8019,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsg other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsg.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.StringArrayMsg.getDefaultInstance())
+                    return this;
                 if (!other.messageArray_.isEmpty()) {
                     if (messageArray_.isEmpty()) {
                         messageArray_ = other.messageArray_;
@@ -8557,7 +8566,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.BoolMsg other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.BoolMsg.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.BoolMsg.getDefaultInstance())
+                    return this;
                 if (other.getState() != false) {
                     setState(other.getState());
                 }
@@ -9041,7 +9051,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsg other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsg.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.DoubleMsg.getDefaultInstance())
+                    return this;
                 if (other.getNumber() != 0D) {
                     setNumber(other.getNumber());
                 }
@@ -9685,7 +9696,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.OperationRequest other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.OperationRequest.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.OperationRequest.getDefaultInstance())
+                    return this;
                 if (other.getIsFinished() != false) {
                     setIsFinished(other.getIsFinished());
                 }
@@ -13086,7 +13098,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.ShimmersInfo.getDefaultInstance())
+                    return this;
                 if (other.getState() != false) {
                     setState(other.getState());
                 }
@@ -15851,7 +15864,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.DeviceState other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.DeviceState.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.DeviceState.getDefaultInstance())
+                    return this;
                 if (!other.getDeviceName().isEmpty()) {
                     deviceName_ = other.deviceName_;
                     onChanged();
@@ -16593,7 +16607,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.Ieee802154Info.getDefaultInstance())
+                    return this;
                 if (other.getRadioChannel() != 0) {
                     setRadioChannel(other.getRadioChannel());
                 }
@@ -18197,7 +18212,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.InfoSpans.getDefaultInstance())
+                    return this;
                 if (other.getState() != false) {
                     setState(other.getState());
                 }
@@ -20034,7 +20050,8 @@ public final class ShimmerGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices other) {
-                if (other == com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerGRPC.EmulatedDevices.getDefaultInstance())
+                    return this;
                 if (other.getState() != false) {
                     setState(other.getState());
                 }

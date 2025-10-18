@@ -18,7 +18,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.absoluteValue
 import kotlin.random.Random
 
 /**
@@ -59,7 +58,7 @@ class DefaultShimmerHardwareClient @Inject constructor(
         try {
             val bondedDevices = bluetoothAdapter?.bondedDevices?.filter { device ->
                 device.name?.contains("Shimmer", ignoreCase = true) == true ||
-                device.name?.contains("GSR", ignoreCase = true) == true
+                        device.name?.contains("GSR", ignoreCase = true) == true
             } ?: emptyList()
 
             val realDevices = bondedDevices.map { btDevice ->
@@ -75,12 +74,14 @@ class DefaultShimmerHardwareClient @Inject constructor(
 
             devicesState.value = realDevices
             Log.d(logTag, "refreshBondedDevices() found ${realDevices.size} real Shimmer devices")
-            
+
             if (realDevices.isNotEmpty()) {
-                noticesSharedFlow.emit(ShimmerNotice(
-                    message = "Found ${realDevices.size} paired Shimmer device(s). Note: Using stub implementation for data streaming.",
-                    category = ShimmerNotice.Category.Info
-                ))
+                noticesSharedFlow.emit(
+                    ShimmerNotice(
+                        message = "Found ${realDevices.size} paired Shimmer device(s). Note: Using stub implementation for data streaming.",
+                        category = ShimmerNotice.Category.Info
+                    )
+                )
             }
         } catch (e: SecurityException) {
             Log.e(logTag, "Permission denied when accessing Bluetooth devices", e)
@@ -90,35 +91,36 @@ class DefaultShimmerHardwareClient @Inject constructor(
 
     override suspend fun scan(duration: kotlin.time.Duration) {
         Log.d(logTag, "scan() starting Bluetooth discovery (duration=${duration.inWholeSeconds}s)")
-        
+
         try {
             // Try to discover real devices via Bluetooth
             if (bluetoothAdapter?.isDiscovering == true) {
                 bluetoothAdapter.cancelDiscovery()
             }
-            
+
             bluetoothAdapter?.startDiscovery()
             delay(minOf(duration.inWholeMilliseconds, 5000))
             bluetoothAdapter?.cancelDiscovery()
-            
+
             // Refresh with any discovered devices
             refreshBondedDevices()
-            
+
         } catch (e: SecurityException) {
             Log.e(logTag, "Permission denied during scan", e)
         }
     }
 
     override suspend fun connect(macAddress: String) {
-        val device = devicesState.value.firstOrNull { it.macAddress.equals(macAddress, ignoreCase = true) }
-            ?: ShimmerHardwareDevice(
-                macAddress = macAddress,
-                name = "Shimmer Device",
-                rssi = null,
-                firmwareVersion = "stub-1.0",
-                hardwareVersion = 1,
-                bonded = true
-            )
+        val device =
+            devicesState.value.firstOrNull { it.macAddress.equals(macAddress, ignoreCase = true) }
+                ?: ShimmerHardwareDevice(
+                    macAddress = macAddress,
+                    name = "Shimmer Device",
+                    rssi = null,
+                    firmwareVersion = "stub-1.0",
+                    hardwareVersion = 1,
+                    bonded = true
+                )
 
         activeDevice = device
         devicesState.value = devicesState.value
@@ -131,7 +133,10 @@ class DefaultShimmerHardwareClient @Inject constructor(
             hardwareVersion = device.hardwareVersion
         )
         noticesSharedFlow.tryEmit(
-            ShimmerNotice("Connected to ${device.name ?: device.macAddress}", ShimmerNotice.Category.Info)
+            ShimmerNotice(
+                "Connected to ${device.name ?: device.macAddress}",
+                ShimmerNotice.Category.Info
+            )
         )
     }
 
@@ -143,7 +148,10 @@ class DefaultShimmerHardwareClient @Inject constructor(
         statusState.value = ShimmerStatus.Idle
         if (previous != null) {
             noticesSharedFlow.tryEmit(
-                ShimmerNotice("Disconnected from ${previous.name ?: previous.macAddress}", ShimmerNotice.Category.Info)
+                ShimmerNotice(
+                    "Disconnected from ${previous.name ?: previous.macAddress}",
+                    ShimmerNotice.Category.Info
+                )
             )
         }
     }

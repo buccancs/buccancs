@@ -289,7 +289,11 @@ class ManualStep2Activity : BaseActivity(), OnUSBConnectListener,
     override fun onAttach(device: UsbDevice) {}
     override fun onGranted(usbDevice: UsbDevice, granted: Boolean) {}
     override fun onDettach(device: UsbDevice) {}
-    override fun onConnect(device: UsbDevice, ctrlBlock: USBMonitor.UsbControlBlock, createNew: Boolean) {
+    override fun onConnect(
+        device: UsbDevice,
+        ctrlBlock: USBMonitor.UsbControlBlock,
+        createNew: Boolean
+    ) {
         mIrDualHandler.sendEmptyMessage(HANDLE_CONNECT)
     }
 

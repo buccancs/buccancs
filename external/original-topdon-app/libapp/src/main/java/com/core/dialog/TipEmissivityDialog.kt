@@ -24,7 +24,7 @@ class TipEmissivityDialog : Dialog {
 
     constructor(context: Context, themeResId: Int) : super(context, themeResId)
 
-    var onDismissListener :((check : Boolean) -> Unit) ?= null
+    var onDismissListener: ((check: Boolean) -> Unit)? = null
 
     class Builder {
         private var isTC007: Boolean = false
@@ -59,7 +59,13 @@ class TipEmissivityDialog : Dialog {
             return this
         }
 
-        fun setDataBean(environment: Float,distance : Float,radiation : Float,text : String,isTC007 : Boolean = false): Builder {
+        fun setDataBean(
+            environment: Float,
+            distance: Float,
+            radiation: Float,
+            text: String,
+            isTC007: Boolean = false
+        ): Builder {
             this.environment = environment
             this.distance = distance
             this.radiation = radiation
@@ -93,8 +99,10 @@ class TipEmissivityDialog : Dialog {
             val view = inflater.inflate(R.layout.dialog_tip_emissivity, null)
 
 
-            view.tv_environment_title.text = context!!.getString(R.string.thermal_config_environment) + ":"
-            view.tv_distance_title.text = context!!.getString(R.string.thermal_config_distance) + ":"
+            view.tv_environment_title.text =
+                context!!.getString(R.string.thermal_config_environment) + ":"
+            view.tv_distance_title.text =
+                context!!.getString(R.string.thermal_config_distance) + ":"
 
             view.dialog_tip_success_btn.setOnClickListener {
                 dialog?.onDismissListener?.invoke(hasCheck)
@@ -112,17 +120,19 @@ class TipEmissivityDialog : Dialog {
             val tvEnvironmentValue = view.tv_environment_value
             val tvDistanceValue = view.tv_distance_value
 
-            if (text.isNotEmpty()){
+            if (text.isNotEmpty()) {
                 tvEmissivityMaterials.text = text
                 tvEmissivityMaterials.visibility = View.VISIBLE
-            }else{
+            } else {
                 tvEmissivityMaterials.visibility = View.GONE
             }
             tvEmissivity.text = "${context?.getString(R.string.thermal_config_radiation)}: ${
-                NumberTools.to02(radiation)}"
+                NumberTools.to02(radiation)
+            }"
             tvEnvironmentValue.text = UnitTools.showC(environment)
             tvDistanceValue.text = "${
-                NumberTools.to02(distance)}m"
+                NumberTools.to02(distance)
+            }m"
             titleText = view.tv_title
             messageText = view.dialog_tip_msg_text
             checkBox = view.dialog_tip_check

@@ -21,7 +21,8 @@ class DegradeServiceImpl : DegradeService {
     //失败的时候处理，注意：如果在navigation时候没有传递context，这个方法的context会是空的
     override fun onLost(context: Context?, postcard: Postcard?) {
         if (context != null) {
-            Toast.makeText(context, "can't find the path:" + postcard?.path, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "can't find the path:" + postcard?.path, Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

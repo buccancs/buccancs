@@ -40,9 +40,21 @@ data class RecordedFile(
 @Serializable
 data class MetadataMetrics(
     val gsrSamples: Long = 0,
+    val gsrSampleDrops: Long = 0,
+    val gsrOutOfRangeSamples: Long = 0,
+    val gsrAverageHz: Double = 0.0,
+    val gsrMaxGapMs: Long = 0,
+    val gsrMinValue: Double? = null,
+    val gsrMaxValue: Double? = null,
     val videoFrames: Long = 0,
     val thermalFrames: Long = 0,
-    val audioSamples: Long = 0
+    val audioSamples: Long = 0,
+    val videoFrameDrops: Long = 0,
+    val thermalFrameDrops: Long = 0,
+    val videoMaxGapMs: Long = 0,
+    val thermalMaxGapMs: Long = 0,
+    val videoAverageFps: Double = 0.0,
+    val thermalAverageFps: Double = 0.0
 )
 
 @Serializable

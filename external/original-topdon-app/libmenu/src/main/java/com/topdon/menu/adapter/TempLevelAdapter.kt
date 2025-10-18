@@ -55,7 +55,13 @@ internal class TempLevelAdapter(menuType: MenuType) : BaseMenuAdapter() {
                 )
             )
         }
-        dataList.add(Data(CoreR.string.thermal_automatic, R.drawable.selector_menu2_temp_level_2, code = -1))
+        dataList.add(
+            Data(
+                CoreR.string.thermal_automatic,
+                R.drawable.selector_menu2_temp_level_2,
+                code = -1
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

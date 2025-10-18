@@ -16,7 +16,12 @@ data class ReportTempBean(
     val temperature: String? = null,
     val is_temperature: Int = 0,
 ) : Parcelable {
-    constructor(temperature: String?, is_temperature: Int, comment: String?, is_comment: Int) : this(
+    constructor(
+        temperature: String?,
+        is_temperature: Int,
+        comment: String?,
+        is_comment: Int
+    ) : this(
         null,
         0,
         null,

@@ -48,7 +48,8 @@ object ChartTools {
         val width = if (rotate == 90 || rotate == 270) 192 else 256
         pointList.forEach {
             val index = (it.y * width + it.x) * 2
-            val tempInt = (tempArray[index + 1].toInt() shl 8 and 0xff00) or (tempArray[index].toInt() and 0xff)
+            val tempInt =
+                (tempArray[index + 1].toInt() shl 8 and 0xff00) or (tempArray[index].toInt() and 0xff)
             val tempValue = tempInt / 64f - 273.15f
             tempList.add(tempValue)
         }

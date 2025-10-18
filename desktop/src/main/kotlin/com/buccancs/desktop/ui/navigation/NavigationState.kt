@@ -13,7 +13,7 @@ sealed class Screen(val route: String, val title: String) {
     object VideoPlayback : Screen("video", "Video Playback")
     object FileExplorer : Screen("files", "File Explorer")
     object Users : Screen("users", "User Management")
-    
+
     companion object {
         fun fromRoute(route: String): Screen {
             return when (route) {

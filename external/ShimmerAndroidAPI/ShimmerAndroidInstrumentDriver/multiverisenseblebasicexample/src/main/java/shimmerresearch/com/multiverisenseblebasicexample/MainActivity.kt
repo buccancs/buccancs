@@ -69,14 +69,18 @@ class MainActivity : ComponentActivity() {
                         val allFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP
                         )
-                        val timeStampCluster = ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
+                        val timeStampCluster =
+                            ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
                         val timeStampData = timeStampCluster?.mData
                         Log.i(LOG_TAG, "Time Stamp: $timeStampData")
 
                         val accelXFormats = objectCluster.getCollectionOfFormatClusters(
                             SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_X
                         )
-                        val accelXCluster = ObjectCluster.returnFormatCluster(accelXFormats, "CAL") as? FormatCluster
+                        val accelXCluster = ObjectCluster.returnFormatCluster(
+                            accelXFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         accelXCluster?.let {
                             Log.i(LOG_TAG, "Accel X: ${it.mData}")
                         }
@@ -84,7 +88,10 @@ class MainActivity : ComponentActivity() {
                         val accelYFormats = objectCluster.getCollectionOfFormatClusters(
                             SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_Y
                         )
-                        val accelYCluster = ObjectCluster.returnFormatCluster(accelYFormats, "CAL") as? FormatCluster
+                        val accelYCluster = ObjectCluster.returnFormatCluster(
+                            accelYFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         accelYCluster?.let {
                             Log.i(LOG_TAG, "Accel Y: ${it.mData}")
                         }
@@ -92,7 +99,10 @@ class MainActivity : ComponentActivity() {
                         val accelZFormats = objectCluster.getCollectionOfFormatClusters(
                             SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_Z
                         )
-                        val accelZCluster = ObjectCluster.returnFormatCluster(accelZFormats, "CAL") as? FormatCluster
+                        val accelZCluster = ObjectCluster.returnFormatCluster(
+                            accelZFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         accelZCluster?.let {
                             Log.i(LOG_TAG, "Accel Z: ${it.mData}")
                         }
@@ -125,13 +135,21 @@ class MainActivity : ComponentActivity() {
 
                     devices.find { it.macAddress == macAddress }?.let { device ->
                         when (state) {
-                            ShimmerBluetooth.BT_STATE.CONNECTED -> device.connectionState.value = "Connected"
-                            ShimmerBluetooth.BT_STATE.CONNECTING -> device.connectionState.value = "Connecting"
-                            ShimmerBluetooth.BT_STATE.STREAMING -> device.connectionState.value = "Streaming"
+                            ShimmerBluetooth.BT_STATE.CONNECTED -> device.connectionState.value =
+                                "Connected"
+
+                            ShimmerBluetooth.BT_STATE.CONNECTING -> device.connectionState.value =
+                                "Connecting"
+
+                            ShimmerBluetooth.BT_STATE.STREAMING -> device.connectionState.value =
+                                "Streaming"
+
                             ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING -> device.connectionState.value =
                                 "Streaming & Logging"
 
-                            ShimmerBluetooth.BT_STATE.SDLOGGING -> device.connectionState.value = "SD Logging"
+                            ShimmerBluetooth.BT_STATE.SDLOGGING -> device.connectionState.value =
+                                "SD Logging"
+
                             ShimmerBluetooth.BT_STATE.DISCONNECTED -> {
                                 device.connectionState.value = "Disconnected"
                                 device.isSpeedTest.value = false
@@ -381,7 +399,10 @@ class MainActivity : ComponentActivity() {
 
     private fun connectDevice(deviceId: Int) {
         Thread {
-            deviceMap[deviceId]?.setProtocol(Configuration.COMMUNICATION_TYPE.BLUETOOTH, protocolMap[deviceId])
+            deviceMap[deviceId]?.setProtocol(
+                Configuration.COMMUNICATION_TYPE.BLUETOOTH,
+                protocolMap[deviceId]
+            )
             try {
                 deviceMap[deviceId]?.connect()
             } catch (e: ShimmerException) {

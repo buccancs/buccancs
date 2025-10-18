@@ -34,14 +34,14 @@ class PdfViewModel : BaseViewModel() {
     private suspend fun getReportDataRepository(isTC007: Boolean, page: Int): ReportData? {
         var result: ReportData? = null
         val downLatch = CountDownLatch(1)
-        
+
         // Stubbed out network call - requires NetworkUtil and other dependencies
         // Original implementation had malformed override methods
         result = ReportData()
         result?.msg = "Stubbed implementation"
         result?.code = 0
         downLatch.countDown()
-        
+
         withContext(Dispatchers.IO) {
             downLatch.await()
         }

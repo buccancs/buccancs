@@ -11,7 +11,8 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  * Manages photo capture and video recording for Topdon thermal camera
@@ -26,43 +27,44 @@ internal class TopdonCaptureManager(
     /**
      * Capture current thermal frame as photo
      */
-    suspend fun capturePhoto(frame: TopdonPreviewFrame): Result<CaptureResult> = withContext(Dispatchers.IO) {
-        try {
-            val timestamp = System.currentTimeMillis()
-            val filename = "THERMAL_${dateFormat.format(Date(timestamp))}.jpg"
-            val outputDir = getOutputDirectory("photos")
-            val outputFile = File(outputDir, filename)
+    suspend fun capturePhoto(frame: TopdonPreviewFrame): Result<CaptureResult> =
+        withContext(Dispatchers.IO) {
+            try {
+                val timestamp = System.currentTimeMillis()
+                val filename = "THERMAL_${dateFormat.format(Date(timestamp))}.jpg"
+                val outputDir = getOutputDirectory("photos")
+                val outputFile = File(outputDir, filename)
 
-            // Convert frame payload to bitmap
-            val bitmap = BitmapFactory.decodeByteArray(frame.payload, 0, frame.payload.size)
-                ?: return@withContext Result.failure(Exception("Failed to decode thermal frame"))
+                // Convert frame payload to bitmap
+                val bitmap = BitmapFactory.decodeByteArray(frame.payload, 0, frame.payload.size)
+                    ?: return@withContext Result.failure(Exception("Failed to decode thermal frame"))
 
-            // Save as JPEG with metadata
-            FileOutputStream(outputFile).use { out ->
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out)
-            }
+                // Save as JPEG with metadata
+                FileOutputStream(outputFile).use { out ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out)
+                }
 
-            // Create metadata file
-            val metadataFile = File(outputDir, "$filename.json")
-            val metadata = buildCaptureMetadata(frame, timestamp)
-            metadataFile.writeText(metadata)
+                // Create metadata file
+                val metadataFile = File(outputDir, "$filename.json")
+                val metadata = buildCaptureMetadata(frame, timestamp)
+                metadataFile.writeText(metadata)
 
-            Result.success(
-                CaptureResult(
-                    uri = Uri.fromFile(outputFile),
-                    file = outputFile,
-                    sizeBytes = outputFile.length(),
-                    timestamp = timestamp,
-                    width = frame.width,
-                    height = frame.height,
-                    minTemp = frame.minTemp,
-                    maxTemp = frame.maxTemp
+                Result.success(
+                    CaptureResult(
+                        uri = Uri.fromFile(outputFile),
+                        file = outputFile,
+                        sizeBytes = outputFile.length(),
+                        timestamp = timestamp,
+                        width = frame.width,
+                        height = frame.height,
+                        minTemp = frame.minTemp,
+                        maxTemp = frame.maxTemp
+                    )
                 )
-            )
-        } catch (e: Exception) {
-            Result.failure(e)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
         }
-    }
 
     /**
      * Start thermal video recording

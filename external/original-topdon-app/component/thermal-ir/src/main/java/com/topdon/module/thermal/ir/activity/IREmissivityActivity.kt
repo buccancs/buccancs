@@ -13,6 +13,7 @@ import com.topdon.lib.core.tools.UnitTools
 import com.topdon.lib.ui.widget.MyItemDecoration
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.view.EmissivityView
+
 // Stubbed: import kotlinx.android.synthetic.main.activity_ir_emissivity.*
 // Stubbed: import kotlinx.android.synthetic.main.item_ir_emissivity_title.*
 // Stubbed: import kotlinx.android.synthetic.main.item_ir_emissivity_title.view.*
@@ -68,7 +69,8 @@ class IREmissivityActivity : BaseActivity() {
                     tvTitle.text = dataArray[currentPosition].name
                     titleView.translationY = 0f
                 } else {
-                    val nextTitleView: View = layoutManager.findViewByPosition(nextTitlePosition) ?: return
+                    val nextTitleView: View =
+                        layoutManager.findViewByPosition(nextTitlePosition) ?: return
                     if (nextTitleView.top <= titleView.height) {
                         currentPosition = findTitlePosition(seeFirstPosition)
                         tvTitle.text = dataArray[currentPosition].name
@@ -95,7 +97,10 @@ class IREmissivityActivity : BaseActivity() {
         override fun getItemViewType(position: Int): Int = if (dataArray[position].isTitle) 0 else 1
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return if (viewType == 0) {
-                TitleViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ir_emissivity_title, parent, false))
+                TitleViewHolder(
+                    LayoutInflater.from(context)
+                        .inflate(R.layout.item_ir_emissivity_title, parent, false)
+                )
             } else {
                 val emissivityView = EmissivityView(context)
                 emissivityView.setPadding(SizeUtils.dp2px(12f), 0, SizeUtils.dp2px(12f), 0)
@@ -118,7 +123,8 @@ class IREmissivityActivity : BaseActivity() {
         override fun getItemCount(): Int = dataArray.size
 
         private class TitleViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView)
-        private class ValueViewHolder(val emissivityView: EmissivityView) : RecyclerView.ViewHolder(emissivityView)
+        private class ValueViewHolder(val emissivityView: EmissivityView) :
+            RecyclerView.ViewHolder(emissivityView)
     }
 
     private data class ItemBean(
@@ -141,7 +147,11 @@ class IREmissivityActivity : BaseActivity() {
                         if (minTemp == null || maxTemp == null || minTemp == maxTemp) {
                             textList.add(UnitTools.showNoUnit((minTemp ?: maxTemp)!!.toFloat()))
                         } else {
-                            textList.add(UnitTools.showNoUnit(minTemp.toFloat()) + "~" + UnitTools.showNoUnit(maxTemp.toFloat()))
+                            textList.add(
+                                UnitTools.showNoUnit(minTemp.toFloat()) + "~" + UnitTools.showNoUnit(
+                                    maxTemp.toFloat()
+                                )
+                            )
                         }
                     } else {
                         if (emStr != null) {
@@ -160,13 +170,36 @@ class IREmissivityActivity : BaseActivity() {
     private fun buildDataArray(): Array<ItemBean> = arrayOf(
         ItemBean(true, getString(R.string.material_metal)),
         ItemBean(name = getString(R.string.material_aluminum)),
-        ItemBean(name = getString(R.string.material_polished_aluminum), minTemp = 100, emStr = "0.09"),
-        ItemBean(name = getString(R.string.material_comm_aluminum_foil), minTemp = 100, emStr = "0.09"),
-        ItemBean(name = getString(R.string.material_mild_alumina), minTemp = 25, maxTemp = 600, emStr = "0.10～0.20"),
-        ItemBean(name = getString(R.string.material_alumina), minTemp = 25, maxTemp = 600, emStr = "0.30～0.40"),
+        ItemBean(
+            name = getString(R.string.material_polished_aluminum),
+            minTemp = 100,
+            emStr = "0.09"
+        ),
+        ItemBean(
+            name = getString(R.string.material_comm_aluminum_foil),
+            minTemp = 100,
+            emStr = "0.09"
+        ),
+        ItemBean(
+            name = getString(R.string.material_mild_alumina),
+            minTemp = 25,
+            maxTemp = 600,
+            emStr = "0.10～0.20"
+        ),
+        ItemBean(
+            name = getString(R.string.material_alumina),
+            minTemp = 25,
+            maxTemp = 600,
+            emStr = "0.30～0.40"
+        ),
         ItemBean(name = getString(R.string.material_brass)),
         ItemBean(name = getString(R.string.material_bronze_mirror), minTemp = 28, emStr = "0.03"),
-        ItemBean(name = getString(R.string.material_oxide), minTemp = 200, maxTemp = 600, emStr = "0.59～0.61"),
+        ItemBean(
+            name = getString(R.string.material_oxide),
+            minTemp = 200,
+            maxTemp = 600,
+            emStr = "0.59～0.61"
+        ),
         ItemBean(name = getString(R.string.material_chromium)),
         ItemBean(
             name = getString(R.string.material_polished_chromium),
@@ -175,29 +208,85 @@ class IREmissivityActivity : BaseActivity() {
             emStr = "0.08～0.36"
         ),
         ItemBean(name = getString(R.string.material_copper)),
-        ItemBean(name = getString(R.string.material_bronze_mirror_1), minTemp = 100, emStr = "0.05"),
+        ItemBean(
+            name = getString(R.string.material_bronze_mirror_1),
+            minTemp = 100,
+            emStr = "0.05"
+        ),
         ItemBean(name = getString(R.string.material_copper_oxide), minTemp = 25, emStr = "0.078"),
-        ItemBean(name = getString(R.string.material_oxide_bronze), minTemp = 800, maxTemp = 1100, emStr = "0.66～0.54"),
-        ItemBean(name = getString(R.string.material_bronze_water), minTemp = 1080, maxTemp = 1280, emStr = "0.16～0.13"),
+        ItemBean(
+            name = getString(R.string.material_oxide_bronze),
+            minTemp = 800,
+            maxTemp = 1100,
+            emStr = "0.66～0.54"
+        ),
+        ItemBean(
+            name = getString(R.string.material_bronze_water),
+            minTemp = 1080,
+            maxTemp = 1280,
+            emStr = "0.16～0.13"
+        ),
         ItemBean(name = getString(R.string.material_gold)),
-        ItemBean(name = getString(R.string.material_golden_mirror), minTemp = 230, maxTemp = 630, emStr = "0.02"),
+        ItemBean(
+            name = getString(R.string.material_golden_mirror),
+            minTemp = 230,
+            maxTemp = 630,
+            emStr = "0.02"
+        ),
         ItemBean(name = getString(R.string.material_iron)),
-        ItemBean(name = getString(R.string.material_polished_cast_iron), minTemp = 200, emStr = "0.21"),
-        ItemBean(name = getString(R.string.material_process_cast_iron), minTemp = 20, emStr = "0.44"),
-        ItemBean(name = getString(R.string.material_full_rusty_surface), minTemp = 20, emStr = "0.69"),
+        ItemBean(
+            name = getString(R.string.material_polished_cast_iron),
+            minTemp = 200,
+            emStr = "0.21"
+        ),
+        ItemBean(
+            name = getString(R.string.material_process_cast_iron),
+            minTemp = 20,
+            emStr = "0.44"
+        ),
+        ItemBean(
+            name = getString(R.string.material_full_rusty_surface),
+            minTemp = 20,
+            emStr = "0.69"
+        ),
         ItemBean(
             name = getString(R.string.material_cast_iron_oxidation, UnitTools.showWithUnit(600f)),
             minTemp = 19,
             maxTemp = 600,
             emStr = "0.64～0.78"
         ),
-        ItemBean(name = getString(R.string.material_e_iron_oxide), minTemp = 125, maxTemp = 520, emStr = "0.78～0.82"),
-        ItemBean(name = getString(R.string.material_iron_oxide), minTemp = 500, maxTemp = 1200, emStr = "0.85～0.89"),
-        ItemBean(name = getString(R.string.material_iron_plate), minTemp = 925, maxTemp = 1120, emStr = "0.87～0.95"),
+        ItemBean(
+            name = getString(R.string.material_e_iron_oxide),
+            minTemp = 125,
+            maxTemp = 520,
+            emStr = "0.78～0.82"
+        ),
+        ItemBean(
+            name = getString(R.string.material_iron_oxide),
+            minTemp = 500,
+            maxTemp = 1200,
+            emStr = "0.85～0.89"
+        ),
+        ItemBean(
+            name = getString(R.string.material_iron_plate),
+            minTemp = 925,
+            maxTemp = 1120,
+            emStr = "0.87～0.95"
+        ),
         ItemBean(name = getString(R.string.material_cast_iron_oxygen), minTemp = 25, emStr = "0.8"),
         ItemBean(name = getString(R.string.material_melt_surface), minTemp = 22, emStr = "0.94"),
-        ItemBean(name = getString(R.string.material_melt_cast_iron), minTemp = 1300, maxTemp = 1400, emStr = "0.29"),
-        ItemBean(name = getString(R.string.material_pure_iron), minTemp = 1515, maxTemp = 1680, emStr = "0.42～0.45"),
+        ItemBean(
+            name = getString(R.string.material_melt_cast_iron),
+            minTemp = 1300,
+            maxTemp = 1400,
+            emStr = "0.29"
+        ),
+        ItemBean(
+            name = getString(R.string.material_pure_iron),
+            minTemp = 1515,
+            maxTemp = 1680,
+            emStr = "0.42～0.45"
+        ),
         ItemBean(name = getString(R.string.material_steel)),
         ItemBean(name = getString(R.string.material_steel_1, UnitTools.showWithUnit(600f))),
         ItemBean(name = getString(R.string.material_oxide_steel), minTemp = 100, emStr = "0.74"),
@@ -207,9 +296,19 @@ class IREmissivityActivity : BaseActivity() {
             maxTemp = 1800,
             emStr = "0.28"
         ),
-        ItemBean(name = getString(R.string.material_steel_water), minTemp = 1500, maxTemp = 1650, emStr = "0.42～0.53"),
+        ItemBean(
+            name = getString(R.string.material_steel_water),
+            minTemp = 1500,
+            maxTemp = 1650,
+            emStr = "0.42～0.53"
+        ),
         ItemBean(name = getString(R.string.material_lead)),
-        ItemBean(name = getString(R.string.material_pure_lead), minTemp = 125, maxTemp = 225, emStr = "0.06～0.08"),
+        ItemBean(
+            name = getString(R.string.material_pure_lead),
+            minTemp = 125,
+            maxTemp = 225,
+            emStr = "0.06～0.08"
+        ),
         ItemBean(
             name = getString(R.string.material_mild_oxidation_lead),
             minTemp = 25,
@@ -224,18 +323,41 @@ class IREmissivityActivity : BaseActivity() {
             emStr = "0.55～0.20"
         ),
         ItemBean(name = getString(R.string.material_mercury)),
-        ItemBean(name = getString(R.string.material_mercury), minTemp = 0, maxTemp = 100, emStr = "0.09～0.12"),
+        ItemBean(
+            name = getString(R.string.material_mercury),
+            minTemp = 0,
+            maxTemp = 100,
+            emStr = "0.09～0.12"
+        ),
         ItemBean(name = getString(R.string.material_nickel)),
-        ItemBean(name = getString(R.string.material_plating_polished_nickel), minTemp = 25, emStr = "0.05"),
-        ItemBean(name = getString(R.string.material_nickel_not_polished), minTemp = 20, emStr = "0.01"),
-        ItemBean(name = getString(R.string.material_nickel_wire), minTemp = 185, maxTemp = 1010, emStr = "0.09～0.19"),
+        ItemBean(
+            name = getString(R.string.material_plating_polished_nickel),
+            minTemp = 25,
+            emStr = "0.05"
+        ),
+        ItemBean(
+            name = getString(R.string.material_nickel_not_polished),
+            minTemp = 20,
+            emStr = "0.01"
+        ),
+        ItemBean(
+            name = getString(R.string.material_nickel_wire),
+            minTemp = 185,
+            maxTemp = 1010,
+            emStr = "0.09～0.19"
+        ),
         ItemBean(
             name = getString(R.string.material_nickel_plate_oxidized),
             minTemp = 198,
             maxTemp = 600,
             emStr = "0.37～0.48"
         ),
-        ItemBean(name = getString(R.string.material_nickel_oxide), minTemp = 650, maxTemp = 1255, emStr = "0.59～0.86"),
+        ItemBean(
+            name = getString(R.string.material_nickel_oxide),
+            minTemp = 650,
+            maxTemp = 1255,
+            emStr = "0.59～0.86"
+        ),
         ItemBean(name = getString(R.string.material_nickel_alloy)),
         ItemBean(
             name = getString(R.string.material_nickel_chromium_alloy_line),
@@ -256,9 +378,17 @@ class IREmissivityActivity : BaseActivity() {
             emStr = "0.95～0.98"
         ),
         ItemBean(name = getString(R.string.material_silver)),
-        ItemBean(name = getString(R.string.material_polished_silver), minTemp = 100, emStr = "0.05"),
+        ItemBean(
+            name = getString(R.string.material_polished_silver),
+            minTemp = 100,
+            emStr = "0.05"
+        ),
         ItemBean(name = getString(R.string.material_stainless_steel)),
-        ItemBean(name = getString(R.string.material_eight_stainless_steel), minTemp = 25, emStr = "0.16"),
+        ItemBean(
+            name = getString(R.string.material_eight_stainless_steel),
+            minTemp = 25,
+            emStr = "0.16"
+        ),
         ItemBean(name = "304（8Cr,18Ni）", minTemp = 215, maxTemp = 490, emStr = "0.44～0.36"),
         ItemBean(name = "310（25Cr,20Ni）", minTemp = 215, maxTemp = 520, emStr = "0.90～0.97"),
         ItemBean(name = getString(R.string.material_tin)),
@@ -269,14 +399,28 @@ class IREmissivityActivity : BaseActivity() {
             minTemp = 400,
             emStr = "0.01"
         ),
-        ItemBean(name = getString(R.string.material_galvanized_brighter_iron_board), minTemp = 28, emStr = "0.23"),
+        ItemBean(
+            name = getString(R.string.material_galvanized_brighter_iron_board),
+            minTemp = 28,
+            emStr = "0.23"
+        ),
         ItemBean(name = getString(R.string.material_gray_zinc_oxide), minTemp = 25, emStr = "0.28"),
         ItemBean(true, getString(R.string.material_nonMetal)),
         ItemBean(name = getString(R.string.material_brick), minTemp = 1100, emStr = "0.75"),
         ItemBean(name = getString(R.string.material_fire_brick), minTemp = 1100, emStr = "0.75"),
-        ItemBean(name = getString(R.string.material_graphite_black), minTemp = 96, maxTemp = 225, emStr = "0.95"),
+        ItemBean(
+            name = getString(R.string.material_graphite_black),
+            minTemp = 96,
+            maxTemp = 225,
+            emStr = "0.95"
+        ),
         ItemBean(name = getString(R.string.material_enamel_white), minTemp = 18, emStr = "0.9"),
-        ItemBean(name = getString(R.string.material_asphalt), minTemp = 0, maxTemp = 200, emStr = "0.85"),
+        ItemBean(
+            name = getString(R.string.material_asphalt),
+            minTemp = 0,
+            maxTemp = 200,
+            emStr = "0.85"
+        ),
         ItemBean(name = getString(R.string.material_glass_surface), minTemp = 23, emStr = "0.94"),
         ItemBean(
             name = getString(R.string.material_heat_resistant_glass),
@@ -298,10 +442,16 @@ class IREmissivityActivity : BaseActivity() {
         ItemBean(name = getString(R.string.material_ceramic_bottle_capacitor), emStr = "0.9"),
         ItemBean(name = getString(R.string.material_film_capacitance), emStr = "0.90～0.93"),
         ItemBean(name = getString(R.string.material_mica_capacitor), emStr = "0.94～0.95"),
-        ItemBean(name = getString(R.string.material_lighting_groove_mica_capacitor), emStr = "0.90～0.93"),
+        ItemBean(
+            name = getString(R.string.material_lighting_groove_mica_capacitor),
+            emStr = "0.90～0.93"
+        ),
         ItemBean(name = getString(R.string.material_glass_capacitor), emStr = "0.91～0.92"),
         ItemBean(name = getString(R.string.material_semiconductor)),
-        ItemBean(name = getString(R.string.material_crystal_tube_plastic_seal), emStr = "0.80～0.90"),
+        ItemBean(
+            name = getString(R.string.material_crystal_tube_plastic_seal),
+            emStr = "0.80～0.90"
+        ),
         ItemBean(name = getString(R.string.material_crystal_tube_metal), emStr = "0.30～0.40"),
         ItemBean(name = getString(R.string.material_diode), emStr = "0.89～0.90"),
         ItemBean(name = getString(R.string.material_transmission_coil)),

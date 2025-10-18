@@ -23,7 +23,8 @@ public object CommandSubscribeRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.CommandSubscribeRequest.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.CommandSubscribeRequest.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -96,7 +97,9 @@ public object CommandSubscribeRequestKt {
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("plusAssignCapabilities")
         @Suppress("NOTHING_TO_INLINE")
-        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.plusAssign(value: kotlin.String) {
+        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.plusAssign(
+            value: kotlin.String
+        ) {
             add(value)
         }
 
@@ -106,7 +109,9 @@ public object CommandSubscribeRequestKt {
          */
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("addAllCapabilities")
-        public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
+        public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.addAll(
+            values: kotlin.collections.Iterable<kotlin.String>
+        ) {
             _builder.addAllCapabilities(values)
         }
 
@@ -166,5 +171,6 @@ public object CommandSubscribeRequestKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.CommandSubscribeRequest.copy(block: `com.buccancs.control`.CommandSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandSubscribeRequest =
-    `com.buccancs.control`.CommandSubscribeRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.CommandSubscribeRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

@@ -48,9 +48,10 @@ object InitUtil {
     }
 
     fun initLms() {
-        val privacyPolicyUrl = "https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?" +
-                "softCode=${BaseApplication.instance.getSoftWareCode()}&" +
-                "language=${LanguageUtil.getLanguageId(Utils.getApp())}&type=22"
+        val privacyPolicyUrl =
+            "https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?" +
+                    "softCode=${BaseApplication.instance.getSoftWareCode()}&" +
+                    "language=${LanguageUtil.getLanguageId(Utils.getApp())}&type=22"
         val servicesAgreementUrl =
             "https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?" +
                     "softCode=${BaseApplication.instance.getSoftWareCode()}&" +

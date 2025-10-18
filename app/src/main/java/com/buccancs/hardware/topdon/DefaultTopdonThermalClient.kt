@@ -7,7 +7,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
-import android.os.SystemClock
+import android.os.Build
+import android.os.Handler
 import android.util.Log
 import com.buccancs.core.result.Result
 import com.buccancs.core.result.resultOf
@@ -33,15 +34,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.max
-import android.os.Build
-import android.os.Handler
 
 @Singleton
 class DefaultTopdonThermalClient @Inject constructor(
@@ -52,7 +49,10 @@ class DefaultTopdonThermalClient @Inject constructor(
 
     private val logTag = "TopdonHardware"
     private val usbContext: Context = object : ContextWrapper(context) {
-        override fun registerReceiver(receiver: BroadcastReceiver?, filter: IntentFilter?): Intent? {
+        override fun registerReceiver(
+            receiver: BroadcastReceiver?,
+            filter: IntentFilter?
+        ): Intent? {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 super.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
             } else {
@@ -68,7 +68,13 @@ class DefaultTopdonThermalClient @Inject constructor(
             scheduler: Handler?
         ): Intent? {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                super.registerReceiver(receiver, filter, broadcastPermission, scheduler, Context.RECEIVER_NOT_EXPORTED)
+                super.registerReceiver(
+                    receiver,
+                    filter,
+                    broadcastPermission,
+                    scheduler,
+                    Context.RECEIVER_NOT_EXPORTED
+                )
             } else {
                 @Suppress("DEPRECATION")
                 super.registerReceiver(receiver, filter, broadcastPermission, scheduler)
@@ -159,13 +165,23 @@ class DefaultTopdonThermalClient @Inject constructor(
 
         override fun onGranted(usbDevice: UsbDevice, granted: Boolean) {
             if (granted) {
-                emitNotice("USB permission granted for ${usbDevice.deviceName}", TopdonNotice.Category.Info)
+                emitNotice(
+                    "USB permission granted for ${usbDevice.deviceName}",
+                    TopdonNotice.Category.Info
+                )
             } else {
-                emitNotice("USB permission denied for ${usbDevice.deviceName}", TopdonNotice.Category.Warning)
+                emitNotice(
+                    "USB permission denied for ${usbDevice.deviceName}",
+                    TopdonNotice.Category.Warning
+                )
             }
         }
 
-        override fun onConnect(device: UsbDevice, ctrlBlock: USBMonitor.UsbControlBlock, createNew: Boolean) {
+        override fun onConnect(
+            device: UsbDevice,
+            ctrlBlock: USBMonitor.UsbControlBlock,
+            createNew: Boolean
+        ) {
             applicationScope.launch {
                 handleDeviceConnected(device, ctrlBlock, createNew)
             }
@@ -173,7 +189,10 @@ class DefaultTopdonThermalClient @Inject constructor(
 
         override fun onDisconnect(device: UsbDevice, ctrlBlock: USBMonitor.UsbControlBlock) {
             applicationScope.launch {
-                emitNotice("USB device disconnected: ${device.deviceName}", TopdonNotice.Category.Info)
+                emitNotice(
+                    "USB device disconnected: ${device.deviceName}",
+                    TopdonNotice.Category.Info
+                )
                 handleDeviceDisconnected()
             }
         }
@@ -186,7 +205,10 @@ class DefaultTopdonThermalClient @Inject constructor(
         }
 
         override fun onCancel(device: UsbDevice) {
-            emitNotice("USB permission cancelled: ${device.deviceName}", TopdonNotice.Category.Warning)
+            emitNotice(
+                "USB permission cancelled: ${device.deviceName}",
+                TopdonNotice.Category.Warning
+            )
         }
     }
 
@@ -205,7 +227,8 @@ class DefaultTopdonThermalClient @Inject constructor(
     }
 
     override suspend fun connect() {
-        val device = detectTopdonDevice() ?: throw IllegalStateException("Topdon TC001 camera not detected.")
+        val device =
+            detectTopdonDevice() ?: throw IllegalStateException("Topdon TC001 camera not detected.")
         connectedDevice = device
         ensureMonitor()
         withContext(Dispatchers.Main) {
@@ -355,7 +378,7 @@ class DefaultTopdonThermalClient @Inject constructor(
     private suspend fun ensureCameraReady() {
         if (uvcCamera != null && usbControlBlock != null) return
         val device = connectedDevice ?: detectTopdonDevice()
-            ?: throw IllegalStateException("Topdon TC001 camera not detected.")
+        ?: throw IllegalStateException("Topdon TC001 camera not detected.")
         ensureMonitor()
         withContext(Dispatchers.Main) {
             val monitor = usbMonitor ?: throw IllegalStateException("USB monitor unavailable")
@@ -425,7 +448,10 @@ class DefaultTopdonThermalClient @Inject constructor(
                     })
                     .build()
             } catch (t: Throwable) {
-                emitNotice("Failed to initialize IRCMD: ${t.message}", TopdonNotice.Category.Warning)
+                emitNotice(
+                    "Failed to initialize IRCMD: ${t.message}",
+                    TopdonNotice.Category.Warning
+                )
                 ircmd = null
             }
         }
@@ -439,7 +465,10 @@ class DefaultTopdonThermalClient @Inject constructor(
                 uvcCamera?.onDestroyPreview()
                 uvcCamera?.closeUVCCamera()
             } catch (t: Throwable) {
-                emitNotice("Error closing Topdon camera: ${t.message}", TopdonNotice.Category.Warning)
+                emitNotice(
+                    "Error closing Topdon camera: ${t.message}",
+                    TopdonNotice.Category.Warning
+                )
             } finally {
                 uvcCamera = null
                 usbControlBlock = null
@@ -503,7 +532,10 @@ class DefaultTopdonThermalClient @Inject constructor(
         }
 
         if (appliedSize == null) {
-            Log.w(logTag, "Unable to configure USB preview size after ${fallbackSizes.size} attempts")
+            Log.w(
+                logTag,
+                "Unable to configure USB preview size after ${fallbackSizes.size} attempts"
+            )
             emitNotice(
                 "Preview configuration failed; streaming may be unavailable (${lastError?.message ?: "unknown error"})",
                 TopdonNotice.Category.Warning
@@ -526,7 +558,8 @@ class DefaultTopdonThermalClient @Inject constructor(
         var count = 0
         var index = 0
         while (index < payload.size) {
-            val raw = (payload[index].toInt() and 0xFF) or ((payload[index + 1].toInt() and 0xFF) shl 8)
+            val raw =
+                (payload[index].toInt() and 0xFF) or ((payload[index + 1].toInt() and 0xFF) shl 8)
             val celsius = rawToCelsius(raw)
             min = kotlin.math.min(min, celsius)
             max = kotlin.math.max(max, celsius)

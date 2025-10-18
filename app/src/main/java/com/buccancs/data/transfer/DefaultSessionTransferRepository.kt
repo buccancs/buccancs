@@ -4,7 +4,12 @@ import android.content.Context
 import android.util.Log
 import com.buccancs.data.network.NetworkStateProvider
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.UploadBacklogLevel
+import com.buccancs.domain.model.UploadBacklogState
+import com.buccancs.domain.model.UploadRecoveryRecord
+import com.buccancs.domain.model.UploadState
+import com.buccancs.domain.model.UploadStatus
 import com.buccancs.domain.repository.SessionTransferRepository
 import com.buccancs.util.nowInstant
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -17,7 +22,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
@@ -74,7 +79,11 @@ class DefaultSessionTransferRepository @Inject constructor(
             val next = uploadsState.value.toMutableMap()
 
             artifacts.forEach { artifact ->
-                val shouldDrop = UploadBacklogCalculator.shouldDrop(pendingBytes, pendingCount, artifact.sizeBytes)
+                val shouldDrop = UploadBacklogCalculator.shouldDrop(
+                    pendingBytes,
+                    pendingCount,
+                    artifact.sizeBytes
+                )
                 if (shouldDrop) {
                     val status = UploadStatus(
                         sessionId = sessionId,
@@ -231,7 +240,10 @@ class DefaultSessionTransferRepository @Inject constructor(
         }
         if (updatedStatus != null) {
             when {
-                state == UploadState.FAILED || state == UploadState.COMPLETED -> recordRecovery(updatedStatus!!)
+                state == UploadState.FAILED || state == UploadState.COMPLETED -> recordRecovery(
+                    updatedStatus!!
+                )
+
                 state == UploadState.IN_PROGRESS && attempt > 1 -> recordRecovery(updatedStatus!!)
             }
         }

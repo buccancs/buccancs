@@ -110,7 +110,8 @@ sealed interface ShimmerStatus {
         val samplesPerSecond: Double,
     ) : ShimmerStatus
 
-    data class Error(val macAddress: String?, val message: String, val recoverable: Boolean) : ShimmerStatus
+    data class Error(val macAddress: String?, val message: String, val recoverable: Boolean) :
+        ShimmerStatus
 }
 
 data class ShimmerSample(

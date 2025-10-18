@@ -73,7 +73,8 @@ class AudioRecordHelp private constructor() {
             audioRecord!!.startRecording()
             try {
                 while (runAudioThread) {
-                    bufferReadResult = audioRecord!!.read(audioData!!.array(), 0, audioData!!.capacity())
+                    bufferReadResult =
+                        audioRecord!!.read(audioData!!.array(), 0, audioData!!.capacity())
                     if (recordingAudio) {
                         if (bufferReadResult > 0) {
                             audioData?.limit(bufferReadResult)

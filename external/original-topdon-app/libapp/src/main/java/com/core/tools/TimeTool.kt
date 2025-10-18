@@ -30,7 +30,8 @@ object TimeTool {
     fun reportTime(time: Long): String {
         val date = Date(time)
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val timeZone = TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
+        val timeZone =
+            TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
         dateFormat.timeZone = timeZone
         return dateFormat.format(date)
     }
@@ -43,7 +44,8 @@ object TimeTool {
     fun strToTime(timeStr: String): Long {
         return try {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val timeZone = TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
+            val timeZone =
+                TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
             dateFormat.timeZone = timeZone
             dateFormat.parse(timeStr, ParsePosition(0)).time
         } catch (e: Exception) {
@@ -68,7 +70,8 @@ object TimeTool {
             else -> "yyyy-MM-dd HH:mm:ss"
         }
         val dateFormat = SimpleDateFormat(pattern)
-        val timeZone = TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
+        val timeZone =
+            TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
         dateFormat.timeZone = timeZone
         return dateFormat.format(date)
     }
@@ -98,7 +101,8 @@ object TimeTool {
     fun showTimeSecond(time: Long): String {
         val date = Date(time)
         val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-        val timeZone = TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
+        val timeZone =
+            TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
         dateFormat.timeZone = timeZone
         return dateFormat.format(date)
     }
@@ -107,7 +111,8 @@ object TimeTool {
     fun showDateSecond(): String {
         val date = Date()
         val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
-        val timeZone = TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
+        val timeZone =
+            TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
         dateFormat.timeZone = timeZone
         return dateFormat.format(date)
     }

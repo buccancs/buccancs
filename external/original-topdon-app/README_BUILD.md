@@ -52,7 +52,7 @@ Current status, next steps, quality metrics
 ✅ **libmenu** - Menu components  
 ✅ **libui** - UI components  
 ✅ **component:transfer** - File transfer  
-✅ **LocalRepo** - All local libraries  
+✅ **LocalRepo** - All local libraries
 
 **Total:** 84 AAR files across all variants
 
@@ -63,20 +63,23 @@ Current status, next steps, quality metrics
 ⏭️ **component:user** - Needs View Binding migration  
 ⏭️ **component:thermal-ir** - Needs View Binding migration  
 ⏭️ **component:thermal-lite** - Needs View Binding migration  
-⏭️ **app** - Main application (depends on above)  
+⏭️ **app** - Main application (depends on above)
 
 ---
 
 ## Key Changes
 
 ### LMS SDK Stubs
+
 The proprietary LMS SDK has been replaced with functional stubs:
 
 **Location:** `libapp/src/main/java/com/topdon/lms/sdk/`
 
-All SDK functionality is stubbed but compiles successfully. See LMS_SDK_STUB_GUIDE.md for complete API.
+All SDK functionality is stubbed but compiles successfully. See LMS_SDK_STUB_GUIDE.md for complete
+API.
 
 ### Java Version
+
 **Required:** Java 21 (LTS)
 
 ```bash
@@ -88,13 +91,16 @@ export JAVA_HOME=/path/to/jdk-21
 ```
 
 ### Deprecated Code
-69 files using `kotlinx.android.synthetic.*` have been commented out. These need View Binding migration for full functionality.
+
+69 files using `kotlinx.android.synthetic.*` have been commented out. These need View Binding
+migration for full functionality.
 
 ---
 
 ## Troubleshooting
 
 **Build fails with cache errors:**
+
 ```bash
 ./gradlew --stop
 ./gradlew clean
@@ -102,11 +108,13 @@ export JAVA_HOME=/path/to/jdk-21
 
 **Out of memory:**
 Increase in `gradle.properties`:
+
 ```properties
 org.gradle.jvmargs=-Xmx6144m
 ```
 
 **Wrong Java version:**
+
 ```bash
 java -version  # Must show 21.x
 ```

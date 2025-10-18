@@ -13,6 +13,7 @@ import com.topdon.lib.core.bean.GalleryTitle
 import com.topdon.lib.core.tools.GlideLoader
 import com.topdon.lib.core.tools.TimeTool
 import com.topdon.module.thermal.ir.R
+
 // Stubbed: import kotlinx.android.synthetic.main.item_gallery_head_lay.view.*
 // Stubbed: import kotlinx.android.synthetic.main.item_gallery_lay.view.*
 
@@ -93,9 +94,15 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_HEAD) {
-            ItemHeadView(LayoutInflater.from(parent.context).inflate(R.layout.item_gallery_head_lay, parent, false))
+            ItemHeadView(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_gallery_head_lay, parent, false)
+            )
         } else {
-            ItemView(LayoutInflater.from(parent.context).inflate(R.layout.item_gallery_lay, parent, false))
+            ItemView(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_gallery_lay, parent, false)
+            )
         }
     }
 

@@ -23,7 +23,8 @@ public object EventMarkerRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.EventMarkerRequest.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.EventMarkerRequest.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -130,7 +131,8 @@ public object EventMarkerRequestKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.EventMarkerRequest.copy(block: `com.buccancs.control`.EventMarkerRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.EventMarkerRequest =
-    `com.buccancs.control`.EventMarkerRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.EventMarkerRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 
 public val com.buccancs.control.EventMarkerRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?
     get() = if (hasSession()) getSession() else null

@@ -18,7 +18,8 @@ Rev 3.00
 | ~~Shimmer.MESSAGE_READ~~         | ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET  |
 
 - ~~Shimmer.MSG_STATE_FULLY_INITIALIZED~~, ~~Shimmer.STATE_CONNECTING~~, ~~Shimmer.STATE_NONE~~, ~~
-  Shimmer.STATE_CONNECTED~~, is deprecated the following code is the recommended use for monitoring the states of a
+  Shimmer.STATE_CONNECTED~~, is deprecated the following code is the recommended use for monitoring
+  the states of a
   Shimmer device
 
 ```
@@ -98,38 +99,51 @@ Rev 2.11
 
 23 Jan 2014 (Beta 2.2)
 
-- Separate the drivers into Shimmer Android Instrument Driver and Shimmer Driver, please read user guide for further
+- Separate the drivers into Shimmer Android Instrument Driver and Shimmer Driver, please read user
+  guide for further
   details.
 
 15 March 2013 (Beta 0.7)
 
-- a more accurate GSR calibration method is implemented. the polynomial equation is replaced with a linear one.
-- the state STATE_CONNECTED is now deprecated. users should use MSG_STATE_FULLY_INITIALIZED as a replacement.
-- note that since the Android 4.2 update, Google has changed the Bluetooth Stack. It has been well documented that the
+- a more accurate GSR calibration method is implemented. the polynomial equation is replaced with a
+  linear one.
+- the state STATE_CONNECTED is now deprecated. users should use MSG_STATE_FULLY_INITIALIZED as a
+  replacement.
+- note that since the Android 4.2 update, Google has changed the Bluetooth Stack. It has been well
+  documented that the
   reliability of the stack is less than desirable.
 - Battery voltage monitoring is now enabled, see manual guideline for further information.
-- Definition of the properties, formats and units, used, have been updated to be more concise and consistent across the
+- Definition of the properties, formats and units, used, have been updated to be more concise and
+  consistent across the
   various instrument drivers
-- For further changes please refer to the Shimmer.java file, which can be found as part of the instrument driver
+- For further changes please refer to the Shimmer.java file, which can be found as part of the
+  instrument driver
 
 27 September 2012 (Beta 0.6)
 
 - Additional handler msgs for stop streaming has been added.
-- An optional AndroidBluetoothLibrary has been added. Please see license. The reason for this is because some stock
-  firmware were not providing the full bluetooth stack. If bluetooth problems persist please consider using an
+- An optional AndroidBluetoothLibrary has been added. Please see license. The reason for this is
+  because some stock
+  firmware were not providing the full bluetooth stack. If bluetooth problems persist please
+  consider using an
   aftermarket firmware.
-- The connect method has been modified to accomodate the new library. Examples have been updated as well.
+- The connect method has been modified to accomodate the new library. Examples have been updated as
+  well.
 - Object Cluster now accepts the bluetooth id of the device
 - Stop Streaming Command which was failing to receive an ACK intermittently has been fixed.
-- createInsecureRfcommSocketToServiceRecord can be used for insecure connections (only for the default library). Benefit
-  is that you wont have to key in the pin everytime you connect to a Shimmer device, which is a requirment for some
+- createInsecureRfcommSocketToServiceRecord can be used for insecure connections (only for the
+  default library). Benefit
+  is that you wont have to key in the pin everytime you connect to a Shimmer device, which is a
+  requirment for some
   Android devices.
-- the 'Nan' bug has been fixed, this bug occurs when the Shimmer device attempts to use the default calibration
+- the 'Nan' bug has been fixed, this bug occurs when the Shimmer device attempts to use the default
+  calibration
   parameters
 
 18 July 2012 (Beta 0.5)
 
-- ShimmerGraph has been updated to deal with the following warning message 'the following handler class should be static
+- ShimmerGraph has been updated to deal with the following warning message 'the following handler
+  class should be static
   or leaks might occur'
 
 18 July 2012 (Beta 0.4)
@@ -148,15 +162,18 @@ Rev 2.11
 - Rename ShimmerHandleClass to Shimmer
 
 26 June 2012 (Beta 0.2)
--Added additional log messages to clearly show the communication transactions between the Shimmer and Android device
--Added an addtional constructor, which allows the android device to set Shimmer settings as soon as connection is made
+-Added additional log messages to clearly show the communication transactions between the Shimmer
+and Android device
+-Added an addtional constructor, which allows the android device to set Shimmer settings as soon as
+connection is made
 -Manual updated explaining communication transactions and the use of the constructors
 
 # The following license applies to the source code within this repository/project.
 
 Copyright (c) 2017, Shimmer Research, Ltd. All rights reserved
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the
 following conditions are met:
 
 * Redistributions of source code must retain the above copyright
@@ -168,11 +185,17 @@ following conditions are met:
 * Neither the name of Shimmer Research, Ltd. nor the names of its
   contributors may be used to endorse or promote products derived
   from this software without specific prior written permission.
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+  IMPLIED WARRANTIES,
+  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+  PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+  INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY,
+  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+  WAY OUT OF THE USE
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  

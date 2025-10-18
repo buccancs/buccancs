@@ -23,7 +23,8 @@ public object ControlEventKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.sync.ControlEvent.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.sync.ControlEvent.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -114,5 +115,6 @@ public object ControlEventKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.sync.ControlEvent.copy(block: `com.buccancs.control.sync`.ControlEventKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.ControlEvent =
-    `com.buccancs.control.sync`.ControlEventKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control.sync`.ControlEventKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

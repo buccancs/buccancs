@@ -50,7 +50,12 @@ class EmissivityTipPopup(val context: Context, val isTC007: Boolean) {
         return this
     }
 
-    fun setDataBean(environment: Float,distance : Float,radiation : Float,text : String): EmissivityTipPopup {
+    fun setDataBean(
+        environment: Float,
+        distance: Float,
+        radiation: Float,
+        text: String
+    ): EmissivityTipPopup {
         this.environment = environment
         this.distance = distance
         this.radiation = radiation
@@ -65,14 +70,15 @@ class EmissivityTipPopup(val context: Context, val isTC007: Boolean) {
 
     fun build(): PopupWindow {
         if (popupWindow == null) {
-            view.tv_environment_title.text = context.getString(R.string.thermal_config_environment) + ":"
+            view.tv_environment_title.text =
+                context.getString(R.string.thermal_config_environment) + ":"
             view.tv_distance_title.text = context.getString(R.string.thermal_config_distance) + ":"
 
             view.tv_title.visibility = View.GONE
-            if (text.isNotEmpty()){
+            if (text.isNotEmpty()) {
                 view.tv_emissivity_materials.text = text
                 view.tv_emissivity_materials.visibility = View.VISIBLE
-            }else{
+            } else {
                 view.tv_emissivity_materials.visibility = View.GONE
             }
             view.dialog_tip_cancel_btn.visibility = View.GONE
@@ -80,7 +86,8 @@ class EmissivityTipPopup(val context: Context, val isTC007: Boolean) {
             view.dialog_tip_check.visibility = View.GONE
             checkBox = view.dialog_tip_check
             view.tv_emissivity.text = "${context?.getString(R.string.thermal_config_radiation)}: ${
-                NumberTools.to02(radiation)}"
+                NumberTools.to02(radiation)
+            }"
             view.tv_environment_value.text = UnitTools.showC(environment)
             view.tv_distance_value.text = "${NumberTools.to02(distance)}m"
             popupWindow = PopupWindow(
@@ -95,7 +102,8 @@ class EmissivityTipPopup(val context: Context, val isTC007: Boolean) {
                 setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 必要时可以替换为其他Drawable
             }
             view.dialog_tip_success_btn.setOnClickListener {
-                ARouter.getInstance().build(RouterConfig.IR_SETTING).withBoolean(ExtraKeyConfig.IS_TC007, isTC007).navigation(context)
+                ARouter.getInstance().build(RouterConfig.IR_SETTING)
+                    .withBoolean(ExtraKeyConfig.IS_TC007, isTC007).navigation(context)
                 dismiss()
             }
         }

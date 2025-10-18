@@ -23,7 +23,8 @@ public object CommandAckKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.sync.CommandAck.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.sync.CommandAck.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -82,5 +83,6 @@ public object CommandAckKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.sync.CommandAck.copy(block: `com.buccancs.control.sync`.CommandAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.CommandAck =
-    `com.buccancs.control.sync`.CommandAckKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control.sync`.CommandAckKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

@@ -1,7 +1,7 @@
 package com.topdon.lib.core.tools
 
 object CheckDoubleClick {
-    
+
     private val records: MutableMap<String, Long> = HashMap()
 
     fun isFastDoubleClick(): Boolean {

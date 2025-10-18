@@ -17,11 +17,17 @@ import androidx.annotation.ColorInt
 import com.buccancs.control.commands.StimulusCommandPayload
 import com.buccancs.di.ApplicationScope
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -94,12 +100,22 @@ class StimulusPresentationManager @Inject constructor(
             withContext(Dispatchers.Main) {
                 dismissPresentation()
             }
-            _state.update { it.copy(activeCue = null, activeCueEndsAtEpochMs = null, lastCue = cue) }
+            _state.update {
+                it.copy(
+                    activeCue = null,
+                    activeCueEndsAtEpochMs = null,
+                    lastCue = cue
+                )
+            }
         }
     }
 
     fun triggerPreview() {
         present(StimulusCue.preview())
+    }
+
+    fun presentSyncCue(signalType: String) {
+        present(createSyncCue(signalType))
     }
 
     private fun showPresentation(cue: StimulusCue) {
@@ -119,12 +135,16 @@ class StimulusPresentationManager @Inject constructor(
     private fun playAudio(cue: StimulusCue) {
         when (cue.audio) {
             StimulusAudio.NONE -> Unit
-            StimulusAudio.BEEP -> toneGenerator.startTone(ToneGenerator.TONE_PROP_BEEP, cue.durationMillis.toInt())
+            StimulusAudio.BEEP -> toneGenerator.startTone(
+                ToneGenerator.TONE_PROP_BEEP,
+                cue.durationMillis.toInt()
+            )
         }
     }
 
     private fun choosePresentationDisplay(): Display? {
-        val presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION)
+        val presentationDisplays =
+            displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION)
         if (presentationDisplays.isNotEmpty()) {
             return presentationDisplays.first()
         }
@@ -133,9 +153,25 @@ class StimulusPresentationManager @Inject constructor(
     }
 
     private fun updateDisplayAvailability() {
-        val hasExternal = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION).isNotEmpty() ||
-                displayManager.displays.any { it.displayId != Display.DEFAULT_DISPLAY }
+        val hasExternal =
+            displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION).isNotEmpty() ||
+                    displayManager.displays.any { it.displayId != Display.DEFAULT_DISPLAY }
         _state.update { it.copy(hasExternalDisplay = hasExternal) }
+    }
+
+    companion object {
+        internal fun createSyncCue(
+            signalType: String,
+            nowMs: Long = System.currentTimeMillis()
+        ): StimulusCue {
+            val safeSignal = signalType.ifBlank { "flash" }
+            return StimulusCue.preview().copy(
+                id = "sync-$safeSignal-$nowMs",
+                action = "SyncSignal",
+                label = safeSignal.uppercase(Locale.UK),
+                metadata = mapOf("signalType" to safeSignal)
+            )
+        }
     }
 
     private class CuePresentation(
@@ -167,7 +203,9 @@ class StimulusPresentationManager @Inject constructor(
         @ColorInt
         private fun pickTextColor(@ColorInt background: Int): Int {
             val darkness =
-                1 - (0.299 * android.graphics.Color.red(background) + 0.587 * android.graphics.Color.green(background) + 0.114 * android.graphics.Color.blue(
+                1 - (0.299 * android.graphics.Color.red(background) + 0.587 * android.graphics.Color.green(
+                    background
+                ) + 0.114 * android.graphics.Color.blue(
                     background
                 )) / 255
             return if (darkness >= 0.5) android.graphics.Color.WHITE else android.graphics.Color.BLACK

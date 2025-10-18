@@ -9,12 +9,17 @@ import androidx.core.view.isVisible
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.report.bean.ReportConditionBean
 import com.topdon.module.thermal.ir.report.bean.ReportInfoBean
+
 // Stubbed: import kotlinx.android.synthetic.main.view_report_info.view.*
 
 class ReportInfoView : LinearLayout {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         LayoutInflater.from(context).inflate(R.layout.view_report_info, this, true)
     }
 
@@ -43,7 +48,8 @@ class ReportInfoView : LinearLayout {
             conditionBean?.is_ambient_humidity == 1 && (conditionBean.is_test_distance == 1 || conditionBean.is_emissivity == 1)
         group_test_distance.isVisible = conditionBean?.is_test_distance == 1
         tv_test_distance.text = conditionBean?.test_distance
-        view_line_3.isVisible = conditionBean?.is_test_distance == 1 && conditionBean.is_emissivity == 1
+        view_line_3.isVisible =
+            conditionBean?.is_test_distance == 1 && conditionBean.is_emissivity == 1
         group_emissivity.isVisible = conditionBean?.is_emissivity == 1
         tv_emissivity.text = conditionBean?.emissivity
     }

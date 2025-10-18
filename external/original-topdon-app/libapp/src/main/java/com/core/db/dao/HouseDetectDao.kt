@@ -193,7 +193,8 @@ abstract class HouseDetectDao {
 
         //添加复制的项目
         val oldItem = itemList[position]
-        val newItem = oldItem.copyOne(position = oldItem.position + 1, itemName = oldItem.copyName())
+        val newItem =
+            oldItem.copyOne(position = oldItem.position + 1, itemName = oldItem.copyName())
         newItem.id = insertItem(newItem)
 
         //复制后目录里的3个数量可能需要刷新
@@ -210,27 +211,32 @@ abstract class HouseDetectDao {
     }
 
 
-
     @Insert
     abstract fun insertDetect(houseDetect: HouseDetect): Long
+
     @Insert
     abstract fun insertDir(dirDetect: DirDetect): Long
+
     @Insert
     abstract fun insertItem(itemDetect: ItemDetect): Long
 
 
     @Delete
     abstract fun deleteDetect(vararg houseDetect: HouseDetect)
+
     @Delete
     abstract fun deleteDir(vararg dirDetect: DirDetect)
+
     @Delete
     abstract fun deleteItem(vararg itemDetect: ItemDetect)
 
 
     @Update
     abstract fun updateDetect(vararg houseDetect: HouseDetect)
+
     @Update
     abstract fun updateDir(vararg dirDetect: DirDetect)
+
     @Update
     abstract fun updateItem(vararg itemDetect: ItemDetect)
 
@@ -243,10 +249,13 @@ abstract class HouseDetectDao {
 
     @Query("SELECT * FROM HouseDetect WHERE id = :id")
     abstract fun queryDetectById(id: Long): HouseDetect?
+
     @Query("SELECT * FROM DirDetect WHERE id = :id")
     abstract fun queryDirById(id: Long): DirDetect?
+
     @Query("SELECT * FROM DirDetect WHERE parentId = :detectId ORDER BY position")
     abstract fun queryDirList(detectId: Long): List<DirDetect>
+
     @Query("SELECT * FROM ItemDetect WHERE parentId = :dirId ORDER BY position")
     abstract fun queryItemList(dirId: Long): List<ItemDetect>
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.io.File
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.time.Instant
 
@@ -23,7 +23,13 @@ class SessionLibraryViewModel @Inject constructor(
 ) : ViewModel() {
     private val json = Json { ignoreUnknownKeys = true; prettyPrint = false }
     private val _state =
-        MutableStateFlow(SessionLibraryUiState(isLoading = true, sessions = emptyList(), errorMessage = null))
+        MutableStateFlow(
+            SessionLibraryUiState(
+                isLoading = true,
+                sessions = emptyList(),
+                errorMessage = null
+            )
+        )
     val state: StateFlow<SessionLibraryUiState> = _state.asStateFlow()
 
     init {

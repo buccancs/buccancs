@@ -64,11 +64,20 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     override fun initView() {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-        et_report_name.setText("TC${TimeUtils.millis2String(System.currentTimeMillis(), "yyyyMMdd_HHmm")}")
+        et_report_name.setText(
+            "TC${
+                TimeUtils.millis2String(
+                    System.currentTimeMillis(),
+                    "yyyyMMdd_HHmm"
+                )
+            }"
+        )
         et_report_author.setText(SaveSettingUtil.reportAuthorName)
-        tv_report_date.text = TimeUtils.millis2String(System.currentTimeMillis(), "yyyy.MM.dd HH:mm")
+        tv_report_date.text =
+            TimeUtils.millis2String(System.currentTimeMillis(), "yyyy.MM.dd HH:mm")
         et_report_watermark.setText(SaveSettingUtil.reportWatermarkText)
-        tv_ambient_temperature.text = getString(R.string.thermal_config_environment) + "(${UnitTools.showUnit()})"
+        tv_ambient_temperature.text =
+            getString(R.string.thermal_config_environment) + "(${UnitTools.showUnit()})"
         tv_emissivity.text = getString(R.string.album_report_emissivity) + "(0~1)"
         et_report_author.addTextChangedListener {
             SaveSettingUtil.reportAuthorName = it?.toString() ?: ""
@@ -161,7 +170,8 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
             tv_next -> {
                 val reportInfoBean = buildReportInfo()
                 val reportConditionBean = buildReportCondition()
-                val imageTempBean: ImageTempBean? = intent.getParcelableExtra(ExtraKeyConfig.IMAGE_TEMP_BEAN)
+                val imageTempBean: ImageTempBean? =
+                    intent.getParcelableExtra(ExtraKeyConfig.IMAGE_TEMP_BEAN)
                 ARouter.getInstance().build(RouterConfig.REPORT_CREATE_SECOND)
                     .withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .withString(
@@ -279,7 +289,8 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
         picker.setOnDatimePickedListener { year, month, day, hour, minute, second ->
             val timeStr = "$year-$month-$day $hour:$minute:$second"
             val pattern = "yyyy-MM-dd HH:mm:ss"
-            val time: Long = SimpleDateFormat(pattern, Locale.getDefault()).parse(timeStr, ParsePosition(0)).time
+            val time: Long =
+                SimpleDateFormat(pattern, Locale.getDefault()).parse(timeStr, ParsePosition(0)).time
             tv_report_date.text = TimeUtils.millis2String(time, "yyyy.MM.dd HH:mm")
             startTime = time
         }
@@ -310,7 +321,12 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
         if (!XXPermissions.isGranted(this, permissionList)) {
             if (BaseApplication.instance.isDomestic()) {
                 TipDialog.Builder(this)
-                    .setMessage(getString(R.string.permission_request_location_app, CommUtils.getAppName()))
+                    .setMessage(
+                        getString(
+                            R.string.permission_request_location_app,
+                            CommUtils.getAppName()
+                        )
+                    )
                     .setCancelListener(R.string.app_cancel)
                     .setPositiveListener(R.string.app_confirm) {
                         initLocationPermission()
@@ -363,7 +379,10 @@ class ReportCreateFirstActivity : BaseActivity(), View.OnClickListener {
                             .setTitleMessage(getString(R.string.app_tip))
                             .setMessage(getString(R.string.app_location_content))
                             .setPositiveListener(R.string.app_open) {
-                                XXPermissions.startPermissionActivity(this@ReportCreateFirstActivity, permissions);
+                                XXPermissions.startPermissionActivity(
+                                    this@ReportCreateFirstActivity,
+                                    permissions
+                                );
                             }
                             .setCancelListener(R.string.app_cancel) {
                             }

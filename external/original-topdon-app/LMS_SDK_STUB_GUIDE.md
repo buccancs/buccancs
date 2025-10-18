@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document describes the stub implementation of the proprietary Topdon LMS SDK that was removed from the project. These stubs allow the code to compile and provide placeholders for the actual SDK functionality.
+This document describes the stub implementation of the proprietary Topdon LMS SDK that was removed
+from the project. These stubs allow the code to compile and provide placeholders for the actual SDK
+functionality.
 
 **Location:** `libapp/src/main/java/com/topdon/lms/sdk/`
 
@@ -68,6 +70,7 @@ class LMS private constructor() {
 ```
 
 **Usage:**
+
 ```kotlin
 // Initialize
 LMS.mContext = applicationContext
@@ -101,6 +104,7 @@ class HttpProxy private constructor() {
 ```
 
 **Usage:**
+
 ```kotlin
 val params = RequestParams()
 params.addBodyParameter("key", "value")
@@ -122,6 +126,7 @@ HttpProxy.instant.post(UrlConstant.BASE_URL + "api/endpoint", true, params, obje
 ### 3. Data Models
 
 #### CommonBean<T>
+
 ```kotlin
 data class CommonBean<T>(
     var code: String? = null,
@@ -131,6 +136,7 @@ data class CommonBean<T>(
 ```
 
 #### ResponseBean<T>
+
 ```kotlin
 data class ResponseBean<T>(
     var code: Int? = null,
@@ -145,6 +151,7 @@ data class ResponseBean<T>(
 ```
 
 #### UserInfo
+
 ```kotlin
 data class UserInfo(
     var token: String? = null,
@@ -162,6 +169,7 @@ data class UserInfo(
 ### 4. Utilities
 
 #### DateUtils
+
 ```kotlin
 object DateUtils {
     fun formatDate(date: Date?, pattern: String = "yyyy-MM-dd HH:mm:ss"): String
@@ -172,6 +180,7 @@ object DateUtils {
 ```
 
 #### LanguageUtil
+
 ```kotlin
 object LanguageUtil {
     fun getLanguageId(context: Context?): Int
@@ -180,6 +189,7 @@ object LanguageUtil {
 ```
 
 Language ID mapping:
+
 - 0 = English (default)
 - 1 = Chinese (zh)
 - 2 = Spanish (es)
@@ -189,6 +199,7 @@ Language ID mapping:
 - 6 = Korean (ko)
 
 #### StringUtils
+
 ```kotlin
 object StringUtils {
     fun getResString(context: Context?, resId: Int): String
@@ -196,6 +207,7 @@ object StringUtils {
 ```
 
 #### TToast
+
 ```kotlin
 object TToast {
     fun showShort(context: Context?, message: String?)
@@ -210,6 +222,7 @@ object TToast {
 ### 5. xutils3 HTTP Framework
 
 #### Callback Interface
+
 ```kotlin
 interface Callback {
     interface CommonCallback<T> {
@@ -222,6 +235,7 @@ interface Callback {
 ```
 
 #### RequestParams
+
 ```kotlin
 class RequestParams {
     var uri: String = ""
@@ -235,6 +249,7 @@ class RequestParams {
 ```
 
 #### Main HTTP Client
+
 ```kotlin
 object x {
     fun http(): HttpManager
@@ -253,6 +268,7 @@ object x {
 ### 6. UI Components
 
 #### LmsLoadView
+
 ```kotlin
 class LmsLoadView @JvmOverloads constructor(
     context: Context,
@@ -266,6 +282,7 @@ class LmsLoadView @JvmOverloads constructor(
 ```
 
 **XML Usage:**
+
 ```xml
 <com.topdon.lms.sdk.weiget.LmsLoadView
     android:id="@+id/loadingView"
@@ -287,6 +304,7 @@ All stub implementations follow these principles:
 ### Error Handling
 
 When stub methods are called, they typically:
+
 - Return `LMS.SUCCESS` (0) for status codes
 - Return empty strings or null for data
 - Invoke error callbacks with message: "Stub: {class} not implemented"
@@ -324,6 +342,7 @@ When the actual LMS SDK becomes available:
 ## Dependencies
 
 The stubs require only standard Android/Kotlin libraries:
+
 - `android.content.Context`
 - `android.widget.Toast`
 - `com.google.gson.Gson` (for JSON parsing in ResponseBean)

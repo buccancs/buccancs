@@ -29,7 +29,11 @@ abstract class BaseFragment : RxFragment() {
 
     abstract fun initData()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(initContentView(), container, false)
     }
 
@@ -57,12 +61,11 @@ abstract class BaseFragment : RxFragment() {
     }
 
 
-
-
     /**
      * 新版 LMS 风格的加载中弹框.
      */
     private var loadingDialog: LoadingDialog? = null
+
     /**
      * 显示 LMS 风格的加载中弹框.
      */
@@ -73,6 +76,7 @@ abstract class BaseFragment : RxFragment() {
         loadingDialog?.setTips(if (resId == 0) R.string.tip_loading else resId)
         loadingDialog?.show()
     }
+
     /**
      * 显示 LMS 风格的加载中弹框.
      */
@@ -83,13 +87,13 @@ abstract class BaseFragment : RxFragment() {
         loadingDialog?.setTips(text)
         loadingDialog?.show()
     }
+
     /**
      * 关闭 LMS 风格的加载中弹框.
      */
     fun dismissLoadingDialog() {
         loadingDialog?.dismiss()
     }
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -100,9 +104,11 @@ abstract class BaseFragment : RxFragment() {
             disConnected()
         }
     }
+
     protected open fun connected() {
 
     }
+
     protected open fun disConnected() {
 
     }
@@ -116,9 +122,11 @@ abstract class BaseFragment : RxFragment() {
             onSocketDisConnected(event.isTS004)
         }
     }
+
     protected open fun onSocketConnected(isTS004: Boolean) {
 
     }
+
     protected open fun onSocketDisConnected(isTS004: Boolean) {
 
     }

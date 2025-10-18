@@ -56,4 +56,5 @@ suspend fun <T> withHardwareTimeout(
     }
 }
 
-class HardwareTimeoutException(message: String, cause: Throwable? = null) : Exception(message, cause)
+class HardwareTimeoutException(message: String, cause: Throwable? = null) :
+    Exception(message, cause)

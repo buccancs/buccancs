@@ -33,7 +33,13 @@ object PseudoColorConfig {
         )
 
         7 -> intArrayOf(0xffe83120.toInt(), 0xffc2c2c2.toInt(), 0xff010101.toInt())
-        8 -> intArrayOf(0xffec391f.toInt(), 0xfffffe3b.toInt(), 0xff375e5e.toInt(), 0xff000000.toInt())
+        8 -> intArrayOf(
+            0xffec391f.toInt(),
+            0xfffffe3b.toInt(),
+            0xff375e5e.toInt(),
+            0xff000000.toInt()
+        )
+
         9 -> intArrayOf(
             0xfffdf3fe.toInt(),
             0xfff081f7.toInt(),

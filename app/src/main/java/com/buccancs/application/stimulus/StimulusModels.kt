@@ -19,7 +19,8 @@ data class StimulusCue(
             val duration = metadata["durationMs"]?.toLongOrNull()?.coerceIn(100L, 30_000L)
                 ?: DEFAULT_DURATION_MS
             val audio = metadata["audio"]?.let { StimulusAudio.fromKey(it) } ?: StimulusAudio.BEEP
-            val label = metadata["label"].orEmpty().ifBlank { payload.action.ifBlank { payload.stimulusId } }
+            val label = metadata["label"].orEmpty()
+                .ifBlank { payload.action.ifBlank { payload.stimulusId } }
             return StimulusCue(
                 id = payload.stimulusId,
                 action = payload.action,

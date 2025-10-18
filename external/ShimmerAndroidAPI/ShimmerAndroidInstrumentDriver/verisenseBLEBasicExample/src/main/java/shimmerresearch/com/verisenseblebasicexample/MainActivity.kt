@@ -58,14 +58,18 @@ class MainActivity : ComponentActivity() {
                         val allFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP
                         )
-                        val timeStampCluster = ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
+                        val timeStampCluster =
+                            ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
                         val timeStampData = timeStampCluster?.mData
                         Log.i(LOG_TAG, "Time Stamp: $timeStampData")
 
                         val accelXFormats = objectCluster.getCollectionOfFormatClusters(
                             SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_X
                         )
-                        val accelXCluster = ObjectCluster.returnFormatCluster(accelXFormats, "CAL") as? FormatCluster
+                        val accelXCluster = ObjectCluster.returnFormatCluster(
+                            accelXFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         val accelXData = accelXCluster?.mData
                         if (accelXCluster != null) {
                             Log.i(LOG_TAG, "Accel X: $accelXData")
@@ -74,7 +78,10 @@ class MainActivity : ComponentActivity() {
                         val accelYFormats = objectCluster.getCollectionOfFormatClusters(
                             SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_Y
                         )
-                        val accelYCluster = ObjectCluster.returnFormatCluster(accelYFormats, "CAL") as? FormatCluster
+                        val accelYCluster = ObjectCluster.returnFormatCluster(
+                            accelYFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         val accelYData = accelYCluster?.mData
                         if (accelYCluster != null) {
                             Log.i(LOG_TAG, "Accel Y: $accelYData")
@@ -83,7 +90,10 @@ class MainActivity : ComponentActivity() {
                         val accelZFormats = objectCluster.getCollectionOfFormatClusters(
                             SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_Z
                         )
-                        val accelZCluster = ObjectCluster.returnFormatCluster(accelZFormats, "CAL") as? FormatCluster
+                        val accelZCluster = ObjectCluster.returnFormatCluster(
+                            accelZFormats,
+                            "CAL"
+                        ) as? FormatCluster
                         val accelZData = accelZCluster?.mData
                         if (accelZCluster != null) {
                             Log.i(LOG_TAG, "Accel Z: $accelZData")
@@ -126,7 +136,9 @@ class MainActivity : ComponentActivity() {
                             "Streaming & Logging"
 
                         ShimmerBluetooth.BT_STATE.SDLOGGING -> connectionState.value = "SD Logging"
-                        ShimmerBluetooth.BT_STATE.DISCONNECTED -> connectionState.value = "Disconnected"
+                        ShimmerBluetooth.BT_STATE.DISCONNECTED -> connectionState.value =
+                            "Disconnected"
+
                         else -> {}
                     }
                 }

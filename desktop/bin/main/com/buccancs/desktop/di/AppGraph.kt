@@ -46,7 +46,8 @@ class AppGraph private constructor(
         private const val SESSION_CAP_BYTES = 10L * 1024 * 1024 * 1024
         fun create(): AppGraph {
             val baseDir = resolveBaseDirectory()
-            val keyProvider = EncryptionKeyProvider(baseDir.resolve("keysets").resolve("desktop-aead.json"))
+            val keyProvider =
+                EncryptionKeyProvider(baseDir.resolve("keysets").resolve("desktop-aead.json"))
             val encryptionManager = EncryptionManager(keyProvider)
             val retentionPolicy = RetentionPolicy(
                 perSessionCapBytes = SESSION_CAP_BYTES,

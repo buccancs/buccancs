@@ -20,7 +20,7 @@ object ScreenTool {
         return (width / height) < 0.75f
     }
 
-    fun isIPad(context: Context) : Boolean{
+    fun isIPad(context: Context): Boolean {
         val width = ScreenUtil.getScreenWidth(context)
         val height = ScreenUtil.getScreenHeight(context)
         val densityDpi = context.resources.displayMetrics.densityDpi

@@ -14,7 +14,8 @@ class DataRetentionManager(
     private val logger = LoggerFactory.getLogger(DataRetentionManager::class.java)
     private val sessionUsage = ConcurrentHashMap<String, AtomicLong>()
     private val deviceUsage = ConcurrentHashMap<String, AtomicLong>()
-    private val sessionDeviceUsage = ConcurrentHashMap<String, ConcurrentHashMap<String, AtomicLong>>()
+    private val sessionDeviceUsage =
+        ConcurrentHashMap<String, ConcurrentHashMap<String, AtomicLong>>()
     private val quotaState = MutableStateFlow(
         QuotaSnapshot(
             perSessionBytes = emptyMap(),
@@ -30,8 +31,10 @@ class DataRetentionManager(
         if (deltaBytes <= 0) {
             return
         }
-        val sessionTotal = sessionUsage.computeIfAbsent(sessionId) { AtomicLong(0) }.addAndGet(deltaBytes)
-        val deviceTotal = deviceUsage.computeIfAbsent(deviceId) { AtomicLong(0) }.addAndGet(deltaBytes)
+        val sessionTotal =
+            sessionUsage.computeIfAbsent(sessionId) { AtomicLong(0) }.addAndGet(deltaBytes)
+        val deviceTotal =
+            deviceUsage.computeIfAbsent(deviceId) { AtomicLong(0) }.addAndGet(deltaBytes)
         sessionDeviceUsage
             .computeIfAbsent(sessionId) { ConcurrentHashMap() }
             .computeIfAbsent(deviceId) { AtomicLong(0) }
@@ -39,10 +42,18 @@ class DataRetentionManager(
         val globalTotal = computeTotalUsage()
         val actions = mutableListOf<QuotaAction>()
         if (sessionTotal > policy.perSessionCapBytes) {
-            actions += QuotaAction.SessionCapExceeded(sessionId, sessionTotal, policy.perSessionCapBytes)
+            actions += QuotaAction.SessionCapExceeded(
+                sessionId,
+                sessionTotal,
+                policy.perSessionCapBytes
+            )
         }
         if (deviceTotal > policy.perDeviceCapBytes) {
-            actions += QuotaAction.DeviceCapExceeded(deviceId, deviceTotal, policy.perDeviceCapBytes)
+            actions += QuotaAction.DeviceCapExceeded(
+                deviceId,
+                deviceTotal,
+                policy.perDeviceCapBytes
+            )
         }
         if (globalTotal > policy.globalCapBytes) {
             actions += QuotaAction.GlobalCapExceeded(globalTotal, policy.globalCapBytes)

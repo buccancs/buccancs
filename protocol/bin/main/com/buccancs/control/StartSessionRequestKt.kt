@@ -23,7 +23,8 @@ public object StartSessionRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.StartSessionRequest.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.StartSessionRequest.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -120,7 +121,9 @@ public object StartSessionRequestKt {
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("plusAssignSubjectIds")
         @Suppress("NOTHING_TO_INLINE")
-        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.plusAssign(value: kotlin.String) {
+        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.plusAssign(
+            value: kotlin.String
+        ) {
             add(value)
         }
 
@@ -141,7 +144,9 @@ public object StartSessionRequestKt {
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("plusAssignAllSubjectIds")
         @Suppress("NOTHING_TO_INLINE")
-        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
+        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.plusAssign(
+            values: kotlin.collections.Iterable<kotlin.String>
+        ) {
             addAll(values)
         }
 
@@ -172,7 +177,8 @@ public object StartSessionRequestKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.StartSessionRequest.copy(block: `com.buccancs.control`.StartSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StartSessionRequest =
-    `com.buccancs.control`.StartSessionRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.StartSessionRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 
 public val com.buccancs.control.StartSessionRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?
     get() = if (hasSession()) getSession() else null

@@ -49,14 +49,14 @@ abstract class BaseActivity : RxAppCompatActivity() {
         super.onCreate(savedInstanceState)
         BaseApplication.instance.activitys.add(this)
         this.savedInstanceState = savedInstanceState
-        if(!EventBus.getDefault().isRegistered(this)){
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
 
         if (isLockPortrait()) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-        window.navigationBarColor = ContextCompat.getColor(this,R.color.toolbar_16131E)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.toolbar_16131E)
         setContentView(initContentView())
         initView()
         initData()
@@ -65,12 +65,17 @@ abstract class BaseActivity : RxAppCompatActivity() {
 
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(AppLanguageUtils.attachBaseContext(newBase, SharedManager.getLanguage(newBase!!)))
+        super.attachBaseContext(
+            AppLanguageUtils.attachBaseContext(
+                newBase,
+                SharedManager.getLanguage(newBase!!)
+            )
+        )
     }
 
     override fun onStart() {
         super.onStart()
-        if(!EventBus.getDefault().isRegistered(this)){
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
     }
@@ -84,11 +89,10 @@ abstract class BaseActivity : RxAppCompatActivity() {
     }
 
 
-
     override fun onDestroy() {
         cameraDialog?.dismiss()
         super.onDestroy()
-        if (EventBus.getDefault().isRegistered(this)){
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
         BaseApplication.instance.activitys.remove(this)
@@ -106,28 +110,30 @@ abstract class BaseActivity : RxAppCompatActivity() {
             disConnected()
         }
     }
+
     protected open fun connected() {
 
     }
+
     protected open fun disConnected() {
 
     }
 
 
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onSocketConnectState(event: SocketStateEvent) {
-        Log.d("onSocketConnectState","${event.isConnect}")
+        Log.d("onSocketConnectState", "${event.isConnect}")
         if (event.isConnect) {
             onSocketConnected(event.isTS004)
         } else {
             onSocketDisConnected(event.isTS004)
         }
     }
+
     protected open fun onSocketConnected(isTS004: Boolean) {
 
     }
+
     protected open fun onSocketDisConnected(isTS004: Boolean) {
 
     }
@@ -137,12 +143,14 @@ abstract class BaseActivity : RxAppCompatActivity() {
      * 新版 LMS 风格的加载中弹框.
      */
     private var loadingDialog: LoadingDialog? = null
+
     /**
      * 真是醉了，一个加载中的弹框现在就有 3 种，不管了，继续加，理论上后续都要改成这个.
      */
     fun showLoadingDialog(@StringRes resId: Int = R.string.tip_loading) {
         showLoadingDialog(getString(resId))
     }
+
     fun showLoadingDialog(text: CharSequence?) {
         if (loadingDialog == null) {
             loadingDialog = LoadingDialog(this)
@@ -150,6 +158,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
         loadingDialog?.setTips(text)
         loadingDialog?.show()
     }
+
     /**
      * 真是醉了，一个加载中的弹框现在就有 3 种，不管了，继续加，理论上后续都要改成这个.
      */
@@ -173,11 +182,12 @@ abstract class BaseActivity : RxAppCompatActivity() {
             if (!(isFinishing && isDestroyed)) {
                 cameraDialog?.show()
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             //临时捕获方案，后面需求完成后再追踪优化
-            Log.e("临时处理方案",e.message.toString())
+            Log.e("临时处理方案", e.message.toString())
         }
     }
+
     fun dismissCameraLoading() {
         if (cameraDialog != null && cameraDialog!!.isShowing) {
             cameraDialog?.dismiss()
@@ -218,10 +228,12 @@ abstract class BaseActivity : RxAppCompatActivity() {
 
         override fun createIntent(context: Context, input: File): Intent {
             file = input
-            val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            val uri =
+                FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
             return Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri)
         }
 
-        override fun parseResult(resultCode: Int, intent: Intent?): File? = if (resultCode == RESULT_OK) file else null
+        override fun parseResult(resultCode: Int, intent: Intent?): File? =
+            if (resultCode == RESULT_OK) file else null
     }
 }

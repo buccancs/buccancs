@@ -2,15 +2,25 @@ package com.buccancs.data.sensor.connector.simulated
 
 import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.data.sensor.connector.SensorConnector
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.util.nowInstant
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import java.nio.charset.StandardCharsets
-import java.util.*
+import java.util.Locale
 import kotlin.math.max
 import kotlin.random.Random
 import kotlin.time.Instant
@@ -96,7 +106,8 @@ internal abstract class BaseSimulatedConnector(
         streamJob = null
         recordingStartedAt?.let { start ->
             val currentInstant = nowInstant()
-            val duration = (currentInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(0)
+            val duration =
+                (currentInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(0)
             lastRecordingDurationMs = duration
         }
         recordingStartedAt = null
@@ -134,7 +145,11 @@ internal abstract class BaseSimulatedConnector(
                         streamType = stream,
                         extension = "mp4",
                         mimeType = "video/mp4",
-                        sizeBytes = estimateBinarySize(durationMs, bytesPerSecond = 750_000, minimumBytes = 512_000)
+                        sizeBytes = estimateBinarySize(
+                            durationMs,
+                            bytesPerSecond = 750_000,
+                            minimumBytes = 512_000
+                        )
                     )
 
                 SensorStreamType.RAW_DNG ->
@@ -158,7 +173,11 @@ internal abstract class BaseSimulatedConnector(
                         streamType = stream,
                         extension = "raw",
                         mimeType = "application/octet-stream",
-                        sizeBytes = estimateBinarySize(durationMs, bytesPerSecond = 320_000, minimumBytes = 196_608)
+                        sizeBytes = estimateBinarySize(
+                            durationMs,
+                            bytesPerSecond = 320_000,
+                            minimumBytes = 196_608
+                        )
                     )
 
                 SensorStreamType.AUDIO ->
@@ -168,7 +187,11 @@ internal abstract class BaseSimulatedConnector(
                         streamType = stream,
                         extension = "wav",
                         mimeType = "audio/wav",
-                        sizeBytes = estimateBinarySize(durationMs, bytesPerSecond = 176_000, minimumBytes = 131_072)
+                        sizeBytes = estimateBinarySize(
+                            durationMs,
+                            bytesPerSecond = 176_000,
+                            minimumBytes = 131_072
+                        )
                     )
 
                 SensorStreamType.PREVIEW -> null
@@ -251,7 +274,8 @@ internal abstract class BaseSimulatedConnector(
         val sampleRate = 128
         val duration = durationMs.coerceAtLeast(1_000L)
         val sampleCount = max(sampleRate, ((duration * sampleRate) / 1_000L).toInt())
-        val startTimestamp = (currentSessionAnchor()?.referenceTimestamp ?: nowInstant()).toEpochMilliseconds()
+        val startTimestamp =
+            (currentSessionAnchor()?.referenceTimestamp ?: nowInstant()).toEpochMilliseconds()
         val random = Random(deviceId.value.hashCode())
         val builder = StringBuilder()
         builder.append("timestamp_ms,gsr_uS\n")

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/connect_device"
-          android:title="Connect to Shimmer device"></item>
+    <item
+        android:id="@+id/connect_device"
+        android:title="Connect to Shimmer device"></item>
     <!--
         <item   android:id="@+id/test_button"
                 android:title="Test Button" ></item>
@@ -18,32 +19,46 @@
         <item   android:id="@+id/signals_to_plot_fragment_test"
                 android:title="Signals To Plot Fragment Test"></item>
     -->
-    <item android:title="Start streaming selected device"
-          android:id="@+id/start_streaming"></item>
-    <item android:title="Stop streaming selected device"
-          android:id="@+id/stop_streaming"></item>
-    <item android:title="Set Sampling Rate"
-          android:id="@+id/set_sampling_rate"></item>
-    <item android:title="Data Sync"
-          android:id="@+id/data_sync"></item>
-    <item android:title="Erase data"
-          android:id="@+id/erase_data"></item>
-    <item android:title="Disable logging"
-          android:id="@+id/disable_logging"></item>
-    <item android:title="Disconnect All Devices"
-          android:id="@+id/disconnect_all_devices"></item>
-    <item android:title="Enable Write To CSV"
-          android:id="@+id/enable_write_to_csv"></item>
-    <item android:title="Disable Write To CSV"
-          android:id="@+id/disable_write_to_csv"></item>
-    <item android:title="Low Power Mode"
-          android:id="@+id/low_power_mode"></item>
-    <item android:title="Start Logging Shimmer SD"
-          android:id="@+id/start_sd_logging"></item>
-    <item android:title="Stop Logging Shimmer SD"
-          android:id="@+id/stop_sd_logging"></item>
-    <item android:title="Device Info"
-          android:id="@+id/device_info"></item>
-    <item android:title="Privacy Policy"
-          android:id="@+id/privacy_policy"></item>
+    <item
+        android:id="@+id/start_streaming"
+        android:title="Start streaming selected device"></item>
+    <item
+        android:id="@+id/stop_streaming"
+        android:title="Stop streaming selected device"></item>
+    <item
+        android:id="@+id/set_sampling_rate"
+        android:title="Set Sampling Rate"></item>
+    <item
+        android:id="@+id/data_sync"
+        android:title="Data Sync"></item>
+    <item
+        android:id="@+id/erase_data"
+        android:title="Erase data"></item>
+    <item
+        android:id="@+id/disable_logging"
+        android:title="Disable logging"></item>
+    <item
+        android:id="@+id/disconnect_all_devices"
+        android:title="Disconnect All Devices"></item>
+    <item
+        android:id="@+id/enable_write_to_csv"
+        android:title="Enable Write To CSV"></item>
+    <item
+        android:id="@+id/disable_write_to_csv"
+        android:title="Disable Write To CSV"></item>
+    <item
+        android:id="@+id/low_power_mode"
+        android:title="Low Power Mode"></item>
+    <item
+        android:id="@+id/start_sd_logging"
+        android:title="Start Logging Shimmer SD"></item>
+    <item
+        android:id="@+id/stop_sd_logging"
+        android:title="Stop Logging Shimmer SD"></item>
+    <item
+        android:id="@+id/device_info"
+        android:title="Device Info"></item>
+    <item
+        android:id="@+id/privacy_policy"
+        android:title="Privacy Policy"></item>
 </menu>

@@ -47,6 +47,7 @@ abstract class BaseApplication : Application() {
         lateinit var instance: BaseApplication
         val usbObserver by lazy { DeviceBroadcastReceiver() }
     }
+
     var tau_data_H: ByteArray? = null
     var tau_data_L: ByteArray? = null
 
@@ -83,13 +84,20 @@ abstract class BaseApplication : Application() {
 
     }
 
-    open fun initWebSocket(){
+    open fun initWebSocket() {
         connectWebSocket()
         //注册网络变更广播
         if (Build.VERSION.SDK_INT < 33) {
-            registerReceiver(NetworkChangedReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+            registerReceiver(
+                NetworkChangedReceiver(),
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+            )
         } else {
-            registerReceiver(NetworkChangedReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION), Context.RECEIVER_NOT_EXPORTED)
+            registerReceiver(
+                NetworkChangedReceiver(),
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION),
+                Context.RECEIVER_NOT_EXPORTED
+            )
         }
     }
 
@@ -102,7 +110,7 @@ abstract class BaseApplication : Application() {
         } else if (ssid.startsWith(DeviceConfig.TC007_NAME_START)) {
             SharedManager.hasTC007 = true
             WebSocketProxy.getInstance().startWebSocket(ssid)
-        }else{
+        } else {
             NetWorkUtils.switchNetwork(true)
         }
     }
@@ -149,7 +157,12 @@ abstract class BaseApplication : Application() {
                 val url = "http://192.168.40.1:8080/DCIM/${fileBean.name}"
                 val file = File(FileConfig.ts004GalleryDir, fileBean.name)
                 TS004Repository.download(url, file)
-                MediaScannerConnection.scanFile(this@BaseApplication, arrayOf(FileConfig.ts004GalleryDir), null, null)
+                MediaScannerConnection.scanFile(
+                    this@BaseApplication,
+                    arrayOf(FileConfig.ts004GalleryDir),
+                    null,
+                    null
+                )
             }
         }
     }
@@ -157,18 +170,18 @@ abstract class BaseApplication : Application() {
     private inner class NetworkChangedReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (ConnectivityManager.CONNECTIVITY_ACTION == intent?.action) {
-                val manager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val manager =
+                    context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 val activeNetwork: NetworkInfo = manager.activeNetworkInfo ?: return
                 if (activeNetwork.isConnected && activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
                     connectWebSocket()
-                }else{
+                } else {
 //                    NetWorkUtils.
                 }
-                Log.i("WebSocket", "网络切换 Wifi SSID: $activeNetwork"+activeNetwork.type)
+                Log.i("WebSocket", "网络切换 Wifi SSID: $activeNetwork" + activeNetwork.type)
             }
         }
     }
-
 
 
     /**

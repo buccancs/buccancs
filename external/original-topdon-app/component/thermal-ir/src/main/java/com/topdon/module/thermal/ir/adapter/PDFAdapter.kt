@@ -10,7 +10,11 @@ import com.topdon.module.thermal.ir.report.bean.ReportData
 
 class PDFAdapter : BaseQuickAdapter<ReportData.Records?, BaseViewHolder>, LoadMoreModule {
     constructor(layoutResId: Int) : super(layoutResId) {}
-    constructor(layoutResId: Int, data: MutableList<ReportData.Records?>?) : super(layoutResId, data) {}
+    constructor(layoutResId: Int, data: MutableList<ReportData.Records?>?) : super(
+        layoutResId,
+        data
+    ) {
+    }
 
     var delListener: ((item: ReportData.Records, position: Int) -> Unit)? = null
     var jumpDetailListener: ((item: ReportData.Records, position: Int) -> Unit)? = null
@@ -28,7 +32,10 @@ class PDFAdapter : BaseQuickAdapter<ReportData.Records?, BaseViewHolder>, LoadMo
             item?.reportContent?.infrared_data?.get(0)?.picture_url?.let { url ->
                 GlideLoader.loadP(baseViewHolder.getView(R.id.img_content), url)
             }
-            baseViewHolder.setText(R.id.item_pdf_title, item?.reportContent?.report_info?.report_name + "")
+            baseViewHolder.setText(
+                R.id.item_pdf_title,
+                item?.reportContent?.report_info?.report_name + ""
+            )
             baseViewHolder.setText(R.id.item_pdf_content, it.uploadTime + "")
             addChildClickViewIds(R.id.item_message_lay)
             val view = baseViewHolder.itemView.findViewById<View>(R.id.tv_del)

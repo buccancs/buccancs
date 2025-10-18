@@ -1,19 +1,29 @@
 package com.buccancs.desktop.ui.screens
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.MonitorHeart
+import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.buccancs.desktop.ui.components.*
+import com.buccancs.desktop.ui.components.BuccancsCard
+import com.buccancs.desktop.ui.components.ConnectedBadge
+import com.buccancs.desktop.ui.components.DisconnectedBadge
+import com.buccancs.desktop.ui.components.ScreenHeader
 import com.buccancs.desktop.ui.theme.BuccancsTheme
 import com.buccancs.desktop.ui.theme.Spacing
 
@@ -32,7 +42,7 @@ fun SensorStatusScreen() {
             title = "Sensor Status",
             subtitle = "Real-time monitoring of all sensor connections and data streams"
         )
-        
+
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
         ) {
@@ -42,12 +52,18 @@ fun SensorStatusScreen() {
                     title = "GSR (Shimmer3)",
                     icon = Icons.Default.MonitorHeart,
                     sensors = listOf(
-                        SensorInfo("Device-001", "Shimmer3 GSR+", true, "128 Hz", "2,457,891 samples"),
+                        SensorInfo(
+                            "Device-001",
+                            "Shimmer3 GSR+",
+                            true,
+                            "128 Hz",
+                            "2,457,891 samples"
+                        ),
                         SensorInfo("Device-002", "Shimmer3 GSR+", false, "—", "—")
                     )
                 )
             }
-            
+
             // Thermal Cameras
             item {
                 SensorCategoryCard(
@@ -59,26 +75,38 @@ fun SensorStatusScreen() {
                     )
                 )
             }
-            
+
             // RGB Cameras
             item {
                 SensorCategoryCard(
                     title = "RGB Cameras",
                     icon = Icons.Default.Videocam,
                     sensors = listOf(
-                        SensorInfo("Device-001", "1920x1080@30fps", true, "30 FPS", "54,321 frames"),
+                        SensorInfo(
+                            "Device-001",
+                            "1920x1080@30fps",
+                            true,
+                            "30 FPS",
+                            "54,321 frames"
+                        ),
                         SensorInfo("Device-002", "1920x1080@30fps", true, "30 FPS", "54,298 frames")
                     )
                 )
             }
-            
+
             // Microphones
             item {
                 SensorCategoryCard(
                     title = "Microphones",
                     icon = Icons.Default.Mic,
                     sensors = listOf(
-                        SensorInfo("Device-001", "48 kHz Mono", true, "48 kHz", "8,654,321 samples"),
+                        SensorInfo(
+                            "Device-001",
+                            "48 kHz Mono",
+                            true,
+                            "48 kHz",
+                            "8,654,321 samples"
+                        ),
                         SensorInfo("Device-002", "48 kHz Mono", true, "48 kHz", "8,653,987 samples")
                     )
                 )
@@ -123,7 +151,7 @@ private fun SensorRow(sensor: SensorInfo) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        
+
         Column(horizontalAlignment = Alignment.End) {
             if (sensor.active) {
                 ConnectedBadge()

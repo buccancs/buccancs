@@ -21,20 +21,26 @@ class IRCorrectionTwoActivity : BaseActivity() {
     override fun initView() {
         isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
         iv_sketch_map.setImageResource(if (isTC007) R.drawable.ic_corrected_tc007 else R.drawable.ic_corrected_line)
-        if (if (isTC007) WebSocketProxy.getInstance().isTC007Connect() else DeviceTools.isConnect()) {
+        if (if (isTC007) WebSocketProxy.getInstance()
+                .isTC007Connect() else DeviceTools.isConnect()
+        ) {
             tv_correction.setBackgroundResource(R.drawable.bg_corners05_solid_theme)
         } else {
             tv_correction.setBackgroundResource(R.drawable.bg_corners05_solid_50_theme)
         }
         tv_correction.setOnClickListener {
-            if (if (isTC007) WebSocketProxy.getInstance().isTC007Connect() else DeviceTools.isConnect()) {
+            if (if (isTC007) WebSocketProxy.getInstance()
+                    .isTC007Connect() else DeviceTools.isConnect()
+            ) {
                 if (isTC007) {
                     ARouter.getInstance().build(RouterConfig.IR_CORRECTION_07).navigation(this)
                 } else {
                     if (DeviceTools.isTC001LiteConnect()) {
-                        ARouter.getInstance().build(RouterConfig.IR_CORRECTION_THREE_LITE).navigation(this)
+                        ARouter.getInstance().build(RouterConfig.IR_CORRECTION_THREE_LITE)
+                            .navigation(this)
                     } else if (DeviceTools.isHikConnect()) {
-                        ARouter.getInstance().build(RouterConfig.IR_HIK_CORRECT_THREE).navigation(this)
+                        ARouter.getInstance().build(RouterConfig.IR_HIK_CORRECT_THREE)
+                            .navigation(this)
                     } else {
                         startActivity(Intent(this, IRCorrectionThreeActivity::class.java))
                     }

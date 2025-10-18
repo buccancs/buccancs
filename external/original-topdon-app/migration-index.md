@@ -147,9 +147,11 @@
 
 ### Strategy and Planning
 
-- [Complete Migration Plan](../docs/project/TOPDON_COMPLETE_MIGRATION_PLAN_2025-10-16_0035.md) - Full project scope
+- [Complete Migration Plan](../docs/project/TOPDON_COMPLETE_MIGRATION_PLAN_2025-10-16_0035.md) -
+  Full project scope
 - [Phase 2 Strategy](../docs/project/TOPDON_PHASE2_STRATEGY_2025-10-16_0045.md) - Hybrid approach
-- [Executive Summary](../docs/project/TOPDON_EXECUTIVE_SUMMARY_2025-10-16_0050.md) - Business perspective
+- [Executive Summary](../docs/project/TOPDON_EXECUTIVE_SUMMARY_2025-10-16_0050.md) - Business
+  perspective
 
 ### Technical Implementation
 
@@ -239,8 +241,10 @@ Phase 3 (others):       0% ░░░░░░░░░░░░░░░░░�
 **Questions about:**
 
 - **Strategy:** See [Executive Summary](../docs/project/TOPDON_EXECUTIVE_SUMMARY_2025-10-16_0050.md)
-- **Implementation:** See [Phase 2 Strategy](../docs/project/TOPDON_PHASE2_STRATEGY_2025-10-16_0045.md)
-- **Specific modules:** See module-specific guides (e.g., [thermal-ir](component/thermal-ir/compose-migration-guide.md))
+- **Implementation:**
+  See [Phase 2 Strategy](../docs/project/TOPDON_PHASE2_STRATEGY_2025-10-16_0045.md)
+- **Specific modules:** See module-specific guides (
+  e.g., [thermal-ir](component/thermal-ir/compose-migration-guide.md))
 
 ## Version History
 

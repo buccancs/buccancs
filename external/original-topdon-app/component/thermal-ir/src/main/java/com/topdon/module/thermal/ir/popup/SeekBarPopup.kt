@@ -29,9 +29,15 @@ class SeekBarPopup(context: Context, hasTitle: Boolean = false) : PopupWindow() 
 
     init {
         val widthMeasureSpec =
-            View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.widthPixels, View.MeasureSpec.EXACTLY)
+            View.MeasureSpec.makeMeasureSpec(
+                context.resources.displayMetrics.widthPixels,
+                View.MeasureSpec.EXACTLY
+            )
         val heightMeasureSpec =
-            View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.heightPixels, View.MeasureSpec.AT_MOST)
+            View.MeasureSpec.makeMeasureSpec(
+                context.resources.displayMetrics.heightPixels,
+                View.MeasureSpec.AT_MOST
+            )
         binding.tvTitle.isVisible = hasTitle
         binding.root.measure(widthMeasureSpec, heightMeasureSpec)
         binding.tvValue.text = "${progress}%"

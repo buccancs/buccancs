@@ -52,7 +52,9 @@ class UserInfoManager {
         headUrl: String?,
     ) {
         SharedManager.setUserId(userId)
-        SharedManager.setUsername(if (getMaskPhone(phone)?.isNotEmpty() == true) getMaskPhone(phone) ?: "" else email)
+        SharedManager.setUsername(
+            if (getMaskPhone(phone)?.isNotEmpty() == true) getMaskPhone(phone) ?: "" else email
+        )
         SharedManager.setNickname(nickname)
         SharedManager.setHeadIcon(headUrl ?: "12345")
         SharedManager.setToken(token)

@@ -26,7 +26,8 @@ class GrpcChannelFactory @Inject constructor() {
             return@withLock existing
         }
         existing?.shutdownNow()
-        val builder: ManagedChannelBuilder<*> = OkHttpChannelBuilder.forAddress(config.host, config.port)
+        val builder: ManagedChannelBuilder<*> =
+            OkHttpChannelBuilder.forAddress(config.host, config.port)
         if (!config.useTls) {
             builder.usePlaintext()
         }

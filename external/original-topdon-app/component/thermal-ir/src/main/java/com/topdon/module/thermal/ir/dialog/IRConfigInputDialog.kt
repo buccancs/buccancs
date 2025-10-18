@@ -46,7 +46,8 @@ class IRConfigInputDialog(context: Context, val type: Type, val isTC007: Boolean
             }
 
             Type.DIS -> {
-                tv_title.text = "${context.getString(R.string.thermal_config_distance)} (0.2~${if (isTC007) 4 else 5}m)"
+                tv_title.text =
+                    "${context.getString(R.string.thermal_config_distance)} (0.2~${if (isTC007) 4 else 5}m)"
                 tv_unit.text = "m"
                 tv_unit.isVisible = true
             }
@@ -79,9 +80,11 @@ class IRConfigInputDialog(context: Context, val type: Type, val isTC007: Boolean
             }
         }
         window?.let {
-            val isPortrait = context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+            val isPortrait =
+                context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
             val layoutParams = it.attributes
-            layoutParams.width = (ScreenUtil.getScreenWidth(context) * if (isPortrait) 0.73f else 0.48f).toInt()
+            layoutParams.width =
+                (ScreenUtil.getScreenWidth(context) * if (isPortrait) 0.73f else 0.48f).toInt()
             layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             it.attributes = layoutParams
         }

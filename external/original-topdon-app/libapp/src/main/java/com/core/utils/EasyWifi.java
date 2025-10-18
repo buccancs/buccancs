@@ -19,33 +19,10 @@ import com.topdon.lib.core.BaseApplication;
  **/
 public class EasyWifi {
     private static volatile EasyWifi mInstance;
-    private WifiConnectCallback wifiConnectCallback;
-    String TAG = "EasyWifi";
     private final WifiManager wifiManager = (WifiManager) BaseApplication.instance.getSystemService(Context.WIFI_SERVICE);
     private final ConnectivityManager connectivityManager = (ConnectivityManager) BaseApplication.instance.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-    /* loaded from: classes2.dex */
-    public enum WiFiEncryptionStandard {
-        WEP,
-        WPA_EAP,
-        WPA_PSK,
-        WPA2,
-        WPA3
-    }
-
-    /* loaded from: classes2.dex */
-    public enum WifiCapability {
-        WIFI_CIPHER_WEP,
-        WIFI_CIPHER_WPA,
-        WIFI_CIPHER_NO_PASS
-    }
-
-    /* loaded from: classes2.dex */
-    public interface WifiConnectCallback {
-        void onFailure();
-
-        void onSuccess(Network network);
-    }
+    String TAG = "EasyWifi";
+    private WifiConnectCallback wifiConnectCallback;
 
     public static EasyWifi getInstance() {
         if (mInstance == null) {
@@ -56,6 +33,18 @@ public class EasyWifi {
             }
         }
         return mInstance;
+    }
+
+    public static boolean isNetConnected(ConnectivityManager connectivityManager) {
+        return connectivityManager.getActiveNetwork() != null;
+    }
+
+    public static boolean isWifi(ConnectivityManager connectivityManager) {
+        NetworkCapabilities networkCapabilities;
+        if (connectivityManager.getActiveNetwork() != null && (networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork())) == null) {
+            return networkCapabilities.hasTransport(1);
+        }
+        return false;
     }
 
     public void useWifiFirst() {
@@ -162,18 +151,6 @@ public class EasyWifi {
         return wifiConfiguration;
     }
 
-    public static boolean isNetConnected(ConnectivityManager connectivityManager) {
-        return connectivityManager.getActiveNetwork() != null;
-    }
-
-    public static boolean isWifi(ConnectivityManager connectivityManager) {
-        NetworkCapabilities networkCapabilities;
-        if (connectivityManager.getActiveNetwork() != null && (networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork())) == null) {
-            return networkCapabilities.hasTransport(1);
-        }
-        return false;
-    }
-
     public void setNetworkType(NetType netType) {
         Log.d(this.TAG, "selectNetworkType: 强制使用wifi网络或者移动数据网络");
         NetworkRequest.Builder builder = new NetworkRequest.Builder();
@@ -197,5 +174,28 @@ public class EasyWifi {
 
     public String getConnectSSID() {
         return this.wifiManager.getConnectionInfo().getSSID();
+    }
+
+    /* loaded from: classes2.dex */
+    public enum WiFiEncryptionStandard {
+        WEP,
+        WPA_EAP,
+        WPA_PSK,
+        WPA2,
+        WPA3
+    }
+
+    /* loaded from: classes2.dex */
+    public enum WifiCapability {
+        WIFI_CIPHER_WEP,
+        WIFI_CIPHER_WPA,
+        WIFI_CIPHER_NO_PASS
+    }
+
+    /* loaded from: classes2.dex */
+    public interface WifiConnectCallback {
+        void onFailure();
+
+        void onSuccess(Network network);
     }
 }

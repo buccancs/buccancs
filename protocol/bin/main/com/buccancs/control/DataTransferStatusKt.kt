@@ -23,7 +23,8 @@ public object DataTransferStatusKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DataTransferStatus.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.DataTransferStatus.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -114,5 +115,6 @@ public object DataTransferStatusKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.DataTransferStatus.copy(block: `com.buccancs.control`.DataTransferStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferStatus =
-    `com.buccancs.control`.DataTransferStatusKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.DataTransferStatusKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

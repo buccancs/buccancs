@@ -27,7 +27,10 @@ object BluetoothUtil {
         activity.lifecycle.addObserver(BtStateObserver(activity, listener))
     }
 
-    private class BtStateObserver(val context: Context, val listener: ((isEnable: Boolean) -> Unit)) : DefaultLifecycleObserver {
+    private class BtStateObserver(
+        val context: Context,
+        val listener: ((isEnable: Boolean) -> Unit)
+    ) : DefaultLifecycleObserver {
         private val receiver = BtStateReceiver()
 
         override fun onCreate(owner: LifecycleOwner) {
@@ -41,15 +44,16 @@ object BluetoothUtil {
 
         private inner class BtStateReceiver : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                when (intent?.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.STATE_OFF)) {
+                when (intent?.getIntExtra(
+                    BluetoothAdapter.EXTRA_STATE,
+                    BluetoothAdapter.STATE_OFF
+                )) {
                     BluetoothAdapter.STATE_OFF -> listener.invoke(false)
                     BluetoothAdapter.STATE_ON -> listener.invoke(true)
                 }
             }
         }
     }
-
-
 
 
     private val scanCallback = MyScanCallback()
@@ -75,7 +79,8 @@ object BluetoothUtil {
             return false
         }
 
-        val btAdapter: BluetoothAdapter = (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
+        val btAdapter: BluetoothAdapter =
+            (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
         val btLeScanner: BluetoothLeScanner? = btAdapter.bluetoothLeScanner
         if (btLeScanner == null) {
             XLog.e("开始蓝牙扫描-蓝牙未开启")
@@ -104,7 +109,8 @@ object BluetoothUtil {
             return false
         }
 
-        val btAdapter: BluetoothAdapter = (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
+        val btAdapter: BluetoothAdapter =
+            (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
         val btLeScanner: BluetoothLeScanner? = btAdapter.bluetoothLeScanner
         if (btLeScanner == null) {
             XLog.w("停止蓝牙扫描-蓝牙未开启")

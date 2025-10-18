@@ -15,9 +15,15 @@ import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import java.util.*
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,7 +38,8 @@ class DeviceOrchestratorBridge @Inject constructor(
     @ApplicationContext context: Context
 ) {
     private val tag = "DeviceBridge"
-    private val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
+    private val batteryManager =
+        context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
 
     init {
         scope.launch {

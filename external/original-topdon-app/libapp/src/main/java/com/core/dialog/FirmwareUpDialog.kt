@@ -15,7 +15,8 @@ import android.widget.TextView
  * 固件升级有新版本提示弹框.
  * Created by LCG on 2024/3/4.
  */
-class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog), View.OnClickListener {
+class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog),
+    View.OnClickListener {
 
     /**
      * 标题文字，如 “发现新版本 V3.50”
@@ -67,13 +68,15 @@ class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog), 
      * 取消点击事件监听.
      */
     var onCancelClickListener: (() -> Unit)? = null
+
     /**
      * 更新点击事件监听.
      */
     var onConfirmClickListener: (() -> Unit)? = null
 
 
-    private val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_firmware_up, null)
+    private val rootView: View =
+        LayoutInflater.from(context).inflate(R.layout.dialog_firmware_up, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +101,7 @@ class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog), 
                 dismiss()
                 onCancelClickListener?.invoke()
             }
+
             rootView.tv_confirm -> {//确认
                 dismiss()
                 onConfirmClickListener?.invoke()

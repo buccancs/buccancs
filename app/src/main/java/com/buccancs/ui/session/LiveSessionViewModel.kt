@@ -2,20 +2,40 @@ package com.buccancs.ui.session
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.buccancs.application.monitoring.SystemHealthMonitor
 import com.buccancs.application.stimulus.StimulusPresentationManager
 import com.buccancs.application.stimulus.StimulusState
 import com.buccancs.application.time.TimeSyncService
 import com.buccancs.data.storage.SpaceMonitor
 import com.buccancs.data.storage.SpaceState
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.DeviceEvent
+import com.buccancs.domain.model.PerformanceThrottleLevel
+import com.buccancs.domain.model.RecordingBookmark
+import com.buccancs.domain.model.RecordingLifecycleState
+import com.buccancs.domain.model.RecordingState
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.TimeSyncObservation
+import com.buccancs.domain.model.TimeSyncQuality
+import com.buccancs.domain.model.TimeSyncStatus
+import com.buccancs.domain.model.UploadBacklogLevel
+import com.buccancs.domain.model.UploadBacklogState
+import com.buccancs.domain.model.UploadRecoveryRecord
+import com.buccancs.domain.model.UploadStatus
 import com.buccancs.domain.repository.BookmarkRepository
 import com.buccancs.domain.repository.DeviceEventRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.SessionTransferRepository
+import com.buccancs.ui.HealthAlertUi
+import com.buccancs.ui.toUiModel
 import com.buccancs.util.nowInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Instant
@@ -28,7 +48,8 @@ class LiveSessionViewModel @Inject constructor(
     deviceEventRepository: DeviceEventRepository,
     private val bookmarkRepository: BookmarkRepository,
     private val stimulusPresentationManager: StimulusPresentationManager,
-    spaceMonitor: SpaceMonitor
+    spaceMonitor: SpaceMonitor,
+    private val systemHealthMonitor: SystemHealthMonitor
 ) : ViewModel() {
     private val simulation = sensorRepository.simulationEnabled
     private val _userMessage = MutableStateFlow<String?>(null)
@@ -104,12 +125,14 @@ class LiveSessionViewModel @Inject constructor(
         baseSnapshot,
         stimulusPresentationManager.state,
         bookmarkRepository.bookmarks,
-        _userMessage
-    ) { snapshot, stimulus, bookmarks, message ->
+        _userMessage,
+        systemHealthMonitor.snapshot
+    ) { snapshot, stimulus, bookmarks, message, health ->
         snapshot.toUiState(
             stimulus = stimulus,
             bookmarks = bookmarks.takeLast(MAX_BOOKMARKS),
-            userMessage = message
+            userMessage = message,
+            healthAlerts = health.alerts.map { it.toUiModel() }
         )
     }
 
@@ -151,6 +174,7 @@ data class LiveSessionUiState(
     val simulationEnabled: Boolean,
     val stimulus: StimulusState,
     val throttleLevel: PerformanceThrottleLevel,
+    val healthAlerts: List<HealthAlertUi>,
     val userMessage: String? = null
 ) {
     companion object {
@@ -186,7 +210,8 @@ data class LiveSessionUiState(
             storage = SpaceState.EMPTY,
             simulationEnabled = false,
             stimulus = StimulusState(),
-            throttleLevel = PerformanceThrottleLevel.NORMAL
+            throttleLevel = PerformanceThrottleLevel.NORMAL,
+            healthAlerts = emptyList()
         )
     }
 }
@@ -212,7 +237,8 @@ private data class SessionSnapshot(
 private fun SessionSnapshot.toUiState(
     stimulus: StimulusState,
     bookmarks: List<RecordingBookmark>,
-    userMessage: String? = null
+    userMessage: String? = null,
+    healthAlerts: List<HealthAlertUi> = emptyList()
 ): LiveSessionUiState =
     LiveSessionUiState(
         recording = recording,
@@ -229,6 +255,7 @@ private fun SessionSnapshot.toUiState(
         simulationEnabled = simulationEnabled,
         stimulus = stimulus,
         throttleLevel = throttleLevel,
+        healthAlerts = healthAlerts,
         userMessage = userMessage
     )
 

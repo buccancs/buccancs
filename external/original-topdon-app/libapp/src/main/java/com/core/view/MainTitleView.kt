@@ -11,7 +11,7 @@ class MainTitleView @JvmOverloads constructor(
     override fun initView() {
         tvLeft = addTextView(context)
         tvRight1 = addTextView(context)
-        tvRight2 = addTextView(context,2f,40f)
+        tvRight2 = addTextView(context, 2f, 40f)
         tvRight3 = addTextView(context)
         tvTitle = addTextView(context)
     }

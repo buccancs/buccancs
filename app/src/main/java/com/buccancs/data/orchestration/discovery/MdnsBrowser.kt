@@ -113,12 +113,13 @@ class MdnsBrowser @Inject constructor(
             override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
                 scope.launch {
                     stateMutex.withLock {
-                        val hostAddress = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            serviceInfo.hostAddresses.firstOrNull()
-                        } else {
-                            @Suppress("DEPRECATION")
-                            serviceInfo.host
-                        }
+                        val hostAddress =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                serviceInfo.hostAddresses.firstOrNull()
+                            } else {
+                                @Suppress("DEPRECATION")
+                                serviceInfo.host
+                            }
                         val entry = MdnsService(
                             name = serviceInfo.serviceName,
                             type = serviceInfo.serviceType,

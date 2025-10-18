@@ -91,7 +91,12 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
                     shareIntent.action = Intent.ACTION_SEND
                     shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
                     shareIntent.type = "application/xlsx"
-                    startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
+                    startActivity(
+                        Intent.createChooser(
+                            shareIntent,
+                            getString(R.string.battery_share)
+                        )
+                    )
                 }
             }
         }
@@ -103,12 +108,14 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     private fun initViewPager() {
         ir_gallery_viewpager.adapter = GalleryViewPagerAdapter(this)
-        ir_gallery_viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        ir_gallery_viewpager.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 this@IRGalleryDetail01Activity.position = position
                 title_view.setTitleText("${position + 1}/${dataList.size}")
-                irPath = "${FileConfig.lineIrGalleryDir}/${dataList[position].name.substringBeforeLast(".")}.ir"
+                irPath =
+                    "${FileConfig.lineIrGalleryDir}/${dataList[position].name.substringBeforeLast(".")}.ir"
                 val hasIrData = File(irPath!!).exists()
                 ll_ir_edit_3D?.isVisible = hasIrData
                 ll_ir_report?.isVisible = hasIrData
@@ -226,8 +233,10 @@ class IRGalleryDetail01Activity : BaseActivity(), View.OnClickListener {
                         tempHigh = frameTool.getSrcTemp().maxTemperature
                         tempLow = frameTool.getSrcTemp().minTemperature
                     }
-                    ARouter.getInstance().build(RouterConfig.IR_GALLERY_3D).withString(ExtraKeyConfig.IR_PATH, irPath)
-                        .withFloat(ExtraKeyConfig.TEMP_HIGH, tempHigh).withFloat(ExtraKeyConfig.TEMP_LOW, tempLow)
+                    ARouter.getInstance().build(RouterConfig.IR_GALLERY_3D)
+                        .withString(ExtraKeyConfig.IR_PATH, irPath)
+                        .withFloat(ExtraKeyConfig.TEMP_HIGH, tempHigh)
+                        .withFloat(ExtraKeyConfig.TEMP_LOW, tempLow)
                         .navigation(this@IRGalleryDetail01Activity)
                 }
             }

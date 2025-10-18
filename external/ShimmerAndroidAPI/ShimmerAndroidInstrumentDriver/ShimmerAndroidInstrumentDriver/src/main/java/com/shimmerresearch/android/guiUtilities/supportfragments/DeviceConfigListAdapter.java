@@ -1,5 +1,7 @@
 package com.shimmerresearch.android.guiUtilities.supportfragments;
 
+import static android.view.KeyEvent.KEYCODE_ENTER;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -7,7 +9,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.CheckedTextView;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid;
 import com.shimmerresearch.androidinstrumentdriver.R;
 import com.shimmerresearch.driver.ShimmerDevice;
@@ -18,8 +25,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.view.KeyEvent.KEYCODE_ENTER;
 
 
 public class DeviceConfigListAdapter extends BaseExpandableListAdapter {

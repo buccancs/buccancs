@@ -38,7 +38,11 @@ data class QualityIssue(
     }
 
     override fun toString(): String {
-        return "[$severity] $message (actual: ${"%.3f".format(actualValue)}, threshold: ${"%.3f".format(threshold)})"
+        return "[$severity] $message (actual: ${"%.3f".format(actualValue)}, threshold: ${
+            "%.3f".format(
+                threshold
+            )
+        })"
     }
 }
 

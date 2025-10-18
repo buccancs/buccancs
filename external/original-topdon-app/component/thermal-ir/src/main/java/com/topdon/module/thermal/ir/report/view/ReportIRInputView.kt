@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import com.topdon.lib.core.tools.UnitTools
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.report.bean.ImageTempBean
+
 // Stubbed: import kotlinx.android.synthetic.main.item_report_ir_input.view.*
 // Stubbed: import kotlinx.android.synthetic.main.view_report_ir_input.view.*
 
@@ -27,7 +28,11 @@ class ReportIRInputView : LinearLayout {
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
     @SuppressLint("SetTextI18n")
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         inflate(context, R.layout.view_report_ir_input, this)
         cl_explain.et_item.inputType = InputType.TYPE_CLASS_TEXT
         cl_explain.et_item.filters = arrayOf(LengthFilter(150))
@@ -59,7 +64,8 @@ class ReportIRInputView : LinearLayout {
                 cl_average.isVisible = false
                 cl_max.tv_item_name.text =
                     "P${index + 1} " + context.getString(R.string.chart_temperature) + " (${UnitTools.showUnit()})"
-                cl_explain.tv_item_name.text = "P${index + 1} " + context.getString(R.string.album_report_comment)
+                cl_explain.tv_item_name.text =
+                    "P${index + 1} " + context.getString(R.string.album_report_comment)
             }
 
             TYPE_LINE -> {
@@ -72,7 +78,8 @@ class ReportIRInputView : LinearLayout {
                     "L${index + 1} " + context.getString(R.string.chart_temperature_low) + " (${UnitTools.showUnit()})"
                 cl_average.tv_item_name.text =
                     "L${index + 1} " + context.getString(R.string.album_report_mean_temperature) + " (${UnitTools.showUnit()})"
-                cl_explain.tv_item_name.text = "L${index + 1} " + context.getString(R.string.album_report_comment)
+                cl_explain.tv_item_name.text =
+                    "L${index + 1} " + context.getString(R.string.album_report_comment)
             }
 
             TYPE_RECT -> {
@@ -85,7 +92,8 @@ class ReportIRInputView : LinearLayout {
                     "R${index + 1} " + context.getString(R.string.chart_temperature_low) + " (${UnitTools.showUnit()})"
                 cl_average.tv_item_name.text =
                     "R${index + 1} " + context.getString(R.string.album_report_mean_temperature) + " (${UnitTools.showUnit()})"
-                cl_explain.tv_item_name.text = "R${index + 1} " + context.getString(R.string.album_report_comment)
+                cl_explain.tv_item_name.text =
+                    "R${index + 1} " + context.getString(R.string.album_report_comment)
             }
         }
     }

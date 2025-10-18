@@ -18,14 +18,27 @@ class ColorView : View {
     var positions: FloatArray = floatArrayOf(0f, 0.5f, 1f)
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private var shaderSelectYes = LinearGradient(0f, 0f, 0f, 0f, colors, positions, Shader.TileMode.CLAMP)
-    private var shaderSelectNot = LinearGradient(0f, 0f, 0f, 0f, colors, positions, Shader.TileMode.CLAMP)
+    private var shaderSelectYes =
+        LinearGradient(0f, 0f, 0f, 0f, colors, positions, Shader.TileMode.CLAMP)
+    private var shaderSelectNot =
+        LinearGradient(0f, 0f, 0f, 0f, colors, positions, Shader.TileMode.CLAMP)
     private val triangleDrawable: Drawable
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(
         context,
         attrs,
         defStyleAttr,
@@ -69,7 +82,15 @@ class ColorView : View {
             val strokeSize: Float = SizeUtils.dp2px(2f).toFloat()
             val selectBarHeight: Int = (barHeight - strokeSize * 2).toInt()
             paint.shader = null
-            canvas.drawRoundRect(0f, 0f, width.toFloat(), barHeight.toFloat(), radius, radius, paint)
+            canvas.drawRoundRect(
+                0f,
+                0f,
+                width.toFloat(),
+                barHeight.toFloat(),
+                radius,
+                radius,
+                paint
+            )
             paint.shader = shaderSelectYes
             canvas.drawRoundRect(
                 strokeSize,
@@ -87,7 +108,15 @@ class ColorView : View {
             val top: Float = ((barHeight - normalBarHeight) / 2).toFloat()
             val left: Float = ((width - normalBarWidth) / 2).toFloat()
             paint.shader = shaderSelectNot
-            canvas.drawRoundRect(left, top, width - left, top + normalBarHeight, radius, radius, paint)
+            canvas.drawRoundRect(
+                left,
+                top,
+                width - left,
+                top + normalBarHeight,
+                radius,
+                radius,
+                paint
+            )
         }
     }
 
@@ -103,10 +132,26 @@ class ColorView : View {
         val barHeight: Int = (measuredWidth * 73f / 62).toInt()
         val selectBarHeight: Int = (barHeight - strokeSize * 2).toInt()
         shaderSelectYes =
-            LinearGradient(0f, strokeSize, 0f, strokeSize + selectBarHeight, colors, positions, Shader.TileMode.CLAMP)
+            LinearGradient(
+                0f,
+                strokeSize,
+                0f,
+                strokeSize + selectBarHeight,
+                colors,
+                positions,
+                Shader.TileMode.CLAMP
+            )
         val normalBarWidth: Int = (measuredWidth * 50f / 62).toInt()
         val normalBarHeight: Int = (normalBarWidth * 60f / 50).toInt()
         val top: Float = ((barHeight - normalBarHeight) / 2).toFloat()
-        shaderSelectNot = LinearGradient(0f, top, 0f, top + normalBarHeight, colors, positions, Shader.TileMode.CLAMP)
+        shaderSelectNot = LinearGradient(
+            0f,
+            top,
+            0f,
+            top + normalBarHeight,
+            colors,
+            positions,
+            Shader.TileMode.CLAMP
+        )
     }
 }

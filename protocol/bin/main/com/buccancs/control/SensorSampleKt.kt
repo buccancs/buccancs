@@ -8,7 +8,8 @@ package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializesensorSample")
 public inline fun sensorSample(block: com.buccancs.control.SensorSampleKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSample =
-    com.buccancs.control.SensorSampleKt.Dsl._create(com.buccancs.control.SensorSample.newBuilder()).apply { block() }
+    com.buccancs.control.SensorSampleKt.Dsl._create(com.buccancs.control.SensorSample.newBuilder())
+        .apply { block() }
         ._build()
 
 /**
@@ -23,7 +24,8 @@ public object SensorSampleKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SensorSample.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.SensorSample.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -68,7 +70,9 @@ public object SensorSampleKt {
          */
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("addValues")
-        public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSampleValue, ValuesProxy>.add(value: com.buccancs.control.SensorSampleValue) {
+        public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSampleValue, ValuesProxy>.add(
+            value: com.buccancs.control.SensorSampleValue
+        ) {
             _builder.addValues(value)
         }
 
@@ -91,7 +95,9 @@ public object SensorSampleKt {
          */
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("addAllValues")
-        public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSampleValue, ValuesProxy>.addAll(values: kotlin.collections.Iterable<com.buccancs.control.SensorSampleValue>) {
+        public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSampleValue, ValuesProxy>.addAll(
+            values: kotlin.collections.Iterable<com.buccancs.control.SensorSampleValue>
+        ) {
             _builder.addAllValues(values)
         }
 

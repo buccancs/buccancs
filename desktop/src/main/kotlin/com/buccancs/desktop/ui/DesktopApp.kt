@@ -1,32 +1,58 @@
 package com.buccancs.desktop.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.buccancs.desktop.domain.model.SessionStatus
-import com.buccancs.desktop.ui.components.*
-import com.buccancs.desktop.ui.state.*
+import com.buccancs.desktop.ui.components.BuccancsCard
+import com.buccancs.desktop.ui.components.BuccancsOutlinedCard
+import com.buccancs.desktop.ui.components.ConnectedBadge
+import com.buccancs.desktop.ui.components.DisconnectedBadge
+import com.buccancs.desktop.ui.components.IdleBadge
+import com.buccancs.desktop.ui.components.PrimaryButton
+import com.buccancs.desktop.ui.components.RecordingBadge
+import com.buccancs.desktop.ui.components.SecondaryButton
+import com.buccancs.desktop.ui.state.ControlPanelState
+import com.buccancs.desktop.ui.state.DeviceListItem
+import com.buccancs.desktop.ui.state.EventTimelineItem
+import com.buccancs.desktop.ui.state.PreviewStreamState
+import com.buccancs.desktop.ui.state.RetentionState
+import com.buccancs.desktop.ui.state.SessionArchiveItem
+import com.buccancs.desktop.ui.state.SessionSummary
+import com.buccancs.desktop.ui.state.TransferStatusItem
 import com.buccancs.desktop.ui.theme.BuccancsTheme
 import com.buccancs.desktop.ui.theme.Spacing
 import com.buccancs.desktop.viewmodel.AppViewModel
 import org.jetbrains.skia.Image
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -34,9 +60,10 @@ import kotlin.math.pow
 fun DesktopApp(viewModel: AppViewModel) {
     val state by viewModel.uiState.collectAsState()
     val formatter = rememberFormatter()
-    val sessionTitle = state.session?.let { "Session ${it.id} (${it.status})" } ?: "No active session"
+    val sessionTitle =
+        state.session?.let { "Session ${it.id} (${it.status})" } ?: "No active session"
     val sessionActive = state.session?.status == SessionStatus.ACTIVE.name
-    
+
     BuccancsTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -50,7 +77,7 @@ fun DesktopApp(viewModel: AppViewModel) {
                 verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
                 AppHeader(sessionTitle)
-                
+
                 ControlPanel(
                     control = state.control,
                     sessionActive = sessionActive,
@@ -73,7 +100,7 @@ fun DesktopApp(viewModel: AppViewModel) {
                     onSubjectEraseChange = viewModel::updateSubjectEraseId,
                     onSubjectErase = viewModel::eraseSubject
                 )
-                
+
                 state.session?.let {
                     SessionSummaryCard(
                         summary = it,
@@ -83,7 +110,7 @@ fun DesktopApp(viewModel: AppViewModel) {
                         onEraseSession = { viewModel.eraseSession(it.id) }
                     )
                 }
-                
+
                 DeviceSection(devices = state.devices, formatter = formatter)
                 RetentionSection(retention = state.retention)
                 TransferSection(transfers = state.transfers)
@@ -335,31 +362,121 @@ private fun SessionSummaryCard(
         HorizontalDivider()
         Text("Live Metrics", style = MaterialTheme.typography.titleSmall)
         val metrics = summary.metrics
-        if (listOf(
+        if (
+            listOf(
                 metrics.gsrSamples,
+                metrics.gsrSampleDrops,
+                metrics.gsrOutOfRangeSamples,
                 metrics.videoFrames,
                 metrics.thermalFrames,
-                metrics.audioSamples
+                metrics.audioSamples,
+                metrics.videoFrameDrops,
+                metrics.thermalFrameDrops
             ).any { it > 0 }
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
-                MetricItem("GSR Samples", metrics.gsrSamples, Modifier.weight(1f))
-                MetricItem("Video Frames", metrics.videoFrames, Modifier.weight(1f))
+                MetricItem("GSR Samples", formatCount(metrics.gsrSamples), Modifier.weight(1f))
+                MetricItem("Video Frames", formatCount(metrics.videoFrames), Modifier.weight(1f))
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
             ) {
-                MetricItem("Thermal Frames", metrics.thermalFrames, Modifier.weight(1f))
-                MetricItem("Audio Samples", metrics.audioSamples, Modifier.weight(1f))
+                MetricItem(
+                    "Thermal Frames",
+                    formatCount(metrics.thermalFrames),
+                    Modifier.weight(1f)
+                )
+                MetricItem("Audio Samples", formatCount(metrics.audioSamples), Modifier.weight(1f))
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            ) {
+                MetricItem("GSR Drops", formatCount(metrics.gsrSampleDrops), Modifier.weight(1f))
+                MetricItem(
+                    "GSR Out of Range",
+                    formatCount(metrics.gsrOutOfRangeSamples),
+                    Modifier.weight(1f)
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            ) {
+                MetricItem("GSR Avg Hz", formatHz(metrics.gsrAverageHz), Modifier.weight(1f))
+                MetricItem(
+                    "GSR Max Gap (ms)",
+                    formatCount(metrics.gsrMaxGapMs),
+                    Modifier.weight(1f)
+                )
+            }
+            if (metrics.gsrMinValue != null || metrics.gsrMaxValue != null) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                ) {
+                    MetricItem(
+                        "GSR Min",
+                        metrics.gsrMinValue?.let { formatDouble(it) } ?: "—",
+                        Modifier.weight(1f)
+                    )
+                    MetricItem(
+                        "GSR Max",
+                        metrics.gsrMaxValue?.let { formatDouble(it) } ?: "—",
+                        Modifier.weight(1f)
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            ) {
+                MetricItem("Video Drops", formatCount(metrics.videoFrameDrops), Modifier.weight(1f))
+                MetricItem(
+                    "Thermal Drops",
+                    formatCount(metrics.thermalFrameDrops),
+                    Modifier.weight(1f)
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            ) {
+                MetricItem("Video Avg FPS", formatFps(metrics.videoAverageFps), Modifier.weight(1f))
+                MetricItem(
+                    "Thermal Avg FPS",
+                    formatFps(metrics.thermalAverageFps),
+                    Modifier.weight(1f)
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            ) {
+                MetricItem(
+                    "Video Max Gap (ms)",
+                    formatCount(metrics.videoMaxGapMs),
+                    Modifier.weight(1f)
+                )
+                MetricItem(
+                    "Thermal Max Gap (ms)",
+                    formatCount(metrics.thermalMaxGapMs),
+                    Modifier.weight(1f)
+                )
             }
         } else {
             Text("No samples received yet", style = MaterialTheme.typography.bodySmall)
         }
-        metricsUpdatedAt?.let { Text("Metrics updated: $it", style = MaterialTheme.typography.bodySmall) }
+        metricsUpdatedAt?.let {
+            Text(
+                "Metrics updated: $it",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
         Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
             Button(onClick = onEraseSession, enabled = canErase) { Text("Erase Session") }
             if (!canErase) {
@@ -371,14 +488,14 @@ private fun SessionSummaryCard(
 
 
 @Composable
-private fun MetricItem(label: String, value: Long, modifier: Modifier = Modifier) {
+private fun MetricItem(label: String, value: String, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
     ) {
         Text(label, style = MaterialTheme.typography.labelSmall)
         Text(
-            text = formatCount(value),
+            text = value,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary
         )
@@ -420,13 +537,15 @@ private fun DeviceCard(device: DeviceListItem, formatter: DateTimeFormatter) {
             containerColor = MaterialTheme.colorScheme.errorContainer,
             contentColor = MaterialTheme.colorScheme.onErrorContainer
         )
+
         device.recording -> CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
+
         else -> CardDefaults.cardColors()
     }
-    
+
     BuccancsOutlinedCard(
         title = "${device.id} - ${device.model}",
         subtitle = device.platform
@@ -486,14 +605,20 @@ internal fun RetentionSection(retention: RetentionState) {
             if (retention.perSessionBytes.isNotEmpty()) {
                 Text("Per session:", style = MaterialTheme.typography.titleSmall)
                 retention.perSessionBytes.forEach { (sessionId, bytes) ->
-                    Text("$sessionId -> ${bytesToReadable(bytes)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "$sessionId -> ${bytesToReadable(bytes)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
             if (retention.perDeviceBytes.isNotEmpty()) {
                 HorizontalDivider()
                 Text("Per device:", style = MaterialTheme.typography.titleSmall)
                 retention.perDeviceBytes.forEach { (deviceId, bytes) ->
-                    Text("$deviceId -> ${bytesToReadable(bytes)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "$deviceId -> ${bytesToReadable(bytes)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
             if (retention.perSessionDeviceBytes.isNotEmpty()) {
@@ -502,7 +627,10 @@ internal fun RetentionSection(retention: RetentionState) {
                 retention.perSessionDeviceBytes.forEach { (sessionId, devices) ->
                     Text("Session $sessionId", style = MaterialTheme.typography.bodySmall)
                     devices.forEach { (deviceId, bytes) ->
-                        Text("    $deviceId -> ${bytesToReadable(bytes)}", style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            "    $deviceId -> ${bytesToReadable(bytes)}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
             }
@@ -557,9 +685,15 @@ private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: Dat
             events.forEach { event ->
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                     Text("Event ${event.eventId} - ${event.label}")
-                    Text("Time: ${formatter.format(event.timestamp)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Time: ${formatter.format(event.timestamp)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                     if (event.deviceIds.isNotEmpty()) {
-                        Text("Targets: ${event.deviceIds.joinToString()}", style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            "Targets: ${event.deviceIds.joinToString()}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
                 HorizontalDivider()
@@ -580,7 +714,11 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                     Text("${preview.deviceId} - ${preview.cameraId} (${preview.mimeType}) ${preview.width}x${preview.height}")
                     Text(
-                        text = "Latency ${"%.1f".format(preview.latencyMs)} ms - Received ${formatter.format(preview.receivedAt)}",
+                        text = "Latency ${"%.1f".format(preview.latencyMs)} ms - Received ${
+                            formatter.format(
+                                preview.receivedAt
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                     bitmap?.let { image ->
@@ -592,7 +730,10 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
                                 .height(160.dp),
                             contentScale = ContentScale.Crop
                         )
-                    } ?: Text("Preview unavailable (unsupported format)", style = MaterialTheme.typography.bodySmall)
+                    } ?: Text(
+                        "Preview unavailable (unsupported format)",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
                 HorizontalDivider()
             }
@@ -608,18 +749,36 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
         archives.forEach { archive ->
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
                 Text("Session ${archive.id} - ${archive.status}")
-                Text("Created: ${formatter.format(archive.createdAt)}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "Created: ${formatter.format(archive.createdAt)}",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 archive.startedAt?.let {
-                    Text("Started: ${formatter.format(it)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Started: ${formatter.format(it)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
                 archive.stoppedAt?.let {
-                    Text("Stopped: ${formatter.format(it)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Stopped: ${formatter.format(it)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
                 archive.durationMs?.let {
-                    Text("Duration: ${durationToReadable(it)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Duration: ${durationToReadable(it)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
-                Text("Total bytes: ${bytesToReadable(archive.totalBytes)}", style = MaterialTheme.typography.bodySmall)
-                Text("Subjects: ${archive.subjects.joinToString()}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "Total bytes: ${bytesToReadable(archive.totalBytes)}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    "Subjects: ${archive.subjects.joinToString()}",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Text(
                     "Events: ${archive.eventCount} - Devices: ${archive.deviceCount}",
                     style = MaterialTheme.typography.bodySmall
@@ -670,7 +829,16 @@ private fun durationToReadable(durationMs: Long): String {
     return String.format(Locale.US, "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis)
 }
 
-private fun formatCount(value: Long): String = String.format(Locale.US, "%,d", value)
+private fun formatCount(value: Long): String = String.format(Locale.UK, "%,d", value)
+private fun formatFps(value: Double): String =
+    if (!value.isFinite()) "0.0" else String.format(Locale.UK, "%.1f", value)
+
+private fun formatHz(value: Double): String =
+    if (!value.isFinite()) "0.0" else String.format(Locale.UK, "%.1f", value)
+
+private fun formatDouble(value: Double): String =
+    if (!value.isFinite()) "—" else String.format(Locale.UK, "%.3f", value)
+
 private fun decodeImage(bytes: ByteArray): ImageBitmap? {
     if (bytes.isEmpty()) return null
     return runCatching { Image.makeFromEncoded(bytes).toComposeImageBitmap() }.getOrNull()

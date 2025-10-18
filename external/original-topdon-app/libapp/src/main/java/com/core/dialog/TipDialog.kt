@@ -95,8 +95,12 @@ class TipDialog : Dialog {
             }
 
             val view = LayoutInflater.from(context).inflate(R.layout.dialog_tip, null)
-            dialog!!.addContentView(view, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
-            val isPortrait = context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+            dialog!!.addContentView(
+                view,
+                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+            )
+            val isPortrait =
+                context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
             val widthPixels = context.resources.displayMetrics.widthPixels
             val lp = dialog!!.window!!.attributes
             lp.width = (widthPixels * if (isPortrait) 0.85 else 0.35).toInt() //设置宽度

@@ -1,5 +1,5 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import java.util.*
+import java.util.Locale
 
 val libs = the<LibrariesForLibs>()
 
@@ -22,9 +22,9 @@ val testsEnabled = project.findProperty("tests.enabled")?.toString()?.toBoolean(
 extra.set("testsEnabled", testsEnabled)
 
 if (testsEnabled) {
-    logger.lifecycle("✅ Tests are ENABLED via -Ptests.enabled=true")
+    logger.lifecycle("Tests are ENABLED via -Ptests.enabled=true")
 } else {
-    logger.lifecycle("⏸️  Tests are DISABLED (use -Ptests.enabled=true to enable)")
+    logger.lifecycle("Tests are DISABLED (use -Ptests.enabled=true to enable)")
 }
 
 
@@ -41,19 +41,48 @@ private val externalBuilds = listOf(
     // ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
 
     // Shimmer SDK builds - now updated to Java 21
-    ExternalProjectBuild("buildShimmerBluetoothManager", "external/Shimmer-Java-Android-API/ShimmerBluetoothManager", maxSupportedJavaMajor = 21),
-    ExternalProjectBuild("buildShimmerDriver", "external/Shimmer-Java-Android-API/ShimmerDriver", maxSupportedJavaMajor = 21),
-    ExternalProjectBuild("buildShimmerDriverPC", "external/Shimmer-Java-Android-API/ShimmerDriverPC", maxSupportedJavaMajor = 21),
-    ExternalProjectBuild("buildShimmerTCP", "external/Shimmer-Java-Android-API/ShimmerTCP", maxSupportedJavaMajor = 21),
-    ExternalProjectBuild("buildShimmerPCBasicExamples", "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples", maxSupportedJavaMajor = 21),
-    ExternalProjectBuild("buildShimmerLSL", "external/Shimmer-Java-Android-API/ShimmerLSL", maxSupportedJavaMajor = 21),
-    ExternalProjectBuild("buildJavaShimmerConnect", "external/Shimmer-Java-Android-API/JavaShimmerConnect", maxSupportedJavaMajor = 21),
+    ExternalProjectBuild(
+        "buildShimmerBluetoothManager",
+        "external/Shimmer-Java-Android-API/ShimmerBluetoothManager",
+        maxSupportedJavaMajor = 21
+    ),
+    ExternalProjectBuild(
+        "buildShimmerDriver",
+        "external/Shimmer-Java-Android-API/ShimmerDriver",
+        maxSupportedJavaMajor = 21
+    ),
+    ExternalProjectBuild(
+        "buildShimmerDriverPC",
+        "external/Shimmer-Java-Android-API/ShimmerDriverPC",
+        maxSupportedJavaMajor = 21
+    ),
+    ExternalProjectBuild(
+        "buildShimmerTCP",
+        "external/Shimmer-Java-Android-API/ShimmerTCP",
+        maxSupportedJavaMajor = 21
+    ),
+    ExternalProjectBuild(
+        "buildShimmerPCBasicExamples",
+        "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples",
+        maxSupportedJavaMajor = 21
+    ),
+    ExternalProjectBuild(
+        "buildShimmerLSL",
+        "external/Shimmer-Java-Android-API/ShimmerLSL",
+        maxSupportedJavaMajor = 21
+    ),
+    ExternalProjectBuild(
+        "buildJavaShimmerConnect",
+        "external/Shimmer-Java-Android-API/JavaShimmerConnect",
+        maxSupportedJavaMajor = 21
+    ),
 
     // Topdon SDK sample - disabled temporarily due to Android SDK path and build complexity
     // ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample")
 )
 
-private val usingWindowsWrapperExtension = System.getProperty("os.name").startsWith("Windows", ignoreCase = true)
+private val usingWindowsWrapperExtension =
+    System.getProperty("os.name").startsWith("Windows", ignoreCase = true)
 
 private fun readJavaMajorVersion(javaHome: File): Int? {
     val releaseFile = File(javaHome, "release")
@@ -73,7 +102,8 @@ private fun readJavaMajorVersion(javaHome: File): Int? {
 }
 
 private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
-    val propertyValue = project.providers.gradleProperty("externalJavaHome").orNull?.takeIf { it.isNotBlank() }
+    val propertyValue =
+        project.providers.gradleProperty("externalJavaHome").orNull?.takeIf { it.isNotBlank() }
     val envValue = System.getenv("EXTERNAL_JAVA_HOME")?.takeIf { it.isNotBlank() }
     val osName = System.getProperty("os.name").lowercase(Locale.US)
     val defaultCandidates = buildList {
@@ -89,7 +119,8 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
             add("/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home")
         }
     }
-    val combinedCandidates = listOfNotNull(propertyValue, envValue, System.getenv("JAVA_HOME")) + defaultCandidates
+    val combinedCandidates =
+        listOfNotNull(propertyValue, envValue, System.getenv("JAVA_HOME")) + defaultCandidates
     return combinedCandidates
         .map { project.file(it) }
         .firstOrNull { candidate ->
@@ -115,12 +146,18 @@ private val externalBuildTasks = externalBuilds.mapNotNull { external ->
             group = "external build"
             description = "Builds the external project located at ${external.projectDir}."
             workingDir = file(external.projectDir)
-            commandLine(listOf(wrapperFile.absolutePath) + external.tasksToRun + listOf("-x", "test"))
+            commandLine(
+                listOf(wrapperFile.absolutePath) + external.tasksToRun + listOf(
+                    "-x",
+                    "test"
+                )
+            )
             val javaHomeOverride = findExternalJavaHome(project, external.maxSupportedJavaMajor)
             if (javaHomeOverride != null) {
                 environment("JAVA_HOME", javaHomeOverride.absolutePath)
                 val existingPath = System.getenv("PATH") ?: ""
-                val updatedPath = javaHomeOverride.resolve("bin").absolutePath + File.pathSeparator + existingPath
+                val updatedPath =
+                    javaHomeOverride.resolve("bin").absolutePath + File.pathSeparator + existingPath
                 environment("PATH", updatedPath)
             } else if (external.maxSupportedJavaMajor != null) {
                 logger.lifecycle(
@@ -130,6 +167,12 @@ private val externalBuildTasks = externalBuilds.mapNotNull { external ->
             }
         }
     }
+}
+
+val externalBuildAggregate = tasks.register("externalBuild") {
+    group = "external build"
+    description = "Builds all curated external projects without building the internal modules."
+    dependsOn(externalBuildTasks)
 }
 
 subprojects {
@@ -142,7 +185,7 @@ tasks.register("build") {
     group = "build"
     description = "Aggregate build for all subprojects and curated external projects."
     dependsOn(subprojects.map { "${it.path}:build" })
-    dependsOn(externalBuildTasks)
+    dependsOn(externalBuildAggregate)
 }
 
 tasks.register("all") {

@@ -71,7 +71,8 @@ class TipWaterMarkDialog : Dialog {
             if (dialog == null) {
                 dialog = TipWaterMarkDialog(context!!, R.style.InfoDialog)
             }
-            val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val inflater =
+                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val view = inflater.inflate(R.layout.dialog_tip_watermark, null)
             imgClose = view.img_close
             llWatermarkContent = view.ll_watermark_content
@@ -149,8 +150,12 @@ class TipWaterMarkDialog : Dialog {
             ) {
                 if (BaseApplication.instance.isDomestic()) {
                     TipDialog.Builder(context)
-                        .setMessage(context.getString(R.string.permission_request_location_app,
-                            CommUtils.getAppName()))
+                        .setMessage(
+                            context.getString(
+                                R.string.permission_request_location_app,
+                                CommUtils.getAppName()
+                            )
+                        )
                         .setCancelListener(R.string.app_cancel)
                         .setPositiveListener(R.string.app_confirm) {
                             initLocationPermission()
@@ -172,31 +177,32 @@ class TipWaterMarkDialog : Dialog {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ).request(object : OnPermissionCallback {
                     override fun onGranted(permissions: MutableList<String>, all: Boolean) {
-                        if (all){
+                        if (all) {
                             var addressText: String? = getLocation()
-                            if (addressText == null){
+                            if (addressText == null) {
                                 ToastUtils.showShort(R.string.get_Location_failed)
-                            }else{
+                            } else {
                                 mEtAddress.setText(addressText)
                             }
-                        }else{
+                        } else {
                             ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                         }
                     }
+
                     override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                         if (never) {
                             // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            if (BaseApplication.instance.isDomestic()){
+                            if (BaseApplication.instance.isDomestic()) {
                                 ToastUtils.showShort(R.string.app_location_content)
                                 return
                             }
                             TipDialog.Builder(context)
                                 .setTitleMessage(context!!.getString(R.string.app_tip))
                                 .setMessage(context!!.getString(R.string.app_location_content))
-                                .setPositiveListener(R.string.app_open){
+                                .setPositiveListener(R.string.app_open) {
                                     XXPermissions.startPermissionActivity(context, permissions);
                                 }
-                                .setCancelListener(R.string.app_cancel){
+                                .setCancelListener(R.string.app_cancel) {
                                 }
                                 .setCanceled(true)
                                 .create()
@@ -209,15 +215,15 @@ class TipWaterMarkDialog : Dialog {
                 })
         }
 
-        private fun updateWaterMark(isCheck: Boolean){
-            if(isCheck){
+        private fun updateWaterMark(isCheck: Boolean) {
+            if (isCheck) {
                 llWatermarkContent.alpha = 1f
                 llWatermarkContent.isEnabled = true
                 switchDateTime.isEnabled = true
                 mEtTitle.isEnabled = true
                 mEtAddress.isEnabled = true
                 imgLocation.isEnabled = true
-            }else{
+            } else {
                 llWatermarkContent.alpha = 0.5f
                 llWatermarkContent.isEnabled = false
                 switchDateTime.isEnabled = false
@@ -228,9 +234,10 @@ class TipWaterMarkDialog : Dialog {
         }
 
         @SuppressLint("MissingPermission")
-        private fun getLocation() : String? {
+        private fun getLocation(): String? {
             //1.获取位置管理器
-            locationManager = context!!.getSystemService(RxAppCompatActivity.LOCATION_SERVICE) as LocationManager
+            locationManager =
+                context!!.getSystemService(RxAppCompatActivity.LOCATION_SERVICE) as LocationManager
 
             //2.获取位置提供器，GPS或是NetWork
             val providers = locationManager?.getProviders(true)
@@ -244,12 +251,12 @@ class TipWaterMarkDialog : Dialog {
                 return null
             }
             var location = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (location == null){
+            if (location == null) {
                 location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             }
-            return if (location == null){
+            return if (location == null) {
                 null
-            }else{
+            } else {
                 getAddress(location)
             }
         }
@@ -270,27 +277,27 @@ class TipWaterMarkDialog : Dialog {
                 e.printStackTrace()
             }
             var str = ""
-            if (result!=null && result.isNotEmpty()){
+            if (result != null && result.isNotEmpty()) {
                 result?.get(0)?.let {
-                    str +=  getNullString(it.adminArea)
-                    if (TextUtils.isEmpty(it.subLocality) && !str.contains(getNullString(it.subAdminArea))){
-                        str +=  getNullString(it.subAdminArea)
+                    str += getNullString(it.adminArea)
+                    if (TextUtils.isEmpty(it.subLocality) && !str.contains(getNullString(it.subAdminArea))) {
+                        str += getNullString(it.subAdminArea)
                     }
-                    if (!str.contains(getNullString(it.locality))){
-                        str +=  getNullString(it.locality)
+                    if (!str.contains(getNullString(it.locality))) {
+                        str += getNullString(it.locality)
                     }
-                    if (!str.contains(getNullString(it.subLocality))){
-                        str +=  getNullString(it.subLocality)
+                    if (!str.contains(getNullString(it.subLocality))) {
+                        str += getNullString(it.subLocality)
                     }
                 }
             }
             return str
         }
 
-        private fun getNullString(str : String?):String{
-            return if (str.isNullOrEmpty()){
+        private fun getNullString(str: String?): String {
+            return if (str.isNullOrEmpty()) {
                 ""
-            }else{
+            } else {
                 str
             }
         }

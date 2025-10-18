@@ -24,7 +24,8 @@ class ColorPickDialog(
     var textSizeIsDP: Boolean = false
 ) : Dialog(context, CoreR.style.InfoDialog), View.OnClickListener, SeekBar.OnSeekBarChangeListener {
     var onPickListener: ((color: Int, textSize: Int) -> Unit)? = null
-    private val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_color_pick, null)
+    private val rootView: View =
+        LayoutInflater.from(context).inflate(R.layout.dialog_color_pick, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,7 @@ class ColorPickDialog(
             rootView.tv_nifty_right.visibility = View.VISIBLE
             rootView.nifty_slider_view.visibility = View.VISIBLE
             rootView.nifty_slider_view.setOnSeekBarChangeListener(this)
-        rootView.nifty_slider_view.progress = textSizeToProgress(textSize, textSizeIsDP)
+            rootView.nifty_slider_view.progress = textSizeToProgress(textSize, textSizeIsDP)
         } else {
             rootView.nifty_slider_view.visibility = View.GONE
         }

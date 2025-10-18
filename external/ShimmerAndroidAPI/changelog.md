@@ -1,25 +1,31 @@
 # Changelog
 
-All future changes are now reflected in the [release](https://github.com/ShimmerEngineering/ShimmerAndroidAPI/releases)
+All future changes are now reflected in
+the [release](https://github.com/ShimmerEngineering/ShimmerAndroidAPI/releases)
 
 28 February 2020 (3.0.65Beta)
 
-- Fixed bug with Bluetooth Manager Example & Service Example where upon Bluetooth connection, SD logging devices would
+- Fixed bug with Bluetooth Manager Example & Service Example where upon Bluetooth connection, SD
+  logging devices would
   not show up as connected
 - Added getNumShimmersConnected to ConnectedShimmersListFragment
 
 9 July 2018 (3.0.64Beta)
 
-- Addition of FilesListActivity to display list of files for a folder. Files can be selected to be opened in an external
-  application. An example of how to use the FilesListActivity can be found in Efficient Data Arrays Example.
+- Addition of FilesListActivity to display list of files for a folder. Files can be selected to be
+  opened in an external
+  application. An example of how to use the FilesListActivity can be found in Efficient Data Arrays
+  Example.
 - Added option to log to CSV file in Logging & ShimmerService
-- Examples updated to demonstrate how to receive and display Shimmer status messages (Toast messages)
+- Examples updated to demonstrate how to receive and display Shimmer status messages (Toast
+  messages)
 - Minor refactoring & Javadoc comments
 
 13 June 2018 (3.0.61Beta)
 
 - Added method to get clone device from Device Sensor Config Fragment
-- Added check to Device Config List Adapter so it doesn't crash when an invalid config value is returned
+- Added check to Device Config List Adapter so it doesn't crash when an invalid config value is
+  returned
 
 12 March 2018 (3.0.56Beta)
 
@@ -35,13 +41,18 @@ All future changes are now reflected in the [release](https://github.com/Shimmer
 14 February 2018 (3.0.47Internal)
 
 - Bug with GSR signal. Fix in progress...
-- Added alternative Arrays data structure to ObjectCluster, accessible via sensorDataArray data class.
-  Enabling this data structure can improve packet reception rate performance significantly, especially on older devices.
+- Added alternative Arrays data structure to ObjectCluster, accessible via sensorDataArray data
+  class.
+  Enabling this data structure can improve packet reception rate performance significantly,
+  especially on older devices.
 - Added method to get Arrays index for a channel, getIndexForChannelName, in ObjectCluster
-- Updated getFormatClusterValue in ObjectCluster to return Arrays data if Arrays data structure is enabled
+- Updated getFormatClusterValue in ObjectCluster to return Arrays data if Arrays data structure is
+  enabled
 - Refactored Shimmer Basic Example name to Bluetooth Manager Example
-- Added new Shimmer Basic Example, demonstrating connecting and streaming from Shimmer without Bluetooth Manager
-- Added new Efficient Data Array Example, demonstrating the use of the alternative Arrays data structure
+- Added new Shimmer Basic Example, demonstrating connecting and streaming from Shimmer without
+  Bluetooth Manager
+- Added new Efficient Data Array Example, demonstrating the use of the alternative Arrays data
+  structure
 - Cleaned up build.gradle files for all project modules
 
 (Beta) Rev 3.00
@@ -55,7 +66,8 @@ All future changes are now reflected in the [release](https://github.com/Shimmer
 | ~~Shimmer.MESSAGE_READ~~         | ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET  |
 
 - ~~Shimmer.MSG_STATE_FULLY_INITIALIZED~~, ~~Shimmer.STATE_CONNECTING~~, ~~Shimmer.STATE_NONE~~, ~~
-  Shimmer.STATE_CONNECTED~~, is deprecated the following code is the recommended use for monitoring the states of a
+  Shimmer.STATE_CONNECTED~~, is deprecated the following code is the recommended use for monitoring
+  the states of a
   Shimmer device
 
 ```
@@ -135,38 +147,51 @@ Rev 2.11
 
 23 Jan 2014 (Beta 2.2)
 
-- Separate the drivers into Shimmer Android Instrument Driver and Shimmer Driver, please read user guide for further
+- Separate the drivers into Shimmer Android Instrument Driver and Shimmer Driver, please read user
+  guide for further
   details.
 
 15 March 2013 (Beta 0.7)
 
-- a more accurate GSR calibration method is implemented. the polynomial equation is replaced with a linear one.
-- the state STATE_CONNECTED is now deprecated. users should use MSG_STATE_FULLY_INITIALIZED as a replacement.
-- note that since the Android 4.2 update, Google has changed the Bluetooth Stack. It has been well documented that the
+- a more accurate GSR calibration method is implemented. the polynomial equation is replaced with a
+  linear one.
+- the state STATE_CONNECTED is now deprecated. users should use MSG_STATE_FULLY_INITIALIZED as a
+  replacement.
+- note that since the Android 4.2 update, Google has changed the Bluetooth Stack. It has been well
+  documented that the
   reliability of the stack is less than desirable.
 - Battery voltage monitoring is now enabled, see manual guideline for further information.
-- Definition of the properties, formats and units, used, have been updated to be more concise and consistent across the
+- Definition of the properties, formats and units, used, have been updated to be more concise and
+  consistent across the
   various instrument drivers
-- For further changes please refer to the Shimmer.java file, which can be found as part of the instrument driver
+- For further changes please refer to the Shimmer.java file, which can be found as part of the
+  instrument driver
 
 27 September 2012 (Beta 0.6)
 
 - Additional handler msgs for stop streaming has been added.
-- An optional AndroidBluetoothLibrary has been added. Please see license. The reason for this is because some stock
-  firmware were not providing the full bluetooth stack. If bluetooth problems persist please consider using an
+- An optional AndroidBluetoothLibrary has been added. Please see license. The reason for this is
+  because some stock
+  firmware were not providing the full bluetooth stack. If bluetooth problems persist please
+  consider using an
   aftermarket firmware.
-- The connect method has been modified to accomodate the new library. Examples have been updated as well.
+- The connect method has been modified to accomodate the new library. Examples have been updated as
+  well.
 - Object Cluster now accepts the bluetooth id of the device
 - Stop Streaming Command which was failing to receive an ACK intermittently has been fixed.
-- createInsecureRfcommSocketToServiceRecord can be used for insecure connections (only for the default library). Benefit
-  is that you wont have to key in the pin everytime you connect to a Shimmer device, which is a requirment for some
+- createInsecureRfcommSocketToServiceRecord can be used for insecure connections (only for the
+  default library). Benefit
+  is that you wont have to key in the pin everytime you connect to a Shimmer device, which is a
+  requirment for some
   Android devices.
-- the 'Nan' bug has been fixed, this bug occurs when the Shimmer device attempts to use the default calibration
+- the 'Nan' bug has been fixed, this bug occurs when the Shimmer device attempts to use the default
+  calibration
   parameters
 
 18 July 2012 (Beta 0.5)
 
-- ShimmerGraph has been updated to deal with the following warning message 'the following handler class should be static
+- ShimmerGraph has been updated to deal with the following warning message 'the following handler
+  class should be static
   or leaks might occur'
 
 18 July 2012 (Beta 0.4)
@@ -185,6 +210,8 @@ Rev 2.11
 - Rename ShimmerHandleClass to Shimmer
 
 26 June 2012 (Beta 0.2)
--Added additional log messages to clearly show the communication transactions between the Shimmer and Android device
--Added an addtional constructor, which allows the android device to set Shimmer settings as soon as connection is made
+-Added additional log messages to clearly show the communication transactions between the Shimmer
+and Android device
+-Added an addtional constructor, which allows the android device to set Shimmer settings as soon as
+connection is made
 -Manual updated explaining communication transactions and the use of the constructors

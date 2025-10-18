@@ -11,12 +11,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.buccancs.domain.model.TimeSyncObservation
 import com.buccancs.domain.model.TimeSyncStatus
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun ClockPanel(
@@ -32,7 +32,11 @@ fun ClockPanel(
                     append("Time synchronisation. ")
                     append("Offset ${status.offsetMillis} milliseconds. ")
                     append("Round trip ${status.roundTripMillis} milliseconds. ")
-                    append("Quality ${status.quality.name.lowercase().replaceFirstChar { it.uppercase() }}. ")
+                    append(
+                        "Quality ${
+                            status.quality.name.lowercase().replaceFirstChar { it.uppercase() }
+                        }. "
+                    )
                     append("Drift estimate ${formatDouble(status.driftEstimateMillisPerMinute)} milliseconds per minute. ")
                     append("Regression slope ${formatDouble(status.regressionSlopeMillisPerMinute)} milliseconds per minute. ")
                     append("Samples collected ${status.sampleCount}.")
@@ -59,7 +63,9 @@ fun ClockPanel(
                 modifier = Modifier.testTag("time-sync-round-trip")
             )
             Text(
-                text = "Quality: ${status.quality.name.lowercase().replaceFirstChar { it.uppercase() }}",
+                text = "Quality: ${
+                    status.quality.name.lowercase().replaceFirstChar { it.uppercase() }
+                }",
                 modifier = Modifier.testTag("time-sync-quality")
             )
             Text(
@@ -81,20 +87,21 @@ fun ClockPanel(
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.testTag("time-sync-recent-header")
                 )
-                history.takeLast(MAX_HISTORY_LINES).reversed().forEachIndexed { index, observation ->
-                    val line = String.format(
-                        Locale.US,
-                        "%tT — %.2f ms (RTT %.2f)",
-                        observation.timestamp.toEpochMilliseconds(),
-                        observation.offsetMillis,
-                        observation.roundTripMillis
-                    )
-                    Text(
-                        text = line,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.testTag("time-sync-history-$index")
-                    )
-                }
+                history.takeLast(MAX_HISTORY_LINES).reversed()
+                    .forEachIndexed { index, observation ->
+                        val line = String.format(
+                            Locale.US,
+                            "%tT — %.2f ms (RTT %.2f)",
+                            observation.timestamp.toEpochMilliseconds(),
+                            observation.offsetMillis,
+                            observation.roundTripMillis
+                        )
+                        Text(
+                            text = line,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.testTag("time-sync-history-$index")
+                        )
+                    }
             }
         }
     }

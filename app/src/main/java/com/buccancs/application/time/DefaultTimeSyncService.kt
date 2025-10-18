@@ -13,11 +13,18 @@ import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import com.buccancs.util.nowInstant
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.abs
@@ -152,7 +159,9 @@ class DefaultTimeSyncService @Inject constructor(
     ): Double {
         val previous = history.lastOrNull { it.timestamp < currentInstant } ?: return 0.0
         val elapsedMs =
-            (currentInstant.toEpochMilliseconds() - previous.timestamp.toEpochMilliseconds()).coerceAtLeast(1L)
+            (currentInstant.toEpochMilliseconds() - previous.timestamp.toEpochMilliseconds()).coerceAtLeast(
+                1L
+            )
         val delta = currentOffsetMs - previous.offsetMillis
         return delta / elapsedMs * 60_000.0
     }
@@ -212,7 +221,8 @@ class DefaultTimeSyncService @Inject constructor(
         val roundTrip = (receiveEpochMs - sendEpochMs).coerceAtLeast(0L).toDouble()
         val serverDelta = serverSendEpochMs - serverReceiveEpochMs
         val clientDelta = receiveEpochMs - sendEpochMs
-        val offset = ((serverReceiveEpochMs - sendEpochMs) + (serverSendEpochMs - receiveEpochMs)) / 2.0
+        val offset =
+            ((serverReceiveEpochMs - sendEpochMs) + (serverSendEpochMs - receiveEpochMs)) / 2.0
         val adjustedOffset = offset - (serverDelta - clientDelta) / 2.0
         return SyncSample(
             offsetMs = adjustedOffset,

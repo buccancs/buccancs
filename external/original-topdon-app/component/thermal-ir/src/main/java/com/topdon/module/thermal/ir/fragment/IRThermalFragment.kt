@@ -27,6 +27,7 @@ import com.topdon.lib.core.utils.NetWorkUtils
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.activity.IRThermalNightActivity
 import com.topdon.module.thermal.ir.activity.IRThermalPlusActivity
+
 // Stubbed: import kotlinx.android.synthetic.main.fragment_thermal_ir.*
 
 class IRThermalFragment : BaseFragment(), View.OnClickListener {
@@ -115,16 +116,28 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
         when (v) {
             cl_open_thermal -> {
                 if (isTC007) {
-                    ARouter.getInstance().build(RouterConfig.IR_THERMAL_07).navigation(requireContext())
+                    ARouter.getInstance().build(RouterConfig.IR_THERMAL_07)
+                        .navigation(requireContext())
                 } else {
                     if (DeviceTools.isTC001PlusConnect()) {
-                        startActivityForResult(Intent(requireContext(), IRThermalPlusActivity::class.java), 101)
+                        startActivityForResult(
+                            Intent(
+                                requireContext(),
+                                IRThermalPlusActivity::class.java
+                            ), 101
+                        )
                     } else if (DeviceTools.isTC001LiteConnect()) {
-                        ARouter.getInstance().build(RouterConfig.IR_TCLITE).navigation(activity, 101)
+                        ARouter.getInstance().build(RouterConfig.IR_TCLITE)
+                            .navigation(activity, 101)
                     } else if (DeviceTools.isHikConnect()) {
                         ARouter.getInstance().build(RouterConfig.IR_HIK_MAIN).navigation(activity)
                     } else {
-                        startActivityForResult(Intent(requireContext(), IRThermalNightActivity::class.java), 101)
+                        startActivityForResult(
+                            Intent(
+                                requireContext(),
+                                IRThermalNightActivity::class.java
+                            ), 101
+                        )
                     }
                 }
             }
@@ -146,13 +159,19 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                                 )
                             )
                             .request(object : OnPermissionCallback {
-                                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
+                                override fun onGranted(
+                                    permissions: MutableList<String>,
+                                    allGranted: Boolean
+                                ) {
                                     if (allGranted) {
                                         showConnectTip()
                                     }
                                 }
 
-                                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
+                                override fun onDenied(
+                                    permissions: MutableList<String>,
+                                    doNotAskAgain: Boolean
+                                ) {
                                     if (doNotAskAgain) {
                                         context?.let {
                                             TipDialog.Builder(it)
@@ -217,26 +236,32 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun checkStoragePermission() {
-        val permissionList: List<String> = if (activity?.applicationInfo?.targetSdkVersion!! >= 34) {
-            listOf(
-                Permission.READ_MEDIA_VIDEO,
-                Permission.READ_MEDIA_IMAGES,
-                Permission.WRITE_EXTERNAL_STORAGE
-            )
-        } else if (activity?.applicationInfo?.targetSdkVersion!! >= 33) {
-            listOf(
-                Permission.READ_MEDIA_VIDEO,
-                Permission.READ_MEDIA_IMAGES,
-                Permission.WRITE_EXTERNAL_STORAGE
-            )
-        } else {
-            listOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
-        }
+        val permissionList: List<String> =
+            if (activity?.applicationInfo?.targetSdkVersion!! >= 34) {
+                listOf(
+                    Permission.READ_MEDIA_VIDEO,
+                    Permission.READ_MEDIA_IMAGES,
+                    Permission.WRITE_EXTERNAL_STORAGE
+                )
+            } else if (activity?.applicationInfo?.targetSdkVersion!! >= 33) {
+                listOf(
+                    Permission.READ_MEDIA_VIDEO,
+                    Permission.READ_MEDIA_IMAGES,
+                    Permission.WRITE_EXTERNAL_STORAGE
+                )
+            } else {
+                listOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+            }
         if (!XXPermissions.isGranted(requireContext(), permissionList)) {
             if (BaseApplication.instance.isDomestic()) {
                 context?.let {
                     TipDialog.Builder(it)
-                        .setMessage(getString(R.string.permission_request_storage_app, CommUtils.getAppName()))
+                        .setMessage(
+                            getString(
+                                R.string.permission_request_storage_app,
+                                CommUtils.getAppName()
+                            )
+                        )
                         .setCancelListener(R.string.app_cancel)
                         .setPositiveListener(R.string.app_confirm) {
                             initStoragePermission(permissionList)

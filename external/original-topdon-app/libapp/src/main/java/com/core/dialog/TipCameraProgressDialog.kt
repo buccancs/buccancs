@@ -71,7 +71,6 @@ class TipCameraProgressDialog : Dialog {
     }
 
 
-
     /**
      * 提交回调
      */

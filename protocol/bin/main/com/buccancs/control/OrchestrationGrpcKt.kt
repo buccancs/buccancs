@@ -80,7 +80,8 @@ public object OrchestrationServiceGrpcKt {
         callOptions: CallOptions = DEFAULT,
     ) : AbstractCoroutineStub<OrchestrationServiceCoroutineStub>(channel, callOptions) {
         override fun build(channel: Channel, callOptions: CallOptions):
-                OrchestrationServiceCoroutineStub = OrchestrationServiceCoroutineStub(channel, callOptions)
+                OrchestrationServiceCoroutineStub =
+            OrchestrationServiceCoroutineStub(channel, callOptions)
 
         /**
          * Executes this RPC and returns the response message, suspending until the RPC completes
@@ -95,7 +96,10 @@ public object OrchestrationServiceGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun registerDevice(request: DeviceRegistration, headers: Metadata = Metadata()):
+        public suspend fun registerDevice(
+            request: DeviceRegistration,
+            headers: Metadata = Metadata()
+        ):
                 RegistrationAck = unaryRpc(
             channel,
             OrchestrationServiceGrpc.getRegisterDeviceMethod(),
@@ -117,7 +121,10 @@ public object OrchestrationServiceGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun startSession(request: StartSessionRequest, headers: Metadata = Metadata()):
+        public suspend fun startSession(
+            request: StartSessionRequest,
+            headers: Metadata = Metadata()
+        ):
                 CommandAck = unaryRpc(
             channel,
             OrchestrationServiceGrpc.getStartSessionMethod(),
@@ -161,7 +168,10 @@ public object OrchestrationServiceGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun sendSyncSignal(request: SyncSignalRequest, headers: Metadata = Metadata()):
+        public suspend fun sendSyncSignal(
+            request: SyncSignalRequest,
+            headers: Metadata = Metadata()
+        ):
                 CommandAck = unaryRpc(
             channel,
             OrchestrationServiceGrpc.getSendSyncSignalMethod(),
@@ -183,7 +193,10 @@ public object OrchestrationServiceGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun sendEventMarker(request: EventMarkerRequest, headers: Metadata = Metadata()):
+        public suspend fun sendEventMarker(
+            request: EventMarkerRequest,
+            headers: Metadata = Metadata()
+        ):
                 CommandAck = unaryRpc(
             channel,
             OrchestrationServiceGrpc.getSendEventMarkerMethod(),
@@ -426,7 +439,10 @@ public object TimeSyncServiceGrpcKt {
         channel: Channel,
         callOptions: CallOptions = DEFAULT,
     ) : AbstractCoroutineStub<TimeSyncServiceCoroutineStub>(channel, callOptions) {
-        override fun build(channel: Channel, callOptions: CallOptions): TimeSyncServiceCoroutineStub =
+        override fun build(
+            channel: Channel,
+            callOptions: CallOptions
+        ): TimeSyncServiceCoroutineStub =
             TimeSyncServiceCoroutineStub(channel, callOptions)
 
         /**
@@ -442,7 +458,10 @@ public object TimeSyncServiceGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun ping(request: TimeSyncPing, headers: Metadata = Metadata()): TimeSyncPong =
+        public suspend fun ping(
+            request: TimeSyncPing,
+            headers: Metadata = Metadata()
+        ): TimeSyncPong =
             unaryRpc(
                 channel,
                 TimeSyncServiceGrpc.getPingMethod(),
@@ -464,7 +483,10 @@ public object TimeSyncServiceGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun report(request: TimeSyncReport, headers: Metadata = Metadata()): CommandAck =
+        public suspend fun report(
+            request: TimeSyncReport,
+            headers: Metadata = Metadata()
+        ): CommandAck =
             unaryRpc(
                 channel,
                 TimeSyncServiceGrpc.getReportMethod(),
@@ -551,7 +573,10 @@ public object PreviewServiceGrpcKt {
         channel: Channel,
         callOptions: CallOptions = DEFAULT,
     ) : AbstractCoroutineStub<PreviewServiceCoroutineStub>(channel, callOptions) {
-        override fun build(channel: Channel, callOptions: CallOptions): PreviewServiceCoroutineStub =
+        override fun build(
+            channel: Channel,
+            callOptions: CallOptions
+        ): PreviewServiceCoroutineStub =
             PreviewServiceCoroutineStub(channel, callOptions)
 
         /**
@@ -573,7 +598,10 @@ public object PreviewServiceGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun streamPreview(requests: Flow<PreviewFrame>, headers: Metadata = Metadata()):
+        public suspend fun streamPreview(
+            requests: Flow<PreviewFrame>,
+            headers: Metadata = Metadata()
+        ):
                 PreviewAck = clientStreamingRpc(
             channel,
             PreviewServiceGrpc.getStreamPreviewMethod(),
@@ -643,7 +671,10 @@ public object DataTransferServiceGrpcKt {
         channel: Channel,
         callOptions: CallOptions = DEFAULT,
     ) : AbstractCoroutineStub<DataTransferServiceCoroutineStub>(channel, callOptions) {
-        override fun build(channel: Channel, callOptions: CallOptions): DataTransferServiceCoroutineStub =
+        override fun build(
+            channel: Channel,
+            callOptions: CallOptions
+        ): DataTransferServiceCoroutineStub =
             DataTransferServiceCoroutineStub(channel, callOptions)
 
         /**
@@ -737,7 +768,10 @@ public object SensorStreamServiceGrpcKt {
         channel: Channel,
         callOptions: CallOptions = DEFAULT,
     ) : AbstractCoroutineStub<SensorStreamServiceCoroutineStub>(channel, callOptions) {
-        override fun build(channel: Channel, callOptions: CallOptions): SensorStreamServiceCoroutineStub =
+        override fun build(
+            channel: Channel,
+            callOptions: CallOptions
+        ): SensorStreamServiceCoroutineStub =
             SensorStreamServiceCoroutineStub(channel, callOptions)
 
         /**
@@ -759,7 +793,10 @@ public object SensorStreamServiceGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun stream(requests: Flow<SensorSampleBatch>, headers: Metadata = Metadata()):
+        public suspend fun stream(
+            requests: Flow<SensorSampleBatch>,
+            headers: Metadata = Metadata()
+        ):
                 SensorStreamAck = clientStreamingRpc(
             channel,
             SensorStreamServiceGrpc.getStreamMethod(),
@@ -832,7 +869,10 @@ public object CommandServiceGrpcKt {
         channel: Channel,
         callOptions: CallOptions = DEFAULT,
     ) : AbstractCoroutineStub<CommandServiceCoroutineStub>(channel, callOptions) {
-        override fun build(channel: Channel, callOptions: CallOptions): CommandServiceCoroutineStub =
+        override fun build(
+            channel: Channel,
+            callOptions: CallOptions
+        ): CommandServiceCoroutineStub =
             CommandServiceCoroutineStub(channel, callOptions)
 
         /**
@@ -848,7 +888,10 @@ public object CommandServiceGrpcKt {
          *
          * @return A flow that, when collected, emits the responses from the server.
          */
-        public fun subscribeCommands(request: CommandSubscribeRequest, headers: Metadata = Metadata()):
+        public fun subscribeCommands(
+            request: CommandSubscribeRequest,
+            headers: Metadata = Metadata()
+        ):
                 Flow<CommandEnvelope> = serverStreamingRpc(
             channel,
             CommandServiceGrpc.getSubscribeCommandsMethod(),

@@ -234,7 +234,13 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
         }
         guideDialog.show()
         if (Build.VERSION.SDK_INT >= 31) {
-            window?.decorView?.setRenderEffect(RenderEffect.createBlurEffect(20f, 20f, Shader.TileMode.MIRROR))
+            window?.decorView?.setRenderEffect(
+                RenderEffect.createBlurEffect(
+                    20f,
+                    20f,
+                    Shader.TileMode.MIRROR
+                )
+            )
         } else {
             lifecycleScope.launch {
                 delay(100)
@@ -269,7 +275,12 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
         if (!XXPermissions.isGranted(this, permissionList)) {
             if (BaseApplication.instance.isDomestic()) {
                 TipDialog.Builder(this)
-                    .setMessage(getString(R.string.permission_request_storage_app, CommUtils.getAppName()))
+                    .setMessage(
+                        getString(
+                            R.string.permission_request_storage_app,
+                            CommUtils.getAppName()
+                        )
+                    )
                     .setCancelListener(R.string.app_cancel)
                     .setPositiveListener(R.string.app_confirm) {
                         initStoragePermission(permissionList)
@@ -314,7 +325,8 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
             })
     }
 
-    private class ViewPagerAdapter(activity: FragmentActivity, val isTC007: Boolean) : FragmentStateAdapter(activity) {
+    private class ViewPagerAdapter(activity: FragmentActivity, val isTC007: Boolean) :
+        FragmentStateAdapter(activity) {
         override fun getItemCount() = 5
         override fun createFragment(position: Int): Fragment {
             if (position == 1) {
@@ -331,9 +343,11 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                     0 -> AbilityFragment()
                     2 -> IRThermalFragment()
                     3 -> PDFListFragment()
-                    else -> ARouter.getInstance().build(RouterConfig.TC_MORE).navigation() as Fragment
+                    else -> ARouter.getInstance().build(RouterConfig.TC_MORE)
+                        .navigation() as Fragment
                 }
-                fragment.arguments = Bundle().also { it.putBoolean(ExtraKeyConfig.IS_TC007, isTC007) }
+                fragment.arguments =
+                    Bundle().also { it.putBoolean(ExtraKeyConfig.IS_TC007, isTC007) }
                 return fragment
             }
         }

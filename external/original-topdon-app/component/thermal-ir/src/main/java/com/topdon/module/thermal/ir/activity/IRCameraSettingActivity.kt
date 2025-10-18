@@ -322,7 +322,10 @@ class IRCameraSettingActivity : BaseActivity() {
                                 .setTitleMessage(getString(R.string.app_tip))
                                 .setMessage(getString(R.string.app_location_content))
                                 .setPositiveListener(R.string.app_open) {
-                                    XXPermissions.startPermissionActivity(this@IRCameraSettingActivity, permissions);
+                                    XXPermissions.startPermissionActivity(
+                                        this@IRCameraSettingActivity,
+                                        permissions
+                                    );
                                 }
                                 .setCancelListener(R.string.app_cancel) {
                                 }
@@ -340,7 +343,12 @@ class IRCameraSettingActivity : BaseActivity() {
         if (!XXPermissions.isGranted(this, permissionList)) {
             if (BaseApplication.instance.isDomestic()) {
                 TipDialog.Builder(this)
-                    .setMessage(getString(R.string.permission_request_location_app, CommUtils.getAppName()))
+                    .setMessage(
+                        getString(
+                            R.string.permission_request_location_app,
+                            CommUtils.getAppName()
+                        )
+                    )
                     .setCancelListener(R.string.app_cancel)
                     .setPositiveListener(R.string.app_confirm) {
                         initLocationPermission()

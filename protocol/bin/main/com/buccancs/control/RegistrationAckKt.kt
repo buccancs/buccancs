@@ -23,7 +23,8 @@ public object RegistrationAckKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.RegistrationAck.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.RegistrationAck.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -82,5 +83,6 @@ public object RegistrationAckKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.RegistrationAck.copy(block: `com.buccancs.control`.RegistrationAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.RegistrationAck =
-    `com.buccancs.control`.RegistrationAckKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.RegistrationAckKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

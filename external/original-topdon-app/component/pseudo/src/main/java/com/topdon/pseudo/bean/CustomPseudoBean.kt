@@ -25,7 +25,8 @@ data class CustomPseudoBean(
 ) : Parcelable {
     companion object {
         fun loadFromShared(isTC007: Boolean = false): CustomPseudoBean {
-            val json = if (isTC007) SharedManager.getTC0007CustomPseudo() else SharedManager.getCustomPseudo()
+            val json =
+                if (isTC007) SharedManager.getTC0007CustomPseudo() else SharedManager.getCustomPseudo()
             return if (json.isNotEmpty()) {
                 Gson().fromJson(json, CustomPseudoBean::class.java)
             } else {

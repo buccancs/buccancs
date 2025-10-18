@@ -37,7 +37,8 @@ class UploadWorker(
         sessionIds.forEach { sessionId ->
             val manifest = loadManifest(storage.manifestFile(sessionId), json) ?: return@forEach
             manifest.artifacts.forEach { artifactEntry ->
-                val artifact = toSessionArtifact(sessionId, artifactEntry, storage) ?: return@forEach
+                val artifact =
+                    toSessionArtifact(sessionId, artifactEntry, storage) ?: return@forEach
                 val result = client.upload(sessionId, artifact) { }
                 if (result.success) {
                     artifact.file?.delete()

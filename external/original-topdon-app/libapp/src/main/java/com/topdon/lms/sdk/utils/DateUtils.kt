@@ -17,11 +17,11 @@ object DateUtils {
             ""
         }
     }
-    
+
     fun formatDate(timestamp: Long, pattern: String = "yyyy-MM-dd HH:mm:ss"): String {
         return formatDate(Date(timestamp), pattern)
     }
-    
+
     fun format(timestamp: Long, pattern: String, timeZone: TimeZone): String {
         return try {
             val sdf = SimpleDateFormat(pattern, Locale.getDefault())
@@ -31,7 +31,7 @@ object DateUtils {
             ""
         }
     }
-    
+
     fun parseDate(dateString: String?, pattern: String = "yyyy-MM-dd HH:mm:ss"): Date? {
         if (dateString.isNullOrEmpty()) return null
         return try {

@@ -8,7 +8,6 @@ import com.buccancs.core.storage.WriteResult
 import com.buccancs.data.storage.AtomicFileWriter
 import com.buccancs.domain.model.CalibrationResult
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.io.FileOutputStream
@@ -58,7 +57,8 @@ class CalibrationStorage @Inject constructor(
         val output = File(sessionDir, "result.json")
         val payload = json.encodeToString(result)
 
-        when (val writeResult = AtomicFileWriter.writeAtomicSafe(output, payload, checkSpace = true)) {
+        when (val writeResult =
+            AtomicFileWriter.writeAtomicSafe(output, payload, checkSpace = true)) {
             is WriteResult.Success -> {
                 val latest = File(rootDir, "latest_result.json")
                 when (AtomicFileWriter.writeAtomicSafe(latest, payload, checkSpace = true)) {
@@ -74,7 +74,10 @@ class CalibrationStorage @Inject constructor(
 
             is WriteResult.Failure.WriteError -> {
                 Log.e(TAG, "Failed to write calibration result", writeResult.cause)
-                throw IOException("Failed to write calibration result: ${writeResult.message}", writeResult.cause)
+                throw IOException(
+                    "Failed to write calibration result: ${writeResult.message}",
+                    writeResult.cause
+                )
             }
         }
     }

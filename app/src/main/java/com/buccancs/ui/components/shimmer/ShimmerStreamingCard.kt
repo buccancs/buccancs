@@ -1,28 +1,21 @@
 package com.buccancs.ui.components.shimmer
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.buccancs.ui.theme.Dimensions
-import com.buccancs.ui.theme.Spacing
 import com.buccancs.ui.components.SectionCard
+import com.buccancs.ui.theme.Spacing
 
 @Composable
 fun ShimmerStreamingCard(
     isStreaming: Boolean,
     isConnected: Boolean,
-    onStartStreaming: () -> Unit,
-    onStopStreaming: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     SectionCard(
@@ -34,46 +27,16 @@ fun ShimmerStreamingCard(
             style = MaterialTheme.typography.titleMedium
         )
 
+        val message = when {
+            !isConnected -> "Connect the device to prepare for streaming."
+            isStreaming -> "Streaming is active as part of the current recording session."
+            else -> "Start a recording session to begin streaming automatically."
+        }
         Text(
-            text = if (isStreaming) "Device is streaming data" else "Device is idle",
+            text = message,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (isStreaming) {
-                OutlinedButton(
-                    onClick = onStopStreaming,
-                    modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Stop,
-                        contentDescription = null
-                    )
-                    Text("Stop Streaming", modifier = Modifier.padding(start = Spacing.Small))
-                }
-            } else {
-                Button(
-                    onClick = onStartStreaming,
-                    enabled = isConnected,
-                    modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = null
-                    )
-                    Text("Start Streaming", modifier = Modifier.padding(start = Spacing.Small))
-                }
-            }
-        }
     }
 }
 
@@ -87,23 +50,17 @@ private fun ShimmerStreamingCardPreview() {
         ) {
             ShimmerStreamingCard(
                 isStreaming = false,
-                isConnected = false,
-                onStartStreaming = {},
-                onStopStreaming = {}
+                isConnected = false
             )
 
             ShimmerStreamingCard(
                 isStreaming = false,
-                isConnected = true,
-                onStartStreaming = {},
-                onStopStreaming = {}
+                isConnected = true
             )
 
             ShimmerStreamingCard(
                 isStreaming = true,
-                isConnected = true,
-                onStartStreaming = {},
-                onStopStreaming = {}
+                isConnected = true
             )
         }
     }

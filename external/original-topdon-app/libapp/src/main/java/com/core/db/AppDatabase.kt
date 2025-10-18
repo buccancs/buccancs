@@ -32,8 +32,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun houseReportDao(): HouseReportDao
 
 
-
-
     companion object {
 
         @Volatile
@@ -45,7 +43,11 @@ abstract class AppDatabase : RoomDatabase() {
             }
 
         private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "TopInfrared.db")
+            Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                "TopInfrared.db"
+            )
                 .addMigrations(object : Migration(4, 5) {
                     override fun migrate(database: SupportSQLiteDatabase) {
                         database.execSQL("DROP TABLE file")

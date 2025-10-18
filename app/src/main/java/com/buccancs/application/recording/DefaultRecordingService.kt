@@ -30,7 +30,10 @@ class DefaultRecordingService @Inject constructor(
     private val performanceMetricsRecorder: PerformanceMetricsRecorder,
     private val performanceMetricsAnalyzer: PerformanceMetricsAnalyzer
 ) : RecordingService {
-    override suspend fun startOrResume(sessionId: String, requestedStart: Instant?): RecordingState {
+    override suspend fun startOrResume(
+        sessionId: String,
+        requestedStart: Instant?
+    ): RecordingState {
         return withContext(appScope.coroutineContext) {
             val syncStatus = timeSyncService.forceSync()
             bookmarkRepository.clear()

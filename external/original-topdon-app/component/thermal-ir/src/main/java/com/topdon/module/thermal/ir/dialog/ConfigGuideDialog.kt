@@ -71,14 +71,17 @@ class ConfigGuideDialog(context: Context, val isTC007: Boolean, val dataBean: Da
     fun blurBg(rootView: View) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val sourceBitmap = Bitmap.createBitmap(rootView.width, rootView.height, Bitmap.Config.ARGB_8888)
-                val outputBitmap = Bitmap.createBitmap(rootView.width, rootView.height, Bitmap.Config.ARGB_8888)
+                val sourceBitmap =
+                    Bitmap.createBitmap(rootView.width, rootView.height, Bitmap.Config.ARGB_8888)
+                val outputBitmap =
+                    Bitmap.createBitmap(rootView.width, rootView.height, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(sourceBitmap)
                 rootView.draw(canvas)
                 val renderScript = RenderScript.create(context)
                 val inputAllocation = Allocation.createFromBitmap(renderScript, sourceBitmap)
                 val outputAllocation = Allocation.createTyped(renderScript, inputAllocation.type)
-                val blurScript = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript))
+                val blurScript =
+                    ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript))
                 blurScript.setRadius(20f)
                 blurScript.setInput(inputAllocation)
                 blurScript.forEach(outputAllocation)

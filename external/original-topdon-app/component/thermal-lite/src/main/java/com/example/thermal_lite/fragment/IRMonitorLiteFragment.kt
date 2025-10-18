@@ -125,7 +125,8 @@ class IRMonitorLiteFragment : BaseFragment(), ITsTempListener {
                 }
                 delay(500)
                 if (isPick) {
-                    CameraPreviewManager.getInstance().setPseudocolorMode(SaveSettingUtil.pseudoColorMode)
+                    CameraPreviewManager.getInstance()
+                        .setPseudocolorMode(SaveSettingUtil.pseudoColorMode)
                 } else {
                     CameraPreviewManager.getInstance().setPseudocolorMode(3)
                 }
@@ -391,7 +392,11 @@ class IRMonitorLiteFragment : BaseFragment(), ITsTempListener {
                     temperaturerun = true
                     temperatureView.visibility = View.VISIBLE
                     delay(1000)
-                    temperatureView.setImageSize(mPreviewHeight, mPreviewWidth, this@IRMonitorLiteFragment)
+                    temperatureView.setImageSize(
+                        mPreviewHeight,
+                        mPreviewWidth,
+                        this@IRMonitorLiteFragment
+                    )
                     temperatureView.temperatureRegionMode = TemperatureView.REGION_MODE_CLEAN
                 }
             }
@@ -527,8 +532,9 @@ class IRMonitorLiteFragment : BaseFragment(), ITsTempListener {
             }
             if (System.currentTimeMillis() - basicGainGetTime > 5000L) {
                 try {
-                    val basicGainGet: IrcmdError? = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
-                        ?.basicGainGet(basicGainGetValue)
+                    val basicGainGet: IrcmdError? =
+                        DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
+                            ?.basicGainGet(basicGainGetValue)
                 } catch (e: Exception) {
                     XLog.e("增益获取失败")
                 }

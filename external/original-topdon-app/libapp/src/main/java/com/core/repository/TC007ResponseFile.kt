@@ -39,7 +39,8 @@ data class ProductBean(
     val Code: String,
     val SoftwareVersion: Version07Bean?
 ) {
-    fun getVersionStr(): String = "${SoftwareVersion?.Major ?: "-"}.${SoftwareVersion?.Minor ?: "-"}${SoftwareVersion?.Build ?: "-"}"
+    fun getVersionStr(): String =
+        "${SoftwareVersion?.Major ?: "-"}.${SoftwareVersion?.Minor ?: "-"}${SoftwareVersion?.Build ?: "-"}"
 }
 
 data class Version07Bean(
@@ -97,22 +98,22 @@ data class EnvAttr(
 
 data class FrameParam(
     var Enable: Boolean,
-    val TempRule : TempRule
+    val TempRule: TempRule
 )
 
 data class TempRule(
-    val AlarmRule : Int,
-    val ThresholdTemp : Int,
-    val Debounce : Int,
-    val ToleranceTemp : Int,
-    val TempRise : TempRise
+    val AlarmRule: Int,
+    val ThresholdTemp: Int,
+    val Debounce: Int,
+    val ToleranceTemp: Int,
+    val TempRise: TempRise
 )
 
 data class TempRise(
-    var Enable : Boolean,
-    var TRTemp : Int,
-    var TRTime : Int,
-    var TRNum : Int
+    var Enable: Boolean,
+    var TRTemp: Int,
+    var TRTime: Int,
+    var TRNum: Int
 )
 
 data class TempFrameParam(
@@ -120,12 +121,12 @@ data class TempFrameParam(
     val FrameLow: FrameParam,
     val FrameCenter: FrameParam,
 
-) {
+    ) {
 //    constructor(isEnable: Boolean): this(FrameParam(isEnable), FrameParam(isEnable), FrameParam(isEnable))
 }
 
 internal data class PointParam(val X: Int, val Y: Int) {
-    constructor(point: Point?): this(point?.x ?: 0, point?.y ?: 0)
+    constructor(point: Point?) : this(point?.x ?: 0, point?.y ?: 0)
 }
 
 internal data class TargetParam(val Enable: Boolean)
@@ -137,7 +138,7 @@ internal data class TempPointParam(
     val Point: PointParam,
     val Target: TargetParam,
 ) {
-    constructor(id: Int, point: Point?): this(
+    constructor(id: Int, point: Point?) : this(
         Enable = point != null,
         ID = id,
         Name = "P$id",
@@ -153,7 +154,7 @@ internal data class TempLineParam(
     val Line: LineParam,
     val Target: TargetParam,
 ) {
-    constructor(id: Int, start: Point?, end: Point?): this(
+    constructor(id: Int, start: Point?, end: Point?) : this(
         Enable = start != null && end != null,
         ID = id,
         Name = "L$id",
@@ -171,7 +172,7 @@ internal data class TempRectParam(
     val Rectangle: RectParam,
     val Target: TargetParam,
 ) {
-    constructor(id: Int, rect: Rect?): this(
+    constructor(id: Int, rect: Rect?) : this(
         Enable = rect != null,
         ID = id,
         Name = "L$id",
@@ -179,8 +180,13 @@ internal data class TempRectParam(
         Target = TargetParam(true),
     )
 
-    data class RectParam(val Point0: PointParam, val Point1: PointParam, val Point2: PointParam, val Point3: PointParam) {
-        constructor(rect: Rect?): this(
+    data class RectParam(
+        val Point0: PointParam,
+        val Point1: PointParam,
+        val Point2: PointParam,
+        val Point3: PointParam
+    ) {
+        constructor(rect: Rect?) : this(
             Point0 = PointParam(rect?.left ?: 0, rect?.top ?: 0),
             Point1 = PointParam(rect?.right ?: 0, rect?.top ?: 0),
             Point2 = PointParam(rect?.left ?: 0, rect?.bottom ?: 0),
@@ -188,8 +194,6 @@ internal data class TempRectParam(
         )
     }
 }
-
-
 
 
 /**
@@ -212,34 +216,35 @@ data class AttributeBean(
  * 汇总TC007的所有的属性值
  */
 data class WifiAttributeBean(
-    var Ratio : Int ?= null,
-    var X : Int ?= null,
-    var Y : Int ?= null
+    var Ratio: Int? = null,
+    var X: Int? = null,
+    var Y: Int? = null
 )
 
 data class PalleteBean(
-    val palleteMode : Int,
-    var stander : Stander ?= null,
-    var custom : Custom ?= null
+    val palleteMode: Int,
+    var stander: Stander? = null,
+    var custom: Custom? = null
 )
 
 data class Stander(
-    var palleteNo : Int = 0,
+    var palleteNo: Int = 0,
     val threshold: List<Int>,
 )
 
 data class Custom(
-    var customMode : Int,
-    var highThreshold : Int,
-    var lowThreshold : Int,
-    var highColor : CustomColor,
-    var middleColor : CustomColor,
-    var lowColor : CustomColor,
+    var customMode: Int,
+    var highThreshold: Int,
+    var lowThreshold: Int,
+    var highColor: CustomColor,
+    var middleColor: CustomColor,
+    var lowColor: CustomColor,
 )
+
 data class CustomColor(
-    var red : Int,
-    var green : Int,
-    var blue : Int
+    var red: Int,
+    var green: Int,
+    var blue: Int
 )
 
 data class Param(
@@ -263,11 +268,11 @@ data class IsothermColor(
 )
 
 data class IsothermC(
-    val mode : Int,//0：关，1：阈值上，2：阈值下，3：区间内
-    val highThreshold : Int,
-    val lowThreshold : Int,
-    var greaterThreshold : Int = 0,
-    var lessThreshold : Int = 0
+    val mode: Int,//0：关，1：阈值上，2：阈值下，3：区间内
+    val highThreshold: Int,
+    val lowThreshold: Int,
+    var greaterThreshold: Int = 0,
+    var lessThreshold: Int = 0
 
 )
 

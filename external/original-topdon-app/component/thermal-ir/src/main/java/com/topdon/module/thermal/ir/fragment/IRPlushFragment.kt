@@ -8,6 +8,7 @@ import com.infisense.usbdual.camera.DualViewWithExternalCameraCommonApi
 import com.infisense.usbir.view.TemperatureView
 import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.activity.BaseIRPlushFragment
+
 // Stubbed: import kotlinx.android.synthetic.main.fragment_ir_plush.dualTextureViewNativeCamera
 // Stubbed: import kotlinx.android.synthetic.main.fragment_ir_plush.temperature_view
 

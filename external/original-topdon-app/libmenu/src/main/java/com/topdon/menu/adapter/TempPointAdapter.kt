@@ -33,7 +33,11 @@ internal class TempPointAdapter : BaseMenuAdapter() {
             R.drawable.selector_menu2_temp_point_1,
             TempPointType.HIGH
         ),
-        Data(CoreR.string.main_tab_second_low_temperature_point, R.drawable.selector_menu2_temp_point_2, TempPointType.LOW),
+        Data(
+            CoreR.string.main_tab_second_low_temperature_point,
+            R.drawable.selector_menu2_temp_point_2,
+            TempPointType.LOW
+        ),
         Data(CoreR.string.thermal_delete, R.drawable.selector_menu2_del, TempPointType.DELETE),
     )
 

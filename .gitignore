@@ -94,12 +94,14 @@ downloads/
 eggs/
 .eggs/
 lib/
+!automation/lib/
 lib64/
 parts/
 sdist/
 var/
 wheels/
 venv/
+android-sdk/
 
 # =============================================================================
 # Logs, Backups & Temporary Files

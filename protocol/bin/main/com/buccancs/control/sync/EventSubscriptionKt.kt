@@ -23,7 +23,8 @@ public object EventSubscriptionKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.sync.EventSubscription.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.sync.EventSubscription.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -66,5 +67,6 @@ public object EventSubscriptionKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.sync.EventSubscription.copy(block: `com.buccancs.control.sync`.EventSubscriptionKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.EventSubscription =
-    `com.buccancs.control.sync`.EventSubscriptionKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control.sync`.EventSubscriptionKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

@@ -4,7 +4,11 @@ import android.util.Log
 import com.buccancs.BuildConfig
 import com.buccancs.application.stimulus.StimulusPresentationManager
 import com.buccancs.application.time.TimeSyncService
-import com.buccancs.control.commands.*
+import com.buccancs.control.commands.CommandSerialization
+import com.buccancs.control.commands.DeviceCommandPayload
+import com.buccancs.control.commands.EventMarkerCommandPayload
+import com.buccancs.control.commands.StimulusCommandPayload
+import com.buccancs.control.commands.SyncSignalCommandPayload
 import com.buccancs.data.control.CommandClient
 import com.buccancs.data.orchestration.DeviceIdentityProvider
 import com.buccancs.data.orchestration.server.ControlServer
@@ -15,7 +19,12 @@ import com.buccancs.domain.repository.DeviceEventRepository
 import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -78,6 +87,7 @@ class DefaultDeviceCommandService @Inject constructor(
     private fun handleSync(payload: SyncSignalCommandPayload) {
         scope.launch {
             delayForExecution(payload.executeEpochMs)
+            stimulusPresentationManager.presentSyncCue(payload.signalType)
             recordEvent(
                 DeviceEvent(
                     id = payload.commandId,
@@ -162,7 +172,11 @@ class DefaultDeviceCommandService @Inject constructor(
                     event.detailJson
                 )
             }.getOrElse { error ->
-                Log.w(TAG, "Unable to decode local command ${event.eventId}: ${error.message}", error)
+                Log.w(
+                    TAG,
+                    "Unable to decode local command ${event.eventId}: ${error.message}",
+                    error
+                )
                 return@collect
             }
             onCommandReceived(payload)

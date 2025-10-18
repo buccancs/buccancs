@@ -2,7 +2,8 @@
 
 ## Overview
 
-Complete integration of Topdon TC001 thermal camera with preview streaming, photo capture, and video recording
+Complete integration of Topdon TC001 thermal camera with preview streaming, photo capture, and video
+recording
 capabilities. Uses UVC protocol over USB-C for thermal frame acquisition.
 
 ## Components

@@ -55,11 +55,13 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(AppLanguageUtils.attachBaseContext(newBase, SharedManager.getLanguage(newBase!!)))
+        super.attachBaseContext(
+            AppLanguageUtils.attachBaseContext(
+                newBase,
+                SharedManager.getLanguage(newBase!!)
+            )
+        )
     }
-
-
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -70,14 +72,14 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
             disConnected()
         }
     }
+
     protected open fun connected() {
 
     }
+
     protected open fun disConnected() {
 
     }
-
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -88,9 +90,11 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
             onSocketDisConnected(event.isTS004)
         }
     }
+
     protected open fun onSocketConnected(isTS004: Boolean) {
 
     }
+
     protected open fun onSocketDisConnected(isTS004: Boolean) {
 
     }
@@ -100,12 +104,14 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
      * 新版 LMS 风格的加载中弹框.
      */
     private var loadingDialog: LoadingDialog? = null
+
     /**
      * 显示加载中弹框.
      */
     fun showLoadingDialog(@StringRes resId: Int = R.string.tip_loading) {
         showLoadingDialog(getString(resId))
     }
+
     /**
      * 显示加载中弹框.
      */
@@ -116,6 +122,7 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
         loadingDialog?.setTips(text)
         loadingDialog?.show()
     }
+
     /**
      * 关闭加载中弹框.
      */
@@ -129,10 +136,12 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
 
         override fun createIntent(context: Context, input: File): Intent {
             file = input
-            val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            val uri =
+                FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
             return Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri)
         }
 
-        override fun parseResult(resultCode: Int, intent: Intent?): File? = if (resultCode == RESULT_OK) file else null
+        override fun parseResult(resultCode: Int, intent: Intent?): File? =
+            if (resultCode == RESULT_OK) file else null
     }
 }

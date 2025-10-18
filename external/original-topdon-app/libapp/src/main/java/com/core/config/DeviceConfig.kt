@@ -27,7 +27,6 @@ object DeviceConfig {
     const val HIK_PRODUCT_ID = 258
 
 
-
     /**
      * 判断该 UsbDevice 是否为TC、TS插件式设备.
      */
@@ -38,14 +37,11 @@ object DeviceConfig {
                 (productId == HIK_PRODUCT_ID && vendorId == HIK_VENDOR_ID)
     }
 
-    fun UsbDevice.isTcLiteDevice() : Boolean{
+    fun UsbDevice.isTcLiteDevice(): Boolean {
         return (productId == TCLITE_PRODUCT_ID && vendorId == TCLITE_VENDOR_ID)
     }
 
     fun UsbDevice.isHik256(): Boolean = productId == HIK_PRODUCT_ID && vendorId == HIK_VENDOR_ID
-
-
-
 
 
     const val SKU = "TDTC001A11"

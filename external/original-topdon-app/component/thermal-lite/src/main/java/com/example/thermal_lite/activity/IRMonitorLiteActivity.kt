@@ -94,11 +94,14 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
                 delay(1000)
                 if (irMonitorLiteFragment != null) {
                     val result: LibIRTemp.TemperatureSampleResult = when (selectBean.type) {
-                        1 -> irMonitorLiteFragment!!.getTemperatureView().getPointTemp(selectBean.startPosition)
+                        1 -> irMonitorLiteFragment!!.getTemperatureView()
+                            .getPointTemp(selectBean.startPosition)
+
                         2 -> irMonitorLiteFragment!!.getTemperatureView()
                             .getLineTemp(Line(selectBean.startPosition, selectBean.endPosition))
 
-                        else -> irMonitorLiteFragment!!.getTemperatureView().getRectTemp(selectBean.getRect())
+                        else -> irMonitorLiteFragment!!.getTemperatureView()
+                            .getRectTemp(selectBean.getRect())
                     } ?: continue
                     if (isFirstRead) {
                         if (result.maxTemperature > 200f || result.minTemperature < -200f) {
@@ -117,8 +120,10 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
                         }
                     }
                     if (result.maxTemperature >= -270f) {
-                        val maxBigDecimal = BigDecimal.valueOf(tempCorrectByTs(result.maxTemperature).toDouble())
-                        val minBigDecimal = BigDecimal.valueOf(tempCorrectByTs(result.minTemperature).toDouble())
+                        val maxBigDecimal =
+                            BigDecimal.valueOf(tempCorrectByTs(result.maxTemperature).toDouble())
+                        val minBigDecimal =
+                            BigDecimal.valueOf(tempCorrectByTs(result.minTemperature).toDouble())
                         bean.centerTemp = maxBigDecimal.setScale(1, RoundingMode.HALF_UP).toFloat()
                         bean.maxTemp = maxBigDecimal.setScale(1, RoundingMode.HALF_UP).toFloat()
                         bean.minTemp = minBigDecimal.setScale(1, RoundingMode.HALF_UP).toFloat()
@@ -173,7 +178,8 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
                     delay(100)
                 }
                 lifecycleScope.launch(Dispatchers.Main) {
-                    tv_time.text = TimeTool.showVideoLongTime(System.currentTimeMillis() - startTime)
+                    tv_time.text =
+                        TimeTool.showVideoLongTime(System.currentTimeMillis() - startTime)
                 }
             }
             XLog.w("停止记录, 数据量:$time")
@@ -182,7 +188,8 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportFragmentManager.beginTransaction().add(R.id.thermal_fragment, irMonitorLiteFragment).commit()
+        supportFragmentManager.beginTransaction().add(R.id.thermal_fragment, irMonitorLiteFragment)
+            .commit()
     }
 
     override fun initData() {
@@ -198,7 +205,8 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
                             when (it) {
                                 1 -> EventBus.getDefault().post(ThermalActionEvent(action = 2001))
                                 2 -> EventBus.getDefault().post(ThermalActionEvent(action = 2002))
-                                else -> EventBus.getDefault().post(ThermalActionEvent(action = 2003))
+                                else -> EventBus.getDefault()
+                                    .post(ThermalActionEvent(action = 2003))
                             }
                         }
                         .create().show()
@@ -211,14 +219,16 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
                                 return@launch
                             }
                             irMonitorLiteFragment?.stopTask()
-                            thermal_fragment.getViewTreeObserver().addOnGlobalLayoutListener(object :
-                                ViewTreeObserver.OnGlobalLayoutListener {
-                                override fun onGlobalLayout() {
-                                    thermal_fragment.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                    irMonitorLiteFragment?.restTempView()
-                                    irMonitorLiteFragment?.addTempLine(selectIndex!!)
-                                }
-                            })
+                            thermal_fragment.getViewTreeObserver()
+                                .addOnGlobalLayoutListener(object :
+                                    ViewTreeObserver.OnGlobalLayoutListener {
+                                    override fun onGlobalLayout() {
+                                        thermal_fragment.getViewTreeObserver()
+                                            .removeOnGlobalLayoutListener(this);
+                                        irMonitorLiteFragment?.restTempView()
+                                        irMonitorLiteFragment?.addTempLine(selectIndex!!)
+                                    }
+                                })
                             motion_action_lay.isVisible = false
                             chart_lay.isVisible = true
                             showCameraLoading()
@@ -266,8 +276,9 @@ open class IRMonitorLiteActivity : BaseActivity(), View.OnClickListener, ITsTemp
             }
             if (System.currentTimeMillis() - basicGainGetTime > 5000L) {
                 try {
-                    val basicGainGet: IrcmdError? = DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
-                        ?.basicGainGet(basicGainGetValue)
+                    val basicGainGet: IrcmdError? =
+                        DeviceIrcmdControlManager.getInstance().getIrcmdEngine()
+                            ?.basicGainGet(basicGainGetValue)
                 } catch (e: Exception) {
                     XLog.e("增益获取失败")
                 }

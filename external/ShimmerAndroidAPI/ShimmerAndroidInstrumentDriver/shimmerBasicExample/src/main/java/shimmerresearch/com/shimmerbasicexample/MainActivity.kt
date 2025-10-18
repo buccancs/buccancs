@@ -53,14 +53,16 @@ class MainActivity : ComponentActivity() {
                         val allFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP
                         )
-                        val timeStampCluster = ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
+                        val timeStampCluster =
+                            ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
                         val timeStampData = timeStampCluster?.mData
                         Log.i(LOG_TAG, "Time Stamp: $timeStampData")
 
                         val accelFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X
                         )
-                        val accelXCluster = ObjectCluster.returnFormatCluster(accelFormats, "CAL") as? FormatCluster
+                        val accelXCluster =
+                            ObjectCluster.returnFormatCluster(accelFormats, "CAL") as? FormatCluster
                         accelXCluster?.let {
                             val accelXData = it.mData
                             Log.i(LOG_TAG, "Accel LN X: $accelXData")
@@ -69,7 +71,8 @@ class MainActivity : ComponentActivity() {
                         val prrFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer3.ObjectClusterSensorName.PACKET_RECEPTION_RATE_OVERALL
                         )
-                        val prrCluster = ObjectCluster.returnFormatCluster(prrFormats, "CAL") as? FormatCluster
+                        val prrCluster =
+                            ObjectCluster.returnFormatCluster(prrFormats, "CAL") as? FormatCluster
                         prrCluster?.let {
                             val prr = it.mData
                             Log.i(LOG_TAG, "Packet Reception Rate: $prr")
@@ -108,9 +111,15 @@ class MainActivity : ComponentActivity() {
                             shimmer?.let { shim ->
                                 if (shim.firmwareVersionCode >= 8) {
                                     when (shim.currentBtCommsCrcMode) {
-                                        ShimmerBluetooth.CRC_MODE.OFF -> selectedCrcOption.intValue = 0
-                                        ShimmerBluetooth.CRC_MODE.ONE_BYTE_CRC -> selectedCrcOption.intValue = 1
-                                        ShimmerBluetooth.CRC_MODE.TWO_BYTE_CRC -> selectedCrcOption.intValue = 2
+                                        ShimmerBluetooth.CRC_MODE.OFF -> selectedCrcOption.intValue =
+                                            0
+
+                                        ShimmerBluetooth.CRC_MODE.ONE_BYTE_CRC -> selectedCrcOption.intValue =
+                                            1
+
+                                        ShimmerBluetooth.CRC_MODE.TWO_BYTE_CRC -> selectedCrcOption.intValue =
+                                            2
+
                                         else -> {}
                                     }
                                     crcEnabled.value = true
@@ -169,7 +178,11 @@ class MainActivity : ComponentActivity() {
         }
 
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 permissionGranted = false
                 break
             }

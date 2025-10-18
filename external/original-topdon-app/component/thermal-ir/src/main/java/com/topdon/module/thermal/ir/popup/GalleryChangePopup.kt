@@ -8,6 +8,7 @@ import android.view.View.MeasureSpec
 import android.widget.PopupWindow
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.module.thermal.ir.R
+
 // Stubbed: import kotlinx.android.synthetic.main.popup_gallery_change.view.*
 
 class GalleryChangePopup(private val context: Context) : PopupWindow() {
@@ -20,7 +21,10 @@ class GalleryChangePopup(private val context: Context) : PopupWindow() {
             MeasureSpec.EXACTLY
         )
         val heightMeasureSpec =
-            MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.heightPixels, MeasureSpec.AT_MOST)
+            MeasureSpec.makeMeasureSpec(
+                context.resources.displayMetrics.heightPixels,
+                MeasureSpec.AT_MOST
+            )
         contentView = LayoutInflater.from(context).inflate(R.layout.popup_gallery_change, null)
         contentView.measure(widthMeasureSpec, heightMeasureSpec)
         width = contentView.measuredWidth

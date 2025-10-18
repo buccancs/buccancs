@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.lib.core.view.MyTextView
 import com.topdon.module.thermal.ir.R
+
 // Stubbed: import kotlinx.android.synthetic.main.popup_option_pick.view.*
 
 class OptionPickPopup(
@@ -32,7 +33,8 @@ class OptionPickPopup(
         textView.textSize = TEXT_SIZE_SP
         val fontMetrics = textView.paint.fontMetricsInt
         val canSeeItem: Int = strArray.size.coerceAtMost(2)
-        val itemHeight: Int = fontMetrics.bottom - fontMetrics.top + SizeUtils.dp2px(TEXT_PADDING) * 2
+        val itemHeight: Int =
+            fontMetrics.bottom - fontMetrics.top + SizeUtils.dp2px(TEXT_PADDING) * 2
         val contentHeight = SizeUtils.dp2px(14f) + itemHeight * canSeeItem
         val contentWidth = (contentHeight * 120f / 81f).toInt()
         contentView = LayoutInflater.from(context).inflate(R.layout.popup_option_pick, null)
@@ -56,7 +58,12 @@ class OptionPickPopup(
                 5f
             )
         ) {
-            showAtLocation(anchor, Gravity.NO_GRAVITY, x, locationArray[1] + anchor.height - SizeUtils.dp2px(5f))
+            showAtLocation(
+                anchor,
+                Gravity.NO_GRAVITY,
+                x,
+                locationArray[1] + anchor.height - SizeUtils.dp2px(5f)
+            )
         } else {
             showAtLocation(
                 anchor,
@@ -81,7 +88,8 @@ class OptionPickPopup(
                 SizeUtils.dp2px(TEXT_PADDING)
             )
             textView.compoundDrawablePadding = SizeUtils.dp2px(10f)
-            textView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+            textView.layoutParams =
+                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
             return ViewHolder(textView)
         }
 

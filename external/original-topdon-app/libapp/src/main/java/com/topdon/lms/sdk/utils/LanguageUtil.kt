@@ -20,7 +20,7 @@ object LanguageUtil {
             else -> 0  // English (default)
         }
     }
-    
+
     fun getLanguageCode(context: Context?): String {
         val locale = context?.resources?.configuration?.locales?.get(0) ?: Locale.getDefault()
         return locale.language

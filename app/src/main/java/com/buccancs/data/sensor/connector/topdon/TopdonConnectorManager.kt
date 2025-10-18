@@ -8,16 +8,32 @@ import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorHardwareConfig
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.TopdonDeviceConfig
+import com.buccancs.domain.model.TopdonPreviewFrame
+import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.hardware.topdon.TopdonThermalClient
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Instant.Companion.fromEpochMilliseconds
@@ -42,7 +58,8 @@ internal class TopdonConnectorManager @Inject constructor(
     private val deviceState = MutableStateFlow<Map<DeviceId, SensorDevice>>(emptyMap())
     private val statusState = MutableStateFlow<Map<DeviceId, List<SensorStreamStatus>>>(emptyMap())
     override val devices: StateFlow<Map<DeviceId, SensorDevice>> = deviceState.asStateFlow()
-    override val streamStatuses: StateFlow<Map<DeviceId, List<SensorStreamStatus>>> = statusState.asStateFlow()
+    override val streamStatuses: StateFlow<Map<DeviceId, List<SensorStreamStatus>>> =
+        statusState.asStateFlow()
 
     init {
         scope.launch(Dispatchers.Default) {
@@ -64,35 +81,49 @@ internal class TopdonConnectorManager @Inject constructor(
 
     override suspend fun connect(deviceId: DeviceId): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.connect()
     }
 
     override suspend fun disconnect(deviceId: DeviceId): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.disconnect()
     }
 
-    override suspend fun configure(deviceId: DeviceId, options: Map<String, String>): DeviceCommandResult {
+    override suspend fun configure(
+        deviceId: DeviceId,
+        options: Map<String, String>
+    ): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.configure(options)
     }
 
-    override suspend fun startStreaming(deviceId: DeviceId, anchor: RecordingSessionAnchor): DeviceCommandResult {
+    override suspend fun startStreaming(
+        deviceId: DeviceId,
+        anchor: RecordingSessionAnchor
+    ): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.startStreaming(anchor)
     }
 
     override suspend fun stopStreaming(deviceId: DeviceId): DeviceCommandResult {
         val connector =
-            connectorFor(deviceId) ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
+            connectorFor(deviceId)
+                ?: return DeviceCommandResult.Rejected("Unknown Topdon device ${deviceId.value}")
         return connector.stopStreaming()
     }
 
-    override suspend fun collectArtifacts(deviceId: DeviceId, sessionId: String): List<SessionArtifact> {
+    override suspend fun collectArtifacts(
+        deviceId: DeviceId,
+        sessionId: String
+    ): List<SessionArtifact> {
         val connector = connectorFor(deviceId) ?: return emptyList()
         return connector.collectArtifacts(sessionId)
     }
@@ -133,7 +164,10 @@ internal class TopdonConnectorManager @Inject constructor(
                         "thermal_${System.currentTimeMillis()}.jpg"
                     )
                     put(android.provider.MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                    put(android.provider.MediaStore.Images.Media.RELATIVE_PATH, "Pictures/BuccanCS/Thermal")
+                    put(
+                        android.provider.MediaStore.Images.Media.RELATIVE_PATH,
+                        "Pictures/BuccanCS/Thermal"
+                    )
                 }
 
                 val uri = contentResolver.insert(
@@ -224,11 +258,15 @@ internal class TopdonConnectorManager @Inject constructor(
         }
     }
 
-    private suspend fun createConnector(deviceId: DeviceId, entry: TopdonDeviceConfig): ManagedConnector {
+    private suspend fun createConnector(
+        deviceId: DeviceId,
+        entry: TopdonDeviceConfig
+    ): ManagedConnector {
         val defaultSettings = TopdonSettings()
         val settings = InMemoryTopdonSettingsRepository(
             TopdonSettings(
-                autoConnectOnAttach = entry.autoConnectOnAttach ?: defaultSettings.autoConnectOnAttach,
+                autoConnectOnAttach = entry.autoConnectOnAttach
+                    ?: defaultSettings.autoConnectOnAttach,
                 palette = entry.palette ?: defaultSettings.palette,
                 superSampling = entry.superSampling ?: defaultSettings.superSampling,
                 previewFpsLimit = entry.previewFpsLimit ?: TopdonSettings.DEFAULT_PREVIEW_FPS_LIMIT
@@ -360,15 +398,19 @@ internal class TopdonConnectorManager @Inject constructor(
         connectorCache = connectors.toMap()
     }
 
-    private fun TopdonDeviceConfig.normalizeDefaults(settings: TopdonSettings): TopdonDeviceConfig = copy(
-        displayName = displayName.ifBlank { "Topdon ${id}" },
-        autoConnectOnAttach = autoConnectOnAttach ?: settings.autoConnectOnAttach,
-        palette = palette ?: settings.palette,
-        superSampling = superSampling ?: settings.superSampling,
-        previewFpsLimit = previewFpsLimit ?: settings.previewFpsLimit
-    )
+    private fun TopdonDeviceConfig.normalizeDefaults(settings: TopdonSettings): TopdonDeviceConfig =
+        copy(
+            displayName = displayName.ifBlank { "Topdon ${id}" },
+            autoConnectOnAttach = autoConnectOnAttach ?: settings.autoConnectOnAttach,
+            palette = palette ?: settings.palette,
+            superSampling = superSampling ?: settings.superSampling,
+            previewFpsLimit = previewFpsLimit ?: settings.previewFpsLimit
+        )
 
-    private fun enrichTopdonConfig(current: TopdonDeviceConfig, device: SensorDevice): TopdonDeviceConfig {
+    private fun enrichTopdonConfig(
+        current: TopdonDeviceConfig,
+        device: SensorDevice
+    ): TopdonDeviceConfig {
         val vendor = device.attributes["usb.vendorId"]?.decodeHexInt()
         val product = device.attributes["usb.productId"]?.decodeHexInt()
         val serial = device.attributes["usb.serialNumber"]?.takeIf { it.isNotBlank() }

@@ -73,22 +73,23 @@ object WifiSaveSettingUtil {
         registrationY = 0
 
     }
-    var registrationX : Int
+
+    var registrationX: Int
         get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME).getInt("registrationX", 0) else 0
         set(value) {
             SPUtils.getInstance(SP_NAME).put("registrationX", value)
         }
-    var registrationY : Int
+    var registrationY: Int
         get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME).getInt("registrationY", 0) else 0
         set(value) {
             SPUtils.getInstance(SP_NAME).put("registrationY", value)
         }
-    var fusionType : Int
-        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME).getInt("fusionType", FusionTypeIROnly) else FusionTypeIROnly
+    var fusionType: Int
+        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME)
+            .getInt("fusionType", FusionTypeIROnly) else FusionTypeIROnly
         set(value) {
             SPUtils.getInstance(SP_NAME).put("fusionType", value)
         }
-
 
 
     /**
@@ -105,7 +106,8 @@ object WifiSaveSettingUtil {
      * 热成像是否处于测温模式，默认测温模式 true-测温 false-观测
      */
     var isMeasureTempMode: Boolean
-        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME).getBoolean("isMeasureTempMode", true) else true
+        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME)
+            .getBoolean("isMeasureTempMode", true) else true
         set(value) {
             if (isSaveSetting) {
                 SPUtils.getInstance(SP_NAME).put("isMeasureTempMode", value)
@@ -265,6 +267,7 @@ object WifiSaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("tempTextColor", value)
             }
         }
+
     /**
      * 热成像-测温模式-温度字体颜色值，默认14sp.
      */

@@ -1,18 +1,27 @@
 package com.buccancs.desktop.data.monitor
 
+import com.buccancs.desktop.data.repository.CommandRepository
 import com.buccancs.desktop.data.repository.DeviceRepository
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.domain.model.DeviceConnectionEvent
-import kotlinx.coroutines.*
+import com.buccancs.desktop.domain.model.SessionStatus
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.time.Instant
-import java.util.*
+import java.util.Locale
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 
 class DeviceConnectionMonitor(
     private val deviceRepository: DeviceRepository,
     private val sessionRepository: SessionRepository,
+    private val commandRepository: CommandRepository,
     private val scope: CoroutineScope,
     private val heartbeatTimeoutMs: Long = DEFAULT_HEARTBEAT_TIMEOUT_MS,
     private val pollIntervalMs: Long = DEFAULT_POLL_INTERVAL_MS,
@@ -22,6 +31,7 @@ class DeviceConnectionMonitor(
     private val started = AtomicBoolean(false)
     private var monitorJob: Job? = null
     private var eventJob: Job? = null
+    private val pendingReplay = ConcurrentHashMap<String, String>()
     fun start() {
         if (!started.compareAndSet(false, true)) {
             return
@@ -35,6 +45,7 @@ class DeviceConnectionMonitor(
         eventJob?.cancel()
         monitorJob = null
         eventJob = null
+        pendingReplay.clear()
         started.set(false)
     }
 
@@ -86,7 +97,11 @@ class DeviceConnectionMonitor(
                     deviceIds = listOf(event.deviceId)
                 )
             }.onFailure { ex ->
-                logger.debug("Unable to register connection event for {}: {}", event.deviceId, ex.message)
+                logger.debug(
+                    "Unable to register connection event for {}: {}",
+                    event.deviceId,
+                    ex.message
+                )
             }
         }
         if (session != null) {
@@ -95,6 +110,30 @@ class DeviceConnectionMonitor(
                 event.deviceId,
                 session.id
             )
+            if (session.status == SessionStatus.ACTIVE) {
+                val pendingSessionId = pendingReplay.remove(event.deviceId)
+                if (pendingSessionId == session.id) {
+                    runCatching {
+                        commandRepository.replayRecordingState(session.id, event.deviceId)
+                        val replayTimestamp = timeProvider().toEpochMilli()
+                        sessionRepository.registerEvent(
+                            eventId = "device-replay-${event.deviceId}-$replayTimestamp",
+                            label = "device-replay:${event.deviceId}",
+                            timestampMs = replayTimestamp,
+                            deviceIds = listOf(event.deviceId)
+                        )
+                    }.onFailure { ex ->
+                        logger.warn("Unable to replay recording state for {}", event.deviceId, ex)
+                    }
+                } else if (pendingSessionId != null && pendingSessionId != session.id) {
+                    logger.debug(
+                        "Skipping replay for {} because session changed from {} to {}",
+                        event.deviceId,
+                        pendingSessionId,
+                        session.id
+                    )
+                }
+            }
         } else {
             logger.info("Device {} connected (no active session)", event.deviceId)
         }
@@ -114,7 +153,11 @@ class DeviceConnectionMonitor(
                     deviceIds = listOf(event.deviceId)
                 )
             }.onFailure { ex ->
-                logger.debug("Unable to register disconnect event for {}: {}", event.deviceId, ex.message)
+                logger.debug(
+                    "Unable to register disconnect event for {}: {}",
+                    event.deviceId,
+                    ex.message
+                )
             }
         }
         if (session != null) {
@@ -124,6 +167,28 @@ class DeviceConnectionMonitor(
                 session.id,
                 reasonToken
             )
+            if (session.status == SessionStatus.ACTIVE) {
+                pendingReplay[event.deviceId] = session.id
+                logger.info(
+                    "Device {} queued for command replay once connection resumes",
+                    event.deviceId
+                )
+                val queuedTimestamp = timeProvider().toEpochMilli()
+                runCatching {
+                    sessionRepository.registerEvent(
+                        eventId = "device-replay-queued-${event.deviceId}-$queuedTimestamp",
+                        label = "device-replay-queued:${event.deviceId}",
+                        timestampMs = queuedTimestamp,
+                        deviceIds = listOf(event.deviceId)
+                    )
+                }.onFailure { ex ->
+                    logger.debug(
+                        "Unable to register replay queue event for {}: {}",
+                        event.deviceId,
+                        ex.message
+                    )
+                }
+            }
         } else {
             logger.warn(
                 "Device {} disconnected (no active session) (reason: {})",

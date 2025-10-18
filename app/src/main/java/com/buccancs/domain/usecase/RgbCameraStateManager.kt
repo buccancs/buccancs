@@ -4,7 +4,7 @@ import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorDevice
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -96,9 +96,12 @@ class RgbCameraStateManager @Inject constructor(
         attributes: Map<String, String>,
         supportsRaw: Boolean
     ): RgbCameraValues {
-        val videoFps = attributes[ATTR_RGB_VIDEO_FPS]?.takeIf { it.isNotBlank() } ?: DEFAULT_RGB_VIDEO_FPS
-        val videoBitRate = attributes[ATTR_RGB_VIDEO_BIT_RATE]?.takeIf { it.isNotBlank() } ?: DEFAULT_RGB_VIDEO_BITRATE
-        val rawInterval = attributes[ATTR_RGB_RAW_INTERVAL]?.takeIf { it.isNotBlank() } ?: DEFAULT_RGB_RAW_INTERVAL
+        val videoFps =
+            attributes[ATTR_RGB_VIDEO_FPS]?.takeIf { it.isNotBlank() } ?: DEFAULT_RGB_VIDEO_FPS
+        val videoBitRate = attributes[ATTR_RGB_VIDEO_BIT_RATE]?.takeIf { it.isNotBlank() }
+            ?: DEFAULT_RGB_VIDEO_BITRATE
+        val rawInterval = attributes[ATTR_RGB_RAW_INTERVAL]?.takeIf { it.isNotBlank() }
+            ?: DEFAULT_RGB_RAW_INTERVAL
         val exposure = attributes[ATTR_RGB_EXPOSURE]?.takeIf { it.isNotBlank() } ?: ""
         val iso = attributes[ATTR_RGB_ISO]?.takeIf { it.isNotBlank() } ?: ""
         val focusMeters = attributes[ATTR_RGB_FOCUS_METERS]?.takeIf { it.isNotBlank() } ?: ""
@@ -239,7 +242,11 @@ data class RgbCameraInputState(
     fun updateRawEnabled(enabled: Boolean): RgbCameraInputState {
         val coerced = if (supportsRaw) enabled else false
         val clearedErrors = if (!coerced) errors - RgbCameraField.RAW_INTERVAL_MS else errors
-        return copy(inputs = inputs.copy(rawEnabled = coerced), dirty = true, errors = clearedErrors)
+        return copy(
+            inputs = inputs.copy(rawEnabled = coerced),
+            dirty = true,
+            errors = clearedErrors
+        )
     }
 
     fun updateAwb(value: String): RgbCameraInputState =

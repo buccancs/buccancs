@@ -5,43 +5,108 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.CloudUpload
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.application.stimulus.StimulusCue
 import com.buccancs.application.stimulus.StimulusState
+import com.buccancs.data.storage.SessionUsage
 import com.buccancs.data.storage.SpaceState
 import com.buccancs.data.storage.SpaceStatus
-import com.buccancs.data.storage.SessionUsage
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceEvent
+import com.buccancs.domain.model.DeviceEventType
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.NetworkSnapshot
+import com.buccancs.domain.model.PerformanceThrottleLevel
+import com.buccancs.domain.model.RecordingBookmark
+import com.buccancs.domain.model.RecordingLifecycleState
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.RecordingState
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.TimeSyncObservation
+import com.buccancs.domain.model.TimeSyncQuality
+import com.buccancs.domain.model.TimeSyncStatus
+import com.buccancs.domain.model.UploadBacklogLevel
+import com.buccancs.domain.model.UploadBacklogState
+import com.buccancs.domain.model.UploadRecoveryRecord
+import com.buccancs.domain.model.UploadState
+import com.buccancs.domain.model.UploadStatus
 import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.components.AnimatedTonalButton
+import com.buccancs.ui.components.HealthAlertsCard
 import com.buccancs.ui.components.InfoRow
 import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.components.StatusIndicator
 import com.buccancs.ui.debug.ClockPanel
 import com.buccancs.ui.debug.EncoderPanel
+import com.buccancs.ui.theme.BuccancsTheme
 import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.LayoutPadding
-import com.buccancs.ui.theme.*
-import java.util.*
+import com.buccancs.ui.theme.MotionTokens
+import com.buccancs.ui.theme.MotionTransitions
+import com.buccancs.ui.theme.Spacing
+import java.util.Locale
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
@@ -145,6 +210,11 @@ fun LiveSessionScreen(
             ) {
                 item {
                     CollapsibleRecordingCard(state)
+                }
+                if (state.healthAlerts.isNotEmpty()) {
+                    item {
+                        HealthAlertsCard(state.healthAlerts)
+                    }
                 }
                 item {
                     DeviceStreamGrid(devices = state.devices)
@@ -634,7 +704,8 @@ private fun UploadList(uploads: List<UploadStatus>) {
                     style = MaterialTheme.typography.bodyMedium
                 )
                 val progress = if (upload.bytesTotal > 0) {
-                    val pct = (upload.bytesTransferred.toDouble() / upload.bytesTotal.toDouble()) * 100.0
+                    val pct =
+                        (upload.bytesTransferred.toDouble() / upload.bytesTotal.toDouble()) * 100.0
                     String.format(Locale.US, "%.1f%%", pct)
                 } else {
                     "n/a"

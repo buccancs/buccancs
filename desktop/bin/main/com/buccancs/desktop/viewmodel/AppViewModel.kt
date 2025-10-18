@@ -340,7 +340,8 @@ class AppViewModel(
             if (items.any { it.state != FileTransferState.COMPLETED }) {
                 transferCompletionNotified.remove(sessionId)
             }
-            val allCompleted = items.isNotEmpty() && items.all { it.state == FileTransferState.COMPLETED }
+            val allCompleted =
+                items.isNotEmpty() && items.all { it.state == FileTransferState.COMPLETED }
             if (allCompleted && transferCompletionNotified.add(sessionId)) {
                 appendAlert("All uploads received for session $sessionId")
             }
@@ -416,11 +417,12 @@ class AppViewModel(
 
         val sessionSummary = base.session?.let { session ->
             val startInstant = session.startedAt ?: session.createdAt
-            val elapsedMillis = if (session.status == SessionStatus.COMPLETED && session.totalDurationMs != null) {
-                session.totalDurationMs
-            } else {
-                Duration.between(startInstant, now).toMillis().coerceAtLeast(0)
-            }
+            val elapsedMillis =
+                if (session.status == SessionStatus.COMPLETED && session.totalDurationMs != null) {
+                    session.totalDurationMs
+                } else {
+                    Duration.between(startInstant, now).toMillis().coerceAtLeast(0)
+                }
             val metricsState = SessionMetricsState(
                 gsrSamples = session.metrics.gsrSamples,
                 videoFrames = session.metrics.videoFrames,
@@ -507,8 +509,9 @@ class AppViewModel(
                 )
             }
 
-        val alertMessages = (inputs.alerts + offlineWarnings + base.retention.actions.map { formatRetentionAlert(it) })
-            .distinct()
+        val alertMessages =
+            (inputs.alerts + offlineWarnings + base.retention.actions.map { formatRetentionAlert(it) })
+                .distinct()
 
         return AppUiState(
             session = sessionSummary,
@@ -538,20 +541,29 @@ class AppViewModel(
         )
     }
 
-    private fun formatRetentionAlert(action: DataRetentionManager.QuotaAction): String = when (action) {
-        is DataRetentionManager.QuotaAction.DeviceCapExceeded ->
-            "Device ${action.deviceId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
+    private fun formatRetentionAlert(action: DataRetentionManager.QuotaAction): String =
+        when (action) {
+            is DataRetentionManager.QuotaAction.DeviceCapExceeded ->
+                "Device ${action.deviceId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
+                    bytesToReadable(
+                        action.limitBytes
+                    )
+                })"
 
-        is DataRetentionManager.QuotaAction.GlobalCapExceeded ->
-            "Global quota exceeded (${bytesToReadable(action.usageBytes)} > ${bytesToReadable(action.limitBytes)})"
+            is DataRetentionManager.QuotaAction.GlobalCapExceeded ->
+                "Global quota exceeded (${bytesToReadable(action.usageBytes)} > ${
+                    bytesToReadable(
+                        action.limitBytes
+                    )
+                })"
 
-        is DataRetentionManager.QuotaAction.SessionCapExceeded ->
-            "Session ${action.sessionId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
-                bytesToReadable(
-                    action.limitBytes
-                )
-            })"
-    }
+            is DataRetentionManager.QuotaAction.SessionCapExceeded ->
+                "Session ${action.sessionId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
+                    bytesToReadable(
+                        action.limitBytes
+                    )
+                })"
+        }
 
     private fun tickerFlow(periodMillis: Long = 1_000L) = flow {
         while (true) {
@@ -563,7 +575,8 @@ class AppViewModel(
     private fun bytesToReadable(bytes: Long): String {
         if (bytes <= 0) return "0 B"
         val units = arrayOf("B", "KB", "MB", "GB", "TB")
-        val exp = (Math.log(bytes.toDouble()) / Math.log(1024.0)).toInt().coerceAtMost(units.lastIndex)
+        val exp =
+            (Math.log(bytes.toDouble()) / Math.log(1024.0)).toInt().coerceAtMost(units.lastIndex)
         val value = bytes / Math.pow(1024.0, exp.toDouble())
         return String.format("%.2f %s", value, units[exp])
     }

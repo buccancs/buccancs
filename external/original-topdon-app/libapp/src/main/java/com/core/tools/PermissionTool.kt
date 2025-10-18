@@ -17,22 +17,26 @@ object PermissionTool {
     /**
      * 请求 RECORD_AUDIO 权限.
      */
-    fun requestRecordAudio(context: Context, callback: () -> Unit) = request(context, Type.RECORD_AUDIO, callback)
+    fun requestRecordAudio(context: Context, callback: () -> Unit) =
+        request(context, Type.RECORD_AUDIO, callback)
 
     /**
      * 请求 CAMERA 权限.
      */
-    fun requestCamera(context: Context, callback: () -> Unit) = request(context, Type.CAMERA, callback)
+    fun requestCamera(context: Context, callback: () -> Unit) =
+        request(context, Type.CAMERA, callback)
 
     /**
      * 请求 ACCESS_FINE_LOCATION 权限.
      */
-    fun requestLocation(context: Context, callback: () -> Unit) = request(context, Type.LOCATION, callback)
+    fun requestLocation(context: Context, callback: () -> Unit) =
+        request(context, Type.LOCATION, callback)
 
     /**
      * 请求 图片读取 权限.
      */
-    fun requestImageRead(context: Context, callback: () -> Unit) = request(context, Type.IMAGE, callback)
+    fun requestImageRead(context: Context, callback: () -> Unit) =
+        request(context, Type.IMAGE, callback)
 
     /**
      * Android 10 及以下：请求外部存储文件读、写权限
@@ -44,14 +48,17 @@ object PermissionTool {
     fun requestFile(context: Context, callback: () -> Unit) = request(context, Type.FILE, callback)
 
 
-
     private enum class Type { RECORD_AUDIO, CAMERA, LOCATION, IMAGE, FILE }
 
     private fun request(context: Context, type: Type, callback: () -> Unit) {
         val permissions: List<String> = when (type) {
             Type.RECORD_AUDIO -> listOf(Permission.RECORD_AUDIO)
             Type.CAMERA -> listOf(Permission.CAMERA)
-            Type.LOCATION -> listOf(Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION)
+            Type.LOCATION -> listOf(
+                Permission.ACCESS_COARSE_LOCATION,
+                Permission.ACCESS_FINE_LOCATION
+            )
+
             Type.IMAGE -> listOf(if (context.applicationInfo.targetSdkVersion < 33) Permission.READ_EXTERNAL_STORAGE else Permission.READ_MEDIA_IMAGES)
             Type.FILE -> if (context.applicationInfo.targetSdkVersion < 30) {//Android 10及以下
                 listOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
@@ -104,7 +111,6 @@ object PermissionTool {
     }
 
 
-
     /**
      * 判断是否具有 ACCESS_FINE_LOCATION、BLUETOOTH_SCAN、BLUETOOTH_CONNECT 权限。
      * 低于 Android12 视为具有。
@@ -113,7 +119,12 @@ object PermissionTool {
         return if (Build.VERSION.SDK_INT < 31) {//低于 Android12
             XXPermissions.isGranted(context, Permission.ACCESS_FINE_LOCATION)
         } else {
-            XXPermissions.isGranted(context, Permission.ACCESS_FINE_LOCATION, Permission.BLUETOOTH_SCAN, Permission.BLUETOOTH_CONNECT)
+            XXPermissions.isGranted(
+                context,
+                Permission.ACCESS_FINE_LOCATION,
+                Permission.BLUETOOTH_SCAN,
+                Permission.BLUETOOTH_CONNECT
+            )
         }
     }
 
@@ -125,7 +136,12 @@ object PermissionTool {
         val permissionList: List<String> = if (Build.VERSION.SDK_INT < 31) {//低于 Android12
             arrayListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION)
         } else {
-            arrayListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION, Permission.BLUETOOTH_SCAN, Permission.BLUETOOTH_CONNECT)
+            arrayListOf(
+                Permission.ACCESS_FINE_LOCATION,
+                Permission.ACCESS_COARSE_LOCATION,
+                Permission.BLUETOOTH_SCAN,
+                Permission.BLUETOOTH_CONNECT
+            )
         }
 
         XXPermissions.with(context)

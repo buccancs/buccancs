@@ -8,7 +8,6 @@ import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.PerformanceSummary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 import javax.inject.Inject
@@ -42,7 +41,11 @@ class PerformanceMetricsAnalyzer @Inject constructor(
         summaryFile.parentFile?.mkdirs()
 
         when (val result =
-            AtomicFileWriter.writeAtomicSafe(summaryFile, json.encodeToString(summary), checkSpace = true)) {
+            AtomicFileWriter.writeAtomicSafe(
+                summaryFile,
+                json.encodeToString(summary),
+                checkSpace = true
+            )) {
             is WriteResult.Success -> {
                 Log.d(TAG, "Performance summary written for session $sessionId")
             }
@@ -57,7 +60,10 @@ class PerformanceMetricsAnalyzer @Inject constructor(
         }
     }
 
-    private fun buildSummary(sessionId: String, samples: List<PerformanceSample>): PerformanceSummary {
+    private fun buildSummary(
+        sessionId: String,
+        samples: List<PerformanceSample>
+    ): PerformanceSummary {
         val cpuValues = samples.map { it.cpuPercent }
         val pssValues = samples.map { it.memoryPssMb }
         val heapValues = samples.map { it.javaHeapMb }

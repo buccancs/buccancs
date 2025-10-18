@@ -29,7 +29,11 @@ object DownloadTool {
         .create(DownloadApiService::class.java)
 
 
-    suspend fun download(url: String, file: File, listener: (cur: Long, total: Long) -> Unit): Boolean = withContext(Dispatchers.IO) {
+    suspend fun download(
+        url: String,
+        file: File,
+        listener: (cur: Long, total: Long) -> Unit
+    ): Boolean = withContext(Dispatchers.IO) {
         val responseBody = try {
             getService().download(url)
         } catch (_: Exception) {

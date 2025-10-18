@@ -91,7 +91,11 @@ class DeviceConnectionMonitor(
                     deviceIds = listOf(event.deviceId)
                 )
             }.onFailure { ex ->
-                logger.debug("Unable to register connection event for {}: {}", event.deviceId, ex.message)
+                logger.debug(
+                    "Unable to register connection event for {}: {}",
+                    event.deviceId,
+                    ex.message
+                )
             }
         }
         if (session != null) {
@@ -119,7 +123,11 @@ class DeviceConnectionMonitor(
                     deviceIds = listOf(event.deviceId)
                 )
             }.onFailure { ex ->
-                logger.debug("Unable to register disconnect event for {}: {}", event.deviceId, ex.message)
+                logger.debug(
+                    "Unable to register disconnect event for {}: {}",
+                    event.deviceId,
+                    ex.message
+                )
             }
         }
         if (session != null) {

@@ -1,6 +1,11 @@
 package com.buccancs.data.calibration
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.RectF
 import com.buccancs.domain.model.CalibrationPatternConfig
 import com.buccancs.util.nowInstant
 import javax.inject.Inject

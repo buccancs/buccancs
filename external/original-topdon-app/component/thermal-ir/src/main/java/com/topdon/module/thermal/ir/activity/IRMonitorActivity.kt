@@ -48,7 +48,8 @@ class IRMonitorActivity : BaseActivity(), View.OnClickListener {
                             when (it) {
                                 1 -> EventBus.getDefault().post(ThermalActionEvent(action = 2001))
                                 2 -> EventBus.getDefault().post(ThermalActionEvent(action = 2002))
-                                else -> EventBus.getDefault().post(ThermalActionEvent(action = 2003))
+                                else -> EventBus.getDefault()
+                                    .post(ThermalActionEvent(action = 2003))
                             }
                         }
                         .create().show()

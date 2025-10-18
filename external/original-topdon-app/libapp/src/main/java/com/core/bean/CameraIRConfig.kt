@@ -6,8 +6,11 @@ package com.topdon.lib.core.bean
  * @param continuaTime 连续拍照时间间隔，单位毫秒
  * @param count 连续拍照数量
  */
-data class ContinuousBean(var isOpen: Boolean = false, var continuaTime: Long = 1000, var count: Int = 3)
-
+data class ContinuousBean(
+    var isOpen: Boolean = false,
+    var continuaTime: Long = 1000,
+    var count: Int = 3
+)
 
 
 class ObserveBean {

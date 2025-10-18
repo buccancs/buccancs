@@ -19,7 +19,8 @@ data class ResponseBean<T>(
                     defaultValue ?: CommonBean<String>()
                 } else {
                     val typeOfT = object : TypeToken<CommonBean<String>>() {}.type
-                    Gson().fromJson<CommonBean<String>>(json, typeOfT) ?: defaultValue ?: CommonBean<String>()
+                    Gson().fromJson<CommonBean<String>>(json, typeOfT) ?: defaultValue
+                    ?: CommonBean<String>()
                 }
             } catch (e: Exception) {
                 defaultValue ?: CommonBean<String>()

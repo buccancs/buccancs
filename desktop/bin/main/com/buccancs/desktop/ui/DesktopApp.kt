@@ -95,7 +95,8 @@ private fun SectionCard(
 fun DesktopApp(viewModel: AppViewModel) {
     val state by viewModel.uiState.collectAsState()
     val formatter = rememberFormatter()
-    val sessionTitle = state.session?.let { "Session ${it.id} (${it.status})" } ?: "No active session"
+    val sessionTitle =
+        state.session?.let { "Session ${it.id} (${it.status})" } ?: "No active session"
     val sessionActive = state.session?.status == SessionStatus.ACTIVE.name
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -371,7 +372,12 @@ private fun SessionSummaryCard(
         } else {
             Text("No samples received yet", style = MaterialTheme.typography.bodySmall)
         }
-        metricsUpdatedAt?.let { Text("Metrics updated: $it", style = MaterialTheme.typography.bodySmall) }
+        metricsUpdatedAt?.let {
+            Text(
+                "Metrics updated: $it",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(onClick = onEraseSession, enabled = canErase) { Text("Erase Session") }
             if (!canErase) {
@@ -458,7 +464,12 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
 
 
 @Composable
-private fun StatusBadge(text: String, background: Color, content: Color, modifier: Modifier = Modifier) {
+private fun StatusBadge(
+    text: String,
+    background: Color,
+    content: Color,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.small,
@@ -485,14 +496,20 @@ private fun RetentionSection(retention: RetentionState) {
             if (retention.perSessionBytes.isNotEmpty()) {
                 Text("Per session:", style = MaterialTheme.typography.titleSmall)
                 retention.perSessionBytes.forEach { (sessionId, bytes) ->
-                    Text("$sessionId -> ${bytesToReadable(bytes)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "$sessionId -> ${bytesToReadable(bytes)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
             if (retention.perDeviceBytes.isNotEmpty()) {
                 HorizontalDivider()
                 Text("Per device:", style = MaterialTheme.typography.titleSmall)
                 retention.perDeviceBytes.forEach { (deviceId, bytes) ->
-                    Text("$deviceId -> ${bytesToReadable(bytes)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "$deviceId -> ${bytesToReadable(bytes)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
             if (retention.perSessionDeviceBytes.isNotEmpty()) {
@@ -501,7 +518,10 @@ private fun RetentionSection(retention: RetentionState) {
                 retention.perSessionDeviceBytes.forEach { (sessionId, devices) ->
                     Text("Session $sessionId", style = MaterialTheme.typography.bodySmall)
                     devices.forEach { (deviceId, bytes) ->
-                        Text("    $deviceId -> ${bytesToReadable(bytes)}", style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            "    $deviceId -> ${bytesToReadable(bytes)}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
             }
@@ -556,9 +576,15 @@ private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: Dat
             events.forEach { event ->
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Text("Event ${event.eventId} - ${event.label}")
-                    Text("Time: ${formatter.format(event.timestamp)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Time: ${formatter.format(event.timestamp)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                     if (event.deviceIds.isNotEmpty()) {
-                        Text("Targets: ${event.deviceIds.joinToString()}", style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            "Targets: ${event.deviceIds.joinToString()}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
                 HorizontalDivider()
@@ -579,7 +605,11 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text("${preview.deviceId} - ${preview.cameraId} (${preview.mimeType}) ${preview.width}x${preview.height}")
                     Text(
-                        text = "Latency ${"%.1f".format(preview.latencyMs)} ms - Received ${formatter.format(preview.receivedAt)}",
+                        text = "Latency ${"%.1f".format(preview.latencyMs)} ms - Received ${
+                            formatter.format(
+                                preview.receivedAt
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                     bitmap?.let { image ->
@@ -591,7 +621,10 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
                                 .height(160.dp),
                             contentScale = ContentScale.Crop
                         )
-                    } ?: Text("Preview unavailable (unsupported format)", style = MaterialTheme.typography.bodySmall)
+                    } ?: Text(
+                        "Preview unavailable (unsupported format)",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
                 HorizontalDivider()
             }
@@ -607,18 +640,36 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
         archives.forEach { archive ->
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text("Session ${archive.id} - ${archive.status}")
-                Text("Created: ${formatter.format(archive.createdAt)}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "Created: ${formatter.format(archive.createdAt)}",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 archive.startedAt?.let {
-                    Text("Started: ${formatter.format(it)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Started: ${formatter.format(it)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
                 archive.stoppedAt?.let {
-                    Text("Stopped: ${formatter.format(it)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Stopped: ${formatter.format(it)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
                 archive.durationMs?.let {
-                    Text("Duration: ${durationToReadable(it)}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Duration: ${durationToReadable(it)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
-                Text("Total bytes: ${bytesToReadable(archive.totalBytes)}", style = MaterialTheme.typography.bodySmall)
-                Text("Subjects: ${archive.subjects.joinToString()}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "Total bytes: ${bytesToReadable(archive.totalBytes)}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    "Subjects: ${archive.subjects.joinToString()}",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Text(
                     "Events: ${archive.eventCount} - Devices: ${archive.deviceCount}",
                     style = MaterialTheme.typography.bodySmall

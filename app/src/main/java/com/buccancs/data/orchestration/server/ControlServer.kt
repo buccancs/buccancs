@@ -1,7 +1,11 @@
 package com.buccancs.data.orchestration.server
 
 import com.buccancs.control.ProtocolVersion
-import com.buccancs.control.sync.*
+import com.buccancs.control.sync.CommandAck
+import com.buccancs.control.sync.CommandEnvelope
+import com.buccancs.control.sync.ControlEvent
+import com.buccancs.control.sync.EventSubscription
+import com.buccancs.control.sync.LocalControlGrpcKt
 import com.buccancs.data.orchestration.security.TokenIssuer
 import com.buccancs.data.orchestration.server.EventPublisher.ControlServerEvent
 import com.buccancs.di.ApplicationScope
@@ -69,7 +73,10 @@ class ControlServer @Inject constructor(
 
     fun isRunning(): Boolean = server != null
 
-    fun issueToken(sessionId: String, ttlMillis: Long = DEFAULT_TOKEN_TTL_MS): TokenIssuer.IssuedToken {
+    fun issueToken(
+        sessionId: String,
+        ttlMillis: Long = DEFAULT_TOKEN_TTL_MS
+    ): TokenIssuer.IssuedToken {
         return tokenIssuer.issue(sessionId, ttlMillis)
     }
 
@@ -99,7 +106,11 @@ class ControlServer @Inject constructor(
             if (!ProtocolVersion.isCompatible(clientVersion)) {
                 throw Status.FAILED_PRECONDITION
                     .withDescription(
-                        "Incompatible protocol version: ${ProtocolVersion.versionString(clientVersion)} " +
+                        "Incompatible protocol version: ${
+                            ProtocolVersion.versionString(
+                                clientVersion
+                            )
+                        } " +
                                 "(device: ${ProtocolVersion.versionString(ProtocolVersion.CURRENT)})"
                     )
                     .asRuntimeException()

@@ -3,7 +3,12 @@ package com.buccancs.data.sensor.connector.camera
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.ImageFormat
-import android.hardware.camera2.*
+import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraCaptureSession
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraDevice
+import android.hardware.camera2.CameraManager
+import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
 import android.os.Handler
 import android.os.HandlerThread
@@ -19,7 +24,14 @@ import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.util.nowInstant
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -126,13 +138,19 @@ internal class RgbCameraConnector @Inject constructor(
     }
 
     private suspend fun performConnect(): Result<Unit> = resultOf {
-        val id = cameraId ?: findBackCameraId() ?: throw IllegalStateException("No back-facing camera found.")
+        val id = cameraId ?: findBackCameraId()
+        ?: throw IllegalStateException("No back-facing camera found.")
 
         if (cameraDevice != null) {
             return@resultOf  // Already connected
         }
 
-        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Connecting, isSimulated = false) }
+        deviceState.update {
+            it.copy(
+                connectionStatus = ConnectionStatus.Connecting,
+                isSimulated = false
+            )
+        }
         val device = openCamera(id)
         cameraDevice = device
         deviceState.update {
@@ -166,7 +184,12 @@ internal class RgbCameraConnector @Inject constructor(
         stopStreamingInternal()
         closeCamera()
         tearDownThread()
-        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
+        deviceState.update {
+            it.copy(
+                connectionStatus = ConnectionStatus.Disconnected,
+                isSimulated = false
+            )
+        }
     }
 
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
@@ -183,18 +206,20 @@ internal class RgbCameraConnector @Inject constructor(
             .getOrThrow()
     }
 
-    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
-        val device = cameraDevice ?: run {
-            val connectResult = connect()
-            if (connectResult !is DeviceCommandResult.Accepted) {
-                throw IllegalStateException("Unable to connect to camera device.")
+    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> =
+        resultOf {
+            val device = cameraDevice ?: run {
+                val connectResult = connect()
+                if (connectResult !is DeviceCommandResult.Accepted) {
+                    throw IllegalStateException("Unable to connect to camera device.")
+                }
+                cameraDevice ?: throw IllegalStateException("Unable to access camera device.")
             }
-            cameraDevice ?: throw IllegalStateException("Unable to access camera device.")
-        }
 
-        val id = cameraId ?: findBackCameraId() ?: throw IllegalStateException("No back-facing camera available.")
-        configureAndStartSession(device, id, anchor)
-    }
+            val id = cameraId ?: findBackCameraId()
+            ?: throw IllegalStateException("No back-facing camera available.")
+            configureAndStartSession(device, id, anchor)
+        }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
@@ -261,7 +286,8 @@ internal class RgbCameraConnector @Inject constructor(
     @SuppressLint("MissingPermission")
     private suspend fun openCamera(id: String): CameraDevice {
         ensureHandlerThread()
-        val looperHandler = handler ?: throw IllegalStateException("Camera handler not initialized.")
+        val looperHandler =
+            handler ?: throw IllegalStateException("Camera handler not initialized.")
         return suspendCancellableCoroutine { continuation ->
             try {
                 cameraManager.openCamera(
@@ -275,7 +301,11 @@ internal class RgbCameraConnector @Inject constructor(
                             Log.w(logTag, "Camera disconnected.")
                             device.close()
                             if (continuation.isActive) {
-                                continuation.resumeWithException(CameraAccessException(CameraAccessException.CAMERA_DISCONNECTED))
+                                continuation.resumeWithException(
+                                    CameraAccessException(
+                                        CameraAccessException.CAMERA_DISCONNECTED
+                                    )
+                                )
                             } else {
                                 deviceState.update {
                                     it.copy(
@@ -290,7 +320,10 @@ internal class RgbCameraConnector @Inject constructor(
                             Log.e(logTag, "Camera error $error.")
                             device.close()
                             val exception =
-                                CameraAccessException(CameraAccessException.CAMERA_ERROR, "Camera error $error")
+                                CameraAccessException(
+                                    CameraAccessException.CAMERA_ERROR,
+                                    "Camera error $error"
+                                )
                             if (continuation.isActive) {
                                 continuation.resumeWithException(exception)
                             } else {
@@ -349,12 +382,19 @@ internal class RgbCameraConnector @Inject constructor(
                     object : CameraCaptureSession.StateCallback() {
                         override fun onConfigured(session: CameraCaptureSession) {
                             captureSession = session
-                            val request = device.createCaptureRequest(CameraDevice.TEMPLATE_RECORD).apply {
-                                set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
-                                set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
-                                addTarget(recorderSurface)
-                                addTarget(reader.surface)
-                            }.build()
+                            val request =
+                                device.createCaptureRequest(CameraDevice.TEMPLATE_RECORD).apply {
+                                    set(
+                                        CaptureRequest.CONTROL_MODE,
+                                        CaptureRequest.CONTROL_MODE_AUTO
+                                    )
+                                    set(
+                                        CaptureRequest.CONTROL_AF_MODE,
+                                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO
+                                    )
+                                    addTarget(recorderSurface)
+                                    addTarget(reader.surface)
+                                }.build()
                             try {
                                 session.setRepeatingRequest(request, null, handler)
                                 continuation.resume(Unit)

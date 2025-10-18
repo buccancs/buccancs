@@ -54,23 +54,24 @@ open class ItemBase {
      */
     @ColumnInfo
     var image1: String = ""
+
     /**
      * 用户上传的图片2在本地绝对路径
      */
     @ColumnInfo
     var image2: String = ""
+
     /**
      * 用户上传的图片3在本地绝对路径
      */
     @ColumnInfo
     var image3: String = ""
+
     /**
      * 用户上传的图片4在本地绝对路径
      */
     @ColumnInfo
     var image4: String = ""
-
-
 
 
     override fun equals(other: Any?): Boolean = other is ItemBase && other.id == id
@@ -146,6 +147,7 @@ open class ItemBase {
             4 -> {
                 image4 = ""
             }
+
             3 -> {
                 if (image4.isEmpty()) {//只有3张删第3张
                     image3 = ""
@@ -154,6 +156,7 @@ open class ItemBase {
                     image4 = ""
                 }
             }
+
             2 -> {
                 if (image3.isEmpty()) {//只有2张删第2张
                     image2 = ""
@@ -167,6 +170,7 @@ open class ItemBase {
                     }
                 }
             }
+
             1 -> {
                 if (image2.isEmpty()) {//只有1张删第1张
                     image1 = ""
@@ -190,16 +194,18 @@ open class ItemBase {
 }
 
 
-
 /**
  * 检测所属的一项项目.
  */
-@Entity(foreignKeys = [ForeignKey(
-    entity = DirDetect::class,
-    parentColumns = ["id"],
-    childColumns = ["parentId"],
-    onDelete = ForeignKey.CASCADE,
-    onUpdate = ForeignKey.CASCADE,)])
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = DirDetect::class,
+        parentColumns = ["id"],
+        childColumns = ["parentId"],
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE,
+    )]
+)
 class ItemDetect() : ItemBase() {
     @Ignore
     constructor(parentId: Long, position: Int, itemName: String) : this() {
@@ -234,7 +240,11 @@ class ItemDetect() : ItemBase() {
     /**
      * 返回一个 id 为 0，parentId、position、itemName 为指定值，其余属性完全一致的新对象.
      */
-    fun copyOne(parentId: Long = this.parentId, position: Int = this.position, itemName: String = this.itemName): ItemDetect {
+    fun copyOne(
+        parentId: Long = this.parentId,
+        position: Int = this.position,
+        itemName: String = this.itemName
+    ): ItemDetect {
         val newItemDetect = ItemDetect()
         newItemDetect.id = 0
         newItemDetect.parentId = parentId
@@ -274,101 +284,120 @@ class ItemDetect() : ItemBase() {
         /**
          * 根据指定的默认目录位置，获取对应的默认项目列表.
          */
-        fun buildDefaultItemList(parentId: Long, position: Int): ArrayList<ItemDetect> = when (position) {
-            0 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir1_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir1_item3)),
-                ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir1_item4)),
-                ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir1_item5)),
-                ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir1_item6)),
-                ItemDetect(parentId, 6, Utils.getApp().getString(R.string.detect_dir1_item7)),
-            )
-            1 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir2_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir2_item3)),
-                ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir2_item4)),
-                ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir2_item5)),
-                ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir2_item6)),
-            )
-            2 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_dir3_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir3_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir3_item3)),
-            )
-            3 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir4_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir4_item3)),
-                ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir4_item4)),
-                ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir4_item5)),
-                ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir4_item6)),
-                ItemDetect(parentId, 6, Utils.getApp().getString(R.string.detect_dir4_item7)),
-            )
-            4 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir5_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir5_item3)),
-                ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir5_item4)),
-                ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir5_item5)),
-                ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir5_item6)),
-                ItemDetect(parentId, 6, Utils.getApp().getString(R.string.detect_dir5_item7)),
-                ItemDetect(parentId, 7, Utils.getApp().getString(R.string.detect_dir5_item8)),
-                ItemDetect(parentId, 8, Utils.getApp().getString(R.string.detect_dir5_item9)),
-            )
-            5 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir6_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir6_item3)),
-            )
-            6 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir7_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir7_item3)),
-                ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir7_item4)),
-                ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir7_item5)),
-                ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir7_item6)),
-                ItemDetect(parentId, 6, Utils.getApp().getString(R.string.detect_dir7_item7)),
-                ItemDetect(parentId, 7, Utils.getApp().getString(R.string.detect_dir7_item8)),
-                ItemDetect(parentId, 8, Utils.getApp().getString(R.string.detect_dir7_item9)),
-            )
-            7 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir8_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir8_item3)),
-                ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir8_item4)),
-                ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir8_item5)),
-            )
-            8 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir9_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir9_item3)),
-                ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir9_item4)),
-                ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir9_item5)),
-            )
-            9 -> arrayListOf(
-                ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
-                ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir10_item2)),
-                ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir10_item3)),
-                ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir10_item4)),
-            )
-            else -> arrayListOf(ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)))
-        }
+        fun buildDefaultItemList(parentId: Long, position: Int): ArrayList<ItemDetect> =
+            when (position) {
+                0 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir1_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir1_item3)),
+                    ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir1_item4)),
+                    ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir1_item5)),
+                    ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir1_item6)),
+                    ItemDetect(parentId, 6, Utils.getApp().getString(R.string.detect_dir1_item7)),
+                )
+
+                1 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir2_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir2_item3)),
+                    ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir2_item4)),
+                    ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir2_item5)),
+                    ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir2_item6)),
+                )
+
+                2 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_dir3_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir3_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir3_item3)),
+                )
+
+                3 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir4_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir4_item3)),
+                    ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir4_item4)),
+                    ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir4_item5)),
+                    ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir4_item6)),
+                    ItemDetect(parentId, 6, Utils.getApp().getString(R.string.detect_dir4_item7)),
+                )
+
+                4 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir5_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir5_item3)),
+                    ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir5_item4)),
+                    ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir5_item5)),
+                    ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir5_item6)),
+                    ItemDetect(parentId, 6, Utils.getApp().getString(R.string.detect_dir5_item7)),
+                    ItemDetect(parentId, 7, Utils.getApp().getString(R.string.detect_dir5_item8)),
+                    ItemDetect(parentId, 8, Utils.getApp().getString(R.string.detect_dir5_item9)),
+                )
+
+                5 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir6_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir6_item3)),
+                )
+
+                6 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir7_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir7_item3)),
+                    ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir7_item4)),
+                    ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir7_item5)),
+                    ItemDetect(parentId, 5, Utils.getApp().getString(R.string.detect_dir7_item6)),
+                    ItemDetect(parentId, 6, Utils.getApp().getString(R.string.detect_dir7_item7)),
+                    ItemDetect(parentId, 7, Utils.getApp().getString(R.string.detect_dir7_item8)),
+                    ItemDetect(parentId, 8, Utils.getApp().getString(R.string.detect_dir7_item9)),
+                )
+
+                7 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir8_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir8_item3)),
+                    ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir8_item4)),
+                    ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir8_item5)),
+                )
+
+                8 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir9_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir9_item3)),
+                    ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir9_item4)),
+                    ItemDetect(parentId, 4, Utils.getApp().getString(R.string.detect_dir9_item5)),
+                )
+
+                9 -> arrayListOf(
+                    ItemDetect(parentId, 0, Utils.getApp().getString(R.string.detect_item1)),
+                    ItemDetect(parentId, 1, Utils.getApp().getString(R.string.detect_dir10_item2)),
+                    ItemDetect(parentId, 2, Utils.getApp().getString(R.string.detect_dir10_item3)),
+                    ItemDetect(parentId, 3, Utils.getApp().getString(R.string.detect_dir10_item4)),
+                )
+
+                else -> arrayListOf(
+                    ItemDetect(
+                        parentId,
+                        0,
+                        Utils.getApp().getString(R.string.detect_item1)
+                    )
+                )
+            }
     }
 }
-
 
 
 /**
  * 报告所属的一项项目.
  */
-@Entity(foreignKeys = [ForeignKey(
-    entity = DirReport::class,
-    parentColumns = ["id"],
-    childColumns = ["parentId"],
-    onDelete = ForeignKey.CASCADE,
-    onUpdate = ForeignKey.CASCADE,)])
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = DirReport::class,
+        parentColumns = ["id"],
+        childColumns = ["parentId"],
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE,
+    )]
+)
 class ItemReport : ItemBase() {
     /**
      * 所对应的报告目录 Id

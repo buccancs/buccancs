@@ -2,6 +2,9 @@ package com.buccancs.desktop.data.recording
 
 import com.buccancs.control.SensorSample
 import com.buccancs.control.SensorSampleBatch
+import com.buccancs.desktop.data.metrics.SampleRateTracker
+import com.buccancs.desktop.data.metrics.SensorValueValidator
+import com.buccancs.desktop.data.metrics.ValueRange
 import com.buccancs.desktop.data.repository.SessionRepository
 import com.buccancs.desktop.data.session.MetadataMetrics
 import kotlinx.coroutines.sync.Mutex
@@ -13,14 +16,17 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.security.MessageDigest
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.max
+import kotlin.math.min
 
 class SensorRecordingManager(
     private val sessionRepository: SessionRepository
 ) {
     private val logger = LoggerFactory.getLogger(SensorRecordingManager::class.java)
     private val writers = ConcurrentHashMap<StreamKey, StreamWriter>()
+    private val sensorStats = ConcurrentHashMap<StreamKey, SensorStreamStats>()
     private val writerMutex = Mutex()
     suspend fun append(batch: SensorSampleBatch): Long {
         if (batch.samplesCount == 0) {
@@ -36,6 +42,8 @@ class SensorRecordingManager(
         }
         val key = StreamKey(sessionId, deviceId, streamId)
         val writer = getOrCreateWriter(key, batch)
+        val stats = getOrCreateStats(key, writer)
+        stats?.recordSamples(batch.samplesList)
         val result = writer.append(batch.samplesList)
         if (result.samples > 0) {
             sessionRepository.updateStreamingFile(
@@ -49,7 +57,22 @@ class SensorRecordingManager(
             )
             val metricsUpdate = when {
                 streamId.equals(STREAM_GSR, ignoreCase = true) ->
-                    { metrics: MetadataMetrics -> metrics.copy(gsrSamples = metrics.gsrSamples + result.samples) }
+                    { metrics: MetadataMetrics ->
+                        val rate = stats?.lastRateSnapshot
+                        val validation = stats?.lastValidationSnapshot
+                        metrics.copy(
+                            gsrSamples = metrics.gsrSamples + result.samples,
+                            gsrSampleDrops = max(metrics.gsrSampleDrops, rate?.dropCount ?: 0),
+                            gsrMaxGapMs = max(metrics.gsrMaxGapMs, rate?.maxGapMs ?: 0),
+                            gsrAverageHz = rate?.averageHz ?: metrics.gsrAverageHz,
+                            gsrOutOfRangeSamples = max(
+                                metrics.gsrOutOfRangeSamples,
+                                validation?.outOfRangeCount ?: 0
+                            ),
+                            gsrMinValue = combineMin(metrics.gsrMinValue, validation?.minObserved),
+                            gsrMaxValue = combineMax(metrics.gsrMaxValue, validation?.maxObserved)
+                        )
+                    }
 
                 streamId.equals(STREAM_AUDIO, ignoreCase = true) ||
                         streamId.contains("audio", ignoreCase = true) ->
@@ -153,8 +176,31 @@ class SensorRecordingManager(
         }
     }
 
+    private suspend fun getOrCreateStats(
+        key: StreamKey,
+        writer: StreamWriter
+    ): SensorStreamStats? {
+        sensorStats[key]?.let { return it }
+        return writerMutex.withLock {
+            sensorStats[key]?.let { return it }
+            val ranges = defaultValueRangesFor(key.streamId, writer.channels)
+            if (ranges.isEmpty() && !key.streamId.equals(STREAM_GSR, ignoreCase = true)) {
+                null
+            } else {
+                val tracker = SampleRateTracker(writer.sampleRateHz)
+                val validator = SensorValueValidator(ranges)
+                val stats = SensorStreamStats(tracker, validator)
+                sensorStats[key] = stats
+                stats
+            }
+        }
+    }
+
     private suspend fun removeWriter(key: StreamKey): StreamWriter? =
-        writerMutex.withLock { writers.remove(key) }
+        writerMutex.withLock {
+            sensorStats.remove(key)
+            writers.remove(key)
+        }
 
     private fun extractChannels(batch: SensorSampleBatch): List<String> {
         val observed = linkedSetOf<String>()
@@ -190,6 +236,27 @@ class SensorRecordingManager(
         val streamId: String
     )
 
+    private class SensorStreamStats(
+        private val rateTracker: SampleRateTracker,
+        private val validator: SensorValueValidator
+    ) {
+        @Volatile
+        var lastRateSnapshot: SampleRateTracker.SampleRateSnapshot? = null
+            private set
+
+        @Volatile
+        var lastValidationSnapshot: SensorValueValidator.ValidationSnapshot? = null
+            private set
+
+        fun recordSamples(samples: List<SensorSample>) {
+            samples.forEach { sample ->
+                lastRateSnapshot = rateTracker.record(sample.timestampEpochMs)
+                val values = sample.valuesList.associate { it.key to it.value }
+                lastValidationSnapshot = validator.record(values)
+            }
+        }
+    }
+
     private class StreamWriter(
         val sessionId: String,
         val deviceId: String,
@@ -197,7 +264,7 @@ class SensorRecordingManager(
         val filePath: Path,
         val relativePath: String,
         val sampleRateHz: Double,
-        private val channels: List<String>
+        val channels: List<String>
     ) {
         private val charset = StandardCharsets.UTF_8
         private val mutex = Mutex()
@@ -270,6 +337,34 @@ class SensorRecordingManager(
         val samples: Long,
         val bytes: Long
     )
+
+    private fun defaultValueRangesFor(
+        streamId: String,
+        channels: List<String>
+    ): Map<String, ValueRange> {
+        return when {
+            streamId.equals(STREAM_GSR, ignoreCase = true) ->
+                channels.associateWith { ValueRange(min = 0.0, max = 100.0) }
+
+            else -> emptyMap()
+        }
+    }
+
+    private fun combineMin(current: Double?, candidate: Double?): Double? =
+        when {
+            current == null && candidate == null -> null
+            current == null -> candidate
+            candidate == null -> current
+            else -> min(current, candidate)
+        }
+
+    private fun combineMax(current: Double?, candidate: Double?): Double? =
+        when {
+            current == null && candidate == null -> null
+            current == null -> candidate
+            candidate == null -> current
+            else -> max(current, candidate)
+        }
 
     private companion object {
         private const val MIME_TYPE_CSV = "text/csv"

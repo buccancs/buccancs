@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.nio.charset.StandardCharsets
@@ -98,7 +97,12 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
         val encoded = json.encodeToString(config)
 
         when (val result =
-            AtomicFileWriter.writeAtomicSafe(inventoryFile, encoded, StandardCharsets.UTF_8, checkSpace = true)) {
+            AtomicFileWriter.writeAtomicSafe(
+                inventoryFile,
+                encoded,
+                StandardCharsets.UTF_8,
+                checkSpace = true
+            )) {
             is WriteResult.Success -> {
                 Log.d(TAG, "Config persisted successfully")
             }

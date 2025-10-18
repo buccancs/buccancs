@@ -3,7 +3,6 @@ package com.buccancs.data.sensor.connector.topdon
 import android.net.Uri
 import android.util.Log
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.core.result.Error
 import com.buccancs.core.result.Result
 import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
@@ -12,35 +11,42 @@ import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.TopdonPalette
+import com.buccancs.domain.model.TopdonPreviewFrame
+import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.hardware.topdon.GainMode
 import com.buccancs.hardware.topdon.Palette
 import com.buccancs.hardware.topdon.TopdonHardwareSettings
 import com.buccancs.hardware.topdon.TopdonNotice
 import com.buccancs.hardware.topdon.TopdonStatus
 import com.buccancs.hardware.topdon.TopdonStreamEvent
-import com.buccancs.hardware.topdon.TopdonThermalClient as HardwareClient
-import com.buccancs.hardware.topdon.TopdonPreviewFrame as HardwarePreviewFrame
 import com.buccancs.hardware.topdon.TopdonTemperatureMetrics
 import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
-import java.util.Locale
+import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.concurrent.withLock
 import kotlin.math.absoluteValue
 import kotlin.time.Instant
-import kotlin.collections.buildMap
+import com.buccancs.hardware.topdon.TopdonPreviewFrame as HardwarePreviewFrame
+import com.buccancs.hardware.topdon.TopdonThermalClient as HardwareClient
 
 private fun defaultTopdonDevice(): SensorDevice = SensorDevice(
     id = DeviceId("topdon-tc001"),
@@ -183,16 +189,17 @@ internal class TopdonThermalConnector @Inject constructor(
             .getOrThrow()
     }
 
-    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
-        streamingAnchor = anchor
-        prepareThermalRecording(anchor.sessionId)
-        val request = com.buccancs.hardware.topdon.TopdonStreamRequest(
-            sessionId = anchor.sessionId,
-            destinationPath = thermalFile?.absolutePath ?: "",
-            superSampling = currentSettings.superSampling.multiplier
-        )
-        hardwareClient.startStreaming(request)
-    }
+    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> =
+        resultOf {
+            streamingAnchor = anchor
+            prepareThermalRecording(anchor.sessionId)
+            val request = com.buccancs.hardware.topdon.TopdonStreamRequest(
+                sessionId = anchor.sessionId,
+                destinationPath = thermalFile?.absolutePath ?: "",
+                superSampling = currentSettings.superSampling.multiplier
+            )
+            hardwareClient.startStreaming(request)
+        }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
@@ -364,10 +371,16 @@ internal class TopdonThermalConnector @Inject constructor(
 
             is TopdonStatus.Error -> {
                 previewRunningState.value = false
-                Log.e(logTag, "Topdon hardware error: ${status.message} (recoverable=${status.recoverable})")
+                Log.e(
+                    logTag,
+                    "Topdon hardware error: ${status.message} (recoverable=${status.recoverable})"
+                )
                 statusState.value = emptyList()
                 deviceState.update { device ->
-                    device.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false)
+                    device.copy(
+                        connectionStatus = ConnectionStatus.Disconnected,
+                        isSimulated = false
+                    )
                 }
             }
         }
@@ -396,7 +409,7 @@ internal class TopdonThermalConnector @Inject constructor(
         lastMetrics = event.metrics
         thermalFrameCount = event.frameCount
         if (payload != null) {
-        writerLock.withLock {
+            writerLock.withLock {
                 try {
                     thermalStream?.write(payload)
                     thermalDigest?.update(payload)

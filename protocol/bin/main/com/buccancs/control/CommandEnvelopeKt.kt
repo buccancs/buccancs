@@ -23,7 +23,8 @@ public object CommandEnvelopeKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.CommandEnvelope.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.CommandEnvelope.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -130,5 +131,6 @@ public object CommandEnvelopeKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.CommandEnvelope.copy(block: `com.buccancs.control`.CommandEnvelopeKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandEnvelope =
-    `com.buccancs.control`.CommandEnvelopeKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.CommandEnvelopeKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

@@ -29,7 +29,8 @@ internal object SensorConnectorModule {
     @Provides
     @IntoSet
     @Singleton
-    fun provideShimmerMultiConnector(manager: ShimmerConnectorManager): MultiDeviceConnector = manager
+    fun provideShimmerMultiConnector(manager: ShimmerConnectorManager): MultiDeviceConnector =
+        manager
 
     @Provides
     @IntoSet

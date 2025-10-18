@@ -73,7 +73,8 @@ class MainActivity : ComponentActivity() {
                             connectionState.value = "Connected"
                             deviceAddress.value = macAddress
                             if (mFirstTimeConnection) {
-                                val shimmer = btManager?.getShimmerDeviceBtConnectedFromMac(macAddress) as? Shimmer
+                                val shimmer =
+                                    btManager?.getShimmerDeviceBtConnectedFromMac(macAddress) as? Shimmer
                                 (shimmer as? ShimmerBluetooth)?.writeEnabledSensors(ShimmerBluetooth.SENSOR_ACCEL)
                             }
                             mFirstTimeConnection = false
@@ -105,14 +106,16 @@ class MainActivity : ComponentActivity() {
                         val allFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer2.ObjectClusterSensorName.TIMESTAMP
                         )
-                        val timeStampCluster = ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
+                        val timeStampCluster =
+                            ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
                         val timeStampData = timeStampCluster?.mData
                         Log.i(LOG_TAG, "Time Stamp: $timeStampData")
 
                         val accelFormats = objectCluster.getCollectionOfFormatClusters(
                             Configuration.Shimmer2.ObjectClusterSensorName.ACCEL_X
                         )
-                        val accelXCluster = ObjectCluster.returnFormatCluster(accelFormats, "CAL") as? FormatCluster
+                        val accelXCluster =
+                            ObjectCluster.returnFormatCluster(accelFormats, "CAL") as? FormatCluster
                         accelXCluster?.let {
                             val accelXData = it.mData
                             Log.i(LOG_TAG, "Accel LN X: $accelXData")

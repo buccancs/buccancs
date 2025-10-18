@@ -23,7 +23,8 @@ public object SessionIdentifierKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SessionIdentifier.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.SessionIdentifier.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -50,5 +51,6 @@ public object SessionIdentifierKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.SessionIdentifier.copy(block: `com.buccancs.control`.SessionIdentifierKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SessionIdentifier =
-    `com.buccancs.control`.SessionIdentifierKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.SessionIdentifierKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

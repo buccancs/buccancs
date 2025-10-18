@@ -50,7 +50,8 @@ class MainActivity : ComponentActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
             if (BluetoothDevice.ACTION_FOUND == action) {
-                val device: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+                val device: BluetoothDevice? =
+                    intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                         return
@@ -82,13 +83,15 @@ class MainActivity : ComponentActivity() {
 
                         val allFormats =
                             objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP)
-                        val timeStampCluster = ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
+                        val timeStampCluster =
+                            ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
                         val timeStampData = timeStampCluster?.mData
                         Log.i(LOG_TAG, "Time Stamp: $timeStampData")
 
                         val accelFormats =
                             objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X)
-                        val accelXCluster = ObjectCluster.returnFormatCluster(accelFormats, "CAL") as? FormatCluster
+                        val accelXCluster =
+                            ObjectCluster.returnFormatCluster(accelFormats, "CAL") as? FormatCluster
                         accelXCluster?.let {
                             val accelXData = it.mData
                             Log.i(LOG_TAG, "Accel LN X: $accelXData")
@@ -97,7 +100,11 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Shimmer.MESSAGE_TOAST -> {
-                    Toast.makeText(applicationContext, msg.data.getString(Shimmer.TOAST), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext,
+                        msg.data.getString(Shimmer.TOAST),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE -> {
@@ -116,7 +123,10 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    Log.d(LOG_TAG, "Shimmer state changed! Shimmer = $macAddress, new state = $state")
+                    Log.d(
+                        LOG_TAG,
+                        "Shimmer state changed! Shimmer = $macAddress, new state = $state"
+                    )
 
                     when (state) {
                         ShimmerBluetooth.BT_STATE.CONNECTED -> {
@@ -152,7 +162,8 @@ class MainActivity : ComponentActivity() {
                             connectionState.value = "SD Logging"
                             if (shimmerDevice == null) {
                                 shimmerBtAdd?.let {
-                                    shimmerDevice = btManager?.getShimmerDeviceBtConnectedFromMac(it)
+                                    shimmerDevice =
+                                        btManager?.getShimmerDeviceBtConnectedFromMac(it)
                                     Log.i(LOG_TAG, "Got the ShimmerDevice!")
                                 }
                             }
@@ -322,7 +333,8 @@ class MainActivity : ComponentActivity() {
         val allPermissionsGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
 
         if (!allPermissionsGranted) {
-            Toast.makeText(this, "Please allow all requested permissions", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please allow all requested permissions", Toast.LENGTH_SHORT)
+                .show()
         } else {
             BleManager.getInstance().init(application)
             try {

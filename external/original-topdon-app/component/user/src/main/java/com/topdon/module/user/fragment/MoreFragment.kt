@@ -141,7 +141,8 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             binding.settingItemModel -> {
-                ARouter.getInstance().build(RouterConfig.IR_SETTING).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
+                ARouter.getInstance().build(RouterConfig.IR_SETTING)
+                    .withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .navigation(requireContext())
             }
 
@@ -154,7 +155,8 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
             }
 
             binding.settingItemCorrection -> {
-                ARouter.getInstance().build(RouterConfig.IR_CORRECTION).withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
+                ARouter.getInstance().build(RouterConfig.IR_CORRECTION)
+                    .withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
                     .navigation(requireContext())
             }
 
@@ -233,7 +235,10 @@ class MoreFragment : BaseFragment(), View.OnClickListener {
         lifecycleScope.launch {
             val progressDialog = DownloadProDialog(requireContext())
             progressDialog.show()
-            val file = File(requireContext().getExternalFilesDir("firmware"), "TC007${firmwareData.version}.zip")
+            val file = File(
+                requireContext().getExternalFilesDir("firmware"),
+                "TC007${firmwareData.version}.zip"
+            )
             val isSuccess = DownloadTool.download(firmwareData.downUrl, file) { current, total ->
                 progressDialog.refreshProgress(current, total)
             }

@@ -102,23 +102,31 @@ internal class SegmentedMediaCodecRecorder(
     }
 
     private fun createFormat(): MediaFormat =
-        MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, size.width, size.height).apply {
-            setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
-            setInteger(MediaFormat.KEY_BIT_RATE, bitRate)
-            setInteger(MediaFormat.KEY_FRAME_RATE, frameRate)
-            setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, I_FRAME_INTERVAL_SECONDS)
-            setInteger(
-                MediaFormat.KEY_BITRATE_MODE,
-                MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR
-            )
-        }
+        MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, size.width, size.height)
+            .apply {
+                setInteger(
+                    MediaFormat.KEY_COLOR_FORMAT,
+                    MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface
+                )
+                setInteger(MediaFormat.KEY_BIT_RATE, bitRate)
+                setInteger(MediaFormat.KEY_FRAME_RATE, frameRate)
+                setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, I_FRAME_INTERVAL_SECONDS)
+                setInteger(
+                    MediaFormat.KEY_BITRATE_MODE,
+                    MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR
+                )
+            }
 
     private val callback = object : MediaCodec.Callback() {
         override fun onInputBufferAvailable(codec: MediaCodec, index: Int) {
             // Not used with Surface input.
         }
 
-        override fun onOutputBufferAvailable(codec: MediaCodec, index: Int, info: MediaCodec.BufferInfo) {
+        override fun onOutputBufferAvailable(
+            codec: MediaCodec,
+            index: Int,
+            info: MediaCodec.BufferInfo
+        ) {
             val buffer = codec.getOutputBuffer(index)
             if (buffer == null) {
                 codec.releaseOutputBuffer(index, false)
@@ -193,7 +201,8 @@ internal class SegmentedMediaCodecRecorder(
         if (currentMuxer != null) {
             return
         }
-        val format = currentFormat ?: throw IllegalStateException("Output format unavailable before first buffer.")
+        val format = currentFormat
+            ?: throw IllegalStateException("Output format unavailable before first buffer.")
         startNewSegment(format)
         currentSegmentStartUs = info.presentationTimeUs
         currentCollector?.markStart(anchorEpochMs + info.presentationTimeUs / 1_000)
@@ -208,7 +217,10 @@ internal class SegmentedMediaCodecRecorder(
             currentHandle?.let { handle -> writer.abort(handle) }
             val handle = writer.open(segmentIndex, System.currentTimeMillis())
             currentHandle = handle
-            val muxer = MediaMuxer(handle.descriptor.fileDescriptor, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
+            val muxer = MediaMuxer(
+                handle.descriptor.fileDescriptor,
+                MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4
+            )
             currentTrackIndex = muxer.addTrack(format)
             muxer.start()
             currentMuxer = muxer
@@ -252,7 +264,11 @@ internal class SegmentedMediaCodecRecorder(
                 val artifact = writer.finalize(handle, stats)
                 artifacts += artifact
             }.onFailure { error ->
-                Log.w(logTag, "Failed to finalize segment ${handle.fileName}: ${error.message}", error)
+                Log.w(
+                    logTag,
+                    "Failed to finalize segment ${handle.fileName}: ${error.message}",
+                    error
+                )
                 writer.abort(handle)
             }
             segmentIndex += 1

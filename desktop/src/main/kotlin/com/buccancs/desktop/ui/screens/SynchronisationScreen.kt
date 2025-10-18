@@ -2,20 +2,30 @@ package com.buccancs.desktop.ui.screens
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.unit.dp
-import com.buccancs.desktop.ui.components.*
+import com.buccancs.desktop.ui.components.BuccancsCard
+import com.buccancs.desktop.ui.components.ScreenHeader
+import com.buccancs.desktop.ui.components.StatusCard
+import com.buccancs.desktop.ui.components.StatusType
 import com.buccancs.desktop.ui.theme.BuccancsTheme
 import com.buccancs.desktop.ui.theme.Spacing
 
@@ -34,7 +44,7 @@ fun SynchronisationScreen() {
             title = "Synchronisation",
             subtitle = "Time synchronisation status and clock offsets across all devices"
         )
-        
+
         // Overall Sync Status
         StatusCard(
             title = "Synchronisation Health",
@@ -49,7 +59,7 @@ fun SynchronisationScreen() {
                 SyncMetric("Last Sync", "3s ago", "Active")
             }
         }
-        
+
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
         ) {
@@ -68,7 +78,7 @@ fun SynchronisationScreen() {
                     }
                 }
             }
-            
+
             // Sync History
             item {
                 BuccancsCard(
@@ -88,7 +98,7 @@ fun SynchronisationScreen() {
                     }
                 }
             }
-            
+
             // Sync Configuration
             item {
                 BuccancsCard(
@@ -139,7 +149,7 @@ private fun DeviceOffsetRow(deviceId: String, offsetMs: Float, color: Color) {
                 color = color
             )
         }
-        
+
         // Visual offset indicator
         Canvas(
             modifier = Modifier
@@ -150,7 +160,7 @@ private fun DeviceOffsetRow(deviceId: String, offsetMs: Float, color: Color) {
             val maxOffset = 10f
             val normalizedOffset = (offsetMs / maxOffset).coerceIn(-1f, 1f)
             val offsetX = size.width / 2 + (normalizedOffset * size.width / 2 * 0.8f)
-            
+
             // Center line
             drawLine(
                 color = Color.Gray,
@@ -159,7 +169,7 @@ private fun DeviceOffsetRow(deviceId: String, offsetMs: Float, color: Color) {
                 strokeWidth = 2f,
                 pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
             )
-            
+
             // Offset marker
             drawCircle(
                 color = color,
@@ -188,9 +198,9 @@ private fun SyncEventRow(event: SyncEvent) {
             Text(
                 event.status,
                 style = MaterialTheme.typography.labelSmall,
-                color = if (event.status == "Success") 
-                    MaterialTheme.colorScheme.primary 
-                else 
+                color = if (event.status == "Success")
+                    MaterialTheme.colorScheme.primary
+                else
                     MaterialTheme.colorScheme.error
             )
             Text(

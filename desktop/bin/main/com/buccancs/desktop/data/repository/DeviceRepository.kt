@@ -16,7 +16,9 @@ class DeviceRepository {
     private val logger = LoggerFactory.getLogger(DeviceRepository::class.java)
     private val devices = ConcurrentHashMap<String, DeviceInfo>()
     private val state = MutableStateFlow<List<DeviceInfo>>(emptyList())
-    private val events = MutableSharedFlow<DeviceConnectionEvent>(replay = 0, extraBufferCapacity = 64)
+    private val events =
+        MutableSharedFlow<DeviceConnectionEvent>(replay = 0, extraBufferCapacity = 64)
+
     fun observe(): StateFlow<List<DeviceInfo>> = state.asStateFlow()
     fun events(): SharedFlow<DeviceConnectionEvent> = events.asSharedFlow()
     fun snapshot(): List<DeviceInfo> = devices.values.map { it }
@@ -91,7 +93,11 @@ class DeviceRepository {
             if (updated.connected) {
                 emitConnected(updated, heartbeat)
             } else {
-                emitDisconnected(updated, DeviceConnectionEvent.DisconnectReason.EXPLICIT_STATUS, heartbeat)
+                emitDisconnected(
+                    updated,
+                    DeviceConnectionEvent.DisconnectReason.EXPLICIT_STATUS,
+                    heartbeat
+                )
             }
         }
     }

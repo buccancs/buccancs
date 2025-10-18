@@ -533,7 +533,11 @@ abstract class BaseIRPlushFragment : BaseFragment(), OnUSBConnectListener, ITsTe
         )
     }
 
-    override fun onConnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?, createNew: Boolean) {
+    override fun onConnect(
+        device: UsbDevice?,
+        ctrlBlock: USBMonitor.UsbControlBlock?,
+        createNew: Boolean
+    ) {
         Log.d(
             TAG,
             "USBMonitorManager onConnect测试"

@@ -47,20 +47,20 @@ object ImageUtils {
      */
     fun saveImageToApp(bitmap: Bitmap): String {
         val saveFile = File(Utils.getApp().cacheDir, "PinP_${System.currentTimeMillis()}.jpg")
-        ImageUtils.save(bitmap,saveFile, Bitmap.CompressFormat.JPEG)
+        ImageUtils.save(bitmap, saveFile, Bitmap.CompressFormat.JPEG)
         return saveFile.absolutePath
     }
 
     //保存lite模组的原始文件
-    fun saveLiteFrame(bs: ByteArray, capital: ByteArray,nuct : ByteArray, name: String) {
+    fun saveLiteFrame(bs: ByteArray, capital: ByteArray, nuct: ByteArray, name: String) {
         try {
             val dir = lineIrGalleryDir
             val galleryPath = File(dir)
             val fileName = "${name}.ir"
             val file = File(galleryPath, fileName)
             file.writeBytes(capital.plus(bs))
-            Log.w("保存帧数据:",file.absolutePath)
-        }catch (e: Exception) {
+            Log.w("保存帧数据:", file.absolutePath)
+        } catch (e: Exception) {
             XLog.e("一帧图像保存异常: ${e.message}")
         }
     }
@@ -73,8 +73,8 @@ object ImageUtils {
             val fileName = "${name}.ir"
             val file = File(galleryPath, fileName)
             file.writeBytes(capital.plus(bs))
-            Log.w("保存帧数据:",file.absolutePath)
-        }catch (e: Exception) {
+            Log.w("保存帧数据:", file.absolutePath)
+        } catch (e: Exception) {
             XLog.e("一帧图像保存异常: ${e.message}")
         }
     }
@@ -89,7 +89,7 @@ object ImageUtils {
             val fileName = "${name}.ir"
             val file = File(galleryPath, fileName)
             file.writeBytes(bs)
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             XLog.e("一帧图像保存异常: ${e.message}")
         }
     }

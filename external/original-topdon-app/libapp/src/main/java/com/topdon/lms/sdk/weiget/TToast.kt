@@ -12,19 +12,19 @@ object TToast {
             Toast.makeText(it, message ?: "", Toast.LENGTH_SHORT).show()
         }
     }
-    
+
     fun showLong(context: Context?, message: String?) {
         context?.let {
             Toast.makeText(it, message ?: "", Toast.LENGTH_LONG).show()
         }
     }
-    
+
     fun shortToast(context: Context?, messageResId: Int) {
         context?.let {
             Toast.makeText(it, it.getString(messageResId), Toast.LENGTH_SHORT).show()
         }
     }
-    
+
     fun longToast(context: Context?, messageResId: Int) {
         context?.let {
             Toast.makeText(it, it.getString(messageResId), Toast.LENGTH_LONG).show()

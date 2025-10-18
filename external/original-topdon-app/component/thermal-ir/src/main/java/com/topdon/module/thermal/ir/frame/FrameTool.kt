@@ -99,7 +99,12 @@ class FrameTool {
         val imgRes = LibIRProcess.ImageRes_t()
         imgRes.height = 192.toChar()
         imgRes.width = 256.toChar()
-        LibIRProcess.rotateRight90(tempBytes, imgRes, CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14, dstTempBytes)
+        LibIRProcess.rotateRight90(
+            tempBytes,
+            imgRes,
+            CommonParams.IRPROCSRCFMTType.IRPROC_SRC_FMT_Y14,
+            dstTempBytes
+        )
         return dstTempBytes
     }
 
@@ -182,7 +187,12 @@ class FrameTool {
                 }
             }
         } else {
-            LibIRProcess.convertYuyvMapToARGBPseudocolor(imageBytesTemp, pixNum.toLong(), pseudoColorMode, argbBytes)
+            LibIRProcess.convertYuyvMapToARGBPseudocolor(
+                imageBytesTemp,
+                pixNum.toLong(),
+                pseudoColorMode,
+                argbBytes
+            )
             if (!(maxLimit == -273f && minLimit == -273f) && !(maxTemperature == maxLimit && minLimit == minTemperature)) {
                 ImageTools.dualReadFrame(argbBytes, temperatureBytes, maxLimit, minLimit)
             }
@@ -256,7 +266,11 @@ class FrameTool {
         return dstImageRes
     }
 
-    private fun argbBytesRotate(argbBytes: ByteArray, dstArgbBytes: ByteArray, rotate: ImageParams) {
+    private fun argbBytesRotate(
+        argbBytes: ByteArray,
+        dstArgbBytes: ByteArray,
+        rotate: ImageParams
+    ) {
         when (rotate) {
             ImageParams.ROTATE_270 -> LibIRProcess.rotateLeft90(
                 argbBytes,

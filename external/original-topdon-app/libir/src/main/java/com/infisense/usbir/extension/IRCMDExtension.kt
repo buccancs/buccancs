@@ -24,7 +24,10 @@ fun IRCMD.setMirror(isMirror: Boolean) {
 }
 
 fun IRCMD.setContrast(value: Int) {
-    setPropImageParams(PropImageParams.IMAGE_PROP_LEVEL_CONTRAST, PropImageParamsValue.NumberType(value.toString()))
+    setPropImageParams(
+        PropImageParams.IMAGE_PROP_LEVEL_CONTRAST,
+        PropImageParamsValue.NumberType(value.toString())
+    )
 }
 
 fun IRCMD.setPropDdeLevel(level: Int) {

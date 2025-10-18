@@ -52,11 +52,12 @@ internal class EncoderStatsCollector(
     }
 
     fun buildStats(): EncoderStats {
-        val timelineDurationMs = if (lastPresentationUs >= firstPresentationUs && firstPresentationUs >= 0) {
-            (lastPresentationUs - firstPresentationUs) / 1_000
-        } else {
-            0L
-        }
+        val timelineDurationMs =
+            if (lastPresentationUs >= firstPresentationUs && firstPresentationUs >= 0) {
+                (lastPresentationUs - firstPresentationUs) / 1_000
+            } else {
+                0L
+            }
         val wallClockDurationMs = (endedAtEpochMs - startedAtEpochMs).coerceAtLeast(0)
         val durationMillis = max(timelineDurationMs, wallClockDurationMs)
         val averageBitrateBps = if (durationMillis > 0) {

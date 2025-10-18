@@ -23,7 +23,8 @@ public object CommandReceiptKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.CommandReceipt.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.CommandReceipt.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic

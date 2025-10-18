@@ -1,7 +1,12 @@
 package com.buccancs.desktop.data.grpc
 
 import com.buccancs.desktop.data.aggregation.SessionAggregationService
-import com.buccancs.desktop.data.grpc.services.*
+import com.buccancs.desktop.data.grpc.services.CommandServiceImpl
+import com.buccancs.desktop.data.grpc.services.DataTransferServiceImpl
+import com.buccancs.desktop.data.grpc.services.OrchestrationServiceImpl
+import com.buccancs.desktop.data.grpc.services.PreviewServiceImpl
+import com.buccancs.desktop.data.grpc.services.SensorStreamServiceImpl
+import com.buccancs.desktop.data.grpc.services.TimeSyncServiceImpl
 import com.buccancs.desktop.data.recording.SensorRecordingManager
 import com.buccancs.desktop.data.repository.CommandRepository
 import com.buccancs.desktop.data.repository.DeviceRepository
@@ -55,7 +60,10 @@ class GrpcServer(
             } catch (e: Exception) {
                 started.set(false)
                 logger.error("Failed to start gRPC server on port $port", e)
-                throw IllegalStateException("Cannot start gRPC server on port $port. Port may already be in use.", e)
+                throw IllegalStateException(
+                    "Cannot start gRPC server on port $port. Port may already be in use.",
+                    e
+                )
             }
         }
     }

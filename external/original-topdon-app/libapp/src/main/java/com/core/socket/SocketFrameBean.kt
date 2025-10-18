@@ -229,9 +229,9 @@ data class SocketFrameBean(
         l1MinY = (byteArray[80].toInt() and 0xff) or (byteArray[81].toInt() and 0xff shl 8),
         l1MinValue = ((byteArray[82].toInt() and 0xff) or (byteArray[83].toInt() and 0xff shl 8)) - 2732,
         l1AveValue = ((byteArray[88].toInt() and 0xff) or (byteArray[89].toInt() and 0xff shl 8)) - 2732,
-        isL1MaxWarn= byteArray[90].toInt() and 0xff == 1,
-        isL1MinWarn= byteArray[91].toInt() and 0xff == 1,
-        isL1CenterWarn= byteArray[92].toInt() and 0xff == 1,
+        isL1MaxWarn = byteArray[90].toInt() and 0xff == 1,
+        isL1MinWarn = byteArray[91].toInt() and 0xff == 1,
+        isL1CenterWarn = byteArray[92].toInt() and 0xff == 1,
         isL2Show = byteArray[94].toInt() and 0xff == 1,
         l2StartX = (byteArray[96].toInt() and 0xff) or (byteArray[97].toInt() and 0xff shl 8),
         l2StartY = (byteArray[98].toInt() and 0xff) or (byteArray[99].toInt() and 0xff shl 8),
@@ -244,9 +244,9 @@ data class SocketFrameBean(
         l2MinY = (byteArray[112].toInt() and 0xff) or (byteArray[113].toInt() and 0xff shl 8),
         l2MinValue = ((byteArray[114].toInt() and 0xff) or (byteArray[115].toInt() and 0xff shl 8)) - 2732,
         l2AveValue = ((byteArray[120].toInt() and 0xff) or (byteArray[121].toInt() and 0xff shl 8)) - 2732,
-        isL2MaxWarn= byteArray[122].toInt() and 0xff == 1,
-        isL2MinWarn= byteArray[123].toInt() and 0xff == 1,
-        isL2CenterWarn= byteArray[124].toInt() and 0xff == 1,
+        isL2MaxWarn = byteArray[122].toInt() and 0xff == 1,
+        isL2MinWarn = byteArray[123].toInt() and 0xff == 1,
+        isL2CenterWarn = byteArray[124].toInt() and 0xff == 1,
         isL3Show = byteArray[126].toInt() and 0xff == 1,
         l3StartX = (byteArray[128].toInt() and 0xff) or (byteArray[129].toInt() and 0xff shl 8),
         l3StartY = (byteArray[130].toInt() and 0xff) or (byteArray[131].toInt() and 0xff shl 8),
@@ -259,9 +259,9 @@ data class SocketFrameBean(
         l3MinY = (byteArray[144].toInt() and 0xff) or (byteArray[145].toInt() and 0xff shl 8),
         l3MinValue = ((byteArray[146].toInt() and 0xff) or (byteArray[147].toInt() and 0xff shl 8)) - 2732,
         l3AveValue = ((byteArray[152].toInt() and 0xff) or (byteArray[153].toInt() and 0xff shl 8)) - 2732,
-        isL3MaxWarn= byteArray[154].toInt() and 0xff == 1,
-        isL3MinWarn= byteArray[155].toInt() and 0xff == 1,
-        isL3CenterWarn= byteArray[156].toInt() and 0xff == 1,
+        isL3MaxWarn = byteArray[154].toInt() and 0xff == 1,
+        isL3MinWarn = byteArray[155].toInt() and 0xff == 1,
+        isL3CenterWarn = byteArray[156].toInt() and 0xff == 1,
 
         isR1Show = byteArray[158].toInt() and 0xff == 1,
         r1StartX = (byteArray[160].toInt() and 0xff) or (byteArray[161].toInt() and 0xff shl 8),
@@ -275,9 +275,9 @@ data class SocketFrameBean(
         r1MinY = (byteArray[176].toInt() and 0xff) or (byteArray[177].toInt() and 0xff shl 8),
         r1MinValue = ((byteArray[178].toInt() and 0xff) or (byteArray[179].toInt() and 0xff shl 8)) - 2732,
         r1AveValue = ((byteArray[184].toInt() and 0xff) or (byteArray[185].toInt() and 0xff shl 8)) - 2732,
-        isR1MaxWarn= byteArray[186].toInt() and 0xff == 1,
-        isR1MinWarn= byteArray[187].toInt() and 0xff == 1,
-        isR1CenterWarn= byteArray[188].toInt() and 0xff == 1,
+        isR1MaxWarn = byteArray[186].toInt() and 0xff == 1,
+        isR1MinWarn = byteArray[187].toInt() and 0xff == 1,
+        isR1CenterWarn = byteArray[188].toInt() and 0xff == 1,
         isR2Show = byteArray[190].toInt() and 0xff == 1,
         r2StartX = (byteArray[192].toInt() and 0xff) or (byteArray[193].toInt() and 0xff shl 8),
         r2StartY = (byteArray[194].toInt() and 0xff) or (byteArray[195].toInt() and 0xff shl 8),
@@ -290,9 +290,9 @@ data class SocketFrameBean(
         r2MinY = (byteArray[208].toInt() and 0xff) or (byteArray[209].toInt() and 0xff shl 8),
         r2MinValue = ((byteArray[210].toInt() and 0xff) or (byteArray[211].toInt() and 0xff shl 8)) - 2732,
         r2AveValue = ((byteArray[216].toInt() and 0xff) or (byteArray[217].toInt() and 0xff shl 8)) - 2732,
-        isR2MaxWarn= byteArray[218].toInt() and 0xff == 1,
-        isR2MinWarn= byteArray[219].toInt() and 0xff == 1,
-        isR2CenterWarn= byteArray[220].toInt() and 0xff == 1,
+        isR2MaxWarn = byteArray[218].toInt() and 0xff == 1,
+        isR2MinWarn = byteArray[219].toInt() and 0xff == 1,
+        isR2CenterWarn = byteArray[220].toInt() and 0xff == 1,
         isR3Show = byteArray[222].toInt() and 0xff == 1,
         r3StartX = (byteArray[224].toInt() and 0xff) or (byteArray[225].toInt() and 0xff shl 8),
         r3StartY = (byteArray[226].toInt() and 0xff) or (byteArray[227].toInt() and 0xff shl 8),
@@ -305,15 +305,16 @@ data class SocketFrameBean(
         r3MinY = (byteArray[240].toInt() and 0xff) or (byteArray[241].toInt() and 0xff shl 8),
         r3MinValue = ((byteArray[242].toInt() and 0xff) or (byteArray[243].toInt() and 0xff shl 8)) - 2732,
         r3AveValue = ((byteArray[248].toInt() and 0xff) or (byteArray[249].toInt() and 0xff shl 8)) - 2732,
-        isR3MaxWarn= byteArray[250].toInt() and 0xff == 1,
-        isR3MinWarn= byteArray[251].toInt() and 0xff == 1,
-        isR3CenterWarn= byteArray[252].toInt() and 0xff == 1,
+        isR3MaxWarn = byteArray[250].toInt() and 0xff == 1,
+        isR3MinWarn = byteArray[251].toInt() and 0xff == 1,
+        isR3CenterWarn = byteArray[252].toInt() and 0xff == 1,
     )
 
     companion object {
         private fun Boolean.openText(): String = if (this) "开启" else "关闭"
 
-        private fun Int.toCStr(): String = "${this / 10}${if (this % 10 == 0) "" else ".${this % 10}"}°C"
+        private fun Int.toCStr(): String =
+            "${this / 10}${if (this % 10 == 0) "" else ".${this % 10}"}°C"
     }
 
     override fun toString(): String {

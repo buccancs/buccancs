@@ -8,7 +8,8 @@ package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializepreviewFrame")
 public inline fun previewFrame(block: com.buccancs.control.PreviewFrameKt.Dsl.() -> kotlin.Unit): com.buccancs.control.PreviewFrame =
-    com.buccancs.control.PreviewFrameKt.Dsl._create(com.buccancs.control.PreviewFrame.newBuilder()).apply { block() }
+    com.buccancs.control.PreviewFrameKt.Dsl._create(com.buccancs.control.PreviewFrame.newBuilder())
+        .apply { block() }
         ._build()
 
 /**
@@ -23,7 +24,8 @@ public object PreviewFrameKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.PreviewFrame.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.PreviewFrame.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic

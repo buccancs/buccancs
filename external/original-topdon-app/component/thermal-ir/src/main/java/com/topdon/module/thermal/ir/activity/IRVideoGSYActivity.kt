@@ -97,8 +97,14 @@ class IRVideoGSYActivity : BaseActivity() {
         lifecycleScope.launch {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             showCameraLoading()
-            val isSuccess = TS004Repository.download(data.path, File(FileConfig.ts004GalleryDir, data.name))
-            MediaScannerConnection.scanFile(this@IRVideoGSYActivity, arrayOf(FileConfig.ts004GalleryDir), null, null)
+            val isSuccess =
+                TS004Repository.download(data.path, File(FileConfig.ts004GalleryDir, data.name))
+            MediaScannerConnection.scanFile(
+                this@IRVideoGSYActivity,
+                arrayOf(FileConfig.ts004GalleryDir),
+                null,
+                null
+            )
             dismissCameraLoading()
             if (isSuccess) {
                 ToastTools.showShort(R.string.tip_save_success)

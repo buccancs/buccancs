@@ -22,13 +22,14 @@ object UnitTools {
         }
         return str
     }
+
     /**
      * 温度显示
      *
      * @param float 温度
      */
     @JvmStatic
-    fun showC(float: Float,isC: Boolean): String {
+    fun showC(float: Float, isC: Boolean): String {
         val str = if (isC) {
             //温度
             "${String.format(Locale.ENGLISH, "%.1f", float)}°C"
@@ -107,14 +108,15 @@ object UnitTools {
         }
         return str.toFloat()
     }
+
     /**
      * 温度显示单位
      *
      * @param float 温度
      */
     @JvmStatic
-    fun showUnitValue(value: Float,showC: Boolean): Float {
-        if (value == Float.MAX_VALUE || value == Float.MIN_VALUE){
+    fun showUnitValue(value: Float, showC: Boolean): Float {
+        if (value == Float.MAX_VALUE || value == Float.MIN_VALUE) {
             return value
         }
         val str = if (showC) {
@@ -133,7 +135,7 @@ object UnitTools {
      * @param float 温度
      */
     @JvmStatic
-    fun showToCValue(value: Float,isShowC: Boolean): Float {
+    fun showToCValue(value: Float, isShowC: Boolean): Float {
         val str = if (isShowC) {
             //温度
             value
@@ -143,6 +145,7 @@ object UnitTools {
         }
         return str.toFloat()
     }
+
     /**
      * 统一转成摄氏度
      *

@@ -201,116 +201,123 @@ private class OrchestrationServiceImpl(
         return ack
     }
 
-    override suspend fun startSession(request: com.buccancs.control.StartSessionRequest): CommandAck = try {
-        val session = sessionRepository.startSession(
-            sessionId = request.session.id,
-            operatorId = request.operatorId.takeIf { it.isNotBlank() },
-            subjectIds = request.subjectIdsList.filter { it.isNotBlank() }
-        )
-        deviceRepository.assignSession(session.id)
-        val anchorEpochMs = session.startedAt?.toEpochMilli() ?: System.currentTimeMillis()
-        val scheduledEpochMs = request.scheduledEpochMs.takeIf { it > 0 }
-        commandRepository.enqueueStartRecording(
-            sessionId = session.id,
-            anchorEpochMs = anchorEpochMs,
-            scheduledEpochMs = scheduledEpochMs
-        )
-        commandAck {
-            accepted = true
-            info = "Session ${session.id} started"
+    override suspend fun startSession(request: com.buccancs.control.StartSessionRequest): CommandAck =
+        try {
+            val session = sessionRepository.startSession(
+                sessionId = request.session.id,
+                operatorId = request.operatorId.takeIf { it.isNotBlank() },
+                subjectIds = request.subjectIdsList.filter { it.isNotBlank() }
+            )
+            deviceRepository.assignSession(session.id)
+            val anchorEpochMs = session.startedAt?.toEpochMilli() ?: System.currentTimeMillis()
+            val scheduledEpochMs = request.scheduledEpochMs.takeIf { it > 0 }
+            commandRepository.enqueueStartRecording(
+                sessionId = session.id,
+                anchorEpochMs = anchorEpochMs,
+                scheduledEpochMs = scheduledEpochMs
+            )
+            commandAck {
+                accepted = true
+                info = "Session ${session.id} started"
+            }
+        } catch (ex: Exception) {
+            logger.error("Failed to start session {}", request.session.id, ex)
+            commandAck {
+                accepted = false
+                info = ex.message.orEmpty()
+            }
         }
-    } catch (ex: Exception) {
-        logger.error("Failed to start session {}", request.session.id, ex)
-        commandAck {
-            accepted = false
-            info = ex.message.orEmpty()
-        }
-    }
 
-    override suspend fun stopSession(request: com.buccancs.control.StopSessionRequest): CommandAck = try {
-        val sessionId = resolveSessionId(request.session.id)
-        sessionRepository.stopSession()
-        sensorRecordingManager.closeSession(sessionId)
-        deviceRepository.assignSession(null)
-        val stopEpochMs = request.scheduledEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
-        commandRepository.enqueueStopRecording(
-            sessionId = sessionId,
-            stopEpochMs = stopEpochMs
-        )
-        commandAck {
-            accepted = true
-            info = "Session $sessionId stopped"
+    override suspend fun stopSession(request: com.buccancs.control.StopSessionRequest): CommandAck =
+        try {
+            val sessionId = resolveSessionId(request.session.id)
+            sessionRepository.stopSession()
+            sensorRecordingManager.closeSession(sessionId)
+            deviceRepository.assignSession(null)
+            val stopEpochMs =
+                request.scheduledEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
+            commandRepository.enqueueStopRecording(
+                sessionId = sessionId,
+                stopEpochMs = stopEpochMs
+            )
+            commandAck {
+                accepted = true
+                info = "Session $sessionId stopped"
+            }
+        } catch (ex: Exception) {
+            logger.error("Failed to stop session {}", request.session.id, ex)
+            commandAck {
+                accepted = false
+                info = ex.message.orEmpty()
+            }
         }
-    } catch (ex: Exception) {
-        logger.error("Failed to stop session {}", request.session.id, ex)
-        commandAck {
-            accepted = false
-            info = ex.message.orEmpty()
-        }
-    }
 
-    override suspend fun sendSyncSignal(request: com.buccancs.control.SyncSignalRequest): CommandAck = try {
-        val sessionId = resolveSessionId(request.session.id)
-        val executeAt = request.scheduledEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
-        val signalType = request.signalType.ifBlank { "flash" }
-        val targets = resolveTargets(request.targets)
-        val eventDevices = if (targets.isEmpty()) deviceRepository.connectedDeviceIds().toList() else targets.toList()
-        sessionRepository.registerEvent(
-            eventId = "sync-$signalType-$executeAt",
-            label = "sync:$signalType",
-            timestampMs = executeAt,
-            deviceIds = eventDevices
-        )
-        commandRepository.enqueueSyncSignal(
-            sessionId = sessionId,
-            signalType = signalType,
-            executeEpochMs = executeAt,
-            targets = targets,
-            initiator = "orchestrator"
-        )
-        commandAck {
-            accepted = true
-            info = "Sync signal queued"
+    override suspend fun sendSyncSignal(request: com.buccancs.control.SyncSignalRequest): CommandAck =
+        try {
+            val sessionId = resolveSessionId(request.session.id)
+            val executeAt = request.scheduledEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
+            val signalType = request.signalType.ifBlank { "flash" }
+            val targets = resolveTargets(request.targets)
+            val eventDevices = if (targets.isEmpty()) deviceRepository.connectedDeviceIds()
+                .toList() else targets.toList()
+            sessionRepository.registerEvent(
+                eventId = "sync-$signalType-$executeAt",
+                label = "sync:$signalType",
+                timestampMs = executeAt,
+                deviceIds = eventDevices
+            )
+            commandRepository.enqueueSyncSignal(
+                sessionId = sessionId,
+                signalType = signalType,
+                executeEpochMs = executeAt,
+                targets = targets,
+                initiator = "orchestrator"
+            )
+            commandAck {
+                accepted = true
+                info = "Sync signal queued"
+            }
+        } catch (ex: Exception) {
+            logger.error("Failed to register sync signal", ex)
+            commandAck {
+                accepted = false
+                info = ex.message.orEmpty()
+            }
         }
-    } catch (ex: Exception) {
-        logger.error("Failed to register sync signal", ex)
-        commandAck {
-            accepted = false
-            info = ex.message.orEmpty()
-        }
-    }
 
-    override suspend fun sendEventMarker(request: com.buccancs.control.EventMarkerRequest): CommandAck = try {
-        val sessionId = resolveSessionId(request.session.id)
-        val timestamp = request.timestampEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
-        val markerId = request.markerId.ifBlank { "event-$timestamp" }
-        val description = request.description.ifBlank { "event-marker" }
-        val targets = resolveTargets(request.targets)
-        val eventDevices = if (targets.isEmpty()) deviceRepository.connectedDeviceIds().toList() else targets.toList()
-        sessionRepository.registerEvent(
-            eventId = markerId,
-            label = description,
-            timestampMs = timestamp,
-            deviceIds = eventDevices
-        )
-        commandRepository.enqueueEventMarker(
-            sessionId = sessionId,
-            markerId = markerId,
-            description = description,
-            timestampEpochMs = timestamp,
-            targets = targets
-        )
-        commandAck {
-            accepted = true
-            info = "Event marker accepted"
+    override suspend fun sendEventMarker(request: com.buccancs.control.EventMarkerRequest): CommandAck =
+        try {
+            val sessionId = resolveSessionId(request.session.id)
+            val timestamp = request.timestampEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
+            val markerId = request.markerId.ifBlank { "event-$timestamp" }
+            val description = request.description.ifBlank { "event-marker" }
+            val targets = resolveTargets(request.targets)
+            val eventDevices = if (targets.isEmpty()) deviceRepository.connectedDeviceIds()
+                .toList() else targets.toList()
+            sessionRepository.registerEvent(
+                eventId = markerId,
+                label = description,
+                timestampMs = timestamp,
+                deviceIds = eventDevices
+            )
+            commandRepository.enqueueEventMarker(
+                sessionId = sessionId,
+                markerId = markerId,
+                description = description,
+                timestampEpochMs = timestamp,
+                targets = targets
+            )
+            commandAck {
+                accepted = true
+                info = "Event marker accepted"
+            }
+        } catch (ex: Exception) {
+            logger.error("Failed to register event marker {}", request.markerId, ex)
+            commandAck {
+                accepted = false
+                info = ex.message.orEmpty()
+            }
         }
-    } catch (ex: Exception) {
-        logger.error("Failed to register event marker {}", request.markerId, ex)
-        commandAck {
-            accepted = false
-            info = ex.message.orEmpty()
-        }
-    }
 
     override suspend fun reportStatus(request: DeviceStatus): CommandAck {
         val heartbeat = if (request.lastHeartbeatEpochMs > 0) {
@@ -337,14 +344,15 @@ private class OrchestrationServiceImpl(
         }
     }
 
-    override fun subscribeStatus(request: StatusSubscribeRequest): Flow<DeviceStatus> = channelFlow {
-        val job = launch {
-            deviceRepository.observe().collectLatest { devices ->
-                devices.map(::toProto).forEach { trySend(it) }
+    override fun subscribeStatus(request: StatusSubscribeRequest): Flow<DeviceStatus> =
+        channelFlow {
+            val job = launch {
+                deviceRepository.observe().collectLatest { devices ->
+                    devices.map(::toProto).forEach { trySend(it) }
+                }
             }
+            awaitClose { job.cancel() }
         }
-        awaitClose { job.cancel() }
-    }
 
     private fun toProto(info: DeviceInfo): DeviceStatus = deviceStatus {
         deviceId = info.id
@@ -419,7 +427,8 @@ private class TimeSyncServiceImpl(
                 )
             )
             if (previous != null) {
-                val elapsedMs = (heartbeat.toEpochMilli() - previous.timestamp.toEpochMilli()).coerceAtLeast(1L)
+                val elapsedMs =
+                    (heartbeat.toEpochMilli() - previous.timestamp.toEpochMilli()).coerceAtLeast(1L)
                 val driftPerSecond = ((offset - previous.offsetMs) / elapsedMs) * 1000.0
                 if (abs(driftPerSecond) > DRIFT_ALERT_THRESHOLD_MS_PER_SEC) {
                     logger.warn(
@@ -483,7 +492,11 @@ private class PreviewServiceImpl(
                 height = frame.height.toInt(),
                 latencyMs = latency
             )
-            deviceRepository.updatePreviewLatency(frame.deviceId, latency, Instant.ofEpochMilli(now))
+            deviceRepository.updatePreviewLatency(
+                frame.deviceId,
+                latency,
+                Instant.ofEpochMilli(now)
+            )
             if (frame.encodedFrame.size() > 0) {
                 updateMetrics(frame)
             }
@@ -625,118 +638,96 @@ private class DataTransferServiceImpl(
 ) : DataTransferServiceGrpcKt.DataTransferServiceCoroutineImplBase() {
     private val logger = LoggerFactory.getLogger(DataTransferServiceImpl::class.java)
     private val attempts = ConcurrentHashMap<String, Int>()
-    override fun upload(requests: Flow<DataTransferRequest>): Flow<DataTransferStatus> = channelFlow {
-        val accumulators = mutableMapOf<String, TransferAccumulator>()
-        val job = launch {
-            requests.collect { request ->
-                val streamType = request.streamType.takeIf { it.isNotBlank() }
-                val key = transferKey(request.session.id, request.deviceId, request.fileName, streamType)
-                val accumulator = accumulators.getOrPut(key) {
-                    val attempt = attempts.merge(key, 1) { previous, increment -> previous + increment } ?: 1
-                    try {
-                        sessionRepository.markTransferStarted(
+    override fun upload(requests: Flow<DataTransferRequest>): Flow<DataTransferStatus> =
+        channelFlow {
+            val accumulators = mutableMapOf<String, TransferAccumulator>()
+            val job = launch {
+                requests.collect { request ->
+                    val streamType = request.streamType.takeIf { it.isNotBlank() }
+                    val key = transferKey(
+                        request.session.id,
+                        request.deviceId,
+                        request.fileName,
+                        streamType
+                    )
+                    val accumulator = accumulators.getOrPut(key) {
+                        val attempt =
+                            attempts.merge(key, 1) { previous, increment -> previous + increment }
+                                ?: 1
+                        try {
+                            sessionRepository.markTransferStarted(
+                                sessionId = request.session.id,
+                                deviceId = request.deviceId,
+                                fileName = request.fileName,
+                                streamType = streamType,
+                                expectedBytes = request.sizeBytes,
+                                attempt = attempt
+                            )
+                        } catch (ex: Exception) {
+                            logger.warn(
+                                "Unable to note transfer start for {} from {}",
+                                request.fileName,
+                                request.deviceId,
+                                ex
+                            )
+                        }
+                        TransferAccumulator(
                             sessionId = request.session.id,
                             deviceId = request.deviceId,
                             fileName = request.fileName,
-                            streamType = streamType,
                             expectedBytes = request.sizeBytes,
+                            checksum = request.sha256.toByteArray(),
+                            mimeType = request.mimeType.ifBlank { "application/octet-stream" },
+                            streamType = streamType,
                             attempt = attempt
                         )
-                    } catch (ex: Exception) {
-                        logger.warn(
-                            "Unable to note transfer start for {} from {}",
-                            request.fileName,
-                            request.deviceId,
-                            ex
-                        )
                     }
-                    TransferAccumulator(
-                        sessionId = request.session.id,
-                        deviceId = request.deviceId,
-                        fileName = request.fileName,
-                        expectedBytes = request.sizeBytes,
-                        checksum = request.sha256.toByteArray(),
-                        mimeType = request.mimeType.ifBlank { "application/octet-stream" },
-                        streamType = streamType,
-                        attempt = attempt
-                    )
-                }
-                if (!request.chunk.isEmpty()) {
-                    val chunkBytes = request.chunk.toByteArray()
-                    accumulator.stream.write(chunkBytes)
-                    accumulator.bytes += chunkBytes.size
-                    try {
-                        sessionRepository.markTransferProgress(
-                            sessionId = accumulator.sessionId,
-                            deviceId = accumulator.deviceId,
-                            fileName = accumulator.fileName,
-                            streamType = accumulator.streamType,
-                            receivedBytes = accumulator.bytes.toLong()
-                        )
-                    } catch (ex: Exception) {
-                        logger.warn(
-                            "Unable to update transfer progress for {} from {}",
-                            accumulator.fileName,
-                            accumulator.deviceId,
-                            ex
-                        )
-                    }
-                }
-                if (request.endOfStream) {
-                    val payload = accumulator.stream.toByteArray()
-                    val actualBytes = accumulator.bytes.takeIf { it > 0 }?.toLong() ?: payload.size.toLong()
-                    try {
-                        sessionRepository.markTransferProgress(
-                            sessionId = accumulator.sessionId,
-                            deviceId = accumulator.deviceId,
-                            fileName = accumulator.fileName,
-                            streamType = accumulator.streamType,
-                            receivedBytes = actualBytes
-                        )
-                    } catch (ex: Exception) {
-                        logger.warn(
-                            "Unable to mark final transfer size for {} from {}",
-                            accumulator.fileName,
-                            accumulator.deviceId,
-                            ex
-                        )
-                    }
-                    if (accumulator.expectedBytes > 0 && actualBytes != accumulator.expectedBytes) {
-                        val message =
-                            "Size mismatch: expected ${accumulator.expectedBytes} bytes, received $actualBytes bytes"
-                        logger.warn(
-                            "Discarding file {} from {} due to size mismatch",
-                            accumulator.fileName,
-                            accumulator.deviceId
-                        )
-                        accumulators.remove(key)
+                    if (!request.chunk.isEmpty()) {
+                        val chunkBytes = request.chunk.toByteArray()
+                        accumulator.stream.write(chunkBytes)
+                        accumulator.bytes += chunkBytes.size
                         try {
-                            sessionRepository.markTransferFailed(
+                            sessionRepository.markTransferProgress(
                                 sessionId = accumulator.sessionId,
                                 deviceId = accumulator.deviceId,
                                 fileName = accumulator.fileName,
                                 streamType = accumulator.streamType,
-                                attempt = accumulator.attempt,
-                                receivedBytes = actualBytes,
-                                error = message
+                                receivedBytes = accumulator.bytes.toLong()
                             )
                         } catch (ex: Exception) {
                             logger.warn(
-                                "Unable to record failed transfer for {} from {}",
+                                "Unable to update transfer progress for {} from {}",
                                 accumulator.fileName,
                                 accumulator.deviceId,
                                 ex
                             )
                         }
-                        trySend(buildTransferStatus(accumulator, success = false, errorMessage = message))
-                        return@collect
                     }
-                    if (accumulator.checksum.isNotEmpty()) {
-                        val calculated = MessageDigest.getInstance("SHA-256").digest(payload)
-                        if (!calculated.contentEquals(accumulator.checksum)) {
-                            val message = "Checksum mismatch"
+                    if (request.endOfStream) {
+                        val payload = accumulator.stream.toByteArray()
+                        val actualBytes =
+                            accumulator.bytes.takeIf { it > 0 }?.toLong() ?: payload.size.toLong()
+                        try {
+                            sessionRepository.markTransferProgress(
+                                sessionId = accumulator.sessionId,
+                                deviceId = accumulator.deviceId,
+                                fileName = accumulator.fileName,
+                                streamType = accumulator.streamType,
+                                receivedBytes = actualBytes
+                            )
+                        } catch (ex: Exception) {
                             logger.warn(
-                                "Checksum mismatch for file {} from device {}",
+                                "Unable to mark final transfer size for {} from {}",
+                                accumulator.fileName,
+                                accumulator.deviceId,
+                                ex
+                            )
+                        }
+                        if (accumulator.expectedBytes > 0 && actualBytes != accumulator.expectedBytes) {
+                            val message =
+                                "Size mismatch: expected ${accumulator.expectedBytes} bytes, received $actualBytes bytes"
+                            logger.warn(
+                                "Discarding file {} from {} due to size mismatch",
                                 accumulator.fileName,
                                 accumulator.deviceId
                             )
@@ -753,94 +744,137 @@ private class DataTransferServiceImpl(
                                 )
                             } catch (ex: Exception) {
                                 logger.warn(
-                                    "Unable to record checksum failure for {} from {}",
+                                    "Unable to record failed transfer for {} from {}",
                                     accumulator.fileName,
                                     accumulator.deviceId,
                                     ex
                                 )
                             }
-                            trySend(buildTransferStatus(accumulator, success = false, errorMessage = message))
+                            trySend(
+                                buildTransferStatus(
+                                    accumulator,
+                                    success = false,
+                                    errorMessage = message
+                                )
+                            )
                             return@collect
                         }
-                    }
-                    try {
-                        sessionRepository.attachFile(
-                            sessionId = accumulator.sessionId,
-                            deviceId = accumulator.deviceId,
-                            fileName = accumulator.fileName,
-                            content = payload,
-                            mimeType = accumulator.mimeType,
-                            checksum = accumulator.checksum,
-                            streamType = accumulator.streamType
-                        )
+                        if (accumulator.checksum.isNotEmpty()) {
+                            val calculated = MessageDigest.getInstance("SHA-256").digest(payload)
+                            if (!calculated.contentEquals(accumulator.checksum)) {
+                                val message = "Checksum mismatch"
+                                logger.warn(
+                                    "Checksum mismatch for file {} from device {}",
+                                    accumulator.fileName,
+                                    accumulator.deviceId
+                                )
+                                accumulators.remove(key)
+                                try {
+                                    sessionRepository.markTransferFailed(
+                                        sessionId = accumulator.sessionId,
+                                        deviceId = accumulator.deviceId,
+                                        fileName = accumulator.fileName,
+                                        streamType = accumulator.streamType,
+                                        attempt = accumulator.attempt,
+                                        receivedBytes = actualBytes,
+                                        error = message
+                                    )
+                                } catch (ex: Exception) {
+                                    logger.warn(
+                                        "Unable to record checksum failure for {} from {}",
+                                        accumulator.fileName,
+                                        accumulator.deviceId,
+                                        ex
+                                    )
+                                }
+                                trySend(
+                                    buildTransferStatus(
+                                        accumulator,
+                                        success = false,
+                                        errorMessage = message
+                                    )
+                                )
+                                return@collect
+                            }
+                        }
                         try {
-                            sessionRepository.markTransferCompleted(
+                            sessionRepository.attachFile(
                                 sessionId = accumulator.sessionId,
                                 deviceId = accumulator.deviceId,
                                 fileName = accumulator.fileName,
-                                streamType = accumulator.streamType,
-                                expectedBytes = accumulator.expectedBytes,
-                                receivedBytes = actualBytes
+                                content = payload,
+                                mimeType = accumulator.mimeType,
+                                checksum = accumulator.checksum,
+                                streamType = accumulator.streamType
                             )
-                        } catch (ex: Exception) {
-                            logger.warn(
-                                "Unable to mark transfer completion for {} from {}",
+                            try {
+                                sessionRepository.markTransferCompleted(
+                                    sessionId = accumulator.sessionId,
+                                    deviceId = accumulator.deviceId,
+                                    fileName = accumulator.fileName,
+                                    streamType = accumulator.streamType,
+                                    expectedBytes = accumulator.expectedBytes,
+                                    receivedBytes = actualBytes
+                                )
+                            } catch (ex: Exception) {
+                                logger.warn(
+                                    "Unable to mark transfer completion for {} from {}",
+                                    accumulator.fileName,
+                                    accumulator.deviceId,
+                                    ex
+                                )
+                            }
+                            attempts.remove(key)
+                            accumulators.remove(key)
+                            logger.info(
+                                "Received file {} from device {} ({} bytes)",
                                 accumulator.fileName,
                                 accumulator.deviceId,
+                                actualBytes
+                            )
+                            trySend(buildTransferStatus(accumulator, success = true))
+                        } catch (ex: Exception) {
+                            logger.error(
+                                "Failed to persist file {} for session {}",
+                                accumulator.fileName,
+                                accumulator.sessionId,
                                 ex
                             )
-                        }
-                        attempts.remove(key)
-                        accumulators.remove(key)
-                        logger.info(
-                            "Received file {} from device {} ({} bytes)",
-                            accumulator.fileName,
-                            accumulator.deviceId,
-                            actualBytes
-                        )
-                        trySend(buildTransferStatus(accumulator, success = true))
-                    } catch (ex: Exception) {
-                        logger.error(
-                            "Failed to persist file {} for session {}",
-                            accumulator.fileName,
-                            accumulator.sessionId,
-                            ex
-                        )
-                        accumulators.remove(key)
-                        try {
-                            sessionRepository.markTransferFailed(
-                                sessionId = accumulator.sessionId,
-                                deviceId = accumulator.deviceId,
-                                fileName = accumulator.fileName,
-                                streamType = accumulator.streamType,
-                                attempt = accumulator.attempt,
-                                receivedBytes = actualBytes,
-                                error = ex.message.orEmpty()
-                            )
-                        } catch (markEx: Exception) {
-                            logger.warn(
-                                "Unable to record transfer failure for {} from {}",
-                                accumulator.fileName,
-                                accumulator.deviceId,
-                                markEx
+                            accumulators.remove(key)
+                            try {
+                                sessionRepository.markTransferFailed(
+                                    sessionId = accumulator.sessionId,
+                                    deviceId = accumulator.deviceId,
+                                    fileName = accumulator.fileName,
+                                    streamType = accumulator.streamType,
+                                    attempt = accumulator.attempt,
+                                    receivedBytes = actualBytes,
+                                    error = ex.message.orEmpty()
+                                )
+                            } catch (markEx: Exception) {
+                                logger.warn(
+                                    "Unable to record transfer failure for {} from {}",
+                                    accumulator.fileName,
+                                    accumulator.deviceId,
+                                    markEx
+                                )
+                            }
+                            trySend(
+                                buildTransferStatus(
+                                    accumulator = accumulator,
+                                    success = false,
+                                    errorMessage = ex.message.orEmpty()
+                                )
                             )
                         }
-                        trySend(
-                            buildTransferStatus(
-                                accumulator = accumulator,
-                                success = false,
-                                errorMessage = ex.message.orEmpty()
-                            )
-                        )
                     }
                 }
             }
+            awaitClose {
+                job.cancel()
+                accumulators.clear()
+            }
         }
-        awaitClose {
-            job.cancel()
-            accumulators.clear()
-        }
-    }
 
     private fun transferKey(
         sessionId: String,

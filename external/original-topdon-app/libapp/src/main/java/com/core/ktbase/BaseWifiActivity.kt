@@ -16,7 +16,7 @@ abstract class BaseWifiActivity : BaseActivity() {
 
 
     protected val permissionList by lazy {
-        if (this.applicationInfo.targetSdkVersion >= 34){
+        if (this.applicationInfo.targetSdkVersion >= 34) {
             listOf(
                 Permission.WRITE_EXTERNAL_STORAGE,
             )

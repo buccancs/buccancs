@@ -11,9 +11,13 @@ import com.buccancs.data.transfer.WorkPolicy
 import com.buccancs.domain.model.OrchestratorConfig
 import com.buccancs.domain.repository.OrchestratorConfigRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -141,7 +145,9 @@ class SettingsViewModel @Inject constructor(
             )
             runCatching { orchestratorConfigRepository.update(config) }
                 .onSuccess { message.value = "Orchestrator settings saved." }
-                .onFailure { message.value = it.message ?: "Unable to update orchestrator settings." }
+                .onFailure {
+                    message.value = it.message ?: "Unable to update orchestrator settings."
+                }
             applying.value = false
         }
     }

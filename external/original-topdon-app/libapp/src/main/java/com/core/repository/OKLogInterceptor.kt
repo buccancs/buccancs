@@ -37,7 +37,8 @@ class OKLogInterceptor(val isTC007: Boolean) : Interceptor {
         }
 
         if (BuildConfig.DEBUG) {
-            XLog.tag("RetrofitLog").i("<-- ${response.code}${if (response.message.isEmpty()) "" else ' ' + response.message} ${response.request.url}")
+            XLog.tag("RetrofitLog")
+                .i("<-- ${response.code}${if (response.message.isEmpty()) "" else ' ' + response.message} ${response.request.url}")
             val responseBody = response.body
             val contentType = response.headers["Content-Type"]
             if (responseBody != null && (isTC007 || contentType == null || contentType == "application/json")) {
@@ -45,7 +46,8 @@ class OKLogInterceptor(val isTC007: Boolean) : Interceptor {
                 source.request(Long.MAX_VALUE)
                 val responseStr = source.buffer.clone().readString(StandardCharsets.UTF_8)
                 if (responseStr.length > 1024) {
-                    XLog.tag("RetrofitLog").v("响应：${responseStr.substring(0, 1024)} ...太长了后面省略")
+                    XLog.tag("RetrofitLog")
+                        .v("响应：${responseStr.substring(0, 1024)} ...太长了后面省略")
                 } else {
                     XLog.tag("RetrofitLog").v("响应：$responseStr")
                 }

@@ -112,12 +112,20 @@ object IRCmdTool {
 
     fun setTpdDis(irCmd: IRCMD?, value: Int) {
         val data = CommonParams.PropTPDParamsValue.NumberType(value.toString())
-        setTpdParams(irCmd = irCmd, params = CommonParams.PropTPDParams.TPD_PROP_DISTANCE, value = data)
+        setTpdParams(
+            irCmd = irCmd,
+            params = CommonParams.PropTPDParams.TPD_PROP_DISTANCE,
+            value = data
+        )
     }
 
     fun setLevelContrast(irCmd: IRCMD?, value: Int) {
         val data = CommonParams.PropImageParamsValue.NumberType(value.toString())
-        setImageParams(irCmd = irCmd, params = CommonParams.PropImageParams.IMAGE_PROP_LEVEL_CONTRAST, value = data)
+        setImageParams(
+            irCmd = irCmd,
+            params = CommonParams.PropImageParams.IMAGE_PROP_LEVEL_CONTRAST,
+            value = data
+        )
     }
 
     fun setLevelDdd(irCmd: IRCMD?, value: Int) {
@@ -129,7 +137,11 @@ object IRCmdTool {
             4 -> CommonParams.PropImageParamsValue.DDEType.DDE_4
             else -> CommonParams.PropImageParamsValue.DDEType.DDE_0
         }
-        setImageParams(irCmd = irCmd, params = CommonParams.PropImageParams.IMAGE_PROP_LEVEL_DDE, value = data)
+        setImageParams(
+            irCmd = irCmd,
+            params = CommonParams.PropImageParams.IMAGE_PROP_LEVEL_DDE,
+            value = data
+        )
     }
 
     fun setLevelAgc(irCmd: IRCMD?, value: Boolean) {
@@ -138,11 +150,16 @@ object IRCmdTool {
         } else {
             CommonParams.PropImageParamsValue.StatusSwith.OFF
         }
-        setImageParams(irCmd = irCmd, params = CommonParams.PropImageParams.IMAGE_PROP_ONOFF_AGC, value = data)
+        setImageParams(
+            irCmd = irCmd,
+            params = CommonParams.PropImageParams.IMAGE_PROP_ONOFF_AGC,
+            value = data
+        )
     }
 
     fun getTpdGainSel(irCmd: IRCMD?): Int {
-        val result = queryTpdParam(irCmd = irCmd, params = CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL)
+        val result =
+            queryTpdParam(irCmd = irCmd, params = CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL)
         return if (result == CommonParams.PropTPDParamsValue.GAINSELStatus.GAIN_SEL_HIGH.value) {
             1
         } else {
@@ -156,7 +173,11 @@ object IRCmdTool {
         } else {
             CommonParams.PropTPDParamsValue.GAINSELStatus.GAIN_SEL_LOW
         }
-        return setTpdParams(irCmd = irCmd, params = CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL, value = data)
+        return setTpdParams(
+            irCmd = irCmd,
+            params = CommonParams.PropTPDParams.TPD_PROP_GAIN_SEL,
+            value = data
+        )
     }
 
     fun queryTpdParam(irCmd: IRCMD?, params: CommonParams.PropTPDParams): Int {
@@ -232,7 +253,10 @@ object IRCmdTool {
     fun autoShutter(irCmd: IRCMD?, flag: Boolean) {
         val data =
             if (flag) CommonParams.PropAutoShutterParameterValue.StatusSwith.ON else CommonParams.PropAutoShutterParameterValue.StatusSwith.OFF
-        irCmd?.setPropAutoShutterParameter(CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH, data)
+        irCmd?.setPropAutoShutterParameter(
+            CommonParams.PropAutoShutterParameter.SHUTTER_PROP_SWITCH,
+            data
+        )
     }
 
     fun setIsoColorOpen(dualUVCCamera: DualUVCCamera?, highC: Float, lowC: Float) {
@@ -258,10 +282,16 @@ object IRCmdTool {
     }
 
     fun setZoomUp(irCmd: IRCMD?) {
-        irCmd?.zoomCenterUp(CommonParams.PreviewPathChannel.PREVIEW_PATH0, CommonParams.ZoomScaleStep.ZOOM_STEP2)
+        irCmd?.zoomCenterUp(
+            CommonParams.PreviewPathChannel.PREVIEW_PATH0,
+            CommonParams.ZoomScaleStep.ZOOM_STEP2
+        )
     }
 
     fun setZoomDown(irCmd: IRCMD?) {
-        irCmd?.zoomCenterDown(CommonParams.PreviewPathChannel.PREVIEW_PATH0, CommonParams.ZoomScaleStep.ZOOM_STEP2)
+        irCmd?.zoomCenterDown(
+            CommonParams.PreviewPathChannel.PREVIEW_PATH0,
+            CommonParams.ZoomScaleStep.ZOOM_STEP2
+        )
     }
 }

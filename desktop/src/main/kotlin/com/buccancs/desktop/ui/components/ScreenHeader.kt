@@ -27,7 +27,7 @@ fun ScreenHeader(
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.primary
         )
-        
+
         subtitle?.let {
             Text(
                 text = it,

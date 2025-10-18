@@ -23,7 +23,8 @@ public object SensorSampleValueKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SensorSampleValue.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.SensorSampleValue.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -66,5 +67,6 @@ public object SensorSampleValueKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.SensorSampleValue.copy(block: `com.buccancs.control`.SensorSampleValueKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSampleValue =
-    `com.buccancs.control`.SensorSampleValueKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.SensorSampleValueKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

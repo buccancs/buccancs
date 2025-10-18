@@ -49,7 +49,8 @@ class ReportDetailActivity : BaseActivity() {
                 val reportShowView = ReportIRShowView(this)
                 reportShowView.refreshData(i == 0, i == irList.size - 1, irList[i])
                 lifecycleScope.launch {
-                    val drawable = GlideLoader.getDrawable(this@ReportDetailActivity, irList[i].picture_url)
+                    val drawable =
+                        GlideLoader.getDrawable(this@ReportDetailActivity, irList[i].picture_url)
                     reportShowView.setImageDrawable(drawable)
                 }
                 ll_content.addView(

@@ -39,7 +39,11 @@ class IRMonitorHistoryFragment : Fragment() {
     private val adapter = MyAdapter(ArrayList())
     private val viewModel: IRMonitorViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         EventBus.getDefault().register(this)
         return inflater.inflate(R.layout.fragment_ir_monitor_history, container)
     }
@@ -113,8 +117,9 @@ class IRMonitorHistoryFragment : Fragment() {
         viewModel.queryRecordList()
     }
 
-    private class MyAdapter(dataList: MutableList<ThermalDao.Record>?) : BaseQuickAdapter<ThermalDao.Record,
-            BaseViewHolder>(R.layout.item_monitory_history, dataList), LoadMoreModule {
+    private class MyAdapter(dataList: MutableList<ThermalDao.Record>?) :
+        BaseQuickAdapter<ThermalDao.Record,
+                BaseViewHolder>(R.layout.item_monitory_history, dataList), LoadMoreModule {
         var onItemClickListener: ((position: Int) -> Unit)? = null
         var onItemLongClickListener: ((position: Int) -> Unit)? = null
 

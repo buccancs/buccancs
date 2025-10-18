@@ -32,7 +32,8 @@ class TargetColorAdapter(val context: Context, var targetColor: Int) :
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemView {
-        val binding = ItmeTargetColorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItmeTargetColorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemView(binding)
     }
 
@@ -47,7 +48,12 @@ class TargetColorAdapter(val context: Context, var targetColor: Int) :
             listener?.invoke(position, bean.code)
             listenerTarget?.onClick(position, bean.code)
         }
-        iconUI(bean.code == targetColor, holder.binding.itemTargetColor, holder.binding.itemTargetColorStroke, holder.binding.itemTargetColorSign)
+        iconUI(
+            bean.code == targetColor,
+            holder.binding.itemTargetColor,
+            holder.binding.itemTargetColorStroke,
+            holder.binding.itemTargetColorSign
+        )
     }
 
     private fun iconUI(isActive: Boolean, img: ImageView, strokeBg: ImageView, signBg: ImageView) {
@@ -61,15 +67,18 @@ class TargetColorAdapter(val context: Context, var targetColor: Int) :
         }
     }
 
-    inner class ItemView(val binding: ItmeTargetColorBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ItemView(val binding: ItmeTargetColorBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         private val lay: View = binding.itemMenuTabLay
         private val img: ImageView = binding.itemTargetColor
         private val strokeBg: ImageView = binding.itemTargetColorStroke
         private val signBg: ImageView = binding.itemTargetColorSign
+
         init {
             val canSeeCount = 5
             val with = (ScreenUtil.getScreenWidth(context) / canSeeCount)
-            itemView.layoutParams = ViewGroup.LayoutParams((with * 0.78).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+            itemView.layoutParams =
+                ViewGroup.LayoutParams((with * 0.78).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
             val imageSize = (ScreenUtil.getScreenWidth(context) * 30 / 375f).toInt()
             val lpImg = img.layoutParams
             val lpStrokeImg = strokeBg.layoutParams

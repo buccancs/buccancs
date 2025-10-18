@@ -37,7 +37,8 @@ class IRMyValueFormatter(private val startTime: Long, private val type: Int = 1)
             else -> "HH:mm:ss"
         }
         val dateFormat = SimpleDateFormat(pattern)
-        val timeZone = TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
+        val timeZone =
+            TimeZone.getTimeZone(TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT))
         dateFormat.timeZone = timeZone
         return dateFormat.format(date)
     }

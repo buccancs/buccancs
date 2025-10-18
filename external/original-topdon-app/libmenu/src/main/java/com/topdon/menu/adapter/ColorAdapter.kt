@@ -30,7 +30,10 @@ internal class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val code: Int = colorCodeArray[position]
         holder.colorView.isSelected = code == selectCode
-        holder.colorView.refreshColor(PseudoColorConfig.getColors(code), PseudoColorConfig.getPositions(code))
+        holder.colorView.refreshColor(
+            PseudoColorConfig.getColors(code),
+            PseudoColorConfig.getPositions(code)
+        )
         holder.colorView.setOnClickListener {
             if (selectCode != code) {
                 selectCode = code

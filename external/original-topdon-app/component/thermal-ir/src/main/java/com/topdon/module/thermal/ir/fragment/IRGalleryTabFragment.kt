@@ -89,7 +89,12 @@ class IRGalleryTabFragment : BaseFragment() {
             tab_layout.isVisible = !isEditMode
             view_pager2.isUserInputEnabled = !isEditMode
             if (isEditMode) {
-                title_view.setTitleText(getString(R.string.chosen_item, viewModel.selectSizeLD.value))
+                title_view.setTitleText(
+                    getString(
+                        R.string.chosen_item,
+                        viewModel.selectSizeLD.value
+                    )
+                )
                 tv_title_dir.isVisible = false
             } else {
                 title_view.setTitleText(if (canSwitchDir) "" else getString(R.string.app_gallery))

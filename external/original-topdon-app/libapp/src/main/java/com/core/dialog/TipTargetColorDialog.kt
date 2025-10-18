@@ -73,8 +73,9 @@ class TipTargetColorDialog : Dialog {
             titleText = view.tv_title
             imgClose = view.img_close
             recyclerView = view.recycler_view
-            recyclerView.layoutManager = LinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false)
-            val targetColorAdapter = TargetColorAdapter(context!!,targetColor)
+            recyclerView.layoutManager =
+                LinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false)
+            val targetColorAdapter = TargetColorAdapter(context!!, targetColor)
             targetColorAdapter.listener = listener@{ _, item ->
                 targetColor = item
                 targetColorAdapter.selectedCode(item)

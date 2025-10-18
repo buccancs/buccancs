@@ -5,7 +5,15 @@ import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.SensorConnector
 import com.buccancs.data.sensor.connector.ThrottlableConnector
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.PerformanceThrottleLevel
+import com.buccancs.domain.model.RecordingLifecycleState
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.RecordingState
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
@@ -111,7 +119,8 @@ class DefaultSensorRepository @Inject constructor(
                 if (snapshot?.connectionStatus is ConnectionStatus.Connected) {
                     val result = connector.startStreaming(anchor)
                     if (result is DeviceCommandResult.Failed) {
-                        throw result.error ?: IllegalStateException("Start streaming failed with unknown error")
+                        throw result.error
+                            ?: IllegalStateException("Start streaming failed with unknown error")
                     }
                 }
             }
@@ -122,7 +131,8 @@ class DefaultSensorRepository @Inject constructor(
                     if (snapshot?.connectionStatus is ConnectionStatus.Connected) {
                         val result = connector.startStreaming(deviceId, anchor)
                         if (result is DeviceCommandResult.Failed) {
-                            throw result.error ?: IllegalStateException("Start streaming failed with unknown error")
+                            throw result.error
+                                ?: IllegalStateException("Start streaming failed with unknown error")
                         }
                     }
                 }
@@ -145,7 +155,8 @@ class DefaultSensorRepository @Inject constructor(
         singleConnectors.forEach { connector ->
             val result = connector.stopStreaming()
             if (result is DeviceCommandResult.Failed) {
-                throw result.error ?: IllegalStateException("Stop streaming failed with unknown error")
+                throw result.error
+                    ?: IllegalStateException("Stop streaming failed with unknown error")
             }
         }
         multiConnectors.forEach { connector ->
@@ -153,7 +164,8 @@ class DefaultSensorRepository @Inject constructor(
             deviceIds.forEach { deviceId ->
                 val result = connector.stopStreaming(deviceId)
                 if (result is DeviceCommandResult.Failed) {
-                    throw result.error ?: IllegalStateException("Stop streaming failed with unknown error")
+                    throw result.error
+                        ?: IllegalStateException("Stop streaming failed with unknown error")
                 }
             }
         }

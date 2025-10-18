@@ -1,19 +1,49 @@
 package com.buccancs.desktop.ui.screens
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.PlayCircle
+import androidx.compose.material.icons.filled.ShowChart
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
+import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.VideoLibrary
+import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.buccancs.desktop.ui.components.*
+import com.buccancs.desktop.ui.components.BuccancsCard
 import com.buccancs.desktop.ui.theme.BuccancsTheme
 import com.buccancs.desktop.ui.theme.Spacing
 
@@ -27,7 +57,7 @@ fun VideoPlaybackScreen() {
     var isPlaying by remember { mutableStateOf(false) }
     var currentTime by remember { mutableStateOf(0f) }
     val duration = 185f // 3:05 in seconds
-    
+
     Row(modifier = Modifier.fillMaxSize()) {
         // Session list sidebar
         Surface(
@@ -43,15 +73,40 @@ fun VideoPlaybackScreen() {
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(bottom = Spacing.Medium)
                 )
-                
+
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
                     items(
                         listOf(
-                            SessionRecord("session-2025-10-16-001", "16 Oct 2025 10:30", "3:05", "1.2 GB"),
-                            SessionRecord("session-2025-10-16-002", "16 Oct 2025 09:15", "5:42", "2.1 GB"),
-                            SessionRecord("session-2025-10-15-003", "15 Oct 2025 16:20", "4:18", "1.8 GB"),
-                            SessionRecord("session-2025-10-15-002", "15 Oct 2025 14:05", "2:33", "0.9 GB"),
-                            SessionRecord("session-2025-10-15-001", "15 Oct 2025 11:40", "6:12", "2.4 GB")
+                            SessionRecord(
+                                "session-2025-10-16-001",
+                                "16 Oct 2025 10:30",
+                                "3:05",
+                                "1.2 GB"
+                            ),
+                            SessionRecord(
+                                "session-2025-10-16-002",
+                                "16 Oct 2025 09:15",
+                                "5:42",
+                                "2.1 GB"
+                            ),
+                            SessionRecord(
+                                "session-2025-10-15-003",
+                                "15 Oct 2025 16:20",
+                                "4:18",
+                                "1.8 GB"
+                            ),
+                            SessionRecord(
+                                "session-2025-10-15-002",
+                                "15 Oct 2025 14:05",
+                                "2:33",
+                                "0.9 GB"
+                            ),
+                            SessionRecord(
+                                "session-2025-10-15-001",
+                                "15 Oct 2025 11:40",
+                                "6:12",
+                                "2.4 GB"
+                            )
                         )
                     ) { session ->
                         SessionListItem(
@@ -63,7 +118,7 @@ fun VideoPlaybackScreen() {
                 }
             }
         }
-        
+
         // Video player and controls
         Column(
             modifier = Modifier
@@ -76,7 +131,7 @@ fun VideoPlaybackScreen() {
                 style = MaterialTheme.typography.displaySmall,
                 color = MaterialTheme.colorScheme.primary
             )
-            
+
             if (selectedSession != null) {
                 // Video display area
                 Card(
@@ -114,7 +169,7 @@ fun VideoPlaybackScreen() {
                         }
                     }
                 }
-                
+
                 // Playback controls
                 BuccancsCard(title = "Playback Controls") {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.Medium)) {
@@ -140,7 +195,7 @@ fun VideoPlaybackScreen() {
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
-                        
+
                         // Control buttons
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -150,7 +205,7 @@ fun VideoPlaybackScreen() {
                             IconButton(onClick = { currentTime = 0f }) {
                                 Icon(Icons.Default.SkipPrevious, "Skip to start")
                             }
-                            
+
                             FilledIconButton(
                                 onClick = { isPlaying = !isPlaying },
                                 modifier = Modifier.size(56.dp)
@@ -161,15 +216,15 @@ fun VideoPlaybackScreen() {
                                     modifier = Modifier.size(32.dp)
                                 )
                             }
-                            
+
                             IconButton(onClick = { currentTime = duration }) {
                                 Icon(Icons.Default.SkipNext, "Skip to end")
                             }
-                            
+
                             Spacer(Modifier.width(Spacing.Medium))
-                            
+
                             Text("Speed:", style = MaterialTheme.typography.labelMedium)
-                            
+
                             listOf(0.5f, 1.0f, 1.5f, 2.0f).forEach { speed ->
                                 FilterChip(
                                     selected = playbackSpeed == speed,
@@ -178,7 +233,7 @@ fun VideoPlaybackScreen() {
                                 )
                             }
                         }
-                        
+
                         // Stream selection
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -187,31 +242,49 @@ fun VideoPlaybackScreen() {
                             var showRgb by remember { mutableStateOf(true) }
                             var showThermal by remember { mutableStateOf(true) }
                             var showGsr by remember { mutableStateOf(true) }
-                            
+
                             FilterChip(
                                 selected = showRgb,
                                 onClick = { showRgb = !showRgb },
                                 label = { Text("RGB") },
-                                leadingIcon = { Icon(Icons.Default.Videocam, null, Modifier.size(18.dp)) }
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Default.Videocam,
+                                        null,
+                                        Modifier.size(18.dp)
+                                    )
+                                }
                             )
-                            
+
                             FilterChip(
                                 selected = showThermal,
                                 onClick = { showThermal = !showThermal },
                                 label = { Text("Thermal") },
-                                leadingIcon = { Icon(Icons.Default.Thermostat, null, Modifier.size(18.dp)) }
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Default.Thermostat,
+                                        null,
+                                        Modifier.size(18.dp)
+                                    )
+                                }
                             )
-                            
+
                             FilterChip(
                                 selected = showGsr,
                                 onClick = { showGsr = !showGsr },
                                 label = { Text("GSR") },
-                                leadingIcon = { Icon(Icons.Default.ShowChart, null, Modifier.size(18.dp)) }
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Default.ShowChart,
+                                        null,
+                                        Modifier.size(18.dp)
+                                    )
+                                }
                             )
                         }
                     }
                 }
-                
+
                 // Session metadata
                 BuccancsCard(title = "Session Metadata") {
                     Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {

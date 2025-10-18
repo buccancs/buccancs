@@ -30,6 +30,7 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
      * 而将 binding 声明为可为 null 类型使用太过麻烦，使用该变量做一重包装避免该问题.
      */
     private var _binding: B? = null
+
     /**
      * 注意：由于 Fragment 存在时间比其视图长，binding 将在 [onDestroyView] 置为 null.
      *
@@ -43,13 +44,18 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
      */
     @LayoutRes
     protected abstract fun initContentLayoutId(): Int
+
     /**
      * 子类实现该方法，执行 onViewCreated 之后的初始化逻辑.
      */
     protected abstract fun initView(savedInstanceState: Bundle?)
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = DataBindingUtil.inflate(inflater, initContentLayoutId(), container, false)
         _binding?.lifecycleOwner = viewLifecycleOwner
         _binding?.executePendingBindings()
@@ -68,9 +74,6 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
     }
 
 
-
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onUSBLineStateChange(event: DeviceConnectEvent) {
         if (event.isConnect) {
@@ -79,14 +82,14 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
             disConnected()
         }
     }
+
     protected open fun connected() {
 
     }
+
     protected open fun disConnected() {
 
     }
-
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -97,9 +100,11 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
             onSocketDisConnected(event.isTS004)
         }
     }
+
     protected open fun onSocketConnected(isTS004: Boolean) {
 
     }
+
     protected open fun onSocketDisConnected(isTS004: Boolean) {
 
     }
@@ -109,12 +114,14 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
      * 新版 LMS 风格的加载中弹框.
      */
     private var loadingDialog: LoadingDialog? = null
+
     /**
      * 显示加载中弹框.
      */
     fun showLoadingDialog(@StringRes resId: Int) {
         showLoadingDialog(getString(resId))
     }
+
     /**
      * 显示加载中弹框.
      */
@@ -125,6 +132,7 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
         loadingDialog?.setTips(text)
         loadingDialog?.show()
     }
+
     /**
      * 关闭加载中弹框.
      */

@@ -82,7 +82,12 @@ class TransferActivity : BaseActivity() {
             window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             transferIrFiles()
             transferImgFile()
-            MediaScannerConnection.scanFile(this@TransferActivity, arrayOf(FileConfig.lineGalleryDir), null, null)
+            MediaScannerConnection.scanFile(
+                this@TransferActivity,
+                arrayOf(FileConfig.lineGalleryDir),
+                null,
+                null
+            )
             window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             transferDialog.dismiss()
             clSuccess.isVisible = true
@@ -127,7 +132,8 @@ class TransferActivity : BaseActivity() {
 
     private suspend fun transferImgFile() {
         withContext(Dispatchers.IO) {
-            val oldGalleryList: Array<File> = File(FileConfig.oldTc001GalleryDir).listFiles() ?: return@withContext
+            val oldGalleryList: Array<File> =
+                File(FileConfig.oldTc001GalleryDir).listFiles() ?: return@withContext
             oldGalleryList.forEach {
                 val newFile = File(FileConfig.lineGalleryDir, it.name)
                 if (newFile.exists()) {

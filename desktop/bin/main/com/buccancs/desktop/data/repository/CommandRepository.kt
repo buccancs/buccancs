@@ -172,7 +172,8 @@ class CommandRepository {
     }
 
     private suspend fun dispatch(payload: DeviceCommandPayload, targets: Set<String>) {
-        val json = CommandSerialization.json.encodeToString(DeviceCommandPayload.serializer(), payload)
+        val json =
+            CommandSerialization.json.encodeToString(DeviceCommandPayload.serializer(), payload)
         val base = CommandDispatch(
             commandId = payload.commandId,
             sessionId = payload.sessionId,

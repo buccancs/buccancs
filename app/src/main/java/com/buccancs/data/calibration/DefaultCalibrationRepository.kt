@@ -3,22 +3,40 @@ package com.buccancs.data.calibration
 import android.graphics.BitmapFactory
 import androidx.annotation.VisibleForTesting
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.*
+import com.buccancs.domain.model.CalibrationCapture
+import com.buccancs.domain.model.CalibrationDefaults
+import com.buccancs.domain.model.CalibrationImageDescriptor
+import com.buccancs.domain.model.CalibrationMetrics
+import com.buccancs.domain.model.CalibrationPatternConfig
+import com.buccancs.domain.model.CalibrationResult
+import com.buccancs.domain.model.CalibrationSessionState
+import com.buccancs.domain.model.CameraIntrinsicParameters
+import com.buccancs.domain.model.ExtrinsicTransform
 import com.buccancs.domain.repository.CalibrationRepository
 import com.buccancs.util.nowInstant
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.calib3d.Calib3d
-import org.opencv.core.*
+import org.opencv.core.CvType
+import org.opencv.core.Mat
+import org.opencv.core.MatOfDouble
+import org.opencv.core.MatOfPoint2f
+import org.opencv.core.MatOfPoint3f
+import org.opencv.core.Point3
+import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 import java.io.File
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -81,7 +99,8 @@ class DefaultCalibrationRepository @Inject constructor(
     }
 
     override suspend fun capturePair(): CalibrationCapture {
-        val currentSession = sessionId ?: throw IllegalStateException("Calibration session not started")
+        val currentSession =
+            sessionId ?: throw IllegalStateException("Calibration session not started")
         val pattern = _state.value.pattern
         val captureId = "capture-${captureCounter++}"
         val sessionDir = storage.sessionDirectory(currentSession)
@@ -132,7 +151,8 @@ class DefaultCalibrationRepository @Inject constructor(
     }
 
     override suspend fun computeAndPersist(): CalibrationResult = calculationMutex.withLock {
-        val currentSession = sessionId ?: throw IllegalStateException("Calibration session not started")
+        val currentSession =
+            sessionId ?: throw IllegalStateException("Calibration session not started")
         val captures = _state.value.captures
         val required = _state.value.requiredPairs
         if (captures.size < required) {
@@ -140,7 +160,11 @@ class DefaultCalibrationRepository @Inject constructor(
         }
         stateMutex.withLock {
             _state.value =
-                _state.value.copy(isProcessing = true, infoMessage = "Computing calibration...", errorMessage = null)
+                _state.value.copy(
+                    isProcessing = true,
+                    infoMessage = "Computing calibration...",
+                    errorMessage = null
+                )
         }
         val result = runCatching {
             withContext(Dispatchers.Default) {
@@ -201,13 +225,17 @@ class DefaultCalibrationRepository @Inject constructor(
         return result
     }
 
-    override suspend fun loadLatestResult(): CalibrationResult? = storage.loadLatestResult().also { result ->
-        if (result != null) {
-            stateMutex.withLock {
-                _state.value = _state.value.copy(lastResult = result, infoMessage = "Loaded cached calibration")
+    override suspend fun loadLatestResult(): CalibrationResult? =
+        storage.loadLatestResult().also { result ->
+            if (result != null) {
+                stateMutex.withLock {
+                    _state.value = _state.value.copy(
+                        lastResult = result,
+                        infoMessage = "Loaded cached calibration"
+                    )
+                }
             }
         }
-    }
 
     override suspend fun clearSession() {
         val previousSession = sessionId
@@ -244,8 +272,14 @@ class DefaultCalibrationRepository @Inject constructor(
             val thermalCorners = MatOfPoint2f()
             val chessboardFlags =
                 Calib3d.CALIB_CB_ADAPTIVE_THRESH or Calib3d.CALIB_CB_NORMALIZE_IMAGE or Calib3d.CALIB_CB_FAST_CHECK
-            val foundRgb = Calib3d.findChessboardCorners(rgbGray, patternSize, rgbCorners, chessboardFlags)
-            val foundThermal = Calib3d.findChessboardCorners(thermalGray, patternSize, thermalCorners, chessboardFlags)
+            val foundRgb =
+                Calib3d.findChessboardCorners(rgbGray, patternSize, rgbCorners, chessboardFlags)
+            val foundThermal = Calib3d.findChessboardCorners(
+                thermalGray,
+                patternSize,
+                thermalCorners,
+                chessboardFlags
+            )
             if (!foundRgb || !foundThermal) {
                 rgbGray.release()
                 thermalGray.release()
@@ -297,7 +331,8 @@ class DefaultCalibrationRepository @Inject constructor(
     }
 
     private fun loadGrayMat(path: String): Mat {
-        val bitmap = BitmapFactory.decodeFile(path) ?: throw IllegalStateException("Unable to load image $path")
+        val bitmap = BitmapFactory.decodeFile(path)
+            ?: throw IllegalStateException("Unable to load image $path")
         val mat = Mat()
         Utils.bitmapToMat(bitmap, mat)
         val gray = Mat()

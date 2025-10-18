@@ -27,14 +27,50 @@ internal class FenceAdapter(menuType: MenuType) : BaseMenuAdapter() {
     private val dataList: ArrayList<Data> = ArrayList(6)
 
     init {
-        dataList.add(Data(CoreR.string.thermal_point, R.drawable.selector_menu2_fence_point, FenceType.POINT))
-        dataList.add(Data(CoreR.string.thermal_line, R.drawable.selector_menu2_fence_line, FenceType.LINE))
-        dataList.add(Data(CoreR.string.thermal_rect, R.drawable.selector_menu2_fence_rect, FenceType.RECT))
-        dataList.add(Data(CoreR.string.thermal_full_rect, R.drawable.selector_menu2_fence_full, FenceType.FULL))
+        dataList.add(
+            Data(
+                CoreR.string.thermal_point,
+                R.drawable.selector_menu2_fence_point,
+                FenceType.POINT
+            )
+        )
+        dataList.add(
+            Data(
+                CoreR.string.thermal_line,
+                R.drawable.selector_menu2_fence_line,
+                FenceType.LINE
+            )
+        )
+        dataList.add(
+            Data(
+                CoreR.string.thermal_rect,
+                R.drawable.selector_menu2_fence_rect,
+                FenceType.RECT
+            )
+        )
+        dataList.add(
+            Data(
+                CoreR.string.thermal_full_rect,
+                R.drawable.selector_menu2_fence_full,
+                FenceType.FULL
+            )
+        )
         if (menuType != MenuType.GALLERY_EDIT) {
-            dataList.add(Data(CoreR.string.thermal_trend, R.drawable.selector_menu2_fence_trend, FenceType.TREND))
+            dataList.add(
+                Data(
+                    CoreR.string.thermal_trend,
+                    R.drawable.selector_menu2_fence_trend,
+                    FenceType.TREND
+                )
+            )
         }
-        dataList.add(Data(CoreR.string.thermal_delete, R.drawable.selector_menu2_del, FenceType.DEL))
+        dataList.add(
+            Data(
+                CoreR.string.thermal_delete,
+                R.drawable.selector_menu2_del,
+                FenceType.DEL
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -66,5 +102,9 @@ internal class FenceAdapter(menuType: MenuType) : BaseMenuAdapter() {
     }
 
     override fun getItemCount(): Int = dataList.size
-    data class Data(@StringRes val stringId: Int, @DrawableRes val drawableId: Int, val fenceType: FenceType)
+    data class Data(
+        @StringRes val stringId: Int,
+        @DrawableRes val drawableId: Int,
+        val fenceType: FenceType
+    )
 }

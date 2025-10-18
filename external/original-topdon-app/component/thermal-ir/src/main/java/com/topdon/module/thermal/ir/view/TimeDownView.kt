@@ -59,7 +59,13 @@ public class TimeDownView : AppCompatTextView {
         }
     }
 
-    fun downTime(downCount: Int, lastDown: Int, delayMills: Long, intervalMills: Long, startAnimate: Boolean) {
+    fun downTime(
+        downCount: Int,
+        lastDown: Int,
+        delayMills: Long,
+        intervalMills: Long,
+        startAnimate: Boolean
+    ) {
         timer = Timer()
         this.downCount = downCount
         this.lastDown = lastDown

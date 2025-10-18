@@ -145,8 +145,19 @@ abstract class TemperatureBaseView : View {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(
         context,
         attrs,
         defStyleAttr,
@@ -192,7 +203,15 @@ abstract class TemperatureBaseView : View {
     }
 
     protected fun drawTrendText(canvas: Canvas, line: Line) {
-        helper.drawTrendText(canvas, width, height, line.start.x, line.start.y, line.end.x, line.end.y)
+        helper.drawTrendText(
+            canvas,
+            width,
+            height,
+            line.start.x,
+            line.start.y,
+            line.end.x,
+            line.end.y
+        )
     }
 
     protected fun drawPointName(canvas: Canvas, name: String, point: Point) {
@@ -359,9 +378,15 @@ abstract class TemperatureBaseView : View {
                             val minY: Int = min(downLine.start.y, downLine.end.y)
                             val maxY: Int = max(downLine.start.y, downLine.end.y)
                             val biasX: Int =
-                                if (x < downX) max(x - downX, rect.left - minX) else min(x - downX, rect.right - maxX)
+                                if (x < downX) max(x - downX, rect.left - minX) else min(
+                                    x - downX,
+                                    rect.right - maxX
+                                )
                             val biasY: Int =
-                                if (y < downY) max(y - downY, rect.top - minY) else min(y - downY, rect.bottom - maxY)
+                                if (y < downY) max(y - downY, rect.top - minY) else min(
+                                    y - downY,
+                                    rect.bottom - maxY
+                                )
                             (if (isTrend) operateTrend else operateLine)?.start?.set(
                                 downLine.start.x + biasX,
                                 downLine.start.y + biasY
@@ -390,7 +415,8 @@ abstract class TemperatureBaseView : View {
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 val x: Int = event.x.correct(width)
                 val y: Int = event.y.correct(height)
-                val line: Line = (if (isTrend) operateTrend else operateLine) ?: Line(Point(), Point())
+                val line: Line =
+                    (if (isTrend) operateTrend else operateLine) ?: Line(Point(), Point())
                 if ((line.start.x / xScale).toInt() != (line.end.x / xScale).toInt() || (line.start.y / yScale).toInt() != (line.end.y / yScale).toInt()) {
                     if (isAddAction || abs(x - downX) > DELETE_TOLERANCE || abs(y - downY) > DELETE_TOLERANCE) {
                         if (isTrend) {
@@ -441,9 +467,13 @@ abstract class TemperatureBaseView : View {
         var tempDistance =
             (line.end.y - line.start.y) * x - (line.end.x - line.start.x) * y + line.end.x * line.start.y - line.start.x * line.end.y
         tempDistance = (tempDistance / sqrt(
-            (line.end.y - line.start.y).toDouble().pow(2.0) + (line.end.x - line.start.x).toDouble().pow(2.0)
+            (line.end.y - line.start.y).toDouble().pow(2.0) + (line.end.x - line.start.x).toDouble()
+                .pow(2.0)
         )).toInt()
-        return abs(tempDistance) < TOUCH_TOLERANCE && x > min(line.start.x, line.end.x) - TOUCH_TOLERANCE && x < max(
+        return abs(tempDistance) < TOUCH_TOLERANCE && x > min(
+            line.start.x,
+            line.end.x
+        ) - TOUCH_TOLERANCE && x < max(
             line.start.x,
             line.end.x
         ) + TOUCH_TOLERANCE
@@ -551,14 +581,16 @@ abstract class TemperatureBaseView : View {
                     when (rectMoveType) {
                         RectMoveType.ALL -> {
                             val rect: Rect = TempDrawHelper.getRect(width, height)
-                            val biasX: Int = if (x < downX) max(x - downX, rect.left - downRect.left) else min(
-                                x - downX,
-                                rect.right - downRect.right
-                            )
-                            val biasY: Int = if (y < downY) max(y - downY, rect.top - downRect.top) else min(
-                                y - downY,
-                                rect.bottom - downRect.bottom
-                            )
+                            val biasX: Int =
+                                if (x < downX) max(x - downX, rect.left - downRect.left) else min(
+                                    x - downX,
+                                    rect.right - downRect.right
+                                )
+                            val biasY: Int =
+                                if (y < downY) max(y - downY, rect.top - downRect.top) else min(
+                                    y - downY,
+                                    rect.bottom - downRect.bottom
+                                )
                             operateRect?.set(
                                 downRect.left + biasX,
                                 downRect.top + biasY,

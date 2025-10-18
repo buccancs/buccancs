@@ -17,9 +17,20 @@ import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
-import com.buccancs.domain.model.*
-import kotlinx.coroutines.*
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.RandomAccessFile
 import java.security.MessageDigest
@@ -123,7 +134,12 @@ internal class MicrophoneConnector @Inject constructor(
         finalizeRecording()
         releaseAudioRecord()
         statusState.value = emptyList()
-        deviceState.update { it.copy(connectionStatus = ConnectionStatus.Disconnected, isSimulated = false) }
+        deviceState.update {
+            it.copy(
+                connectionStatus = ConnectionStatus.Disconnected,
+                isSimulated = false
+            )
+        }
     }
 
     override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
@@ -141,46 +157,50 @@ internal class MicrophoneConnector @Inject constructor(
             .getOrThrow()
     }
 
-    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> = resultOf {
-        timeModel = TimeModelAdapter.fromAnchor(anchor)
-        val record = ensureAudioRecord()
-        prepareOutputFile(anchor.sessionId)
-        record.startRecording()
-        timeModel = timeModel?.markRecordingStart(System.currentTimeMillis(), SystemClock.elapsedRealtimeNanos())
+    private suspend fun performStartStreaming(anchor: RecordingSessionAnchor): Result<Unit> =
+        resultOf {
+            timeModel = TimeModelAdapter.fromAnchor(anchor)
+            val record = ensureAudioRecord()
+            prepareOutputFile(anchor.sessionId)
+            record.startRecording()
+            timeModel = timeModel?.markRecordingStart(
+                System.currentTimeMillis(),
+                SystemClock.elapsedRealtimeNanos()
+            )
 
-        if (recordingJob?.isActive == true) {
-            recordingJob?.cancel()
-        }
+            if (recordingJob?.isActive == true) {
+                recordingJob?.cancel()
+            }
 
-        val shortBuffer = ShortArray(bufferSizeInFrames.coerceAtLeast(MIN_BUFFER_FRAMES))
-        recordingJob = appScope.launch(Dispatchers.IO) {
-            while (isActive) {
-                val read = resultOf {
-                    record.read(shortBuffer, 0, shortBuffer.size, AudioRecord.READ_BLOCKING)
-                }.getOrElse { error ->
-                    Log.e(logTag, "Audio read failed: ${error.message}", error.cause)
-                    return@launch
-                }
+            val shortBuffer = ShortArray(bufferSizeInFrames.coerceAtLeast(MIN_BUFFER_FRAMES))
+            recordingJob = appScope.launch(Dispatchers.IO) {
+                while (isActive) {
+                    val read = resultOf {
+                        record.read(shortBuffer, 0, shortBuffer.size, AudioRecord.READ_BLOCKING)
+                    }.getOrElse { error ->
+                        Log.e(logTag, "Audio read failed: ${error.message}", error.cause)
+                        return@launch
+                    }
 
-                if (read > 0) {
-                    writePcmSamples(shortBuffer, read)
-                    val alignedNow = alignedNowInstant()
-                    val bufferedSeconds = read.toDouble() / SAMPLE_RATE_HZ.toDouble()
-                    val status = SensorStreamStatus(
-                        deviceId = deviceId,
-                        streamType = SensorStreamType.AUDIO,
-                        sampleRateHz = SAMPLE_RATE_HZ.toDouble(),
-                        frameRateFps = null,
-                        lastSampleTimestamp = alignedNow,
-                        bufferedDurationSeconds = bufferedSeconds,
-                        isStreaming = true,
-                        isSimulated = false
-                    )
-                    statusState.value = listOf(status)
+                    if (read > 0) {
+                        writePcmSamples(shortBuffer, read)
+                        val alignedNow = alignedNowInstant()
+                        val bufferedSeconds = read.toDouble() / SAMPLE_RATE_HZ.toDouble()
+                        val status = SensorStreamStatus(
+                            deviceId = deviceId,
+                            streamType = SensorStreamType.AUDIO,
+                            sampleRateHz = SAMPLE_RATE_HZ.toDouble(),
+                            frameRateFps = null,
+                            lastSampleTimestamp = alignedNow,
+                            bufferedDurationSeconds = bufferedSeconds,
+                            isStreaming = true,
+                            isSimulated = false
+                        )
+                        statusState.value = listOf(status)
+                    }
                 }
             }
         }
-    }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
         if (isSimulationMode) {
@@ -363,24 +383,30 @@ internal class MicrophoneConnector @Inject constructor(
                 add("streamType" to MetadataWriters.stringValue("audio_wav"))
                 add("artifactFile" to MetadataWriters.stringValue(file.name))
                 val anchorEpoch =
-                    clockSnapshot?.let { it.anchorEpochMs + it.clockOffsetMs } ?: System.currentTimeMillis()
+                    clockSnapshot?.let { it.anchorEpochMs + it.clockOffsetMs }
+                        ?: System.currentTimeMillis()
                 add("anchorEpochMs" to anchorEpoch.toString())
                 clockSnapshot?.let { add("clockOffsetMs" to it.clockOffsetMs.toString()) }
                 clockSnapshot?.recordingStartEpochMs?.let { add("deviceStartEpochMs" to it.toString()) }
-                clockSnapshot?.startAlignedEpochMillis()?.let { add("alignedStartEpochMs" to it.toString()) }
-                clockSnapshot?.durationSinceStartMs(SystemClock.elapsedRealtimeNanos())?.let { duration ->
-                    add("durationMs" to duration.toString())
-                    clockSnapshot.startAlignedEpochMillis()?.let { start ->
-                        add("alignedEndEpochMs" to (start + duration).toString())
+                clockSnapshot?.startAlignedEpochMillis()
+                    ?.let { add("alignedStartEpochMs" to it.toString()) }
+                clockSnapshot?.durationSinceStartMs(SystemClock.elapsedRealtimeNanos())
+                    ?.let { duration ->
+                        add("durationMs" to duration.toString())
+                        clockSnapshot.startAlignedEpochMillis()?.let { start ->
+                            add("alignedEndEpochMs" to (start + duration).toString())
+                        }
                     }
-                }
                 add("sampleRateHz" to SAMPLE_RATE_HZ.toString())
                 add("channelCount" to CHANNEL_COUNT.toString())
                 add("bitsPerSample" to BITS_PER_SAMPLE.toString())
                 add("bytesCaptured" to bytesCaptured.toString())
                 add("checksumSha256" to MetadataWriters.stringValue(checksum.toHexString()))
             }
-            val directory = file.parentFile ?: recordingStorage.deviceDirectory(metadataSessionId, deviceId.value)
+            val directory = file.parentFile ?: recordingStorage.deviceDirectory(
+                metadataSessionId,
+                deviceId.value
+            )
             val metadataFile = File(directory, "${file.nameWithoutExtension}-timeline.json")
             MetadataWriters.writeMetadata(metadataFile, entries)
             val metadataChecksum = digestFile(metadataFile)

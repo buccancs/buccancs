@@ -1,10 +1,16 @@
 package com.buccancs.desktop.data.grpc.services
 
-import com.buccancs.control.*
+import com.buccancs.control.CommandAck
+import com.buccancs.control.TimeSyncPing
+import com.buccancs.control.TimeSyncPong
+import com.buccancs.control.TimeSyncReport
+import com.buccancs.control.TimeSyncServiceGrpcKt
+import com.buccancs.control.commandAck
+import com.buccancs.control.timeSyncPong
 import com.buccancs.desktop.data.repository.DeviceRepository
 import org.slf4j.LoggerFactory
 import java.time.Instant
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.abs
 
@@ -41,7 +47,8 @@ class TimeSyncServiceImpl(
                 )
             )
             if (previous != null) {
-                val elapsedMs = (heartbeat.toEpochMilli() - previous.timestamp.toEpochMilli()).coerceAtLeast(1L)
+                val elapsedMs =
+                    (heartbeat.toEpochMilli() - previous.timestamp.toEpochMilli()).coerceAtLeast(1L)
                 val driftPerSecond = ((offset - previous.offsetMs) / elapsedMs) * 1000.0
                 if (abs(driftPerSecond) > DRIFT_ALERT_THRESHOLD_MS_PER_SEC) {
                     logger.warn(

@@ -10,7 +10,7 @@ fun main() = application {
     val viewModel = appGraph.provideAppViewModel()
     val grpcServer = appGraph.provideGrpcServer()
     val mdnsBrowser = appGraph.provideMdnsServiceBrowser()
-    
+
     try {
         grpcServer.start()
     } catch (e: IllegalStateException) {
@@ -19,7 +19,7 @@ fun main() = application {
         exitApplication()
         return@application
     }
-    
+
     Window(onCloseRequest = {
         grpcServer.stop()
         mdnsBrowser.stop()

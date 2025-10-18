@@ -1,6 +1,12 @@
 package com.buccancs.desktop.data.repository
 
-import com.buccancs.control.commands.*
+import com.buccancs.control.commands.CommandSerialization
+import com.buccancs.control.commands.DeviceCommandPayload
+import com.buccancs.control.commands.EventMarkerCommandPayload
+import com.buccancs.control.commands.StartRecordingCommandPayload
+import com.buccancs.control.commands.StimulusCommandPayload
+import com.buccancs.control.commands.StopRecordingCommandPayload
+import com.buccancs.control.commands.SyncSignalCommandPayload
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -165,7 +171,8 @@ class CommandRepository {
     }
 
     private suspend fun dispatch(payload: DeviceCommandPayload, targets: Set<String>) {
-        val json = CommandSerialization.json.encodeToString(DeviceCommandPayload.serializer(), payload)
+        val json =
+            CommandSerialization.json.encodeToString(DeviceCommandPayload.serializer(), payload)
         val base = CommandDispatch(
             commandId = payload.commandId,
             sessionId = payload.sessionId,

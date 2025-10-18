@@ -23,7 +23,8 @@ public object SensorStreamAckKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SensorStreamAck.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.SensorStreamAck.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -82,5 +83,6 @@ public object SensorStreamAckKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.SensorStreamAck.copy(block: `com.buccancs.control`.SensorStreamAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorStreamAck =
-    `com.buccancs.control`.SensorStreamAckKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.SensorStreamAckKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 

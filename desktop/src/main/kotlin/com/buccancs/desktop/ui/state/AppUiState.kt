@@ -108,8 +108,20 @@ data class SessionArchiveItem(
 
 data class SessionMetricsState(
     val gsrSamples: Long,
+    val gsrSampleDrops: Long,
+    val gsrOutOfRangeSamples: Long,
+    val gsrAverageHz: Double,
+    val gsrMaxGapMs: Long,
+    val gsrMinValue: Double?,
+    val gsrMaxValue: Double?,
     val videoFrames: Long,
     val thermalFrames: Long,
     val audioSamples: Long,
+    val videoFrameDrops: Long,
+    val thermalFrameDrops: Long,
+    val videoAverageFps: Double,
+    val thermalAverageFps: Double,
+    val videoMaxGapMs: Long,
+    val thermalMaxGapMs: Long,
     val updatedAt: Instant?
 )

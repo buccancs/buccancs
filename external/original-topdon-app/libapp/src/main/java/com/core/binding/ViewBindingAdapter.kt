@@ -37,7 +37,8 @@ object ViewBindingAdapter {
                 }
             }
             if (wantEffect) {
-                val typedArray: TypedArray = view.context.obtainStyledAttributes(intArrayOf(android.R.attr.selectableItemBackground))
+                val typedArray: TypedArray =
+                    view.context.obtainStyledAttributes(intArrayOf(android.R.attr.selectableItemBackground))
                 val effectDrawable: Drawable? = typedArray.getDrawable(0)
                 typedArray.recycle()
                 if (effectDrawable != null) {
@@ -67,11 +68,17 @@ object ViewBindingAdapter {
             }
             view.background = newDrawable
         } else {
-            val typedArray: TypedArray = view.context.obtainStyledAttributes(intArrayOf(android.R.attr.selectableItemBackground))
+            val typedArray: TypedArray =
+                view.context.obtainStyledAttributes(intArrayOf(android.R.attr.selectableItemBackground))
             val effectDrawable: Drawable? = typedArray.getDrawable(0)
             typedArray.recycle()
 
-            val newDrawable = LayerDrawable(if (oldDrawable == null) arrayOf(effectDrawable) else arrayOf(oldDrawable, effectDrawable))
+            val newDrawable = LayerDrawable(
+                if (oldDrawable == null) arrayOf(effectDrawable) else arrayOf(
+                    oldDrawable,
+                    effectDrawable
+                )
+            )
             if (oldDrawable is GradientDrawable) {
                 newDrawable.setId(0, android.R.id.content)
             }
@@ -104,13 +111,32 @@ object ViewBindingAdapter {
      * @param bgCornersRB right-bottom 的圆角值，优先使用该值，单位dp
      */
     @JvmStatic
-    @BindingAdapter(value = ["bgCorners", "bgCornersLT", "bgCornersRT", "bgCornersLB", "bgCornersRB"], requireAll = false)
-    fun setBgCorners(view: View, bgCorners: Int = 0, bgCornersLT: Int?, bgCornersRT: Int?, bgCornersLB: Int?, bgCornersRB: Int?) {
+    @BindingAdapter(
+        value = ["bgCorners", "bgCornersLT", "bgCornersRT", "bgCornersLB", "bgCornersRB"],
+        requireAll = false
+    )
+    fun setBgCorners(
+        view: View,
+        bgCorners: Int = 0,
+        bgCornersLT: Int?,
+        bgCornersRT: Int?,
+        bgCornersLB: Int?,
+        bgCornersRB: Int?
+    ) {
         val lt: Int = SizeUtils.dp2px(bgCornersLT?.toFloat() ?: bgCorners.toFloat())
         val rt: Int = SizeUtils.dp2px(bgCornersRT?.toFloat() ?: bgCorners.toFloat())
         val lb: Int = SizeUtils.dp2px(bgCornersLB?.toFloat() ?: bgCorners.toFloat())
         val rb: Int = SizeUtils.dp2px(bgCornersRB?.toFloat() ?: bgCorners.toFloat())
-        val radii = floatArrayOf(lt.toFloat(), lt.toFloat(), rt.toFloat(), rt.toFloat(), rb.toFloat(), rb.toFloat(), lb.toFloat(), lb.toFloat())
+        val radii = floatArrayOf(
+            lt.toFloat(),
+            lt.toFloat(),
+            rt.toFloat(),
+            rt.toFloat(),
+            rb.toFloat(),
+            rb.toFloat(),
+            lb.toFloat(),
+            lb.toFloat()
+        )
         val gradientDrawable: GradientDrawable = buildGradientDrawable(view)
         gradientDrawable.shape = GradientDrawable.RECTANGLE
         gradientDrawable.cornerRadii = radii
@@ -135,9 +161,19 @@ object ViewBindingAdapter {
      */
     @JvmStatic
     @BindingAdapter(value = ["bgStartColor", "bgCenterColor", "bgEndColor"], requireAll = false)
-    fun setBgGradientColor(view: View, @ColorInt startColor: Int, @ColorInt centerColor: Int?, @ColorInt endColor: Int) {
+    fun setBgGradientColor(
+        view: View,
+        @ColorInt startColor: Int,
+        @ColorInt centerColor: Int?,
+        @ColorInt endColor: Int
+    ) {
         val gradientDrawable: GradientDrawable = buildGradientDrawable(view)
-        gradientDrawable.colors = if (centerColor == null) intArrayOf(startColor, endColor) else intArrayOf(startColor, centerColor, endColor)
+        gradientDrawable.colors =
+            if (centerColor == null) intArrayOf(startColor, endColor) else intArrayOf(
+                startColor,
+                centerColor,
+                endColor
+            )
         view.background = buildEffectDrawable(view, gradientDrawable)
     }
 
@@ -223,7 +259,8 @@ object ViewBindingAdapter {
     private fun buildEffectDrawable(view: View, bgDrawable: GradientDrawable): Drawable {
         val oldDrawable: Drawable? = view.background
         if (oldDrawable is LayerDrawable) {
-            val effectDrawable: Drawable = oldDrawable.findDrawableByLayerId(android.R.id.hint) ?: return bgDrawable
+            val effectDrawable: Drawable =
+                oldDrawable.findDrawableByLayerId(android.R.id.hint) ?: return bgDrawable
             val newDrawable = LayerDrawable(arrayOf(bgDrawable, effectDrawable))
             newDrawable.setId(0, android.R.id.content)
             newDrawable.setId(1, android.R.id.hint)

@@ -55,7 +55,7 @@ class WebSocketProxy {
     private var mWsManager: WsManager? = null
     private var webSocketListener: MyWebSocketListener? = null
     private var reconnectHandler = ReconnectHandler()
-    private var network : Network ?= null
+    private var network: Network? = null
 
     private fun getOKHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
@@ -78,7 +78,10 @@ class WebSocketProxy {
      * TC007 Socket 一帧数据回调，由于没有同时监听多个回调的需求，这里只搞一个就行了。
      */
     private var onFrameListener: ((frame: SocketFrameBean) -> Unit)? = null
-    fun setOnFrameListener(activity: ComponentActivity, listener: (frame: SocketFrameBean) -> Unit) {
+    fun setOnFrameListener(
+        activity: ComponentActivity,
+        listener: (frame: SocketFrameBean) -> Unit
+    ) {
         activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onCreate(owner: LifecycleOwner) {
                 onFrameListener = listener
@@ -102,7 +105,8 @@ class WebSocketProxy {
         } else {
             XLog.tag("WebSocket").d("设备由 $currentSSID 切换到 $ssid，关闭旧连接")
             if (reconnectHandler.isReconnecting) {
-                EventBus.getDefault().post(SocketStateEvent(false, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
+                EventBus.getDefault()
+                    .post(SocketStateEvent(false, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
             }
             this.network = network
             currentSSID = ssid
@@ -171,7 +175,8 @@ class WebSocketProxy {
             XLog.tag("WebSocket").d("$ssid Socket 连接成功")
             isNeedReconnect = true
             handler.reset()
-            EventBus.getDefault().post(SocketStateEvent(true, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
+            EventBus.getDefault()
+                .post(SocketStateEvent(true, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
@@ -188,7 +193,7 @@ class WebSocketProxy {
          */
         private var needPrint = false
         override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-            if (ssid.startsWith(DeviceConfig.TC007_NAME_START) && bytes.size == 254 ) {
+            if (ssid.startsWith(DeviceConfig.TC007_NAME_START) && bytes.size == 254) {
                 val frameBean = SocketFrameBean(bytes.toByteArray())
                 onFrameListener.invoke(frameBean)
                 needPrint = !needPrint
@@ -211,7 +216,8 @@ class WebSocketProxy {
             } else {
                 XLog.tag("WebSocket").d("$ssid 连接已关闭，原因：$reason")
                 handler.reset()
-                EventBus.getDefault().post(SocketStateEvent(false, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
+                EventBus.getDefault()
+                    .post(SocketStateEvent(false, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
             }
             mWebSocketProxy?.currentSSID = ""
         }
@@ -222,18 +228,25 @@ class WebSocketProxy {
             if (checkNeedReconnect()) {
                 handler.handleFail(ssid)
                 if (!handler.isReconnecting) {
-                    EventBus.getDefault().post(SocketStateEvent(false, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
+                    EventBus.getDefault().post(
+                        SocketStateEvent(
+                            false,
+                            ssid.startsWith(DeviceConfig.TS004_NAME_START)
+                        )
+                    )
                 }
             } else {
                 XLog.tag("WebSocket").w("主动断开连接")
                 handler.reset()
                 getInstance().stopWebSocket()
-                EventBus.getDefault().post(SocketStateEvent(false, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
+                EventBus.getDefault()
+                    .post(SocketStateEvent(false, ssid.startsWith(DeviceConfig.TS004_NAME_START)))
             }
             mWebSocketProxy?.currentSSID = ""
         }
 
-        override fun onHeartBeat(): String? = SocketCmdUtil.getSocketCmd(WsCmdConstants.APP_EVENT_HEART_BEATS)
+        override fun onHeartBeat(): String? =
+            SocketCmdUtil.getSocketCmd(WsCmdConstants.APP_EVENT_HEART_BEATS)
 
         override fun onHeartBeatTimeout() {
             XLog.tag("WebSocket").w("心跳超时")
@@ -247,7 +260,11 @@ class WebSocketProxy {
             if (!isNeedReconnect) {
                 return false
             }
-            if (!XXPermissions.isGranted(Utils.getApp(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (!XXPermissions.isGranted(
+                    Utils.getApp(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
                 return true
             }
             val wifiName: String = WifiUtil.getCurrentWifiSSID(Utils.getApp()) ?: return true
@@ -262,6 +279,7 @@ class WebSocketProxy {
              * 最大重连次数.
              */
             private const val MAX_RECONNECT_COUNT = 3
+
             /**
              * 每次重连间隔，单位毫秒.
              */
@@ -287,7 +305,8 @@ class WebSocketProxy {
 
         fun handleFail(currentSSID: String) {
             if (this.currentSSID != currentSSID) {
-                XLog.tag("WebSocket").w("设备切换到 ${this.currentSSID} 后，丢弃 $currentSSID fail 处理")
+                XLog.tag("WebSocket")
+                    .w("设备切换到 ${this.currentSSID} 后，丢弃 $currentSSID fail 处理")
                 return
             }
             if (isReconnecting) {

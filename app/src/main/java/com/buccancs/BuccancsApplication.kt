@@ -1,6 +1,7 @@
 package com.buccancs
 
 import android.app.Application
+import com.buccancs.application.monitoring.SystemHealthMonitor
 import com.buccancs.data.orchestration.DeviceOrchestratorBridge
 import com.buccancs.data.storage.SpaceMonitor
 import com.buccancs.data.transfer.WorkPolicy
@@ -16,11 +17,15 @@ class BuccancsApplication : Application() {
     @Inject
     lateinit var spaceMonitor: SpaceMonitor
 
+    @Inject
+    lateinit var systemHealthMonitor: SystemHealthMonitor
+
     override fun onCreate() {
         super.onCreate()
         BleManager.getInstance().init(this)
         BleManager.getInstance().enableLog(false)
         spaceMonitor.start()
+        systemHealthMonitor.start()
         WorkPolicy.scheduleRetention(this)
     }
 }

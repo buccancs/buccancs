@@ -85,7 +85,8 @@ class MoreActivity : BaseActivity(), View.OnClickListener {
             }
 
             setting_storage_space -> {
-                ARouter.getInstance().build(RouterConfig.STORAGE_SPACE).navigation(this@MoreActivity)
+                ARouter.getInstance().build(RouterConfig.STORAGE_SPACE)
+                    .navigation(this@MoreActivity)
             }
 
             setting_version -> {

@@ -103,7 +103,13 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
                 delay(1000)
                 val result: LibIRTemp.TemperatureSampleResult = when (selectBean.type) {
                     1 -> temperatureView.getPointTemp(selectBean.startPosition)
-                    2 -> temperatureView.getLineTemp(Line(selectBean.startPosition, selectBean.endPosition))
+                    2 -> temperatureView.getLineTemp(
+                        Line(
+                            selectBean.startPosition,
+                            selectBean.endPosition
+                        )
+                    )
+
                     else -> temperatureView.getRectTemp(selectBean.getRect())
                 } ?: continue
                 if (isFirstRead) {
@@ -123,8 +129,10 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
                     }
                 }
                 if (result.maxTemperature >= -270f) {
-                    val maxBigDecimal = BigDecimal.valueOf(tempCorrectByTs(result.maxTemperature).toDouble())
-                    val minBigDecimal = BigDecimal.valueOf(tempCorrectByTs(result.minTemperature).toDouble())
+                    val maxBigDecimal =
+                        BigDecimal.valueOf(tempCorrectByTs(result.maxTemperature).toDouble())
+                    val minBigDecimal =
+                        BigDecimal.valueOf(tempCorrectByTs(result.minTemperature).toDouble())
                     bean.centerTemp = maxBigDecimal.setScale(1, RoundingMode.HALF_UP).toFloat()
                     bean.maxTemp = maxBigDecimal.setScale(1, RoundingMode.HALF_UP).toFloat()
                     bean.minTemp = minBigDecimal.setScale(1, RoundingMode.HALF_UP).toFloat()
@@ -231,14 +239,18 @@ class IRMonitorChartActivity : BaseActivity(), ITsTempListener {
                         AppDatabase.getInstance().thermalDao().insert(entity)
                         time++
                         launch(Dispatchers.Main) {
-                            mp_chart_view.addPointToChart(bean = entity, selectType = selectBean.type)
+                            mp_chart_view.addPointToChart(
+                                bean = entity,
+                                selectType = selectBean.type
+                            )
                         }
                         delay(timeMillis)
                     } else {
                         delay(100)
                     }
                     lifecycleScope.launch(Dispatchers.Main) {
-                        tv_time.text = TimeTool.showVideoLongTime(System.currentTimeMillis() - startTime)
+                        tv_time.text =
+                            TimeTool.showVideoLongTime(System.currentTimeMillis() - startTime)
                     }
                 }
             }

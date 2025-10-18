@@ -1,6 +1,16 @@
 package com.buccancs.ui.library
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -19,9 +29,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.data.recording.manifest.ArtifactEntry
@@ -34,7 +44,7 @@ import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun SessionDetailRoute(
@@ -210,10 +220,24 @@ private fun SummaryCard(state: SessionDetailUiState) {
                 ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
             ) {
-                InfoRow("Started", manifest.startedAt, color = MaterialTheme.colorScheme.onPrimaryContainer)
-                manifest.endedAt?.let { InfoRow("Ended", it, color = MaterialTheme.colorScheme.onPrimaryContainer) }
+                InfoRow(
+                    "Started",
+                    manifest.startedAt,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                manifest.endedAt?.let {
+                    InfoRow(
+                        "Ended",
+                        it,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
                 manifest.durationMillis?.let { duration ->
-                    InfoRow("Duration", formatDuration(duration), color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    InfoRow(
+                        "Duration",
+                        formatDuration(duration),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                 }
             }
         }
@@ -260,7 +284,11 @@ private fun SummaryCard(state: SessionDetailUiState) {
 }
 
 @Composable
-private fun InfoRow(label: String, value: String, color: Color = MaterialTheme.colorScheme.onSurface) {
+private fun InfoRow(
+    label: String,
+    value: String,
+    color: Color = MaterialTheme.colorScheme.onSurface
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -341,8 +369,14 @@ private fun DeviceList(devices: List<DeviceManifest>) {
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.SemiBold
                         )
-                        Text(text = "Name: ${device.displayName}", style = MaterialTheme.typography.bodyMedium)
-                        Text(text = "Type: ${device.type}", style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = "Name: ${device.displayName}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Type: ${device.type}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                         if (device.simulated) {
                             Text(
                                 text = "Simulated: ${device.simulated}",
@@ -538,7 +572,8 @@ private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
 }
 
 private fun ArtifactEntry.fileName(): String =
-    relativePath?.substringAfterLast('/') ?: contentUri?.substringAfterLast('/') ?: streamType.lowercase()
+    relativePath?.substringAfterLast('/') ?: contentUri?.substringAfterLast('/')
+    ?: streamType.lowercase()
 
 private fun formatBytes(bytes: Long): String {
     if (bytes <= 0) return "0 B"

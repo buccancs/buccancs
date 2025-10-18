@@ -33,7 +33,8 @@ import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 @Route(path = RouterConfig.REPORT_PREVIEW_SECOND)
-class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), View.OnClickListener {
+class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(),
+    View.OnClickListener {
     private var isTC007 = false
     private var reportBean: ReportBean? = null
     private var pdfFilePath: String? = null
@@ -72,7 +73,10 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(), 
                 val reportShowView = ReportIRShowView(this)
                 reportShowView.refreshData(i == 0, i == irList.size - 1, irList[i])
                 lifecycleScope.launch {
-                    val drawable = GlideLoader.getDrawable(this@ReportPreviewSecondActivity, irList[i].picture_url)
+                    val drawable = GlideLoader.getDrawable(
+                        this@ReportPreviewSecondActivity,
+                        irList[i].picture_url
+                    )
                     reportShowView.setImageDrawable(drawable)
                 }
                 ll_content.addView(

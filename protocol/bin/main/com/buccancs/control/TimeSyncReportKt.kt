@@ -23,7 +23,8 @@ public object TimeSyncReportKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.TimeSyncReport.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.TimeSyncReport.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic

@@ -66,7 +66,8 @@ fun PdfViewerScreen(
                 outputStream.close()
             }
 
-            val fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+            val fileDescriptor =
+                ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
             pdfRenderer = PdfRenderer(fileDescriptor)
             pageCount = pdfRenderer?.pageCount ?: 0
             isLoading = false

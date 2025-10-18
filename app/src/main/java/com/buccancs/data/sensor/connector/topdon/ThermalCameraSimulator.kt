@@ -57,7 +57,8 @@ class ThermalCameraSimulator(
                 // Replace nextGaussian() with standard normal distribution using Box-Muller transform
                 val u1 = random.nextDouble()
                 val u2 = random.nextDouble()
-                val gaussian = kotlin.math.sqrt(-2.0 * kotlin.math.ln(u1)) * kotlin.math.cos(2.0 * kotlin.math.PI * u2)
+                val gaussian =
+                    kotlin.math.sqrt(-2.0 * kotlin.math.ln(u1)) * kotlin.math.cos(2.0 * kotlin.math.PI * u2)
                 temperature += gaussian.toFloat() * ambientNoise
 
                 // Add contribution from each hot spot

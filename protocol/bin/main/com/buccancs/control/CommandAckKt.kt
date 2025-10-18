@@ -8,7 +8,8 @@ package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializecommandAck")
 public inline fun commandAck(block: com.buccancs.control.CommandAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandAck =
-    com.buccancs.control.CommandAckKt.Dsl._create(com.buccancs.control.CommandAck.newBuilder()).apply { block() }
+    com.buccancs.control.CommandAckKt.Dsl._create(com.buccancs.control.CommandAck.newBuilder())
+        .apply { block() }
         ._build()
 
 /**
@@ -23,7 +24,8 @@ public object CommandAckKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.CommandAck.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.CommandAck.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic

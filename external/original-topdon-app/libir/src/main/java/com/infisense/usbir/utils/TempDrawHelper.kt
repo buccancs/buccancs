@@ -62,7 +62,13 @@ class TempDrawHelper {
     }
 
     fun drawLine(canvas: Canvas, startX: Int, startY: Int, stopX: Int, stopY: Int) {
-        canvas.drawLine(startX.toFloat(), startY.toFloat(), stopX.toFloat(), stopY.toFloat(), linePaint)
+        canvas.drawLine(
+            startX.toFloat(),
+            startY.toFloat(),
+            stopX.toFloat(),
+            stopY.toFloat(),
+            linePaint
+        )
     }
 
     fun drawRect(canvas: Canvas, left: Int, top: Int, right: Int, bottom: Int) {
@@ -92,7 +98,12 @@ class TempDrawHelper {
     }
 
     fun drawCircle(canvas: Canvas, x: Int, y: Int, isMax: Boolean) {
-        canvas.drawCircle(x.toFloat(), y.toFloat(), CIRCLE_RADIUS.toFloat(), if (isMax) redPaint else bluePaint)
+        canvas.drawCircle(
+            x.toFloat(),
+            y.toFloat(),
+            CIRCLE_RADIUS.toFloat(),
+            if (isMax) redPaint else bluePaint
+        )
     }
 
     fun drawTempText(canvas: Canvas, text: String, width: Int, x: Int, y: Int) {
@@ -109,7 +120,15 @@ class TempDrawHelper {
         canvas.drawText(text, textX, textY, textPaint)
     }
 
-    fun drawTrendText(canvas: Canvas, width: Int, height: Int, startX: Int, startY: Int, stopX: Int, stopY: Int) {
+    fun drawTrendText(
+        canvas: Canvas,
+        width: Int,
+        height: Int,
+        startX: Int,
+        startY: Int,
+        stopX: Int,
+        stopY: Int
+    ) {
         val fontMetrics: Paint.FontMetrics = textPaint.getFontMetrics()
         val textWidth: Float = textPaint.measureText("A")
         val textHeight: Float = -fontMetrics.top

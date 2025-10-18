@@ -23,7 +23,8 @@ public object SensorSampleBatchKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SensorSampleBatch.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.SensorSampleBatch.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -124,7 +125,9 @@ public object SensorSampleBatchKt {
          */
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("addSamples")
-        public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.add(value: com.buccancs.control.SensorSample) {
+        public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.add(
+            value: com.buccancs.control.SensorSample
+        ) {
             _builder.addSamples(value)
         }
 
@@ -147,7 +150,9 @@ public object SensorSampleBatchKt {
          */
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("addAllSamples")
-        public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.addAll(values: kotlin.collections.Iterable<com.buccancs.control.SensorSample>) {
+        public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.addAll(
+            values: kotlin.collections.Iterable<com.buccancs.control.SensorSample>
+        ) {
             _builder.addAllSamples(values)
         }
 
@@ -208,7 +213,8 @@ public object SensorSampleBatchKt {
 
 @kotlin.jvm.JvmSynthetic
 public inline fun com.buccancs.control.SensorSampleBatch.copy(block: `com.buccancs.control`.SensorSampleBatchKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSampleBatch =
-    `com.buccancs.control`.SensorSampleBatchKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+    `com.buccancs.control`.SensorSampleBatchKt.Dsl._create(this.toBuilder()).apply { block() }
+        ._build()
 
 public val com.buccancs.control.SensorSampleBatchOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?
     get() = if (hasSession()) getSession() else null

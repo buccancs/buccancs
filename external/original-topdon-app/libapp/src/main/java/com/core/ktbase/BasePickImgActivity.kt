@@ -28,6 +28,7 @@ abstract class BasePickImgActivity : BaseActivity(), View.OnClickListener {
      * String 类型 - 拾取的图片在本地的绝对路径.
      */
     val RESULT_IMAGE_PATH = "RESULT_IMAGE_PATH"
+
     /**
      * 当前是否已拍了一张照等待完成.
      */
@@ -70,7 +71,11 @@ abstract class BasePickImgActivity : BaseActivity(), View.OnClickListener {
         binding.titleView.setRightClickListener {
             if (hasTakePhoto) {
                 val absolutePath: String = intent.getStringExtra(RESULT_IMAGE_PATH)!!
-                ImageUtils.save(binding.imageEditView.buildResultBitmap(), File(absolutePath), Bitmap.CompressFormat.PNG)
+                ImageUtils.save(
+                    binding.imageEditView.buildResultBitmap(),
+                    File(absolutePath),
+                    Bitmap.CompressFormat.PNG
+                )
                 val intent = Intent()
                 intent.putExtra(RESULT_IMAGE_PATH, absolutePath)
                 setResult(RESULT_OK, intent)
@@ -84,7 +89,10 @@ abstract class BasePickImgActivity : BaseActivity(), View.OnClickListener {
     private fun resize() {
         val widthPixels = resources.displayMetrics.widthPixels
         val heightPixels = resources.displayMetrics.heightPixels
-        binding.titleView.measure(MeasureSpec.makeMeasureSpec(widthPixels, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(heightPixels, MeasureSpec.AT_MOST))
+        binding.titleView.measure(
+            MeasureSpec.makeMeasureSpec(widthPixels, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(heightPixels, MeasureSpec.AT_MOST)
+        )
 
         val ivPickHeight = SizeUtils.dp2px(60f + 20 + 20) //拍照按钮高度，60dp+上下各20dp margin
         val menuHeight = (widthPixels * 75f / 384).toInt()
@@ -92,19 +100,21 @@ abstract class BasePickImgActivity : BaseActivity(), View.OnClickListener {
         val canUseHeight = heightPixels - binding.titleView.measuredHeight - bottomHeight
         val wantHeight = (widthPixels * 256f / 192).toInt()
         if (wantHeight <= canUseHeight) {//够用
-            binding.fragmentContainerView.layoutParams = binding.fragmentContainerView.layoutParams.apply {
-                width = widthPixels
-                height = wantHeight
-            }
+            binding.fragmentContainerView.layoutParams =
+                binding.fragmentContainerView.layoutParams.apply {
+                    width = widthPixels
+                    height = wantHeight
+                }
             binding.imageEditView.layoutParams = binding.imageEditView.layoutParams.apply {
                 width = widthPixels
                 height = wantHeight
             }
         } else {
-            binding.fragmentContainerView.layoutParams = binding.fragmentContainerView.layoutParams.apply {
-                width = (canUseHeight * 192f / 256).toInt()
-                height = canUseHeight
-            }
+            binding.fragmentContainerView.layoutParams =
+                binding.fragmentContainerView.layoutParams.apply {
+                    width = (canUseHeight * 192f / 256).toInt()
+                    height = canUseHeight
+                }
             binding.imageEditView.layoutParams = binding.imageEditView.layoutParams.apply {
                 width = (canUseHeight * 192f / 256).toInt()
                 height = canUseHeight
@@ -113,8 +123,8 @@ abstract class BasePickImgActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    open suspend fun getPickBitmap() : Bitmap?{
-       return null
+    open suspend fun getPickBitmap(): Bitmap? {
+        return null
     }
 
 
@@ -129,6 +139,7 @@ abstract class BasePickImgActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
+
             binding.ivEditColor -> {
                 val colorPickDialog = ColorSelectDialog(this, binding.imageEditView.color)
                 colorPickDialog.onPickListener = {
@@ -137,24 +148,28 @@ abstract class BasePickImgActivity : BaseActivity(), View.OnClickListener {
                 }
                 colorPickDialog.show()
             }
+
             binding.ivEditCircle -> {
                 binding.ivEditCircle.isSelected = true
                 binding.ivEditRect.isSelected = false
                 binding.ivEditArrow.isSelected = false
                 binding.imageEditView.type = ImageEditView.Type.CIRCLE
             }
+
             binding.ivEditRect -> {
                 binding.ivEditCircle.isSelected = false
                 binding.ivEditRect.isSelected = true
                 binding.ivEditArrow.isSelected = false
                 binding.imageEditView.type = ImageEditView.Type.RECT
             }
+
             binding.ivEditArrow -> {
                 binding.ivEditCircle.isSelected = false
                 binding.ivEditRect.isSelected = false
                 binding.ivEditArrow.isSelected = true
                 binding.imageEditView.type = ImageEditView.Type.ARROW
             }
+
             binding.ivEditClear -> binding.imageEditView.clear()
         }
     }

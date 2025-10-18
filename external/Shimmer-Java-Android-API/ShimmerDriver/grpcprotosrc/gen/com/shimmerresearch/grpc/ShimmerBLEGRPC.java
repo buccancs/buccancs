@@ -731,7 +731,8 @@ public final class ShimmerBLEGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply other) {
-                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply.getDefaultInstance())
+                    return this;
                 if (!other.getMessage().isEmpty()) {
                     message_ = other.message_;
                     onChanged();
@@ -1277,7 +1278,8 @@ public final class ShimmerBLEGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerBLEGRPC.Request other) {
-                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.Request.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.Request.getDefaultInstance())
+                    return this;
                 if (!other.getName().isEmpty()) {
                     name_ = other.name_;
                     onChanged();
@@ -1851,7 +1853,8 @@ public final class ShimmerBLEGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes other) {
-                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes.getDefaultInstance())
+                    return this;
                 if (!other.getAddress().isEmpty()) {
                     address_ = other.address_;
                     onChanged();
@@ -2422,7 +2425,8 @@ public final class ShimmerBLEGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest other) {
-                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest.getDefaultInstance())
+                    return this;
                 if (!other.getMessage().isEmpty()) {
                     message_ = other.message_;
                     onChanged();
@@ -3003,7 +3007,8 @@ public final class ShimmerBLEGRPC {
             }
 
             public Builder mergeFrom(com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus other) {
-                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus.getDefaultInstance()) return this;
+                if (other == com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus.getDefaultInstance())
+                    return this;
                 if (other.state_ != 0) {
                     setStateValue(other.getStateValue());
                 }

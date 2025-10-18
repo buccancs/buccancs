@@ -8,7 +8,8 @@ package com.buccancs.control
 
 @kotlin.jvm.JvmName("-initializedeviceTarget")
 public inline fun deviceTarget(block: com.buccancs.control.DeviceTargetKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceTarget =
-    com.buccancs.control.DeviceTargetKt.Dsl._create(com.buccancs.control.DeviceTarget.newBuilder()).apply { block() }
+    com.buccancs.control.DeviceTargetKt.Dsl._create(com.buccancs.control.DeviceTarget.newBuilder())
+        .apply { block() }
         ._build()
 
 /**
@@ -23,7 +24,8 @@ public object DeviceTargetKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DeviceTarget.Builder): Dsl = Dsl(builder)
+            internal fun _create(builder: com.buccancs.control.DeviceTarget.Builder): Dsl =
+                Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
@@ -64,7 +66,9 @@ public object DeviceTargetKt {
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("plusAssignDeviceIds")
         @Suppress("NOTHING_TO_INLINE")
-        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.plusAssign(value: kotlin.String) {
+        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.plusAssign(
+            value: kotlin.String
+        ) {
             add(value)
         }
 
@@ -85,7 +89,9 @@ public object DeviceTargetKt {
         @kotlin.jvm.JvmSynthetic
         @kotlin.jvm.JvmName("plusAssignAllDeviceIds")
         @Suppress("NOTHING_TO_INLINE")
-        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
+        public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.plusAssign(
+            values: kotlin.collections.Iterable<kotlin.String>
+        ) {
             addAll(values)
         }
 

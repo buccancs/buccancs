@@ -9,7 +9,11 @@ import java.util.Timer
 import java.util.TimerTask
 import java.util.concurrent.locks.ReentrantLock
 
-class WsManager(private val wsUrl: String, private val okHttpClient: OkHttpClient, private val statusListener: IWebSocketListener) {
+class WsManager(
+    private val wsUrl: String,
+    private val okHttpClient: OkHttpClient,
+    private val statusListener: IWebSocketListener
+) {
     companion object {
         private const val NORMAL_CLOSE_CODE = 1000
         private const val ABNORMAL_CLOSE_CODE = 1001
@@ -93,10 +97,14 @@ class WsManager(private val wsUrl: String, private val okHttpClient: OkHttpClien
 
 
     private var mLock = ReentrantLock()
+
     @Synchronized
     fun startConnect() {
         if (status == State.CONNECTING || status == State.CONNECTED) {//连接中或已连接
-            Log.w("WebSocket", "${if (status == State.CONNECTING) "连接中" else "已连接"} startConnect() 重复调用")
+            Log.w(
+                "WebSocket",
+                "${if (status == State.CONNECTING) "连接中" else "已连接"} startConnect() 重复调用"
+            )
             return
         }
         status = State.CONNECTING
@@ -198,7 +206,10 @@ class WsManager(private val wsUrl: String, private val okHttpClient: OkHttpClien
                             lastHeartBeatTime = currentTime
                         } else {
                             val isSuccess = wsManager.sendMessage(heartBeatMsg)
-                            Log.v("WebSocket", "--> 发送心跳消息 ${if (isSuccess) "成功" else "失败"}")
+                            Log.v(
+                                "WebSocket",
+                                "--> 发送心跳消息 ${if (isSuccess) "成功" else "失败"}"
+                            )
                         }
                     }
                 }

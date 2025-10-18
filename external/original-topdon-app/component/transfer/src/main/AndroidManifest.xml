@@ -3,9 +3,9 @@
 
     <application>
         <activity
-                android:name="com.topdon.transfer.TransferActivity"
-                android:exported="true"
-                android:screenOrientation="behind"/>
+            android:name="com.topdon.transfer.TransferActivity"
+            android:exported="true"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

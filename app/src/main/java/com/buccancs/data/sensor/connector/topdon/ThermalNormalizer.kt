@@ -33,7 +33,8 @@ class ThermalNormalizer @Inject constructor() {
         val celsius = DoubleArray(pixelCount)
         var index = 0
         while (index < rawFrame.size) {
-            val raw = (rawFrame[index].toInt() and 0xFF) or ((rawFrame[index + 1].toInt() and 0xFF) shl 8)
+            val raw =
+                (rawFrame[index].toInt() and 0xFF) or ((rawFrame[index + 1].toInt() and 0xFF) shl 8)
             val temperature = convertRawToCelsius(raw)
             val pixelIndex = index / BYTES_PER_PIXEL
             celsius[pixelIndex] = temperature

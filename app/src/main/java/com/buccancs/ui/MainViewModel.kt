@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buccancs.application.control.DeviceCommandService
+import com.buccancs.application.monitoring.SystemHealthMonitor
 import com.buccancs.application.time.TimeSyncService
 import com.buccancs.control.commands.*
 import com.buccancs.data.sensor.exercise.DeviceExerciseResult
@@ -46,7 +47,8 @@ class MainViewModel @Inject constructor(
     private val sessionCoordinator: SessionCoordinator,
     private val deviceManagement: DeviceManagementUseCase,
     private val hardwareConfiguration: HardwareConfigurationUseCase,
-    private val remoteCommandCoordinator: RemoteCommandCoordinator
+    private val remoteCommandCoordinator: RemoteCommandCoordinator,
+    private val systemHealthMonitor: SystemHealthMonitor
 ) : ViewModel() {
     // Session state now managed by SessionCoordinator use case
     private val sessionId = sessionCoordinator.sessionState.map { it.currentSessionId }
@@ -179,8 +181,9 @@ class MainViewModel @Inject constructor(
     val uiState: StateFlow<MainUiState> = combine(
         aggregateState,
         inventoryState,
-        exerciseUiState
-    ) { aggregate, inventory, exerciseUi ->
+        exerciseUiState,
+        systemHealthMonitor.snapshot
+    ) { aggregate, inventory, exerciseUi, healthSnapshot ->
         val base = aggregate.base
         val session = aggregate.session
         val orchestrator = aggregate.orchestrator
@@ -223,7 +226,8 @@ class MainViewModel @Inject constructor(
             deviceEvents = eventUi,
             showSyncFlash = toggle.showSyncFlash,
             inventory = inventory,
-            exercise = exerciseUi
+            exercise = exerciseUi,
+            healthAlerts = healthSnapshot.alerts.map { it.toUiModel() }
         )
     }.stateIn(
         scope = viewModelScope,
@@ -267,7 +271,9 @@ class MainViewModel @Inject constructor(
     }
 
     fun onSessionIdChanged(value: String) {
-        (sessionCoordinator as? com.buccancs.domain.usecase.SessionCoordinatorImpl)?.updateSessionId(value)
+        (sessionCoordinator as? com.buccancs.domain.usecase.SessionCoordinatorImpl)?.updateSessionId(
+            value
+        )
     }
 
     fun toggleSimulation() {
@@ -507,9 +513,14 @@ class MainViewModel @Inject constructor(
         val selectedMac = (attributes[ATTR_SELECTED_MAC]?.takeIf { it.isNotBlank() }
             ?: shimmerSettings.targetMacAddress)?.uppercase(Locale.US)
         val rangeIndex = attributes[ATTR_GSR_RANGE]?.toIntOrNull() ?: shimmerSettings.gsrRangeIndex
-        val sampleRate = attributes[ATTR_SAMPLE_RATE]?.toDoubleOrNull() ?: shimmerSettings.sampleRateHz
+        val sampleRate =
+            attributes[ATTR_SAMPLE_RATE]?.toDoubleOrNull() ?: shimmerSettings.sampleRateHz
         val candidateUi = candidates.sortedWith(
-            compareBy<ShimmerDeviceCandidate> { it.name?.lowercase(Locale.US) ?: it.mac.lowercase(Locale.US) }
+            compareBy<ShimmerDeviceCandidate> {
+                it.name?.lowercase(Locale.US) ?: it.mac.lowercase(
+                    Locale.US
+                )
+            }
                 .thenBy { it.mac }
         ).map {
             ShimmerCandidateUi(
@@ -565,9 +576,12 @@ class MainViewModel @Inject constructor(
         attributes: Map<String, String>,
         supportsRaw: Boolean
     ): RgbCameraValues {
-        val videoFps = attributes[ATTR_RGB_VIDEO_FPS]?.takeIf { it.isNotBlank() } ?: DEFAULT_RGB_VIDEO_FPS
-        val videoBitRate = attributes[ATTR_RGB_VIDEO_BIT_RATE]?.takeIf { it.isNotBlank() } ?: DEFAULT_RGB_VIDEO_BITRATE
-        val rawInterval = attributes[ATTR_RGB_RAW_INTERVAL]?.takeIf { it.isNotBlank() } ?: DEFAULT_RGB_RAW_INTERVAL
+        val videoFps =
+            attributes[ATTR_RGB_VIDEO_FPS]?.takeIf { it.isNotBlank() } ?: DEFAULT_RGB_VIDEO_FPS
+        val videoBitRate = attributes[ATTR_RGB_VIDEO_BIT_RATE]?.takeIf { it.isNotBlank() }
+            ?: DEFAULT_RGB_VIDEO_BITRATE
+        val rawInterval = attributes[ATTR_RGB_RAW_INTERVAL]?.takeIf { it.isNotBlank() }
+            ?: DEFAULT_RGB_RAW_INTERVAL
         val exposure = attributes[ATTR_RGB_EXPOSURE]?.takeIf { it.isNotBlank() } ?: ""
         val iso = attributes[ATTR_RGB_ISO]?.takeIf { it.isNotBlank() } ?: ""
         val focusMeters = attributes[ATTR_RGB_FOCUS_METERS]?.takeIf { it.isNotBlank() } ?: ""
@@ -644,7 +658,11 @@ class MainViewModel @Inject constructor(
     private fun RgbCameraInputState.updateRawEnabled(enabled: Boolean): RgbCameraInputState {
         val coerced = if (supportsRaw) enabled else false
         val clearedErrors = if (!coerced) errors - RgbCameraField.RAW_INTERVAL_MS else errors
-        return copy(inputs = inputs.copy(rawEnabled = coerced), dirty = true, errors = clearedErrors)
+        return copy(
+            inputs = inputs.copy(rawEnabled = coerced),
+            dirty = true,
+            errors = clearedErrors
+        )
     }
 
     private fun RgbCameraInputState.updateAwb(value: String): RgbCameraInputState =
@@ -744,7 +762,8 @@ class MainViewModel @Inject constructor(
             frameRateFps != null -> "${frameRateFps.roundToInt()} FPS"
             else -> "n/a"
         }
-        val bufferText = bufferedDurationSeconds?.let { String.format(Locale.US, "%.1f", it) } ?: "-"
+        val bufferText =
+            bufferedDurationSeconds?.let { String.format(Locale.US, "%.1f", it) } ?: "-"
         val detail = "Buffered $bufferText s @ $rate"
         val lastSample = lastSampleTimestamp?.toString() ?: "-"
         return StreamUiModel(
@@ -787,7 +806,9 @@ class MainViewModel @Inject constructor(
 
     private fun deriveConnectionLabel(status: TimeSyncStatus): String {
         val ageSeconds =
-            ((nowInstant().toEpochMilliseconds() - status.lastSync.toEpochMilliseconds()) / 1000).coerceAtLeast(0)
+            ((nowInstant().toEpochMilliseconds() - status.lastSync.toEpochMilliseconds()) / 1000).coerceAtLeast(
+                0
+            )
         val freshness = when {
             ageSeconds <= 5 -> "fresh"
             ageSeconds <= 20 -> "stale ${ageSeconds}s"
@@ -966,7 +987,9 @@ private fun DeviceExerciseResult.toUiModel(): DeviceExerciseUi {
         streams = streamLabels.sorted(),
         startObservedAt = startObservedAt?.toString(),
         stopObservedAt = stopObservedAt?.toString(),
-        artifactNames = artifacts.map { it.file?.name ?: it.uri.lastPathSegment ?: it.streamType.name }
+        artifactNames = artifacts.map {
+            it.file?.name ?: it.uri.lastPathSegment ?: it.streamType.name
+        }
     )
 }
 
@@ -1027,7 +1050,8 @@ data class MainUiState(
     val deviceEvents: List<DeviceEventUiModel>,
     val inventory: InventoryUiModel,
     val exercise: RecordingExerciseUi?,
-    val showSyncFlash: Boolean
+    val showSyncFlash: Boolean,
+    val healthAlerts: List<HealthAlertUi>
 ) {
     val isRecording: Boolean
         get() = recordingLifecycle == RecordingLifecycleState.Recording
@@ -1064,7 +1088,8 @@ data class MainUiState(
             deviceEvents = emptyList(),
             inventory = InventoryUiModel.empty(),
             exercise = null,
-            showSyncFlash = false
+            showSyncFlash = false,
+            healthAlerts = emptyList()
         )
     }
 }

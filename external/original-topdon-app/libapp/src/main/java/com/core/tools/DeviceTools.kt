@@ -53,7 +53,7 @@ object DeviceTools {
 
     fun findUsbDevice(): UsbDevice? {
         val usbManager = Utils.getApp().getSystemService(Context.USB_SERVICE) as UsbManager
-        val deviceList: HashMap<String, UsbDevice> =  usbManager.deviceList
+        val deviceList: HashMap<String, UsbDevice> = usbManager.deviceList
         for (usbDevice in deviceList.values) {
             if (usbDevice.isTcTsDevice()) {
                 val productID = usbDevice.productId.toBytes(2).toHexString()
@@ -71,14 +71,14 @@ object DeviceTools {
      */
     fun isTC001PlusConnect(): Boolean {
         val usbManager = Utils.getApp().getSystemService(Context.USB_SERVICE) as UsbManager
-        val deviceList: HashMap<String, UsbDevice> =  usbManager.deviceList
+        val deviceList: HashMap<String, UsbDevice> = usbManager.deviceList
         var usbCameraNumber = 0
         var isTcTsDev = false
         for (usbDevice in deviceList.values) {
-            if ("USB Camera" == usbDevice.productName){
-                usbCameraNumber ++
+            if ("USB Camera" == usbDevice.productName) {
+                usbCameraNumber++
             }
-            if (!isTcTsDev){
+            if (!isTcTsDev) {
                 isTcTsDev = usbDevice.isTcTsDevice() && usbManager.hasPermission(usbDevice)
             }
         }
@@ -88,9 +88,9 @@ object DeviceTools {
     /**
      * 判断是否连接了TC001 Lite 且有权限
      */
-    fun isTC001LiteConnect() : Boolean{
+    fun isTC001LiteConnect(): Boolean {
         val usbManager = Utils.getApp().getSystemService(Context.USB_SERVICE) as UsbManager
-        val deviceList: HashMap<String, UsbDevice> =  usbManager.deviceList
+        val deviceList: HashMap<String, UsbDevice> = usbManager.deviceList
         for (usbDevice in deviceList.values) {
             if (usbDevice.isTcLiteDevice()) {
                 return true
@@ -103,7 +103,8 @@ object DeviceTools {
      * 判断海康 256 是否已连接
      */
     fun isHikConnect(): Boolean {
-        val usbManager: UsbManager = Utils.getApp().getSystemService(Context.USB_SERVICE) as UsbManager
+        val usbManager: UsbManager =
+            Utils.getApp().getSystemService(Context.USB_SERVICE) as UsbManager
         for (usbDevice in usbManager.deviceList.values) {
             if (usbDevice.isHik256()) {
                 return true

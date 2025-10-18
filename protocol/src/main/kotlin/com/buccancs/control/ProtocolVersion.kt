@@ -22,7 +22,11 @@ object ProtocolVersion {
     fun requireSupported(version: Int) {
         require(isSupported(version)) {
             "Unsupported protocol version: ${versionString(version)} " +
-                    "(server: ${versionString(CURRENT)}, min supported: ${versionString(MIN_SUPPORTED)})"
+                    "(server: ${versionString(CURRENT)}, min supported: ${
+                        versionString(
+                            MIN_SUPPORTED
+                        )
+                    })"
         }
     }
 

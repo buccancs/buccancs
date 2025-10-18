@@ -26,18 +26,22 @@ object SaveSettingUtil {
      * 双光1
      */
     const val FusionTypeLPYFusion = 4
+
     /**
      * 双光2
      */
     const val FusionTypeMeanFusion = 2
+
     /**
      * 单红外
      */
     const val FusionTypeIROnly = 1 //单独红外
+
     /**
      * 单可见光
      */
     const val FusionTypeVLOnly = 0 //单独可见光
+
     /**
      * 画中画
      */
@@ -90,7 +94,6 @@ object SaveSettingUtil {
     }
 
 
-
     /**
      * 是否开启保存设置开关，默认关闭.
      */
@@ -101,22 +104,24 @@ object SaveSettingUtil {
         }
 
 
-
     /**
      * 热成像是否处于测温模式，默认测温模式 true-测温 false-观测
      */
     var isMeasureTempMode: Boolean
-        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME).getBoolean("isMeasureTempMode", true) else true
+        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME)
+            .getBoolean("isMeasureTempMode", true) else true
         set(value) {
             if (isSaveSetting) {
                 SPUtils.getInstance(SP_NAME).put("isMeasureTempMode", value)
             }
         }
+
     /**
      * 是否开启超分
      */
-    var isOpenAmplify : Boolean
-        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME).getBoolean("isOpenAmplify", false) else false
+    var isOpenAmplify: Boolean
+        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME)
+            .getBoolean("isOpenAmplify", false) else false
         set(value) {
             SPUtils.getInstance(SP_NAME).put("isOpenAmplify", value)
         }
@@ -133,6 +138,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("isVideoMode", value)
             }
         }
+
     /**
      * 热成像是否打开自动快门，默认打开 true-打开 false-关闭
      */
@@ -144,6 +150,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("isAutoShutter", value)
             }
         }
+
     /**
      * 热成像录像是否同时使用麦克风录制音频，默认关闭 true-开启 false-关闭
      */
@@ -155,6 +162,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("isRecordAudio", value)
             }
         }
+
     /**
      * 延迟拍照或延时录制的延时秒数，单位秒，默认0秒即不延迟.
      */
@@ -168,21 +176,25 @@ object SaveSettingUtil {
         }
 
 
-    var fusionType : Int
-        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME).getInt("fusionType", FusionTypeLPYFusion) else FusionTypeLPYFusion
+    var fusionType: Int
+        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME)
+            .getInt("fusionType", FusionTypeLPYFusion) else FusionTypeLPYFusion
         set(value) {
             SPUtils.getInstance(SP_NAME).put("fusionType", value)
         }
+
     /**
      * 热成像-测温模式-是否开启双光，默认关闭 true-开启 false-关闭
      */
     var isOpenTwoLight: Boolean
-        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME).getBoolean("isOpenTwoLight", false) else false
+        get() = if (isSaveSetting) SPUtils.getInstance(SP_NAME)
+            .getBoolean("isOpenTwoLight", false) else false
         set(value) {
             if (isSaveSetting) {
                 SPUtils.getInstance(SP_NAME).put("isOpenTwoLight", value)
             }
         }
+
     /**
      * 热成像-测温模式-双光开启时融合度，取值`[0,100]`，0表示完全不透明，100表示完全透明，默认 50%
      */
@@ -218,6 +230,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("isOpenPseudoBar", value)
             }
         }
+
     /**
      * 热成像对比度，取值范围`[0,255]`，默认 128
      */
@@ -229,6 +242,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("contrastValue", value)
             }
         }
+
     /**
      * 热成像-测温模式-锐度(细节增强等级)，取值范围`[0,4]`，默认为 2
      */
@@ -239,6 +253,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("ddeConfig", value)
             }
         }
+
     /**
      *热成像-测温模式-温度报警相关设置项.
      */
@@ -254,6 +269,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("alarmBean", Gson().toJson(value))
             }
         }
+
     /**
      * 热成像画面逆时针旋转角度，取值 0、90、180、270，默认 [DeviceConfig.S_ROTATE_ANGLE]
      */
@@ -265,6 +281,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("rotateAngle", value)
             }
         }
+
     /**
      * 热成像是否开启镜像，默认关闭即不镜像 true-镜像 false-不镜像
      */
@@ -276,6 +293,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("isOpenMirror", value)
             }
         }
+
     /**
      * 热成像-观测模式-是否开启指南针，默认关闭 true-开启 false-关闭
      */
@@ -287,6 +305,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("isOpenCompass", value)
             }
         }
+
     /**
      * 热成像-测温模式-温度字体颜色值，默认白色.
      */
@@ -298,6 +317,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("tempTextColor", value)
             }
         }
+
     /**
      * 热成像-测温模式-温度字体颜色值，默认14sp.
      */
@@ -330,7 +350,6 @@ object SaveSettingUtil {
         }
 
 
-
     /**
      * 热成像-观测模式-是否开启高温点，默认关闭 true-开启 false-关闭
      */
@@ -342,6 +361,7 @@ object SaveSettingUtil {
                 SPUtils.getInstance(SP_NAME).put("isOpenHighPoint", value)
             }
         }
+
     /**
      * 热成像-观测模式-是否开启低温点，默认关闭 true-开启 false-关闭
      */

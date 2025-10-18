@@ -11,11 +11,13 @@ interface ThermalDao {
 
     @Query("SELECT type AS type, start_time AS startTime, count(*) AS duration FROM thermal GROUP BY start_time ORDER BY start_time DESC")
     fun queryRecordList(): List<Record>
+
     @Query("SELECT * FROM thermal WHERE start_time = :startTime ORDER BY create_time")
     fun queryDetail(startTime: Long): List<ThermalEntity>
 
     @Query("DELETE FROM thermal where start_time = :startTime")
     fun delDetail(startTime: Long)
+
     //删除用户数据
     @Query("delete from thermal where user_id = :userId")
     fun deleteByUserId(userId: String)
@@ -29,6 +31,6 @@ interface ThermalDao {
         var startTime: Long = 0, // 开始时刻时间戳，单位毫秒
         var duration: Int = 0,
         @Ignore
-        var showTitle : Boolean = false
+        var showTitle: Boolean = false
     )
 }

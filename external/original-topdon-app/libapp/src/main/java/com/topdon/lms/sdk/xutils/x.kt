@@ -8,23 +8,23 @@ import com.topdon.lms.sdk.xutils.http.RequestParams
  */
 object x {
     fun http(): HttpManager = HttpManager
-    
+
     object HttpManager {
         fun <T> get(params: RequestParams, callback: Callback.CommonCallback<T>?) {
             // Stub: no-op HTTP call
             callback?.onError(Exception("Stub: xutils3 not implemented"), false)
         }
-        
+
         fun <T> post(params: RequestParams, callback: Callback.CommonCallback<T>?) {
             // Stub: no-op HTTP call
             callback?.onError(Exception("Stub: xutils3 not implemented"), false)
         }
-        
+
         fun <T> put(params: RequestParams, callback: Callback.CommonCallback<T>?) {
             // Stub: no-op HTTP call
             callback?.onError(Exception("Stub: xutils3 not implemented"), false)
         }
-        
+
         fun <T> delete(params: RequestParams, callback: Callback.CommonCallback<T>?) {
             // Stub: no-op HTTP call
             callback?.onError(Exception("Stub: xutils3 not implemented"), false)

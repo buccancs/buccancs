@@ -18,7 +18,8 @@ import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.databinding.PopCameraItemBinding
 
 @SuppressLint("SetTextI18n")
-class CameraItemPopup(val context: Context, private val saveSetBean: SaveSettingBean) : PopupWindow(),
+class CameraItemPopup(val context: Context, private val saveSetBean: SaveSettingBean) :
+    PopupWindow(),
     View.OnClickListener {
     var isShutterSelect: Boolean
         get() = binding.ivShutter.isSelected
@@ -36,13 +37,20 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
     var onShutterClickListener: (() -> Unit)? = null
     var onAudioCLickListener: (() -> Unit)? = null
 
-    private val binding: PopCameraItemBinding = PopCameraItemBinding.inflate(LayoutInflater.from(context))
+    private val binding: PopCameraItemBinding =
+        PopCameraItemBinding.inflate(LayoutInflater.from(context))
 
     init {
         val widthMeasureSpec =
-            View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.widthPixels, View.MeasureSpec.EXACTLY)
+            View.MeasureSpec.makeMeasureSpec(
+                context.resources.displayMetrics.widthPixels,
+                View.MeasureSpec.EXACTLY
+            )
         val heightMeasureSpec =
-            View.MeasureSpec.makeMeasureSpec(context.resources.displayMetrics.heightPixels, View.MeasureSpec.AT_MOST)
+            View.MeasureSpec.makeMeasureSpec(
+                context.resources.displayMetrics.heightPixels,
+                View.MeasureSpec.AT_MOST
+            )
         binding.root.measure(widthMeasureSpec, heightMeasureSpec)
         contentView = binding.root
         width = contentView.measuredWidth
@@ -100,7 +108,8 @@ class CameraItemPopup(val context: Context, private val saveSetBean: SaveSetting
             }
 
             binding.clAudio -> onAudioCLickListener?.invoke()
-            binding.clSetting -> ARouter.getInstance().build(RouterConfig.IR_CAMERA_SETTING).navigation(context)
+            binding.clSetting -> ARouter.getInstance().build(RouterConfig.IR_CAMERA_SETTING)
+                .navigation(context)
         }
     }
 

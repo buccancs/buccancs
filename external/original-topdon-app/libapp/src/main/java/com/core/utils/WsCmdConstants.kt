@@ -26,10 +26,12 @@ object WsCmdConstants {
     const val AR_COMMAND_STORAGE_DELETE_FILE: String = "AR_COMMAND_STORAGE_DELETE_FILE"  //删除文件
     const val AR_COMMAND_STORAGE_GET_FILELIST: String = "AR_COMMAND_STORAGE_GET_FILELIST" //获取文件列表
     const val AR_COMMAND_STORAGE_GET_FILECNT: String = "AR_COMMAND_STORAGE_GET_FILECNT"
-    const val AR_COMMAND_STORAGE_GET_SPACEINFO: String = "AR_COMMAND_STORAGE_GET_SPACEINFO"//获取存储空间信息
+    const val AR_COMMAND_STORAGE_GET_SPACEINFO: String =
+        "AR_COMMAND_STORAGE_GET_SPACEINFO"//获取存储空间信息
     const val AR_COMMAND_SET_KEY_CAPTURE_FUNC: String = "AR_COMMAND_SET_KEY_CAPTURE_FUNC"//拍照键长按功能
     const val AR_COMMAND_GET_KEY_CAPTURE_FUNC: String = "AR_COMMAND_GET_KEY_CAPTURE_FUNC"
-    const val AR_COMMAND_SET_CONTINUOUS_SHOOTING: String = "AR_COMMAND_SET_CONTINUOUS_SHOOTING" //设置连续拍照
+    const val AR_COMMAND_SET_CONTINUOUS_SHOOTING: String =
+        "AR_COMMAND_SET_CONTINUOUS_SHOOTING" //设置连续拍照
     const val AR_COMMAND_RETICLE_SET: Int = 101  //十字标
     const val AR_COMMAND_RETICLE_GET: String = "AR_COMMAND_RETICLE_GET"
     const val AR_COMMAND_SNAPSHOT: Int = 103   //拍照
@@ -58,6 +60,7 @@ object WsCmdConstants {
     const val AR_COMMAND_SAVE_KB: String = "AR_COMMAND_SAVE_KB"
     const val AR_COMMAND_TARGET_ZERO_SET: String = "AR_COMMAND_TARGET_ZERO_SET"
     const val AR_COMMAND_TARGET_ZERO_GET: String = "AR_COMMAND_TARGET_ZERO_GET"
+
     // AR_COMMAND_SCALE_SET,
     // AR_COMMAND_SCALE_GET,
     const val AR_COMMAND_IMG_SCENE_SET: Int = 201
@@ -87,6 +90,6 @@ object WsCmdConstants {
     const val AR_COMMAND_PANEL_SHIFT_GET: String = "AR_COMMAND_PANEL_SHIFT_GET"
     const val AR_COMMAND_PRODUCT_CFG_GET: Int = 401
     const val APP_EVENT_HEART_BEATS: Int = 1001//心跳
-    const val APP_EVENT_DISTANCE_DATA: Int  = 500//测距返回
-    const val APP_EVENT_TEMP_DATA: Int  = 500//温度返回
+    const val APP_EVENT_DISTANCE_DATA: Int = 500//测距返回
+    const val APP_EVENT_TEMP_DATA: Int = 500//温度返回
 }

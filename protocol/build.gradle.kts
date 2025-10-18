@@ -1,7 +1,6 @@
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.id
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.gradle.api.tasks.testing.Test
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -60,7 +59,8 @@ tasks.withType<Test>().configureEach {
 }
 
 tasks.withType<GenerateProtoTask>().configureEach {
-    val protoBaseDirProvider = layout.buildDirectory.dir("generated/sources/proto/${sourceSet.name}")
+    val protoBaseDirProvider =
+        layout.buildDirectory.dir("generated/sources/proto/${sourceSet.name}")
     val kotlinOutputDirProvider = protoBaseDirProvider.map { it.dir("kotlin") }
     val projectDir = project.projectDir
 
