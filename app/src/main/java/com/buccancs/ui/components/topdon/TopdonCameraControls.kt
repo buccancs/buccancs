@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.topdon.TopdonColors
 import java.util.Locale
 import com.buccancs.ui.theme.topdon.TopdonSpacing

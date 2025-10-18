@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 
