@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.Spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,10 +65,10 @@ private fun ConnectionGuideScreen(
                 .padding(padding)
                 .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState())
-                .padding(24.dp),
+                .padding(Spacing.Large),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(Spacing.ExtraLarge))
 
             Text(
                 text = "How to Connect Your Device",
@@ -75,7 +77,7 @@ private fun ConnectionGuideScreen(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Spacing.Small))
 
             Text(
                 text = "Follow these steps to connect your thermal camera",
@@ -123,18 +125,18 @@ private fun ConnectionGuideScreen(
                 Icon(
                     imageVector = Icons.Default.Usb,
                     contentDescription = "USB Connection",
-                    modifier = Modifier.padding(48.dp),
+                    modifier = Modifier.padding(Spacing.Section),
                     tint = Color.White.copy(alpha = 0.5f)
                 )
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(Spacing.Section))
 
             Button(
                 onClick = onConnectDevice,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
+                    .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
             ) {
                 Text(
                     text = "Connect Device",
@@ -161,7 +163,7 @@ private fun ConnectionStep(
             color = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Spacing.Small))
 
         Text(
             text = title,
@@ -169,7 +171,7 @@ private fun ConnectionStep(
             color = Color.White
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(Spacing.ExtraSmall))
 
         Text(
             text = description,

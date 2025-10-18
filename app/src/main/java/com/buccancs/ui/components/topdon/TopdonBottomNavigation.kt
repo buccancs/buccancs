@@ -30,7 +30,7 @@ fun TopdonBottomNavigation(
     NavigationBar(
         modifier = modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.surface,
-        tonalElevation = 8.dp
+        tonalElevation = Dimensions.ElevationLevel5
     ) {
         TopdonTab.entries.forEach { tab ->
             NavigationBarItem(
@@ -83,8 +83,8 @@ fun TopdonCustomBottomNavigation(
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 8.dp,
-            shadowElevation = 8.dp
+            tonalElevation = Dimensions.ElevationLevel5,
+            shadowElevation = Dimensions.ElevationLevel5
         ) {
             Row(
                 modifier = Modifier

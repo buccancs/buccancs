@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.buccancs.ui.common.HorizontalDivider
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.Spacing
 import kotlin.math.sqrt
 
 @Composable
@@ -33,8 +35,8 @@ fun CalibrationPanel(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
         ) {
             Text(
                 text = "Stereo Calibration Wizard",
@@ -49,7 +51,7 @@ fun CalibrationPanel(
             )
             if (state.actionHints.isNotEmpty()) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
                 ) {
                     state.actionHints.forEach { hint ->
                         Text(
@@ -189,14 +191,14 @@ private fun PatternSettingsSection(
     compact: Boolean = false
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
     ) {
         Text(
             text = "Pattern Settings",
             style = MaterialTheme.typography.titleSmall
         )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
         ) {
             OutlinedTextField(
                 value = state.patternRowsInput,
@@ -224,7 +226,7 @@ private fun PatternSettingsSection(
             )
         }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
@@ -238,7 +240,8 @@ private fun PatternSettingsSection(
             if (!compact) {
                 Button(
                     onClick = actions.onApplySettings,
-                    enabled = !state.isProcessing
+                    enabled = !state.isProcessing,
+                    modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
                     Text("Apply")
                 }
@@ -250,13 +253,14 @@ private fun PatternSettingsSection(
 @Composable
 private fun CaptureControls(state: CalibrationUiState, actions: CalibrationActions) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
     ) {
         Text(text = "Capture Guidance", style = MaterialTheme.typography.titleSmall)
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)) {
             Button(
                 onClick = actions.onCapturePair,
-                enabled = state.active && !state.isProcessing
+                enabled = state.active && !state.isProcessing,
+                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
             ) {
                 Text("Capture Pair")
             }
@@ -279,16 +283,18 @@ private fun StepControls(
     secondaryEnabled: Boolean,
     onSecondary: () -> Unit
 ) {
-    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    Row(horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)) {
         Button(
             onClick = onPrimary,
-            enabled = primaryEnabled
+            enabled = primaryEnabled,
+            modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
         ) {
             Text(primaryLabel)
         }
         OutlinedButton(
             onClick = onSecondary,
-            enabled = secondaryEnabled
+            enabled = secondaryEnabled,
+            modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
         ) {
             Text(secondaryLabel)
         }
@@ -303,13 +309,14 @@ private fun CapturedList(state: CalibrationUiState, actions: CalibrationActions)
         style = MaterialTheme.typography.titleSmall
     )
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
         modifier = Modifier.fillMaxWidth()
     ) {
         items(state.captures, key = { it.id }) { capture ->
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "${capture.id} — ${capture.capturedAt}",
@@ -317,7 +324,8 @@ private fun CapturedList(state: CalibrationUiState, actions: CalibrationActions)
                 )
                 TextButton(
                     onClick = { actions.onRemoveCapture(capture.id) },
-                    enabled = !state.isProcessing
+                    enabled = !state.isProcessing,
+                    modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
                     Text("Remove")
                 }
@@ -330,18 +338,18 @@ private fun CapturedList(state: CalibrationUiState, actions: CalibrationActions)
 private fun WizardStepIndicator(current: CalibrationWizardStep) {
     val steps = CalibrationWizardStep.values()
     Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
     ) {
         steps.forEachIndexed { index, step ->
             val selected = step == current
             Surface(
                 shape = MaterialTheme.shapes.small,
                 color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
-                tonalElevation = if (selected) 4.dp else 0.dp
+                tonalElevation = if (selected) Spacing.ExtraSmall else Spacing.None
             ) {
                 Text(
                     text = "${index + 1}. ${step.title}",
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    modifier = Modifier.padding(horizontal = Spacing.SmallMedium, vertical = Spacing.ExtraSmall),
                     color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.labelLarge
                 )

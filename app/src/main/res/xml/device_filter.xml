@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- USB device filters for thermal imaging cameras and other USB accessories -->
+    
+    <!-- Generic USB thermal camera vendors -->
+    <usb-device vendor-id="11261" product-id="0" />  <!-- TopDon -->
+    <usb-device vendor-id="1003" product-id="0" />   <!-- Generic thermal cameras -->
+    <usb-device vendor-id="3034" product-id="0" />   <!-- FLIR -->
+    <usb-device vendor-id="1240" product-id="0" />   <!-- Seek Thermal -->
+    
+    <!-- Add more vendor/product IDs as needed -->
+    <!-- Format: vendor-id and product-id should be in decimal -->
+    <!-- Use product-id="0" to match all products from a vendor -->
+</resources>

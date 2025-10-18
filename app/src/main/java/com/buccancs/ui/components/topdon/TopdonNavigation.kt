@@ -30,7 +30,7 @@ fun TopdonBottomNavigation(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onSurface,
-        tonalElevation = 0.dp,
+        tonalElevation = Dimensions.ElevationNone,
         content = content
     )
 }

@@ -3,6 +3,7 @@ package com.buccancs.ui.components.shimmer
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bluetooth
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.buccancs.ui.components.SectionCard
+import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.Spacing
 
 @Composable
@@ -75,12 +77,15 @@ fun ShimmerConnectionCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             if (isConnected) {
                 OutlinedButton(
                     onClick = onDisconnect,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
                     Text("Disconnect")
                 }
@@ -88,7 +93,9 @@ fun ShimmerConnectionCard(
                 Button(
                     onClick = onConnect,
                     enabled = !isConnecting,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
                     Text(if (isConnecting) "Connecting..." else "Connect")
                 }

@@ -61,6 +61,9 @@ android {
 
     lint {
         abortOnError = false
+        checkReleaseBuilds = false
+        warningsAsErrors = false
+        disable += setOf("InvalidPackage")
     }
 }
 

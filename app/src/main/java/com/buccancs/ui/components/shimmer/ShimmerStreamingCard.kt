@@ -10,8 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.Spacing
 import com.buccancs.ui.components.SectionCard
 
@@ -40,12 +42,15 @@ fun ShimmerStreamingCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             if (isStreaming) {
                 OutlinedButton(
                     onClick = onStopStreaming,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Stop,
@@ -57,7 +62,9 @@ fun ShimmerStreamingCard(
                 Button(
                     onClick = onStartStreaming,
                     enabled = isConnected,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,

@@ -26,6 +26,7 @@ import com.buccancs.ui.components.topdon.FpsLimitDialog
 import com.buccancs.ui.components.topdon.PaletteSelectionDialog
 import com.buccancs.ui.components.topdon.SuperSamplingDialog
 import com.buccancs.ui.common.HorizontalDivider
+import com.buccancs.ui.theme.Spacing
 import com.buccancs.ui.topdon.TopdonViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -118,8 +119,8 @@ private fun TopdonSettingsScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
         ) {
             SettingsSection(title = "Display") {
                 SettingsItem(
@@ -252,7 +253,7 @@ private fun SettingsItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(16.dp),
+            .padding(Spacing.Medium),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -289,7 +290,7 @@ private fun SettingsToggleItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(Spacing.Medium),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

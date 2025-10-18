@@ -12,6 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.Spacing
 
 @Composable
 fun ClauseRoute(
@@ -62,8 +64,8 @@ private fun ClauseScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
         ) {
             Text(
                 text = "Welcome to $appName",
@@ -80,8 +82,8 @@ private fun ClauseScreen(
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    modifier = Modifier.padding(Spacing.Medium),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.Small)
                 ) {
                     Text(
                         text = "Before using this application, please read and agree to:",
@@ -121,24 +123,28 @@ private fun ClauseScreen(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
             ) {
                 OutlinedButton(
                     onClick = onDisagree,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
                     Text("Disagree")
                 }
 
                 Button(
                     onClick = onAgree,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 ) {
                     Text("Agree & Continue")
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Spacing.Small))
 
             Text(
                 text = "$yearRange\nVersion $version",

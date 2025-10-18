@@ -25,7 +25,7 @@ import com.buccancs.ui.theme.topdon.TopdonTheme
 fun TopdonCircularProgress(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.primary,
-    strokeWidth: androidx.compose.ui.unit.Dp = 4.dp
+    strokeWidth: androidx.compose.ui.unit.Dp = Dimensions.StrokeWidth
 ) {
     CircularProgressIndicator(
         modifier = modifier,

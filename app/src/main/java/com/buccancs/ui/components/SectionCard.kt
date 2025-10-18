@@ -41,8 +41,8 @@ fun SectionCard(
     }
 
     val resolvedElevation = elevation ?: CardDefaults.elevatedCardElevation(
-        defaultElevation = if (tonal) 2.dp else 1.dp,
-        pressedElevation = if (tonal) 4.dp else 2.dp
+        defaultElevation = if (tonal) Dimensions.ElevationLevel2 else Dimensions.ElevationLevel1,
+        pressedElevation = if (tonal) Dimensions.ElevationLevel3 else Dimensions.ElevationLevel2
     )
 
     ElevatedCard(

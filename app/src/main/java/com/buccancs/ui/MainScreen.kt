@@ -28,6 +28,7 @@ import com.buccancs.ui.components.AnimatedButton
 import com.buccancs.ui.components.AnimatedOutlinedButton
 import com.buccancs.ui.components.AnimatedTonalButton
 import com.buccancs.ui.components.SectionCard
+import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 import java.util.*
@@ -201,24 +202,24 @@ private fun NavigationLinks(
             onClick = onOpenLiveSession,
             modifier = Modifier
                 .weight(1f)
-                .testTag("nav-live-session")
-        ,
+                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                .testTag("nav-live-session"),
             text = "Live Session"
         )
         AnimatedTonalButton(
             onClick = onOpenLibrary,
             modifier = Modifier
                 .weight(1f)
-                .testTag("nav-library")
-        ,
+                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                .testTag("nav-library"),
             text = "Sessions"
         )
         AnimatedOutlinedButton(
             onClick = onOpenSettings,
             modifier = Modifier
                 .weight(1f)
-                .testTag("nav-settings")
-        ,
+                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                .testTag("nav-settings"),
             text = "Settings"
         )
     }
@@ -264,14 +265,19 @@ private fun SessionCard(
             AnimatedButton(
                 onClick = onStartRecording,
                 enabled = !state.isRecording && !state.isBusy,
+                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
                 text = "Start"
             )
             AnimatedOutlinedButton(
                 onClick = onStopRecording,
                 enabled = state.isRecording && !state.isBusy,
+                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
                 text = "Stop"
             )
-            TextButton(onClick = onToggleSimulation) {
+            TextButton(
+                onClick = onToggleSimulation,
+                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+            ) {
                 Text(
                     text = if (state.simulationEnabled) "Disable Simulation" else "Enable Simulation"
                 )
@@ -341,6 +347,7 @@ private fun SessionCard(
                     onApplyConfig()
                 },
                 enabled = state.orchestratorConfigDirty,
+                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
                 text = "Save connection"
             )
             state.configMessage?.let { message ->
@@ -433,12 +440,16 @@ private fun DeviceCard(
         Text(
             text = device.title,
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         Text(
             text = device.typeLabel,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         val capabilityLine = device.capabilityLabels.joinToString(", ").ifEmpty { "n/a" }
         Text(
@@ -471,22 +482,27 @@ private fun DeviceCard(
             }
         }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             AnimatedButton(
                 onClick = onConnect,
                 enabled = !device.isConnected,
+                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
                 text = "Connect"
             )
             AnimatedOutlinedButton(
                 onClick = onDisconnect,
                 enabled = device.isConnected,
+                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
                 text = "Disconnect"
             )
             if (onOpenTopdon != null) {
                 TextButton(
                     onClick = onOpenTopdon,
-                    modifier = Modifier.testTag("device-open-console-${device.id.value}")
+                    modifier = Modifier
+                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .testTag("device-open-console-${device.id.value}")
                 ) {
                     Text("Open Console")
                 }

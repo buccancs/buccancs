@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.Spacing
 
 @Composable
 fun SplashRoute(
@@ -87,14 +89,14 @@ private fun SplashScreen(appName: String) {
                 color = Color.White
             )
 
-            Spacer(modifier = Modifier.height(280.dp))
+            Spacer(modifier = Modifier.height(280.dp))  // Large spacer for layout
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Box(
-                    modifier = Modifier.size(48.dp),
+                    modifier = Modifier.size(Dimensions.Size48),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -104,7 +106,7 @@ private fun SplashScreen(appName: String) {
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(Spacing.SmallMedium))
 
                 Text(
                     text = appName,

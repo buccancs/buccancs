@@ -442,7 +442,8 @@ private fun TopdonPreviewCard(
 
             FilledTonalIconButton(
                 onClick = onNavigateToThermalPreview,
-                enabled = state.isConnected
+                enabled = state.isConnected,
+                modifier = Modifier.size(Dimensions.TouchTargetMinimum)
             ) {
                 Icon(
                     imageVector = Icons.Default.OpenInFull,

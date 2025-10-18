@@ -118,7 +118,7 @@ private fun PaletteOption(
                 )
             )
             .border(
-                width = if (isSelected) 2.dp else 0.dp,
+                width = if (isSelected) Dimensions.BorderDefault else Dimensions.ElevationNone,
                 color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
                 shape = RoundedCornerShape(8.dp)
             )
@@ -148,7 +148,7 @@ fun TopdonTemperatureCrosshair(
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
+                .border(Dimensions.BorderDefault, MaterialTheme.colorScheme.primary, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Box(

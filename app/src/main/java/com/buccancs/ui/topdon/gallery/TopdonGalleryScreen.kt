@@ -17,6 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+<<<<<<< Updated upstream
+=======
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.Spacing
+>>>>>>> Stashed changes
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.ThermalMediaItem
@@ -160,9 +165,9 @@ private fun GalleryContent(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 modifier = modifier,
-                contentPadding = PaddingValues(4.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                contentPadding = PaddingValues(Spacing.ExtraSmall),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
+                verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
             ) {
                 items(items, key = { it.id }) { item ->
                     GalleryItemTile(
@@ -204,7 +209,7 @@ private fun GalleryItemTile(
                 Icon(
                     imageVector = Icons.Default.Image,
                     contentDescription = null,
-                    modifier = Modifier.size(48.dp),
+                    modifier = Modifier.size(Dimensions.Size48),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
                 )
             }
@@ -214,7 +219,7 @@ private fun GalleryItemTile(
                     .align(Alignment.BottomStart)
                     .fillMaxWidth()
                     .background(Color.Black.copy(alpha = 0.5f))
-                    .padding(4.dp)
+                    .padding(Spacing.ExtraSmall)
             ) {
                 Text(
                     text = item.timestamp.format(DateTimeFormatter.ofPattern("HH:mm")),
@@ -244,8 +249,8 @@ private fun GalleryItemTile(
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(4.dp)
-                        .size(24.dp)
+                        .padding(Spacing.ExtraSmall)
+                        .size(Dimensions.IconSizeDefault)
                         .background(
                             color = if (isSelected) {
                                 MaterialTheme.colorScheme.primary
@@ -261,7 +266,7 @@ private fun GalleryItemTile(
                             imageVector = Icons.Default.CheckCircle,
                             contentDescription = "Selected",
                             tint = Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(Dimensions.IconSizeSmall)
                         )
                     }
                 }
@@ -275,7 +280,7 @@ private fun GalleryItemTile(
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .background(Color.Black.copy(alpha = 0.6f))
-                        .padding(horizontal = 4.dp, vertical = 2.dp)
+                        .padding(horizontal = Spacing.ExtraSmall, vertical = Spacing.ExtraSmall / 2)
                 )
             }
         }
@@ -294,10 +299,10 @@ fun EmptyGalleryState(
         Icon(
             imageVector = Icons.Default.Image,
             contentDescription = null,
-            modifier = Modifier.size(80.dp),
+            modifier = Modifier.size(Dimensions.Size80),
             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(Spacing.Medium))
         Text(
             text = "No images yet",
             style = MaterialTheme.typography.titleMedium,

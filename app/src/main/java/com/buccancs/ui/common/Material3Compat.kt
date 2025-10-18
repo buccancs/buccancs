@@ -1,6 +1,6 @@
 package com.buccancs.ui.common
 
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider as Material3HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * Backport wrapper for HorizontalDivider that is missing on older Compose Material3 versions.
+ * Wrapper for HorizontalDivider with custom default styling.
  */
 @Composable
 fun HorizontalDivider(
@@ -17,7 +17,7 @@ fun HorizontalDivider(
     thickness: Dp = Dp.Hairline,
     color: Color = MaterialTheme.colorScheme.outlineVariant
 ) {
-    Divider(
+    Material3HorizontalDivider(
         modifier = modifier,
         thickness = thickness,
         color = color

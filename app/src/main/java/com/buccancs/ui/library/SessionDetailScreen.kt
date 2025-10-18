@@ -124,7 +124,11 @@ fun SessionDetailScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.height(Spacing.ExtraLarge))
-                        AnimatedTonalButton(onClick = onRefresh, text = "Retry")
+                        AnimatedTonalButton(
+                            onClick = onRefresh,
+                            modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
+                            text = "Retry"
+                        )
                     }
                 }
             }

@@ -27,4 +27,20 @@ object Dimensions {
     val Size16 = 16.dp
     val Size8 = 8.dp
     val Size4 = 4.dp
+
+    // Elevation levels (Material Design 3)
+    val ElevationNone = 0.dp
+    val ElevationLevel1 = 1.dp   // Filled button
+    val ElevationLevel2 = 2.dp   // Tonal button
+    val ElevationLevel3 = 4.dp   // Pressed state
+    val ElevationLevel4 = 6.dp   // Dialog
+    val ElevationLevel5 = 8.dp   // Navigation bar
+
+    // Border widths
+    val BorderThin = 1.dp        // Subtle borders
+    val BorderDefault = 2.dp     // Standard borders
+    val BorderThick = 4.dp       // Emphasis borders
+
+    // Stroke widths
+    val StrokeWidth = 4.dp       // Progress indicators
 }

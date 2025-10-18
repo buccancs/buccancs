@@ -73,7 +73,7 @@ fun TopdonOutlinedButton(
             contentColor = MaterialTheme.colorScheme.onSurface,
             disabledContentColor = TopdonColors.TextTertiary
         ),
-        border = ButtonDefaults.outlinedButtonBorder.copy(
+        border = ButtonDefaults.outlinedButtonBorder(enabled = enabled).copy(
             brush = androidx.compose.ui.graphics.SolidColor(
                 if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
             )

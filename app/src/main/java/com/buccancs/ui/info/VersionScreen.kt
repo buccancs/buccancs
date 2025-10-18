@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.buccancs.ui.theme.Spacing
 
 @Composable
 fun VersionRoute(
@@ -63,13 +64,13 @@ private fun VersionScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(Spacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(Spacing.Small)
             ) {
                 Text(
                     text = "○",
@@ -99,8 +100,8 @@ private fun VersionScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                        .padding(Spacing.Medium),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.Small)
                 ) {
                     VersionInfoRow("Build", buildNumber)
                     VersionInfoRow("Release Date", releaseDate)
@@ -114,8 +115,8 @@ private fun VersionScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                            .padding(Spacing.Medium),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.Small)
                     ) {
                         Text(
                             text = "Features",
@@ -127,7 +128,7 @@ private fun VersionScreen(
                             Text(
                                 text = "• $feature",
                                 style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(start = 8.dp)
+                                modifier = Modifier.padding(start = Spacing.Small)
                             )
                         }
                     }

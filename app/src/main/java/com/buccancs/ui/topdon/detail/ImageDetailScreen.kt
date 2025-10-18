@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.ThermalImage
+import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.Spacing
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -218,7 +220,7 @@ private fun ZoomableImageView(
                 scale = scale,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(16.dp)
+                    .padding(Spacing.Medium)
             )
         }
     }
@@ -235,7 +237,7 @@ private fun ZoomIndicator(
                 color = Color.Black.copy(alpha = 0.7f),
                 shape = MaterialTheme.shapes.small
             )
-            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .padding(horizontal = Spacing.SmallMedium, vertical = Spacing.ExtraSmall)
     ) {
         Text(
             text = "${(scale * 100).toInt()}%",
@@ -252,7 +254,7 @@ private fun ImageMetadataBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = Spacing.Medium),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

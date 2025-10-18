@@ -36,7 +36,7 @@ fun ShimmerDeviceSelectorDialog(
             modifier = modifier,
             shape = MaterialTheme.shapes.large,
             color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp
+            tonalElevation = Dimensions.ElevationLevel4
         ) {
             Column(
                 modifier = Modifier

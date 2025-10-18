@@ -201,13 +201,13 @@ private fun RecordingCard(
     ElevatedCard(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(Spacing.Medium)) {
             Text(
                 text = "Recording",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
 
             Surface(
                 modifier = Modifier.fillMaxWidth(),
@@ -215,8 +215,8 @@ private fun RecordingCard(
                 shape = MaterialTheme.shapes.small
             ) {
                 Column(
-                    modifier = Modifier.padding(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    modifier = Modifier.padding(Spacing.SmallMedium),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -249,7 +249,7 @@ private fun RecordingCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Spacing.Small))
 
             if (state.throttleLevel == PerformanceThrottleLevel.CONSERVE) {
                 Surface(
@@ -258,15 +258,15 @@ private fun RecordingCard(
                     shape = MaterialTheme.shapes.small
                 ) {
                     Row(
-                        modifier = Modifier.padding(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.padding(Spacing.SmallMedium),
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             imageVector = Icons.Default.Warning,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onErrorContainer,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(Dimensions.IconSizeSmall)
                         )
                         Text(
                             text = "Throttle: ${state.throttleLevel}",
@@ -275,7 +275,7 @@ private fun RecordingCard(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Spacing.Small))
             }
 
             val anchor = state.recording.anchor
@@ -286,8 +286,8 @@ private fun RecordingCard(
                     shape = MaterialTheme.shapes.small
                 ) {
                     Column(
-                        modifier = Modifier.padding(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        modifier = Modifier.padding(Spacing.SmallMedium),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
                     ) {
                         Text(
                             text = "Session ID: ${anchor.sessionId}",
@@ -315,7 +315,7 @@ private fun RecordingCard(
                 ) {
                     Text(
                         text = "Session idle",
-                        modifier = Modifier.padding(12.dp),
+                        modifier = Modifier.padding(Spacing.SmallMedium),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -325,20 +325,22 @@ private fun RecordingCard(
                 text = "Updated: ${state.recording.updatedAt}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = Spacing.Small)
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(Spacing.SmallMedium))
             FilledTonalButton(
                 onClick = onAddBookmark,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
             ) {
                 Icon(
                     imageVector = Icons.Default.Bookmark,
                     contentDescription = null,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(Dimensions.IconSizeSmall)
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
                 Text(text = "Add Bookmark")
             }
         }
@@ -501,6 +503,7 @@ private fun StimulusPanel(state: StimulusState, onTriggerStimulus: () -> Unit) {
             onClick = onTriggerStimulus,
             modifier = Modifier
                 .fillMaxWidth()
+                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
                 .testTag("stimulus-preview-button"),
             text = "Preview Stimulus"
         )
@@ -514,13 +517,13 @@ private fun DeviceList(devices: List<SensorDevice>) {
             .fillMaxWidth()
             .testTag("live-devices")
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(Spacing.Medium)) {
             Text(
                 text = "Devices",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
             if (devices.isEmpty()) {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
@@ -530,13 +533,13 @@ private fun DeviceList(devices: List<SensorDevice>) {
                     Text(
                         text = "No devices registered.",
                         modifier = Modifier
-                            .padding(12.dp)
+                            .padding(Spacing.SmallMedium)
                             .testTag("live-no-devices"),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             } else {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
                     devices.forEach { device ->
                         Surface(
                             modifier = Modifier.fillMaxWidth(),
@@ -546,7 +549,7 @@ private fun DeviceList(devices: List<SensorDevice>) {
                             },
                             shape = MaterialTheme.shapes.small
                         ) {
-                            Column(modifier = Modifier.padding(12.dp)) {
+                            Column(modifier = Modifier.padding(Spacing.SmallMedium)) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -571,7 +574,7 @@ private fun DeviceList(devices: List<SensorDevice>) {
                                             is ConnectionStatus.Connected -> MaterialTheme.colorScheme.onPrimaryContainer
                                             else -> MaterialTheme.colorScheme.onSurfaceVariant
                                         },
-                                        modifier = Modifier.size(18.dp)
+                                        modifier = Modifier.size(Dimensions.IconSizeSmall)
                                     )
                                 }
                                 Text(
@@ -943,7 +946,7 @@ private fun StimulusOverlay(cue: StimulusCue?) {
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier
                 .align(androidx.compose.ui.Alignment.Center)
-                .padding(24.dp)
+                .padding(Spacing.Large)
         )
     }
 }
